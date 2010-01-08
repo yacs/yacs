@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2010-01-02 23:04+0100
+POT-Creation-Date: 2010-01-08 00:09+0100
+PO-Revision-Date: 2010-01-05 16:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -195,7 +195,7 @@ $_SESSION['l10n']['fr']['5b26a56b7dda650e50f8441575df6619']='Faites votre choix 
 $_SESSION['l10n']['fr']['Margin']='Marges';
 $_SESSION['l10n']['fr']['Maximum number of extra boxes']='Nombre maximum de boîtes extra';
 $_SESSION['l10n']['fr']['7a4c5f39b8d735814d991c857c6b3583']='Nombre maximum de boîtes de navigation';
-$_SESSION['l10n']['fr']['a445c63893bb4faf477db19cf89d6f52']='Maximum de %s pixels en hauteur par %s pixels en largeur';
+$_SESSION['l10n']['fr']['a445c63893bb4faf477db19cf89d6f52']='Maximum de %s pixels en largeur par %s pixels en hauteur';
 $_SESSION['l10n']['fr']['49ae3126ab7ad1fb0f5b5f5f25a37111']='Peut être sujet à attaque par spam. Affichée au moins dans la page %s et dans les fils de nouvelles RSS';
 $_SESSION['l10n']['fr']['Meta-information']='Méta-information';
 $_SESSION['l10n']['fr']['Monthly calendar']='Calendrier de ce mois';

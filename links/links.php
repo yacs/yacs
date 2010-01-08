@@ -704,15 +704,9 @@ Class Links {
 	/**
 	 * list selected links
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'dates' - short lists with stamps
-	 * - 'hits' - short lists with hits information
-	 * - 'no_anchor' - to build detailed lists in an anchor page
-	 * - 'no_author' - to build detailed lists in an author page
-	 * - 'full' - include anchor information
-	 * - 'search' - include anchor information
-	 * - 'review' - like 'full', but provide the actual link
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'links/layout_links_as_compact.php' is loaded.
+	 * If no file matches then the default 'links/layout_links.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

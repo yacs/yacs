@@ -75,7 +75,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 
 	// the site name, or site logo -- access key 1
 	$name = '';
-	if(isset($context['flexible_header_t_logo']) && $context['flexible_header_t_logo'])
+	if(isset($context['flexible_header_t_logo']) && $context['flexible_header_t_logo'] && ($context['flexible_header_t_logo'] != 'none'))
 		$name = '<img src="'.$context['flexible_header_t_logo'].'" />';
 	elseif($context['site_name'])
 		$name = $context['site_name'];

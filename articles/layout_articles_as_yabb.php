@@ -70,8 +70,8 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -127,8 +127,13 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			$suffix = '';
 
 			// the introductory text
-			if(trim($item['introduction']))
-				$suffix .= BR.Codes::beautify_introduction($item['introduction']);
+			$introduction = '';
+			if(is_object($overlay))
+				$introduction = $overlay->get_text('introduction', $item);
+			elseif($item['introduction'])
+				$introduction = $item['introduction'];
+			if($introduction)
+				$suffix .= BR.Codes::beautify_introduction($introduction);
 
 			// page size for comments
 			$layout = new Layout_comments_as_yabb();

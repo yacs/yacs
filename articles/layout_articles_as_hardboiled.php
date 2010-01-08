@@ -107,8 +107,8 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			} else {
 
 				// use the title to label the link
-				if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-					$title = $overlay->get_live_title($item);
+				if(is_object($overlay))
+					$title = Codes::beautify_title($overlay->get_text('title', $item));
 				else
 					$title = Codes::beautify_title($item['title']);
 
@@ -135,19 +135,20 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 					$prefix .= RESTRICTED_FLAG;
 
 				// the introductory text
-				if($item['introduction']) {
-					$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
+				$introduction = '';
+				if(is_object($overlay))
+					$introduction .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+				elseif($item['introduction'])
+					$introduction .= Codes::beautify_introduction($item['introduction']);
+				else
+					$introduction .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70);
+				if($introduction) {
+					$suffix .= ' -&nbsp;'.$introduction;
 
 					// link to description, if any
 					if($item['description'])
 						$suffix .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('View the page')).' ';
 
-				// else use a teaser, if no overlay
-				} elseif(!is_object($overlay)) {
-					$article = new Article();
-					$article->load_by_content($item);
-					if($teaser = $article->get_teaser('teaser'))
-						$suffix .= ' -&nbsp;'.$teaser;
 				}
 
 				// insert overlay data, if any
@@ -204,7 +205,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 					$suffix .= ucfirst(trim(implode(', ', $details)));
 
 				// unusual ranks are signaled to associates
-				if(($item['rank'] != 10000) && Surfer::is_empowered())
+				if(($item['rank'] != 10000) && Articles::is_owned($anchor, $item))
 					$suffix .= ' {'.$item['rank'].'} ';
 
 				// list categories by title, if any
@@ -217,13 +218,13 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 							$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
 
 						if($this->layout_variant != 'category:'.$id)
-							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
+							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 					}
 				}
 
 				// list section and categories in the suffix
 				if(@count($anchors))
-					$suffix .= BR.sprintf(i18n::s('In %s'), implode(' | ', $anchors));
+					$suffix .= BR.sprintf(i18n::s('In %s'), implode(', ', $anchors));
 
 				// end of details
 				$suffix .= '</span>';
@@ -282,8 +283,8 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		$url =& Articles::get_permalink($item);
 
 		// use the title to label the link
-		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-			$title = $overlay->get_live_title($item);
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
 		else
 			$title = Codes::beautify_title($item['title']);
 
@@ -324,9 +325,11 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 		// the introductory text
 		$introduction = '';
-		if($item['introduction'])
+		if(is_object($overlay))
+			$introduction .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+		elseif($item['introduction'])
 			$introduction .= Codes::beautify_introduction($item['introduction']);
-		elseif(!is_object($overlay))
+		else
 			$introduction .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70);
 		if($introduction)
 		$text .= '<p>'.$introduction.'</p>'."\n";

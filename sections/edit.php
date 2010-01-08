@@ -71,8 +71,6 @@ if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$overlay = Overlay::bind($_REQUEST['variant']);
-elseif(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'])
-	$overlay = Overlay::bind($_REQUEST['overlay_type']);
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
@@ -169,19 +167,30 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
-	// associates are allowed to change overlay types -- see overlays/select.php
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate()) {
+	// allow back-referencing from overlay
+	if(isset($_REQUEST['id'])) {
+		$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
+		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
+	}
+
+	// overlay may have changed
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
+
+		// associates are allowed to change overlay types -- see overlays/select.php
+		if(!Surfer::is_associate())
+			unset($_REQUEST['overlay_type']);
+
+		// overlay type has not changed
+		elseif(is_object($overlay) && ($overlay->get_type() == $_REQUEST['overlay_type']))
+			unset($_REQUEST['overlay_type']);
+	}
+
+	// new overlay type
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
 		// delete the previous version, if any
-		if(is_object($overlay)) {
-
-			// allow back-referencing from overlay
-			if(isset($_REQUEST['id'])) {
-				$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-				$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-				$overlay->remember('delete', $_REQUEST);
-			}
-		}
+		if(is_object($overlay))
+			$overlay->remember('delete', $_REQUEST);
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -201,23 +210,15 @@ if(Surfer::is_crawler()) {
 	// update an existing page
 	if(isset($_REQUEST['id'])) {
 
-		// allow back-referencing from overlay
-		if($item['id']) {
-			$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
-			$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
-		}
-
 		// remember the previous version
 		if($item['id']) {
 			include_once '../versions/versions.php';
 			Versions::save($item, 'section:'.$item['id']);
 		}
 
-		// change to another overlay
-		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
+		// overlay has been inserted or updated
+		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'])
 			$action = 'insert';
-
-		// regular update
 		else
 			$action = 'update';
 
@@ -564,7 +565,8 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_neighbours\')" style="cursor: pointer;">no_neighbours</a> - '.i18n::s('Prevent YACS to add links to previous and next pages in the same section');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
-	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
+	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
+	$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_details\')" style="cursor: pointer;">with_details</a> - '.i18n::s('Show page details to all surfers');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'without_rating\')" style="cursor: pointer;">without_rating</a> - '.i18n::s('Surfers are not allowed to rate pages in this section');

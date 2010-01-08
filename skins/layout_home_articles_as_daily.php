@@ -125,8 +125,8 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$text .= '<p class="date">'.$current_date."</p>\n";
 
 			// make a live title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$box['title'] = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$box['title'] = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$box['title'] = Codes::beautify_title($item['title']);
 
@@ -213,7 +213,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// comment
-			if(Comments::are_allowed($anchor, $item))
+			if(Comments::allow_creation($anchor, $item))
 				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 			// info on related links

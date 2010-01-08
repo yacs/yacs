@@ -27,12 +27,45 @@ Class Images {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
+	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
-		// images are prevented in item
-		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_images\b/i', $item['options']))
-			return FALSE;
+		// guess the variant
+		if(!$variant) {
+
+			// most frequent case
+			if(isset($item['id']))
+				$variant = 'article';
+
+			// we have no item, look at anchor type
+			elseif(is_object($anchor))
+				$variant = $anchor->get_type();
+
+			// sanity check
+			else
+				return FALSE;
+		}
+
+		// only in articles
+		if($variant == 'article') {
+
+			// 'no images' option
+			if(Articles::has_option('no_images', $anchor, $item))
+				return FALSE;
+
+
+		// other containers
+		} else {
+
+			// in item
+			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_images\b/i', $item['options']))
+				return FALSE;
+
+			// in container
+			if(is_object($anchor) && $anchor->has_option('no_images'))
+				return FALSE;
+
+		}
 
 		// surfer is not allowed to upload a file
 		if(!Surfer::may_upload())
@@ -46,16 +79,47 @@ Class Images {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer is owning this item
-		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
+		// only in articles
+		if($variant == 'article') {
+
+			// surfer owns this item, or the anchor
+			if(Articles::is_owned($anchor, $item))
+				return TRUE;
+
+			// surfer is an editor, and the page is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
+				return TRUE;
+
+		// only in iles
+		} elseif($variant == 'file') {
+
+			// surfer owns the anchor
+			if(is_object($anchor) && $anchor->is_owned())
+				return TRUE;
+
+		// only in sections
+		} elseif($variant == 'section') {
+
+			// surfer owns this item, or the anchor
+			if(Sections::is_owned($anchor, $item, TRUE))
+				return TRUE;
+
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
+
+		// only in user profiles
+		} elseif($variant == 'user') {
+
+			if(isset($item['id']) && Surfer::is($item['id']))
+				return TRUE;
+
+		}
+
+		// surfer is an editor, and container is not private
+		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
-		if(is_object($anchor) && ($variant == 'file') && $anchor->is_owned())
-			return TRUE;
-// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
-// 			return TRUE;
-		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item, TRUE))
-			return TRUE;
-		if(isset($item['id']) && ($variant == 'user') && Surfer::is($item['id']))
+		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// item has been locked
@@ -66,39 +130,41 @@ Class Images {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
-
-			// surfer has been assigned to this item
-			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
-				return TRUE;
-// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
-// 				return TRUE;
-			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;
-
-		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-
-			// only members can proceed
-			if(Surfer::is_member())
-				return TRUE;
-
-		// authenticated members and subscribers are allowed to add images
-		} elseif(Surfer::is_logged())
+		// surfer is an editor (and item has not been locked)
+		if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
 			return TRUE;
-
-		// anonymous contributions are allowed for this section
-		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
+		if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
 			return TRUE;
-
-		// anonymous contributions are allowed for this item
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is a member
+		if(Surfer::is_member())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// authenticated members and subscribers are allowed to add files
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// anonymous contributions are allowed for articles
+		if($variant == 'article') {
+			if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+				return TRUE;
+		}
 
 		// the default is to not allow for new images
 		return FALSE;
@@ -504,10 +570,9 @@ Class Images {
 	/**
 	 * list selected images
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'no_anchor' - to build detailed lists in an anchor page
-	 * - 'full' - include anchor information
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'images/layout_images_as_compact.php' is loaded.
+	 * If no file matches then the default 'images/layout_images.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

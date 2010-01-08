@@ -2,9 +2,9 @@
 /**
  * layout articles as a text of boxes
  *
- * Page nick names as used as box CSS identifiers.
+ * Page nick names are used as box CSS identifiers.
  *
- * This layout is mainly used at the front page, to process extra and navigation boxes.
+ * This is a special layout used at the front page, to process extra and navigation boxes.
  *
  * @see articles/articles.php
  * @see index.php
@@ -52,8 +52,8 @@ Class Layout_articles_as_boxes extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -83,8 +83,15 @@ Class Layout_articles_as_boxes extends Layout_interface {
 			$article->load_by_content($item, Anchors::get($item['anchor']));
 			if($article->is_public()) {
 
+				// get introduction from overlay, if any
+				if(is_object($overlay)) {
+					$parts[] = Codes::beautify_introduction($overlay->get_text('introduction', $item));
+
+					// add a link to the main page
+					$parts[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
+
 				// use the introduction, if any
-				if($item['introduction']) {
+				} elseif($item['introduction']) {
 
 					// the content of this box
 					$parts[] = Codes::beautify_introduction($item['introduction']);
@@ -95,9 +102,6 @@ Class Layout_articles_as_boxes extends Layout_interface {
 
 				// no introduction, display article full content
 				} else {
-
-					// get the related overlay, if any
-					$overlay = Overlay::load($item);
 
 					// insert overlay data, if any
 					if(is_object($overlay))

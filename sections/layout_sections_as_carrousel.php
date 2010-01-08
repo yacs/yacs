@@ -123,8 +123,8 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 					$image = $context['url_to_root'].$image;
 
 				// build a title
-				if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-					$title = $overlay->get_live_title($item);
+				if(is_object($overlay))
+					$title = Codes::beautify_title($overlay->get_text('title', $item));
 				else
 					$title = Codes::beautify_title($item['title']);
 

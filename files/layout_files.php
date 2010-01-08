@@ -128,9 +128,7 @@ Class Layout_files extends Layout_interface {
 			}
 
 			// detach or edit the file
-			if((is_object($anchor) && $anchor->is_owned())
-				|| Surfer::is($item['create_id'])
-				|| (Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y'))) ) {
+			if(Files::allow_modification($anchor, $item)) {
 
 				if(!isset($item['assign_id']) || !$item['assign_id'] || Surfer::is($item['assign_id']) || (is_object($anchor) && $anchor->is_owned()))
 					$details[] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('update'), 'span', i18n::s('Share a new version of this file, or change details'));
@@ -138,17 +136,17 @@ Class Layout_files extends Layout_interface {
 				if(!isset($item['assign_id']) || !$item['assign_id'])
 					$details[] = Skin::build_link(Files::get_url($item['id'], 'reserve'), i18n::s('reserve'), 'span', i18n::s('Prevent other persons from changing this file until you update it'));
 
+				// release reservation
+				if(isset($item['assign_id']) && $item['assign_id'] && (Surfer::is($item['assign_id']) || (is_object($anchor) && $anchor->is_owned())))
+					$details[] = Skin::build_link(Files::get_url($item['id'], 'release'), i18n::s('release reservation'), 'span', i18n::s('Allow other persons to update this file'));
+
 			}
 
-			// release reservation
-			if(isset($item['assign_id']) && $item['assign_id'] && (Surfer::is($item['assign_id']) || (is_object($anchor) && $anchor->is_owned())))
-				$details[] = Skin::build_link(Files::get_url($item['id'], 'release'), i18n::s('release reservation'), 'span', i18n::s('Allow other persons to update this file'));
-
 			// view the file
-			$details[] = Skin::build_link(Files::get_url($item['id'], 'view', $item['file_name']), i18n::s('details'), 'span', i18n::s('View file details'));
+			$details[] = Skin::build_link(Files::get_permalink($item), i18n::s('details'), 'span', i18n::s('View file details'));
 
 			// delete the file
-			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['create_id']))
+			if(is_object($anchor) && $anchor->is_owned())
 				$details[] = Skin::build_link(Files::get_url($item['id'], 'delete'), i18n::s('delete'), 'span', i18n::s('Drop file content'));
 
 			// append the menu, if any

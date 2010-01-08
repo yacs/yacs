@@ -71,7 +71,7 @@ if(Surfer::is_crawler()) {
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // this anchor does not accept contributions
-} elseif(isset($_REQUEST['message']) && is_object($anchor) && !Comments::are_allowed($anchor)) {
+} elseif(isset($_REQUEST['message']) && is_object($anchor) && !Comments::allow_creation($anchor)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 

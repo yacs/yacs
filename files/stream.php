@@ -89,40 +89,29 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// associates and editors can do what they want
-if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_assigned()))
+// public access is allowed
+if($item['active'] == 'Y')
 	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
 
 // access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_empowered('M'))
+elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
 	$permitted = TRUE;
 
-// access is restricted to authenticated associate
-elseif(isset($item['active']) && ($item['active'] == 'N') && Surfer::is_empowered())
+// the item is anchored to the profile of this member
+elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
-// public access is allowed
-elseif($item['active'] == 'Y')
+// authenticated users may view their own posts
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
+	$permitted = TRUE;
+
+// associates and editors can do what they want
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-// disable change commands
-$editable = FALSE;
-
-// except for associates and editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
-	$editable = TRUE;
-
-// and except for poster
-if(Surfer::is($item['create_id']))
-	$editable = TRUE;
 
 // load the skin, maybe with a variant
 load_skin('files', $anchor);

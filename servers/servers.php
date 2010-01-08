@@ -351,12 +351,9 @@ Class Servers {
 	/**
 	 * list selected servers
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'full' - include every piece of information
-	 * - 'feed' - return an array of $id => array($feed_url, $label, $anchor, $stamp)
-	 * - 'ping' - return an array of $url => array($ping_url, $label)
-	 * - 'search' - return an array of $url => array($search_url, $label)
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'servers/layout_servers_as_compact.php' is loaded.
+	 * If no file matches then the default 'servers/layout_servers.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

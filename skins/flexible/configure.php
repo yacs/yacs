@@ -502,6 +502,9 @@ elseif(!Surfer::is_associate()) {
 			.'</div></div>'
 			.'<input type="radio" name="'.$name.'" value="'.$fixed_color.'"'.$checked.' id="'.$name.'_handle" onchange="this.value = $(\'background_fixed_color_'.$count.'\').value; $(\''.$sample.'\').setStyle({\'background\': this.value})" /></div>';
 
+		// break between images
+		$text .= '<br clear="left" />';
+
 		// scan files
 		if($dir = Safe::opendir($path)) {
 

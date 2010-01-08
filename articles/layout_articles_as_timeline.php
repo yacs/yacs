@@ -2,7 +2,10 @@
 /**
  * layout articles as a timeline
  *
+ * This is a special layout to highlight most recent activities, used at user profiles.
+ *
  * @see articles/articles.php
+ * @see users/view.php
  *
  * @author Bernard Paques
  * @reference
@@ -64,8 +67,8 @@ Class Layout_articles_as_timeline extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item, $this->layout_variant);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 

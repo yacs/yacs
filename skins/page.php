@@ -149,6 +149,10 @@
 			return TRUE;
 		}
 
+		// we have no database back-end
+		if(defined('NO_MODEL_PRELOAD'))
+			return FALSE;
+
 		// look a named page, but only during regular operation
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 			if($item =& Articles::get($name)) {
@@ -605,6 +609,10 @@
 	function side($names=NULL) {
 		global $context;
 
+		// we have no database back-end
+		if(defined('NO_MODEL_PRELOAD'))
+			return;
+
 		// use regular parameters
 		if(!$names)
 			$names = $context['skins_navigation_components'];
@@ -640,6 +648,10 @@
 
 		// only for live servers
 		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+			return;
+
+		// we have no database back-end
+		if(defined('NO_MODEL_PRELOAD'))
 			return;
 
 		// cache this across requests

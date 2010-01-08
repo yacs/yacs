@@ -31,6 +31,11 @@ if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.mo.php')) {
 
 // files to delete, from root path
 $files = array();
+$files[] = 'articles/layout_articles_as_ids.php';
+$files[] = 'articles/layout_articles_as_rpc.php';
+$files[] = 'articles/layout_articles_as_slides.php';
+$files[] = 'articles/layout_articles_as_thumbnails.php';
+$files[] = 'sections/slideshow.php';
 $files[] = 'skins/boxesandarrows/template_mobile.php';
 $files[] = 'skins/digital/template_mobile.php';
 $files[] = 'skins/joi/template_mobile.php';

@@ -160,8 +160,8 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$icon = '<img src="'.$icon.'" class="left_image" alt="" />';
 
 		// use the title to label the link
-		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-			$title = $overlay->get_live_title($item);
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
 		else
 			$title = Codes::beautify_title($item['title']);
 
@@ -216,7 +216,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
-		if(Comments::are_allowed($anchor, $item))
+		if(Comments::allow_creation($anchor, $item))
 			$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 		// info on related links
@@ -257,8 +257,8 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$icon = '<img src="'.$icon.'" class="left_image" alt="" />';
 
 		// use the title to label the link
-		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-			$title = $overlay->get_live_title($item);
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
 		else
 			$title = Codes::beautify_title($item['title']);
 
@@ -303,7 +303,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// discuss
-		if(Comments::are_allowed($anchor, $item))
+		if(Comments::allow_creation($anchor, $item))
 			$text .= BR.Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related comments
@@ -341,8 +341,8 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$anchor =& Anchors::get($item['anchor']);
 
 		// use the title to label the link
-		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-			$title = $overlay->get_live_title($item);
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
 		else
 			$title = Codes::beautify_title($item['title']);
 

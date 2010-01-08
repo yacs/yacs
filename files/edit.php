@@ -91,25 +91,16 @@ elseif(isset($_REQUEST['anchor']))
 elseif(isset($context['arguments'][1]))
 	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
-// owners can do what they want
-if(is_object($anchor) && $anchor->is_owned()) {
-	Surfer::empower();
-	$permitted = TRUE;
-
-// do not accept new files if uploads have been disallowed
-} elseif(!isset($item['id']) && Files::are_allowed($anchor))
+// we are allowed to add a new file
+if(!isset($item['id']) && Files::allow_creation($anchor))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
-// the original poster can change the file
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
-
-// authenticated members are allowed to modify files from others
-elseif(isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))
+// we are allowed to modify an existing file
+elseif(isset($item['id']) && Files::allow_modification($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access

@@ -136,22 +136,13 @@ if(isset($item['anchor']) && $item['anchor'])
 elseif($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
-// parent owners have associate-like capabilities
-if(is_object($anchor) && $anchor->is_owned()) {
-	Surfer::empower();
-	$permitted = TRUE;
-
 // associates and authenticated editors can modify any comment
-} elseif(($action != 'edit') && Comments::are_allowed($anchor, $item))
+if(($action != 'edit') && Comments::allow_creation($anchor, $item))
 	$permitted = TRUE;
 
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
+// modification is allowed
+elseif(($action == 'edit') && Comments::allow_modification($anchor, $item))
 	$permitted = FALSE;
-
-// surfer created the comment
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
 
 // the default is to disallow access
 else

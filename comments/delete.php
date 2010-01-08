@@ -77,7 +77,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!Comments::are_editable($anchor, $item)) {
+} elseif(!Comments::allow_modification($anchor, $item)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

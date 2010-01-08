@@ -119,38 +119,38 @@ Class Actions {
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
+
 			// filter editors
 			if(!Surfer::is_empowered())
 				return FALSE;
-				
+
 			// editors will have to unlock the container to contribute
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))
 				return FALSE;
 			return TRUE;
-			
+
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
+
 			// filter members
 			if(!Surfer::is_member())
 				return FALSE;
-				
+
 			// editors can proceed
 			if(Surfer::is_empowered())
 				return TRUE;
-				
+
 			// members can contribute except if container is locked
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))
 				return FALSE;
 			return TRUE;
-			
+
 		}
 
 		// editors can always add actions to public containers
 		if(Surfer::is_empowered())
 			return TRUE;
-			
+
 		// container has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
@@ -569,10 +569,9 @@ Class Actions {
 	/**
 	 * list selected actions
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'no_anchor' - to build detailed lists in an anchor page
-	 * - 'full' - include anchor information
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'actions/layout_actions_as_compact.php' is loaded.
+	 * If no file matches then the default 'actions/layout_actions.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

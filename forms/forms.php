@@ -203,9 +203,9 @@ Class Forms {
 	/**
 	 * list selected forms
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'full' - include every piece of information
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'forms/layout_forms_as_compact.php' is loaded.
+	 * If no file matches then the default 'forms/layout_forms.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
@@ -228,7 +228,7 @@ Class Forms {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -242,7 +242,7 @@ Class Forms {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -256,7 +256,7 @@ Class Forms {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**

@@ -630,7 +630,7 @@ Class Codes {
 		$output = str_replace(array('[nl]', '[NL]'), '<br />', $output);
 
 		// remove everything, except links, breaks and images, and selected tags
-		$output = strip_tags($output, '<a><abbr><acronym><b><big><br><code><del><dfn><em><i><img><ins><q><small><span><strong><sub><sup><tt><u>');
+		$output = strip_tags($output, '<a><abbr><acronym><b><big><br><code><del><div><dfn><em><i><img><ins><p><q><small><span><strong><sub><sup><tt><u>');
 
 		// return by reference
 		return $output;
@@ -2287,7 +2287,7 @@ Class Codes {
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_url($item['id'], 'view', $item['file_name']);
+				$url = Files::get_permalink($item);
 
 				// return a complete anchor
 				$output .= Skin::build_link($url, $text, 'basic');
@@ -2395,7 +2395,7 @@ Class Codes {
 				$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_url($id, 'view', $item['file_name']);
+				$url = Files::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2769,7 +2769,7 @@ Class Codes {
 				$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_url($id, 'view', $item['file_name']);
+				$url = Files::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');

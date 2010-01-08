@@ -206,7 +206,6 @@ if(!isset($item['id'])) {
 	$item['self_reference'] = 'user:'.$item['id'];
 	$item['self_url'] = $context['url_to_root'].Users::get_permalink($item);
 
-
 	// remember surfer visit
 	Surfer::is_visiting(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
 

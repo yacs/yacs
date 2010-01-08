@@ -2,10 +2,10 @@
 /**
  * layout articles
  *
- * This has more than compact, and less than decorated.
+ * This has more than compact, and less than decorated. It is the default layout for dynamic list of articles.
  *
- * @see articles/index.php
  * @see articles/articles.php
+ * @see shared/codes.php
  *
  * @author Bernard Paques
  * @author Thierry Pinelli (ThierryP)
@@ -54,8 +54,8 @@ Class Layout_articles_as_simple extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 

@@ -119,8 +119,8 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			} else {
 
 				// use the title to label the link
-				if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-					$title = $overlay->get_live_title($item);
+				if(is_object($overlay))
+					$title = Codes::beautify_title($overlay->get_text('title', $item));
 				else
 					$title = Codes::beautify_title($item['title']);
 
@@ -216,7 +216,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 					$suffix .= ucfirst(trim(implode(', ', $details)));
 
 				// unusual ranks are signaled to associates
-				if(($item['rank'] != 10000) && Surfer::is_empowered())
+				if(($item['rank'] != 10000) && Surfer::is_associate())
 					$suffix .= ' {'.$item['rank'].'} ';
 
 				// list categories by title, if any
@@ -301,8 +301,8 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		$url =& Articles::get_permalink($item);
 
 		// use the title to label the link
-		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-			$title = $overlay->get_live_title($item);
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
 		else
 			$title = Codes::beautify_title($item['title']);
 

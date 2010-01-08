@@ -52,8 +52,8 @@ Class Layout_sections_as_simple extends Layout_interface {
 			$url =& Sections::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 

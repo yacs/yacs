@@ -462,7 +462,7 @@ class Generic_Meeting extends Overlay {
 	 */
 	function &get_live_title($host=NULL) {
 
-		$text = Codes::beautify_title($host['title']);
+		$text = $host['title'];
 
 		if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > NULL_DATE))
 			$text .= ' ['.Skin::build_date($this->attributes['date_stamp'], 'day').']';

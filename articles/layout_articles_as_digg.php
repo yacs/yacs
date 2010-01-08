@@ -73,8 +73,8 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// make a live title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -136,6 +136,8 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$suffix .= ' '.UPDATED_FLAG;
 
 			// the full introductory text
+			if(is_object($overlay))
+				$content .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
 			if($item['introduction'])
 				$content .= Codes::beautify_introduction($item['introduction']);
 
@@ -165,18 +167,8 @@ Class Layout_articles_as_digg extends Layout_interface {
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))
 				$details[] = LOCKED_FLAG;
 
-			// details
-			if(count($details))
-				$content .= '<p class="tiny follow_up">'.ucfirst(implode(', ', $details)).'</p>';
-
-			// an array of links
-			$menu = array();
-
 			// read the article
-			$menu = array_merge($menu, array( $url => i18n::s('View the page') ));
-
-			// add a link to let surfer rate this item
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
+			$details[] = Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
@@ -185,27 +177,20 @@ Class Layout_articles_as_digg extends Layout_interface {
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
 				$link = Comments::get_url('article:'.$item['id'], 'list');
-				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
+				$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 			}
 
 			// discuss
-			if(Comments::are_allowed($anchor, $item))
-				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
+			if(Comments::allow_creation($anchor, $item))
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
-
-			// trackback
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'links/trackback.php/article/'.$item['id'];
-			else
-				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
+				$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// link to the anchor page
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
-				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
+				$details[] = Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic');
 
 			// list categories by title, if any
 			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
@@ -215,12 +200,13 @@ Class Layout_articles_as_digg extends Layout_interface {
 					if(isset($attributes['background_color']) && $attributes['background_color'])
 						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
 
-					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
+					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 				}
 			}
 
-			// append a menu
-			$content .= '<p>'.Skin::build_list($menu, 'menu').'</p>';
+			// details
+			if(count($details))
+				$content .= '<p class="details">'.ucfirst(implode(' - ', $details)).'</p>';
 
 			// manage layout
 			$content = '<div class="digg_content">'.$digg.$content.'</div>';

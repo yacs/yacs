@@ -59,8 +59,8 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			$elements = array();
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$box['title'] .= $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$box['title'] .= Codes::beautify_title($item['title']);
 
@@ -140,7 +140,9 @@ Class Layout_articles_as_accordion extends Layout_interface {
 				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
 
 			// insert introduction, if any
-			if(trim($item['introduction']))
+			if(is_object($overlay))
+				$box['text'] .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+			elseif(trim($item['introduction']))
 				$box['text'] .= Codes::beautify_introduction($item['introduction']);
 
 			// no introduction, display article full content

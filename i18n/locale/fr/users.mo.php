@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2009-11-30 10:56+0100
+POT-Creation-Date: 2010-01-08 00:09+0100
+PO-Revision-Date: 2010-01-08 00:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -38,6 +38,7 @@ $_SESSION['l10n']['fr']['%s, or %s']='%s, ou %s';
 $_SESSION['l10n']['fr']['73dc258b46053edc7a29ff4fa365d963']='%s pour mieux préciser aux autres qui vous êtes';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['32b6f7b9d1655209f90721fedf07c0c2']='(ne souhaite pas recevoir les lettres d\'information)';
+$_SESSION['l10n']['fr']['(unknown)']='(inconnu)';
 $_SESSION['l10n']['fr']['c932772c22a75fa776eba1b2d2cd7aed']='<p>%s,</p><p>Votre adresse de messagerie a été validée, et vous pouvez maintenant pleinement prendre part à la vie de cette communauté.</p>';
 $_SESSION['l10n']['fr']['c8e8765c2b28f43d6edb308e5dab306e']='Une liste de mots-clés, séparés par des virgules';
 $_SESSION['l10n']['fr']['8a470419c36c4e3fb05d7d1c1f280a25']='Une nouvelle conversation a été créée, et elle apparaitra dans les profils des personnes invitées. Vous pouvez inviter d\'autres personnes plus tard si vous le souhaitez.';
@@ -167,7 +168,7 @@ $_SESSION['l10n']['fr']['Extension']='Extension';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
 $_SESSION['l10n']['fr']['Failed authentication']='Erreur d\'authentification';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
-$_SESSION['l10n']['fr']['2e3a5a5400dcb9378c4c32a61a21989b']='Les fichiers peuvent être modifiés seulement par leurs auteurs, plus les associés et les éditeurs.';
+$_SESSION['l10n']['fr']['3515afc9889ea713dd95ca369ae5d216']='Les fichiers peuvent être modifiés seulement par leurs auteurs, plus les associés et les propriétaires.';
 $_SESSION['l10n']['fr']['First name(s)']='Prénom(s)';
 $_SESSION['l10n']['fr']['1169885c9e3a40bebae7aeb820ae460e']='Prénom suivi du nom de famille';
 $_SESSION['l10n']['fr']['cf126c8beeba972970c5a32b846e54b8']='Les éditeurs suivants héritent de droits sur un conteneur parent';
@@ -250,7 +251,6 @@ $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide';
 $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Monitor']='Surveiller';
-$_SESSION['l10n']['fr']['More']='Suite';
 $_SESSION['l10n']['fr']['Most recent members']='Les membres les plus récents';
 $_SESSION['l10n']['fr']['Move forward']='Continuer';
 $_SESSION['l10n']['fr']['My Profile']='Mon profil';

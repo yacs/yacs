@@ -69,20 +69,16 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// public access is allowed
+if(isset($item['active']) && ($item['active'] == 'Y'))
 	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
 
 // access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
+elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
 	$permitted = TRUE;
 
-// public access is allowed
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
+// associates and editors can do what they want
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -169,7 +165,7 @@ if(!isset($item['id'])) {
 
 		// strong validator
 		$etag = '"'.md5($archive).'"';
-	
+
 		// manage web cache
 		if(http::validate(NULL, $etag))
 			return;

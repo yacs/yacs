@@ -78,10 +78,10 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$overlay = Overlay::load($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title .= $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$title .= Codes::beautify_title($item['title']);
+				$title = Codes::beautify_title($item['title']);
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
@@ -114,10 +114,10 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 				$overlay = Overlay::load($article);
 
 				// use the title to label the link
-				if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-					$title .= $overlay->get_live_title($article);
+				if(is_object($overlay))
+					$title = Codes::beautify_title($overlay->get_text('title', $article));
 				else
-					$title .= Codes::beautify_title($article['title']);
+					$title = Codes::beautify_title($article['title']);
 
 				// signal restricted and private articles
 				if($article['active'] == 'N')
@@ -163,7 +163,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$menu[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// discuss
-				if(Comments::are_allowed($anchor, $article))
+				if(Comments::allow_creation($anchor, $article))
 					$menu[] = Skin::build_link(Comments::get_url('article:'.$article['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 				// the main anchor link

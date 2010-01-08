@@ -9,9 +9,8 @@
  *
  * This script interfaces YACS with popular weblog client software.
  *
- * The support of the XML-RPC API in YACS is really straightforward.
- * The main complexity is that different words are used for same things.
- * Therefore, please keep in mind that metaWeblog' blogs are YACS sections.
+ * Yacs does support effectively the XML-RPC API.
+ * Keep in mind that metaWeblog' blogs are YACS sections.
  *
  * @link http://www.xmlrpc.com/spec XML-RPC specification
  *

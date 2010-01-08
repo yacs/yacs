@@ -77,13 +77,13 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// associates, editors and readers can view this file
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// public access is allowed
+if($item['active'] == 'Y')
 	$permitted = TRUE;
 
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
+// access is restricted to authenticated member
+elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
+	$permitted = TRUE;
 
 // the item is anchored to the profile of this member
 elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
@@ -93,37 +93,13 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
-// access is restricted to authenticated member
-elseif(($item['active'] == 'R') && Surfer::is_member())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif($item['active'] == 'Y')
+// associates and editors can do what they want
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-// nothing to change
-if(!isset($item['id']))
-	$editable = FALSE;
-
-// associates and editors are allowed to change the file
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
-	$editable = TRUE;
-
-// the original poster can change the file as well
-elseif(Surfer::is($item['create_id']))
-	$editable = TRUE;
-
-// authenticated members are allowed to modify files from others
-elseif(Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))
-	$editable = TRUE;
-
-// the default is to disable change commands
-else
-	$editable = FALSE;
 
 // load the skin, maybe with a variant
 load_skin('files', $anchor);
@@ -152,11 +128,6 @@ if(is_object($anchor) && $anchor->is_assigned())
 if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/view.php', 'file:'.$item['id']))
 	$permitted = FALSE;
 
-// has this page some versions?
-$has_versions = FALSE;
-if(isset($item['id']) && (Surfer::is_empowered() && Surfer::is_logged()) && Versions::count_for_anchor('file:'.$item['id']))
-	$has_versions = TRUE;
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -167,14 +138,14 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Files::get_url($item['id'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Files::get_permalink($item)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'view', $item['file_name'])) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
@@ -183,10 +154,10 @@ if(!isset($item['id'])) {
 } else {
 
 	// remember surfer visit
-	Surfer::is_visiting(Files::get_url($item['id'], 'view', $item['file_name']), Codes::beautify_title($item['title']), 'file:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Files::get_permalink($item), Codes::beautify_title($item['title']), 'file:'.$item['id'], $item['active']);
 
 	// initialize the rendering engine
-	Codes::initialize(Files::get_url($item['id'], 'view', $item['file_name']));
+	Codes::initialize(Files::get_permalink($item));
 
 	// add canonical link
 	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Files::get_permalink($item).'" />';
@@ -818,7 +789,7 @@ if(!isset($item['id'])) {
 		.'<dd>'.$description.'</dd></dl>'."\n";
 
 	// file is also available for detach
-	if(isset($item['id']) && $editable && Surfer::may_upload() && Surfer::is_member() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
+	if(Files::allow_modification($anchor, $item) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
 
 		// the detach link
 		$link = $context['url_to_root'].Files::get_url($item['id'], 'reserve');
@@ -870,19 +841,15 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 
-	// back to the anchor page
-// 	if(is_object($anchor) && $anchor->is_viewable())
-// 		$context['page_tools'][] = Skin::build_link($anchor->get_url().'#files', i18n::s('Back to main page'));
-
 	// update tools
-	if($editable) {
+	if(Files::allow_modification($anchor, $item)) {
 
 		// modify this page
 		Skin::define_img('FILES_EDIT_IMG', 'files/edit.gif');
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), FILES_EDIT_IMG.i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item, 'file')) {
+		if(Images::allow_creation($anchor, $item, 'file')) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic');
 		}
@@ -890,13 +857,13 @@ if(!isset($item['id'])) {
 	}
 
 	// restore a previous version, if any
-	if($has_versions && (Surfer::is_empowered() && Surfer::is_logged())) {
+	if(is_object($anchor) && $anchor->is_owned() && Versions::count_for_anchor('file:'.$item['id'])) {
 		Skin::define_img('FILES_VERSIONS_IMG', 'files/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('file:'.$item['id'], 'list'), FILES_VERSIONS_IMG.i18n::s('Versions'));
 	}
 
-	// delete command provided to associates and editors
-	if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))) {
+	// delete command provided to associates and owners
+	if(is_object($anchor) && $anchor->is_owned()) {
 		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), FILES_DELETE_IMG.i18n::s('Delete this file'));
 	}

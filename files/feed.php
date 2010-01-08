@@ -83,15 +83,15 @@ if(!$anchor) {
 	$anchor =& Anchors::get('section:'.$id);
 }
 
-// associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// associates
+if(Surfer::is_associate())
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && $anchor->is_viewable())
 	$permitted = TRUE;
 
-// no anchor -- show public comments
+// no anchor -- show public files
 elseif(!is_object($anchor))
 	$permitted = TRUE;
 

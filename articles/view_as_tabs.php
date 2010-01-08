@@ -127,7 +127,7 @@ if(!Surfer::is_crawler()) {
 	}
 
 	// rank for this article
-	if(Articles::is_owned($anchor, $item) && (intval($item['rank']) != 10000))
+	if((intval($item['rank']) != 10000) && Articles::is_owned($anchor, $item))
 		$details[] = '{'.$item['rank'].'}';
 
 	// locked article
@@ -218,16 +218,9 @@ else
 // the beautified description, which is the actual page body
 if($description) {
 
-	// use adequate label
-// 		if(is_object($overlay) && ($label = $overlay->get_label('description')))
-// 			$context['text'] .= Skin::build_block($label, 'title');
-
 	// provide only the requested page
 	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	if($page > count($pages))
-		$page = count($pages);
-	if($page < 1)
-		$page = 1;
+	$page = min(max($page, count($pages)), 1);
 	$description = $pages[ $page-1 ];
 
 	// if there are several pages, remove toc and toq codes
@@ -313,7 +306,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 } else {
 
 	// new comments are allowed
-	if(Comments::are_allowed($anchor, $item)) {
+	if(Comments::allow_creation($anchor, $item)) {
 
 		// we have a wall
 		if(Articles::has_option('comments_as_wall', $anchor, $item))
@@ -417,7 +410,7 @@ if($count = Files::count_for_anchor('article:'.$item['id'])) {
 		$box['text'] .= $items;
 
 	// the command to post a new file
-	if(Files::are_allowed($anchor, $item)) {
+	if(Files::allow_creation($anchor, $item, 'article')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
 	}
@@ -572,13 +565,13 @@ if(isset($poster['id']) && is_object($anchor))
 //
 
 // comment this page if anchor does not prevent it
-if(Comments::are_allowed($anchor, $item)) {
+if(Comments::allow_creation($anchor, $item)) {
 	Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 	$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 }
 
 // attach a file, if upload is allowed
-if(Files::are_allowed($anchor, $item)) {
+if(Files::allow_creation($anchor, $item, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 }
@@ -590,7 +583,7 @@ if(Links::are_allowed($anchor, $item)) {
 }
 
 // post an image, if upload is allowed
-if(Images::are_allowed($anchor, $item)) {
+if(Images::allow_creation($anchor, $item)) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }

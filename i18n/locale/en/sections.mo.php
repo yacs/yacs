@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
+POT-Creation-Date: 2010-01-08 00:09+0100
 PO-Revision-Date: 2010-01-02 23:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -90,7 +90,6 @@ $_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Back to my profile']='Back to my profile';
 $_SESSION['l10n']['en']['Back to the section']='Back to the section';
-$_SESSION['l10n']['en']['Back to web browsing']='Back to web browsing';
 $_SESSION['l10n']['en']['Bad request.']='Bad request.';
 $_SESSION['l10n']['en']['Behaviors']='Behaviors';
 $_SESSION['l10n']['en']['Blog at %s']='Blog at %s';
@@ -156,7 +155,6 @@ $_SESSION['l10n']['en']['Edit this note']='Edit this note';
 $_SESSION['l10n']['en']['Edit this section']='Edit this section';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editors']='Editors';
-$_SESSION['l10n']['en']['End of the presentation']='End of the presentation';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['22574ae3fe08b2cb5e911bab84f9ed13']='Enter nick names, or email addresses, separated by commas.';
 $_SESSION['l10n']['en']['Error while processing %s.']='Error while processing %s.';

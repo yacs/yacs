@@ -867,7 +867,7 @@ class Anchor {
 		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
 			return $this->is_assigned_cache[$user_id] = TRUE;
 
-		// ensure the container allows for public access
+		// check parent container
 		if($cascade && isset($this->item['anchor'])) {
 
 			// save requests
@@ -1085,6 +1085,16 @@ class Anchor {
 	 * @see versions/restore.php
 	 */
 	function restore($item) {
+		return FALSE;
+	}
+
+	/**
+	 * change some attributes of an anchor
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
 		return FALSE;
 	}
 

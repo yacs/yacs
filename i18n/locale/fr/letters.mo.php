@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2008-11-16 21:53+0100
+PO-Revision-Date: 2010-01-04 23:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -34,7 +34,7 @@ $_SESSION['l10n']['fr']['By %s']='Par %s';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Content']='Contenu de la lettre';
+$_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['b8aba8120e48ef0b32aedde9fdc6f20c']='Création d\'une section pour les lettres archivées';
 $_SESSION['l10n']['fr']['4bc6d4dc6dbb947d0c104f5db94c73db']='Ce système n\'a pas été configuré pour gérer le courrier électronique.';

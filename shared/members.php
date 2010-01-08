@@ -492,8 +492,8 @@ Class Members {
 			$where .= " OR articles.active='N'";
 
 		// include managed sections
-		if(count($my_items = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_items)."'";
+		if($my_items = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_items)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -541,9 +541,9 @@ Class Members {
 
 		// include managed articles at self record
 		if((Surfer::is_associate() || (Surfer::get_id() && ($member == 'user:'.Surfer::get_id())))
-			&& count($my_items = Articles::list_assigned_by_date_for_anchor(NULL, str_replace('user:', '', $member), 0, 20, 'ids')))
+			&& count($my_items = Surfer::assigned_articles(str_replace('user:', '', $member))))
 			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
-				." WHERE (articles.id=".join(") OR (articles.id=", $my_items)."))"
+				." WHERE articles.id IN (".join(', ', $my_items)."))"
 				." UNION (".$query.")";
 
 		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;

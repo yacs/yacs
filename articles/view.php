@@ -2,9 +2,7 @@
 /**
  * view one article
  *
- * @todo add redirection to re-enforce canonical link (Thierry)
  * @todo add 'add tag' button http://www.socialtext.com/products/tour/categories
- * @todo add a switcher to other pages of the section (moi-meme)
  *
  * The main panel has following elements:
  * - The article itself, with details, introduction, and main text. This may be overloaded if required.
@@ -143,11 +141,9 @@ if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 else
 	$page = 1;
-$page = max(1,intval($page));
 
-// stop hackers
-if($page > 10)
-	$page = 10;
+// sanity check
+$page = min(max(1,intval($page)), 20);
 
 // no follow-up page yet
 $zoom_type = '';
@@ -274,6 +270,10 @@ else
 if(Articles::is_owned($anchor, $item))
 	$editable = TRUE;
 
+// allow editors to contribute to public sections even when they are locked
+elseif(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+	$editable = TRUE;
+
 // this page cannot be modified anymore
 elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
 	$editable = FALSE;
@@ -283,12 +283,12 @@ elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked
 	$editable = FALSE;
 
 // editors can also edit here
-elseif(Surfer::is_empowered())
-	$editable = TRUE;
+// elseif(Surfer::is_empowered())
+// 	$editable = TRUE;
 
 // the anchor has to be editable by this surfer
-elseif(is_object($anchor) && $anchor->is_assigned())
-	$editable = TRUE;
+// elseif(is_object($anchor) && $anchor->is_assigned())
+// 	$editable = TRUE;
 
 // the default is to disallow modifications
 else
@@ -368,13 +368,17 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif(!$zoom_type && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(!$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
 
 // display the article
 } else {
+
+	// allow back-referencing from overlay
+	$item['self_reference'] = 'article:'.$item['id'];
+	$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
 
 	// behaviors can change page menu
 	if(is_object($behaviors))
@@ -573,7 +577,7 @@ if(!isset($item['id'])) {
 		}
 
 		// rank for this article
-		if(Articles::is_owned($anchor, $item) && (intval($item['rank']) != 10000))
+		if((intval($item['rank']) != 10000) && Articles::is_owned($anchor, $item))
 			$details[] = '{'.$item['rank'].'}';
 
 		// locked article
@@ -628,7 +632,7 @@ if(!isset($item['id'])) {
 	}
 
 	// facebook, twitter, linkedin
-	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
+	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
 		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
 
@@ -703,7 +707,7 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent files'), 'xml');
 
 		// comments are allowed
-		if(Comments::are_allowed($anchor, $item)) {
+		if(Comments::allow_creation($anchor, $item)) {
 			$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 
 			// public aggregators
@@ -896,10 +900,7 @@ if(!isset($item['id'])) {
 
 			// provide only the requested page
 			$pages = preg_split('/\s*\[page\]\s*/is', $description);
-			if($page > count($pages))
-				$page = count($pages);
-			if($page < 1)
-				$page = 1;
+			$page = min(max($page, count($pages)), 1);
 			$description = $pages[ $page-1 ];
 
 			// if there are several pages, remove toc and toq codes
@@ -965,7 +966,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index);
 
 			// the command to post a new file
-			if(Files::are_allowed($anchor, $item)) {
+			if(Files::allow_creation($anchor, $item, 'article')) {
 				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
 			}
@@ -1008,7 +1009,7 @@ if(!isset($item['id'])) {
 		$layout = NULL;
 
 		// new comments are allowed
-		if(Comments::are_allowed($anchor, $item)) {
+		if(Comments::allow_creation($anchor, $item)) {
 
 			// we have a wall
 			if(Articles::has_option('comments_as_wall', $anchor, $item))
@@ -1199,13 +1200,13 @@ if(!isset($item['id'])) {
 	//
 
 	// comment this page if anchor does not prevent it
-	if(Comments::are_allowed($anchor, $item)) {
+	if(Comments::allow_creation($anchor, $item)) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}
 
 	// attach a file, if upload is allowed
-	if(Files::are_allowed($anchor, $item)) {
+	if(Files::allow_creation($anchor, $item, 'article')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 	}
@@ -1217,7 +1218,7 @@ if(!isset($item['id'])) {
 	}
 
 	// post an image, if upload is allowed
-	if(Images::are_allowed($anchor, $item)) {
+	if(Images::allow_creation($anchor, $item)) {
 		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}

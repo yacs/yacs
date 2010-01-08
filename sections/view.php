@@ -176,11 +176,9 @@ if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 else
 	$page = 1;
-$page = max(1,intval($page));
 
-// stop hackers
-if($page > 10)
-	$page = 10;
+// sanity check
+$page = min(max(1,intval($page)), 10);
 
 // no follow-up page yet
 $zoom_type = '';
@@ -359,13 +357,17 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif(!$zoom_type && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(!$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
 
 // display the section
 } else {
+
+	// allow back-referencing from overlay
+	$item['self_reference'] = 'section:'.$item['id'];
+	$item['self_url'] = $context['url_to_root'].Sections::get_permalink($item);
 
 	// behaviors can change page menu
 	if(is_object($behaviors))
@@ -548,7 +550,7 @@ if(!isset($item['id'])) {
 				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// rank for this section
-			if(intval($item['rank']) != 10000)
+			if((intval($item['rank']) != 10000) && Sections::is_owned($anchor, $item))
 				$details[] = '{'.$item['rank'].'}';
 
 			// locked section
@@ -714,7 +716,7 @@ if(!isset($item['id'])) {
 	}
 
 	// facebook, twitter, linkedin
-	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
+	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
 		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
 
@@ -767,7 +769,7 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('Recent files'), 'xml');
 
 		// comments are allowed
-		if(Comments::are_allowed($anchor, $item)) {
+		if(Comments::allow_creation($anchor, $item, 'section')) {
 			$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('section:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 		}
 
@@ -980,10 +982,7 @@ if(!isset($item['id'])) {
 
 			// provide only the requested page
 			$pages = preg_split('/\s*\[page\]\s*/is', $description);
-			if($page > count($pages))
-				$page = count($pages);
-			if($page < 1)
-				$page = 1;
+			$page = min(max($page, count($pages)), 1);
 			$description = $pages[ $page-1 ];
 
 			// if there are several pages, remove toc and toq codes
@@ -1457,7 +1456,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new file -- check 'with_files' option
-		if(Files::are_allowed($anchor, $item, 'section')) {
+		if(Files::allow_creation($anchor, $item, 'section')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
 		}
@@ -1486,7 +1485,7 @@ if(!isset($item['id'])) {
 			$title_label = i18n::s('Comments');
 
 		// new comments are allowed -- check option 'with_comments'
-		if(Comments::are_allowed($anchor, $item, 'section')) {
+		if(Comments::allow_creation($anchor, $item, 'section')) {
 			if(preg_match('/\bcomments_as_wall\b/i', $item['options']))
 				$comments_prefix = TRUE;
 			else
@@ -1700,13 +1699,13 @@ if(!isset($item['id'])) {
 	}
 
 	// comment this page if anchor does not prevent it
-	if(Comments::are_allowed($anchor, $item, 'section')) {
+	if(Comments::allow_creation($anchor, $item, 'section')) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}
 
 	// attach a file, if upload is allowed
-	if(Files::are_allowed($anchor, $item, 'section')) {
+	if(Files::allow_creation($anchor, $item, 'section')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 	}
@@ -1718,7 +1717,7 @@ if(!isset($item['id'])) {
 	}
 
 	// post an image, if upload is allowed
-	if(Images::are_allowed($anchor, $item, 'section')) {
+	if(Images::allow_creation($anchor, $item, 'section')) {
 		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}

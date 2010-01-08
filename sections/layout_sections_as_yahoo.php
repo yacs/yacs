@@ -233,8 +233,8 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 				$related_count += $count;
 			}
 
-			// rank, for associates
-			if(($item['rank'] != 10000) && Surfer::is_empowered())
+			// rank, for associates and owners
+			if(($item['rank'] != 10000) && Sections::is_owned(NULL, $item))
 				$details[] = '{'.$item['rank'].'}';
 
 			// introduction

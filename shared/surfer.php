@@ -153,26 +153,31 @@ Class Surfer {
 			return $cache[ $id ];
 		$cache[ $id ] = array();
 
-		// only consider live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where = "((sections.expiry_date is NULL)"
-			."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+		// backend may not available --error.php
+		if(is_callable(array('SQL', 'query'))) {
 
-		// the list of sections
-		$query = "SELECT sections.id FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('sections')." AS sections"
-			." WHERE (members.anchor LIKE 'user:".SQL::escape($id)."')"
-			."	AND (members.member_type = 'section')"
-			."	AND (members.member_id = sections.id)"
-			."	AND (".$where.")"
-			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
+			// only consider live sections
+			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$where = "((sections.expiry_date is NULL)"
+				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
 
-		// submit a silent query because at setup tables don't exist
-		if(($result =& SQL::query($query, TRUE))) {
+			// the list of sections
+			$query = "SELECT sections.id FROM ".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (members.anchor LIKE 'user:".SQL::escape($id)."')"
+				."	AND (members.member_type = 'section')"
+				."	AND (members.member_id = sections.id)"
+				."	AND (".$where.")"
+				." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
-			// build the list
-			while($row =& SQL::fetch($result))
-				$cache[ $id ][] = $row['id'];
+			// submit a silent query because at setup tables don't exist
+			if(($result =& SQL::query($query, TRUE))) {
+
+				// build the list
+				while($row =& SQL::fetch($result))
+					$cache[ $id ][] = $row['id'];
+
+			}
 
 		}
 
@@ -837,9 +842,9 @@ Class Surfer {
 
 		// parse request headers
 		if(!is_callable('apache_request_headers'))
-			return FALSE;
+			return TRUE;
 		if(!$headers = apache_request_headers())
-			return FALSE;
+			return TRUE;
 
 		// look at specific attributes
 		$values = '';

@@ -44,12 +44,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// actual capability of this surfer
-if(is_object($anchor) && $anchor->is_assigned())
-	Surfer::empower();
-
-// associates and authenticated editors can do what they want
-if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))
+// associates and authenticated owners can do what they want
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
 	$permitted = TRUE;
 
 // the default is to deny access

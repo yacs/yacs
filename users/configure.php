@@ -469,7 +469,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="users_without_file_overloads" value="Y"';
 	if(isset($context['users_without_file_overloads']) && ($context['users_without_file_overloads'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Files can be modified only by their original authors, plus associates and editors.');
+	$input .= '/> '.i18n::s('Files can be modified only by their original authors, plus associates and owners.');
 	$fields[] = array($label, $input);
 
 	// with anonymous comments

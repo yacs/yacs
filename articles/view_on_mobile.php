@@ -50,10 +50,7 @@ if($description) {
 
 	// provide only the requested page
 	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	if($page > count($pages))
-		$page = count($pages);
-	if($page < 1)
-		$page = 1;
+	$page = min(max($page, count($pages)), 1);
 	$description = $pages[ $page-1 ];
 
 	// if there are several pages, remove toc and toq codes

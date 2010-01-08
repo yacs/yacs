@@ -74,10 +74,10 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$cells[] = '<input type="checkbox" name="selected_sections[]" id="section_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$title = ucfirst(Codes::beautify(strip_tags($item['title'], '<br><div><img><p><span>')));
+				$title = Codes::beautify($item['title']);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';

@@ -432,7 +432,7 @@ Class Users {
 		global $context;
 
 		if(!$name)
-			return '';
+			$name = i18n::s('(unknown)');
 
 		$name = ucfirst($name);
 
@@ -875,11 +875,9 @@ Class Users {
 	/**
 	 * list selected users
 	 *
-	 * Accept following variants:
-	 * - 'complete'
-	 * - 'raw'
-	 * - 'compact'
-	 * - 'email' to build list of recipients
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'users/layout_users_as_compact.php' is loaded.
+	 * If no file matches then the default 'users/layout_users.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

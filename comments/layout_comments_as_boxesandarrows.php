@@ -91,7 +91,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			$menu = array();
 
 			// the reply and quote commands are offered, providing new comments are allowed
-			if(Comments::are_allowed($anchor)) {
+			if(Comments::allow_creation($anchor)) {
 
 				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => COMMENTS_ADD_IMG.i18n::s('reply') ));
@@ -101,7 +101,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			}
 
 			// the menu bar for associates and poster
-			if(Comments::are_editable($anchor, $item)) {
+			if(Comments::allow_modification($anchor, $item)) {
 
 				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => COMMENTS_EDIT_IMG.i18n::s('edit') ));

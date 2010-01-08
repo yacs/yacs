@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2009-11-30 10:39+0100
+POT-Creation-Date: 2010-01-08 00:09+0100
+PO-Revision-Date: 2010-01-08 00:11+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -38,6 +38,7 @@ $_SESSION['l10n']['en']['%s, or %s']='%s, or %s';
 $_SESSION['l10n']['en']['73dc258b46053edc7a29ff4fa365d963']='%s, to let others have a better understanding of who I am';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['32b6f7b9d1655209f90721fedf07c0c2']='(do not wish to receive newsletters)';
+$_SESSION['l10n']['en']['(unknown)']='(unknown)';
 $_SESSION['l10n']['en']['c932772c22a75fa776eba1b2d2cd7aed']='<p>%s,</p><p>Your e-mail address has been validated, and you are now an active member of this community.</p>';
 $_SESSION['l10n']['en']['c8e8765c2b28f43d6edb308e5dab306e']='A comma-separated list of keywords';
 $_SESSION['l10n']['en']['8a470419c36c4e3fb05d7d1c1f280a25']='A new thread has been created, and it will be listed in profiles of the persons that you have involved. You can invite additional people later on if you wish.';
@@ -167,7 +168,7 @@ $_SESSION['l10n']['en']['Extension']='Extension';
 $_SESSION['l10n']['en']['FCKEditor']='FCKEditor';
 $_SESSION['l10n']['en']['Failed authentication']='Failed authentication';
 $_SESSION['l10n']['en']['Files']='Files';
-$_SESSION['l10n']['en']['2e3a5a5400dcb9378c4c32a61a21989b']='Files can be modified only by their original authors, plus associates and editors.';
+$_SESSION['l10n']['en']['3515afc9889ea713dd95ca369ae5d216']='Files can be modified only by their original authors, plus associates and owners.';
 $_SESSION['l10n']['en']['First name(s)']='First name(s)';
 $_SESSION['l10n']['en']['1169885c9e3a40bebae7aeb820ae460e']='First names followed by last names';
 $_SESSION['l10n']['en']['cf126c8beeba972970c5a32b846e54b8']='Following editors inherit from assignments at parent containers';
@@ -250,7 +251,6 @@ $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';
 $_SESSION['l10n']['en']['Message title']='Message title';
 $_SESSION['l10n']['en']['Monitor']='Monitor';
-$_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['Most recent members']='Most recent members';
 $_SESSION['l10n']['en']['Move forward']='Move forward';
 $_SESSION['l10n']['en']['My Profile']='My Profile';

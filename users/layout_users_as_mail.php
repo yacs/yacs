@@ -52,6 +52,8 @@ Class Layout_users_as_mail extends Layout_interface {
 
 		$count = 0;
 		while($item =& SQL::fetch($result)) {
+
+			// we need some address
 			if(!$item['email'])
 				continue;
 
@@ -75,10 +77,10 @@ Class Layout_users_as_mail extends Layout_interface {
 			$url =& Users::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$title = ucfirst(Codes::beautify(strip_tags($item['full_name'], '<br><div><img><p><span>')));
+				$title = Codes::beautify_title($item['full_name']);
 
 			// link to this page
 			$text .= Skin::build_link($url, $title, 'user');

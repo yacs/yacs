@@ -382,16 +382,6 @@ dl#categories ul li { /* space between links */
 	padding: 0;
 }
 
-body#slideshow { /* background for slideshows */
-	background: white;
-}
-
-body#slideshow h1 { /* title for slideshows */
-	text-align: center;
-	background: none;
-	padding: 0;
-}
-
 /* the global navigation bar -- see template script */
 
 div.tabs,

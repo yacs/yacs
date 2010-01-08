@@ -2,6 +2,11 @@
 /**
  * layout articles as nodes of a Freemind map
  *
+ * This is a special layout used to build a Freemind map.
+ *
+ * @see articles/articles.php
+ * @see sections/freemind.php
+ *
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Bernard Paques
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
@@ -66,8 +71,8 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 

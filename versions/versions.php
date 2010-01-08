@@ -66,26 +66,26 @@ Class Versions {
 	 * @return boolean TRUE if the arrays are different, FALSE otherwise
 	 */
 	function are_different($previous, $current, $names=NULL) {
-	
+
 		// sanity check
 		if(!is_array($names) || !$names)
 			$names = array('description', 'extra', 'introduction', 'overlay', 'tags', 'title', 'trailer');
-			
+
 		// check each attribute
 		foreach($names as $name) {
-		
+
 			// skip undefined attributes
 			if(!isset($previous[ $name ]))
 				continue;
 			if(!isset($current[ $name ]))
 				continue;
-		
+
 			// stop on first difference found
 			if(strcmp($previous[ $name ], $current[ $name ]))
 				return TRUE;
-				
+
 		}
-		
+
 		// no difference has been found
 		return FALSE;
 	}
@@ -206,7 +206,7 @@ Class Versions {
 		// inflate the serialized object if necessary
 		if(isset($item['content']) && strncmp($item['content'], 'a:', 2) && is_callable('gzuncompress'))
 			$item['content'] = gzuncompress(base64_decode($item['content']));
-			
+
 		return $item;
 	}
 
@@ -298,8 +298,7 @@ Class Versions {
 	/**
 	 * list selected versions
 	 *
-	 * Accept following layouts:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
@@ -374,7 +373,7 @@ Class Versions {
 		// inflate the serialized object if necessary
 		if(strncmp($item['content'], 'a:', 2) && is_callable('gzuncompress'))
 			$item['content'] = gzuncompress(base64_decode($item['content']));
-			
+
 		// restore the anchor
 		if(!$anchor->restore(Safe::unserialize($item['content']))) {
 			Logger::error(i18n::s('Impossible to restore the previous version.'));
@@ -417,7 +416,7 @@ Class Versions {
 
 		// pack arrays, etc.
 		$content = serialize($fields);
-		
+
 		// save database space
 		if((strlen($content) > 128) && is_callable('gzcompress'))
 				$content = base64_encode(gzcompress($content, 6));

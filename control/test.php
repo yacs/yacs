@@ -53,10 +53,6 @@
 // include global declarations
 include_once '../shared/global.php';
 
-// detect libraries that would have uncorrectly generated some text or spaces
-if($context['with_debug'] == 'Y')
-	Safe::header('X-Scramble-Detection', 'scramble detection');
-
 // if it was a HEAD request, stop here
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
@@ -163,22 +159,23 @@ if(isset($generation['version'])) {
 }
 
 // YACS variables
-echo '<p>'.i18n::s('Global YACS variables:').BR."\n"
-	.'$context[\'language\']='.$context['language'].BR."\n"
+echo '<p>'.i18n::s('Global YACS variables:').BR."\n";
+if($context['country'])
+	echo '$context[\'country\']='.$context['country'].BR."\n";
+if($context['country_code'])
+	echo '$context[\'country_code\']='.$context['country_code'].BR."\n";
+echo '$context[\'language\']='.$context['language'].BR."\n"
 	.'$context[\'host_name\']='.$context['host_name'].BR."\n"
 	.'$context[\'url_to_home\']='.$context['url_to_home'].BR."\n"
 	.'$context[\'url_to_root\']='.$context['url_to_root'].BR."\n"
 	.'$context[\'script_url\']='.$context['script_url'].BR."\n"
 	.'$context[\'self_url\']='.$context['self_url'].BR."\n"
 	.'$context[\'self_script\']='.$context['self_script'].BR."\n";
-if($context['country_code'])
-	echo '$context[\'country_code\']='.$context['country_code'].BR."\n";
-if($context['country'])
-	echo '$context[\'country\']='.$context['country'].BR."\n";
 if(Surfer::is_associate()) {
 	echo '$context[\'path_to_root\']='.$context['path_to_root'].BR."\n";
 	echo '$context[\'directory_mask\']='.sprintf('0%o', $context['directory_mask']).BR."\n";
 	echo '$context[\'file_mask\']='.sprintf('0%o', $context['file_mask']).BR."\n";
+	echo '$context[\'skin\']='.$context['skin'].BR."\n";
 }
 echo '$context[\'charset\']='.$context['charset'].BR."\n";
 

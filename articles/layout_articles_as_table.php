@@ -72,10 +72,10 @@ Class Layout_articles_as_table extends Layout_interface {
 				$hover .= ' [article='.$item['id'].']';
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$label = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$label = Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$label = ucfirst(Codes::beautify_title(strip_tags($item['title'], '<br><div><img><p><span>')));
+				$label = Codes::beautify_title($item['title']);
 
 			// use the title as a link to the page
 			$title .= Skin::build_link($url, $label, 'basic', $hover);
@@ -93,7 +93,9 @@ Class Layout_articles_as_table extends Layout_interface {
 				$abstract .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['thumbnail_url'].'" class="right_image" alt="" /></a>';
 
 			// the introductory text
-			if($item['introduction'])
+			if(is_object($overlay))
+				$abstract .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+			elseif($item['introduction'])
 				$abstract .= Codes::beautify_introduction($item['introduction']);
 
 			// insert overlay data, if any

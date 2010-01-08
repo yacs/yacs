@@ -552,16 +552,6 @@ body#sections #extra_panel dl#news dt { /* news header on sections pages */
 	border-bottom: 1px solid #fff;
 }
 
-body#slideshow { /* background for slideshows */
-	background: white;
-}
-
-body#slideshow h1 { /* title for slideshows */
-	text-align: center;
-	background: none;
-	padding: 0;
-}
-
 div.tabs { /* the global navigation bar -- see template script */
 	position: absolute;
 	top: 75px;

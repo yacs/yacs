@@ -2192,6 +2192,12 @@ div.recent div.east { /* the second newest item */
  */
 
 /**
+ * spray layout: a nice layout to report on status
+ *
+ * @see articles/layout_articles_as_spray.php
+ */
+
+/**
  * table layout: a table of items
  *
  * <table class="grid">

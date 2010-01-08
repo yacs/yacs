@@ -124,8 +124,8 @@ if(Surfer::is_crawler()) {
 			$url =& Sections::get_permalink($section);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($section);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $section));
 			else
 				$title = Codes::beautify_title($section['title']);
 

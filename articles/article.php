@@ -754,6 +754,24 @@ Class Article extends Anchor {
 	}
 
 	/**
+	 * change some attributes of an anchor
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise
+	 *
+	 * @see shared/anchor.php
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return Articles::put_attributes($fields);
+
+	}
+
+	/**
 	 * remember the last action for this article
 	 *
 	 * This function is called by related items. What does it do?

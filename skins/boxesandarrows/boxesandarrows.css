@@ -421,10 +421,6 @@ p#header_title  a { /* a link to the home page */
 	padding: 0;
 }
 
-body#slideshow { /* background for slideshows */
-	background: white;
-}
-
 /* the global navigation bar -- see template script */
 
 #header_panel div.tabs {

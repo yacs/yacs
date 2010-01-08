@@ -69,8 +69,6 @@ elseif(isset($item['overlay_id']) && $item['overlay_id'])
 	$overlay = Overlay::bind($item['overlay_id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$overlay = Overlay::bind($_REQUEST['variant']);
-elseif(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'])
-	$overlay = Overlay::bind($_REQUEST['overlay_type']);
 elseif(isset($_SESSION['variant']) && $_SESSION['variant']) {
 	$overlay = Overlay::bind($_SESSION['variant']);
 	unset($_SESSION['variant']);

@@ -32,21 +32,19 @@ Class Layout_articles_as_titles extends Layout_interface {
 		$text .= '<br style="clear: left" />';
 
 		// process all items in the list
-		$family = '';
 		while($item =& SQL::fetch($result)) {
 
-			// change the family
-			if($item['family'] != $family) {
-				$family = $item['family'];
-
-				$text .= '<br clear="left" /><div class="floating_family">'.$family.'&nbsp;</div>'."\n";
-			}
+			// get the related overlay
+			$overlay = Overlay::load($item);
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
-			$title = Skin::strip($item['title'], 50);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
+			else
+				$title = Codes::beautify_title($item['title']);
 
 			// the hovering title
 			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))

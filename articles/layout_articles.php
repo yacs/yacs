@@ -65,8 +65,8 @@ Class Layout_articles extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -110,9 +110,16 @@ Class Layout_articles extends Layout_interface {
 				continue;
 			}
 
+			// introduction
+			$introduction = '';
+			if(is_object($overlay))
+				$introduction = $overlay->get_text('introduction', $item);
+			else
+				$introduction = $item['introduction'];
+
 			// the introductory text
-			if($item['introduction']) {
-				$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
+			if($introduction) {
+				$suffix .= ' -&nbsp;'.Codes::beautify_introduction($introduction);
 
 				// link to description, if any
 				if($item['description'])
@@ -168,8 +175,8 @@ Class Layout_articles extends Layout_interface {
 				if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 					$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
-				// unusual ranks are signaled to associates
-				if(($item['rank'] != 10000) && Surfer::is_empowered())
+				// unusual ranks are signaled to associates and owners
+				if(($item['rank'] != 10000) && Articles::is_owned($anchor, $item))
 					$details[] = '{'.$item['rank'].'}';
 
 			}

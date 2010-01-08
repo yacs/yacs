@@ -3,7 +3,6 @@
  * create a new article or edit an existing one
  *
  * @todo allow for the upload of one file on page creation
- * @todo add a toggle to not display the introduction in the main page
  *
  * This is the main script used to post a new page, or to modify an existing one.
  *
@@ -145,15 +144,13 @@ elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
 	$anchor =& Anchors::get($_SESSION['anchor_reference']);
 
-// get the related overlay, if any
+// get the related overlay, if any -- overlay_type will be considered later on
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$overlay = Overlay::bind($_REQUEST['variant']);
-elseif(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'])
-	$overlay = Overlay::bind($_REQUEST['overlay_type']);
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
@@ -164,7 +161,7 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
-// allow editors to contribute to public sections
+// allow editors to contribute to public sections even when they are locked
 elseif(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 	Surfer::empower();
 
@@ -364,7 +361,7 @@ if(Surfer::is_crawler()) {
 	Surfer::track($_REQUEST);
 
 	// only authenticated surfers are allowed to post links
-	if(!Surfer::is_logged())
+	if(!Surfer::is_logged() && isset($_REQUEST['description']))
 		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
 
 	// set options
@@ -375,19 +372,30 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['option_hardcoded']) && ($_REQUEST['option_hardcoded'] == 'Y'))
 		$_REQUEST['options'] .= ' hardcoded';
 
-	// associates are allowed to change overlay types -- see overlays/select.php
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate()) {
+	// allow back-referencing from overlay
+	if(isset($_REQUEST['id'])) {
+		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
+		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
+	}
+
+	// overlay may have changed
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
+
+		// associates are allowed to change overlay types -- see overlays/select.php
+		if(!Surfer::is_associate())
+			unset($_REQUEST['overlay_type']);
+
+		// overlay type has not changed
+		elseif(is_object($overlay) && ($overlay->get_type() == $_REQUEST['overlay_type']))
+			unset($_REQUEST['overlay_type']);
+	}
+
+	// new overlay type
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
 		// delete the previous version, if any
-		if(is_object($overlay)) {
-
-			// allow back-referencing from overlay
-			if(isset($_REQUEST['id'])) {
-				$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-				$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-				$overlay->remember('delete', $_REQUEST);
-			}
-		}
+		if(is_object($overlay))
+			$overlay->remember('delete', $_REQUEST);
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -426,22 +434,24 @@ if(Surfer::is_crawler()) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
+	// branch to another script to save data
+	} elseif(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+		include $matches[0].'.php';
+		return;
+	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
+		include 'edit_as_'.$deputy.'.php';
+		return;
+
 	// update an existing page
 	} elseif(isset($_REQUEST['id'])) {
-
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
 
 		// remember the previous version
 		if($item['id'] && Versions::are_different($item, $_REQUEST))
 			Versions::save($item, 'article:'.$item['id']);
 
-		// change to another overlay
-		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
+		// overlay has been inserted or updated
+		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'])
 			$action = 'insert';
-
-		// regular update
 		else
 			$action = 'update';
 
@@ -652,6 +662,21 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+
+	// allow back-referencing from overlay
+	if(isset($item['id'])) {
+		$item['self_reference'] = 'article:'.$item['id'];
+		$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
+	}
+
+	// branch to another script to display form fields, tabs, etc
+	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+		include $matches[0].'.php';
+		return;
+	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
+		include 'edit_as_'.$deputy.'.php';
+		return;
+	}
 
 	// the form to edit an article
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
@@ -1090,6 +1115,7 @@ if($with_form) {
 		$keywords[] = '<a onclick="append_to_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 		$keywords[] = '<a onclick="append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
+		$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 		$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');

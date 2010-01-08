@@ -277,9 +277,27 @@ Class User extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
-		if(isset($this->item['id']))
+
+		// sanity check
+		if(!isset($this->item['id']))
+			return NULL;
+
+		switch($action) {
+
+		// list of files
+		case 'files':
+			return Users::get_permalink($this->item).'#_information';
+
+		// the permalink page
+		case 'view':
+			return Users::get_permalink($this->item);
+
+		// another action
+		default:
 			return Users::get_url($this->item['id'], $action, $this->item['nick_name']);
-		return NULL;
+
+		}
+
 	 }
 
 	/**
@@ -304,6 +322,39 @@ Class User extends Anchor {
 
 		return FALSE;
 	 }
+
+	/**
+	 * check that the surfer owns an anchor
+	 *
+	 * To be overloaded into derivated class if field has a different name
+	 *
+	 * @param int optional reference to some user profile
+	 * @param boolean TRUE to not cascade the check to parent containers
+	 * @return TRUE or FALSE
+	 *
+	 * @see shared/anchor.php
+	 */
+	 function is_owned($user_id=NULL, $strict=FALSE) {
+		global $context;
+
+		// id of requesting user
+		if(!$user_id) {
+			if(!Surfer::get_id())
+				return FALSE;
+			$user_id = Surfer::get_id();
+		}
+
+		// associates can always do it, except in strict mode
+		if(!$strict && ($user_id == Surfer::get_id()) && Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns this item
+		if(isset($this->item['id']) && ($user_id == $this->item['id']))
+			return TRUE;
+
+		// sorry
+		return FALSE;
+	}
 
 	/**
 	 * load the related item

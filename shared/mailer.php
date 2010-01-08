@@ -691,6 +691,11 @@ class Mailer {
 
 		// arrays are easier to manage
 		if(is_string($message)) {
+
+			// turn HTML entities to UTF-8
+			if(is_callable('html_entity_decode'))
+				$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
+
 			$copy = $message;
 			$message = array();
 			$message['text/plain; charset=utf-8'] = $copy;
@@ -726,15 +731,13 @@ class Mailer {
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
 
-				// encoding rule
-				if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
-					$context['mail_encoding'] = 'base64';
+				// use global parameter
+ 				if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
+ 					$content_encoding = 'base64';
 
 				// encode the message for it transfer
-				if($context['mail_encoding'] == 'base64') {
+				if($content_encoding == 'base64')
 					$part = chunk_split(base64_encode($part));
-					$content_encoding = 'base64';
-				}
 			}
 
 			// only one part

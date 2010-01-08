@@ -55,26 +55,12 @@ Class Files {
 	 * This function returns TRUE if files can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new files when:
-	 * - surfer cannot upload
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_files' that prevents new files
-	 * - the anchor has some option 'no_files' that prevents new files
-	 *
-	 * Then the function allows for new files when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * files.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -93,20 +79,132 @@ Class Files {
 				return FALSE;
 		}
 
-		// files are prevented in item
-		if(($variant == 'article') && Articles::has_option('no_files', $anchor, $item))
+		// only in articles
+		if($variant == 'article') {
+
+			// 'no files' option
+			if(Articles::has_option('no_files', $anchor, $item))
+				return FALSE;
+
+
+		// other containers
+		} else {
+
+			// files are not explicitly activated in item
+			if(isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_files\b/i', $item['options']))
+				return FALSE;
+
+			// files are not explicitly activated in container
+			if(is_object($anchor) && !$anchor->has_option('with_files'))
+				return FALSE;
+
+		}
+
+		// surfer is not allowed to upload a file
+		if(!Surfer::may_upload())
 			return FALSE;
 
-		// files are prevented in anchor
-		if(!$item && is_object($anchor) && $anchor->has_option('no_files'))
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// submissions have been disallowed
+		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// files are not explicitly activated in item
-		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_files\b/i', $item['options']))
+		// only in articles
+		if($variant == 'article') {
+
+			// surfer owns this item, or the anchor
+			if(Articles::is_owned($anchor, $item))
+				return TRUE;
+
+			// surfer is an editor, and the page is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
+				return TRUE;
+
+		// only in sections
+		} elseif($variant == 'section') {
+
+			// surfer owns this item, or the anchor
+			if(Sections::is_owned($anchor, $item, TRUE))
+				return TRUE;
+
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
+
+		}
+
+		// surfer is an editor, and container is not private
+		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// item has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
-		// files are not explicitly activated in container
-		if(($variant != 'article') && !$item && is_object($anchor) && !$anchor->has_option('with_files', FALSE))
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
+		// surfer is an editor (and item has not been locked)
+		if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
+			return TRUE;
+		if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is a member
+		if(Surfer::is_member())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// authenticated members and subscribers are allowed to add files
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// anonymous contributions are allowed for articles
+		if($variant == 'article') {
+			if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+				return TRUE;
+		}
+
+		// the default is to not allow for new files
+		return FALSE;
+	}
+
+	/**
+	 * check if a file can be modified
+	 *
+	 * This function returns TRUE if the file can be modified,
+	 * and FALSE otherwise.
+	 *
+	 * @param object an instance of the Anchor interface
+	 * @param array a set of item attributes
+	 * @return TRUE or FALSE
+	 */
+	function allow_modification($anchor, $item) {
+		global $context;
+
+		// sanit check
+		if(!isset($item['id']))
 			return FALSE;
 
 		// surfer is not allowed to upload a file
@@ -121,62 +219,22 @@ Class Files {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer is owning this item
-		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
+		// surfer owns the file
+		if(is_object($anchor) && $anchor->is_owned())
 			return TRUE;
-// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
-// 			return TRUE;
-		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
+		if(isset($item['create_id']) && Surfer::is($item['create_id']))
 			return TRUE;
 
-		// section is not private, and surfer is an editor of it
-		if(($variant != 'article') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
-			return TRUE;
-
-		// section is not private, and surfer is an editor of it
-		if(($variant != 'article') && !isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
-			return TRUE;
-
-		// item has been locked
-		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+		// anchor has been locked
+		if(is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// anchor has been locked --only used when there is no item provided
-		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
-			return FALSE;
+		// authenticated members may be allowed to modify files from others
+ 		if(Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))
+ 			return TRUE;
 
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
-
-			// surfer has been assigned to this item
-			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
-				return TRUE;
-// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
-// 				return TRUE;
-			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;
-
-		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-
-			// only members can proceed
-			if(Surfer::is_member())
-				return TRUE;
-
-		// authenticated members and subscribers are allowed to add files
-		} elseif(Surfer::is_logged())
-			return TRUE;
-
-		// anonymous contributions are allowed for this container
-		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this container
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_assigned())
+		// anonymous contributions may be allowed, but only in articles
+		if(is_object($anchor) && ($anchor->get_type() == 'article') && $anchor->has_option('anonymous_edit'))
 			return TRUE;
 
 		// the default is to not allow for new files
@@ -948,7 +1006,7 @@ Class Files {
 
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
-		return Files::get_url($item['id'], 'view', $item['file_name']);
+		return Files::get_permalink($item);
 	}
 
 	/**
@@ -1011,7 +1069,7 @@ Class Files {
 
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
-		return Files::get_url($item['id'], 'view', $item['file_name']);
+		return Files::get_permalink($item);
 	}
 
 	/**
@@ -1783,16 +1841,9 @@ Class Files {
 	/**
 	 * list selected files
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'hits' - short lists with hits information
-	 * - 'dates' - short lists with dates information
-	 * - 'no_anchor' - to build detailed lists in an anchor page
-	 * - 'no_author' - to build detailed lists in a user page
-	 * - 'full' - include anchor information
-	 * - 'simple' - more than compact, less than decorated
-	 * - 'raw' - an array of $id => $attributes
-	 * - 'search' - include anchor information
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'files/layout_files_as_compact.php' is loaded.
+	 * If no file matches then the default 'files/layout_files.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

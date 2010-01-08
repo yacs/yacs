@@ -35,10 +35,10 @@ Class Comments {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @param string the type of item, e.g., 'section', or a reference, e.g., 'article:123'
+	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -57,21 +57,26 @@ Class Comments {
 				return FALSE;
 		}
 
-		// comments are prevented in item
-		if(($variant == 'article') && Articles::has_option('no_comments', $anchor, $item))
-			return FALSE;
+		// only in articles
+		if($variant == 'article') {
 
-		// comments are prevented in anchor
-		if(!$item && is_object($anchor) && $anchor->has_option('no_comments'))
-			return FALSE;
+			// 'no files' option
+			if(Articles::has_option('no_comments', $anchor, $item))
+				return FALSE;
 
-		// comments are not explicitly activated in item
-		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_(comments|wall)\b/i', $item['options']))
-			return FALSE;
 
-		// comments are not explicitly activated in item
-		if(($variant != 'article') && !$item && is_object($anchor) && !$anchor->has_option('with_comments', FALSE) && !$anchor->has_option('with_wall', FALSE))
-			return FALSE;
+		// other containers
+		} else {
+
+			// comments are not explicitly activated in item
+			if(isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_comments\b/i', $item['options']))
+				return FALSE;
+
+			// files are not explicitly activated in container
+			if(is_object($anchor) && !$anchor->has_option('with_comments'))
+				return FALSE;
+
+		}
 
 		// surfer is an associate
 		if(Surfer::is_associate())
@@ -81,20 +86,34 @@ Class Comments {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer is owning this item
-		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
-			return TRUE;
-// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
-// 			return TRUE;
-		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
-			return TRUE;
+		// only in articles
+		if($variant == 'article') {
 
-		// section is not private, and surfer is an editor of it
-		if(($variant != 'article') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
-			return TRUE;
+			// surfer owns this item, or the anchor
+			if(Articles::is_owned($anchor, $item))
+				return TRUE;
 
-		// section is not private, and surfer is an editor of it
-		if(($variant != 'article') && !isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			// surfer is an editor, and the page is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
+				return TRUE;
+
+		// only in sections
+		} elseif($variant == 'section') {
+
+			// surfer owns this item, or the anchor
+			if(Sections::is_owned($anchor, $item, TRUE))
+				return TRUE;
+
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
+
+		}
+
+		// surfer is an editor, and container is not private
+		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// editors cannot contribute if container has been locked
@@ -105,43 +124,45 @@ Class Comments {
 		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
+		// surfer is an editor (and item has not been locked)
+		if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
+			return TRUE;
+		if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
 
-			// surfer has been assigned to this item
-			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
-				return TRUE;
-// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
-// 				return TRUE;
-			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is a member
+		if(Surfer::is_member())
+			return TRUE;
 
 		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
 
-			// only members can proceed
-			if(Surfer::is_member())
-				return TRUE;
-
-		// authenticated members and subscribers are allowed to add comments
-		} elseif(Surfer::is_logged())
+		// authenticated members and subscribers are allowed to add files
+		if(Surfer::is_logged())
 			return TRUE;
 
 		// anonymous surfers are allowed to contribute
 		if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))
 			return TRUE;
 
-		// anonymous contributions are allowed for this container
-		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this container
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
+		// anonymous contributions are allowed for articles
+		if($variant == 'article') {
+			if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+				return TRUE;
+		}
 
 		// the default is to not allow for new comments
 		return FALSE;
@@ -157,7 +178,7 @@ Class Comments {
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
 	 */
-	function are_editable($anchor=NULL, $item=NULL) {
+	function allow_modification($anchor, $item) {
 		global $context;
 
 		// associates can do what they want
@@ -172,8 +193,12 @@ Class Comments {
 		if(isset($item['create_id']) && Surfer::is($item['create_id']))
 			return TRUE;
 
-		// you have been assigned to the upper level
+		// owner
 		if(is_object($anchor) && $anchor->is_owned())
+			return TRUE;
+
+		// editor of a public page
+		if(is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow modifications
@@ -550,6 +575,15 @@ Class Comments {
 		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
 			include_once '../comments/layout_comments_as_yabb.php';
 			$layout = new Layout_comments_as_yabb();
+
+		// a wiki
+		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
+			include_once '../comments/layout_comments_as_wiki.php';
+			$layout = new Layout_comments_as_wiki();
+
+		} elseif(isset($item['options']) && preg_match('/\bview_as_wiki\b/', $item['options'])) {
+			include_once '../comments/layout_comments_as_wiki.php';
+			$layout = new Layout_comments_as_wiki();
 
 		// no anchor
 		} elseif(!is_object($anchor)) {
@@ -1123,12 +1157,9 @@ Class Comments {
 	/**
 	 * list selected comments
 	 *
-	 * Accept following layouts:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'full' - include anchor information
-	 * - 'search' - include anchor information
-	 * - 'thread' - for real-time chat
-	 * - 'feed'
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'comments/layout_comments_as_compact.php' is loaded.
+	 * If no file matches then the default 'comments/layout_comments.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

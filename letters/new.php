@@ -532,15 +532,15 @@ if(!Surfer::is_associate()) {
 	switch($_REQUEST['letter_recipients']) {
 
 	case 'all':
-		$recipients = Users::list_by_posts(0, MAXIMUM_RECIPIENTS, 'mail');
+		$recipients = Users::list_by_posts(0, MAXIMUM_RECIPIENTS, 'address');
 		break;
 
 	case 'members':
-		$recipients = Users::list_members_by_posts(0, MAXIMUM_RECIPIENTS, 'mail');
+		$recipients = Users::list_members_by_posts(0, MAXIMUM_RECIPIENTS, 'address');
 		break;
 
 	case 'associates':
-		$recipients = Users::list_associates_by_posts(0, MAXIMUM_RECIPIENTS, 'mail');
+		$recipients = Users::list_associates_by_posts(0, MAXIMUM_RECIPIENTS, 'address');
 		break;
 
 	case 'custom':
@@ -557,7 +557,7 @@ if(!Surfer::is_associate()) {
 		foreach($recipients as $address => $label) {
 
 			// check that the address is valid
-			if(!ereg("([[:alnum:]\.\-]+)(\@[[:alnum:]\.\-]+\.+)", $address)) {
+			if(!preg_match(VALID_RECIPIENT, $address)) {
 				$recipients_skipped++;
 				$context['text'] .= str_replace (array('<', '>'), array('&lt;', '&gt;'), $address).' '.i18n::s('Error: Invalid address skipped').BR."\n";
 				continue;

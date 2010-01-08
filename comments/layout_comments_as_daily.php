@@ -105,13 +105,13 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$menu = array();
 
 			// the reply and quote commands are offered when new comments are allowed
-			if(Comments::are_allowed($anchor)) {
+			if(Comments::allow_creation($anchor)) {
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => i18n::s('Reply') ));
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
 			}
 
 			// the menu bar for associates and poster
-			if(Comments::are_editable($anchor, $item)) {
+			if(Comments::allow_modification($anchor, $item)) {
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 			}

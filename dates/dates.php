@@ -344,12 +344,16 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = "(".$where.")";
-		
+
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
@@ -678,6 +682,10 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -738,6 +746,10 @@ Class Dates {
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -850,6 +862,10 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -931,6 +947,10 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -1002,6 +1022,10 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -1046,11 +1070,8 @@ Class Dates {
 	/**
 	 * list selected dates
 	 *
-	 * Accept following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'links' - links to anchored pages
-	 * - 'no_anchor' - to build detailed lists in an anchor page
-	 * - 'full' - include anchor information
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * If no file matches then the default 'dates/layout_dates.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of the layout interface
@@ -1073,7 +1094,7 @@ Class Dates {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -1087,7 +1108,7 @@ Class Dates {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -1101,7 +1122,7 @@ Class Dates {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -1257,6 +1278,10 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -1315,6 +1340,10 @@ Class Dates {
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())

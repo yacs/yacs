@@ -83,7 +83,7 @@ Class Layout_comments_as_wiki extends Layout_interface {
 			$text .= ' - '.Skin::build_link(Comments::get_url($item['id']), '#', 'basic', i18n::s('Zoom on this note'));
 
 			// the menu bar for associates and poster
-			if(Comments::are_editable($anchor, $item)) {
+			if(Comments::allow_modification($anchor, $item)) {
 				$menu = array( Comments::get_url($item['id'], 'edit') => i18n::s('edit'),
 					Comments::get_url($item['id'], 'delete') => i18n::s('delete') );
 				$text .= ' - '.Skin::build_list($menu, 'menu');

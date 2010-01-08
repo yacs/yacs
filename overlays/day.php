@@ -34,6 +34,23 @@ class Day extends Overlay {
 		$hint = i18n::s('Use format YYYY-MM-DD');
 		$fields[] = array($label, $input, $hint);
 
+		// ensure that we do have a date
+		$context['page_footer'] .= JS_PREFIX
+			.'// ensure that some overlay fields are not empty'."\n"
+			.'func'.'tion validateOnSubmit(container) {'."\n"
+			."\n"
+			.'	if(!Yacs.trim(container.date_stamp.value)) {'."\n"
+			.'		alert("'.i18n::s('Please provide a date.').'");'."\n"
+			.'		container.date_stamp.focus();'."\n"
+			.'		Yacs.stopWorking();'."\n"
+			.'		return false;'."\n"
+			.'	}'."\n\n"
+			.'	return true;'."\n"
+			.'}'."\n"
+			."\n"
+			.JS_SUFFIX;
+
+		// job done
 		return $fields;
 	}
 
@@ -123,8 +140,8 @@ class Day extends Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_live_title($host=NULL) {
-	
-		$text = Codes::beautify_title($host['title']);
+
+		$text = $host['title'];
 
 		if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > NULL_DATE))
 			$text .= ' ['.Skin::build_date($this->attributes['date_stamp'], 'day').']';
@@ -258,7 +275,7 @@ class Day extends Overlay {
 		// instead of articles
 		if($type != 'articles')
 			return NULL;
-			
+
 		// get the containing page
 		$container =& Anchors::get($anchor);
 
@@ -279,7 +296,7 @@ class Day extends Overlay {
 
 		// menu to be displayed at the top
 		$menu = array();
-		
+
 		// empowered users can contribute
 		if(Articles::are_allowed($container)) {
 			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');

@@ -2,9 +2,12 @@
 /**
  * layout articles as a feed
  *
+ * This is a special layout used to build a newsfeed.
+ *
  * @todo insert page tags as item categories
  *
  * @see articles/articles.php
+ * @see feeds/feeds.php
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -48,8 +51,8 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = strip_tags($overlay->get_live_title($item), '<br><div><img><p><span>');
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 

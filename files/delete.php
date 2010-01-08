@@ -45,21 +45,13 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// associates and authenticated editors can do what they want
-if(Surfer::is_associate() || (Surfer::get_id() && is_object($anchor) && $anchor->is_assigned()))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
 // the item is anchored to the profile of this member
-elseif(Surfer::get_id() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+if(Surfer::get_id() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
-// authenticated surfers may suppress their own posts
-// elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-//	$permitted = TRUE;
+// associates and authenticated owners can do what they want
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owner()))
+	$permitted = TRUE;
 
 // the default is to deny access
 else

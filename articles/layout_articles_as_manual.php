@@ -77,10 +77,10 @@ Class Layout_articles_as_manual extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$title = ucfirst(Codes::strip(strip_tags($item['title'], '<br><div><img><p><span>')));
+				$title = Codes::beautify_title($item['title']);
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = $details = '';

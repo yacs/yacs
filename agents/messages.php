@@ -31,8 +31,7 @@
  * to have these messages automatically recorded at the right place in the database.
  *
  * [*] Articles can be auto-publish if the queue has been configured for that,
- * if the target section is enabled for that, or if the server has been configured to work
- * in Wiki-mode.
+ * or if the target section is enabled for that.
  *
  * [*] Any mail message successfully processed is submitted to modules hooked to the id 'inbound_mail',
  * and to any specific ids listed into the configuration field 'processing hooks'.

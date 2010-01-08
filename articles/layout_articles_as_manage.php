@@ -1,8 +1,11 @@
 <?php
 /**
- * layout articles
+ * list articles to be managed
+ *
+ * This is a special layout to feature management commands for each article.
  *
  * @see articles/articles.php
+ * @see sections/manage.php
  *
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Bernard Paques
@@ -75,10 +78,10 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$cells[] = '<input type="checkbox" name="selected_articles[]" id="article_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$title = ucfirst(Codes::beautify_title(strip_tags($item['title'], '<br><div><img><p><span>')));
+				$title = Codes::beautify_title($item['title']);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -106,8 +109,12 @@ Class Layout_articles_as_manage extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG;
 
 			// the introductory text
-			if($item['introduction'])
-				$suffix .= BR.Codes::beautify_introduction($item['introduction']);
+			if(is_object($overlay))
+				$introduction = $overlay->get_text('introduction', $item);
+			else
+				$introduction = $item['introduction'];
+			if($introduction)
+				$suffix .= BR.Codes::beautify_introduction($introduction);
 
 			// insert overlay data, if any
 			if(is_object($overlay))

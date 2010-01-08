@@ -339,7 +339,7 @@ if(!isset($item['id'])) {
 				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// rank for this section
-			if(intval($item['rank']) != 10000)
+			if((intval($item['rank']) != 10000) && Surfer::is_associate())
 				$details[] = '{'.$item['rank'].'}';
 
 		}
@@ -582,7 +582,7 @@ if(!isset($item['id'])) {
 
 		// the command to post a new file
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
-		if(Files::are_allowed($anchor, $item, 'category')) {
+		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
 		}
@@ -631,7 +631,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new comment
-		if(Comments::are_allowed($anchor, $item, 'category')) {
+		if(Comments::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => COMMENTS_ADD_IMG.i18n::s('Post a comment') );
@@ -855,19 +855,19 @@ if(!isset($item['id'])) {
 		}
 
 		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item, 'category')) {
+		if(Images::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 		}
 
 		// attach a file, if upload is allowed
-		if(Files::are_allowed($anchor, $item, 'category')) {
+		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 		}
 
 		// comment this page if anchor does not prevent it
-		if(Comments::are_allowed($anchor, $item, 'category')) {
+		if(Comments::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 		}

@@ -1131,7 +1131,7 @@ Class Sections {
 					if($row['id'] == $me)
 						$children .= '<input type="radio" name="anchor" disabled="disabled" /> '.Codes::beautify_title($row['title']);
 					else
-						$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title']));
+						$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Codes::beautify_title($row['title']);
 				}
 			}
 
@@ -1307,7 +1307,7 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|own|print|slideshow|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|own|print|view|view_as_freemind)$/', $action))
 			return 'sections/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -1825,34 +1825,9 @@ Class Sections {
 	/**
 	 * list selected sections
 	 *
-	 * Accept following layouts:
-	 * - 'compact' - to build short lists in boxes and sidebars
-	 * - 'freemind' - to create Freemind maps
-	 * - 'full' - include anchor information -- also the default value
-	 * - 'menu' - returns the url and the title - used mainly at services/blog.php
-	 * - 'raw' - returns the id and the title
-	 * - 'references' - like 'full', but urls are references to sections
-	 * - 'select' - like 'full', but urls are links to the article editor form - used at articles/edit.php
-	 * - 'tabs' - more compact than compact
-	 * - 'thumbnails' - to build a visual list
-	 *
-	 * Built-in variants 'compact', 'full' or 'select' all return a list of $url => ($prefix, $label, $suffix, $type, $icon),
-	 * but the content of these variables vary from one variant to another.
-	 *
-	 * Variables returned when the variant equals 'full' or 'select':
-	 * - $prefix = ( expired | new | updated ) ( private | restricted )
-	 * - $label = &lt;title&gt;
-	 * - $suffix = (n pages, n files, n links, n comments) \n &lt;introduction&gt;
-	 * - $type = section
-	 * - $icon = &lt;thumbnail_url&gt;
-	 *
-	 * Variables returned when the variant equals 'compact':
-	 * - $prefix = NULL
-	 * - $label = &lt;title&gt;
-	 * - $suffix = section_&lt;id&gt; (may be used to implement the 'you are here' feature in any template)
-	 * - $type = basic
-	 * - $icon = NULL
-	 *
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'sections/layout_sections_as_compact.php' is loaded.
+	 * If no file matches then the default 'sections/layout_sections.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

@@ -85,8 +85,8 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -180,8 +180,8 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		Codes::initialize($url);
 
 		// build a title
-		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-			$title = $overlay->get_live_title($item);
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
 		else
 			$title = Codes::beautify_title($item['title']);
 
@@ -308,7 +308,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$box['bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
 
 			// the command to post a new file, if allowed
-			if(Files::are_allowed($anchor, $item)) {
+			if(Files::allow_creation($anchor, $item, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 				$box['bar'] += array( $link => i18n::s('Upload a file') );
 			}
@@ -326,7 +326,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		//
 
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
-		if(Comments::are_allowed($anchor, $item))
+		if(Comments::allow_creation($anchor, $item))
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'span');
 
 		// info on related comments
@@ -355,7 +355,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
 			// attach a file
-			if(Files::are_allowed($anchor, $item)) {
+			if(Files::allow_creation($anchor, $item, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];
 				else

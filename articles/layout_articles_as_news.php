@@ -2,7 +2,7 @@
 /**
  * layout articles as news
  *
- * This layout is used at the site front page to layout news and featured pages.
+ * This special layout is used at the site front page to layout news and featured pages.
  * It is also used at section index pages to layout news.
  *
  * @see index.php
@@ -60,8 +60,8 @@ Class Layout_articles_as_news extends Layout_interface {
 			Codes::initialize($url);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -89,8 +89,15 @@ Class Layout_articles_as_news extends Layout_interface {
 			// go to a new line
 			$suffix .= BR;
 
-			// the introductory text
-			if($item['introduction']) {
+			// get introduction from overlay
+			if(is_object($overlay)) {
+				$suffix .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+
+				// add a link to the main page
+				$suffix .= BR.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
+
+			// use introduction
+			} elseif($item['introduction']) {
 				$suffix .= Codes::beautify_introduction($item['introduction']);
 
 				// add a link to the main page

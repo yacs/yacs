@@ -62,8 +62,8 @@ Class Layout_articles_as_jive extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -114,7 +114,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$text .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$text .= '<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
 			// next cell for the content
 			$text .= '</td><td width="70%">';
@@ -127,7 +127,10 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$content .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// the introductory text
-			$content .= Codes::beautify_introduction($item['introduction']);
+			if(is_object($overlay))
+				$content .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+			else
+				$content .= Codes::beautify_introduction($item['introduction']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))
@@ -151,37 +154,21 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$details[] = LINKS_LIST_IMG.sprintf(i18n::ns('%d link', '%d links', $count), $count);
 			}
 
-			// more commands
-			$content .= '<p class="menu_bar">';
-
-			// describe attachments
-			if(count($details))
-				$content .= join(', ', $details).BR;
-
 			// the command to reply
-			if(Comments::are_allowed($anchor, $item)) {
+			if(Comments::allow_creation($anchor, $item)) {
 				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-				$content .= Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic');
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic');
 			}
 
 			// count replies
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$content .= ' ('.Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic').') ';
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
-			// the command to watch this topic
-			if(Surfer::get_id() && ($item['create_id'] != Surfer::get_id()) && ($item['publish_id'] != Surfer::get_id())) {
-				if(!Members::check('article:'.$item['id'], 'user:'.Surfer::get_id())) {
-					if($context['with_friendly_urls'] == 'Y')
-						$link = 'users/track.php/article/'.$item['id'];
-					else
-						$link = 'users/track.php?article='.$item['id'];
-					Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
-					$content .= ' '.TOOLS_WATCH_IMG.Skin::build_link($link, i18n::s('Watch this page'))."\n";
-				}
-			}
+			// describe attachments
+			$content .= Skin::finalize_list($details, 'menu');
 
 			// end the row
-			$text .= $content.'</p></td></tr>';
+			$text .= $content.'</td></tr>';
 
 		}
 

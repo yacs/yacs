@@ -114,7 +114,7 @@ if(Surfer::is_crawler()) {
 		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
 
 	// rank for this section
-	if(Surfer::is_associate() && (intval($item['rank']) != 10000))
+	if((intval($item['rank']) != 10000) && Surfer::is_associate())
 		$details[] = sprintf(i18n::s('Rank: %s'), $item['rank']);
 
 	// section editors

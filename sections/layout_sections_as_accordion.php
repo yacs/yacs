@@ -63,8 +63,8 @@ Class Layout_sections_as_accordion extends Layout_interface {
 				$box['title'] = Skin::strip($item['family'], 30).' - ';
 
 			// use the title to label the link
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$box['title'] .= $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$box['title'] .= Codes::beautify_title($item['title']);
 

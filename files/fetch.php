@@ -98,24 +98,16 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// readers have additional rights
-if(is_object($anchor) && $anchor->is_assigned())
-	Surfer::empower('S');
-
-// associates, editors and readers can view the page
-if(Surfer::is_empowered('S') || (is_object($anchor) && $anchor->is_assigned()))
+// public access is allowed
+if($item['active'] == 'Y')
 	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
 
 // access is restricted to authenticated member
-elseif(($item['active'] == 'R') && Surfer::is_empowered('M'))
+elseif(($item['active'] == 'R') && Surfer::is_logged())
 	$permitted = TRUE;
 
-// public access is allowed
-elseif($item['active'] == 'Y')
+// associates, editors and readers can view the page
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access

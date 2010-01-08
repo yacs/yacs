@@ -182,7 +182,7 @@ if(!isset($item['id'])) {
 	//
 
 	// a bottom menu to react
-	if(Comments::are_allowed($anchor)) {
+	if(Comments::allow_creation($anchor)) {
 
 		// allow posters to change their own comments
 		if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id())) {
@@ -207,13 +207,13 @@ if(!isset($item['id'])) {
 	}
 
 	// commands for associates, authenticated editors and author
-	if(Comments::are_editable($anchor, $item)) {
+	if(Comments::allow_modification($anchor, $item)) {
 		Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'));
 	}
 
 	// turn this to an article
-	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
+	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_owned()))) {
 		Skin::define_img('COMMENTS_PROMOTE_IMG', 'comments/promote.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'promote'), COMMENTS_PROMOTE_IMG.i18n::s('Promote'));
 	}

@@ -50,7 +50,7 @@ class Overlay_test extends Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_live_introduction($host=NULL) {
-		$text = Codes::beautify_title($host['introduction']).' (test) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+		$text = $host['introduction'].' (test) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 		return $text;
 	}
 
@@ -63,7 +63,7 @@ class Overlay_test extends Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_live_title($host=NULL) {
-		$text = Codes::beautify_title($host['title']).' (test)';
+		$text = $host['title'].' (test)';
 		return $text;
 	}
 

@@ -2,7 +2,10 @@
 /**
  * layout articles in a digest
  *
+ * This is a special layout used to prepare a newsletter.
+ *
  * @see articles/articles.php
+ * @see letters/new.php
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -48,8 +51,8 @@ Class Layout_articles_as_digest extends Layout_interface {
 			$url = $context['url_to_home'].$context['url_to_root'].$url;
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = strip_tags($overlay->get_live_title($item));
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 

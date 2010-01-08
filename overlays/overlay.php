@@ -370,7 +370,7 @@ class Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_live_title($host=NULL, $options=NULL) {
-		$text = Codes::beautify_title($host['title']);
+		$text = $host['title'];
 		return $text;
 	}
 
@@ -483,6 +483,31 @@ class Overlay {
 	 */
 	function get_type() {
 		return $this->attributes['overlay_type'];
+	}
+
+	/**
+	 * get the value of one attribute
+	 *
+	 * This function avoids direct looking at internal storage.
+	 *
+	 * @param string attribute name
+	 * @param mixed default value, if any
+	 * @return mixed attribute value, of default value if attribute is not set
+	 */
+	function get_value($name, $default_value=NULL) {
+
+		// use reflection
+		$method = 'get_'.$name.'_value';
+		if(is_callable(array($this, $method)))
+			return call_user_func(array($this, $method), $default_value);
+
+		// attribute has a value
+		if(isset($this->attributes[$name]))
+			return $this->attributes[$name];
+
+		// use default value
+		return $default_value;
+
 	}
 
 	/**

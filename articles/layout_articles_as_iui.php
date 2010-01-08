@@ -2,7 +2,10 @@
 /**
  * conforms to iui format
  *
+ * This is a special layout to accomodate to small screens of iPhone, iPod, and the like.
+ *
  * @see articles/articles.php
+ * @see articles/view_on_mobile.php
  *
  * @author Bernard Paques
  * @reference
@@ -31,6 +34,9 @@ Class Layout_articles_as_iui extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
+			// get the related overlay
+			$overlay = Overlay::load($item);
+
 			// output one story
 			$text = "\n".' <li>'."\n";
 
@@ -38,8 +44,15 @@ Class Layout_articles_as_iui extends Layout_interface {
 
 			$text .= '		<a href="'.str_replace('&', '&amp;', $url).'">'.encode_field(strip_tags($item['title']));
 
-			if($item['introduction'])
-				$text .= BR.'<span style="font-family:verdana;font-size:11px;font-weight:normal;margin-top:5px;">'.strip_tags($item['introduction']).'</span>';
+			// get the introduction
+			if(is_object($overlay))
+				$introduction = $overlay->get_text('introduction', $item);
+			else
+				$introduction = $item['introduction'];
+
+			// layout the introduction
+			if($introduction)
+				$text .= BR.'<span style="font-family:verdana;font-size:11px;font-weight:normal;margin-top:5px;">'.strip_tags(Codes::beautify_introduction($introduction)).'</span>';
 
 			$text .= "</a>\n";
 

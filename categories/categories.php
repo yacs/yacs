@@ -1219,13 +1219,9 @@ Class Categories {
 	/**
 	 * list selected categories
 	 *
-	 * Accept following variants:
-	 * - 'cloud' - to draw a nice cloud of tags
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'full' - include anchor information
-	 * - 'index' - to display sub categories as well
-	 * - 'raw' - to build lists with item ids
-	 * - 'search' - to build result lists
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'categories/layout_categories_as_compact.php' is loaded.
+	 * If no file matches then the default 'categories/layout_categories.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

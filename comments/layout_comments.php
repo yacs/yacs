@@ -73,7 +73,7 @@ Class Layout_comments extends Layout_interface {
 				$menu[] = Skin::build_date($item['edit_date']);
 
 			// the menu bar for associates, editors and poster
-			if(Comments::are_editable($anchor, $item)) {
+			if(Comments::allow_modification($anchor, $item)) {
 				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('edit'), 'span');
 				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), i18n::s('delete'), 'span');
 			}

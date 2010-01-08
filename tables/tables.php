@@ -585,6 +585,10 @@ Class Tables {
 	/**
 	 * list selected tables
 	 *
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'compact', the file 'tables/layout_tables_as_compact.php' is loaded.
+	 * If no file matches then the default 'tables/layout_tables.php' script is loaded.
+	 *
 	 * @param resource result of database query
 	 * @variant string 'compact' or nothing
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)

@@ -393,6 +393,10 @@ Class Articles {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -648,6 +652,10 @@ Class Articles {
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -702,6 +710,10 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -776,6 +788,10 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -863,6 +879,10 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -1447,6 +1467,10 @@ Class Articles {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -1614,6 +1638,10 @@ Class Articles {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -1650,21 +1678,9 @@ Class Articles {
 	/**
 	 * list selected articles
 	 *
-	 * Accept following layouts:
-	 * - 'boxes' - a special variant to build boxes on index pages
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'contents' - an array of $url => array($time, $label, $author, $section, $icon, $introduction, $content, $trackback) for feeds and search
-	 * - 'daily' - for blogs
-	 * - 'digest' - for newsletters
-	 * - 'feed' - an array of $url => array($time, $label, $author, $section, $icon, $introduction, $content, $trackback) for feeds and search
-	 * - 'freemind' - to create Freemind maps
-	 * - 'news' - to build a list of news or of featured pages
-	 * - 'raw'
-	 * - 'review'
-	 * - 'rpc'
-	 * - 'select' - to select an article among several templates
-	 * - 'simple' - to build line-based lists
-	 * - 'thumbnails'
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * E.g., for variant 'accordion', the file 'articles/layout_articles_as_accordion.php' is loaded.
+	 * If no file matches then the default 'articles/layout_articles.php' script is loaded.
 	 *
 	 * Options can be provided to the selected layout by adding them after a space
 	 * character. For example: 'simple no_anchor' when listing private conversations.
@@ -2585,6 +2601,10 @@ Class Articles {
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
 
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -2651,6 +2671,10 @@ Class Articles {
 		// associates, editors and readers may see everything
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -2720,6 +2744,10 @@ Class Articles {
 		// associates can access hidden articles
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())

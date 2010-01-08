@@ -121,10 +121,7 @@ if($description) {
 
 	// provide only the requested page
 	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	if($page > count($pages))
-		$page = count($pages);
-	if($page < 1)
-		$page = 1;
+	$page = min(max($page, count($pages)), 1);
 	$description = $pages[ $page-1 ];
 
 	// if there are several pages, remove toc and toq codes
@@ -182,7 +179,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..."/></div>'."\n";
 
 	// surfer cannot contribute
-	if(!Comments::are_allowed($anchor, $item))
+	if(!Comments::allow_creation($anchor, $item))
 		;
 
 	// the input panel is where logged surfers can post data
@@ -197,7 +194,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit', 'no_spin_on_click');
 
 		// upload a file
-		if(Files::are_allowed($anchor, $item)) {
+		if(Files::allow_creation($anchor, $item, 'article')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$menu[] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'span');
 		}
@@ -306,7 +303,7 @@ if(is_object($anchor))
 //
 
 // post an image, if upload is allowed
-if(Images::are_allowed($anchor, $item)) {
+if(Images::allow_creation($anchor, $item)) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }
@@ -388,7 +385,7 @@ if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 
 // the command to post a new file -- do that in this window, since the surfer will be driven back here
 $invite = '';
-if(Files::are_allowed($anchor, $item)) {
+if(Files::allow_creation($anchor, $item, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic').BR;
@@ -535,7 +532,7 @@ if(!isset($item['locked']) || ($item['locked'] != 'Y')) {
 		.'	{ method: "get", frequency: 181, decay: 1 });'."\n";
 
 	// only authenticated surfers can contribute
-	if(Surfer::is_logged() && Comments::are_allowed($anchor, $item))
+	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
 		$context['page_footer'] .= "\n"
 			.'// ready to type something'."\n"
 			.'Event.observe(window, \'load\', function() { $(\'contribution\').focus(); Comments.subscribe(); });'."\n"

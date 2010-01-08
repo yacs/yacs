@@ -63,6 +63,10 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\^\,+%\?=\-\[\]*]+/');
 
+// pattern for valid email recipients
+if(!defined('VALID_RECIPIENT'))
+	define('VALID_RECIPIENT', '/^[*+!\.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
+
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
 	define('JS_PREFIX', '<script type="text/javascript">//<![CDATA['."\n");
@@ -402,6 +406,8 @@ elseif(isset($_SERVER['ORIG_PATH_INFO']) && $_SERVER['ORIG_PATH_INFO']) {
 
 	// sometimes this is corrupted by CGI interface (e.g., 1and1) and ORIG_PATH_INFO takes the value of ORIG_SCRIPT_NAME
 	if(isset($_SERVER['ORIG_SCRIPT_NAME']) && !strcmp($_SERVER['ORIG_PATH_INFO'], $_SERVER['ORIG_SCRIPT_NAME']))
+		;
+	elseif(isset($_SERVER['SCRIPT_NAME']) && !strcmp($_SERVER['ORIG_PATH_INFO'], $_SERVER['SCRIPT_NAME']))
 		;
 
 	else

@@ -676,12 +676,8 @@ Class Decisions {
 	/**
 	 * list selected decisions
 	 *
-	 * Accept following layouts:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'no_anchor' - to build detailed lists in an anchor page
-	 * - 'full' - include anchor information
-	 * - 'search' - include anchor information
-	 * - 'feed'
+	 * If variant is provided as a string, the functions looks for a script featuring this name.
+	 * If no file matches then the default 'decisions/layout_decisions.php' script is loaded.
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface

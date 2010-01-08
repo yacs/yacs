@@ -2,7 +2,10 @@
 /**
  * layout articles as a feed, with full content
  *
+ * This is a special layout used to build a RSS feed of new pages, with full content.
+ *
  * @see articles/articles.php
+ * @see articles/feed.php
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -49,8 +52,8 @@ Class Layout_articles_as_contents extends Layout_interface {
 			$time = SQL::strtotime($item['edit_date']);
 
 			// build a title
-			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
 			else
 				$title = Codes::beautify_title($item['title']);
 
@@ -94,12 +97,17 @@ Class Layout_articles_as_contents extends Layout_interface {
 			// the article content
 			$description = '';
 
-			if($item['introduction'])
-				$description .= Skin::build_block(Codes::beautify(preg_replace(FORBIDDEN_IN_TEASERS, '', $item['introduction'])), 'introduction');
-			$description .= Codes::beautify(preg_replace(FORBIDDEN_IN_TEASERS, '', $item['description']), $item['options']);
+			// the introduction
+			if(is_object($overlay))
+				$description .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+			elseif($item['introduction'])
+				$description .= Skin::build_block($item['introduction'], 'introduction');
 
-			// cap the number of words
-//			$description = Skin::cap($description, 300);
+			// full content
+			$description .= Codes::beautify($item['description'], $item['options']);
+
+			// filter teasers
+			$description = preg_replace(FORBIDDEN_IN_TEASERS, '', $description);
 
 			// fix references
 			$description = preg_replace('/"\//', '"'.$context['url_to_home'].'/', $description);
