@@ -58,7 +58,7 @@ Class Files {
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @param string the type of item, e.g., 'section'
-	 * @return TRUE or FALSE
+	 * @return boolean TRUE or FALSE
 	 */
 	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
@@ -164,8 +164,8 @@ Class Files {
 		if(is_object($anchor) && $anchor->is_hidden())
 			return FALSE;
 
-		// surfer is a member
-		if(Surfer::is_member())
+		// authenticated members and subscribers are allowed to add files
+		if(Surfer::is_logged())
 			return TRUE;
 
 		// container is restricted
@@ -173,10 +173,6 @@ Class Files {
 			return FALSE;
 		if(is_object($anchor) && !$anchor->is_public())
 			return FALSE;
-
-		// authenticated members and subscribers are allowed to add files
-		if(Surfer::is_logged())
-			return TRUE;
 
 		// anonymous contributions are allowed for articles
 		if($variant == 'article') {

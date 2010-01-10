@@ -855,16 +855,8 @@ Class Surfer {
 		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $values))
 			return FALSE;
 
-		// a desktop operating system, for sure
-		if(preg_match('/(windows|linux|os\s+[x9]|solaris|bsd)/i', $values))
-			return TRUE;
-
-		// a crawler, for sure
-		if(preg_match('/(spider|crawl|slurp|bot)/i', $values))
-			return TRUE;
-
 		// we don't know
-		return FALSE;
+		return TRUE;
 	}
 
 	/**

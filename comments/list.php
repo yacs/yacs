@@ -19,7 +19,6 @@
  * - jive
  * - manual
  * - table
- * - wiki
  * - yabb
  *
  * Following principles have been selected for other layouts:

@@ -88,7 +88,6 @@
  * 'map'|[script]articles/layout_articles_as_yahoo.php[/script]
  * 'none'|No articles are shown
  * 'table'|[script]articles/layout_articles_as_table.php[/script]
- * 'wiki'|[script]articles/layout_articles.php[/script]
  * 'yabb'|[script]articles/layout_articles_as_yabb.php[/script]
  * custom|[script]articles/layout_articles_as_custom.php[/script] (to load a customized layout)
  * [/table]
@@ -833,7 +832,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::are_allowed($anchor, $item))
+		if(Categories::allow_creation($anchor, $item))
 			$items = array_merge($items, array( Categories::get_url('section:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section
@@ -853,7 +852,7 @@ if(!isset($item['id'])) {
 		$bookmarklets = array();
 
 		// blogging bookmarklet uses YACS codes
-		if(Articles::are_allowed($anchor, $item)) {
+		if(Articles::allow_creation($anchor, $item)) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"
@@ -867,7 +866,7 @@ if(!isset($item['id'])) {
 		}
 
 		// bookmark bookmarklet, if links are allowed
-		if(Links::are_allowed($anchor, $item, 'section')) {
+		if(Links::allow_creation($anchor, $item, 'section')) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"
@@ -1165,7 +1164,7 @@ if(!isset($item['id'])) {
 			}
 
 			// the command to add a new section
-			if(Sections::are_allowed($anchor, $item)) {
+			if(Sections::allow_creation($anchor, $item)) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 			}
@@ -1221,9 +1220,6 @@ if(!isset($item['id'])) {
 			} elseif($item['articles_layout'] == 'map') {
 				include_once '../articles/layout_articles_as_yahoo.php';
 				$layout = new Layout_articles_as_yahoo();
-			} elseif($item['articles_layout'] == 'wiki') {
-				include_once '../articles/layout_articles.php';
-				$layout = new Layout_articles();
 			} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
 				$name = 'layout_articles_as_'.$item['articles_layout'];
 				include_once $context['path_to_root'].'articles/'.$name.'.php';
@@ -1271,7 +1267,7 @@ if(!isset($item['id'])) {
 				}
 
 				// the command to post a new page
-				if(Articles::are_allowed($anchor, $item)) {
+				if(Articles::allow_creation($anchor, $item)) {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -1327,9 +1323,6 @@ if(!isset($item['id'])) {
 				} elseif($item['articles_layout'] == 'map') {
 					include_once '../articles/layout_articles_as_yahoo.php';
 					$layout = new Layout_articles_as_yahoo();
-				} elseif($item['articles_layout'] == 'wiki') {
-					include_once '../articles/layout_articles.php';
-					$layout = new Layout_articles();
 				} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
 					$name = 'layout_articles_as_'.$item['articles_layout'];
 					include_once $context['path_to_root'].'articles/'.$name.'.php';
@@ -1613,7 +1606,7 @@ if(!isset($item['id'])) {
 		}
 
 		// new links are allowed -- check option 'with_links'
-		if(Links::are_allowed($anchor, $item, 'section')) {
+		if(Links::allow_creation($anchor, $item, 'section')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 		}
@@ -1672,7 +1665,7 @@ if(!isset($item['id'])) {
 	//
 
 	// commands to add pages
-	if(Articles::are_allowed($anchor, $item)) {
+	if(Articles::allow_creation($anchor, $item)) {
 
 		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -1693,7 +1686,7 @@ if(!isset($item['id'])) {
 	}
 
 	// add a section
-	if(Sections::are_allowed($anchor, $item)) {
+	if(Sections::allow_creation($anchor, $item)) {
 		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 	}
@@ -1711,7 +1704,7 @@ if(!isset($item['id'])) {
 	}
 
 	// add a link
-	if(Links::are_allowed($anchor, $item, 'section')) {
+	if(Links::allow_creation($anchor, $item, 'section')) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}

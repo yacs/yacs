@@ -180,7 +180,7 @@ if($count = Links::count_for_anchor('article:'.$item['id'])) {
 		$box['text'] .= $items;
 
 	// new links are allowed
-	if(Links::are_allowed($anchor, $item)) {
+	if(Links::allow_creation($anchor, $item)) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$box['bar'] += array('links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link'));
 	}
@@ -288,17 +288,16 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 		$box['bottom'] += Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE);
 
+	}
 
 		// new comments are allowed
 		if(isset($comments_suffix)) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
 		}
-	}
 
 	// build a box
-	if($box['text'])
-		$discussion .= Skin::build_content('comments', '', $box['text'], $box['top'], $box['bottom']);
+	$discussion .= Skin::build_content('comments', '', $box['text'], $box['top'], $box['bottom']);
 
 }
 
@@ -337,7 +336,7 @@ if(Files::allow_creation($anchor, $item, 'article')) {
 }
 
 // add a link
-if(Links::are_allowed($anchor, $item)) {
+if(Links::allow_creation($anchor, $item)) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 }

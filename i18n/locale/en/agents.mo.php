@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
+POT-Creation-Date: 2010-01-10 23:08+0100
 PO-Revision-Date: 2009-10-05 16:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -29,7 +29,6 @@ $_SESSION['l10n']['en']['Allowed senders']='Allowed senders';
 $_SESSION['l10n']['en']['Author nick name or id']='Author nick name or id';
 $_SESSION['l10n']['en']['Average time']='Average time';
 $_SESSION['l10n']['en']['Background processing']='Background processing';
-$_SESSION['l10n']['en']['Browsers']='Browsers';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
@@ -58,9 +57,7 @@ $_SESSION['l10n']['en']['Most recent events at %s']='Most recent events at %s';
 $_SESSION['l10n']['en']['New submission: %s']='New submission: %s';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['c5ca4820ba3d0beb8ff07061d5feebb3']='Nickname or id of the default section for new pages (e.g., \'45\')';
-$_SESSION['l10n']['en']['No data to display']='No data to display';
 $_SESSION['l10n']['en']['No event has been logged']='No event has been logged';
-$_SESSION['l10n']['en']['Operating systems']='Operating systems';
 $_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Performance']='Performance';
 $_SESSION['l10n']['en']['Preamble boundary']='Preamble boundary';

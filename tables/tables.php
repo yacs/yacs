@@ -28,9 +28,9 @@ Class Tables {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @return TRUE or FALSE
+	 * @return boolean TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL) {
 		global $context;
 
 		// tables are prevented in item

@@ -866,6 +866,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'wiki_template';
 		$fields['title'] = i18n::c('Wiki page');
 		$fields['introduction'] = i18n::c('Use this page model to add a page that can be modified by any surfer');
+		$fields['options'] = 'view_as_wiki edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";

@@ -10,7 +10,6 @@
  * The structure of each table in described into related database abstractions.
  * Look for the [code]setup()[/code] function in following scripts:
  * - [script]actions/actions.php[/script]
- * - [script]agents/browsers.php[/script]
  * - [script]agents/profiles.php[/script]
  * - [script]agents/referrals.php[/script]
  * - [script]articles/articles.php[/script]

@@ -156,7 +156,7 @@ if(is_object($anchor) && $anchor->is_owned()) {
 	$permitted = TRUE;
 
 // editors can move forward
-} elseif(!isset($item['id']) && Links::are_allowed($anchor, $item))
+} elseif(!isset($item['id']) && Links::allow_creation($anchor, $item))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

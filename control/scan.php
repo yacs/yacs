@@ -32,7 +32,7 @@
  *
  * We have also used it internally for some back-end modules that are provided with YACS, but that could be replaced
  * by other more powerful pieces of software.
- * Take a look at [script]agents/browsers.php[/script], [script]agents/profiles.php[/script], or
+ * Take a look at [script]agents/profiles.php[/script], or
  * [script]agents/referrals.php[/script] for such examples.
  *
  * [subtitle]'finalize'[/subtitle]
@@ -44,8 +44,7 @@
  * This hook is triggered directly in other scripts ([script]services/blog.php[/script], ...), in order to
  * integrate non-interactive scripts in finalizing steps as well.
  *
- * This hook has been created mainly for statistics purpose. Look at [script]agents/browsers.php[/script],
- * [script]agents/profiles.php[/script] and [script]agents/referrals.php[/script] for self-explanatory examples provided with YACS.
+ * This hook has been created mainly for statistics purpose. Look at [script]agents/profiles.php[/script] and [script]agents/referrals.php[/script] for self-explanatory examples provided with YACS.
  * Or create hooks of your own to improve computed figures...
  *
  * [subtitle]'publish'[/subtitle]

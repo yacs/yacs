@@ -146,8 +146,8 @@ if(!isset($item['id'])) {
 	// some details about this item
 	$details = array();
 
-	// the type, except on wikis and manuals
-	if(is_object($anchor) && !$anchor->has_layout('manual') && !$anchor->has_layout('wiki'))
+	// the type
+	if(is_object($anchor))
 		$details[] = Comments::get_img($item['type']);
 
 	// the poster of this comment

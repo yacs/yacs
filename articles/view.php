@@ -778,7 +778,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::are_allowed($anchor, $item))
+		if(Categories::allow_creation($anchor, $item))
 			$items = array_merge($items, array( Categories::get_url('article:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section
@@ -1157,7 +1157,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index);
 
 			// new links are allowed
-			if(Links::are_allowed($anchor, $item)) {
+			if(Links::allow_creation($anchor, $item)) {
 				Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 			}
@@ -1212,7 +1212,7 @@ if(!isset($item['id'])) {
 	}
 
 	// add a link
-	if(Links::are_allowed($anchor, $item)) {
+	if(Links::allow_creation($anchor, $item)) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}

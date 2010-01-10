@@ -497,9 +497,6 @@ if(!isset($item['id'])) {
 		} elseif($item['articles_layout'] == 'map') {
 			include_once '../articles/layout_articles_as_yahoo.php';
 			$layout_articles = new Layout_articles_as_yahoo();
-		} elseif($item['articles_layout'] == 'wiki') {
-			include_once '../articles/layout_articles.php';
-			$layout_sections_articles = new Layout_articles();
 		} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
 			$name = 'layout_articles_as_'.$item['articles_layout'];
 			include_once $context['path_to_root'].'articles/'.$name.'.php';
@@ -678,7 +675,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new link
-		if(Links::are_allowed($anchor, $item, 'category')) {
+		if(Links::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$url = 'links/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => LINKS_ADD_IMG.i18n::s('Add a link') );
@@ -753,7 +750,7 @@ if(!isset($item['id'])) {
 			Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $zoom_index));
 
 		// the command to post a new category
-		if($stats['count'] && Categories::are_allowed($anchor, $item)) {
+		if($stats['count'] && Categories::allow_creation($anchor, $item)) {
 			$url = 'categories/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => i18n::s('Add a category') );
 		}
@@ -849,7 +846,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_associate()) {
 
 		// add a category
-		if(Categories::are_allowed($anchor, $item)) {
+		if(Categories::allow_creation($anchor, $item)) {
 			Skin::define_img('CATEGORIES_ADD_IMG', 'categories/add.gif');
 			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']), CATEGORIES_ADD_IMG.i18n::s('Add a category'), 'basic');
 		}
@@ -873,7 +870,7 @@ if(!isset($item['id'])) {
 		}
 
 		// add a link
-		if(Links::are_allowed($anchor, $item, 'category')) {
+		if(Links::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 		}

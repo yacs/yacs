@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
+POT-Creation-Date: 2010-01-10 23:08+0100
 PO-Revision-Date: 2010-01-02 23:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -151,7 +151,6 @@ $_SESSION['l10n']['en']['Edit a comment']='Edit a comment';
 $_SESSION['l10n']['en']['Edit the new comment']='Edit the new comment';
 $_SESSION['l10n']['en']['Edit the new note']='Edit the new note';
 $_SESSION['l10n']['en']['Edit the new reply']='Edit the new reply';
-$_SESSION['l10n']['en']['Edit this note']='Edit this note';
 $_SESSION['l10n']['en']['Edit this section']='Edit this section';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editors']='Editors';

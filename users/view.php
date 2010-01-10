@@ -985,7 +985,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::are_allowed(NULL, $item))
+		if(Categories::allow_creation(NULL, $item))
 			$items = array_merge($items, array( Categories::get_url('user:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section

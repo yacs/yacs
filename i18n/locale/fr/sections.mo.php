@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
+POT-Creation-Date: 2010-01-10 23:08+0100
 PO-Revision-Date: 2010-01-02 23:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -151,7 +151,6 @@ $_SESSION['l10n']['fr']['Edit a comment']='Modifier un commentaire';
 $_SESSION['l10n']['fr']['Edit the new comment']='Modifier le nouveau commentaire';
 $_SESSION['l10n']['fr']['Edit the new note']='Modifier la nouvelle annotation';
 $_SESSION['l10n']['fr']['Edit the new reply']='Modifier la nouvelle réponse';
-$_SESSION['l10n']['fr']['Edit this note']='Modifier cette annotation';
 $_SESSION['l10n']['fr']['Edit this section']='Modifier cette section';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editors']='Editeurs';

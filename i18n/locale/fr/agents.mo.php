@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
+POT-Creation-Date: 2010-01-10 23:08+0100
 PO-Revision-Date: 2009-10-05 16:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -29,7 +29,6 @@ $_SESSION['l10n']['fr']['Allowed senders']='Emetteurs autorisés';
 $_SESSION['l10n']['fr']['Author nick name or id']='Nom ou identifiant d\'auteur';
 $_SESSION['l10n']['fr']['Average time']='Temps moyen';
 $_SESSION['l10n']['fr']['Background processing']='Traitements d\'arrière-plan';
-$_SESSION['l10n']['fr']['Browsers']='Navigateurs';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -58,9 +57,7 @@ $_SESSION['l10n']['fr']['Most recent events at %s']='Evénements récents à %s'
 $_SESSION['l10n']['fr']['New submission: %s']='Nouvel envoi : %s';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['c5ca4820ba3d0beb8ff07061d5feebb3']='Surnom ou identifiant de la section utilisée pour les nouveaux messages (exemple : 45)';
-$_SESSION['l10n']['fr']['No data to display']='Rien à afficher';
 $_SESSION['l10n']['fr']['No event has been logged']='Aucun événement n\'a été enregistré';
-$_SESSION['l10n']['fr']['Operating systems']='Systèmes d\'exploitation';
 $_SESSION['l10n']['fr']['Password']='Mot de passe';
 $_SESSION['l10n']['fr']['Performance']='Performance';
 $_SESSION['l10n']['fr']['Preamble boundary']='Limite de préambule';

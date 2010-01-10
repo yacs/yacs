@@ -87,8 +87,6 @@ Class Section extends Anchor {
 					return i18n::s('Replies');
 				if($this->has_layout('manual'))
 					return i18n::s('Notes');
-				if($this->has_layout('wiki'))
-					return i18n::s('Notes');
 				return i18n::s('Comments');
 
 			// many comments
@@ -96,8 +94,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return i18n::s('replies');
 				if($this->has_layout('manual'))
-					return i18n::s('notes');
-				if($this->has_layout('wiki'))
 					return i18n::s('notes');
 				return i18n::s('comments');
 
@@ -107,8 +103,6 @@ Class Section extends Anchor {
 					return i18n::s('reply');
 				if($this->has_layout('manual'))
 					return i18n::s('note');
-				if($this->has_layout('wiki'))
-					return i18n::s('note');
 				return i18n::s('comment');
 
 			// command to delete a comment
@@ -116,8 +110,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return i18n::s('Yes, I want to delete this reply');
 				if($this->has_layout('manual'))
-					return i18n::s('Yes, I want to delete this note');
-				if($this->has_layout('wiki'))
 					return i18n::s('Yes, I want to delete this note');
 				return i18n::s('Yes, I want to delete this comment');
 
@@ -127,8 +119,6 @@ Class Section extends Anchor {
 					return i18n::s('Delete a reply');
 				if($this->has_layout('manual'))
 					return i18n::s('Delete a note');
-				if($this->has_layout('wiki'))
-					return i18n::s('Delete a note');
 				return i18n::s('Delete a comment');
 
 			// command to edit content
@@ -136,8 +126,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return i18n::s('Edit the new reply');
 				if($this->has_layout('manual'))
-					return i18n::s('Edit the new note');
-				if($this->has_layout('wiki'))
 					return i18n::s('Edit the new note');
 				return i18n::s('Edit the new comment');
 
@@ -147,8 +135,6 @@ Class Section extends Anchor {
 					return i18n::s('Yes, I want to turn this reply to an article');
 				if($this->has_layout('manual'))
 					return i18n::s('Yes, I want to turn this note to an article');
-				if($this->has_layout('wiki'))
-					return i18n::s('Yes, I want to turn this note to an article');
 				return i18n::s('Yes, I want to turn this comment to an article');
 
 			// page title to promote a comment
@@ -156,8 +142,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return i18n::s('Promote a reply');
 				if($this->has_layout('manual'))
-					return i18n::s('Promote a note');
-				if($this->has_layout('wiki'))
 					return i18n::s('Promote a note');
 				return i18n::s('Promote a comment');
 
@@ -171,8 +155,6 @@ Class Section extends Anchor {
 					return i18n::s('Update a reply');
 				if($this->has_layout('manual'))
 					return i18n::s('Update a note');
-				if($this->has_layout('wiki'))
-					return i18n::s('Edit this note');
 				return i18n::s('Edit a comment');
 
 			// page title to list comments
@@ -180,8 +162,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return sprintf(i18n::s('Replies: %s'), $title);
 				if($this->has_layout('manual'))
-					return sprintf(i18n::s('Notes: %s'), $title);
-				if($this->has_layout('wiki'))
 					return sprintf(i18n::s('Notes: %s'), $title);
 				return sprintf(i18n::s('Discuss: %s'), $title);
 
@@ -191,8 +171,6 @@ Class Section extends Anchor {
 					return i18n::s('Reply to this post');
 				if($this->has_layout('manual'))
 					return i18n::s('Annotate this page');
-				if($this->has_layout('wiki'))
-					return i18n::s('Annotate this page');
 				return i18n::s('Post a comment');
 
 			// page title to create a comment
@@ -200,8 +178,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return i18n::s('Reply to this post');
 				if($this->has_layout('manual'))
-					return i18n::s('Annotate this page');
-				if($this->has_layout('wiki'))
 					return i18n::s('Annotate this page');
 				return i18n::s('Post a comment');
 
@@ -211,8 +187,6 @@ Class Section extends Anchor {
 					return i18n::s('View the reply');
 				if($this->has_layout('manual'))
 					return i18n::s('View the note');
-				if($this->has_layout('wiki'))
-					return i18n::s('View the note');
 				return i18n::s('View this comment');
 
 			// page title to view a comment
@@ -220,8 +194,6 @@ Class Section extends Anchor {
 				if($this->has_layout('jive'))
 					return sprintf(i18n::s('Reply: %s'), $title);
 				if($this->has_layout('manual'))
-					return sprintf(i18n::s('Note: %s'), $title);
-				if($this->has_layout('wiki'))
 					return sprintf(i18n::s('Note: %s'), $title);
 				return $title;
 			}

@@ -12,10 +12,6 @@
  * through [script]agents/profiles_hook.php[/script].
  * Performance data can be purged from the control panel by triggering [script]control/purge.php[/script]
  *
- * - agents - stats on user agents. Information is captured by [script]agents/browsers.php[/script]
- * through [script]agents/browsers_hook.php[/script].
- * Gathered data can be purged from the control panel by triggering [script]control/purge.php[/script]
- *
  * - referrals - stats on referrals. Information is captured by [script]agents/referrals.php[/script]
  * through [script]agents/referrals_hook.php[/script].
  *
@@ -142,70 +138,6 @@ elseif(!Surfer::is_associate()) {
 	// display in a separate panel
 	if(trim($profiles))
 		$panels[] = array('performance', i18n::s('Performance'), 'performance_panel', $profiles);
-
-	//
-	// stats on user agents
-	//
-	$agents = '';
-
-	$query = "SELECT type, variable, hits FROM ".SQL::table_name('counters')." ORDER BY hits DESC";
-	if($result =& SQL::query($query)) {
-
-		// fetch data
-		while($item =& SQL::fetch($result)) {
-			if(($item['type'] == 'total') && ($item['variable'] == 'hits'))
-				$total_hits = $item['hits'];
-			elseif($item['type'] == 'browser')
-				$browsers[$item['variable']] = $item['hits'];
-			elseif($item['type'] == 'os')
-				$os[$item['variable']] = $item['hits'];
-		}
-
-		if(@count($browsers)) {
-			$icons['bot']	= '';
-			$icons['HP-UX'] = '';
-			$icons['Konqueror'] = '<img src="../skins/_reference/user-agents/konqueror.gif" alt="" />';
-			$icons['Lynx']	= '<img src="../skins/_reference/user-agents/lynx.gif" alt="" />';
-			$icons['Mozilla']	= '<img src="../skins/_reference/user-agents/mozilla.gif" alt="" />';
-			$icons['MSIE']	= '<img src="../skins/_reference/user-agents/explorer.gif" alt="" />';
-			$icons['Netscape']	= '<img src="../skins/_reference/user-agents/netscape.gif" alt="" />';
-			$icons['Opera'] = '<img src="../skins/_reference/user-agents/opera.gif" alt="" />';
-			$icons['Other'] = '<img src="../skins/_reference/user-agents/question.gif" alt="" />';
-			$icons['WebTV'] = '<img src="../skins/_reference/user-agents/webtv.gif" alt="" />';
-			$agents .= Skin::table_prefix('grid');
-			$count = 1;
-			foreach($browsers as $name => $value)
-				$agents .= Skin::table_row(array('left='.$icons[$name].' '.$name, substr(100 * $value / $total_hits, 0, 5).'&nbsp;%', $value), $count++);
-			$agents .= Skin::table_suffix();
-		} else
-			$agents .= i18n::s('No data to display');
-
-		// display information on operating systems
-		$agents .= Skin::build_block(i18n::s('Operating systems'), 'header2');
-
-		if(@count($os)) {
-			$icons['AIX']	= '<img src="../skins/_reference/user-agents/aix.gif" alt="" />';
-			$icons['BeOS']	= '<img src="../skins/_reference/user-agents/be.gif" alt="" />';
-			$icons['FreeBSD']	= '<img src="../skins/_reference/user-agents/bsd.gif" alt="" />';
-			$icons['IRIX']	= '<img src="../skins/_reference/user-agents/irix.gif" alt="" />';
-			$icons['Linux'] = '<img src="../skins/_reference/user-agents/linux.gif" alt="" />';
-			$icons['Mac']	= '<img src="../skins/_reference/user-agents/mac.gif" alt="" />';
-			$icons['Other'] = '<img src="../skins/_reference/user-agents/question.gif" alt="" />';
-			$icons['OS/2']	= '<img src="../skins/_reference/user-agents/os2.gif" alt="" />';
-			$icons['SunOS'] = '<img src="../skins/_reference/user-agents/sun.gif" alt="" />';
-			$icons['Windows']	= '<img src="../skins/_reference/user-agents/windows.gif" alt="" />';
-			$agents .= Skin::table_prefix('grid');
-			$count = 1;
-			foreach($os as $name => $value)
-				$agents .= Skin::table_row(array('left='.$icons[$name].' '.$name, substr(100 * $value / $total_hits, 0, 5).'&nbsp;%', $value), $count++);
-			$agents .= Skin::table_suffix();
-		} else
-			$agents .= i18n::s('No data to display');
-	}
-
-	// display in a separate panel
-	if(trim($agents))
-		$panels[] = array('browsers', i18n::s('Browsers'), 'browsers_panel', $agents);
 
 	//
 	// display referer information

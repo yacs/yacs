@@ -253,13 +253,21 @@ Class Sections {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @return TRUE or FALSE
+	 * @return boolean TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL) {
 		global $context;
 
 		// sections are prevented in this item through layout
 		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'none'))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// submissions have been disallowed
+		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
 		// surfer owns the section
@@ -2016,7 +2024,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|wiki|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2186,7 +2194,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|wiki|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])

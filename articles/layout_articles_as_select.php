@@ -90,9 +90,7 @@ Class Layout_articles_as_select extends Layout_interface {
 			$suffix .= "\n".'<span class="details">('.implode(', ', $details).')</span>';
 
 		// introduction
-		if(is_object($overlay))
-			$suffix .= ' '.Codes::beautify_introduction($overlay->get_text('introduction', $item));
-		elseif($item['introduction'])
+		if($item['introduction'])
 			$suffix .= ' '.Codes::beautify_introduction($item['introduction']);
 
 		// add a head list of related links

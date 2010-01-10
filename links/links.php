@@ -21,9 +21,9 @@ Class Links {
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @param string the type of item, e.g., 'section'
-	 * @return TRUE or FALSE
+	 * @return boolean TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -42,21 +42,26 @@ Class Links {
 				return FALSE;
 		}
 
-		// links are prevented in item
-		if(($variant == 'article') && Articles::has_option('no_links', $anchor, $item))
-			return FALSE;
+		// only in articles
+		if($variant == 'article') {
 
-		// links are prevented in anchor
-		if(!$item && is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_links'))
-			return FALSE;
+			// 'no_links' option
+			if(Articles::has_option('no_links', $anchor, $item))
+				return FALSE;
 
-		// links are not explicitly activated in item
-		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_links\b/i', $item['options']))
-			return FALSE;
 
-		// links are not explicitly activated in container
-		if(($variant != 'article') && !$item && is_object($anchor) && !$anchor->has_option('with_links', FALSE))
-			return FALSE;
+		// other containers
+		} else {
+
+			// links are not explicitly activated in item
+			if(isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_links\b/i', $item['options']))
+				return FALSE;
+
+			// links are not explicitly activated in container
+			if(is_object($anchor) && !$anchor->has_option('with_links'))
+				return FALSE;
+
+		}
 
 		// surfer is an associate
 		if(Surfer::is_associate())
@@ -66,20 +71,34 @@ Class Links {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer is owning this item
-		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
-			return TRUE;
-// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
-// 			return TRUE;
-		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
-			return TRUE;
+		// only in articles
+		if($variant == 'article') {
 
-		// section is not private, and surfer is an editor of it
-		if(($variant != 'article') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
-			return TRUE;
+			// surfer owns this item, or the anchor
+			if(Articles::is_owned($anchor, $item))
+				return TRUE;
 
-		// section is not private, and surfer is an editor of it
-		if(($variant != 'article') && !isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			// surfer is an editor, and the page is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
+				return TRUE;
+
+		// only in sections
+		} elseif($variant == 'section') {
+
+			// surfer owns this item, or the anchor
+			if(Sections::is_owned($anchor, $item, TRUE))
+				return TRUE;
+
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
+
+		}
+
+		// surfer is an editor, and container is not private
+		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// item has been locked
@@ -87,42 +106,44 @@ Class Links {
 			return FALSE;
 
 		// anchor has been locked --only used when there is no item provided
-		if(!$item && is_object($anchor) && $anchor->has_option('locked'))
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
-
-			// surfer has been assigned to this item
-			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
-				return TRUE;
-// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
-// 				return TRUE;
-			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;
-
-		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-
-			// only members can proceed
-			if(Surfer::is_member())
-				return TRUE;
-
-		// authenticated members and subscribers are allowed to add links
-		} elseif(Surfer::is_logged())
+		// surfer is an editor (and item has not been locked)
+		if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
 			return TRUE;
-
-		// anonymous contributions are allowed for this section
-		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
+		if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
 			return TRUE;
-
-		// anonymous contributions are allowed for this item
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is a member
+		if(Surfer::is_member())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// authenticated members and subscribers are allowed to add links
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// anonymous contributions are allowed for articles
+		if($variant == 'article') {
+			if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+				return TRUE;
+		}
 
 		// the default is to not allow for new links
 		return FALSE;

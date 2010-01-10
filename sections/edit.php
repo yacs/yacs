@@ -465,7 +465,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|titles|wiki|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -755,7 +755,7 @@ if($with_form) {
 
 		// locations are reserved to authenticated members
 		include_once '../locations/locations.php';
-		if(Locations::are_allowed($anchor, $item)) {
+		if(Locations::allow_creation($anchor, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a location') );
 			$items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
 			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
@@ -763,7 +763,7 @@ if($with_form) {
 
 		// tables are reserved to associates
 		include_once '../tables/tables.php';
-		if(Tables::are_allowed($anchor, $item)) {
+		if(Tables::allow_creation($anchor, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a table') );
 			$items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
 			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');

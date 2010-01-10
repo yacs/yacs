@@ -8,9 +8,6 @@
  *
  * At the moment following items can be purged:
  *
- * [*] 'agents' - All data concerning user agents and browsers are deleted.
- * May be useful from time to time to restart a sampling period of time.
- *
  * [*] 'bak' - Suppress old versions of scripts that have been replaced
  * during updates. Useful to recover disk space, at least until the next update.
  *
@@ -59,7 +56,7 @@ include_once '../scripts/scripts.php';	// we handle many files
 // the place to build the reference repository
 if(!isset($context['path_to_reference']))
 	$context['path_to_reference'] = preg_replace('|/[^/]+/\.\./|', '/', $context['path_to_root'].'../yacs.reference/');
-		
+
 // load localized strings
 i18n::bind('control');
 
@@ -453,9 +450,6 @@ if(!Surfer::is_associate()) {
 
 	// purge links received via newsfeeds
 	$context['text'] .= '<p><input type="radio" name="action" value="feeds" /> '.i18n::s('Purge links received via newsfeeds. These will be recreated progressively during future feeding.').'</p>';
-
-	// purge agents accounting
-	$context['text'] .= '<p><input type="radio" name="action" value="agents" /> '.i18n::s('Purge accounting data on user agents and browsers from the database. These will be recreated progressively during future browsing.').'</p>';
 
 	// purge referrals
 	$context['text'] .= '<p><input type="radio" name="action" value="referrals" /> '.sprintf(i18n::s('Delete all referrals from the database. These will be recreated progressively during future browsing. You may prefer to %s.'), Skin::build_link('links/check.php', i18n::s('check referrals'), 'shortcut')).'</p>';

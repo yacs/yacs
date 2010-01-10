@@ -131,9 +131,10 @@ Class Categories {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @return TRUE or FALSE
+	 * @param string the type of item, e.g., 'section'
+	 * @return boolean TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// surfer has to be an associate
@@ -147,10 +148,6 @@ Class Categories {
 		// categories are prevented in anchor
 		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_categories'))
 			return FALSE;
-
-//		// submissions have been disallowed globally
-//		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
-//			return FALSE;
 
 		// ok, all tests have been passed
 		return TRUE;

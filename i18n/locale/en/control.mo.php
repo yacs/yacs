@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
+POT-Creation-Date: 2010-01-10 23:08+0100
 PO-Revision-Date: 2009-12-18 00:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -354,7 +354,6 @@ $_SESSION['l10n']['en']['640e03d28531da67cd3bbd3ecf7ffc70']='Public content may 
 $_SESSION['l10n']['en']['Publications by month']='Publications by month';
 $_SESSION['l10n']['en']['Publications by week']='Publications by week';
 $_SESSION['l10n']['en']['Purge']='Purge';
-$_SESSION['l10n']['en']['cb50d489116ddb65e0cd84ae23bf4de5']='Purge accounting data on user agents and browsers from the database. These will be recreated progressively during future browsing.';
 $_SESSION['l10n']['en']['Purge again']='Purge again';
 $_SESSION['l10n']['en']['a9dec11a8d3aa02ac8dfab6e7e3f892e']='Purge links received via newsfeeds. These will be recreated progressively during future feeding.';
 $_SESSION['l10n']['en']['d83c342f0d4f69c901f181dd333d57a8']='Purge script performance data from the database. These will be recreated progressively during future browsing.';

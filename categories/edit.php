@@ -429,7 +429,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']) || !$item['articles_layout'])
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|wiki|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -469,10 +469,6 @@ if($with_form) {
 	if($item['articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page');
-	$input .= BR.'<input type="radio" name="articles_layout" value="wiki"';
-	if($item['articles_layout'] == 'wiki')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('wiki - A set of editable and extensible pages');
 	$input .= BR.'<input type="radio" name="articles_layout" value="manual"';
 	if($item['articles_layout'] == 'manual')
 		$input .= ' checked="checked"';

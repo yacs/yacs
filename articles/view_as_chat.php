@@ -416,7 +416,7 @@ if($items.$invite)
 
 // new links are allowed
 $invite = '';
-if(Links::are_allowed($anchor, $item)) {
+if(Links::allow_creation($anchor, $item)) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$link = 'links/edit.php?anchor='.urlencode('article:'.$item['id']);
 	$invite = Skin::build_link($link, LINKS_ADD_IMG.i18n::s('Add a link'));

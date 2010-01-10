@@ -96,10 +96,27 @@ Class Actions {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @return TRUE or FALSE
+	 * @param string the type of item, e.g., 'section'
+	 * @return boolean TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL) {
+	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
+
+		// guess the variant
+		if(!$variant) {
+
+			// most frequent case
+			if(isset($item['id']))
+				$variant = 'article';
+
+			// we have no item, look at anchor type
+			elseif(is_object($anchor))
+				$variant = $anchor->get_type();
+
+			// sanity check
+			else
+				return FALSE;
+		}
 
 		// actions are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_actions\b/i', $item['options']))
@@ -117,63 +134,79 @@ Class Actions {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
+		// only in articles
+		if($variant == 'article') {
 
-			// filter editors
-			if(!Surfer::is_empowered())
-				return FALSE;
-
-			// editors will have to unlock the container to contribute
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
-
-		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-
-			// filter members
-			if(!Surfer::is_member())
-				return FALSE;
-
-			// editors can proceed
-			if(Surfer::is_empowered())
+			// surfer owns this item, or the anchor
+			if(Articles::is_owned($anchor, $item))
 				return TRUE;
 
-			// members can contribute except if container is locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
+			// surfer is an editor, and the page is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
+				return TRUE;
+
+		// only in sections
+		} elseif($variant == 'section') {
+
+			// surfer owns this item, or the anchor
+			if(Sections::is_owned($anchor, $item, TRUE))
+				return TRUE;
+
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
 
 		}
 
-		// editors can always add actions to public containers
-		if(Surfer::is_empowered())
+		// surfer is an editor, and container is not private
+		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
-		// container has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+		// item has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// anchor has been locked --only used when there is no item provided
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
+		// surfer is an editor (and item has not been locked)
+		if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
+			return TRUE;
+		if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
 		// authenticated members are allowed to add actions
 		if(Surfer::is_member())
 			return TRUE;
 
-		// anonymous contributions are allowed for this container
-		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// authenticated members and subscribers are allowed to add files
+		if(Surfer::is_logged())
 			return TRUE;
 
-		// anonymous contributions are allowed for this container
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
+		// anonymous contributions are allowed for articles
+		if($variant == 'article') {
+			if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+				return TRUE;
+		}
 
 		// the default is to not allow for new actions
 		return FALSE;

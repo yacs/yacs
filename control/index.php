@@ -280,18 +280,6 @@ if(!file_exists('../parameters/control.include.php')) {
 			} else
 				$text .= Skin::table_row(array(SQL::table_name('comments'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// counters
-			include_once '../agents/browsers.php';
-			if($stats = Browsers::stat()) {
-				$cells = array();
-				$cells[] = SQL::table_name('counters');
-				$cells[] = 'center='.$stats['count'];
-				$cells[] = 'center=--';
-				$cells[] = 'center=--';
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(SQL::table_name('counters'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
 			// dates
 			if($row = SQL::table_stat('dates')) {
 				$cells = array();

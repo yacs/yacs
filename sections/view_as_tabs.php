@@ -359,7 +359,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			}
 
 			// the command to add a new section
-			if(Sections::are_allowed($anchor, $item)) {
+			if(Sections::allow_creation($anchor, $item)) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 			}
@@ -411,9 +411,6 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			} elseif($item['articles_layout'] == 'map') {
 				include_once '../articles/layout_articles_as_yahoo.php';
 				$layout = new Layout_articles_as_yahoo();
-			} elseif($item['articles_layout'] == 'wiki') {
-				include_once '../articles/layout_articles.php';
-				$layout = new Layout_articles();
 			} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
 				$name = 'layout_articles_as_'.$item['articles_layout'];
 				include_once $context['path_to_root'].'articles/'.$name.'.php';
@@ -461,7 +458,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				}
 
 				// the command to post a new page
-				if(Articles::are_allowed($anchor, $item)) {
+				if(Articles::allow_creation($anchor, $item)) {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -780,7 +777,7 @@ if(!$zoom_type || ($zoom_type == 'links')) {
 	}
 
 	// new links are allowed -- check option 'with_links'
-	if(Links::are_allowed($anchor, $item, 'section')) {
+	if(Links::allow_creation($anchor, $item, 'section')) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 	}
@@ -910,7 +907,7 @@ $context['text'] .= Skin::build_tabs($panels);
 //
 
 // commands to add pages
-if(Articles::are_allowed($anchor, $item)) {
+if(Articles::allow_creation($anchor, $item)) {
 
 	Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 	$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -931,7 +928,7 @@ if(Articles::are_allowed($anchor, $item)) {
 }
 
 // add a section
-if(Sections::are_allowed($anchor, $item)) {
+if(Sections::allow_creation($anchor, $item)) {
 	Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 	$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 }
@@ -949,7 +946,7 @@ if(Files::allow_creation($anchor, $item, 'section')) {
 }
 
 // add a link
-if(Links::are_allowed($anchor, $item, 'section')) {
+if(Links::allow_creation($anchor, $item, 'section')) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 }

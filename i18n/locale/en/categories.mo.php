@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
+POT-Creation-Date: 2010-01-10 23:08+0100
 PO-Revision-Date: 2009-11-30 10:37+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -270,7 +270,6 @@ $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['table - A table of recent pages']='table - A table of recent pages';
 $_SESSION['l10n']['en']['eb485c9b646eb69dd5d906801b4a1480']='titles - Use only titles and thumbnails.';
 $_SESSION['l10n']['en']['weekly']='weekly';
-$_SESSION['l10n']['en']['c65513c58815afcfffcf31202d2e9d72']='wiki - A set of editable and extensible pages';
 $_SESSION['l10n']['en']['yabb - A discussion board']='yabb - A discussion board';
 $_SESSION['l10n']['en']['yabb - A discussion forum']='yabb - A discussion forum';
 $_SESSION['l10n']['en']['37aa95d73d648ae54a9f1bf0a16b8e1d']='yahoo - List these categories on two columns, like Yahoo!';

@@ -603,10 +603,6 @@ Class Comments {
 			include_once '../comments/layout_comments_as_manual.php';
 			$layout = new Layout_comments_as_manual();
 
-		} elseif(is_object($anchor) && $anchor->has_layout('wiki')) {
-			include_once '../comments/layout_comments_as_wiki.php';
-			$layout = new Layout_comments_as_wiki();
-
 		} elseif(is_object($anchor) && $anchor->has_layout('yabb')) {
 			include_once '../comments/layout_comments_as_yabb.php';
 			$layout = new Layout_comments_as_yabb();

@@ -388,8 +388,8 @@ if($with_form) {
 
 	}
 
-	// the type, except on wikis and manuals
-	if(is_object($anchor) && !$anchor->has_layout('manual') && !$anchor->has_layout('wiki')) {
+	// the type
+	if(is_object($anchor)) {
 		$label = i18n::s('Your intent');
 		if(isset($item['type']))
 			$type = $item['type'];
