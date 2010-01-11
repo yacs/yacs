@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
-PO-Revision-Date: 2009-10-04 09:29+0100
+POT-Creation-Date: 2010-01-12 00:20+0100
+PO-Revision-Date: 2010-01-12 00:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -66,7 +66,6 @@ $_SESSION['l10n']['fr']['External News']='Nouvelles du monde';
 $_SESSION['l10n']['fr']['Feed']='Feed';
 $_SESSION['l10n']['fr']['Feed URL: %s']='Les nouveautés : %s';
 $_SESSION['l10n']['fr']['Feed test']='Test de fil de nouvelles';
-$_SESSION['l10n']['fr']['dc06ae54549465e3b2aaa6e53962ab0f']='Les sites suivants ont été contactés :';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Host name']='Nom de machine';
 $_SESSION['l10n']['fr']['133540bb84c030f549a27b63bfe55d7d']='Si votre serveur a été installé sur un intranet et n\'est pas visible depuis l\'Internet, merci d\'effacer les profils listés ci-dessous pour éviter des requêtes inutiles. Votre site ne sera pas référencé de toutes façons.';
@@ -98,6 +97,7 @@ $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants
 $_SESSION['l10n']['fr']['Search']='Recherches';
 $_SESSION['l10n']['fr']['Server description']='Description de ce serveur';
 $_SESSION['l10n']['fr']['Servers']='Serveurs';
+$_SESSION['l10n']['fr']['330771532d2cbb01e66f93a36b64bf81']='Serveurs notifiés de votre envoi';
 $_SESSION['l10n']['fr']['Servers to be banned']='Serveurs à bannir';
 $_SESSION['l10n']['fr']['Services accessed remotely']='Services distants utilisés';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';

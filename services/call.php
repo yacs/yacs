@@ -161,7 +161,7 @@ Class Call {
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30))
-			return array(FALSE, sprintf('Impossible to connect to %s.', $items['host'].':'.$items['port']));
+			return array(FALSE, sprintf('Impossible to connect to %s.', $host.':'.$port));
 
 		// ensure enough execution time
 		Safe::set_time_limit(30);

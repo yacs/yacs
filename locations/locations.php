@@ -95,10 +95,6 @@ Class Locations {
 			if(Sections::is_owned($anchor, $item, TRUE))
 				return TRUE;
 
-			// surfer is an editor, and the section is not private
-			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
-				return TRUE;
-
 		}
 
 		// surfer is an editor, and container is not private

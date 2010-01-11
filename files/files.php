@@ -187,13 +187,13 @@ Class Files {
 	}
 
 	/**
-	 * check if a file can be modified
+	 * check if a comment can be modified
 	 *
 	 * This function returns TRUE if the file can be modified,
 	 * and FALSE otherwise.
 	 *
 	 * @param object an instance of the Anchor interface
-	 * @param array a set of item attributes
+	 * @param array a set of item attributes, aka, the target comment
 	 * @return TRUE or FALSE
 	 */
 	function allow_modification($anchor, $item) {

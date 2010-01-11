@@ -40,7 +40,6 @@
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
 include_once '../servers/servers.php'; // servers to be advertised
-include_once '../services/call.php'; // xml-rpc
 
 // look for the id
 $id = NULL;
@@ -144,7 +143,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
 
 		// trackback option
 		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {
@@ -188,28 +187,11 @@ if(Surfer::is_crawler()) {
 		// ping option
 		if(isset($_REQUEST['ping_option']) && ($_REQUEST['ping_option'] == 'Y')) {
 
-			// list servers to be advertised
-			if($servers = Servers::list_for_ping(0, COMPACT_LIST_SIZE, 'ping')) {
+			// notify servers
+			Servers::notify($anchor->get_url());
 
-				$context['text'] .= '<p>'.i18n::s('Following web sites have been advertised:').'</p><ul>';
-
-				// ping each server
-				foreach($servers as $server_url => $attributes) {
-					list($server_ping, $server_label) = $attributes;
-
-					$milestone = get_micro_time();
-					$result = @Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($context['site_name']), $context['url_to_home'].$context['url_to_root'].$anchor()->get_url()), 'XML-RPC');
-					if($result[0])
-						$label = round(get_micro_time() - $milestone, 2).' sec.';
-					else
-						$label = '???';
-					$context['text'] .= '<li>'.$server_label.' ('.$label.')</li>';
-
-				}
-
-				$context['text'] .= '</ul>';
-
-			}
+			// report on job done
+			$context['text'] .= Servers::build_endpointd(i18n::s('Servers that have been notified of your post'));
 
 		// not advertised
 		} else

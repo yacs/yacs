@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2010-01-08 00:20+0100
+POT-Creation-Date: 2010-01-12 00:18+0100
+PO-Revision-Date: 2010-01-12 00:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -133,7 +133,6 @@ $_SESSION['l10n']['en']['249917e69d872d7544b88e2a45be217e']='Following links hav
 $_SESSION['l10n']['en']['40caca4c87ecd266518fa9603bf57903']='Following links have been skipped:';
 $_SESSION['l10n']['en']['133d59e8385525c4f2ed28a6c3f13b2f']='Following persons are entitled to manage content:';
 $_SESSION['l10n']['en']['0575321c44f67ea30d7ffbf3f746e7dd']='Following persons are watching this page:';
-$_SESSION['l10n']['en']['97744c5b38cc1939c18d5226163becc3']='Following web sites have been advertised:';
 $_SESSION['l10n']['en']['1c14dc437619a440504b3de15bae60fc']='For %s pages; regular pages are ranked at %s.';
 $_SESSION['l10n']['en']['37a90ec0846cd10697f270988fd76178']='Force publication of all new pages';
 $_SESSION['l10n']['en']['Forget it']='Forget it';
@@ -303,6 +302,7 @@ $_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
+$_SESSION['l10n']['en']['330771532d2cbb01e66f93a36b64bf81']='Servers that have been notified of your post';
 $_SESSION['l10n']['en']['Share']='Share';
 $_SESSION['l10n']['en']['Share at Facebook']='Share at Facebook';
 $_SESSION['l10n']['en']['Share at LinkedIn']='Share at LinkedIn';

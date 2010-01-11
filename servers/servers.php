@@ -13,6 +13,33 @@
 Class Servers {
 
 	/**
+	 * retrieve endpoints of last calls
+	 *
+	 * This is useful to list all servers notified after a publication.
+	 *
+	 * @param string title of the folded box generated
+	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
+	 */
+	function build_endpoints($title=NULL) {
+		global $context;
+
+		// nothing to show
+		if(!Surfer::get_id() || !isset($context['servers_endpoints']))
+			return '';
+
+		// return the bare list
+		if(!$title)
+			return $context['servers_endpoints'];
+
+		// build a nice list
+		$list = array();
+		foreach($context['servers_endpoints'] as $recipient)
+			$list[] = htmlspecialchars($recipient);
+		return Skin::build_box($title, Skin::finalize_list($list, 'compact'), 'folded');
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -437,6 +464,43 @@ Class Servers {
 	}
 
 	/**
+	 * notify servers about a new page
+	 *
+	 * @param string page URL
+	 * @param string server name
+	 */
+	function notify($link, $title=NULL) {
+		global $context;
+
+		if(!$title)
+			$title = $context['site_name'];
+
+		// the list of recipients contacted during overall script execution
+		if(!isset($context['servers_endpoints']))
+			$context['servers_endpoints'] = array();
+
+		// list servers to be advertised
+		if($servers = Servers::list_for_ping(0, COMPACT_LIST_SIZE, 'ping')) {
+
+			// ping each server
+			include_once $context['path_to_root'].'services/call.php';
+			foreach($servers as $server_url => $attributes) {
+				list($server_ping, $server_label) = $attributes;
+
+				$milestone = get_micro_time();
+				$result = Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($title), $context['url_to_home'].$context['url_to_root'].$link), 'XML-RPC');
+
+				if($result[0])
+					$server_label .= ' ('.round(get_micro_time() - $milestone, 2).' sec.)';
+
+				$context['servers_endpoints'][] = $server_label;
+			}
+
+		}
+
+	}
+
+	/**
 	 * create or update a server entry
 	 *
 	 * This function is called when a remote server pings us, to mean its content has changed.
@@ -624,9 +688,9 @@ Class Servers {
 				$query .= "id='".SQL::escape($fields['id'])."',";
 			$query .= "title='".SQL::escape($fields['title'])."', "
 				."host_name='".SQL::escape($fields['host_name'])."', "
-				."description='".SQL::escape($fields['description'])."', "
+				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 				."main_url='".SQL::escape($fields['main_url'])."', "
-				."anchor='".SQL::escape($fields['anchor'])."', "
+				."anchor='".SQL::escape(isset($fields['anchor']) ? $fields['anchor'] : 'category:1')."', "
 
 				."submit_feed='".SQL::escape(($fields['submit_feed'] == 'Y') ? 'Y' : 'N')."', "
 				."feed_url='".SQL::escape($fields['feed_url'])."', "

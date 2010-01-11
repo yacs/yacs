@@ -113,7 +113,7 @@ Class XML_RPC_Codec extends Codec {
 
 		// a string --also fix possible errors in HTML image references
 		if($type == 'string')
-			return '<string>'.encode_field(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
+			return '<string>'.htmlspecialchars(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
 
 		// a boolean
 		if($parameter === true || $parameter === false)
@@ -152,7 +152,7 @@ Class XML_RPC_Codec extends Codec {
 
 		// encode strings
 		if(is_string($parameter) && ($parameter = trim($parameter)) && (substr($parameter, 0, 1) != '<'))
-			return '<string>'.$parameter.'</string>';
+			return '<string>'.htmlspecialchars(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
 
 		// do not encode possibly encoded strings
 		return $parameter;

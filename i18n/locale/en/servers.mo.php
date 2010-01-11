@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
-PO-Revision-Date: 2009-10-04 09:22+0100
+POT-Creation-Date: 2010-01-12 00:20+0100
+PO-Revision-Date: 2010-01-12 00:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -66,7 +66,6 @@ $_SESSION['l10n']['en']['External News']='External News';
 $_SESSION['l10n']['en']['Feed']='Feed';
 $_SESSION['l10n']['en']['Feed URL: %s']='Feed URL: %s';
 $_SESSION['l10n']['en']['Feed test']='Feed test';
-$_SESSION['l10n']['en']['dc06ae54549465e3b2aaa6e53962ab0f']='Following web sites have been contacted:';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Host name']='Host name';
 $_SESSION['l10n']['en']['133540bb84c030f549a27b63bfe55d7d']='If your server has been installed on an intranet and is not visible from the Internet, please delete these profiles to avoid unnecessary requests back and forth. Your site will not be referenced anyway.';
@@ -98,6 +97,7 @@ $_SESSION['l10n']['en']['f29869af2b6e35819bc5a7c5872e8dca']='Remote calls are al
 $_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Server description']='Server description';
 $_SESSION['l10n']['en']['Servers']='Servers';
+$_SESSION['l10n']['en']['330771532d2cbb01e66f93a36b64bf81']='Servers that have been notified of your post';
 $_SESSION['l10n']['en']['Servers to be banned']='Servers to be banned';
 $_SESSION['l10n']['en']['Services accessed remotely']='Services accessed remotely';
 $_SESSION['l10n']['en']['Submit']='Submit';

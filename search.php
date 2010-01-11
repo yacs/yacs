@@ -49,6 +49,7 @@
 
 // common definitions and initial processing
 include_once 'shared/global.php';
+include_once 'services/call.php'; // list RSS resources
 
 // prevent attacks
 $search = '';
@@ -266,7 +267,6 @@ if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 's
 		list($server_search, $server_label) = $attributes;
 
 		// a REST API that returns a RSS list
-		include_once $context['path_to_root'].'services/call.php';
 		$result = Call::list_resources($server_search, array('search' => $search));
 
 		// error message

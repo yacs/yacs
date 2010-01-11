@@ -14,7 +14,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'servers.php';
-include_once '../services/call.php'; // for xml-rpc pings
+include_once '../services/call.php'; // ping
 
 // load the skin
 load_skin('servers');
@@ -45,7 +45,7 @@ elseif(!Surfer::is_associate()) {
 	// list servers to be advertised
 	if($servers = Servers::list_for_ping(0, 20, 'ping')) {
 
-		$context['text'] .= '<p>'.i18n::s('Following web sites have been contacted:').'</p><ul>';
+		$context['text'] .= '<p>'.i18n::s('Servers that have been notified of your post').'</p><ul>';
 
 		// ping each server
 		foreach($servers as $server_url => $attributes) {

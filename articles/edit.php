@@ -510,18 +510,8 @@ if(Surfer::is_crawler()) {
 				// pingback, if any
 				Links::ping($_REQUEST['introduction'].' '.$_REQUEST['source'].' '.$_REQUEST['description'], 'article:'.$_REQUEST['id']);
 
-				// list servers to be advertised
-				if($servers = Servers::list_for_ping(0, COMPACT_LIST_SIZE, 'ping')) {
-
-					// ping each server
-					foreach($servers as $server_url => $attributes) {
-						list($server_ping, $server_label) = $attributes;
-
-						$result = @Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($context['site_name']), $context['url_to_home'].$context['url_to_root'].$anchor()->get_url()), 'XML-RPC');
-
-					}
-
-				}
+				// ping servers
+				Servers::notify($anchor->get_url());
 
 			}
 
@@ -554,7 +544,10 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+
+		// list persons that have been notified
+		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');

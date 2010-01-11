@@ -52,6 +52,42 @@
 class Mailer {
 
 	/**
+	 * retrieve recipients of last post
+	 *
+	 * This is useful to list all persons notified after a post for example.
+	 *
+	 * @param string title of the folded box generated
+	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
+	 */
+	function build_recipients($title=NULL) {
+		global $context;
+
+		// nothing to show
+		if(!Surfer::get_id() || !isset($context['mailer_recipients']))
+			return '';
+
+		// return the bare list
+		if(!$title)
+			return $context['mailer_recipients'];
+
+		// build a nice list
+		$list = array();
+		if(count($context['mailer_recipients']) > 50)
+			$count = 30;	// list only 30 first recipients
+		else
+			$count = 100;	//never reached
+		foreach($context['mailer_recipients'] as $recipient) {
+			$list[] = htmlspecialchars($recipient);
+			if($count-- ==1) {
+				$list[] = sprintf(i18n::s('and %d other persons'), count($context['mailer_recipients'])-30);
+				break;
+			}
+		}
+		return Skin::build_box($title, Skin::finalize_list($list, 'compact'), 'folded');
+
+	}
+
+	/**
 	 * close connection to mail server
 	 *
 	 * This function gracefully ends the transmission of messages.
@@ -443,42 +479,6 @@ class Mailer {
 
 		// job done
 		return $text;
-	}
-
-	/**
-	 * retrieve recipients of last post
-	 *
-	 * This is useful to list all persons notified after a post for example.
-	 *
-	 * @param string title of the folded box generated
-	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
-	 */
-	function get_recipients($title=NULL) {
-		global $context;
-
-		// nothing to show
-		if(!Surfer::get_id() || !isset($context['mailer_recipients']))
-			return '';
-
-		// return the bare list
-		if(!$title)
-			return $context['mailer_recipients'];
-
-		// build a nice list
-		$list = array();
-		if(count($context['mailer_recipients']) > 50)
-			$count = 30;	// list only 30 first recipients
-		else
-			$count = 100;	//never reached
-		foreach($context['mailer_recipients'] as $recipient) {
-			$list[] = htmlspecialchars($recipient);
-			if($count-- ==1) {
-				$list[] = sprintf(i18n::s('and %d other persons'), count($context['mailer_recipients'])-30);
-				break;
-			}
-		}
-		return Skin::build_box($title, Skin::finalize_list($list, 'compact'), 'folded');
-
 	}
 
 	/**

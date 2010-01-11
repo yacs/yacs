@@ -89,6 +89,8 @@ Class Images {
 			// surfer is an editor, and the page is not private
 			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
 				return TRUE;
+			if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+				return TRUE;
 
 		// only in iles
 		} elseif($variant == 'file') {
@@ -104,10 +106,6 @@ Class Images {
 			if(Sections::is_owned($anchor, $item, TRUE))
 				return TRUE;
 
-			// surfer is an editor, and the section is not private
-			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
-				return TRUE;
-
 		// only in user profiles
 		} elseif($variant == 'user') {
 
@@ -115,12 +113,6 @@ Class Images {
 				return TRUE;
 
 		}
-
-		// surfer is an editor, and container is not private
-		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
-		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
-			return TRUE;
 
 		// item has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
