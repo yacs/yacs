@@ -31,6 +31,7 @@ $files[] = 'overlays/issues/percent-70.png';
 $files[] = 'overlays/issues/percent-80.png';
 $files[] = 'overlays/issues/percent-90.png';
 $files[] = 'overlays/issues/percent-100.png';
+$files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/boxesandarrows/boxesandarrows.css';
 $files[] = 'skins/digital/digital.css';

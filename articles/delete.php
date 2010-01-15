@@ -49,16 +49,13 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// only owners can proceed
-if(Articles::is_owned($anchor, $item))
+// owners can proceed
+if(Articles::is_owned($anchor, $item)) {
 	Surfer::empower();
-
-// associates and section editors can do what they want
-if(Surfer::is_empowered())
 	$permitted = TRUE;
 
 // the default is to deny access
-else
+} else
 	$permitted = FALSE;
 
 // load the skin, maybe with a variant

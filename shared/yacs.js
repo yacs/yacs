@@ -1502,14 +1502,25 @@ var Yacs = {
 	 */
 	update: function(panel, address, args) {
 
+		// the spinning image
 		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
 
-		var updater = new Ajax.Updater(panel, address, $H({
+		// basic options
+		var options = {
 			asynchronous: true,
 			method: 'get',
 			evalScripts: true
-			}).merge(args)
-		);
+			};
+
+		// don't use hash from prototype, it would kill our call
+		if(args) {
+			for(key in args) {
+				options[key] = args[key];
+			}
+		}
+
+		// go go go
+		var updater = new Ajax.Updater(panel, address, options);
 
 	},
 

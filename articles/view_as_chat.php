@@ -309,7 +309,7 @@ if(Images::allow_creation($anchor, $item)) {
 }
 
 // modify this page
-if($editable) {
+if(Articles::allow_modification($anchor, $item)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 		$label = i18n::s('Edit this page');
@@ -323,7 +323,7 @@ if($has_versions && Articles::is_owned($anchor, $item)) {
 }
 
 // publish this page
-if($publishable) {
+if(Articles::allow_publication($anchor, $item)) {
 
 	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
 		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');

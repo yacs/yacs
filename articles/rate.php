@@ -12,14 +12,7 @@
  * - path: the network path to this instance of YACS (to avoid side-effects on shared servers)
  * - lifetime: 24 hours (to avoid storing too many cookies on the browser workstation)
  *
- * Of course, the script rejects rating data if a cookie is presented by the browser, proving a similar opeation has already taken place.
- *
- * The script accepts rating data based of the following permission assessment:
- * - permission is denied if the anchor is not visible by the surfer
- * - permission is denied if the anchor has the option 'without_rating'
- * - permission is granted if the surfer is logged
- * - permission is granted if the surfer may handle the item
- * - else rating data is denied
+ * Of course, the script rejects rating data if a cookie is presented by the browser, proving a similar operation has already taken place.
  *
  * @see articles/view.php
  *

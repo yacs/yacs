@@ -157,32 +157,12 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 } elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay()))
 	$overlay = Overlay::bind($overlay_class);
 
-// owners can do what they want
-if(Articles::is_owned($anchor, $item))
-	Surfer::empower();
-
-// allow editors to contribute to public sections even when they are locked
-elseif(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
-	Surfer::empower();
-
-// this page cannot be modified anymore
-elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
-	;
-
-// anonymous edition is allowed here
-elseif(Articles::has_option('anonymous_edit', $anchor, $item))
-	Surfer::empower();
-
-// members edition is allowed here
-elseif(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_empowered())
+// we are allowed to add a new page
+if(!isset($item['id']) && Articles::allow_creation($anchor))
 	$permitted = TRUE;
 
-// only authenticated members can post new articles, and only if submissions are accepted
-elseif(!isset($item['id']) && Articles::allow_creation($anchor))
+// we are allowed to modify an existing page
+elseif(isset($item['id']) && Articles::allow_modification($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access

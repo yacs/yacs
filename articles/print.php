@@ -2,14 +2,6 @@
 /**
  * print one article
  *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - creator is allowed to view the page
- * - permission is denied if the anchor is not viewable
- * - article is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - print.php/12
  * - print.php?id=12
@@ -46,46 +38,6 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// maybe this anonymous surfer is allowed to handle this item
-if(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	Surfer::empower();
-
-// editors can do what they want on items anchored here
-elseif(Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
-	Surfer::empower();
-
-// anonymous edition is allowed here
-elseif(Articles::has_option('anonymous_edit', $anchor, $item))
-	Surfer::empower();
-
-// members edition is allowed here
-elseif(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
-	$permitted = TRUE;
-
-// poster can always view the page
-elseif(Surfer::is($item['create_id']))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && $item['active'] == 'Y')
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin with a specific variant
 load_skin('print');
 
@@ -108,7 +60,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::allow_display($anchor, $item)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

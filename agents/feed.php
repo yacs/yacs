@@ -52,15 +52,7 @@ include_once '../shared/global.php';
 
 // check network credentials, if any
 if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
-
-// session authentication
-if(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// default is to block access to logged information
-else
-	$permitted = FALSE;
+	Surfer::set($user);
 
 // load localized strings
 i18n::bind('agents');
@@ -74,16 +66,13 @@ $context['path_bar'] = array( 'feeds/' => i18n::s('Information channels') );
 // page title
 $context['page_title'] = i18n::s('RSS feed');
 
-// permission denied
-if(!$permitted) {
+// give anonymous surfers a chance for HTTP authentication
+if(!Surfer::is_logged()) {
+	Safe::header('WWW-Authenticate: Basic realm="'.utf8::to_iso8859($context['site_name']).'"');
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 
-	// give anonymous surfers a chance for HTTP authentication
-	if(!Surfer::is_logged()) {
-		Safe::header('WWW-Authenticate: Basic realm="'.utf8::to_iso8859($context['site_name']).'"');
-		Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	}
-
-	// permission denied, or user hit the Cancel button of the authentication box
+// only available to site associates
+} elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

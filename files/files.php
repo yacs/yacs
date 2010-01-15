@@ -215,15 +215,17 @@ Class Files {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer owns the file
+		// surfer owns the container
 		if(is_object($anchor) && $anchor->is_owned())
-			return TRUE;
-		if(isset($item['create_id']) && Surfer::is($item['create_id']))
 			return TRUE;
 
 		// anchor has been locked
 		if(is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
+
+		// surfer owns the file
+		if(isset($item['create_id']) && Surfer::is($item['create_id']))
+			return TRUE;
 
 		// authenticated members may be allowed to modify files from others
  		if(Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))

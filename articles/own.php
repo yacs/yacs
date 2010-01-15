@@ -34,14 +34,6 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// oly article owners can proceed
-if(Articles::is_owned($anchor, $item))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -69,7 +61,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::is_owned($anchor, $item)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

@@ -286,6 +286,151 @@ Class Articles {
 	}
 
 	/**
+	 * check if an article can be displayed
+	 *
+	 * This function returns TRUE if articles can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param object an instance of the Anchor interface, if any
+	 * @param array a set of item attributes, aka, the target page
+	 * @return boolean TRUE or FALSE
+	 */
+	function allow_display($anchor, $item) {
+		global $context;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns this item, or the anchor
+		if(Articles::is_owned($anchor, $item))
+			return TRUE;
+
+		// anonymous surfer has provided the secret handle
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
+
+		// surfer is an editor
+		if(isset($item['id']) && Articles::is_assigned($item['id']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is logged
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// public page
+		return TRUE;
+	}
+
+	/**
+	 * check if an article can be modified
+	 *
+	 * This function returns TRUE if the page can be modified,
+	 * and FALSE otherwise.
+	 *
+	 * @param object an instance of the Anchor interface
+	 * @param array a set of item attributes, aka, the target article
+	 * @return TRUE or FALSE
+	 */
+	function allow_modification($anchor, $item) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// submissions have been disallowed
+		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
+			return FALSE;
+
+		// surfer owns the container or the article
+		if(Articles::is_owned($anchor, $item))
+			return TRUE;
+
+		// allow section editors to manage content, except on private sections
+		if(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// article has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// community wiki
+		if(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
+			return TRUE;
+
+		// public wiki
+		if(Articles::has_option('anonymous_edit', $anchor, $item))
+			return TRUE;
+
+		// default case
+		return FALSE;
+	}
+
+	/**
+	 * check if an article can be published
+	 *
+	 * This function returns TRUE if the page can be published,
+	 * and FALSE otherwise.
+	 *
+	 * @param object an instance of the Anchor interface
+	 * @param array a set of item attributes, aka, the target article
+	 * @return TRUE or FALSE
+	 */
+	function allow_publication($anchor, $item) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// submissions have been disallowed
+		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
+			return FALSE;
+
+		// wiki mode for all of the server
+		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
+			return TRUE;
+
+		// wiki mode for this section
+		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('auto_publish'))
+			return TRUE;
+
+		// surfer owns the container
+		if(is_object($anchor) && $anchor->is_owned())
+			return TRUE;
+
+		// allow editors to manage content, except on private sections
+		if(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// default case
+		return FALSE;
+	}
+
+	/**
 	 * document modification dates for this item
 	 *
 	 * @param object anchor of the article

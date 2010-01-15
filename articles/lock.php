@@ -4,11 +4,6 @@
  *
  * This script is an easy way to lock or unlock a page.
  *
- * The permission assessment is based upon following rules applied in the provided orders:
- * - associates and editors are allowed to move forward
- * - surfer created the page and the page has not been published
- * - permission denied is the default
- *
  * Accepted calls:
  * - lock.php/&lt;id&gt;
  * - lock.php?id=&lt;id&gt;
@@ -37,14 +32,6 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// owners can do what they want
-if(Articles::is_owned($anchor, $item))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -59,7 +46,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::is_owned($anchor, $item)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

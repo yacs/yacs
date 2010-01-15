@@ -57,24 +57,14 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor =& Anchors::get($item['anchor']);
 
-// editors can do what they want on items anchored here
-if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
+// surfer can proceed
+if(Articles::allow_publication($anchor, $item)) {
 	Surfer::empower();
-
-// access control
-$permitted = FALSE;
-
-// associates and editors can publish pages
-if(Surfer::is_empowered())
 	$permitted = TRUE;
 
-// page authors can publish their pages where auto-publication has been allowed
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())) {
-	if(isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
-		$permitted = TRUE;
-	elseif(is_object($anchor) && $anchor->has_option('auto_publish'))
-		$permitted = TRUE;
-}
+// disallow access
+} else
+	$permitted = FALSE;
 
 // do not always show the edition form
 $with_form = FALSE;

@@ -348,7 +348,7 @@ if(Images::allow_creation($anchor, $item)) {
 }
 
 // modify this page
-if($editable) {
+if(Articles::allow_modification($anchor, $item)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 		$label = i18n::s('Edit this page');
@@ -362,13 +362,9 @@ if($has_versions && Articles::is_owned($anchor, $item)) {
 }
 
 // publish this page
-if($publishable) {
-
-	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
-		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
-	}
-
+if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($anchor, $item)) {
+	Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
 }
 
 // review command provided to container owners

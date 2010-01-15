@@ -572,6 +572,9 @@ else {
 
 		else {
 
+			// remember this surfer
+			Surfer::set($user);
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
 
@@ -600,7 +603,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_assigned($user['id'])))) ) {
+					|| ($publish && Articles::allow_publication($anchor, $item)) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -946,6 +949,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
+			Surfer::set($user);
 
 			// parse article content
 			$article = new Article();
@@ -963,7 +967,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_assigned($user['id'])))) ) {
+				|| ($publish && Articles::allow_publication($anchor, $item)) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -1067,6 +1071,8 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
 		else {
+			// remember surfer
+			Surfer::set($user);
 
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
@@ -1099,7 +1105,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_assigned($user['id'])))) ) {
+					|| ($publish && Articles::allow_publication($anchor, $item)) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -1456,6 +1462,8 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
+			// remember surfer
+			Surfer::set($user);
 
 			// parse article content
 			$article = new Article();
@@ -1488,7 +1496,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_assigned($user['id'])))) ) {
+				|| ($publish && Articles::allow_publication($anchor, $item)) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];

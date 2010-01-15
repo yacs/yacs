@@ -54,24 +54,13 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// editors can do what they want on items anchored here
-if(Surfer::get_id() && is_object($anchor) && $anchor->is_owned())
+// owners can do what they want
+if(Articles::is_owned($anchor, $item)) {
 	Surfer::empower();
-
-// associates and authenticated editors can do what they want
-if(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// authenticated surfers may duplicate their own posts
-elseif(Surfer::is($item['owner_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
-else
+} else
 	$permitted = FALSE;
 
 // load the skin, maybe with a variant

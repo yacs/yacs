@@ -43,14 +43,6 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 
-// owners can do what they want
-if(Articles::is_owned($anchor, $item))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -106,7 +98,7 @@ elseif(!isset($item['id'])) {
 	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::is_owned($anchor, $item)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {

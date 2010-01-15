@@ -74,8 +74,8 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Logger::error(i18n::s('No item has the provided id.'));
 
-// publication is restricted to associates and editors
-} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_owned())) {
+// publication is restricted to container owners
+} elseif(!Articles::is_owned($anchor, NULL)) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

@@ -4,19 +4,6 @@
  *
  * @todo allow for a configurable footer string
  *
- * Following restrictions apply while accepting the query:
- * - anonymous users can see only active articles (the 'active' field == 'Y')
- * - members can see active and restricted articles ('active field == 'Y' or 'R')
- * - associates and editors can see all articles
- *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - creator is allowed to view the page
- * - permission is denied if the anchor is not viewable
- * - article is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * The downloaded object is always cacheable, to avoid IE to remove it too early from temporary directory.
  *
  * @link http://www.webmasterworld.com/forum88/5891.htm Internet Explorer download problem
@@ -58,34 +45,6 @@ $overlay = NULL;
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// maybe this anonymous surfer is allowed to handle this item
-if(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
-	$permitted = TRUE;
-
-// poster can always view the page
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && $item['active'] == 'Y')
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, with a specific rendering option
 load_skin('print');
 
@@ -111,7 +70,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::allow_display($anchor, $item)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

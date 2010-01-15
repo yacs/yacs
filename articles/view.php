@@ -67,14 +67,6 @@
  *
  * @see skins/configure.php
  *
- * The permission assessment is based upon following rules applied in this order:
- * - associates and editors are allowed to move forward
- * - creator is allowed to view the page
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - view.php/12 (view the first page of the article document)
  * - view.php/12/nick_name (add nick name to regular id, for URL rewriting)
@@ -261,52 +253,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-//
-// is this surfer allowed to change the page?
-//
-
-// owners can do what they want
-if(Articles::is_owned($anchor, $item))
-	$editable = TRUE;
-
-// allow editors to contribute to public sections even when they are locked
-elseif(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
-	$editable = TRUE;
-
-// this page cannot be modified anymore
-elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
-	$editable = FALSE;
-
-// new posts are not allowed here
-elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')))
-	$editable = FALSE;
-
-// editors can also edit here
-// elseif(Surfer::is_empowered())
-// 	$editable = TRUE;
-
-// the anchor has to be editable by this surfer
-// elseif(is_object($anchor) && $anchor->is_assigned())
-// 	$editable = TRUE;
-
-// the default is to disallow modifications
-else
-	$editable = FALSE;
-
-//
-// can the surfer publish this page?
-//
-if(!$editable)
-	$publishable = FALSE;
-elseif(isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
-	$publishable = TRUE;
-elseif(is_object($anchor) && $anchor->has_option('auto_publish'))
-	$publishable = TRUE;
-elseif(Articles::is_owned($anchor, $item))
-	$publishable = TRUE;
-else
-	$publishable = FALSE;
 
 // is the article on user watch list?
 $in_watch_list = FALSE;
@@ -551,7 +497,7 @@ if(!isset($item['id'])) {
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE)) {
-			if($publishable)
+			if(Articles::allow_publication($anchor, $item))
 				$label = Skin::build_link(Articles::get_url($item['id'], 'publish'), i18n::s('not published'));
 			else
 				$label = i18n::s('not published');
@@ -1224,7 +1170,7 @@ if(!isset($item['id'])) {
 	}
 
 	// modify this page
-	if($editable) {
+	if(Articles::allow_modification($anchor, $item)) {
 		Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this page');
@@ -1238,13 +1184,9 @@ if(!isset($item['id'])) {
 	}
 
 	// publish this page
-	if($publishable) {
-
-		if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
-			Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
-			$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
-		}
-
+	if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($anchor, $item)) {
+		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
 	}
 
 	// review command provided to container owners
@@ -1253,7 +1195,7 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
 
-	// lock command provided to associates and authenticated editors
+	// lock command provided to container and page owners
 	if(Articles::is_owned($anchor, $item)) {
 
 		if(!isset($item['locked']) || ($item['locked'] == 'N')) {

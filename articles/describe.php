@@ -19,14 +19,6 @@
  *	</rdf:RDF>
  * [/snippet]
  *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - creator is allowed to view the page
- * - permission is denied if the anchor is not viewable
- * - article is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - describe.php/12
  * - describe.php?id=12
@@ -65,34 +57,6 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// maybe this anonymous surfer is allowed to handle this item
-if(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
-	$permitted = TRUE;
-
-// poster can always view the page
-elseif(Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated member
-elseif(($item['active'] == 'R') && Surfer::is_member())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif($item['active'] == 'Y')
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -110,7 +74,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::allow_display($anchor, $item)) {
 
 	// give anonymous surfers a chance for HTTP authentication
 	if(!Surfer::is_logged()) {
