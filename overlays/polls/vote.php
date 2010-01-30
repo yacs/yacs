@@ -38,6 +38,7 @@
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
+ * @author Christophe Battarel (correction bug)
  * @tester Timster
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
