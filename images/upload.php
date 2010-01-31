@@ -9,7 +9,7 @@
  * - upload.php?anchor=&lt;type&gt;:&lt;id&gt;
  *
  * @author Bernard Paques
- * @author Christophe Battarel (remove files that are not images)
+ * @author Christophe Battarel
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -219,8 +219,9 @@ if(Surfer::is_crawler()) {
 					if(isset($item['id']))
 						$anchor->touch('image:create', $item['id']);
 
-				}
-				else Safe::unlink($context['path_to_root'].$file_path.'/'.$node); // remove files that are not images
+				// remove files that have not been processed by yacs (weird PHP script files, etc.)
+				} else
+					Safe::unlink($context['path_to_root'].$file_path.'/'.$node);
 			}
 			Safe::closedir($handle);
 		}
