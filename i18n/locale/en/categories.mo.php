@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2009-11-30 10:37+0100
+POT-Creation-Date: 2010-01-31 23:37+0100
+PO-Revision-Date: 2010-01-31 23:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -69,6 +69,7 @@ $_SESSION['l10n']['en']['Delete this category']='Delete this category';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not display articles.']='Do not display articles.';
+$_SESSION['l10n']['en']['Do not display persons.']='Do not display persons.';
 $_SESSION['l10n']['en']['Do not list sections.']='Do not list sections.';
 $_SESSION['l10n']['en']['Do not list sub-categories.']='Do not list sub-categories.';
 $_SESSION['l10n']['en']['Done']='Done';
@@ -106,7 +107,6 @@ $_SESSION['l10n']['en']['Keywords update']='Keywords update';
 $_SESSION['l10n']['en']['Layout']='Layout';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['932f09e2a8f6216bed67e5409a6369b0']='Links can be added to the index page';
-$_SESSION['l10n']['en']['5c9f11db5d207b187e5fa5775f23627d']='List recent pages using the following layout:';
 $_SESSION['l10n']['en']['ecc7ab4a52b62f6e4deb6339dc119ec5']='List up to %s sections with the following layout:';
 $_SESSION['l10n']['en']['b50b92192131c5e24b75ab0be52428e8']='List up to %s sub-categories with the following layout:';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
@@ -214,6 +214,7 @@ $_SESSION['l10n']['en']['Use an image']='Use an image';
 $_SESSION['l10n']['en']['145c71768eada2e93397ec134c387b13']='Use codes to insert images in the page.';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';
+$_SESSION['l10n']['en']['Use the following layout:']='Use the following layout:';
 $_SESSION['l10n']['en']['a9ac06b6f2238dbd54599d32e0fa95cf']='Use this thumbnail as the thumbnail of the page';
 $_SESSION['l10n']['en']['7095a3461ba51a372774ee8a1ce5d15b']='Various means to link to this page';
 $_SESSION['l10n']['en']['View the category']='View the category';
@@ -239,12 +240,9 @@ $_SESSION['l10n']['en']['21bba8f9b0118df8d40223e2e199154e']='at the front page, 
 $_SESSION['l10n']['en']['at users index']='at users index';
 $_SESSION['l10n']['en']['categories']='categories';
 $_SESSION['l10n']['en']['aa00cbbac581ee176441d1e92a17ee3e']='clouds - List sub-categories as clouds.';
-$_SESSION['l10n']['en']['e7dd29c2c008dce9b7ed980a40e31858']='compact - A compact list of items';
-$_SESSION['l10n']['en']['643486a1b649b9edf77b84bdc56cc66e']='compact - In a compact list, like DMOZ.';
+$_SESSION['l10n']['en']['compact - A compact list.']='compact - A compact list.';
 $_SESSION['l10n']['en']['a4896893448b9c1dbe2fb65fb48f68d6']='daily - A list of stamped pages (blog)';
-$_SESSION['l10n']['en']['6021a9e2f4c742b0beaab9fd9428e2e4']='decorated - A decorated list of most recent pages';
-$_SESSION['l10n']['en']['e0227a3dc16b98df6927e104dc23152b']='decorated - As a decorated list.';
-$_SESSION['l10n']['en']['ed618cb800bff59870efe1f550e56d51']='decorated - List these categories on one column, in the middle of the page.';
+$_SESSION['l10n']['en']['4f63b6b5d1f3f46a29eaee46fed7e8ec']='decorated - A list decorated with images.';
 $_SESSION['l10n']['en']['digg - To order pages by rating']='digg - To order pages by rating';
 $_SESSION['l10n']['en']['edited']='edited';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';

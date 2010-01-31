@@ -10,52 +10,6 @@
  * [code]set_time_limit()[/code]. In such a case, original code has to be modified to
  * [code]Safe::set_time_limit()[/code] instead.
  *
- * Most member functions of the Safe class just mimic functions normally provided by the PHP library:
- * - chdir() -- change current directory
- * - chmod() -- change file mode
- * - closedir() -- release a directory resource
- * - copy() -- copy a file
- * - error_reporting() -- change reporting level
- * - ini_set() -- set one configuration option
- * - is_writable() -- check if a file can be written
- * - file_get_contents() -- read one file in a string
- * - file_put_contents() -- make a file out of a string
- * - filemtime() -- last modification date
- * - fopen() -- open a file
- * - fsockopen() -- open a network stream
- * - fstat() -- get file information
- * - get_cfg_var() -- get one parameter
- * - GetImageSize() -- analyze some image
- * - glob() -- list matching files
- * - header() -- change web response
- * - highlight_string() -- smart rendering of php snippet
- * - json_decode() -- unserialize an array
- * - json_encode() -- serialize an array
- * - load() -- include a PHP script
- * - make_path() -- build an entire path in the file system
- * - mkdir() -- create a directory
- * - move_uploaded_file() -- move a new file
- * - ngettext() -- localize a string with numbers
- * - ob_start() -- buffer output
- * - opendir() -- get a directory resource
- * - readdir() -- get next directory entry
- * - realpath() -- locate some file
- * - redirect() -- jump to another page
- * - rename() -- rename a file
- * - rmdir() -- remove a directory
- * - set_time_limit() -- extend execution duration
- * - setcookie() -- save data on browser side
- * - setlocale() -- set locale parameter
- * - sleep() -- delay code execution
- * - stat() -- get file information
- * - syslog() -- remember some event
- * - system() -- execute a system command
- * - tempnam() -- get a temporary file
- * - touch() -- touch a file
- * - unlink() -- remove a file
- * - unserialize() -- restore a serialized object
- *
- *
  * @author Bernard Paques
  * @author GnapZ
  * @tester Nuxwin
@@ -151,6 +105,19 @@ class Safe {
 
 		// tough luck
 		return FALSE;
+
+	}
+
+	/**
+	 * define a constant only if it is not defined yet
+	 *
+	 * @param string constant name to be defined
+	 * @param mixed the value
+	 */
+	function define($name, $value) {
+
+		if(!defined($name))
+			define($name, $value);
 
 	}
 

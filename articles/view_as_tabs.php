@@ -479,15 +479,30 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	$wstats = Members::stat_users_for_anchor('article:'.$item['id']);
 	$users_count = max($estats['count'], $wstats['count']);
 
-	// spread the list over several pages
-	if($estats['count'] > 1)
-		$box['bar'] += array('_count' => sprintf(i18n::ns('%d person', '%d persons', $estats['count']), $estats['count']));
+	// count watchers
+	if($wstats['count'] > 1)
+		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wstats['count']), $wstats['count']));
 
 	// send a message to an article
-	if(($estats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(($wstats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
 		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
 	}
+
+	// add to the watch list -- $in_wath_list is set in sections/view.php
+	if(Surfer::get_id() && !$in_watch_list) {
+		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
+		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'track') => TOOLS_WATCH_IMG.i18n::s('Watch this page'));
+	}
+
+	// spread the list over several pages
+	if($estats['count'] > 1)
+		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $estats['count']), $estats['count']));
+
+	// navigation commands for users
+	$home = Articles::get_permalink($item);
+	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
+	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
 
 	// assign command provided to associates and authenticated editors
 	if(Articles::is_owned($anchor, $item) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -505,37 +520,54 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	}
 
-	// navigation commands for users
-	$home = Articles::get_permalink($item);
-	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
-	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
-
 	// list editors
+	Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
+	$rows = array();
 	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 	if($items =& Members::list_editors_for_member('article:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch')) {
-		if(is_array($items))
-			$items = Skin::build_list($items, 'decorated');
-		$items = i18n::s('Following persons are entitled to manage content:').$items;
+		foreach($items as $user_id => $user_label) {
+			$owner = '';
+			if($user_id == $item['owner_id'])
+				$owner = CHECKED_IMG;
+			$editor = CHECKED_IMG;
+			$watcher = '';
+			if(Members::check('section:'.$item['id'], 'user:'.$user_id));
+				$watcher = CHECKED_IMG;
+			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+		}
 	}
 
 	// watchers
-	if($watchers =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 500, 'compact')) {
-		if(is_array($watchers))
-			$watchers = Skin::build_list($watchers, 'compact');
-		$watchers = i18n::s('Following persons are watching this page:').$watchers;
+	if(count($rows) < USERS_LIST_SIZE) {
+		if($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], $offset, 2*USERS_LIST_SIZE, 'watch')) {
+			foreach($items as $user_id => $user_label) {
+
+				// add the checkmark to existing row
+				if(isset($rows[$user_id]))
+					$rows[$user_id][1] = CHECKED_IMG;
+
+				// append a new row
+				else {
+					$owner = '';
+					if($user_id == $item['owner_id'])
+						$owner = CHECKED_IMG;
+					$editor = '';
+					$watcher = CHECKED_IMG;
+					$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+
+					if(count($rows) >= USERS_LIST_SIZE)
+						break;
+				}
+			}
+		}
 	}
 
-	// add to the watch list -- $in_wath_list is set in sections/view.php
-	if(Surfer::get_id() && !$in_watch_list) {
-		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
-		$watchers .= '<p style="margin: 1em 0;">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'track'), TOOLS_WATCH_IMG.i18n::s('Watch this page'), 'button', i18n::s('To be notified when new content is added')).'</p>';
-	}
+	// headers
+	$headers = array(i18n::s('Person'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
 
 	// layout columns
-	if($watchers)
-		$box['text'] .= Skin::layout_horizontally($items, Skin::build_block($watchers, 'sidecolumn'));
-	else
-		$box['text'] .= $items;
+	if($rows)
+		$box['text'] .= Skin::table($headers, $rows, 'grid');
 
 	// actually render the html
 	$users .= Skin::build_content(NULL, NULL, $box['text'], $box['bar']);

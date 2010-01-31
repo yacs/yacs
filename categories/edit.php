@@ -29,6 +29,7 @@
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Manuel López Gallego
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -321,7 +322,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
 	if($item['categories_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - List these categories on one column, in the middle of the page.');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
 
 	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
 	if($item['categories_layout'] == 'yahoo')
@@ -336,7 +337,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
 	if($item['categories_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.');
+	$input .= '/> '.i18n::s('compact - A compact list.');
 
 	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
 	if($item['categories_layout'] == 'cloud')
@@ -372,7 +373,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="sections_layout" value="decorated"';
 	if($item['sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - As a decorated list.')
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.')
 		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
 	if($item['sections_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
@@ -404,7 +405,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="compact"';
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.')
+	$input .= '/> '.i18n::s('compact - A compact list.')
 		.BR.'<input type="radio" name="sections_layout" value="titles"';
 	if($item['sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
@@ -425,7 +426,7 @@ if($with_form) {
 
 	// layout for related articles
 	$label = i18n::s('Layout');
-	$input = i18n::s('List recent pages using the following layout:').BR;
+	$input = i18n::s('Use the following layout:').BR;
 	$custom_layout = '';
 	if(!isset($item['articles_layout']) || !$item['articles_layout'])
 		$item['articles_layout'] = 'decorated';
@@ -436,7 +437,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="articles_layout" value="decorated"';
 	if($item['articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A decorated list of most recent pages');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
 	$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
 	if($item['articles_layout'] == 'digg')
 		$input .= ' checked="checked"';
@@ -476,7 +477,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list of items');
+	$input .= '/> '.i18n::s('compact - A compact list.');
 	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -489,6 +490,38 @@ if($with_form) {
 
 	// append fields
 	$text .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
+	$fields = array();
+
+	//layout for users
+	$label = i18n::s('Layout');
+	$input = i18n::s('Use the following layout:').BR;
+	$custom_layout = '';
+	if(!isset($item['users_layout']) || !$item['users_layout'])
+		$item['users_layout'] = 'decorated';
+	elseif(!preg_match('/(decorated|compact)/', $item['users_layout'])) {
+		$custom_layout = $item['users_layout'];
+		$item['users_layout'] = 'custom';
+	}
+	$input .= '<input type="radio" name="users_layout" value="decorated"';
+	if($item['users_layout'] == 'decorated')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
+	$input .= BR.'<input type="radio" name="users_layout" value="compact"';
+	if($item['users_layout'] == 'compact')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('compact - A compact list.');
+	$input .= BR.'<input type="radio" name="users_layout" value="custom" id="custom_users_layout"';
+	if($item['users_layout'] == 'custom')
+		$input .= ' checked="checked"';
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="users_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_users_layout\').checked=1" />');
+	$input .= BR.'<input type="radio" name="users_layout" value="none"';
+	if($item['users_layout'] == 'none')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not display persons.').BR;
+	$fields[] = array($label, $input);
+
+	// append fields
+	$text .= Skin::build_box(i18n::s('Persons'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// trailer information

@@ -57,7 +57,7 @@ Class Skin_Skeleton {
 			$style = '';
 
 			if(ACCORDION_CLOSE_IMG_HREF)
-				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
 
 			// close following boxes
 			$fused[ $id ] = TRUE;
@@ -68,7 +68,7 @@ Class Skin_Skeleton {
 			$style = ' style="display: none"';
 
 			if(ACCORDION_OPEN_IMG_HREF)
-				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
 
 		}
 
@@ -2003,7 +2003,7 @@ Class Skin_Skeleton {
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" '.$class.'/>';
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field(strip_tags($label)).'" '.$class.'/>';
 
 			// use default icon if nothing to display
 			} else

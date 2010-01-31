@@ -194,7 +194,7 @@ if(!$permitted) {
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
 		$fields['section_layout'] = 'map';
-		$fields['options'] = 'with_owner_profile articles_by_publication';
+		$fields['options'] = 'with_extra_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // the preferred layout for blogs
 		$fields['content_options'] = 'with_extra_profile'; // show user profiles in a side panel
 		if($_REQUEST['contribution'] == 'N')	// only associates and owners can contribute

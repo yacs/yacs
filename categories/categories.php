@@ -109,6 +109,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -1372,6 +1373,16 @@ Class Categories {
 				$fields['articles_layout'] = 'decorated';
 		}
 
+		// set layout for users
+		if(!isset($fields['users_layout']) || !$fields['users_layout'])
+			$fields['users_layout'] = 'decorated';
+		elseif($fields['users_layout'] == 'custom') {
+			if(isset($fields['users_custom_layout']) && $fields['users_custom_layout'])
+				$fields['users_layout'] = $fields['users_custom_layout'];
+			else
+				$fields['users_layout'] = 'decorated';
+		}
+
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('categories')." SET ";
 		if(isset($fields['id']) && $fields['id'])
@@ -1415,7 +1426,8 @@ Class Categories {
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
 			."title='".SQL::escape($fields['title'])."',"
-			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."',"
+			."users_layout='".SQL::escape($fields['users_layout'])."'";
 
 		// actual insert
 		if(SQL::query($query) === FALSE)
@@ -1491,6 +1503,16 @@ Class Categories {
 				$fields['articles_layout'] = 'decorated';
 		}
 
+		// set layout for users
+		if(!isset($fields['users_layout']) || !$fields['users_layout'])
+			$fields['users_layout'] = 'decorated';
+		elseif($fields['users_layout'] == 'custom') {
+			if(isset($fields['users_custom_layout']) && $fields['users_custom_layout'])
+				$fields['users_layout'] = $fields['users_custom_layout'];
+			else
+				$fields['users_layout'] = 'decorated';
+		}
+
 		// set default values
 		if(!isset($fields['active_set']))
 			$fields['active_set'] = 'Y';
@@ -1537,7 +1559,8 @@ Class Categories {
 			."suffix='".SQL::escape($fields['suffix'])."',"
 			."thumbnail_url='".SQL::escape($fields['thumbnail_url'])."',"
 			."title='".SQL::escape($fields['title'])."',"
-			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."',"
+			."users_layout='".SQL::escape($fields['users_layout'])."'";
 
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
@@ -1790,46 +1813,47 @@ Class Categories {
 		global $context;
 
 		$fields = array();
-		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
-		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
-		$fields['anchor']		= "VARCHAR(64)";
+		$fields['id']				= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
+		$fields['active']			= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['active_set']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['anchor']			= "VARCHAR(64)";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['background_color']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['categories_count'] = "INT UNSIGNED NOT NULL";
 		$fields['categories_layout'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['categories_overlay'] = "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['create_date']	= "DATETIME";
-		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['description']	= "TEXT NOT NULL";
-		$fields['display']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['edit_date']	= "DATETIME";
-		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['expiry_date']	= "DATETIME";
-		$fields['extra']		= "TEXT NOT NULL";
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['introduction'] = "TEXT NOT NULL";
-		$fields['keywords'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['nick_name']	= "VARCHAR(64) DEFAULT '' NOT NULL";
-		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['overlay']		= "TEXT NOT NULL";
-		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['owner_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['path'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['prefix']		= "TEXT NOT NULL";
-		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
+		$fields['create_date']		= "DATETIME";
+		$fields['create_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
+		$fields['create_name']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']		= "TEXT NOT NULL";
+		$fields['display']			= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['edit_action']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_address'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_date']		= "DATETIME";
+		$fields['edit_id']			= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
+		$fields['edit_name']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['expiry_date']		= "DATETIME";
+		$fields['extra']			= "TEXT NOT NULL";
+		$fields['hits'] 			= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['icon_url'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['introduction'] 	= "TEXT NOT NULL";
+		$fields['keywords'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['nick_name']		= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['options']			= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['overlay']			= "TEXT NOT NULL";
+		$fields['overlay_id']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['owner_id']			= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['path'] 			= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['prefix']			= "TEXT NOT NULL";
+		$fields['rank'] 			= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['sections_count']	= "INT UNSIGNED NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['suffix']		= "TEXT NOT NULL";
-		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['trailer']		= "TEXT NOT NULL";
+		$fields['suffix']			= "TEXT NOT NULL";
+		$fields['thumbnail_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['title']			= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['trailer']			= "TEXT NOT NULL";
+		$fields['users_layout']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY id']		= "(id)";

@@ -80,14 +80,14 @@
  *
  * [*] [code]no_comments[/code] - Prevent surfers to react to posted articles.
  *
- * [*] [code]no_neighbours[/code] - Use this setting to avoid previous / next links added by YACS to navigate a section.
- *
  * [*] [code]with_export_tools[/code] - Add tools to convert page text
  * to PDF, MS-Word or to a printer. These tools are not displayed by default.
  * You may find useful to activate them to further help surfers to reuse published material.
  *
  * [*] [code]with_extra_profile[/code] - Display poster profile in the extra panel of the template.
  * This setting is suitable to blogs. By default YACS does not display poster profile.
+ *
+ * [*] [code]with_neighbours[/code] - Add previous / next links to navigate a section.
  *
  * [*] [code]with_prefix_profile[/code] - Display poster profile at the top of the page, after page title.
  * This setting is suitable to original publications, white papers, etc. By default YACS does not display poster profile.
@@ -299,6 +299,17 @@ Class Sections {
 		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Sections::is_owned($anchor, $item))
 			return $details;
 
+		// last modification
+		if($item['edit_action'])
+			$action = Anchors::get_action_label($item['edit_action']).' ';
+		else
+			$action = i18n::s('edited');
+
+		if($item['edit_name'])
+			$details[] = sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		else
+			$details[] = $action.' '.Skin::build_date($item['edit_date']);
+
 		// post date and author
 		if($item['create_date']) {
 
@@ -313,17 +324,6 @@ Class Sections {
 				$details[] = Skin::build_date($item['create_date']);
 
 		}
-
-		// last modification
-		if($item['edit_action'])
-			$action = Anchors::get_action_label($item['edit_action']).' ';
-		else
-			$action = i18n::s('edited');
-
-		if($item['edit_name'])
-			$details[] = sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-		else
-			$details[] = $action.' '.Skin::build_date($item['edit_date']);
 
 		// job done
 		return $details;
@@ -1405,32 +1405,69 @@ Class Sections {
 	}
 
 	/**
+	 * check if a surfer can edit a section
+	 *
+	 * @param object parent anchor, if any
+	 * @param array page attributes
+	 * @param int optional reference to some user profile
+	 * @return TRUE or FALSE
+	 */
+	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
+		global $context;
+
+		// id of requesting user
+		if(!$user_id) {
+			if(!Surfer::get_id())
+				return FALSE;
+			$user_id = Surfer::get_id();
+		}
+
+		// surfer is an editor of this section
+		if(Members::check('user:'.$user_id, 'section:'.$item['id']))
+			return TRUE;
+
+		// surfer is assigned to parent container
+		if(is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+
+		// associates can do what they want
+//		if(Surfer::is($user_id) && Surfer::is_associate())
+//			return TRUE;
+
+		// sorry
+		return FALSE;
+	}
+
+	/**
 	 * check if a surfer owns a section
 	 *
 	 *
 	 * @param object parent anchor, if any
 	 * @param array section attributes
 	 * @param boolean FALSE if the surfer can be an editor of parent section
+	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($anchor=NULL, $item=NULL, $strict=FALSE) {
+	 function is_owned($anchor=NULL, $item=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
-		if(!Surfer::get_id())
-			return FALSE;
-		$user_id = Surfer::get_id();
+		if(!$user_id) {
+			if(!Surfer::get_id())
+				return FALSE;
+			$user_id = Surfer::get_id();
+		}
 
 		// surfer owns this section
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
-		// we are owning the anchor anyway
-		if(is_object($anchor) && $anchor->is_owned($user_id))
-			return TRUE;
-
 		// we are editing an item, and surfer is assigned to parent section
 		if(!$strict && isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+
+		// we are owning the anchor anyway
+		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
 
 		// associates can do what they want
@@ -1439,6 +1476,32 @@ Class Sections {
 
 		// sorry
 		return FALSE;
+	}
+
+	/**
+	 * is the surfer watching this section?
+	 *
+	 * @param int the id of the target section
+	 * @param int optional id to impersonate
+	 * @return TRUE or FALSE
+	 */
+	function is_watched($id, $surfer_id=NULL) {
+		global $context;
+
+		// no impersonation
+		if(!$surfer_id) {
+
+			// a managed section requires an authenticated user
+			if(!Surfer::is_logged())
+				return FALSE;
+
+			// use surfer profile
+			$surfer_id = Surfer::get_id();
+
+		}
+
+		// ensure this section has been linked to this user
+		return Members::check('section:'.$id, 'user:'.$surfer_id);
 	}
 
 	/**
@@ -2495,13 +2558,25 @@ Class Sections {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -2715,6 +2790,80 @@ Class Sections {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where;
+
+		$output =& SQL::query_first($query);
+		return $output;
+	}
+
+	/**
+	 * get some statistics for one user
+	 *
+	 * @param the selected user (e.g., '12')
+	 * @return the resulting ($count, $min_date, $max_date) array
+	 *
+	 * @see users/view.php
+	 */
+	function &stat_for_user($author_id) {
+		global $context;
+
+		// sanity check
+		if(!$author_id)
+			return NULL;
+		$author_id = SQL::escape($author_id);
+
+		// select among active and restricted items
+		$where = "sections.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR sections.active='R'";
+
+		// associates can access hidden sections
+		if(Surfer::is_associate())
+			$where .= " OR sections.active='N'";
+
+		// include managed pages for editors
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR sections.id IN (".join(', ', $my_sections).")";
+
+		$where = '('.$where.')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// strip dead pages
+		if(!Surfer::is_empowered()) {
+			$where .= " AND ((sections.expiry_date is NULL) "
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+		}
+
+		// use sub-queries
+		if(version_compare(SQL::version(), '4.1.0', '>=')) {
+
+			// sections attached to users watched sections by date
+			$query = "SELECT COUNT(*) as count,"
+				."	MIN(sections.edit_date) as oldest_date,"
+				."	MAX(sections.edit_date) as newest_date"
+				."  FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($author_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.id = ids.target)"
+				."	AND ".$where
+				." ORDER BY sections.edit_date DESC, sections.title";
+
+		// use joined queries
+		} else {
+
+			// sections attached to users
+			$query = "SELECT COUNT(*) as count,"
+				."	MIN(sections.edit_date) as oldest_date,"
+				."	MAX(sections.edit_date) as newest_date"
+				."  FROM ".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (members.member LIKE 'user:".SQL::escape($author_id)."')"
+				."	AND (members.anchor LIKE 'section:%')"
+				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+				."	AND ".$where
+				." ORDER BY sections.edit_date DESC, sections.title";
+
+		}
 
 		$output =& SQL::query_first($query);
 		return $output;

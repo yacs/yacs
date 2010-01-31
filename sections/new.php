@@ -131,7 +131,7 @@ if(Surfer::is_crawler()) {
 
 	// we are creating a blog
 	} else {
-		$_REQUEST['options'] = 'with_owner_profile';
+		$_REQUEST['options'] = 'with_extra_profile';
 		$_REQUEST['locked'] = 'Y'; // no direct contributions
 
 		// put all blogs at the same place

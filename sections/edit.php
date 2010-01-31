@@ -389,7 +389,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="sections_layout" value="decorated"';
 	if($item['sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - As a decorated list.')
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.')
 		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
 	if($item['sections_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
@@ -433,7 +433,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="compact"';
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.')
+	$input .= '/> '.i18n::s('compact - A compact list.')
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -461,7 +461,7 @@ if($with_form) {
 
 	// layout for related articles
 	$label = i18n::s('Layout');
-	$input = i18n::s('List recent pages using the following layout:').BR;
+	$input = i18n::s('Use the following layout:').BR;
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
@@ -472,7 +472,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="articles_layout" value="decorated"';
 	if($item['articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A decorated list of most recent pages');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
 	$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
 	if($item['articles_layout'] == 'digg')
 		$input .= ' checked="checked"';
@@ -532,7 +532,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list of items');
+	$input .= '/> '.i18n::s('compact - A compact list.');
 	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -562,7 +562,7 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Disallow post of new links');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_neighbours\')" style="cursor: pointer;">no_neighbours</a> - '.i18n::s('Prevent YACS to add links to previous and next pages in the same section');
+	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_neighbours\')" style="cursor: pointer;">with_neighbours</a> - '.i18n::s('Add links to previous and next pages in the same section');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
@@ -1065,7 +1065,7 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_owner_profile\')" style="cursor: pointer;">with_owner_profile</a> - '.i18n::s('Display profile of section creator');
+	$keywords[] = '<a onclick="javascript:append_to_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Display profile of section owner');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
-PO-Revision-Date: 2010-01-08 00:11+0100
+POT-Creation-Date: 2010-01-31 23:12+0100
+PO-Revision-Date: 2010-01-31 23:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -22,6 +22,7 @@ X-Poedit-SourceCharset: utf-8
 $_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['en']['%d posts']='%d posts';
 $_SESSION['l10n']['en']['%d result'.chr(0).'%d results']='%d result'.chr(0).'%d results';
+$_SESSION['l10n']['en']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%d sections';
 $_SESSION['l10n']['en']['%d user'.chr(0).'%d users']='%d user'.chr(0).'%d users';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
@@ -201,7 +202,6 @@ $_SESSION['l10n']['en']['ICQ']='ICQ';
 $_SESSION['l10n']['en']['IRC']='IRC';
 $_SESSION['l10n']['en']['Identification']='Identification';
 $_SESSION['l10n']['en']['5e35ff0f4d7fcd41dfc15c1154a62db2']='If you already are a registered member, but do not remember your username and/or password, %s.';
-$_SESSION['l10n']['en']['1498240d7dd8ef3a4fbafc8af43a360c']='If you browse an interesting section, and want to be notified of new content posted there, click on the Watch link aside.';
 $_SESSION['l10n']['en']['6e4919c1fd24c857329f8e04012e2fb4']='If you have registered to this site, type your nick name below and we will send you a web link to authenticate.';
 $_SESSION['l10n']['en']['If your home page is not here.']='If your home page is not here.';
 $_SESSION['l10n']['en']['Image %d of %d']='Image %d of %d';
@@ -319,8 +319,6 @@ $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you ar
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['69218afa8966421e717318b0e6aa7894']='Please provide parameters to the authenticator.';
 $_SESSION['l10n']['en']['12fc8d23e0da8141d00630c0f2779650']='Please type something to search for.';
-$_SESSION['l10n']['en']['Popular files']='Popular files';
-$_SESSION['l10n']['en']['Popular pages']='Popular pages';
 $_SESSION['l10n']['en']['Preferences']='Preferences';
 $_SESSION['l10n']['en']['Preferred editor']='Preferred editor';
 $_SESSION['l10n']['en']['Present users']='Present users';
@@ -445,7 +443,6 @@ $_SESSION['l10n']['en']['View the new thread']='View the new thread';
 $_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['2470a7b84e0565efbfd25c51005b44b5']='Wait for one hour to recover from too many failed authentications.';
 $_SESSION['l10n']['en']['Watch list']='Watch list';
-$_SESSION['l10n']['en']['Watched sections']='Watched sections';
 $_SESSION['l10n']['en']['3b9f16a2d4a75ed76b06726e46487cd8']='We are only keeping a shadow record for this profile. Please handle this account at %s';
 $_SESSION['l10n']['en']['8eb4650f62d1155f4ebd825daf0bbc28']='We suggest at least 4 numbers, two letters, and a punctuation sign - in any order';
 $_SESSION['l10n']['en']['97696bdc35f03f28bcec5cd1e4f89f2c']='We won\'t disclose personal information about you or your company to anyone outside this site.';
@@ -472,7 +469,6 @@ $_SESSION['l10n']['en']['4c764274e4eb6b268f8e0953492460ac']='You are about to su
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['edd893a6113255d74988e5f27dab52c0']='You are not connected to %s anymore.';
-$_SESSION['l10n']['en']['0091ace8b67fa89dd44d0c1e8b0074d2']='You are notified when new content is added to one of the following web spaces. To remove a section from your watch list, browse it, and click on the Forget link aside.';
 $_SESSION['l10n']['en']['84d757976b482e8128721c3d23e231c3']='You are now a registered user of this community. Each time you will visit this site, please provide your nick name and password to authenticate.';
 $_SESSION['l10n']['en']['You are sending a message to:']='You are sending a message to:';
 $_SESSION['l10n']['en']['7d4468f560f9b8fd3fb8ed3194297114']='You have 1 grace authentication attempt.';
@@ -506,9 +502,7 @@ $_SESSION['l10n']['en']['Your threads with %s']='Your threads with %s';
 $_SESSION['l10n']['en']['8a7a2a3548d32a99ee43c60b96d8e211']='Your watch list has been updated';
 $_SESSION['l10n']['en']['a page']='a page';
 $_SESSION['l10n']['en']['a section']='a section';
-$_SESSION['l10n']['en']['b7a498d7d79544cf0e9ac4dc883f45f7']='and %d other contact'.chr(0).'and %d other contacts';
 $_SESSION['l10n']['en']['81b5d26159e1651c93b0325a8f527f52']='and %d other person'.chr(0).'and %d other persons';
-$_SESSION['l10n']['en']['and many more contacts']='and many more contacts';
 $_SESSION['l10n']['en']['and many more persons']='and many more persons';
 $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['click here']='click here';

@@ -348,7 +348,7 @@ if(!isset($item['id'])) {
 
 	// neighbours information
 	$neighbours = NULL;
-	if(Articles::has_option('no_neighbours', $anchor, $item))
+	if(Articles::has_option('with_neighbours', $anchor, $item))
 		$neighbours = $anchor->get_neighbours('article', $item);
 
 	//
@@ -684,7 +684,7 @@ if(!isset($item['id'])) {
 	}
 
 	// links to previous and next pages in this section, if any
-	if(is_object($anchor) && !$anchor->has_option('no_neighbours')) {
+	if(is_object($anchor) && $anchor->has_option('with_neighbours')) {
 
 		// build a nice sidebar box
 		if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))

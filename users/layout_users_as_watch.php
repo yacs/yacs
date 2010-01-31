@@ -16,7 +16,7 @@ Class Layout_users_as_watch extends Layout_interface {
 	 * list users
 	 *
 	 * @param resource the SQL result
-	 * @return array of resulting items, or NULL
+	 * @return array of resulting items (id => label), or NULL
 	 *
 	 * @see skins/layout.php
 	**/
@@ -37,7 +37,6 @@ Class Layout_users_as_watch extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// build a list of users
-		$count = 0;
 		while($item =& SQL::fetch($result)) {
 
 			// reset everything
@@ -63,57 +62,41 @@ Class Layout_users_as_watch extends Layout_interface {
 			} elseif(isset($item['nick_name']))
 				$title = $item['nick_name'];
 
-			// flag users updated recently
-			if($item['create_date'] >= $dead_line)
-				$suffix = NEW_FLAG.' ';
-			elseif($item['edit_date'] >= $dead_line)
-				$suffix = UPDATED_FLAG.' ';
-
 			// show contact information
 			if(Surfer::may_contact() && ($contacts = Users::build_presence($item)))
 				$suffix .= ' '.$contacts;
+
+			// flag users updated recently
+			if($item['create_date'] >= $dead_line)
+				$suffix .= NEW_FLAG.' ';
+			elseif($item['edit_date'] >= $dead_line)
+				$suffix .= UPDATED_FLAG.' ';
 
 			// do not use description because of codes such as location, etc
 			if(isset($item['introduction']) && $item['introduction'])
 				$suffix .= ' - '.Codes::beautify($item['introduction']);
 
-			// get last posts for this author
-// 			$articles =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], 0, 3, 'compact');
-// 			if(is_array($articles) && $articles) {
-// 				$articles += array(Users::get_permalink($item) => i18n::s('More'));
-// 				$articles = Skin::build_list($articles, 'details');
-// 			}
-// 			if($articles)
-// 				$suffix .= $articles;
+			// display all tags
+// 			if($item['tags'])
+// 				$suffix .= ' <span class="details tags">'.Skin::build_tags($item['tags'], 'user:'.$item['id']).'</span>';
+
+			// the full label
+			$label = $prefix.Skin::build_link($url, $title, 'basic', $hover).$suffix;
 
 			// use the avatar, if any
-			if(isset($item['avatar_url']))
-				$icon = $item['avatar_url'];
+			$icon ='';
+			if(isset($item['avatar_url']) && $item['avatar_url'])
+				$icon = '<a href="'.$url.'"><img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field($hover).'" style="float: left; max-width: 16px; max-height: 16px; margin-right: 4px;" /></a>';
 
 			// list all components for this item --use basic link style to avoid prefix or suffix images, if any
-			$items[$url] = array($prefix, $title, $suffix, 'basic', $icon, $hover);
+			$items[ $item['id'] ] = $icon.$label;
 
-			// limit to one page of results
-			if(++$count >= USERS_PER_PAGE)
-				break;
 		}
 
 		// end of processing
 		SQL::free($result);
 
-		// turn this to some text
-		$items = Skin::build_list($items, 'decorated');
-
-		// some indications on the number of connections
-		if($delta -= $count) {
-			if($delta < 100)
-				$label = sprintf(i18n::ns('and %d other contact', 'and %d other contacts', $delta), $delta);
-			else
-				$label = i18n::s('and many more contacts');
-
-			$items .= '<p>'.$label.'</p>';
-		}
-
+		// job done
 		return $items;
 	}
 }

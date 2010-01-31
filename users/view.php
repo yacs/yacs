@@ -30,7 +30,6 @@
  * - A link to the related rss feed, as an extra box
  * - The nearest locations, if any, into an extra box
  * - Means to reference this page, into a sidebar box
- * - Top popular referrals, if any
  *
  * Several HTTP headers, or &lt;meta&gt; attributes of the displayed page, are set dynamically here
  * to help advanced web usage. This includes:
@@ -77,6 +76,9 @@ include_once '../links/links.php';
 include_once '../locations/locations.php';
 include_once 'visits.php';
 
+Safe::define('SECTIONS_PER_PAGE', 10);
+Safe::define('ARTICLES_PER_PAGE', 30);
+
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
@@ -106,6 +108,10 @@ elseif(isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
 // view.php?id=12&links=2
 elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 	$zoom_type = 'links';
+
+// view.php?id=12&sections=2
+elseif(isset($_REQUEST['sections']) && ($zoom_index = $_REQUEST['sections']))
+	$zoom_type = 'sections';
 
 // view.php?id=12&users=2
 elseif(isset($_REQUEST['users']) && ($zoom_index = $_REQUEST['users']))
@@ -308,11 +314,10 @@ if(!isset($item['id'])) {
 	//
 
 	// the list of assigned sections
-	if(!$zoom_type) {
-		$content = '';
+	if(!$zoom_type || ($zoom_type == 'sections')) {
 
-		// more commands
-		$menu = array();
+		// build a complete box
+		$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 		// the maximum number of personal sections per user
 		if(!isset($context['users_maximum_managed_sections']))
@@ -322,48 +327,53 @@ if(!isset($item['id'])) {
 		if(Surfer::is($item['id']) && Surfer::is_member() &&
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-			$menu[] = Skin::build_link('sections/new.php', SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'), 'span');
+			$box['top'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'));
 		}
 
 		// associates can assign editors and readers
 		if(Surfer::is_associate()) {
 			Skin::define_img('SECTIONS_SELECT_IMG', 'sections/select.gif');
-			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], SECTIONS_SELECT_IMG.i18n::s('Assign sections'), 'span');
+			$box['top'] += array('sections/select.php?anchor=user:'.$item['id'] => SECTIONS_SELECT_IMG.i18n::s('Assign sections'));
 		}
 
-		if(count($menu))
-			$content .= Skin::finalize_list($menu, 'menu_bar');
+		// count the number of articles for this user
+		$stats = Sections::stat_for_user($item['id']);
+		if($stats['count'])
+			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']));
+
+		// navigation commands for articles
+		$home = Users::get_permalink($item);
+		$prefix = Users::get_url($item['id'], 'navigate', 'sections');
+		$box['bottom'] = array_merge($box['bottom'],
+			Skin::navigate($home, $prefix, $stats['count'], SECTIONS_PER_PAGE, $zoom_index));
+
+		// append a menu bar before the list on pages 2, 3, ...
+		if(count($box['top']) || ($zoom_index > 1))
+			$box['top'] = array_merge($box['top'], $box['bottom']);
+
+		if(count($box['top']))
+			$box['text'] .= Skin::build_list($box['top'], 'menu_bar');
+
+		// compute offset from list beginning
+		$offset = ($zoom_index - 1) * SECTIONS_PER_PAGE;
 
 		// list assigned by title
-		if($items =& Members::list_sections_by_title_for_anchor('user:'.$item['id'], 0, 50, 'simple')) {
-			if(is_array($items))
-				$content .= Skin::build_list($items, 'compact');
-			else
-				$content .= $items;
-		}
+		include_once $context['path_to_root'].'sections/layout_sections_as_rights.php';
+		$layout = new Layout_sections_as_rights();
+		$layout->set_variant($item['id']);
+		$items =& Members::list_sections_by_date_for_member('user:'.$item['id'], $offset, SECTIONS_PER_PAGE, $layout);
+		if(is_array($items))
+			$box['text'] .= Skin::build_list($items, 'compact');
+		elseif($items)
+			$box['text'] .= $items;
 
-		// the list of watched sections
-		if($items =& Members::list_sections_by_date_for_member('user:'.$item['id'], 0, 50, 'simple')) {
-			if(is_array($items))
-				$items = Skin::build_list($items, 'compact');
-		}
-
-		// in a side column
-		$aside = '';
-		if($items) {
-			if(Surfer::get_id() == $item['id'])
-				$aside .= '<p>'.i18n::s('You are notified when new content is added to one of the following web spaces. To remove a section from your watch list, browse it, and click on the Forget link aside.').'</p>';
-			$aside .= $items;
-		} elseif(Surfer::get_id() == $item['id'])
-			$aside = '<p>'.i18n::s('If you browse an interesting section, and want to be notified of new content posted there, click on the Watch link aside.').'</p>';
-
-		// layout columns
-		if($aside)
-			$content = Skin::layout_horizontally($content, Skin::build_block(Skin::build_sliding_box(i18n::s('Watched sections'), $aside, 'watched_section', FALSE), 'sidecolumn'));
+		// append a menu bar below the list
+		if(count($box['bottom']))
+			$box['text'] .= Skin::build_list($box['bottom'], 'menu_bar');
 
 		// one box
-		if($content)
-			$contributions .= Skin::build_box(i18n::s('Sections'), $content);
+		if($box['text'])
+			$contributions .= Skin::build_box(i18n::s('Sections'), $box['text']);
 
 	}
 
@@ -449,7 +459,7 @@ if(!isset($item['id'])) {
 		}
 
 		// count the number of articles for this user
-		$stats = Articles::stat_for_author($item['id']);
+		$stats = Articles::stat_for_user($item['id']);
 		if($stats['count'] > ARTICLES_PER_PAGE)
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']));
 
@@ -473,30 +483,14 @@ if(!isset($item['id'])) {
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 
 		// list watched pages by date, not only pages posted by this user
-		include_once $context['path_to_root'].'articles/layout_articles_as_timeline.php';
-		$layout = new Layout_articles_as_timeline();
-		$layout->set_variant('user:'.$item['id']);
+		include_once $context['path_to_root'].'articles/layout_articles_as_rights.php';
+		$layout = new Layout_articles_as_rights();
+		$layout->set_variant($item['id']);
 		$items =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout);
-		$main_column = '';
 		if(is_array($items))
-			$main_column .= Skin::build_list($items, 'compact');
+			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
-			$main_column .= $items;
-
-		// most popular articles for this user
-		$side_column = '';
-		if(!$zoom_type && $items =& Articles::list_for_author_by('hits', $item['id'], 0, COMPACT_LIST_SIZE, 'hits')) {
-			if(is_array($items) && count($items))
-				$items = Skin::build_list($items, 'compact');
-			if($items)
-				$side_column .= Skin::build_block(Skin::build_block(i18n::s('Popular pages'), 'subtitle').$items, 'sidecolumn', 'top_articles');
-		}
-
-		// layout the columns
- 		if($side_column)
- 			$box['text'] .= Skin::layout_horizontally($main_column, $side_column);
- 		elseif($main_column)
- 			$box['text'] .= $main_column;
+			$box['text'] .= $items;
 
 		// append a menu bar below the list
 		if(count($box['bar']))
@@ -514,15 +508,6 @@ if(!isset($item['id'])) {
 		// build a complete box
 		$box['text'] = '';
 
-		//most popular files from this user
-		$side_column = '';
-		if($items = Files::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE)) {
-			if(is_array($items) && count($items))
-				$items = Skin::build_list($items, 'compact');
-			if($items)
-				$side_column .= Skin::build_block(Skin::build_block(i18n::s('Popular files'), 'subtitle').$items, 'sidecolumn', 'top_files');
-		}
-
 		// avoid links to this page
 		include_once '../files/layout_files_as_simple.php';
 		$layout = new Layout_files_as_simple();
@@ -535,10 +520,7 @@ if(!isset($item['id'])) {
 			$items = Skin::build_list($items, 'compact');
 
 		// layout the columns
- 		if($side_column)
- 			$box['text'] .= Skin::layout_horizontally($items, $side_column);
- 		elseif($items)
- 			$box['text'] .= $items;
+		$box['text'] .= $items;
 
 		// actually render the html for the section
 		if($box['text'])

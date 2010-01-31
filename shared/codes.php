@@ -2925,13 +2925,25 @@ Class Codes {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -2952,13 +2964,25 @@ Class Codes {
 			}
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($anchors, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($anchors, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -3035,13 +3059,25 @@ Class Codes {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -3140,13 +3176,25 @@ Class Codes {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -3643,13 +3691,25 @@ Class Codes {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -3670,13 +3730,25 @@ Class Codes {
 			}
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($anchors, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($anchors, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -3787,13 +3859,25 @@ Class Codes {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}

@@ -1131,7 +1131,7 @@ Class Members {
 			$where .= " AND (users.id IN (".join(", ", $restricted)."))";
 
 		// the list of users
-		$query = "SELECT users.id, users.nick_name, users.full_name, users.email, users.without_alerts FROM ".SQL::table_name('members')." AS members"
+		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"

@@ -169,6 +169,10 @@ elseif(isset($item['id']) && Articles::allow_modification($anchor, $item))
 else
 	$permitted = FALSE;
 
+// cascade empowerment
+if(Articles::is_owned($anchor, $item) || Surfer::is_associate())
+	Surfer::empower();
+
 // do not always show the edition form
 $with_form = FALSE;
 
@@ -920,7 +924,7 @@ if($with_form) {
 	$text = '';
 
 	// provide information to section owner
-	if(Sections::is_owned($anchor, $item)) {
+	if(Articles::is_owned($anchor, $item) || Surfer::is_associate()) {
 
 		// owner
 		if(isset($item['id']) && isset($item['owner_id'])) {
@@ -946,7 +950,7 @@ if($with_form) {
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-	if(Surfer::is_empowered() && Surfer::is_member()) {
+	if(Articles::is_owned($anchor, $item) || Surfer::is_associate()) {
 		$label = i18n::s('Access');
 
 		// maybe a public page
@@ -987,7 +991,7 @@ if($with_form) {
 	$fields = array();
 
 	// the rank
-	if(Surfer::is_empowered() && Surfer::is_member()) {
+	if(Articles::is_owned($anchor, $item) || Surfer::is_associate()) {
 
 		// the default value
 		if(!isset($item['rank']))
@@ -1043,7 +1047,7 @@ if($with_form) {
 	$fields = array();
 
 	// the nick name
-	if(Surfer::is_empowered() && Surfer::is_member()) {
+	if(Articles::is_owned($anchor, $item) || Surfer::is_associate()) {
 		$label = i18n::s('Nick name');
 		$value = '';
 		if(isset($item['nick_name']) && $item['nick_name'])
@@ -1067,7 +1071,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// rendering options
-	if(Surfer::is_empowered() && Surfer::is_member()) {
+	if(Articles::is_owned($anchor, $item) || Surfer::is_associate()) {
 		$label = i18n::s('Rendering');
 		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
 			.JS_PREFIX

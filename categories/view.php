@@ -54,6 +54,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Mark
  * @tester Moi-meme
  * @reference
@@ -773,10 +774,35 @@ if(!isset($item['id'])) {
 	//
 
 	// the list of related users if not at another follow-up page
-	if((!$zoom_type) || ($zoom_type == 'users')) {
+	if( ((!$zoom_type) || ($zoom_type == 'users'))
+		&& (!isset($item['users_layout']) || ($item['users_layout'] != 'none')) ) {
 
 		// build a complete box
 		$box = array('bar' => array(), 'text' => '');
+
+		// select a layout
+		if(!isset($item['users_layout']) || !$item['users_layout']) {
+			include_once '../users/layout_users.php';
+			$layout = new Layout_users();
+		} elseif($item['users_layout'] == 'decorated') {
+			include_once '../users/layout_users.php';
+			$layout = new Layout_users();
+		} elseif($item['users_layout'] == 'compact') {
+			include_once '../users/layout_users_as_compact.php';
+			$layout = new Layout_users_as_compact();
+		} elseif(is_readable($context['path_to_root'].'users/layout_users_as_'.$item['users_layout'].'.php')) {
+			$name = 'layout_users_as_'.$item['users_layout'];
+			include_once '../users/'.$name.'.php';
+			$layout = new $name;
+		} else {
+
+			// useful warning for associates
+			if(Surfer::is_associate())
+				Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['users_layout']));
+
+			include_once '../users/layout_users.php';
+			$layout = new Layout_users();
+		}
 
 		// count the number of users in this category
 		$stats = Members::stat_users_for_anchor('category:'.$item['id']);
@@ -799,7 +825,7 @@ if(!isset($item['id'])) {
 
 		// list items by date (default) or by title (option 'users_by_title')
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-		$items =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
+		$items =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, $layout);
 
 		// actually render the html
 		if(is_array($box['bar']))
@@ -883,7 +909,7 @@ if(!isset($item['id'])) {
 		Skin::define_img('CATEGORIES_DELETE_IMG', 'categories/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'delete'), CATEGORIES_DELETE_IMG.i18n::s('Delete this category'));
 
-		// mange persons assigned to this category
+		// manage persons assigned to this category
 		Skin::define_img('CATEGORIES_ASSIGN_IMG', 'categories/assign.gif');
 		$context['page_tools'][] = Skin::build_link(Users::get_url('category:'.$item['id'], 'select'), CATEGORIES_ASSIGN_IMG.i18n::s('Manage members'));
 	}

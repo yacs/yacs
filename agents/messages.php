@@ -600,7 +600,7 @@ class Messages {
 	/**
 	 * process all messages from one mailbox
 	 *
-	 * This is origianl code compliant to RFC 1939 for the authentication,
+	 * This is original code compliant to RFC 1939 for the authentication,
 	 * fetching and processing of messages queued in a POP3 mailbox.
 	 *
 	 * @param array of mailbox attributes ($server, $account, $password)

@@ -181,7 +181,7 @@ if(Surfer::is_crawler()) {
 			Servers::notify($anchor->get_url());
 
 			// report on job done
-			$context['text'] .= Servers::build_endpointd(i18n::s('Servers that have been notified of your post'));
+			$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
 
 		// not advertised
 		} else

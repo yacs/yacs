@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2009-11-30 10:54+0100
+POT-Creation-Date: 2010-01-31 23:37+0100
+PO-Revision-Date: 2010-01-31 23:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -69,6 +69,7 @@ $_SESSION['l10n']['fr']['Delete this category']='Supprimer cette catégorie';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les articles';
+$_SESSION['l10n']['fr']['Do not display persons.']='Ne pas afficher les personnes.';
 $_SESSION['l10n']['fr']['Do not list sections.']='Ne pas lister les sections.';
 $_SESSION['l10n']['fr']['Do not list sub-categories.']='Ne pas lister les sous-catégories.';
 $_SESSION['l10n']['fr']['Done']='Terminé';
@@ -106,7 +107,6 @@ $_SESSION['l10n']['fr']['Keywords update']='Mise à jour des mots clés';
 $_SESSION['l10n']['fr']['Layout']='Mise en page';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['932f09e2a8f6216bed67e5409a6369b0']='Des liens peuvent être ajoutés à la page d\'index';
-$_SESSION['l10n']['fr']['5c9f11db5d207b187e5fa5775f23627d']='Lister les pages récentes suivant la mise en page suivante :';
 $_SESSION['l10n']['fr']['ecc7ab4a52b62f6e4deb6339dc119ec5']='Lister jusqu\'à %s sections avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['b50b92192131c5e24b75ab0be52428e8']='Lister jusqu\'à %s sous-catégories avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
@@ -214,6 +214,7 @@ $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
 $_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';
+$_SESSION['l10n']['fr']['Use the following layout:']='Utiliser la mise en page suivante :';
 $_SESSION['l10n']['fr']['a9ac06b6f2238dbd54599d32e0fa95cf']='Utiliser la vignette comme vignette de la page';
 $_SESSION['l10n']['fr']['7095a3461ba51a372774ee8a1ce5d15b']='Différents moyens de lier cette page';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
@@ -239,12 +240,9 @@ $_SESSION['l10n']['fr']['21bba8f9b0118df8d40223e2e199154e']='sur la page d\'accu
 $_SESSION['l10n']['fr']['at users index']='sur l\'index des utilisateurs';
 $_SESSION['l10n']['fr']['categories']='catégories';
 $_SESSION['l10n']['fr']['aa00cbbac581ee176441d1e92a17ee3e']='clouds - Lister les sous-catégories comme un nuage.';
-$_SESSION['l10n']['fr']['e7dd29c2c008dce9b7ed980a40e31858']='compact - Une liste compacte';
-$_SESSION['l10n']['fr']['643486a1b649b9edf77b84bdc56cc66e']='compact - Dans une liste compacte, comme DMOZ.';
+$_SESSION['l10n']['fr']['compact - A compact list.']='compact - Une liste compacte.';
 $_SESSION['l10n']['fr']['a4896893448b9c1dbe2fb65fb48f68d6']='daily - Une liste d\'articles datés (blog)';
-$_SESSION['l10n']['fr']['6021a9e2f4c742b0beaab9fd9428e2e4']='decorated - Une liste décorée des articles les plus récents';
-$_SESSION['l10n']['fr']['e0227a3dc16b98df6927e104dc23152b']='decorated - Dans une liste décorée';
-$_SESSION['l10n']['fr']['ed618cb800bff59870efe1f550e56d51']='decorated - Lister les catégories sur une colonne, au milieu de la page.';
+$_SESSION['l10n']['fr']['4f63b6b5d1f3f46a29eaee46fed7e8ec']='decorated - Dans une liste décorée par des images.';
 $_SESSION['l10n']['fr']['digg - To order pages by rating']='digg - Ordonner les pages en fonction des votes';
 $_SESSION['l10n']['fr']['edited']='modifié';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';

@@ -120,7 +120,6 @@
  *
  * @author Bernard Paques
  * @author GnapZ
- * @tester GnapZ
  * @tester Pierre Robert
  * @tester Antoine Bour
  * @tester AnsteyER
@@ -138,6 +137,10 @@ if(isset($_REQUEST['credentials']))
 elseif(isset($context['arguments'][0]))
 	$credentials = $context['arguments'][0];
 $credentials = strip_tags($credentials);
+
+// fix credentials if followed by text
+if($credentials && ($position = strpos($credentials, '-')))
+	$credentials = substr($credentials, 0, $position);
 
 // data has been serialized, then base64 encoded
 if($credentials && ($credentials = base64_decode($credentials))) {

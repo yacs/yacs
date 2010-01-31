@@ -215,7 +215,7 @@ elseif(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="root_sections_layout" value="decorated"';
 	if($context['root_sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - As a decorated list.')
+	$input .= '/> '.i18n::s('decorated - A list decorated with images.')
 		.BR.'<input type="radio" name="root_sections_layout" value="map"';
 	if($context['root_sections_layout'] == 'map')
 		$input .= ' checked="checked"';
@@ -243,7 +243,7 @@ elseif(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="root_sections_layout" value="compact"';
 	if($context['root_sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.')
+	$input .= '/> '.i18n::s('compact - A compact list.')
 		.BR.'<input type="radio" name="root_sections_layout" value="titles"';
 	if($context['root_sections_layout'] == 'titles')
 		$input .= ' checked="checked"';

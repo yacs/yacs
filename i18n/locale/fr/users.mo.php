@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
-PO-Revision-Date: 2010-01-08 00:31+0100
+POT-Creation-Date: 2010-01-31 23:12+0100
+PO-Revision-Date: 2010-01-31 23:44+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -22,6 +22,7 @@ X-Poedit-SourceCharset: utf-8
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['fr']['%d posts']='%d contributions';
 $_SESSION['l10n']['fr']['%d result'.chr(0).'%d results']='%d résultat'.chr(0).'%d résultats';
+$_SESSION['l10n']['fr']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%d sections';
 $_SESSION['l10n']['fr']['%d user'.chr(0).'%d users']='%d utilisateur'.chr(0).'%d utilisateurs';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
@@ -201,7 +202,6 @@ $_SESSION['l10n']['fr']['ICQ']='ICQ';
 $_SESSION['l10n']['fr']['IRC']='IRC';
 $_SESSION['l10n']['fr']['Identification']='Identification';
 $_SESSION['l10n']['fr']['5e35ff0f4d7fcd41dfc15c1154a62db2']='Si vous êtes déjà enregistré, mais que vous ne vous rappelez plus votre mot de passe, %s';
-$_SESSION['l10n']['fr']['1498240d7dd8ef3a4fbafc8af43a360c']='Pour observer une section intéressante, et être averti des ajouts, cliquez sur le lien Surveiller sur le côté des pages que vous visitez.';
 $_SESSION['l10n']['fr']['6e4919c1fd24c857329f8e04012e2fb4']='Si vous vous êtes enregistré sur ce site, indiquez votre surnom et nous vous enverrons un lien à cliquer pour vous authentifier.';
 $_SESSION['l10n']['fr']['If your home page is not here.']='Si votre page d\'accueil n\'est pas sur ce système.';
 $_SESSION['l10n']['fr']['Image %d of %d']='Image %d de %d';
@@ -319,8 +319,6 @@ $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver qu
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['69218afa8966421e717318b0e6aa7894']='Indiquez les paramètres pour l\'authentification.';
 $_SESSION['l10n']['fr']['12fc8d23e0da8141d00630c0f2779650']='Merci d\'indiquer les mots recherchés';
-$_SESSION['l10n']['fr']['Popular files']='Fichiers populaires';
-$_SESSION['l10n']['fr']['Popular pages']='Pages populaires';
 $_SESSION['l10n']['fr']['Preferences']='Préférences';
 $_SESSION['l10n']['fr']['Preferred editor']='Editeur préféré';
 $_SESSION['l10n']['fr']['Present users']='Présents sur le site';
@@ -445,7 +443,6 @@ $_SESSION['l10n']['fr']['View the new thread']='Voir la nouvelle conversation';
 $_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lire d\'autres pages intéressantes.';
 $_SESSION['l10n']['fr']['2470a7b84e0565efbfd25c51005b44b5']='Attendez une heure avant de vous authentifier à nouveau.';
 $_SESSION['l10n']['fr']['Watch list']='Pages surveillées';
-$_SESSION['l10n']['fr']['Watched sections']='Sections surveillées';
 $_SESSION['l10n']['fr']['3b9f16a2d4a75ed76b06726e46487cd8']='Nous conservons seulement une copie de ce profil. Merci de gérer ce compte à %s';
 $_SESSION['l10n']['fr']['8eb4650f62d1155f4ebd825daf0bbc28']='De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation';
 $_SESSION['l10n']['fr']['97696bdc35f03f28bcec5cd1e4f89f2c']='Nous conservons l\'information fournie et ne la partageons en aucune façon.';
@@ -472,7 +469,6 @@ $_SESSION['l10n']['fr']['4c764274e4eb6b268f8e0953492460ac']='Vous aller supprime
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['edd893a6113255d74988e5f27dab52c0']='Vous n\'êtesplus connecté à %s.';
-$_SESSION['l10n']['fr']['0091ace8b67fa89dd44d0c1e8b0074d2']='Vous êtes notifié des ajouts effectués dans les espaces web suivants. Pour retirer une section de votre liste de surveillance, visitez la et cliquer sur le lien Oublier.';
 $_SESSION['l10n']['fr']['84d757976b482e8128721c3d23e231c3']='Vous êtes un nouvel utilisateur de cette communauté. Chaque fois que vous visiterez ce site, indiquez votre surnom ou diminutif et votre mot de passe pour être authentifié.';
 $_SESSION['l10n']['fr']['You are sending a message to:']='Vous écrivez à :';
 $_SESSION['l10n']['fr']['7d4468f560f9b8fd3fb8ed3194297114']='Vous pouvez tenter de vous authentifier encore 1 fois.';
@@ -506,9 +502,7 @@ $_SESSION['l10n']['fr']['Your threads with %s']='Vos conversations avec %s';
 $_SESSION['l10n']['fr']['8a7a2a3548d32a99ee43c60b96d8e211']='Votre liste de surveillance a été mise à jour';
 $_SESSION['l10n']['fr']['a page']='une page';
 $_SESSION['l10n']['fr']['a section']='une section';
-$_SESSION['l10n']['fr']['b7a498d7d79544cf0e9ac4dc883f45f7']='et %d autre contact'.chr(0).'et %d autres contacts';
 $_SESSION['l10n']['fr']['81b5d26159e1651c93b0325a8f527f52']='et %d autre personne'.chr(0).'et %d autres personnes';
-$_SESSION['l10n']['fr']['and many more contacts']='et beaucoup d\'autres contacts';
 $_SESSION['l10n']['fr']['and many more persons']='et beaucoup d\'autres personnes';
 $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['click here']='cliquez ici';

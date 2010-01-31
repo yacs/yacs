@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-15 23:34+0100
-PO-Revision-Date: 2010-01-12 00:18+0100
+POT-Creation-Date: 2010-01-31 23:12+0100
+PO-Revision-Date: 2010-01-31 23:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -21,12 +21,13 @@ X-Poedit-Language: English
 ';
 $_SESSION['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
+$_SESSION['l10n']['en']['%d editor'.chr(0).'%d editors']='%d editor'.chr(0).'%d editors';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
 $_SESSION['l10n']['en']['%d link'.chr(0).'%d links']='%d link'.chr(0).'%d links';
 $_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
-$_SESSION['l10n']['en']['%d person'.chr(0).'%d persons']='%d person'.chr(0).'%d persons';
 $_SESSION['l10n']['en']['%d rate'.chr(0).'%d rates']='%d rate'.chr(0).'%d rates';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
+$_SESSION['l10n']['en']['%d watcher'.chr(0).'%d watchers']='%d watcher'.chr(0).'%d watchers';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
@@ -113,6 +114,7 @@ $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit the page']='Edit the page';
 $_SESSION['l10n']['en']['Edit this page']='Edit this page';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
+$_SESSION['l10n']['en']['Editor']='Editor';
 $_SESSION['l10n']['en']['Editors']='Editors';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['22574ae3fe08b2cb5e911bab84f9ed13']='Enter nick names, or email addresses, separated by commas.';
@@ -131,8 +133,6 @@ $_SESSION['l10n']['en']['c4ee000af107ab80885b2ac1b34a715b']='Following items are
 $_SESSION['l10n']['en']['6ee252c696702812c3725d02d8e2db2e']='Following items are attached to this record and will be duplicated as well.';
 $_SESSION['l10n']['en']['249917e69d872d7544b88e2a45be217e']='Following links have been parsed:';
 $_SESSION['l10n']['en']['40caca4c87ecd266518fa9603bf57903']='Following links have been skipped:';
-$_SESSION['l10n']['en']['133d59e8385525c4f2ed28a6c3f13b2f']='Following persons are entitled to manage content:';
-$_SESSION['l10n']['en']['0575321c44f67ea30d7ffbf3f746e7dd']='Following persons are watching this page:';
 $_SESSION['l10n']['en']['1c14dc437619a440504b3de15bae60fc']='For %s pages; regular pages are ranked at %s.';
 $_SESSION['l10n']['en']['37a90ec0846cd10697f270988fd76178']='Force publication of all new pages';
 $_SESSION['l10n']['en']['Forget it']='Forget it';
@@ -227,6 +227,7 @@ $_SESSION['l10n']['en']['4d0b2356ea271e4a6e91187392381016']='Pages will be poste
 $_SESSION['l10n']['en']['5700db55198757763a877ab05d5c6542']='Parse links and trackback referenced pages';
 $_SESSION['l10n']['en']['Participants']='Participants';
 $_SESSION['l10n']['en']['Permalink']='Permalink';
+$_SESSION['l10n']['en']['Person']='Person';
 $_SESSION['l10n']['en']['Persons']='Persons';
 $_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['Ping']='Ping';
@@ -354,7 +355,6 @@ $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
 $_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
-$_SESSION['l10n']['en']['e0a79a4cf99bb99979d77e7c1842b190']='To be notified when new content is added';
 $_SESSION['l10n']['en']['d71e084b875b85c3ed2dacd4f82a5199']='To designate a page by its name in the %s';
 $_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
 $_SESSION['l10n']['en']['dd269e53b9cb005bb7d75f3f50266c09']='To transfer ownership to another person, type some letters of the name you are looking for.';
@@ -382,6 +382,7 @@ $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['Views']='Views';
 $_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['Watch this page']='Watch this page';
+$_SESSION['l10n']['en']['Watcher']='Watcher';
 $_SESSION['l10n']['en']['Watchers']='Watchers';
 $_SESSION['l10n']['en']['What do you think of this page?']='What do you think of this page?';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';

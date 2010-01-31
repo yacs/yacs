@@ -584,7 +584,7 @@ if(!isset($item['id'])) {
 	//
 
 	// show creator profile, if required to do so
-	if(preg_match('/\bwith_owner_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section =& Anchors::get('section:'.$item['id'])))
+	if(preg_match('/\bwith_extra_profile\b/', $item['options']) && ($poster = Users::get($item['owner_id'])) && ($section =& Anchors::get('section:'.$item['id'])))
 		$context['components']['profile'] = $section->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 	// show news -- set in sections/edit.php

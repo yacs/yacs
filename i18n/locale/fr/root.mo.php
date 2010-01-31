@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-12 00:13+0100
-PO-Revision-Date: 2009-09-28 21:50+0100
+POT-Creation-Date: 2010-01-31 23:32+0100
+PO-Revision-Date: 2010-01-31 23:42+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -273,9 +273,9 @@ Nous vous remercions de votre intérêt pour notre site web.';
 $_SESSION['l10n']['fr']['Your query: %s']='Votre requête : %s';
 $_SESSION['l10n']['fr']['another skin']='un autre style';
 $_SESSION['l10n']['fr']['comments']='commentaires';
-$_SESSION['l10n']['fr']['643486a1b649b9edf77b84bdc56cc66e']='compact - Une liste compacte, comme DMOZ.';
+$_SESSION['l10n']['fr']['compact - A compact list.']='compact - Une liste compacte.';
 $_SESSION['l10n']['fr']['cover article']='l\'article de couverture';
-$_SESSION['l10n']['fr']['e0227a3dc16b98df6927e104dc23152b']='decorated - Liste décorée.';
+$_SESSION['l10n']['fr']['4f63b6b5d1f3f46a29eaee46fed7e8ec']='decorated - Liste décorée avec des images.';
 $_SESSION['l10n']['fr']['e-mail']='courriel';
 $_SESSION['l10n']['fr']['featured']='une';
 $_SESSION['l10n']['fr']['files']='fichiers';

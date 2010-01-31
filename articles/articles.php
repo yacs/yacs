@@ -451,31 +451,6 @@ Class Articles {
 		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Articles::is_owned($anchor, $item))
 			return $details;
 
-		// post date and author
-		if($item['create_date']) {
-
-			// creation and last modification happen on same day by the same person
-			if(!strcmp(substr($item['create_date'], 0, 10), substr($item['edit_date'], 0, 10)) && ($item['create_id'] == $item['edit_id']))
-				;
-
-			// mention creation date
-			elseif($item['create_name'])
-				$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
-			else
-				$details[] = Skin::build_date($item['create_date']);
-
-		}
-
-		// publication date and contributor
-		if(($item['publish_date'] > NULL_DATE) && ($item['publish_id'] != $item['create_id']) && !strpos($item['edit_action'], ':publish')) {
-
-			if($item['publish_name'])
-				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
-			else
-				$details[] = Skin::build_date($item['publish_date']);
-
-		}
-
 		// last modification
 		if($item['edit_action'])
 			$action = Anchors::get_action_label($item['edit_action']).' ';
@@ -490,6 +465,31 @@ Class Articles {
 		// last revision, if any
 		if(isset($item['review_date']) && ($item['review_date'] > NULL_DATE) && Surfer::is_associate())
 			$details[] = sprintf(i18n::s('reviewed %s'), Skin::build_date($item['review_date'], 'no_hour'));
+
+		// publication date and contributor
+		if(($item['publish_date'] > NULL_DATE) && ($item['publish_id'] != $item['create_id']) && !strpos($item['edit_action'], ':publish')) {
+
+			if($item['publish_name'])
+				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
+			else
+				$details[] = Skin::build_date($item['publish_date']);
+
+		}
+
+		// post date and author
+		if($item['create_date']) {
+
+			// creation and last modification happen on same day by the same person
+			if(!strcmp(substr($item['create_date'], 0, 10), substr($item['edit_date'], 0, 10)) && ($item['create_id'] == $item['edit_id']))
+				;
+
+			// mention creation date
+			elseif($item['create_name'])
+				$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+			else
+				$details[] = Skin::build_date($item['create_date']);
+
+		}
 
 		// job done
 		return $details;
@@ -1239,6 +1239,40 @@ Class Articles {
 	}
 
 	/**
+	 * check if a surfer can edit a page
+	 *
+	 * @param object parent anchor, if any
+	 * @param array page attributes
+	 * @param int optional reference to some user profile
+	 * @return TRUE or FALSE
+	 */
+	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
+		global $context;
+
+		// id of requesting user
+		if(!$user_id) {
+			if(!Surfer::get_id())
+				return FALSE;
+			$user_id = Surfer::get_id();
+		}
+
+		// surfer is an editor of this page
+		if(Members::check('user:'.$user_id, 'article:'.$item['id']))
+			return TRUE;
+
+		// surfer is assigned to parent container
+		if(is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+
+		// associates can do what they want
+//		if(Surfer::is($user_id) && Surfer::is_associate())
+//			return TRUE;
+
+		// sorry
+		return FALSE;
+	}
+
+	/**
 	 * check if a surfer owns a page
 	 *
 	 * @param object parent anchor, if any
@@ -1264,12 +1298,34 @@ Class Articles {
 		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
 
-		// associates can do what they want
-		if(Surfer::is($user_id) && Surfer::is_associate())
-			return TRUE;
-
 		// sorry
 		return FALSE;
+	}
+
+	/**
+	 * is the surfer watching this page?
+	 *
+	 * @param int the id of the target article
+	 * @param int optional id to impersonate
+	 * @return TRUE or FALSE
+	 */
+	function is_watched($id, $surfer_id=NULL) {
+		global $context;
+
+		// no impersonation
+		if(!$surfer_id) {
+
+			// a managed article requires an authenticated user
+			if(!Surfer::is_logged())
+				return FALSE;
+
+			// use surfer profile
+			$surfer_id = Surfer::get_id();
+
+		}
+
+		// ensure this article has been linked to this user
+		return Members::check('article:'.$id, 'user:'.$surfer_id);
 	}
 
 	/**
@@ -2442,13 +2498,25 @@ Class Articles {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 500)) {
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fourth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// fifth level of depth
+			if(count($topics) && (count($anchors) < 2000)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -2873,21 +2941,14 @@ Class Articles {
 	}
 
 	/**
-	 * get some statistics for one author
+	 * get some statistics for one user
 	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is not visible (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param the selected author (e.g., '12')
+	 * @param the selected user (e.g., '12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 *
 	 * @see users/view.php
 	 */
-	function &stat_for_author($author_id) {
+	function &stat_for_user($author_id) {
 		global $context;
 
 		// sanity check

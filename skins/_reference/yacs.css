@@ -13,6 +13,7 @@
  *
  * @author Bernard Paques
  * @author Thierry Pinelli (ThierryP)
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -885,8 +886,10 @@ table.decorated tr td.image { /* the cell with image */
 	padding: 5px 0;
 }
 
-table.decorated tr td.image img { /* align the decorating image with decorated text */
-	margin: 2px 2px 0 0;
+table.decorated tr td.image img {
+	margin: 2px 2px 0 0;	/* align the decorating image with decorated text */
+	max-width: 50px;		/* ensure that the image is not too large */
+	max-height: 50px;
 }
 
 div.caution { /* [caution]...[/caution] -- draw attention to a warning message */
@@ -1065,13 +1068,13 @@ table.grid { /* [table=grid]...[/table] - enhance table borders*/
 }
 
 table.grid tbody tr td,
-table.grid tbody tr th { /* a cell in a grid */
+table.grid thead tr th { /* a cell in a grid */
 	border: 2px ridge #bfbfbf;
 	padding: 0.5em;
 }
 
 table.tiny tbody tr td,
-table.tiny tbody tr th { /* [table=tiny]...[/table] */
+table.tiny thead tr th { /* [table=tiny]...[/table] */
 	font-family: sans-serif;
 	font-size: 9px;
 	line-height: 10pt;
@@ -1850,7 +1853,7 @@ div.accordion_handle a.accordion_link {
 	z-index: 10;
 }
 
-div.accordion_handle a.accordion_link img {
+div.accordion_handle a.accordion_link img.handle {
 	float: right;
 	padding-right: 0;
 }
@@ -2508,6 +2511,10 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 	text-align: center;
 }
 
+.thumbnail_image a span div, .center_image .large div { /* always center such things */
+    margin:0 auto;
+}
+
 .thumbnail_image .image_caption { /* caption */
 	display: block;
 	text-align: center;
@@ -2580,6 +2587,11 @@ address { /* a author profile towards the end of the main panel */
 
 img.avatar { /* an image representing a member -- do not float it! */
 	margin: 4px; /* some space around the image */
+}
+
+td.author img.avatar {
+	max-heigth: 60px;
+	max-width: 60px;
 }
 
 div.top { /* poster information, when placed at page top */
@@ -2708,7 +2720,7 @@ table.compact caption { /* label for target month */
 }
 
 table.compact tbody tr td,
-table.compact tbody tr th { /* a cell in a compact calendar */
+table.compact thead tr th { /* a cell in a compact calendar */
 	font-family: sans-serif;
 	font-size: 10px;
 	font-weight: normal;
@@ -2726,7 +2738,7 @@ table.month caption { /* label for target month */
 }
 
 table.month tbody tr td,
-table.month tbody tr th { /* an ordinary cell in a calendar table */
+table.month thead tr th { /* an ordinary cell in a calendar table */
 	font-weight: normal;
 	width: 10em;
 }

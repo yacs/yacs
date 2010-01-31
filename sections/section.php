@@ -830,12 +830,12 @@ Class Section extends Anchor {
 			.'|links_by_title'
 			.'|no_comments' 		// e.g. master section vs. sub-forum
 			.'|no_links'
-			.'|no_neighbours'
 //			.'|with_export_tools'
 			.'|with_comments'		// no way to revert from this in sub-sections
 			.'|with_extra_profile'	// only in blog
 			.'|with_files'			// no way to depart from this in sub-sections
 			.'|with_links'			// no way ...
+			.'|with_neighbours'
 			.'|with_prefix_profile' // only in discussion boards
 //			.'|without_rating'
 			.'|with_suffix_profile)/';	// only in authoring sections

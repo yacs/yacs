@@ -14,7 +14,12 @@ if(count(get_included_files()) < 3) {
 }
 
 // load skins parameters
-include_once $context['path_to_root'].'skins/flexible/parameters.include.php';
+if(file_exists($context['path_to_root'].'skins/flexible/parameters.include.php'))
+	include_once $context['path_to_root'].'skins/flexible/parameters.include.php';
+elseif(file_exists($context['path_to_root'].'skins/flexible/parameters.default.php'))
+	include_once $context['path_to_root'].'skins/flexible/parameters.default.php';
+else
+	die('no configuration file can be found for this skin');
 
 // build the prefix only once
 if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {

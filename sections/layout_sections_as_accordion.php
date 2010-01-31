@@ -62,6 +62,16 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			if($item['family'])
 				$box['title'] = Skin::strip($item['family'], 30).' - ';
 
+			// signal articles to be published
+			if(isset($item['activation_date']) && ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+				$box['title'] .= DRAFT_FLAG;
+
+			// signal restricted and private articles
+			if($item['active'] == 'N')
+				$box['title'] .= PRIVATE_FLAG.' ';
+			elseif($item['active'] == 'R')
+				$box['title'] .= RESTRICTED_FLAG.' ';
+
 			// use the title to label the link
 			if(is_object($overlay))
 				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));

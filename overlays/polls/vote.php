@@ -38,7 +38,7 @@
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
- * @author Christophe Battarel (correction bug)
+ * @author Christophe Battarel
  * @tester Timster
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -170,7 +170,7 @@ if(!isset($item['id'])) {
 	$item['overlay'] = serialize($overlay->attributes);
 
 	// touch the related anchor
-	if($article = $anchor->load_by_content($item, $anchor))
+	if($article =& Anchors::get('article:'.$item['id']))
 		$article->touch('vote', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 	// update the database
