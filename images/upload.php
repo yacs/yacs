@@ -133,6 +133,9 @@ if(Surfer::is_crawler()) {
 			function explode_callback($name) {
 				global $context;
 
+        if(!$image_information = Safe::GetImageSize($name))
+          Safe::unlink($name);
+
 //				$context['text'] .= 'extracting '.$name.BR;
 			}
 
