@@ -10,6 +10,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel
+ * @tester Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -133,7 +134,7 @@ if(Surfer::is_crawler()) {
 			function explode_callback($name) {
 				global $context;
 
-        if(!$image_information = Safe::GetImageSize($name))
+        if(!Safe::GetImageSize($name))
           Safe::unlink($name);
 
 //				$context['text'] .= 'extracting '.$name.BR;
@@ -222,9 +223,7 @@ if(Surfer::is_crawler()) {
 					if(isset($item['id']))
 						$anchor->touch('image:create', $item['id']);
 
-				// remove files that have not been processed by yacs (weird PHP script files, etc.)
-				} else
-					Safe::unlink($context['path_to_root'].$file_path.'/'.$node);
+				} 
 			}
 			Safe::closedir($handle);
 		}
