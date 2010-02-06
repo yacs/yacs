@@ -577,7 +577,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('attachments', i18n::s('Attachments'), 'embedded_panel', $text);
+		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
 
 	//
 	// options tab

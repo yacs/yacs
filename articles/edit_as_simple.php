@@ -352,7 +352,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('attachments', i18n::s('Attachments'), 'attachments_panel', $text);
+		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
 
 	//
 	// assemble all tabs

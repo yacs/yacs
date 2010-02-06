@@ -68,12 +68,12 @@ Class Comments {
 		// other containers
 		} else {
 
-			// comments are not explicitly activated in item
-			if(isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_comments\b/i', $item['options']))
-				return FALSE;
-
-			// files are not explicitly activated in container
-			if(is_object($anchor) && !$anchor->has_option('with_comments'))
+			// comments have to be activated
+			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bwith_comments\b/i', $item['options']))
+				;
+			else if(is_object($anchor) && $anchor->has_option('with_comments', FALSE))
+				;
+			else
 				return FALSE;
 
 		}
@@ -90,7 +90,7 @@ Class Comments {
 		if($variant == 'article') {
 
 			// surfer owns this item, or the anchor
-			if(Articles::is_owned($anchor, $item))
+			if(Articles::is_owned($item, $anchor))
 				return TRUE;
 
 			// surfer is an editor, and the page is not private
@@ -101,7 +101,7 @@ Class Comments {
 		} elseif($variant == 'section') {
 
 			// surfer owns this item, or the anchor
-			if(Sections::is_owned($anchor, $item, TRUE))
+			if(Sections::is_owned($item, $anchor, TRUE))
 				return TRUE;
 
 			// surfer is an editor, and the section is not private
@@ -190,7 +190,7 @@ Class Comments {
 // 			return TRUE;
 
 		// you can handle your own comments
-		if(isset($item['create_id']) && Surfer::is($item['create_id']))
+		if(isset($item['create_id']) && Surfer::is($item['create_id']) && is_object($anchor) && !$anchor->has_option('locked'))
 			return TRUE;
 
 		// owner
@@ -575,6 +575,15 @@ Class Comments {
 		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
 			include_once '../comments/layout_comments_as_yabb.php';
 			$layout = new Layout_comments_as_yabb();
+
+		// a manual
+		} elseif((is_object($anchor) && $anchor->has_option('comments_as_manual'))) {
+			include_once '../comments/layout_comments_as_manual.php';
+			$layout = new Layout_comments_as_manual();
+
+		} elseif(isset($item['options']) && preg_match('/\bcomments_as_manual\b/', $item['options'])) {
+			include_once '../comments/layout_comments_as_manual.php';
+			$layout = new Layout_comments_as_manual();
 
 		// a wiki
 		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {

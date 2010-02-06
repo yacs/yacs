@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-15 23:34+0100
-PO-Revision-Date: 2009-11-09 20:14+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -46,7 +46,6 @@ $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
 $_SESSION['l10n']['fr']['Artist']='Artiste';
 $_SESSION['l10n']['fr']['519471e63694deb32693cdb1e9f0342c']='Ce champ étant indexé pour les recherches, pensez à soigner votre formulation';
-$_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Biggest files']='Les plus gros fichiers';
 $_SESSION['l10n']['fr']['Bitrate']='Débit';
@@ -120,6 +119,7 @@ $_SESSION['l10n']['fr']['e6546034f92007b1997e44de29b5b3f2']='Lister les extensio
 $_SESSION['l10n']['fr']['Local path']='Chemin d\'accès local';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
+$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Microsoft web server']='serveur de Microsoft';
 $_SESSION['l10n']['fr']['MindManager']='MindManager';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';

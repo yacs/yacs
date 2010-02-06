@@ -61,7 +61,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!Articles::is_owned($anchor, $item)) {
+} elseif(!Articles::is_owned($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

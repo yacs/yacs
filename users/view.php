@@ -337,19 +337,18 @@ if(!isset($item['id'])) {
 		}
 
 		// count the number of articles for this user
-		$stats = Sections::stat_for_user($item['id']);
-		if($stats['count'])
-			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']));
+		$count = Sections::count_for_user($item['id']);
+		if($count)
+			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 		// navigation commands for articles
 		$home = Users::get_permalink($item);
 		$prefix = Users::get_url($item['id'], 'navigate', 'sections');
 		$box['bottom'] = array_merge($box['bottom'],
-			Skin::navigate($home, $prefix, $stats['count'], SECTIONS_PER_PAGE, $zoom_index));
+			Skin::navigate($home, $prefix, $count, SECTIONS_PER_PAGE, $zoom_index));
 
-		// append a menu bar before the list on pages 2, 3, ...
-		if(count($box['top']) || ($zoom_index > 1))
-			$box['top'] = array_merge($box['top'], $box['bottom']);
+		// append a menu bar before the list
+		$box['top'] = array_merge($box['top'], $box['bottom']);
 
 		if(count($box['top']))
 			$box['text'] .= Skin::build_list($box['top'], 'menu_bar');
@@ -361,14 +360,14 @@ if(!isset($item['id'])) {
 		include_once $context['path_to_root'].'sections/layout_sections_as_rights.php';
 		$layout = new Layout_sections_as_rights();
 		$layout->set_variant($item['id']);
-		$items =& Members::list_sections_by_date_for_member('user:'.$item['id'], $offset, SECTIONS_PER_PAGE, $layout);
+		$items =& Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
 			$box['text'] .= $items;
 
 		// append a menu bar below the list
-		if(count($box['bottom']))
+		if(count($box['bottom']) > 1)
 			$box['text'] .= Skin::build_list($box['bottom'], 'menu_bar');
 
 		// one box
@@ -384,7 +383,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'articles')) {
 
 		// build a complete box
-		$box = array('bar' => array(), 'text' => '');
+		$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 		// only members can create private pages, and only if private pages are allowed
 		if(!$zoom_type && Surfer::is_member() && (!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))) {
@@ -404,7 +403,7 @@ if(!isset($item['id'])) {
 				// recipients
 				$label = i18n::s('Who do you want to involve?');
 				$input = '<textarea name="id" id="id" rows="3" cols="50"></textarea><div id="id_choice" class="autocomplete"></div>';
-				$text .= '<p>'.$label.BR.$input.'</p>';
+				$text .= '<div>'.$label.BR.$input.'</div>';
 
 			// engage the browsed surfer
 			} else
@@ -433,9 +432,9 @@ if(!isset($item['id'])) {
 			// in a folded box
 			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 			if(Surfer::get_id() == $item['id'])
-				$box['text'] .= '<div  style="margin-bottom: 1em;">'.Skin::build_sliding_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'new_thread', TRUE).'</div>';
+				$box['top'] += array('_new_thread' => Skin::build_sliding_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'new_thread', TRUE));
 			else
-				$box['text'] .= '<div style="margin-bottom: 1em;">'.Skin::build_sliding_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'new_thread', TRUE).'</div>';
+				$box['top'] += array('_new_thread' => Skin::build_sliding_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'new_thread', TRUE));
 
 			// append the script used for data checking on the browser
 			$box['text'] .= JS_PREFIX
@@ -459,25 +458,21 @@ if(!isset($item['id'])) {
 		}
 
 		// count the number of articles for this user
-		$stats = Articles::stat_for_user($item['id']);
-		if($stats['count'] > ARTICLES_PER_PAGE)
-			$box['bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']));
+		$count = Articles::count_for_user($item['id']);
+		if($count)
+			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 		// navigation commands for articles
 		$home = Users::get_permalink($item);
 		$prefix = Users::get_url($item['id'], 'navigate', 'articles');
-		$box['bar'] = array_merge($box['bar'],
-			Skin::navigate($home, $prefix, $stats['count'], ARTICLES_PER_PAGE, $zoom_index));
+		$box['bottom'] = array_merge($box['bottom'],
+			Skin::navigate($home, $prefix, $count, ARTICLES_PER_PAGE, $zoom_index));
 
-		// the command to post a new article
-		if((Surfer::get_id() == $item['id']) && Surfer::is_member()) {
-			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
-			$box['bar'] += array( 'articles/edit.php' => ARTICLES_ADD_IMG.i18n::s('Add a page') );
-		}
+		// append a menu bar before the list
+		$box['top'] = array_merge($box['top'], $box['bottom']);
 
-		// append a menu bar before the list on pages 2, 3, ...
-		if(count($box['bar']) && ($zoom_index > 1))
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+		if(count($box['top']))
+			$box['text'] .= Skin::build_list($box['top'], 'menu_bar');
 
 		// compute offset from list beginning
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
@@ -486,15 +481,15 @@ if(!isset($item['id'])) {
 		include_once $context['path_to_root'].'articles/layout_articles_as_rights.php';
 		$layout = new Layout_articles_as_rights();
 		$layout->set_variant($item['id']);
-		$items =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout);
+		$items =& Articles::list_for_user_by('edition', $item['id'], $offset, ARTICLES_PER_PAGE, $layout);
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
 			$box['text'] .= $items;
 
 		// append a menu bar below the list
-		if(count($box['bar']))
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+		if(count($box['bottom']) > 1)
+			$box['text'] .= Skin::build_list($box['bottom'], 'menu_bar');
 
 		// a complete box
 		if($box['text'])

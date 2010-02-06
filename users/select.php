@@ -164,7 +164,7 @@ elseif(!$permitted) {
 				$label = $user['nick_name'];
 
 			// surfer cannot be deselected
-			if($anchor->is_owned($id, TRUE))
+			if($anchor->is_owned($id, FALSE))
 				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
 
 			// add a link to unselect the user
@@ -201,7 +201,7 @@ elseif(!$permitted) {
 				$label = $user['nick_name'];
 
 			// surfer cannot be deselected
-			if($anchor->is_owned($id, TRUE))
+			if($anchor->is_owned($id, FALSE))
 				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
 
 			// add a link to unselect the user
@@ -238,7 +238,7 @@ elseif(!$permitted) {
 				$label = $user['nick_name'];
 
 			// surfer cannot be deselected
-			if($anchor->is_owned($id, TRUE))
+			if($anchor->is_owned($id, FALSE))
 				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
 
 			// add a link to unselect the user
@@ -280,7 +280,7 @@ elseif(!$permitted) {
 					$label = $user['nick_name'];
 
 				// surfer cannot be deselected
-				if($parent->is_owned($id, TRUE))
+				if($parent->is_owned($id, FALSE))
 					$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
 
 				// add a link to unselect the user

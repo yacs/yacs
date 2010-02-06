@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:12+0100
-PO-Revision-Date: 2010-01-31 23:23+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -176,6 +176,7 @@ $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
+$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['be2b5e247910fa0abc3137df3a3b2c67']='Mentionnez vos sources s\'il y a lieu. Lien web (http://...), référence interne ([user=tom]), ou texte libre.';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide';

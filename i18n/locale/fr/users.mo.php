@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:12+0100
-PO-Revision-Date: 2010-01-31 23:44+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -90,7 +90,6 @@ $_SESSION['l10n']['fr']['Assign sections']='Assigner des sections';
 $_SESSION['l10n']['fr']['Associate']='Associé';
 $_SESSION['l10n']['fr']['4128cfdf11ea0df8da8a6770bc9984d7']='Les associés valident les inscriptions (communauté fermée).';
 $_SESSION['l10n']['fr']['eb6a6edda550644a64d0c8d220fb50f4']='Comme demandé, une copie a aussi été envoyée vers votre adresse a %s';
-$_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['Authenticate with password %s']='Mot de passe %s';
 $_SESSION['l10n']['fr']['Authenticate with this profile']='Choisir ce profil';
 $_SESSION['l10n']['fr']['Authenticated externally.']='Authentifiés extérieurement.';
@@ -139,7 +138,6 @@ $_SESSION['l10n']['fr']['Contributions']='Contributions';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Create your profile']='Créer votre profil';
 $_SESSION['l10n']['fr']['Current picture: %s']='Image actuelle : %s';
-$_SESSION['l10n']['fr']['Dashboard']='Tableau de bord';
 $_SESSION['l10n']['fr']['Default editor']='Editeur par défaut';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this profile']='Supprimer ce profil';
@@ -242,6 +240,7 @@ $_SESSION['l10n']['fr']['Mail to %s']='Ecrire à %s';
 $_SESSION['l10n']['fr']['Manage contacts']='Gérer les contacts';
 $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
+$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Member']='Membre';
 $_SESSION['l10n']['fr']['b47ab5ca1f0719fb37d3645017bcae45']='Membre de cette communauté, avec la possibilité de contribuer au contenu du serveur.';
 $_SESSION['l10n']['fr']['Members of %s']='Membres de %s';

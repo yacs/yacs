@@ -63,7 +63,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 				$text .= NEW_FLAG;
 
 			// the comment itself
-			$text .= ucfirst(trim(Codes::beautify($item['description'])))."</p>\n";
+			$text .= ucfirst(trim(Codes::beautify($item['description'].Users::get_signature($item['create_id']))))."</p>\n";
 
 			// odd or even
 			$index++;

@@ -53,12 +53,12 @@ Class Links {
 		// other containers
 		} else {
 
-			// links are not explicitly activated in item
-			if(isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_links\b/i', $item['options']))
-				return FALSE;
-
-			// links are not explicitly activated in container
-			if(is_object($anchor) && !$anchor->has_option('with_links'))
+			// links have to be activated
+			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bwith_links\b/i', $item['options']))
+				;
+			elseif(is_object($anchor) && $anchor->has_option('with_links'))
+				;
+			else
 				return FALSE;
 
 		}
@@ -75,7 +75,7 @@ Class Links {
 		if($variant == 'article') {
 
 			// surfer owns this item, or the anchor
-			if(Articles::is_owned($anchor, $item))
+			if(Articles::is_owned($item, $anchor))
 				return TRUE;
 
 			// surfer is an editor, and the page is not private
@@ -86,7 +86,7 @@ Class Links {
 		} elseif($variant == 'section') {
 
 			// surfer owns this item, or the anchor
-			if(Sections::is_owned($anchor, $item, TRUE))
+			if(Sections::is_owned($item, $anchor, TRUE))
 				return TRUE;
 
 			// surfer is an editor, and the section is not private

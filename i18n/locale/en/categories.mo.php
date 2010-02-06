@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:37+0100
-PO-Revision-Date: 2010-01-31 23:39+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -43,7 +43,6 @@ $_SESSION['l10n']['en']['386980fc5327cd3e0b217ad44c09cb77']='Appears in list of 
 $_SESSION['l10n']['en']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Apply a specific theme (in skins/foo_bar)';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
-$_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['Background color']='Background color';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
@@ -114,6 +113,7 @@ $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Manage members']='Manage members';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
 $_SESSION['l10n']['en']['076258fa009ea3b6a42ad8ef12aca098']='Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s';
+$_SESSION['l10n']['en']['Media']='Media';
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';
 $_SESSION['l10n']['en']['Message recipients']='Message recipients';
@@ -256,7 +256,6 @@ $_SESSION['l10n']['en']['378dbc517423c4bc7b37121c9e0e0f94']='inline - List sub-c
 $_SESSION['l10n']['en']['2367cc975647ba107ba853e93a807607']='jive - Display most of articles content';
 $_SESSION['l10n']['en']['jive - List 5 threads per board']='jive - List 5 threads per board';
 $_SESSION['l10n']['en']['m/d/y']='m/d/y';
-$_SESSION['l10n']['en']['df03b8eb54f8ddd6b1208be16add7366']='manual - A hierarchy of article titles';
 $_SESSION['l10n']['en']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Map in two columns, like Yahoo!';
 $_SESSION['l10n']['en']['monthly']='monthly';
 $_SESSION['l10n']['en']['none']='none';

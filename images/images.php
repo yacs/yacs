@@ -83,7 +83,7 @@ Class Images {
 		if($variant == 'article') {
 
 			// surfer owns this item, or the anchor
-			if(Articles::is_owned($anchor, $item))
+			if(Articles::is_owned($item, $anchor))
 				return TRUE;
 
 			// surfer is an editor, and the page is not private
@@ -103,7 +103,7 @@ Class Images {
 		} elseif($variant == 'section') {
 
 			// surfer owns this item, or the anchor
-			if(Sections::is_owned($anchor, $item, TRUE))
+			if(Sections::is_owned($item, $anchor, TRUE))
 				return TRUE;
 
 		// only in user profiles
@@ -274,6 +274,10 @@ Class Images {
 
 			// process all matching records one at a time
 			while($item =& SQL::fetch($result)) {
+
+				// sanity check
+				if(!file_exists($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name']))
+					continue;
 
 				// duplicate image file
 				if(!copy($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name'],

@@ -228,20 +228,6 @@ if(!isset($item['id'])) {
 	if(@count($details))
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
-	// display the source, if any
-	if($item['source']) {
-		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
-			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
-		else {
-			include_once '../links/links.php';
-			if($attributes = Links::transform_reference($item['source'])) {
-				list($link, $title, $description) = $attributes;
-				$item['source'] = Skin::build_link($link, $title);
-			}
-		}
-		$context['text'] .= '<p class="details">'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
-	}
-
 	// count items related to this section
 	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be duplicated as well.'));
 

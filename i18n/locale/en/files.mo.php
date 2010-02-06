@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-15 23:34+0100
-PO-Revision-Date: 2009-11-09 19:27+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -46,7 +46,6 @@ $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Apple web server']='Apple web server';
 $_SESSION['l10n']['en']['Artist']='Artist';
 $_SESSION['l10n']['en']['519471e63694deb32693cdb1e9f0342c']='As this field may be searched by surfers, please choose adequate searchable words';
-$_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Biggest files']='Biggest files';
 $_SESSION['l10n']['en']['Bitrate']='Bitrate';
@@ -120,6 +119,7 @@ $_SESSION['l10n']['en']['e6546034f92007b1997e44de29b5b3f2']='List extensions you
 $_SESSION['l10n']['en']['Local path']='Local path';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
+$_SESSION['l10n']['en']['Media']='Media';
 $_SESSION['l10n']['en']['Microsoft web server']='Microsoft web server';
 $_SESSION['l10n']['en']['MindManager']='MindManager';
 $_SESSION['l10n']['en']['More options']='More options';

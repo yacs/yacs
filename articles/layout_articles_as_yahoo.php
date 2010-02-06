@@ -108,7 +108,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// rank, for associates
-			if(($item['rank'] != 10000) && Articles::is_owned($anchor, $item))
+			if(($item['rank'] != 10000) && Articles::is_owned($item, $anchor))
 				$details[] = '{'.$item['rank'].'}';
 
 			// introduction

@@ -25,7 +25,7 @@
  * Else only a command to add a file is displayed in the main menu bar.
  *
  * The list of comments is based on a specific layout, depending on options set for the anchoring section.
- * For layouts 'daily', 'manual' and 'yabb', a first page of comments is put below the article, and remaining comments
+ * For layouts 'daily' and 'yabb', a first page of comments is put below the article, and remaining comments
  * are available on secondary pages (see comments/list.php). For other layouts, the first comment is visible at
  * secondary page, and a simple link to it is put here.
  *
@@ -205,7 +205,7 @@ if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
 // owners can do what they want
-if(Articles::is_owned($anchor, $item))
+if(Articles::is_owned($item, $anchor))
 	Surfer::empower();
 
 // anonymous edition is allowed here
@@ -505,7 +505,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the number of hits
-		if(($item['hits'] > 1) && (Articles::is_owned($anchor, $item)
+		if(($item['hits'] > 1) && (Articles::is_owned($item, $anchor)
 			|| ((!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y')) || Articles::has_option('with_details', $anchor, $item)) ) ) {
 
 			// flag popular pages
@@ -514,7 +514,7 @@ if(!isset($item['id'])) {
 				$popular = POPULAR_FLAG;
 
 			// show the number
-			if(Articles::is_owned($anchor, $item) || ($item['hits'] < 100))
+			if(Articles::is_owned($item, $anchor) || ($item['hits'] < 100))
 				$details[] = $popular.Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// other surfers will benefit from a stable ETag
@@ -523,7 +523,7 @@ if(!isset($item['id'])) {
 		}
 
 		// rank for this article
-		if((intval($item['rank']) != 10000) && Articles::is_owned($anchor, $item))
+		if((intval($item['rank']) != 10000) && Articles::is_owned($item, $anchor))
 			$details[] = '{'.$item['rank'].'}';
 
 		// locked article
@@ -572,7 +572,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// mail this page
-	if((Articles::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if((Articles::is_owned($item, $anchor) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	}
@@ -683,15 +683,6 @@ if(!isset($item['id'])) {
 
 	}
 
-	// links to previous and next pages in this section, if any
-	if(is_object($anchor) && $anchor->has_option('with_neighbours')) {
-
-		// build a nice sidebar box
-		if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))
-			$context['components']['neighbours'] = Skin::build_box(i18n::s('Navigation'), $content, 'neighbours', 'neighbours');
-
-	}
-
 	// the contextual menu, in a navigation box, if this has not been disabled
 	if( !Articles::has_option('no_contextual_menu', $anchor, $item)
 		&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
@@ -782,7 +773,7 @@ if(!isset($item['id'])) {
 	else {
 
 		// buttons to display previous and next pages, if any
-		if(is_object($anchor) && $anchor->has_layout('manual'))
+		if($neighbours)
 			$text .= Skin::neighbours($neighbours, 'manual');
 
 		// the poster profile, if any, at the beginning of the first page
@@ -1124,7 +1115,7 @@ if(!isset($item['id'])) {
 		$text .= Codes::beautify($item['trailer']);
 
 	// buttons to display previous and next pages, if any
-	if(is_object($anchor) && $anchor->has_layout('manual'))
+	if($neighbours)
 		$text .= Skin::neighbours($neighbours, 'manual');
 
 	// insert anchor suffix
@@ -1178,7 +1169,7 @@ if(!isset($item['id'])) {
 	}
 
 	// access previous versions, if any
-	if($has_versions && Articles::is_owned($anchor, $item)) {
+	if($has_versions && Articles::is_owned($item, $anchor)) {
 		Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}
@@ -1190,13 +1181,13 @@ if(!isset($item['id'])) {
 	}
 
 	// review command provided to container owners
-	if(Articles::is_owned($anchor, NULL)) {
+	if(Articles::is_owned(NULL, $anchor)) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
 
 	// lock command provided to container and page owners
-	if(Articles::is_owned($anchor, $item)) {
+	if(Articles::is_owned($item, $anchor)) {
 
 		if(!isset($item['locked']) || ($item['locked'] == 'N')) {
 			Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
@@ -1208,7 +1199,7 @@ if(!isset($item['id'])) {
 	}
 
 	// delete command provided to page owners
-	if(Articles::is_owned($anchor, $item)) {
+	if(Articles::is_owned($item, $anchor)) {
 		Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 	}
@@ -1220,7 +1211,7 @@ if(!isset($item['id'])) {
 	}
 
 	// assign command provided to page owners
- 	if(Articles::is_owned($anchor, $item)) {
+ 	if(Articles::is_owned($item, $anchor)) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
  		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
  	}

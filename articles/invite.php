@@ -73,7 +73,7 @@ $message_prefix = i18n::s('I would like to invite you to the following page.')
 	."\n\n".$link."\n\n";
 
 // owners can do what they want
-if(Articles::is_owned($anchor, $item))
+if(Articles::is_owned($item, $anchor))
 	Surfer::empower();
 
 // associates and editors can do what they want

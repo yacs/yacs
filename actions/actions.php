@@ -138,7 +138,7 @@ Class Actions {
 		if($variant == 'article') {
 
 			// surfer owns this item, or the anchor
-			if(Articles::is_owned($anchor, $item))
+			if(Articles::is_owned($item, $anchor))
 				return TRUE;
 
 			// surfer is an editor, and the page is not private
@@ -149,7 +149,7 @@ Class Actions {
 		} elseif($variant == 'section') {
 
 			// surfer owns this item, or the anchor
-			if(Sections::is_owned($anchor, $item, TRUE))
+			if(Sections::is_owned($item, $anchor, TRUE))
 				return TRUE;
 
 		}

@@ -24,7 +24,7 @@ Class Servers {
 		global $context;
 
 		// nothing to show
-		if(!Surfer::get_id() || !isset($context['servers_endpoints']))
+		if(!Surfer::get_id() || !isset($context['servers_endpoints']) || !$context['servers_endpoints'])
 			return '';
 
 		// return the bare list

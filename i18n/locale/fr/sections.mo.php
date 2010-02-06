@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:37+0100
-PO-Revision-Date: 2010-01-31 23:43+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -233,6 +233,7 @@ $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['Manage: %s']='Gérer : %s';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='Les champs obligatoires sont signalés par un *';
+$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide.';
 $_SESSION['l10n']['fr']['27e4e516d735c2be8c7f81d26d82ced5']='Le corps du message ne peut pas être vide.';
@@ -373,7 +374,6 @@ $_SESSION['l10n']['fr']['Sort pages by rating']='Trier les pages par votes';
 $_SESSION['l10n']['fr']['f34e5dbd8866016b47fa59985e3726f2']='Trier les pages par ordre inverse des titres';
 $_SESSION['l10n']['fr']['Sort pages by reverse rank']='Trier les pages par ordre inverse de priorité';
 $_SESSION['l10n']['fr']['Sort pages by title']='Trier les pages par titre';
-$_SESSION['l10n']['fr']['Source: %s']='Source : %s';
 $_SESSION['l10n']['fr']['Spread the word']='Diffuser l\'information';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Sub-sections']='Sous-sections';

@@ -177,11 +177,11 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$watcher = CHECKED_IMG;
 
 			// editor
-			if(Sections::is_editable($anchor, $item, $this->layout_variant))
+			if(Sections::is_editable($anchor, $item, $this->layout_variant, TRUE))
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(Sections::is_owned($anchor, $item, TRUE, $this->layout_variant))
+			if(Sections::is_owned($item, $anchor, TRUE, $this->layout_variant))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output

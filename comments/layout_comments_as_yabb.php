@@ -179,7 +179,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			$text .= '<hr style="clear:both" />';
 
 			// the comment itself
-			$text .= ucfirst(trim(Codes::beautify($item['description'])))."\n";
+			$text .= ucfirst(trim(Codes::beautify($item['description'].Users::get_signature($item['create_id']))))."\n";
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))

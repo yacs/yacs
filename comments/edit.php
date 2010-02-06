@@ -137,12 +137,12 @@ elseif($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
 // associates and authenticated editors can modify any comment
-if(($action != 'edit') && Comments::allow_creation($anchor, $item))
+if(($action != 'edit') && Comments::allow_creation($anchor))
 	$permitted = TRUE;
 
 // modification is allowed
 elseif(($action == 'edit') && Comments::allow_modification($anchor, $item))
-	$permitted = FALSE;
+	$permitted = TRUE;
 
 // the default is to disallow access
 else
@@ -404,14 +404,6 @@ if($with_form) {
 
 	// the description
 	$label = i18n::s('Your contribution');
-
-	// append surfer signature, if any
-	if(!isset($item['description']) && Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && isset($user['signature']) && trim($user['signature'])) {
-		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] != 'yacs'))
-			$item['description'] = "<p>&nbsp;</p><div>-----<br />".$user['signature'].'</div>';
-		else
-			$item['description'] = "\n\n\n\n-----\n".$user['signature'];
-	}
 
 	// use the editor if possible
 	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '');

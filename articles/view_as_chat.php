@@ -317,7 +317,7 @@ if(Articles::allow_modification($anchor, $item)) {
 }
 
 // access previous versions, if any
-if($has_versions && Articles::is_owned($anchor, $item)) {
+if($has_versions && Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 }
@@ -333,13 +333,13 @@ if(Articles::allow_publication($anchor, $item)) {
 }
 
 // review command provided to container owners
-if(Articles::is_owned($anchor, NULL)) {
+if(Articles::is_owned(NULL, $anchor)) {
 	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 }
 
 // lock command provided to associates and authenticated editors
-if(Articles::is_owned($anchor, $item)) {
+if(Articles::is_owned($item, $anchor)) {
 
 	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
 		Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
@@ -351,13 +351,13 @@ if(Articles::is_owned($anchor, $item)) {
 }
 
 // delete command provided to page owners
-if(Articles::is_owned($anchor, $item)) {
+if(Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 }
 
 // assign command provided to owners
-if(Articles::is_owned($anchor, $item)) {
+if(Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
 }

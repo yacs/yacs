@@ -33,9 +33,18 @@ $panels = array();
 
 $article = '';
 
+// put page title there
+if($context['page_title'])
+	$article .= Skin::build_block($context['page_title'], 'page_title');
+$context['page_title'] = '';
+
 // insert anchor prefix
 if(is_object($anchor))
 	$article .= $anchor->get_prefix();
+
+// links to previous and next pages, if any
+if(isset($neighbours) && $neighbours)
+	$article .= Skin::neighbours($neighbours, 'manual');
 
 // article rating, if the anchor allows for it, and if no rating has already been registered
 if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_option('rate_as_digg', $anchor, $item)) {
@@ -199,6 +208,10 @@ if(is_object($overlay))
 if(isset($item['trailer']) && trim($item['trailer']))
 	$article .= Codes::beautify($item['trailer']);
 
+// links to previous and next pages, if any
+if(isset($neighbours) && $neighbours)
+	$article .= Skin::neighbours($neighbours, 'manual');
+
 // insert anchor suffix
 if(is_object($anchor))
 	$article .= $anchor->get_suffix();
@@ -356,7 +369,7 @@ if(Articles::allow_modification($anchor, $item)) {
 }
 
 // access previous versions, if any
-if($has_versions && Articles::is_owned($anchor, $item)) {
+if($has_versions && Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 }
@@ -368,13 +381,13 @@ if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Ar
 }
 
 // review command provided to container owners
-if(Articles::is_owned($anchor, NULL)) {
+if(Articles::is_owned(NULL, $anchor)) {
 	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 }
 
 // lock command provided to associates and authenticated editors
-if(Articles::is_owned($anchor, $item)) {
+if(Articles::is_owned($item, $anchor)) {
 
 	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
 		Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
@@ -386,7 +399,7 @@ if(Articles::is_owned($anchor, $item)) {
 }
 
 // delete command provided to page owners
-if(Articles::is_owned($anchor, $item)) {
+if(Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 }
@@ -398,7 +411,7 @@ if(isset($item['id']) && is_object($anchor) && $anchor->is_owned()) {
 }
 
 // assign command provided to page owners
-if(Articles::is_owned($anchor, $item)) {
+if(Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
 }

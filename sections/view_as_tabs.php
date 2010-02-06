@@ -114,7 +114,7 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 			$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 		// rank for this section
-		if((intval($item['rank']) != 10000) && Sections::is_owned($anchor, $item))
+		if((intval($item['rank']) != 10000) && Sections::is_owned($item, $anchor))
 			$details[] = '{'.$item['rank'].'}';
 
 		// locked section
@@ -843,12 +843,12 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
 
 	// invite command provided to owners
-	if(Sections::is_owned($anchor, $item) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(Sections::is_owned($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$box['bar'] += array(Sections::get_url($item['id'], 'invite') => SECTIONS_INVITE_IMG.i18n::s('Invite participants'));
 
 	// assign command provided to owners
-	} elseif(Sections::is_owned($anchor, $item)) {
+	} elseif(Sections::is_owned($item, $anchor)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 		$box['bar'] += array(Users::get_url('section:'.$item['id'], 'select') => SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 
@@ -869,7 +869,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 				$owner = CHECKED_IMG;
 			$editor = CHECKED_IMG;
 			$watcher = '';
-			if(Members::check('section:'.$item['id'], 'user:'.$user_id));
+			if(Members::check('section:'.$item['id'], 'user:'.$user_id))
 				$watcher = CHECKED_IMG;
 			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
 		}
@@ -985,7 +985,7 @@ if(Images::allow_creation($anchor, $item, 'section')) {
 }
 
 // commands for section owners
-if(Sections::is_owned($anchor, $item)) {
+if(Sections::is_owned($item, $anchor)) {
 
 	// modify this page
 	Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
@@ -1025,7 +1025,7 @@ if(Sections::is_owned($anchor, $item)) {
 	}
 
 	// assign editors
-	if(Sections::is_owned($anchor, $item)) {
+	if(Sections::is_owned($item, $anchor)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 		$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 	}

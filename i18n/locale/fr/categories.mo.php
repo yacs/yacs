@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:37+0100
-PO-Revision-Date: 2010-01-31 23:41+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -43,7 +43,6 @@ $_SESSION['l10n']['fr']['386980fc5327cd3e0b217ad44c09cb77']='Apparait dans les l
 $_SESSION['l10n']['fr']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Appliquer un thème spécifique (dans skins/foo_bar)';
 $_SESSION['l10n']['fr']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['fr']['Attach related files.']='Attacher les fichiers en rapport avec cette page.';
-$_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['Background color']='Couleur d\'arrière-plan';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
@@ -114,6 +113,7 @@ $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Manage members']='Gérer les membres';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $_SESSION['l10n']['fr']['076258fa009ea3b6a42ad8ef12aca098']='Vous pourriez peut-être lister d\'autres pages ou d\'autres éléments en soumettant le mot-clé qui suit à notre moteur de recherche. Qui sait ? %s';
+$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide.';
 $_SESSION['l10n']['fr']['Message recipients']='Destinataires du message';
@@ -256,7 +256,6 @@ $_SESSION['l10n']['fr']['378dbc517423c4bc7b37121c9e0e0f94']='inline - Lister les
 $_SESSION['l10n']['fr']['2367cc975647ba107ba853e93a807607']='jive - Affiche le contenu de chaque article';
 $_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Liste 5 fils de discussion à la fois';
 $_SESSION['l10n']['fr']['m/d/y']='d/m/y';
-$_SESSION['l10n']['fr']['df03b8eb54f8ddd6b1208be16add7366']='manual - Une hiérarchie de titres d\'article';
 $_SESSION['l10n']['fr']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Deux colonnes, comme Yahoo!';
 $_SESSION['l10n']['fr']['monthly']='mensuel';
 $_SESSION['l10n']['fr']['none']='aucun';

@@ -430,7 +430,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']) || !$item['articles_layout'])
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|jive|map|none|slashdot|table|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -470,10 +470,6 @@ if($with_form) {
 	if($item['articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page');
-	$input .= BR.'<input type="radio" name="articles_layout" value="manual"';
-	if($item['articles_layout'] == 'manual')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('manual - A hierarchy of article titles');
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
@@ -670,7 +666,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('attachments', i18n::s('Attachments'), 'attachments_panel', $text);
+		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
 
 	//
 	// options tab

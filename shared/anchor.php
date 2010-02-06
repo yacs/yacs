@@ -930,10 +930,10 @@ class Anchor {
 	 * To be overloaded into derivated class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
-	 * @param boolean TRUE to not cascade the check to parent containers
+	 * @param boolean FALSE to not cascade the check to parent containers
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($user_id=NULL, $strict=FALSE) {
+	 function is_owned($user_id=NULL, $cascade=TRUE) {
 		global $context;
 
 		// id of requesting user
@@ -943,16 +943,20 @@ class Anchor {
 			$user_id = Surfer::get_id();
 		}
 
-		// associates can always do it, except in strict mode
-		if(!$strict && ($user_id == Surfer::get_id()) && Surfer::is_associate())
-			return TRUE;
-
 		// surfer owns this item
 		if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
 			return TRUE;
 
+		// do not cascade
+		if(!$cascade)
+			return FALSE;
+
+		// associates can always do it, except in strict mode
+		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+			return TRUE;
+
 		// if surfer manages parent container it's ok too
-		if(!$strict && isset($this->item['anchor'])) {
+		if(isset($this->item['anchor'])) {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)

@@ -232,7 +232,7 @@ Class Articles {
 			return FALSE;
 
 		// surfer owns this item, or the anchor
-		if(Sections::is_owned($anchor, $item, TRUE))
+		if(Sections::is_owned($item, $anchor, TRUE))
 			return TRUE;
 
 		// surfer is an editor, and the section is not private
@@ -303,7 +303,7 @@ Class Articles {
 			return TRUE;
 
 		// surfer owns this item, or the anchor
-		if(Articles::is_owned($anchor, $item))
+		if(Articles::is_owned($item, $anchor))
 			return TRUE;
 
 		// anonymous surfer has provided the secret handle
@@ -362,7 +362,7 @@ Class Articles {
 			return FALSE;
 
 		// surfer owns the container or the article
-		if(Articles::is_owned($anchor, $item))
+		if(Articles::is_owned($item, $anchor))
 			return TRUE;
 
 		// allow section editors to manage content, except on private sections
@@ -448,7 +448,7 @@ Class Articles {
 			;
 
 		// no details please
-		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Articles::is_owned($anchor, $item))
+		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Articles::is_owned($item, $anchor))
 			return $details;
 
 		// last modification
@@ -601,6 +601,83 @@ Class Articles {
 			." WHERE (".$where_anchor.") AND (".$where.")";
 
 		return SQL::query_scalar($query);
+	}
+
+	/**
+	 * get some statistics for one user
+	 *
+	 * @param int the selected user (e.g., '12')
+	 * @return int pages for this user
+	 *
+	 * @see users/view.php
+	 */
+	function &count_for_user($user_id) {
+		global $context;
+
+		// sanity check
+		if(!$user_id)
+			return NULL;
+		$user_id = SQL::escape($user_id);
+
+		// select among active and restricted items
+		$where = "(articles.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR articles.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR articles.active='N'";
+
+		// include articles from managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		// include managed pages
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		$where .= ')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// list only published articles
+		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+				." AND (articles.publish_date < '".$now."')";
+
+		// strip dead pages
+		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
+			$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+
+		// look for watched pages through sub-queries
+		if(version_compare(SQL::version(), '4.1.0', '>=')) {
+			$query = "SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+				.", ".SQL::table_name('articles')." AS articles"
+				." WHERE (articles.id = ids.target)"
+				."	AND ".$where;
+
+		// use joined queries
+		} else {
+			$query = "SELECT articles.id"
+				." FROM (".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('articles')." AS articles)"
+				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
+				."	AND (members.anchor LIKE 'article:%')"
+				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
+				."	AND ".$where;
+
+		}
+
+		// include articles assigned to this surfer
+		if($these_items = Surfer::assigned_articles($user_id))
+			$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
+				." WHERE articles.id IN (".join(', ', $these_items).")"
+				."	AND ".$where.")"
+				." UNION (".$query.")";
+
+		// count records
+		$output =& SQL::query_count($query);
+		return $output;
 	}
 
 	/**
@@ -1264,10 +1341,6 @@ Class Articles {
 		if(is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
 
-		// associates can do what they want
-//		if(Surfer::is($user_id) && Surfer::is_associate())
-//			return TRUE;
-
 		// sorry
 		return FALSE;
 	}
@@ -1275,12 +1348,12 @@ Class Articles {
 	/**
 	 * check if a surfer owns a page
 	 *
-	 * @param object parent anchor, if any
 	 * @param array page attributes
+	 * @param object cascade to parent if set
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($anchor=NULL, $item=NULL, $user_id=NULL) {
+	 function is_owned($item=NULL, $anchor=NULL, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
@@ -1294,8 +1367,16 @@ Class Articles {
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
+		// don't cascade
+		if(!is_object($anchor))
+			return FALSE;
+
+		// super user
+		if(Surfer::is_associate())
+			return TRUE;
+
 		// surfer owns parent container
-		if(is_object($anchor) && $anchor->is_owned($user_id))
+		if(is_object($anchor) && $anchor->is_owned($user_id, FALSE))
 			return TRUE;
 
 		// sorry
@@ -1891,6 +1972,97 @@ Class Articles {
 	}
 
 	/**
+	 * list articles of one user
+	 *
+	 * This function that are either:
+	 * - owned by the user
+	 * - or assigned to the user
+	 *
+	 * @param string passed to _get_order()
+	 * @param int the id of the target surfer
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else the outcome of the layout
+	 *
+	 * @see users/print.php
+	 * @see users/view.php
+	 */
+	function &list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
+		global $context;
+
+		// sanity check
+		if(!$user_id)
+			return NULL;
+
+		// limit the scope of the request
+		$where = "(articles.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR articles.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR articles.active='N'";
+
+		// include managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		$where .= ')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// show only published articles if not looking at self record
+		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+				." AND (articles.publish_date < '".$now."')";
+
+		// strip dead pages
+		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
+			$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+
+		// order these pages
+		$order = Articles::_get_order($order);
+
+		// look for watched pages through sub-queries
+		if(version_compare(SQL::version(), '4.1.0', '>=')) {
+			$query = "SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+				.", ".SQL::table_name('articles')." AS articles"
+				." WHERE (articles.id = ids.target)"
+				."	AND ".$where;
+
+		// use joined queries
+		} else {
+			$query = "SELECT articles.*"
+				." FROM (".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('articles')." AS articles)"
+				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
+				."	AND (members.anchor LIKE 'article:%')"
+				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
+				."	AND ".$where;
+
+		}
+
+		// include articles assigned to this surfer
+		if($these_items = Surfer::assigned_articles($user_id))
+			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
+				." WHERE articles.id IN (".join(', ', $these_items).")"
+				."	AND ".$where.")"
+				." UNION (".$query.")";
+
+		// finalize the query
+		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Articles::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * list selected articles
 	 *
 	 * If variant is provided as a string, the functions looks for a script featuring this name.
@@ -2381,7 +2553,7 @@ Class Articles {
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
-		if(isset($fields['publish_date']) && Surfer::is_empowered()) {
+		if(isset($fields['publish_date'])) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
 			$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
@@ -2935,67 +3107,6 @@ Class Articles {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")";
-
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for one user
-	 *
-	 * @param the selected user (e.g., '12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see users/view.php
-	 */
-	function &stat_for_user($author_id) {
-		global $context;
-
-		// sanity check
-		if(!$author_id)
-			return NULL;
-		$author_id = SQL::escape($author_id);
-
-		// select among active and restricted items
-		$where = "articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// list only articles contributed by this author
-		$where .= " AND ((articles.create_id = ".SQL::escape($author_id).") OR (articles.owner_id = ".SQL::escape($author_id)."))";
-
-		// only original author and associates will see draft articles
-		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
-
-		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count,"
-			."	MIN(articles.edit_date) as oldest_date,"
-			."	MAX(articles.edit_date) as newest_date"
-			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".$where.")";
 
 		$output =& SQL::query_first($query);
 		return $output;

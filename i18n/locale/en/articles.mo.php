@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:12+0100
-PO-Revision-Date: 2010-01-31 23:19+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -176,6 +176,7 @@ $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Manage editors']='Manage editors';
 $_SESSION['l10n']['en']['Manage your watch list']='Manage your watch list';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
+$_SESSION['l10n']['en']['Media']='Media';
 $_SESSION['l10n']['en']['be2b5e247910fa0abc3137df3a3b2c67']='Mention your source, if any. Web link (http://...), internal reference ([user=tom]), or free text.';
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';

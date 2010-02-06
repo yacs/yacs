@@ -234,7 +234,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// rank, for associates and owners
-			if(($item['rank'] != 10000) && Sections::is_owned(NULL, $item))
+			if(($item['rank'] != 10000) && Sections::is_owned($item, NULL))
 				$details[] = '{'.$item['rank'].'}';
 
 			// introduction

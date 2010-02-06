@@ -460,6 +460,36 @@ Class Users {
 	}
 
 	/**
+	 * get signature of some user
+	 *
+	 * @param int user id
+	 * @param string his signature, or ''
+	 */
+	function get_signature($id) {
+		global $context;
+
+		if(!$id)
+			return '';
+
+		// optimize repeated queries
+		static $cache;
+		if(!isset($cache))
+			$cache = array();
+
+		// we already found this one
+		if(isset($cache[$id]))
+			return $cache[$id];
+		$cache[$id] = '';
+
+		// lookup for this user
+		if(($user =& Users::get($id)) && trim($user['signature']))
+			$cache[$id] = "\n\n-----\n".$user['signature'];
+
+		// return the cached value
+		return $cache[$id];
+	}
+
+	/**
 	 * build a reference to a user
 	 *
 	 * Depending on parameter '[code]with_friendly_urls[/code]' and on action,

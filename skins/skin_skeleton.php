@@ -4360,19 +4360,25 @@ Class Skin_Skeleton {
 		if(isset($data[0]) && $data[0])
 			$previous_url = $data[0];
 
-		if(isset($data[1]) && $data[1] && ($layout != 'manual'))
+		if(isset($data[1]) && $data[1] && ($layout != 'manual')) {
 			$previous_label = Codes::strip($data[1]);
-		else
+			$previous_hover = i18n::s('Previous');
+		} else {
 			$previous_label = i18n::s('Previous');
+			$previous_hover = Codes::strip($data[1]);
+		}
 
 		$next_url = '';
 		if(isset($data[2]) && $data[2])
 			$next_url = $data[2];
 
-		if(isset($data[3]) && $data[3] && ($layout != 'manual'))
+		if(isset($data[3]) && $data[3] && ($layout != 'manual')) {
 			$next_label = Codes::strip($data[3]);
-		else
+			$next_hover = i18n::s('Next');
+		} else {
 			$next_label = i18n::s('Next');
+			$next_hover = Codes::strip($data[3]);
+		}
 
 		$option_url = '';
 		if(isset($data[4]) && $data[4])
@@ -4420,12 +4426,12 @@ Class Skin_Skeleton {
 		// a link to go backwards
 		$previous = '';
 		if($previous_url)
-			$previous =& Skin::build_link($previous_url, $previous_label, 'basic');
+			$previous =& Skin::build_link($previous_url, $previous_label, 'basic', $previous_hover);
 
 		// a link to go forward
 		$next = '';
 		if($next_url)
-			$next =& Skin::build_link($next_url, $next_label, 'basic');
+			$next =& Skin::build_link($next_url, $next_label, 'basic', $next_hover);
 
 		// an option, if any
 		$option = '';

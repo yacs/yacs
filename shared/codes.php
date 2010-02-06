@@ -3202,9 +3202,9 @@ Class Codes {
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
 
-		// scope is limited to pages watched by one surfer
+		// scope is limited to pages of one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_articles_for_member_by('hits', $anchor, 0, $count, $layout);
+			$text =& Articles::list_for_user_by('hits', substr($anchor, 5), 0, $count, $layout);
 
 		// consider all pages
 		if(!$text)
@@ -3762,9 +3762,9 @@ Class Codes {
 			// query the database and layout that stuff
 			$text =& Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
 
-		// scope is limited to pages watched by one surfer
+		// scope is limited to pages of one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_articles_for_member_by('edition', $anchor, 0, $count, $layout);
+			$text =& Articles::list_for_user_by('edition', substr($anchor, 5), 0, $count, $layout);
 
 		// consider all pages
 		else
@@ -3885,9 +3885,9 @@ Class Codes {
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);
 
-		// scope is limited to pages watched by one surfer
+		// scope is limited to pages of one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_articles_for_member_by('rating', $anchor, 0, $count, $layout);
+			$text =& Articles::list_for_user_by('rating', substr($anchor, 5), 0, $count, $layout);
 
 		// consider all pages
 		else

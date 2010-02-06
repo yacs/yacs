@@ -205,7 +205,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 					$suffix .= ucfirst(trim(implode(', ', $details)));
 
 				// unusual ranks are signaled to associates
-				if(($item['rank'] != 10000) && Articles::is_owned($anchor, $item))
+				if(($item['rank'] != 10000) && Articles::is_owned($item, $anchor))
 					$suffix .= ' {'.$item['rank'].'} ';
 
 				// list categories by title, if any

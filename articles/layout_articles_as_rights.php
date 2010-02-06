@@ -160,11 +160,11 @@ Class Layout_articles_as_rights extends Layout_interface {
 				$watcher = CHECKED_IMG;
 
 			// editor
-			if(Articles::is_editable($anchor, $item, $this->layout_variant))
+			if(Articles::is_assigned($item['id'], $this->layout_variant))
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(Articles::is_owned($anchor, $item, $this->layout_variant))
+			if(Articles::is_owned($item, NULL, $this->layout_variant))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output

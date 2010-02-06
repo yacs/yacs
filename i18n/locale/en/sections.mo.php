@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:37+0100
-PO-Revision-Date: 2010-01-31 23:39+0100
+POT-Creation-Date: 2010-02-05 23:22+0100
+PO-Revision-Date: 2010-02-05 23:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -233,6 +233,7 @@ $_SESSION['l10n']['en']['Manage editors']='Manage editors';
 $_SESSION['l10n']['en']['Manage your watch list']='Manage your watch list';
 $_SESSION['l10n']['en']['Manage: %s']='Manage: %s';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
+$_SESSION['l10n']['en']['Media']='Media';
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';
 $_SESSION['l10n']['en']['27e4e516d735c2be8c7f81d26d82ced5']='Message content can not be empty.';
@@ -373,7 +374,6 @@ $_SESSION['l10n']['en']['Sort pages by rating']='Sort pages by rating';
 $_SESSION['l10n']['en']['f34e5dbd8866016b47fa59985e3726f2']='Sort pages by reverse order of titles';
 $_SESSION['l10n']['en']['Sort pages by reverse rank']='Sort pages by reverse rank';
 $_SESSION['l10n']['en']['Sort pages by title']='Sort pages by title';
-$_SESSION['l10n']['en']['Source: %s']='Source: %s';
 $_SESSION['l10n']['en']['Spread the word']='Spread the word';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Sub-sections']='Sub-sections';

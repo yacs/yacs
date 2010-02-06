@@ -184,27 +184,9 @@ if(Surfer::is_crawler()) {
 	if($items)
 		$context['text'] .= $section.Skin::build_list($items, 'compact');
 
-	//
-	// the articles section
-	//
-
-	// title
-	$section = Skin::build_block(i18n::s('Recent pages'), 'title');
-
-	// list articles by date
-	$items =& Articles::list_for_author_by('publication', $item['id'], 0, 50, 'compact');
-
-	// actually render the html
-	if($items)
-		$context['text'] .= $section.Skin::build_list($items, 'compact');
-
-	//
-	// watch list
-	//
-
-	// list tracked articles by date
-	if($items =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], 0, 20, 'compact'))
-		$context['text'] .= Skin::build_box(i18n::s('Dashboard'), Skin::build_list($items, 'compact'));
+	// list pages attached to this user
+	if($items =& Articles::list_for_user_by('edition', $item['id'], 0, 50, 'compact'))
+		$context['text'] .= Skin::build_box(i18n::s('Pages'), Skin::build_list($items, 'compact'));
 
 }
 

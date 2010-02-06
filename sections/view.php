@@ -549,7 +549,7 @@ if(!isset($item['id'])) {
 				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// rank for this section
-			if((intval($item['rank']) != 10000) && Sections::is_owned($anchor, $item))
+			if((intval($item['rank']) != 10000) && Sections::is_owned($item, $anchor))
 				$details[] = '{'.$item['rank'].'}';
 
 			// locked section
@@ -709,7 +709,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// add participants
-	if((Sections::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if((Sections::is_owned($item, $anchor) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
 	}
@@ -1716,7 +1716,7 @@ if(!isset($item['id'])) {
 	}
 
 	// commands for section owners
-	if(Sections::is_owned($anchor, $item, TRUE)) {
+	if(Sections::is_owned($item, $anchor, TRUE)) {
 
 		// modify this section
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');

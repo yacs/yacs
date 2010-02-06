@@ -47,7 +47,7 @@ if(isset($item['anchor']))
 	$anchor =& Anchors::get($item['anchor']);
 
 // owners can proceed
-if(Sections::is_owned($anchor, $item))
+if(Sections::is_owned($item, $anchor))
 	$permitted = TRUE;
 
 // section editors can proceed

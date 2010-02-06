@@ -271,7 +271,7 @@ Class Sections {
 			return FALSE;
 
 		// surfer owns the section
-		if(Sections::is_owned($anchor, $item, TRUE))
+		if(Sections::is_owned($item, $anchor, TRUE))
 			return TRUE;
 
 		// the default is to not allow for new sections
@@ -296,7 +296,7 @@ Class Sections {
 			;
 
 		// no details please
-		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Sections::is_owned($anchor, $item))
+		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Sections::is_owned($item, $anchor))
 			return $details;
 
 		// last modification
@@ -445,6 +445,72 @@ Class Sections {
 		// count sections
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('sections')." AS sections WHERE ".$where;
 		$output = SQL::query_scalar($query);
+		return $output;
+	}
+
+	/**
+	 * count sections for one user
+	 *
+	 * @param int id of the target user
+	 * @return int number of sections
+	 *
+	 * @see users/view.php
+	 */
+	function &count_for_user($user_id) {
+		global $context;
+
+		// sanity check
+		if(!$user_id)
+			return NULL;
+
+		// limit the scope of the request
+		$where = "(sections.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR sections.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR sections.active='N'";
+
+		// include assigned sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR sections.id IN (".join(', ', $my_sections).")";
+
+		$where .= ')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// strip dead sections
+		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
+			$where .= " AND ((sections.expiry_date is NULL) "
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+
+		// look for watched sections with sub-queries
+		if(version_compare(SQL::version(), '4.1.0', '>=')) {
+			$query = "SELECT sections.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.id = ids.target)"
+				."	AND ".$where;
+
+		// use joined queries
+		} else {
+			$query = "SELECT sections.id FROM ".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
+				."	AND (members.anchor LIKE 'section:%')"
+				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+				."	AND ".$where;
+
+		}
+
+		// include sections assigned to this surfer
+		if($these_items = Surfer::assigned_sections($user_id))
+			$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE sections.id IN (".join(', ', $these_items).")"
+				."	AND ".$where.")"
+				." UNION (".$query.")";
+
+		// coun records
+		$output =& SQL::query_count($query);
 		return $output;
 	}
 
@@ -1412,7 +1478,7 @@ Class Sections {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
+	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL, $strict=FALSE) {
 		global $context;
 
 		// id of requesting user
@@ -1426,13 +1492,12 @@ Class Sections {
 		if(Members::check('user:'.$user_id, 'section:'.$item['id']))
 			return TRUE;
 
+		if($strict)
+			return FALSE;
+
 		// surfer is assigned to parent container
 		if(is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
-
-		// associates can do what they want
-//		if(Surfer::is($user_id) && Surfer::is_associate())
-//			return TRUE;
 
 		// sorry
 		return FALSE;
@@ -1441,14 +1506,13 @@ Class Sections {
 	/**
 	 * check if a surfer owns a section
 	 *
-	 *
-	 * @param object parent anchor, if any
 	 * @param array section attributes
+	 * @param object parent anchor, if any
 	 * @param boolean FALSE if the surfer can be an editor of parent section
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($anchor=NULL, $item=NULL, $strict=FALSE, $user_id=NULL) {
+	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
@@ -1462,16 +1526,20 @@ Class Sections {
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
-		// we are editing an item, and surfer is assigned to parent section
-		if(!$strict && isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
-			return TRUE;
-
-		// we are owning the anchor anyway
-		if(is_object($anchor) && $anchor->is_owned($user_id))
-			return TRUE;
+		// do not look upwards
+		if(!$anchor || !is_object($anchor))
+			return FALSE;
 
 		// associates can do what they want
 		if(Surfer::is($user_id) && Surfer::is_associate())
+			return TRUE;
+
+		// we are owning one of the parents
+		if($anchor->is_owned($user_id))
+			return TRUE;
+
+		// we are editing an item, and surfer is assigned to one of the parents
+		if(!$strict && isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
 
 		// sorry
@@ -1647,6 +1715,74 @@ Class Sections {
 			." WHERE (sections.nick_name LIKE '".SQL::escape($name)."') AND ".$where
 			." ORDER BY sections.title LIMIT 100";
 
+		$output =& Sections::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list sections for one user
+	 *
+	 * @param int the id of the target user
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return mixed the outcome of the layout
+	 *
+	 * @see shared/codes.php
+	 */
+	function &list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
+		global $context;
+
+		// limit the scope of the request
+		$where = "(sections.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR sections.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR sections.active='N'";
+
+		// include managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+
+		$where .= ')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// strip dead sections
+		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
+			$where .= " AND ((sections.expiry_date is NULL) "
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+
+		// look for watched sections with sub-queries
+		if(version_compare(SQL::version(), '4.1.0', '>=')) {
+			$query = "SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.id = ids.target)"
+				."	AND ".$where;
+
+		// use joined queries
+		} else {
+			$query = "SELECT sections.* FROM ".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
+				."	AND (members.anchor LIKE 'section:%')"
+				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+				."	AND ".$where;
+
+		}
+
+		// include sections assigned to this surfer
+		if($these_items = Surfer::assigned_sections($user_id))
+			$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE sections.id IN (".join(', ', $these_items).")"
+				."	AND ".$where.")"
+				." UNION (".$query.")";
+
+		// finalize the query
+		$query .= " ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
 		$output =& Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
@@ -2087,7 +2223,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2257,7 +2393,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2790,80 +2926,6 @@ Class Sections {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where;
-
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for one user
-	 *
-	 * @param the selected user (e.g., '12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see users/view.php
-	 */
-	function &stat_for_user($author_id) {
-		global $context;
-
-		// sanity check
-		if(!$author_id)
-			return NULL;
-		$author_id = SQL::escape($author_id);
-
-		// select among active and restricted items
-		$where = "sections.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR sections.active='R'";
-
-		// associates can access hidden sections
-		if(Surfer::is_associate())
-			$where .= " OR sections.active='N'";
-
-		// include managed pages for editors
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR sections.id IN (".join(', ', $my_sections).")";
-
-		$where = '('.$where.')';
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// strip dead pages
-		if(!Surfer::is_empowered()) {
-			$where .= " AND ((sections.expiry_date is NULL) "
-					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
-		}
-
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// sections attached to users watched sections by date
-			$query = "SELECT COUNT(*) as count,"
-				."	MIN(sections.edit_date) as oldest_date,"
-				."	MAX(sections.edit_date) as newest_date"
-				."  FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($author_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.id = ids.target)"
-				."	AND ".$where
-				." ORDER BY sections.edit_date DESC, sections.title";
-
-		// use joined queries
-		} else {
-
-			// sections attached to users
-			$query = "SELECT COUNT(*) as count,"
-				."	MIN(sections.edit_date) as oldest_date,"
-				."	MAX(sections.edit_date) as newest_date"
-				."  FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (members.member LIKE 'user:".SQL::escape($author_id)."')"
-				."	AND (members.anchor LIKE 'section:%')"
-				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where
-				." ORDER BY sections.edit_date DESC, sections.title";
-
-		}
 
 		$output =& SQL::query_first($query);
 		return $output;

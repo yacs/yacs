@@ -535,7 +535,7 @@ else {
 				Surfer::empower();
 
 			// surfer is a page editor
-			elseif(Articles::is_owned($anchor, $item))
+			elseif(Articles::is_owned($item, $anchor))
 				Surfer::empower();
 
 			// operation is restricted

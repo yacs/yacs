@@ -123,7 +123,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$text .= '</h4>';
 
 			// the comment itself
-			$text .= Skin::build_block($item['description'], 'description');
+			$text .= Skin::build_block($item['description'].Users::get_signature($item['create_id']), 'description');
 
 			// end of this note
 			$text .= '</div>'."\n";

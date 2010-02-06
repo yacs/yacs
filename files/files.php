@@ -90,12 +90,12 @@ Class Files {
 		// other containers
 		} else {
 
-			// files are not explicitly activated in item
-			if(isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_files\b/i', $item['options']))
-				return FALSE;
-
-			// files are not explicitly activated in container
-			if(is_object($anchor) && !$anchor->has_option('with_files'))
+			// files have to be activated explicitly
+			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bwith_files\b/i', $item['options']))
+				;
+			elseif(is_object($anchor) && $anchor->has_option('with_files'))
+				;
+			else
 				return FALSE;
 
 		}
@@ -116,7 +116,7 @@ Class Files {
 		if($variant == 'article') {
 
 			// surfer owns this item, or the anchor
-			if(Articles::is_owned($anchor, $item))
+			if(Articles::is_owned($item, $anchor))
 				return TRUE;
 
 			// surfer is an editor, and the page is not private
@@ -127,7 +127,7 @@ Class Files {
 		} elseif($variant == 'section') {
 
 			// surfer owns this item, or the anchor
-			if(Sections::is_owned($anchor, $item, TRUE))
+			if(Sections::is_owned($item, $anchor, TRUE))
 				return TRUE;
 
 			// surfer is an editor, and the section is not private
@@ -446,6 +446,10 @@ Class Files {
 
 			// process all matching records one at a time
 			while($item =& SQL::fetch($result)) {
+
+				// sanity check
+				if(!file_exists($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name']))
+					continue;
 
 				// duplicate file
 				if(!copy($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name'],

@@ -37,7 +37,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // owners have associate-like capabilities
-if(Sections::is_owned($anchor, $item, TRUE))
+if(Sections::is_owned($item, $anchor, TRUE))
 	$permitted = TRUE;
 
 // the default is to disallow access

@@ -24,10 +24,14 @@ class Thread extends Overlay {
 
 		// we return some text
 		$text = '';
-		
+
+		$to_avoid = NULL;
+		if($id = Surfer::get_id())
+			$to_avoid = 'user:'.$id;
+
 		// page editors, except target surfer
-		if($friends =& Members::list_users_by_posts_for_member('article:'.$host['id'], 0, USERS_LIST_SIZE, 'comma', $options))
-			$text = '<div class="details">'.sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma')).'</div>';
+		if($friends =& Members::list_users_by_posts_for_member('article:'.$host['id'], 0, USERS_LIST_SIZE, 'comma', $to_avoid))
+			$text = '<p class="details">'.sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma')).'</p>';
 
 		return $text;
 

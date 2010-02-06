@@ -78,7 +78,7 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($overlay_class);
 
 // owners have associate-like capabilities
-if(Sections::is_owned($anchor, $item, TRUE))
+if(Sections::is_owned($item, $anchor, TRUE))
 	$permitted = TRUE;
 
 // editors of parent sections can create sub-sections
@@ -465,7 +465,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -773,7 +773,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('attachments', i18n::s('Attachments'), 'attachments_panel', $text);
+		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
 
 	//
 	// options tab
@@ -781,7 +781,7 @@ if($with_form) {
 	$text = '';
 
 	// provide information to section owner
-	if(Sections::is_owned($anchor, $item)) {
+	if(Sections::is_owned($item, $anchor)) {
 
 		// owner
 		if(isset($item['owner_id'])) {

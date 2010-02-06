@@ -2,8 +2,6 @@
 /**
  * manage section content.
  *
- * @todo draft does not work (charron)
- *
  * This script allows to select several items, and to apply one command to the set.
  *
  * Available operations for articles include:
@@ -43,6 +41,7 @@
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Alain Lesage (Lasares)
+ * @tester Francois Charron
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -111,7 +110,7 @@ elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 $action = strip_tags($action);
 
 // only owners can proceed
-if(Sections::is_owned($anchor, $item))
+if(Sections::is_owned($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access

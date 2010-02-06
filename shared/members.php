@@ -145,9 +145,9 @@ Class Members {
 		if(isset($cache[$anchor.':'.$member]))
 			return $cache[$anchor.':'.$member];
 
-		// don't go further if the membership already exists
+		// check at least one record
 		$query = "SELECT id  FROM ".SQL::table_name('members')
-			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 0, 1";
+			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 1";
 
 		if(SQL::query_count($query))
 			return $cache[$anchor.':'.$member] = TRUE;
@@ -462,98 +462,6 @@ Class Members {
 	}
 
 	/**
-	 * list articles watched by a user
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is restricted (active='N'), but surfer is an associate
-	 * - article has been officially published
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param string passed to _get_order()
-	 * @param the target member
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see users/print.php
-	 * @see users/view.php
-	 */
-	function &list_articles_for_member_by($order, $member, $offset=0, $count=10, $variant='full') {
-		global $context;
-
-		// limit the scope of the request
-		$where = "(articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include managed sections
-		if($my_items = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_items)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where .= ")";
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// show only published articles if not looking at self record
-		if(!Surfer::get_id() || ($member != 'user:'.Surfer::get_id()))
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
-
-		// strip dead pages
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
-		// order these pages
-		$order = Articles::_get_order($order);
-
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// articles attached to this member
-			$query = "SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'article:%')) AS ids"
-				.", ".SQL::table_name('articles')." AS articles"
-				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
-
-		// use joined queries
-		} else {
-
-			// articles attached to this member
-			$query = "SELECT articles.*"
-				." FROM (".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('articles')." AS articles)"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
-				."	AND (members.anchor LIKE 'article:%')"
-				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
-
-		}
-
-		// include managed articles at self record
-		if((Surfer::is_associate() || (Surfer::get_id() && ($member == 'user:'.Surfer::get_id())))
-			&& count($my_items = Surfer::assigned_articles(str_replace('user:', '', $member))))
-			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
-				." WHERE articles.id IN (".join(', ', $my_items)."))"
-				." UNION (".$query.")";
-
-		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;
-
-		// use existing listing facility
-		$output =& Articles::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * build the site cloud
 	 *
 	 * This function lists tags based on their popularity.
@@ -841,71 +749,6 @@ Class Members {
 			."	AND (members.member_id = sections.id)"
 			."	AND (".$where.")"
 			." ORDER BY sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
-
-		// use existing listing facility
-		$output =& Sections::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list watched sections for one user
-	 *
-	 * @param the target user id
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see shared/codes.php
-	 */
-	function &list_sections_by_date_for_member($member, $offset=0, $count=10, $variant='full') {
-		global $context;
-
-		// limit the scope of the request
-		$where = "sections.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR sections.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-
-		$where = '('.$where.')';
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// strip dead pages
-		if(!Surfer::is_empowered()) {
-			$where .= " AND ((sections.expiry_date is NULL) "
-					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
-		}
-
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// sections attached to users watched sections by date
-			$query = "SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'section:%')) AS ids"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.id = ids.target)"
-				."	AND ".$where
-				." ORDER BY sections.edit_date DESC, sections.title LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// sections attached to users
-			$query = "SELECT sections.* FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
-				."	AND (members.anchor LIKE 'section:%')"
-				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where
-				." ORDER BY sections.edit_date DESC, sections.title LIMIT ".$offset.','.$count;
-
-		}
 
 		// use existing listing facility
 		$output =& Sections::list_selected(SQL::query($query), $variant);

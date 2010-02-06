@@ -899,10 +899,6 @@ Class Section extends Anchor {
 		if(isset($this->is_assigned_cache[$user_id]))
 			return $this->is_assigned_cache[$user_id];
 
-		// associates can do what they want
-		if(Surfer::is_associate())
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
 		// anonymous surfer has provided the secret handle
 		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
 			return $this->is_assigned_cache[$user_id] = TRUE;

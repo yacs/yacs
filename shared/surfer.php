@@ -94,18 +94,12 @@ Class Surfer {
 			return $cache[ $id ];
 		$cache[ $id ] = array();
 
-		// only consider live articles
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where = "((articles.expiry_date is NULL)"
-			."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
 		// the list of articles
 		$query = "SELECT articles.id FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE (members.anchor LIKE 'user:".SQL::escape($id)."')"
 			."	AND (members.member_type = 'article')"
 			."	AND (members.member_id = articles.id)"
-			."	AND (".$where.")"
 			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 		// submit a silent query because at setup tables don't exist

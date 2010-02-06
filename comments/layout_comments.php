@@ -85,7 +85,7 @@ Class Layout_comments extends Layout_interface {
 			$suffix .= BR;
 
 			// description
-			if($description = ucfirst(trim(Codes::beautify($item['description']))))
+			if($description = ucfirst(trim(Codes::beautify($item['description'].Users::get_signature($item['create_id'])))))
 					$suffix .= ' '.$description;
 
 			// url to view the comment

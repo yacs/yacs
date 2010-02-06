@@ -98,7 +98,7 @@ elseif(!isset($item['id'])) {
 	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
-} elseif(!Articles::is_owned($anchor, $item)) {
+} elseif(!Articles::is_owned($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {

@@ -58,7 +58,7 @@ if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
 // owners can proceed
-if(Articles::is_owned($anchor, $item))
+if(Articles::is_owned($item, $anchor))
 	$permitted = TRUE;
 
 // article editors can proceed
