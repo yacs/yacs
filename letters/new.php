@@ -495,7 +495,7 @@ if(!Surfer::is_associate()) {
 		$fields['rank'] = 30000; // at the end of the list
 
 		// reference the new section
-		if($fields['id'] = Sections::post($fields))
+		if($fields['id'] = Sections::post($fields, FALSE))
 			$anchor = 'section:'.$fields['id'];
 
 	}

@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
+POT-Creation-Date: 2010-02-09 11:07+0100
 PO-Revision-Date: 2009-10-05 00:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -74,7 +74,6 @@ $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page address (permalink):']='Adresse de l\'article (permalink) :';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['61ab86a39172b19e7cd47a8dec28c0e1']='Choisissez l\'emplacement adéquat pour partager votre lien';
-$_SESSION['l10n']['fr']['5fe5e48f55363ee013cf40d603c317dd']='Merci de bloguer cette page, ou de la référencer (trackback).';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';

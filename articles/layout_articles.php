@@ -188,7 +188,7 @@ Class Layout_articles extends Layout_interface {
 			// at the user page
 			if(($this->layout_variant == 'no_author') && Surfer::get_id()) {
 				if(Members::check('article:'.$item['id'], 'user:'.Surfer::get_id()))
-					$label = i18n::s('Forget this page');
+					$label = i18n::s('Stop notifications');
 				else
 					$label = i18n::s('Watch this page');
 				$menu = array( 'users/track.php?anchor='.urlencode('article:'.$item['id']) => $label );

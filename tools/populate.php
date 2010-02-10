@@ -368,7 +368,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'forums';
 		$fields['title'] = i18n::c('Forums');
 		$fields['introduction'] = i18n::c('Sample discussion places');
-		$fields['section_layout'] = 'map';
+		$fields['sections_layout'] = 'yabb';
 		$fields['articles_layout'] = 'none';
 		$fields['locked'] = 'Y';
 		if(Sections::post($fields))
@@ -391,7 +391,7 @@ if(Surfer::is_crawler()) {
 		$fields['articles_layout'] = 'map'; // list threads appropriately
 		$fields['content_options'] = 'view_as_chat'; // change the rendering script for articles
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
-		if(Sections::post($fields))
+		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Logger::error_pop().BR."\n";
@@ -538,7 +538,6 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'blog';
 		$fields['title'] = i18n::c('Blog');
 		$fields['introduction'] = i18n::c('Sample blogging place');
-		$fields['section_layout'] = 'map';
 		$fields['options'] = 'with_extra_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // that's a blog
 		$fields['content_options'] = 'with_extra_profile'; // let surfers rate their readings
@@ -753,9 +752,8 @@ if(Surfer::is_crawler()) {
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'wikis';
-		$fields['title'] = i18n::c('Wiki');
-		$fields['introduction'] = i18n::c('Sample wikis');
-		$fields['section_layout'] = 'map';
+		$fields['title'] = i18n::c('Wikis');
+		$fields['sections_layout'] = 'map';
 		$fields['articles_layout'] = 'none';
 		$fields['locked'] = 'Y';
 		$fields['articles_templates'] = 'wiki_template';
@@ -774,10 +772,9 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'wiki_anonymous';
 		$fields['title'] = i18n::c('Anonymous wiki');
 		$fields['introduction'] = i18n::c('Anyone can update pages in this section');
-		$fields['section_layout'] = 'inline'; // that's a wiki
-		$fields['articles_layout'] = 'wiki'; // a wiki
-		$fields['content_options'] = 'anonymous_edit, auto_publish, with_export_tools';
-		if(Sections::post($fields))
+		$fields['articles_layout'] = 'tagged'; // a wiki
+		$fields['content_options'] = 'view_as_wiki anonymous_edit auto_publish with_export_tools';
+		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Logger::error_pop().BR."\n";
@@ -790,9 +787,8 @@ if(Surfer::is_crawler()) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'wiki_anonymous_page';
-		$fields['title'] = i18n::c('Sample page of the wiki');
-		$fields['introduction'] = i18n::c('Sample content with its set of extensions');
-		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##wiki## layout.');
+		$fields['title'] = i18n::c('Sample wiki page');
+		$fields['description'] = i18n::c("Use the command 'Edit this page' to add some text or to change this content.");
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -805,8 +801,8 @@ if(Surfer::is_crawler()) {
 
 		// add a bunch of comments
 		$stats = Comments::stat_for_anchor($anchor);
-		if($stats['count'] < 50) {
-			for($index = 1; $index <= 50; $index++) {
+		if($stats['count'] < 10) {
+			for($index = 1; $index <= 10; $index++) {
 				$fields = array();
 				$fields['anchor'] = $anchor;
 				$fields['description'] = sprintf(i18n::c("Note #%d\nfoo bar"), $index);
@@ -831,10 +827,9 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'wiki_members';
 		$fields['title'] = i18n::c('Restricted wiki');
 		$fields['introduction'] = i18n::c('Authenticated members can update pages in this section');
-		$fields['section_layout'] = 'inline'; // that's a wiki
-		$fields['articles_layout'] = 'wiki'; // a wiki
-		$fields['content_options'] = 'members_edit, auto_publish, with_export_tools';
-		if(Sections::post($fields))
+		$fields['articles_layout'] = 'tagged'; // a wiki
+		$fields['content_options'] = 'view_as_wiki members_edit auto_publish with_export_tools';
+		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Logger::error_pop().BR."\n";
@@ -847,9 +842,8 @@ if(Surfer::is_crawler()) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'wiki_members_page';
-		$fields['title'] = i18n::c('Sample page of the wiki');
-		$fields['introduction'] = i18n::c('Sample content with its set of extensions');
-		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##wiki## layout.');
+		$fields['title'] = i18n::c('Sample wiki page');
+		$fields['description'] = i18n::c("Use the command 'Edit this page' to add some text or to change this content.");
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -887,7 +881,6 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Files');
 		$fields['introduction'] = i18n::c('Sample download section');
 		$fields['options'] = 'with_files'; // enable file attachments
-		$fields['section_layout'] = 'none';
 		$fields['articles_layout'] = 'none';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -904,7 +897,6 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Links');
 		$fields['introduction'] = i18n::c('Social bookmarking section');
 		$fields['options'] = 'with_links'; // enable link upload
-		$fields['section_layout'] = 'none';
 		$fields['articles_layout'] = 'none';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";

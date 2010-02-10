@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2009-12-18 00:00+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -73,6 +73,7 @@ $_SESSION['l10n']['en']['0fedded00746a3e31879ae9403932bc9']='%s - you may enhanc
 $_SESSION['l10n']['en']['%s has been created']='%s has been created';
 $_SESSION['l10n']['en']['%s has been deleted']='%s has been deleted';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['e5be2c46b45158d9236ab3e171327d39']='%s if you have not yet a profile for yourself at %s.';
 $_SESSION['l10n']['en']['12a445f97d35c3c6b46064691a6be8f8']='%s, including: %s, %s, %s and %s';
 $_SESSION['l10n']['en']['6215b8a7004d14581454f83c9075bc83']='%s, to get run-time parameters of the SQL engine.';
 $_SESSION['l10n']['en']['318c33cdf3687811972fcf31ec134607']='%s, to know everything about PHP runtime at this server.';
@@ -369,7 +370,6 @@ $_SESSION['l10n']['en']['0002ebfabcec83316e5e2d13d110af91']='Recover overhead di
 $_SESSION['l10n']['en']['fe98b273e7b37b449b1faa5c950616ea']='Recovering overhead space from the database...';
 $_SESSION['l10n']['en']['2a0e06c5669dda6f4248c2978c4760c7']='Redirect all non-secured requests to https.';
 $_SESSION['l10n']['en']['55e646c7deee8ded80c85a4c990933fb']='Redirect to this server name if another name is used in request.';
-$_SESSION['l10n']['en']['de62c4ef1a9f55d11e8667356299ce6c']='Registration is FREE and offers great benefits. %s if you are not yet a member of %s.';
 $_SESSION['l10n']['en']['1904e0f7e1403eb493c44a2c71f099c4']='Reindex tables and optimize data storage';
 $_SESSION['l10n']['en']['44c78e81859c77bb0c6970fbac14cd08']='Rely on PHP and system settings for the transmission of messages.';
 $_SESSION['l10n']['en']['Rendering cache']='Rendering cache';

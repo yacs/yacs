@@ -119,7 +119,7 @@ if(Surfer::is_crawler()) {
 			$fields['options'] = 'no_contextual_menu';
 			$fields['sections_layout'] = 'compact';
 			$fields['articles_layout'] = 'none';
-			if(!$fields['id'] = Sections::post($fields)) {
+			if(!$fields['id'] = Sections::post($fields, FALSE)) {
 				Logger::remember('sections/new.php', 'Impossible to add a section.');
 				return;
 			}
@@ -148,7 +148,7 @@ if(Surfer::is_crawler()) {
 			$fields['options'] = 'no_contextual_menu';
 			$fields['sections_layout'] = 'compact';
 			$fields['articles_layout'] = 'none';
-			if(!$fields['id'] = Sections::post($fields)) {
+			if(!$fields['id'] = Sections::post($fields, FALSE)) {
 				Logger::remember('sections/new.php', 'Impossible to add a section.');
 				return;
 			}

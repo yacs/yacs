@@ -53,7 +53,7 @@ if(!$anchor = Sections::lookup('threads')) {
 	$fields['articles_layout'] = 'yabb'; // these are threads
 	$fields['content_options'] = 'with_export_tools auto_publish with_comments_as_wall';
 	$fields['maximum_items'] = 20000; // limit the overall number of threads
-	Sections::post($fields);
+	Sections::post($fields, FALSE);
 }
 
 // identify all recipients

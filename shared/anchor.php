@@ -2,8 +2,6 @@
 /**
  * the anchor interface used by a related item
  *
- * @todo migrate here most code of Sections::get_label()
- *
  * Anchors are used throughout this server to loosely link related items of information.
  * For example, articles can be linked to sections. Threads of messages can be linked
  * to articles, sections or categories, etc.
@@ -962,9 +960,13 @@ class Anchor {
 			if(!isset($this->anchor) || !$this->anchor)
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
-			// strict ownership is required (not assignation of upper level)
+			// test strict ownership
 			if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
 				return TRUE;
+
+			// section editor also owns content, if member, except on private section
+// 			if(($this->item['active'] != 'N') && Surfer::is_member() && is_object($this->anchor) && $this->anchor->is_assigned($user_id))
+// 				return TRUE;
 
 		}
 

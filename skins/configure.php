@@ -476,7 +476,7 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_author_information" value="N"';
 	if(!isset($context['with_author_information']) || ($context['with_author_information'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item');
 	$input .= BR.'<input type="radio" name="with_author_information" value="Y"';
 	if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
 		$input .= ' checked="checked"';
@@ -492,7 +492,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="skins_general_without_feed" value="Y"';
 	if(isset($context['skins_general_without_feed']) && ($context['skins_general_without_feed'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item');
 	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
 
 	// bookmarklets
@@ -504,7 +504,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="pages_without_bookmarklets" value="Y"';
 	if(isset($context['pages_without_bookmarklets']) && ($context['pages_without_bookmarklets'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item');
 	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
 
 	// visited pages
@@ -516,7 +516,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="pages_without_history" value="Y"';
 	if(isset($context['pages_without_history']) && ($context['pages_without_history'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item');
 	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
 
 	// with referrals

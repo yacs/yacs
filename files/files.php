@@ -93,7 +93,7 @@ Class Files {
 			// files have to be activated explicitly
 			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bwith_files\b/i', $item['options']))
 				;
-			elseif(is_object($anchor) && $anchor->has_option('with_files'))
+			elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('with_files', FALSE))
 				;
 			else
 				return FALSE;

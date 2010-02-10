@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:22+0100
-PO-Revision-Date: 2010-02-05 23:28+0100
+POT-Creation-Date: 2010-02-10 00:12+0100
+PO-Revision-Date: 2010-02-10 00:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -28,6 +28,7 @@ $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s p
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['7402bb42ec1df7b068f1564d0b6eb8da']='%s ne s\'est pas encore connecté à d\'autres personnes.';
+$_SESSION['l10n']['fr']['e5be2c46b45158d9236ab3e171327d39']='%s si vous n\'avez pas encore de profil sur %s.';
 $_SESSION['l10n']['fr']['f6a30870fcfe0baeb6caff3d3b9c2c6c']='%s si vous devez assigner des personnes et les notifier en une seule opération.';
 $_SESSION['l10n']['fr']['%s is following you']='%s vous a choisi comme contact';
 $_SESSION['l10n']['fr']['%s is unknown.']='%s est inconnu';
@@ -147,7 +148,7 @@ $_SESSION['l10n']['fr']['af4fbb4e291ff093e5e2653e6e4aeabb']='Afficher la même i
 $_SESSION['l10n']['fr']['b0f228c1db9ae48ae34f50e4829dcc58']='Afficher le panneau de bienvenue après authentification.';
 $_SESSION['l10n']['fr']['Displayed aside your pages']='Affiché sur le côté de vos pages';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
-$_SESSION['l10n']['fr']['Do not display this item.']='Ne pas afficher cet élément.';
+$_SESSION['l10n']['fr']['Do not display this item']='Ne pas afficher cet élément';
 $_SESSION['l10n']['fr']['Do you need more help?']='Avez-vous besoin de plus d\'aide ?';
 $_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['E-mail']='Courriel';
@@ -192,10 +193,7 @@ $_SESSION['l10n']['fr']['Groups']='Groupes';
 $_SESSION['l10n']['fr']['Have you lost your password?']='Avez-vous perdu votre mot de passe ?';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['I have a %s and %s']='J\'ai un %s et %s';
-$_SESSION['l10n']['fr']['c5bd1556bd67a19b020b13dcefe04756']='J\'ai changé d\'avis, et souhaite me reconnecter à cette personne';
-$_SESSION['l10n']['fr']['2936f9e8ea9eeff95010b27f174ae56a']='J\'ai changé d\'avis, et ne veux plus être connecté à cette personne.';
-$_SESSION['l10n']['fr']['db1baba89abcbedf79783e336665e5d0']='J\'ai changé d\'avis, oublier cette page';
-$_SESSION['l10n']['fr']['098152c400a05fc152fa4fc2b8af6fb6']='J\'ai changé d\'avis, surveiller cette page';
+$_SESSION['l10n']['fr']['I have changed my mind']='J\'ai changé d\'avis';
 $_SESSION['l10n']['fr']['ICQ']='ICQ';
 $_SESSION['l10n']['fr']['IRC']='IRC';
 $_SESSION['l10n']['fr']['Identification']='Identification';
@@ -351,7 +349,6 @@ $_SESSION['l10n']['fr']['Register on this server']='S\'enregistrer sur ce serveu
 $_SESSION['l10n']['fr']['Registered %s']='Enregistré %s';
 $_SESSION['l10n']['fr']['a006aa78497e311517268eadb207fa3d']='Devenir membre requiert la validation de l\'adresse fournie lors de l\'enregistrement. Quand cette option est activée, les associés ne peuvent plus valider les inscriptions.';
 $_SESSION['l10n']['fr']['Registration']='Inscription';
-$_SESSION['l10n']['fr']['de62c4ef1a9f55d11e8667356299ce6c']='L\'enregistrement est GRATUIT et vous permet de participer pleinement à l\'animation de ce serveur. %s si vous n\'êtes pas encore membre de %s.';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
 $_SESSION['l10n']['fr']['Results']='Résultats';
 $_SESSION['l10n']['fr']['Review profiles']='Réviser les profils';

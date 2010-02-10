@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:22+0100
-PO-Revision-Date: 2010-02-05 23:24+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -26,6 +26,7 @@ $_SESSION['l10n']['en']['0f5610d966046e70e5f5a171e8fd4d76']='%d items in the lis
 $_SESSION['l10n']['en']['%d minute(s) at %s']='%d minute(s) at %s';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%d second(s) at %s']='%d second(s) at %s';
+$_SESSION['l10n']['en']['%s %s']='%s %s';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s at %s']='%s at %s';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
@@ -96,6 +97,7 @@ $_SESSION['l10n']['en']['Get the file']='Get the file';
 $_SESSION['l10n']['en']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostview and GSview';
 $_SESSION['l10n']['en']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['en']['Help']='Help';
+$_SESSION['l10n']['en']['History']='History';
 $_SESSION['l10n']['en']['09708bb93341b65317dde0e798deaaaf']='If Flash or Java has been installed at your workstation, click on the link to browse this mind map.';
 $_SESSION['l10n']['en']['f5bde952210906492f614252dedd0b21']='If the Adobe plug-in reports an error, please save the file on some hard drive and use this local copy to launch the Acrobat software.';
 $_SESSION['l10n']['en']['2ab437e9863287d3b69b9e0cdc1f8024']='If you cannot upload files because of permissions settings, use the configuration panel for users to disable all uploads.';
@@ -207,10 +209,12 @@ $_SESSION['l10n']['en']['Use FTP']='Use FTP';
 $_SESSION['l10n']['en']['145c71768eada2e93397ec134c387b13']='Use codes to insert images in the page.';
 $_SESSION['l10n']['en']['d1ec6c64d705f2700ae41fb5a3f440dc']='Use following codes to reference this item: %s';
 $_SESSION['l10n']['en']['VLC media player']='VLC media player';
+$_SESSION['l10n']['en']['Version']='Version';
 $_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['View file details']='View file details';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
+$_SESSION['l10n']['en']['What is new in this file?']='What is new in this file?';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['278d07f7dafd5749bb1bdd201beb6bf0']='While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.';
 $_SESSION['l10n']['en']['Winamp']='Winamp';

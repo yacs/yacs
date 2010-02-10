@@ -75,7 +75,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // publication is restricted to container owners
-} elseif(!Articles::is_owned(NULL, $anchor)) {
+} elseif(!is_object($anchor) || !$anchor->is_owned()) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

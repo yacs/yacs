@@ -205,19 +205,7 @@ if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
 // owners can do what they want
-if(Articles::is_owned($item, $anchor))
-	Surfer::empower();
-
-// anonymous edition is allowed here
-elseif(Articles::has_option('anonymous_edit', $anchor, $item))
-	Surfer::empower();
-
-// members edition is allowed here
-elseif(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
-	Surfer::empower();
-
-// maybe this anonymous surfer is allowed to handle this item
-elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
+if(Articles::allow_modification($item, $anchor))
 	Surfer::empower();
 
 // readers have additional rights
@@ -386,10 +374,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-	if($context['with_friendly_urls'] == 'Y')
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
-	else
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
+	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
 	$context['page_header'] .= "\n".'<!--'
 		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
 		."\n".' 		xmlns:dc="http://purl.org/dc/elements/1.1/"'
@@ -591,7 +576,7 @@ if(!isset($item['id'])) {
 	}
 
 	// the command to track back
-	if(Surfer::is_logged()) {
+	if(Links::allow_trackback()) {
 		Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');
 		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), TOOLS_TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
@@ -638,7 +623,7 @@ if(!isset($item['id'])) {
 		$link = Users::get_url('article:'.$item['id'], 'track');
 
 		if($in_watch_list)
-			$label = i18n::s('Forget this page');
+			$label = i18n::s('Stop notifications');
 		else
 			$label = i18n::s('Watch this page');
 
@@ -1161,7 +1146,7 @@ if(!isset($item['id'])) {
 	}
 
 	// modify this page
-	if(Articles::allow_modification($anchor, $item)) {
+	if(Articles::allow_modification($item, $anchor)) {
 		Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this page');
@@ -1181,7 +1166,7 @@ if(!isset($item['id'])) {
 	}
 
 	// review command provided to container owners
-	if(Articles::is_owned(NULL, $anchor)) {
+	if(is_object($anchor) && $anchor->is_owned()) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
@@ -1198,23 +1183,29 @@ if(!isset($item['id'])) {
 		}
 	}
 
-	// delete command provided to page owners
-	if(Articles::is_owned($item, $anchor)) {
+	// delete command
+	if(Articles::allow_deletion($item, $anchor)) {
 		Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 	}
 
 	// duplicate command provided to container owners
-	if(isset($item['id']) && is_object($anchor) && $anchor->is_owned()) {
+	if(Articles::is_owned(NULL, $anchor)) {
 		Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 	}
 
 	// assign command provided to page owners
- 	if(Articles::is_owned($item, $anchor)) {
+ 	if(Articles::is_owned($item, $anchor, TRUE)) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
  		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
- 	}
+
+	// allow to leave the page
+	} elseif(Articles::is_assigned($item['id'])) {
+		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
+	}
+
 
 }
 

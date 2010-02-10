@@ -319,18 +319,9 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
-		// new links are accepted at the index page and at the article level
-		if(is_object($anchor) && $anchor->has_option('with_links')
-			 && !($anchor->has_option('no_links') || preg_match('/\bno_links\b/i', $item['options']))) {
-
-			// trackback
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'links/trackback.php/article/'.$item['id'];
-			else
-				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$this->menu[] = Skin::build_link($link, i18n::s('Reference this page'), 'span');
-
-		}
+		// trackback is allowed
+		if(Links::allow_trackback())
+			$this->menu[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'span');
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))

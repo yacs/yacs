@@ -107,13 +107,6 @@
  * Cache entries are purged directly either when the page is modified, or when
  * some object attached to it triggers the Section::touch() function.
  *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - view.php/12 (view the first page of the section document)
  * - view.php?id=12 (view the first page of the section document)
@@ -418,10 +411,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
-	if($context['with_friendly_urls'] == 'Y')
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/section/'.$item['id'];
-	else
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=section:'.$item['id'];
+	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=section:'.$item['id'];
 	$context['page_header'] .= "\n".'<!--'
 		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
 		."\n".' 		xmlns:dc="http://purl.org/dc/elements/1.1/"'
@@ -709,7 +699,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// add participants
-	if((Sections::is_owned($item, $anchor) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if((Sections::is_owned($item, $anchor, TRUE) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
 	}
@@ -728,7 +718,7 @@ if(!isset($item['id'])) {
 	}
 
 	// the command to track back
-	if(Surfer::is_logged()) {
+	if(Links::allow_trackback()) {
 		Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');
 		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), TOOLS_TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
@@ -752,7 +742,7 @@ if(!isset($item['id'])) {
 		$link = Users::get_url('section:'.$item['id'], 'track');
 
 		if($in_watch_list)
-			$label = i18n::s('Forget this section');
+			$label = i18n::s('Stop notifications');
 		else
 			$label = i18n::s('Watch this section');
 
@@ -852,7 +842,7 @@ if(!isset($item['id'])) {
 		$bookmarklets = array();
 
 		// blogging bookmarklet uses YACS codes
-		if(Articles::allow_creation($anchor, $item)) {
+		if(Articles::allow_creation($item, $anchor)) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"
@@ -1164,7 +1154,7 @@ if(!isset($item['id'])) {
 			}
 
 			// the command to add a new section
-			if(Sections::allow_creation($anchor, $item)) {
+			if(Sections::allow_creation($item, $anchor)) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 			}
@@ -1267,7 +1257,7 @@ if(!isset($item['id'])) {
 				}
 
 				// the command to post a new page
-				if(Articles::allow_creation($anchor, $item)) {
+				if(Articles::allow_creation($item, $anchor)) {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -1665,7 +1655,7 @@ if(!isset($item['id'])) {
 	//
 
 	// commands to add pages
-	if(Articles::allow_creation($anchor, $item)) {
+	if(Articles::allow_creation($item, $anchor)) {
 
 		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -1686,7 +1676,7 @@ if(!isset($item['id'])) {
 	}
 
 	// add a section
-	if(Sections::allow_creation($anchor, $item)) {
+	if(Sections::allow_creation($item, $anchor)) {
 		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 	}
@@ -1715,8 +1705,8 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}
 
-	// commands for section owners
-	if(Sections::is_owned($item, $anchor, TRUE)) {
+	// ensure that the surfer can change content
+	if(Sections::allow_modification($item, $anchor)) {
 
 		// modify this section
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
@@ -1725,7 +1715,7 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), SECTIONS_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// access previous versions, if any
-		if($has_versions) {
+		if($has_versions && Sections::is_owned($item, $anchor, TRUE)) {
 			Skin::define_img('SECTIONS_VERSIONS_IMG', 'sections/versions.gif');
 			$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), SECTIONS_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 		}
@@ -1739,6 +1729,11 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), SECTIONS_UNLOCK_IMG.i18n::s('Unlock'), 'basic');
 		}
 
+	}
+
+	// commands for section owners
+	if(Sections::is_owned($item, $anchor)) {
+
 		// delete the page
 		Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.i18n::s('Delete this section'), 'basic');
@@ -1750,14 +1745,22 @@ if(!isset($item['id'])) {
 		}
 
 		// duplicate command provided to container owners
-		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
+		if(Sections::is_owned(NULL, $anchor)) {
+			Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
+		}
 
 		// assign editors
-		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
-	}
+		if(Sections::is_owned($item, $anchor, TRUE)) {
+			Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+			$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
+		}
 
+	// allow to leave the section
+	} elseif(Sections::is_assigned($item['id'])) {
+		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
+	}
 }
 
 // use date of last modification into etag computation

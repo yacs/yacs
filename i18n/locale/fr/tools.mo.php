@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2009-09-09 10:10+0100
+POT-Creation-Date: 2010-02-09 11:07+0100
+PO-Revision-Date: 2010-02-10 00:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -126,7 +126,6 @@ $_SESSION['l10n']['fr']['Sample article']='Article de démonstration';
 $_SESSION['l10n']['fr']['dac90d5afad2277d5aa694046bfc7482']='Article de démonstration avec ses annotations de démonstration';
 $_SESSION['l10n']['fr']['Sample associate profile']='Exemple de profil d\'associé';
 $_SESSION['l10n']['fr']['Sample blogging place']='Section de blog de démonstration';
-$_SESSION['l10n']['fr']['19c4d7553f352340a1771f46d299cfca']='Contenu de démonstration avec ses extensions';
 $_SESSION['l10n']['fr']['8e6607f092de29e061c7ee3abd86f108']='Contenu de démonstration avec ses annotations';
 $_SESSION['l10n']['fr']['Sample discussion board']='Section de démonstration des discussions';
 $_SESSION['l10n']['fr']['Sample discussion places']='Démonstration des discussions';
@@ -135,14 +134,13 @@ $_SESSION['l10n']['fr']['Sample electronic book']='Livre électronique de démon
 $_SESSION['l10n']['fr']['Sample jive thread']='Discussion jive de démonstration';
 $_SESSION['l10n']['fr']['Sample page of the blog']='Page exemple du blog de démonstration';
 $_SESSION['l10n']['fr']['Sample page of the manual']='Page exemple du manuel de démonstration';
-$_SESSION['l10n']['fr']['Sample page of the wiki']='Page exemple du wiki de démonstration';
 $_SESSION['l10n']['fr']['Sample person profile']='Exemple de membre';
 $_SESSION['l10n']['fr']['Sample plain category']='Catégorie de démonstration';
 $_SESSION['l10n']['fr']['Sample plain section']='Section de démonstration';
 $_SESSION['l10n']['fr']['Sample project web space']='Exemple d\'espace projet';
 $_SESSION['l10n']['fr']['Sample sub category']='Sous-catégorie de démonstration';
 $_SESSION['l10n']['fr']['Sample subscriber profile']='Exemple de souscripteur';
-$_SESSION['l10n']['fr']['Sample wikis']='Démonstration des wikis';
+$_SESSION['l10n']['fr']['Sample wiki page']='Page wiki de démonstration';
 $_SESSION['l10n']['fr']['Sample yabb thread']='Discussion yabb de démonstration';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Sections']='Sections';
@@ -169,7 +167,6 @@ $_SESSION['l10n']['fr']['efe890e49d4882ad1bc118be35fc5752']='Ceci est une table 
 $_SESSION['l10n']['fr']['0308945ed2c5d05676ce51f7d5faae9f']='Cette page montre le rendu de la mise en page ##daily##.';
 $_SESSION['l10n']['fr']['4579ec8419a8e97cbb89781f16ea08cb']='Cette page montre le rendu de la mise en page ##jive##.';
 $_SESSION['l10n']['fr']['5165623fd3a05fb3a182775400513173']='Cette page montre le rendu de la mise en page ##manual##.';
-$_SESSION['l10n']['fr']['ea69dc4cd37d538ead5bedf064ceab78']='Cette page montre le rendu de la mise en page ##wiki##.';
 $_SESSION['l10n']['fr']['d5178efe7a318979bb0131254f12b61e']='Cette page montre le rendu de la mise en page ##yabb##.';
 $_SESSION['l10n']['fr']['4a026ed4f6e4d92bdb76a1a696d9edd3']='Cette page a %d références vers %d liens :';
 $_SESSION['l10n']['fr']['93367d2113574e84fd7ad73d762080f9']='Ce script ajoute différents exemples à la base de données, y compris des sections, des catégories, des pages, des commentaire et des tables.';
@@ -177,6 +174,7 @@ $_SESSION['l10n']['fr']['7eb9b5b621c8704d27281b0fa06bdecc']='Ce script ne peut �
 $_SESSION['l10n']['fr']['22d066ce7e26cfbbe0f1465ed632b136']='Ce script enlève les balises HTML et les espaces pour évaluer la taille utile d\'une page web. Puis il calcule l\'indice d\'inefficacité comme suit :';
 $_SESSION['l10n']['fr']['00a511eb5dccc62b6b63c5c104d9a5d5']='Pour rechercher l\'aide des autres membres de la communauté';
 $_SESSION['l10n']['fr']['Tools']='Outils';
+$_SESSION['l10n']['fr']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Utiliser la commande \'Modifier cette page\' pour ajouter du texte ou pour modifier ce contenu.';
 $_SESSION['l10n']['fr']['d94aaf4fa30ddc7d9d1074f60c074ff3']='Utiliser cette page modèle pour ajouter un nouvel événement au calendrier';
 $_SESSION['l10n']['fr']['86e1bb0529b582dccf265b7e6656ad13']='Utilisez ce modèle pour ajouter une page qui peut être modifiée par tout surfeur';
 $_SESSION['l10n']['fr']['Useful Bytes: %d bytes']='Taille utile : %d octets';
@@ -187,7 +185,6 @@ $_SESSION['l10n']['fr']['f97b1321e05c23df5a37e76329c16098']='Nous l\'utiliserons
 $_SESSION['l10n']['fr']['Web Reference: %s']='Adresse web : %s';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['f1ce5d9609440ef5da411f7524e7c4e5']='La requête est transmise au serveur immédiatement après un clic sur le bouton. Cependant, le traitement est si important que vous pourriez avoir à attendre plusieurs minutes avant d\'obtenir une réponse à l\'écran. Merci de votre patience.';
-$_SESSION['l10n']['fr']['Wiki']='Wiki';
 $_SESSION['l10n']['fr']['Wiki page']='Page Wiki';
 $_SESSION['l10n']['fr']['Wikis']='Wikis';
 $_SESSION['l10n']['fr']['Working overlay']='Travail en cours';

@@ -200,7 +200,7 @@ if($with_form) {
 			$fields['rank'] = 40000; // at the end of the list
 			$fields['title'] = i18n::c('External News');
 			$fields['description'] = i18n::s('Received from feeding servers');
-			if($fields['id'] = Sections::post($fields))
+			if($fields['id'] = Sections::post($fields, FALSE))
 				$anchor = 'section:'.$fields['id'];
 			$fields = array();
 		}

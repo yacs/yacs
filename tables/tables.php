@@ -83,7 +83,129 @@ Class Tables {
 		if(!($table =& Tables::get($id)))
 			return NULL;
 
-		if(!$rows =& SQL::query($table['query'])) {
+		 if(empty($query_str))
+		   $query_str = $table['query'];
+
+
+		// print_r($_REQUEST);
+
+		 if(preg_match('/WHERE 1=1/', $query_str))
+		  {
+
+
+		 function check_alies_code($id,$code,$alies="")
+		 {
+			global $context;
+
+			$where_chk ="";
+
+			 if(!empty($code)) {
+
+			   if(!empty($alies)):
+			    $where_chk = " AND tb.table_alies='".$alies."' AND tb.option_code='".$code."'";
+			   else :
+			   	  $where_chk = " AND tb.option_code='".$code."'";
+			   endif;
+
+				$codeCheckSql = "SELECT * FROM ".SQL::table_name('tables_filters')." AS tb "
+
+				." WHERE (tb.table_id = ".SQL::escape($id).") ".$where_chk;
+
+
+				$rowCodeChk =& SQL::query($codeCheckSql);
+
+				$no_of_row_code =  SQL::count($rowCodeChk);
+
+				   if($no_of_row_code>0)
+				     return true;
+			 }
+			 else {
+			 	return false;
+			 }
+
+		 }
+
+
+
+
+		  if(count($_REQUEST)>0) {
+
+
+
+		   $generatedNewSql ="WHERE ";
+		    $requestVal ="?";
+			 foreach ($_REQUEST as $key => $value) {
+
+			 //  for checking table prefix
+			  $pos = strpos($key,'|');
+
+
+			  //$value = urldecode($value);
+
+			    if($pos==true) {
+
+					// converting array
+
+
+
+					$arrFullTable = explode('|',$key);
+
+
+
+					if(check_alies_code($id,$arrFullTable[1],$arrFullTable[0]))	{
+
+					if($value !='%') {
+
+						$generatedNewSql	.= $arrFullTable[0].".".$arrFullTable[1]." Like '".$value."'";
+
+						$generatedNewSql .= " AND ";
+
+						$requestVal .= $arrFullTable[0]."|".$arrFullTable[1]."=".urlencode($value)."&";
+						}
+
+
+					 }
+
+
+				 }
+				else {
+
+					if(check_alies_code($id,$key))	{
+
+					if($value !='%') {
+					  $generatedNewSql	.= $key." Like '".$value."'";
+					  $generatedNewSql .= " AND ";
+
+					  $requestVal .= $key."=".urlencode($value)."&";
+					  }
+
+					  }
+
+				}
+
+			}
+
+
+			if($requestVal !='?')
+			  $requestVal = rtrim($requestVal,"&");
+			else
+			   $requestVal = "";
+
+
+			 if($generatedNewSql !="WHERE ") :
+			  $generatedNewSql = rtrim($generatedNewSql," AND ");
+			  $query_str = str_replace('WHERE 1=1',$generatedNewSql,$query_str);
+			 endif;
+
+
+		  }
+
+		  }
+
+
+
+
+		if(!$rows =& SQL::query($query_str)) {
 			Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($table['query']).BR.SQL::error());
 			return NULL;
 		}
@@ -193,6 +315,165 @@ Class Tables {
 		// produce an HTML table
 		default:
 		case 'inline':
+
+		if( !empty($id)) {
+
+		//  checking filter available or not
+
+		$tableInformationSql = "SELECT * FROM ".SQL::table_name('tables_filters')." AS tb "
+
+		." WHERE (tb.table_id = ".SQL::escape($id).") ORDER BY tb.filter_order,tb.option_name";
+
+
+		$row1 =& SQL::query($tableInformationSql);
+
+		$no_of_row =  SQL::count($row1);
+
+			if($no_of_row>0) {
+
+
+
+					 $text .= "<form id='f1' action='".$_SERVER['PHP_SELF']."' method='post'>";
+
+					 $text .="<table width='100%' border='0' cellspacing='2' cellpadding='2' style='border:none;'><tr style='border:none;'>";
+
+
+			         $m=0;
+
+					 while($each_row=SQL::fetch($row1)) {
+
+
+					 $option_name = $each_row['option_name'];
+
+					 $option_sql = $each_row['option_sql'];
+
+					 $table_alies = $each_row['table_alies'];
+
+					 $option_code = $each_row['option_code'];
+
+					 $is_file = $each_row['is_file'];
+
+					 $select_name = "";
+
+					  if(!empty($table_alies))
+					     $select_name .= $table_alies."|";
+
+					   $select_name .= $option_code;
+
+
+
+					 if(isset($is_file) && $is_file=='No') {
+						 if(!$rowsOption =& SQL::query($option_sql)) {
+							Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($option_sql).BR.SQL::error());
+							return NULL;
+							}
+
+					 }
+
+
+					     $text .="<td style='border:none;'><label>".$option_name."</label></td>";
+
+					     $text .="<td style='border:none;'>";
+
+
+						 $text .="<select name='".$select_name."'>";
+
+
+						 $text .="<option value='%'>All</option>";
+
+
+						 if($is_file!='Yes') {
+
+						     // values featching from detabase
+
+								  while($each_option=SQL::fetch_row($rowsOption)) {
+
+								  $val = isset($_REQUEST[$select_name])?$_REQUEST[$select_name]:'';
+
+								  if($val==$each_option[0])
+								   $sel = 'selected';
+								  else
+								   $sel ='';
+
+
+								 $text .="<option value='".$each_option[0]."' $sel >".$each_option[1]."</option>";
+
+								 }
+
+						 }
+						 else {
+
+						 // Values featching from file
+
+								$file_path = $each_row['file_path'];
+
+
+								if(Safe::load($file_path)) :
+
+									$array_name = $each_row['array_name'];
+
+									$pos_chk = strpos($array_name,'|');
+
+									if($pos_chk==true) :
+
+										$arrayNameArr = explode('|',$array_name);
+
+										$arrayName = $arrayNameArr[0];
+
+										$arrayIndex = $arrayNameArr[1];
+
+										$t=$$arrayName;
+
+										$contextArr =  $t[$arrayIndex];
+
+										if(is_array($contextArr) && count($contextArr)>0) :
+											foreach($contextArr as $code => $name) {
+												$val = isset($_REQUEST[$select_name])?$_REQUEST[$select_name]:'';
+												$text .= '<option value="'.$code.'"';
+
+												if($val==$code)
+													$text .= 'selected';
+
+												$text .='>'.$name."</option>\n";
+
+											}
+										else :
+											$text .='<option value="error">Invalid array name</option>';
+										endif;
+
+									else :
+										$text .='<option value="error">Invalid array name</option>';
+									endif;
+								else :
+									$text .='<option value="error">Invalid file path</option>"';
+								endif;
+
+
+
+						 }
+
+
+						 $text .="</select>";
+						 $text .="</td>";
+
+						 $m++;
+						 if($m%4==0)
+						 {
+						  $text .="</tr><td style='border:none;'><tr style='border:none;'>";
+						 }
+
+
+
+
+
+					 }
+
+
+					 $text .="<td colspan='2' align='right' style='border:none;'><input type='submit' value='Go' /></td></tr></table></form>";
+					 }
+ 		 }
+
+
 		case 'sortable':
 
 			$index_offset = 0;
@@ -206,9 +487,38 @@ Class Tables {
 				$text .= "\t\t".'<caption class="caption">'.$table['title'];
 				$item_bar = array();
 				if(Surfer::is_logged()) {
-					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'fetch_as_csv') => i18n::s('CSV (Excel)')));
-					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'fetch_as_xml') => i18n::s('XML')));
+
+
+				 $newcsvArr = array(Tables::get_url($id, 'fetch_as_csv') => 'CSV (Excel)');
+				 $newcsvArr_merge=array();
+
+						if(list($key, $val) = each($newcsvArr))
+						{
+						 $newKey = $key;
+						 $newcsvArr_merge[$newKey] = $val;
+						}
+
+
+
+
+					$item_bar = array_merge($item_bar, $newcsvArr_merge);
+
+					$newxmlArr = array(Tables::get_url($id, 'fetch_as_xml') => i18n::s('XML'));
+
+					$newxmlArr_merge = array();
+
+					//print_r($newxmlArr);
+
+					if(list($key, $val) = each($newxmlArr)) {
+						 $newKey = $key;
+						 $newxmlArr_merge[$newKey] = $val;
+						}
+
+
+					$item_bar = array_merge($item_bar, $newxmlArr_merge);
+
 					$item_bar = array_merge($item_bar, array(Tables::get_url($id) => i18n::s('more')));
+
 				}
 				if(Surfer::is_associate()) {
 					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'edit') => i18n::s('Edit')));
@@ -480,7 +790,7 @@ Class Tables {
 		global $context;
 
 		// check the target action
-		if(!preg_match('/^(delete|edit|fetch_as_csv|fetch_as_xml|view)$/', $action))
+		if(!preg_match('/^(delete|edit|filters|fetch_as_csv|fetch_as_xml|view)$/', $action))
 			return 'tables/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
@@ -761,7 +1071,27 @@ Class Tables {
 		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 
-		return SQL::setup_table('tables', $fields, $indexes);
+		$text = SQL::setup_table('tables', $fields, $indexes);
+
+
+		$fields = array();
+		$fields['id']				= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
+		$fields['table_id']			= "MEDIUMINT UNSIGNED NOT NULL";
+		$fields['option_name']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['is_file']			= "ENUM('Yes', 'No') DEFAULT 'No' NOT NULL";
+		$fields['file_path']		= "VARCHAR(255) DEFAULT ''  NULL";
+		$fields['array_name']		= "VARCHAR(255) DEFAULT '' NULL";
+		$fields['option_sql']		= "Text";
+		$fields['table_alies']		= "VARCHAR(255) DEFAULT '' NULL";
+		$fields['option_code']	    = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['filter_order']	    = "MEDIUMINT UNSIGNED DEFAULT '0' NOT NULL";
+
+		$indexes = array();
+		$indexes['PRIMARY KEY'] 	= "(id)";
+
+		$text .= SQL::setup_table('tables_filters', $fields, $indexes);
+
+		return $text;
 	}
 
 	/**

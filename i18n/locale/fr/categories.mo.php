@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:22+0100
-PO-Revision-Date: 2010-02-05 23:27+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -67,10 +67,10 @@ $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this category']='Supprimer cette catégorie';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
-$_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les articles';
-$_SESSION['l10n']['fr']['Do not display persons.']='Ne pas afficher les personnes.';
-$_SESSION['l10n']['fr']['Do not list sections.']='Ne pas lister les sections.';
-$_SESSION['l10n']['fr']['Do not list sub-categories.']='Ne pas lister les sous-catégories.';
+$_SESSION['l10n']['fr']['Do not list categories']='Ne pas lister les catégories';
+$_SESSION['l10n']['fr']['Do not list pages']='Ne pas lister les pages';
+$_SESSION['l10n']['fr']['Do not list persons']='Ne pas lister les personnes';
+$_SESSION['l10n']['fr']['Do not list sections']='Ne pas lister les sections';
 $_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['fb0d9333cb60f25b5b1a13b04db64697']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
 $_SESSION['l10n']['fr']['Edit this category']='Modifier cette catégorie';
@@ -214,7 +214,6 @@ $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
 $_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';
-$_SESSION['l10n']['fr']['Use the following layout:']='Utiliser la mise en page suivante :';
 $_SESSION['l10n']['fr']['a9ac06b6f2238dbd54599d32e0fa95cf']='Utiliser la vignette comme vignette de la page';
 $_SESSION['l10n']['fr']['7095a3461ba51a372774ee8a1ce5d15b']='Différents moyens de lier cette page';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
@@ -240,19 +239,19 @@ $_SESSION['l10n']['fr']['21bba8f9b0118df8d40223e2e199154e']='sur la page d\'accu
 $_SESSION['l10n']['fr']['at users index']='sur l\'index des utilisateurs';
 $_SESSION['l10n']['fr']['categories']='catégories';
 $_SESSION['l10n']['fr']['aa00cbbac581ee176441d1e92a17ee3e']='clouds - Lister les sous-catégories comme un nuage.';
-$_SESSION['l10n']['fr']['compact - A compact list.']='compact - Une liste compacte.';
+$_SESSION['l10n']['fr']['compact - A compact list']='compact - Une liste compacte';
 $_SESSION['l10n']['fr']['a4896893448b9c1dbe2fb65fb48f68d6']='daily - Une liste d\'articles datés (blog)';
-$_SESSION['l10n']['fr']['4f63b6b5d1f3f46a29eaee46fed7e8ec']='decorated - Dans une liste décorée par des images.';
+$_SESSION['l10n']['fr']['1ea7057e130399b867cb3dd7b33919bb']='decorated - Une liste décorée par des images';
 $_SESSION['l10n']['fr']['digg - To order pages by rating']='digg - Ordonner les pages en fonction des votes';
 $_SESSION['l10n']['fr']['edited']='modifié';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['featured']='une';
-$_SESSION['l10n']['fr']['17ced41a29990a6811cac473ed8d7acd']='folded - Construire une boîte pliée par section, avec le contenu.';
+$_SESSION['l10n']['fr']['5d181095688bfed68cd54669f53465fc']='folded - Une boîte pliée par section, avec son contenu';
 $_SESSION['l10n']['fr']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Visualiser une carte mentale interactive';
 $_SESSION['l10n']['fr']['hits']='lectures';
 $_SESSION['l10n']['fr']['f641bce5b6dc2dc3cedb05c6cf23952b']='au milieu de la page d\'accueil, parmi les autres boîtes gadget';
-$_SESSION['l10n']['fr']['55502eab5eb921c493794ca2ac204483']='inline - Lister les sections et les articles qu\'elles contiennent.';
-$_SESSION['l10n']['fr']['378dbc517423c4bc7b37121c9e0e0f94']='inline - Lister les sous-catégories et les articles associés.';
+$_SESSION['l10n']['fr']['b1c2d741f390d79e96f548400e7e25cc']='inline - Lister les catégories et les pages associées';
+$_SESSION['l10n']['fr']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - Lister les sections et les pages associées';
 $_SESSION['l10n']['fr']['2367cc975647ba107ba853e93a807607']='jive - Affiche le contenu de chaque article';
 $_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Liste 5 fils de discussion à la fois';
 $_SESSION['l10n']['fr']['m/d/y']='d/m/y';
@@ -265,7 +264,7 @@ $_SESSION['l10n']['fr']['posted by %s %s']='posté par %s %s';
 $_SESSION['l10n']['fr']['b4f17d3b3adcc8a496bfd15fc4fd03d6']='slashdot - Une liste simple des pages récentes';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['table - A table of recent pages']='table - Une table des articles les plus récents';
-$_SESSION['l10n']['fr']['eb485c9b646eb69dd5d906801b4a1480']='titles - Utiliser seulement les titres et les vignettes.';
+$_SESSION['l10n']['fr']['c67436d0c05ea8118905f418986fc235']='titles - Utiliser seulement les titres et les vignettes';
 $_SESSION['l10n']['fr']['weekly']='hebdomadaire';
 $_SESSION['l10n']['fr']['yabb - A discussion board']='yabb - Une liste de discussion';
 $_SESSION['l10n']['fr']['yabb - A discussion forum']='yabb - Un forum de discussion';

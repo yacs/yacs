@@ -92,6 +92,8 @@
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;article.description=&lt;id>] - insert article description
+ * - &#91;form=&lt;id>] - use form title as link label
+ * - &#91;form=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;next=&lt;id>] - shortcut to next article
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
@@ -837,6 +839,7 @@ Class Codes {
 				'/\[random\]/ie',							// [random]
 				'/\[random\.description=([^\]]+?)\]/ie',	// [random.description=section:<id>]
 				'/\[random=([^\]]+?)\]/ie',					// [random=section:<id>] or [random=category:<id>]
+				'/\[form=([^\]]+?)\]/ie',					// [form=<id>] or [form=<id>, title]
 				'/\[section=([^\]]+?)\]/ie',				// [section=<id>] or [section=<id>, title]
 				'/\[category\.description=([^\]]+?)\]\n*/ise',	// [category.description=<id>]
 				'/\[category=([^\]]+?)\]/ie',				// [category=<id>] or [category=<id>, title]
@@ -1028,6 +1031,7 @@ Class Codes {
 				"Codes::render_random()",											// [random]
 				"Codes::render_random('$1', 'description')",						// [random.description=section:<id>]
 				"Codes::render_random('$1')",										// [random=section:<id>]
+				"Codes::render_object('form', Codes::fix_tags('$1'))",				// [form=<id>]
 				"Codes::render_object('section', Codes::fix_tags('$1'))",			// [section=<id>]
 				"Codes::render_object('category.description', '$1')", 				// [category.description=<id>]
 				"Codes::render_object('category', Codes::fix_tags('$1'))",	 		// [category=<id>]
@@ -2292,6 +2296,35 @@ Class Codes {
 				// return a complete anchor
 				$output .= Skin::build_link($url, $text, 'basic');
 			}
+			return $output;
+
+		// link to a form
+		case 'form':
+
+			// maybe an alternate title has been provided
+			$attributes = preg_split("/\s*,\s*/", $id, 2);
+			$id = $attributes[0];
+
+			// load the record from the database
+			if(!$item =& Forms::get($id))
+				$output = '[form='.$id.']';
+
+			else {
+
+				// ensure we have a label for this link
+				if(isset($attributes[1])) {
+					$text = $attributes[1];
+					$type = 'basic';
+				} else
+					$text = Skin::strip($item['title']);
+
+				// make a link to the target page
+				$url =& Forms::get_url($item['']);
+
+				// return a complete anchor
+				$output =& Skin::build_link($url, $text, $type);
+			}
+
 			return $output;
 
 		// render a multimedia file

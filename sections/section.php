@@ -239,9 +239,7 @@ Class Section extends Anchor {
 		if($type == 'article') {
 
 			// determine on-going order
-			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
-				$order = $matches[1];
-			else
+			if(!$order = $this->has_option('articles_by', FALSE))
 				$order = 'edition';
 
 			// get previous url

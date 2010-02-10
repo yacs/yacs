@@ -203,7 +203,7 @@ if(Surfer::is_crawler()) {
 
 	// make an array of recipients
 	if(!is_array($to))
-		$to = explode(',', $to);
+		$to = Mailer::explode_recipients($to);
 
 	// process every recipient
 	$posts = 0;

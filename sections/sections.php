@@ -251,11 +251,11 @@ Class Sections {
 	 * This function returns TRUE if sections can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * @param object an instance of the Anchor interface, if any
-	 * @param array a set of item attributes, if any
+	 * @param array attributes of the target section
+	 * @param object parent container of the target section, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL) {
+	function allow_creation($item, $anchor=NULL) {
 		global $context;
 
 		// sections are prevented in this item through layout
@@ -271,10 +271,98 @@ Class Sections {
 			return FALSE;
 
 		// surfer owns the section
+		if(Sections::is_owned($item, $anchor, FALSE))
+			return TRUE;
+
+		// not for subscribers
+		if(Surfer::is_member()) {
+
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
+			if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
+				return TRUE;
+			if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+				return TRUE;
+
+		}
+
+		// the default is to not allow for new sections
+		return FALSE;
+	}
+
+	/**
+	 * check if a surfer can send a message to group participants
+	 *
+	 * @param array a set of item attributes, aka, the target section
+	 * @param object an instance of the Anchor interface
+	 * @return TRUE or FALSE
+	 */
+	function allow_message($item, $anchor=NULL) {
+		global $context;
+
+		// subscribers can never sned a message
+		if(!Surfer::is_member())
+			return FALSE;
+
+		// sanity check
+		if(!isset($item['id']))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns the container or the section
 		if(Sections::is_owned($item, $anchor, TRUE))
 			return TRUE;
 
-		// the default is to not allow for new sections
+		// section editors can proceed
+		if(isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+
+		// container editors can proceed
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// default case
+		return FALSE;
+	}
+
+	/**
+	 * check if a section can be modified
+	 *
+	 * This function returns TRUE if the section can be modified,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target section
+	 * @param object an instance of the Anchor interface
+	 * @return TRUE or FALSE
+	 */
+	function allow_modification($item, $anchor=NULL) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']) && !$anchor)
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// submissions have been disallowed
+		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
+			return FALSE;
+
+		// surfer owns the container or the section
+		if(Sections::is_owned($item, $anchor, TRUE))
+			return TRUE;
+
+		// allow editor of parent section, if not subscriber, to manage content, except on private sections
+		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// default case
 		return FALSE;
 	}
 
@@ -604,7 +692,7 @@ Class Sections {
 				$item['anchor'] = $anchor_to;
 
 				// actual duplication
-				if($item['id'] = Sections::post($item)) {
+				if($item['id'] = Sections::post($item, FALSE)) {
 
 					// more pairs of strings to transcode
 					$transcoded[] = array('/\[section='.preg_quote($old_id, '/').'/i', '[section='.$item['id']);
@@ -1311,6 +1399,83 @@ Class Sections {
 		return $text;
 	}
 
+	function &get_tree() {
+		global $context;
+
+		// do this only once!
+		static $sections_tree;
+		if(isset($sections_tree))
+			return $sections_tree;
+
+		$sections_tree = array();
+
+		// list everything to associates
+		if(Surfer::is_associate())
+			$where = "sections.active IN ('Y', 'R', 'N')";
+
+		// restrict the scope
+		else {
+
+			// display active items
+			$where = "(sections.active='Y')";
+
+			// add restricted items to logged surfers
+			if(Surfer::is_logged())
+				$where .= " OR (sections.active='R')";
+
+			// include managed sections for editors
+			if($my_sections = Surfer::assigned_sections()) {
+				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+			}
+
+			// end of scope
+			$where = '('.$where.')';
+
+		}
+
+		// lookup all sections
+		$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+			." WHERE ".$where." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
+		if(!$result =& SQL::query($query))
+			return $sections_tree;
+
+		// scan all sections
+		$sections_handles = array();
+		while($item =& SQL::fetch($result)) {
+
+			$reference = 'section:'.$item['id'];
+			$label = $item['title'];
+			if($item['anchor'])
+				$handle = $item['anchor'];
+			else
+				$handle = 'top';
+
+			$sections_handles[$handle] = array('content' => $label, 'reference' => $reference);
+
+		}
+
+		// build the tree
+		Sections::get_tree_level($sections_tree, $sections_handles, 'top');
+
+//		logger::debug($sections_tree);
+		return $sections_tree;
+	}
+
+	function get_tree_level(&$tree, $handles, $handle, $level=0) {
+
+		// process all sections at this level
+		$items = $handles[$handle];
+		foreach($items as $item) {
+
+			// extend the tree
+			$tree[] = array('level' => $level, 'content' => $item['content']);
+
+			// add all sub-branches
+			Sections::get_tree_level($tree, $handles, $item['reference'], $level+1);
+		}
+	}
+
 	/**
 	 * build a reference to a section
 	 *
@@ -1538,8 +1703,8 @@ Class Sections {
 		if($anchor->is_owned($user_id))
 			return TRUE;
 
-		// we are editing an item, and surfer is assigned to one of the parents
-		if(!$strict && isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+		// surfer is a member assigned to one of the parents
+		if(!$strict && Surfer::is_member() && is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
 
 		// sorry
@@ -1794,18 +1959,6 @@ Class Sections {
 	 * If you select to not use the ranking system, sections will be ordered by title only.
 	 * Else sections with a low ranking mark will appear at the beginning of the list,
 	 * and sections with a high ranking mark will be put at the end of the list.
-	 *
-	 * Only sections matching following criteria are returned:
-	 * - section is visible (active='Y')
-	 * - or section is restricted (active='R'), but surfer is a logged user
-	 * - or section is hidden (active='N'), but surfer is an associate
-	 * - section is publicly available (index_map = 'Y')
-	 * - an activation date has not been defined, or is over
-	 * - an expiry date has not been defined, or is not yet passed
-	 * - if called remotely, section is not locked
-	 *
-	 * For associates to see other sections, function [code]Sections::list_inactive_by_title_for_anchor()[/code] is called from
-	 * the site map ([script]sections/index.php[/script]), and from sections index pages ([script]sections/view.php[/script]).
 	 *
 	 * @param mixed the section anchor(s) to which these sections are linked
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -2160,6 +2313,7 @@ Class Sections {
 	 * This function populates the error context, where applicable.
 	 *
 	 * @param array an array of fields
+	 * @param boolean TRUE to update the watch list of the poster
 	 * @return the id of the new article, or FALSE on error
 	 *
 	 * @see sections/edit.php
@@ -2168,7 +2322,7 @@ Class Sections {
 	 * @see links/links.php
 	 * @see query.php
 	**/
-	function post(&$fields) {
+	function post(&$fields, $watch=TRUE) {
 		global $context;
 
 		// title cannot be empty
@@ -2247,8 +2401,9 @@ Class Sections {
 			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
-		// allow surfer to access this section during his session
-		Surfer::add_handle($fields['handle']);
+		// allow anonymous surfer to access this section during his session
+		if(!Surfer::get_id())
+			Surfer::add_handle($fields['handle']);
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('sections')." SET ";
@@ -2318,6 +2473,12 @@ Class Sections {
 
 		// assign the page to related categories
 		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+
+		// turn author to page editor and update author's watch list
+		if($watch && isset($fields['edit_id']) && $fields['edit_id']) {
+			Members::assign('user:'.$fields['edit_id'], 'section:'.$fields['id']);
+			Members::assign('section:'.$fields['id'], 'user:'.$fields['edit_id']);
+		}
 
 		// clear the cache
 		Sections::clear($fields);

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:22+0100
-PO-Revision-Date: 2010-02-05 23:23+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:16+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -101,6 +101,7 @@ $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Details']='Details';
 $_SESSION['l10n']['en']['Discuss']='Discuss';
 $_SESSION['l10n']['en']['Discussion']='Discussion';
+$_SESSION['l10n']['en']['35d424d67ce1dbcbf5af24bb60597b41']='Discussion is separate from content';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['802a8283a330f8d2331acbb0deeec858']='Do not contact aggregation servers';
 $_SESSION['l10n']['en']['4943e46215b68c1c77ddaa0d0517a972']='Do not contact referenced servers';
@@ -136,7 +137,6 @@ $_SESSION['l10n']['en']['40caca4c87ecd266518fa9603bf57903']='Following links hav
 $_SESSION['l10n']['en']['1c14dc437619a440504b3de15bae60fc']='For %s pages; regular pages are ranked at %s.';
 $_SESSION['l10n']['en']['37a90ec0846cd10697f270988fd76178']='Force publication of all new pages';
 $_SESSION['l10n']['en']['Forget it']='Forget it';
-$_SESSION['l10n']['en']['Forget this page']='Forget this page';
 $_SESSION['l10n']['en']['Full content']='Full content';
 $_SESSION['l10n']['en']['Future articles']='Future articles';
 $_SESSION['l10n']['en']['Get a paper copy of this page.']='Get a paper copy of this page.';
@@ -210,7 +210,8 @@ $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received
 $_SESSION['l10n']['en']['Number']='Number';
 $_SESSION['l10n']['en']['Oldest articles']='Oldest articles';
 $_SESSION['l10n']['en']['One page of comments']='One page of comments';
-$_SESSION['l10n']['en']['0198bfb6af2fd6cfa2978411e8458058']='Only associates and owners can add content';
+$_SESSION['l10n']['en']['1aa95809831b5b955d1c13f3a59c5d94']='Only assigned persons, owners and associates can add content';
+$_SESSION['l10n']['en']['fc2839b2bcca0497c17a04568a87444c']='Only owners and associates can add content';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
@@ -325,6 +326,7 @@ $_SESSION['l10n']['en']['Stamp']='Stamp';
 $_SESSION['l10n']['en']['Stamp: %s']='Stamp: %s';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Status']='Status';
+$_SESSION['l10n']['en']['Stop notifications']='Stop notifications';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['65c9b8000583ba183c3bbf5158616941']='Submit text when Enter is pressed.';
 $_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';

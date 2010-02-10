@@ -244,10 +244,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
-	if($context['with_friendly_urls'] == 'Y')
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/category/'.$item['id'];
-	else
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=category:'.$item['id'];
+	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=category:'.$item['id'];
 	$context['page_header'] .= "\n".'<!--'
 		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
 		."\n".' 		xmlns:dc="http://purl.org/dc/elements/1.1/"'
@@ -927,7 +924,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// the command to track back
-	if(Surfer::is_logged()) {
+	if(Links::allow_trackback()) {
 		Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');
 		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), TOOLS_TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}

@@ -164,11 +164,8 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'links/trackback.php/article/'.$item['id'];
-			else
-				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
+			if(Links::allow_trackback())
+				$menu = array_merge($menu, array( 'links/trackback.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Reference this page') ));
 
 			// link to the anchor page
 			if(is_object($anchor))

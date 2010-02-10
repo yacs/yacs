@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
+POT-Creation-Date: 2010-02-09 11:07+0100
 PO-Revision-Date: 2009-10-05 00:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -74,7 +74,6 @@ $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Page address (permalink):']='Page address (permalink):';
 $_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['61ab86a39172b19e7cd47a8dec28c0e1']='Please carefully select a section for your link';
-$_SESSION['l10n']['en']['5fe5e48f55363ee013cf40d603c317dd']='Please feel free to blog about this particular page, and to trackback to it.';
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';

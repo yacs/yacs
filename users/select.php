@@ -36,8 +36,8 @@ if(Surfer::is_associate())
 elseif(is_object($anchor) && Surfer::get_id() && ($anchor->get_reference() == 'user:'.Surfer::get_id()))
 	$permitted = 'all';
 
-// a member who manages a parent section
-elseif(Surfer::is_member() && is_object($anchor) && $anchor->is_owned())
+// a surfer who manages a parent section
+elseif(Surfer::is_logged() && is_object($anchor) && $anchor->is_owned())
 	$permitted = 'all';
 
 // a member who manages his editor rights

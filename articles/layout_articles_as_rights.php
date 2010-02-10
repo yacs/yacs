@@ -164,7 +164,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(Articles::is_owned($item, NULL, $this->layout_variant))
+			if(isset($item['owner_id']) && ($item['owner_id'] == $this->layout_variant))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output

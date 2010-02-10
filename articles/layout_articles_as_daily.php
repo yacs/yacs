@@ -210,11 +210,8 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 			// trackback
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'links/trackback.php/article/'.$item['id'];
-			else
-				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu[] = Skin::build_link($link, i18n::s('Reference this page'), 'span');
+			if(Links::allow_trackback())
+				$menu[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'span');
 
 			// a menu bar, but flushed to the right
 			if(count($menu))

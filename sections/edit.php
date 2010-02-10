@@ -45,6 +45,11 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
+include_once '../images/images.php';
+include_once '../locations/locations.php';
+include_once '../overlays/overlay.php';
+include_once '../tables/tables.php';
+include_once '../versions/versions.php'; // roll-back
 
 // look for the id
 $id = NULL;
@@ -66,7 +71,6 @@ elseif(isset($item['anchor']) && $item['anchor'])
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
@@ -77,12 +81,12 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 } elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay('section_overlay')))
 	$overlay = Overlay::bind($overlay_class);
 
-// owners have associate-like capabilities
-if(Sections::is_owned($item, $anchor, TRUE))
+// we are allowed to add a new section
+if(!isset($item['id']) && Sections::allow_creation(NULL, $anchor))
 	$permitted = TRUE;
 
-// editors of parent sections can create sub-sections
-elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_assigned())
+// we are allowed to modify an existing section
+elseif(isset($item['id']) && Sections::allow_modification($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -211,10 +215,8 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['id'])) {
 
 		// remember the previous version
-		if($item['id']) {
-			include_once '../versions/versions.php';
+		if($item['id'])
 			Versions::save($item, 'section:'.$item['id']);
-		}
 
 		// overlay has been inserted or updated
 		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'])
@@ -389,7 +391,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="sections_layout" value="decorated"';
 	if($item['sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.')
+	$input .= '/> '.i18n::s('decorated - A list decorated with images')
 		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
 	if($item['sections_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
@@ -409,7 +411,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="titles"';
 	if($item['sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
 		.BR.'<input type="radio" name="sections_layout" value="freemind"';
 	if($item['sections_layout'] == 'freemind')
 		$input .= ' checked="checked"';
@@ -425,15 +427,15 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="inline"';
 	if($item['sections_layout'] == 'inline')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sub-sections and related articles.')
+	$input .= '/> '.i18n::s('inline - List sections and related pages')
 		.BR.'<input type="radio" name="sections_layout" value="folded"';
 	if($item['sections_layout'] == 'folded')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - List sub-sections as folded boxes, with content (one box per section).')
+	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
 		.BR.'<input type="radio" name="sections_layout" value="compact"';
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.')
+	$input .= '/> '.i18n::s('compact - A compact list')
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -441,7 +443,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list sub-sections.');
+	$input .= '/> '.i18n::s('Do not list sections');
 	$fields[] = array($label, $input);
 
 	// content overlay
@@ -461,7 +463,7 @@ if($with_form) {
 
 	// layout for related articles
 	$label = i18n::s('Layout');
-	$input = i18n::s('Use the following layout:').BR;
+	$input = '';
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
@@ -472,7 +474,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="articles_layout" value="decorated"';
 	if($item['articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 	$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
 	if($item['articles_layout'] == 'digg')
 		$input .= ' checked="checked"';
@@ -496,7 +498,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="articles_layout" value="titles"';
 	if($item['articles_layout'] == 'titles')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
 		.BR.'<input type="radio" name="articles_layout" value="table"';
 	if($item['articles_layout'] == 'table')
 		$input .= ' checked="checked"';
@@ -532,7 +534,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.');
+	$input .= '/> '.i18n::s('compact - A compact list');
 	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -540,7 +542,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display articles.').BR;
+	$input .= '/> '.i18n::s('Do not list pages').BR;
 	$fields[] = array($label, $input);
 
 	// content options
@@ -565,6 +567,7 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_neighbours\')" style="cursor: pointer;">with_neighbours</a> - '.i18n::s('Add links to previous and next pages in the same section');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_wiki\')" style="cursor: pointer;">view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
 	$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
@@ -728,7 +731,6 @@ if($with_form) {
 		}
 
 		// the list of images
-		include_once '../images/images.php';
 		if($items = Images::list_by_date_for_anchor('section:'.$item['id'])) {
 
 			// help to insert in textarea
@@ -754,7 +756,6 @@ if($with_form) {
 	if(isset($item['id'])) {
 
 		// locations are reserved to authenticated members
-		include_once '../locations/locations.php';
 		if(Locations::allow_creation($anchor, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a location') );
 			$items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
@@ -762,7 +763,6 @@ if($with_form) {
 		}
 
 		// tables are reserved to associates
-		include_once '../tables/tables.php';
 		if(Tables::allow_creation($anchor, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a table') );
 			$items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
@@ -780,17 +780,21 @@ if($with_form) {
 	//
 	$text = '';
 
-	// provide information to section owner
+	// provide information to section owner, and to editors of parent section
 	if(Sections::is_owned($item, $anchor)) {
 
 		// owner
 		if(isset($item['owner_id'])) {
 			$label = i18n::s('Owner');
 			if($owner = Users::get($item['owner_id']))
-				$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+				$input = Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
 			else
 				$input = i18n::s('No owner has been found.');
-			$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'own'), i18n::s('Change'), 'basic').'</span>';
+
+			// only real owner can delegate to another person
+			if(Sections::is_owned($item, $anchor, TRUE))
+				$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
+
 			$fields[] = array($label, $input);
 		}
 
@@ -800,8 +804,16 @@ if($with_form) {
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('No editor has been assigned to this section.');
-		if(isset($item['id']))
-			$input .= ' <span class="details">'.Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Change'), 'basic').'</span>';
+		if(isset($item['id'])) {
+
+			// allow to involve more persons
+			$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
+
+			// only real owner can manage editors
+			if(Sections::is_owned($item, $anchor, TRUE))
+				$input .= ' <span class="details">'.Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Manage editors'), 'button').'</span>';
+
+		}
 		$fields[] = array($label, $input);
 
 		// readers
@@ -847,7 +859,10 @@ if($with_form) {
 		.BR.'<input type="radio" name="locked" value="Y"';
 	if(isset($item['locked']) && ($item['locked'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Only associates and owners can add content');
+	if(isset($item['active']) && ($item['active'] == 'N'))
+		$input .= '/> '.i18n::s('Only owners and associates can add content');
+	else
+		$input .= '/> '.i18n::s('Only assigned persons, owners and associates can add content');
 	$fields[] = array($label, $input);
 
 	// append fields

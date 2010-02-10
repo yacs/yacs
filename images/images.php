@@ -53,7 +53,6 @@ Class Images {
 			if(Articles::has_option('no_images', $anchor, $item))
 				return FALSE;
 
-
 		// other containers
 		} else {
 
@@ -62,7 +61,7 @@ Class Images {
 				return FALSE;
 
 			// in container
-			if(is_object($anchor) && $anchor->has_option('no_images'))
+			if(is_object($anchor) && $anchor->has_option('no_images', FALSE))
 				return FALSE;
 
 		}
@@ -82,14 +81,14 @@ Class Images {
 		// only in articles
 		if($variant == 'article') {
 
-			// surfer owns this item, or the anchor
-			if(Articles::is_owned($item, $anchor))
+			// surfer is entitled to change content
+			if(Articles::allow_modification($item, $anchor))
 				return TRUE;
 
 			// surfer is an editor, and the page is not private
 			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
 				return TRUE;
-			if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			if(is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 				return TRUE;
 
 		// only in iles
@@ -102,8 +101,8 @@ Class Images {
 		// only in sections
 		} elseif($variant == 'section') {
 
-			// surfer owns this item, or the anchor
-			if(Sections::is_owned($item, $anchor, TRUE))
+			// surfer is entitled to change content
+			if(Sections::allow_modification($item, $anchor))
 				return TRUE;
 
 		// only in user profiles
@@ -122,13 +121,18 @@ Class Images {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer is an editor (and item has not been locked)
-		if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
-			return TRUE;
-		if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
-			return TRUE;
-		if(is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
+		// not for subscribers
+		if(Surfer::is_member()) {
+
+			// surfer is an editor (and item has not been locked)
+			if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
+				return TRUE;
+			if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->is_assigned())
+				return TRUE;
+
+		}
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N'))
@@ -136,8 +140,8 @@ Class Images {
 		if(is_object($anchor) && $anchor->is_hidden())
 			return FALSE;
 
-		// surfer is a member
-		if(Surfer::is_member())
+		// authenticated members are allowed to add images to pages
+		if(($variant == 'article') && Surfer::is_logged())
 			return TRUE;
 
 		// container is restricted
@@ -145,10 +149,6 @@ Class Images {
 			return FALSE;
 		if(is_object($anchor) && !$anchor->is_public())
 			return FALSE;
-
-		// authenticated members and subscribers are allowed to add files
-		if(Surfer::is_logged())
-			return TRUE;
 
 		// anonymous contributions are allowed for articles
 		if($variant == 'article') {

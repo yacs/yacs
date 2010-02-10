@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:13+0100
-PO-Revision-Date: 2010-01-05 16:21+0100
+POT-Creation-Date: 2010-02-10 00:12+0100
+PO-Revision-Date: 2010-02-10 00:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -110,7 +110,7 @@ $_SESSION['l10n']['fr']['Display referrals:']='Afficher les références externe
 $_SESSION['l10n']['fr']['1fc6d9cbd42f8d53b1f49fc4ad5de46f']='Afficher la vignette pour les images de plus de %s octets';
 $_SESSION['l10n']['fr']['Disposition']='Disposition';
 $_SESSION['l10n']['fr']['a89b4c84880e8bda201cb11bf755f594']='Attention de ne pas modifier un thème de référence, vos changements seraient écrasés à la prochaine mise à jour du logiciel. %s pour préserver votre travail.';
-$_SESSION['l10n']['fr']['Do not display this item.']='Ne pas afficher cet élément.';
+$_SESSION['l10n']['fr']['Do not display this item']='Ne pas afficher cet élément';
 $_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['402f06c63fe84ae575c8427315da185b']='Boîtes de navigation dynamiques';
 $_SESSION['l10n']['fr']['81aab1c404ea9dcb2dcf9bbb94149e52']='ERREUR : Impossible de lire le fichier %s.';

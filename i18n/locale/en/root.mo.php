@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:32+0100
-PO-Revision-Date: 2010-01-31 23:34+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -87,10 +87,10 @@ $_SESSION['l10n']['en']['88221df7e286a0d70ee52e6092d7cd3d']='Display only the mo
 $_SESSION['l10n']['en']['7e5c4649689d0c5508f1fe78e462851c']='Display the cover article at the front page.';
 $_SESSION['l10n']['en']['5df8d224dd2653de8527c50ffad90b98']='Display the main part of the cover article, but not the title.';
 $_SESSION['l10n']['en']['94005666b4a707dd248da01c3e488923']='Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can also flag some sections or some categories to list their content in gadget boxes.';
-$_SESSION['l10n']['en']['a462da6c27b2a2f6404e564bf9b62bdd']='Do not display recent articles. The layout of the front page is solely based on a %s, on %s, plus %s.';
 $_SESSION['l10n']['en']['Do not list featured pages.']='Do not list featured pages.';
 $_SESSION['l10n']['en']['Do not list news.']='Do not list news.';
-$_SESSION['l10n']['en']['aed71e6a2b91bc0fad2458650aab92a0']='Do not list recent articles in an animated Flash object.';
+$_SESSION['l10n']['en']['dedc1f16c94d91f6d41961a73b6edadb']='Do not list recent pages in an animated Flash object.';
+$_SESSION['l10n']['en']['0f95f72b2f78bf6785cdc7d357626482']='Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s.';
 $_SESSION['l10n']['en']['4c95fc4630ac5a30f7644542c20e4b9c']='Do not list sections explicitly -- Useful for skins that feature tabbed sections.';
 $_SESSION['l10n']['en']['30ec5d8f39c70d79684e1dc2c7ed95d7']='Do not show gadget boxes at the front page.';
 $_SESSION['l10n']['en']['3a0e087384732c0b80e62d2b2098dee6']='Do not use the cover article at the front page.';
@@ -273,19 +273,19 @@ We would like to thank you for your interest in our web site.';
 $_SESSION['l10n']['en']['Your query: %s']='Your query: %s';
 $_SESSION['l10n']['en']['another skin']='another skin';
 $_SESSION['l10n']['en']['comments']='comments';
-$_SESSION['l10n']['en']['compact - A compact list.']='compact - A compact list.';
+$_SESSION['l10n']['en']['compact - A compact list']='compact - A compact list';
 $_SESSION['l10n']['en']['cover article']='cover article';
-$_SESSION['l10n']['en']['4f63b6b5d1f3f46a29eaee46fed7e8ec']='decorated - A list decorated with images.';
+$_SESSION['l10n']['en']['1ea7057e130399b867cb3dd7b33919bb']='decorated - A list decorated with images';
 $_SESSION['l10n']['en']['e-mail']='e-mail';
 $_SESSION['l10n']['en']['featured']='featured';
 $_SESSION['l10n']['en']['files']='files';
-$_SESSION['l10n']['en']['8cb4e09444c573321ad89a48e992b66f']='folded - List sub-sections as folded boxes, with content (one box per section).';
+$_SESSION['l10n']['en']['5d181095688bfed68cd54669f53465fc']='folded - One folded box per section, with content';
 $_SESSION['l10n']['en']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Build an interactive mind map';
 $_SESSION['l10n']['en']['front page']='front page';
 $_SESSION['l10n']['en']['gadget boxes']='gadget boxes';
 $_SESSION['l10n']['en']['here']='here';
 $_SESSION['l10n']['en']['http://www.yacs.fr/']='http://www.yacs.fr/';
-$_SESSION['l10n']['en']['36bf15f384c2faef4a8cbb7476484e2e']='inline - List sub-sections and related articles.';
+$_SESSION['l10n']['en']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - List sections and related pages';
 $_SESSION['l10n']['en']['jive - List 5 threads per board']='jive - List 5 threads per board';
 $_SESSION['l10n']['en']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Map in two columns, like Yahoo!';
 $_SESSION['l10n']['en']['e35b42f9905d22b1370f621d7068e6ab']='menu - List sections in the menu bar.';
@@ -297,7 +297,7 @@ $_SESSION['l10n']['en']['the searching form']='the searching form';
 $_SESSION['l10n']['en']['94e7f5b7acb5aac4bd0acf09156ca1af']='the section dedicated to gadget boxes';
 $_SESSION['l10n']['en']['the site front page']='the site front page';
 $_SESSION['l10n']['en']['the site map']='the site map';
-$_SESSION['l10n']['en']['eb485c9b646eb69dd5d906801b4a1480']='titles - Use only titles and thumbnails.';
+$_SESSION['l10n']['en']['c67436d0c05ea8118905f418986fc235']='titles - Use only titles and thumbnails';
 $_SESSION['l10n']['en']['www.yacs.fr']='www.yacs.fr';
 $_SESSION['l10n']['en']['yabb - A discussion forum']='yabb - A discussion forum';
 $_SESSION['l10n']['en']['your profile']='your profile';

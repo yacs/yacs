@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:13+0100
-PO-Revision-Date: 2009-11-16 18:05+0100
+POT-Creation-Date: 2010-02-10 00:12+0100
+PO-Revision-Date: 2010-02-10 00:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -110,7 +110,7 @@ $_SESSION['l10n']['en']['Display referrals:']='Display referrals:';
 $_SESSION['l10n']['en']['1fc6d9cbd42f8d53b1f49fc4ad5de46f']='Display the thumbnail image for images of more than %s bytes';
 $_SESSION['l10n']['en']['Disposition']='Disposition';
 $_SESSION['l10n']['en']['a89b4c84880e8bda201cb11bf755f594']='Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.';
-$_SESSION['l10n']['en']['Do not display this item.']='Do not display this item.';
+$_SESSION['l10n']['en']['Do not display this item']='Do not display this item';
 $_SESSION['l10n']['en']['Done']='Done';
 $_SESSION['l10n']['en']['402f06c63fe84ae575c8427315da185b']='Dynamic navigation boxes, if any';
 $_SESSION['l10n']['en']['81aab1c404ea9dcb2dcf9bbb94149e52']='ERROR: Impossible to read the file %s.';

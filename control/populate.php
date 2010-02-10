@@ -58,6 +58,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @tester Christian Loubechine
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -128,13 +129,13 @@ if(!$permitted) {
 
 	// the password
 	$label = i18n::s('Password');
-	$input = '<input type="text" name="password" size="20" />';
+	$input = '<input type="password" name="password" size="20" />';
 	$hint = i18n::s('We recommend at least 4 letters, two digits, and a punctuation sign - in any order');
 	$fields[] = array($label, $input, $hint);
 
 	// the password has to be repeated for confirmation
 	$label = i18n::s('Password confirmation');
-	$input = '<input type="text" name="confirm" size="20" />';
+	$input = '<input type="password" name="confirm" size="20" />';
 	$fields[] = array($label, $input);
 
 	// build the form

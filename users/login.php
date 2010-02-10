@@ -195,9 +195,6 @@ if(Surfer::is_crawler()) {
 			// save surfer profile in session context
 			Surfer::set($poster, $update_flag);
 
-			// add this anchor to allowed handles
-			Surfer::add_handle($anchor->get_handle());
-
 			// redirect to target page
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 
@@ -527,7 +524,7 @@ if(Surfer::is_crawler()) {
 			} else
 				$link = 'users/edit.php';
 
-			$context['text'] .= Skin::build_box(i18n::s('Create your profile'), sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']));
+			$context['text'] .= Skin::build_box(i18n::s('Create your profile'), sprintf(i18n::s('%s if you have not yet a profile for yourself at %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']));
 		}
 
 		// ask for support
@@ -598,7 +595,7 @@ if(Surfer::is_crawler()) {
 		} else
 			$link = 'users/edit.php';
 
-		$side_column .= Skin::build_block(Skin::build_block(i18n::s('Create your profile'), 'title').sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']), 'sidecolumn');
+		$side_column .= Skin::build_block(Skin::build_block(i18n::s('Create your profile'), 'title').sprintf(i18n::s('%s if you have not yet a profile for yourself at %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']), 'sidecolumn');
 	}
 
 	// layout the columns

@@ -95,10 +95,6 @@ elseif(isset($context['arguments'][1]))
 if(!isset($item['id']) && Files::allow_creation($anchor))
 	$permitted = TRUE;
 
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
 // we are allowed to modify an existing file
 elseif(isset($item['id']) && Files::allow_modification($anchor, $item))
 	$permitted = TRUE;
@@ -257,6 +253,30 @@ if(Surfer::is_crawler()) {
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id']))
 		Logger::error(i18n::s('No file has been transmitted.'));
+
+	// feed history
+	if(isset($_REQUEST['version']) && $_REQUEST['version']) {
+
+		define('MARKER', '<!-- insert point -->');
+
+		// ensure we have a marker
+		if(!isset($item['description']))
+			$_REQUEST['description'] = '<dl class="comments">'.MARKER.'</dl>';
+		elseif(!strpos($item['description'], MARKER))
+			$_REQUEST['description'] = '<dl class="comments">'.MARKER.'</dl><div>'.$item['description'].'</div>';
+		else
+			$_REQUEST['description'] = $item['description'];
+
+		// ensure we know the surfer
+		Surfer::check_default_editor($_REQUEST);
+
+		// shape the new element
+		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id'], TRUE), Skin::build_date($_REQUEST['edit_date'])).'</dt>'
+			.'<dd>'.$_REQUEST['version'].'</dd>';
+
+		// keep it for history
+		$_REQUEST['description'] = str_replace(MARKER, MARKER.$version, $_REQUEST['description']);
+	}
 
 	// make the file name searchable on initial post
 	if(!isset($_REQUEST['id']) && isset($_REQUEST['file_name']))
@@ -470,12 +490,18 @@ if($with_form) {
 	$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
 	$fields[] = array($label, $input);
 
-	// the description
-	$label = i18n::s('Description');
+	// the change
+	$label = i18n::s('Version');
+	$input = '<textarea name="version" rows="3" cols="50"></textarea>';
+	$hint = i18n::s('What is new in this file?');
+	$fields[] = array($label, $input, $hint);
 
-	// use the editor if possible
-	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
-	$fields[] = array($label, $input);
+	// the history
+	if(isset($item['description'])) {
+		$label = i18n::s('History');
+		$input = Skin::build_block($item['description'], 'description');
+		$fields[] = array($label, $input);
+	}
 
 	// build the form
 	$text .= Skin::build_form($fields);

@@ -249,7 +249,7 @@ class Anchors {
 		Versions::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// duplicate memberships for this anchor
-		Members::duplicate_for_anchor($from_anchor, $to_anchor);
+		Members::duplicate_for($from_anchor, $to_anchor);
 
 		// the duplicate_related_to hook
 		if(is_callable(array('Hooks', 'include_scripts')))

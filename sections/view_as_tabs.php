@@ -359,7 +359,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			}
 
 			// the command to add a new section
-			if(Sections::allow_creation($anchor, $item)) {
+			if(Sections::allow_creation($item, $anchor)) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 			}
@@ -458,7 +458,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				}
 
 				// the command to post a new page
-				if(Articles::allow_creation($anchor, $item)) {
+				if(Articles::allow_creation($item, $anchor)) {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -822,7 +822,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wstats['count']), $wstats['count']));
 
 	// send a message to a section
-	if(($estats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(($estats['count'] > 1) && Sections::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
 		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Send a message'));
 	}
@@ -843,12 +843,12 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
 
 	// invite command provided to owners
-	if(Sections::is_owned($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(Sections::is_owned($item, $anchor, TRUE) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$box['bar'] += array(Sections::get_url($item['id'], 'invite') => SECTIONS_INVITE_IMG.i18n::s('Invite participants'));
 
 	// assign command provided to owners
-	} elseif(Sections::is_owned($item, $anchor)) {
+	} elseif(Sections::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 		$box['bar'] += array(Users::get_url('section:'.$item['id'], 'select') => SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 
@@ -934,7 +934,7 @@ $context['text'] .= Skin::build_tabs($panels);
 //
 
 // commands to add pages
-if(Articles::allow_creation($anchor, $item)) {
+if(Articles::allow_creation($item, $anchor)) {
 
 	Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 	$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -955,7 +955,7 @@ if(Articles::allow_creation($anchor, $item)) {
 }
 
 // add a section
-if(Sections::allow_creation($anchor, $item)) {
+if(Sections::allow_creation($item, $anchor)) {
 	Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 	$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 }
@@ -984,8 +984,8 @@ if(Images::allow_creation($anchor, $item, 'section')) {
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }
 
-// commands for section owners
-if(Sections::is_owned($item, $anchor)) {
+// ensure that the surfer can change content
+if(Sections::allow_modification($item, $anchor)) {
 
 	// modify this page
 	Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
@@ -994,7 +994,7 @@ if(Sections::is_owned($item, $anchor)) {
 	$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), SECTIONS_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 	// access previous versions, if any
-	if($has_versions) {
+	if($has_versions && Sections::is_owned($item, $anchor)) {
 		Skin::define_img('SECTIONS_VERSIONS_IMG', 'sections/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), SECTIONS_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}
@@ -1008,6 +1008,11 @@ if(Sections::is_owned($item, $anchor)) {
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), SECTIONS_UNLOCK_IMG.i18n::s('Unlock'), 'basic');
 	}
 
+}
+
+// commands for section owners
+if(Sections::is_owned($item, $anchor)) {
+
 	// delete the page
 	Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
 	$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.i18n::s('Delete this section'), 'basic');
@@ -1019,18 +1024,23 @@ if(Sections::is_owned($item, $anchor)) {
 	}
 
 	// duplicate command provided to container owners
-	if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))) {
+	if(Sections::is_owned(NULL, $anchor)) {
 		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
 	}
 
 	// assign editors
-	if(Sections::is_owned($item, $anchor)) {
+	if(Sections::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 		$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 	}
 
+// allow to leave the section
+} elseif(Sections::is_assigned($item['id'])) {
+	Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+	$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 }
+
 
 // use date of last modification into etag computation
 if(isset($item['edit_date']))

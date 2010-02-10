@@ -5,12 +5,6 @@
  * This script calls for confirmation, then actually deletes an article.
  * It updates the database, then redirects to the anchor page, or to the index page for articles.
  *
- * Restrictions apply on this page:
- * - associates and authenticated editors are allowed to move forward
- * - permission is denied if the anchor is not viewable by this surfer
- * - logged surfers may decide to delete their own posts
- * - else permission is denied
- *
  * Accept following invocations:
  * - delete.php/12
  * - delete.php?id=12
@@ -50,7 +44,7 @@ if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
 // owners can proceed
-if(Articles::is_owned($item, $anchor)) {
+if(Articles::allow_deletion($item, $anchor)) {
 	Surfer::empower();
 	$permitted = TRUE;
 

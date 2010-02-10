@@ -134,10 +134,14 @@ if(Surfer::is_crawler()) {
 			function explode_callback($name) {
 				global $context;
 
-        if(!Safe::GetImageSize($name))
-          Safe::unlink($name);
+				// we only want to preserve images
+				if(!$attributes = Safe::GetImageSize($name))
+					Safe::unlink($name);
 
-//				$context['text'] .= 'extracting '.$name.BR;
+				// kill images that are too large - 2,000 x 2,000 x 3 = 12MB
+				elseif(($attributes[0] > 2000) || ($attributes[1] > 2000))
+					Safe::unlink($name);
+
 			}
 
 			// extract archive components and save them in mentioned directory
@@ -223,7 +227,7 @@ if(Surfer::is_crawler()) {
 					if(isset($item['id']))
 						$anchor->touch('image:create', $item['id']);
 
-				} 
+				}
 			}
 			Safe::closedir($handle);
 		}

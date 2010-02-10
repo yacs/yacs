@@ -110,11 +110,12 @@ elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 $action = strip_tags($action);
 
 // only owners can proceed
-if(Sections::is_owned($item, $anchor))
+if(Sections::is_owned($item, $anchor)) {
+	Surfer::empower();
 	$permitted = TRUE;
 
 // the default is to disallow access
-else
+} else
 	$permitted = FALSE;
 
 // load the skin, maybe with a variant
@@ -629,7 +630,7 @@ if(Surfer::is_crawler()) {
 				$section['anchor'] = $_REQUEST['duplicate_to'];
 
 				// actual duplication
-				if($new_id = Sections::post($section)) {
+				if($new_id = Sections::post($section, FALSE)) {
 
 					// duplicate elements related to this item
 					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$new_id);

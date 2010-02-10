@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2009-09-09 10:03+0100
+POT-Creation-Date: 2010-02-09 11:07+0100
+PO-Revision-Date: 2010-02-09 11:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -126,7 +126,6 @@ $_SESSION['l10n']['en']['Sample article']='Sample article';
 $_SESSION['l10n']['en']['dac90d5afad2277d5aa694046bfc7482']='Sample article with its set of comments';
 $_SESSION['l10n']['en']['Sample associate profile']='Sample associate profile';
 $_SESSION['l10n']['en']['Sample blogging place']='Sample blogging place';
-$_SESSION['l10n']['en']['19c4d7553f352340a1771f46d299cfca']='Sample content with its set of extensions';
 $_SESSION['l10n']['en']['8e6607f092de29e061c7ee3abd86f108']='Sample content with its set of notes';
 $_SESSION['l10n']['en']['Sample discussion board']='Sample discussion board';
 $_SESSION['l10n']['en']['Sample discussion places']='Sample discussion places';
@@ -135,14 +134,13 @@ $_SESSION['l10n']['en']['Sample electronic book']='Sample electronic book';
 $_SESSION['l10n']['en']['Sample jive thread']='Sample jive thread';
 $_SESSION['l10n']['en']['Sample page of the blog']='Sample page of the blog';
 $_SESSION['l10n']['en']['Sample page of the manual']='Sample page of the manual';
-$_SESSION['l10n']['en']['Sample page of the wiki']='Sample page of the wiki';
 $_SESSION['l10n']['en']['Sample person profile']='Sample person profile';
 $_SESSION['l10n']['en']['Sample plain category']='Sample plain category';
 $_SESSION['l10n']['en']['Sample plain section']='Sample plain section';
 $_SESSION['l10n']['en']['Sample project web space']='Sample project web space';
 $_SESSION['l10n']['en']['Sample sub category']='Sample sub category';
 $_SESSION['l10n']['en']['Sample subscriber profile']='Sample subscriber profile';
-$_SESSION['l10n']['en']['Sample wikis']='Sample wikis';
+$_SESSION['l10n']['en']['Sample wiki page']='Sample wiki page';
 $_SESSION['l10n']['en']['Sample yabb thread']='Sample yabb thread';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Sections']='Sections';
@@ -169,7 +167,6 @@ $_SESSION['l10n']['en']['efe890e49d4882ad1bc118be35fc5752']='This is a sample ta
 $_SESSION['l10n']['en']['0308945ed2c5d05676ce51f7d5faae9f']='This page demonstrates the rendering of the ##daily## layout.';
 $_SESSION['l10n']['en']['4579ec8419a8e97cbb89781f16ea08cb']='This page demonstrates the rendering of the ##jive## layout.';
 $_SESSION['l10n']['en']['5165623fd3a05fb3a182775400513173']='This page demonstrates the rendering of the ##manual## layout.';
-$_SESSION['l10n']['en']['ea69dc4cd37d538ead5bedf064ceab78']='This page demonstrates the rendering of the ##wiki## layout.';
 $_SESSION['l10n']['en']['d5178efe7a318979bb0131254f12b61e']='This page demonstrates the rendering of the ##yabb## layout.';
 $_SESSION['l10n']['en']['4a026ed4f6e4d92bdb76a1a696d9edd3']='This page has %d references to %d links:';
 $_SESSION['l10n']['en']['93367d2113574e84fd7ad73d762080f9']='This script adds various sample records, including sections, categories, articles, comments and tables, to the database.';
@@ -177,6 +174,7 @@ $_SESSION['l10n']['en']['7eb9b5b621c8704d27281b0fa06bdecc']='This script can be 
 $_SESSION['l10n']['en']['22d066ce7e26cfbbe0f1465ed632b136']='This script strips tags and white space to evaluate the amount of useful bytes. Then it computes the fat index as follows:';
 $_SESSION['l10n']['en']['00a511eb5dccc62b6b63c5c104d9a5d5']='To seek for help from other members of the community';
 $_SESSION['l10n']['en']['Tools']='Tools';
+$_SESSION['l10n']['en']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Use the command \'Edit this page\' to add some text or to change this content.';
 $_SESSION['l10n']['en']['d94aaf4fa30ddc7d9d1074f60c074ff3']='Use this page model to add a new event to the calendar';
 $_SESSION['l10n']['en']['86e1bb0529b582dccf265b7e6656ad13']='Use this page model to add a page that can be modified by any surfer';
 $_SESSION['l10n']['en']['Useful Bytes: %d bytes']='Useful Bytes: %d bytes';
@@ -187,7 +185,6 @@ $_SESSION['l10n']['en']['f97b1321e05c23df5a37e76329c16098']='We will use this to
 $_SESSION['l10n']['en']['Web Reference: %s']='Web Reference: %s';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
-$_SESSION['l10n']['en']['Wiki']='Wiki';
 $_SESSION['l10n']['en']['Wiki page']='Wiki page';
 $_SESSION['l10n']['en']['Wikis']='Wikis';
 $_SESSION['l10n']['en']['Working overlay']='Working overlay';

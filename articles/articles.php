@@ -166,13 +166,13 @@ Class Articles {
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
-				$order = 'rating_sum DESC, publish_date DESC';
+				$order = 'rating_sum DESC, edit_date DESC';
 			else
-				$order = 'rank, rating_sum DESC, publish_date DESC';
+				$order = 'rank, rating_sum DESC, edit_date DESC';
 			break;
 
 		case 'reverse_rank':	// order by rank, then by date of publication
-			$order = 'rank DESC, publish_date DESC';
+			$order = 'rank DESC, edit_date DESC';
 			break;
 
 		case 'review':	// order by date of last review
@@ -212,11 +212,11 @@ Class Articles {
 	 * This function returns TRUE if articles can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any --always a section
+	 * @param object an instance of the Anchor interface, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL) {
+	function allow_creation($item, $anchor=NULL) {
 		global $context;
 
 		// articles are prevented in item, through layout
@@ -235,15 +235,18 @@ Class Articles {
 		if(Sections::is_owned($item, $anchor, TRUE))
 			return TRUE;
 
-		// surfer is an editor, and the section is not private
-		if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
-			return TRUE;
-		if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
+		// not for subscribers
+		if(Surfer::is_member()) {
 
-		// section is not private, and surfer is an editor of it
-		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
-			return TRUE;
+			// surfer is an editor, and the section is not private
+			if(isset($item['active']) && ($item['active'] != 'N') && Sections::is_assigned($item['id']))
+				return TRUE;
+			if(isset($item['active']) && ($item['active'] != 'N') && is_object($anchor) && $anchor->is_assigned())
+				return TRUE;
+			if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+				return TRUE;
+
+		}
 
 		// container has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
@@ -253,11 +256,16 @@ Class Articles {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer is an editor (and item has not been locked)
-		if(isset($item['id']) && Sections::is_assigned($item['id']))
-			return TRUE;
-		if(is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
+		// not for subscribers
+		if(Surfer::is_member()) {
+
+			// surfer is an editor (and item has not been locked)
+			if(isset($item['id']) && Sections::is_assigned($item['id']))
+				return TRUE;
+			if(is_object($anchor) && $anchor->is_assigned())
+				return TRUE;
+
+		}
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N'))
@@ -282,6 +290,43 @@ Class Articles {
 			return TRUE;
 
 		// the default is to not allow for new articles
+		return FALSE;
+	}
+
+	/**
+	 * check if an article can be deleted
+	 *
+	 * This function returns TRUE if the page can be deleted,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target article
+	 * @param object an instance of the Anchor interface
+	 * @return TRUE or FALSE
+	 */
+	function allow_deletion($item, $anchor) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns the page
+		if(isset($item['owner_id']) && Surfer::is($item['owner_id']))
+			return TRUE;
+
+		// surfer owns the container
+		if(is_object($anchor) && $anchor->is_owned())
+			return TRUE;
+
+		// allow editors --not subscribers-- to manage content, except on private sections
+		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// default case
 		return FALSE;
 	}
 
@@ -337,20 +382,58 @@ Class Articles {
 	}
 
 	/**
+	 * check if a surfer can send a message to group participants
+	 *
+	 * @param array a set of item attributes, aka, the target page
+	 * @param object an instance of the Anchor interface
+	 * @return TRUE or FALSE
+	 */
+	function allow_message($item, $anchor=NULL) {
+		global $context;
+
+		// subscribers can never send a message
+		if(!Surfer::is_member())
+			return FALSE;
+
+		// sanity check
+		if(!isset($item['id']))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns the container or the page
+		if(Articles::is_owned($item, $anchor, TRUE))
+			return TRUE;
+
+		// page editors can proceed
+		if(isset($item['id']) && Articles::is_assigned($item['id']))
+			return TRUE;
+
+		// container editors can proceed
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// default case
+		return FALSE;
+	}
+
+	/**
 	 * check if an article can be modified
 	 *
 	 * This function returns TRUE if the page can be modified,
 	 * and FALSE otherwise.
 	 *
-	 * @param object an instance of the Anchor interface
 	 * @param array a set of item attributes, aka, the target article
+	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($anchor, $item) {
+	function allow_modification($item, $anchor) {
 		global $context;
 
 		// sanity check
-		if(!isset($item['id']))
+		if(!isset($item['id']) && !$anchor)
 			return FALSE;
 
 		// surfer is an associate
@@ -365,13 +448,17 @@ Class Articles {
 		if(Articles::is_owned($item, $anchor))
 			return TRUE;
 
-		// allow section editors to manage content, except on private sections
-		if(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+		// allow section editors --not subscribers-- to manage content, except on private sections
+		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// article has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
+
+		// maybe this anonymous surfer is allowed to handle this item
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
 
 		// community wiki
 		if(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
@@ -1056,10 +1143,10 @@ Class Articles {
 			$order = 'articles.rank, articles.publish_date DESC, articles.title';
 		} elseif($order == 'rating') {
 			$match = "articles.rank >= ".SQL::escape($item['rank'])." AND articles.rating_sum < ".SQL::escape($item['rating_sum']);
-			$order = 'articles.rank, articles.rating_sum DESC, articles.publish_date DESC';
+			$order = 'articles.rank, articles.rating_sum DESC, articles.edit_date DESC';
 		} elseif($order == 'title') {
-			$match = "articles.title > '".SQL::escape($item['title'])."'";
-			$order = 'articles.title';
+			$match = "articles.rank >= ".SQL::escape($item['rank'])." AND articles.title > '".SQL::escape($item['title'])."'";
+			$order = 'articles.rank, articles.title';
 		} else
 			return "unknown order '".$order."'";
 
@@ -1097,12 +1184,12 @@ Class Articles {
 	 *
 	 * @param array the current item
 	 * @param string reference to the anchor (e.g., 'section:123')
-	 * @param string the order, either 'date' or 'title'
+	 * @param string the order
 	 * @return an array($url, $title)
 	 *
 	 * @see sections/section.php
 	 */
-	function get_previous_url(&$item, $anchor, $order='date') {
+	function get_previous_url(&$item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1147,10 +1234,10 @@ Class Articles {
 			$order = 'articles.rank DESC, articles.publish_date, articles.title';
 		} elseif($order == 'rating') {
 			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.rating_sum > ".SQL::escape($item['rating_sum']);
-			$order = 'articles.rank DESC, articles.rating_sum, articles.publish_date';
+			$order = 'articles.rank DESC, articles.rating_sum, articles.edit_date';
 		} elseif($order == 'title') {
-			$match = "articles.title < '".SQL::escape($item['title'])."'";
-			$order = 'articles.title DESC';
+			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.title < '".SQL::escape($item['title'])."'";
+			$order = 'articles.rank DESC, articles.title DESC';
 		} else
 			return "unknown order '".$order."'";
 
@@ -1350,10 +1437,11 @@ Class Articles {
 	 *
 	 * @param array page attributes
 	 * @param object cascade to parent if set
+	 * @param boolean FALSE if the surfer can be an editor of parent section
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($item=NULL, $anchor=NULL, $user_id=NULL) {
+	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
@@ -1367,16 +1455,20 @@ Class Articles {
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
-		// don't cascade
-		if(!is_object($anchor))
+		// do not look upwards
+		if(!$anchor || !is_object($anchor))
 			return FALSE;
 
-		// super user
-		if(Surfer::is_associate())
+		// associates can do what they want
+		if(Surfer::is($user_id) && Surfer::is_associate())
 			return TRUE;
 
 		// surfer owns parent container
-		if(is_object($anchor) && $anchor->is_owned($user_id, FALSE))
+		if($anchor->is_owned($user_id))
+			return TRUE;
+
+		// page is not private, and surfer is editor --not subscriber-- of parent container
+		if(!$strict && isset($item['active']) && ($item['active'] != 'N') && Surfer::is_member() && is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
 
 		// sorry
@@ -1790,8 +1882,8 @@ Class Articles {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
-		// logged surfers that are non-associates are restricted to their own articles, plus published articles
-		} elseif(!is_callable(array('Surfer', 'is_empowered')) || !Surfer::is_empowered()) {
+		// logged surfers that are not empowered are restricted to their own articles, plus published articles
+		} elseif(!Surfer::is_member() || !is_callable(array('Surfer', 'is_empowered')) || !Surfer::is_empowered()) {
 			$where .= " AND ((articles.owner_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
@@ -2290,8 +2382,9 @@ Class Articles {
 			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
-		// allow surfer to access this page during his session
-		Surfer::add_handle($fields['handle']);
+		// allow anonymous surfer to access this page during his session
+		if(!Surfer::get_id())
+			Surfer::add_handle($fields['handle']);
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('articles')." SET ".implode(', ', $query);

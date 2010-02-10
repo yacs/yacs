@@ -52,9 +52,8 @@ Class Layout_versions extends Layout_interface {
 			// version description
 			$label = sprintf(i18n::s('edited by %s %s'), ucfirst($item['edit_name']), Skin::build_date($item['edit_date']));
 
-			// if option 'anonymous_edit', anonymous surfers may view versions
-			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
-				$suffix .= ' '.Skin::build_link(Versions::get_url($item['id'], 'view'), i18n::s('compare to current version'), 'button');
+			// command to view this version
+			$suffix .= ' '.Skin::build_link(Versions::get_url($item['id'], 'view'), i18n::s('compare to current version'), 'button');
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'version', $icon);

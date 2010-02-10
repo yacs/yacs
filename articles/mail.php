@@ -58,11 +58,7 @@ if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
 // owners can proceed
-if(Articles::is_owned($item, $anchor))
-	$permitted = TRUE;
-
-// article editors can proceed
-elseif(isset($item['id']) && Articles::is_assigned($item['id']))
+if(Articles::allow_message($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access

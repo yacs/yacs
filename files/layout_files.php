@@ -155,7 +155,7 @@ Class Layout_files extends Layout_interface {
 
 			// description
 			if(trim($item['description']))
-				$suffix .= BR.Codes::beautify($item['description']);
+				$suffix .= Skin::build_box(i18n::s('History'), Codes::beautify($item['description']), 'folded');
 
 			// explicit icon
 			if($item['thumbnail_url'])

@@ -55,7 +55,7 @@ if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
 // owners can do what they want
-if(Articles::is_owned($item, $anchor)) {
+if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))) {
 	Surfer::empower();
 	$permitted = TRUE;
 

@@ -108,8 +108,12 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
-include_once '../links/links.php'; // links
-include_once '../servers/servers.php'; // servers
+include_once '../images/images.php';
+include_once '../links/links.php';
+include_once '../locations/locations.php';
+include_once '../overlays/overlay.php';
+include_once '../servers/servers.php';
+include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
 
 // allow for direct login
@@ -146,7 +150,6 @@ elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
 
 // get the related overlay, if any -- overlay_type will be considered later on
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
@@ -158,11 +161,11 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($overlay_class);
 
 // we are allowed to add a new page
-if(!isset($item['id']) && Articles::allow_creation($anchor))
+if(!isset($item['id']) && Articles::allow_creation(NULL, $anchor))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing page
-elseif(isset($item['id']) && Articles::allow_modification($anchor, $item))
+elseif(isset($item['id']) && Articles::allow_modification($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -315,17 +318,6 @@ if(Surfer::is_crawler()) {
 
 		}
 	}
-
-
-// maybe posts are not allowed here
-} elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')) && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked.'));
-
-// maybe this page cannot be modified anymore
-} elseif(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -492,7 +484,7 @@ if(Surfer::is_crawler()) {
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
 
 				// pingback, if any
-				Links::ping($_REQUEST['introduction'].' '.$_REQUEST['source'].' '.$_REQUEST['description'], 'article:'.$_REQUEST['id']);
+				Links::ping($_REQUEST['description'], 'article:'.$_REQUEST['id']);
 
 				// ping servers
 				Servers::notify($anchor->get_url());
@@ -850,7 +842,6 @@ if($with_form) {
 		}
 
 		// the list of images
-		include_once '../images/images.php';
 		if($items = Images::list_by_date_for_anchor('article:'.$item['id'])) {
 
 			// help to insert in textarea
@@ -876,7 +867,6 @@ if($with_form) {
 	if(isset($item['id'])) {
 
 		// locations are reserved to authenticated members
-		include_once '../locations/locations.php';
 		if(Locations::allow_creation($anchor, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a location') );
 			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50);
@@ -884,7 +874,6 @@ if($with_form) {
 		}
 
 		// tables are reserved to associates
-		include_once '../tables/tables.php';
 		if(Tables::allow_creation($anchor, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
 			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50);
@@ -924,29 +913,41 @@ if($with_form) {
 	$text = '';
 
 	// provide information to section owner
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if(isset($item['id'])) {
 
 		// owner
-		if(isset($item['id']) && isset($item['owner_id'])) {
-			$label = i18n::s('Owner');
+		$label = i18n::s('Owner');
+		$input = '';
+		if(isset($item['owner_id'])) {
 			if($owner = Users::get($item['owner_id']))
-				$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+				$input = Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
 			else
 				$input = i18n::s('No owner has been found.');
-			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'basic').'</span>';
-			$fields[] = array($label, $input);
 		}
+
+		// change the owner
+		if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
+			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
+
+		$fields[] = array($label, $input);
 
 		// editors
 		$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items =& Members::list_editors_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
+		if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma'))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
-		if(isset($item['id']))
-			$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Change'), 'basic').'</span>';
-		$fields[] = array($label, $input);
 
+		// manage participants and editors
+ 		if(Articles::is_owned($item, $anchor, TRUE)) {
+
+			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
+
+			$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Manage editors'), 'button').'</span>';
+
+		}
+
+		$fields[] = array($label, $input);
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
@@ -983,7 +984,10 @@ if($with_form) {
 		.BR.'<input type="radio" name="locked" value="Y"';
 	if(isset($item['locked']) && ($item['locked'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Only associates and owners can add content');
+	if(isset($item['active']) && ($item['active'] == 'N'))
+		$input .= '/> '.i18n::s('Only owners and associates can add content');
+	else
+		$input .= '/> '.i18n::s('Only assigned persons, owners and associates can add content');
 	$fields[] = array($label, $input);
 
 	// append fields
@@ -1091,6 +1095,7 @@ if($with_form) {
 		$keywords[] = '<a onclick="append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links');
 		$keywords[] = '<a onclick="append_to_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 		$keywords[] = '<a onclick="append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_wiki\')" style="cursor: pointer;">view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
 		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
 		$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');

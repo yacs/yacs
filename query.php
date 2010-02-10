@@ -76,7 +76,7 @@ if(Surfer::is_crawler()) {
 		$fields['index_map'] = 'N'; // listed only to associates
 
 		// reference the new section
-		if($fields['id'] = Sections::post($fields))
+		if($fields['id'] = Sections::post($fields, FALSE))
 			$anchor =& Anchors::get('section:'.$fields['id']);
 	}
 	$_REQUEST['anchor'] = $anchor->get_reference();

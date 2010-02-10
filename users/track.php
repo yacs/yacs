@@ -88,21 +88,21 @@ if(!$item['id']) {
 
 		// we are tracking a user
 		if(!strncmp($track, 'user:', 5)) {
-		
+
 			$context['text'] .= '<p>'.sprintf(i18n::s('You have been connected to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, disconnect me from this person.'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
 
 		// we are tracking a page
 		} else {
-		
+
 			// reference the anchor page
 			if(is_object($anchor) && $anchor->is_viewable())
 				$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
 
 			$context['text'] .= '<p>'.i18n::s('The page has been added to your watch list. You will receive electronic messages to warn you on each future update.')."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, forget this page'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
 
 		}
 
@@ -114,7 +114,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.sprintf(i18n::s('You are not connected to %s anymore.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, connect me to this person'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
 
 		// we are tracking a page
 		} else {
@@ -125,7 +125,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.i18n::s('The page has been removed from your watch list. You won\'t receive any message about it anymore.')."</p>\n";
 
-			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind, watch this page')));
+			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind')));
 
 		}
 

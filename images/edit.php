@@ -117,32 +117,12 @@ elseif(isset($_REQUEST['anchor']))
 elseif(isset($context['arguments'][1]))
 	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
-// owners can do what they want on items anchored here
-if(is_object($anchor) && $anchor->is_owned())
-	Surfer::empower();
-
-// do not accept new files if uploads have been disallowed
-if(!isset($item['id']) && !Surfer::may_upload())
-	$permitted = FALSE;
-
-// associates and owners can do what they want
-elseif(Surfer::is_empowered())
+// we are allowed to add a new file
+if(!isset($item['id']) && Images::allow_creation($anchor))
 	$permitted = TRUE;
 
-// editors can upload new files
-elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_assigned())
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// surfer owns the item
-elseif(isset($item['edit_id']) && Surfer::is($item['edit_id']))
-	$permitted = TRUE;
-
-// authenticated members can post new items if submission is allowed
-elseif(!isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
+// we are allowed to modify an existing file
+elseif(isset($item['id']) && Images::allow_modification($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -206,11 +186,6 @@ if(Surfer::is_crawler()) {
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// maybe posts are not allowed here
-} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {

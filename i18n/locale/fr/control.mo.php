@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-10 23:08+0100
-PO-Revision-Date: 2009-12-18 00:04+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -73,6 +73,7 @@ $_SESSION['l10n']['fr']['0fedded00746a3e31879ae9403932bc9']='%s - vous pouvez aj
 $_SESSION['l10n']['fr']['%s has been created']='%s a été créé';
 $_SESSION['l10n']['fr']['%s has been deleted']='%s a été supprimé';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['e5be2c46b45158d9236ab3e171327d39']='%s si vous n\'êtes pas encore de profil sur %s.';
 $_SESSION['l10n']['fr']['12a445f97d35c3c6b46064691a6be8f8']='%s, y compris %s, %s, %s et %s';
 $_SESSION['l10n']['fr']['6215b8a7004d14581454f83c9075bc83']='%s, pour obtenir les paramètres d\'exécution de SQL.';
 $_SESSION['l10n']['fr']['318c33cdf3687811972fcf31ec134607']='%s, pour tout savoir de l\'environnement PHP sur ce serveur.';
@@ -369,7 +370,6 @@ $_SESSION['l10n']['fr']['0002ebfabcec83316e5e2d13d110af91']='Récupérer l\'espa
 $_SESSION['l10n']['fr']['fe98b273e7b37b449b1faa5c950616ea']='Récupération de l\'espace inutilisé dans la base de données...';
 $_SESSION['l10n']['fr']['2a0e06c5669dda6f4248c2978c4760c7']='Rediriger toutes les requêtes non sécurisées vers https.';
 $_SESSION['l10n']['fr']['55e646c7deee8ded80c85a4c990933fb']='Rediriger vers ce nom de serveur si un autre nom est mentionné dans la requête.';
-$_SESSION['l10n']['fr']['de62c4ef1a9f55d11e8667356299ce6c']='L\'enregistrement est gratuit et est intéresante à plus d\'un titre. %s si vous n\'êtes pas encore un membre de %s.';
 $_SESSION['l10n']['fr']['1904e0f7e1403eb493c44a2c71f099c4']='Réindexer les tables et optimiser la base de données';
 $_SESSION['l10n']['fr']['44c78e81859c77bb0c6970fbac14cd08']='Utiliser les services de messagerie fournis par PHP et installés pour l\'ensemble du serveur.';
 $_SESSION['l10n']['fr']['Rendering cache']='Mémorisation des éléments de page';

@@ -73,7 +73,9 @@ $message_prefix = i18n::s('I would like to invite you to the following page.')
 	."\n\n".$link."\n\n";
 
 // owners can do what they want
-if(Articles::is_owned($item, $anchor))
+if(Articles::is_owned($item))
+	Surfer::empower();
+elseif(is_object($anchor) && $anchor->is_owned())
 	Surfer::empower();
 
 // associates and editors can do what they want
@@ -213,7 +215,7 @@ if(Surfer::is_crawler()) {
 
 	// make an array of recipients
 	if(!is_array($to))
-		$to = explode(',', $to);
+		$to = Mailer::explode_recipients($to);
 
 	// process every recipient
 	$actual_names = array();

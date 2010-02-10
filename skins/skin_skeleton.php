@@ -1498,8 +1498,12 @@ Class Skin_Skeleton {
 		// fix relative path
 		elseif(!preg_match('/^(\/|[a-zA-Z]+:)/', $url)) {
 
-			// don't touch email address, nor script url
-			if(($variant == 'email') || ($variant == 'script'))
+			// email address
+			if($variant == 'email')
+				$url = 'mailto:'.$url;
+
+			// don't touch script url
+			elseif($variant == 'script')
 				;
 
 			// ftp server

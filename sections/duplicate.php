@@ -43,19 +43,11 @@ if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
 // editors can do what they want on items anchored here
-if(Surfer::get_id() && is_object($anchor) && $anchor->is_owned())
+if(Sections::is_owned($item, $anchor))
 	Surfer::empower();
 
 // associates and authenticated editors can do what they want
 if(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// authenticated surfers may duplicate their own posts
-elseif(Surfer::is($item['owner_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -117,7 +109,7 @@ if(!isset($item['id'])) {
 	$overlay = Overlay::load($item);
 
 	// create a new page
-	if($item['id'] = Sections::post($item)) {
+	if($item['id'] = Sections::post($item, FALSE)) {
 
 		// post an overlay, with the new section id
 		if(is_object($overlay))

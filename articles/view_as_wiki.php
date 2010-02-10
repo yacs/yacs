@@ -38,6 +38,16 @@ if($context['page_title'])
 	$article .= Skin::build_block($context['page_title'], 'page_title');
 $context['page_title'] = '';
 
+// modify this page
+if(Articles::allow_modification($item, $anchor)) {
+	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+		$label = i18n::s('Edit this page');
+	$menu = array( Articles::get_url($item['id'], 'edit') => ARTICLES_EDIT_IMG.$label);
+	$article .= Skin::build_list($menu, 'menu_bar');
+}
+
+
 // insert anchor prefix
 if(is_object($anchor))
 	$article .= $anchor->get_prefix();
@@ -303,11 +313,11 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 
 	}
 
-		// new comments are allowed
-		if(isset($comments_suffix)) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-			$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
-		}
+	// new comments are allowed
+	if(isset($comments_suffix)) {
+		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+		$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
+	}
 
 	// build a box
 	$discussion .= Skin::build_content('comments', '', $box['text'], $box['top'], $box['bottom']);
@@ -361,7 +371,7 @@ if(Images::allow_creation($anchor, $item)) {
 }
 
 // modify this page
-if(Articles::allow_modification($anchor, $item)) {
+if(Articles::allow_modification($item, $anchor)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 		$label = i18n::s('Edit this page');
@@ -381,7 +391,7 @@ if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Ar
 }
 
 // review command provided to container owners
-if(Articles::is_owned(NULL, $anchor)) {
+if(is_object($anchor) && $anchor->is_owned()) {
 	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 }
@@ -398,22 +408,27 @@ if(Articles::is_owned($item, $anchor)) {
 	}
 }
 
-// delete command provided to page owners
-if(Articles::is_owned($item, $anchor)) {
+// delete command
+if(Articles::allow_deletion($item, $anchor)) {
 	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 }
 
 // duplicate command provided to container owners
-if(isset($item['id']) && is_object($anchor) && $anchor->is_owned()) {
+if(Articles::is_owned(NULL, $anchor)) {
 	Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 }
 
 // assign command provided to page owners
-if(Articles::is_owned($item, $anchor)) {
+if(Articles::is_owned($item, $anchor, TRUE)) {
 	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
+
+// allow to leave the page
+} elseif(Articles::is_assigned($item['id'])) {
+	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 }
 
 // use date of last modification into etag computation

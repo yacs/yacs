@@ -215,7 +215,7 @@ elseif(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="root_sections_layout" value="decorated"';
 	if($context['root_sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.')
+	$input .= '/> '.i18n::s('decorated - A list decorated with images')
 		.BR.'<input type="radio" name="root_sections_layout" value="map"';
 	if($context['root_sections_layout'] == 'map')
 		$input .= ' checked="checked"';
@@ -235,19 +235,19 @@ elseif(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="root_sections_layout" value="inline"';
 	if($context['root_sections_layout'] == 'inline')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sub-sections and related articles.')
+	$input .= '/> '.i18n::s('inline - List sections and related pages')
 		.BR.'<input type="radio" name="root_sections_layout" value="folded"';
 	if($context['root_sections_layout'] == 'folded')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - List sub-sections as folded boxes, with content (one box per section).')
+	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
 		.BR.'<input type="radio" name="root_sections_layout" value="compact"';
 	if($context['root_sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.')
+	$input .= '/> '.i18n::s('compact - A compact list')
 		.BR.'<input type="radio" name="root_sections_layout" value="titles"';
 	if($context['root_sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
 		.BR.'<input type="radio" name="root_sections_layout" value="custom" id="custom_sections_layout"';
 	if($context['root_sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -259,7 +259,7 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_flash_at_home" value="N"';
 	if(!isset($context['root_flash_at_home']) || ($context['root_flash_at_home'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list recent articles in an animated Flash object.');
+	$input .= '/> '.i18n::s('Do not list recent pages in an animated Flash object.');
 	$input .= BR.'<input type="radio" name="root_flash_at_home" value="Y"';
 	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
 		$input .= ' checked="checked"';
@@ -358,7 +358,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';
 	if($context['root_articles_layout'] == 'no_articles')
 		$input .= ' checked="checked"';
-	$input .= EOT.sprintf(i18n::s('Do not display recent articles. The layout of the front page is solely based on a %s, on %s, plus %s.'),
+	$input .= EOT.sprintf(i18n::s('Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s.'),
 		Skin::build_link(Sections::get_url('covers'), i18n::s('cover article'), 'shortcut'),
 		Skin::build_link('sections/', i18n::s('the site map'), 'shortcut'),
 		Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('gadget boxes'), 'shortcut')).'</p>';

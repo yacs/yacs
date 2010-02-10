@@ -700,7 +700,9 @@ a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mi
 }
 
 a.button,
-a:visited.button {
+a.button span,
+a:visited.button,
+a:visited.button span {
 	background-color: #c0c0c0;
    	color: #202020;
 	text-decoration: none;

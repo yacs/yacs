@@ -322,7 +322,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
 	if($item['categories_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 
 	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
 	if($item['categories_layout'] == 'yahoo')
@@ -332,12 +332,12 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="categories_layout" value="inline"';
 	if($item['categories_layout'] == 'inline')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sub-categories and related articles.');
+	$input .= '/> '.i18n::s('inline - List categories and related pages');
 
 	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
 	if($item['categories_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.');
+	$input .= '/> '.i18n::s('compact - A compact list');
 
 	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
 	if($item['categories_layout'] == 'cloud')
@@ -351,7 +351,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
 	if($item['categories_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list sub-categories.').BR;
+	$input .= '/> '.i18n::s('Do not list categories');
 	$fields[] = array($label, $input);
 
 	// append fields
@@ -373,7 +373,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="sections_layout" value="decorated"';
 	if($item['sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.')
+	$input .= '/> '.i18n::s('decorated - A list decorated with images')
 		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
 	if($item['sections_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
@@ -397,19 +397,19 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="inline"';
 	if($item['sections_layout'] == 'inline')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sections and related articles.')
+	$input .= '/> '.i18n::s('inline - List sections and related pages')
 		.BR.'<input type="radio" name="sections_layout" value="folded"';
 	if($item['sections_layout'] == 'folded')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - List sections as folded boxes, with content (one box per section).')
+	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
 		.BR.'<input type="radio" name="sections_layout" value="compact"';
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.')
+	$input .= '/> '.i18n::s('compact - A compact list')
 		.BR.'<input type="radio" name="sections_layout" value="titles"';
 	if($item['sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -417,7 +417,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list sections.');
+	$input .= '/> '.i18n::s('Do not list sections');
 	$fields[] = array($label, $input);
 
 	// append fields
@@ -426,7 +426,7 @@ if($with_form) {
 
 	// layout for related articles
 	$label = i18n::s('Layout');
-	$input = i18n::s('Use the following layout:').BR;
+	$input = '';
 	$custom_layout = '';
 	if(!isset($item['articles_layout']) || !$item['articles_layout'])
 		$item['articles_layout'] = 'decorated';
@@ -437,7 +437,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="articles_layout" value="decorated"';
 	if($item['articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 	$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
 	if($item['articles_layout'] == 'digg')
 		$input .= ' checked="checked"';
@@ -473,7 +473,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.');
+	$input .= '/> '.i18n::s('compact - A compact list');
 	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -481,7 +481,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display articles.').BR;
+	$input .= '/> '.i18n::s('Do not list pages').BR;
 	$fields[] = array($label, $input);
 
 	// append fields
@@ -490,7 +490,7 @@ if($with_form) {
 
 	//layout for users
 	$label = i18n::s('Layout');
-	$input = i18n::s('Use the following layout:').BR;
+	$input = '';
 	$custom_layout = '';
 	if(!isset($item['users_layout']) || !$item['users_layout'])
 		$item['users_layout'] = 'decorated';
@@ -501,11 +501,11 @@ if($with_form) {
 	$input .= '<input type="radio" name="users_layout" value="decorated"';
 	if($item['users_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images.');
+	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 	$input .= BR.'<input type="radio" name="users_layout" value="compact"';
 	if($item['users_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list.');
+	$input .= '/> '.i18n::s('compact - A compact list');
 	$input .= BR.'<input type="radio" name="users_layout" value="custom" id="custom_users_layout"';
 	if($item['users_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -513,7 +513,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="users_layout" value="none"';
 	if($item['users_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display persons.').BR;
+	$input .= '/> '.i18n::s('Do not list persons').BR;
 	$fields[] = array($label, $input);
 
 	// append fields

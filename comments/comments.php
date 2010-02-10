@@ -71,7 +71,7 @@ Class Comments {
 			// comments have to be activated
 			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bwith_comments\b/i', $item['options']))
 				;
-			else if(is_object($anchor) && $anchor->has_option('with_comments', FALSE))
+			elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('with_comments', FALSE))
 				;
 			else
 				return FALSE;

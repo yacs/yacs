@@ -28,15 +28,15 @@ Class PDF extends FPDF {
 
 		// document title
 		if($context['page_title'])
-			$this->SetTitle(utf8::to_iso8859(html_entity_decode($context['page_title'], ENT_COMPAT, 'ISO-8859-15')));
+			$this->SetTitle(utf8::to_iso8859(Safe::html_entity_decode($context['page_title'], ENT_COMPAT, 'ISO-8859-15')));
 
 		// document author
 		if($context['page_author'])
-			$this->SetAuthor(utf8::to_iso8859(html_entity_decode($context['page_author'], ENT_COMPAT, 'ISO-8859-15')));
+			$this->SetAuthor(utf8::to_iso8859(Safe::html_entity_decode($context['page_author'], ENT_COMPAT, 'ISO-8859-15')));
 
 		// document subject
 		if($context['subject'])
-			$this->SetSubject(utf8::to_iso8859(html_entity_decode($context['subject'], ENT_COMPAT, 'ISO-8859-15')));
+			$this->SetSubject(utf8::to_iso8859(Safe::html_entity_decode($context['subject'], ENT_COMPAT, 'ISO-8859-15')));
 
 		// document creator (typically, the tool used to produce the document)
 		$this->SetCreator('yacs');
@@ -60,7 +60,7 @@ Class PDF extends FPDF {
 		$text = str_replace("\n", ' ', $text);
 
 		// transcode to ISO8859-15 characters
-		$text = utf8::to_iso8859(html_entity_decode($text, ENT_COMPAT, 'ISO-8859-15'));
+		$text = utf8::to_iso8859(Safe::html_entity_decode($text, ENT_COMPAT, 'ISO-8859-15'));
 
 		// locate every HTML/XML tag
 		$areas = preg_split('/<(.*)>/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE);

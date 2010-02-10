@@ -243,22 +243,23 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Logger::error(i18n::s('No resource to track back.'));
 
+// ensure that access is allowed
+} elseif(is_object($anchor) && !$anchor->is_viewable()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
 // we have a valid reference, collect other information
 } else {
 
-	// splash
-	$context['text'] .= '<p>'.i18n::s('Please feel free to blog about this particular page, and to trackback to it.').'</p>'."\n";
-
-	// internal reference
+	// internal reference, but only to authenticated surfers
 	//
-	$text = '';
+	if(Surfer::is_logged()) {
+		$label = i18n::s('At any place of this site, use the following code to reference the target page:');
+		$value = '['.str_replace(':', '=', $anchor->get_reference()).']';
+		$text = '<p>'.$label.' <code>'.$value.'</code></p>'."\n";
 
-	// use the code
-	$label = i18n::s('At any place of this site, use the following code to reference the target page:');
-	$value = '['.str_replace(':', '=', $anchor->get_reference()).']';
-	$text .= '<p>'.$label.' <code>'.$value.'</code></p>'."\n";
-
-	$context['text'] .= Skin::build_box(i18n::s('Internal reference'), $text);
+		$context['text'] .= Skin::build_box(i18n::s('Internal reference'), $text);
+	}
 
 	// external reference
 	//

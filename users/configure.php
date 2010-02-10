@@ -260,7 +260,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="users_without_login_box" value="Y"';
 	if(isset($context['users_without_login_box']) && ($context['users_without_login_box'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item');
 	$fields[] = array($label, $input);
 
 	// anti-robot

@@ -88,6 +88,47 @@ class Mailer {
 	}
 
 	/**
+	 * explode a list of recipients
+	 *
+	 * @param string a list of recipients
+	 * @return array an array of recipients
+	 */
+	function explode_recipients($text) {
+
+		// we want to split recipients
+		$recipients = array();
+
+		// parse the provided string
+		$head = 0;
+		$index_maximum = strlen($text);
+		$quoted = FALSE;
+		for($index = 0; $index < $index_maximum; $index++) {
+
+			// start quoted string
+			if(!$quoted && ($text[$index] == '"'))
+				$quoted = TRUE;
+
+			// end of quoted string
+			elseif($quoted && ($text[$index] == '"'))
+				$quoted = FALSE;
+
+			// separator
+			elseif(!$quoted && ($text[$index] == ',')) {
+				$recipients[] = substr($text, $head, $index);
+				$head = $index+1;
+			}
+		}
+
+		// don't forget the last recipient
+		if($head < $index_maximum)
+			$recipients[] = substr($text, $head);
+
+		// return an array of recipients
+		return $recipients;
+	}
+
+
+	/**
 	 * close connection to mail server
 	 *
 	 * This function gracefully ends the transmission of messages.
@@ -693,8 +734,7 @@ class Mailer {
 		if(is_string($message)) {
 
 			// turn HTML entities to UTF-8
-			if(is_callable('html_entity_decode'))
-				$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
+			$message = Safe::html_entity_decode($message, ENT_QUOTES, 'UTF-8');
 
 			$copy = $message;
 			$message = array();
@@ -823,7 +863,7 @@ class Mailer {
 
 		// make an array of recipients
 		if(!is_array($to))
-			$to = explode(',', $to);
+			$to = Mailer::explode_recipients($to);
 
 		// the list of recipients contacted during overall script execution
 		if(!isset($context['mailer_recipients']))

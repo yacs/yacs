@@ -46,12 +46,8 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor =& Anchors::get($item['anchor']);
 
-// owners can proceed
-if(Sections::is_owned($item, $anchor))
-	$permitted = TRUE;
-
-// section editors can proceed
-elseif(isset($item['id']) && Sections::is_assigned($item['id']))
+// check surfer capability
+if(Sections::allow_message($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access

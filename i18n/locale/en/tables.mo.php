@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-08 00:09+0100
-PO-Revision-Date: 2009-09-30 20:49+0100
+POT-Creation-Date: 2010-02-10 00:37+0100
+PO-Revision-Date: 2010-02-10 00:40+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,6 +24,7 @@ $_SESSION['l10n']['en']['%d records have been processed']='%d records have been 
 $_SESSION['l10n']['en']['%d table'.chr(0).'%d tables']='%d table'.chr(0).'%d tables';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['Add a table']='Add a table';
+$_SESSION['l10n']['en']['Add filters']='Add filters';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['519471e63694deb32693cdb1e9f0342c']='As this field may be searched by surfers, please choose adequate searchable words';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
@@ -40,6 +41,7 @@ $_SESSION['l10n']['en']['Do not display row numbers']='Do not display row number
 $_SESSION['l10n']['en']['Double quote character']='Double quote character';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a table']='Edit a table';
+$_SESSION['l10n']['en']['Edit filters']='Edit filters';
 $_SESSION['l10n']['en']['Error in table query %s']='Error in table query %s';
 $_SESSION['l10n']['en']['da0357c97db9a18255b418e583fa8f36']='Everything may be downloaded as CSV';
 $_SESSION['l10n']['en']['Fetch as CSV']='Fetch as CSV';

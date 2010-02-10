@@ -56,7 +56,7 @@ Class Links {
 			// links have to be activated
 			if(isset($item['options']) && is_string($item['options']) && preg_match('/\bwith_links\b/i', $item['options']))
 				;
-			elseif(is_object($anchor) && $anchor->has_option('with_links'))
+			elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('with_links', FALSE))
 				;
 			else
 				return FALSE;
@@ -147,6 +147,26 @@ Class Links {
 
 		// the default is to not allow for new links
 		return FALSE;
+	}
+
+	/**
+	 * check if trackback is allowed
+	 *
+	 * This function returns TRUE either if the surfer has been authenticated,
+	 * or if the site is visible from the Internet.
+	 *
+	 * @return boolean TRUE or FALSE
+	 */
+	function allow_trackback() {
+		global $context;
+
+		// site is visible from the Internet
+		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+			return TRUE;
+
+		// surfer has been authenticated, provide trackback shortcut
+		if(Surfer::is_logged())
+			return TRUE;
 	}
 
 	/**

@@ -60,7 +60,7 @@ foreach($items as $url => $label) {
 	$label = Codes::strip($label);
 
 	// remove every html tag
-	$label = strip_tags(html_entity_decode($label));
+	$label = strip_tags(Safe::html_entity_decode($label));
 
 	// make an absolute reference
 	$url = $context['url_to_home'].$context['url_to_root'].$url;
@@ -87,7 +87,7 @@ if(!headers_sent() && (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_M
 
 	// strong validator
 	$etag = '"'.md5($page).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

@@ -95,11 +95,8 @@ if(!isset($item['id'])) {
 	// compute the url for this article
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
-	if($context['with_friendly_urls'] == 'Y') {
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
-	} else {
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
-	}
+	// the trackback link
+	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
 
 	// get a description -- render codes
 	if(isset($item['introduction']) && $item['introduction'])

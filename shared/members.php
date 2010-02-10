@@ -157,21 +157,23 @@ Class Members {
 	}
 
 	/**
-	 * duplicate all members for a given anchor
+	 * duplicate all members for a given reference
 	 *
-	 * This function duplicates records in the database, and changes anchors
+	 * This function duplicates records in the database, and changes references
 	 * to attach new records as per second parameter.
 	 *
-	 * @param string the source anchor
-	 * @param string the target anchor
+	 * @param string the source reference
+	 * @param string the target reference
 	 * @return int the number of duplicated records
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	function duplicate_for($reference_from, $reference_to) {
 		global $context;
 
-		// look for records attached to this anchor
+		// nothing done yet
 		$count = 0;
-		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
+
+		// look for records attached to this anchor
+		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE anchor LIKE '".SQL::escape($reference_from)."'";
 		if(($result =& SQL::query($query)) && SQL::count($result)) {
 
 			// process all matching records one at a time
@@ -179,7 +181,7 @@ Class Members {
 
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
-					." anchor='".SQL::escape($anchor_to)."',"
+					." anchor='".SQL::escape($reference_to)."',"
 					." member='".SQL::escape($item['member'])."',"
 					." member_type='".SQL::escape($item['member_type'])."',"
 					." member_id='".SQL::escape($item['member_id'])."',"
@@ -189,10 +191,33 @@ Class Members {
 
 			}
 
-			// clear the cache for members
-			Cache::clear(array($anchor_from, $anchor_to));
+		}
+
+		// look for records attached to this member
+		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE member LIKE '".SQL::escape($reference_from)."'";
+		if(($result =& SQL::query($query)) && SQL::count($result)) {
+
+			list($reference_type, $reference_id) = explode(':', $reference_to);
+
+			// process all matching records one at a time
+			while($item =& SQL::fetch($result)) {
+
+				// actual duplication
+				$query = "INSERT INTO ".SQL::table_name('members')." SET"
+					." anchor='".SQL::escape($item['anchor'])."',"
+					." member='".SQL::escape($reference_to)."',"
+					." member_type='".SQL::escape($reference_type)."',"
+					." member_id='".SQL::escape($reference_id)."',"
+					." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+				if(SQL::query($query))
+					$count++;
+
+			}
 
 		}
+
+		// clear the cache for members
+		Cache::clear(array($reference_from, $reference_to));
 
 		// number of duplicated records
 		return $count;

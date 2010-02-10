@@ -34,8 +34,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// oly section owners can proceed
-if(Sections::is_owned($item, $anchor))
+// only strict section owners can proceed
+if(Sections::is_owned($item, $anchor, TRUE))
 	$permitted = TRUE;
 
 // the default is to disallow access

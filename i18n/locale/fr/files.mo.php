@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:22+0100
-PO-Revision-Date: 2010-02-05 23:27+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -26,6 +26,7 @@ $_SESSION['l10n']['fr']['0f5610d966046e70e5f5a171e8fd4d76']='%d entrées dans la
 $_SESSION['l10n']['fr']['%d minute(s) at %s']='%d minute(s) à %s';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d second(s) at %s']='%d seconde(s) à %s';
+$_SESSION['l10n']['fr']['%s %s']='%s %s';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
@@ -96,6 +97,7 @@ $_SESSION['l10n']['fr']['Get the file']='Obtenir une copie de ce fichier';
 $_SESSION['l10n']['fr']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostview et GSview';
 $_SESSION['l10n']['fr']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['fr']['Help']='Aide';
+$_SESSION['l10n']['fr']['History']='Historique';
 $_SESSION['l10n']['fr']['09708bb93341b65317dde0e798deaaaf']='Si Flash ou Java a été installé sur votre machine, cliquez le lien pour visualiser cette carte mentale.';
 $_SESSION['l10n']['fr']['f5bde952210906492f614252dedd0b21']='Si le plug-in d\'Adobe génère une erreur, merci de sauver le fichier sur un disque dur et de soumettre une copie locale au logiciel Acrobat.';
 $_SESSION['l10n']['fr']['2ab437e9863287d3b69b9e0cdc1f8024']='Si vous n\'arrivez pas à télécharger des fichiers à cause des permissions, utilisez le panneau de configuration des utilisateurs pour interdire l\'envoi de nouveaux fichiers.';
@@ -207,10 +209,12 @@ $_SESSION['l10n']['fr']['Use FTP']='Utiliser FTP';
 $_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['d1ec6c64d705f2700ae41fb5a3f440dc']='Codes pour référencer ce fichier : %s';
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
+$_SESSION['l10n']['fr']['Version']='Version';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View file details']='Voir les détails du fichier';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
+$_SESSION['l10n']['fr']['What is new in this file?']='Qui a-t-il de nouveau dans ce fichier ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['278d07f7dafd5749bb1bdd201beb6bf0']='Bien que nous ayons pris beaucoup de soins à empêcher l\'infection des fichiers publiés sur ce serveur, nous vous recommandons d\'employer et d\'activer sur votre ordinateur un logiciel anti-virus ad hoc pour obtenir une protection optimale.';
 $_SESSION['l10n']['fr']['Winamp']='Winamp';

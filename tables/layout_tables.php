@@ -77,6 +77,7 @@ Class Layout_tables extends Layout_interface {
 				$menu = array();
 				$menu = array_merge($menu, array( Tables::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 				$menu = array_merge($menu, array( Tables::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+				$menu = array_merge($menu, array( Tables::get_url($item['id'], 'filters') => i18n::s('Add filters') ));
 				$suffix .= ' '.Skin::build_list($menu, 'menu');
 			}
 

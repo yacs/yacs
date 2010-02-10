@@ -29,9 +29,9 @@
  *
  *
  * The control panel has several tabbed panels:
+ * - Configuration panels
  * - Database overview
  * - Content management
- * - Configuration panels
  * - System management
  *
  * The overview tab provides key information about database and server content.
@@ -214,6 +214,70 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// this is a tabbed page
 			$all_tabs = array();
+
+			//
+			// the Configuration Panels tab is reserved to associates
+			//
+			if(Surfer::is_associate()) {
+
+				$text = '<p>'.i18n::s('Click on following links to review or change parameters of this server.').'</p>';
+
+				$commands = array();
+
+				// configuration scripts that are part of the core -- some complex commands
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - configure database, security and other essential parameters'), Skin::build_link('control/configure.php', i18n::s('System parameters'), 'basic'));
+
+				// apache configuration -- some complex commands
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - build a customized configuration file'), Skin::build_link('control/htaccess/', i18n::s('Apache .htaccess'), 'basic'));
+
+				$commands[] = sprintf(i18n::s('%s - define permissions given to people'), Skin::build_link('users/configure.php', i18n::s('People'), 'basic'));
+
+				$commands[] = sprintf(i18n::s('%s - select and configure building blocks for the front page'), Skin::build_link('configure.php', i18n::s('Front page'), 'basic'));
+
+				$commands[] = sprintf(i18n::s('%s - change meta-information, etc.'), Skin::build_link('skins/configure.php', i18n::s('Page factory'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - select and test themes available at this server'), Skin::build_link('skins/', i18n::s('Themes'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - to change rendering of dynamic Flash objects'), Skin::build_link('feeds/flash/configure.php', i18n::s('Flash'), 'basic'));
+
+				$commands[] = sprintf(i18n::s('%s - enhance information provided through RSS'), Skin::build_link('feeds/configure.php', i18n::s('Information channels'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - to extend accepted types and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
+
+				if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - ban spamming hosts'), Skin::build_link('servers/configure.php', i18n::s('Servers'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - for incoming messages and files'), Skin::build_link('agents/configure.php', i18n::s('Background processing'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - change the reference server used for software updates'), Skin::build_link('scripts/configure.php', i18n::s('Server software'), 'basic'));
+
+				// insert commands
+				if(count($commands))
+					$text .= '<ul><li>'.join('</li><li>', $commands).'</li></ul>';
+
+				// the hook for the control panels
+				if(is_callable(array('Hooks', 'link_scripts')) && ($links = Hooks::link_scripts('control/index.php#configure', 'bullets')))
+					$text .= '<ul>'.$links.'</ul>';
+
+				// build another tab
+				$all_tabs = array_merge($all_tabs, array(array('configuration', i18n::s('Configuration'), 'configuration_panel', $text)));
+			}
 
 			//
 			// overview tab
@@ -568,7 +632,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 				// offer a self-registration, if allowed
 				if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
-					$content .= '<li>'.sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link('users/edit.php', i18n::s('Click here to register'), 'basic'), $context['site_name'])."</li>\n";
+					$content .= '<li>'.sprintf(i18n::s('%s if you have not yet a profile for yourself at %s.'), Skin::build_link('users/edit.php', i18n::s('Click here to register'), 'basic'), $context['site_name'])."</li>\n";
 
 				// insert commands
 				$text .= Skin::build_box(i18n::s('Express yourself'), '<ul>'.$content.'</ul>', 'header1', 'express_yourself');
@@ -713,71 +777,6 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// build another tab
 			$all_tabs = array_merge($all_tabs, array(array('content', i18n::s('Content'), 'content_panel', $text)));
-
-			//
-			// the Configuration Panels tab is reserved to associates
-			//
-			if(Surfer::is_associate()) {
-
-				$text = '<p>'.i18n::s('Click on following links to review or change parameters of this server.').'</p>';
-
-				$commands = array();
-
-				// configuration scripts that are part of the core -- some complex commands
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - configure database, security and other essential parameters'), Skin::build_link('control/configure.php', i18n::s('System parameters'), 'basic'));
-
-				// apache configuration -- some complex commands
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - build a customized configuration file'), Skin::build_link('control/htaccess/', i18n::s('Apache .htaccess'), 'basic'));
-
-				$commands[] = sprintf(i18n::s('%s - define permissions given to people'), Skin::build_link('users/configure.php', i18n::s('People'), 'basic'));
-
-				$commands[] = sprintf(i18n::s('%s - select and configure building blocks for the front page'), Skin::build_link('configure.php', i18n::s('Front page'), 'basic'));
-
-				$commands[] = sprintf(i18n::s('%s - change meta-information, etc.'), Skin::build_link('skins/configure.php', i18n::s('Page factory'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - select and test themes available at this server'), Skin::build_link('skins/', i18n::s('Themes'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to change rendering of dynamic Flash objects'), Skin::build_link('feeds/flash/configure.php', i18n::s('Flash'), 'basic'));
-
-				$commands[] = sprintf(i18n::s('%s - enhance information provided through RSS'), Skin::build_link('feeds/configure.php', i18n::s('Information channels'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to extend accepted types and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
-
-				if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - ban spamming hosts'), Skin::build_link('servers/configure.php', i18n::s('Servers'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - for incoming messages and files'), Skin::build_link('agents/configure.php', i18n::s('Background processing'), 'basic'));
-
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - change the reference server used for software updates'), Skin::build_link('scripts/configure.php', i18n::s('Server software'), 'basic'));
-
-				// insert commands
-				if(count($commands))
-					$text .= '<ul><li>'.join('</li><li>', $commands).'</li></ul>';
-
-				// the hook for the control panels
-				if(is_callable(array('Hooks', 'link_scripts')) && ($links = Hooks::link_scripts('control/index.php#configure', 'bullets')))
-					$text .= '<ul>'.$links.'</ul>';
-
-				// build another tab
-				$all_tabs = array_merge($all_tabs, array(array('configuration', i18n::s('Configuration'), 'configuration_panel', $text)));
-			}
-
 
 			//
 			// System Management tab

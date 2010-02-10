@@ -463,6 +463,22 @@ class Safe {
 	}
 
 	/**
+	 * convert all HTML entities to their applicable characters
+	 *
+	 * This function wraps around bugs of PHP4
+	 */
+	function html_entity_decode($text, $style=ENT_COMPAT, $charset='ISO-8859-1') {
+
+		// php4 is buggy on this
+		if((version_compare( phpversion(), '5.0' ) < 0))
+			return html_entity_decode($text);
+
+		// php5 does a better job
+		return html_entity_decode($text, $style, $charset);
+
+	}
+
+	/**
 	 * ignore user abort
 	 *
 	 * @param boolean new value

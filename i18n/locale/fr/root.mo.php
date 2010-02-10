@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-31 23:32+0100
-PO-Revision-Date: 2010-01-31 23:42+0100
+POT-Creation-Date: 2010-02-10 00:11+0100
+PO-Revision-Date: 2010-02-10 00:30+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -87,10 +87,10 @@ $_SESSION['l10n']['fr']['88221df7e286a0d70ee52e6092d7cd3d']='Afficher seulement 
 $_SESSION['l10n']['fr']['7e5c4649689d0c5508f1fe78e462851c']='Afficher l\'article de couverture sur la page d\'accueil';
 $_SESSION['l10n']['fr']['5df8d224dd2653de8527c50ffad90b98']='Afficher l\'article de couverture, sauf le titre, sur la page d\'accueil';
 $_SESSION['l10n']['fr']['94005666b4a707dd248da01c3e488923']='Afficher jusqu\'à 6 boîtes gadgets. Poster des articles dans %s pour ajouter de nouvelles boîtes. Vous pouvez aussi marquer certaines sections ou catégories pour lister leur contenu dans des boîtes gadgets.';
-$_SESSION['l10n']['fr']['a462da6c27b2a2f6404e564bf9b62bdd']='Ne pas afficher les articles récents. La mise en page de la page d\'accueil est constituée seulement de %s, de %s, et de %s.';
 $_SESSION['l10n']['fr']['Do not list featured pages.']='Ne pas lister les pages à la Une';
 $_SESSION['l10n']['fr']['Do not list news.']='Ne pas afficher les nouvelles.';
-$_SESSION['l10n']['fr']['aed71e6a2b91bc0fad2458650aab92a0']='Ne pas lister les articles récents dans un objet Flash animé.';
+$_SESSION['l10n']['fr']['dedc1f16c94d91f6d41961a73b6edadb']='Ne pas lister les pages récentes dans un objet Flash animé.';
+$_SESSION['l10n']['fr']['0f95f72b2f78bf6785cdc7d357626482']='Ne pas afficher les pages récentes. La mise en page de la page d\'accueil est constituée seulement de %s, de %s, et de %s.';
 $_SESSION['l10n']['fr']['4c95fc4630ac5a30f7644542c20e4b9c']='Ne pas lister les sections (utile pour les styles dotés d\'onglets de navigation).';
 $_SESSION['l10n']['fr']['30ec5d8f39c70d79684e1dc2c7ed95d7']='Ne pas afficher de boîte gadget sur la page d\'accueil.';
 $_SESSION['l10n']['fr']['3a0e087384732c0b80e62d2b2098dee6']='Ne pas utiliser d\'article de couverture en page d\'accueil';
@@ -273,19 +273,19 @@ Nous vous remercions de votre intérêt pour notre site web.';
 $_SESSION['l10n']['fr']['Your query: %s']='Votre requête : %s';
 $_SESSION['l10n']['fr']['another skin']='un autre style';
 $_SESSION['l10n']['fr']['comments']='commentaires';
-$_SESSION['l10n']['fr']['compact - A compact list.']='compact - Une liste compacte.';
+$_SESSION['l10n']['fr']['compact - A compact list']='compact - Une liste compacte';
 $_SESSION['l10n']['fr']['cover article']='l\'article de couverture';
-$_SESSION['l10n']['fr']['4f63b6b5d1f3f46a29eaee46fed7e8ec']='decorated - Liste décorée avec des images.';
+$_SESSION['l10n']['fr']['1ea7057e130399b867cb3dd7b33919bb']='decorated - Une liste décorée avec des images';
 $_SESSION['l10n']['fr']['e-mail']='courriel';
 $_SESSION['l10n']['fr']['featured']='une';
 $_SESSION['l10n']['fr']['files']='fichiers';
-$_SESSION['l10n']['fr']['8cb4e09444c573321ad89a48e992b66f']='folded - Une boîte pliable par section.';
+$_SESSION['l10n']['fr']['5d181095688bfed68cd54669f53465fc']='folded - Une boîte pliée par section, avec son contenu';
 $_SESSION['l10n']['fr']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Construire une carte mentale interactive.';
 $_SESSION['l10n']['fr']['front page']='page d\'accueil';
 $_SESSION['l10n']['fr']['gadget boxes']='boîtes gadgets';
 $_SESSION['l10n']['fr']['here']='ici';
 $_SESSION['l10n']['fr']['http://www.yacs.fr/']='http://www.yacs.fr/';
-$_SESSION['l10n']['fr']['36bf15f384c2faef4a8cbb7476484e2e']='inline - Lister les sous-sections et leur contenu.';
+$_SESSION['l10n']['fr']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - Lister les sections et les pages associées';
 $_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Afficher 5 fils de discussion par section';
 $_SESSION['l10n']['fr']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Deux colonnes, comme Yahoo!';
 $_SESSION['l10n']['fr']['e35b42f9905d22b1370f621d7068e6ab']='menu - Lister les sections dans la barre de menu.';
@@ -297,7 +297,7 @@ $_SESSION['l10n']['fr']['the searching form']='le formulaire de recherche';
 $_SESSION['l10n']['fr']['94e7f5b7acb5aac4bd0acf09156ca1af']='la section dédiée aux boîtes gadgets';
 $_SESSION['l10n']['fr']['the site front page']='la page d\'accueil';
 $_SESSION['l10n']['fr']['the site map']='la carte du site';
-$_SESSION['l10n']['fr']['eb485c9b646eb69dd5d906801b4a1480']='titles - Indiquer seulement les titres et les vignettes.';
+$_SESSION['l10n']['fr']['c67436d0c05ea8118905f418986fc235']='titles - Utiliser seulement les titres et les vignettes';
 $_SESSION['l10n']['fr']['www.yacs.fr']='www.yacs.fr';
 $_SESSION['l10n']['fr']['yabb - A discussion forum']='yabb - Un forum de discussion';
 $_SESSION['l10n']['fr']['your profile']='votre profil';

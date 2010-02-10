@@ -36,8 +36,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// owners have associate-like capabilities
-if(Sections::is_owned($item, $anchor, TRUE))
+// ensure that the surfer can change the section
+if(Sections::allow_modification($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access

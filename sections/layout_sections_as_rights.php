@@ -181,7 +181,7 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(Sections::is_owned($item, $anchor, TRUE, $this->layout_variant))
+			if(Sections::is_owned($item, NULL, TRUE, $this->layout_variant))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output
