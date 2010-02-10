@@ -1196,7 +1196,7 @@ if(!isset($item['id'])) {
 	}
 
 	// assign command provided to page owners
- 	if(Articles::is_owned($item, $anchor, TRUE)) {
+ 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
  		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
 

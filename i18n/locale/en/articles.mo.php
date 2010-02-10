@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:16+0100
+POT-Creation-Date: 2010-02-10 23:21+0100
+PO-Revision-Date: 2010-02-10 14:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -226,6 +226,8 @@ $_SESSION['l10n']['en']['Page has expired %s']='Page has expired %s';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Pages under preparation']='Pages under preparation';
 $_SESSION['l10n']['en']['4d0b2356ea271e4a6e91187392381016']='Pages will be posted in this section by default';
+$_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
+$_SESSION['l10n']['en']['41dd8514175d79f308930ada3e52bf01']='Parent is private, and this will be re-enforced anyway';
 $_SESSION['l10n']['en']['5700db55198757763a877ab05d5c6542']='Parse links and trackback referenced pages';
 $_SESSION['l10n']['en']['Participants']='Participants';
 $_SESSION['l10n']['en']['Permalink']='Permalink';
@@ -390,6 +392,7 @@ $_SESSION['l10n']['en']['Watchers']='Watchers';
 $_SESSION['l10n']['en']['What do you think of this page?']='What do you think of this page?';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
+$_SESSION['l10n']['en']['Who is allowed to access?']='Who is allowed to access?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['Yes, I want to delete this page']='Yes, I want to delete this page';
 $_SESSION['l10n']['en']['04146ec8fe89237f264f39cfdcc6a395']='Yes, I want to duplicate this page';

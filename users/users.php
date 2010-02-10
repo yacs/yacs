@@ -259,6 +259,32 @@ Class Users {
 	}
 
 	/**
+	 * check encoded credentials
+	 *
+	 * @param array credentials received from surfer
+	 * @param string secret salted string
+	 * @return boolen TRUE if credentials are ok, FALSE otherwise
+	 */
+	function check_credentials($credentials, $salt) {
+		global $context;
+
+		// not enough args
+		if(!isset($credentials[3]))
+			return FALSE;
+
+		// the full string
+		$computed = sprintf('%u', crc32($credentials[0].':'.$credentials[1].':'.$credentials[2].':'.$salt));
+
+		// args have not been modified
+		if(!strcmp($credentials[3], $computed))
+			return TRUE;
+
+		// sorry
+		return FALSE;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -449,6 +475,42 @@ Class Users {
 	}
 
 	/**
+	 * package credentials to be passed in a link
+	 *
+	 * @param string action (e.g., 'visit', see users/login.php)
+	 * @param string reference to target (e.g., 'section:123')
+	 * @param string name or e-mail address
+	 * @param string salt to be used for the hash
+	 * @return string the link to be authenticated
+	 */
+	function get_login_url($command, $reference, $name, $salt) {
+		global $context;
+
+		// build a signed
+		$credentials = array();
+		$credentials[0] = $command;
+		$credentials[1] = $reference;
+		$credentials[2] = $name;
+		$credentials[3] = sprintf('%u', crc32($command.':'.$reference.':'.$name.':'.$salt));
+
+		// we prefer JSON over PHP serialization
+		if(!$serialized = Safe::json_encode($credentials))
+			$serialized = serialize($credentials);
+
+		// finalize the snippet
+		$id = base64_encode($serialized);
+
+		// be cool with search engines
+		if($context['with_friendly_urls'] == 'Y')
+			return 'users/login.php/'.rawurlencode($id);
+		elseif($context['with_friendly_urls'] == 'R')
+			return 'users/login.php/'.rawurlencode($id);
+		else
+			return 'users/login.php?credentials='.urlencode($id);
+
+	}
+
+	/**
 	 * get permanent address
 	 *
 	 * @param array page attributes
@@ -508,29 +570,6 @@ Class Users {
 	 */
 	function get_url($id, $action='view', $name=NULL) {
 		global $context;
-
-		// authenticate a user
-		if($action == 'credentials') {
-
-			// encode credentials --see users/login.php
-			if(is_array($id)) {
-
-				// we prefer JSON over PHP serialization
-				if(!$serialized = Safe::json_encode($id))
-					$serialized = serialize($id);
-
-				// finalize the snippet
-				$id = base64_encode($serialized);
-			}
-
-			// be cool with search engines
-			if($context['with_friendly_urls'] == 'Y')
-				return 'users/login.php/'.rawurlencode($id);
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'users/login.php/'.rawurlencode($id);
-			else
-				return 'users/login.php?credentials='.urlencode($id);
-		}
 
 		// track something -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'track') {
@@ -1397,16 +1436,9 @@ Class Users {
 			// mention nick name
 			$message .= "\n".sprintf(i18n::s('Your nick name is %s'), $fields['nick_name'])."\n";
 
-			// build credentials --see users/login.php
-			$credentials = array();
-			$credentials[0] = 'login';
-			$credentials[1] = $fields['id'];
-			$credentials[2] = rand(1000, 9999);
-			$credentials[3] = sprintf('%u', crc32($credentials[2].':'.$fields['handle']));
-
-			// direct link to login page
+			// direct link to login page --see users/login.php
 			$message .= "\n".i18n::s('Record this message and use the following link to authenticate to the site at any time:')."\n"
-				."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials')."\n";
+				."\n".$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $fields['id'], rand(1000, 9999), $fields['handle'])."\n";
 
 			// caution note
 			$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";

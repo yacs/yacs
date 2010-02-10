@@ -208,20 +208,13 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 						// save in the database
 						$fields = array();
 						$fields['id'] = $article['id'];
-						$fields['handle'] = $article['id'];
+						$fields['handle'] = $article['handle'];
 						$fields['silent'] = 'Y';
 						Articles::put_attributes($fields);
 					}
 
-					// build credentials --see users/login.php
-					$credentials = array();
-					$credentials[0] = 'visit';
-					$credentials[1] = 'article:'.$article['id'];
-					$credentials[2] = $item['email'];
-					$credentials[3] = sprintf('%u', crc32($item['email'].':'.$article['handle']));
-
-					// the secret link
-					$mail['message'] .= Users::get_url($credentials, 'credentials');
+					// the secret link --see users/login.php
+					$mail['message'] .= Users::get_login_url('visit', 'article:'.$article['id'], $item['email'], $article['handle']);
 
 				// target will have to authenticate on his own
 				} else

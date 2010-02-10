@@ -43,14 +43,12 @@ Class Layout_categories_as_compact extends Layout_interface {
 			$count = 0;
 
 			// count sections for this category
-			$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
-			if($stats && is_array($stats) && isset($stats['count']))
-				$count += $stats['count'];
+			if($scount = Members::count_sections_for_anchor('category:'.$item['id']))
+				$count += $scount;
 
 			// count articles for this category
-			$stats = Members::stat_articles_for_anchor('category:'.$item['id']);
-			if($stats && is_array($stats) && isset($stats['count']))
-				$count += $stats['count'];
+			if($acount = Members::count_articles_for_anchor('category:'.$item['id']))
+				$count += $acount;
 
 			// format total count of items
 			if($count)

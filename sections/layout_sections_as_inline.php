@@ -38,8 +38,15 @@ Class Layout_sections_as_inline extends Layout_interface {
 		// we return plain text
 		$text = '';
 
+		// flag sections updated recently
+		if($context['site_revisit_after'] < 1)
+			$context['site_revisit_after'] = 2;
+		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
@@ -48,27 +55,42 @@ Class Layout_sections_as_inline extends Layout_interface {
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);
 
-			// one box per section
-			$box = array('title' => '', 'text' => '');
-
-			// box content
-			$elements = array();
-
-			// start the label with family, if any
-			if($item['family'])
-				$box['title'] .= Skin::strip($item['family'], 30).' - ';
-
-			// use the title to label the link
-			if(is_object($overlay))
-				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
-			else
-				$box['title'] .= Codes::beautify_title($item['title']);
-
 			// the url to view this item
 			$url =& Sections::get_permalink($item);
 
+			// use the title to label the link
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
+			else
+				$title = Codes::beautify_title($item['title']);
+
+			// initialize variables
+			$prefix = $suffix = $icon = '';
+
+			// flag sections that are draft, dead, or created or updated very recently
+			if($item['activation_date'] >= $now)
+				$prefix .= DRAFT_FLAG;
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$prefix .= EXPIRED_FLAG;
+			if($item['create_date'] >= $dead_line)
+				$suffix .= NEW_FLAG;
+			elseif($item['edit_date'] >= $dead_line)
+				$suffix .= UPDATED_FLAG;
+
+			// signal restricted and private sections
+			if($item['active'] == 'N')
+				$prefix .= PRIVATE_FLAG;
+			elseif($item['active'] == 'R')
+				$prefix .= RESTRICTED_FLAG;
+
+			// one box per section
+			$box = array('title' => '', 'text' => '');
+
 			// add a direct link to the section
-			$box['title'] .= '&nbsp;'.Skin::build_link($url, MORE_IMG, 'basic');
+			$box['title'] = $prefix.$title.$suffix.'&nbsp;'.Skin::build_link($url, MORE_IMG, 'basic');
+
+			// box content
+			$elements = array();
 
 			// list related sections, if any
 			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:19+0100
+POT-Creation-Date: 2010-02-10 23:21+0100
+PO-Revision-Date: 2010-02-10 15:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -289,6 +289,8 @@ $_SESSION['l10n']['en']['Owner of %s']='Owner of %s';
 $_SESSION['l10n']['en']['Page']='Page';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['9395d63e2f35e55bb88eb5c03c766146']='Pages are not reviewed prior publication';
+$_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
+$_SESSION['l10n']['en']['41dd8514175d79f308930ada3e52bf01']='Parent is private, and this will be re-enforced anyway';
 $_SESSION['l10n']['en']['Person']='Person';
 $_SESSION['l10n']['en']['Persons']='Persons';
 $_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
@@ -447,6 +449,7 @@ $_SESSION['l10n']['en']['What are you aiming to create?']='What are you aiming t
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['What is new?']='What is new?';
 $_SESSION['l10n']['en']['57aedaff9e3e291c0e576399d063bfff']='What is this new web space about?';
+$_SESSION['l10n']['en']['Who is allowed to access?']='Who is allowed to access?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['6ea7b5a19127f511bec28a548295d614']='Yes, I want to delete this comment';
 $_SESSION['l10n']['en']['Yes, I want to delete this note']='Yes, I want to delete this note';

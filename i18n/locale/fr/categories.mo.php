@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:26+0100
+POT-Creation-Date: 2010-02-10 15:14+0100
+PO-Revision-Date: 2010-02-10 15:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -137,6 +137,8 @@ $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Parent category']='Catégorie parente';
+$_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
+$_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['9f4692b25599584f9f5ce45a2428bb91']='Choisissez une catégorie parente.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
@@ -221,6 +223,7 @@ $_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lir
 $_SESSION['l10n']['fr']['6214aa6c778c69428ff7146f8e56867a']='Attention : aucun script ne correspond à la mise en page %s';
 $_SESSION['l10n']['fr']['Week of&nbsp;%s']='Semaine du&nbsp;%s';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
+$_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['YACS can list most recent items']='YACS peut lister les éléments les plus récents';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['Yahoo!']='Yahoo!';

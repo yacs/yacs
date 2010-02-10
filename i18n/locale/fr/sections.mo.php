@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:32+0100
+POT-Creation-Date: 2010-02-10 23:21+0100
+PO-Revision-Date: 2010-02-10 15:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -289,6 +289,8 @@ $_SESSION['l10n']['fr']['Owner of %s']='Propriétaire de %s';
 $_SESSION['l10n']['fr']['Page']='Page';
 $_SESSION['l10n']['fr']['Pages']='Articles';
 $_SESSION['l10n']['fr']['9395d63e2f35e55bb88eb5c03c766146']='Les articles ne sont pas contrôlés avant publication';
+$_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
+$_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['Person']='Personne';
 $_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
@@ -447,6 +449,7 @@ $_SESSION['l10n']['fr']['What are you aiming to create?']='Que souhaitez-vous ob
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['What is new?']='Quoi de neuf ?';
 $_SESSION['l10n']['fr']['57aedaff9e3e291c0e576399d063bfff']='Quel est l\'objet de ce nouvel espace web ?';
+$_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['6ea7b5a19127f511bec28a548295d614']='Oui, je souhaite supprimer ce commentaire';
 $_SESSION['l10n']['fr']['Yes, I want to delete this note']='Oui, je souhaite supprimer cette annotation';

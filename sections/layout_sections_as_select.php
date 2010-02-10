@@ -131,10 +131,8 @@ Class Layout_sections_as_select extends Layout_interface {
 		$details = array();
 
 		// info on related articles
-		$stats =& Members::stat_articles_for_anchor('section:'.$item['id']);
-		if($stats['count']) {
-			$details[] = sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']);
-		}
+		if($count = Members::count_articles_for_anchor('section:'.$item['id']))
+			$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 
 		// info on related files
 		if($count = Files::count_for_anchor('section:'.$item['id'], TRUE))

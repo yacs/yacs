@@ -352,6 +352,7 @@ if($with_form) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 
+	// expand the form
 	$fields[] = array($label, $input);
 
 	// the target section

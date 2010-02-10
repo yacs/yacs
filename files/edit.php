@@ -91,6 +91,10 @@ elseif(isset($_REQUEST['anchor']))
 elseif(isset($context['arguments'][1]))
 	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
+// reflect access rights from anchor
+if(!isset($item['active']) && is_object($anchor))
+	$item['active'] = $anchor->get_active();
+
 // we are allowed to add a new file
 if(!isset($item['id']) && Files::allow_creation($anchor))
 	$permitted = TRUE;
@@ -625,7 +629,17 @@ if($with_form) {
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
-		$fields[] = array($label, $input);
+
+		// combine this with inherited access right
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+		elseif(isset($item['active']) && ($item['active'] != 'Y'))
+			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+		else
+			$hint = i18n::s('Who is allowed to access?');
+
+		// expand the form
+		$fields[] = array($label, $input, $hint);
 	}
 
 	// append fields

@@ -501,12 +501,11 @@ Class Sections {
 				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
 		}
 
-		// list sections
-		$query = "SELECT COUNT(*) as count"
+		// count records sections
+		$query = "SELECT sections.id"
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where;
-
-		return SQL::query_scalar($query);
+		return SQL::query_count($query);
 	}
 
 	/**
@@ -531,9 +530,8 @@ Class Sections {
 		$where = "(sections.owner_id = ".SQL::escape($id).")";
 
 		// count sections
-		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('sections')." AS sections WHERE ".$where;
-		$output = SQL::query_scalar($query);
-		return $output;
+		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections WHERE ".$where;
+		return SQL::query_count($query);
 	}
 
 	/**
@@ -544,7 +542,7 @@ Class Sections {
 	 *
 	 * @see users/view.php
 	 */
-	function &count_for_user($user_id) {
+	function count_for_user($user_id) {
 		global $context;
 
 		// sanity check
@@ -597,9 +595,8 @@ Class Sections {
 				."	AND ".$where.")"
 				." UNION (".$query.")";
 
-		// coun records
-		$output =& SQL::query_count($query);
-		return $output;
+		// count records
+		return SQL::query_count($query);
 	}
 
 	/**
@@ -2397,9 +2394,9 @@ Class Sections {
 			$fields['active'] = $fields['active_set'];
 
 		// create a random handle for this section
-		if(!isset($fields['handle']))
+		if(!isset($fields['handle']) || !$fields['handle'])
 			$fields['handle'] = md5(mt_rand());
-		$query[] = "handle='".SQL::escape($fields['handle'])."'";
+		$handle = "handle='".SQL::escape($fields['handle'])."',";
 
 		// allow anonymous surfer to access this section during his session
 		if(!Surfer::get_id())
@@ -2435,6 +2432,7 @@ Class Sections {
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
+			.$handle
 			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : '0').","
 			."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
@@ -2703,7 +2701,7 @@ Class Sections {
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
 		if(isset($fields['description']))
 			$query[] = "description='".SQL::escape($fields['description'])."'";
-		if(isset($fields['handle']))
+		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['language']))
 			$query[] = "language='".SQL::escape($fields['language'])."'";

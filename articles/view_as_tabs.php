@@ -483,16 +483,16 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	$box = array('bar' => array(), 'text' => '');
 
 	// count the number of users
-	$estats = Members::stat_users_for_member('article:'.$item['id']);
-	$wstats = Members::stat_users_for_anchor('article:'.$item['id']);
-	$users_count = max($estats['count'], $wstats['count']);
+	$ecount = Members::count_users_for_member('article:'.$item['id']);
+	$wcount = Members::count_users_for_anchor('article:'.$item['id']);
+	$users_count = max($ecount, $wcount);
 
 	// count watchers
-	if($wstats['count'] > 1)
-		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wstats['count']), $wstats['count']));
+	if($wcount > 1)
+		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wcount), $wcount));
 
 	// send a message to an article
-	if(($wstats['count'] > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
 		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
 	}
@@ -504,13 +504,13 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	}
 
 	// spread the list over several pages
-	if($estats['count'] > 1)
-		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $estats['count']), $estats['count']));
+	if($ecount > 1)
+		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
 
 	// navigation commands for users
 	$home = Articles::get_permalink($item);
 	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
-	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
+	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $ecount, USERS_LIST_SIZE, $zoom_index));
 
 	// assign command provided to associates and authenticated editors
 	if(Articles::is_owned($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -518,7 +518,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$box['bar'] += array(Articles::get_url($item['id'], 'invite') => ARTICLES_INVITE_IMG.i18n::s('Invite participants'));
 
 	// assign command provided to owners
-	} elseif(Articles::is_owned($item, $anchor, TRUE)) {
+	} elseif(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
 
@@ -579,6 +579,10 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 
 	// actually render the html
 	$users .= Skin::build_content(NULL, NULL, $box['text'], $box['bar']);
+
+	// slight correction
+	if(count($rows) > $users_count)
+		$users_count = count($rows);
 
 }
 
@@ -683,7 +687,7 @@ if(Articles::is_owned(NULL, $anchor)) {
 }
 
 // assign command provided to page owners
-if(Articles::is_owned($item, $anchor, TRUE)) {
+if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
 

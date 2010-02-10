@@ -61,6 +61,10 @@ if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
 elseif(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
+// reflect access rights from anchor
+if(!isset($item['active']) && is_object($anchor))
+	$item['active'] = $anchor->get_active();
+
 // get the related overlay, if any
 $overlay = NULL;
 include_once '../overlays/overlay.php';
@@ -694,7 +698,16 @@ if($with_form) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 
-	$fields[] = array($label, $input);
+	// combine this with inherited access right
+	if(isset($item['active']) && ($item['active'] == 'N'))
+		$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+	elseif(isset($item['active']) && ($item['active'] != 'Y'))
+		$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+	else
+		$hint = i18n::s('Who is allowed to access?');
+
+	// expand the form
+	$fields[] = array($label, $input, $hint);
 
 	// append fields
 	$text .= Skin::build_form($fields);

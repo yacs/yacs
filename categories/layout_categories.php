@@ -77,14 +77,12 @@ Class Layout_categories extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']);
 
 			// info on related sections
-			$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
-			if($stats['count'])
-				$details[] = sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']);
+			if($count = Members::count_sections_for_anchor('category:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 
 			// info on related articles
-			$stats = Members::stat_articles_for_anchor('category:'.$item['id']);
-			if($stats['count'])
-				$details[] = sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']);
+			if($count = Members::count_articles_for_anchor('category:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 
 			// info on related files
 			if($count = Files::count_for_anchor('category:'.$item['id'], TRUE))
@@ -99,9 +97,8 @@ Class Layout_categories extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// info on related users
-			$stats = Members::stat_users_for_anchor('category:'.$item['id']);
-			if($stats['count'])
-				$details[] = sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count']);
+			if($count = Members::count_users_for_anchor('category:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d user', '%d users', $count), $count);
 
 			// append details to the suffix
 			if(count($details))

@@ -3,10 +3,7 @@
  * search among pages
  *
  * @todo search locally, and offer extension to Google (assistant-like)
- * @todo bug on limited search to some top-level section
- * @todo allow for a search limited to users
  * @todo allow for a search limited to files
- * @todo introduce boolean searches, depending on MySQL version (> 4.0.1)
  *
  * This script calls for a search pattern, then actually searches the database.
  *

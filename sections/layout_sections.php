@@ -39,7 +39,7 @@ Class Layout_sections extends Layout_interface {
 
 		// sanity check
 		if(!isset($this->layout_variant))
-			$this->layout_variant = 'full';
+			$this->layout_variant = 'decorated';
 
 		// flag sections updated recently
 		if($context['site_revisit_after'] < 1)
@@ -76,7 +76,7 @@ Class Layout_sections extends Layout_interface {
 				$prefix .= DRAFT_FLAG;
 			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $dead_line)
 				$suffix .= NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
@@ -201,6 +201,10 @@ Class Layout_sections extends Layout_interface {
 			// append details to the suffix
 			if(count($details))
 				$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
+
+			// the main anchor link
+			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+				$suffix .= ' <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'))."</span>\n";
 
 			// not if decorated
 			if(($this->layout_variant != 'decorated') && ($this->layout_variant != 'references')) {

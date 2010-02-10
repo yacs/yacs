@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:24+0100
+POT-Creation-Date: 2010-02-10 23:21+0100
+PO-Revision-Date: 2010-02-10 15:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -226,6 +226,8 @@ $_SESSION['l10n']['fr']['Page has expired %s']='La page a expiré %s';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Pages under preparation']='Pages en préparation';
 $_SESSION['l10n']['fr']['4d0b2356ea271e4a6e91187392381016']='Les pages seront créées dans cette section par défaut';
+$_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
+$_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['5700db55198757763a877ab05d5c6542']='Analyser les liens et avertir les pages référencées';
 $_SESSION['l10n']['fr']['Participants']='Participants';
 $_SESSION['l10n']['fr']['Permalink']='Permalink';
@@ -390,6 +392,7 @@ $_SESSION['l10n']['fr']['Watchers']='Observateurs';
 $_SESSION['l10n']['fr']['What do you think of this page?']='Que pensez-vous de cette page ?';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que souhaitez-vous faire maintenant ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller maintenant ?';
+$_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['YACS codes']='les codes YACS';
 $_SESSION['l10n']['fr']['Yes, I want to delete this page']='Oui, je veux supprimer cette page';
 $_SESSION['l10n']['fr']['04146ec8fe89237f264f39cfdcc6a395']='Oui, je veux dupliquer cette page';

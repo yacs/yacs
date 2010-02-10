@@ -110,7 +110,7 @@ elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 $action = strip_tags($action);
 
 // only owners can proceed
-if(Sections::is_owned($item, $anchor)) {
+if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 	Surfer::empower();
 	$permitted = TRUE;
 

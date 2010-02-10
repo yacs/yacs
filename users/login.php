@@ -45,15 +45,14 @@
  * following array:
  * - the string 'login'
  * - user id
- * - salt (i.e., some random string)
+ * - random string
  * - salted secret (see below)
  *
- * The salted secret is the CRC32 computation of a string made out of
- * following components:
- * - salt
- * - the ':' character
- * - the secret handle attached to the target user profile
- *
+ * The salted secret is computed as follows:
+ * - consider the three first args
+ * - consider the secret handle of the user profile
+ * - concatenate the four args, separated by ':'
+ * - compute CRC32 in decimal
  *
  * [title]one-click modification[/title]
  *
@@ -68,17 +67,14 @@
  * following array:
  * - the string 'edit'
  * - target anchor (e.g., 'article:123')
+ * - unused string
  * - salted secret (see below)
  *
- * The salted secret ensures a minimum level of authentication, and makes it
- * difficult to forge a link to another page than the target one.
- *
- * The salted secret is the CRC32 computation of a string made out of
- * following components:
- * - nick name of the original poster (e.g., 'john')
- * - the ':' character
- * - the secret handle attached to the target page
- *
+ * The salted secret is computed as follows:
+ * - consider the three first args
+ * - consider the secret handle of the target page
+ * - concatenate the four args, separated by ':'
+ * - compute CRC32 in decimal
  *
  * [title]visitor authentication[/title]
  *
@@ -101,14 +97,11 @@
  * - e-mail address (e.g., 'tom@foo.bar', or 'Tom &lt;tom@foo.bar&gt;')
  * - salted secret (see below)
  *
- * The salted secret ensures a minimum level of authentication, and protects
- * against e-mail impersonation, and ensures driving to one single target.
- *
- * The salted secret is the CRC32 computation of a string made out of
- * following components:
- * - e-mail address
- * - the ':' character
- * - the secret handle attached to the target page
+ * The salted secret is computed as follows:
+ * - consider the three first args
+ * - consider the secret handle of the target page
+ * - concatenate the four args, separated by ':'
+ * - compute CRC32 in decimal
  *
  * [title]script invocation[/title]
  *
@@ -180,8 +173,8 @@ if(Surfer::is_crawler()) {
 		elseif(!isset($credentials[2]))
 			Logger::error(i18n::s('Request is invalid.'));
 
-		// check salted secret against nick name --also as lower case
-		elseif(strcmp($credentials[2], sprintf('%u', crc32($poster['nick_name'].':'.$anchor->get_handle()))) && strcmp($credentials[2], sprintf('%u', crc32(strtolower($poster['nick_name']).':'.$anchor->get_handle()))))
+		// check salted hash
+		elseif(!Users::check_credentials($credentials, $anchor->get_handle()))
 			Logger::error(i18n::s('Request is invalid.'));
 
 		// authenticate and redirect
@@ -211,8 +204,8 @@ if(Surfer::is_crawler()) {
 		elseif(!isset($credentials[2]) || !$credentials[2])
 			Logger::error(i18n::s('Request is invalid.'));
 
-		// check salted secret
-		elseif(!isset($credentials[3]) || strcmp($credentials[3], sprintf('%u', crc32($credentials[2].':'.$user['handle']))))
+		// check salted hash
+		elseif(!Users::check_credentials($credentials, $user['handle']))
 			Logger::error(i18n::s('Request is invalid.'));
 
 		// authenticate and offer to change the password
@@ -255,8 +248,8 @@ if(Surfer::is_crawler()) {
 		elseif(!isset($credentials[2]) || !$credentials[2])
 			Logger::error(i18n::s('Request is invalid.'));
 
-		// we need some salted secret
-		elseif(!isset($credentials[3]) || strcmp($credentials[3], sprintf('%u', crc32($credentials[2].':'.$anchor->get_handle()))))
+		// check salted hash
+		elseif(!Users::check_credentials($credentials, $anchor->get_handle()))
 			Logger::error(i18n::s('Request is invalid.'));
 
 		// authenticate and redirect

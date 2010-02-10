@@ -157,6 +157,151 @@ Class Members {
 	}
 
 	/**
+	 * count articles linked to one anchor
+	 *
+	 * @param string the selected anchor (e.g., 'category:12')
+	 * @return int the resulting count
+	 *
+	 * @see categories/layout_categories.php
+	 * @see categories/layout_categories_as_yahoo.php
+	 * @see categories/view.php
+	 */
+	function count_articles_for_anchor($anchor) {
+		global $context;
+
+		// limit the scope of the request
+		$where = "(articles.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR articles.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR articles.active='N'";
+
+		// include managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		$where .= ")";
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// always only consider published articles
+		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			." AND (articles.publish_date < '".$now."')";
+
+		// only consider live articles
+		$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+
+		// count matching records
+		$query = "SELECT DISTINCT articles.id"
+			." FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'article')"
+			."	AND (articles.id = members.member_id)"
+			."	AND (".$where.")";
+		return SQL::query_count($query);
+	}
+
+	/**
+	 * count sections linked to one anchor
+	 *
+	 * @param string the selected anchor (e.g., 'category:12')
+	 * @return int the resulting count
+	 *
+	 * @see categories/layout_categories.php
+	 * @see categories/layout_categories_as_yahoo.php
+	 * @see categories/view.php
+	 */
+	function count_sections_for_anchor($anchor) {
+		global $context;
+
+		// limit the scope of the request
+		$where = "sections.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR sections.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR sections.active='N'";
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// only consider live sections
+		$where = "(".$where.") "
+			."AND ((sections.expiry_date is NULL) "
+				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+
+		// count matching sections
+		$query = "SELECT DISTINCT sections.id"
+			." FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'section')"
+			."	AND (sections.id = members.member_id)"
+			."	AND (".$where.")";
+		return SQL::query_count($query);
+	}
+
+	/**
+	 * count users linked to one anchor
+	 *
+	 * @param string the selected anchor (e.g., 'category:12')
+	 * @return int the resulting count
+	 *
+	 * @see categories/view.php
+	 */
+	function count_users_for_anchor($anchor) {
+		global $context;
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+
+		// count matching records
+		$query = "SELECT DISTINCT users.id"
+			." FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND (".$where.")";
+		return SQL::query_count($query);
+	}
+
+	/**
+	 * count users linked to one member
+	 *
+	 * @param string the selected member (e.g., 'category:12')
+	 * @return int the resulting count
+	 *
+	 * @see sections/view_as_tabs.php
+	 */
+	function count_users_for_member($member) {
+		global $context;
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+
+		// count matching records
+		$query = "SELECT DISTINCT users.id"
+			." FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			."	AND (members.anchor LIKE 'user:%')"
+			."	AND (users.id = SUBSTRING(members.anchor, 6))"
+			."	AND (".$where.")";
+		return SQL::query_count($query);
+	}
+
+	/**
 	 * duplicate all members for a given reference
 	 *
 	 * This function duplicates records in the database, and changes references
@@ -660,7 +805,7 @@ Class Members {
 			."	AND (members.anchor like 'user:%')"
 			."  AND (users.id = CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED))"
 			."	AND ".$where
-			." ORDER BY members.edit_date DESC LIMIT ".$offset.','.$count;
+			." GROUP BY users.id ORDER BY members.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -705,7 +850,7 @@ Class Members {
 				." WHERE (users.id = ids.target)"
 				."	AND (users.capability IN ('S', 'M', 'A'))"
 				."	AND (".$where.")"
-				." LIMIT ".$offset.','.$count;
+				." GROUP BY users.id LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {
@@ -718,7 +863,7 @@ Class Members {
 				."	AND (users.id = SUBSTRING(members.anchor, 6))"
 				."	AND (users.capability IN ('S', 'M', 'A'))"
 				."	AND (".$where.")"
-				." ORDER BY members.edit_date LIMIT ".$offset.','.$count;
+				." GROUP BY users.id ORDER BY members.edit_date LIMIT ".$offset.','.$count;
 
 		}
 
@@ -818,7 +963,7 @@ Class Members {
 				." WHERE (users.id = ids.target)"
 				."	AND (users.capability = 'S')"
 				."	AND (".$where.")"
-				." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+				." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {
@@ -831,7 +976,7 @@ Class Members {
 				."	AND (users.id = SUBSTRING(members.anchor, 6))"
 				."	AND (users.capability = 'S')"
 				."	AND (".$where.")"
-				." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+				." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		}
 
@@ -883,7 +1028,7 @@ Class Members {
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
 			."	AND ".$where
-			." ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
+			." GROUP BY users.id ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -917,7 +1062,7 @@ Class Members {
 		$query = "SELECT anchor FROM ".SQL::table_name('members')
 			." WHERE (member LIKE '".SQL::escape($member)."')"
 			."	AND (anchor like 'user:%')"
-			." ORDER BY anchor LIMIT ".$offset.','.$count;
+			." GROUP BY anchor ORDER BY anchor LIMIT ".$offset.','.$count;
 		if(!$result =& SQL::query($query))
 			return $output;
 
@@ -1034,181 +1179,6 @@ Class Members {
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 
 		return SQL::setup_table('members', $fields, $indexes);
-	}
-
-	/**
-	 * get some statistics for articles linked to one anchor
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is restricted (active='N'), but surfer is an associate
-	 * - article has been officially published
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param the selected anchor (e.g., 'category:12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see categories/layout_categories.php
-	 * @see categories/layout_categories_as_yahoo.php
-	 * @see categories/view.php
-	 */
-	function &stat_articles_for_anchor($anchor) {
-		global $context;
-
-		// limit the scope of the request
-		$where = "(articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		$where .= ")";
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// always only consider published articles
-		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
-
-		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(articles.edit_date) as oldest_date, MAX(articles.edit_date) as newest_date"
-			." FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('articles')." AS articles"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
-			."	AND (members.member_type LIKE 'article')"
-			."	AND (articles.id = members.member_id)"
-			."	AND (".$where.")";
-
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for sections linked to one anchor
-	 *
-	 * Only sections matching following criteria are returned:
-	 * - section is visible (active='Y')
-	 * - section is restricted (active='R'), but surfer is a logged user
-	 * - section is restricted (active='N'), but surfer is an associate
-	 * - section has been officially published
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param the selected anchor (e.g., 'category:12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see categories/layout_categories.php
-	 * @see categories/layout_categories_as_yahoo.php
-	 * @see categories/view.php
-	 */
-	function &stat_sections_for_anchor($anchor) {
-		global $context;
-
-		// limit the scope of the request
-		$where = "sections.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR sections.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// only consider live sections
-		$where = "(".$where.") "
-			."AND ((sections.expiry_date is NULL) "
-				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(sections.edit_date) as oldest_date, MAX(sections.edit_date) as newest_date"
-			." FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('sections')." AS sections"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
-			."	AND (members.member_type LIKE 'section')"
-			."	AND (sections.id = members.member_id)"
-			."	AND (".$where.")";
-
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for users linked to one anchor
-	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
-	 *
-	 * @param the selected anchor (e.g., 'category:12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see categories/view.php
-	 */
-	function &stat_users_for_anchor($anchor) {
-		global $context;
-
-		// limit the scope of the request
-		$where = "users.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR users.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR users.active='N'";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(users.edit_date) as oldest_date, MAX(users.edit_date) as newest_date"
-			." FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
-			."	AND (members.member_type LIKE 'user')"
-			."	AND (users.id = members.member_id)"
-			."	AND (".$where.")";
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for users linked to one member
-	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
-	 *
-	 * @param the selected member (e.g., 'category:12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see sections/view_as_tabs.php
-	 */
-	function &stat_users_for_member($member) {
-		global $context;
-
-		// limit the scope of the request
-		$where = "users.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR users.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR users.active='N'";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(users.edit_date) as oldest_date, MAX(users.edit_date) as newest_date"
-			." FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.member LIKE '".SQL::escape($member)."')"
-			."	AND (members.anchor LIKE 'user:%')"
-			."	AND (users.id = SUBSTRING(members.anchor, 6))"
-			."	AND (".$where.")";
-		$output =& SQL::query_first($query);
-		return $output;
 	}
 
 	/**

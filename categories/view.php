@@ -447,15 +447,15 @@ if(!isset($item['id'])) {
 			$items_per_page = SECTIONS_PER_PAGE;
 
 		// count the number of sections in this category
-		$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
-		if($stats['count'] > SECTIONS_PER_PAGE)
-			$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']));
+		$count = Members::count_sections_for_anchor('category:'.$item['id']);
+		if($count > SECTIONS_PER_PAGE)
+			$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 		// navigation commands for sections
 		$home =& Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'sections');
 		$box['bar'] = array_merge($box['bar'],
-			Skin::navigate($home, $prefix, $stats['count'], SECTIONS_PER_PAGE, $zoom_index));
+			Skin::navigate($home, $prefix, $count, SECTIONS_PER_PAGE, $zoom_index));
 
 		// list items by date (default) or by title (option 'sections_by_title')
 		$offset = ($zoom_index - 1) * SECTIONS_PER_PAGE;
@@ -513,15 +513,15 @@ if(!isset($item['id'])) {
 		$layout_articles->set_variant('category:'.$item['id']);
 
 		// count the number of articles in this category
-		$stats = Members::stat_articles_for_anchor('category:'.$item['id']);
-		if($stats['count'])
-			$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']));
+		$count = Members::count_articles_for_anchor('category:'.$item['id']);
+		if($count)
+			$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 		// navigation commands for articles
 		$home =& Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'articles');
 		$box['bar'] = array_merge($box['bar'],
-			Skin::navigate($home, $prefix, $stats['count'], ARTICLES_PER_PAGE, $zoom_index));
+			Skin::navigate($home, $prefix, $count, ARTICLES_PER_PAGE, $zoom_index));
 
 		// list items by date (default) or by title (option 'articles_by_title')
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
@@ -802,23 +802,23 @@ if(!isset($item['id'])) {
 		}
 
 		// count the number of users in this category
-		$stats = Members::stat_users_for_anchor('category:'.$item['id']);
+		$count = Members::count_users_for_anchor('category:'.$item['id']);
 
 		// send a message to a category
-		if(($stats['count'] > 1) && Surfer::is_associate()) {
+		if(($count > 1) && Surfer::is_associate()) {
 			Skin::define_img('CATEGORIES_EMAIL_IMG', 'categories/email.gif');
 			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Send a message'));
 		}
 
 		// spread the list over several pages
-		if($stats['count'] > USERS_LIST_SIZE)
-			$box['bar'] += array('_count' => sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count']));
+		if($count > USERS_LIST_SIZE)
+			$box['bar'] += array('_count' => sprintf(i18n::ns('%d user', '%d users', $count), $count));
 
 		// navigation commands for users
 		$home =& Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'users');
 		$box['bar'] = array_merge($box['bar'],
-			Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
+			Skin::navigate($home, $prefix, $count, USERS_LIST_SIZE, $zoom_index));
 
 		// list items by date (default) or by title (option 'users_by_title')
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;

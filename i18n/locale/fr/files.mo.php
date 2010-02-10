@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:27+0100
+POT-Creation-Date: 2010-02-10 15:14+0100
+PO-Revision-Date: 2010-02-10 15:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -145,6 +145,8 @@ $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['4a6bd811816f43d2d60e858ba1b41651']='Les autres personnes seront prévenues que vous travaillez sur ce fichier, jusqu\'à la mise à jour d\'une nouvelle version, ou l\'annulation de la réservation.';
+$_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
+$_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la référence P2P (ed2k, torrent, etc.)';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['Play']='Jouer';
@@ -217,6 +219,7 @@ $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à
 $_SESSION['l10n']['fr']['What is new in this file?']='Qui a-t-il de nouveau dans ce fichier ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['278d07f7dafd5749bb1bdd201beb6bf0']='Bien que nous ayons pris beaucoup de soins à empêcher l\'infection des fichiers publiés sur ce serveur, nous vous recommandons d\'employer et d\'activer sur votre ordinateur un logiciel anti-virus ad hoc pour obtenir une protection optimale.';
+$_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['Winamp']='Winamp';
 $_SESSION['l10n']['fr']['Wireshark']='Wireshark';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';

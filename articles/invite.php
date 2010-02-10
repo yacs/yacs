@@ -157,7 +157,7 @@ if(Surfer::is_crawler()) {
 		// save in the database
 		$fields = array();
 		$fields['id'] = $item['id'];
-		$fields['handle'] = $item['id'];
+		$fields['handle'] = $item['handle'];
 		$fields['silent'] = 'Y';
 		Articles::put_attributes($fields);
 	}
@@ -237,15 +237,8 @@ if(Surfer::is_crawler()) {
 				$tokens = explode(' ', $recipient);
 				$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
 
-				// build credentials --see users/login.php
-				$credentials = array();
-				$credentials[0] = 'visit';
-				$credentials[1] = 'article:'.$item['id'];
-				$credentials[2] = $actual_recipient;
-				$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
-
-				// the secret link
-				$link = Users::get_url($credentials, 'credentials');
+				// the secret link --see users/login.php
+				$link = Users::get_login_url('visit', 'article:'.$item['id'], $actual_recipient, $item['handle']);
 
 				// translate strings to allow for one-click authentication
 				$actual_message = str_replace(Articles::get_url($item['id']), $link, $message);

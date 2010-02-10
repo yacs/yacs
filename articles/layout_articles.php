@@ -195,20 +195,13 @@ Class Layout_articles extends Layout_interface {
 				$details [] = Skin::build_list($menu, 'menu');
 			}
 
-			// combine in-line details
-			if(count($details))
-				$suffix .= ucfirst(trim(implode(', ', $details))).BR;
-
-			// links to sections and categories
-			$anchors = array();
-
 			// the main anchor link
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
-				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section');
+				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
-			// list section and categories in the suffix
-			if(@count($anchors))
-				$suffix .= sprintf(i18n::s('In %s'), implode(' | ', $anchors));
+			// combine in-line details
+			if(count($details))
+				$suffix .= ucfirst(trim(implode(', ', $details)));
 
 			// end of details
 			$suffix .= '</span>';

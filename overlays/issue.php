@@ -194,7 +194,50 @@ class Issue extends Overlay {
 			break;
 
 		default:
-			$text .= ' ['.$this->get_status_value().']';
+			$text .= ' [';
+
+			switch($this->attributes['status']) {
+
+			case 'on-going:suspect':
+			default:
+				$text .= i18n::s('Opened');
+				break;
+
+			case 'cancelled:suspect':
+				$text .= i18n::s('Solved');
+				break;
+
+			case 'on-going:problem':
+				$text .= i18n::s('Validated');
+				break;
+
+			case 'cancelled:problem':
+				$text .= i18n::s('Cancelled');
+				break;
+
+			case 'on-going:issue':
+				$text .= i18n::s('Analyzed');
+				break;
+
+			case 'cancelled:issue':
+				$text .= i18n::s('No solution');
+				break;
+
+			case 'on-going:solution':
+				$text .= i18n::s('Solved');
+				break;
+
+			case 'cancelled:solution':
+				$text .= i18n::s('Patch');
+				break;
+
+			case 'completed:solution':
+				$text .= i18n::s('Integrated');
+				break;
+
+			}
+
+			$text .= ']';
 			break;
 
 		}
@@ -345,28 +388,16 @@ class Issue extends Overlay {
 			return i18n::s('Opened');
 
 		case 'cancelled:suspect':
-			return i18n::s('Solved');
+		case 'cancelled:problem':
+		case 'cancelled:issue':
+		case 'cancelled:solution':
+		case 'completed:solution':
+			return i18n::s('Closed');
 
 		case 'on-going:problem':
-			return i18n::s('Validated');
-
-		case 'cancelled:problem':
-			return i18n::s('Cancelled');
-
 		case 'on-going:issue':
-			return i18n::s('Analyzed');
-
-		case 'cancelled:issue':
-			return i18n::s('No solution');
-
 		case 'on-going:solution':
-			return i18n::s('Solved');
-
-		case 'cancelled:solution':
-			return i18n::s('Patch');
-
-		case 'completed:solution':
-			return i18n::s('Integrated');
+			return i18n::s('On-going');
 		}
 
 	}

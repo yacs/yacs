@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-05 23:13+0100
-PO-Revision-Date: 2010-01-08 00:11+0100
+POT-Creation-Date: 2010-02-10 23:21+0100
+PO-Revision-Date: 2010-02-10 15:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -57,6 +57,7 @@ $_SESSION['l10n']['en']['0147192a3ae065ba05ff16cb2881a717']='Change has been ful
 $_SESSION['l10n']['en']['Change named overlays']='Change named overlays';
 $_SESSION['l10n']['en']['c057dffeda886ec48ea24ee561d6ba1e']='Changing all overlays with name %s';
 $_SESSION['l10n']['en']['be46e552419e9ea48f4a8c004e568b26']='Check this is a valid answer to your question';
+$_SESSION['l10n']['en']['Closed']='Closed';
 $_SESSION['l10n']['en']['Cooking time: %s']='Cooking time: %s';
 $_SESSION['l10n']['en']['Count']='Count';
 $_SESSION['l10n']['en']['Date']='Date';
@@ -133,6 +134,7 @@ $_SESSION['l10n']['en']['No solution']='No solution';
 $_SESSION['l10n']['en']['No way to analyze the problem']='No way to analyze the problem';
 $_SESSION['l10n']['en']['Not a valid poll']='Not a valid poll';
 $_SESSION['l10n']['en']['Not a valid vote']='Not a valid vote';
+$_SESSION['l10n']['en']['On-going']='On-going';
 $_SESSION['l10n']['en']['cc429a9fcfaa13c797002002ff9e4c36']='Only associates are allowed to sign.';
 $_SESSION['l10n']['en']['f88b8653acc48a5cfa31d1944ca8a875']='Only associates are allowed to vote';
 $_SESSION['l10n']['en']['Opened']='Opened';

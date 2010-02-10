@@ -9,6 +9,9 @@
 include_once '../shared/global.php';
 
 // number of tab to add
+if(!isset($_GET['tab_row']))
+	return;
+
 $tab_row=$_GET['tab_row'];
 
 // hint

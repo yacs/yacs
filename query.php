@@ -130,19 +130,13 @@ if(Surfer::is_crawler()) {
 				// save in the database
 				$fields = array();
 				$fields['id'] = $item['id'];
-				$fields['handle'] = $item['id'];
+				$fields['handle'] = $item['handle'];
 				$fields['silent'] = 'Y';
 				Articles::put_attributes($fields);
 			}
 
-			// build credentials --see users/login.php
-			$credentials = array();
-			$credentials[0] = 'edit';
-			$credentials[1] = 'article:'.$item['id'];
-			$credentials[2] = sprintf('%u', crc32($item['create_name'].':'.$item['handle']));
-
-			// the secret link
-			$link = $context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials');
+			// the secret link --see users/login.php
+			$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('edit', 'article:'.$item['id'], $item['create_name'], $item['handle']);
 
 			$status = i18n::s('<p>You can check the status of your query at the following address:</p>')
 				.'<p>'.Skin::build_link($link, $link, 'basic', i18n::s('The permanent address for your query')).'</p>';

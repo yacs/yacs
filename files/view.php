@@ -309,7 +309,7 @@ if(!isset($item['id'])) {
 	}
 
 	// display the full text
-	$context['text'] .= Skin::build_block($item['description'], 'description');
+	$context['text'] .= Skin::build_box(i18n::s('History'), Skin::build_block($item['description'], 'description'), 'folded');
 
 	//
 	// plugins

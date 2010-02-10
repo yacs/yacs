@@ -698,7 +698,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	function &count_for_user($user_id) {
+	function count_for_user($user_id) {
 		global $context;
 
 		// sanity check
@@ -763,8 +763,7 @@ Class Articles {
 				." UNION (".$query.")";
 
 		// count records
-		$output =& SQL::query_count($query);
-		return $output;
+		return SQL::query_count($query);
 	}
 
 	/**
@@ -2378,7 +2377,7 @@ Class Articles {
 		}
 
 		// create a random handle for this article
-		if(!isset($fields['handle']))
+		if(!isset($fields['handle']) || !$fields['handle'])
 			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
@@ -2610,7 +2609,7 @@ Class Articles {
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
-		if(isset($fields['handle']))
+		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";

@@ -112,16 +112,9 @@ if(Surfer::is_crawler()) {
 		// mention nick name
 		$message .= "\n".sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])."\n";
 
-		// build credentials --see users/login.php
-		$credentials = array();
-		$credentials[0] = 'login';
-		$credentials[1] = $id;
-		$credentials[2] = rand(1000, 9999);
-		$credentials[3] = sprintf('%u', crc32($credentials[2].':'.$item['handle']));
-
-		// direct link to login page
+		// direct link to login page --see users/login.php
 		$message .= "\n".i18n::s('Record this message and use the following link to authenticate to the site at any time:')."\n"
-			."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials')."\n";
+			."\n".$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $id, rand(1000, 9999), $item['handle'])."\n";
 
 		// caution note
 		$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";

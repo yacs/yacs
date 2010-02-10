@@ -1732,7 +1732,7 @@ if(!isset($item['id'])) {
 	}
 
 	// commands for section owners
-	if(Sections::is_owned($item, $anchor)) {
+	if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 
 		// delete the page
 		Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
@@ -1751,7 +1751,7 @@ if(!isset($item['id'])) {
 		}
 
 		// assign editors
-		if(Sections::is_owned($item, $anchor, TRUE)) {
+		if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 			Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 			$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 		}

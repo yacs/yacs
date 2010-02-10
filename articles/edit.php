@@ -148,6 +148,10 @@ elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
 	$anchor =& Anchors::get($_SESSION['anchor_reference']);
 
+// reflect access rights from anchor
+if(!isset($item['active']) && is_object($anchor))
+	$item['active'] = $anchor->get_active();
+
 // get the related overlay, if any -- overlay_type will be considered later on
 $overlay = NULL;
 if(isset($item['overlay']) && $item['overlay'])
@@ -939,7 +943,7 @@ if($with_form) {
 			$input = i18n::s('Nobody has been assigned to this page.');
 
 		// manage participants and editors
- 		if(Articles::is_owned($item, $anchor, TRUE)) {
+ 		if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 
 			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
 
@@ -972,7 +976,16 @@ if($with_form) {
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 
-		$fields[] = array($label, $input);
+		// combine this with inherited access right
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+		elseif(isset($item['active']) && ($item['active'] != 'Y'))
+			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+		else
+			$hint = i18n::s('Who is allowed to access?');
+
+		// expand the form
+		$fields[] = array($label, $input, $hint);
 	}
 
 	// locked: Yes / No
