@@ -171,6 +171,27 @@ if(!isset($item['id'])) {
 	// back to the anchor page
 	if(is_object($anchor) && $anchor->is_viewable()) {
 		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
+
+		// a bottom menu to react
+		if(Comments::allow_creation($anchor)) {
+
+			// allow posters to change their own comments
+			if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id())) {
+				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'));
+			}
+
+			// allow surfers to react to contributions from other people
+			else {
+				Skin::define_img('COMMENTS_REPLY_IMG', 'comments/reply.gif');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'));
+
+				Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'));
+
+			}
+		}
+
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 	}
 

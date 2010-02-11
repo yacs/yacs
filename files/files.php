@@ -1354,7 +1354,7 @@ Class Files {
 	 *
 	 */
 	function is_embeddable($name) {
-		return preg_match('/\.(flv|mov|m4v|mp4)$/i', $name);
+		return preg_match('/\.(flv|mov|m4v|mp4|swf)$/i', $name);
 	}
 
 	/**

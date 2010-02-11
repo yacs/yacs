@@ -56,6 +56,20 @@ class Issue extends Overlay {
 		// form fields
 		$fields = array();
 
+		// capture of initial data
+		if(!isset($host['self_reference'])) {
+
+			if(!isset($this->attributes['type']))
+				$this->attributes['type'] = 'incident';
+
+			$label = i18n::s('Type');
+			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
+			$hint = i18n::s('Select carefully the type of this issue');
+
+			$fields[] = array($label, $input, $hint);
+
+		}
+
 		// job done
 		return $fields;
 	}
@@ -429,7 +443,7 @@ class Issue extends Overlay {
 		$tracking = '';
 
 		// only associates and page owners can change the status
-		if(($variant == 'edit') && ($anchor = Anchors::get($host['self_reference'])) && $anchor->is_owned()) {
+		if(($variant == 'edit') && isset($host['self_reference']) && ($anchor = Anchors::get($host['self_reference'])) && $anchor->is_owned()) {
 
 			// type
 			if(!isset($this->attributes['type']))
@@ -440,6 +454,10 @@ class Issue extends Overlay {
 
 			// for easy detection of type change
 			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />';
+
+			// status
+			if(!isset($this->attributes['status']))
+				$this->attributes['status'] = 'on-going:suspect';
 
 			// step 1 - created
 			if(!isset($host['create_date']) || !$host['create_date'])

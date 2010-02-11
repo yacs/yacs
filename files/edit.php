@@ -222,7 +222,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
 		// silently delete the previous file if the name has changed
-		if($item['file_name'] && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
+		if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
 			Safe::unlink($file_path.'/'.$item['file_name']);
 
 		// if the file is an image, create a thumbnail for it
