@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2009-11-09 20:22+0100
+POT-Creation-Date: 2010-02-12 10:14+0100
+PO-Revision-Date: 2010-02-12 10:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -77,7 +77,7 @@ $_SESSION['l10n']['fr']['fc2edca5afeada33fbd4d829f8da5047']='Commandes système,
 $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
-$_SESSION['l10n']['fr']['49c915d733aa70a024b480150f68083f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques visiter la page et cliquer sur le lien Oublier.';
+$_SESSION['l10n']['fr']['e6236ced25bee095095728d9b2de9a4f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour ne plus recevoir d\'alertes automatiques merci de visiter la page et de cliquer sur le lien Arrêter les notifications.';
 $_SESSION['l10n']['fr']['f2eef2fdffa0e2a2c849b8b6e012c5c1']='Ce message a été généré automatiquement par %s car la page a été postée par un utilisateur qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Déconnecter.';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';

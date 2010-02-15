@@ -80,13 +80,17 @@ Class Layout_articles_as_table extends Layout_interface {
 			// use the title as a link to the page
 			$title .= Skin::build_link($url, $label, 'basic', $hover);
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$title .= ' '.LOCKED_FLAG;
+
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
-				$title .= EXPIRED_FLAG.' ';
+				$title .= ' '.EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$title .= NEW_FLAG.' ';
+				$title .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$title .= UPDATED_FLAG.' ';
+				$title .= ' '.UPDATED_FLAG;
 
 			// the icon
 			if($item['thumbnail_url'])
@@ -156,10 +160,6 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// more details
 			$details =& Articles::build_dates($anchor, $item);
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))

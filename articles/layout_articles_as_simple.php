@@ -76,13 +76,17 @@ Class Layout_articles_as_simple extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG;
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
+				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$suffix .= UPDATED_FLAG;
+				$suffix .= ' '.UPDATED_FLAG;
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
@@ -106,10 +110,6 @@ Class Layout_articles_as_simple extends Layout_interface {
 			// flag popular pages
 			if($item['hits'] > 300)
 				$details[] = POPULAR_FLAG;
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// the main anchor link
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))

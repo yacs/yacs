@@ -100,13 +100,17 @@ Class Layout_sections_as_rights extends Layout_interface {
 			// use the title as a link to the page
 			$summary .= Skin::build_link($url, $label, 'basic', $hover);
 
+			// signal locked sections
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$summary .= ' '.LOCKED_FLAG;
+
 			// flag sections updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
-				$summary .= EXPIRED_FLAG.' ';
+				$summary .= ' '.EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$summary .= NEW_FLAG.' ';
+				$summary .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$summary .= UPDATED_FLAG.' ';
+				$summary .= ' '.UPDATED_FLAG;
 
 			// insert overlay data, if any
 			if(is_object($overlay))
@@ -115,62 +119,40 @@ Class Layout_sections_as_rights extends Layout_interface {
 			// attachment details
 			$details = array();
 
-			// signal locked sections
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
-
 			// info on related sections
-			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-				Skin::define_img('SECTIONS_LIST_IMG', 'sections/list.gif');
-				$details[] = SECTIONS_LIST_IMG.sprintf(i18n::ns('%d section', '%d sections', $count), $count);
-			}
+			if($count = Sections::count_for_anchor('section:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 
 			// info on related articles
-			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-				Skin::define_img('ARTICLES_LIST_IMG', 'articles/list.gif');
-				$details[] = ARTICLES_LIST_IMG.sprintf(i18n::ns('%d page', '%d pages', $count), $count);
-			}
+			if($count = Articles::count_for_anchor('section:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 
 			// info on related files
-			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE)) {
-				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
-				$details[] = FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count);
-			}
+			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE))
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
-			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE)) {
-				Skin::define_img('LINKS_LIST_IMG', 'links/list.gif');
-				$details[] = LINKS_LIST_IMG.sprintf(i18n::ns('%d link', '%d links', $count), $count);
-			}
+			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// comments
-			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE)) {
-				Skin::define_img('COMMENTS_LIST_IMG', 'comments/list.gif');
-				$details[] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'list'), COMMENTS_LIST_IMG.sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
-			}
-
-			// combine in-line details
-			if(count($details))
-				$summary .= ' <span class="details">'.trim(implode(' ', $details)).'</span>';
+			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// the main anchor link
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
-				$summary .= BR.'<span class="details">'.sprintf(i18n::s('In %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section')).'</span>';
+				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic'));
+
+			// combine in-line details
+			if(count($details))
+				$summary .= BR.'<span class="details">'.trim(implode(' &middot; ', $details)).'</span>';
 
 			// display all tags
 			if($item['tags'])
 				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'section:'.$item['id']).'</span>';
 
-			// poster name
-			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {
-				if($item['create_name'])
-					$author = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
-				else
-					$author = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-			}
-
 			// dates
-			$update = '<span class="details">'.join(BR, Sections::build_dates($anchor, $item)).'</span>';
+//			$update = '<span class="details">'.join(BR, Sections::build_dates($anchor, $item)).'</span>';
 
 			// watcher
 			if(Sections::is_watched($item['id'], $this->layout_variant))
@@ -185,7 +167,8 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output
-			$cells = array($summary, $update, $watcher, $editor, $owner);
+//			$cells = array($summary, $update, $watcher, $editor, $owner);
+			$cells = array($summary, $watcher, $editor, $owner);
 
 			// append this row
 			$rows[] = $cells;
@@ -196,7 +179,8 @@ Class Layout_sections_as_rights extends Layout_interface {
 		SQL::free($result);
 
 		// headers
-		$headers = array(i18n::s('Section'), i18n::s('Dates'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
+//		$headers = array(i18n::s('Section'), i18n::s('Dates'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
+		$headers = array(i18n::s('Section'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
 
 		// return a sortable table
 		$text .= Skin::table($headers, $rows, 'grid');

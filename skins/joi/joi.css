@@ -151,12 +151,14 @@ select:focus { /* help to locate the current field */
 
 table { /* an ordinary table -- [table]...[/table] */
 	max-width: 530px;
+	width: expression(this.width > 530 ? 530: true); /* just for IE 6 */
 }
 
 textarea { /* ensure form fields fit in the layout */
 	color: black;
 	background-color: white;
 	max-width: 400px;
+	width: expression(this.width > 400 ? 400: true); /* just for IE 6 */
 }
 
 textarea:focus { /* signal current input area */

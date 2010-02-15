@@ -891,7 +891,9 @@ table.decorated tr td.image { /* the cell with image */
 table.decorated tr td.image img {
 	margin: 2px 2px 0 0;	/* align the decorating image with decorated text */
 	max-width: 50px;		/* ensure that the image is not too large */
+	width: expression(this.width > 50 ? 50: true); /* just for IE 6 */
 	max-height: 50px;
+	height: expression(this.height > 50 ? 50: true); /* just for IE 6 */
 }
 
 div.caution { /* [caution]...[/caution] -- draw attention to a warning message */
@@ -920,6 +922,7 @@ pre { /* [php]...[/php] and [snippet]...[/snippet] -- pre-formatted text */
 	white-space: pre;
 	overflow: auto; /* add an horizontal bar to browse long lines of code, if necessary */
 	max-width: 410px; /* ensure we fit in narrowed layouts */
+	width: expression(this.width > 410 ? 410: true); /* just for IE 6 */
 }
 
 blockquote { /* [quote]...[/quote] -- to cite someone */
@@ -968,8 +971,7 @@ div.folder_box div.folder_body { /* rendering while unfolded */
 
 div.sidebar_box { /* [sidebar]...[/sidebar] -- a side box somewhere in the main panel */
 	float: right;
-	min-width: 10em;
-	max-width: 20em;
+	width: 10em;
 	margin: 0 1em 1em 1em ;
 }
 
@@ -1516,6 +1518,7 @@ dl#scrolling_news dd ul { /* a list with no bullet */
 div#thread_wrapper { /* around text and input field */
 	position: relative;
 	max-width: 700px; /* limit the width */
+	width: expression(this.width > 700 ? 700: true); /* just for IE 6 */
 	margin: 1em 0;
 	padding: 0 0 6px 0;
 }
@@ -2592,7 +2595,9 @@ img.avatar { /* an image representing a member -- do not float it! */
 }
 
 td.author img.avatar {
-	max-heigth: 60px;
+	height: expression(this.height > 60 ? 60: true); /* just for IE 6 */
+	max-height: 60px;
+	width: expression(this.width > 60 ? 60: true); /* just for IE 6 */
 	max-width: 60px;
 }
 
@@ -2668,6 +2673,7 @@ div#tabs_panels div.panel-foreground {
 	display: block;
 	position: static;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
+	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }
 
 div#tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visible tabs */
@@ -2677,6 +2683,7 @@ div#tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visib
 div#tabs_panels div.panel-background {
 	display: none;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
+	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }
 
 div#tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */

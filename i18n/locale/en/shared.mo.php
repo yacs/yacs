@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2010-02-05 23:16+0100
+POT-Creation-Date: 2010-02-12 10:14+0100
+PO-Revision-Date: 2010-02-12 10:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -77,7 +77,7 @@ $_SESSION['l10n']['en']['fc2edca5afeada33fbd4d829f8da5047']='System commands, co
 $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
-$_SESSION['l10n']['en']['49c915d733aa70a024b480150f68083f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.';
+$_SESSION['l10n']['en']['e6236ced25bee095095728d9b2de9a4f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.';
 $_SESSION['l10n']['en']['f2eef2fdffa0e2a2c849b8b6e012c5c1']='This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
 $_SESSION['l10n']['en']['b14e57cf6aea5bcf8b57974ce6a1545d']='Type exactly the following 5 chars:';

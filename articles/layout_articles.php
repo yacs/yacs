@@ -77,13 +77,17 @@ Class Layout_articles extends Layout_interface {
 			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
+				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$suffix .= UPDATED_FLAG;
+				$suffix .= ' '.UPDATED_FLAG;
 
 			// signal articles to be published
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -180,10 +184,6 @@ Class Layout_articles extends Layout_interface {
 					$details[] = '{'.$item['rank'].'}';
 
 			}
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// at the user page
 			if(($this->layout_variant == 'no_author') && Surfer::get_id()) {

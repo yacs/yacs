@@ -86,13 +86,17 @@ Class Layout_sections_as_manage extends Layout_interface {
 			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
+			// signal locked sections
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag sections that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
+				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$suffix .= UPDATED_FLAG;
+				$suffix .= ' '.UPDATED_FLAG;
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
@@ -175,10 +179,6 @@ Class Layout_sections_as_manage extends Layout_interface {
 			// the number of hits
 			if(Surfer::is_logged() && ($item['hits'] > 1))
 				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
-
-			// signal locked sections
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 // 			// rating
 // 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))

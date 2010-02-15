@@ -323,6 +323,8 @@ if(isset($item['index_title']) && $item['index_title']) {
 	elseif(isset($item['title']) && $item['title'])
 		$context['page_title'] .= $item['title'];
 }
+if(isset($item['locked']) && ($item['locked'] == 'Y'))
+	$context['page_title'] .= ' '.LOCKED_FLAG;
 
 // insert page family, if any
 if(isset($item['family']) && $item['family'])

@@ -90,13 +90,17 @@ Class Layout_articles_as_manage extends Layout_interface {
 			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
+				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$suffix .= UPDATED_FLAG;
+				$suffix .= ' '.UPDATED_FLAG;
 
 			// signal articles to be published
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -159,10 +163,6 @@ Class Layout_articles_as_manage extends Layout_interface {
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// combine in-line details
 			if(count($details))

@@ -106,13 +106,17 @@ Class Layout_articles_as_spray extends Layout_interface {
 			// use the title as a link to the page
 			$summary .= Skin::build_link($url, $label, 'basic', $hover);
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$summary .= ' '.LOCKED_FLAG;
+
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
-				$summary .= EXPIRED_FLAG.' ';
+				$summary .= ' '.EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$summary .= NEW_FLAG.' ';
+				$summary .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$summary .= UPDATED_FLAG.' ';
+				$summary .= ' '.UPDATED_FLAG;
 
 			// insert overlay data, if any
 			if(is_object($overlay))
@@ -120,10 +124,6 @@ Class Layout_articles_as_spray extends Layout_interface {
 
 			// attachment details
 			$details = array();
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
@@ -147,31 +147,23 @@ Class Layout_articles_as_spray extends Layout_interface {
 			if(count($details))
 				$summary .= ' <span class="details">'.trim(implode(' ', $details)).'</span>';
 
+			// dates
+			$summary .= BR.'<span class="details">'.join(BR, Articles::build_dates($anchor, $item)).'</span>';
+
 			// display all tags
 			if($item['tags'])
 				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
-			// poster name
-			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {
-				if($item['create_name'])
-					$author = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
-				else
-					$author = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-			}
-
 			// status value
 			if(is_object($overlay))
 				$status = $overlay->get_value('status', '');
-
-			// dates
-			$update = '<span class="details">'.join(BR, Articles::build_dates($anchor, $item)).'</span>';
 
 			// progress value
 			if(is_object($overlay))
 				$progress = $overlay->get_value('progress', '');
 
 			// this is another row of the output
-			$cells = array($id, $type, $summary, $status, $update, $progress);
+			$cells = array($id, $type, $summary, $status, $progress);
 
 			// append this row
 			$rows[] = $cells;
@@ -182,7 +174,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 		SQL::free($result);
 
 		// headers
-		$headers = array(i18n::s('Number'), i18n::s('Type'), i18n::s('Information'), i18n::s('Status'), i18n::s('Dates'), i18n::s('Progress'));
+		$headers = array(i18n::s('Number'), i18n::s('Type'), i18n::s('Information'), i18n::s('Status'), i18n::s('Progress'));
 
 		// return a sortable table
 		$text .= Skin::table($headers, $rows, 'grid');

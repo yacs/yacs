@@ -75,13 +75,17 @@ Class Layout_articles_as_tagged extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG;
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
+				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$suffix .= UPDATED_FLAG;
+				$suffix .= ' '.UPDATED_FLAG;
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
@@ -97,10 +101,6 @@ Class Layout_articles_as_tagged extends Layout_interface {
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// combine in-line details
 			if(count($details))

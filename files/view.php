@@ -78,7 +78,7 @@ if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
 // public access is allowed
-if($item['active'] == 'Y')
+if(isset($item['active']) && ($item['active'] == 'Y'))
 	$permitted = TRUE;
 
 // access is restricted to authenticated member

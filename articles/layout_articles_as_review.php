@@ -67,13 +67,17 @@ Class Layout_articles_as_review extends Layout_interface {
 			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
+				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$suffix .= UPDATED_FLAG;
+				$suffix .= ' '.UPDATED_FLAG;
 
 			// signal articles to be published
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -112,10 +116,6 @@ Class Layout_articles_as_review extends Layout_interface {
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// append details to the suffix
 			$suffix .= ' -&nbsp;<span class="details">'.ucfirst(trim(implode(', ', $details))).'</span>';

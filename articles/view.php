@@ -271,6 +271,8 @@ if(is_object($overlay))
 	$context['page_title'] .= $overlay->get_text('title', $item);
 elseif(isset($item['title']))
 	$context['page_title'] .= $item['title'];
+if(isset($item['locked']) && ($item['locked'] == 'Y'))
+	$context['page_title'] .= ' '.LOCKED_FLAG;
 
 // page language, if any
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))

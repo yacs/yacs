@@ -99,15 +99,19 @@ if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
 // public access is allowed
-if($item['active'] == 'Y')
+if(isset($item['active']) && ($item['active'] == 'Y'))
 	$permitted = TRUE;
 
 // access is restricted to authenticated member
-elseif(($item['active'] == 'R') && Surfer::is_logged())
+elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
+	$permitted = TRUE;
+
+// the item is anchored to the profile of this member
+elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
 // associates, editors and readers can view the page
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access

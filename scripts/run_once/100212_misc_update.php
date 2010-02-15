@@ -24,6 +24,7 @@ $files[] = 'skins/_reference/articles/list.gif';
 $files[] = 'skins/_reference/layouts/comment_dt_bg.gif';
 $files[] = 'skins/_reference/sections/list.gif';
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/joi/joi.css';
 
 // process every file
 $count = 0;

@@ -84,13 +84,17 @@ Class Layout_articles_as_jive extends Layout_interface {
 			// use the title as a link to the page
 			$text .= Skin::build_link($url, '<strong>'.$title.'</strong>', 'basic');
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$text .= ' '.LOCKED_FLAG;
+
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
-				$text .= EXPIRED_FLAG.' ';
+				$text .= ' '.EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
-				$text .= NEW_FLAG.' ';
+				$text .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
-				$text .= UPDATED_FLAG.' ';
+				$text .= ' '.UPDATED_FLAG;
 
 			// add details, if any
 			$details = array();
@@ -103,10 +107,6 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// last update
 			$details[] = sprintf(i18n::s('Updated %s'), Skin::build_date($item['edit_date']));
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// add details to the title
 			if(count($details))

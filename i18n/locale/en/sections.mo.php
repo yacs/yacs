@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 23:21+0100
+POT-Creation-Date: 2010-02-12 10:14+0100
 PO-Revision-Date: 2010-02-10 15:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -126,7 +126,6 @@ $_SESSION['l10n']['en']['cfa1cb13d7bcaf9b98d6bbdd10ab6700']='Contribution to the
 $_SESSION['l10n']['en']['Contributions are accepted']='Contributions are accepted';
 $_SESSION['l10n']['en']['Copy of %s']='Copy of %s';
 $_SESSION['l10n']['en']['Current owner is %s']='Current owner is %s';
-$_SESSION['l10n']['en']['Dates']='Dates';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a comment']='Delete a comment';
 $_SESSION['l10n']['en']['Delete a note']='Delete a note';

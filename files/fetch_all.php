@@ -78,7 +78,7 @@ elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged()
 	$permitted = TRUE;
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access

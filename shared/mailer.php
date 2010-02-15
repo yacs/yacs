@@ -499,7 +499,7 @@ class Mailer {
 
 		case 1: // you are watching the container
 			$reason = "\n\n"
-				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.'), $context['site_name']);
+				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.'), $context['site_name']);
 			break;
 
 		case 2: // you are watching the poster

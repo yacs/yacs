@@ -88,6 +88,10 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG.' ';
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
+
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$suffix .= ' '.EXPIRED_FLAG;
@@ -129,10 +133,6 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			// the modification date
 			if($item['edit_date'] > NULL_DATE)
 				$details[] = Skin::build_date($item['edit_date']);
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// read the article
 			$details[] = Skin::build_link($url, i18n::s('More'), 'basic');
