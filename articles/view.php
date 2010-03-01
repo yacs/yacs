@@ -271,7 +271,7 @@ if(is_object($overlay))
 	$context['page_title'] .= $overlay->get_text('title', $item);
 elseif(isset($item['title']))
 	$context['page_title'] .= $item['title'];
-if(isset($item['locked']) && ($item['locked'] == 'Y'))
+if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 	$context['page_title'] .= ' '.LOCKED_FLAG;
 
 // page language, if any
@@ -564,6 +564,12 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	}
 
+	// assign command provided to page owners
+ 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+ 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+ 		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
+ 	}
+
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
@@ -620,7 +626,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// watch command is provided to logged surfers
-	if(Surfer::get_id() && !$zoom_type) {
+	if(Surfer::get_id()) {
 
 		$link = Users::get_url('article:'.$item['id'], 'track');
 
@@ -631,6 +637,13 @@ if(!isset($item['id'])) {
 
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 		$lines[] = Skin::build_link($link, TOOLS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
+
+	}
+
+	// allow to leave the page
+	if(Articles::is_assigned($item['id']) && !Articles::is_owned($item, $anchor, TRUE)) {
+		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	}
 
 	// get news from rss
@@ -1196,18 +1209,6 @@ if(!isset($item['id'])) {
 		Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 	}
-
-	// assign command provided to page owners
- 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
- 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
- 		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
-
-	// allow to leave the page
-	} elseif(Articles::is_assigned($item['id'])) {
-		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
-	}
-
 
 }
 

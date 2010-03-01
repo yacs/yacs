@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2010-02-10 00:30+0100
+PO-Revision-Date: 2010-02-24 23:45+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -286,7 +286,7 @@ $_SESSION['l10n']['fr']['gadget boxes']='boîtes gadgets';
 $_SESSION['l10n']['fr']['here']='ici';
 $_SESSION['l10n']['fr']['http://www.yacs.fr/']='http://www.yacs.fr/';
 $_SESSION['l10n']['fr']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - Lister les sections et les pages associées';
-$_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Afficher 5 fils de discussion par section';
+$_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Lister 5 discussions par section';
 $_SESSION['l10n']['fr']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Deux colonnes, comme Yahoo!';
 $_SESSION['l10n']['fr']['e35b42f9905d22b1370f621d7068e6ab']='menu - Lister les sections dans la barre de menu.';
 $_SESSION['l10n']['fr']['pages']='pages';

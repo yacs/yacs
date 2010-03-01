@@ -260,10 +260,17 @@ Class Cache {
 	 *
 	 * @param string extension of files to purge
 	 */
-	function purge($type='js') {
+	function purge($type='*') {
 		global $context;
 
+		// delete files cached by yacs
 		if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.'.$type)) {
+			foreach($items as $name)
+				Safe::unlink($name);
+		}
+
+		// also delete files cached by SimplePie
+		if($items=Safe::glob($context['path_to_root'].'temporary/*.spc')) {
 			foreach($items as $name)
 				Safe::unlink($name);
 		}

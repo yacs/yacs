@@ -374,8 +374,15 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
 		// delete the previous version, if any
-		if(is_object($overlay))
+		if(is_object($overlay) && isset($_REQUEST['id'])) {
+
+			// allow back-referencing from overlay
+			$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
+			$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
+
+			// do the job
 			$overlay->remember('delete', $_REQUEST);
+		}
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);

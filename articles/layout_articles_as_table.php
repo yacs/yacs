@@ -81,7 +81,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			$title .= Skin::build_link($url, $label, 'basic', $hover);
 
 			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 				$title .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently

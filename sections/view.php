@@ -323,7 +323,7 @@ if(isset($item['index_title']) && $item['index_title']) {
 	elseif(isset($item['title']) && $item['title'])
 		$context['page_title'] .= $item['title'];
 }
-if(isset($item['locked']) && ($item['locked'] == 'Y'))
+if(isset($item['locked']) && ($item['locked'] == 'Y') && Sections::is_owned($item, $anchor))
 	$context['page_title'] .= ' '.LOCKED_FLAG;
 
 // insert page family, if any
@@ -706,6 +706,12 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
 	}
 
+	// assign editors
+	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
+	}
+
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
@@ -750,6 +756,12 @@ if(!isset($item['id'])) {
 
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 		$lines[] = Skin::build_link($link, TOOLS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
+	}
+
+	// allow to leave the section
+	if(Sections::is_assigned($item['id']) && !Sections::is_owned($item, $anchor, TRUE)) {
+		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
 
 	// get news from rss
@@ -1752,17 +1764,8 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
 		}
 
-		// assign editors
-		if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-			Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-			$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
-		}
-
-	// allow to leave the section
-	} elseif(Sections::is_assigned($item['id'])) {
-		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
+
 }
 
 // use date of last modification into etag computation

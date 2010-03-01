@@ -33,7 +33,7 @@ class Move_on_article_access extends Behavior {
 		// surfer has to be authenticated
 		if(!Surfer::is_logged())
 			return $menu;
-			
+
 		// sanity checks
 		if(!$anchor)
 			Logger::error(i18n::s('No anchor has been found.'));
@@ -47,24 +47,24 @@ class Move_on_article_access extends Behavior {
 		// parameters have been validated
 		else {
 
-			// look at parent container if possible		
+			// look at parent container if possible
 			if(!$origin =&  Anchors::get($target->get_parent()))
 				$origin = $target;
 
 			// only container editors can proceed
-			if($origin->is_assigned()) {
-				
+			if($origin->is_assigned() || Surfer::is_associate()) {
+
 				// load target section
 				$tokens = explode(' ', $this->parameters, 2);
 				if($section =& Anchors::get('section:'.$tokens[0])) {
-	
+
 					// make a label
 					if(count($tokens) < 2)
 						$tokens[1] = sprintf(i18n::s('Move to %s'), $section->get_title());
-	
+
 					// the target link to move the page
 					$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', str_replace('section:', '', $section->get_reference()));
-	
+
 					// make a sub-menu
 					$menu = array_merge(array($link => array('', $tokens[1], '', 'button')), $menu);
 				}

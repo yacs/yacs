@@ -228,7 +228,7 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Associate pages below to').' <select name=associate_to>'.Categories::get_options().'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Associate pages below to').BR.'<select name=associate_to>'.Categories::get_options().'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_articles;
@@ -256,7 +256,7 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Associate pages below to').' <select name=associate_to>'.Categories::get_options().'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Associate pages below to').BR.'<select name=associate_to>'.Categories::get_options().'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_sections;
@@ -487,7 +487,7 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Duplicate following pages in').' <select name=duplicate_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Duplicate following pages in').BR.'<select name=duplicate_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_articles;
@@ -516,7 +516,7 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Duplicate following pages in').' <select name=duplicate_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Duplicate following pages in').BR.'<select name=duplicate_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_sections;
@@ -748,7 +748,7 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Move following pages to').' <select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Move following pages to').BR.'<select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_articles;
@@ -777,7 +777,7 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Move following pages to').' <select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Move following pages to').BR.'<select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_sections;

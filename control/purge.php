@@ -2,8 +2,6 @@
 /**
  * purge the system
  *
- * @todo add a command to purge staging files and directories
- *
  * This page is used to purge the system. Its usage is restricted to associates.
  *
  * At the moment following items can be purged:
@@ -250,7 +248,7 @@ if(!Surfer::is_associate()) {
 	Cache::clear();
 
 	// refresh javascript libraries
-	Cache::purge('js');
+	Cache::purge();
 
 	// display the execution time
 	$time_end = get_micro_time();

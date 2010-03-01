@@ -107,7 +107,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 			$summary .= Skin::build_link($url, $label, 'basic', $hover);
 
 			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 				$summary .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently

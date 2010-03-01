@@ -38,8 +38,8 @@ Class Layout_users_as_address extends Layout_interface {
 				continue;
 
 			// do not write to myself
-			if($item['id'] == Surfer::get_id())
-				continue;
+// 			if($item['id'] == Surfer::get_id())
+// 				continue;
 
 			$label = ucfirst(trim(Codes::beautify(strip_tags($item['full_name'], '<br><div><img><p><span>'))));
 			if(!$label)

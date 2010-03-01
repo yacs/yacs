@@ -50,7 +50,7 @@ if(Surfer::get_id() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
 // associates and authenticated owners can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owner()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
 	$permitted = TRUE;
 
 // the default is to deny access

@@ -1048,7 +1048,7 @@ class Anchor {
 			return TRUE;
 
 		// anchor has to be assigned
-		return $this->is_assigned($user_id);
+		return ($this->is_assigned($user_id) || Surfer::is_associate());
 
 	 }
 

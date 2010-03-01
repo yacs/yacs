@@ -284,7 +284,7 @@ class Day extends Overlay {
 
 		// the maximum number of articles per page
 		if(!defined('DATES_PER_PAGE'))
-			define('DATES_PER_PAGE', 50);
+			define('DATES_PER_PAGE', 3);
 
 		// where we are
 		$offset = ($page - 1) * DATES_PER_PAGE;

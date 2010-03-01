@@ -101,7 +101,7 @@ Class Layout_sections_as_rights extends Layout_interface {
 			$summary .= Skin::build_link($url, $label, 'basic', $hover);
 
 			// signal locked sections
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Sections::is_owned($item, $anchor))
 				$summary .= ' '.LOCKED_FLAG;
 
 			// flag sections updated recently

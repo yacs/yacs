@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:27+0100
+POT-Creation-Date: 2010-03-02 00:28+0100
+PO-Revision-Date: 2010-02-24 23:43+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -466,7 +466,7 @@ $_SESSION['l10n']['fr']['c2883a13a53575308a41010403e41c2f']='Ce serveur utilise 
 $_SESSION['l10n']['fr']['019194adbb411721ef0122376d178444']='Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], et [link=MySQL]http://"www.mysql.com/[/link] - un site rapide, facile d\'utilisation, qui vous permet de consulter, de lire et de télécharger l\'information qui vous intéresse.';
 $_SESSION['l10n']['fr']['06c9d7fc993053f7b3b01351d1b9fce8']='Ce système ne supporte pas l\'insertion des paramètres dans le chemin d\'accès.';
 $_SESSION['l10n']['fr']['0af91edfa726acd4cf2f04676fe5dabf']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
-$_SESSION['l10n']['fr']['Threads']='Conversations';
+$_SESSION['l10n']['fr']['Threads']='Discussions';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
 $_SESSION['l10n']['fr']['4a2663fa577bb3ac997c6c7cd701db18']='Pour installer les bookmarklets suivants, cliquer-droit au-dessus des liens et les ajouter à vos signets ou favoris. Ils seront ainsi disponibles à tout moment pour référencer une page trouvée sur Internet sur ce serveur.';
 $_SESSION['l10n']['fr']['86afc75f7de95fed755b0c2073390060']='Pour partager les comptes utilisateurs entre plusieurs serveurs, indiquez ci-dessous où trouver la table des utilisateurs. Sinon, gardez les champs vides.';

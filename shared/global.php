@@ -73,6 +73,10 @@ if(!defined('JS_PREFIX'))
 if(!defined('JS_SUFFIX'))
 	define('JS_SUFFIX', '// ]]></script>'."\n");
 
+// PHP5 could complain about not settings TZ correctly
+if(function_exists("date_default_timezone_set") and function_exists("date_default_timezone_get"))
+	@date_default_timezone_set(@date_default_timezone_get());
+
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
 
@@ -1226,6 +1230,10 @@ function render_skin() {
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
 		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>'."\n";
+
+	// activate SIMILE timeline, if available
+	if(isset($context['javascript']['timeline']))
+		$context['page_header'] .= '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n";
 
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])

@@ -25,7 +25,7 @@
  *		<dc:creator>Bernard</dc:creator>
  *		<category>40stars.gif</category>
  *		<pubDate>Wed, 22 Dec 2004 23:13:48 GMT</pubDate>
- *		<enclosure url="http://127.0.0.1/yacs/files/article/396/40stars.gif" length="1153" type="application/download" />
+ *		<enclosure url="http://127.0.0.1/yacs/files/article/396/40stars.gif" length="1153" type="application/octet-stream" />
  *	</item>
  * [/snippet]
  *

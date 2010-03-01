@@ -328,7 +328,7 @@ if(!isset($item['id']) || !$item['id']) {
 		// ensure a valid file name
 		$file_name = utf8::to_ascii($item['file_name']);
 
-		// where the file is
+		// where the file is located
 		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 		// file attributes
@@ -341,8 +341,8 @@ if(!isset($item['id']) || !$item['id']) {
 		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
 			// serve the right type --avoid opening in Word and Excel, this is confusing most end-users
-//			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
-			Safe::header('Content-Type: application/download');
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
+//			Safe::header('Content-Type: application/download');
 
 			// suggest a name for the saved file
 			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));

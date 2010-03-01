@@ -782,7 +782,7 @@ Class i18n {
 		default:
 
 			// action, then title and link
-			$text = "%s\n%s\n\n%s";
+			$text = "%s\n\n%s\n%s";
 			break;
 
 		}

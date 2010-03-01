@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:29+0100
+POT-Creation-Date: 2010-03-01 17:15+0100
+PO-Revision-Date: 2010-03-01 14:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -92,7 +92,6 @@ $_SESSION['l10n']['fr']['Contributions are accepted']='Les contributions sont ac
 $_SESSION['l10n']['fr']['Copy in MS-Word']='Copier dans MS-Word';
 $_SESSION['l10n']['fr']['Copy of %s']='Copie de %s';
 $_SESSION['l10n']['fr']['Current owner is %s']='Propriétaire actuel de %s';
-$_SESSION['l10n']['fr']['Dates']='Dates';
 $_SESSION['l10n']['fr']['Dead articles']='Articles périmés';
 $_SESSION['l10n']['fr']['Default Section']='Section par défaut';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -308,7 +307,7 @@ $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie
 $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
 $_SESSION['l10n']['fr']['330771532d2cbb01e66f93a36b64bf81']='Serveurs notifiés de votre envoi';
-$_SESSION['l10n']['fr']['Share']='Partage';
+$_SESSION['l10n']['fr']['Share']='Partager';
 $_SESSION['l10n']['fr']['Share at Facebook']='Partager sur Facebook';
 $_SESSION['l10n']['fr']['Share at LinkedIn']='Partager sur LinkedIn';
 $_SESSION['l10n']['fr']['Share at Twitter']='Partager sur Twitter';

@@ -261,6 +261,23 @@ class Issue extends Overlay {
 	}
 
 	/**
+	 * display the content of one overlay in a list
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 * @param array the hosting record, if any
+	 * @param mixed any other options
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_list_text($host=NULL, $options=NULL) {
+
+		// show progress
+		$text = BR.self::get_progress_value();
+
+		return $text;
+	}
+
+	/**
 	 * get status as options of a &lt;SELECT&gt; field
 	 *
 	 * @param string the current status, if any
@@ -371,7 +388,7 @@ class Issue extends Overlay {
 			return i18n::s('Issue has been documented and cause has been identified');
 
 		case 'cancelled:issue':
-			return i18n::s('Resolution has been cancelled');
+			return i18n::s('No specific solution has been released');
 
 		case 'on-going:solution':
 			return i18n::s('A solution has been made available');
@@ -706,6 +723,9 @@ class Issue extends Overlay {
 	 */
 	function remember($variant, $host) {
 		global $context;
+
+		if(!isset($host['self_reference']))
+			throw new Exception('need a reference to move forward!');
 
 		// if a comment has to be apended as well
 		$comments = array();

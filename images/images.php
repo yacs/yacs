@@ -127,8 +127,8 @@ Class Images {
 			// surfer is an editor (and item has not been locked)
 			if(($variant == 'article') && isset($item['id']) && Articles::is_assigned($item['id']))
 				return TRUE;
-			if(($variant == 'section') && isset($item['id']) && Sections::is_assigned($item['id']))
-				return TRUE;
+
+			// surfer is assigned to parent container
 			if(is_object($anchor) && $anchor->is_assigned())
 				return TRUE;
 
@@ -159,6 +159,43 @@ Class Images {
 		}
 
 		// the default is to not allow for new images
+		return FALSE;
+	}
+
+	/**
+	 * check if an image can be modified
+	 *
+	 * This function returns TRUE if an image can be edited to some place,
+	 * and FALSE otherwise.
+	 *
+	 * @param object an instance of the Anchor interface, if any
+	 * @param array a set of item attributes, if any
+	 * @return TRUE or FALSE
+	 */
+	function allow_modification($anchor, $item) {
+		global $context;
+
+		// associates can do what they want
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// the item is anchored to the profile of this member
+ 		if(Surfer::is_member() && isset($item['anchor']) && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+ 			return TRUE;
+
+		// you can handle your own images
+		if(isset($item['edit_id']) && Surfer::is($item['edit_id']) && is_object($anchor) && !$anchor->has_option('locked'))
+			return TRUE;
+
+		// owner
+		if(is_object($anchor) && $anchor->is_owned())
+			return TRUE;
+
+		// editor of a public page
+		if(is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// the default is to not allow modifications
 		return FALSE;
 	}
 

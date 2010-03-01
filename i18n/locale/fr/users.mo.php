@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2010-02-10 00:36+0100
+PO-Revision-Date: 2010-03-01 14:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -322,7 +322,7 @@ $_SESSION['l10n']['fr']['Present users']='Présents sur le site';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier sur votre machine';
-$_SESSION['l10n']['fr']['f2d74ee781c99cd242a622a15adc267b']='Empêcher la création de nouvelles conversations.';
+$_SESSION['l10n']['fr']['f2d74ee781c99cd242a622a15adc267b']='Empêcher la création de nouvelles discussions.';
 $_SESSION['l10n']['fr']['Previous action']='Précédente';
 $_SESSION['l10n']['fr']['Previous comment']='Précédent';
 $_SESSION['l10n']['fr']['Previous file']='Précédent';
@@ -371,7 +371,7 @@ $_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Send me periodical newsletters.']='M\'adresser les lettres d\'information.';
 $_SESSION['l10n']['fr']['101e8406e19b26c4e2d699a5eb5db4a0']='Positionner un cookie à durée de vie longue pour ne plus demander l\'authentification (pour les intranets).';
-$_SESSION['l10n']['fr']['Share']='Partage';
+$_SESSION['l10n']['fr']['Share']='Partager';
 $_SESSION['l10n']['fr']['e47d04bbe5a79b797e0184d5b6c5f8a5']='Partager les adresses de courrier électronique autant que possible (pour les serveurs intranet).';
 $_SESSION['l10n']['fr']['Share screen']='Partager l\'écran';
 $_SESSION['l10n']['fr']['86214b25bcf6b75ae74bb86bab3bdaa9']='Montrer les adresses de courrier électronique aux membres.';
@@ -407,7 +407,7 @@ $_SESSION['l10n']['fr']['13a7ba24ba8e59fff329ee7821676228']='Cet utilisateur ne 
 $_SESSION['l10n']['fr']['99a8fd1957a4bdb9c681ffa773253508']='Ce message vous a été envoyé automatiquement pour confirmer votre nouvel enregistrement sur %s.';
 $_SESSION['l10n']['fr']['a758d605f47ab0be47f469aba40a4873']='Ce message fait référence à votre compte à %s.';
 $_SESSION['l10n']['fr']['a34ae4e933bc15c339741cce7612e245']='Ce moteur affiche seulement les pages contenant tous les mots indiqués. De plus, la comparaison doit être exacte.';
-$_SESSION['l10n']['fr']['Threads']='Conversations';
+$_SESSION['l10n']['fr']['Threads']='Discussions';
 $_SESSION['l10n']['fr']['Time Zone']='Zone temporelle';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['Title']='Titre';
@@ -494,7 +494,7 @@ $_SESSION['l10n']['fr']['Your nick name is %s']='Votre pseudo est %s';
 $_SESSION['l10n']['fr']['639f349aeaa83b3365738412411dc182']='Votre surnom, ou votre adresse e-mail';
 $_SESSION['l10n']['fr']['3c0f4eba7ce79541a1d7959fc09a6521']='Votre occupation, votre devise, ou quelque mots bien sentis';
 $_SESSION['l10n']['fr']['Your personal record']='Votre fiche personnelle';
-$_SESSION['l10n']['fr']['Your threads with %s']='Vos conversations avec %s';
+$_SESSION['l10n']['fr']['Your threads with %s']='Vos discussions avec %s';
 $_SESSION['l10n']['fr']['8a7a2a3548d32a99ee43c60b96d8e211']='Votre liste de surveillance a été mise à jour';
 $_SESSION['l10n']['fr']['a page']='une page';
 $_SESSION['l10n']['fr']['a section']='une section';

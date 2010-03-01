@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:29+0100
+POT-Creation-Date: 2010-03-01 17:15+0100
+PO-Revision-Date: 2010-03-01 17:47+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -98,7 +98,6 @@ $_SESSION['l10n']['fr']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostv
 $_SESSION['l10n']['fr']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['History']='Historique';
-$_SESSION['l10n']['fr']['09708bb93341b65317dde0e798deaaaf']='Si Flash ou Java a été installé sur votre machine, cliquez le lien pour visualiser cette carte mentale.';
 $_SESSION['l10n']['fr']['f5bde952210906492f614252dedd0b21']='Si le plug-in d\'Adobe génère une erreur, merci de sauver le fichier sur un disque dur et de soumettre une copie locale au logiciel Acrobat.';
 $_SESSION['l10n']['fr']['2ab437e9863287d3b69b9e0cdc1f8024']='Si vous n\'arrivez pas à télécharger des fichiers à cause des permissions, utilisez le panneau de configuration des utilisateurs pour interdire l\'envoi de nouveaux fichiers.';
 $_SESSION['l10n']['fr']['c0ffaa282bf7024132b29f5544fb4df0']='Si vous avez obtenu ce fichier de sources extérieures, merci de l\'indiquer ici';
@@ -139,7 +138,6 @@ $_SESSION['l10n']['fr']['44ecc95028969d4dc5f8fbc8e5097e7e']='Rien n\'a été re�
 $_SESSION['l10n']['fr']['Oldest files']='Fichiers anciens';
 $_SESSION['l10n']['fr']['Open Office web server']='La fondation Open Office';
 $_SESSION['l10n']['fr']['Open Workbench']='Open Workbench';
-$_SESSION['l10n']['fr']['Open this map']='Ouvrir une carte';
 $_SESSION['l10n']['fr']['OpenOffice web server']='serveur d\'OpenOffice';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
@@ -177,7 +175,6 @@ $_SESSION['l10n']['fr']['Source']='Source';
 $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Storage']='Rangement';
-$_SESSION['l10n']['fr']['Stream']='A la demande';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
 $_SESSION['l10n']['fr']['Supported extensions']='Extensions supportées';
@@ -191,10 +188,10 @@ $_SESSION['l10n']['fr']['07ab23fe8e7747f0f09e51f142768727']='L\'adresse ftp:// i
 $_SESSION['l10n']['fr']['99b62a743b6ba1090129424fbce8d64d']='L\'endroit où ce serveur va écrire les fichiers partagés.';
 $_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichier dépasse la limite autorisée.';
 $_SESSION['l10n']['fr']['b912496983adb05d5a6cb563dacfde61']='Le fichier a été enregistré.';
-$_SESSION['l10n']['fr']['7604df7ab947daaf747a5e725bafadce']='Ce format de fichier autorise les interactions à travers le web. Si votre machine est capable de traiter les fichiers Flash, cliquez sur le lien pour lancer la présentation.';
+$_SESSION['l10n']['fr']['3b6d2f3802c13a5c18f1af7602f4b285']='Ce format de fichier autorise les interactions à travers le web. Cliquez sur le lien si votre machine dispose de Flash.';
 $_SESSION['l10n']['fr']['1776aecef24f2d097ff0f00b141bce7b']='Ce fichier a été assigné à %s %s, et une nouvelle version sera mise à disposition bientôt.';
 $_SESSION['l10n']['fr']['e88ad9b865a3a37cab22969e5e62f8d7']='Ce fichier a été réservé par %s %s, et une nouvelle version sera mise à disposition bientôt.';
-$_SESSION['l10n']['fr']['2d4b92c7af8bc664500b7a0599619a30']='Ce fichier est disponible à la demande. Pour cela, vous pourrez avoir besoin d\'un lecteur multimédia avancé tel que %s (logiciel libre) ou %s (gratuit).';
+$_SESSION['l10n']['fr']['163aed12f34d16221a5b9c1875b64c4f']='Ce fichier est accessible à la demande.';
 $_SESSION['l10n']['fr']['fb52e739654eb4d1981039c471bca260']='Ce type de fichier n\'est pas autorisé.';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';

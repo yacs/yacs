@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:29+0100
+PO-Revision-Date: 2010-03-01 14:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -174,7 +174,7 @@ $_SESSION['l10n']['fr']['Select categories for this page']='Choix des catégorie
 $_SESSION['l10n']['fr']['Send']='Envoyer';
 $_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
-$_SESSION['l10n']['fr']['Share']='Partage';
+$_SESSION['l10n']['fr']['Share']='Partager';
 $_SESSION['l10n']['fr']['Shortcut: %s']='Raccourci : %s';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers par titre (et non par date)';
@@ -256,7 +256,7 @@ $_SESSION['l10n']['fr']['f641bce5b6dc2dc3cedb05c6cf23952b']='au milieu de la pag
 $_SESSION['l10n']['fr']['b1c2d741f390d79e96f548400e7e25cc']='inline - Lister les catégories et les pages associées';
 $_SESSION['l10n']['fr']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - Lister les sections et les pages associées';
 $_SESSION['l10n']['fr']['2367cc975647ba107ba853e93a807607']='jive - Affiche le contenu de chaque article';
-$_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Liste 5 fils de discussion à la fois';
+$_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Lister 5 discussions par section';
 $_SESSION['l10n']['fr']['m/d/y']='d/m/y';
 $_SESSION['l10n']['fr']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Deux colonnes, comme Yahoo!';
 $_SESSION['l10n']['fr']['monthly']='mensuel';

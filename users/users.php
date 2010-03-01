@@ -827,7 +827,7 @@ Class Users {
 	 * - user is restricted (active='R'), but surfer is a logged member
 	 * - user is restricted (active='N'), but surfer is an associate
 	 *
-	 * If the variant is 'mail', then users who have not subscribed explicitly to newsletters
+	 * If the variant is 'address', then users who have not subscribed explicitly to newsletters
 	 * won't be listed.
 	 *
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -850,7 +850,7 @@ Class Users {
 		$where = '('.$where.')';
 
 		// protect the privacy of e-mail boxes and never send messages to banned users
-		if($variant == 'mail')
+		if($variant == 'address')
 			$where .= " AND (users.with_newsletters='Y') AND (users.capability != '?')";
 
 		// the list of users
@@ -871,7 +871,7 @@ Class Users {
 	 * $context['text'] .= Skin::build_list($items, 'compact');
 	 * [/php]
 	 *
-	 * If the variant is 'mail', then users who have not subscribed explicitly to newsletters
+	 * If the variant is 'address', then users who have not subscribed explicitly to newsletters
 	 * won't be listed.
 	 *
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -892,7 +892,7 @@ Class Users {
 			$where .= " OR users.active='N'";
 
 		// protect the privacy of e-mail boxes
-		if($variant == 'mail')
+		if($variant == 'address')
 			$where = '('.$where.') AND (users.with_newsletters=\'Y\')';
 
 		// the list of users

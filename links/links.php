@@ -123,8 +123,8 @@ Class Links {
 		if(is_object($anchor) && $anchor->is_hidden())
 			return FALSE;
 
-		// surfer is a member
-		if(Surfer::is_member())
+		// authenticated members and subscribers are allowed to add links
+		if(Surfer::is_logged())
 			return TRUE;
 
 		// container is restricted
@@ -132,10 +132,6 @@ Class Links {
 			return FALSE;
 		if(is_object($anchor) && !$anchor->is_public())
 			return FALSE;
-
-		// authenticated members and subscribers are allowed to add links
-		if(Surfer::is_logged())
-			return TRUE;
 
 		// anonymous contributions are allowed for articles
 		if($variant == 'article') {

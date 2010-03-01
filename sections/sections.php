@@ -1701,7 +1701,7 @@ Class Sections {
 			return TRUE;
 
 		// surfer is a member assigned to one of the parents
-		if(!$strict && Surfer::is_member() && is_object($anchor) && $anchor->is_assigned($user_id))
+		if(!$strict && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned($user_id))
 			return TRUE;
 
 		// sorry
@@ -2374,7 +2374,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2552,7 +2552,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|map|newspaper|none|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|threads|titles|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])

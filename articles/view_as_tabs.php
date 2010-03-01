@@ -686,17 +686,6 @@ if(Articles::is_owned(NULL, $anchor)) {
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 }
 
-// assign command provided to page owners
-if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
-
-// allow to leave the page
-} elseif(Articles::is_assigned($item['id'])) {
-	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
-}
-
 // use date of last modification into etag computation
 if(isset($item['edit_date']))
 	$context['etag'] = $item['edit_date'];

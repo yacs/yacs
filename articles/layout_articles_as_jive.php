@@ -85,7 +85,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 			$text .= Skin::build_link($url, '<strong>'.$title.'</strong>', 'basic');
 
 			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 				$text .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently

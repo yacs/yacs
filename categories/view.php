@@ -172,7 +172,7 @@ if(is_object($overlay))
 	$context['page_title'] .= $overlay->get_text('title', $item);
 elseif(isset($item['title']))
 	$context['page_title'] .= $item['title'];
-if(isset($item['locked']) && ($item['locked'] == 'Y'))
+if(isset($item['locked']) && ($item['locked'] == 'Y') && Surfer::is_logged())
 	$context['page_title'] .= ' '.LOCKED_FLAG;
 
 // set title background

@@ -49,7 +49,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 
 		// table headers
 		$main = '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_section_rows(this);" />';
-		$cells = array($main, i18n::s('Page'), i18n::s('Rank'));
+		$cells = array($main, i18n::s('Section'), i18n::s('Rank'));
 		$text .= Skin::table_row($cells, 'header');
 
 		// process all items in the list
@@ -179,10 +179,6 @@ Class Layout_sections_as_manage extends Layout_interface {
 			// the number of hits
 			if(Surfer::is_logged() && ($item['hits'] > 1))
 				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
-
-// 			// rating
-// 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-// 				$details[] = Skin::build_link(Sections::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// combine in-line details
 			if(count($details))

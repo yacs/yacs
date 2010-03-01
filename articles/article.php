@@ -835,11 +835,11 @@ Class Article extends Anchor {
 
 			// identify specific files
 			$label = '';
-			if($item =& Files::get($origin)) {
+			if(!preg_match('/\[embed='.preg_quote($origin, '/').'.*?\]/', $this->item['description']) && ($item =& Files::get($origin))) {
 
 				// give it to the Flash player
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
-					$label = '[embed='.$origin.', 320, 240]';
+					$label = '[embed='.$origin.']';
 
 
 			}

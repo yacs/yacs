@@ -86,7 +86,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG.' ';
 
 			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 				$suffix .= LOCKED_FLAG;
 
 			// flag expired articles, and articles updated recently
@@ -199,7 +199,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			$prefix .= RESTRICTED_FLAG.' ';
 
 		// signal locked articles
-		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+		if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 			$suffix .= LOCKED_FLAG;
 
 		// flag expired article

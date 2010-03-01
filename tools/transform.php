@@ -56,9 +56,7 @@ $context['text'] .= '<p>'.DUMMY_TEXT.'</p>'.'<p>'.DUMMY_TEXT.'</p>'.'<p>'.DUMMY_
 
 // do the transformation
 $data =& xml::load_array($context);
-$styles = new DOMDocument();
-$styles->load("transform.xsl");
-$text =& xml::transform($data, $styles);
+$text =& xml::transform($data, 'transform.xsl');
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

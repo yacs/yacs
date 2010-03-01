@@ -75,28 +75,28 @@ div.tabs ul li {
       padding:0;
 }
 
-div.tabs ul li a { /* tab top left corner */
+div.tabs li a { /* tab top left corner */
       float:left;
       margin:0;
       padding:0 0 0 4px;
       text-decoration:none;
 }
 
-div.tabs ul li a span { /* tab top right corner */
+div.tabs li a span { /* tab top right corner */
       float:left;
       display:block;
       padding:5px 12px 4px 6px;
       color:#666;
 }
 
-div.tabs ul li a:hover,
-div.tabs ul li a.current { /* change tab background on hovering */
+div.tabs li a:hover,
+div.tabs li a.current { /* change tab background on hovering */
 	background-position: 0% -42px;
 	cursor: pointer; /* else ie 6 is lost */
 }
 
-div.tabs ul li a:hover span,
-div.tabs ul li a.current span { /* change tab background on hovering */
+div.tabs li a:hover span,
+div.tabs li a.current span { /* change tab background on hovering */
 	background-position: 100% -42px;
 	color:#FF9834;
 }
@@ -690,32 +690,31 @@ a img {
 
 }
 
-a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
+a.button,
+p.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
 	border-color: #dcdcdc #696969 #696969 #dcdcdc;
 	border-style: solid;
 	border-width: 2px;
 	text-align: center;
 	padding: 4px;
 	line-height: 2.5em;
+	background-color: #c0c0c0;
 }
 
 a.button,
 a.button span,
 a:visited.button,
 a:visited.button span {
-	background-color: #c0c0c0;
    	color: #202020;
 	text-decoration: none;
 }
 
 a:active.button { /* click on button */
-	background-color: #cfcfcf;
 	color: #202040;
 	border-color: #eaeaea #095ba5 #095ba5 #eaeaea;
 }
 
 a:hover.button { /* hover a button */
-	background-color: #cfcfcf;
 	color: #202040;
 }
 

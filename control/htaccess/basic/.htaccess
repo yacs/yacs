@@ -17,6 +17,7 @@ ErrorDocument 404 !!url_to_root!!error.php?error=404
 	# compress common textual entities
 	AddOutputFilterByType DEFLATE application/javascript
 	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE application/xml
 	AddOutputFilterByType DEFLATE text/calendar
 	AddOutputFilterByType DEFLATE text/css
 	AddOutputFilterByType DEFLATE text/javascript

@@ -471,10 +471,11 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
+
 	$input .= '<input type="radio" name="articles_layout" value="decorated"';
 	if($item['articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
@@ -535,6 +536,10 @@ if($with_form) {
 	if($item['articles_layout'] == 'tagged')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('tagged - Titles and tags');
+	$input .= BR.'<input type="radio" name="articles_layout" value="simile"';
+	if($item['articles_layout'] == 'simile')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('simile - Dots and titles in a timeline');
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';

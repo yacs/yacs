@@ -384,13 +384,6 @@ dl#categories ul li { /* space between links */
 
 /* the global navigation bar -- see template script */
 
-div.tabs,
-div.tabs a { /* text appearance in tabs */
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.8em;;
-	font-weight: normal;
-}
-
 div.tabs ul { /* position tabs */
 	width: auto;
 	position: absolute;
@@ -422,8 +415,11 @@ div.tabs ul li a { /* tab top right corner */
 	background: transparent url("images/navigation_tab.gif") no-repeat 0% -600px;
 }
 
-div.tabs ul li a,
-div.tabs ul li a span{ /* link text */
+div.tabs li a,
+div.tabs li a span{ /* text appearance in tabs */
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;;
+	font-weight: normal;
 	color: #fff;
 	text-decoration: none;
 }

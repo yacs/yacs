@@ -603,6 +603,7 @@ Class Files {
 				'eps' => $files_icons_url.'postscript_icon.gif',
 				'exe' => $files_icons_url.'exe_icon.gif',
 				'flv' => $files_icons_url.'flash_icon.gif', 		// flash video
+				'gan' => $files_icons_url.'gantt_icon.gif',
 				'gif' => $files_icons_url.'image_icon.gif',
 				'gg' => $files_icons_url.'google_icon.gif',
 				'gpx' => $files_icons_url.'gpx_icon.gif',
@@ -741,9 +742,10 @@ Class Files {
 	 * We don't use the internal function from PHP library, which has proven to be boggus.
 	 *
 	 * @param string the file name
+	 * @param boolean force download
 	 * @return a string describing the MIME type
 	 */
-	function get_mime_type($name) {
+	function get_mime_type($name, $download=FALSE) {
 		global $context;
 
 		// get the list of supported extensions
@@ -751,18 +753,25 @@ Class Files {
 
 		// a name with no extension
 		if(($position = strrpos($name, '.')) === FALSE)
-			return 'application/download';
+			return 'application/octet-stream';
 
 		// extract the extension
 		if(!$extension = substr($name, $position+1))
-			return 'application/download';
+			return 'application/octet-stream';
 
 		// match the list
-		if(isset($file_types[$extension]))
-			return $file_types[$extension];
+		if(isset($file_types[$extension]) && ($type = $file_types[$extension])) {
+
+			// people could forgot to save this to their hard drives
+			if(in_array($type, array('application/msword', 'application/vnd.ms-project', 'application/vnd.ms-powerpoint')))
+				return 'application/octet-stream';
+
+			// use the regular type
+			return $type;
+		}
 
 		// always return some type
-		return 'application/download';
+		return 'application/octet-stream';
 	}
 
 	/**
@@ -798,21 +807,22 @@ Class Files {
 				'bz' => 'application/x-bzip',
 				'bz2' => 'application/x-bzip2',
 				'cer' => 'application/x-x509-ca-cert',	// a X509 certificate
-				'chm' => 'application/download',		// windows help file
+				'chm' => 'application/octet-stream',		// windows help file
 				'css' => 'text/css',
 				'divx' => 'video/vnd.divx ',
-				'dll' => 'application/download',
+				'dll' => 'application/octet-stream',
 				'doc' => 'application/msword',
 				'docm' => 'application/msword',
 				'docx' => 'application/msword',
 				'dot' => 'application/msword',
 				'eml' => 'text/html',		// message/rfc822
 				'eps' => 'application/postscript',	// postscript
-				'exe' => 'application/download',
+				'exe' => 'application/octet-stream',
 				'flv' => 'video/x-flv', 	// flash video
+				'gan' => 'application/x-ganttproject',
 				'gg' => 'app/gg',	// google desktop gadget
 				'gif' => 'image/gif',
-				'gpx' => 'application/download',	// GPS XML data
+				'gpx' => 'application/octet-stream',	// GPS XML data
 				'gtar' => 'application/x-gtar',
 				'gz' => 'application/x-gzip',
 				'htm' => 'text/html',
@@ -834,7 +844,7 @@ Class Files {
 				'mmmp' => 'application/vnd.mindjet.mindmanager',
 				'mmp' => 'application/vnd.mindjet.mindmanager',
 				'mmpt' => 'application/vnd.mindjet.mindmanager',
-				'mo' => 'application/download', 	// machine object (i.e., some translated file)
+				'mo' => 'application/octet-stream', 	// machine object (i.e., some translated file)
 				'mov' => 'video/quicktime',
 				'mp2' => 'video/mpeg',
 				'mp3' => 'audio/mpeg',
@@ -861,7 +871,7 @@ Class Files {
 				'ott' => 'application/vnd.oasis.opendocument.text-template',	// open document text template
 				'p12' => 'application/x-pkcs12',	// a PKCS certificate
 				'pcap' => 'application/pcap',		// Ethereal and Wireshark
-				'pcast' => 'application/download',	// Apple podcast
+				'pcast' => 'application/octet-stream',	// Apple podcast
 				'pdb' => 'application/vnd.palm',	// palm database
 				'pdf' => 'application/pdf',
 				'pfx' => 'application/x-pkcs12',	// a PKCS certificate
@@ -885,7 +895,7 @@ Class Files {
 				'ra' => 'audio/x-pn-realaudio', 	// real audio
 				'ram' => 'audio/x-pn-realaudio',	// real audio
 				'rar' => 'application/rar',
-				'rmp' => 'application/download',	// open workbench
+				'rmp' => 'application/octet-stream',	// open workbench
 				'rtf' => 'application/msword',
 				'shtml' => 'text/html',
 				'snd' => 'audio/basic',
@@ -909,7 +919,7 @@ Class Files {
 				'tiff' => 'image/tiff',
 				'tgz' => 'application/x-gzip',
 				'txt' => 'text/plain',
-				'vob' => 'application/download',
+				'vob' => 'application/octet-stream',
 				'vsd' => 'application/visio',
 				'wav' => 'audio/x-wav',
 				'wax' => 'audio/x-ms-wax',	// windows media player audio playlist
@@ -1219,7 +1229,7 @@ Class Files {
 			else
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div><br />'."\n"
 				.JS_PREFIX
 				.'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
@@ -1354,18 +1364,18 @@ Class Files {
 	 *
 	 */
 	function is_embeddable($name) {
-		return preg_match('/\.(flv|mov|m4v|mp4|swf)$/i', $name);
+		return preg_match('/\.(flv|gan|mov|m4v|mp4|swf)$/i', $name);
 	}
 
 	/**
-	 * should this file be streamed?
+	 * is this file can be streamed separately
 	 *
 	 * @param string file name, including extension
 	 * @return TRUE or FALSE
 	 *
 	 */
 	function is_stream($name) {
-		return Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(mm|swf)$/i', $name);
+		return Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(gan|mm|swf)$/i', $name);
 	}
 
 	/**
@@ -2081,6 +2091,118 @@ Class Files {
 
 		// end of job
 		return $fields['id'];
+	}
+
+	/**
+	 * adapt GanttProject file to SIMILE Timeline format
+	 *
+	 * @param string file location
+	 * @return string transformation result, or FALSE
+	 */
+	function transform_gan_to_simile($file_path) {
+		global $context;
+
+		// load the file
+		$content = Safe::file_get_contents($file_path);
+
+		// used by parsing functions
+		$context['gan2simile'] = array();
+		$context['gan2simile']['depth'] = 0;
+		$context['gan2simile']['tasks'] = array();
+		$context['gan2simile']['last_id'] = 0;
+		$context['gan2simile']['current_id'] = 0;
+
+		// one tag at a time
+		function startElement($parser, $name, $attrs) {
+			global $context;
+
+			// remember task basic attributes
+			if(!strcmp($name, 'TASK')) {
+
+				// position parent as duration
+				if($context['gan2simile']['depth'] && isset($context['gan2simile']['tasks'][$context['gan2simile']['last_id']]))
+					$context['gan2simile']['tasks'][$context['gan2simile']['last_id']]['isDuration'] = TRUE;
+
+				// remember this task
+				$context['gan2simile']['tasks'][ $attrs['ID'] ] = array(
+					'title' => $attrs['NAME'],
+					'start' => $attrs['START'],
+					'duration' => $attrs['DURATION'],
+					'isDuration' => FALSE,
+					'notes' => ''
+					);
+				$context['gan2simile']['current_id'] = $attrs['ID'];
+
+				// move to children
+				if(!$context['gan2simile']['depth']) {
+					$context['gan2simile']['last_id'] = $attrs['ID'];
+				}
+				$context['gan2simile']['depth']++;
+
+			}
+		}
+
+		// close a tag
+		function endElement($parser, $name) {
+			global $context;
+
+			// we check only tasks
+			if(!strcmp($name, 'TASK')) {
+				$context['gan2simile']['depth']--;
+			}
+		}
+
+		// parse the GAN file
+		$xml_parser = xml_parser_create();
+		xml_set_element_handler($xml_parser, "startElement", "endElement");
+		if (!xml_parse($xml_parser, $content, TRUE)) {
+			die(sprintf("XML error: %s at line %d",
+						xml_error_string(xml_get_error_code($xml_parser)),
+						xml_get_current_line_number($xml_parser)));
+		}
+		xml_parser_free($xml_parser);
+
+		// the resulting text
+		$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
+						.'<data>'."\n";
+
+		// process each task
+		foreach($context['gan2simile']['tasks'] as $task) {
+
+			// transcode start date
+			$start = strtotime($task['start']);
+
+			// format start date as per SIMILE expectation
+			$task['start'] = date('M j Y G:i:s', $start).' GMT';
+
+			// which day in week?
+			$info = getdate($start);
+
+			// add two days for the first week-end
+			if(($info['wday'] > 0) && ($info['wday'] < 6) && ($info['wday'] + $task['duration'] > 6))
+				$task['duration'] += 2;
+
+			// take week-ends into consideration
+			$task['duration'] += intval($task['duration']/7)*2;
+
+			// compute and format end date date as per SIMILE expectation
+			$end = $start + ($task['duration'] * 24*60*60);
+			$task['end'] = date('M j Y G:i:s', $end).' GMT';
+
+			// has this one several children?
+			$duration = '';
+			if($task['isDuration'])
+				$duration = ' isDuration="true"';
+
+			// one event per task
+			$text .= '	<event title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $task['title'])).'" start="'.$task['start'].'" end="'.$task['end'].'" '.$duration.'/>'."\n";
+		}
+
+		// no more events
+		$text .= '</data>';
+
+		// job done
+		return $text;
 	}
 
 	/**

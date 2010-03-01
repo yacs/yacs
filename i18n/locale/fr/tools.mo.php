@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-02-09 11:07+0100
-PO-Revision-Date: 2010-02-10 00:36+0100
+PO-Revision-Date: 2010-03-01 14:59+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -77,7 +77,7 @@ $_SESSION['l10n']['fr']['6bcc0edc066d340a8f1a614a6daf6c8b']='Chaque page de cett
 $_SESSION['l10n']['fr']['0897318ae815f0a670a0ed03f6de4ecf']='Chaque page de cette section est une discussion interactive qui permet le partage de fichiers.';
 $_SESSION['l10n']['fr']['56186470423c8d4a8b5666da26b42485']='Indice d\'inefficacité = 10 log( Taille du contenu / Taille utile )';
 $_SESSION['l10n']['fr']['Fat Index']='Indice d\'inefficacité';
-$_SESSION['l10n']['fr']['Fat Index = %d dB']='Iindice d\'inefficacité = %d dB';
+$_SESSION['l10n']['fr']['Fat Index = %d dB']='Indice d\'inefficacité = %d dB';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['Finalize Javascript libraries']='Préparer les librairies Javascript';
 $_SESSION['l10n']['fr']['For project members only']='Réservée aux membres du projet';

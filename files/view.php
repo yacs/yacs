@@ -2,6 +2,7 @@
 /**
  * display one file in situation
  *
+ * @todo handle neighbours in the main area of the page, like this is done with articles
  * @todo Google Earth files http://www.booking.com/general.html?label=gog235jc;sid=e020ebf52ae94f62a347aa52f32e8998;tmpl=docs/google_earth
  *
  * This page is useful for displaying information on files to be downloaded.
@@ -309,7 +310,8 @@ if(!isset($item['id'])) {
 	}
 
 	// display the full text
-	$context['text'] .= Skin::build_box(i18n::s('History'), Skin::build_block($item['description'], 'description'), 'folded');
+	if($item['description'])
+		$context['text'] .= Skin::build_box(i18n::s('History'), Skin::build_block($item['description'], 'description'), 'folded');
 
 	//
 	// plugins
@@ -319,7 +321,7 @@ if(!isset($item['id'])) {
 	if(Files::is_audio_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description = '<p>'.sprintf(i18n::s('This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
+		$description = '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -336,7 +338,7 @@ if(!isset($item['id'])) {
 	if(Files::is_video_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description = '<p>'.sprintf(i18n::s('This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
+		$description = '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -349,11 +351,42 @@ if(!isset($item['id'])) {
 
 	}
 
+	// view a GanttProject file interactively
+	if(preg_match('/\.gan$/i', $item['file_name'])) {
+
+		// the label
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
+
+		// use a definition list to enable customization of the download box
+		$context['text'] .= '<dl class="download">'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
+			.'</dl>'."\n";
+
+	}
+
+	// if a viewer exists, use it to display a freemind map
+	if(preg_match('/\.mm$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/visorFreemind.swf')) {
+
+		// explain what a Freemind file is
+		$description = '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
+
+		// the label
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
+
+		// use a definition list to enable customization of the download box
+		$context['text'] .= '<dl class="download">'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
+			.'<dd>'.$description.'</dd></dl>'."\n";
+
+	}
+
 	// start a Flash show
 	if(preg_match('/\.swf$/i', $item['file_name'])) {
 
 		// explain what a Flash show is
-		$description = '<p>'.i18n::s('This file allows for interactions over the web. If some Flash player has been installed at your workstation, click on the link to start the show.').'</p>';
+		$description = '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -365,26 +398,6 @@ if(!isset($item['id'])) {
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl>'."\n";
-
-	}
-
-	// if a viewer exists, use it to display a freemind map
-	if(preg_match('/\.mm$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/visorFreemind.swf')) {
-
-		// explain what a Freemind file is
-		$description = '<p>'.i18n::s('If Flash or Java has been installed at your workstation, click on the link to browse this mind map.').'</p>';
-
-		// the label
-		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
-		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
-
-		// hovering the link
-		$title = i18n::s('Open this map');
-
-		// use a definition list to enable customization of the download box
-		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', $title).'</dt>'
 			.'<dd>'.$description.'</dd></dl>'."\n";
 
 	}

@@ -154,11 +154,8 @@ if(!$item['id']) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// do provide the file
+// stream this file
 } else {
-
-	// increment the number of downloads
-	Files::increment_hits($item['id']);
 
 	// if we have an external reference, use it
 	if(isset($item['file_href']) && $item['file_href']) {
@@ -173,11 +170,8 @@ if(!$item['id']) {
 		// where the file is
 		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-		// map the file on the regular web space
-		$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
 		// redirect to the actual file
-		$target_href = $url_prefix.$path;
+		$target_href = $context['url_to_home'].$context['url_to_root'].$path;
 	}
 
 	// determine attribute for this item
@@ -218,13 +212,42 @@ if(!$item['id']) {
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
-			.'<title>'.$item['title'].'</title>'."\n"
+			.'<title>'.$context['page_title'].'</title>'."\n"
 			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
-		// render object full size
-		$text .= Codes::render_object('embed', $item['id']);
+		// embed the object
+		$text .= Codes::render_embed($item['id']);
+
+		// page postamble
+		$text .= '</body>'."\n"
+				.'</html>'."\n";
+
+		break;
+
+	case 'gan':
+
+		// we are using the SIMILE Timeline viewer within a regular page
+		$type = '';
+		$mime = 'text/html';
+
+		// page preamble
+		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
+			.'<html>'."\n"
+			.'<head>'."\n"
+			.'<title>'.$context['page_title'].'</title>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n"
+			.'</head>'."\n"
+			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
+
+		// embed the object into a regular page --100% does not work
+		$text .= Codes::render_embed($item['id'].', 99%, 90%');
+
+		// add a link to close the window
+		$text .= '</div>'."\n"
+			.'<p style="text-align: center; margin: 0.5em 0 1em 0;"><button type="button" onclick="self.close()">'.i18n::s('Close').'</button></p>'."\n";
 
 		// page postamble
 		$text .= '</body>'."\n"
@@ -237,20 +260,21 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
-		// load the full library
-		$script = 'included/browser/library.js';
-
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
-			.'<title>'.$item['title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
+			.'<title>'.$context['page_title'].'</title>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
 		// render object full size
-		$text .= Codes::render_freemind($target_href.', 100%, 100%');
+		$text .= Codes::render_freemind($target_href.', 100%, 90%');
+
+		// add a link to close the window
+		$text .= '</div>'."\n"
+			.'<p style="text-align: center; margin: 0.5em 0 1em 0;"><button type="button" onclick="self.close()">'.i18n::s('Close').'</button></p>'."\n";
 
 		// page postamble
 		$text .= '</body>'."\n"
@@ -263,19 +287,11 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
-		// window title
-		if(isset($item['title']) && $item['title'])
-			$title = $item['title'];
-		elseif(isset($item['file_name']) && $item['file_name'])
-			$title = $item['file_name'];
-		else
-			$title = i18n::s('Stream');
-
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
-			.'<title>'.$title.'</title>'."\n";
+			.'<title>'.$context['page_title'].'</title>'."\n";
 
 		// load the full library
 		$script = 'included/browser/library.js';
@@ -299,7 +315,7 @@ if(!$item['id']) {
 			.'<div id="live_flash">'."\n";
 
 		// render object full size
-		$text .= Codes::render_object('embed', $item['id'].', 100%, 90%');
+		$text .= Codes::render_embed($item['id'].', 100%, 90%');
 
 		// add a link to close the window
 		$text .= '</div>'."\n"

@@ -138,8 +138,8 @@ Class Comments {
 		if(is_object($anchor) && $anchor->is_hidden())
 			return FALSE;
 
-		// surfer is a member
-		if(Surfer::is_member())
+		// surfer is either a member, or a subscriber
+		if(Surfer::is_logged())
 			return TRUE;
 
 		// container is restricted
@@ -147,10 +147,6 @@ Class Comments {
 			return FALSE;
 		if(is_object($anchor) && !$anchor->is_public())
 			return FALSE;
-
-		// authenticated members and subscribers are allowed to add files
-		if(Surfer::is_logged())
-			return TRUE;
 
 		// anonymous surfers are allowed to contribute
 		if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))

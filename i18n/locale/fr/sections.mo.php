@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:29+0100
+POT-Creation-Date: 2010-03-01 17:15+0100
+PO-Revision-Date: 2010-03-01 17:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -47,7 +47,7 @@ $_SESSION['l10n']['fr']['%s has posted a comment']='%s a posté un commentaire';
 $_SESSION['l10n']['fr']['%s in %s']='%s dans %s';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['(anonymous)']='(anonyme)';
-$_SESSION['l10n']['fr']['cc68c03a1f832378dbafa8276965bc1b']='Un blog pour mes sentiments, opinions, et idées';
+$_SESSION['l10n']['fr']['cc68c03a1f832378dbafa8276965bc1b']='Un blog pour partager mes sentiments, opinions, et idées';
 $_SESSION['l10n']['fr']['c8e8765c2b28f43d6edb308e5dab306e']='Une liste de mots-clés, séparés par des virgules';
 $_SESSION['l10n']['fr']['A file has been uploaded by %s']='Un fichier a été envoyé par %s';
 $_SESSION['l10n']['fr']['A group space']='Un groupe';
@@ -359,7 +359,7 @@ $_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
-$_SESSION['l10n']['fr']['Share']='Partage';
+$_SESSION['l10n']['fr']['Share']='Partager';
 $_SESSION['l10n']['fr']['Share at Facebook']='Partager sur Facebook';
 $_SESSION['l10n']['fr']['Share at LinkedIn']='Partager sur LinkedIn';
 $_SESSION['l10n']['fr']['Share at Twitter']='Partager sur Twitter';
@@ -474,7 +474,7 @@ $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['e6d2246cdeb87f5b8fecefb9264f80cf']='carrousel - Animer des images cliquables';
 $_SESSION['l10n']['fr']['comment']='commentaire';
 $_SESSION['l10n']['fr']['comments']='commentaires';
-$_SESSION['l10n']['fr']['compact - A compact list']='Compact - Une liste compacte';
+$_SESSION['l10n']['fr']['compact - A compact list']='compact - Une liste compacte';
 $_SESSION['l10n']['fr']['a4896893448b9c1dbe2fb65fb48f68d6']='daily - Une liste d\'articles datés (blog)';
 $_SESSION['l10n']['fr']['1ea7057e130399b867cb3dd7b33919bb']='decorated - Une liste décorée avec des images';
 $_SESSION['l10n']['fr']['delete']='supprimer';
@@ -493,7 +493,7 @@ $_SESSION['l10n']['fr']['hits']='lectures';
 $_SESSION['l10n']['fr']['in %s']='dans %s';
 $_SESSION['l10n']['fr']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - Lister les sections et les pages associées';
 $_SESSION['l10n']['fr']['2367cc975647ba107ba853e93a807607']='jive - Affiche le contenu de chaque article';
-$_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Liste 5 fils de discussion à la fois';
+$_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Lister 5 discussions par section';
 $_SESSION['l10n']['fr']['9e5d16839a0d4a82181dde11b301fb84']='listé dans la zone principale, dans une boîte gadget';
 $_SESSION['l10n']['fr']['3d28b912a644df28c674a6fff364d052']='Listée dans la zone principale, avec l\'ordre d\'apparition %s . La valeur par défaut est 10000.';
 $_SESSION['l10n']['fr']['60ae7435729cd38498d178c25ed9036c']='listé sur le côté de la page, dans une boîte extra';
@@ -516,6 +516,7 @@ $_SESSION['l10n']['fr']['posted by %s %s']='posté par %s %s';
 $_SESSION['l10n']['fr']['replies']='réponses';
 $_SESSION['l10n']['fr']['reply']='réponse';
 $_SESSION['l10n']['fr']['sections']='sections';
+$_SESSION['l10n']['fr']['6d27ac493d4821df066e476a8c993dfd']='simile - Des points et des titres au-dessus de l\'axe du temps';
 $_SESSION['l10n']['fr']['b4f17d3b3adcc8a496bfd15fc4fd03d6']='slashdot - Une liste simple des pages récentes';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['table - A table of recent pages']='table - Une table des articles les plus récents';

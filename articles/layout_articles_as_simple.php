@@ -77,7 +77,7 @@ Class Layout_articles_as_simple extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG;
 
 			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 				$suffix .= ' '.LOCKED_FLAG;
 
 			// flag articles that are dead, or created or updated very recently

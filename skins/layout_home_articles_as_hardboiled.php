@@ -129,7 +129,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 					$prefix .= STICKY_FLAG;
 
 				// signal locked articles
-				if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 					$suffix .= ' '.LOCKED_FLAG;
 
 				// flag articles that are dead, or created or updated very recently

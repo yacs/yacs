@@ -573,7 +573,8 @@ Class Skin_Skeleton {
 	 * - 'full' - display the full date
 	 * - 'month' - only month and year
 	 * - 'standalone' - like full, but without the 'on ' prefix
-	 * - 'iso8601' - the special format applies
+	 * - 'iso8601' - special format
+	 * - 'plain' - example 'Feb 26 2010 22:30:31 GMT'
 	 *
 	 * The date provided is considered to be GMT-based.
 	 * It is adjusted to the time zone of the surfer, if applicable.
@@ -588,7 +589,7 @@ Class Skin_Skeleton {
 	 * @link http://fr2.php.net/date Code for ISO 8601 formatting
 	 *
 	 * @param int or string the date to be displayed
-	 * @param string the variant can be either 'no_hour', 'full', 'standalone', or 'iso8601'
+	 * @param string the variant
 	 * @param string the language to express this stamp
 	 * @param int offset to GMT of the provided date, if any
 	 * @return the HTML to be used
@@ -743,6 +744,12 @@ Class Skin_Skeleton {
 			$tzd = date('O', $actual_stamp);
 			$tzd = $tzd[0].str_pad((int)($tzd / 100), 2, "0", STR_PAD_LEFT).':'.str_pad((int)($tzd % 100), 2, "0", STR_PAD_LEFT);
 			$output = date('Y-m-d\TG:i:s', $actual_stamp).$tzd;
+			return $output;
+		}
+
+		// plain date
+		if($variant == 'plain') {
+			$output = date('M d Y H:i:s', $actual_stamp).' GMT';
 			return $output;
 		}
 

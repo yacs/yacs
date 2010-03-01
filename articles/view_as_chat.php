@@ -356,17 +356,6 @@ if(Articles::allow_deletion($item, $anchor)) {
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 }
 
-// assign command provided to owners
-if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
-
-// allow to leave the page
-} elseif(Articles::is_assigned($item['id'])) {
-	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
-}
-
 // several extra boxes in a row
 //
 $text = '';

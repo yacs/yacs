@@ -75,7 +75,7 @@ load_skin('letters');
 
 // maximum number of recipients
 if(!defined('MAXIMUM_RECIPIENTS'))
-	define('MAXIMUM_RECIPIENTS', 1000);
+	define('MAXIMUM_RECIPIENTS', 5000);
 
 // wrapping threshold
 if(!defined('WRAPPING_LENGTH'))

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+<xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 <xsl:output
     indent="yes"
-    method="html" 
+    method="html"
     omit-xml-declaration="no"
     encoding="UTF-8"
     doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -19,9 +19,20 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title><xsl:value-of select="data/page_title" disable-output-escaping="yes"/></title>
+		<style type="text/css">
+			dt {
+				margin-top: 1em;
+			}
+
+			dd {
+				margin-left: 2px ;
+				padding-left: 0.5em;
+				border-left: 1px solid #ccc;
+			}
+		</style>
 	</head>
 	<body id="tools" class="extra">
-	
+
   	<xsl:apply-templates />
 
 	</body>
@@ -30,14 +41,14 @@
 </xsl:template>
 
 <!-- parse data -->
-<xsl:template match="/data">
+<xsl:template match="data">
 
 	<!-- page title -->
 	<h1><xsl:value-of select="page_title" disable-output-escaping="yes"/></h1>
 
 	<!-- attributes made available to the skin template -->
 	<dl>
-    
+
 	<dt>page_title</dt>
     	<dd><xsl:value-of select="page_title" disable-output-escaping="yes"/></dd>
 
@@ -107,7 +118,7 @@
 	</dl>
 
 	<p>* signals attributes that can be changed through configuration panels</p>
-    
+
 </xsl:template>
 
-</xsl:stylesheet> 
+</xsl:stylesheet>

@@ -197,7 +197,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			}
 
 			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
 				$details .= ', '.LOCKED_FLAG;
 
 			// poster details
