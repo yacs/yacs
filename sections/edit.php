@@ -896,7 +896,6 @@ if($with_form) {
 	if(is_object($anchor)) {
 
 		// define how this section appears
-		$label= '';
 		$input = i18n::s('This section should be:').BR
 			.'<input type="radio" name="index_map" value="Y"';
 		if(!isset($item['index_map']) || ($item['index_map'] == 'Y'))
@@ -906,10 +905,9 @@ if($with_form) {
 		if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('listed only to associates and editors, with other special sections').BR;
-		$parent .= '<p>'.$label.BR.$input.'</p>';
+		$parent .= '<p>'.$input.'</p>';
 
-		$label = '';
-		$input = BR.i18n::s('Content of this section should be:').BR;
+		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="index_panel" value="main"';
 		if(!isset($item['index_panel']) || ($item['index_panel'] == '') || ($item['index_panel'] == 'main'))
 			$input .= ' checked="checked"';
@@ -938,7 +936,7 @@ if($with_form) {
 		if(isset($item['index_panel']) && ($item['index_panel'] == 'none'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('not displayed at the parent index page');
-		$parent .= '<p>'.$label.BR.$input.'</p>';
+		$parent .= '<p>'.$input.'</p>';
 
 	// layout options related to the site map
 	} else {
@@ -993,19 +991,27 @@ if($with_form) {
 	$hint = i18n::s('Remove content on dead-line - automatically');
 	$fields[] = array($label, $input, $hint);
 
-	// the parent section
+	// provide my id
+	$me = isset($item['id']) ? $item['id'] : NULL;
+
+	// parent section has been defined
 	if(is_object($anchor)) {
 
-		if(isset($item['id']) && $anchor->is_assigned()) {
+		// allow to change to another section
+		if($anchor->is_assigned()) {
+
 			$label = i18n::s('Section');
-			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference(), $item['id']), 'folded');
+			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference(), $me), 'folded');
 			$fields[] = array($label, $input);
+
+		// preserve the existing anchor
 		} else
 			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
+	// associates can anchor the section anywhere
 	} elseif(Surfer::is_associate()) {
 		$label = i18n::s('Section');
-		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons(), 'folded');
+		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons(NULL, $me), 'folded');
 		$fields[] = array($label, $input);
 	}
 

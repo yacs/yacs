@@ -406,17 +406,6 @@ if($with_form) {
 
 	}
 
-	// the email address
-	$label = i18n::s('E-mail address');
-	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
-		$label .= ' *';
-	$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
-	$hint = '';
-	if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
-		$hint = i18n::s('You will receive a message on this address to activate your membership.');
-	$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
-	$fields[] = array($label, $input, $hint);
-
 	// form fields in this panel
 	$text .= Skin::build_form($fields);
 	$fields = array();
@@ -450,6 +439,17 @@ if($with_form) {
 	$input = '<input type="text" name="alternate_number" size="20" value="'.encode_field(isset($item['alternate_number'])?$item['alternate_number']:'').'" />';
 	$fields[] = array($label, $input);
 
+	// the email address
+	$label = i18n::s('E-mail address');
+	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+		$label .= ' *';
+	$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
+	$hint = '';
+	if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+		$hint = i18n::s('You will receive a message on this address to activate your membership.');
+	$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
+	$fields[] = array($label, $input, $hint);
+
 	// web address, if any
 	$label = i18n::s('Web address');
 	$input = '<input type="text" name="web_address" size="40" value="'.encode_field(isset($item['web_address'])?$item['web_address']:'').'" />';
@@ -464,7 +464,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// extend the form
-	$text .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'folded');
+	$text .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'unfolded');
 	$fields = array();
 
 	// append the script used for data checking on the browser

@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-03-01 14:51+0100
+PO-Revision-Date: 2010-03-02 00:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -47,7 +47,7 @@ $_SESSION['l10n']['fr']['Background color']='Couleur d\'arrière-plan';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['Categories for: %s']='Catégories pour : %s';
-$_SESSION['l10n']['fr']['Categorize']='Classer';
+$_SESSION['l10n']['fr']['Categorize']='Catégoriser';
 $_SESSION['l10n']['fr']['Category has expired %s']='La catégorie a expirée %s';
 $_SESSION['l10n']['fr']['Category overlay']='Overlay de catégorie';
 $_SESSION['l10n']['fr']['Change']='Changer';

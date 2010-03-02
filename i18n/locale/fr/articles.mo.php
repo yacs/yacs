@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-03-01 17:15+0100
-PO-Revision-Date: 2010-03-01 14:51+0100
+PO-Revision-Date: 2010-03-02 22:46+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -91,7 +91,7 @@ $_SESSION['l10n']['fr']['0fa6a4ca2961eb44805627be2e04be78']='Contribution à la 
 $_SESSION['l10n']['fr']['Contributions are accepted']='Les contributions sont acceptées.';
 $_SESSION['l10n']['fr']['Copy in MS-Word']='Copier dans MS-Word';
 $_SESSION['l10n']['fr']['Copy of %s']='Copie de %s';
-$_SESSION['l10n']['fr']['Current owner is %s']='Propriétaire actuel de %s';
+$_SESSION['l10n']['fr']['Current owner is %s']='Le propriétaire actuel est %s';
 $_SESSION['l10n']['fr']['Dead articles']='Articles périmés';
 $_SESSION['l10n']['fr']['Default Section']='Section par défaut';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -297,7 +297,7 @@ $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en 
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['Select all/none']='Tous/aucun';
-$_SESSION['l10n']['fr']['Select parent container']='Choisir une autre section';
+$_SESSION['l10n']['fr']['Select parent container']='Choisir la section parente';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['0e47211d01c4146ec82ef084405f3603']='Choisissez la langue employée pour cette page';
 $_SESSION['l10n']['fr']['Select this model']='Sélectionner ce modèle';

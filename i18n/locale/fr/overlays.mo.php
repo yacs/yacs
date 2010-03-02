@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-01 17:15+0100
-PO-Revision-Date: 2010-02-10 15:26+0100
+POT-Creation-Date: 2010-03-02 00:28+0100
+PO-Revision-Date: 2010-03-02 00:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -131,6 +131,7 @@ $_SESSION['l10n']['fr']['New petition']='Nouvelle pétition';
 $_SESSION['l10n']['fr']['New vote']='Nouveau vote';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['No solution']='Aucune solution';
+$_SESSION['l10n']['fr']['4f3712885bac57c403eb85f76d26b686']='Aucune solution spécifique n\'a été fournie';
 $_SESSION['l10n']['fr']['No way to analyze the problem']='Aucun moyen d\'analyser le problème';
 $_SESSION['l10n']['fr']['Not a valid poll']='Ceci n\'est pas un sondage valide';
 $_SESSION['l10n']['fr']['Not a valid vote']='Ceci n\'est pas un vote valide';
@@ -167,7 +168,6 @@ $_SESSION['l10n']['fr']['25198a808cce51d35165ff8dd17efdc9']='Le problème est ef
 $_SESSION['l10n']['fr']['Progress']='Avancement';
 $_SESSION['l10n']['fr']['Qualification']='Qualification';
 $_SESSION['l10n']['fr']['Resolution']='Résolution';
-$_SESSION['l10n']['fr']['Resolution has been cancelled']='Aucune solution n\'a été développée';
 $_SESSION['l10n']['fr']['Room']='Rendez-vous';
 $_SESSION['l10n']['fr']['Scope']='Etendue';
 $_SESSION['l10n']['fr']['See ballot papers']='Voir les décisions';

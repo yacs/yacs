@@ -1068,7 +1068,7 @@ Class Article extends Anchor {
 
 				// message components
 				$action = sprintf(i18n::c('%s has posted a comment'), $surfer);
-				$title = Skin::strip($target['description'], 10, NULL, NULL);
+				$title = Skin::strip($target['description'], 20, NULL, NULL);
 				$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
 
 				// threads messages

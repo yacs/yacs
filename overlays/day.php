@@ -9,7 +9,7 @@
  *
  * - with_past_dates - When this parameter is provided, all dates are listed.
  * When the parameter is absent, only future dates are included, and a
- * separate list shows pas dates to associates and section editors.
+ * separate list shows past dates to associates and to section editors.
  *
  * @author Bernard Paques
  * @reference
@@ -284,7 +284,7 @@ class Day extends Overlay {
 
 		// the maximum number of articles per page
 		if(!defined('DATES_PER_PAGE'))
-			define('DATES_PER_PAGE', 3);
+			define('DATES_PER_PAGE', 20);
 
 		// where we are
 		$offset = ($page - 1) * DATES_PER_PAGE;
@@ -319,7 +319,7 @@ class Day extends Overlay {
 				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 			// navigation commands for dates
-			$section = Sections::get($anchor);
+			$section = Sections::get(str_replace('section:', '', $anchor));
 			$home =& Sections::get_permalink($section);
 			$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 			$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
