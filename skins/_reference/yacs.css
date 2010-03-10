@@ -1066,14 +1066,24 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 
 }
 
-table.grid { /* [table=grid]...[/table] - enhance table borders*/
+table.grid,
+table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
 }
 
 table.grid tbody tr td,
-table.grid thead tr th { /* a cell in a grid */
+table.grid tbody tr.even td,
+table.grid tbody tr.odd td,
+table.grid thead tr th,
+table.exhibit-tabularView-body tbody tr td,
+table.exhibit-tabularView-body tbody tr th { /* a cell in a grid */
 	border: 2px ridge #bfbfbf;
 	padding: 0.5em;
+}
+
+#main_panel table.exhibit-tabularView-body { /* a table that takes as much space as possible horizontally */
+	width: 98%;
+	margin: 4px;
 }
 
 table.tiny tbody tr td,
@@ -1761,6 +1771,16 @@ dl.poll dt { /* label of one answer */
 	padding: 2px 3px 2px 0;
 /*	float: left;
     width: 110px; */
+	text-align: left;
+}
+
+/**
+ * dynamic table
+ *
+ * @see tables/tables.php
+ */
+
+table.grid caption {
 	text-align: left;
 }
 

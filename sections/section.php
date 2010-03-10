@@ -1060,9 +1060,65 @@ Class Section extends Anchor {
 			if(isset($this->item['maximum_items']) && ($this->item['maximum_items'] > 10))
 				Articles::purge_for_anchor('section:'.$this->item['id'], $this->item['maximum_items']);
 
+		// a new comment has been posted
+		} elseif($action == 'comment:create') {
+
+			// purge oldest comments
+			include_once $context['path_to_root'].'comments/comments.php';
+			Comments::purge_for_anchor('section:'.$this->item['id']);
+
+		// a new file has been attached
+		} elseif(($action == 'file:create')) {
+
+			// identify specific files
+			$label = '';
+			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item =& Files::get($origin))) {
+
+				// give it to the Flash player
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
+					$label = '[embed='.$origin.']';
+
+
+			}
+
+			// we are in some interactive thread
+			if($this->is_interactive()) {
+
+				// default is to download the file
+				if(!$label)
+					$label = '[download='.$origin.']';
+
+				// this is the first contribution to the thread
+				include_once $context['path_to_root'].'comments/comments.php';
+				if(!$comment = Comments::get_newest_for_anchor('section:'.$this->item['id'])) {
+					$fields = array();
+					$fields['anchor'] = 'section:'.$this->item['id'];
+					$fields['description'] = $label;
+
+				// this is a continuated contribution from this authenticated surfer
+				} elseif(Surfer::get_id() && (isset($comment['create_id']) && (Surfer::get_id() == $comment['create_id']))) {
+					$comment['description'] .= BR.$label;
+					$fields = $comment;
+
+				// else process the contribution as a new comment
+				} else {
+					$fields = array();
+					$fields['anchor'] = 'section:'.$this->item['id'];
+					$fields['description'] = $label;
+
+				}
+
+				// actual creation in the database, but silently
+				Comments::post($fields);
+
+			// include flash videos in a regular page
+			} elseif($label)
+				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
+
+
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description'])) {
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
 				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
@@ -1088,8 +1144,7 @@ Class Section extends Anchor {
 		} elseif($action == 'image:delete') {
 
 			// suppress reference in main description field
-			if($origin && preg_match('/\[image='.$origin.'.*?\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[image='.$origin.'.*?\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
@@ -1144,7 +1199,7 @@ Class Section extends Anchor {
 
 		// append a new image, and set it as the article thumbnail
 		} elseif($action == 'image:set_as_both') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
@@ -1164,14 +1219,13 @@ Class Section extends Anchor {
 			$silently = TRUE;
 
 		// add a reference to a new table in the section description
-		} elseif($action == 'table:create' || $action == 'table:update') {
-			if(!preg_match('/\[table='.$origin.'\]/', $this->item['description']))
+		} elseif($action == 'table:create') {
+			if(!Codes::check_embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [table='.$origin.']')."'";
 
 		// suppress a reference to a table that has been deleted
 		} elseif($action == 'table:delete') {
-			if($origin && preg_match('/\[table='.$origin.'\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[table='.$origin.'\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embeded($this->item['description'], 'table', $origin))."'";
 
 		}
 
@@ -1268,7 +1322,7 @@ Class Section extends Anchor {
 				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
 
 				// threads messages
-				$mail['headers'] = Mailer::set_thread(NULL, $this->get_reference());
+				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
 
 			}
 

@@ -118,10 +118,6 @@ Class Layout_articles_as_spray extends Layout_interface {
 			elseif($item['edit_date'] >= $dead_line)
 				$summary .= ' '.UPDATED_FLAG;
 
-			// insert overlay data, if any
-			if(is_object($overlay))
-				$summary .= $overlay->get_text('list', $item);
-
 			// attachment details
 			$details = array();
 

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-12 10:18+0100
+POT-Creation-Date: 2010-03-10 21:38+0100
+PO-Revision-Date: 2010-03-08 17:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -41,6 +41,7 @@ $_SESSION['l10n']['en']['Empty recipient address']='Empty recipient address';
 $_SESSION['l10n']['en']['Empty sender address']='Empty sender address';
 $_SESSION['l10n']['en']['fd674cf80651be8f2cc7d185d732b3ef']='Error while sending the message to %s';
 $_SESSION['l10n']['en']['Files']='Files';
+$_SESSION['l10n']['en']['Filter']='Filter';
 $_SESSION['l10n']['en']['f02f5139e109a94dab487ef607873d8a']='Following XHTML tags are allowed: %s';
 $_SESSION['l10n']['en']['70bbb2bb4b75ffa16e15a88da8357bde']='Following items are attached to this record and will be impacted as well.';
 $_SESSION['l10n']['en']['Full-size']='Full-size';

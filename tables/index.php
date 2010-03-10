@@ -87,23 +87,14 @@ if(!Surfer::is_associate()) {
 		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], TABLES_PER_PAGE, $page);
 	}
 
-	// page main content
-	$cache_id = 'tables/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	// query the database and layout that stuff
+	$offset = ($page - 1) * TABLES_PER_PAGE;
+	if(!$text = Tables::list_by_date($offset, TABLES_PER_PAGE, 'full'))
+		$context['text'] .= '<p>'.i18n::s('No table has been created yet.').'</p>';
 
-		// query the database and layout that stuff
-		$offset = ($page - 1) * TABLES_PER_PAGE;
-		if(!$text = Tables::list_by_date($offset, TABLES_PER_PAGE, 'full'))
-			$context['text'] .= '<p>'.i18n::s('No table has been created yet.').'</p>';
-
-		// we have an array to format
-		if(is_array($text))
-			$text =& Skin::build_list($text, 'decorated');
-
-		// cache this to speed subsequent queries
-		Cache::put($cache_id, $text, 'tables');
-	}
-	$context['text'] .= $text;
+	// we have an array to format
+	elseif(is_array($text))
+		$context['text'] .= Skin::build_list($text, 'decorated');
 
 }
 

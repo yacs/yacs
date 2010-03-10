@@ -52,11 +52,11 @@ if(Surfer::is_crawler()) {
 
 // not found
 } elseif(!isset($item['id'])) {
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // bad handle
 } elseif($id != $item['handle'])
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // actual validation
 elseif(Users::validate($item['id'])) {

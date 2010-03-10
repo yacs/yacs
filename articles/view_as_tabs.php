@@ -396,20 +396,26 @@ if($discussion) {
 $attachments = '';
 $attachments_count = 0;
 
+// list files only to people able to change the page
+if(Articles::allow_modification($item, $anchor))
+	$embedded = NULL;
+else
+	$embedded = Codes::list_embedded($item['description']);
+
 // build a complete box
 $box = array('bar' => array(), 'text' => '');
 
 // a navigation bar for these files
-if($count = Files::count_for_anchor('article:'.$item['id'])) {
+if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 	$attachments_count += $count;
 	if($count > 20)
 		$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 	// list files by date (default) or by title (option files_by_title)
 	if(Articles::has_option('files_by_title', $anchor, $item))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 100, 'no_anchor');
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
 	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 100, 'no_anchor');
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
 
 	// actually render the html
 	if(is_array($items))

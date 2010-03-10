@@ -244,6 +244,41 @@ if($rows = Sections::search_in_section($section_id, $search)) {
 	$no_result = FALSE;
 }
 
+// add an extra panel
+if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X')) {
+
+	$text = '';
+
+	if(isset($context['skins_search_extension']) && $context['skins_search_extension'])
+		$text .= str_replace('%s', encode_field($search), $context['skins_search_extension']);
+
+	// look at other search engines
+	$text .= '<p style="margin: 2em 0 0 0">'.i18n::s('Search all of the Internet').'</p><ul>';
+
+	// encode for urls, but preserve unicode chars
+	$search = urlencode($search);
+
+	// Google
+	$link = 'http://www.google.com/search?q='.$search.'&ie=utf-8';
+	$text .= '<li>'.Skin::build_link($link, i18n::s('Google'), 'external').'</li>';
+
+	// Bing
+	$link = 'http://www.bing.com/search?q='.$search;
+	$text .= '<li>'.Skin::build_link($link, i18n::s('Bing'), 'external').'</li>';
+
+	// Yahoo!
+	$link = 'http://search.yahoo.com/search?p='.$search.'&ei=utf-8';
+	$text .= '<li>'.Skin::build_link($link, i18n::s('Yahoo!'), 'external').'</li>';
+
+	// Ask Jeeves
+	$link = 'http://web.ask.com/web?q='.$search;
+	$text .= '<li>'.Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').'</li>';
+
+	// in a separate panel
+	$panels[] = array('extension', i18n::s('Extension'), 'extenssions_panel', $text);
+	$no_result = FALSE;
+}
+
 // assemble all tabs
 if(count($panels))
 	$context['text'] .= Skin::build_tabs($panels);
@@ -316,25 +351,6 @@ if($search && ($page == 1)) {
 	// submit one token to our page locator
 	if(preg_match('/^([\S-]+)/', $search, $matches))
 		$context['page_tools'][] = Skin::build_link(normalize_shortcut($matches[1]), i18n::s('Look for a named page'), 'basic');
-
-	// encode for urls, but preserve unicode chars
-	$search = urlencode($search);
-
-	// Google
-	$link = 'http://www.google.com/search?q='.$search.'&ie=utf-8';
-	$context['page_tools'][] = Skin::build_link($link, i18n::s('Google'), 'external');
-
-	// Yahoo!
-	$link = 'http://search.yahoo.com/search?p='.$search.'&ei=utf-8';
-	$context['page_tools'][] = Skin::build_link($link, i18n::s('Yahoo!'), 'external');
-
-	// Ask Jeeves
-	$link = 'http://web.ask.com/web?q='.$search;
-	$context['page_tools'][] = Skin::build_link($link, i18n::s('Ask Jeeves'), 'external');
-
-	// Technorati
-	$link = 'http://www.technorati.com/cosmos/search.html?rank=&url='.$search;
-	$context['page_tools'][] = Skin::build_link($link, i18n::s('Technorati'), 'external');
 
 }
 

@@ -67,7 +67,7 @@ Class Layout_images extends Layout_interface {
 			// there is an anchor
 			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 
-				// the image id to put as text in the left column
+				// codes to embed this image
 				if($this->layout_variant == $anchor->get_reference()) {
 
 					// help to insert in textarea

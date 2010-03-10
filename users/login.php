@@ -366,50 +366,11 @@ if(Surfer::is_crawler()) {
 		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
 		$information .= Skin::table_row($cells, $lines++);
 
-		// the name
-		if(isset($user['full_name']) && $user['full_name']) {
-			$cells = array();
-			$cells[] = i18n::s('Your name');
-			$cells[] = 'left='.$user['full_name'];
-			$information .= Skin::table_row($cells, $lines++);
-		}
-
 		// the email field
 		if(Surfer::get_email_address()) {
 			$cells = array();
 			$cells[] = i18n::s('Your e-mail address');
 			$cells[] = 'left='.Surfer::get_email_address();
-			$information .= Skin::table_row($cells, $lines++);
-		}
-
-		// gmt offset
-		if($gmt_offset = Surfer::get_gmt_offset()) {
-			$cells = array();
-			$cells[] = i18n::s('Time Zone');
-			if($gmt_offset == -1)
-				$cells[] = 'left='.i18n::s('GMT-1 hour');
-			elseif($gmt_offset == 1)
-				$cells[] = 'left='.i18n::s('GMT+1 hour');
-			elseif($gmt_offset > 1)
-				$cells[] = 'left='.sprintf(i18n::s('GMT+%d hours'), $gmt_offset);
-			else
-				$cells[] = 'left='.sprintf(i18n::s('GMT%d hours'), $gmt_offset);
-			$information .= Skin::table_row($cells, $lines++);
-		}
-
-		// IP address
-		if($_SERVER['REMOTE_ADDR']) {
-			$cells = array();
-			$cells[] = i18n::s('Your network address');
-			$cells[] = 'left='.$_SERVER['REMOTE_ADDR'];
-			$information .= Skin::table_row($cells, $lines++);
-		}
-
-		// last login
-		if(isset($user['login_date']) && $user['login_date']) {
-			$cells = array();
-			$cells[] = i18n::s('Last login');
-			$cells[] = 'left='.Skin::build_date($user['login_date']);
 			$information .= Skin::table_row($cells, $lines++);
 		}
 

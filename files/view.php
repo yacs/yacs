@@ -131,8 +131,7 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/view
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
@@ -876,7 +875,7 @@ if(!isset($item['id'])) {
 	}
 
 	// delete command provided to associates and owners
-	if(is_object($anchor) && $anchor->is_owned()) {
+	if((is_object($anchor) && $anchor->is_owned()) || Surfer::is_associate()) {
 		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), FILES_DELETE_IMG.i18n::s('Delete this file'));
 	}

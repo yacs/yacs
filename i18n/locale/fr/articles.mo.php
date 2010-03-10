@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-01 17:15+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
 PO-Revision-Date: 2010-03-02 22:46+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -71,14 +71,12 @@ $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Back to the page']='Retour à la page';
 $_SESSION['l10n']['fr']['Branch out to %s']='Débrancher vers %s';
 $_SESSION['l10n']['fr']['Browse in a separate window']='Lire dans une autre fenêtre';
-$_SESSION['l10n']['fr']['Bulk upload']='Téléversement multiple';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories: %s']='Catégories : %s';
 $_SESSION['l10n']['fr']['Change']='Changer';
 $_SESSION['l10n']['fr']['Change the overlay']='Changer d\'overlay';
 $_SESSION['l10n']['fr']['363ac331c63e9412effb8211819d652f']='Changer la date de publication au %s';
 $_SESSION['l10n']['fr']['Change to draft mode']='Passer en mode brouillon';
-$_SESSION['l10n']['fr']['f4714de50b293a7e0c8cc916b23d85fc']='Cliquer sur les codes pour placer les images dans la page.';
 $_SESSION['l10n']['fr']['c6cc8e98456cebe65b4e8e5f19008c18']='Cliquez sur le bouton ci-dessous pour retirer la page de la liste des contrôles à effectuer.';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
@@ -250,7 +248,6 @@ $_SESSION['l10n']['fr']['Post a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['52c228644224525af0bf54e9397fad52']='Envoyez un fichier XML pour importer des articles.';
 $_SESSION['l10n']['fr']['Post to %s']='Poster à %s';
 $_SESSION['l10n']['fr']['Poster']='Auteur';
-$_SESSION['l10n']['fr']['Prefix']='Préfixe';
 $_SESSION['l10n']['fr']['b22b9084b729824388a110fec16ea4eb']='Préserver les retours à la ligne';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -333,7 +330,6 @@ $_SESSION['l10n']['fr']['65c9b8000583ba183c3bbf5158616941']='La touche Entrée e
 $_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
 $_SESSION['l10n']['fr']['Submitted articles']='Articles en attente de publication';
 $_SESSION['l10n']['fr']['Submitted queries']='Requêtes en attente';
-$_SESSION['l10n']['fr']['Suffix']='Suffixe';
 $_SESSION['l10n']['fr']['Tabbed panels']='Panneaux à onglets';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['Tags']='Etiquettes';
@@ -357,8 +353,6 @@ $_SESSION['l10n']['fr']['5ba6a855747f2ced505ea08ed6ec0b2b']='Faire la publicité
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['Title']='Titre';
-$_SESSION['l10n']['fr']['d8ef00288000f0f98aafef9b53c2e08d']='Inséré vers le bas des pages associées.';
-$_SESSION['l10n']['fr']['c1966a9db995dd0212d9febf7be757e0']='Inséré vers le haut des pages associées.';
 $_SESSION['l10n']['fr']['d71e084b875b85c3ed2dacd4f82a5199']='Pour désigner une page par son nom avec le %s';
 $_SESSION['l10n']['fr']['74a19ba83faf8108003e4f4acf426719']='Pour charger template_foo_bar.php à la place du modèle normal';
 $_SESSION['l10n']['fr']['dd269e53b9cb005bb7d75f3f50266c09']='Pour transférer la propriété à une autre personne, taper quelques lettres du nom que vous cherchez.';
@@ -373,7 +367,6 @@ $_SESSION['l10n']['fr']['Updated %s']='Mis à jour %s';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';
-$_SESSION['l10n']['fr']['b3e2e59bff01bca4659ac4f86a75fc2c']='Utiliser les codes pour placer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML.';
 $_SESSION['l10n']['fr']['36ab5b5ac398b5cfe4feb817d68c45f1']='Utilisez l\'%s pour peupler ce serveur.';
 $_SESSION['l10n']['fr']['c6bd39974265c03828921dc8415bb6da']='Utilisez ce champ pour limiter la durée de vie des pages publiées.';

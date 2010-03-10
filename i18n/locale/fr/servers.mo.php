@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-12 00:20+0100
-PO-Revision-Date: 2010-01-12 00:23+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-08 17:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -54,7 +54,7 @@ $_SESSION['l10n']['fr']['f4f9e2c9df375cfaf4480e4861a18feb']='Ne pas tenir compte
 $_SESSION['l10n']['fr']['b623de03bc419a81289889268f450e7c']='Ne pas inclure ce serveur dans les recherches distribuées';
 $_SESSION['l10n']['fr']['Do not monitor this server']='Ne pas surveiller ce serveur';
 $_SESSION['l10n']['fr']['dd2571b0f131acdb0477c5074140d536']='Ne pas vérifier périodiquement le fonctionnement de ce serveur';
-$_SESSION['l10n']['fr']['fa889208ab4a6b84dc590c1eafdbcf2b']='Ne pas chercher les nouvelles de ce serveur';
+$_SESSION['l10n']['fr']['fa889208ab4a6b84dc590c1eafdbcf2b']='Ne pas lire les nouvelles de ce serveur';
 $_SESSION['l10n']['fr']['16916a510d33f85523392539887be1c4']='Ne pas transmettre de demande de recherche à ce serveur';
 $_SESSION['l10n']['fr']['Do you Yahoo?']='Etes-vous Yahoo ?';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
@@ -94,7 +94,7 @@ $_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès aut
 $_SESSION['l10n']['fr']['Received from feeding servers']='Les informations transmises par les autres serveurs';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous pour invalider un serveur indélicat en cas de besoin.';
-$_SESSION['l10n']['fr']['Search']='Recherches';
+$_SESSION['l10n']['fr']['Search']='Recherche';
 $_SESSION['l10n']['fr']['Server description']='Description de ce serveur';
 $_SESSION['l10n']['fr']['Servers']='Serveurs';
 $_SESSION['l10n']['fr']['330771532d2cbb01e66f93a36b64bf81']='Serveurs notifiés de votre envoi';
@@ -102,7 +102,7 @@ $_SESSION['l10n']['fr']['Servers to be banned']='Serveurs à bannir';
 $_SESSION['l10n']['fr']['Services accessed remotely']='Services distants utilisés';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['62533653dfc1015ddcfc5c356a6497a1']='Envoyer périodiquement des requêtes XML-RPC de <code>monitor.ping</code> à l\'adresse %s';
-$_SESSION['l10n']['fr']['5ec9e6d4a0ddc6ce82848a3e9f4b097f']='Rechercher sur ce serveur, par apple REST de l\'adresse %s';
+$_SESSION['l10n']['fr']['5ec9e6d4a0ddc6ce82848a3e9f4b097f']='Rechercher sur ce serveur, par appel REST de l\'adresse %s';
 $_SESSION['l10n']['fr']['Test feed']='Tester RSS';
 $_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['The famous pinging gateway']='Le distributeur de ping';

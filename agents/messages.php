@@ -507,7 +507,7 @@ class Messages {
 			// email addresses not present in the database are allowed
 			if(!$user['id']) {
 				list($user['nick_name'], $domain) = explode('@', $post_sender);
-				$user['id'] = '0';
+				$user['id'] = 0;
 				$user['email'] = $post_sender;
 				$user['capability'] = 'M';
 			}

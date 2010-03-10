@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-02 00:28+0100
-PO-Revision-Date: 2009-10-05 00:05+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-04 07:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -53,7 +53,7 @@ $_SESSION['l10n']['fr']['81d1c6df538c1ea7c72480beabec7eac']='Les références su
 $_SESSION['l10n']['fr']['31ba956793e41e03cbb5ab33c3681650']='Les références suivantes ont été supprimées :';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Hovering popup']='Label de survol';
-$_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous êtes enregistré sur ce site, merci de %s. Ensuite ce serveur placera automatiquement vos nom et adresse dans les champs suivants.';
+$_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['Internal reference']='Référence interne';
 $_SESSION['l10n']['fr']['Its title']='Son titre';
 $_SESSION['l10n']['fr']['Links']='Liens';
@@ -122,7 +122,7 @@ $_SESSION['l10n']['fr']['f7b3a7e95eaf353dea84d4b9a83ab44f']='Vous devez indiquer
 $_SESSION['l10n']['fr']['Your address']='Votre adresse';
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['at %s']='à %s';
-$_SESSION['l10n']['fr']['authenticate']='vous authentifier';
+$_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['clicks']='clics';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['74b5672945558b3b34f2599587f6c14c']='Adresse électronique, ou serveur web ; champ optionnel';

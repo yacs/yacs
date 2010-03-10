@@ -60,6 +60,7 @@
 
 		// end of shortcuts
 		echo '</p>'."\n";
+
 	}
 
 	/**

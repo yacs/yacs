@@ -77,8 +77,7 @@ else
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
@@ -142,6 +141,7 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_csv'), i18n::s('CSV (Excel)'));
+	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_json'), i18n::s('JSON'));
 	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_xml'), i18n::s('XML'));
 	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 		$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'edit'), i18n::s('Edit'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');

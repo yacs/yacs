@@ -62,8 +62,7 @@ if(Surfer::is_crawler()) {
 
 // not found
 } elseif(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // publication is restricted
 } elseif(!$permitted) {

@@ -101,8 +101,7 @@ if(isset($item['title']))
 
 // not found
 if(!$item['id']) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // access denied
 } elseif(!$permitted) {
@@ -159,7 +158,7 @@ if(!$item['id']) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

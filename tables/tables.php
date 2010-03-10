@@ -66,150 +66,21 @@ Class Tables {
 	function build($id, $variant='simple') {
 		global $context;
 
-		// split parameters --only useful to json at the moment
+		// split parameters
 		$attributes = preg_split("/\s*,\s*/", $id, 3);
 		$id = $attributes[0];
 
-		if(isset($attributes[1]))
-			$value_index = $attributes[1];
-		else
-			$value_index = 0;
-
-		if(isset($attributes[2]))
-			$tip_index = $attributes[2];
-		else
-			$tip_index = FALSE;
-
+		// get the table object
 		if(!($table =& Tables::get($id)))
 			return NULL;
 
-		 if(empty($query_str))
-		   $query_str = $table['query'];
-
-
-		// print_r($_REQUEST);
-
-		 if(preg_match('/WHERE 1=1/', $query_str))
-		  {
-
-
-		 function check_alies_code($id,$code,$alies="")
-		 {
-			global $context;
-
-			$where_chk ="";
-
-			 if(!empty($code)) {
-
-			   if(!empty($alies)):
-			    $where_chk = " AND tb.table_alies='".$alies."' AND tb.option_code='".$code."'";
-			   else :
-			   	  $where_chk = " AND tb.option_code='".$code."'";
-			   endif;
-
-				$codeCheckSql = "SELECT * FROM ".SQL::table_name('tables_filters')." AS tb "
-
-				." WHERE (tb.table_id = ".SQL::escape($id).") ".$where_chk;
-
-
-				$rowCodeChk =& SQL::query($codeCheckSql);
-
-				$no_of_row_code =  SQL::count($rowCodeChk);
-
-				   if($no_of_row_code>0)
-				     return true;
-			 }
-			 else {
-			 	return false;
-			 }
-
-		 }
-
-
-
-
-		  if(count($_REQUEST)>0) {
-
-
-
-		   $generatedNewSql ="WHERE ";
-		    $requestVal ="?";
-			 foreach ($_REQUEST as $key => $value) {
-
-			 //  for checking table prefix
-			  $pos = strpos($key,'|');
-
-
-			  //$value = urldecode($value);
-
-			    if($pos==true) {
-
-					// converting array
-
-
-
-					$arrFullTable = explode('|',$key);
-
-
-
-					if(check_alies_code($id,$arrFullTable[1],$arrFullTable[0]))	{
-
-					if($value !='%') {
-
-						$generatedNewSql	.= $arrFullTable[0].".".$arrFullTable[1]." Like '".$value."'";
-
-						$generatedNewSql .= " AND ";
-
-						$requestVal .= $arrFullTable[0]."|".$arrFullTable[1]."=".urlencode($value)."&";
-						}
-
-
-					 }
-
-
-				 }
-				else {
-
-					if(check_alies_code($id,$key))	{
-
-					if($value !='%') {
-					  $generatedNewSql	.= $key." Like '".$value."'";
-					  $generatedNewSql .= " AND ";
-
-					  $requestVal .= $key."=".urlencode($value)."&";
-					  }
-
-					  }
-
-				}
-
-			}
-
-
-			if($requestVal !='?')
-			  $requestVal = rtrim($requestVal,"&");
-			else
-			   $requestVal = "";
-
-
-			 if($generatedNewSql !="WHERE ") :
-			  $generatedNewSql = rtrim($generatedNewSql," AND ");
-			  $query_str = str_replace('WHERE 1=1',$generatedNewSql,$query_str);
-			 endif;
-
-
-		  }
-
-		  }
-
-
-
-
-		if(!$rows =& SQL::query($query_str)) {
+		// do the SELECT statement
+		if(!$rows =& SQL::query($table['query'])) {
 			Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($table['query']).BR.SQL::error());
 			return NULL;
 		}
 
+		// build the resulting string
 		$text = '';
 		switch($variant) {
 
@@ -231,8 +102,6 @@ Class Tables {
 			}
 
 			// one row for header fields
-			if($table['with_number'] == 'Y')
-				$text .= '#'.$separator;
 			$index = 0;
 			while($field = SQL::fetch_field($rows)) {
 				if($index++)
@@ -249,10 +118,6 @@ Class Tables {
 			// process every table row
 			$row_index = 0;
 			while($row =& SQL::fetch($rows)) {
-
-				// number lines
-				if($table['with_number'] == 'Y')
-					$text .= ++$row_index.$separator;
 
 				// one cell at a time
 				$index = 0;
@@ -288,253 +153,164 @@ Class Tables {
 		// a JSON set of values
 		case 'json':
 
-			// consider all values of one column
+			// get header labels
+			$labels = array();
+			while($field = SQL::fetch_field($rows))
+				$labels[] = trim(preg_replace('/[^\w]+/', '', ucfirst($field->name)));
+
+			// all items
 			$data = array();
+			$data['items'] = array();
 			while($row =& SQL::fetch_row($rows)) {
 
-				// adjust types to not fool the json encoder
-				$datum = $row[ $value_index ];
-				if(preg_match('/^(\+|-){0,1}[0-9]+$/', $datum))
-					$datum = intval($datum);
-				elseif(preg_match('/^(\+|-){0,1}[0-9\.,]+$/', $datum))
-					$datum = floatval($datum);
-				elseif(preg_match('/^(true|false)$/i', $datum))
-					$datum = intval($datum);
+				// all rows
+				$datum = array();
+				$label = FALSE;
+				$index = 0;
+				$link = NULL;
+				foreach($row as $name => $value) {
+					$index++;
+
+					// first column is only a link
+					if(($index == 1) && ($table['with_zoom'] == 'Y')) {
+						$link = $context['url_to_home'].$context['url_to_root'].$value;
+						continue;
+					}
+
+					// adjust types to not fool the json encoder
+					if(preg_match('/^(\+|-){0,1}[0-9]+$/', $value))
+						$value = intval($value);
+					elseif(preg_match('/^(\+|-){0,1}[0-9\.,]+$/', $value))
+						$value = floatval($value);
+					elseif(preg_match('/^(true|false)$/i', $value))
+						$value = intval($value);
+
+					// ensure we have some label for SIMILE Exhibit
+					if(!$label)
+						$label = $value;
+
+					// combine first and second columns
+					if(($index == 2) && $link)
+						$value = Skin::build_link($link, $value, 'basic');
+
+					// save this value
+					$datum[ $labels[$name] ] = $value;
+
+				}
+
+				if($label && !in_array($labels, 'label'))
+					$datum['label'] = $label;
 
 				// add a tip, if any
-// 				if($tip_index !== FALSE)
-// 					$data[] = array( 'top' => $datum, 'tip' => $row[ $tip_index ] );
-// 				else
-					$data[] = $datum;
+				$data['items'][] = $datum;
 			}
 
 			include_once $context['path_to_root'].'included/json.php';
 			$text .= json_encode2($data);
 			return $text;
 
+		// list of facets for SIMILE Exhibit
+		case 'json-facets':
+
+			// columns are actual facets
+			$facets = array();
+			$index = 0;
+			while($field = SQL::fetch_field($rows)) {
+				$index++;
+
+				// first column is only a link
+				if(($index == 1) && ($table['with_zoom'] == 'Y'))
+					continue;
+
+				// first column has a link
+				if(($index == 2) && ($table['with_zoom'] == 'Y'))
+					continue;
+
+				// column is a facet
+				$label = '.'.trim(preg_replace('/[^\w]+/', '', ucfirst($field->name)));
+				$title = trim(str_replace(',', '', ucfirst($field->name)));
+				$facets[] = '<div ex:role="facet" ex:expression="'.$label.'" ex:facetLabel="'.$title.'"></div>';
+
+				// only last columns can be faceted
+				if(count($facets) > 7)
+					array_shift($facets);
+			}
+
+			// reverse facet order
+			$facets = array_reverse($facets);
+
+			// job done
+			$text = join("\n", $facets);
+			return $text;
+
+		// list of columns for SIMILE Exhibit
+		case 'json-labels':
+
+			// get header labels
+			$labels = array();
+			$index = 0;
+			while($field = SQL::fetch_field($rows)) {
+				$index++;
+
+				// first column is only a link
+				if(($index == 1) && ($table['with_zoom'] == 'Y'))
+					continue;
+
+				// column id
+				$labels[] = '.'.trim(preg_replace('/[^\w]+/', '', ucfirst($field->name)));
+
+				// limit the number of columns put on screen
+				if(count($labels) >= 7)
+					break;
+			}
+
+			// job done
+			$text = join(', ', $labels);
+			return $text;
+
+		// titles of columns for SIMILE Exhibit
+		case 'json-titles':
+
+			// get header labels
+			$labels = array();
+			$index = 0;
+			while($field = SQL::fetch_field($rows)) {
+				$index++;
+
+				// first column is only a link
+				if(($index == 1) && ($table['with_zoom'] == 'Y'))
+					continue;
+
+				// column header
+				$labels[] = trim(str_replace(',', '', ucfirst($field->name)));
+			}
+
+			$text = join(', ', $labels);
+			return $text;
+
 		// produce an HTML table
 		default:
 		case 'inline':
-
-		if( !empty($id)) {
-
-		//  checking filter available or not
-
-		$tableInformationSql = "SELECT * FROM ".SQL::table_name('tables_filters')." AS tb "
-
-		." WHERE (tb.table_id = ".SQL::escape($id).") ORDER BY tb.filter_order,tb.option_name";
-
-
-		$row1 =& SQL::query($tableInformationSql);
-
-		$no_of_row =  SQL::count($row1);
-
-			if($no_of_row>0) {
-
-
-
-					 $text .= "<form id='f1' action='".$_SERVER['PHP_SELF']."' method='post'>";
-
-					 $text .="<table width='100%' border='0' cellspacing='2' cellpadding='2' style='border:none;'><tr style='border:none;'>";
-
-
-			         $m=0;
-
-					 while($each_row=SQL::fetch($row1)) {
-
-
-					 $option_name = $each_row['option_name'];
-
-					 $option_sql = $each_row['option_sql'];
-
-					 $table_alies = $each_row['table_alies'];
-
-					 $option_code = $each_row['option_code'];
-
-					 $is_file = $each_row['is_file'];
-
-					 $select_name = "";
-
-					  if(!empty($table_alies))
-					     $select_name .= $table_alies."|";
-
-					   $select_name .= $option_code;
-
-
-
-					 if(isset($is_file) && $is_file=='No') {
-						 if(!$rowsOption =& SQL::query($option_sql)) {
-							Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($option_sql).BR.SQL::error());
-							return NULL;
-							}
-
-					 }
-
-
-					     $text .="<td style='border:none;'><label>".$option_name."</label></td>";
-
-					     $text .="<td style='border:none;'>";
-
-
-						 $text .="<select name='".$select_name."'>";
-
-
-						 $text .="<option value='%'>All</option>";
-
-
-						 if($is_file!='Yes') {
-
-						     // values featching from detabase
-
-								  while($each_option=SQL::fetch_row($rowsOption)) {
-
-								  $val = isset($_REQUEST[$select_name])?$_REQUEST[$select_name]:'';
-
-								  if($val==$each_option[0])
-								   $sel = 'selected';
-								  else
-								   $sel ='';
-
-
-								 $text .="<option value='".$each_option[0]."' $sel >".$each_option[1]."</option>";
-
-								 }
-
-						 }
-						 else {
-
-						 // Values featching from file
-
-								$file_path = $each_row['file_path'];
-
-
-								if(Safe::load($file_path)) :
-
-									$array_name = $each_row['array_name'];
-
-									$pos_chk = strpos($array_name,'|');
-
-									if($pos_chk==true) :
-
-										$arrayNameArr = explode('|',$array_name);
-
-										$arrayName = $arrayNameArr[0];
-
-										$arrayIndex = $arrayNameArr[1];
-
-										$t=$$arrayName;
-
-										$contextArr =  $t[$arrayIndex];
-
-										if(is_array($contextArr) && count($contextArr)>0) :
-											foreach($contextArr as $code => $name) {
-												$val = isset($_REQUEST[$select_name])?$_REQUEST[$select_name]:'';
-												$text .= '<option value="'.$code.'"';
-
-												if($val==$code)
-													$text .= 'selected';
-
-												$text .='>'.$name."</option>\n";
-
-											}
-										else :
-											$text .='<option value="error">Invalid array name</option>';
-										endif;
-
-									else :
-										$text .='<option value="error">Invalid array name</option>';
-									endif;
-								else :
-									$text .='<option value="error">Invalid file path</option>"';
-								endif;
-
-
-
-						 }
-
-
-						 $text .="</select>";
-						 $text .="</td>";
-
-						 $m++;
-						 if($m%4==0)
-						 {
-						  $text .="</tr><td style='border:none;'><tr style='border:none;'>";
-						 }
-
-
-
-
-
-					 }
-
-
-					 $text .="<td colspan='2' align='right' style='border:none;'><input type='submit' value='Go' /></td></tr></table></form>";
-					 }
- 		 }
-
-
 		case 'sortable':
 
-			$index_offset = 0;
-			if($table['with_number'] == 'Y')
-				$index_offset += 1;
-
-			$text .= Skin::table_prefix('table');
+			// a tabke with a grid
+			$text .= Skin::table_prefix('grid');
 
 			// the title, with a menu to download the table into Excel
 			if($variant == 'inline') {
-				$text .= "\t\t".'<caption class="caption">'.$table['title'];
 				$item_bar = array();
-				if(Surfer::is_logged()) {
+				$item_bar += array(Tables::get_url($id) => $table['title']);
+				$item_bar += array(Tables::get_url($id, 'fetch_as_csv') => 'CSV (Excel)');
 
+				if(Surfer::is_associate())
+					$item_bar += array(Tables::get_url($id, 'edit') => i18n::s('edit'));
 
-				 $newcsvArr = array(Tables::get_url($id, 'fetch_as_csv') => 'CSV (Excel)');
-				 $newcsvArr_merge=array();
-
-						if(list($key, $val) = each($newcsvArr))
-						{
-						 $newKey = $key;
-						 $newcsvArr_merge[$newKey] = $val;
-						}
-
-
-
-
-					$item_bar = array_merge($item_bar, $newcsvArr_merge);
-
-					$newxmlArr = array(Tables::get_url($id, 'fetch_as_xml') => i18n::s('XML'));
-
-					$newxmlArr_merge = array();
-
-					//print_r($newxmlArr);
-
-					if(list($key, $val) = each($newxmlArr)) {
-						 $newKey = $key;
-						 $newxmlArr_merge[$newKey] = $val;
-						}
-
-
-					$item_bar = array_merge($item_bar, $newxmlArr_merge);
-
-					$item_bar = array_merge($item_bar, array(Tables::get_url($id) => i18n::s('more')));
-
-				}
-				if(Surfer::is_associate()) {
-					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'edit') => i18n::s('Edit')));
-				}
-				if(count($item_bar)) {
-					if($table['title'])
-						$text .= BR;
-					$text .= Skin::build_list($item_bar, 'menu');
-				}
-				$text .= "</caption>\n";
+				if(count($item_bar))
+					$text .= '<caption>'.Skin::build_list($item_bar, 'menu')."</caption>\n";
 			}
 
 			// column headers are clickable links
 			$cells = array();
-			if($table['with_number'] == 'Y')
-				$cells[] = '#';
 			$index = 0;
 			while($field = SQL::fetch_field($rows)) {
 				if(($index++ != 0) || ($table['with_zoom'] != 'Y'))
@@ -547,8 +323,6 @@ Class Tables {
 			$row_index = 0;
 			while($row =& SQL::fetch_row($rows)) {
 				$cells = array();
-				if($table['with_number'] == 'Y')
-					$cells[] = ++$row_index;
 				$link = '';
 				for($index=0; $index < count($row); $index++) {
 					if(($index == 0) && ($table['with_zoom'] == 'Y'))
@@ -563,6 +337,240 @@ Class Tables {
 			}
 
 			$text .= Skin::table_suffix();
+			return $text;
+
+		// adapted to open chart flash
+		case 'chart':
+
+			// get title for y series
+			$y_title = $y2_title = $y3_title = NULL;
+			$y_index = $y2_index = $y3_index = 0;
+			$index = 0;
+			while($field = SQL::fetch_field($rows)) {
+
+				// time will be used for x labels
+				if(($index == 0) && ($table['with_zoom'] == 'T'))
+					;
+
+				// web links do not make good numbers
+				elseif(($index == 0) && ($table['with_zoom'] == 'Y'))
+					;
+
+				// fill one title at a time
+				elseif(!$y_title) {
+					$y_title = '"'.ucfirst($field->name).'"';
+					$y_index = $index;
+				} elseif(!$y2_title) {
+					$y2_title = '"'.ucfirst($field->name).'"';
+					$y2_index = $index;
+				} elseif(!$y3_title) {
+					$y3_title = '"'.ucfirst($field->name).'"';
+					$y3_index = $index;
+					break;
+				}
+				$index++;
+			}
+
+			// process every table row
+			$x_labels = array();
+			$y_values = array();
+			$y2_values = array();
+			$y3_values = array();
+			$y_min = $y_max = NULL;
+			$count = 1;
+			while($row =& SQL::fetch($rows)) {
+
+				// one cell at a time
+				$index = 0;
+				foreach($row as $name => $value) {
+
+					// clean spaces
+					$label = trim(preg_replace('/\s/', ' ', $value));
+
+					// encode in iso8859
+					$label = utf8::to_iso8859($label);
+
+					// escape quotes to preserve them in the data
+					$label = str_replace('"', '""', $label);
+
+					// quote data
+					if(preg_match('/-*[^0-9\,\.]/', $label))
+						$label = '"'.$label.'"';
+
+					// x labels
+					if($index == 0) {
+						if($table['with_zoom'] == 'T')
+							array_unshift($x_labels, $label);
+						else
+							$x_labels[] = $count++;
+
+					// y value
+					} elseif($index == $y_index) {
+						if($table['with_zoom'] == 'T')
+							array_unshift($y_values, $label);
+						else
+							$y_values[] = $label;
+
+						if(!isset($y_min) || (intval($label) < $y_min))
+							$y_min = intval($label);
+
+						if(!isset($y_max) || (intval($label) > $y_max))
+							$y_max = intval($label);
+
+					// y2 value
+					} elseif($index == $y2_index) {
+						if($table['with_zoom'] == 'T')
+							array_unshift($y2_values, $label);
+						else
+							$y_values[] = $label;
+
+						if(!isset($y_min) || (intval($label) < $y_min))
+							$y_min = intval($label);
+
+						if(!isset($y_max) || (intval($label) > $y_max))
+							$y_max = intval($label);
+
+					// y3 value
+					} elseif($index == $y3_index) {
+						if($table['with_zoom'] == 'T')
+							array_unshift($y3_values, $label);
+						else
+							$y_values[] = $label;
+
+						if(!isset($y_min) || (intval($label) < $y_min))
+							$y_min = intval($label);
+
+						if(!isset($y_max) || (intval($label) > $y_max))
+							$y_max = intval($label);
+
+						// we won't process the rest
+						break;
+					}
+
+					// next column
+					$index++;
+				}
+
+			}
+
+
+			// y minimum
+			if($y_min > 0)
+				$y_min = 0;
+
+			// y maximum
+			$y_max = strval($y_max);
+			if(strlen($y_max) == 1)
+				$y_max = 10;
+			elseif(strlen($y_max) == 2)
+				$y_max = (intval(substr($y_max, 0, 1))+1)*10;
+			elseif(strlen($y_max) == 3)
+				$y_max = (intval(substr($y_max, 0, 2))+1)*10;
+			else
+				$y_max = strval(intval(substr($y_max, 0, 2))+1).substr('0000000000000000000000000000000000000000000000000000', 0, strlen($y_max)-2);
+
+			// data series
+			$elements = array();
+			if(count($y_values))
+				$elements[] = '{ "type":"bar_glass", "colour":"#BF3B69", "values": [ '.join(',', $y_values).' ], "text": '.$y_title.', "font-size": 12 }';
+
+			if(count($y2_values))
+				$elements[] = '{ "type": "line", "width": 1, "colour": "#5E4725", "values": [ '.join(',', $y2_values).' ], "text": '.$y2_title.', "font-size": 12 }';
+
+			if(count($y3_values))
+				$elements[] = '{ "type":"bar_glass", "colour":"#5E0722", "values": [ '.join(',', $y3_values).' ], "text": '.$y3_title.', "font-size": 12 }';
+
+			// the full setup
+			$text = '{ "elements": [ '.join(',', $elements).' ], "x_axis": { "offset": false, "steps": 1, "labels": { "steps": 3, "rotate": 310, "labels": [ '.join(',', $x_labels).' ] } }, "y_axis": { "min": '.$y_min.', "max": '.$y_max.' } }';
+
+			return $text;
+
+		// first number
+		case 'column':
+
+			// comma separated values
+			$separator = ",";
+
+			// process every table row
+			while($row =& SQL::fetch($rows)) {
+
+				// not always the first column
+				$index = 0;
+				foreach($row as $name => $value) {
+					$index++;
+
+					// skip dates and links
+					if(($index == 1) && ($table['with_zoom'] != 'N'))
+						continue;
+
+					// glue cells
+					if($text)
+						$text .= $separator;
+
+					// clean spaces
+					$label = trim(preg_replace('/\s/', ' ', $value));
+
+					// encode in iso8859
+					$label = utf8::to_iso8859($label);
+
+					// escape quotes to preserve them in the data
+					$label = str_replace('"', '""', $label);
+
+					// quote data
+					if(preg_match('/[^a-zA-Z0-9\,\.\-_]/', $label))
+						$text .= '"'.$label.'"';
+					else
+						$text .= $label;
+
+					// only first column
+					break;
+				}
+
+			}
+
+			return $text;
+
+		// produce a raw table
+		case 'raw':
+
+			// comma separated values
+			$separator = ",";
+
+			// process every table row
+			while($row =& SQL::fetch($rows)) {
+
+				// one cell at a time
+				$index = 0;
+				foreach($row as $name => $value) {
+
+					// glue cells
+					if($index++)
+						$text .= $separator;
+
+					// clean spaces
+					$label = trim(preg_replace('/\s/', ' ', $value));
+
+					// encode in iso8859
+					$label = utf8::to_iso8859($label);
+
+					// escape quotes to preserve them in the data
+					$label = str_replace('"', '""', $label);
+
+					// make a link if this is a reference
+					if(($index == 0) && ($table['with_zoom'] == 'Y'))
+						$label = $context['url_to_home'].$label;
+
+					// quote data
+					if(preg_match('/[^a-zA-Z0-9\-_]/', $label))
+						$text .= '"'.$label.'"';
+					else
+						$text .= $label;
+				}
+
+				// new line
+				$text .= "\n";
+			}
+
 			return $text;
 
 		// a simple table
@@ -589,7 +597,7 @@ Class Tables {
 
 			$text = '';
 			while($row =& SQL::fetch($rows)) {
-				$text .= '	<record>'."\n";
+				$text .= '	<item>'."\n";
 				foreach($row as $name => $value) {
 					$type = preg_replace('/[^a-z0-9]+/i', '_', $name);
 					if(preg_match('/^[^a-z]/i', $type))
@@ -598,11 +606,11 @@ Class Tables {
 						.preg_replace('/&(?!(amp|#\d+);)/i', '&amp;', utf8::transcode(str_replace(array('left=', 'right='), '', $value)))
 						.'</'.$type.'>'."\n";
 				}
-				$text .= '	</record>'."\n\n";
+				$text .= '	</item>'."\n\n";
 			}
 
 			return '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
-				.'<table>'."\n".$text.'</table>'."\n";
+				.'<items>'."\n".$text.'</items>'."\n";
 		}
 	}
 
@@ -790,7 +798,7 @@ Class Tables {
 		global $context;
 
 		// check the target action
-		if(!preg_match('/^(delete|edit|filters|fetch_as_csv|fetch_as_xml|view)$/', $action))
+		if(!preg_match('/^(delete|edit|fetch_as_csv|fetch_as_json|fetch_as_raw|fetch_as_xml|view)$/', $action))
 			return 'tables/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
@@ -971,9 +979,7 @@ Class Tables {
 		}
 
 		// set default values
-		if(!isset($fields['with_number']) || ($fields['with_number'] != 'Y'))
-			$fields['with_number'] = 'N';
-		if(!isset($fields['with_zoom']) || ($fields['with_zoom'] != 'Y'))
+		if(!isset($fields['with_zoom']))
 			$fields['with_zoom'] = 'N';
 
 		// set default values for this editor
@@ -995,7 +1001,6 @@ Class Tables {
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',"
 				."query='".SQL::escape($fields['query'])."',"
-				."with_number='".SQL::escape(isset($fields['with_number']) ? $fields['with_number'] : '')."',"
 				."with_zoom='".SQL::escape(isset($fields['with_zoom']) ? $fields['with_zoom'] : '')."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
 				."edit_id=".SQL::escape($fields['edit_id']).","
@@ -1013,7 +1018,6 @@ Class Tables {
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',"
 				."query='".SQL::escape(isset($fields['query']) ? $fields['query'] : '')."',"
-				."with_number='".SQL::escape(isset($fields['with_number']) ? $fields['with_number'] : '')."',"
 				."with_zoom='".SQL::escape(isset($fields['with_zoom']) ? $fields['with_zoom'] : '')."',"
 				."edit_name='".($fields['edit_name'])."',"
 				."edit_id=".($fields['edit_id']).","
@@ -1055,8 +1059,7 @@ Class Tables {
 		$fields['description']	= "TEXT NOT NULL";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['query']		= "TEXT NOT NULL";
-		$fields['with_number']	= "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
-		$fields['with_zoom']	= "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
+		$fields['with_zoom']	= "ENUM('Y','T','N') DEFAULT 'N' NOT NULL";
 		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
@@ -1072,25 +1075,6 @@ Class Tables {
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 
 		$text = SQL::setup_table('tables', $fields, $indexes);
-
-
-		$fields = array();
-		$fields['id']				= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['table_id']			= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['option_name']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['is_file']			= "ENUM('Yes', 'No') DEFAULT 'No' NOT NULL";
-		$fields['file_path']		= "VARCHAR(255) DEFAULT ''  NULL";
-		$fields['array_name']		= "VARCHAR(255) DEFAULT '' NULL";
-		$fields['option_sql']		= "Text";
-		$fields['table_alies']		= "VARCHAR(255) DEFAULT '' NULL";
-		$fields['option_code']	    = "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['filter_order']	    = "MEDIUMINT UNSIGNED DEFAULT '0' NOT NULL";
-
-		$indexes = array();
-		$indexes['PRIMARY KEY'] 	= "(id)";
-
-		$text .= SQL::setup_table('tables_filters', $fields, $indexes);
-
 		return $text;
 	}
 

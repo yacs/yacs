@@ -326,9 +326,10 @@ Class Files {
 	 *
 	 * @param string the selected anchor (e.g., 'article:12')
 	 * @param boolean TRUE if this can be optionnally avoided
+	 * @param array list of ids to avoid, if any
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $optional=FALSE) {
+	function count_for_anchor($anchor, $optional=FALSE, $avoid=NULL) {
 		global $context;
 
 		// sanity check
@@ -349,11 +350,16 @@ Class Files {
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
+		$where = '('.$where.')';
+
+		// ids to avoid
+		if($avoid)
+			$where .= ' AND (files.id NOT IN ('.join(',', $avoid).'))';
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('files')." AS files"
-			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
 
 		return SQL::query_scalar($query);
 	}
@@ -1469,6 +1475,7 @@ Class Files {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param array some ids to not list, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/fetch_as_msword.php
@@ -1490,7 +1497,7 @@ Class Files {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -1499,13 +1506,18 @@ Class Files {
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
+		$where = '('.$where.')';
+
+		// ids to avoid
+		if($avoid)
+			$where .= ' AND (files.id NOT IN ('.join(',', $avoid).'))';
 
 		// list items attached to this anchor, or to articles anchored to this anchor, or to articles anchored to sub-sections of this anchor
 		if($anchor && ($variant == 'feed')) {
 
 				// files attached directly to this anchor
 			$query = "(SELECT files.* FROM ".SQL::table_name('files')." AS files"
-				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$where."))"
+				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where.")"
 
 				." UNION"
 
@@ -1514,7 +1526,7 @@ Class Files {
 				." LEFT JOIN ".SQL::table_name('files')." AS files "
 				." ON ((files.anchor_type LIKE 'section') AND (files.anchor_id = sections.id))"
 				." WHERE (sections.anchor LIKE '".SQL::escape($anchor)."')"
-				." AND (".$where."))"
+				." AND ".$where.")"
 
 				." UNION"
 
@@ -1523,7 +1535,7 @@ Class Files {
 				." LEFT JOIN ".SQL::table_name('files')." AS files "
 				." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 				." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."')"
-				." AND (".$where.")"
+				." AND ".$where
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
@@ -1538,7 +1550,7 @@ Class Files {
 				." LEFT JOIN ".SQL::table_name('sections')." AS sections "
 				." ON ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
 				." WHERE (sections.anchor LIKE '".SQL::escape($anchor)."')"
-				." AND (".$where.")"
+				." AND ".$where
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
@@ -1549,7 +1561,7 @@ Class Files {
 		// list items attached directly to this anchor
 		} else
 			$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")"
+				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
 				." ORDER BY edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		// the list of files
@@ -1766,6 +1778,7 @@ Class Files {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param array some ids to not list, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/fetch_as_msword.php
@@ -1783,7 +1796,7 @@ Class Files {
 	 * @see sections/print.php
 	 * @see sections/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
+	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -1792,13 +1805,18 @@ Class Files {
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
+		$where = '('.$where.')';
+
+		// ids to avoid
+		if($avoid)
+			$where .= ' AND (files.id NOT IN ('.join(',', $avoid).'))';
 
 		// list items attached to this anchor, or to articles anchored to this anchor, or to articles anchored to sub-sections of this anchor
 		if($anchor && ($variant == 'feed')) {
 
 			// files attached directly to this anchor
 			$query = "(SELECT files.* FROM ".SQL::table_name('files')." AS files"
-				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$where."))"
+				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where.")"
 
 				." UNION"
 
@@ -1807,7 +1825,7 @@ Class Files {
 				." LEFT JOIN ".SQL::table_name('files')." AS files "
 				." ON ((files.anchor_type LIKE 'section') AND (files.anchor_id = sections.id))"
 				." WHERE (sections.anchor LIKE '".SQL::escape($anchor)."')"
-				." AND (".$where."))"
+				." AND ".$where.")"
 
 				." UNION"
 
@@ -1816,7 +1834,7 @@ Class Files {
 				." LEFT JOIN ".SQL::table_name('files')." AS files "
 				." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 				." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."')"
-				." AND (".$where.")"
+				." AND ".$where
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
@@ -1831,7 +1849,7 @@ Class Files {
 				." LEFT JOIN ".SQL::table_name('sections')." AS sections "
 				." ON ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
 				." WHERE (sections.anchor LIKE '".SQL::escape($anchor)."')"
-				." AND (".$where.")"
+				." AND ".$where
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
@@ -1842,8 +1860,41 @@ Class Files {
 		// list items attached directly to this anchor
 		} else
 			$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")"
+				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
 				." ORDER BY files.title, files.file_name, files.edit_date DESC LIMIT ".$offset.','.$count;
+
+		// the list of files
+		$output =& Files::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list embeddable files for one anchor
+	 *
+	 * @param string reference to the anchor
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see articles/edit.php
+	 * @see sections/edit.php
+	 */
+	function &list_embeddable_for_anchor($anchor, $offset=0, $count=20, $variant='embeddable') {
+		global $context;
+
+		// limit the scope of the request
+		$where = "files.active='Y'";
+		if(Surfer::is_member())
+			$where .= " OR files.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR files.active='N'";
+		$where = '('.$where.')';
+
+		// list items attached directly to this anchor
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
+			." ORDER BY edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		// the list of files
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -1991,6 +2042,9 @@ Class Files {
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
 			$fields['create_date'] = $fields['edit_date'];
 
+		// columns updated
+		$query = array();
+
 		// update the existing record
 		if(isset($fields['id'])) {
 
@@ -2000,43 +2054,45 @@ Class Files {
 				return FALSE;
 			}
 
-			$query = "UPDATE ".SQL::table_name('files')." SET ";
-
 			// an actual upload has taken place --change modification date and reset detach data
 			if(isset($fields['file_name']) && ($fields['file_name'] != 'none')) {
-				$query .= "file_name='".SQL::escape($fields['file_name'])."',"
-					."file_size='".SQL::escape($fields['file_size'])."',"
-					."create_name='".SQL::escape($fields['edit_name'])."',"
-					."create_id=".SQL::escape($fields['edit_id']).","
-					."create_address='".SQL::escape($fields['edit_address'])."',"
-					."create_date='".SQL::escape($fields['edit_date'])."',"
-					."edit_name='".SQL::escape($fields['edit_name'])."',"
-					."edit_id=".SQL::escape($fields['edit_id']).","
-					."edit_address='".SQL::escape($fields['edit_address'])."',"
-					."edit_action='file:update',"
-					."edit_date='".SQL::escape($fields['edit_date'])."',"
-					."assign_name='',"
-					."assign_id='',"
-					."assign_address='',"
-					."assign_date='',";
+				$query[] = "assign_address=''";
+				$query[] = "assign_date=''";
+				$query[] = "assign_id=''";
+				$query[] = "assign_name=''";
+				$query[] = "create_address='".SQL::escape($fields['edit_address'])."'";
+				$query[] = "create_date='".SQL::escape($fields['edit_date'])."'";
+				$query[] = "create_id=".SQL::escape($fields['edit_id']);
+				$query[] = "create_name='".SQL::escape($fields['edit_name'])."'";
+				$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+				$query[] = "edit_action='file:update'";
+				$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+				$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+				$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+				$query[] = "file_name='".SQL::escape($fields['file_name'])."'";
+				$query[] = "file_size='".SQL::escape($fields['file_size'])."'";
 			}
 
 			// fields that are visible only to authenticated associates and editors
-			if(Surfer::is_empowered() && Surfer::is_member())
-				$query .= "active='".SQL::escape($fields['active'])."',"
-					."active_set='".SQL::escape($fields['active_set'])."',"
-					."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
-					."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',";
+			if(Surfer::is_member()) {
+				$query[] = "active='".SQL::escape($fields['active'])."'";
+				$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+				$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
+				$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
+			}
 
 			// regular fields
-			$query .= "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
-				."alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."',"
-				."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-				."file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."',"
-				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
-				."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"
-				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'"
-				." WHERE id = ".SQL::escape($fields['id']);
+			$query[] = "alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."'";
+			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
+			if(isset($fields['description']))
+				$query[] = "description='".SQL::escape($fields['description'])."'";
+			$query[] = "file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."'";
+			$query[] = "keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."'";
+			$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
+			$query[] = "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
+
+			// build the full query
+			$query = "UPDATE ".SQL::table_name('files')." SET ".join(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
 
 			// actual insert
 			if(SQL::query($query) === FALSE)
@@ -2045,33 +2101,35 @@ Class Files {
 		// insert a new record
 		} elseif(isset($fields['file_name']) && $fields['file_name'] && isset($fields['file_size']) && $fields['file_size']) {
 
-			$query = "INSERT INTO ".SQL::table_name('files')." SET ";
-			$query .= "anchor='".SQL::escape($fields['anchor'])."',"
-				."active='".SQL::escape($fields['active'])."',"
-				."active_set='".SQL::escape($fields['active_set'])."',"
-				."alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."',"
-				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1),"
-				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1),"
-				."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-				."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."',"
-				."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).","
-				."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."',"
-				."create_date='".SQL::escape($fields['create_date'])."',"
-				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
-				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id=".SQL::escape($fields['edit_id']).","
-				."edit_address='".SQL::escape($fields['edit_address'])."',"
-				."edit_action='file:create',"
-				."edit_date='".SQL::escape($fields['edit_date'])."',"
-				."file_name='".SQL::escape($fields['file_name'])."',"
-				."file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."',"
-				."file_size='".SQL::escape($fields['file_size'])."',"
-				."hits=0,"
-				."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
-				."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"
-				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',"
-				."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
-				."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+			$query[] = "alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."'";
+			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
+			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
+			$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
+			$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
+			$query[] = "create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."'";
+			$query[] = "create_date='".SQL::escape($fields['create_date'])."'";
+			$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='file:create'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+			$query[] = "file_name='".SQL::escape($fields['file_name'])."'";
+			$query[] = "file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."'";
+			$query[] = "file_size='".SQL::escape($fields['file_size'])."'";
+			$query[] = "hits=0";
+			$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
+			$query[] = "keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."'";
+			$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
+			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
+			$query[] = "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
+
+			// build the full query
+			$query = "INSERT INTO ".SQL::table_name('files')." SET ".join(', ', $query);
 
 			// actual insert
 			if(SQL::query($query) === FALSE)
@@ -2119,23 +2177,30 @@ Class Files {
 			// remember task basic attributes
 			if(!strcmp($name, 'TASK')) {
 
-				// position parent as duration
-				if($context['gan2simile']['depth'] && isset($context['gan2simile']['tasks'][$context['gan2simile']['last_id']]))
-					$context['gan2simile']['tasks'][$context['gan2simile']['last_id']]['isDuration'] = TRUE;
+				if($context['gan2simile']['depth'] < 5) {
 
-				// remember this task
-				$context['gan2simile']['tasks'][ $attrs['ID'] ] = array(
-					'title' => $attrs['NAME'],
-					'start' => $attrs['START'],
-					'duration' => $attrs['DURATION'],
-					'isDuration' => FALSE,
-					'notes' => ''
-					);
-				$context['gan2simile']['current_id'] = $attrs['ID'];
+					// flag duration if not milestone
+					if($attrs['DURATION'] > 0)
+						$duration = TRUE;
+					else
+						$duration = FALSE;
 
-				// move to children
-				if(!$context['gan2simile']['depth']) {
-					$context['gan2simile']['last_id'] = $attrs['ID'];
+					// remember this task
+					$context['gan2simile']['tasks'][ $attrs['ID'] ] = array(
+						'title' => $attrs['NAME'],
+						'start' => $attrs['START'],
+						'duration' => $attrs['DURATION'],
+						'complete' => $attrs['COMPLETE'],
+						'isDuration' => $duration,
+						'notes' => ''
+						);
+					$context['gan2simile']['current_id'] = $attrs['ID'];
+
+					// move to children
+					if(!$context['gan2simile']['depth']) {
+						$context['gan2simile']['last_id'] = $attrs['ID'];
+					}
+
 				}
 				$context['gan2simile']['depth']++;
 
@@ -2189,13 +2254,32 @@ Class Files {
 			$end = $start + ($task['duration'] * 24*60*60);
 			$task['end'] = date('M j Y G:i:s', $end).' GMT';
 
+			$earliestEnd = ' earliestEnd="'.$task['start'].'"';
+			if($task['complete'] > 0) {
+
+				// from percentage to number of days
+				$task['complete'] = intval($task['complete'] * $task['duration'] / 100);
+
+				// add two days for the first week-end
+				if(($info['wday'] > 0) && ($info['wday'] < 6) && ($info['wday'] + $task['complete'] > 6))
+					$task['complete'] += 2;
+
+				// take week-ends into consideration
+				$task['complete'] += intval($task['complete']/7)*2;
+
+				// current completion
+				$end = $start + ($task['complete'] * 24*60*60);
+				$earliestEnd = ' earliestEnd="'.date('M j Y G:i:s', $end).' GMT"';
+
+			}
+
 			// has this one several children?
 			$duration = '';
 			if($task['isDuration'])
 				$duration = ' isDuration="true"';
 
 			// one event per task
-			$text .= '	<event title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $task['title'])).'" start="'.$task['start'].'" end="'.$task['end'].'" '.$duration.'/>'."\n";
+			$text .= '	<event title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $task['title'])).'" start="'.$task['start'].'"'.$earliestEnd.' end="'.$task['end'].'" '.$duration.'/>'."\n";
 		}
 
 		// no more events
@@ -2327,7 +2411,7 @@ Class Files {
 
 					// create the record in the database, and remember this post in comment
 					if($fields['id'] = Files::post($fields)) {
-						return "\n\n[file=".$fields['id'].']';
+						return "\n[file=".$fields['id'].']';
 					} else
 						return FALSE;
 				}

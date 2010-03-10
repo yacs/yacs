@@ -400,7 +400,7 @@ Class User extends Anchor {
 
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description'])) {
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
 				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
@@ -419,8 +419,7 @@ Class User extends Anchor {
 		} elseif($action == 'image:delete') {
 
 			// suppress reference in main description field
-			if($origin && preg_match('/\[image='.$origin.'.*?\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[image='.$origin.'.*?\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
@@ -457,31 +456,29 @@ Class User extends Anchor {
 
 		// append a new image
 		} elseif($action == 'image:set_as_both') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			// do not remember minor changes
 			$silently = TRUE;
 
 		// add a reference to a location in the article description
-		} elseif($action == 'location:create' || $action == 'location:update') {
-			if(!preg_match('/\[location='.$origin.'\]/', $this->item['description']))
+		} elseif($action == 'location:create') {
+			if(!Codes::check_embedded($this->item['description'], 'location', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [location='.$origin.']')."'";
 
 		// suppress a reference to a location that has been deleted
 		} elseif($action == 'location:delete') {
-			if($origin && preg_match('/\[location='.$origin.'\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[location='.$origin.'\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'location', $origin))."'";
 
 		// add a reference to a new table in the user description
-		} elseif($action == 'table:create' || $action == 'table:update') {
-			if(!preg_match('/\[table='.$origin.'\]/', $this->item['description']))
+		} elseif($action == 'table:create') {
+			if(!Codes::check-embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [table='.$origin.']')."'";
 
 		// suppress a reference to a table that has been deleted
 		} elseif($action == 'table:delete') {
-			if($origin && preg_match('/\[table='.$origin.'\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[table='.$origin.'\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
 

@@ -1410,7 +1410,7 @@ Class Categories {
 			."edit_name='".SQL::escape($fields['edit_name'])."',"
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
-			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : '0').","
+			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"

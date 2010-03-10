@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:37+0100
-PO-Revision-Date: 2010-02-10 00:40+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-10 09:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,7 +24,6 @@ $_SESSION['l10n']['en']['%d records have been processed']='%d records have been 
 $_SESSION['l10n']['en']['%d table'.chr(0).'%d tables']='%d table'.chr(0).'%d tables';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['Add a table']='Add a table';
-$_SESSION['l10n']['en']['Add filters']='Add filters';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['519471e63694deb32693cdb1e9f0342c']='As this field may be searched by surfers, please choose adequate searchable words';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
@@ -37,18 +36,20 @@ $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a table']='Delete a table';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['86c56a7a7f1de49541c9835d0e87b60b']='Do not change modification date of the main page.';
-$_SESSION['l10n']['en']['Do not display row numbers']='Do not display row numbers';
 $_SESSION['l10n']['en']['Double quote character']='Double quote character';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a table']='Edit a table';
-$_SESSION['l10n']['en']['Edit filters']='Edit filters';
 $_SESSION['l10n']['en']['Error in table query %s']='Error in table query %s';
-$_SESSION['l10n']['en']['da0357c97db9a18255b418e583fa8f36']='Everything may be downloaded as CSV';
 $_SESSION['l10n']['en']['Fetch as CSV']='Fetch as CSV';
+$_SESSION['l10n']['en']['Fetch as JSON']='Fetch as JSON';
 $_SESSION['l10n']['en']['Fetch as XML']='Fetch as XML';
 $_SESSION['l10n']['en']['Field delimiter']='Field delimiter';
 $_SESSION['l10n']['en']['Field enclosure']='Field enclosure';
 $_SESSION['l10n']['en']['File']='File';
+$_SESSION['l10n']['en']['First column']='First column';
+$_SESSION['l10n']['en']['20f8959acdc60a8932d43f8cb373d9d7']='First column contains useful data';
+$_SESSION['l10n']['en']['c3a3f38c888067af9382d5d328d04412']='First column provides a web link';
+$_SESSION['l10n']['en']['First column refers to time']='First column refers to time';
 $_SESSION['l10n']['en']['6f669edce560b5ef37d93e6e572d6f05']='For more information check the %s.';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Import']='Import';
@@ -56,9 +57,8 @@ $_SESSION['l10n']['en']['Import data']='Import data';
 $_SESSION['l10n']['en']['Import table content']='Import table content';
 $_SESSION['l10n']['en']['a6804742e1149d9258b2cb95dfc94fbc']='Importing data into %s from %s...';
 $_SESSION['l10n']['en']['Impossible to read %s.']='Impossible to read %s.';
-$_SESSION['l10n']['en']['In %s']='In %s';
 $_SESSION['l10n']['en']['In: %s']='In: %s';
-$_SESSION['l10n']['en']['04cdfeb20bae9bc04b09884a2671e578']='Insert a column with row numbers';
+$_SESSION['l10n']['en']['JSON']='JSON';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Look for unused tables']='Look for unused tables';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
@@ -95,7 +95,6 @@ $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tabulation character']='Tabulation character';
 $_SESSION['l10n']['en']['17ab77ed5dc36bd833ad93203a00f4ee']='The SELECT command submitted to the database';
 $_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
-$_SESSION['l10n']['en']['35c1b3ef0d372df0083c9198a71172fb']='The first column links to a detail page';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['8f9530ed279d7911ad4a48008be56b92']='This script allows for the upload of data to some table of the database.';
 $_SESSION['l10n']['en']['Title']='Title';
@@ -103,15 +102,15 @@ $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive
 $_SESSION['l10n']['en']['Unused: %s']='Unused: %s';
 $_SESSION['l10n']['en']['View a table']='View a table';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
-$_SESSION['l10n']['en']['With index']='With index';
-$_SESSION['l10n']['en']['With zoom']='With zoom';
 $_SESSION['l10n']['en']['XML']='XML';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['948e060cc5f48890605c6c71f4b76bee']='Yes, I want to delete this table';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['bytes']='bytes';
+$_SESSION['l10n']['en']['delete']='delete';
+$_SESSION['l10n']['en']['details']='details';
+$_SESSION['l10n']['en']['edit']='edit';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
-$_SESSION['l10n']['en']['more']='more';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

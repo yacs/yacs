@@ -226,13 +226,13 @@ Class SQL {
 	function &escape($text) {
 		global $context;
 
-		// store binary Unicode, if possible
-		if(isset($context['database_is_utf8']) && $context['database_is_utf8'] && is_callable('utf8', 'from_unicode'))
-			$text = utf8::from_unicode($text);
-
 		// do not quote numbers
 		if(!is_string($text))
 			$text = (string)$text;
+
+		// store binary Unicode, if possible
+		if(isset($context['database_is_utf8']) && $context['database_is_utf8'] && is_callable('utf8', 'from_unicode'))
+			$text = utf8::from_unicode($text);
 
 		// we do need a connection to the database
 		if(!isset($context['connection']) || !$context['connection'])
@@ -390,12 +390,12 @@ Class SQL {
 				$tables[] = strtolower($row[0]);
 			SQL::free($rows);
 		}
-		
+
 		// if the table does exist
 		$target = strtolower($context['table_prefix'].$table);
 		if(count($tables) && in_array($target, $tables))
 			return TRUE;
-			
+
 		// no table yet
 		return FALSE;
 	}
@@ -906,7 +906,7 @@ Class SQL {
 		// empty list
 		if(!SQL::count($result))
 			return $output;
-			
+
 		// get first column of first row
 		if(($row = SQL::fetch_row($result)) && isset($row[0]))
 			$output = $row[0];

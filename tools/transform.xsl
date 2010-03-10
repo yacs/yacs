@@ -88,12 +88,6 @@
 	<dt>page_publisher</dt>
     	<dd><xsl:value-of select="page_publisher" disable-output-escaping="yes"/></dd>
 
-	<dt>page_menu</dt>
-    	<dd><xsl:value-of select="page_menu" disable-output-escaping="yes"/></dd>
-
-	<dt>path_bar</dt>
-    	<dd><xsl:value-of select="path-bar" disable-output-escaping="yes"/></dd>
-
 	<dt>prefix</dt>
     	<dd><xsl:value-of select="prefix" disable-output-escaping="yes"/></dd>
 

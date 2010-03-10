@@ -685,6 +685,17 @@ Class Sections {
 				$old_id = $item['id'];
 				unset($item['id']);
 
+				// creator has to be the person who duplicates
+				unset($item['create_address']);
+				unset($item['create_date']);
+				unset($item['create_id']);
+				unset($item['create_name']);
+
+				unset($item['edit_address']);
+				unset($item['edit_date']);
+				unset($item['edit_id']);
+				unset($item['edit_name']);
+
 				// target anchor
 				$item['anchor'] = $anchor_to;
 
@@ -2455,7 +2466,7 @@ Class Sections {
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
 			.$handle
-			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : '0').","
+			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
 			."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."',"
@@ -2865,7 +2876,6 @@ Class Sections {
 		// search is restricted to one section
 		$sections_where = '';
 		if($section_id) {
-			$sections_where = "sections.id = ".SQL::escape($section_id);
 
 			// look for children
 			$anchors = array();
@@ -2898,9 +2908,11 @@ Class Sections {
 				$anchors = array_merge($anchors, $topics);
 			}
 
-			// extend the search clause
-			foreach($anchors as $reference)
-				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
+			// also include the top level, of course
+			$anchors[] = $section_id;
+
+			// the full set of sections searched
+			$sections_where = "sections.id IN (".str_replace('section:', '', join(", ", $anchors)).")";
 
 		}
 

@@ -50,7 +50,7 @@ if(Surfer::get_id() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
 // associates and authenticated owners can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -76,8 +76,7 @@ if(isset($item['file_name']))
 
 // not found
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {

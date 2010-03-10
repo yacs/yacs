@@ -1235,6 +1235,14 @@ function render_skin() {
 	if(isset($context['javascript']['timeline']))
 		$context['page_header'] .= '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n";
 
+	// activate SIMILE timeplot, if available
+	if(isset($context['javascript']['timeplot']))
+		$context['page_header'] .= '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>'."\n";
+
+	// activate SIMILE exhibit, if available
+	if(isset($context['javascript']['exhibit']))
+		$context['page_header'] .= '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>'."\n";
+
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
 // 		$context['page_header'] .= '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>'."\n";

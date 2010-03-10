@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:11+0100
-PO-Revision-Date: 2010-02-10 00:17+0100
+POT-Creation-Date: 2010-03-10 21:56+0100
+PO-Revision-Date: 2010-03-10 22:01+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -151,6 +151,7 @@ $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure the page factory']='Configure the page factory';
 $_SESSION['l10n']['en']['Configured virtual hosts']='Configured virtual hosts';
+$_SESSION['l10n']['en']['a508aa452fa0a356a194604672bc6e0c']='Connect to the mail server described below, and authenticate with SMTP if necessary.';
 $_SESSION['l10n']['en']['3e74311bb397360085e4752fda05c3d5']='Consider only tables with the prefix %s';
 $_SESSION['l10n']['en']['Constants']='Constants';
 $_SESSION['l10n']['en']['Contact']='Contact';
@@ -160,6 +161,7 @@ $_SESSION['l10n']['en']['Content management']='Content management';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Cookies']='Cookies';
 $_SESSION['l10n']['en']['Cookies sent by the browser:']='Cookies sent by the browser:';
+$_SESSION['l10n']['en']['a3ab213a5814acfbaf95505b7cb18976']='Copy messages in the file temporary/debug.txt. Use this option only for troubleshooting.';
 $_SESSION['l10n']['en']['Copyright']='Copyright';
 $_SESSION['l10n']['en']['Covers']='Covers';
 $_SESSION['l10n']['en']['Create tables in the database']='Create tables in the database';
@@ -196,7 +198,7 @@ $_SESSION['l10n']['en']['3ba9d28263b44fe1f7c433530bfdd694']='Deleting the refere
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['5de98934abfaf98fcd8b687a57895acf']='Directory browsing will be prevented globally.';
 $_SESSION['l10n']['en']['Disabling extension %s']='Disabling extension %s';
-$_SESSION['l10n']['en']['fad30612d408b40e0cc124f7911619e9']='Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.';
+$_SESSION['l10n']['en']['Do not encode messages.']='Do not encode messages.';
 $_SESSION['l10n']['en']['d439e9863c1ec160af48834bc7a4c614']='Do not try to compress transmitted data. The web engine already does it.';
 $_SESSION['l10n']['en']['Done']='Done';
 $_SESSION['l10n']['en']['e69eddc8001d51c8e5c2f0335019f77d']='Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.';
@@ -263,7 +265,6 @@ $_SESSION['l10n']['en']['d5651dd5d23d7e873001e4317f98bd94']='Launch the Content 
 $_SESSION['l10n']['en']['Legal Stuff']='Legal Stuff';
 $_SESSION['l10n']['en']['Linking hook %s for %s']='Linking hook %s for %s';
 $_SESSION['l10n']['en']['Linking hooks']='Linking hooks';
-$_SESSION['l10n']['en']['48b95e6fc201e503e1949055d5d96c56']='List messages sent electronically in the file temporary/debug.txt. Use this option only for troubleshooting.';
 $_SESSION['l10n']['en']['Listing files...']='Listing files...';
 $_SESSION['l10n']['en']['Listing images...']='Listing images...';
 $_SESSION['l10n']['en']['Login name']='Login name';
@@ -272,6 +273,7 @@ $_SESSION['l10n']['en']['Look for software extensions']='Look for software exten
 $_SESSION['l10n']['en']['Mail']='Mail';
 $_SESSION['l10n']['en']['Mailings']='Mailings';
 $_SESSION['l10n']['en']['Main Switch']='Main Switch';
+$_SESSION['l10n']['en']['3f591c66238d4558929eaa6ea5eca59b']='Make notifications personal by using surfer address if known.';
 $_SESSION['l10n']['en']['Manage virtual hosts']='Manage virtual hosts';
 $_SESSION['l10n']['en']['Mask for directories']='Mask for directories';
 $_SESSION['l10n']['en']['Mask for files']='Mask for files';
@@ -298,6 +300,7 @@ $_SESSION['l10n']['en']['No file have been found.']='No file have been found.';
 $_SESSION['l10n']['en']['No image have been found.']='No image have been found.';
 $_SESSION['l10n']['en']['No item has been found.']='No item have been found.';
 $_SESSION['l10n']['en']['No statement has been uploaded.']='No statement has been uploaded.';
+$_SESSION['l10n']['en']['87ef6f7124dac5a5dcfe5ddbaa75be8a']='Normalized format, for example: "John Ford" &lt;john.ford@acme.com&gt;';
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
 $_SESSION['l10n']['en']['OK']='OK';
 $_SESSION['l10n']['en']['On-going archive preparation...']='On-going archive preparation...';
@@ -413,6 +416,7 @@ $_SESSION['l10n']['en']['43cf4e3f828cddc02c9faa65691fef86']='Skip transient data
 $_SESSION['l10n']['en']['Smileys']='Smileys';
 $_SESSION['l10n']['en']['f8fa0a75804e151404d7f853baac1243']='Some columns may be created or converted if their type has evolved.';
 $_SESSION['l10n']['en']['79d0f74872f84cb801288941b2cb9d23']='Source address for electronic mail (From:)';
+$_SESSION['l10n']['en']['780cac1df45d6fe755c0b5d09dfd99ae']='Source address for notifications (From:)';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['253263511fcec7ba4172c093aa63fb6d']='Stick to the preferred language selected above.';
 $_SESSION['l10n']['en']['Submit']='Submit';
@@ -468,10 +472,10 @@ $_SESSION['l10n']['en']['06c9d7fc993053f7b3b01351d1b9fce8']='This system does no
 $_SESSION['l10n']['en']['0af91edfa726acd4cf2f04676fe5dabf']='This system is not configured to send e-mail messages.';
 $_SESSION['l10n']['en']['Threads']='Threads';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
+$_SESSION['l10n']['en']['aeeda66c94ebd61effc36991519375d1']='To forward logged events to one or several recipients.';
 $_SESSION['l10n']['en']['4a2663fa577bb3ac997c6c7cd701db18']='To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.';
 $_SESSION['l10n']['en']['86afc75f7de95fed755b0c2073390060']='To share user information among several YACS servers configure below parameters specific to the table of users. Else keep fields empty.';
 $_SESSION['l10n']['en']['Tools']='Tools';
-$_SESSION['l10n']['en']['a99b1026d870234069974afce5bcff4f']='Transform messages using base64 encoding to ensure that only 7-bit ASCII entities are transmitted.';
 $_SESSION['l10n']['en']['c084e53bb1a030ebb344d6f7e9314e44']='Type one or several SQL statements below to change the content of the database. WARNING!!! Be sure to understand the conceptual data model before proceeding, else you would corrupt database content.';
 $_SESSION['l10n']['en']['UPDATE commands separated by ;']='UPDATE commands separated by ;';
 $_SESSION['l10n']['en']['URL generation']='URL generation';
@@ -484,9 +488,10 @@ $_SESSION['l10n']['en']['Updating file permissions...']='Updating file permissio
 $_SESSION['l10n']['en']['Updating the database...']='Updating the database...';
 $_SESSION['l10n']['en']['Upload a .CSV file']='Upload a .CSV file';
 $_SESSION['l10n']['en']['Use a form']='Use a form';
-$_SESSION['l10n']['en']['3241fbb4d5ac7366f2ab22648b42d7b4']='Use below parameters to handle electronic mail messages.';
+$_SESSION['l10n']['en']['90c01c460c5dbf70e58d09c6350a761b']='Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted.';
+$_SESSION['l10n']['en']['caae5b9c49a059fe7046d2e099827cb6']='Use following parameters to send messages and notifications.';
 $_SESSION['l10n']['en']['Use nick names instead.']='Use nick names instead.';
-$_SESSION['l10n']['en']['9c3d935b6f2b7499c9297ed3399da557']='Use the mail server described below, and authenticate with SMTP if necessary.';
+$_SESSION['l10n']['en']['6b2ee5d2abe4d0069335a7ef306f068b']='Use the fixed source address configured above.';
 $_SESSION['l10n']['en']['6ebe3d9c1b28a65d21eb5e47e6dfe965']='Use this script to download archives of all files, images, parameters or current skin. Please file them at your computer for backup purpose.';
 $_SESSION['l10n']['en']['6207ec7a36b59e3ccad693f699bc93ee']='Use this script to upload and process a set of SQL statements. WARNING!!! If you upload a backup file existing data will be destroyed prior the restauration.';
 $_SESSION['l10n']['en']['User Information']='User Information';

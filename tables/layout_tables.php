@@ -47,21 +47,60 @@ Class Layout_tables extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
+
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
 			$url = Tables::get_url($item['id']);
 
+			// codes to embed this image
+			if($anchor && ($this->layout_variant == $anchor->get_reference())) {
+
+				// codes
+				$codes = array();
+				$codes[] = '[table='.$item['id'].']';
+				$codes[] = '[table.filter='.$item['id'].']';
+				$codes[] = '[table.chart='.$item['id'].']';
+				$codes[] = '[table.bars='.$item['id'].']';
+				$codes[] = '[table.line='.$item['id'].']';
+
+				// integrate codes
+				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs')) {
+					foreach($codes as $code)
+						$suffix .= '<a onclick="edit_insert(\'\', \' '.$code.'\');return false;" title="insert" tabindex="2000">'.$code.'</a> ';
+
+				} else
+					$suffix .= join(' ', $codes);
+				$suffix .= BR;
+
+			}
+
+			// we are listing tables attached to an chor
+			if($anchor && ($this->layout_variant == $anchor->get_reference())) {
+
+				$label = '_';
+
+				// the title
+				if($item['title'])
+					$suffix .= Skin::strip($item['title'], 10);
+
+			// an index of tables
+			} else {
+
+				// the title
+				if($item['title'])
+					$label = Skin::strip($item['title'], 10);
+
+			}
+
 			// flag tables created or updated very recently
 			if(isset($item['create_date']) && ($item['create_date'] >= $dead_line))
 				$suffix .= NEW_FLAG;
 			elseif(isset($item['edit_date']) && ($item['edit_date'] >= $dead_line))
 				$suffix .= UPDATED_FLAG;
-
-			// the title
-			if($item['title'])
-				$label = Skin::strip($item['title'], 10);
 
 			// details
 			$details = array();
@@ -70,27 +109,17 @@ Class Layout_tables extends Layout_interface {
 			if(Surfer::is_logged() && $item['edit_name']) {
 				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 			}
-			$suffix .= BR.ucfirst(implode(', ', $details))."\n";
 
 			// the menu bar for associates and poster
 			if(Surfer::is_empowered()) {
-				$menu = array();
-				$menu = array_merge($menu, array( Tables::get_url($item['id'], 'edit') => i18n::s('Edit') ));
-				$menu = array_merge($menu, array( Tables::get_url($item['id'], 'delete') => i18n::s('Delete') ));
-				$menu = array_merge($menu, array( Tables::get_url($item['id'], 'filters') => i18n::s('Add filters') ));
-				$suffix .= ' '.Skin::build_list($menu, 'menu');
+				$details[] = Skin::build_link(Tables::get_url($item['id'], 'view'), i18n::s('details'), 'basic');
+				$details[] = Skin::build_link(Tables::get_url($item['id'], 'edit'), i18n::s('edit'), 'basic');
+				$details[] = Skin::build_link(Tables::get_url($item['id'], 'delete'), i18n::s('delete'), 'basic');
 			}
 
-			// show an anchor link
-			if(($this->layout_variant != 'no_anchor') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
-				$anchor_url = $anchor->get_url();
-				$anchor_label = ucfirst($anchor->get_title());
-				$suffix .= BR.sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label));
-			}
-
-			// the image id to put as text in the left column
-			if($this->layout_variant == 'no_anchor')
-				$icon .= '[table='.$item['id'].']';
+			// append details
+			if(count($details))
+				$suffix .= BR.Skin::finalize_list($details, 'menu');
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'table', $icon);

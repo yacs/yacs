@@ -831,11 +831,11 @@ Class Article extends Anchor {
 			Comments::purge_for_anchor('article:'.$this->item['id']);
 
 		// a new file has been attached
-		} elseif(($action == 'file:create') || ($action == 'file:update')) {
+		} elseif(($action == 'file:create')) {
 
 			// identify specific files
 			$label = '';
-			if(!preg_match('/\[embed='.preg_quote($origin, '/').'.*?\]/', $this->item['description']) && ($item =& Files::get($origin))) {
+			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item =& Files::get($origin))) {
 
 				// give it to the Flash player
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
@@ -881,7 +881,7 @@ Class Article extends Anchor {
 
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description'])) {
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
 				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
@@ -909,8 +909,7 @@ Class Article extends Anchor {
 		} elseif($action == 'image:delete') {
 
 			// suppress reference in main description field
-			if(preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[image='.$origin.'.*?\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
@@ -964,7 +963,7 @@ Class Article extends Anchor {
 
 		// append a new image, and set it as the article thumbnail
 		} elseif($action == 'image:set_as_both') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
@@ -986,23 +985,21 @@ Class Article extends Anchor {
 
 		// add a reference to a location in the article description
 		} elseif($action == 'location:create') {
-			if(!preg_match('/\[location='.preg_quote($origin, '/').'\]/', $this->item['description']))
+			if(!Codes::check_embedded($this->item['description'], 'location', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [location='.$origin.']')."'";
 
 		// suppress a reference to a location that has been deleted
 		} elseif($action == 'location:delete') {
-			if(preg_match('/\[location='.preg_quote($origin, '/').'\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[location='.$origin.'\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'location', $origin))."'";
 
 		// add a reference to a new table in the article description
 		} elseif($action == 'table:create') {
-			if(!preg_match('/\[table='.preg_quote($origin, '/').'\]/', $this->item['description']))
+			if(!Codes::check_embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description']."\n".'[table='.$origin.']'."\n")."'";
 
 		// suppress a reference to a table that has been deleted
 		} elseif($action == 'table:delete') {
-			if(preg_match('/\[table='.preg_quote($origin, '/').'\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[table='.$origin.'\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
 
@@ -1088,7 +1085,7 @@ Class Article extends Anchor {
 				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
 
 				// threads messages
-				$mail['headers'] = Mailer::set_thread(NULL, $this->get_reference());
+				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
 
 			}
 

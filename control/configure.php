@@ -133,6 +133,9 @@
  * [*] [code]mail_from[/code] - the account used to send messages
  * There is no default value.
  *
+ * [*] [code]mail_from_surfer[/code] - if set to 'Y', use surfer e-mail address for the From: field
+ * of notifications. Else use the mail_from parameter.
+ *
  * [*] [code]mail_logger_recipient[/code] - one address, or a comma-separated list of addresses,
  * that will receive event messages. There is no default value.
  *
@@ -582,7 +585,7 @@ if(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="with_email" value="Y"';
 	if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Use below parameters to handle electronic mail messages.');
+	$input .= '/> '.i18n::s('Use following parameters to send messages and notifications.');
 	$fields[] = array($label, $input);
 
 	// mail variant
@@ -594,7 +597,7 @@ if(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="mail_variant" value="smtp"';
 	if(isset($context['mail_variant']) && ($context['mail_variant'] == 'smtp'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Use the mail server described below, and authenticate with SMTP if necessary.');
+	$input .= '/> '.i18n::s('Connect to the mail server described below, and authenticate with SMTP if necessary.');
 	$input .= BR.'<input type="radio" name="mail_variant" value="pop3"';
 	if(isset($context['mail_variant']) && ($context['mail_variant'] == 'pop3'))
 		$input .= ' checked="checked"';
@@ -631,11 +634,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="mail_encoding" value="base64"';
 	if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Transform messages using base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
+	$input .= '/> '.i18n::s('Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
 	$input .= BR.'<input type="radio" name="mail_encoding" value="8bit"';
 	if(isset($context['mail_encoding']) && ($context['mail_encoding'] == '8bit'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.');
+	$input .= '/> '.i18n::s('Do not encode messages.');
 	$fields[] = array($label, $input);
 
 	// source address
@@ -643,6 +646,19 @@ if(!Surfer::is_associate()) {
 	if(!isset($context['mail_from']))
 		$context['mail_from'] = '';
 	$input = '<input type="text" name="mail_from" size="45" value="'.encode_field($context['mail_from']).'" maxlength="255" />';
+	$hint = i18n::s('Normalized format, for example: "John Ford" &lt;john.ford@acme.com&gt;');
+	$fields[] = array($label, $input, $hint);
+
+	// use surfer address
+	$label = i18n::s('Source address for notifications (From:)');
+	$input = '<input type="radio" name="mail_from_surfer" value="N"';
+	if(!isset($context['mail_from_surfer']) || ($context['mail_from_surfer'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use the fixed source address configured above.');
+	$input .= BR.'<input type="radio" name="mail_from_surfer" value="Y"';
+	if(isset($context['mail_from_surfer']) && ($context['mail_from_surfer'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Make notifications personal by using surfer address if known.');
 	$fields[] = array($label, $input);
 
 	// maximum outbound messages per hour
@@ -658,14 +674,15 @@ if(!Surfer::is_associate()) {
 	if(!isset($context['mail_logger_recipient']))
 		$context['mail_logger_recipient'] = '';
 	$input = '<input type="text" name="mail_logger_recipient" size="45" value="'.encode_field($context['mail_logger_recipient']).'" maxlength="255" />';
-	$fields[] = array($label, $input);
+	$hint = i18n::s('To forward logged events to one or several recipients.');
+	$fields[] = array($label, $input, $hint);
 
 	// debug mail
 	$label = i18n::s('Debug mail services');
 	$checked = '';
 	if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
 		$checked = ' checked="checked" ';
-	$input = '<input type="checkbox" name="debug_mail" value="Y" '.$checked.'/> '.i18n::s('List messages sent electronically in the file temporary/debug.txt. Use this option only for troubleshooting.');
+	$input = '<input type="checkbox" name="debug_mail" value="Y" '.$checked.'/> '.i18n::s('Copy messages in the file temporary/debug.txt. Use this option only for troubleshooting.');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -814,6 +831,8 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'mail_encoding\']=\''.addcslashes($_REQUEST['mail_encoding'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from']))
 		$content .= '$context[\'mail_from\']=\''.addcslashes($_REQUEST['mail_from'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_from_surfer']))
+		$content .= '$context[\'mail_from_surfer\']=\''.addcslashes($_REQUEST['mail_from_surfer'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_hourly_maximum']))
 		$content .= '$context[\'mail_hourly_maximum\']='.intval($_REQUEST['mail_hourly_maximum']).";\n";
 	if(isset($_REQUEST['mail_logger_recipient']))

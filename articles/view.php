@@ -280,12 +280,7 @@ if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
-// 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
-// 	Logger::error(i18n::s('No item has the provided id.'));
-// 	if($_SERVER['REQUEST_METHOD'] == 'GET')
-// 		Safe::redirect($context['url_to_home'].$context['url_to_root']);
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
@@ -876,31 +871,32 @@ if(!isset($item['id'])) {
 	// the list of related files if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'files')) {
 
+		// list files only to people able to change the page
+		if(Articles::allow_modification($item, $anchor))
+			$embedded = NULL;
+		else
+			$embedded = Codes::list_embedded($item['description']);
+
 		// build a complete box
 		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of files in this article
-		if($count = Files::count_for_anchor('article:'.$item['id'])) {
+		if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
 			if(Articles::has_option('files_by_title', $anchor, $item))
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], $offset, FILES_PER_PAGE, 'no_anchor');
+				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
 			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], $offset, FILES_PER_PAGE, 'no_anchor');
+				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
 
 			// actually render the html
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
-
-			// navigation commands for files
-			$home = Articles::get_permalink($item);
-			$prefix = Articles::get_url($item['id'], 'navigate', 'files');
-			$box['bar'] += Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index);
 
 			// the command to post a new file
 			if(Files::allow_creation($anchor, $item, 'article')) {

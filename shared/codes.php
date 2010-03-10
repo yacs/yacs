@@ -639,6 +639,129 @@ Class Codes {
 	}
 
 	/**
+	 * determine if a code is already in some text
+	 *
+	 * @param string the text to check
+	 * @param string code to check (e.g., 'embed')
+	 * @param int the id of the object
+	 * @return boolean TRUE if the code is present, false otherwise
+	 */
+	function check_embedded($text, $code, $id) {
+
+		// we check the string of digits
+		$id = strval($id);
+
+		// parse the full string
+		$count = strlen($text);
+		$position = 0;
+
+		// look for '[embed' or similar
+		while(($position = strpos($text, '['.$code, $position)) !== FALSE) {
+			$position += 1+strlen($code);
+
+			// parse remaining chars
+			while($position < $count) {
+
+				// digits just follow the '=' sign
+				if($text[$position] == '=') {
+					$position++;
+
+					// exact match
+					if(($position + 2 + strlen($id) < $count) && !strcmp(substr($text, $position, strlen($id)), $id))
+						return TRUE;
+
+					// not in this code, look at next one
+					break;
+
+				// malformed code
+				} elseif($text[$position] == ']') {
+					$position++;
+					break;
+				}
+
+				// next char
+				$position++;
+			}
+		}
+
+		// not found
+		return FALSE;
+	}
+
+	/**
+	 * delete a code if it is present in some text
+	 *
+	 * @param string the text to check
+	 * @param string code to check (e.g., 'embed')
+	 * @param int the id of the object
+	 * @return string the resulting string
+	 */
+	function delete_embedded($text, $code, $id) {
+
+		// we check the string of digits
+		$id = strval($id);
+
+		// parse the full string
+		$count = strlen($text);
+		$position = 0;
+
+		// look for '[embed' or similar
+		while(($position = strpos($text, '['.$code, $position)) !== FALSE) {
+
+			// we have to take everything before that point
+			$prefix = $position;
+
+			// next char
+			$position += 1+strlen($code);
+
+			// parse remaining chars
+			while($position < $count) {
+
+				// digits just follow the '=' sign
+				if($text[$position] == '=') {
+					$position++;
+
+					// exact match
+					if(($position + 2 + strlen($id) < $count) && !strcmp(substr($text, $position, strlen($id)), $id)) {
+						$position += strlen($id);
+
+						// look for ']'
+						while($position < $count) {
+							if($text[$position] == ']') {
+								$position++;
+								break;
+							}
+							$position++;
+						}
+
+						// do the deletion
+						$modified = '';
+						if($prefix > 0)
+							$modified .= substr($text, 0, $prefix);
+						if($position < $count)
+							$modified .= substr($text, $position, $count-$position);
+						return $modified;
+					}
+
+					// not in this code, look at next one
+					break;
+
+				// malformed code
+				} elseif($text[$position] == ']') {
+					$position++;
+					break;
+				}
+
+				// next char
+				$position++;
+			}
+		}
+
+		// not found
+		return $text;
+	}
+
+	/**
 	 * fix line breaks introduced by FCKEditor
 	 *
 	 * This function moves unclosed tags to the beginning of content.
@@ -705,6 +828,65 @@ Class Codes {
 		if($main_target)
 			$context['self_url'] = $context['url_to_root'].$main_target;
 
+	}
+
+	/**
+	 * list all ids matching some code
+	 *
+	 * @param string the text to check
+	 * @param string code to check (e.g., 'embed')
+	 * @return array the list of matching ids
+	 */
+	function list_embedded($text, $code='embed') {
+
+		// all ids we have found
+		$ids = array();
+
+		// parse the full string
+		$count = strlen($text);
+		$position = 0;
+
+		// look for '[embed' or similar
+		while(($position = strpos($text, '['.$code, $position)) !== FALSE) {
+			$position += 1+strlen($code);
+
+			// parse remaining chars
+			while($position < $count) {
+
+				// digits just follow the '=' sign
+				if($text[$position] == '=') {
+					$position++;
+
+					// capture all digits
+					$id = '';
+					while($position < $count) {
+						if(($text[$position] >= '0') && ($text[$position] <= '9')) {
+							$id .= $text[$position];
+							$position++;
+						} else
+							break;
+					}
+
+					// save this id
+					if(strlen($id))
+						$ids[] = $id;
+
+					// look at next code
+					break;
+
+				// malformed code
+				} elseif($text[$position] == ']') {
+					$position++;
+					break;
+				}
+
+				// next char
+				$position++;
+			}
+		}
+
+		// job done
+		return $ids;
 	}
 
 	/**
@@ -918,7 +1100,7 @@ Class Codes {
 				'/\[users=([^\]]+?)\]/ie',					// [users=present]
 				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
 				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
-				'/\[table\.json=([^\]]+?)\]/ise', 		// [table.json=<id>]
+				'/\[table\.([^=\]]+?)=([^\]]+?)\]/ise', // [table.json=<id>]  [table.timeplot=<id>]
 				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
 				'/\[location=([^\]]+?)\]/ise',			// [location=<id>]
 				'/\[wikipedia=([^\]]+?)\]/ise', 		// [wikipedia=keyword] or [wikipedia=keyword, title]
@@ -1110,7 +1292,7 @@ Class Codes {
 				"Codes::render_users('$1')", 										// [users=present]
 				"Codes::render_news('$1')", 										// [news=flash]
 				"Codes::render_dynamic_table('$1')",								// [table=<id>]
-				"Codes::render_dynamic_table('$1', 'json')",						// [table.json=<id>]
+				"Codes::render_dynamic_table('$2', '$1')",							// [table.json=<id>] [table.timeplot=<id>]
 				"Codes::render_locations('$1')",									// [locations=<id>]
 				"Codes::render_location('$1')",										// [location=<id>]
 				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
@@ -1276,7 +1458,7 @@ Class Codes {
 		$height = $attributes[1];
 		$flashvars = '';
 		if(isset($attributes[2]))
-			$flashvars = $attributes[3];
+			$flashvars = $attributes[2];
 
 		// allow several charts to co-exist in the same page
 		static $chart_index;
@@ -1411,14 +1593,96 @@ Class Codes {
 		// refresh on every page load
 		Cache::poison();
 
-		// set a default size
-		if(!isset($attributes[0]))
-			$attributes[0] = 320;
-		if(!isset($attributes[1]))
-			$attributes[1] = 240;
-
+		// get actual content
 		include_once $context['path_to_root'].'tables/tables.php';
-		$text = Tables::build($id, $variant);
+
+		// use SIMILE Exhibit
+		if($variant == 'filter') {
+
+			// load the SIMILE Exhibit javascript library in shared/global.php
+			$context['javascript']['exhibit'] = TRUE;
+
+			// load data
+			$context['page_header'] .= "\n".'<link href="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_json').'" type="application/json" rel="exhibit/data" />';
+
+			// exhibit data in a table
+			$text = '<div ex:role="exhibit-view" ex:viewClass="Exhibit.TabularView" ex:columns="'.Tables::build($id, 'json-labels').'" ex:columnLabels="'.Tables::build($id, 'json-titles').'" ex:border="0" ex:cellSpacing="0" ex:cellPadding="0" ex:showToolbox="true" ></div>'."\n";
+
+			// allow for filtering
+			$facets = '<div class="exhibit-facet">'
+				.'<div class="exhibit-facet-header"><span class="exhibit-facet-header-title">'.i18n::s('Filter').'</span></div>'
+				.'<div class="exhibit-facet-body-frame" style="margin: 0 2px 1em 0;">'
+				.'<div ex:role="facet" ex:facetClass="TextSearch" style="display: block;"></div>'
+				.'</div></div>';
+
+			// facets from first columns
+			$facets .= Tables::build($id, 'json-facets');
+
+			// filter and facets aside
+			$context['components']['boxes'] .= $facets;
+
+		// build sparkline
+		} elseif($variant == 'bars') {
+			$text = '<img border="0" align="baseline" hspace="0" src="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_png').'&order=0&gap;0.5" alt="" />';
+
+		// buid a Flash chart
+		} elseif($variant == 'chart') {
+
+			// split parameters
+			$attributes = preg_split("/\s*,\s*/", $id, 4);
+
+			// set a default size
+			if(!isset($attributes[1]))
+				$attributes[1] = 480;
+			if(!isset($attributes[2]))
+				$attributes[2] = 360;
+
+			// object attributes
+			$width = $attributes[1];
+			$height = $attributes[2];
+			$flashvars = '';
+			if(isset($attributes[3]))
+				$flashvars = $attributes[3];
+
+			// allow several charts to co-exist in the same page
+			static $chart_index;
+			if(!isset($chart_index))
+				$chart_index = 1;
+			else
+				$chart_index++;
+
+			// get data in the suitable format
+			$data = Tables::build($attributes[0], 'chart');
+
+			// load it through Javascript
+			$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
+			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+				.JS_PREFIX
+				.'var params = {};'."\n"
+				.'params.base = "'.dirname($url).'/";'."\n"
+				.'params.quality = "high";'."\n"
+				.'params.wmode = "opaque";'."\n"
+				.'params.allowscriptaccess = "always";'."\n"
+				.'params.menu = "false";'."\n"
+				.'params.flashvars = "'.$flashvars.'";'."\n"
+				.'swfobject.embedSWF("'.$url.'", "table_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"table_chart_'.$chart_index.'"}, params);'."\n"
+				."\n"
+				.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
+				."\n"
+				.'function table_chart_'.$chart_index.'() {'."\n"
+				.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+				.'}'."\n"
+				.JS_SUFFIX;
+
+		// build sparkline
+		} elseif($variant == 'line') {
+			$text = '<img border="0" align="baseline" hspace="0" src="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_png').'&order=2&gap=0.0" alt="" />';
+
+		// we do the rendering ourselves
+		} else
+			$text = Tables::build($id, $variant);
+
+		// put that into the web page
 		return $text;
 	}
 
@@ -1480,7 +1744,7 @@ Class Codes {
 		// set a default size
 		if(!isset($attributes[1])) {
 			if(!strcmp($extension, 'gan'))
-				$attributes[1] = '100%';
+				$attributes[1] = '98%';
 			elseif(!strcmp($extension, 'mm') && isset($context['skins_freemind_canvas_width']))
 				$attributes[1] = $context['skins_freemind_canvas_width'];
 			else

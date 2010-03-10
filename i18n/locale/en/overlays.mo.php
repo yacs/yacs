@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:18+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-02 00:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -131,6 +131,7 @@ $_SESSION['l10n']['en']['New petition']='New petition';
 $_SESSION['l10n']['en']['New vote']='New vote';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['No solution']='No solution';
+$_SESSION['l10n']['en']['4f3712885bac57c403eb85f76d26b686']='No specific solution has been released';
 $_SESSION['l10n']['en']['No way to analyze the problem']='No way to analyze the problem';
 $_SESSION['l10n']['en']['Not a valid poll']='Not a valid poll';
 $_SESSION['l10n']['en']['Not a valid vote']='Not a valid vote';
@@ -167,7 +168,6 @@ $_SESSION['l10n']['en']['25198a808cce51d35165ff8dd17efdc9']='Problem is valid an
 $_SESSION['l10n']['en']['Progress']='Progress';
 $_SESSION['l10n']['en']['Qualification']='Qualification';
 $_SESSION['l10n']['en']['Resolution']='Resolution';
-$_SESSION['l10n']['en']['Resolution has been cancelled']='Resolution has been cancelled';
 $_SESSION['l10n']['en']['Room']='Room';
 $_SESSION['l10n']['en']['Scope']='Scope';
 $_SESSION['l10n']['en']['See ballot papers']='See ballot papers';

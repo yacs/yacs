@@ -10,9 +10,6 @@
  * - get_as_csv.php/12
  * - get_as_csv.php?id=12
  *
- * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
- *
  * @author Bernard Paques
  * @author GnapZ
  * @reference
@@ -71,8 +68,7 @@ if(Surfer::is_crawler()) {
 
 // not found
 } elseif(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
@@ -112,7 +108,7 @@ if(Surfer::is_crawler()) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

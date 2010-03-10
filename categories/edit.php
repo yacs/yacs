@@ -37,6 +37,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../images/images.php';
 include_once '../shared/xml.php';	// input validation
 include_once 'categories.php';
 
@@ -568,7 +569,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'basic').'</span>';
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -588,7 +589,7 @@ if($with_form) {
 
 		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'basic').'</span>';
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -600,44 +601,9 @@ if($with_form) {
 	if(!isset($item['id']))
 		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
-	// images
-	else {
-		$box = '';
-
-		if(Surfer::may_upload()) {
-
-			// an horizontal table
-			$menu = array();
-
-			// the command to add an image
-			if(Surfer::may_upload()) {
-				Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-				$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'span'));
-			}
-
-			// the list of images
-			include_once '../images/images.php';
-			if($items = Images::list_by_date_for_anchor('category:'.$item['id'])) {
-
-				// help to insert in textarea
-				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
-					$menu[] = i18n::s('Click on codes to insert images in the page.')."\n";
-				else
-					$menu[] = i18n::s('Use codes to insert images in the page.')."\n";
-
-			}
-		}
-
-		if($menu)
-			$box .= Skin::finalize_list($menu, 'menu_bar');
-		if($items)
-			$box .= Skin::build_list($items, 'decorated');
-
-		// in a folded box
-		if($box)
-			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded', 'edit_images');
-
-	}
+	// the list of images
+	elseif($items = Images::list_by_date_for_anchor('category:'.$item['id']))
+		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
 
 	// this category
 	//
@@ -653,16 +619,16 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// the prefix
-	$label = i18n::s('Prefix');
-	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
-	$hint = i18n::s('To be inserted at the top of related pages.');
-	$fields[] = array($label, $input, $hint);
+// 	$label = i18n::s('Prefix');
+// 	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
+// 	$hint = i18n::s('To be inserted at the top of related pages.');
+// 	$fields[] = array($label, $input, $hint);
 
 	// the suffix
-	$label = i18n::s('Suffix');
-	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
-	$hint = i18n::s('To be inserted at the bottom of related pages.');
-	$fields[] = array($label, $input, $hint);
+// 	$label = i18n::s('Suffix');
+// 	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
+// 	$hint = i18n::s('To be inserted at the bottom of related pages.');
+// 	$fields[] = array($label, $input, $hint);
 
 	// sub-categories
 	$text .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2010-02-24 23:45+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-10 09:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -62,6 +62,7 @@ $_SESSION['l10n']['fr']['Add a page with this name']='Ajouter une page avec ce n
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['fr']['At partner sites']='Sites partenaires';
+$_SESSION['l10n']['fr']['Bing']='Bing';
 $_SESSION['l10n']['fr']['Browse index pages']='Parcourez les index';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
@@ -100,6 +101,7 @@ $_SESSION['l10n']['fr']['7d7ea62f4e503771a9c13d6802bf67cf']='ERREUR : YACS ne pe
 $_SESSION['l10n']['fr']['efccd6e2613a9f368b12ee73c70c5067']='ERREUR : YACS requière la version 4.3 de PHP au minimum. Actuellement, le serveur exécute la version %s.';
 $_SESSION['l10n']['fr']['6700b538adb78116b33038d305a2e0a1']='ERREUR : YACS requière l\'extension PHP MySQL.';
 $_SESSION['l10n']['fr']['8e8f34af585e3692592dcfee1549e445']='ERREUR : YACS requière l\'extension PHP XML.';
+$_SESSION['l10n']['fr']['Extension']='Extension';
 $_SESSION['l10n']['fr']['Extra']='Extra';
 $_SESSION['l10n']['fr']['Extra boxes']='Boîtes extra';
 $_SESSION['l10n']['fr']['Featured']='A la une';
@@ -201,7 +203,8 @@ $_SESSION['l10n']['fr']['Remember this search']='Mémoriser cette recherche';
 $_SESSION['l10n']['fr']['Results']='Résultats';
 $_SESSION['l10n']['fr']['8e8eb648edb57efc53bb3a619f5bd494']='Contrôler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
 $_SESSION['l10n']['fr']['Safe mode']='Mode safe';
-$_SESSION['l10n']['fr']['Search']='Chercher';
+$_SESSION['l10n']['fr']['Search']='Recherche';
+$_SESSION['l10n']['fr']['Search all of the Internet']='Chercher sur Internet';
 $_SESSION['l10n']['fr']['Search in']='Chercher dans';
 $_SESSION['l10n']['fr']['Search in all sections']='Rechercher dans toutes les sections';
 $_SESSION['l10n']['fr']['Search: %s']='Recherche : %s';
@@ -223,7 +226,6 @@ $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['6f435f6c4b00c76586e6352503ac013a']='Envoyer "%s" au %s au cas où certaines pages contiendraient ce texte.';
 $_SESSION['l10n']['fr']['2bbb841a1211a4b231df13f0d0b8b062']='Envoyées au webmestre par n\'importe quel surfeur';
 $_SESSION['l10n']['fr']['Switch the server on']='Mettre le serveur en route';
-$_SESSION['l10n']['fr']['Technorati']='Technorati';
 $_SESSION['l10n']['fr']['0457bda18a285d6eb56e18be21f73447']='Le champ de description ne devrait pas excéder 64 000 caractères.';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
 $_SESSION['l10n']['fr']['The main object of your query']='La raison principale de votre envoi';

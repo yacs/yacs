@@ -79,8 +79,7 @@ $context['page_title'] = i18n::s('RSS feed');
 
 // not found
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
@@ -142,7 +141,7 @@ if(!isset($item['id'])) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

@@ -65,6 +65,10 @@ Class Utf8 {
 	function &from_unicode($text) {
 		global $context;
 
+		// sanity check
+		if(!is_string($text))
+			return $text;
+
 		// translate Unicode entities
 		$areas = preg_split('/&[#u](\d+);/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$text = '';
@@ -134,7 +138,7 @@ Class Utf8 {
 			$codes = array(
 				// the 27 differeces from windows-1252 to iso-8859-1
 				"\x80"	=> '&#x20AC;',	// &euro;
-//				"\x81"	=> '',	// 
+//				"\x81"	=> '',	//
 				"\x82"	=> '&#x201A;',	// &sbquo;
 				"\x83"	=> '&#x192;',	// &fnof;
 				"\x84"	=> '&#x201E;',	// &bdquo;
@@ -146,10 +150,10 @@ Class Utf8 {
 				"\x8A"	=> '&#x160;',	// &Scaron;
 				"\x8B"	=> '&#x2039;',	// &lsaquo;
 				"\x8C"	=> '&#x152;',	// &OElig;
-//				"\x8D"	=> '',	// 
+//				"\x8D"	=> '',	//
 				"\x8D"	=> '&#x17D;',	// &#x17D;
-//				"\x8F"	=> '',	// 
-//				"\x90"	=> '',	// 
+//				"\x8F"	=> '',	//
+//				"\x90"	=> '',	//
 				"\x91"	=> '&#x2018;',	// &lsquo;
 				"\x92"	=> '&#x2019;',	// &rsquo;
 				"\x93"	=> '&#x201C;',	// &ldquo;
@@ -162,10 +166,10 @@ Class Utf8 {
 				"\x9A"	=> '&#x161;',	// &scaron;
 				"\x9B"	=> '&#x203A;',	// &rsaquo;
 				"\x9C"	=> '&#x153;',	// &oelig;
-//				"\x9D"	=> '',	// 
+//				"\x9D"	=> '',	//
 				"\x9E"	=> '&#x17E;',	// &#x17E;
 				"\x9F"	=> '&#x178;',	// &Yuml;
-				
+
 				"\xA0"	=> '&#160;',	// non-breaking space
 				"\xA1"	=> '&#161;',	// inverted exclamation mark
 				"\xA2"	=> '&#162;',	// cent sign

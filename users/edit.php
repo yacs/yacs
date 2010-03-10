@@ -80,6 +80,11 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
+include_once '../images/images.php';
+include_once '../locations/locations.php';
+include_once '../overlays/overlay.php';
+include_once '../tables/tables.php';
+include_once '../versions/versions.php'; // roll-back
 
 // look for the id
 $id = NULL;
@@ -731,7 +736,7 @@ if($with_form) {
 			$value = $item['avatar_url'];
 		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 
-		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'basic').'</span>';
+		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
 
 		$fields[] = array($label, $input);
 	}
@@ -744,63 +749,38 @@ if($with_form) {
 	if(!isset($item['id']))
 		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
-	// images
-	else {
-		$box = '';
+	// the list of images
+	elseif($items = Images::list_by_date_for_anchor('user:'.$item['id']))
+		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
 
-		// menu at the top
-		$menu = array();
+	// if we are editing an existing profile
+	if(isset($item['id'])) {
 
-		// the command to add an image
-		if(Surfer::may_upload()) {
-			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'span'));
+		// files are reserved to authenticated members
+		if($items = Files::list_embeddable_for_anchor('user:'.$item['id'], 0, 50))
+			$text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
+
+		// locations are reserved to authenticated members
+		if(Locations::allow_creation($anchor, $item)) {
+			$menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
+			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
-		// the list of images
-		include_once '../images/images.php';
-		if($items = Images::list_by_date_for_anchor('user:'.$item['id'])) {
-
-			// help to insert in textarea
-			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
-				$menu[] = i18n::s('Click on codes to place images in the page.');
-			else
-				$menu[] = i18n::s('Use codes to place images in the page.');
-
+		// tables are reserved to associates
+		if(Tables::allow_creation($anchor, $item)) {
+			$menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
+			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
-
-		if($menu)
-			$box .= Skin::finalize_list($menu, 'menu_bar');
-		if($items)
-			$box .= Skin::build_list($items, 'decorated');
-
-		// in a folded box
-		if($box)
-			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded');
-
-		// related locations
-		$box = '';
-
-		// the menu to post a new location
-		$menu = array( 'locations/edit.php?anchor=user:'.$item['id'] => i18n::s('Add a location') );
-		$box .= Skin::build_list($menu, 'menu_bar');
-
-		// the list of locations
-		include_once '../locations/locations.php';
-		$items = Locations::list_by_date_for_anchor('user:'.$item['id']);
-		$box .= Skin::build_list($items, 'decorated');
-
-		// in a folded box
-		if($box)
-			$text .= Skin::build_box(i18n::s('Locations'), $box, 'folded');
 
 		// pgp key
-		$label = i18n::s('PGP key or certificate');
-		$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
+// 		$label = i18n::s('PGP key or certificate');
+// 		$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
 
 		// add a folded box
-		$text .= Skin::build_box(i18n::s('Public key'), $label.BR.$input, 'folded');
-		$fields = array();
+// 		$text .= Skin::build_box(i18n::s('Public key'), $label.BR.$input, 'folded');
+// 		$fields = array();
 
 	}
 

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-03-02 00:23+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-08 17:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -53,7 +53,6 @@ $_SESSION['l10n']['fr']['Category overlay']='Overlay de catégorie';
 $_SESSION['l10n']['fr']['Change']='Changer';
 $_SESSION['l10n']['fr']['Change the overlay']='Changer d\'overlay';
 $_SESSION['l10n']['fr']['Classified pages']='Page classées';
-$_SESSION['l10n']['fr']['ab006b2530195974908cd8ab59b711b9']='Cliquer sur les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['Cloud of tags']='Nuage d\'étiquettes';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
@@ -146,7 +145,6 @@ $_SESSION['l10n']['fr']['1e15bcb69dd742712c3a2af4431b476e']='Merci de contrôler
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Post a comment']='Ajouter un commentaire';
-$_SESSION['l10n']['fr']['Prefix']='Préfixe';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
@@ -165,7 +163,7 @@ $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
 $_SESSION['l10n']['fr']['9dcd55ec867280d2a3afd1c82fd36aa7']='Analyser les articles et mémoriser les dates de publication';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Script used to %s this category']='Script utilisé comme %s dans cette catégorie';
-$_SESSION['l10n']['fr']['Search']='Chercher';
+$_SESSION['l10n']['fr']['Search']='Recherche';
 $_SESSION['l10n']['fr']['Search for %s at:']='Chercher %s sur :';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
@@ -185,7 +183,6 @@ $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Sub-categories']='sous-catégories';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
-$_SESSION['l10n']['fr']['Suffix']='Suffixe';
 $_SESSION['l10n']['fr']['Technorati']='Technorati';
 $_SESSION['l10n']['fr']['1191989b64153cc1569ba37769dff14b']='Texte à ajouter en bas de page, après tous les éléments attachés à cette page.';
 $_SESSION['l10n']['fr']['15b447c7a95325a403b1ed99b405e008']='Texte inséré dans le panneau extra, sur le côté de la page. Utiliser [box.extra=titre]contenu[/box] ou des balises HTML.';
@@ -198,8 +195,6 @@ $_SESSION['l10n']['fr']['ea53afa6a2e5fb30ef64772616161d8d']='Cette catégorie es
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['Title']='Titre';
-$_SESSION['l10n']['fr']['d8ef00288000f0f98aafef9b53c2e08d']='Inséré vers le bas des pages associées.';
-$_SESSION['l10n']['fr']['c1966a9db995dd0212d9febf7be757e0']='Inséré vers le haut des pages associées.';
 $_SESSION['l10n']['fr']['To designate a category by name']='Pour désigner une catégorie par son nom';
 $_SESSION['l10n']['fr']['fa09bb542328a06fca03740c95c19f22']='Pour surligner cette catégorie dans les listes';
 $_SESSION['l10n']['fr']['74a19ba83faf8108003e4f4acf426719']='Pour charger template_foo_bar.php à la place du modèle normal';
@@ -213,7 +208,6 @@ $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';
 $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
-$_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';
 $_SESSION['l10n']['fr']['a9ac06b6f2238dbd54599d32e0fa95cf']='Utiliser la vignette comme vignette de la page';

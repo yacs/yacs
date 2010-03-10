@@ -261,7 +261,7 @@ Class Skin_Skeleton {
 				$text = str_replace('%s', encode_field($text), $context['skins_search_form']);
 
 			// combine search in content and search in users
-			elseif(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S')) {
+			elseif(isset($context['skins_delegate_search']) && (($context['skins_delegate_search'] == 'S') || ($context['skins_delegate_search'] == 'X'))) {
 				if(!$text)
 					$text = i18n::s('Search...');
 

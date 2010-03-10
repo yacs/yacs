@@ -548,13 +548,20 @@ class Mailer {
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
 			return FALSE;
 
+		// use surfer's address only if this has been explicitly allowed
+		if(!isset($context['mail_from_surfer']) || ($context['mail_from_surfer'] != 'Y'))
+			$from = NULL;
+
 		// ensure we have a sender
 		if(!$from) {
 			if(isset($context['mail_from']) && $context['mail_from'])
 				$from = $context['mail_from'];
 			else
-				$from = 'yacs at '.$context['host_name'];
-		}
+				$from = $context['site_name'];
+
+		// add site name to message title
+		} else
+			$subject .= ' ['.$context['site_name'].']';
 
 		// do the job -- don't stop on error
 		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
@@ -1120,16 +1127,16 @@ class Mailer {
 
 		// just help to overcome spam filters
 		if(!$this_id)
-			$this_id = time();
+			$this_id = 'object';
 
 		// Message-ID: header
-		$header[] = 'Message-ID: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $this_id).'@'.$context['host_name'].'>';
+		$headers[] = 'Message-ID: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $this_id).'.'.time().'@'.$context['host_name'].'>';
 
 		// In-Reply-To: header
 		if($parent_id) {
 			if(is_object($parent_id))
 				$parent_id = $parent_id->get_reference();
-			$header[] = 'In-Reply-To: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $parent_id).'@'.$context['host_name'].'>';
+			$headers[] = 'In-Reply-To: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $parent_id).'@'.$context['host_name'].'>';
 		}
 
 		return $headers;

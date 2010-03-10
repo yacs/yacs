@@ -257,7 +257,7 @@ Class File extends Anchor {
 
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description'])) {
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
 				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
@@ -283,8 +283,7 @@ Class File extends Anchor {
 		} elseif($action == 'image:delete') {
 
 			// suppress reference in main description field
-			if(preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape(preg_replace('/\[image='.$origin.'.*?\]/', '', $this->item['description']))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
@@ -335,7 +334,7 @@ Class File extends Anchor {
 
 		// append a new image, and set it as the file thumbnail
 		} elseif($action == 'image:set_as_both') {
-			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
+			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';

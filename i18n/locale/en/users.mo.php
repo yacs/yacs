@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2010-02-10 00:20+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-08 17:37+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ $_SESSION['l10n']['en']['Add a group or a blog']='Add a group or a blog';
 $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['Add a page']='Add a page';
 $_SESSION['l10n']['en']['Add a section']='Add a section';
+$_SESSION['l10n']['en']['Add a table']='Add a table';
 $_SESSION['l10n']['en']['Add a user']='Add a user';
 $_SESSION['l10n']['en']['Add an action']='Add an action';
-$_SESSION['l10n']['en']['Add an image']='Add an image';
 $_SESSION['l10n']['en']['88a955fcffb8f63b46e2ecabaff4ef80']='Add this person to your contacts';
 $_SESSION['l10n']['en']['Add to my contacts']='Add to my contacts';
 $_SESSION['l10n']['en']['9ab3b896499b39b9f109e5aefc844d61']='Adds random data to forms and block spam (public site).';
@@ -114,7 +114,6 @@ $_SESSION['l10n']['en']['ed04cc084ae94b5055918b25c4b2aa6f']='Caution: This hyper
 $_SESSION['l10n']['en']['Change password']='Change password';
 $_SESSION['l10n']['en']['Change picture']='Change picture';
 $_SESSION['l10n']['en']['Click here to register']='Click here to register';
-$_SESSION['l10n']['en']['f4714de50b293a7e0c8cc916b23d85fc']='Click on codes to place images in the page.';
 $_SESSION['l10n']['en']['0d31f10bcbbf938368199591c71a14f8']='Click on one image below to make it your new picture.';
 $_SESSION['l10n']['en']['b2a44a89c0565f3c8de24ae7d687230c']='Click on the link above to add new contacts.';
 $_SESSION['l10n']['en']['7fb096f01683499a98de8b53f0fdef56']='Click on the link below to activate your new account.';
@@ -181,10 +180,6 @@ $_SESSION['l10n']['en']['From']='From';
 $_SESSION['l10n']['en']['From %s:']='From %s:';
 $_SESSION['l10n']['en']['Front page']='Front page';
 $_SESSION['l10n']['en']['Full name']='Full name';
-$_SESSION['l10n']['en']['GMT%d hours']='GMT%d hours';
-$_SESSION['l10n']['en']['GMT+%d hours']='GMT+%d hours';
-$_SESSION['l10n']['en']['GMT+1 hour']='GMT+1 hour';
-$_SESSION['l10n']['en']['GMT-1 hour']='GMT-1 hour';
 $_SESSION['l10n']['en']['GMail']='GMail';
 $_SESSION['l10n']['en']['Go']='Go';
 $_SESSION['l10n']['en']['Go the main help page']='Go the main help page';
@@ -222,7 +217,6 @@ $_SESSION['l10n']['en']['Jabber']='Jabber';
 $_SESSION['l10n']['en']['Join %s at %s']='Join %s at %s';
 $_SESSION['l10n']['en']['LDAP %s: bad value \'%s\'.']='LDAP %s: bad value \'%s\'.';
 $_SESSION['l10n']['en']['Language']='Language';
-$_SESSION['l10n']['en']['Last login']='Last login';
 $_SESSION['l10n']['en']['Last name(s)']='Last name(s)';
 $_SESSION['l10n']['en']['Leave %s']='Leave %s';
 $_SESSION['l10n']['en']['Links']='Links';
@@ -289,10 +283,8 @@ $_SESSION['l10n']['en']['203ef10289352e9e5e6a555c7e9eebe8']='Only associates are
 $_SESSION['l10n']['en']['35c333a96614afc5811cba9c5e714c15']='Only associates can create new user profiles.';
 $_SESSION['l10n']['en']['fdea2b0a05052ee4383effa32a81c795']='Only associates can delete user profiles.';
 $_SESSION['l10n']['en']['ef3092dff4429484a00fe836c9456007']='Only authenticated surfers can send comments.';
-$_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Organization']='Organization';
 $_SESSION['l10n']['en']['aaa403124724a506bb1b2a6f198d3188']='Outbound HTTP is not authorized.';
-$_SESSION['l10n']['en']['PGP key or certificate']='PGP key or certificate';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Password confirmation']='Password confirmation';
@@ -389,6 +381,7 @@ $_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page
 $_SESSION['l10n']['en']['Subscriber']='Subscriber';
 $_SESSION['l10n']['en']['5a37691a1232b5c440bd9d35526fe666']='Subscriber of this community, allowed to browse public pages and to receive e-mail newsletters.';
 $_SESSION['l10n']['en']['2fae8791302c136b388181f715aa894c']='Support on-demand interactions between people with private pages.';
+$_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tags']='Tags';
 $_SESSION['l10n']['en']['Teasers']='Teasers';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
@@ -408,7 +401,6 @@ $_SESSION['l10n']['en']['99a8fd1957a4bdb9c681ffa773253508']='This message has be
 $_SESSION['l10n']['en']['a758d605f47ab0be47f469aba40a4873']='This message relates to your account at %s.';
 $_SESSION['l10n']['en']['a34ae4e933bc15c339741cce7612e245']='This search engine only display pages that have all words in it. Also, only exact matches will be listed.';
 $_SESSION['l10n']['en']['Threads']='Threads';
-$_SESSION['l10n']['en']['Time Zone']='Time Zone';
 $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
@@ -424,7 +416,6 @@ $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['Upload an image']='Upload an image';
 $_SESSION['l10n']['en']['Uploads']='Uploads';
 $_SESSION['l10n']['en']['Use a gravatar']='Use a gravatar';
-$_SESSION['l10n']['en']['b3e2e59bff01bca4659ac4f86a75fc2c']='Use codes to place images in the page.';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['Use the %s to ask for help']='Use the %s to ask for help';
 $_SESSION['l10n']['en']['Use the authenticator %s']='Use the authenticator %s';
@@ -471,7 +462,6 @@ $_SESSION['l10n']['en']['7d4468f560f9b8fd3fb8ed3194297114']='You have 1 grace au
 $_SESSION['l10n']['en']['3f110ec5c2061c2e9410c88f7298cf49']='You have 2 grace authentication attempts.';
 $_SESSION['l10n']['en']['93a4582227677453e74327230b038ce9']='You have been assigned as an editor of %s, and this allows you to contribute to this page, and to be notified of changes.';
 $_SESSION['l10n']['en']['5d0372531f75129d485b3a9f3f7f5c2c']='You have been assigned as an editor of %s, and this allows you to post new content, to contribute to pages from other persons, and to be notified of changes.';
-$_SESSION['l10n']['en']['You have been connected']='You have been connected';
 $_SESSION['l10n']['en']['You have been connected to %s.']='You have been connected to %s.';
 $_SESSION['l10n']['en']['e43059e2a3aeeb662faeba22ed92cc00']='You have been successfully authenticated.';
 $_SESSION['l10n']['en']['You have left %s']='You have left %s';
@@ -484,12 +474,11 @@ $_SESSION['l10n']['en']['0239b2db3ade050e88ee4ec182dff0a2']='You will receive a 
 $_SESSION['l10n']['en']['Your account at %s']='Your account at %s';
 $_SESSION['l10n']['en']['e24370e72e5b4dcb540ccd9a42113856']='Your are using your %s as current picture.';
 $_SESSION['l10n']['en']['7728feba81df7c961e57b33868704e5d']='Your browser must accept cookies in order to successfully register and log in.';
+$_SESSION['l10n']['en']['Your contacts have been updated']='Your contacts have been updated';
 $_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['4411a58f1410c613081f9683009c5df2']='Your e-mail address has not been validated.';
 $_SESSION['l10n']['en']['6904bfe36a26ab910e7afe98fb47b8f4']='Your explicit approval is a pre-requisite for us to use your e-mail address.';
 $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is being transmitted to %s';
-$_SESSION['l10n']['en']['Your name']='Your name';
-$_SESSION['l10n']['en']['Your network address']='Your network address';
 $_SESSION['l10n']['en']['Your nick name is %s']='Your nick name is %s';
 $_SESSION['l10n']['en']['639f349aeaa83b3365738412411dc182']='Your nick name, or e-mail address';
 $_SESSION['l10n']['en']['3c0f4eba7ce79541a1d7959fc09a6521']='Your occupation, your motto, or some interesting words';

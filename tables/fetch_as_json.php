@@ -1,18 +1,14 @@
 <?php
 /**
- * download one table using XML
+ * download one table using JSON
  *
  * Permission to access the table is denied if the anchor is not viewable by this surfer.
  *
  * Accept following invocations:
- * - get_as_xml.php/12
- * - get_as_xml.php?id=12
- *
- * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
+ * - get_as_json.php/12
+ * - get_as_json.php?id=12
  *
  * @author Bernard Paques
- * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -60,7 +56,7 @@ else
 if(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
 else
-	$context['page_title'] = i18n::s('Fetch as XML');
+	$context['page_title'] = i18n::s('Fetch as JSON');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -76,7 +72,7 @@ if(Surfer::is_crawler()) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Tables::get_url($item['id'], 'fetch_as_xml')));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Tables::get_url($item['id'], 'fetch_as_json')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -89,18 +85,18 @@ if(Surfer::is_crawler()) {
 	$context['charset'] = 'iso-8859-15';
 
 	// render actual table content
-	$text = Tables::build($id, 'xml');
+	$text = Tables::build($id, 'json');
 
 	//
 	// transfer to the user agent
 	//
 
 	// handle the output correctly
-	render_raw('text/xml; charset='.$context['charset']);
+	render_raw('text/json; charset='.$context['charset']);
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.xml');
+		$file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.json');
 		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 	}
 

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:18+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-03 00:52+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -108,7 +108,6 @@ $_SESSION['l10n']['en']['Categorize']='Categorize';
 $_SESSION['l10n']['en']['Change']='Change';
 $_SESSION['l10n']['en']['Change the overlay']='Change the overlay';
 $_SESSION['l10n']['en']['3fb33a4e3fa3c042499e1c67214eb944']='Child board: %s'.chr(0).'Child boards: %s';
-$_SESSION['l10n']['en']['f4714de50b293a7e0c8cc916b23d85fc']='Click on codes to place images in the page.';
 $_SESSION['l10n']['en']['Code to reference this page: %s']='Code to reference this page: %s';
 $_SESSION['l10n']['en']['5cb4a37477ac11b8572c1f97c42ec259']='Comes before the title; Used to categorize sections in forums';
 $_SESSION['l10n']['en']['Comments']='Comments';
@@ -250,7 +249,6 @@ $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['More spaces']='More spaces';
 $_SESSION['l10n']['en']['Move']='Move';
 $_SESSION['l10n']['en']['Move following pages to']='Move following pages to';
-$_SESSION['l10n']['en']['7d270d4965dbd233228f7684f6beba52']='Move to the top of the content tree';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New section: %s']='New section: %s';
 $_SESSION['l10n']['en']['News']='News';
@@ -285,7 +283,6 @@ $_SESSION['l10n']['en']['Other sections']='Other sections';
 $_SESSION['l10n']['en']['Overlay']='Overlay';
 $_SESSION['l10n']['en']['Owner']='Owner';
 $_SESSION['l10n']['en']['Owner of %s']='Owner of %s';
-$_SESSION['l10n']['en']['Page']='Page';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['9395d63e2f35e55bb88eb5c03c766146']='Pages are not reviewed prior publication';
 $_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
@@ -304,7 +301,6 @@ $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the a
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Post a comment']='Post a comment';
 $_SESSION['l10n']['en']['Poster']='Poster';
-$_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Prefix separator']='Prefix separator';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
@@ -382,7 +378,6 @@ $_SESSION['l10n']['en']['Stop notifications']='Stop notifications';
 $_SESSION['l10n']['en']['Sub-sections']='Sub-sections';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
-$_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Suffix separator']='Suffix separator';
 $_SESSION['l10n']['en']['fd807bc3514cbdaa40ee26b44c4b319e']='Surfers are not allowed to rate pages in this section';
 $_SESSION['l10n']['en']['Tabbed panels']='Tabbed panels';
@@ -407,12 +402,11 @@ $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['f3f96c1839e9e2352cec3a4f8843cadc']='To assign a section, look in the content tree below and assign one section at a time';
-$_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
-$_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
 $_SESSION['l10n']['en']['0f16c85d61d352ba7e61533d2439a0cf']='To designate a section by its name in the %s';
 $_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
 $_SESSION['l10n']['en']['dd269e53b9cb005bb7d75f3f50266c09']='To transfer ownership to another person, type some letters of the name you are looking for.';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
+$_SESSION['l10n']['en']['Top of the content tree']='Top of the content tree';
 $_SESSION['l10n']['en']['Topics']='Topics';
 $_SESSION['l10n']['en']['f8bf5dcdd9714715ae047fbc19b0c035']='Topmost articles are displayed at the parent section page in distinct extra boxes.';
 $_SESSION['l10n']['en']['Trailer']='Trailer';
@@ -423,7 +417,6 @@ $_SESSION['l10n']['en']['Update a reply']='Update a reply';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $_SESSION['l10n']['en']['c2c4f79559d76d5b49a626fd7bf35631']='Upload an image to be displayed at page top';
-$_SESSION['l10n']['en']['b3e2e59bff01bca4659ac4f86a75fc2c']='Use codes to place images in the page.';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to populate this server.';
 $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';
@@ -516,6 +509,7 @@ $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
 $_SESSION['l10n']['en']['replies']='replies';
 $_SESSION['l10n']['en']['reply']='reply';
 $_SESSION['l10n']['en']['sections']='sections';
+$_SESSION['l10n']['en']['6d27ac493d4821df066e476a8c993dfd']='simile - Dots and titles in a timeline';
 $_SESSION['l10n']['en']['b4f17d3b3adcc8a496bfd15fc4fd03d6']='slashdot - List most recent pages equally';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['table - A table of recent pages']='table - A table of recent pages';

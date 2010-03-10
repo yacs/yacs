@@ -559,9 +559,17 @@ class Overlay {
 		if(($attributes = Safe::unserialize($host[$name])) === FALSE)
 			return NULL;
 
+		// restore unicode entities
+		foreach($attributes as $name => $value) {
+			if(is_string($value))
+				$attributes[$name] = utf8::from_unicode($value);
+		}
+
+		// we need a type
 		if(!is_array($attributes) || !isset($attributes['overlay_type']))
 			return NULL;
 
+		// bind this to current page
 		if(isset($host['id']))
 			$attributes['id'] = $host['id'];
 
@@ -634,6 +642,10 @@ class Overlay {
 	 * @see articles/edit.php
 	 */
 	function save() {
+
+		foreach($this->attributes as $name => $value)
+			$this->attributes[$name] = utf8::to_unicode($value);
+//			$this->attributes[$name] = utf8::to_unicode(str_replace('"', '', $value);
 
 		// just serialize
 		return serialize($this->attributes);

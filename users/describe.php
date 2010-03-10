@@ -99,8 +99,7 @@ elseif(isset($item['full_name']))
 
 // not found
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
@@ -149,7 +148,7 @@ if(!isset($item['id'])) {
 			$item['avatar_url'] = str_replace('//', '/', $context['url_to_home'].$context['url_to_root'].$item['avatar_url']);
 		$text .= '		<foaf:img rdf:resource="'.encode_field($item['avatar_url']).'" />'."\n";
 	}
-		
+
 	// list watched users by posts
 	if($items =& Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'raw')) {
 		foreach($items as $id => $attributes)
@@ -161,7 +160,7 @@ if(!isset($item['id'])) {
 				.'	</foaf:knows>'."\n";
 	}
 
-	
+
 
 	$text .= '	</foaf:Person>'."\n"
 		.'</rdf:RDF>';
@@ -184,7 +183,7 @@ if(!isset($item['id'])) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

@@ -285,7 +285,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'basic').'</span>';
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -304,7 +304,7 @@ if($with_form) {
 
 		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'basic').'</span>';
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -312,43 +312,13 @@ if($with_form) {
 	$text .= Skin::build_form($fields);
 	$fields = array();
 
-	// images
-	if(isset($item['id'])) {
-		$box = '';
+	// splash message for new items
+	if(!isset($item['id']))
+		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
-		// menu at the top
-		$menu = array();
-
-		// the command to add an image
-		if(Surfer::may_upload()) {
-			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			$menu[] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'span');
-
-			$menu[] = Skin::build_link('images/upload.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Bulk upload'), 'span');
-		}
-
-		// the list of images
-		include_once '../images/images.php';
-		if($items = Images::list_by_date_for_anchor('article:'.$item['id'])) {
-
-			// help to insert in textarea
-			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
-				$menu[] = i18n::s('Click on codes to place images in the page.');
-			else
-				$menu[] = i18n::s('Use codes to place images in the page.');
-
-		}
-
-		if($menu)
-			$box .= Skin::finalize_list($menu, 'menu_bar');
-		if($items)
-			$box .= Skin::build_list($items, 'decorated');
-
-		// in a folded box
-		if($box)
-			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded', 'edit_images');
-
-	}
+	// the list of images
+	elseif($items = Images::list_by_date_for_anchor('article:'.$item['id']))
+		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
 
 	// display in a separate panel
 	if($text)

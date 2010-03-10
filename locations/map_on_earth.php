@@ -37,7 +37,7 @@ if(isset($item['geo_place_name']))
 
 // not found
 if(!isset($item['id']))
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // no capability to create an image
 elseif(!is_callable('ImageCreateFromJpeg'))
@@ -59,7 +59,7 @@ else {
 
 	// strong validator
 	$etag = '"'.md5($item['geo_place_name'].$item['longitude'].$item['latitude']).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

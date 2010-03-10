@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-01-15 23:34+0100
-PO-Revision-Date: 2009-10-06 15:58+0100
+PO-Revision-Date: 2010-03-08 17:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ $_SESSION['l10n']['fr']['32f16b405d7ec3c7f7a2175487b60cc3']='Merci de vous enreg
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Sample blog client']='Exemple de client blog';
 $_SESSION['l10n']['fr']['Sample ping client']='Exemple de client ping';
-$_SESSION['l10n']['fr']['Search']='Chercher';
+$_SESSION['l10n']['fr']['Search']='Recherche';
 $_SESSION['l10n']['fr']['Server address']='Adresse du serveur';
 $_SESSION['l10n']['fr']['Specification:']='Spécification :';
 $_SESSION['l10n']['fr']['Specifications:']='Spécifications :';

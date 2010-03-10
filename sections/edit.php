@@ -607,16 +607,16 @@ if($with_form) {
 	}
 
 	// the prefix
-	$label = i18n::s('Prefix');
-	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
-	$hint = i18n::s('To be inserted at the top of related pages.');
-	$fields[] = array($label, $input, $hint);
+// 	$label = i18n::s('Prefix');
+// 	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
+// 	$hint = i18n::s('To be inserted at the top of related pages.');
+// 	$fields[] = array($label, $input, $hint);
 
 	// the suffix
-	$label = i18n::s('Suffix');
-	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
-	$hint = i18n::s('To be inserted at the bottom of related pages.');
-	$fields[] = array($label, $input, $hint);
+// 	$label = i18n::s('Suffix');
+// 	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
+// 	$hint = i18n::s('To be inserted at the bottom of related pages.');
+// 	$fields[] = array($label, $input, $hint);
 
 	// append fields
 	$text .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
@@ -694,7 +694,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'basic').'</span>';
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -714,7 +714,7 @@ if($with_form) {
 
 		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'basic').'</span>';
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -726,55 +726,28 @@ if($with_form) {
 	if(!isset($item['id']))
 		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
-	// images
-	else {
-		$box = '';
+	// the list of images
+	elseif($items = Images::list_by_date_for_anchor('section:'.$item['id']))
+		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
 
-		// menu at the top
-		$menu = array();
-
-		// the command to add an image
-		if(Surfer::may_upload()) {
-			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'span'));
-		}
-
-		// the list of images
-		if($items = Images::list_by_date_for_anchor('section:'.$item['id'])) {
-
-			// help to insert in textarea
-			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
-				$menu[] = i18n::s('Click on codes to place images in the page.');
-			else
-				$menu[] = i18n::s('Use codes to place images in the page.');
-
-		}
-
-		if($menu)
-			$box .= Skin::finalize_list($menu, 'menu_bar');
-		if($items)
-			$box .= Skin::build_list($items, 'decorated');
-
-		// in a folded box
-		if($box)
-			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded', 'edit_images');
-
-	}
-
-	// if we are editing an existing item
+	// if we are editing an existing section
 	if(isset($item['id'])) {
+
+		// files are reserved to authenticated members
+		if($items = Files::list_embeddable_for_anchor('section:'.$item['id'], 0, 50))
+			$text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
 
 		// locations are reserved to authenticated members
 		if(Locations::allow_creation($anchor, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
+			$items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50, 'section:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 		// tables are reserved to associates
 		if(Tables::allow_creation($anchor, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
+			$items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50, 'section:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
@@ -790,7 +763,7 @@ if($with_form) {
 	$text = '';
 
 	// provide information to section owner, and to editors of parent section
-	if(Sections::is_owned($item, $anchor)) {
+	if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 
 		// owner
 		if(isset($item['owner_id'])) {
@@ -801,7 +774,7 @@ if($with_form) {
 				$input = i18n::s('No owner has been found.');
 
 			// only real owner can delegate to another person
-			if(Sections::is_owned($item, $anchor, TRUE))
+			if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())
 				$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
 
 			$fields[] = array($label, $input);

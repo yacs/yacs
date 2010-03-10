@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 23:21+0100
-PO-Revision-Date: 2010-02-10 00:19+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-08 17:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -62,6 +62,7 @@ $_SESSION['l10n']['en']['Add a page with this name']='Add a page with this name'
 $_SESSION['l10n']['en']['All pages']='All pages';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['At partner sites']='At partner sites';
+$_SESSION['l10n']['en']['Bing']='Bing';
 $_SESSION['l10n']['en']['Browse index pages']='Browse index pages';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
@@ -100,6 +101,7 @@ $_SESSION['l10n']['en']['7d7ea62f4e503771a9c13d6802bf67cf']='ERROR: YACS cannot 
 $_SESSION['l10n']['en']['efccd6e2613a9f368b12ee73c70c5067']='ERROR: YACS requires at least PHP version 4.3. The server runs version %s.';
 $_SESSION['l10n']['en']['6700b538adb78116b33038d305a2e0a1']='ERROR: YACS requires the MySQL PHP extension.';
 $_SESSION['l10n']['en']['8e8f34af585e3692592dcfee1549e445']='ERROR: YACS requires the XML PHP extension.';
+$_SESSION['l10n']['en']['Extension']='Extension';
 $_SESSION['l10n']['en']['Extra']='Extra';
 $_SESSION['l10n']['en']['Extra boxes']='Extra boxes';
 $_SESSION['l10n']['en']['Featured']='Featured';
@@ -202,6 +204,7 @@ $_SESSION['l10n']['en']['Results']='Results';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Safe mode']='Safe mode';
 $_SESSION['l10n']['en']['Search']='Search';
+$_SESSION['l10n']['en']['Search all of the Internet']='Search all of the Internet';
 $_SESSION['l10n']['en']['Search in']='Search in';
 $_SESSION['l10n']['en']['Search in all sections']='Search in all sections';
 $_SESSION['l10n']['en']['Search: %s']='Search: %s';
@@ -223,7 +226,6 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['6f435f6c4b00c76586e6352503ac013a']='Submit "%s" to our %s in case some pages could match this keyword.';
 $_SESSION['l10n']['en']['2bbb841a1211a4b231df13f0d0b8b062']='Submitted to the webmaster by any surfers';
 $_SESSION['l10n']['en']['Switch the server on']='Switch the server on';
-$_SESSION['l10n']['en']['Technorati']='Technorati';
 $_SESSION['l10n']['en']['0457bda18a285d6eb56e18be21f73447']='The description should not exceed 64000 characters.';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
 $_SESSION['l10n']['en']['The main object of your query']='The main object of your query';

@@ -861,6 +861,17 @@ Class Articles {
 				$old_id = $item['id'];
 				unset($item['id']);
 
+				// creator has to be the person who duplicates
+				unset($item['create_address']);
+				unset($item['create_date']);
+				unset($item['create_id']);
+				unset($item['create_name']);
+
+				unset($item['edit_address']);
+				unset($item['edit_date']);
+				unset($item['edit_id']);
+				unset($item['edit_name']);
+
 				// target anchor
 				$item['anchor'] = $anchor_to;
 
@@ -2500,7 +2511,7 @@ Class Articles {
 		// cascade anchor access rights
 		$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 
-		// all row updates
+		// columns updated
 		$query = array();
 
 		// fields that are visible only to associates -- see articles/edit.php
@@ -2752,7 +2763,6 @@ Class Articles {
 		// search is restricted to one section
 		$sections_where = '';
 		if($section_id) {
-			$sections_where = "sections.id = ".SQL::escape($section_id);
 
 			// look for children
 			$anchors = array();
@@ -2785,9 +2795,11 @@ Class Articles {
 				$anchors = array_merge($anchors, $topics);
 			}
 
-			// extend the search clause
-			foreach($anchors as $reference)
-				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
+			// also include the top level, of course
+			$anchors[] = 'section:'.$section_id;
+
+			// the full set of sections searched
+			$sections_where = "articles.anchor IN ('".join("', '", $anchors)."')";
 
 		}
 

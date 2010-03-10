@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2009-10-04 09:31+0100
+PO-Revision-Date: 2010-03-08 17:30+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -181,7 +181,7 @@ $_SESSION['l10n']['fr']['Sans-Serif']='Sans-Serif';
 $_SESSION['l10n']['fr']['Script shortcut']='Script';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Scroller']='Défilement';
-$_SESSION['l10n']['fr']['Search']='Chercher';
+$_SESSION['l10n']['fr']['Search']='Recherche';
 $_SESSION['l10n']['fr']['Second item']='Deuxième élément';
 $_SESSION['l10n']['fr']['fb395bcab19bcae7f0f79f7a4a95eb2b']='Deuxième élément';
 $_SESSION['l10n']['fr']['Section shortcut']='Section';

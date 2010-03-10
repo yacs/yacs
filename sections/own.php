@@ -35,7 +35,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // only strict section owners can proceed
-if(Sections::is_owned($item, $anchor, TRUE))
+if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -68,8 +68,7 @@ if(Surfer::is_crawler()) {
 
 // not found
 } elseif(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {

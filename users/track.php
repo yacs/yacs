@@ -52,8 +52,7 @@ $context['page_title'] = i18n::s('Watch list');
 
 // not found
 if(!$item['id']) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.').' ('.$track.')');
+	include '../error.php';
 
 // operation is restricted to logged users
 } elseif(!Surfer::get_id()) {
@@ -74,7 +73,7 @@ if(!$item['id']) {
 
 	// successful operation reflected into page title
 	if(!strncmp($track, 'user:', 5))
-		$context['page_title'] = i18n::s('You have been connected');
+		$context['page_title'] = i18n::s('Your contacts have been updated');
 	else
 		$context['page_title'] = i18n::s('Your watch list has been updated');
 
@@ -89,6 +88,20 @@ if(!$item['id']) {
 		// we are tracking a user
 		if(!strncmp($track, 'user:', 5)) {
 
+			// notify a person that is followed
+			if(($user = Users::get(str_replace('user:', '', $track))) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
+
+				// contact target user by e-mail
+				$subject = sprintf(i18n::c('%s is following you'), strip_tags(Surfer::get_name()));
+				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), Surfer::get_name(), $context['site_name'])
+					."\n\n".ucfirst(strip_tags(Surfer::get_name()))
+					."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+
+				// allow for cross-referencing
+				Mailer::post(Surfer::from(), $user['email'], $subject, $message);
+			}
+
+			// feed-back to poster
 			$context['text'] .= '<p>'.sprintf(i18n::s('You have been connected to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
 			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
@@ -147,10 +160,6 @@ if(!$item['id']) {
 	$context['text'] .= Skin::build_list($menu, 'assistant_bar');
 
 }
-
-// failed operation
-if(count($context['error']))
-	$context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';
 
 // render the skin
 render_skin();

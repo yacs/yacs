@@ -96,16 +96,16 @@ elseif(!$permitted) {
 			Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
 
 			// notify a person that is followed
-			if(!strncmp($_REQUEST['member'], 'user:', 5) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
+			if(!strncmp($_REQUEST['member'], 'user:', 5) && ($follower = Anchors::get($_REQUEST['member'])) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
 
 				// contact target user by e-mail
-				$subject = sprintf(i18n::c('%s is following you'), strip_tags($user['full_name']));
-				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $user['full_name'], $context['site_name'])
-					."\n\n".ucfirst(strip_tags($user['full_name']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($user);
+				$subject = sprintf(i18n::c('%s is following you'), strip_tags($follower->get_title()));
+				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name'])
+					."\n\n".ucfirst(strip_tags($follower->get_title()))
+					."\n".$context['url_to_home'].$context['url_to_root'].$follower->get_url();
 
 				// enable threading
-				$headers = Mailer::set_thread(NULL, $anchor);
+				$headers = Mailer::set_thread('', $anchor);
 
 				// allow for cross-referencing
 				Mailer::post(Surfer::from(), $user['email'], $subject, $message, NULL, $headers);

@@ -21,13 +21,15 @@
  */
 
 // no need for access to the database
-define('NO_MODEL_PRELOAD', TRUE);
+if(!defined('NO_MODEL_PRELOAD'))
+	define('NO_MODEL_PRELOAD', TRUE);
 
 // common definitions and initial processing
 include_once 'shared/global.php';
 
 // find the error code
-$error = '';
+if(!isset($error))
+	$error = '';
 if(isset($_REQUEST['error']))
 	$error = $_REQUEST['error'];
 elseif(isset($context['arguments'][0]))
@@ -116,6 +118,7 @@ case '403':
 
 // 404 - Not Found
 case '404':
+default:
 
 	// the title of the page
 	$context['page_title'] = i18n::s('Page not found (404)');
@@ -157,12 +160,13 @@ case '404':
 
 	break;
 
-// unknown error code
-default:
-	break;
 }
 
 // render the skin
 render_skin();
+
+// do not return to caller, if any
+if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+	exit;
 
 ?>

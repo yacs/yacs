@@ -66,8 +66,7 @@ if($item['geo_place_name'])
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
+	include '../error.php';
 
 // re-enforce the canonical link
 } elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Locations::get_url($item['id'])) && strncmp($context['self_url'], $canonical, strlen($canonical))) {

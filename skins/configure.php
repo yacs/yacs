@@ -69,6 +69,17 @@
  * [*] [code]skins_extra_components[/code] - The list of side components to put in the extra panel.
  *
  *
+ * Search:
+ *
+ * [*] [code]skins_delegate_search[/code] - Determines ho to handle search requests.
+ * If 'S', add a radio button to distinguish search in content from search in users.
+ * If 'X', proceed like for 'S', and use the parameter skins_search_extension to complement search results.
+ * If 'Y', use a customized form to capture search requests, as specified in parameter skins_search_form.
+ *
+ * [*] [code]skins_search_extension[/code] - HTML used to add a tab to search results.
+ *
+ * [*] [code]skins_search_form[/code] - HTML used to create custom search form.
+ *
  * Options:
  *
  * [*] [code]with_export_tools[/code] - Display, or not, conversion tools
@@ -398,22 +409,45 @@ elseif(!Surfer::is_associate()) {
 
 	$components .= Skin::build_box(i18n::s('Navigation panel'), $box);
 
+	//
 	// search
-	$box = '';
+	//
+	$search = '';
 
-	// search delegation
-	$input = '<input type="radio" name="skins_delegate_search" value="N"';
+	// basic search
+	$search = '<p><input type="radio" name="skins_delegate_search" value="N"';
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= ' onclick="$(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database');
-	$input .= BR.'<input type="radio" name="skins_delegate_search" value="S"';
+		$search .= ' checked="checked"';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
+
+	// distinguish content from users
+	$search .= '<p><input type="radio" name="skins_delegate_search" value="S"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S'))
-		$input .= ' checked="checked"';
-	$input .= ' onclick="$(skins_search_form).disabled=1"/> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users');
-	$input .= BR.'<input type="radio" name="skins_delegate_search" value="Y"';
+		$search .= ' checked="checked"';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
+
+	// search extension
+	$search .= '<p><input type="radio" name="skins_delegate_search" value="X"';
+	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X'))
+		$search .= ' checked="checked"';
+	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1"/> '.i18n::s('Extend search results on a separate tab');
+
+	// default to Google customized seach
+	if(!isset($context['skins_search_extension']) || !$context['skins_search_extension'])
+		$context['skins_search_extension'] = '<form method="get" action="http://www.google.com/search">'."\n"
+			.'<form method="get" action="http://www.google.com/search">'."\n"
+			.'<p>'.sprintf(i18n::s('Search only %s'), $context['site_name']).'<br />'."\n"
+			.'<input type="text" name="q" size="25" maxlength="255" value="%s" />'."\n"
+			.'<input type="submit" value="'.i18n::s('Google Search').'" />'."\n"
+			.'<input type="hidden" name="sitesearch" value="'.$context['host_name'].'" />'."\n"
+			.'</p></form>';
+	$search .= BR.'<textarea name="skins_search_extension" id="skins_search_extension" rows="6" cols="50" style="width: 60%; margin-left: 2em;" onfocus="Yacs.growPanel(this);">'.encode_field($context['skins_search_extension']).'</textarea></p>';
+
+	// delegate the search to another server
+	$search .= '<p><input type="radio" name="skins_delegate_search" value="Y"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= ' onclick="$(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
+		$search .= ' checked="checked"';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
 
 	// default to Google appliance
 	if(!isset($context['skins_search_form']) || !$context['skins_search_form'])
@@ -425,10 +459,7 @@ elseif(!Surfer::is_associate()) {
 			.'   <input type="hidden" name="output" value="xml_no_dtd" />'."\n"
 			.'   <input type="hidden" name="proxystylesheet" value="default_frontend" />'."\n"
 			.'</div></form>';
-	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form" rows="3" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);">'.encode_field($context['skins_search_form']).'</textarea>';
-	$box .= '<p>'.$input."</p>\n";
-
-	$components .= Skin::build_box(i18n::s('Search requests'), $box);
+	$search .= BR.'<textarea name="skins_search_form" id="skins_search_form" rows="6" cols="50" style="width: 60%; margin-left: 2em;" onfocus="Yacs.growPanel(this);">'.encode_field($context['skins_search_form']).'</textarea></p>';
 
 	//
 	// options
@@ -704,6 +735,7 @@ elseif(!Surfer::is_associate()) {
 	$all_tabs = array(
 		array('meta', i18n::s('Meta-information'), 'meta_panel', $meta),
 		array('components', i18n::s('Components'), 'components_panel', $components),
+		array('search', i18n::s('Search'), 'search_panel', $search),
 		array('options', i18n::s('Options'), 'options_panel', $options),
 		array('images', i18n::s('Images'), 'images_panel', $images),
 		array('freemind', i18n::s('Freemind'), 'freemind_panel', $freemind)
@@ -827,6 +859,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_freemind_section_color\']=\''.addcslashes($_REQUEST['skins_freemind_section_color'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_section_style']) && $_REQUEST['skins_freemind_section_style'])
 		$content .= '$context[\'skins_freemind_section_style\']=\''.addcslashes($_REQUEST['skins_freemind_section_style'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_search_extension']) && $_REQUEST['skins_search_extension'])
+		$content .= '$context[\'skins_search_extension\']=\''.addcslashes($_REQUEST['skins_search_extension'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_search_form']) && $_REQUEST['skins_search_form'])
 		$content .= '$context[\'skins_search_form\']=\''.addcslashes($_REQUEST['skins_search_form'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_main_components']) && $_REQUEST['skins_main_components'])

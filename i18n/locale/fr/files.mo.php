@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-02 00:28+0100
-PO-Revision-Date: 2010-03-01 17:47+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-10 09:52+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -55,7 +55,6 @@ $_SESSION['l10n']['fr']['bfbcc298c988f6d70e9919fba19bda0d']='Par défaut, les fi
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Change']='Changer';
 $_SESSION['l10n']['fr']['36a3d377dfebacd9d29b637d7ecefb82']='Vérifier la page de téléchargement pour ce fichier';
-$_SESSION['l10n']['fr']['ab006b2530195974908cd8ab59b711b9']='Cliquer sur les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['Close']='Fermer';
 $_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
@@ -205,7 +204,6 @@ $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une pe
 $_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';
 $_SESSION['l10n']['fr']['Upload another file']='Ajouter un autre fichier';
 $_SESSION['l10n']['fr']['Use FTP']='Utiliser FTP';
-$_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['d1ec6c64d705f2700ae41fb5a3f440dc']='Codes pour référencer ce fichier : %s';
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
 $_SESSION['l10n']['fr']['Version']='Version';
@@ -275,6 +273,7 @@ $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['details']='détails';
 $_SESSION['l10n']['fr']['downloads']='téléchargements';
+$_SESSION['l10n']['fr']['edit']='modifier';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['http://desktop.google.com/']='http://desktop.google.com/';
 $_SESSION['l10n']['fr']['56216b06e7ef172b81777732c0866353']='http://en.wikipedia.org/wiki/LaTeX';

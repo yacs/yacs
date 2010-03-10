@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:12+0100
-PO-Revision-Date: 2010-02-10 00:19+0100
+POT-Creation-Date: 2010-03-08 17:33+0100
+PO-Revision-Date: 2010-03-08 17:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -128,6 +128,7 @@ $_SESSION['l10n']['en']['f06f8caf07ff3ae46f165c7d9e01124b']='Export tools are di
 $_SESSION['l10n']['en']['d7e2ef2e0ee49871db66aab68eb84aaa']='Export tools are shown only to members';
 $_SESSION['l10n']['en']['7ec2a580c60504fb5a2abdff77661c9f']='Export tools convert pages to an alternate format or media (pdf, word):';
 $_SESSION['l10n']['en']['Export tools visibility']='Export tools visibility';
+$_SESSION['l10n']['en']['de8cd94ea4e9d337e073a1378c3252c5']='Extend search results on a separate tab';
 $_SESSION['l10n']['en']['91c9e7b9ae24afb801cef448f32a9dcc']='Extra boxes are displayed aside, and complement main content';
 $_SESSION['l10n']['en']['Extra panel']='Extra panel';
 $_SESSION['l10n']['en']['Extras']='Extras';
@@ -149,6 +150,7 @@ $_SESSION['l10n']['en']['Geographical position']='Geographical position';
 $_SESSION['l10n']['en']['fbffe723787b0edf518f4ee687637d79']='Get section content as a Freemind map';
 $_SESSION['l10n']['en']['Go']='Go';
 $_SESSION['l10n']['en']['Go to the documentation page']='Go to the documentation page';
+$_SESSION['l10n']['en']['Google Search']='Google Search';
 $_SESSION['l10n']['en']['Head']='Head';
 $_SESSION['l10n']['en']['Header']='Header';
 $_SESSION['l10n']['en']['Height']='Height';
@@ -265,7 +267,8 @@ $_SESSION['l10n']['en']['Return to front page']='Return to front page';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Sample box']='Sample box';
 $_SESSION['l10n']['en']['Sample text']='Sample text';
-$_SESSION['l10n']['en']['Search requests']='Search requests';
+$_SESSION['l10n']['en']['Search']='Search';
+$_SESSION['l10n']['en']['Search only %s']='Search only %s';
 $_SESSION['l10n']['en']['Search...']='Search...';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Sections around, if any']='Sections around, if any';

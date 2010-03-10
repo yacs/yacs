@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-10 00:12+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
 PO-Revision-Date: 2009-09-10 15:10+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -31,7 +31,6 @@ $_SESSION['l10n']['fr']['List versions']='Toutes les versions';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No change']='Aucun changement';
-$_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Restore this version']='Restaurer cette version';
 $_SESSION['l10n']['fr']['Restore: %s']='Restaurer : %s';
 $_SESSION['l10n']['fr']['de5d2b644781f70723536b82aeabe743']='Choisir une version pour visualiser les différences avec la page courante. Seule la dernière modification d\'une même journée est conservée dans la base de données.';

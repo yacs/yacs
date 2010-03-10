@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-12 10:14+0100
-PO-Revision-Date: 2010-02-10 15:17+0100
+POT-Creation-Date: 2010-03-10 23:31+0100
+PO-Revision-Date: 2010-03-08 17:34+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -55,7 +55,6 @@ $_SESSION['l10n']['en']['bfbcc298c988f6d70e9919fba19bda0d']='By default files ar
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Change']='Change';
 $_SESSION['l10n']['en']['36a3d377dfebacd9d29b637d7ecefb82']='Check the download page for this file';
-$_SESSION['l10n']['en']['ab006b2530195974908cd8ab59b711b9']='Click on codes to insert images in the page.';
 $_SESSION['l10n']['en']['Close']='Close';
 $_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
@@ -98,7 +97,6 @@ $_SESSION['l10n']['en']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostv
 $_SESSION['l10n']['en']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['History']='History';
-$_SESSION['l10n']['en']['09708bb93341b65317dde0e798deaaaf']='If Flash or Java has been installed at your workstation, click on the link to browse this mind map.';
 $_SESSION['l10n']['en']['f5bde952210906492f614252dedd0b21']='If the Adobe plug-in reports an error, please save the file on some hard drive and use this local copy to launch the Acrobat software.';
 $_SESSION['l10n']['en']['2ab437e9863287d3b69b9e0cdc1f8024']='If you cannot upload files because of permissions settings, use the configuration panel for users to disable all uploads.';
 $_SESSION['l10n']['en']['c0ffaa282bf7024132b29f5544fb4df0']='If you have got this file from outside source, please describe it here';
@@ -139,7 +137,6 @@ $_SESSION['l10n']['en']['44ecc95028969d4dc5f8fbc8e5097e7e']='Nothing has been re
 $_SESSION['l10n']['en']['Oldest files']='Oldest files';
 $_SESSION['l10n']['en']['Open Office web server']='Open Office web server';
 $_SESSION['l10n']['en']['Open Workbench']='Open Workbench';
-$_SESSION['l10n']['en']['Open this map']='Open this map';
 $_SESSION['l10n']['en']['OpenOffice web server']='OpenOffice web server';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
@@ -177,7 +174,6 @@ $_SESSION['l10n']['en']['Source']='Source';
 $_SESSION['l10n']['en']['Source: %s']='Source: %s';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Storage']='Storage';
-$_SESSION['l10n']['en']['Stream']='Stream';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
 $_SESSION['l10n']['en']['Supported extensions']='Supported extensions';
@@ -191,10 +187,10 @@ $_SESSION['l10n']['en']['07ab23fe8e7747f0f09e51f142768727']='The ftp:// address 
 $_SESSION['l10n']['en']['99b62a743b6ba1090129424fbce8d64d']='The place where shared files will be written.';
 $_SESSION['l10n']['en']['bd4dc509bead225fd09ffc2a29b1e07a']='The size of this file is over limit.';
 $_SESSION['l10n']['en']['b912496983adb05d5a6cb563dacfde61']='The upload has been successfully recorded.';
-$_SESSION['l10n']['en']['7604df7ab947daaf747a5e725bafadce']='This file allows for interactions over the web. If some Flash player has been installed at your workstation, click on the link to start the show.';
+$_SESSION['l10n']['en']['3b6d2f3802c13a5c18f1af7602f4b285']='This file allows for interactions over the web. Click on the link if some Flash player has been installed.';
 $_SESSION['l10n']['en']['1776aecef24f2d097ff0f00b141bce7b']='This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.';
 $_SESSION['l10n']['en']['e88ad9b865a3a37cab22969e5e62f8d7']='This file has been reserved by %s %s, and it is likely that an updated version will be made available soon.';
-$_SESSION['l10n']['en']['2d4b92c7af8bc664500b7a0599619a30']='This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).';
+$_SESSION['l10n']['en']['163aed12f34d16221a5b9c1875b64c4f']='This file may be accessed on-demand.';
 $_SESSION['l10n']['en']['fb52e739654eb4d1981039c471bca260']='This type of file is not allowed.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['Title']='Title';
@@ -208,7 +204,6 @@ $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small imag
 $_SESSION['l10n']['en']['c2c4f79559d76d5b49a626fd7bf35631']='Upload an image to be displayed at page top';
 $_SESSION['l10n']['en']['Upload another file']='Upload another file';
 $_SESSION['l10n']['en']['Use FTP']='Use FTP';
-$_SESSION['l10n']['en']['145c71768eada2e93397ec134c387b13']='Use codes to insert images in the page.';
 $_SESSION['l10n']['en']['d1ec6c64d705f2700ae41fb5a3f440dc']='Use following codes to reference this item: %s';
 $_SESSION['l10n']['en']['VLC media player']='VLC media player';
 $_SESSION['l10n']['en']['Version']='Version';
@@ -278,6 +273,7 @@ $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['delete']='delete';
 $_SESSION['l10n']['en']['details']='details';
 $_SESSION['l10n']['en']['downloads']='downloads';
+$_SESSION['l10n']['en']['edit']='edit';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
 $_SESSION['l10n']['en']['http://desktop.google.com/']='http://desktop.google.com/';
 $_SESSION['l10n']['en']['56216b06e7ef172b81777732c0866353']='http://en.wikipedia.org/wiki/LaTeX';

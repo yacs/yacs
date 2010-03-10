@@ -211,27 +211,19 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// is the first row an url to the zoom page?
-	$label = i18n::s('With zoom');
-	$input = '<input type="radio" name="with_zoom" value="Y"';
-	if(!isset($item['with_zoom']) || ($item['with_zoom'] == 'Y'))
+	$label = i18n::s('First column');
+	$input = '<input type="radio" name="with_zoom" value="N"';
+	if(!isset($item['with_zoom']) || ($item['with_zoom'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('The first column links to a detail page')
-		.BR."\n".'<input type="radio" name="with_zoom" value="N"';
-	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'N'))
+	$input .= '/> '.i18n::s('First column contains useful data')
+		.BR."\n".'<input type="radio" name="with_zoom" value="T"';
+	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'T'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Everything may be downloaded as CSV')."\n";
-	$fields[] = array($label, $input);
-
-	// do we have to insert row numbers?
-	$label = i18n::s('With index');
-	$input = '<input type="radio" name="with_number" value="N"';
-	if(!isset($item['with_number']) || ($item['with_number'] != 'Y'))
+	$input .= '/> '.i18n::s('First column refers to time')
+		.BR."\n".'<input type="radio" name="with_zoom" value="Y"';
+	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display row numbers')
-		.BR."\n".'<input type="radio" name="with_number" value="Y"';
-	if(isset($item['with_number']) && ($item['with_number'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Insert a column with row numbers')."\n";
+	$input .= '/> '.i18n::s('First column provides a web link');
 	$fields[] = array($label, $input);
 
 	// the description
@@ -243,12 +235,16 @@ if($with_form) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	// bottom commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	if(is_object($anchor) && $anchor->is_viewable())
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
-
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

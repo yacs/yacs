@@ -19,7 +19,7 @@ Class Layout_files extends Layout_interface {
 	 * list files
 	 *
 	 * Recognize following variants:
-	 * - 'no_anchor' to list items attached to one particular anchor
+	 * - 'section:123' to list items attached to one particular anchor
 	 * - 'no_author' to list items attached to one user profile
 	 *
 	 * @param resource the SQL result
@@ -39,7 +39,7 @@ Class Layout_files extends Layout_interface {
 
 		// sanity check
 		if(!isset($this->layout_variant))
-			$this->layout_variant = 'no_anchor';
+			$this->layout_variant = '';
 
 		// flag files updated recently
 		if($context['site_revisit_after'] < 1)
@@ -105,7 +105,7 @@ Class Layout_files extends Layout_interface {
 			$details = array();
 
 			// anchor link
-			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $anchor) {
+			if($anchor && is_string($this->layout_variant) && ($this->layout_variant != $anchor->get_reference())) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
@@ -146,7 +146,7 @@ Class Layout_files extends Layout_interface {
 			$details[] = Skin::build_link(Files::get_permalink($item), i18n::s('details'), 'span', i18n::s('View file details'));
 
 			// delete the file
-			if(is_object($anchor) && $anchor->is_owned())
+			if((is_object($anchor) && $anchor->is_owned()) || Surfer::is_associate())
 				$details[] = Skin::build_link(Files::get_url($item['id'], 'delete'), i18n::s('delete'), 'span', i18n::s('Drop file content'));
 
 			// append the menu, if any
