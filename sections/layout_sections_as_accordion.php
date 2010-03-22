@@ -227,7 +227,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			}
 
 			// always make a box
-			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'section_'.$accordion_id);
+			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'accordion_section_'.$accordion_id);
 
 		}
 

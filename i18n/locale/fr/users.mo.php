@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
-PO-Revision-Date: 2010-03-10 21:18+0100
+POT-Creation-Date: 2010-03-22 22:45+0100
+PO-Revision-Date: 2010-03-22 23:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -50,11 +50,9 @@ $_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['d00e6ba89f7882567663b0ea883c0f39']='Cette page est privée. Si vous continuer, vous ne pourrez plus y accèder.';
 $_SESSION['l10n']['fr']['fcae29fa86d4ef3e18aef272d9e811ca']='Cette section est privée. Si vous continuer, vous ne pourrez plus y accèder, ni aux pages qu\'elle contient.';
 $_SESSION['l10n']['fr']['Actions']='Actions';
-$_SESSION['l10n']['fr']['Add a category']='Ajouter une catégorie';
 $_SESSION['l10n']['fr']['Add a group or a blog']='Ajouter un groupe ou un blog';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
-$_SESSION['l10n']['fr']['Add a section']='Ajouter une section';
 $_SESSION['l10n']['fr']['Add a table']='Ajouter une table';
 $_SESSION['l10n']['fr']['Add a user']='Ajouter un utilisateur';
 $_SESSION['l10n']['fr']['Add an action']='Ajouter une action';
@@ -133,7 +131,6 @@ $_SESSION['l10n']['fr']['Contact %s']='Contacter %s';
 $_SESSION['l10n']['fr']['Contacts']='Contacts';
 $_SESSION['l10n']['fr']['Contacts of %s']='Contacts de %s';
 $_SESSION['l10n']['fr']['Content']='Contenu';
-$_SESSION['l10n']['fr']['Contribute']='Contribuer';
 $_SESSION['l10n']['fr']['Contributions']='Contributions';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Create your profile']='Créer votre profil';
@@ -472,17 +469,18 @@ $_SESSION['l10n']['fr']['You must provide a password.']='Vous devez taper un mot
 $_SESSION['l10n']['fr']['580a8e61acab39bd0ca7eb1a1e139b09']='Vous devez indiquer une adresse électronique valide.';
 $_SESSION['l10n']['fr']['0239b2db3ade050e88ee4ec182dff0a2']='Vous allez recevoir un message d\'activation de votre compte à cette adresse.';
 $_SESSION['l10n']['fr']['Your account at %s']='Votre enregistrement à %s';
+$_SESSION['l10n']['fr']['Your address']='Votre adresse';
 $_SESSION['l10n']['fr']['e24370e72e5b4dcb540ccd9a42113856']='Vous utilisez votre %s sur votre profil.';
 $_SESSION['l10n']['fr']['7728feba81df7c961e57b33868704e5d']='Votre navigateur doit accepter les cookies pour les opérations d\'enregistrement et d\'authentification.';
 $_SESSION['l10n']['fr']['Your contacts have been updated']='Vos contacts ont été mis à jour';
-$_SESSION['l10n']['fr']['Your e-mail address']='Votre adresse E-mail';
 $_SESSION['l10n']['fr']['4411a58f1410c613081f9683009c5df2']='Votre adresse de messagerie n\'a pas été validée.';
 $_SESSION['l10n']['fr']['6904bfe36a26ab910e7afe98fb47b8f4']='Votre approbation explicite est requise pour l\'envoi de messages électroniques à votre adresse.';
 $_SESSION['l10n']['fr']['82e1e4fa4163a6bb6fce5575a9d86438']='Votre message est en cours d\'acheminement vers %s';
 $_SESSION['l10n']['fr']['Your nick name is %s']='Votre pseudo est %s';
 $_SESSION['l10n']['fr']['639f349aeaa83b3365738412411dc182']='Votre surnom, ou votre adresse e-mail';
 $_SESSION['l10n']['fr']['3c0f4eba7ce79541a1d7959fc09a6521']='Votre occupation, votre devise, ou quelque mots bien sentis';
-$_SESSION['l10n']['fr']['Your personal record']='Votre fiche personnelle';
+$_SESSION['l10n']['fr']['Your profile']='Votre profil';
+$_SESSION['l10n']['fr']['Your status']='Votre status';
 $_SESSION['l10n']['fr']['Your threads with %s']='Vos discussions avec %s';
 $_SESSION['l10n']['fr']['8a7a2a3548d32a99ee43c60b96d8e211']='Votre liste de surveillance a été mise à jour';
 $_SESSION['l10n']['fr']['a page']='une page';

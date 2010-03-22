@@ -2171,7 +2171,7 @@ Class Files {
 		$context['gan2simile']['current_id'] = 0;
 
 		// one tag at a time
-		function startElement($parser, $name, $attrs) {
+		function g2s_startElement($parser, $name, $attrs) {
 			global $context;
 
 			// remember task basic attributes
@@ -2208,7 +2208,7 @@ Class Files {
 		}
 
 		// close a tag
-		function endElement($parser, $name) {
+		function g2s_endElement($parser, $name) {
 			global $context;
 
 			// we check only tasks
@@ -2219,7 +2219,7 @@ Class Files {
 
 		// parse the GAN file
 		$xml_parser = xml_parser_create();
-		xml_set_element_handler($xml_parser, "startElement", "endElement");
+		xml_set_element_handler($xml_parser, "g2s_startElement", "g2s_endElement");
 		if (!xml_parse($xml_parser, $content, TRUE)) {
 			die(sprintf("XML error: %s at line %d",
 						xml_error_string(xml_get_error_code($xml_parser)),

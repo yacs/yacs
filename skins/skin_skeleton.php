@@ -73,7 +73,7 @@ Class Skin_Skeleton {
 		}
 
 		// Yacs.toggle_folder() is in shared/yacs.js -- div.accordion_content div is required for slide effect to work
-		$text = '<div class="accordion_handle accordion_'.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \'accordion_'.$id.'\'); return false;">'.$img.$title.'</a>'
+		$text = '<div class="accordion_handle '.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \''.$id.'\'); return false;">'.$img.$title.'</a>'
 			.'<div class="accordion_content"'.$style.'><div>'.$content."</div></div></div>\n";
 
 		// pass by reference

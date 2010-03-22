@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
-PO-Revision-Date: 2010-03-08 17:37+0100
+POT-Creation-Date: 2010-03-22 22:45+0100
+PO-Revision-Date: 2010-03-22 23:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -50,11 +50,9 @@ $_SESSION['l10n']['en']['Access']='Access';
 $_SESSION['l10n']['en']['d00e6ba89f7882567663b0ea883c0f39']='Access to this page is restricted. If you continue, it will become invisible to you, and you will not be able to even browse its content anymore.';
 $_SESSION['l10n']['en']['fcae29fa86d4ef3e18aef272d9e811ca']='Access to this section is restricted. If you continue, it will become invisible to you, and you will not be able to even browse its content anymore.';
 $_SESSION['l10n']['en']['Actions']='Actions';
-$_SESSION['l10n']['en']['Add a category']='Add a category';
 $_SESSION['l10n']['en']['Add a group or a blog']='Add a group or a blog';
 $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['Add a page']='Add a page';
-$_SESSION['l10n']['en']['Add a section']='Add a section';
 $_SESSION['l10n']['en']['Add a table']='Add a table';
 $_SESSION['l10n']['en']['Add a user']='Add a user';
 $_SESSION['l10n']['en']['Add an action']='Add an action';
@@ -133,7 +131,6 @@ $_SESSION['l10n']['en']['Contact %s']='Contact %s';
 $_SESSION['l10n']['en']['Contacts']='Contacts';
 $_SESSION['l10n']['en']['Contacts of %s']='Contacts of %s';
 $_SESSION['l10n']['en']['Content']='Content';
-$_SESSION['l10n']['en']['Contribute']='Contribute';
 $_SESSION['l10n']['en']['Contributions']='Contributions';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Create your profile']='Create your profile';
@@ -472,17 +469,18 @@ $_SESSION['l10n']['en']['You must provide a password.']='You must provide a pass
 $_SESSION['l10n']['en']['580a8e61acab39bd0ca7eb1a1e139b09']='You must provide a valid e-mail address.';
 $_SESSION['l10n']['en']['0239b2db3ade050e88ee4ec182dff0a2']='You will receive a message on this address to activate your membership.';
 $_SESSION['l10n']['en']['Your account at %s']='Your account at %s';
+$_SESSION['l10n']['en']['Your address']='Your address';
 $_SESSION['l10n']['en']['e24370e72e5b4dcb540ccd9a42113856']='Your are using your %s as current picture.';
 $_SESSION['l10n']['en']['7728feba81df7c961e57b33868704e5d']='Your browser must accept cookies in order to successfully register and log in.';
 $_SESSION['l10n']['en']['Your contacts have been updated']='Your contacts have been updated';
-$_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['4411a58f1410c613081f9683009c5df2']='Your e-mail address has not been validated.';
 $_SESSION['l10n']['en']['6904bfe36a26ab910e7afe98fb47b8f4']='Your explicit approval is a pre-requisite for us to use your e-mail address.';
 $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is being transmitted to %s';
 $_SESSION['l10n']['en']['Your nick name is %s']='Your nick name is %s';
 $_SESSION['l10n']['en']['639f349aeaa83b3365738412411dc182']='Your nick name, or e-mail address';
 $_SESSION['l10n']['en']['3c0f4eba7ce79541a1d7959fc09a6521']='Your occupation, your motto, or some interesting words';
-$_SESSION['l10n']['en']['Your personal record']='Your personal record';
+$_SESSION['l10n']['en']['Your profile']='Your profile';
+$_SESSION['l10n']['en']['Your status']='Your status';
 $_SESSION['l10n']['en']['Your threads with %s']='Your threads with %s';
 $_SESSION['l10n']['en']['8a7a2a3548d32a99ee43c60b96d8e211']='Your watch list has been updated';
 $_SESSION['l10n']['en']['a page']='a page';

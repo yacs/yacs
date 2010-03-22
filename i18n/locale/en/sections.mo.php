@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
+POT-Creation-Date: 2010-03-22 22:45+0100
 PO-Revision-Date: 2010-03-03 00:52+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -301,6 +301,7 @@ $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the a
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Post a comment']='Post a comment';
 $_SESSION['l10n']['en']['Poster']='Poster';
+$_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Prefix separator']='Prefix separator';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
@@ -378,6 +379,7 @@ $_SESSION['l10n']['en']['Stop notifications']='Stop notifications';
 $_SESSION['l10n']['en']['Sub-sections']='Sub-sections';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
+$_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Suffix separator']='Suffix separator';
 $_SESSION['l10n']['en']['fd807bc3514cbdaa40ee26b44c4b319e']='Surfers are not allowed to rate pages in this section';
 $_SESSION['l10n']['en']['Tabbed panels']='Tabbed panels';
@@ -402,6 +404,8 @@ $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['f3f96c1839e9e2352cec3a4f8843cadc']='To assign a section, look in the content tree below and assign one section at a time';
+$_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
+$_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
 $_SESSION['l10n']['en']['0f16c85d61d352ba7e61533d2439a0cf']='To designate a section by its name in the %s';
 $_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
 $_SESSION['l10n']['en']['dd269e53b9cb005bb7d75f3f50266c09']='To transfer ownership to another person, type some letters of the name you are looking for.';

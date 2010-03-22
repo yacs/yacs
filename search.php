@@ -275,7 +275,7 @@ if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'
 	$text .= '<li>'.Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').'</li>';
 
 	// in a separate panel
-	$panels[] = array('extension', i18n::s('Extension'), 'extenssions_panel', $text);
+	$panels[] = array('extension', i18n::s('More results'), 'extensions_panel', $text);
 	$no_result = FALSE;
 }
 

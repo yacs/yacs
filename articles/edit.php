@@ -533,7 +533,7 @@ if(Surfer::is_crawler()) {
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
 
-		// list persons that have been notified
+		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
 
 		// follow-up commands

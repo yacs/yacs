@@ -1812,7 +1812,7 @@ Class Codes {
 			$cache_id = Cache::hash($path).'.xml';
 
 			// apply the transformation
-			if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id) < strtotime($item['edit_date'])) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+			if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id) < filemtime($context['path_to_root'].$path)) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
 
 				// transform from GanttProject to SIMILE Timeline
 				$text = Files::transform_gan_to_simile($path);

@@ -361,7 +361,7 @@ if(Surfer::is_crawler()) {
 
 		// a link to the user profile
 		$cells = array();
-		$cells[] = i18n::s('Your personal record');
+		$cells[] = i18n::s('Your profile');
 		$url = Surfer::get_permalink();
 		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
 		$information .= Skin::table_row($cells, $lines++);
@@ -369,21 +369,25 @@ if(Surfer::is_crawler()) {
 		// the email field
 		if(Surfer::get_email_address()) {
 			$cells = array();
-			$cells[] = i18n::s('Your e-mail address');
+			$cells[] = i18n::s('Your address');
 			$cells[] = 'left='.Surfer::get_email_address();
 			$information .= Skin::table_row($cells, $lines++);
 		}
 
+		// the capability field - associate, member, or subscriber
+		$cells = array();
+		$cells[] = i18n::s('Your status');
+		if(Surfer::is_associate())
+			$cells[] = 'left='.i18n::s('As an associate of this community, you may contribute freely to any part of this server.');
+		elseif(Surfer::is_member())
+			$cells[] = 'left='.i18n::s('As a member of this community, you may access freely most pages of this server.');
+		else
+			$cells[] = 'left='.i18n::s('As a subscriber of this community, you may freely access most pages of this server.');
+		if(isset($cells[1]))
+			$information .= Skin::table_row($cells, $lines++);
+
 		// end of the table
 		$information .= Skin::table_suffix();
-
-		// the capability field - associate, member, or subscriber
-		if(Surfer::is_associate())
-			$information .= '<p>'.i18n::s('As an associate of this community, you may contribute freely to any part of this server.').'</p>';
-		elseif(Surfer::is_member())
-			$information .= '<p>'.i18n::s('As a member of this community, you may access freely most pages of this server.').'</p>';
-		else
-			$information .= '<p>'.i18n::s('As a subscriber of this community, you may freely access most pages of this server.').'</p>';
 
 		// display in a separate panel
 		$panels[] = array('information', i18n::s('You'), 'information_panel', $information);
@@ -424,20 +428,6 @@ if(Surfer::is_crawler()) {
 
 		// user profile aside
 		$context['components']['profile'] = Skin::build_profile($user, 'extra');
-
-		// contribution links, in an extra box
-		if(Surfer::is_member()) {
-			$links = array();
-			$links = array_merge($links, array( 'articles/edit.php' => i18n::s('Add a page') ));
-
-			if(Surfer::is_associate()) {
-				$links = array_merge($links, array( 'sections/edit.php' => i18n::s('Add a section') ));
-				$links = array_merge($links, array( 'categories/edit.php' => i18n::s('Add a category') ));
-				$links = array_merge($links, array( 'users/edit.php' => i18n::s('Add a user') ));
-			}
-
-			$context['components']['boxes'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'boxes');
-		}
 
 		// navigation links, in an extra box
 		$links = array();

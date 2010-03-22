@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
-PO-Revision-Date: 2010-03-08 17:35+0100
+POT-Creation-Date: 2010-03-22 23:11+0100
+PO-Revision-Date: 2010-03-22 23:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -101,7 +101,6 @@ $_SESSION['l10n']['en']['7d7ea62f4e503771a9c13d6802bf67cf']='ERROR: YACS cannot 
 $_SESSION['l10n']['en']['efccd6e2613a9f368b12ee73c70c5067']='ERROR: YACS requires at least PHP version 4.3. The server runs version %s.';
 $_SESSION['l10n']['en']['6700b538adb78116b33038d305a2e0a1']='ERROR: YACS requires the MySQL PHP extension.';
 $_SESSION['l10n']['en']['8e8f34af585e3692592dcfee1549e445']='ERROR: YACS requires the XML PHP extension.';
-$_SESSION['l10n']['en']['Extension']='Extension';
 $_SESSION['l10n']['en']['Extra']='Extra';
 $_SESSION['l10n']['en']['Extra boxes']='Extra boxes';
 $_SESSION['l10n']['en']['Featured']='Featured';
@@ -154,6 +153,7 @@ $_SESSION['l10n']['en']['May change configuration files']='May change configurat
 $_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More links']='More links';
 $_SESSION['l10n']['en']['More pages']='More pages';
+$_SESSION['l10n']['en']['More results']='More results';
 $_SESSION['l10n']['en']['Most HTML tags are removed.']='Most HTML tags are removed.';
 $_SESSION['l10n']['en']['MySQL']='MySQL';
 $_SESSION['l10n']['en']['Navigation boxes']='Navigation boxes';

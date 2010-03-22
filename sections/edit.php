@@ -607,16 +607,16 @@ if($with_form) {
 	}
 
 	// the prefix
-// 	$label = i18n::s('Prefix');
-// 	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
-// 	$hint = i18n::s('To be inserted at the top of related pages.');
-// 	$fields[] = array($label, $input, $hint);
+	$label = i18n::s('Prefix');
+	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
+	$hint = i18n::s('To be inserted at the top of related pages.');
+	$fields[] = array($label, $input, $hint);
 
 	// the suffix
-// 	$label = i18n::s('Suffix');
-// 	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
-// 	$hint = i18n::s('To be inserted at the bottom of related pages.');
-// 	$fields[] = array($label, $input, $hint);
+	$label = i18n::s('Suffix');
+	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
+	$hint = i18n::s('To be inserted at the bottom of related pages.');
+	$fields[] = array($label, $input, $hint);
 
 	// append fields
 	$text .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');

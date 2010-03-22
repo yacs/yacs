@@ -100,8 +100,8 @@ if(Surfer::is_crawler()) {
 		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 	}
 
-	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
-	http::expire(1800);
+	// enable 3-minute caching (3*60 = 180), even through https, to help IE6 on download
+	http::expire(180);
 
 	// strong validator
 	$etag = '"'.md5($text).'"';

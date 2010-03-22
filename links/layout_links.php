@@ -51,6 +51,9 @@ Class Layout_links extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
+
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 

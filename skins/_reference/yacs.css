@@ -2771,7 +2771,7 @@ table.month thead tr th { /* an ordinary cell in a calendar table */
 	width: 10em;
 }
 
-td.spot { /* a cell in calendar that has some content */
+table.calendar tbody tr td.spot { /* a cell in calendar that has some content */
 	background-color: #fdd;
 }
 

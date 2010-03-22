@@ -435,7 +435,6 @@ elseif(!Surfer::is_associate()) {
 	// default to Google customized seach
 	if(!isset($context['skins_search_extension']) || !$context['skins_search_extension'])
 		$context['skins_search_extension'] = '<form method="get" action="http://www.google.com/search">'."\n"
-			.'<form method="get" action="http://www.google.com/search">'."\n"
 			.'<p>'.sprintf(i18n::s('Search only %s'), $context['site_name']).'<br />'."\n"
 			.'<input type="text" name="q" size="25" maxlength="255" value="%s" />'."\n"
 			.'<input type="submit" value="'.i18n::s('Google Search').'" />'."\n"

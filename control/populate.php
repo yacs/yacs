@@ -572,6 +572,7 @@ if(!$permitted) {
 		$fields['introduction'] = '';
 		$fields['description'] = '[menu='.i18n::c('Home').']'.$context['url_to_root'].'[/menu]'."\n"
 			.'[search]'."\n"
+			.'[submenu='.i18n::c('Site map').']sections/[/submenu]'."\n"
 			.'[submenu='.i18n::c('Categories').']categories/[/submenu]'."\n"
 			.'[submenu='.i18n::c('Help').']help/[/submenu]'."\n";
 		$fields['locked'] = 'Y'; // only associates can change this page

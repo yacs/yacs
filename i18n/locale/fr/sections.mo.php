@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
+POT-Creation-Date: 2010-03-22 22:45+0100
 PO-Revision-Date: 2010-03-08 17:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -301,6 +301,7 @@ $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Post a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['Poster']='Auteur';
+$_SESSION['l10n']['fr']['Prefix']='Préfixe';
 $_SESSION['l10n']['fr']['Prefix separator']='Séparateur de préfixe';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -378,6 +379,7 @@ $_SESSION['l10n']['fr']['Stop notifications']='Arrêter les notifications';
 $_SESSION['l10n']['fr']['Sub-sections']='Sous-sections';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
+$_SESSION['l10n']['fr']['Suffix']='Suffixe';
 $_SESSION['l10n']['fr']['Suffix separator']='Séparateur de suffixe';
 $_SESSION['l10n']['fr']['fd807bc3514cbdaa40ee26b44c4b319e']='Interdire de noter les pages de cette section';
 $_SESSION['l10n']['fr']['Tabbed panels']='Panneaux à onglets';
@@ -402,6 +404,8 @@ $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['f3f96c1839e9e2352cec3a4f8843cadc']='Pour assigner une section, chercher dans la liste ci-dessous';
+$_SESSION['l10n']['fr']['d8ef00288000f0f98aafef9b53c2e08d']='Inséré vers le bas des pages associées.';
+$_SESSION['l10n']['fr']['c1966a9db995dd0212d9febf7be757e0']='Inséré vers le haut des pages associées.';
 $_SESSION['l10n']['fr']['0f16c85d61d352ba7e61533d2439a0cf']='Pour désigner une section par son nom avec le %s';
 $_SESSION['l10n']['fr']['74a19ba83faf8108003e4f4acf426719']='Pour charger template_foo_bar.php à la place du modèle normal';
 $_SESSION['l10n']['fr']['dd269e53b9cb005bb7d75f3f50266c09']='Pour transférer la propriété à une autre personne, taper quelques lettres du nom que vous cherchez.';

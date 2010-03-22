@@ -194,7 +194,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			}
 
 			// always make a box
-			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'article_'.$accordion_id);
+			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'accordion_article_'.$accordion_id);
 
 		}
 

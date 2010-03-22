@@ -1160,6 +1160,21 @@ Class Articles {
 		} else
 			return "unknown order '".$order."'";
 
+		if($order == 'edition') {
+            $match = "articles.rank > ".SQL::escape($item['rank'])." OR (articles.edit_date < '".SQL::escape($item['edit_date'])."' AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank, articles.edit_date DESC, articles.title';
+        } elseif($order == 'publication') {
+            $match = "articles.rank > ".SQL::escape($item['rank'])." OR (articles.publish_date < '".SQL::escape($item['publish_date'])."' AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank, articles.publish_date DESC, articles.title';
+        } elseif($order == 'rating') {
+            $match = "articles.rank > ".SQL::escape($item['rank'])." OR (articles.rating_sum < ".SQL::escape($item['rating_sum'])." AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank, articles.rating_sum DESC, articles.edit_date DESC';
+        } elseif($order == 'title') {
+            $match = "articles.rank > ".SQL::escape($item['rank'])." OR (articles.title > '".SQL::escape($item['title'])."' AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank, articles.title';
+        } else
+            return "unknown order '".$order."'";
+
 		// query the database
 		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
@@ -1237,19 +1252,19 @@ Class Articles {
 
 		// depending on selected sequence
 		if($order == 'edition') {
-			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.edit_date > '".SQL::escape($item['edit_date'])."'";
-			$order = 'articles.rank DESC, articles.edit_date, articles.title';
-		} elseif($order == 'publication') {
-			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.publish_date > '".SQL::escape($item['publish_date'])."'";
-			$order = 'articles.rank DESC, articles.publish_date, articles.title';
-		} elseif($order == 'rating') {
-			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.rating_sum > ".SQL::escape($item['rating_sum']);
-			$order = 'articles.rank DESC, articles.rating_sum, articles.edit_date';
-		} elseif($order == 'title') {
-			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.title < '".SQL::escape($item['title'])."'";
-			$order = 'articles.rank DESC, articles.title DESC';
-		} else
-			return "unknown order '".$order."'";
+            $match = "articles.rank < ".SQL::escape($item['rank'])." OR (articles.edit_date > '".SQL::escape($item['edit_date'])."' AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank DESC, articles.edit_date, articles.title';
+        } elseif($order == 'publication') {
+            $match = "articles.rank < ".SQL::escape($item['rank'])." OR (articles.publish_date > '".SQL::escape($item['publish_date'])."' AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank DESC, articles.publish_date, articles.title';
+        } elseif($order == 'rating') {
+            $match = "articles.rank < ".SQL::escape($item['rank'])." OR (articles.rating_sum > ".SQL::escape($item['rating_sum'])." AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank DESC, articles.rating_sum, articles.edit_date';
+        } elseif($order == 'title') {
+            $match = "articles.rank < ".SQL::escape($item['rank'])." OR (articles.title < '".SQL::escape($item['title'])."' AND articles.rank = ".SQL::escape($item['rank']).")";
+            $order = 'articles.rank DESC, articles.title DESC';
+        } else
+            return "unknown order '".$order."'";
 
 		// query the database
 		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
