@@ -29,12 +29,6 @@ Class Layout_dates_as_family extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag sections updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// we put everything in a definition list
 		$text .= '<dl class="family">'."\n";
 
@@ -76,7 +70,7 @@ Class Layout_dates_as_family extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG;
 
 			// flag new dates/articles
-			if($item['edit_date'] >= $dead_line)
+			if($item['edit_date'] >= $context['fresh'])
 				$suffix = UPDATED_FLAG.' ';
 
 			// build a valid label

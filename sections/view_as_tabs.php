@@ -91,12 +91,11 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 	}
 
 	// signal sections to be activated
-	$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Surfer::is_empowered() && Surfer::is_logged() && ($item['activation_date'] > $now))
+	if(Surfer::is_empowered() && Surfer::is_logged() && ($item['activation_date'] > $context['now']))
 		$details[] = DRAFT_FLAG.' '.sprintf(i18n::s('Section will be activated %s'), Skin::build_date($item['activation_date']));
 
 	// expired section
-	if(Surfer::is_empowered() && Surfer::is_logged() && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+	if(Surfer::is_empowered() && Surfer::is_logged() && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 		$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
 	// display details, if any
@@ -195,7 +194,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 		// provide only the requested page
 		$pages = preg_split('/\s*\[page\]\s*/is', $description);
-		$page = min(max($page, count($pages)), 1);
+		$page = max(min($page, count($pages)), 1);
 		$description = $pages[ $page-1 ];
 
 		// if there are several pages, remove toc and toq codes

@@ -41,12 +41,6 @@ Class Layout_sections extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'decorated';
 
-		// flag sections updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
@@ -72,13 +66,13 @@ Class Layout_sections extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// flag sections that are draft, dead, or created or updated very recently
-			if($item['activation_date'] >= $now)
+			if($item['activation_date'] >= $context['now'])
 				$prefix .= DRAFT_FLAG;
-			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private sections

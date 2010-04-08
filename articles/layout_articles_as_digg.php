@@ -49,12 +49,6 @@ Class Layout_articles_as_digg extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag articles updated recently
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of articles
 		$text = '';
 		$item_count = 0;
@@ -132,11 +126,11 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$suffix .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$suffix .= ' '.EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$suffix .= ' '.NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= ' '.UPDATED_FLAG;
 
 			// the full introductory text

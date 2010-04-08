@@ -63,6 +63,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
+include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -317,6 +318,8 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// increment the number of downloads
 	Files::increment_hits($item['id']);
+
+	Activities::post('file:'.$item['id'], 'fetch');
 
 	// if we have an external reference, use it
 	if(isset($item['file_href']) && $item['file_href']) {

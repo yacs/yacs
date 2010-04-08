@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-22 22:45+0100
-PO-Revision-Date: 2010-03-22 23:28+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 23:01+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -57,7 +57,6 @@ $_SESSION['l10n']['fr']['Add a table']='Ajouter une table';
 $_SESSION['l10n']['fr']['Add a user']='Ajouter un utilisateur';
 $_SESSION['l10n']['fr']['Add an action']='Ajouter une action';
 $_SESSION['l10n']['fr']['88a955fcffb8f63b46e2ecabaff4ef80']='Ajouter cette personne à vos contacts';
-$_SESSION['l10n']['fr']['Add to my contacts']='Ajouter à mes contacts';
 $_SESSION['l10n']['fr']['9ab3b896499b39b9f109e5aefc844d61']='Bloquer les robots anonymes (serveur public).';
 $_SESSION['l10n']['fr']['1ce37ac11de9deae4fd9788587c864c7']='M\'alerter lorsque mes pages sont commentées.';
 $_SESSION['l10n']['fr']['8e0c74331fb5d7c82dbcff4e01f5d40b']='Tous les profils d\'utilisateur ont été modifiés.';
@@ -167,6 +166,7 @@ $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['3515afc9889ea713dd95ca369ae5d216']='Les fichiers peuvent être modifiés seulement par leurs auteurs, plus les associés et les propriétaires.';
 $_SESSION['l10n']['fr']['First name(s)']='Prénom(s)';
 $_SESSION['l10n']['fr']['1169885c9e3a40bebae7aeb820ae460e']='Prénom suivi du nom de famille';
+$_SESSION['l10n']['fr']['Follow this person']='Suivre cette personne';
 $_SESSION['l10n']['fr']['cf126c8beeba972970c5a32b846e54b8']='Les éditeurs suivants héritent de droits sur un conteneur parent';
 $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suivants vont aussi être supprimés.';
 $_SESSION['l10n']['fr']['163446b086f8add8a8b8e33171ddfbd0']='Les personnes connectées à %s :';
@@ -228,6 +228,7 @@ $_SESSION['l10n']['fr']['Lost password']='Mot de passe perdu';
 $_SESSION['l10n']['fr']['Mail to %s']='Ecrire à %s';
 $_SESSION['l10n']['fr']['Manage contacts']='Gérer les contacts';
 $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
+$_SESSION['l10n']['fr']['Manage your watch list']='Gérer ma liste de surveillance';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Member']='Membre';
@@ -371,6 +372,7 @@ $_SESSION['l10n']['fr']['3f9fc69b76b166aa79071c4080371ea9']='Pour aider à vous 
 $_SESSION['l10n']['fr']['Spam']='Pourriels';
 $_SESSION['l10n']['fr']['Start a thread']='Démarrer une conversation';
 $_SESSION['l10n']['fr']['Start a thread with %s']='Démarrer une conversation avec %s';
+$_SESSION['l10n']['fr']['Stop notifications']='Arréter les notifications';
 $_SESSION['l10n']['fr']['Submission']='Contribution';
 $_SESSION['l10n']['fr']['Submissions']='Soumissions';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';

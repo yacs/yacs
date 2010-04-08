@@ -48,10 +48,9 @@ if(!Surfer::is_associate()) {
 	$where = 'NOT ((articles.publish_date is NULL) OR (articles.publish_date <= \'0000-00-00\'))';
 
 	// only consider live articles
-	$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 	$where = '('.$where.')'
 		.' AND ((articles.expiry_date is NULL)'
-		."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+		."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 	// list up to 10000 most recent articles from active sections
 	$query = "SELECT articles.id, articles.publish_date FROM ".SQL::table_name('articles')." AS articles"

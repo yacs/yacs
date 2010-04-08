@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-22 22:45+0100
-PO-Revision-Date: 2010-03-10 10:09+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-03-30 21:30+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -187,7 +187,7 @@ $_SESSION['l10n']['fr']['Link color']='Couleur de lien';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['Links to contribute, if any']='Liens pour contribuuer, si présents';
 $_SESSION['l10n']['fr']['Links to this page, if any']='Liens vers cette page, si présents';
-$_SESSION['l10n']['fr']['394696e18a3f9710112dba6eb0785880']='Mentionner les fils de nouvelles dans les pages d\'index des sections, des catégories, des articles, et des utilisateurs';
+$_SESSION['l10n']['fr']['394696e18a3f9710112dba6eb0785880']='Mentionner les flux d\'information dans les pages d\'index des sections, des catégories, des articles, et des utilisateurs';
 $_SESSION['l10n']['fr']['8d738a7752e01ee40429f028c1153b3e']='Lister les pages visitées durant la session';
 $_SESSION['l10n']['fr']['Listing files...']='Inventaire des fichiers ...';
 $_SESSION['l10n']['fr']['Logo']='Logo';
@@ -198,7 +198,7 @@ $_SESSION['l10n']['fr']['Margin']='Marges';
 $_SESSION['l10n']['fr']['Maximum number of extra boxes']='Nombre maximum de boîtes extra';
 $_SESSION['l10n']['fr']['7a4c5f39b8d735814d991c857c6b3583']='Nombre maximum de boîtes de navigation';
 $_SESSION['l10n']['fr']['a445c63893bb4faf477db19cf89d6f52']='Maximum de %s pixels en largeur par %s pixels en hauteur';
-$_SESSION['l10n']['fr']['49ae3126ab7ad1fb0f5b5f5f25a37111']='Peut être sujet à attaque par spam. Affichée au moins dans la page %s et dans les fils de nouvelles RSS';
+$_SESSION['l10n']['fr']['49ae3126ab7ad1fb0f5b5f5f25a37111']='Peut être sujet à attaque par spam. Affichée au moins dans la page %s et dans les flux d\'information RSS';
 $_SESSION['l10n']['fr']['Meta-information']='Méta-information';
 $_SESSION['l10n']['fr']['Monthly calendar']='Calendrier de ce mois';
 $_SESSION['l10n']['fr']['More']='Suite';
@@ -281,7 +281,7 @@ $_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';
 $_SESSION['l10n']['fr']['2edc299457cb5a86e2025f301b0fa01d']='Label court et significatif, comme "Mon serveur perso", utilisé presque partout, et ajouté à la fin des titres sur chaque page de ce site';
 $_SESSION['l10n']['fr']['Shortcut']='Raccourci';
-$_SESSION['l10n']['fr']['Side box for RSS feeds']='Boîte de côté pour les fils de nouvelles';
+$_SESSION['l10n']['fr']['Side box for RSS feeds']='Boîte de côté pour les flux d\'information RSS';
 $_SESSION['l10n']['fr']['Side box for bookmarklets']='Boîte de côté pour les bookmarklets';
 $_SESSION['l10n']['fr']['Side box for visited pages']='Boîte de côté pour les pages visitées';
 $_SESSION['l10n']['fr']['Side news, if any']='Nouvelles éventuelles';
@@ -314,7 +314,7 @@ $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contr
 $_SESSION['l10n']['fr']['c0737a7cb4866be269f7ff90aaaf198e']='Le répertoire %s n\'existe pas.';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
 $_SESSION['l10n']['fr']['The library of profile pictures']='La librairie des images pour les profils';
-$_SESSION['l10n']['fr']['6ab329cc84d236e506398c9173a812e2']='Nom du propriétaire, par exemple "Alice et Bob"; Utilisé dans la page %s et dans les fils de nouvelles ATOM';
+$_SESSION['l10n']['fr']['6ab329cc84d236e506398c9173a812e2']='Nom du propriétaire, par exemple "Alice et Bob"; Utilisé dans la page %s et dans les flux d\'information ATOM';
 $_SESSION['l10n']['fr']['4da65a506a9f759b2f0b2badde77ae83']='Le fichier cible %s a été mis à jour.';
 $_SESSION['l10n']['fr']['df3cdecf1977397d7fd3f5b6448d5109']='Le fichier cible %s peut avoir été corrompu. Merci de vérifier ceci manuellement, et de restaurer le fichier de secours avec l\'extension .bak si besoin.';
 $_SESSION['l10n']['fr']['8b4e5b0a826bfac053c6e2afe0854b06']='L\'adresse web d\'une image représentant votre site. Pour remplacer le défaut "favicon.ico", le cas échéant.';

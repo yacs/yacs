@@ -48,11 +48,6 @@ Class Layout_comments_as_daily extends Layout_interface {
 			return $output;
 		}
 
-		// flag comments updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// header
 		$text = '';
 
@@ -91,7 +86,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$text .= ' '.Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('View this comment')).' ';
 
 			// flag new comments
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$text .= NEW_FLAG;
 
 			// the creation date is a link to the permanent link for this comment

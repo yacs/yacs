@@ -57,6 +57,7 @@
  * @tester Agnes
  * @tester Macnana
  * @tester Alain Lesage (Lasares)
+ * $tester Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -446,6 +447,10 @@ if($with_form) {
 	// enable comments threading
 	if(isset($reference_item['id']) && $reference_item['id'])
 		$context['text'] .= '<input type="hidden" name="previous_id" value="'.$reference_item['id'].'" />';
+
+	// preserve threading through preview
+	elseif(isset($_REQUEST['previous_id']))
+		$context['text'] .= '<input type="hidden" name="previous_id" value="'.$_REQUEST['previous_id'].'" />';
 
 	// allow post preview
 	$context['text'] .= '<input type="hidden" name="preview" value="N" id="preview_flag" />';

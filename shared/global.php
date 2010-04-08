@@ -131,6 +131,9 @@ $context['extra'] = '';
 // default mask to be used on chmod -- see control/configure.php
 $context['file_mask'] = 0644;
 
+// quite new --changed in load_skin() based on actual parameter site_revisit_after -- see skins/configure.php
+$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-7,date("Y")));
+
 // compute server gmt offset based on system configuration
 $context['gmt_offset'] = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
 
@@ -142,6 +145,9 @@ $context['language'] = 'en';
 
 // content of the navigation panel
 $context['navigation'] = '';
+
+// date and time of execution --in GMT
+$context['now'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 // default P3P compact policy enables IE support of our cookies, even through frameset -- http://support.microsoft.com/kb/323752
 $context['p3p_compact_policy'] = 'CAO PSA OUR';
@@ -190,6 +196,9 @@ $context['suffix'] = '';
 
 // site icon --the little image displayed in bookmarks
 $context['site_icon'] = '';
+
+// typical number of days betwen refresh --see skins/configure.php
+$context['site_revisit_after'] = 2;
 
 // site slogan
 $context['site_slogan'] = '';
@@ -761,6 +770,9 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	Safe::load('parameters/skins.include.php');
 	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
+	// quite new
+	$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+
 	// ensure tools are accessible
 	if((strpos($context['skins_extra_components'], 'tools') === FALSE) && (strpos($context['skins_navigation_components'], 'tools') === FALSE))
 		$context['skins_extra_components'] = 'tools '.$context['skins_extra_components'];
@@ -1285,13 +1297,15 @@ function render_skin() {
 
 	}
 
-	// activate urchin at google analytics, if configured
-	if(isset($context['google_urchin_account']) && $context['google_urchin_account']) {
+	// activate google analytics, if configured
+	if(isset($context['google_analytics_account']) && $context['google_analytics_account']) {
 
-		$context['page_footer'] .= '<script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>'."\n"
+		$context['page_footer'] .= '<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>'."\n"
 			.JS_PREFIX
-			.'_uacct = "'.$context['google_urchin_account'].'";'."\n"
-			.'if(typeof urchinTracker != "undefined") { urchinTracker(); };'."\n"
+			.'try {'."\n"
+			.'var pageTracker = _gat._getTracker('.$context['google_analytics_account'].');'."\n"
+			.'pageTracker._trackPageview();'."\n"
+			.'} catch(err) {}'."\n"
 			.JS_SUFFIX."\n";
 
 	}
@@ -1667,7 +1681,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// do not fool rewriting, just in case alternate name would be put in title
 	if(isset($name))
-		$name = preg_replace('/[a-z_]+-[0-9]+$/', '', $name);
+		$name = preg_replace('/([a-z_]+)-([0-9]+)$/', '', $name);
 
 	// remove dashes
 	if(isset($name))

@@ -367,7 +367,6 @@ class PhpDoc {
 		// process each script
 		$home = '';
 		$index = '';
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$previous_path = '***';
 		$page_count = 0;
 		foreach($this->comments as $script => $comment) {
@@ -424,7 +423,7 @@ class PhpDoc {
 		$query = "INSERT INTO ".SQL::table_name('phpdoc')." SET "
 			." name='index',"
 			." content='".SQL::escape($page)."',"
-			." edit_date='".$now."'";
+			." edit_date='".$context['now']."'";
 		if(SQL::query($query, TRUE) === FALSE)
 			$context['text'] .= $query.BR.SQL::error().BR."\n";
 		$page_count++;
@@ -449,7 +448,7 @@ class PhpDoc {
 		$query = "INSERT INTO ".SQL::table_name('phpdoc')." SET "
 			." name='authors',"
 			." content='".SQL::escape($authors)."',"
-			." edit_date='".$now."'";
+			." edit_date='".$context['now']."'";
 		if(SQL::query($query, TRUE) === FALSE)
 			return $query.BR.SQL::error();
 
@@ -475,7 +474,7 @@ class PhpDoc {
 		$query = "INSERT INTO ".SQL::table_name('phpdoc')." SET "
 			." name='testers',"
 			." content='".SQL::escape($testers)."',"
-			." edit_date='".$now."'";
+			." edit_date='".$context['now']."'";
 		if(SQL::query($query, TRUE) === FALSE)
 			return $query.BR.SQL::error();
 
@@ -499,7 +498,7 @@ class PhpDoc {
 		$query = "INSERT INTO ".SQL::table_name('phpdoc')." SET "
 			." name='licenses',"
 			." content='".SQL::escape($licenses)."',"
-			." edit_date='".$now."'";
+			." edit_date='".$context['now']."'";
 		if(SQL::query($query, TRUE) === FALSE)
 			return $query.BR.SQL::error();
 
@@ -521,7 +520,7 @@ class PhpDoc {
 		$query = "INSERT INTO ".SQL::table_name('phpdoc')." SET "
 			." name='todo',"
 			." content='".SQL::escape($todos)."',"
-			." edit_date='".$now."'";
+			." edit_date='".$context['now']."'";
 		if(SQL::query($query, TRUE) === FALSE)
 			$context['text'] .= $query.BR.SQL::error().BR."\n";
 		$page_count++;

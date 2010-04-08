@@ -423,9 +423,8 @@ Class Categories {
 		$where = '('.$where.')';
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= ' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// avoid weekly and monthly publications
 		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
@@ -493,10 +492,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// look in the database
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
@@ -526,10 +524,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// the list of categories
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
@@ -621,9 +618,8 @@ Class Categories {
 			$where .= " AND (categories.anchor = '".$anchor."')";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= ' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// avoid weekly and monthly publications
 		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
@@ -758,10 +754,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -799,10 +794,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// limit the query to one level only
 		if($anchor)
@@ -847,10 +841,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// limit the query to the target display only
 		if($display)
@@ -897,10 +890,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -937,8 +929,7 @@ Class Categories {
 		$where = '('.$where.')';
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where .= " AND ((categories.expiry_date is NULL) OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+		$where .= " AND ((categories.expiry_date is NULL) OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// avoid weekly publications and keywords
 		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
@@ -994,10 +985,9 @@ Class Categories {
 			$where .= " OR categories.active='N'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = "(".$where.")"
 			." AND ((categories.expiry_date is NULL)"
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// limit the query to one level
 		if($anchor)
@@ -1121,9 +1111,8 @@ Class Categories {
 		$where = "categories.active='N'";
 
 		// or dead categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
-			." OR ((categories.expiry_date > '".NULL_DATE."') AND (categories.expiry_date <= '".$now."'))";
+			." OR ((categories.expiry_date > '".NULL_DATE."') AND (categories.expiry_date <= '".$context['now']."'))";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -1160,10 +1149,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -1200,10 +1188,9 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = '('.$where.')'
 			.' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -1762,9 +1749,8 @@ Class Categories {
 		$where = '('.$where.')';
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= ' AND ((categories.expiry_date is NULL)'
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// match
 		$match = '';
@@ -1903,10 +1889,9 @@ Class Categories {
 			$where .= " OR categories.active='N'";
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where = "(".$where.")"
 			." AND ((categories.expiry_date is NULL)"
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// limit the query to one level
 		if($anchor)

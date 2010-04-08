@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2009-10-04 09:33+0100
+POT-Creation-Date: 2010-04-08 22:23+0200
+PO-Revision-Date: 2010-04-08 22:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -82,6 +82,7 @@ $_SESSION['l10n']['en']['Events']='Events';
 $_SESSION['l10n']['en']['Example']='Example';
 $_SESSION['l10n']['en']['Explicit cells alignment']='Explicit cells alignment';
 $_SESSION['l10n']['en']['External link']='External link';
+$_SESSION['l10n']['en']['External page']='External page';
 $_SESSION['l10n']['en']['Fantasy']='Fantasy';
 $_SESSION['l10n']['en']['File shortcut']='File shortcut';
 $_SESSION['l10n']['en']['First Name|Last Name']='First Name|Last Name';

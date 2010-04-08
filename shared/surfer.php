@@ -151,9 +151,8 @@ Class Surfer {
 		if(is_callable(array('SQL', 'query'))) {
 
 			// only consider live sections
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$where = "((sections.expiry_date is NULL)"
-				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 			// the list of sections
 			$query = "SELECT sections.id FROM ".SQL::table_name('members')." AS members"

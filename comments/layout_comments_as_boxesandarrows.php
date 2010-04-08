@@ -38,11 +38,6 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			return $output;
 		}
 
-		// flag comments updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of comments
 		$text = '';
 		$index = 0;
@@ -59,7 +54,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			$text .= '<p id="comment_'.$item['id'].'">'.Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('View this comment'));
 
 			// flag new comments
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$text .= NEW_FLAG;
 
 			// the comment itself

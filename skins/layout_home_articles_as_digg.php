@@ -50,11 +50,6 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			return $output;
 		}
 
-		// flag articles updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of articles
 		$text = '';
 		$item_count = 0;
@@ -98,9 +93,9 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG.' ';
 
 			// flag articles updated recently
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$suffix .= ' '.NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= ' '.UPDATED_FLAG;
 
 			// add details

@@ -41,12 +41,6 @@ Class Layout_sections_as_jive extends Layout_interface {
 			return $output;
 		}
 
-		// flag sections updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// layout in a table
 		$text = Skin::table_prefix('wide');
 
@@ -88,11 +82,11 @@ Class Layout_sections_as_jive extends Layout_interface {
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
 
 			// flag sections updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$suffix = EXPIRED_FLAG.' ';
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$suffix = NEW_FLAG.' ';
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix = UPDATED_FLAG.' ';
 
 			// this is another row of the output
@@ -109,11 +103,11 @@ Class Layout_sections_as_jive extends Layout_interface {
 				foreach($articles as $id => $article) {
 
 					// flag articles updated recently
-					if(($article['expiry_date'] > NULL_DATE) && ($article['expiry_date'] <= $now))
+					if(($article['expiry_date'] > NULL_DATE) && ($article['expiry_date'] <= $context['now']))
 						$flag = EXPIRED_FLAG.' ';
-					elseif($article['create_date'] >= $dead_line)
+					elseif($article['create_date'] >= $context['fresh'])
 						$flag = NEW_FLAG.' ';
-					elseif($article['edit_date'] >= $dead_line)
+					elseif($article['edit_date'] >= $context['fresh'])
 						$flag = UPDATED_FLAG.' ';
 					else
 						$flag = '';

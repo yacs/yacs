@@ -53,6 +53,7 @@
 include_once '../shared/global.php';
 include_once '../images/images.php';
 include_once '../links/links.php';
+include_once '../users/activities.php';		// the list of users who have accessed the file
 include_once '../versions/versions.php';	// back in history
 include_once 'files.php';
 
@@ -320,7 +321,7 @@ if(!isset($item['id'])) {
 	if(Files::is_audio_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description = '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
+		$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -337,7 +338,7 @@ if(!isset($item['id'])) {
 	if(Files::is_video_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description = '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
+		$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -368,7 +369,7 @@ if(!isset($item['id'])) {
 	if(preg_match('/\.mm$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/visorFreemind.swf')) {
 
 		// explain what a Freemind file is
-		$description = '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
+		$description .= '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -385,7 +386,7 @@ if(!isset($item['id'])) {
 	if(preg_match('/\.swf$/i', $item['file_name'])) {
 
 		// explain what a Flash show is
-		$description = '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
+		$description .= '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -409,7 +410,7 @@ if(!isset($item['id'])) {
 //	if(preg_match('/\.doc$/i', $item['file_name'])) {
 
 //		// explain what in-place edition is
-//		$description = '<p>'.i18n::s('This file can be modified directly over the web. If a recent version of Microsoft Word has been installed at your workstation, click on the link to launch it.).'</p>';
+//		$description .= '<p>'.i18n::s('This file can be modified directly over the web. If a recent version of Microsoft Word has been installed at your workstation, click on the link to launch it.).'</p>';
 
 //		// the label
 //		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -472,18 +473,32 @@ if(!isset($item['id'])) {
 	// download description
 	$description = '';
 
+	// the list of people who have fetched this file, for owners and associates
+	if(Files::allow_modification($anchor, $item) && ($users = Activities::list_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
+
+		$count = Activities::count_at('file:'.$item['id'], 'fetch');
+		if($count > 30)
+			$more = ' ...';
+		else
+			$more = '';
+
+		$description .= '<p>'.sprintf(i18n::ns('%d person has asked for this file: %s', '%d persons have asked for this file: %s', $count), $count, $users)."</p>\n";
+
+
+	}
+
 	// add some help depending on the file type
 	$extension = strtolower(@array_pop(@explode('.', @basename($item['file_name']))));
 	switch($extension) {
 
 	case '3gp': 	// video/3gpp
-		$description = '<p>'.sprintf(i18n::s('You are about to download a small video. To take the most of it we recommend you to use %s (open source).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a small video. To take the most of it we recommend you to use %s (open source).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external')).'</p>';
 		break;
 
 	case 'ai':
 	case 'eps':
 	case 'ps':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Postscript file. %s is a popular rendering platform (free for non-commercial use).'), Skin::build_link(i18n::s('http://www.cs.wisc.edu/~ghost/'), i18n::s('Ghostscript, Ghostview and GSview'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Postscript file. %s is a popular rendering platform (free for non-commercial use).'), Skin::build_link(i18n::s('http://www.cs.wisc.edu/~ghost/'), i18n::s('Ghostscript, Ghostview and GSview'), 'external')).'</p>';
 		break;
 
 	case 'ace':
@@ -496,7 +511,7 @@ if(!isset($item['id'])) {
 	case 'tar':
 	case 'tgz':
 	case 'zip':
-		$description = '<p>'.sprintf(i18n::s('You are about to download an archive file. Popular software to handle such file include %s (open source) and %s (freeware).'), Skin::build_link(i18n::s('http://www.7-zip.org/'), i18n::s('7-zip'), 'external'), Skin::build_link(i18n::s('www.ultimatezip.com'), i18n::s('ultimatezip'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download an archive file. Popular software to handle such file include %s (open source) and %s (freeware).'), Skin::build_link(i18n::s('http://www.7-zip.org/'), i18n::s('7-zip'), 'external'), Skin::build_link(i18n::s('www.ultimatezip.com'), i18n::s('ultimatezip'), 'external')).'</p>';
 		break;
 
 	case 'aif': 	// audio/aiff
@@ -511,7 +526,7 @@ if(!isset($item['id'])) {
 	case 'snd': 	// audio/basic
 	case 'wav': 	// audio/x-wave
 	case 'wma': 	// audio/x-ms-wma
-		$description = '<p>'.sprintf(i18n::s('You are about to download a sound or music file. To take the most of it we recommend you to use %s (open source) or, alternatively, %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a sound or music file. To take the most of it we recommend you to use %s (open source) or, alternatively, %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 		break;
 
 	case 'asf': 	// video/x-ms-asf
@@ -522,15 +537,15 @@ if(!isset($item['id'])) {
 	case 'mpeg':	// video/mpeg
 	case 'mpg': 	// video/mpeg
 	case 'wmv': 	// video/x-ms-wmv
-		$description = '<p>'.sprintf(i18n::s('You are about to download a movie file. To take the most of it please check the %s (open source) or, alternatively, the %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s(' VLC media player'), 'external'), Skin::build_link(i18n::s('www.divx.com'), i18n::s('Divx Player'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a movie file. To take the most of it please check the %s (open source) or, alternatively, the %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s(' VLC media player'), 'external'), Skin::build_link(i18n::s('www.divx.com'), i18n::s('Divx Player'), 'external')).'</p>';
 		break;
 
 	case 'awk':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a AWK script file.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a AWK script file.')).'</p>';
 		break;
 
 	case 'cer':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a X.509 certificate.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a X.509 certificate.')).'</p>';
 		break;
 
 	case 'doc':		// application/msword
@@ -538,12 +553,12 @@ if(!isset($item['id'])) {
 	case 'docx':
 	case 'dot':
 	case 'rtf':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Word document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Word document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
 		break;
 
 	case 'dll':
 	case 'exe':
-		$description = '<p>'.sprintf(i18n::s('You are about to download an executable file.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download an executable file.')).'</p>';
 		break;
 
 	case 'bmp':
@@ -557,30 +572,30 @@ if(!isset($item['id'])) {
 	case 'tif': 	// image/tiff
 	case 'tiff':	// image/tiff
 	case 'xbm': 	// image/x-xbitmap
-		$description = '<p>'.sprintf(i18n::s('You are about to download an image file. Popular software to handle such file include %s (shareware) and %s (freeware).'), Skin::build_link(i18n::s('www.acdsee.com'), i18n::s('Acdsee'), 'external'), Skin::build_link(i18n::s('www.xnview.com'), i18n::s('xnview'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download an image file. Popular software to handle such file include %s (shareware) and %s (freeware).'), Skin::build_link(i18n::s('www.acdsee.com'), i18n::s('Acdsee'), 'external'), Skin::build_link(i18n::s('www.xnview.com'), i18n::s('xnview'), 'external')).'</p>';
 		break;
 
 	case 'css':
 	case 'htm':
 	case 'html':
 	case 'xml':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a web page. This HTML document will be displayed within your browser as usual.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a web page. This HTML document will be displayed within your browser as usual.')).'</p>';
 		break;
 
 	case 'eml':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a RFC822 message.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a RFC822 message.')).'</p>';
 		break;
 
 	case 'gg':		// app/gg -- http://dev.w3.org/cvsweb/2006/waf/WAPF/WD-WAPF-REQ-20060726.html?rev=1.3
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Google Desktop gadget. Obviously this would require to use %s.'), Skin::build_link(i18n::s('http://desktop.google.com/'), i18n::s('Google Desktop'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Google Desktop gadget. Obviously this would require to use %s.'), Skin::build_link(i18n::s('http://desktop.google.com/'), i18n::s('Google Desktop'), 'external')).'</p>';
 		break;
 
 	case 'gpx':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a set of GPS points. To handle it, you may have to download %s.'), Skin::build_link(i18n::s('http://www.easygps.com/'), i18n::s('EasyGPS'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a set of GPS points. To handle it, you may have to download %s.'), Skin::build_link(i18n::s('http://www.easygps.com/'), i18n::s('EasyGPS'), 'external')).'</p>';
 		break;
 
 	case 'latex':
-		$description = '<p>'.sprintf(i18n::s('You are about to download some %s document.'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/LaTeX'), i18n::s('LaTeX'))).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download some %s document.'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/LaTeX'), i18n::s('LaTeX'))).'</p>';
 		break;
 
 	// playlists
@@ -589,15 +604,15 @@ if(!isset($item['id'])) {
 	case 'ram':
 	case 'wax':
 	case 'wvx':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a playlist. To take the most of it please check the %s (open source) or, alternatively, %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a playlist. To take the most of it please check the %s (open source) or, alternatively, %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 		break;
 
 	case 'mdb':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Access document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Access document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
 		break;
 
 	case 'mm':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a %s file.'), Skin::build_link(i18n::s('http://freemind.sourceforge.net/wiki/index.php/Main_Page'), i18n::s('Freemind'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a %s file.'), Skin::build_link(i18n::s('http://freemind.sourceforge.net/wiki/index.php/Main_Page'), i18n::s('Freemind'), 'external')).'</p>';
 		break;
 
 	case 'mmap':
@@ -606,20 +621,20 @@ if(!isset($item['id'])) {
 	case 'mmmp':
 	case 'mmp':
 	case 'mmpt':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a %s file.'), Skin::build_link(i18n::s('http://www.mindjet.com/'), i18n::s('MindManager'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a %s file.'), Skin::build_link(i18n::s('http://www.mindjet.com/'), i18n::s('MindManager'), 'external')).'</p>';
 		break;
 
 	case 'mo':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a set of translated strings.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a set of translated strings.')).'</p>';
 		break;
 
 	case 'mov': 	// video/quicktime
 	case 'qt':		// video/quicktime
-		$description = '<p>'.sprintf(i18n::s('You are about to download a movie film. To use it, you may download the free QuickTime vizualiser from %s.'), Skin::build_link(i18n::s('www.apple.com'), i18n::s('Apple web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a movie film. To use it, you may download the free QuickTime vizualiser from %s.'), Skin::build_link(i18n::s('www.apple.com'), i18n::s('Apple web server'), 'external')).'</p>';
 		break;
 
 	case 'mpp':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Project document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Project document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
 		break;
 
 	case 'odb': // open document database
@@ -646,143 +661,142 @@ if(!isset($item['id'])) {
 	case 'sxi': // open document presentation
 	case 'sxm': // open document formula
 	case 'sxw': // open document text
-		$description = '<p>'.sprintf(i18n::s('You are about to download an OpenDocument document or a StarOffice document. If you do not have a software able to handle it, you can get more information at the %s.'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('OpenOffice web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download an OpenDocument document or a StarOffice document. If you do not have a software able to handle it, you can get more information at the %s.'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('OpenOffice web server'), 'external')).'</p>';
 		break;
 
 	case 'p12':
 	case 'pfx':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a PKCS#12 certificate.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a PKCS#12 certificate.')).'</p>';
 		break;
 
 	case 'pcap': // ethereal, wireshark
-		$description = '<p>'.sprintf(i18n::s('You are about to download captured network packets in pcap format. To handle it, you may have to download %s, which has succeeded Ethereal as most popular open network protocol analyzer.'), Skin::build_link(i18n::s('http://www.wireshark.org/'), i18n::s('Wireshark'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download captured network packets in pcap format. To handle it, you may have to download %s, which has succeeded Ethereal as most popular open network protocol analyzer.'), Skin::build_link(i18n::s('http://www.wireshark.org/'), i18n::s('Wireshark'), 'external')).'</p>';
 		break;
 
 	case 'pcast': // apple itunes podcast
-		$description = '<p>'.sprintf(i18n::s('You are about to download a podcast subscription file. To handle it, you may have to download %s.'), Skin::build_link(i18n::s('http://www.apple.com/'), i18n::s('iTunes'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a podcast subscription file. To handle it, you may have to download %s.'), Skin::build_link(i18n::s('http://www.apple.com/'), i18n::s('iTunes'), 'external')).'</p>';
 		break;
 
 	case 'pdb':
 	case 'prc':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a file for your Palm OS handheld device.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a file for your Palm OS handheld device.')).'</p>';
 		break;
 
 	case 'pdf':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a PDF document. To use it, we recommend you to use the lightweight and free %s. Alternatively, you may download the original Acrobat reader software from %s.'), Skin::build_link(i18n::s('www.foxitsoftware.com'), i18n::s('Foxit Reader'), 'external'), Skin::build_link(i18n::s('www.adobe.com'), i18n::s('Adobe web server'), 'external')).'</p>'
-			.'<p>'.i18n::s('If the Adobe plug-in reports an error, please save the file on some hard drive and use this local copy to launch the Acrobat software.').'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a PDF document. To use it, we recommend you to use the lightweight and free %s. Alternatively, you may download the original Acrobat reader software from %s.'), Skin::build_link(i18n::s('www.foxitsoftware.com'), i18n::s('Foxit Reader'), 'external'), Skin::build_link(i18n::s('www.adobe.com'), i18n::s('Adobe web server'), 'external')).'</p>';
 		break;
 
 	case 'pgp':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a message signed by PGP.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a message signed by PGP.')).'</p>';
 		break;
 
 	case 'po':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a set of translated strings.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a set of translated strings.')).'</p>';
 		break;
 
 	case 'pot':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a template of strings to be translated.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a template of strings to be translated.')).'</p>';
 		break;
 
 	case 'ppd':
 	case 'psd':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Photoshop image file. Popular software to handle such file include %s (shareware) and %s (freeware).'), Skin::build_link(i18n::s('www.acdsee.com'), i18n::s('Acdsee'), 'external'), Skin::build_link(i18n::s('www.xnview.com'), i18n::s('xnview'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Photoshop image file. Popular software to handle such file include %s (shareware) and %s (freeware).'), Skin::build_link(i18n::s('www.acdsee.com'), i18n::s('Acdsee'), 'external'), Skin::build_link(i18n::s('www.xnview.com'), i18n::s('xnview'), 'external')).'</p>';
 		break;
 
 	case 'ppt':
 	case 'pptm':
 	case 'pptx':
 	case 'pps':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Powerpoint document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Powerpoint document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
 		break;
 
 	case 'pub':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Publisher document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Publisher document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
 		break;
 
 	case 'ra':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Real Audio file.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Real Audio file.')).'</p>';
 		break;
 
 	case 'flv':
 	case 'rf':
 	case 'swc':
 	case 'swf':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Shockwave Flash file. A player is available for free at the %s.'), Skin::build_link(i18n::s('http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'), i18n::s('Adobe web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Shockwave Flash file. A player is available for free at the %s.'), Skin::build_link(i18n::s('http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'), i18n::s('Adobe web server'), 'external')).'</p>';
 		break;
 
 	case 'rmp':
-		$description = '<p>'.sprintf(i18n::s('You are about to download an %s file. Open Workbench is an open source desktop application that provides project scheduling and management functions. It is a free alternative to programs like Microsoft Project.'), Skin::build_link(i18n::s('http://www.openworkbench.org/'), i18n::s('Open Workbench'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download an %s file. Open Workbench is an open source desktop application that provides project scheduling and management functions. It is a free alternative to programs like Microsoft Project.'), Skin::build_link(i18n::s('http://www.openworkbench.org/'), i18n::s('Open Workbench'), 'external')).'</p>';
 		break;
 
 	case 'sql':
-		$description = '<p>'.sprintf(i18n::s('You are about to download some SQL commands.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download some SQL commands.')).'</p>';
 		break;
 
 	case 'tex':
-		$description = '<p>'.sprintf(i18n::s('You are about to download some %s document.'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/TeX'), i18n::s('TeX'))).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download some %s document.'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/TeX'), i18n::s('TeX'))).'</p>';
 		break;
 
 	case 'texi':
 	case 'texinfo':
-		$description = '<p>'.sprintf(i18n::s('You are about to download some %s file. This format is used to document %s projects.'), Skin::build_link(i18n::s('http://www.gnu.org/software/texinfo/texinfo.html'), i18n::s('Texinfo')), Skin::build_link(i18n::s('http://www.gnu.org/'), i18n::s('GNU'))).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download some %s file. This format is used to document %s projects.'), Skin::build_link(i18n::s('http://www.gnu.org/software/texinfo/texinfo.html'), i18n::s('Texinfo')), Skin::build_link(i18n::s('http://www.gnu.org/'), i18n::s('GNU'))).'</p>';
 		break;
 
 	case 'txt':
-		$description = '<p>'.sprintf(i18n::s('You are about to download some text.')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download some text.')).'</p>';
 		break;
 
 	case 'vsd':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Visio document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Visio document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
 		break;
 
 	case 'wri':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Write document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Write document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
 		break;
 
 	case 'xls':
 	case 'xlsm':
 	case 'xlsx':
-		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Excel document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
+		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Excel document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
 		break;
 
 	default:
-		$description = '';
+		$description .= '';
 		break;
 	}
 
 	// estimated download time
 	if($item['file_size'] > 0) {
-		$description .= '<p style="clear: left;">'.i18n::s('Estimated download time:')."</p><ul>\n";
+		$description .= '<p style="clear: left;">'.i18n::s('Estimated download time:').' ';
 
 		// download time at 512k
 		if($item['file_size'] > 3072000) {
 			$minutes = round($item['file_size'] * 8 / (0.8*512000*60), 0);
-			$description .= '<li>'.sprintf(i18n::s('%d minute(s) at %s'), $minutes, '512 kbps')."</li>\n";
+			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '512 kbps').', ';
 		} else {
 			$seconds = max(round($item['file_size'] * 8 / (0.8*512000), 0), 2);
-			$description .= '<li>'.sprintf(i18n::s('%d second(s) at %s'), $seconds, '512 kbps')."</li>\n";
+			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '512 kbps').', ';
 		}
 
 		// download time at 56k
 		if($item['file_size'] > 336000) {
 			$minutes = round($item['file_size'] * 8 / (0.8*56000*60), 0);
-			$description .= '<li>'.sprintf(i18n::s('%d minute(s) at %s'), $minutes, '56 kbps')."</li>\n";
+			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '56 kbps').', ';
 		} else {
 			$seconds = max(round($item['file_size'] * 8 / (0.8*56000), 0), 2);
-			$description .= '<li>'.sprintf(i18n::s('%d second(s) at %s'), $seconds, '56 kbps')."</li>\n";
+			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '56 kbps').', ';
 		}
 
 		// download time at 28.8k
 		if($item['file_size'] > 172800) {
 			$minutes = round($item['file_size'] * 8 / (0.8*28800*60), 0);
-			$description .= '<li>'.sprintf(i18n::s('%d minute(s) at %s'), $minutes, '28.8 kbps')."</li>\n";
+			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '28.8 kbps');
 		} else {
 			$seconds = max(round($item['file_size'] * 8 / (0.8*28800), 0), 2);
-			$description .= '<li>'.sprintf(i18n::s('%d second(s) at %s'), $seconds, '28.8 kbps')."</li>\n";
+			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '28.8 kbps');
 		}
 
-		$description .= "</ul>\n";
+		$description .= "</p>\n";
 	}
 
 	// the download link
@@ -799,28 +813,6 @@ if(!isset($item['id'])) {
 	$context['text'] .= '<dl class="download">'
 		.'<dt>'.$label.'</dt>'
 		.'<dd>'.$description.'</dd></dl>'."\n";
-
-	// file is also available for detach
-	if(Files::allow_modification($anchor, $item) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
-
-		// the detach link
-		$link = $context['url_to_root'].Files::get_url($item['id'], 'reserve');
-
-		// hovering the link
-		$title = i18n::s('Prevent other persons from changing this file until you update it');
-
-		// surfer is allowed to change the file
-		$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_detach">'.DOWNLOAD_IMG.' '.i18n::s('Reserve this file if you are intended to change its content').'</a>';
-
-		// add some explanations
-		$description = i18n::s('Other surfers will be warned that you are working on it, until you upload a new version or release the reservation.');
-
-		// use a definition list to enable customization of the detach box
-		$context['text'] .= '<dl class="download detach">'
-			.'<dt>'.$label.'</dt>'
-			.'<dd>'.$description.'</dd></dl>'."\n";
-
-	}
 
 	// alternate link, if any
 	if(isset($item['alternate_href']) && $item['alternate_href']) {
@@ -840,11 +832,33 @@ if(!isset($item['id'])) {
 	}
 
 	// anti-virus manifest
-	$context['text'] .= "<p>".i18n::s('While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.')."</p>\n";
 
 	// keywords for members
 	if($item['keywords'] && Surfer::is_logged())
 		$context['text'] .= "<p>".sprintf(i18n::s('Keywords: %s'), $item['keywords'])."</p>\n";
+
+	// file is also available for detach
+	if(Files::allow_modification($anchor, $item) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
+
+		// the detach link
+		$link = $context['url_to_root'].Files::get_url($item['id'], 'reserve');
+
+		// hovering the link
+		$title = i18n::s('Prevent other persons from changing this file until you update it');
+
+		// surfer is allowed to change the file
+		$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_detach">'.DOWNLOAD_IMG.' '.i18n::s('Reserve this file if you are intended to change its content').'</a>';
+
+		// add some explanations
+		$description = i18n::s('Other surfers will be warned that you are working on it, until you upload a new version or release the reservation.');
+
+		// use a definition list to enable customization of the detach box
+		$context['text'] .= '<div class="bottom"><dl class="download detach">'
+			.'<dt>'.$label.'</dt>'
+			.'<dd>'.$description.'</dd></dl></div>'."\n";
+
+	}
 
 	// insert anchor suffix
 	if(is_object($anchor))

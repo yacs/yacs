@@ -43,11 +43,6 @@ Class Layout_comments_as_wiki extends Layout_interface {
 			return $output;
 		}
 
-		// flag comments updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// return some formatted text
 		$text = '<dl class="wiki_comments">';
 
@@ -76,7 +71,7 @@ Class Layout_comments_as_wiki extends Layout_interface {
 			$text .= ' '.Skin::build_date($item['create_date']);
 
 			// flag new comments
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$text .= NEW_FLAG;
 
 			// include a link to comment permalink

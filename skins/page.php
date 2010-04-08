@@ -13,6 +13,7 @@
  * @author Bernard Paques
  * @author Rod
  * @tester Agnes
+ * @tester Thierry Pinelli
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -611,7 +612,7 @@
 		global $context;
 
 		// we have no database back-end
-		if(defined('NO_MODEL_PRELOAD'))
+		if(!is_callable(array('sql', 'query')))
 			return;
 
 		// use regular parameters
@@ -652,7 +653,7 @@
 			return;
 
 		// we have no database back-end
-		if(defined('NO_MODEL_PRELOAD'))
+		if(!is_callable(array('sql', 'query')))
 			return;
 
 		// cache this across requests

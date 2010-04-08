@@ -102,12 +102,6 @@ if(Surfer::is_crawler()) {
 	// layout assigned sections
 	if($sections) {
 
-		// flag sections updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// browse the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
@@ -143,11 +137,11 @@ if(Surfer::is_crawler()) {
 				$section .= RESTRICTED_FLAG;
 
 			// flag sections that are dead, or created or updated very recently
-			if(($section['expiry_date'] > NULL_DATE) && ($section['expiry_date'] <= $now))
+			if(($section['expiry_date'] > NULL_DATE) && ($section['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
-			elseif($section['create_date'] >= $dead_line)
+			elseif($section['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
-			elseif($section['edit_date'] >= $dead_line)
+			elseif($section['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
 
 			// info on related comments

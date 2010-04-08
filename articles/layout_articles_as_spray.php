@@ -50,12 +50,6 @@ Class Layout_articles_as_spray extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag articles updated recently
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of articles
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
@@ -111,11 +105,11 @@ Class Layout_articles_as_spray extends Layout_interface {
 				$summary .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$summary .= ' '.EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$summary .= ' '.NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$summary .= ' '.UPDATED_FLAG;
 
 			// attachment details

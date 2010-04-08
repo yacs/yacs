@@ -30,9 +30,6 @@ class Vote extends Overlay {
 		if($type != 'decision')
 			return TRUE;
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// vote is open
 		$open = FALSE;
 
@@ -44,18 +41,18 @@ class Vote extends Overlay {
 				$open = TRUE;
 
 			// vote has not ended yet
-			elseif($now < $this->attributes['end_date'])
+			elseif($context['now'] < $this->attributes['end_date'])
 				$open = TRUE;
 
 		// vote has started in the past
-		} elseif($now > $this->attributes['start_date']) {
+		} elseif($context['now'] > $this->attributes['start_date']) {
 
 			// no end date
 			if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
 				$open = TRUE;
 
 				// vote has not ended yet
-			elseif($now < $this->attributes['end_date'])
+			elseif($context['now'] < $this->attributes['end_date'])
 				$open = TRUE;
 
 		}
@@ -239,9 +236,6 @@ class Vote extends Overlay {
 		// vote is open
 		$open = FALSE;
 
-		// vote dates
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// no start date
 		if(!isset($this->attributes['start_date']) || ($this->attributes['start_date'] <= NULL_DATE)) {
 
@@ -253,7 +247,7 @@ class Vote extends Overlay {
 				$open = TRUE;
 
 			// vote has not ended yet
-			} elseif($now < $this->attributes['end_date']) {
+			} elseif($context['now'] < $this->attributes['end_date']) {
 
 				$text .= '<p>'.sprintf(i18n::s('Vote is open until %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).$vote.'</p>';
 
@@ -266,7 +260,7 @@ class Vote extends Overlay {
 			}
 
 		// vote has not started yet
-		} elseif($now < $this->attributes['start_date']) {
+		} elseif($context['now'] < $this->attributes['start_date']) {
 
 			// no end date
 			if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
@@ -288,7 +282,7 @@ class Vote extends Overlay {
 				$open = TRUE;
 
 			// vote has not ended yet
-			} elseif($now < $this->attributes['end_date']) {
+			} elseif($context['now'] < $this->attributes['end_date']) {
 
 				$text .= '<p>'.sprintf(i18n::s('Vote is taking place between %s and %s'), Skin::build_date($this->attributes['start_date'], 'standalone'), Skin::build_date($this->attributes['end_date'], 'standalone')).$vote.'</p>';
 

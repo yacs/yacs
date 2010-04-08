@@ -256,11 +256,6 @@ if(!isset($item['collection']) || !$item['collection']) {
 					$analyzer = new getid3();
 				}
 
-				// flag articles updated recently
-				if($context['site_revisit_after'] < 1)
-					$context['site_revisit_after'] = 2;
-				$dead_line = mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y"));
-
 				// parse the list
 				natsort($files_in_path);
 				foreach($files_in_path as $node) {
@@ -288,7 +283,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 					$prefix = $suffix = $hover = '';
 
 					// flag new files
-					if(Safe::filemtime($target_path) >= $dead_line)
+					if(Safe::filemtime($target_path) >= $context['fresh'])
 						$prefix .= NEW_FLAG;
 
 					// stream audio

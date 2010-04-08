@@ -32,12 +32,6 @@ Class Layout_articles_as_manage extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag articles updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// the script used to check all pages at once
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_article_rows(handle) {'."\n"
@@ -95,11 +89,11 @@ Class Layout_articles_as_manage extends Layout_interface {
 				$suffix .= ' '.LOCKED_FLAG;
 
 			// flag articles that are dead, or created or updated very recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$suffix .= ' '.NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= ' '.UPDATED_FLAG;
 
 			// signal articles to be published

@@ -8,7 +8,6 @@
  * @todo &#91;links] - most recent links, in a compact list
  * @todo &#91;links=section:&lt;id>] - links attached in the given section
  * @todo for [read, add hits aside
- * @todo add a code to build sparklines out of tables requests http://sourceforge.net/projects/sparkline/
  * @todo add a code to link images with clickable maps
  * @todo replace marquee with our own customizable scroller
  * @todo WiKi rendering for lists
@@ -192,6 +191,7 @@
  * - &#91;newsfeed.embed=url] - integrate a newsfeed dynamically
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
+ * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
  * - &#91;freemind] - a Freemind map of site content
  * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
  * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
@@ -1053,6 +1053,8 @@ Class Codes {
 				'/\[twitter=([^\]]+?)\]/ise',				// [twitter=id]
 				'/\[tsearch=([^\]]+?)\]/ise',				// [tsearch=id]
 				'/\[retweet\]/ise',							// [retweet]
+				'/\[iframe\](.*?)\[\/iframe\]/ise',			// [iframe]<url>[/iframe]
+				'/\[iframe=([^\]]+?)\](.*?)\[\/iframe\]/ise',	// [iframe=<width>, <height>]<url>[/iframe]
 				'/\[scroller\](.*?)\[\/scroller\]/ise', 	// [scroller]...[/scroller]
 				'/\[toq\]\n*/ise',							// [toq] (table of questions)
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
@@ -1245,6 +1247,8 @@ Class Codes {
 				"Codes::render_twitter('$1')",										// [twitter=id]
 				"Codes::render_twitter_search('$1')",								// [tsearch=id]
 				"Codes::render_retweet()",											// [retweet]
+				"Codes::render_iframe(Codes::fix_tags('$1'), '500, 320')",			// [iframe]<url>[/iframe]
+				"Codes::render_iframe(Codes::fix_tags('$2'), '$1')",				// [iframe=<width>, <height>]<url>[/iframe]
 				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
 				"Codes::render_table_of('questions')",								// [toq]
 				'[header1]\\1[/header1]',											// [title]...[/title]
@@ -1978,7 +1982,7 @@ Class Codes {
 			$url = Files::get_permalink($item);
 
 			// return a complete anchor
-			$output =& Skin::build_link($url, $text, $type);
+			$output =& Skin::build_link($url, $text);
 			return $output;
 
 		}
@@ -2262,6 +2266,33 @@ Class Codes {
 		// tough luck
 		$text = '';
 		return $text;
+	}
+
+	/**
+	 * render an iframe
+	 *
+	 * @param string URL to be embedded
+	 * @param string iframe parameters
+	 * @return string the rendered text
+	**/
+	function &render_iframe($url, $variant) {
+		global $context;
+
+		// split parameters
+		$attributes = preg_split("/\s*,\s*/", $variant, 2);
+
+		// set a default size
+		if(!isset($attributes[0]))
+			$attributes[0] = 320;
+		if(!isset($attributes[1]))
+			$attributes[1] = 240;
+
+		$text = '<iframe src="'.$url.'" style="width: '.$attributes[0].'px; height: '.$attributes[1].'px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">'."\n"
+			.i18n::s('Your browser does not accept iframes')
+			.'</iframe>';
+
+		return $text;
+
 	}
 
 	/**
@@ -4413,7 +4444,6 @@ Class Codes {
 
 		// suppress pairing codes
 		$output = preg_replace('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', '${2}', $text);
-		preg_match('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', $text, $matches);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)

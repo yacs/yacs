@@ -30,12 +30,6 @@ Class Layout_servers_as_compact extends Layout_interface {
 			return $output;
 		}
 
-		// flag servers updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 

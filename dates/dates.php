@@ -354,23 +354,20 @@ Class Dates {
 
 		$where = "(".$where.")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
 			$where = " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where = " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where = " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// now
@@ -693,23 +690,20 @@ Class Dates {
 		// finalize ACL
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if($variant == 'boxes') {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// the request
@@ -757,23 +751,20 @@ Class Dates {
 
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if($variant == 'boxes') {
 			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where = "(".$where.") AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// check the year
@@ -877,23 +868,20 @@ Class Dates {
 		if($anchor)
 			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if($variant == 'boxes') {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// the request
@@ -958,23 +946,20 @@ Class Dates {
 		// finalize ACL
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if($variant == 'boxes') {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// starting this month
@@ -1033,23 +1018,20 @@ Class Dates {
 		// finalize ACL
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if($variant == 'boxes') {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// now
@@ -1288,23 +1270,20 @@ Class Dates {
 
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// now
@@ -1351,23 +1330,20 @@ Class Dates {
 
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// now

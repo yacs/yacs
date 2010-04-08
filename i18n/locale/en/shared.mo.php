@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 21:38+0100
-PO-Revision-Date: 2010-03-08 17:36+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -79,7 +79,7 @@ $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
 $_SESSION['l10n']['en']['e6236ced25bee095095728d9b2de9a4f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.';
-$_SESSION['l10n']['en']['f2eef2fdffa0e2a2c849b8b6e012c5c1']='This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.';
+$_SESSION['l10n']['en']['3761f289e530ecec30478aaa67bc049f']='This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on Stop notifications.';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
 $_SESSION['l10n']['en']['b14e57cf6aea5bcf8b57974ce6a1545d']='Type exactly the following 5 chars:';
 $_SESSION['l10n']['en']['User']='User';
@@ -91,6 +91,7 @@ $_SESSION['l10n']['en']['View this decision']='View this decision';
 $_SESSION['l10n']['en']['XML error: %s at line %d']='XML error: %s at line %d';
 $_SESSION['l10n']['en']['68e8557b5fa4d724688175816097ce17']='You are allowed to post any XHTML.';
 $_SESSION['l10n']['en']['a38baa11f8dc11db9fde342db9db7f07']='You will be considered as an anonymous surfer';
+$_SESSION['l10n']['en']['7ea4647a2b6b0aa4fcf0366700c46a2c']='Your browser does not accept iframes';
 $_SESSION['l10n']['en']['and %d other persons']='and %d other persons';
 $_SESSION['l10n']['en']['and analyzed']='and analyzed';
 $_SESSION['l10n']['en']['and optimized']='and optimized';

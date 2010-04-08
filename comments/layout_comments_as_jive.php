@@ -48,11 +48,6 @@ Class Layout_comments_as_jive extends Layout_interface {
 			return $output;
 		}
 
-		// flag comments updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of comments
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
@@ -162,7 +157,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 				$text .= Skin::build_date($item['edit_date'], 'with_hour');
 
 			// flag new comments
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$text .= NEW_FLAG;
 
 			// end of details

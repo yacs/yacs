@@ -27,7 +27,7 @@
  * - [code]google_api_key[/code] - according to your registration to
  * Google web services.
  *
- * - [code]google_urchin_account[/code] - according to your registration to
+ * - [code]google_analytics_account[/code] - according to your registration to
  * Google Analytics services.
  *
  * Configuration information is saved into [code]parameters/services.include.php[/code].
@@ -84,12 +84,12 @@ elseif(!Surfer::is_associate()) {
 	$hint = sprintf(i18n::s('To integrate Google Maps to your server, %s and enter it here'), Skin::build_link(i18n::s('http://www.google.com/apis/maps/signup.html'), i18n::s('apply for a key')));
 	$fields[] = array($label, $input, $hint);
 
-	// Google Analytics Urchin account
+	// Google Analytics account
 	$label = i18n::s('Google Analytics');
-	if(!isset($context['google_urchin_account']) || !$context['google_urchin_account'])
-		$context['google_urchin_account'] = '';
-	$input = '<input type="text" name="google_urchin_account" size="45" value="'.encode_field($context['google_urchin_account']).'" maxlength="255" />';
-	$hint = sprintf(i18n::s('To monitor your server with Google Analytics, %s and enter your Urchin account here'), Skin::build_link(i18n::s('http://www.google-analytics.com/'), i18n::s('register')));
+	if(!isset($context['google_analytics_account']) || !$context['google_analytics_account'])
+		$context['google_analytics_account'] = '';
+	$input = '<input type="text" name="google_analytics_account" size="45" value="'.encode_field($context['google_analytics_account']).'" maxlength="255" />';
+	$hint = sprintf(i18n::s('To monitor your server with Google Analytics, %s and enter your account here'), Skin::build_link(i18n::s('http://www.google-analytics.com/'), i18n::s('register')));
 	$fields[] = array($label, $input, $hint);
 
 	// debug_blog
@@ -201,8 +201,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'debug_trackback\']=\''.addcslashes($_REQUEST['debug_trackback'], "\\'")."';\n";
 	if(isset($_REQUEST['google_api_key']))
 		$content .= '$context[\'google_api_key\']=\''.addcslashes($_REQUEST['google_api_key'], "\\'")."';\n";
-	if(isset($_REQUEST['google_urchin_account']))
-		$content .= '$context[\'google_urchin_account\']=\''.addcslashes($_REQUEST['google_urchin_account'], "\\'")."';\n";
+	if(isset($_REQUEST['google_analytics_account']))
+		$content .= '$context[\'google_analytics_account\']=\''.addcslashes($_REQUEST['google_analytics_account'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// update the parameters file

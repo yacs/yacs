@@ -30,12 +30,6 @@ Class Layout_users_as_watch extends Layout_interface {
 		if(!$delta = SQL::count($result))
 			return $items;
 
-		// flag users updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// build a list of users
 		while($item =& SQL::fetch($result)) {
 
@@ -67,9 +61,9 @@ Class Layout_users_as_watch extends Layout_interface {
 				$suffix .= ' '.$contacts;
 
 			// flag users updated recently
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG.' ';
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG.' ';
 
 			// do not use description because of codes such as location, etc

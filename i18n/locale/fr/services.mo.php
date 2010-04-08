@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-15 23:34+0100
-PO-Revision-Date: 2010-03-08 17:32+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -78,7 +78,7 @@ $_SESSION['l10n']['fr']['2be1d54d98311704480cb75da8aa9534']='Le nom ou l\'adress
 $_SESSION['l10n']['fr']['dda86db9a2409f98e6e9438cbc5e6cd7']='Cette page liste les principaux services que vous pouvez utiliser en arrière-plan. Connectez votre logiciel de blogging, votre lecteur de nouvelles RSS, ou d\'autres sites à ce serveur web sur la base des interfaces programmatiques décrites ci-dessous.';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
 $_SESSION['l10n']['fr']['acd27d20c6abc6cc445b677d8046f973']='Pour intégrer Google Maps à votre serveur, %s et indiquez-la ici';
-$_SESSION['l10n']['fr']['e7c7cad197343d10e84638209c847484']='Pour analyser l\'activité de votre serveur avec Google Analytics, %s et indiquez ici votre identifiant Urchin';
+$_SESSION['l10n']['fr']['5a363027fb4f6b0bede10ded8fcf46c8']='To monitor your server with Google Analytics, %s and enter your account here';
 $_SESSION['l10n']['fr']['To spread updates']='Pour diffuser les mises à jour';
 $_SESSION['l10n']['fr']['URI of the source page']='Adresse de la page source';
 $_SESSION['l10n']['fr']['URI of the target page']='Adresse de la page cible';

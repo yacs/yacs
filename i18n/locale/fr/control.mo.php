@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-22 22:45+0100
-PO-Revision-Date: 2010-03-10 21:59+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:42+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -28,7 +28,7 @@ $_SESSION['l10n']['fr']['%d items have been deleted']='%d éléments ont été s
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d scripts have been found.']='%d scripts ont été trouvés.';
 $_SESSION['l10n']['fr']['f3c5d54d03dcdff70644b296255f628e']='%d tables et %d enregistrements dans %soctets';
-$_SESSION['l10n']['fr']['81989d25fcd6d262ae52e4845521c3f5']='%s - tous les fils de nouvelles (RSS, ATOM)';
+$_SESSION['l10n']['fr']['81989d25fcd6d262ae52e4845521c3f5']='%s - tous les flux d\'information (RSS, ATOM)';
 $_SESSION['l10n']['fr']['98d039bc866fdeef5282cafdbc1eefc3']='%s - pages à publier, requêtes en attente';
 $_SESSION['l10n']['fr']['%s - ban spamming hosts']='%s - bloquer les spammeurs en tout genre';
 $_SESSION['l10n']['fr']['%s - basic view of the system']='%s - les éléments de base du système';
@@ -254,6 +254,7 @@ $_SESSION['l10n']['fr']['Including hooks']='Extensions par inclusion';
 $_SESSION['l10n']['fr']['Indexes (expiration cache)']='Indexes (cache par expiration)';
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Initialize the database']='Initialiser la base de données';
+$_SESSION['l10n']['fr']['Internet connectivity']='Connectivité Internet';
 $_SESSION['l10n']['fr']['JPG support is enabled']='Le format JPG est supporté';
 $_SESSION['l10n']['fr']['Jump to the configuration page']='Aller à la page de configuration';
 $_SESSION['l10n']['fr']['Jump to the installation page']='Aller à la page d\'installation';
@@ -354,7 +355,6 @@ $_SESSION['l10n']['fr']['Proxy account']='Compte de proxy';
 $_SESSION['l10n']['fr']['Proxy address or name']='Adresse ou nom de passerelle proxy';
 $_SESSION['l10n']['fr']['Proxy password']='Mot de passe associé';
 $_SESSION['l10n']['fr']['Proxy settings']='Paramètres proxy';
-$_SESSION['l10n']['fr']['640e03d28531da67cd3bbd3ecf7ffc70']='Le contenu public est traité par les moteurs de recherche et les aggrégateurs d\'information.';
 $_SESSION['l10n']['fr']['Publications by month']='Publications mois par mois';
 $_SESSION['l10n']['fr']['Publications by week']='Publications semaine par semaine';
 $_SESSION['l10n']['fr']['Purge']='Purge';
@@ -399,6 +399,8 @@ $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['Select the file to upload']='Fichier à transmettre';
 $_SESSION['l10n']['fr']['Server GMT offset:']='Zone de temps serveur :';
 $_SESSION['l10n']['fr']['Server attributes:']='Attributs du serveur :';
+$_SESSION['l10n']['fr']['c432064472bc69ffb49f4b95e29eedee']='Ce serveur n\'est pas connecté à Internet.';
+$_SESSION['l10n']['fr']['0eed1a5a04849667a8386c1a8c5a7532']='Les moteurs de recherche et les aggrégateurs d\'information peuvent atteindre le serveur.';
 $_SESSION['l10n']['fr']['Server name']='Nom du serveur';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';
 $_SESSION['l10n']['fr']['Server time zone']='Fuseau horaire du serveur';
@@ -464,7 +466,6 @@ $_SESSION['l10n']['fr']['Themes']='Thèmes';
 $_SESSION['l10n']['fr']['965ffacfaccee38ffb337c4126f8deb0']='Ce script va analyser la structure de la base de données et optimiser le stockage des informations :';
 $_SESSION['l10n']['fr']['93eed22ad43c35187ca4f7e6bb12c493']='Ce script va générer les commandes SQL permettant de reconstruire la base de données. Sauvez le résultat dans un fichier sur votre machine.';
 $_SESSION['l10n']['fr']['0b3706ee5e95f20f5f550bcdd86cd747']='Ce script va analyser vos scripts php pour installer les extensions logicielles.';
-$_SESSION['l10n']['fr']['7116086cf86bd5bdacffcaaa495cb423']='Ce serveur n\'est pas accessible depuis Internet.';
 $_SESSION['l10n']['fr']['d75427984001efa74e01f6b1d9f6a71e']='Certaines parties de ce site sont protégées par un mot de passe d\'authentification. Les mots de passe sont chiffrés dans la base de données, et nous ne pouvons pas les déchiffrer. Ce chiffrement peut être cassé, mais ceci requière beaucoup d\'effort et de temps de calcul, et nous considérons donc que vos mots de passe sont en sécurité sur ce site. L\'inconvénient, c\'est que si vous oubliez votre mot de passe nous ne pourrons pas vous aiserà le retrouver. Une procédure est disponible pour obtenir un nouveau mot de passe, mais il est toujours mieux de prendre ses précautions pour ne pas faire d\'oubli.';
 $_SESSION['l10n']['fr']['c2883a13a53575308a41010403e41c2f']='Ce serveur utilise le web, par exemple pour lire les nouvelles RSS.';
 $_SESSION['l10n']['fr']['019194adbb411721ef0122376d178444']='Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], et [link=MySQL]http://"www.mysql.com/[/link] - un site rapide, facile d\'utilisation, qui vous permet de consulter, de lire et de télécharger l\'information qui vous intéresse.';
@@ -501,7 +502,6 @@ $_SESSION['l10n']['fr']['Verbosity']='Verbosité';
 $_SESSION['l10n']['fr']['3bd7563584cc7fba6d908b268d7309c5']='Niveau minimum de verbosité (serveur de production).';
 $_SESSION['l10n']['fr']['View the configuration file']='Voir la configuration';
 $_SESSION['l10n']['fr']['Virtual hosts']='Serveurs virtuels';
-$_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['8e844f1ff4be21b4f092b3b793b7dded']='Nous sommes fiers de ce site, malgré ses imperfections. Nous essayons d\'être à l\'écoute de toute suggestion constructive qui permettrait de l\'améliorer. N\'hésitez donc pas à partager vos bonnes idées avec nous. Ou si vous pensez qu\'il manque quelque élément d\'information, faites-nous le savoir ! Chaque amélioration bénéficie à l\'ensemble de la communauté - vous, moi, tous les gens intéressés.';
 $_SESSION['l10n']['fr']['08483ca3dc1546ff5f403980ff422216']='Nous analysons occasionnellement les archives de consultation pour améliorer la valeur du contenu disponible sur notre site. Ces analyses sont toujours statistiques et non-nominatives, et nous ne tentons pas de les corréler aux individus qui ont navigué sur le site.';
 $_SESSION['l10n']['fr']['841032d165945524632244aa2847b9fd']='De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation';

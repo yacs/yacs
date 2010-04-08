@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
-PO-Revision-Date: 2010-03-10 09:52+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:43+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -23,9 +23,10 @@ $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
 $_SESSION['l10n']['fr']['0f5610d966046e70e5f5a171e8fd4d76']='%d entrées dans la liste des mots à ne pas considérer';
-$_SESSION['l10n']['fr']['%d minute(s) at %s']='%d minute(s) à %s';
+$_SESSION['l10n']['fr']['78b5fc7650c0c858929fd8892faa9895']='%d minute à %s'.chr(0).'%d minutes à %s';
+$_SESSION['l10n']['fr']['c87f346c13c3ad1fc0eec62be4ff7e14']='%d personne a demandé ce fichier : %s'.chr(0).'%d personnes ont demandé ce fichier : %s';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
-$_SESSION['l10n']['fr']['%d second(s) at %s']='%d seconde(s) à %s';
+$_SESSION['l10n']['fr']['a4963b67b00e63eb79e61e9ef25b45e5']='%d seconde à %s'.chr(0).'%d secondes à %s';
 $_SESSION['l10n']['fr']['%s %s']='%s %s';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
@@ -97,7 +98,6 @@ $_SESSION['l10n']['fr']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostv
 $_SESSION['l10n']['fr']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['History']='Historique';
-$_SESSION['l10n']['fr']['f5bde952210906492f614252dedd0b21']='Si le plug-in d\'Adobe génère une erreur, merci de sauver le fichier sur un disque dur et de soumettre une copie locale au logiciel Acrobat.';
 $_SESSION['l10n']['fr']['2ab437e9863287d3b69b9e0cdc1f8024']='Si vous n\'arrivez pas à télécharger des fichiers à cause des permissions, utilisez le panneau de configuration des utilisateurs pour interdire l\'envoi de nouveaux fichiers.';
 $_SESSION['l10n']['fr']['c0ffaa282bf7024132b29f5544fb4df0']='Si vous avez obtenu ce fichier de sources extérieures, merci de l\'indiquer ici';
 $_SESSION['l10n']['fr']['a9dc0459a1fe4e8573e0046b4ba8e4bb']='Si vous avez installé un client compatible BitTorrent, vous pouvez aussi cliquer sur le lien .torrent suivant : %s';

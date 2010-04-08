@@ -280,13 +280,13 @@ p#gadgets_suffix { /* comes after gadget boxes */
 /* standard components of a page */
 
 div.introduction { /* introduction -- before the main part of a page */
-	font-size: 1.1em;
+	font-size: 1em;
 	font-weight: normal;
 	margin: 1em 0;
 }
 
 div.description { /* description -- main content of an article, or of a section, etc. */
-	font-size: 1.1em;
+	font-size: 1em;
 	font-weight: normal;
 	margin: 1em 0;
 }
@@ -331,6 +331,7 @@ p.tags a, span.tags a { /* each tag can link to a category */
 
 /* more details */
 
+a.details,
 p.details,
 span.details { /* a set of details */
 	font-family: sans-serif;
@@ -599,6 +600,7 @@ code { /* ##..## or [code]..[/code] -- some script shell */
 	font-style: normal;
 }
 
+a.tiny,
 span.tiny { /* [tiny]...[/tiny] -- smaller than .small*/
 	font-family: sans-serif;
 	font-size: 9px;

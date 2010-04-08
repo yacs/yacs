@@ -37,11 +37,6 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag articles updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// layout in a table
 		$text = Skin::table_prefix('wide');
 

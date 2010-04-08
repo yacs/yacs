@@ -28,14 +28,6 @@ Class Layout_users_as_password extends Layout_interface {
 			return $output;
 		}
 
-		// flag users updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
-		// flag idle users
-		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 
@@ -49,9 +41,9 @@ Class Layout_users_as_password extends Layout_interface {
 			$url = Users::get_permalink($item);
 
 			// flag profiles updated recently
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private profiles

@@ -55,14 +55,6 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			return $output;
 		}
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// flag articles updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// menu at page bottom
 		$this->menu = array();
 
@@ -104,11 +96,11 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 				$suffix .= LOCKED_FLAG;
 
 			// flag expired articles, and articles updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$suffix = EXPIRED_FLAG.' ';
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$suffix = NEW_FLAG.' ';
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix = UPDATED_FLAG.' ';
 
 			// list separately articles to be published
@@ -116,7 +108,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 				$prefix = DRAFT_FLAG.$prefix;
 				$future[$url] = array($prefix, $title, $suffix);
 
-			} elseif($item['publish_date'] > $now)
+			} elseif($item['publish_date'] > $context['now'])
 				$future[$url] = array($prefix, $title, $suffix);
 
 			// next item
@@ -187,12 +179,11 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// title prefix & suffix
 		$text = $prefix = $suffix = '';
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+		$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
 		// link to permalink
 		if(Surfer::is_empowered())
@@ -203,7 +194,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$prefix .= DRAFT_FLAG;
 
 		// draft article
-		else if(($item['publish_date'] > NULL_DATE) && ($item['publish_date'] > $now))
+		else if(($item['publish_date'] > NULL_DATE) && ($item['publish_date'] > $context['now']))
 			$prefix .= DRAFT_FLAG;
 
 		// signal restricted and private articles
@@ -217,7 +208,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$suffix .= LOCKED_FLAG;
 
 		// flag expired article
-		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 			$suffix .= EXPIRED_FLAG;
 
 		// update page title directly

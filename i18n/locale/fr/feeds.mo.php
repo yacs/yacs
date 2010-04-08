@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2009-10-05 16:10+0100
+PO-Revision-Date: 2010-03-30 18:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ $_SESSION['l10n']['fr']['Font height']='Hauteur des caractères';
 $_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
 $_SESSION['l10n']['fr']['Google']='Google';
 $_SESSION['l10n']['fr']['Help']='Aide';
-$_SESSION['l10n']['fr']['2bc3aea35cf1d8a6ecf0a697c6ea622f']='Si vous n\'êtes pas familier des fils de nouvelles, sachez qu\'il s\'agit de quelque chose de simple. Tout d\'abord, installez sur votre poste de travail une application adaptée, par exemple %s ou %s. Puis copiez l\'un des liens ci-dessous et collez-le dans la boîte de souscription de votre application. Voir Google pour plus d\'informations sur %s.';
+$_SESSION['l10n']['fr']['2bc3aea35cf1d8a6ecf0a697c6ea622f']='Si vous n\'êtes pas familier des flux d\'information, sachez qu\'il s\'agit de quelque chose de simple. Tout d\'abord, installez sur votre poste de travail une application adaptée, par exemple %s ou %s. Puis copiez l\'un des liens ci-dessous et collez-le dans la boîte de souscription de votre application. Voir Google pour plus d\'informations sur %s.';
 $_SESSION['l10n']['fr']['b65ce82b0a1ebf640da137c9130e53ce']='En minutes. Compter 60 pour une heure, etc. Valeur minimum de 5 minutes';
 $_SESSION['l10n']['fr']['Inbound']='Réception';
 $_SESSION['l10n']['fr']['Inbound feeds']='Connecteurs d\'entrée';
@@ -68,7 +68,7 @@ $_SESSION['l10n']['fr']['Internal vertical scale']='Facteur d\'échelle vertical
 $_SESSION['l10n']['fr']['Latest Articles']='Les derniers articles parus';
 $_SESSION['l10n']['fr']['Maximum news']='Nombre maximum de nouvelles';
 $_SESSION['l10n']['fr']['May be subject to spam attacks']='Peut être attaquée par spam';
-$_SESSION['l10n']['fr']['abd4dbc2bee94c3e3b414d6650dde33b']='Des fils de nouvelles plus spécifiques sont aussi disponibles. Le bouton XML est visible sur d\'autres pages de ce serveur :';
+$_SESSION['l10n']['fr']['abd4dbc2bee94c3e3b414d6650dde33b']='Des flux d\'information plus spécifiques sont aussi disponibles. Le bouton XML est visible sur d\'autres pages de ce serveur :';
 $_SESSION['l10n']['fr']['Most recent external news']='Informations extérieures récentes';
 $_SESSION['l10n']['fr']['fbfc36cb7d183921e095769029abd6cf']='Aucun connecteur n\'a été défini. Pour intégrer un fil RSS externe %s.';
 $_SESSION['l10n']['fr']['Object height']='Hauteur d\'objet';
@@ -83,7 +83,7 @@ $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoye
 $_SESSION['l10n']['fr']['RDF/RSS format']='Format RDF/RSS';
 $_SESSION['l10n']['fr']['RSS format']='Format RSS';
 $_SESSION['l10n']['fr']['RSS newsreaders']='les lecteurs RSS';
-$_SESSION['l10n']['fr']['Received from feeding servers']='Lues sur des fils de nouvelles';
+$_SESSION['l10n']['fr']['Received from feeding servers']='Reçues de serveurs d\'information';
 $_SESSION['l10n']['fr']['c2896e46c677a09b912a3e21d74948b2']='Utilisez l\'un des liens ci-dessous pour alimenter votre lecteur de nouvelles :';
 $_SESSION['l10n']['fr']['aff71424a6182570d5a748501bbe016b']='Chemin d\'accès à l\'image';
 $_SESSION['l10n']['fr']['Rss Bandit']='Rss Bandit';
@@ -101,7 +101,7 @@ $_SESSION['l10n']['fr']['dfe2fb3bbc89ae5127717c726dca43ce']='Pour aider %s vous 
 $_SESSION['l10n']['fr']['159860a251ff79570135bc3db96d19f1']='Indiquez ci-dessous les informations qui seront transmises à tous ceux qui s\'intéressent à votre serveur.';
 $_SESSION['l10n']['fr']['Up to two lines of text']='Jusqu\'à deux lignes de texte informatif';
 $_SESSION['l10n']['fr']['1067d44616fe8e1d0ba70d8a76f038fa']='A réserver aux phases de mise au point';
-$_SESSION['l10n']['fr']['e6e4478f7cdeb18974aab4f4c2643022']='Naviguez sur %s, ils disposent de fils de nouvelles pour suivre les contributions de chaque personne.';
+$_SESSION['l10n']['fr']['e6e4478f7cdeb18974aab4f4c2643022']='Naviguez sur %s, ils disposent de flux d\'information pour suivre les contributions de chaque personne.';
 $_SESSION['l10n']['fr']['Webmaster mail address']='Adresse du webmaster';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['6f4e4e1fc5c3a0078a20909241735e38']='YACS permet le téléchargement automatique et le %s avec ce fil consacré aux %s.';

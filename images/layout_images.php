@@ -40,12 +40,6 @@ Class Layout_images extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = '';
 
-		// flag images updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 

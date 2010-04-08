@@ -42,12 +42,6 @@ Class Layout_links extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'no_anchor';
 
-		// flag links updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
@@ -61,7 +55,7 @@ Class Layout_links extends Layout_interface {
 			$label = Links::clean($item['title'], $item['link_url']);
 
 			// flag links uploaded recently
-			if($item['edit_date'] >= $dead_line)
+			if($item['edit_date'] >= $context['fresh'])
 				$prefix = NEW_FLAG.$prefix;
 
 			// the number of clicks

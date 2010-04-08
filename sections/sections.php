@@ -493,12 +493,11 @@ Class Sections {
 		$where .= " AND (sections.index_map = 'Y')";
 
 		// non-associates will have only live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($anchor && !Surfer::is_empowered()) {
 			$where .= " AND ((sections.activation_date is NULL)"
-				."	OR (sections.activation_date <= '".$now."'))"
+				."	OR (sections.activation_date <= '".$context['now']."'))"
 				." AND ((sections.expiry_date is NULL)"
-				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 		}
 
 		// count records sections
@@ -562,13 +561,10 @@ Class Sections {
 
 		$where .= ')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// strip dead sections
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
 			$where .= " AND ((sections.expiry_date is NULL) "
-					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// look for watched sections with sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
@@ -870,11 +866,10 @@ Class Sections {
 		$criteria[] = $active.")";
 
 		// use only live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$criteria[] = "((sections.activation_date is NULL)"
-			." OR (sections.activation_date <= '".$now."'))"
+			." OR (sections.activation_date <= '".$context['now']."'))"
 			." AND ((sections.expiry_date is NULL)"
-			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// list up to 200 sections
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
@@ -957,11 +952,10 @@ Class Sections {
 		$criteria[] = $active.")";
 
 		// use only live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$criteria[] = "((sections.activation_date is NULL)"
-			." OR (sections.activation_date <= '".$now."'))"
+			." OR (sections.activation_date <= '".$context['now']."'))"
 			." AND ((sections.expiry_date is NULL)"
-			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// ensure reasonable limit
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
@@ -1021,11 +1015,10 @@ Class Sections {
 		$where .= " AND (sections.index_map = 'Y')";
 
 		// only consider live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= " AND ((sections.activation_date is NULL)"
-			."	OR (sections.activation_date <= '".$now."'))"
+			."	OR (sections.activation_date <= '".$context['now']."'))"
 			." AND ((sections.expiry_date is NULL)"
-			."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+			."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// select among available sections
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
@@ -1252,7 +1245,7 @@ Class Sections {
 	 * @see panel.php
 	 * @see skins/upload.php
 	 */
-	function &get_radio_buttons($current=NULL, $me) {
+	function &get_radio_buttons($current=NULL, $me=NULL) {
 		global $context;
 
 		// we put radio buttons in a string
@@ -1897,12 +1890,9 @@ Class Sections {
 		if($exception)
 			$where .= " AND (sections.id != ".SQL::escape($exception).")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// only consider live sections
 		$where .= " AND ((sections.expiry_date is NULL) "
-				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// sections by title -- up to 100 sections with the same name
 		$query = "SELECT sections.*"
@@ -1941,13 +1931,10 @@ Class Sections {
 
 		$where .= ')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// strip dead sections
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
 			$where .= " AND ((sections.expiry_date is NULL) "
-					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// look for watched sections with sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
@@ -2042,12 +2029,11 @@ Class Sections {
 		$where .= " AND (sections.index_map = 'Y')";
 
 		// non-associates will have only live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(!Surfer::is_associate()) {
 			$where .= " AND ((sections.activation_date is NULL)"
-				."	OR (sections.activation_date <= '".$now."'))"
+				."	OR (sections.activation_date <= '".$context['now']."'))"
 				." AND ((sections.expiry_date is NULL)"
-				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 		}
 
 		// if the user is listing sections to write an article, only consider open sections, even for associates
@@ -2118,12 +2104,11 @@ Class Sections {
 		$where .= ')';
 
 		// non-associates will have only live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(!Surfer::is_associate()) {
 			$where .= " AND ((sections.activation_date is NULL)"
-				."	OR (sections.activation_date <= '".$now."'))"
+				."	OR (sections.activation_date <= '".$context['now']."'))"
 				." AND ((sections.expiry_date is NULL)"
-				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 		}
 
 		// list sections
@@ -2187,9 +2172,8 @@ Class Sections {
 			$where .= ' AND (';
 
 			// list dead sections
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-			$where .= "(sections.activation_date >= '".$now."')"
-				." OR ((sections.expiry_date > '".NULL_DATE."') AND (sections.expiry_date <= '".$now."'))";
+			$where .= "(sections.activation_date >= '".$context['now']."')"
+				." OR ((sections.expiry_date > '".NULL_DATE."') AND (sections.expiry_date <= '".$context['now']."'))";
 
 			// add sections not listed in main panel
 			$where .= " OR (sections.index_panel != 'main')";
@@ -2941,12 +2925,9 @@ Class Sections {
 
 		$where = "(".$where.")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// only consider live sections
 		$where .= " AND ((sections.expiry_date is NULL) "
-				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// match
 		$match = '';
@@ -3106,12 +3087,11 @@ Class Sections {
 			$where .= " AND (sections.index_map = 'Y')";
 
 			// non-associates will have only live sections
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 			if($anchor && !Surfer::is_empowered()) {
 				$where .= " AND ((sections.activation_date is NULL)"
-					."	OR (sections.activation_date <= '".$now."'))"
+					."	OR (sections.activation_date <= '".$context['now']."'))"
 					." AND ((sections.expiry_date is NULL)"
-					."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+					."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 			}
 		}
 

@@ -86,9 +86,8 @@ if(!Surfer::is_crawler()) {
 		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
 
 	// expired article
-	$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))
-			&& ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now)) {
+			&& ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now'])) {
 		$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 	}
 
@@ -224,7 +223,7 @@ if($description) {
 
 	// provide only the requested page
 	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	$page = min(max($page, count($pages)), 1);
+	$page = max(min($page, count($pages)), 1);
 	$description = $pages[ $page-1 ];
 
 	// if there are several pages, remove toc and toq codes

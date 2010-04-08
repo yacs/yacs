@@ -1282,6 +1282,7 @@ Class Skin_Skeleton {
 	 * @param string the field name and id
 	 * @param string value to display to the surfer
 	 * @param string input type
+	 * @param string any text to be inserted in the input tag
 	 * @return the HTML to display
 	 *
 	 */
@@ -4698,9 +4699,9 @@ Class Skin_Skeleton {
 			// render all codes
 			$text = Codes::beautify($text);
 
-		// suppress all YACS codes
+		// suppress all pairing yacs codes, but not unitary codes (could be added by overlay at end of titles)
 		} else
-			$text = Codes::strip($text, TRUE);
+			$text = Codes::strip($text, FALSE);
 
 		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
 		if($allowed_html)

@@ -246,6 +246,7 @@ else
 	exit('The file shared/global.php has not been found. Please reinstall or mention home directory in file yacs.home or configure the YACS_HOME environment variable.');
 
 // load libraries used in this script
+include_once $context['path_to_root'].'feeds/feeds.php'; // some links to newsfeeds
 include_once $context['path_to_root'].'links/links.php';
 
 // load localized strings
@@ -1030,6 +1031,9 @@ if(!$text =& Cache::get($cache_id)) {
 
 // page navigation content
 $context['navigation'] .= $text;
+
+// a meta link to a feeding page
+$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
 
 // render the skin
 render_skin();

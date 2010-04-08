@@ -126,12 +126,11 @@ if(Surfer::is_crawler()) {
 	}
 
 	// signal sections to be activated
-	$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Surfer::is_empowered() && ($item['activation_date'] > $now))
+	if(Surfer::is_empowered() && ($item['activation_date'] > $context['now']))
 		$details[] = DRAFT_FLAG.' '.sprintf(i18n::s('Section will be activated %s'), Skin::build_date($item['activation_date']));
 
 	// expired section
-	if(Surfer::is_empowered() && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+	if(Surfer::is_empowered() && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 		$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
 	// display details, if any

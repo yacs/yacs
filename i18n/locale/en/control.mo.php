@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-22 22:45+0100
-PO-Revision-Date: 2010-03-10 22:01+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -254,6 +254,7 @@ $_SESSION['l10n']['en']['Including hooks']='Including hooks';
 $_SESSION['l10n']['en']['Indexes (expiration cache)']='Indexes (expiration cache)';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Initialize the database']='Initialize the database';
+$_SESSION['l10n']['en']['Internet connectivity']='Internet connectivity';
 $_SESSION['l10n']['en']['JPG support is enabled']='JPG support is enabled';
 $_SESSION['l10n']['en']['Jump to the configuration page']='Jump to the configuration page';
 $_SESSION['l10n']['en']['Jump to the installation page']='Jump to the installation page';
@@ -354,7 +355,6 @@ $_SESSION['l10n']['en']['Proxy account']='Proxy account';
 $_SESSION['l10n']['en']['Proxy address or name']='Proxy address or name';
 $_SESSION['l10n']['en']['Proxy password']='Proxy password';
 $_SESSION['l10n']['en']['Proxy settings']='Proxy settings';
-$_SESSION['l10n']['en']['640e03d28531da67cd3bbd3ecf7ffc70']='Public content may be processed by web crawlers and news aggregators.';
 $_SESSION['l10n']['en']['Publications by month']='Publications by month';
 $_SESSION['l10n']['en']['Publications by week']='Publications by week';
 $_SESSION['l10n']['en']['Purge']='Purge';
@@ -399,6 +399,8 @@ $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Server GMT offset:']='Server GMT offset:';
 $_SESSION['l10n']['en']['Server attributes:']='Server attributes:';
+$_SESSION['l10n']['en']['c432064472bc69ffb49f4b95e29eedee']='Server is not connected to the Internet.';
+$_SESSION['l10n']['en']['0eed1a5a04849667a8386c1a8c5a7532']='Server is reachable from public web crawlers and news aggregators.';
 $_SESSION['l10n']['en']['Server name']='Server name';
 $_SESSION['l10n']['en']['Server software']='Server software';
 $_SESSION['l10n']['en']['Server time zone']='Server time zone';
@@ -464,7 +466,6 @@ $_SESSION['l10n']['en']['Themes']='Themes';
 $_SESSION['l10n']['en']['965ffacfaccee38ffb337c4126f8deb0']='This script will check the structure of the database and optimize data storage:';
 $_SESSION['l10n']['en']['93eed22ad43c35187ca4f7e6bb12c493']='This script will generate SQL statements necessary to rebuild your database from scratch. Please file it at your computer for backup purpose.';
 $_SESSION['l10n']['en']['0b3706ee5e95f20f5f550bcdd86cd747']='This script will scan your php scripts to install software hooks.';
-$_SESSION['l10n']['en']['7116086cf86bd5bdacffcaaa495cb423']='This server can not be reached from the Internet.';
 $_SESSION['l10n']['en']['d75427984001efa74e01f6b1d9f6a71e']='This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don\'t have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can\'t even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can\'t get it back for you. We\'ve provided a method to reset your password if this happens, but as with any other password, it\'s best not to forget in the first place.';
 $_SESSION['l10n']['en']['c2883a13a53575308a41010403e41c2f']='This server uses the web for syndication, for pings or for other activities.';
 $_SESSION['l10n']['en']['019194adbb411721ef0122376d178444']='This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.';
@@ -501,7 +502,6 @@ $_SESSION['l10n']['en']['Verbosity']='Verbosity';
 $_SESSION['l10n']['en']['3bd7563584cc7fba6d908b268d7309c5']='Verbosity should be kept to a minimum (normal operation).';
 $_SESSION['l10n']['en']['View the configuration file']='View the configuration file';
 $_SESSION['l10n']['en']['Virtual hosts']='Virtual hosts';
-$_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['8e844f1ff4be21b4f092b3b793b7dded']='We are proud of this server, but it certainly isn\'t perfect. We\'re always looking for ways to improve the site. So, if you\'ve got any great ideas, then please let us know about them. Or, if you know of some important information that isn\'t listed here, email the author and tell them you want it listed on this site! It\'ll help make this server a better site for the whole community - and that\'s who we\'re here to serve.';
 $_SESSION['l10n']['en']['08483ca3dc1546ff5f403980ff422216']='We occasionally analyzes our website logs to constantly improve the value of the content available on our website. Our website logs are not personally identifiable, and we make no attempt to link them with the individuals that actually browse the site.';
 $_SESSION['l10n']['en']['841032d165945524632244aa2847b9fd']='We recommend at least 4 letters, two digits, and a punctuation sign - in any order';

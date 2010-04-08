@@ -187,9 +187,6 @@ Class Forms {
 		if($exception)
 			$where .= " AND (forms.id != ".SQL::escape($exception).")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// forms by title -- no more than 100 pages with the same name
 		$query = "SELECT forms.*"
 			." FROM ".SQL::table_name('forms')." AS forms"

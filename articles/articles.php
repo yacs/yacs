@@ -653,23 +653,20 @@ Class Articles {
 		if($without_sticky)
 			$where .= " AND (articles.rank >= 10000)";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// several anchors
 		if(is_array($anchor)) {
@@ -723,18 +720,15 @@ Class Articles {
 
 		$where .= ')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// list only published articles
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// strip dead pages
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
 			$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
@@ -1072,16 +1066,13 @@ Class Articles {
 
 		}
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// always only consider published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
+			." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid sticky articles
 		if($without_sticky)
@@ -1132,17 +1123,14 @@ Class Articles {
 
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// always only consider published articles, except for associates and editors
 		if(!Surfer::is_empowered())
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// depending on selected sequence
 		if($order == 'edition') {
@@ -1238,17 +1226,14 @@ Class Articles {
 
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// always only consider published articles, except for associates and editors
 		if(!Surfer::is_empowered())
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// depending on selected sequence
 		if($order == 'edition') {
@@ -1682,9 +1667,6 @@ Class Articles {
 		// bracket OR statements
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// list only draft articles
 		if($order == 'draft')
 			$where .= " AND ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))";
@@ -1692,12 +1674,12 @@ Class Articles {
 		// list only articles published in the future
 		elseif($order == 'future')
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date > '".$now."')";
+				." AND (articles.publish_date > '".$context['now']."')";
 
 		// list only published articles, if not associate or if looking for less popular
 		elseif(!Surfer::is_associate() || ($order != 'unread'))
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// list articles published after some date
 		if($since && ($since > NULL_DATE))
@@ -1705,12 +1687,12 @@ Class Articles {
 
 		// consider only dead articles
 		if($order == 'expiry')
-			$where .= " AND ((articles.expiry_date > '".NULL_DATE."') AND (articles.expiry_date <= '".$now."'))";
+			$where .= " AND ((articles.expiry_date > '".NULL_DATE."') AND (articles.expiry_date <= '".$context['now']."'))";
 
 		// else consider live articles
 		else
 			$where .= " AND ((articles.expiry_date is NULL) "
-					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid articles pushed away from the front page
 		$sections_where = '';
@@ -1895,9 +1877,6 @@ Class Articles {
 		if($without_sticky)
 			$where .= " AND (articles.rank >= 10000)";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// list only draft articles
 		if($order == 'draft')
 			$where .= " AND ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))";
@@ -1905,18 +1884,18 @@ Class Articles {
 		// provide published pages to anonymous surfers
 		elseif(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are not empowered are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_member() || !is_callable(array('Surfer', 'is_empowered')) || !Surfer::is_empowered()) {
 			$where .= " AND ((articles.owner_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// only consider live articles, except for associates and editors
 		if(is_callable(array('Surfer', 'is_empowered')) && !Surfer::is_empowered()) {
 			$where .= " AND ((articles.expiry_date is NULL) "
-					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 		}
 
 		// several anchors
@@ -1988,20 +1967,17 @@ Class Articles {
 		// a dynamic where clause
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// list only articles contributed by this author
 		$where .= " AND ((articles.create_id = ".$author_id.") OR (articles.owner_id = ".$author_id."))";
 
 		// only original author and associates will see draft articles
 		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// order items
 		$order = Articles::_get_order($order);
@@ -2066,17 +2042,14 @@ Class Articles {
 		if($exception)
 			$where .= " AND (articles.id != ".SQL::escape($exception).")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// list draft pages only to associates and editors
 		if(!Surfer::is_empowered())
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// articles by title -- no more than 100 pages with the same name
 		$query = "SELECT articles.*"
@@ -2129,18 +2102,15 @@ Class Articles {
 
 		$where .= ')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// show only published articles if not looking at self record
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// strip dead pages
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
 			$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// order these pages
 		$order = Articles::_get_order($order);
@@ -2847,17 +2817,14 @@ Class Articles {
 
 		$where = "(".$where.")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member())
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// match
 		$match = '';
@@ -3129,16 +3096,13 @@ Class Articles {
 
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// list only published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
+			." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid articles pushed away from the front page
 		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))';
@@ -3204,23 +3168,20 @@ Class Articles {
 		if($without_sticky)
 			$where .= " AND (articles.rank >= 10000)";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-22 22:45+0100
-PO-Revision-Date: 2010-03-22 23:13+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -57,7 +57,6 @@ $_SESSION['l10n']['en']['Add a table']='Add a table';
 $_SESSION['l10n']['en']['Add a user']='Add a user';
 $_SESSION['l10n']['en']['Add an action']='Add an action';
 $_SESSION['l10n']['en']['88a955fcffb8f63b46e2ecabaff4ef80']='Add this person to your contacts';
-$_SESSION['l10n']['en']['Add to my contacts']='Add to my contacts';
 $_SESSION['l10n']['en']['9ab3b896499b39b9f109e5aefc844d61']='Adds random data to forms and block spam (public site).';
 $_SESSION['l10n']['en']['1ce37ac11de9deae4fd9788587c864c7']='Alert me when my pages are commented.';
 $_SESSION['l10n']['en']['8e0c74331fb5d7c82dbcff4e01f5d40b']='All user profiles have been updated.';
@@ -167,6 +166,7 @@ $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['3515afc9889ea713dd95ca369ae5d216']='Files can be modified only by their original authors, plus associates and owners.';
 $_SESSION['l10n']['en']['First name(s)']='First name(s)';
 $_SESSION['l10n']['en']['1169885c9e3a40bebae7aeb820ae460e']='First names followed by last names';
+$_SESSION['l10n']['en']['Follow this person']='Follow this person';
 $_SESSION['l10n']['en']['cf126c8beeba972970c5a32b846e54b8']='Following editors inherit from assignments at parent containers';
 $_SESSION['l10n']['en']['c4ee000af107ab80885b2ac1b34a715b']='Following items are attached to this record and will be deleted as well.';
 $_SESSION['l10n']['en']['163446b086f8add8a8b8e33171ddfbd0']='Following persons are connected to %s:';
@@ -228,6 +228,7 @@ $_SESSION['l10n']['en']['Lost password']='Lost password';
 $_SESSION['l10n']['en']['Mail to %s']='Mail to %s';
 $_SESSION['l10n']['en']['Manage contacts']='Manage contacts';
 $_SESSION['l10n']['en']['Manage editors']='Manage editors';
+$_SESSION['l10n']['en']['Manage your watch list']='Manage your watch list';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
 $_SESSION['l10n']['en']['Media']='Media';
 $_SESSION['l10n']['en']['Member']='Member';
@@ -371,6 +372,7 @@ $_SESSION['l10n']['en']['3f9fc69b76b166aa79071c4080371ea9']='Some hint on your l
 $_SESSION['l10n']['en']['Spam']='Spam';
 $_SESSION['l10n']['en']['Start a thread']='Start a thread';
 $_SESSION['l10n']['en']['Start a thread with %s']='Start a thread with %s';
+$_SESSION['l10n']['en']['Stop notifications']='Stop notifications';
 $_SESSION['l10n']['en']['Submission']='Submission';
 $_SESSION['l10n']['en']['Submissions']='Submissions';
 $_SESSION['l10n']['en']['Submit']='Submit';

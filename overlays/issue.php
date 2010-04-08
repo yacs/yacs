@@ -2,9 +2,15 @@
 /**
  * describe one issue
  *
- * @todo add a field to scope the case: cosmetic (issue with the interface), behaviour (functional issue), system-wide (critical issue)
+ * @todo add a field to scope the color: green (under control), orange (warning), red (critical)
  *
- * This overlay is aiming to track status of various kinds of issue, as per following workflow:
+ * This overlay is aiming to track status of various kinds of issue:
+ * - incident - issue has been submitted by an end-user that has a problem
+ * - maintenance - issue has been reported by the support team, because of a planned interruption
+ * - patch - issue is actually a suggestion to improve the service, for example, a new piece of software
+ * - feature - something new has to be created
+ *
+ * The overall workflow is the following:
  * [snippet]
  * on-going:suspect (create_date)
  *	 V
@@ -25,20 +31,133 @@
  * completed:solution (close_date)
  * [/snippet]
  *
- * The issue may be of one of following types:
- * - incident - issue has been submitted by an end-user that has a problem
- * - maintenance - issue has been reported by the support team, because of a planned interruption
- * - improvement - issue is actually a suggestion to improve the service, for example, a new piece of software
- * - development - something new has to be created
+ * Transition dates and attributes are recorded the same way in the database. However, labels
+ * used to describe transitions depend of the type of the issue. Also, not all steps are required
+ * to all types.
  *
- * In the overlay itself, saved along the article, only the last status and the related date are saved.
- * More descriptive data and dates are saved into the table [code]yacs_issues[/code].
+ * Label, status, progress, and title complement when type is 'feature':
+ * - on-going:suspect (create_date) - Feature request has been submitted - Submitted - 0%
+ * - cancelled:suspect (qualification_date) - Immediate solution has been provided - Closed - 100% - Cancelled
+ * - on-going:problem (qualification_date) - Feature request is valid - On-going - 20% - Validated
+ * - cancelled:problem (analysis_date) - No technical solution has been found - Closed - 100% - Rejected
+ * - on-going:issue (analysis_date) - Solution architecture has been documented - On-going - 50% - Analyzed
+ * - cancelled:issue (resolution_date) - No resource to work on the software - Closed - 100% - Rejected
+ * - on-going:solution (resolution_date) - A developer is working on this - On-going - 80% - Pending
+ * - cancelled:solution (close_date) - Software is available separately - Closed - 100% - Released
+ * - completed:solution (close_date) - Software has been fully integrated - Closed - 100% - Integrated
+ *
+ * Label, status, progress, and title complement when type is 'incident':
+ * - on-going:suspect (create_date) - Problem has been recorded - Opened - 0%
+ * - cancelled:suspect (qualification_date) - Immediate solution has been provided - Closed - 100% - Solved
+ * - on-going:problem (qualification_date) - Problem is valid and may be repeated - On-going - 20% - Validated
+ * - cancelled:problem (analysis_date) - No way to analyze the problem - Closed - 100% - Cancelled
+ * - on-going:issue (analysis_date) - Issue has been documented and cause has been identified - On-going - 50% - Analyzed
+ * - cancelled:issue (resolution_date) - No specific solution has been released - Closed - 100% - Solved
+ * - on-going:solution (resolution_date) - A solution has been made available - On-going - 80% - Solved
+ * - cancelled:solution (close_date) - Solution is available separately - Closed - 100% - Patched
+ * - completed:solution (close_date) - Solution has been fully integrated - Closed - 100% - Integrated
+ *
+ * Label, status, progress, and title complement when type is 'maintenance':
+ * - on-going:suspect (create_date) - Change is foreseen - Identified - 0%
+ * - cancelled:suspect (qualification_date) - Change can be avoided - Closed - 100% - Cancelled
+ * - on-going:problem (qualification_date) - Change request is valid - On-going - 20% - Confirmed
+ * - cancelled:problem (analysis_date) - N/A
+ * - on-going:issue (analysis_date) - N/A
+ * - cancelled:issue (resolution_date) - Change has been cancelled - Closed - 100% - Cancelled
+ * - on-going:solution (resolution_date) - Change has been initiated - On-going - 80% - Started
+ * - cancelled:solution (close_date) - Partial change has been achieved - Closed - 100% - Terminated
+ * - completed:solution (close_date) - Change has been fully completed - Closed - 100% - Completed
+ *
+ * Label, status, progress, and title complement when type is 'patch':
+ * - on-going:suspect (create_date) - Patch has been submittted - Submitted - 0%
+ * - cancelled:suspect (qualification_date) - Patch submission is not valid - Closed - 100% - Cancelled
+ * - on-going:problem (qualification_date) - Patch submission is valid - On-going - 20% - Validated
+ * - cancelled:problem (analysis_date) - Patch submission has been rejected - Closed - 100% - Rejected
+ * - on-going:issue (analysis_date) - Patch should be integrated - On-going - 50% - Analyzed
+ * - cancelled:issue (resolution_date) - No resource to work on the software - Closed - 100% - Rejected
+ * - on-going:solution (resolution_date) - A developer is working on this - On-going - 80% - Pending
+ * - cancelled:solution (close_date) - Software is available separately - Closed - 100% - Released
+ * - completed:solution (close_date) - Software has been fully integrated - Closed - 100% - Integrated
+ *
+ * This overlay saves a number of attributes in the side table [code]yacs_issues[/code].
  *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 class Issue extends Overlay {
+
+	/**
+	 * get radio buttons to change the color
+	 *
+	 * @param string the current color, if any
+	 * @return the HTML to insert in the page
+	 */
+	function get_color_as_radio_buttons($color='green') {
+		global $context;
+
+		$text = '<span style="background-color: '.self::get_color_value('green').';"> <input type="radio" name="color" value="green"';
+		if($color == 'green')
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('under control').' </span>'
+			.' <span style="background-color: '.self::get_color_value('orange').';"> <input type="radio" name="color" value="orange"';
+		if($color == 'orange')
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('abnormal resources are required')
+			.' </span> <span style="background-color: '.self::get_color_value('red').';"> <input type="radio" name="color" value="red"';
+		if($color == 'red')
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('stop everything else').'&nbsp;</span>';
+		return $text;
+	}
+
+	/**
+	 * get a label for a given color
+	 *
+	 * @param string the color
+	 * @return string the label to display
+	 */
+	function get_color_label($color) {
+		global $context;
+
+		switch($color) {
+		case 'green':
+		default:
+			return i18n::s('Green');
+
+		case 'orange':
+			return i18n::s('Orange');
+
+		case 'red':
+			return i18n::s('Red');
+
+		}
+
+	}
+
+	/**
+	 * get color value
+	 *
+	 * @param string the color
+	 * @return string the hexadecimal value
+	 */
+	function get_color_value($color) {
+		global $context;
+
+		switch($color) {
+		case 'green':
+		default:
+			return '#00FF00';
+
+		case 'orange':
+			return '#FAAC58';
+
+		case 'red':
+			return '#FA5858';
+
+		}
+
+	}
 
 	/**
 	 * build the list of fields for one overlay
@@ -62,11 +181,10 @@ class Issue extends Overlay {
 			if(!isset($this->attributes['type']))
 				$this->attributes['type'] = 'incident';
 
-			$label = i18n::s('Type');
+			$label = i18n::s('Workflow');
 			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
-			$hint = i18n::s('Select carefully the type of this issue');
 
-			$fields[] = array($label, $input, $hint);
+			$fields[] = array($label, $input);
 
 		}
 
@@ -99,14 +217,14 @@ class Issue extends Overlay {
 
 		// the creation step
 		if($row['create_date'] && ($row['create_date'] > NULL_DATE))
-			$text .= '<li>'.sprintf(i18n::s('%s %s by %s'), i18n::s('Submission'), Skin::build_date($row['create_date']), Users::get_link($row['create_name'], $row['create_address'], $row['create_id']))."</li>\n";
+			$text .= self::get_history_item(i18n::s('Submission'), $row['create_date'], $row['create_name'], $row['create_address'], $row['create_id']);
 
 		// all steps
 		$steps = array('cancelled:suspect', 'on-going:problem', 'cancelled:problem', 'on-going:issue', 'cancelled:issue', 'on-going:solution', 'cancelled:solution', 'completed:solution');
 
 		// the qualification step
 		if(in_array($this->attributes['status'], $steps) && $row['qualification_date'] && ($row['qualification_date'] > NULL_DATE))
-			$text .= '<li>'.sprintf(i18n::s('%s %s by %s'), i18n::s('Qualification'), Skin::build_date($row['qualification_date']), Users::get_link($row['qualification_name'], $row['qualification_address'], $row['qualification_id']))."</li>\n";
+			$text .= self::get_history_item(i18n::s('Qualification'), $row['qualification_date'], $row['qualification_name'], $row['qualification_address'], $row['qualification_id']);
 
 		// remove qualification
 		array_shift($steps);
@@ -114,7 +232,7 @@ class Issue extends Overlay {
 
 		// the analysis step
 		if(in_array($this->attributes['status'], $steps) && $row['analysis_date'] && ($row['analysis_date'] > NULL_DATE))
-			$text .= '<li>'.sprintf(i18n::s('%s %s by %s'), i18n::s('Analyzis'), Skin::build_date($row['analysis_date']), Users::get_link($row['analysis_name'], $row['analysis_address'], $row['analysis_id']))."</li>\n";
+			$text .= self::get_history_item(i18n::s('Analyzis'), $row['analysis_date'], $row['analysis_name'], $row['analysis_address'], $row['analysis_id']);
 
 		// remove analysis
 		array_shift($steps);
@@ -122,7 +240,7 @@ class Issue extends Overlay {
 
 		// the solution step
 		if(in_array($this->attributes['status'], $steps) && $row['resolution_date'] && ($row['resolution_date'] > NULL_DATE))
-			$text .= '<li>'.sprintf(i18n::s('%s %s by %s'), i18n::s('Resolution'), Skin::build_date($row['resolution_date']), Users::get_link($row['resolution_name'], $row['resolution_address'], $row['resolution_id']))."</li>\n";
+			$text .= self::get_history_item(i18n::s('Resolution'), $row['resolution_date'], $row['resolution_name'], $row['resolution_address'], $row['resolution_id']);
 
 		// remove resolution
 		array_shift($steps);
@@ -130,11 +248,25 @@ class Issue extends Overlay {
 
 		// the close step
 		if(in_array($this->attributes['status'], $steps) && $row['close_date'] && ($row['close_date'] > NULL_DATE))
-			$text .= '<li>'.sprintf(i18n::s('%s %s by %s'), i18n::s('Finalization'), Skin::build_date($row['close_date']), Users::get_link($row['close_name'], $row['close_address'], $row['close_id']))."</li>\n";
+			$text .= self::get_history_item(i18n::s('Finalization'), $row['close_date'], $row['close_name'], $row['close_address'], $row['close_id']);
 
 		if($text)
 			return "<ul>".$text."</ul>";
 		return NULL;
+	}
+
+	/**
+	 * build one history item
+	 */
+	function get_history_item($action, $date, $name, $address, $id) {
+		global $context;
+
+		if($name)
+			$text = sprintf(i18n::s('%s %s by %s'), $action, Skin::build_date($date), Users::get_link($name, $address, $id));
+		else
+			$text = sprintf(i18n::s('%s %s'), $action, Skin::build_date($date));
+
+		return '<li>'.$text."</li>\n";
 	}
 
 	/**
@@ -201,60 +333,161 @@ class Issue extends Overlay {
 
 		$text = $host['title'];
 
-		// live title
+		// just created
+		if($this->attributes['status'] == 'on-going:suspect')
+			return $text;
+
+		$text .= ' [';
+
 		switch($this->attributes['status']) {
 
-		case 'on-going:suspect':
-			break;
-
-		default:
-			$text .= ' [';
-
-			switch($this->attributes['status']) {
-
-			case 'on-going:suspect':
-			default:
-				$text .= i18n::s('Opened');
-				break;
-
-			case 'cancelled:suspect':
-				$text .= i18n::s('Solved');
-				break;
-
-			case 'on-going:problem':
-				$text .= i18n::s('Validated');
-				break;
-
-			case 'cancelled:problem':
+		case 'cancelled:suspect':
+			switch($this->attributes['type']) {
+			case 'feature':
 				$text .= i18n::s('Cancelled');
 				break;
-
-			case 'on-going:issue':
-				$text .= i18n::s('Analyzed');
-				break;
-
-			case 'cancelled:issue':
-				$text .= i18n::s('No solution');
-				break;
-
-			case 'on-going:solution':
+			case 'incident':
+			default:
 				$text .= i18n::s('Solved');
 				break;
-
-			case 'cancelled:solution':
-				$text .= i18n::s('Patch');
+			case 'maintenance':
+				$text .= i18n::s('Cancelled');
 				break;
+			case 'patch':
+				$text .= i18n::s('Cancelled');
+				break;
+			}
+			break;
 
-			case 'completed:solution':
+		case 'on-going:problem':
+			switch($this->attributes['type']) {
+			case 'feature':
+				$text .= i18n::s('Validated');
+				break;
+			case 'incident':
+			default:
+				$text .= i18n::s('Validated');
+				break;
+			case 'maintenance':
+				$text .= i18n::s('Confirmed');
+				break;
+			case 'patch':
+				$text .= i18n::s('Validated');
+				break;
+			}
+			break;
+
+		case 'cancelled:problem':
+			switch($this->attributes['type']) {
+			case 'feature':
+				$text .= i18n::s('Rejected');
+				break;
+			case 'incident':
+			default:
+				$text .= i18n::s('Cancelled');
+				break;
+			case 'maintenance':
+				$text .= 'N/A';
+				break;
+			case 'patch':
+				$text .= i18n::s('Rejected');
+				break;
+			}
+			break;
+
+		case 'on-going:issue':
+			switch($this->attributes['type']) {
+			case 'feature':
+				$text .= i18n::s('Analyzed');
+				break;
+			case 'incident':
+			default:
+				$text .= i18n::s('Analyzed');
+				break;
+			case 'maintenance':
+				$text .= 'N/A';
+				break;
+			case 'patch':
+				$text .= i18n::s('Analyzed');
+				break;
+			}
+			break;
+
+		case 'cancelled:issue':
+			switch($this->attributes['type']) {
+			case 'feature':
+				$text .= i18n::s('Rejected');
+				break;
+			case 'incident':
+			default:
+				$text .= i18n::s('Solved');
+				break;
+			case 'maintenance':
+				$text .= i18n::s('Cancelled');
+				break;
+			case 'patch':
+				$text .= i18n::s('Rejected');
+				break;
+			}
+			break;
+
+		case 'on-going:solution':
+			switch($this->attributes['type']) {
+			case 'feature':
+				$text .= i18n::s('Pending');
+				break;
+			case 'incident':
+			default:
+				$text .= i18n::s('Solved');
+				break;
+			case 'maintenance':
+				$text .= i18n::s('Started');
+				break;
+			case 'patch':
+				$text .= i18n::s('Pending');
+				break;
+			}
+			break;
+
+		case 'cancelled:solution':
+			switch($this->attributes['type']) {
+			case 'feature':
+				$text .= i18n::s('Released');
+				break;
+			case 'incident':
+			default:
+				$text .= i18n::s('Patched');
+				break;
+			case 'maintenance':
+				$text .= i18n::s('Terminated');
+				break;
+			case 'patch':
+				$text .= i18n::s('Released');
+				break;
+			}
+			break;
+
+		case 'completed:solution':
+			switch($this->attributes['type']) {
+			case 'feature':
 				$text .= i18n::s('Integrated');
 				break;
-
+			case 'incident':
+			default:
+				$text .= i18n::s('Integrated');
+				break;
+			case 'maintenance':
+				$text .= i18n::s('Completed');
+				break;
+			case 'patch':
+				$text .= i18n::s('Integrated');
+				break;
 			}
-
-			$text .= ']';
 			break;
 
 		}
+
+		$text .= ']';
 
 		// return by reference
 		return $text;
@@ -355,8 +588,18 @@ class Issue extends Overlay {
 			break;
 		}
 
+		// abnormal case
+		if(!isset($this->attributes['color']) || ($meter == 100))
+			$extra = '';
+		elseif($this->attributes['color'] == 'orange')
+			$extra = '-orange';
+		elseif($this->attributes['color'] == 'red')
+			$extra = '-red';
+		else
+			$extra = '';
+
 		// return
-		return '<img src="'.$context['url_to_root'].'overlays/issues/percent-'.$meter.'.png" alt="'.$meter.'%"/>';
+		return '<img src="'.$context['url_to_root'].'skins/_reference/overlays/percent-'.$meter.$extra.'.png" alt="'.$meter.'%"/>';
 	}
 
 	/**
@@ -373,31 +616,122 @@ class Issue extends Overlay {
 			return '';
 
 		case 'on-going:suspect':
-			return i18n::s('Problem has been recorded');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Feature request has been submitted');
+			case 'incident':
+			default:
+				return i18n::s('Problem has been recorded');
+			case 'maintenance':
+				return i18n::s('Change is foreseen');
+			case 'patch':
+				return i18n::s('Patch has been submitted');
+			}
 
 		case 'cancelled:suspect':
-			return i18n::s('Immediate solution has been provided');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Immediate solution has been provided');
+			case 'incident':
+			default:
+				return i18n::s('Immediate solution has been provided');
+			case 'maintenance':
+				return i18n::s('Change can be avoided');
+			case 'patch':
+				return i18n::s('Patch submission is not valid');
+			}
 
 		case 'on-going:problem':
-			return i18n::s('Problem is valid and may be repeated');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Feature request is valid');
+			case 'incident':
+			default:
+				return i18n::s('Problem is valid and may be repeated');
+			case 'maintenance':
+				return i18n::s('Change request is valid');
+			case 'patch':
+				return i18n::s('Patch submission is valid');
+			}
 
 		case 'cancelled:problem':
-			return i18n::s('No way to analyze the problem');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('No technical solution has been found');
+			case 'incident':
+			default:
+				return i18n::s('No way to analyze the problem');
+			case 'maintenance':
+				return 'N/A';
+			case 'patch':
+				return i18n::s('Patch submission has been rejected');
+			}
 
 		case 'on-going:issue':
-			return i18n::s('Issue has been documented and cause has been identified');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Solution architecture has been documented');
+			case 'incident':
+			default:
+				return i18n::s('Issue has been documented and cause has been identified');
+			case 'maintenance':
+				return 'N/A';
+			case 'patch':
+				return i18n::s('Patch should be integrated');
+			}
 
 		case 'cancelled:issue':
-			return i18n::s('No specific solution has been released');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('No resource to work on the software');
+			case 'incident':
+			default:
+				return i18n::s('No specific solution has been released');
+			case 'maintenance':
+				return i18n::s('Change has been cancelled');
+			case 'patch':
+				return i18n::s('No resource to work on the software');
+			}
 
 		case 'on-going:solution':
-			return i18n::s('A solution has been made available');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('A developer is working on this');
+			case 'incident':
+			default:
+				return i18n::s('A solution has been made available');
+			case 'maintenance':
+				return i18n::s('Change has been initiated');
+			case 'patch':
+				return i18n::s('A developer is working on this');
+			}
 
 		case 'cancelled:solution':
-			return i18n::s('Solution is available separately');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Software is available separately');
+			case 'incident':
+			default:
+				return i18n::s('Solution is available separately');
+			case 'maintenance':
+				return i18n::s('Partial change has been achieved');
+			case 'patch':
+				return i18n::s('Software is available separately');
+			}
 
 		case 'completed:solution':
-			return i18n::s('Change has been fully integrated');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Software has been fully integrated');
+			case 'incident':
+			default:
+				return i18n::s('Solution has been fully integrated');
+			case 'maintenance':
+				return i18n::s('Change has been fully completed');
+			case 'patch':
+				return i18n::s('Software has been fully integrated');
+			}
+
 		}
 	}
 
@@ -416,7 +750,22 @@ class Issue extends Overlay {
 
 		case 'on-going:suspect':
 		default:
-			return i18n::s('Opened');
+			switch($this->attributes['type']) {
+			case 'feature':
+				return i18n::s('Submitted');
+			case 'incident':
+			default:
+				return i18n::s('Opened');
+			case 'maintenance':
+				return i18n::s('Identified');
+			case 'patch':
+				return i18n::s('Submitted');
+			}
+
+		case 'on-going:problem':
+		case 'on-going:issue':
+		case 'on-going:solution':
+			return i18n::s('On-going');
 
 		case 'cancelled:suspect':
 		case 'cancelled:problem':
@@ -425,10 +774,6 @@ class Issue extends Overlay {
 		case 'completed:solution':
 			return i18n::s('Closed');
 
-		case 'on-going:problem':
-		case 'on-going:issue':
-		case 'on-going:solution':
-			return i18n::s('On-going');
 		}
 
 	}
@@ -465,27 +810,41 @@ class Issue extends Overlay {
 			// type
 			if(!isset($this->attributes['type']))
 				$this->attributes['type'] = 'incident';
-			$tracking .= '<div style="margin-bottom: 1em;">'.i18n::s('Type')
-				.' <select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>'
-				.BR.'<span class="small">'.i18n::s('Select carefully the type of this issue').'</span></div>';
+			if(!isset($this->attributes['color']))
+				$this->attributes['color'] = 'green';
+			$tracking .= '<div>'.i18n::s('Workflow')
+				.' <select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select></div>'
+				.'<div style="margin-top: 0.5em;" >'.i18n::s('Color').' '.self::get_color_as_radio_buttons($this->attributes['color']).'</div>';
 
-			// for easy detection of type change
-			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />';
+			// for easy detection of changes
+			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />'
+				.'<input type="hidden" name="previous_color" value="'.$this->attributes['color'].'" />';
+
+			// to represent transitions from one step to the next one
+			Skin::define_img('NEXT_STEP', 'overlays/next_step.gif', 'V');
 
 			// status
 			if(!isset($this->attributes['status']))
 				$this->attributes['status'] = 'on-going:suspect';
 
-			// step 1 - created
+			// create_date
 			if(!isset($host['create_date']) || !$host['create_date'])
 				$host['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$host['create_date'] = Surfer::from_GMT($host['create_date']);
-			$tracking .= '<div class="bottom">'.sprintf(i18n::s('Step 1 - Record has been created on %s'), Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'create_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
+			if($this->attributes['type'] == 'feature')
+				$label = i18n::s('Feature request has been created on %s');
+			elseif($this->attributes['type'] == 'patch')
+				$label = i18n::s('Patch has been submitted on %s');
+			else
+				$label = i18n::s('Page has been created on %s');
+			$tracking .= '<div class="bottom" style="margin-bottom: 1em;">'.sprintf($label, Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'create_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
 
-			// step 2 - qualified
+			$tracking .= NEXT_STEP;
+
+			// qualification_date
 			if(isset($this->attributes['qualification_date']))
 				$this->attributes['qualification_date'] = Surfer::from_GMT($this->attributes['qualification_date']);
-			$tracking .= '<div style="margin-top: 2em">'.sprintf(i18n::s('Step 2 - Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'qualification_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'qualification_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:problem'))
 				$checked = 'checked="checked"';
@@ -495,23 +854,39 @@ class Issue extends Overlay {
 				$checked = 'checked="checked"';
 			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:suspect" '.$checked.' />&nbsp;'.$this->get_status_label('cancelled:suspect').'</p></div>';
 
-			// step 3 - analyzed
-			if(isset($this->attributes['analysis_date']))
-				$this->attributes['analysis_date'] = Surfer::from_GMT($this->attributes['analysis_date']);
-			$tracking .= '<div style="margin-top: 2em">'.sprintf(i18n::s('Step 3 - Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'analysis_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
-				$checked = 'checked="checked"';
-			$tracking .= '<input type="radio" name="status" value ="on-going:issue" '.$checked.' />&nbsp;'.$this->get_status_label('on-going:issue');
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:problem'))
-				$checked = 'checked="checked"';
-			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:problem" '.$checked.' />&nbsp;'.$this->get_status_label('cancelled:problem').'</p></div>';
+			$tracking .= NEXT_STEP;
 
-			// step 4 - solved
+			// analysis_date, except for maintenance cases
+			if($this->attributes['type'] != 'maintenance') {
+
+				if(isset($this->attributes['analysis_date']))
+					$this->attributes['analysis_date'] = Surfer::from_GMT($this->attributes['analysis_date']);
+				$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'analysis_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+				$checked = '';
+				if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
+					$checked = 'checked="checked"';
+				$tracking .= '<input type="radio" name="status" value ="on-going:issue" '.$checked.' />&nbsp;'.$this->get_status_label('on-going:issue');
+				$checked = '';
+				if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:problem'))
+					$checked = 'checked="checked"';
+				$tracking .= BR.'<input type="radio" name="status" value ="cancelled:problem" '.$checked.' />&nbsp;'.$this->get_status_label('cancelled:problem').'</p></div>';
+
+				$tracking .= NEXT_STEP;
+
+			}
+
+			// resolution_date
 			if(isset($this->attributes['resolution_date']))
 				$this->attributes['resolution_date'] = Surfer::from_GMT($this->attributes['resolution_date']);
-			$tracking .= '<div style="margin-top: 2em">'.sprintf(i18n::s('Step 4 - Resolution has been finalized on %s'), Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'resolution_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			if($this->attributes['type'] == 'feature')
+				$label = i18n::s('Assignment has been finalized on %s');
+			elseif($this->attributes['type'] == 'maintenance')
+				$label = i18n::s('Change has been finalized on %s');
+			elseif($this->attributes['type'] == 'patch')
+				$label = i18n::s('Assignment has been finalized on %s');
+			else
+				$label = i18n::s('Resolution has been finalized on %s');
+			$tracking .= '<div style="margin-top: 1em">'.sprintf($label, Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'resolution_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:solution'))
 				$checked = 'checked="checked"';
@@ -521,10 +896,12 @@ class Issue extends Overlay {
 				$checked = 'checked="checked"';
 			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:issue" '.$checked.' />&nbsp;'.$this->get_status_label('cancelled:issue').'</p></div>';
 
-			// step 5 - closed
+			$tracking .= NEXT_STEP;
+
+			// close_date
 			if(isset($this->attributes['close_date']))
 				$this->attributes['close_date'] = Surfer::from_GMT($this->attributes['close_date']);
-			$tracking .= '<div style="margin-top: 2em">'.sprintf(i18n::s('Step 5 - Issue has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'close_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Case has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'close_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'completed:solution'))
 				$checked = 'checked="checked"';
@@ -574,18 +951,18 @@ class Issue extends Overlay {
 
 		switch($type) {
 
+		case 'feature':
+			return i18n::s('Feature request');
+
 		default:
 		case 'incident':
-			return i18n::s('Incident');
+			return i18n::s('Support request');
 
 		case 'maintenance':
-			return i18n::s('Maintenance');
+			return i18n::s('Planned change');
 
-		case 'improvement':
-			return i18n::s('Improvement');
-
-		case 'development':
-			return i18n::s('Development');
+		case 'patch':
+			return i18n::s('Patch submission');
 
 		}
 
@@ -602,9 +979,9 @@ class Issue extends Overlay {
 
 		$options = array();
 		$options['incident']	= self::get_type_label('incident');
+		$options['feature']	= self::get_type_label('feature');
+		$options['patch']	= self::get_type_label('patch');
 		$options['maintenance']	= self::get_type_label('maintenance');
-		$options['improvement']	= self::get_type_label('improvement');
-		$options['development']	= self::get_type_label('development');
 
 		$content = '';
 		foreach($options as $value => $label) {
@@ -628,7 +1005,7 @@ class Issue extends Overlay {
 		global $context;
 
 		if(!isset($this->attributes['type']))
-			return self::get_type_label('Incident');
+			return self::get_type_label('incident');
 
 		return self::get_type_label($this->attributes['type']);
 
@@ -651,7 +1028,7 @@ class Issue extends Overlay {
 		$rows = array();
 
 		// type
-		$rows[] = array(i18n::s('Type'), self::get_type_value());
+		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
 
 		// the status and history
 		$history = '';
@@ -696,7 +1073,9 @@ class Issue extends Overlay {
 	 */
 	function parse_fields($fields) {
 
+		$this->attributes['color'] = isset($fields['color']) ? $fields['color'] : 'green';
 		$this->attributes['owner'] = isset($fields['owner']) ? $fields['owner'] : '';
+		$this->attributes['previous_color'] = isset($fields['previous_color']) ? $fields['previous_color'] : 'green';
 		$this->attributes['previous_status'] = isset($fields['previous_status']) ? $fields['previous_status'] : 'on-going:suspect';
 		$this->attributes['previous_type'] = isset($fields['previous_type']) ? $fields['previous_type'] : 'incident';
 		$this->attributes['status'] = isset($fields['status']) ? $fields['status'] : 'on-going:suspect';
@@ -762,6 +1141,7 @@ class Issue extends Overlay {
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
 				."anchor='".SQL::escape(isset($host['self_reference']) ? $host['self_reference'] : '')."', \n"
 				."anchor_url='".SQL::escape(isset($host['self_url']) ? $host['self_url'] : '')."', \n"
+				."color='".SQL::escape($this->attributes['color'])."', \n"
 				."status='".SQL::escape($this->attributes['status'])."', \n"
 				."title='".SQL::escape($title)."', \n"
 				."type='".SQL::escape($this->attributes['type'])."', \n"
@@ -780,7 +1160,7 @@ class Issue extends Overlay {
 				."close_date='".SQL::escape(isset($this->attributes['close_date']) ? $this->attributes['close_date'] : NULL_DATE)."'";
 
 
-				$comments[] = i18n::s('Issue has been created');
+				$comments[] = i18n::s('Page has been created');
 
 			break;
 
@@ -791,7 +1171,11 @@ class Issue extends Overlay {
 
 				// detect type modification
 				if($this->attributes['type'] != $this->attributes['previous_type'])
-					$comments[] = sprintf(i18n::s('Type has been changed to "%s"'), $this->attributes['type']);
+					$comments[] = sprintf(i18n::s('Workflow has been changed to "%s"'), $this->get_type_label($this->attributes['type']));
+
+				// detect color modification
+				if($this->attributes['color'] != $this->attributes['previous_color'])
+					$comments[] = sprintf(i18n::s('Color has been changed to "%s"'), $this->get_color_label($this->attributes['color']));
 
 				// change host owner, if any
 				if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($target = Anchors::get($host['self_reference'])) && ($user['id'] != $target->get_value('owner_id'))) {
@@ -809,6 +1193,7 @@ class Issue extends Overlay {
 				$query = "UPDATE ".SQL::table_name('issues')." SET \n"
 					."anchor='".SQL::escape(isset($host['self_reference']) ? $host['self_reference'] : '')."', \n"
 					."anchor_url='".SQL::escape(isset($host['self_url']) ? $host['self_url'] : '')."', \n"
+					."color='".SQL::escape($this->attributes['color'])."', \n"
 					."status='".SQL::escape($this->attributes['status'])."', \n"
 					."title='".SQL::escape($title)."', \n"
 					."type='".SQL::escape($this->attributes['type'])."', \n"
@@ -824,13 +1209,13 @@ class Issue extends Overlay {
 					// depending of new status
 					switch($this->attributes['status']) {
 
-					// case has been recorded
+					// case has been recorded --should not happen
 					case 'on-going:suspect':
 						$query .= "create_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."create_id=".SQL::escape($this->attributes['edit_id']).", \n"
 							."create_address='".SQL::escape($this->attributes['edit_address'])."', \n";
 
-						$comments[] = i18n::s('Issue has been created');
+						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// problem has been validated
@@ -840,7 +1225,7 @@ class Issue extends Overlay {
 							."qualification_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."qualification_address='".SQL::escape($this->attributes['edit_address'])."', \n";
 
-						$comments[] = i18n::s('End of qualification');
+						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// cause has been identified
@@ -850,7 +1235,7 @@ class Issue extends Overlay {
 							."analysis_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."analysis_address='".SQL::escape($this->attributes['edit_address'])."', \n";
 
-						$comments[] = i18n::s('End of analysis');
+						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// solution has been achieved
@@ -860,7 +1245,7 @@ class Issue extends Overlay {
 							."resolution_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."resolution_address='".SQL::escape($this->attributes['edit_address'])."', \n";
 
-						$comments[] = i18n::s('End of resolution efforts');
+						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// ending the issue
@@ -870,7 +1255,7 @@ class Issue extends Overlay {
 							."close_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."close_address='".SQL::escape($this->attributes['edit_address'])."', \n";
 
-						$comments[] = i18n::s('Issue has been finalized');
+						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 					}
 
@@ -926,6 +1311,7 @@ class Issue extends Overlay {
 		$fields['close_id'] 	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['close_address']= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['close_date']	= "DATETIME";
+		$fields['color']		= "ENUM('green', 'orange', 'red') DEFAULT 'green' NOT NULL";
 		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// lead creation
 		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
@@ -948,7 +1334,7 @@ class Issue extends Overlay {
 			'on-going:issue', 'cancelled:issue',
 			'on-going:solution', 'cancelled:solution', 'completed:solution') DEFAULT 'on-going:suspect' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['type']		= "ENUM('incident', 'maintenance', 'improvement', 'development') DEFAULT 'incident' NOT NULL";
+		$fields['type']			= "ENUM('feature', 'incident', 'maintenance', 'patch') DEFAULT 'incident' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";

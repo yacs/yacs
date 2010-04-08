@@ -28,11 +28,6 @@ Class Layout_users_as_comma extends Layout_interface {
 		if(!$delta = SQL::count($result))
 			return $text;
 
-		// flag users updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// flag idle users
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
 

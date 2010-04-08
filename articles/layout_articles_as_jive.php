@@ -33,12 +33,6 @@ Class Layout_articles_as_jive extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag articles updated recently
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// start a table
 		$text .= Skin::table_prefix('jive');
 
@@ -89,11 +83,11 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$text .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$text .= ' '.EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$text .= ' '.NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$text .= ' '.UPDATED_FLAG;
 
 			// add details, if any

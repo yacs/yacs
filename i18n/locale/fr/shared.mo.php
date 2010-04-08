@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 21:38+0100
-PO-Revision-Date: 2010-03-10 09:54+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 23:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -79,7 +79,7 @@ $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
 $_SESSION['l10n']['fr']['e6236ced25bee095095728d9b2de9a4f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour ne plus recevoir d\'alertes automatiques merci de visiter la page et de cliquer sur le lien Arrêter les notifications.';
-$_SESSION['l10n']['fr']['f2eef2fdffa0e2a2c849b8b6e012c5c1']='Ce message a été généré automatiquement par %s car la page a été postée par un utilisateur qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Déconnecter.';
+$_SESSION['l10n']['fr']['3761f289e530ecec30478aaa67bc049f']='Ce message a été généré automatiquement par %s car la page a été postée par un utilisateur qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Arréter les notifications.';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';
 $_SESSION['l10n']['fr']['User']='Utilisateur';
@@ -91,6 +91,7 @@ $_SESSION['l10n']['fr']['View this decision']='Voir cette décision';
 $_SESSION['l10n']['fr']['XML error: %s at line %d']='Erreur XML : %s à la ligne %d';
 $_SESSION['l10n']['fr']['68e8557b5fa4d724688175816097ce17']='Vous pouvez envoyer du XHTML.';
 $_SESSION['l10n']['fr']['a38baa11f8dc11db9fde342db9db7f07']='Pour redevenir un surfeur anonyme';
+$_SESSION['l10n']['fr']['7ea4647a2b6b0aa4fcf0366700c46a2c']='Votre navigateur n\'accepte pas les iframes';
 $_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['and analyzed']='et analysée';
 $_SESSION['l10n']['fr']['and optimized']='et optimisée';

@@ -156,10 +156,9 @@ if(Surfer::is_crawler()) {
 				$where .= " OR categories.active='N'";
 
 			// only consider live categories
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$where = '('.$where.')'
 				.' AND ((categories.expiry_date is NULL)'
-				."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+				."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 			// limit the query to top level only
 			$query = "SELECT categories.id, categories.title "

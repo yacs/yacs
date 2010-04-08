@@ -182,16 +182,13 @@ Class Members {
 
 		$where .= ")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// always only consider published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
+			." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// count matching records
 		$query = "SELECT DISTINCT articles.id"
@@ -224,13 +221,10 @@ Class Members {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR sections.active='N'";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// only consider live sections
 		$where = "(".$where.") "
 			."AND ((sections.expiry_date is NULL) "
-				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// count matching sections
 		$query = "SELECT DISTINCT sections.id"
@@ -499,16 +493,13 @@ Class Members {
 
 		$where .= ")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// show only published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
+			." AND (articles.publish_date < '".$context['now']."')";
 
 		// strip dead pages
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid overlap with original articles in user profile
 		if(is_string($anchor) && preg_match('/user:(.+)$/i', $anchor, $matches))
@@ -605,16 +596,13 @@ Class Members {
 
 		$where .= ")";
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// see only published articles in categories
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
+			." AND (articles.publish_date < '".$context['now']."')";
 
 		// only consider live articles
 		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// the list of articles
 		$query = "SELECT articles.*"
@@ -660,9 +648,8 @@ Class Members {
 		$where = '('.$where.')';
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= " AND ((categories.expiry_date is NULL)"
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// scope is limited to one anchor
 		if($anchor)
@@ -726,9 +713,8 @@ Class Members {
 		$where = '('.$where.')';
 
 		// only consider live categories
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= " AND ((categories.expiry_date is NULL)"
-			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// avoid weekly and monthly publications in list of articles
 		if($variant == 'raw')
@@ -906,9 +892,8 @@ Class Members {
 		$where = '('.$where.')';
 
 		// only consider live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$where .= " AND ((sections.expiry_date is NULL)"
-			."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+			."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// the list of sections
 		$query = "SELECT sections.*"

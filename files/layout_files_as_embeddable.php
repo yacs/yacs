@@ -30,12 +30,6 @@ Class Layout_files_as_embeddable extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = '';
 
-		// flag files updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
@@ -81,17 +75,15 @@ Class Layout_files_as_embeddable extends Layout_interface {
 			$suffix .= $label;
 
 			// flag files uploaded recently
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
 
 			$suffix .= '</span>';
 
 			// details
 			$details = array();
-			if(Surfer::is_associate() && $item['nick_name'])
-				$details[] = '"'.$item['nick_name'].'"';
 			if(Surfer::is_logged() && $item['edit_name']) {
 				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 			}
@@ -116,7 +108,7 @@ Class Layout_files_as_embeddable extends Layout_interface {
 				$icon = Files::get_icon_url($item['file_name']);
 
 			// list all components for this item
-			$items[$url] = array($prefix, '_', $suffix, 'file', $icon, $hover);
+			$items[$url] = array($prefix, '_', $suffix, 'file', $icon);
 
 		}
 

@@ -36,11 +36,6 @@ Class Layout_decisions extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// flag decisions updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// process all items in the list
 		include_once $context['path_to_root'].'decisions/decisions.php';
 		while($item =& SQL::fetch($result)) {

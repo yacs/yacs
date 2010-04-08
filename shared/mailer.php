@@ -65,9 +65,11 @@ class Mailer {
 	 * @param string title of the target page
 	 * @param string link to the target page
 	 * @param int reason for notification
+	 * @param string title of the watched page
+	 * @param string link to the watched page
 	 * @return string text to be put in message
 	 */
-	function &build_notification($action, $title, $link, $reason=0) {
+	function &build_notification($action, $title, $link, $reason=0, $watch_title=NULL, $watch_link=NULL) {
 		global $context;
 
 		// decode action
@@ -92,14 +94,19 @@ class Mailer {
 		case 1: // you are watching the container
 			$reason = "\n\n"
 				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.'), $context['site_name']);
+
+			if($watch_title)
+				$reason .= "\n\n".$watch_title;
+			if($watch_link)
+				$reason .= "\n".$context['url_to_home'].$context['url_to_root'].$watch_link;
+
 			break;
 
 		case 2: // you are watching the poster
 			$reason = "\n\n"
-				.sprintf(i18n::c('This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
+				.sprintf(i18n::c('This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on Stop notifications.'), $context['site_name'])
 				."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-				."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
-				."\n\n";
+				."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
 			break;
 
 		}

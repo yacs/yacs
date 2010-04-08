@@ -32,12 +32,6 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			return $output;
 		}
 
-		// flag sections updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = strftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = strftime('%Y-%m-%d %H:%M:%S');
-
 		// we return some text
 		$text ='';
 
@@ -86,13 +80,13 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG;
 
 			// flag sections that are draft, dead, or created or updated very recently
-			if($item['activation_date'] >= $now)
+			if($item['activation_date'] >= $context['now'])
 				$prefix .= DRAFT_FLAG;
-			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
 
 			// details and content

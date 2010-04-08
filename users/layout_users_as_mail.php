@@ -28,12 +28,6 @@ Class Layout_users_as_mail extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag users updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// the script used to check all items at once
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_user_rows(handle) {'."\n"

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-15 23:34+0100
-PO-Revision-Date: 2008-11-02 23:18+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -78,7 +78,7 @@ $_SESSION['l10n']['en']['2be1d54d98311704480cb75da8aa9534']='The name or the IP 
 $_SESSION['l10n']['en']['dda86db9a2409f98e6e9438cbc5e6cd7']='This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API).';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $_SESSION['l10n']['en']['acd27d20c6abc6cc445b677d8046f973']='To integrate Google Maps to your server, %s and enter it here';
-$_SESSION['l10n']['en']['e7c7cad197343d10e84638209c847484']='To monitor your server with Google Analytics, %s and enter your Urchin account here';
+$_SESSION['l10n']['en']['5a363027fb4f6b0bede10ded8fcf46c8']='To monitor your server with Google Analytics, %s and enter your account here';
 $_SESSION['l10n']['en']['To spread updates']='To spread updates';
 $_SESSION['l10n']['en']['URI of the source page']='URI of the source page';
 $_SESSION['l10n']['en']['URI of the target page']='URI of the target page';

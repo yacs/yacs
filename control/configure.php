@@ -516,15 +516,15 @@ if(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// without Internet visibility
-	$label = i18n::s('Visibility');
+	$label = i18n::s('Internet connectivity');
 	$input = '<input type="radio" name="without_internet_visibility" value="N"';
 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public content may be processed by web crawlers and news aggregators.');
+	$input .= '/> '.i18n::s('Server is reachable from public web crawlers and news aggregators.');
 	$input .= BR.'<input type="radio" name="without_internet_visibility" value="Y"';
 	if(isset($context['without_internet_visibility']) && ($context['without_internet_visibility'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('This server can not be reached from the Internet.');
+	$input .= '/> '.i18n::s('Server is not connected to the Internet.');
 	$fields[] = array($label, $input);
 
 	// without outbound http

@@ -40,9 +40,6 @@ class Petition extends Overlay {
 			return FALSE;
 		}
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// vote is open
 		$open = FALSE;
 
@@ -51,7 +48,7 @@ class Petition extends Overlay {
 			$open = TRUE;
 
 		// vote has not ended yet
-		elseif($now < $this->attributes['end_date'])
+		elseif($context['now'] < $this->attributes['end_date'])
 			$open = TRUE;
 
 		// wait a minute
@@ -77,7 +74,7 @@ class Petition extends Overlay {
 
 		// feed-back to surfer
 		$information = array();
-		
+
 		// no end date
 		if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
 
@@ -103,16 +100,16 @@ class Petition extends Overlay {
 
 			if(!isset($this->attributes['voters']) || ($this->attributes['voters'] == 'members'))
 				$information[] = i18n::s('All members of the community are allowed to sign.');
-	
+
 			elseif($this->attributes['voters'] == 'editors')
 				$information[] = i18n::s('Editors of this section are allowed to sign.');
-	
+
 			elseif($this->attributes['voters'] == 'associates')
 				$information[] = i18n::s('Only associates are allowed to sign.');
-	
+
 			elseif($this->attributes['voters'] == 'custom')
 				$information[] = sprintf(i18n::s('Allowed: %s'), (isset($this->attributes['voter_list']) && trim($this->attributes['voter_list'])) ? $this->attributes['voter_list'] : i18n::s('(to be defined)') );
-			
+
 		}
 
 		// introduce the petition
@@ -213,7 +210,7 @@ class Petition extends Overlay {
 		// no match
 		return NULL;
 	}
-	
+
 	/**
 	 * text to come after page description
 	 *
@@ -228,9 +225,9 @@ class Petition extends Overlay {
 		// the text
 		$text = '';
 
-		// actually, a menu of commands		
+		// actually, a menu of commands
 		$menu = array();
-		
+
 		// list of all signatures
 		if($label = Decisions::get_results_label_for_anchor('article:'.$this->attributes['id']))
 			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers'));
@@ -249,7 +246,7 @@ class Petition extends Overlay {
 
 		// different for each surfer
 		Cache::poison();
-		
+
 		// get ballot
 		if($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))
 			$menu[] = Skin::build_link(Decisions::get_url($ballot), i18n::s('View your signature'), 'shortcut');

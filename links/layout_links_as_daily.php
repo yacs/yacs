@@ -25,11 +25,6 @@ Class Layout_links_as_daily extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag items updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// start in north
 		$in_north = TRUE;
 
@@ -74,7 +69,7 @@ Class Layout_links_as_daily extends Layout_interface {
 			$box['content'] .= Skin::build_link($item['link_url'], $label);
 
 			// flag links updated recently
-			if($item['edit_date'] >= $dead_line)
+			if($item['edit_date'] >= $context['fresh'])
 				$box['content'] .= ' '.NEW_FLAG;
 
 			// the description

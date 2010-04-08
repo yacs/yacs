@@ -46,12 +46,6 @@ Class Layout_articles_as_freemind extends Layout_interface {
 		if(isset($context['skins_freemind_article_style']) && $context['skins_freemind_article_style'])
 			$freemind_article_style = ' STYLE="'.$context['skins_freemind_article_style'].'"';
 
-		// flag articles updated recently
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
@@ -80,11 +74,11 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$prefix = $suffix = $rating = '';
 
 			// flag expired pages
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
 
 			// signal articles to be published
-			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $now))
+			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now']))
 				$prefix .= DRAFT_FLAG;
 
 			// signal restricted and private articles
@@ -111,7 +105,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$details = array();
 
 			// flag pages updated recently
-			if(($item['create_date'] >= $dead_line) || ($item['edit_date'] >= $dead_line))
+			if(($item['create_date'] >= $context['fresh']) || ($item['edit_date'] >= $context['fresh']))
 				$details[] = Skin::build_date($item['edit_date']);
 
 			// count related files, if any

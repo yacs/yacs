@@ -31,12 +31,6 @@ Class Layout_images_as_hits extends Layout_interface {
 		// we return an array of ($url => $attributes)
 		$items = array();
 
-		// flag images updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
@@ -47,7 +41,7 @@ Class Layout_images_as_hits extends Layout_interface {
 			$prefix = $suffix = '';
 
 			// flag new images
-			if($item['edit_date'] >= $dead_line)
+			if($item['edit_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
 
 			// image title or image name

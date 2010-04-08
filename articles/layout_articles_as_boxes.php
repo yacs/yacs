@@ -37,7 +37,6 @@ Class Layout_articles_as_boxes extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
@@ -65,11 +64,11 @@ Class Layout_articles_as_boxes extends Layout_interface {
 			$prefix = '';
 
 			// flag articles that are dead, or created or updated very recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
 
 			// signal articles to be published
-			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $now))
+			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now']))
 				$prefix .= DRAFT_FLAG;
 
 			// prefix the title

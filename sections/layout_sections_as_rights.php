@@ -49,12 +49,6 @@ Class Layout_sections_as_rights extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = Surfer::get_id();
 
-		// flag sections updated recently
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of sections
 		Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
 		$rows = array();
@@ -75,9 +69,9 @@ Class Layout_sections_as_rights extends Layout_interface {
 			// reset everything
 			$summary = $update = $owner = $editor = $watcher = '';
 
-			if($item['activation_date'] >= $now)
+			if($item['activation_date'] >= $context['now'])
 				$summary .= DRAFT_FLAG;
-			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$summary .= EXPIRED_FLAG;
 
 			// signal restricted and private sections
@@ -105,11 +99,11 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$summary .= ' '.LOCKED_FLAG;
 
 			// flag sections updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$summary .= ' '.EXPIRED_FLAG;
-			elseif($item['create_date'] >= $dead_line)
+			elseif($item['create_date'] >= $context['fresh'])
 				$summary .= ' '.NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$summary .= ' '.UPDATED_FLAG;
 
 			// insert overlay data, if any

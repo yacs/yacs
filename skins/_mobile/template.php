@@ -32,7 +32,7 @@ echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'
 if($context['page_title'])
 	echo '<title>'.strip_tags($context['page_title']).'</title>';
 else
-	echo '<title>'.strip-tags($context['site_name']).'</title>';
+	echo '<title>'.strip_tags($context['site_name']).'</title>';
 
 ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>

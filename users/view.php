@@ -926,11 +926,14 @@ if(!isset($item['id'])) {
 		// a link to toggle the connection
 		$link = Users::get_url('user:'.$item['id'], 'track');
 
-		// suggest a new connection
-		if(!Members::check('user:'.$item['id'], 'user:'.Surfer::get_id())) {
-			Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
-			$lines[] = Skin::build_link($link, USERS_WATCH_IMG.i18n::s('Add to my contacts'), 'feed');
-		}
+		// manage your watch list
+		if(Members::check('user:'.$item['id'], 'user:'.Surfer::get_id()))
+			$label = i18n::s('Stop notifications');
+		else
+			$label = i18n::s('Follow this person');
+
+		Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
+		$lines[] = Skin::build_link($link, USERS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
 
 	}
 

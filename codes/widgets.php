@@ -6,6 +6,7 @@
  * - &#91;newsfeed=url] - integrate a newsfeed dynamically
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
+ * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
  * - &#91;freemind] - a Freemind map of site content
  * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
  * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
@@ -80,6 +81,14 @@ $context['text'] .= '[title]'.i18n::s('Twitter search').' [escape][tsearch=&lt;k
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][tsearch=#yacs, 300, 200, subject: \'yacs\'][/escape]</td>'
 	.'<td>[tsearch=#yacs, 300, 200, subject: \'yacs\']</td></tr>'
+	.Skin::table_suffix();
+
+// [iframe]
+$context['text'] .= '[title]'.i18n::s('External page').' [escape][iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][iframe=500, 320]http://www.cisco.com/[/iframe][/escape]</td>'
+	.'<td>[iframe=500, 320]http://www.cisco.com/[/iframe]</td></tr>'
 	.Skin::table_suffix();
 
 // [freemind]

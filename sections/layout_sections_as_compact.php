@@ -43,12 +43,6 @@ Class Layout_sections_as_compact extends Layout_interface {
 		// we return an array of ($url => $attributes)
 		$items = array();
 
-		// flag sections updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
@@ -59,9 +53,9 @@ Class Layout_sections_as_compact extends Layout_interface {
 			$prefix = $label = $suffix = '';
 
 			// flag sections that are draft or dead
-			if($item['activation_date'] >= $now)
+			if($item['activation_date'] >= $context['now'])
 				$prefix .= DRAFT_FLAG;
-			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG;
 
 			// signal restricted and private sections
@@ -71,9 +65,9 @@ Class Layout_sections_as_compact extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG;
 
 			// flag items updated recently
-			if($item['create_date'] >= $dead_line)
+			if($item['create_date'] >= $context['fresh'])
 				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
 
 //			// start the label with family, if any

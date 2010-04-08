@@ -1287,24 +1287,21 @@ Class Comments {
 		// a dynamic where clause
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// provide published pages to anonymous surfers
 		if(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// only consider live articles for non-associates
 		if(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.expiry_date is NULL) "
-					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 		}
 
 		// if not associate, restrict to comments at public published not expired pages
@@ -1412,24 +1409,21 @@ Class Comments {
 		// a dynamic where clause
 		$where = '('.$where.')';
 
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
 		// provide published pages to anonymous surfers
 		if(!Surfer::is_logged()) {
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
+				." AND (articles.publish_date < '".$context['now']."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')))";
+				." AND (articles.publish_date < '".$context['now']."')))";
 		}
 
 		// only consider live articles for non-associates
 		if(!Surfer::is_empowered()) {
 			$where .= " AND ((articles.expiry_date is NULL) "
-					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+					."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 		}
 
 		// if not associate, restrict to comments at public published not expired pages

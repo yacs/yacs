@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-03-10 23:31+0100
-PO-Revision-Date: 2010-03-08 17:34+0100
+POT-Creation-Date: 2010-04-08 22:10+0200
+PO-Revision-Date: 2010-04-08 22:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -23,9 +23,10 @@ $_SESSION['l10n']['en'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
 $_SESSION['l10n']['en']['0f5610d966046e70e5f5a171e8fd4d76']='%d items in the list of noise words';
-$_SESSION['l10n']['en']['%d minute(s) at %s']='%d minute(s) at %s';
+$_SESSION['l10n']['en']['78b5fc7650c0c858929fd8892faa9895']='%d minute at %s'.chr(0).'%d minutes at %s';
+$_SESSION['l10n']['en']['c87f346c13c3ad1fc0eec62be4ff7e14']='%d person has asked for this file: %s'.chr(0).'%d persons have asked for this file: %s';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
-$_SESSION['l10n']['en']['%d second(s) at %s']='%d second(s) at %s';
+$_SESSION['l10n']['en']['a4963b67b00e63eb79e61e9ef25b45e5']='%d second at %s'.chr(0).'%d seconds at %s';
 $_SESSION['l10n']['en']['%s %s']='%s %s';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s at %s']='%s at %s';
@@ -97,7 +98,6 @@ $_SESSION['l10n']['en']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostv
 $_SESSION['l10n']['en']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['History']='History';
-$_SESSION['l10n']['en']['f5bde952210906492f614252dedd0b21']='If the Adobe plug-in reports an error, please save the file on some hard drive and use this local copy to launch the Acrobat software.';
 $_SESSION['l10n']['en']['2ab437e9863287d3b69b9e0cdc1f8024']='If you cannot upload files because of permissions settings, use the configuration panel for users to disable all uploads.';
 $_SESSION['l10n']['en']['c0ffaa282bf7024132b29f5544fb4df0']='If you have got this file from outside source, please describe it here';
 $_SESSION['l10n']['en']['a9dc0459a1fe4e8573e0046b4ba8e4bb']='If you have installed some BitTorrent client software, you may prefer click on the following torrent link: %s';

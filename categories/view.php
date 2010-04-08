@@ -298,8 +298,7 @@ if(!isset($item['id'])) {
 			$details[] = i18n::s('Is displayed at the front page, among other extra boxes');
 
 		// expired category
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Category has expired %s'), Skin::build_date($item['expiry_date']));
 
 		// display details, if any
