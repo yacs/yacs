@@ -2,8 +2,6 @@
 /**
  * describe one issue
  *
- * @todo add a field to scope the color: green (under control), orange (warning), red (critical)
- *
  * This overlay is aiming to track status of various kinds of issue:
  * - incident - issue has been submitted by an end-user that has a problem
  * - maintenance - issue has been reported by the support team, because of a planned interruption

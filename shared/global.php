@@ -1320,7 +1320,7 @@ function render_skin() {
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
 
-// load the page library
+	// load the page library
 	include_once $context['path_to_root'].'skins/page.php';
 
 	// load a template for this module -- php version

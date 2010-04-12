@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:37+0200
+POT-Creation-Date: 2010-04-12 21:01+0200
 PO-Revision-Date: 2010-04-08 22:37+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques

@@ -20,17 +20,6 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
-$files[] = 'overlays/issues/percent-0.png';
-$files[] = 'overlays/issues/percent-10.png';
-$files[] = 'overlays/issues/percent-20.png';
-$files[] = 'overlays/issues/percent-30.png';
-$files[] = 'overlays/issues/percent-40.png';
-$files[] = 'overlays/issues/percent-50.png';
-$files[] = 'overlays/issues/percent-60.png';
-$files[] = 'overlays/issues/percent-70.png';
-$files[] = 'overlays/issues/percent-80.png';
-$files[] = 'overlays/issues/percent-90.png';
-$files[] = 'overlays/issues/percent-100.png';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/boxesandarrows/boxesandarrows.css';

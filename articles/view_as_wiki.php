@@ -3,7 +3,7 @@
  * structure a wiki page, with comments in a separate tab
  *
  * This script is included into [script]articles/view.php[/script], when the
- * option is set to 'view_as_tabs'.
+ * option is set to 'view_as_wiki'.
  *
  * The basic structure is made of following panels:
  * - Information - with details, introduction, main text, files and links. This may be overloaded if required.

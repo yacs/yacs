@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-03-30 21:30+0100
+POT-Creation-Date: 2010-04-12 21:01+0200
+PO-Revision-Date: 2010-04-12 21:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -168,6 +168,7 @@ $_SESSION['l10n']['fr']['06d9e4c206406143dacc6f8817da36cb']='Si Windows Live Mes
 $_SESSION['l10n']['fr']['efb126c105b21e10827c1cc9dee2dd47']='Si le logiciel Yahoo Messenger est installé, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['0f101f2705e41bf38d8c7a809eb1edf1']='Si un logiciel IRC est installé, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['443e9b457e3e86748fe9c5170212b35b']='Si un logiciel Jabber est installé, cliquez pour ouvrir une session';
+$_SESSION['l10n']['fr']['26af37bd0f36de5aa69e636b6652bb1e']='Si vous choisissez une image, elle sera affichée à la place du titre. ';
 $_SESSION['l10n']['fr']['39f83f6f820616dfcee4ed2ef8283ca6']='L\'image sera alignée en fonction du suffixe de son nom, comme décrit dans la table suivante.';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de copier le fichier %s.';

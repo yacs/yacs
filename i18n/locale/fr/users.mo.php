@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-04-08 23:01+0100
+PO-Revision-Date: 2010-04-09 23:46+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -505,6 +505,6 @@ $_SESSION['l10n']['fr']['query form']='formulaire de requête';
 $_SESSION['l10n']['fr']['registered %s']='enregistré %s';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['unassign']='retirer';
-$_SESSION['l10n']['fr']['would like to use it']='voudrait l\'utiliser';
+$_SESSION['l10n']['fr']['would like to use it']='je voudrais l\'utiliser.';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

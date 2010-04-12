@@ -817,7 +817,7 @@ elseif(!Surfer::is_associate()) {
 	$text = '<div style="height:120px; width: 98%; border: 1px solid #ccc; padding: 0; margin: 0 0 1em 0; position:relative; overflow: hidden;"><div id="h_sample"><p id="ht_sample" style="position: absolute; top: 20px; left: 10px"><span id="hx_sample">'.$context['site_name'].'</span><img id="hi_sample" /></p><p id="hs_sample" style="position: absolute; top: 40px; left: 10px">'.$context['site_slogan'].'</p></div></div>';
 
 	// logo image
-	$text .= Skin::build_folded_box(i18n::s('Logo'), image_helper('flexible_header_t_logo', 'hi_sample', 'skins/flexible/logos', 'hx_sample')
+	$text .= Skin::build_folded_box(i18n::s('Logo'), i18n::s('If you select an image, it will replace the display of the textual title.').BR.image_helper('flexible_header_t_logo', 'hi_sample', 'skins/flexible/logos', 'hx_sample')
 		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=logos', i18n::s('Add a file'), 'span'));
 
 	// font

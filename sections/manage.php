@@ -101,9 +101,9 @@ if(isset($item['anchor']) && $item['anchor'])
 
 // which action?
 $action = NULL;
-if(isset($_REQUEST['act_on_articles']) && $_REQUEST['act_on_articles'])
+if(isset($_REQUEST['act_on_articles']) && ($_REQUEST['act_on_articles'][0] != '-'))
 	$action = $_REQUEST['act_on_articles'];
-elseif(isset($_REQUEST['act_on_sections']) && $_REQUEST['act_on_sections'])
+elseif(isset($_REQUEST['act_on_sections']) && ($_REQUEST['act_on_sections'][0] != '-'))
 	$action = $_REQUEST['act_on_sections'];
 elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 	$action = $_REQUEST['action'];

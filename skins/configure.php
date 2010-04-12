@@ -579,7 +579,7 @@ elseif(!Surfer::is_associate()) {
 
 	// icons
 	$label = i18n::s('Icons');
-	if(!isset($context['classes_for_icon_images']) || !$context['classes_for_icon_images'])
+	if(!isset($context['classes_for_icon_images']))
 		$context['classes_for_icon_images'] = 'reflect rheight10';
 	$input = i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_icon_images" size="15" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
@@ -590,7 +590,7 @@ elseif(!Surfer::is_associate()) {
 		$context['avatar_width'] = 80;
 	if(!isset($context['avatar_height']) || !$context['avatar_height'])
 		$context['avatar_height'] = 80;
-	if(!isset($context['classes_for_avatar_images']) || !$context['classes_for_avatar_images'])
+	if(!isset($context['classes_for_avatar_images']))
 		$context['classes_for_avatar_images'] = 'reflect rheight20';
 	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />',
@@ -604,7 +604,7 @@ elseif(!Surfer::is_associate()) {
 		$context['standard_width'] = 640;
 	if(!isset($context['standard_height']) || !$context['standard_height'])
 		$context['standard_height'] = 640;
-	if(!isset($context['classes_for_large_images']) || !$context['classes_for_large_images'])
+	if(!isset($context['classes_for_large_images']))
 		$context['classes_for_large_images'] = 'reflect rheight10';
 	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5" />',
@@ -618,7 +618,7 @@ elseif(!Surfer::is_associate()) {
 		$context['thumbnail_width'] = 60;
 	if(!isset($context['thumbnail_height']) || !$context['thumbnail_height'])
 		$context['thumbnail_height'] = 60;
-	if(!isset($context['classes_for_thumbnail_images']) || !$context['classes_for_thumbnail_images'])
+	if(!isset($context['classes_for_thumbnail_images']))
 		$context['classes_for_thumbnail_images'] = '';
 	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
 		$context['thumbnail_threshold'] = 20480;

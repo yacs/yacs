@@ -21,6 +21,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 $files = array();
 $files[] = 'control/htaccess/basic/.htaccess';
+$files[] = 'included/jscalendar/lang/calendar-fr.js';
 $files[] = 'skins/_reference/files/gantt_icon.gif';
 $files[] = 'skins/_reference/overlays/next_step.gif';
 $files[] = 'skins/_reference/overlays/percent-0-orange.png';

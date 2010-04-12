@@ -329,14 +329,14 @@ if(!isset($item['collection']) || !$item['collection']) {
 							$target_url = 'stream.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path'].'/'.$node));
 
 						// change title for subsequent links
-						$trailer = ' <a href="'.$target_url.'" title="'.i18n::s('Start a play-on-demand session').'">'.$bullets['sound'].'</a>';
+// 						$trailer = ' <a href="'.$target_url.'" title="'.i18n::s('Start a play-on-demand session').'">'.$bullets['sound'].'</a>';
 
 						// also allow for download
-						$download_url = $item['actual_url'].'/'.rawurlencode($node);
-						$trailer .= ' <a href="'.$download_url.'" title="'.i18n::s('Download this file').'">'.$bullets['download'].'</a>';
+						$target_url = $item['actual_url'].'/'.rawurlencode($node);
+						$trailer = ' <a href="'.$target_url.'" title="'.i18n::s('Download this file').'">'.$bullets['download'].'</a>';
 
-					// stream video
-					} elseif(Files::is_video_stream($node)) {
+					// this is a video video
+					} elseif(preg_match('/\.(3gp|asf|avi|flv|mkv|mp4|m4v|mov|mp4|mpg|wmv)$/i', $node)) {
 
 						// parse file content, and streamline information
 						$data = array();
@@ -382,11 +382,11 @@ if(!isset($item['collection']) || !$item['collection']) {
 							$target_url = 'stream.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_url'].'/'.$node));
 
 						// insist on streaming
-						$suffix = ' <a href="'.$target_url.'" title="'.i18n::s('Start a video-on-demand session').'">'.$bullets['movie'].'</a>';
+// 						$suffix = ' <a href="'.$target_url.'" title="'.i18n::s('Start a video-on-demand session').'">'.$bullets['movie'].'</a>';
 
 						// also allow for download
-						$download_url = $item['actual_url'].'/'.rawurlencode($node);
-						$suffix .= ' <a href="'.$download_url.'" title="'.i18n::s('Download this file').'">'.$bullets['download'].'</a>';
+						$target_url = $item['actual_url'].'/'.rawurlencode($node);
+						$suffix .= ' <a href="'.$target_url.'" title="'.i18n::s('Download this file').'">'.$bullets['movie'].'</a>';
 
 					// else link directly to the file
 					} else {

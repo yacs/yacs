@@ -161,16 +161,11 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 			break;
 
-		case 'asf':
-		case 'avi':
-		case 'divx':
-		case 'mkv':
+		case '3gp':
+		case 'flv':
+		case 'm4v':
 		case 'mov':
 		case 'mp4':
-		case 'mpe':
-		case 'mpeg':
-		case 'mpg':
-		case 'vob':
 			// we are returning a .m3u
 			$type = 'm3u';
 			$mime = 'audio/x-mpegurl';
@@ -229,7 +224,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		//
 
 		// if we have a valid redirector
-		if($type && $mime && $text) {
+		if($mime && $text) {
 
 			// no encoding, no compression and no yacs handler...
 			if(!headers_sent()) {
@@ -238,7 +233,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 			}
 
 			// suggest a download
-			if(!headers_sent()) {
+			if(!headers_sent() && isset($type)) {
 				$file_name = utf8::to_ascii($id.'.'.$type);
 				Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 			}

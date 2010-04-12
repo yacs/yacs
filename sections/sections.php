@@ -2009,10 +2009,6 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
-		// list hidden sections to associates, editors and subscribers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
 		// include managed sections
 		if($my_sections = Surfer::assigned_sections()) {
 			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
