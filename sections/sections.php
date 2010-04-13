@@ -1003,7 +1003,9 @@ Class Sections {
 			$where .= " OR sections.active='R'";
 
 		// include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
+		if(Surfer::is_associate())
+			$where .= " OR sections.active='N'";
+		elseif($my_sections = Surfer::assigned_sections()) {
 			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
 			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 		}
@@ -2010,7 +2012,9 @@ Class Sections {
 			$where .= " OR sections.active='R'";
 
 		// include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
+		if(Surfer::is_associate())
+			$where .= " OR sections.active='N'";
+		elseif($my_sections = Surfer::assigned_sections()) {
 			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
 			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 		}
