@@ -2410,9 +2410,8 @@ Class Sections {
 		else
 			$fields['active'] = $fields['active_set'];
 
-		// create a random handle for this section
-		if(!isset($fields['handle']) || !$fields['handle'])
-			$fields['handle'] = md5(mt_rand());
+		// always create a random handle for this section
+		$fields['handle'] = md5(mt_rand());
 		$handle = "handle='".SQL::escape($fields['handle'])."',";
 
 		// allow anonymous surfer to access this section during his session

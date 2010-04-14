@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
+POT-Creation-Date: 2010-04-14 22:54+0200
 PO-Revision-Date: 2010-04-08 22:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -28,7 +28,6 @@ $_SESSION['l10n']['en']['c87f346c13c3ad1fc0eec62be4ff7e14']='%d person has asked
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['a4963b67b00e63eb79e61e9ef25b45e5']='%d second at %s'.chr(0).'%d seconds at %s';
 $_SESSION['l10n']['en']['%s %s']='%s %s';
-$_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s at %s']='%s at %s';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
@@ -42,7 +41,6 @@ $_SESSION['l10n']['en']['Additional extensions']='Additional extensions';
 $_SESSION['l10n']['en']['Adobe web server']='Adobe web server';
 $_SESSION['l10n']['en']['All files']='All files';
 $_SESSION['l10n']['en']['13747571934a2f1255e4febc2cdfc21b']='Allow other persons to update this file';
-$_SESSION['l10n']['en']['75b652e3c70511a910d5ba8fdfe88194']='Also, take the time to describe your post. This field is fully indexed for searches.';
 $_SESSION['l10n']['en']['Alternate link']='Alternate link';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Apple web server']='Apple web server';
@@ -113,7 +111,6 @@ $_SESSION['l10n']['en']['Keywords']='Keywords';
 $_SESSION['l10n']['en']['Keywords: %s']='Keywords: %s';
 $_SESSION['l10n']['en']['LaTeX']='LaTeX';
 $_SESSION['l10n']['en']['Last action']='Last action';
-$_SESSION['l10n']['en']['ea35a387e3e096843e3a972cc9998916']='Lastly, indicate the original source of the file if you know it, either with a name or, better, with a web address.';
 $_SESSION['l10n']['en']['Less downloaded files']='Less downloaded files';
 $_SESSION['l10n']['en']['e6546034f92007b1997e44de29b5b3f2']='List extensions you would like to support, separated by spaces or commas.';
 $_SESSION['l10n']['en']['Local path']='Local path';
@@ -148,7 +145,6 @@ $_SESSION['l10n']['en']['1cdd6622263afc815074f3c7faed3a2c']='Paste here complica
 $_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['Play']='Play';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
-$_SESSION['l10n']['en']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Please set a meaningful title to be used instead of the file name in lists of files.';
 $_SESSION['l10n']['en']['Podcast']='Podcast';
 $_SESSION['l10n']['en']['Popular']='Popular';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
@@ -217,7 +213,6 @@ $_SESSION['l10n']['en']['278d07f7dafd5749bb1bdd201beb6bf0']='While every care ha
 $_SESSION['l10n']['en']['Who is allowed to access?']='Who is allowed to access?';
 $_SESSION['l10n']['en']['Winamp']='Winamp';
 $_SESSION['l10n']['en']['Wireshark']='Wireshark';
-$_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['Yes, I want to delete this file']='Yes, I want to delete this file';
 $_SESSION['l10n']['en']['dc9672b38c98e137196b78dcd0bae847']='Yes, and following parameters are used for the mapping to the FTP service.';
 $_SESSION['l10n']['en']['14b3e3c01c07f3c4fdde2610740cf640']='You are about to download a %s file.';
@@ -298,7 +293,6 @@ $_SESSION['l10n']['en']['release reservation']='release reservation';
 $_SESSION['l10n']['en']['reserve']='reserve';
 $_SESSION['l10n']['en']['reserved by %s %s']='reserved by %s %s';
 $_SESSION['l10n']['en']['reserved by you %s']='reserved by you %s';
-$_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['ultimatezip']='ultimatezip';
 $_SESSION['l10n']['en']['update']='update';
 $_SESSION['l10n']['en']['upload an updated version']='upload an updated version';

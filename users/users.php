@@ -1336,9 +1336,8 @@ Class Users {
 		$query[] = "from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."'";
 		$query[] = "full_name='".SQL::escape(isset($fields['full_name']) ? $fields['full_name'] : '')."'";
 
-		// create a handle for this user
-		if(!isset($fields['handle']) || !trim($fields['handle']))
-			$fields['handle'] = md5(rand());
+		// always create a handle for this user
+		$fields['handle'] = md5(rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
 		$query[] = "icq_address='".SQL::escape(isset($fields['icq_address']) ? $fields['icq_address'] : '')."'";

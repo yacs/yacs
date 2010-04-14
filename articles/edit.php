@@ -955,9 +955,9 @@ if($with_form) {
 		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 
 		// combine this with inherited access right
-		if(isset($item['active']) && ($item['active'] == 'N'))
+		if(is_object($anchor) && $anchor->is_hidden())
 			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
-		elseif(isset($item['active']) && ($item['active'] != 'Y'))
+		elseif(is_object($anchor) && !$anchor->is_public())
 			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
 		else
 			$hint = i18n::s('Who is allowed to access?');

@@ -244,10 +244,6 @@ class Anchors {
 		include_once $context['path_to_root'].'tables/tables.php';
 		Tables::duplicate_for_anchor($from_anchor, $to_anchor);
 
-		// duplicate related versions
-		include_once $context['path_to_root'].'versions/versions.php';
-		Versions::duplicate_for_anchor($from_anchor, $to_anchor);
-
 		// duplicate memberships for this anchor
 		Members::duplicate_for($from_anchor, $to_anchor);
 

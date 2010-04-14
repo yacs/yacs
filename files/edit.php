@@ -600,9 +600,9 @@ if($with_form) {
 		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 
 		// combine this with inherited access right
-		if(isset($item['active']) && ($item['active'] == 'N'))
+		if(is_object($anchor) && $anchor->is_hidden())
 			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
-		elseif(isset($item['active']) && ($item['active'] != 'Y'))
+		elseif(is_object($anchor) && !$anchor->is_public())
 			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
 		else
 			$hint = i18n::s('Who is allowed to access?');
@@ -673,13 +673,6 @@ if($with_form) {
 		.'// set the focus on first form field'."\n"
 		.'$("upload").focus();'."\n"
 		.JS_SUFFIX."\n";
-
-	// general help on this form
-	$help = '<p>'.i18n::s('Please set a meaningful title to be used instead of the file name in lists of files.').'</p>'
-		.'<p>'.i18n::s('Also, take the time to describe your post. This field is fully indexed for searches.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
-		.'<p>'.i18n::s('Lastly, indicate the original source of the file if you know it, either with a name or, better, with a web address.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

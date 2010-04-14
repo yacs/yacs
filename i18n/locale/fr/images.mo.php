@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-10-05 00:05+0100
+PO-Revision-Date: 2010-04-14 21:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -78,7 +78,7 @@ $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties 
 $_SESSION['l10n']['fr']['Please provide an archive file.']='Merci de choisir le fichier archive à téléverser.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['16f90961d2f522242b4ab751e6de2bf0']='Merci de choisir une vignette pour cette page.';
-$_SESSION['l10n']['fr']['fce930068166cb1cb2bf32f92187f249']='Choisissez une image pour illustrer cette page. Vous pouvez préférer le %s si vous souhaitez téléversez plusieurs images en une seule opération.';
+$_SESSION['l10n']['fr']['fce930068166cb1cb2bf32f92187f249']='Choisissez une image pour illustrer cette page. Vous pouvez préférer le %s si vous souhaitez transmettre plusieurs images en une seule opération.';
 $_SESSION['l10n']['fr']['d1aeca581bb0be803f575ba9614b4c59']='Merci de choisir une image pour illustrer ce profil utilisateur';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';

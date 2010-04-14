@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
+POT-Creation-Date: 2010-04-14 22:54+0200
 PO-Revision-Date: 2010-04-08 22:43+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -28,7 +28,6 @@ $_SESSION['l10n']['fr']['c87f346c13c3ad1fc0eec62be4ff7e14']='%d personne a deman
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['a4963b67b00e63eb79e61e9ef25b45e5']='%d seconde à %s'.chr(0).'%d secondes à %s';
 $_SESSION['l10n']['fr']['%s %s']='%s %s';
-$_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
@@ -42,7 +41,6 @@ $_SESSION['l10n']['fr']['Additional extensions']='Extensions additionnelles';
 $_SESSION['l10n']['fr']['Adobe web server']='serveur d\'Adobe';
 $_SESSION['l10n']['fr']['All files']='Tous les fichiers';
 $_SESSION['l10n']['fr']['13747571934a2f1255e4febc2cdfc21b']='Permettre à d\'autres personnes de modifier ce fichier';
-$_SESSION['l10n']['fr']['75b652e3c70511a910d5ba8fdfe88194']='Et prenez le temps de décrire votre envoi. Le champ de description est complètement indexé afin de faciliter les recherches plein texte.';
 $_SESSION['l10n']['fr']['Alternate link']='Lien alternatif';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
@@ -113,7 +111,6 @@ $_SESSION['l10n']['fr']['Keywords']='Mots-clés';
 $_SESSION['l10n']['fr']['Keywords: %s']='Mots-clés : %s';
 $_SESSION['l10n']['fr']['LaTeX']='LaTeX';
 $_SESSION['l10n']['fr']['Last action']='Dernière action';
-$_SESSION['l10n']['fr']['ea35a387e3e096843e3a972cc9998916']='Enfin, donnez quelques indications sur l\'origine de l\'information publiée si vous la connaissez; soit par un nom soit par une adresse Internet.';
 $_SESSION['l10n']['fr']['Less downloaded files']='Fichiers les moins téléchargés';
 $_SESSION['l10n']['fr']['e6546034f92007b1997e44de29b5b3f2']='Lister les extensions à ajouter, séparées par des espaces ou des virgules.';
 $_SESSION['l10n']['fr']['Local path']='Chemin d\'accès local';
@@ -148,7 +145,6 @@ $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la réf�
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['Play']='Jouer';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
-$_SESSION['l10n']['fr']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Merci d\'indiquer un titre significatif, qui sera utilisé en lieu et place du nom du fichier dans les listes.';
 $_SESSION['l10n']['fr']['Podcast']='Podcast';
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
@@ -217,7 +213,6 @@ $_SESSION['l10n']['fr']['278d07f7dafd5749bb1bdd201beb6bf0']='Bien que nous ayons
 $_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['Winamp']='Winamp';
 $_SESSION['l10n']['fr']['Wireshark']='Wireshark';
-$_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['Yes, I want to delete this file']='Oui, je veux réellement supprimer ce fichier';
 $_SESSION['l10n']['fr']['dc9672b38c98e137196b78dcd0bae847']='Oui, et les paramètres suivants sont utilisés pour le service FTP.';
 $_SESSION['l10n']['fr']['14b3e3c01c07f3c4fdde2610740cf640']='Vous êtes sur le point de télécharger un fichier %s.';
@@ -298,7 +293,6 @@ $_SESSION['l10n']['fr']['release reservation']='annuler la réservation';
 $_SESSION['l10n']['fr']['reserve']='réserver';
 $_SESSION['l10n']['fr']['reserved by %s %s']='réservé par %s %s';
 $_SESSION['l10n']['fr']['reserved by you %s']='réservé par vous %s';
-$_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['ultimatezip']='ultimatezip';
 $_SESSION['l10n']['fr']['update']='modifier';
 $_SESSION['l10n']['fr']['upload an updated version']='télécharger une version mise à jour';

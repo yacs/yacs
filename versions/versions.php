@@ -135,53 +135,6 @@ Class Versions {
 	}
 
 	/**
-	 * duplicate all versions for a given anchor
-	 *
-	 * This function duplicates records in the database, and changes anchors
-	 * to attach new records as per second parameter.
-	 *
-	 * @param string the source anchor
-	 * @param string the target anchor
-	 * @return int the number of duplicated records
-	 *
-	 * @see shared/anchors.php
-	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
-		global $context;
-
-		// look for records attached to this anchor
-		$count = 0;
-		$query = "SELECT * FROM ".SQL::table_name('versions')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
-
-			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
-
-				// a new id will be allocated
-				$old_id = $item['id'];
-				unset($item['id']);
-
-				// actual duplication
-				if($new_id = Versions::save($item, $anchor_to)) {
-
-					// duplicate elements related to this item
-					Anchors::duplicate_related_to('version:'.$old_id, 'version:'.$new_id);
-
-					// stats
-					$count++;
-				}
-			}
-
-			// clear the cache for versions
-			Cache::clear(array('versions', 'version:'));
-
-		}
-
-		// number of duplicated records
-		return $count;
-	}
-
-	/**
 	 * get one version by id
 	 *
 	 * Unserialize $item['content'] to actually retrieve version content.

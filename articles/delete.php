@@ -43,7 +43,7 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// owners can proceed
+// the surfer can proceed
 if(Articles::allow_deletion($item, $anchor)) {
 	Surfer::empower();
 	$permitted = TRUE;

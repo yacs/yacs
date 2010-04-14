@@ -140,7 +140,7 @@ Class Layout_files extends Layout_interface {
 			$details[] = Skin::build_link(Files::get_permalink($item), i18n::s('details'), 'span', i18n::s('View file details'));
 
 			// delete the file
-			if((is_object($anchor) && $anchor->is_owned()) || Surfer::is_associate())
+			if(Files::allow_deletion($item, $anchor))
 				$details[] = Skin::build_link(Files::get_url($item['id'], 'delete'), i18n::s('delete'), 'span', i18n::s('Drop file content'));
 
 			// append the menu, if any

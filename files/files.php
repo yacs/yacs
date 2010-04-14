@@ -240,6 +240,51 @@ Class Files {
 	}
 
 	/**
+	 * check if a file can be deleted
+	 *
+	 * This function returns TRUE if the file can be deleted,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target file
+	 * @param object an instance of the Anchor interface
+	 * @return TRUE or FALSE
+	 */
+	function allow_deletion($item, $anchor) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			return FALSE;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns the container
+		if(is_object($anchor) && $anchor->is_owned())
+			return TRUE;
+
+		// allow container editors --not subscribers-- to manage content, except on private sections
+		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// the file is anchored to the profile of this member
+		if(Surfer::get_id() && is_object($anchor) && !strcmp($anchor->get_reference(), 'user:'.Surfer::get_id()))
+			return TRUE;
+
+		// surfer has created the file
+		if(isset($item['create_id']) && Surfer::is($item['create_id']))
+			return TRUE;
+
+		// surfer has changed the file
+		if(isset($item['edit_id']) && Surfer::is($item['edit_id']))
+			return TRUE;
+
+		// default case
+		return FALSE;
+	}
+
+	/**
 	 * assign the file to a member
 	 *
 	 * When a surfer downloads a file for explicit modification,
@@ -2152,6 +2197,174 @@ Class Files {
 	}
 
 	/**
+	 * search for some keywords in all files
+	 *
+	 * Only files matching following criteria are returned:
+	 * - file is visible (active='Y')
+	 * - file is restricted (active='R'), but surfer is a logged user
+	 * - file is restricted (active='N'), but surfer is an associate
+	 *
+	 * @param string searched tokens
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	function &search($pattern, $offset=0, $count=50, $variant='search') {
+		global $context;
+
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+
+		// limit the scope of the request
+		$where = "files.active='Y'";
+		if(Surfer::is_member())
+			$where .= " OR files.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR files.active='N'";
+		$where = '('.$where.')';
+
+		// match
+		$match = '';
+		$words = preg_split('/\s/', $pattern);
+		while($word = each($words)) {
+			if($match)
+				$match .= ' AND ';
+			$match .=  "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($word['value'])."')";
+		}
+
+		// the list of files
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE ".$where." AND $match"
+			." ORDER BY files.edit_date DESC"
+			." LIMIT ".$offset.','.$count;
+
+		$output =& Files::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * create tables for files
+	 */
+	function setup() {
+		global $context;
+
+		$fields = array();
+		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['alternate_href']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
+		$fields['assign_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['assign_date']	= "DATETIME";
+		$fields['assign_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['assign_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['behaviors']	= "TEXT NOT NULL";
+		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['create_date']	= "DATETIME";
+		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_date']	= "DATETIME";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['file_href']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['file_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['file_size']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['keywords'] 	= "TEXT NOT NULL";
+		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+
+		$indexes = array();
+		$indexes['PRIMARY KEY'] 		= "(id)";
+		$indexes['INDEX active']		= "(active)";
+		$indexes['INDEX anchor']		= "(anchor)";
+		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
+		$indexes['INDEX anchor_type']	= "(anchor_type)";
+		$indexes['INDEX create_date']	= "(create_date)";
+		$indexes['INDEX create_id'] 	= "(create_id)";
+		$indexes['INDEX edit_date'] 	= "(edit_date)";
+		$indexes['INDEX edit_id']		= "(edit_id)";
+		$indexes['INDEX file_size'] 	= "(file_size)";
+		$indexes['INDEX hits']			= "(hits)";
+		$indexes['INDEX title'] 		= "(title(255))";
+		$indexes['FULLTEXT INDEX']		= "full_text(title, source, description, keywords)";
+
+		return SQL::setup_table('files', $fields, $indexes);
+	}
+
+	/**
+	 * get some statistics for all files
+	 *
+	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
+	 *
+	 * @see files/index.php
+	 */
+	function &stat() {
+		global $context;
+
+		// limit the scope of the request
+		$where = "(files.active='Y'";
+		if(Surfer::is_member())
+			$where .= " OR files.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR files.active='N'";
+		$where .= ")";
+
+		// select among available items
+		$query = "SELECT COUNT(*) as count, MIN(files.edit_date) as oldest_date, MAX(files.edit_date) as newest_date"
+			.", SUM(file_size) as total_size"
+			." FROM ".SQL::table_name('files')." AS files WHERE ".$where;
+
+		$output =& SQL::query_first($query);
+		return $output;
+	}
+
+	/**
+	 * get some statistics for one anchor
+	 *
+	 * @param the selected anchor (e.g., 'article:12')
+	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
+	 */
+	function &stat_for_anchor($anchor) {
+		global $context;
+
+		// sanity check
+		if(!$anchor)
+			return NULL;
+
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('files::stat_for_anchor');
+
+		// limit the scope of the request
+		$where = "files.active='Y'";
+		if(Surfer::is_member())
+			$where .= " OR files.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR files.active='N'";
+
+		// select among available items
+		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
+			.", SUM(file_size) as total_size"
+			." FROM ".SQL::table_name('files')." AS files"
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
+
+		$output =& SQL::query_first($query);
+		return $output;
+	}
+
+	/**
 	 * adapt GanttProject file to SIMILE Timeline format
 	 *
 	 * @param string file location
@@ -2426,174 +2639,6 @@ Class Files {
 		// some error has occured
 		return FALSE;
 
-	}
-
-	/**
-	 * search for some keywords in all files
-	 *
-	 * Only files matching following criteria are returned:
-	 * - file is visible (active='Y')
-	 * - file is restricted (active='R'), but surfer is a logged user
-	 * - file is restricted (active='N'), but surfer is an associate
-	 *
-	 * @param string searched tokens
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 */
-	function &search($pattern, $offset=0, $count=50, $variant='search') {
-		global $context;
-
-		// sanity check
-		if(!$pattern = trim($pattern)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_member())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
-
-		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($word['value'])."')";
-		}
-
-		// the list of files
-		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE ".$where." AND $match"
-			." ORDER BY files.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
-
-		$output =& Files::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * create tables for files
-	 */
-	function setup() {
-		global $context;
-
-		$fields = array();
-		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
-		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
-		$fields['alternate_href']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
-		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
-		$fields['assign_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['assign_date']	= "DATETIME";
-		$fields['assign_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
-		$fields['assign_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['behaviors']	= "TEXT NOT NULL";
-		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['create_date']	= "DATETIME";
-		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['description']	= "TEXT NOT NULL";
-		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['edit_date']	= "DATETIME";
-		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['file_href']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['file_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['file_size']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['keywords'] 	= "TEXT NOT NULL";
-		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-
-		$indexes = array();
-		$indexes['PRIMARY KEY'] 		= "(id)";
-		$indexes['INDEX active']		= "(active)";
-		$indexes['INDEX anchor']		= "(anchor)";
-		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
-		$indexes['INDEX anchor_type']	= "(anchor_type)";
-		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
-		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
-		$indexes['INDEX file_size'] 	= "(file_size)";
-		$indexes['INDEX hits']			= "(hits)";
-		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']		= "full_text(title, source, description, keywords)";
-
-		return SQL::setup_table('files', $fields, $indexes);
-	}
-
-	/**
-	 * get some statistics for all files
-	 *
-	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
-	 *
-	 * @see files/index.php
-	 */
-	function &stat() {
-		global $context;
-
-		// limit the scope of the request
-		$where = "(files.active='Y'";
-		if(Surfer::is_member())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where .= ")";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(files.edit_date) as oldest_date, MAX(files.edit_date) as newest_date"
-			.", SUM(file_size) as total_size"
-			." FROM ".SQL::table_name('files')." AS files WHERE ".$where;
-
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for one anchor
-	 *
-	 * @param the selected anchor (e.g., 'article:12')
-	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
-	 */
-	function &stat_for_anchor($anchor) {
-		global $context;
-
-		// sanity check
-		if(!$anchor)
-			return NULL;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('files::stat_for_anchor');
-
-		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_member())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
-			.", SUM(file_size) as total_size"
-			." FROM ".SQL::table_name('files')." AS files"
-			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
-
-		$output =& SQL::query_first($query);
-		return $output;
 	}
 
 }

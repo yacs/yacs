@@ -109,6 +109,12 @@ if(!isset($item['id'])) {
 	unset($item['edit_id']);
 	unset($item['edit_name']);
 
+	// page will have to be published after modification
+	unset($item['publish_address']);
+	unset($item['publish_date']);
+	unset($item['publish_id']);
+	unset($item['publish_name']);
+
 	// ensure this is a copy
 	$item['title'] = sprintf(i18n::s('Copy of %s'), $item['title']);
 

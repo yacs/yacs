@@ -563,8 +563,11 @@ if(Surfer::is_crawler()) {
 				unset($article['edit_id']);
 				unset($article['edit_name']);
 
-				// change the handle
-				unset($article['handle']);
+				// page will have to be published after modification
+				unset($article['publish_address']);
+				unset($article['publish_date']);
+				unset($article['publish_id']);
+				unset($article['publish_name']);
 
 				// ensure this is a copy
 				$article['title'] = sprintf(i18n::s('Copy of %s'), $article['title']);

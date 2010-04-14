@@ -45,16 +45,13 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// the item is anchored to the profile of this member
-if(Surfer::get_id() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// associates and authenticated owners can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// the surfer can proceed
+if(Files::allow_deletion($item, $anchor)) {
+	Surfer::empower();
 	$permitted = TRUE;
 
 // the default is to deny access
-else
+} else
 	$permitted = FALSE;
 
 // load the skin, maybe with a variant
