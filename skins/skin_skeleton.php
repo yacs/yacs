@@ -9,6 +9,7 @@
  * @link http://www.joemaller.com script to protect e-mail addresses from spam
  *
  * @author Bernard Paques
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -124,11 +125,12 @@ Class Skin_Skeleton {
 	 * @param the variant, if any
 	 * @param string a unique object id, if any
 	 * @param mixed rendering parameters, if any
+	 * @param string optionnal triggers - ie: onclick="alert('hello');"
 	 * @return string the rendered text
 	 *
 	 * @see shared/codes.php
 	**/
-	function &build_block($text, $variant='', $id='', $options=NULL) {
+	function &build_block($text, $variant='', $id='', $options=NULL, $triggers='') {
 		global $context;
 
 		if($context['with_profile'] == 'Y')
@@ -148,6 +150,9 @@ Class Skin_Skeleton {
 		// make the id explicit
 		if($id)
 			$id = ' id="'.$id.'" ';
+			
+    // add optionnal triggers (onclick, ...)
+    $id .= $triggers;
 
 		// depending on variant
 		switch($variant) {
