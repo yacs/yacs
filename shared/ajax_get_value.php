@@ -23,17 +23,7 @@ if ($anchor && $anchor->is_viewable()) {
   if ($_REQUEST['key']=='descr') $key = 'description';
   else $key = $_REQUEST['key'];
   
-  // get the related overlay, if any
-  $overlay = NULL;
-  if(isset($record['overlay']))
-  	$overlay = Overlay::load($record);
-
-	if(is_object($overlay))
-		$value = $overlay->get_text($key, $record);
-	else
-		$value = $record[$key];
-
-  echo $value;
+	echo $record[$key];
 }
 else
   echo '';
