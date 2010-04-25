@@ -14,7 +14,7 @@ include_once $context['path_to_root'].'overlays/overlay.php';
 
 $anchor =& Anchors::get($_REQUEST['current_anchor']);
 
-if ($anchor) {
+if ($anchor && $anchor->is_viewable()) {
 
   $class = $_REQUEST['current_anchor_class'];
   include_once $context['path_to_root'].$class.'/'.$class.'.php';
