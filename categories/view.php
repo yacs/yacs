@@ -379,41 +379,19 @@ if(!isset($item['id'])) {
 	// else expose full details
 	} else {
 
-    // inPlaceRichEditor scripts
-    if(Surfer::is_empowered()) {
-      // load the TinyMCE script -- see shared/global.php
-    	$context['javascript']['tinymce'] = TRUE;
-    // inPlaceRichEditor
-      $context['page_footer'] .= "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'included/inplacericheditor/inplacericheditor.js"></script>'."\n";
-
-      $text .= '<script type="text/javascript">'."\n";
-      $text .= '//<![CDATA['."\n";
-      $text .= 'var areas = new Array();'."\n";
-      $text .= 'function kill_area(area) { if(area[area]) { areas[area].destroy(); areas[area] = null;}}'."\n";
-      $text .= 'function edit_area(area) { '."\n";
-      $text .= '  if (!areas[area]) {'."\n";
-      $text .= '    areas[area] = new Ajax.InPlaceRichEditor($(area), \''.$context['url_to_root'].'shared/ajax_record_db.php?key=\'+area+\'&current_anchor_class=categories&current_anchor=category:'.$_REQUEST['id'].'\', {
-        okText:\'Enregistrer\',cancelText:\'Annuler\',savingText:\'Enregistrement en cours...\',cancelControl:\'button\',onComplete: kill_area(\'+area+\'), loadTextURL: \''.$context['url_to_root'].'shared/ajax_get_value.php?key=\'+area+\'&current_anchor_class=categories&current_anchor=category:'.$_REQUEST['id'].'\'}, tinyMCE.settings);'."\n";
-      $text .= '    return false;'."\n";
-      $text .= '  }'."\n";
-      $text .= '}'."\n";
-      $text .= '//]]>'."\n";
-      $text .= '</script>'."\n";
-    }
-    
 		// insert anchor prefix
 		if(is_object($anchor))
 			$text .= $anchor->get_prefix();
 
 		// the introduction text, if any
-		$text .= Skin::build_block($item['introduction'], 'introduction', 'introduction', null, Surfer::is_empowered()?'onclick="edit_area(\'introduction\');"':'');
+		$text .= Skin::build_block($item['introduction'], 'introduction', 'category:'.$item['id']);
 
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$text .= $overlay->get_text('view', $item);
 
 		// the description, which is the actual page body
-		$text .= Skin::build_block($item['description'], 'description', 'description', null, Surfer::is_empowered()?'onclick="edit_area(\'description\');"':'');
+		$text .= Skin::build_block($item['description'], 'description', 'category:'.$item['id']);
 
 		// add trailer information from the overlay, if any
 		if(is_object($overlay))

@@ -126,8 +126,8 @@
  *
  * @author Bernard Paques
  * @author GnapZ
- * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Fw_crocodile
+ * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Elrik
  * @tester Viviane Zaniroli
  * @tester Fernand Le Chien
@@ -953,36 +953,14 @@ if(!isset($item['id'])) {
 	// else expose full details
 	else {
 
-    // inPlaceRichEditor scripts
-    if(Surfer::is_empowered()) {
-      // load the TinyMCE script -- see shared/global.php
-    	$context['javascript']['tinymce'] = TRUE;
-    // inPlaceRichEditor
-      $context['page_footer'] .= "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'included/inplacericheditor/inplacericheditor.js"></script>'."\n";
-
-      $text .= '<script type="text/javascript">'."\n";
-      $text .= '//<![CDATA['."\n";
-      $text .= 'var areas = new Array();'."\n";
-      $text .= 'function kill_area(area) { if(area[area]) { areas[area].destroy(); areas[area] = null;}}'."\n";
-      $text .= 'function edit_area(area) { '."\n";
-      $text .= '  if (!areas[area]) {'."\n";
-      $text .= '    areas[area] = new Ajax.InPlaceRichEditor($(area), \''.$context['url_to_root'].'shared/ajax_record_db.php?key=\'+area+\'&current_anchor_class=sections&current_anchor=section:'.$_REQUEST['id'].'\', {
-        okText:\'Enregistrer\',cancelText:\'Annuler\',savingText:\'Enregistrement en cours...\',cancelControl:\'button\',onComplete: kill_area(\'+area+\'), loadTextURL: \''.$context['url_to_root'].'shared/ajax_get_value.php?key=\'+area+\'&current_anchor_class=sections&current_anchor=section:'.$_REQUEST['id'].'\'}, tinyMCE.settings);'."\n";
-      $text .= '    return false;'."\n";
-      $text .= '  }'."\n";
-      $text .= '}'."\n";
-      $text .= '//]]>'."\n";
-      $text .= '</script>'."\n";
-    }
-
 		// only at the first page
 		if($page == 1) {
 
 			// the introduction text, if any
 			if(is_object($overlay))
-				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction', 'introduction', null, Surfer::is_empowered()?'onclick="edit_area(\'introduction\');"':'');
+				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction', 'section:'.$item['id']);
 			elseif(isset($item['introduction']) && trim($item['introduction']))
-				$text .= Skin::build_block($item['introduction'], 'introduction', 'introduction', null, Surfer::is_empowered()?'onclick="edit_area(\'introduction\');"':'');
+				$text .= Skin::build_block($item['introduction'], 'introduction', 'section:'.$item['id']);
 
 			// get text related to the overlay, if any
 			if(is_object($overlay))
@@ -1013,7 +991,7 @@ if(!isset($item['id'])) {
 				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
 
 			// beautify the target page
-			$text .= Skin::build_block($description, 'description', 'description', $item['options'], Surfer::is_empowered()?'onclick="edit_area(\'description\');"':'');
+			$text .= Skin::build_block($description, 'description', 'section:'.$item['id'], $item['options']);
 
 			// if there are several pages, add navigation commands to browse them
 			if(count($pages) > 1) {
