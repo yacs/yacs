@@ -188,9 +188,10 @@ Class Skin_Skeleton {
         require_once($context['path_to_root'].'shared/anchors.php');
         $anchor = Anchors::get($bloc_id);
       }
-      if (is_object($anchor) && $anchor->is_assigned()) {
+      if (is_object($anchor)) {
         $id = ' id="description_'.$bloc_id.'"';
-        $id .= ' onclick="edit_area(\'description\',\''.$bloc_id.'\');"';
+        if($anchor->is_assigned())
+          $id .= ' onclick="edit_area(\'description\',\''.$bloc_id.'\');"';
       }
 			if($text)
 				$text = '<div class="description"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
@@ -238,9 +239,10 @@ Class Skin_Skeleton {
         require_once($context['path_to_root'].'shared/anchors.php');
         $anchor = Anchors::get($bloc_id);
       }
-      if (is_object($anchor) && $anchor->is_assigned()) {
+      if (is_object($anchor)) {
         $id = ' id="introduction_'.$bloc_id.'"';
-        $id .= ' onclick="edit_area(\'introduction\',\''.$bloc_id.'\');"';
+        if($anchor->is_assigned())
+          $id .= ' onclick="edit_area(\'introduction\',\''.$bloc_id.'\');"';
       }
 			if($text)
 				$text = '<div class="introduction"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
@@ -257,9 +259,10 @@ Class Skin_Skeleton {
         require_once($context['path_to_root'].'shared/anchors.php');
         $anchor = Anchors::get($bloc_id);
       }
-      if (is_object($anchor) && $anchor->is_assigned()) {
+      if (is_object($anchor)) {
         $id = ' id="title_'.$bloc_id.'"';
-        $id .= ' onclick="edit_area(\'title\',\''.$bloc_id.'\');"';
+        if($anchor->is_assigned())
+          $id .= ' onclick="edit_area(\'title\',\''.$bloc_id.'\');"';
       }
 			if($text)
 				$text = '<h1'.$id.'><span>'.Codes::beautify_title($text)."</span></h1>\n";
