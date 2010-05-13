@@ -384,14 +384,14 @@ if(!isset($item['id'])) {
 			$text .= $anchor->get_prefix();
 
 		// the introduction text, if any
-		$text .= Skin::build_block($item['introduction'], 'introduction', 'category:'.$item['id']);
+		$text .= Skin::build_block($item['introduction'], 'introduction');
 
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$text .= $overlay->get_text('view', $item);
 
 		// the description, which is the actual page body
-		$text .= Skin::build_block($item['description'], 'description', 'category:'.$item['id']);
+		$text .= Skin::build_block($item['description'], 'description');
 
 		// add trailer information from the overlay, if any
 		if(is_object($overlay))

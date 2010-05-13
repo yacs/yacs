@@ -141,18 +141,6 @@
  * Else, which is the default, image title is added to thumbnail as caption.
  *
  *
- * Parameters for Google Map:
- *
- * [*] [code]skins_gmap_default_width[/code] - Width of embedded
- * google maps. Default is "500px".
- *
- * [*] [code]skins_gmap_default_height[/code] - Height of embedded
- * google maps. Default is "300px".
- *
- * [*] [code]skins_gmap_default_scale[/code] - Scale of embedded
- * google maps. Default is "5".
- *
- *
  * Parameters for freemind:
  *
  * [*] [code]pages_without_freemind[/code] - Do not feature links to download
@@ -654,31 +642,6 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	$images .= '<p class="details">'.i18n::s('YACS uses the GD module of PHP to resize large pictures, and to create thumbnail images.')."</p>\n";
-	
-	// google map parameters
-	$gmap = '';
-	if (!isset($context['skins_gmap_default_width']))
-    $context['skins_gmap_default_width'] = '500px';
-	if (!isset($context['skins_gmap_default_height']))
-    $context['skins_gmap_default_height'] = '300px';
-	$label = i18n::s('Map Size');
-	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_gmap_default_width" size="8" value="'.encode_field($context['skins_gmap_default_width']).'" maxlength="10" />')
-		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_gmap_default_height" size="8" value="'.encode_field($context['skins_gmap_default_height']).'" maxlength="10" />');
-	$hint = i18n::s('Width and height of Google Maps.');
-	$fields[] = array($label, $input, $hint);
-
-	if (!isset($context['skins_gmap_default_scale']))
-    $context['skins_gmap_default_scale'] = '5';
-
-	$label = i18n::s('Map Scale');
-	$input = sprintf(i18n::s('Scale: %s'), '<input type="text" name="skins_gmap_default_scale" size="8" value="'.encode_field($context['skins_gmap_default_scale']).'" maxlength="10" />');
-	$hint = i18n::s('Scale of Google Maps.');
-	$fields[] = array($label, $input, $hint);
-
-	// build the form
-	$gmap .= Skin::build_form($fields);
-	$fields = array();
-
 
 	//
 	// handling freemind
@@ -774,7 +737,6 @@ elseif(!Surfer::is_associate()) {
 		array('search', i18n::s('Search'), 'search_panel', $search),
 		array('options', i18n::s('Options'), 'options_panel', $options),
 		array('images', i18n::s('Images'), 'images_panel', $images),
-		array('gmap', i18n::s('Google Map'), 'gmap_panel', $gmap),
 		array('freemind', i18n::s('Freemind'), 'freemind_panel', $freemind)
 		);
 
@@ -874,12 +836,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_freemind_article_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_article_bgcolor'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_color']) && $_REQUEST['skins_freemind_article_color'])
 		$content .= '$context[\'skins_freemind_article_color\']=\''.addcslashes($_REQUEST['skins_freemind_article_color'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_gmap_default_height']) && $_REQUEST['skins_gmap_default_height'])
-		$content .= '$context[\'skins_gmap_default_height\']=\''.addcslashes($_REQUEST['skins_gmap_default_height'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_gmap_default_width']) && $_REQUEST['skins_gmap_default_width'])
-		$content .= '$context[\'skins_gmap_default_width\']=\''.addcslashes($_REQUEST['skins_gmap_default_width'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_gmap_default_scale']) && $_REQUEST['skins_gmap_default_scale'])
-		$content .= '$context[\'skins_gmap_default_scale\']=\''.addcslashes($_REQUEST['skins_gmap_default_scale'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_style']) && $_REQUEST['skins_freemind_article_style'])
 		$content .= '$context[\'skins_freemind_article_style\']=\''.addcslashes($_REQUEST['skins_freemind_article_style'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_canvas_height']) && $_REQUEST['skins_freemind_canvas_height'])

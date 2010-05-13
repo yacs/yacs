@@ -9,7 +9,6 @@
  * @link http://www.joemaller.com script to protect e-mail addresses from spam
  *
  * @author Bernard Paques
- * @author Christophe Battarel
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -123,16 +122,15 @@ Class Skin_Skeleton {
 	 *
 	 * @param mixed the text, or an array of strings
 	 * @param the variant, if any
-	 * @param string a unique object id, if any (pass the anchor to enable inplacericheditor)
+	 * @param string a unique object id, if any
 	 * @param mixed rendering parameters, if any
 	 * @return string the rendered text
 	 *
 	 * @see shared/codes.php
 	**/
-	function &build_block($text, $variant='', $bloc_id='', $options=NULL) { 
+	function &build_block($text, $variant='', $id='', $options=NULL) {
 		global $context;
-    $anchor = null; // for inline editor
-    
+
 		if($context['with_profile'] == 'Y')
 			Logger::profile('Skin::build_block', 'start');
 
@@ -148,8 +146,8 @@ Class Skin_Skeleton {
 		$text = trim($text);
 
 		// make the id explicit
-		if($bloc_id)
-			$id = ' id="'.$bloc_id.'" ';
+		if($id)
+			$id = ' id="'.$id.'" ';
 
 		// depending on variant
 		switch($variant) {
@@ -184,15 +182,6 @@ Class Skin_Skeleton {
 			break;
 
 		case 'description':
-      if ($bloc_id) {
-        require_once($context['path_to_root'].'shared/anchors.php');
-        $anchor = Anchors::get($bloc_id);
-      }
-      if (is_object($anchor)) {
-        $id = ' id="description_'.$bloc_id.'"';
-        if($anchor->is_assigned())
-          $id .= ' onclick="edit_area(\'description\',\''.$bloc_id.'\');"';
-      }
 			if($text)
 				$text = '<div class="description"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
 			break;
@@ -235,15 +224,6 @@ Class Skin_Skeleton {
 			break;
 
 		case 'introduction':
-      if ($bloc_id) {
-        require_once($context['path_to_root'].'shared/anchors.php');
-        $anchor = Anchors::get($bloc_id);
-      }
-      if (is_object($anchor)) {
-        $id = ' id="introduction_'.$bloc_id.'"';
-        if($anchor->is_assigned())
-          $id .= ' onclick="edit_area(\'introduction\',\''.$bloc_id.'\');"';
-      }
 			if($text)
 				$text = '<div class="introduction"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
 			break;
@@ -255,15 +235,6 @@ Class Skin_Skeleton {
 			break;
 
 		case 'page_title':
-      if ($bloc_id) {
-        require_once($context['path_to_root'].'shared/anchors.php');
-        $anchor = Anchors::get($bloc_id);
-      }
-      if (is_object($anchor)) {
-        $id = ' id="title_'.$bloc_id.'"';
-        if($anchor->is_assigned())
-          $id .= ' onclick="edit_area(\'title\',\''.$bloc_id.'\');"';
-      }
 			if($text)
 				$text = '<h1'.$id.'><span>'.Codes::beautify_title($text)."</span></h1>\n";
 			break;
@@ -329,30 +300,6 @@ Class Skin_Skeleton {
 			break;
 
 		}
-		
-    // inPlaceRichEditor scripts
-    if (is_object($anchor) && $anchor->is_assigned() && !$context['javascript']['inplacericheditor']) {
-      // load the TinyMCE script -- see shared/global.php
-    	$context['javascript']['tinymce'] = TRUE;
-    // inPlaceRichEditor
-      $context['page_footer'] .= "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'included/inplacericheditor/inplacericheditor.js"></script>'."\n";
-    	$context['javascript']['inplacericheditor'] = TRUE;
-    	
-      $context['page_footer'] .= '<script type="text/javascript">'."\n";
-      $context['page_footer'] .= '//<![CDATA['."\n";
-      $context['page_footer'] .= 'var areas = new Array();'."\n";
-      $context['page_footer'] .= 'function kill_area(area) { if(area[area]) { areas[area].destroy(); areas[area] = null;}}'."\n";
-      $context['page_footer'] .= 'function edit_area(key, anchor) { '."\n";
-      $context['page_footer'] .= '  area = key + \'_\' + anchor;'."\n";
-      $context['page_footer'] .= '  if (!areas[area]) {'."\n";
-      $context['page_footer'] .= '    areas[area] = new Ajax.InPlaceRichEditor($(area), \''.$context['url_to_root'].'shared/ajax_record_db.php?key=\'+key+\'&anchor=\'+anchor, {
-        okText:\'Enregistrer\',cancelText:\'Annuler\',savingText:\'Enregistrement en cours...\',cancelControl:\'button\',onComplete: kill_area(\'+area+\'), loadTextURL: \''.$context['url_to_root'].'shared/ajax_get_value.php?key=\'+key+\'&anchor=\'+anchor }, tinyMCE.settings);'."\n";
-      $context['page_footer'] .= '    return false;'."\n";
-      $context['page_footer'] .= '  }'."\n";
-      $context['page_footer'] .= '}'."\n";
-      $context['page_footer'] .= '//]]>'."\n";
-      $context['page_footer'] .= '</script>'."\n";
-    }
 
 		if($context['with_profile'] == 'Y')
 			Logger::profile('Skin::build_block', 'stop');

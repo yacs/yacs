@@ -586,15 +586,8 @@ Class Locations {
 	 * @param string object height
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	function &map_on_google($items, $scale=null, $width=null, $height=null) {
+	function &map_on_google($items, $scale=5, $width='500px', $height='300px') {
 		global $context;
-		
-		if (!$scale)
-      $scale = $context['skins_gmap_default_scale'];
-    if (!$width)
-      $width = $context['skins_gmap_default_width'];
-    if (!$height)
-      $height = $context['skins_gmap_default_height'];
 
 		// we return some text
 		$text = '';

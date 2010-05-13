@@ -806,9 +806,9 @@ if(!isset($item['id'])) {
 
 			// the introduction text, if any
 			if(is_object($overlay))
-				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction', 'article:'.$item['id']);
+				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
 			else
-				$text .= Skin::build_block($item['introduction'], 'introduction', 'article:'.$item['id']);
+				$text .= Skin::build_block($item['introduction'], 'introduction');
 
 			// get text related to the overlay, if any
 			if(is_object($overlay))
@@ -839,7 +839,7 @@ if(!isset($item['id'])) {
 				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
 
 			// beautify the target page
-			$text .= Skin::build_block($description, 'description', 'article:'.$item['id'], $item['options']);
+			$text .= Skin::build_block($description, 'description', '', $item['options']);
 
 			// if there are several pages, add navigation commands to browse them
 			if(count($pages) > 1) {
