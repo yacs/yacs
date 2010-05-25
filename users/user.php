@@ -473,7 +473,7 @@ Class User extends Anchor {
 
 		// add a reference to a new table in the user description
 		} elseif($action == 'table:create') {
-			if(!Codes::check-embedded($this->item['description'], 'table', $origin))
+			if(!Codes::check_embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [table='.$origin.']')."'";
 
 		// suppress a reference to a table that has been deleted
