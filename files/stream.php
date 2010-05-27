@@ -9,23 +9,20 @@
  * @link http://www.videolan.org/vlc/  VLC media player
  *
  * This script acts as a redirector for well-known types:
+ * - [code].3gp[/code] (load a flash player in full screen)
  * - [code].aif[/code] (through a [code].m3u[/code] redirector)
  * - [code].aiff[/code] (through a [code].m3u[/code] redirector)
- * - [code].asf[/code] (through a [code].m3u[/code] redirector)
  * - [code].au[/code] (through a [code].m3u[/code] redirector)
- * - [code].avi[/code] (through a [code].m3u[/code] redirector)
- * - [code].divx[/code] (through a [code].m3u[/code] redirector)
  * - [code].flv[/code] (load a flash player in full screen)
- * - [code].mm[/code] (load a flash or java player)
- * - [code].mov[/code] (through a [code].m3u[/code] redirector)
+ * - [code].gan[/code] (loaded through Javascript)
+ * - [code].m4v[/code] (load a flash player in full screen)
+ * - [code].mka[/code] (through a [code].m3u[/code] redirector)
+ * - [code].mm[/code] (load a flash player)
+ * - [code].mov[/code] (load a flash player in full screen)
  * - [code].mp3[/code] (through a [code].m3u[/code] redirector)
- * - [code].mp4[/code] (through a [code].m3u[/code] redirector)
- * - [code].mpe[/code] (through a [code].m3u[/code] redirector)
- * - [code].mpeg[/code] (through a [code].m3u[/code] redirector)
- * - [code].mpg[/code] (through a [code].m3u[/code] redirector)
+ * - [code].mp4[/code] (load a flash player in full screen)
  * - [code].snd[/code] (through a [code].m3u[/code] redirector)
- * - [code].swf[/code]
- * - [code].vob[/code] (through a [code].m3u[/code] redirector)
+ * - [code].swf[/code] (loaded through Javascript)
  * - [code].wav[/code] (through a [code].m3u[/code] redirector)
  * - [code].wma[/code] (through a [code].wax[/code] redirector)
  * - [code].wmv[/code] (through a [code].wvx[/code] redirector)
@@ -62,6 +59,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
+include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -176,6 +174,9 @@ if(!$item['id']) {
 	// determine attribute for this item
 	$type = $mime = $text = '';
 
+	// the default is to provide the file directly
+	$fetched = FALSE;
+
 	// embed the file depending on the file type
 	$extension = strtolower(@array_pop(@explode('.', @basename($item['file_name']))));
 	switch($extension) {
@@ -193,6 +194,10 @@ if(!$item['id']) {
 
 		// protect file origin, and set winamp headers
 		$text = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+
+		// accounting is done through download
+		$fetched = TRUE;
+
 		break;
 
 	case '3gp':
@@ -374,6 +379,17 @@ if(!$item['id']) {
 
 	// if we have a valid redirector
 	if($mime && $text) {
+
+		// direct sourcing
+		if(!$fetched) {
+
+			// increment the count of downloads
+			Files::increment_hits($item['id']);
+
+			// record surfer activity
+			Activities::post('file:'.$item['id'], 'fetch');
+
+		}
 
 		// no encoding, no compression and no yacs handler...
 		if(!headers_sent()) {

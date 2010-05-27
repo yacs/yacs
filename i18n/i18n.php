@@ -107,20 +107,12 @@ Class i18n {
 		// avoid further loading
 		$_SESSION['l10n_modules'][$module] = TRUE;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			Logger::profile('i18n::bind', 'start');
-
 		// load strings according to surfer localization
 		i18n::load($context['language'], $module);
 
 		// load strings according to community localization
 		if($context['preferred_language'] != $context['language'])
 			i18n::load($context['preferred_language'], $module);
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			Logger::profile('i18n::bind', 'stop');
 
 	}
 

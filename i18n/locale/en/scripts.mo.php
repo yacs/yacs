@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-11-29 23:31+0100
+POT-Creation-Date: 2010-05-12 16:23+0200
+PO-Revision-Date: 2010-05-12 16:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -129,7 +129,7 @@ $_SESSION['l10n']['en']['58307fee2eb36a82781084c561fff62d']='Purging the documen
 $_SESSION['l10n']['en']['Reference script: %s']='Reference script: %s';
 $_SESSION['l10n']['en']['17f3d5f530a5076c5820d9b50f3474db']='Reference set of %d files built on %s on server %s';
 $_SESSION['l10n']['en']['Review']='Review';
-$_SESSION['l10n']['en']['5bf3b809e693a9ac0b4dcf5e6e4e028a']='Review downloaded scripts before the update';
+$_SESSION['l10n']['en']['54efde986e4e1ce67197e8e89a1822ef']='Review staged scripts before the update';
 $_SESSION['l10n']['en']['Run once']='Run once';
 $_SESSION['l10n']['en']['Run one-time scripts']='Run one-time scripts';
 $_SESSION['l10n']['en']['a09ec6a44e8678d5cbbb8a7c5f5ba286']='Running scripts are exact copies of the reference set.';

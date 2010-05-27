@@ -41,7 +41,7 @@
  *
  * The script ensures a minimum delay of 5 minutes between successive ticks.
  *
- * This script is not localized, and always provides result in English. 
+ * This script is not localized, and always provides result in English.
  *
  * @author Bernard Paques
  * @reference
@@ -119,7 +119,7 @@ else
 // request to be delayed
 if($target > time())
 	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
-	
+
 // remember tick date and avoid racing conditions
 else {
 	Values::set('cron.tick', 'running...');
@@ -127,10 +127,10 @@ else {
 	// do the job and provide feed-back to user
 	$context['cron_text'] = Hooks::include_scripts('tick');
 	echo $context['cron_text'];
-	
+
 	// remember tick date and resulting text
 	Values::set('cron.tick', $context['cron_text']);
-	
+
 	// log outcome of script execution in debug mode
 	if($context['with_debug'] == 'Y')
 		Logger::remember('cron.php', 'tick processing', $context['cron_text'], 'debug');
@@ -162,18 +162,15 @@ else {
 	// do the job and provide feed-back to user
 	$context['text'] = Hooks::include_scripts('hourly');
 	echo $context['text'];
-	
+
 	// remember tick date and resulting text
 	Values::set('cron.hourly', $context['text']);
-	
+
 	// log outcome of script execution in debug mode
 	if($context['with_debug'] == 'Y')
 		Logger::remember('cron.php', 'hourly processing', $context['text'], 'debug');
 
 }
-
-// dump profile data
-Logger::profile_dump();
 
 // all done
 $time = round(get_micro_time() - $context['start_time'], 2);

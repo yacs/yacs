@@ -49,7 +49,7 @@ Class Layout_users_as_compact extends Layout_interface {
 			elseif(isset($item['active']) && ($item['active'] == 'R'))
 				$prefix .= RESTRICTED_FLAG;
 
-			// signal banned profiles
+			// signal locked profiles
 			if(isset($item['active']) && ($item['capability'] == '?'))
 				$prefix .= EXPIRED_FLAG;
 

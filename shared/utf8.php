@@ -517,9 +517,12 @@ Class Utf8 {
 	function &to_unicode(&$input) {
 		global $context;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('utf8::to_unicode', 'start');
+		// transcode arrays as well
+		if(is_array($input)) {
+			utf8::to_unicode_recursively($input);
+			$output = $input;
+			return $output;
+		}
 
 		// scan the whole string
 		$output = '';
@@ -597,12 +600,32 @@ Class Utf8 {
 		// translate extended ISO8859-1 chars, if any, to utf-8
 		$output = utf8_encode($output);
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('utf8::to_unicode', 'stop');
-
 		// return the translated string
 		return $output;
+
+	}
+
+	/**
+	 * transcode arrays recursively
+	 *
+	 * @param array the variable to convert
+	 * @return converted object (which is also the input array)
+	 */
+	function to_unicode_recursively(&$input) {
+		global $context;
+
+		// sanity check
+		if(!is_array($input))
+			return utf8::to_unicode($input);
+
+		// process all attributes
+		foreach($input as $name => $value) {
+			if(is_array($value))
+				$input[$name] = utf8::to_unicode_recursively($value);
+			else
+				$input[$name] = utf8::to_unicode($value);
+		}
+		return $input;
 
 	}
 

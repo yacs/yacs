@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-04-14 21:31+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -39,6 +39,7 @@ $_SESSION['l10n']['fr']['Delete this image']='Supprimer cette image';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['2cdb58b860a83f0b75b0a382ef1c8ba0']='Si vous avez obtenu ce fichier de sources extérieures, merci de l\'indiquer ici';
 $_SESSION['l10n']['fr']['Image']='Image';

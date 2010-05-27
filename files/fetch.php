@@ -316,9 +316,10 @@ if(!isset($item['id']) || !$item['id']) {
 //actual transfer
 } elseif($item['id'] && $item['anchor']) {
 
-	// increment the number of downloads
+	// increment the count of downloads
 	Files::increment_hits($item['id']);
 
+	// record surfer activity
 	Activities::post('file:'.$item['id'], 'fetch');
 
 	// if we have an external reference, use it

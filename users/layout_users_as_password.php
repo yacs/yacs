@@ -52,7 +52,7 @@ Class Layout_users_as_password extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG;
 
-			// signal banned profiles
+			// signal locked profiles
 			if($item['capability'] == '?')
 				$prefix .= EXPIRED_FLAG;
 

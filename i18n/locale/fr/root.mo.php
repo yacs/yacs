@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
+POT-Creation-Date: 2010-05-18 19:18+0200
 PO-Revision-Date: 2010-03-22 23:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -208,7 +208,6 @@ $_SESSION['l10n']['fr']['Search all of the Internet']='Chercher sur Internet';
 $_SESSION['l10n']['fr']['Search in']='Chercher dans';
 $_SESSION['l10n']['fr']['Search in all sections']='Rechercher dans toutes les sections';
 $_SESSION['l10n']['fr']['Search: %s']='Recherche : %s';
-$_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['a3b3c26acb7ffea9c094601d5af3c802']='Choisissez parmi les pages ci-dessous.';
 $_SESSION['l10n']['fr']['84c3e00dad8ea5c24e765dc2f6289bd1']='Choisissez parmi les sections ci-dessous.';

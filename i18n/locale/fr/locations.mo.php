@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-10-05 00:05+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -37,6 +37,7 @@ $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit a location']='Modifier un emplacement';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
 $_SESSION['l10n']['fr']['Encode this address']='Encoder cette adresse';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['For regional positioning']='Pour localisation régionale';
 $_SESSION['l10n']['fr']['fcde0674dd33d1f8427dc17d6eff963a']='Free Geocoding Service for 22 Countries';
 $_SESSION['l10n']['fr']['Geographical coordinates: %s']='Coordonnées géographiques : %s';

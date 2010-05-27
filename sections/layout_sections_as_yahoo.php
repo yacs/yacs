@@ -10,6 +10,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
+ * @tester Kalin Nicolov
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -244,8 +245,13 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 				$content[] = Skin::build_link(Sections::get_permalink($item), i18n::s('More').MORE_IMG, 'more', i18n::s('View the section'));
 
 			// layout details
-			if(count($content))
-				$suffix .= BR.YAHOO_ITEM_PREFIX.implode(YAHOO_ITEM_SUFFIX.YAHOO_ITEM_PREFIX, $content).YAHOO_ITEM_SUFFIX."\n";
+			if(count($content)) {
+				$even = TRUE;
+				foreach($content as $line) {
+					$suffix .= '<div class="'.(($even)?'even':'odd').'">'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
+					$even = !$even;
+				}
+			}
 
 			// use the title to label the link
 			$label = Skin::strip($item['title'], 50);

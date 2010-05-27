@@ -64,7 +64,7 @@ else
 	$context['page_title'] = i18n::s('Add a form');
 
 // validate input syntax
-if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))) {
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
 	if(isset($_REQUEST['introduction']))
 		xml::validate($_REQUEST['introduction']);
 	if(isset($_REQUEST['description']))
@@ -390,6 +390,9 @@ if($with_form) {
 
 	// insert commands
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// validate page content
+	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

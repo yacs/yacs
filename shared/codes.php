@@ -83,11 +83,14 @@
  * - &#91;link=&lt;label&gt;]&lt;url&gt;[/link] - &lt;a href="url">label&lt;/a> or &lt;a href="url" class="external">label&lt;/a>
  * - &#91;url]&lt;url&gt;[/url] - deprecated by &#91;link]
  * - &#91;url=&lt;url&gt;]&lt;label&gt;[/url] - deprecated by &#91;link]
- * - &#91;button=&lt;label&gt;]&lt;url&gt;[/button] - build simple buttons with css
+ * - &#91;button=&lt;label&gt;|&lt;url&gt;] - build simple buttons with css
+ * - &#91;click=&lt;label&gt;|&lt;url&gt;] - a button that counts clicks
+ * - &#91;clicks=&lt;url&gt;] - lists people who have clicked
  * - &lt;address&gt; - &lt;a href="mailto:address" class="email">address&lt;/a>
  * - &#91;email]&lt;address&gt;[/email] - &lt;a href="mailto:address" class="email">address&lt;/a>
  * - &#91;email=&lt;name&gt;]&lt;address&gt;[/email] - &lt;a href="mailto:address" class="email">name&lt;/a>
  * - &#91;go=&lt;name&gt;, &lt;label&gt;] - trigger the selector on 'name'
+ * - &#91;&#91;&lt;name&gt;, &lt;label&gt;]] - Wiki selector
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;article.description=&lt;id>] - insert article description
@@ -311,10 +314,6 @@ Class Codes {
 		if(!$text)
 			return $text;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('codes::beautify', 'start');
-
 		//
 		// looking for compact content
 		//
@@ -375,10 +374,6 @@ Class Codes {
 		// implicit formatting
 		elseif($new_lines == 'proceed')
 			$text =& Codes::beautify_implied($text, 'newlines');
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('codes::beautify', 'stop');
 
 		return $text;
 	}
@@ -1014,6 +1009,7 @@ Class Codes {
 				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
 				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
+				'/\[\[([^\]]+?)\]\]/ie', 					// [[<name>]]
 				'/\[article\.description=([^\]]+?)\]/ie',	// [article.description=<id>]
 				'/\[article=([^\]]+?)\]/ie',				// [article=<id>] or [article=<id>, title]
 				'/\[next=([^\]]+?)\]/ie',					// [next=<id>]
@@ -1035,9 +1031,11 @@ Class Codes {
 				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
 				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
-				'/\[([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/ise',			// [label|url]
 				'/\[link\](.*?)\[\/link\]/ise', 			// [link]url[/link]
 				'/\[button=([^\]]+?)\](.*?)\[\/button\]/ise',	// [button=label]url[/button]
+				'/\[button=([^\|]+?)\|([^\]]+?)]/ise',		// [button=label|url]
+				'/\[click=([^\|]+?)\|([^\]]+?)]/ise',		// [click=label|url]
+				'/\[clicks=([^\]]+?)]/ise',					// [clicks=url]
 				'/\[script\](.*?)\[\/script\]/ise', 		// [script]url[/script]
 				'/\[menu\](.*?)\[\/menu\]\n*/ise',			// [menu]url[/menu]
 				'/\[menu=([^\]]+?)\](.*?)\[\/menu\]\n{0,1}/ise',	// [menu=label]url[/menu]
@@ -1045,6 +1043,7 @@ Class Codes {
 				'/\[submenu=([^\]]+?)\](.*?)\[\/submenu\]\n*/ise', // [submenu=label]url[/submenu]
 				'/\[email=([^\]]+?)\](.*?)\[\/email\]/ise', // [email=label]url[/email]
 				'/\[email\](.*?)\[\/email\]/ise',			// [email]url[/email]
+				'/\[([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/ise',			// [label|url]
 				'/\[question\](.*?)\[\/question\]\n*/ise',	// [question]...[/question]
 				'/\[question\]/ise',						// [question]
 				'/\[answer\]/ise',							// [answer]
@@ -1208,6 +1207,7 @@ Class Codes {
 				"Codes::render_embed(Codes::fix_tags('$1'))",						// [flash=<id>, <width>, <height>, <params>] -- obsoleted by 'embed'
 				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
 				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
+				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [[<name>]]
 				"Codes::render_object('article.description', Codes::fix_tags('$1'))",// [article.description=<id>]
 				"Codes::render_object('article', Codes::fix_tags('$1'))",			// [article=<id>]
 				"Codes::render_object('next', Codes::fix_tags('$1'))",				// [next=<id>]
@@ -1228,10 +1228,12 @@ Class Codes {
 				"Codes::render_object('decision', Codes::fix_tags('$1'))", 			// [decision=<id>] or [decision=<id>, title]
 				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [label|url]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
 				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label]url[/button]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label|url]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'click')",	// [click=label|url]
+				"Codes::render_clicks('$1')",										// [clicks=url]
 				"Skin::build_link(encode_link('$1'), '$1', 'script')",				// [script]url[/script]
 				"Skin::build_link(encode_link('$1'), '$1', 'menu_1')",				// [menu]url[/menu]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_1')",	// [menu=label]url[/menu]
@@ -1239,6 +1241,7 @@ Class Codes {
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_2')",	// [submenu=label]url[/submenu]
 				"Codes::render_email(encode_link('$2'), Codes::fix_tags('$1'))",	// [email=label]url[/email]
 				"Codes::render_email(encode_link('$1'), '$1')",						// [email]url[/email]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [label|url]
 				"Codes::render_title(Codes::fix_tags('$1'), 'question')", 			// [question]...[/question]
 				"QUESTION_FLAG",													// [question]
 				"ANSWER_FLAG",														// [answer]
@@ -1489,6 +1492,37 @@ Class Codes {
 			.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
 			.'}'."\n"
 			.JS_SUFFIX;
+
+		return $text;
+
+	}
+
+	/**
+	 * list clicks
+	 *
+	 * @param string web address that is monitored
+	 * @return string the rendered text
+	**/
+	function &render_clicks($url) {
+		global $context;
+
+		$text = '';
+
+		// the list of people who have clicked this link
+		include_once $context['path_to_root'].'users/activities.php';
+		if($users = Activities::list_at($url, 'click', 30, 'comma')) {
+
+			$count = Activities::count_at($url, 'click');
+			if($count > 30)
+				$more = ' ...';
+			else
+				$more = '';
+
+			$text .= sprintf(i18n::ns('%d person has followed the link: %s', '%d persons have followed the link: %s', $count), $count, $users);
+
+
+		} else
+			$text .= i18n::s('This link has not been used yet');
 
 		return $text;
 
@@ -1799,7 +1833,7 @@ Class Codes {
 			// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 			$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 				.JS_PREFIX
-				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 				.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 				.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 				.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"

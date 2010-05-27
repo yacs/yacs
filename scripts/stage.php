@@ -207,7 +207,7 @@ if($id) {
 
 		// forward to the update script
 		$context['text'] .= '<form method="get" action="'.$context['url_to_root'].'scripts/update.php">'."\n"
-			.'<p>'.Skin::build_submit_button(i18n::s('Review downloaded scripts before the update')).'</p>'."\n"
+			.'<p>'.Skin::build_submit_button(i18n::s('Review staged scripts before the update')).'</p>'."\n"
 			.'</form>'."\n";
 
 	}
@@ -352,7 +352,7 @@ if($id) {
 
 				// forward to the update script
 				$context['text'] .= '<form method="get" action="'.$context['url_to_root'].'scripts/update.php">'."\n"
-					.'<p>'.Skin::build_submit_button(i18n::s('Review downloaded scripts before the update')).'</p>'."\n"
+					.'<p>'.Skin::build_submit_button(i18n::s('Review staged scripts before the update')).'</p>'."\n"
 					.'</form>'."\n";
 
 			}

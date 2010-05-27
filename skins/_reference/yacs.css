@@ -2103,7 +2103,7 @@ dl.column_2 { /* left or right column out of two -- index.php, sections/index.ph
 dl.column_1 dd,
 dl.column_2 dd { /* column actual content */
 	margin: 0 0 1em 21px;
-	padding: 1px 0 0.4em 0;
+	padding: 2px;
 	text-align: left;
 	overflow: hidden; /* kill oversized links */
 	z-index: 1;
@@ -2115,6 +2115,11 @@ dl.column_2 dd p,
 dl.column_2 dd ul { /* space around content elements */
 	margin-top: 0.2em;
 	margin-bottom: 0.2em;
+}
+
+dl.column_1 dd a span.box_header,
+dl.column_2 dd a span.box_header { /* title in bold */
+	font-weight: bold;
 }
 
 dl.column_1 dt,

@@ -496,12 +496,6 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	if($wcount > 1)
 		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wcount), $wcount));
 
-	// send a message to an article
-	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
-	}
-
 	// add to the watch list -- $in_wath_list is set in sections/view.php
 	if(Surfer::get_id() && !$in_watch_list) {
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
@@ -511,6 +505,12 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// spread the list over several pages
 	if($ecount > 1)
 		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
+
+	// send a message to an article
+	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
+		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
+	}
 
 	// navigation commands for users
 	$home = Articles::get_permalink($item);

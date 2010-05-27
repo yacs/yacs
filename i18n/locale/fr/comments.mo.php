@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-03-04 07:36+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -47,6 +47,7 @@ $_SESSION['l10n']['fr']['e1f523c999eb49f4167786b09262280c']='Ce serveur propose 
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit your post below']='Modifiez votre texte ci-dessous';
 $_SESSION['l10n']['fr']['Edited by']='Modifié par';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
 $_SESSION['l10n']['fr']['4bb33a5f640ed9b688aede2807e169fc']='Les commentaires passionnés sont les bienvenus. Attention toutefois de ne pas trop s\'écarter du sujet principal et de rester courtois. Nous supprimerons sans hésiter tout commentaire mal placé ou blessant. Merci de ne pas nous contraindre à de telles extrémités.';
 $_SESSION['l10n']['fr']['Help']='Aide';
@@ -126,6 +127,7 @@ $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['from %s']='depuis %s';
 $_SESSION['l10n']['fr']['inspired from %s']='inspiré par %s';
 $_SESSION['l10n']['fr']['modified by %s']='modifié par %s';
+$_SESSION['l10n']['fr']['on %s']='sur %s';
 $_SESSION['l10n']['fr']['posted by %s %s']='posté par %s %s';
 $_SESSION['l10n']['fr']['quote']='citer';
 $_SESSION['l10n']['fr']['registered %s']='depuis %s';

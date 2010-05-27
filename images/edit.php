@@ -151,11 +151,13 @@ if($item['id'])
 else
 	$context['page_title'] = i18n::s('Add an image');
 
-// always validate input syntax
-if(isset($_REQUEST['introduction']))
-	xml::validate($_REQUEST['introduction']);
-if(isset($_REQUEST['description']))
-	xml::validate($_REQUEST['description']);
+// validate input syntax only if required
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
+	if(isset($_REQUEST['introduction']))
+		xml::validate($_REQUEST['introduction']);
+	if(isset($_REQUEST['description']))
+		xml::validate($_REQUEST['description']);
+}
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -445,8 +447,8 @@ if($with_form) {
 	// not just a bare upload
 	if(($action != 'avatar') && ($action != 'icon') && ($action != 'thumbnail')) {
 
-		// the link url, but only for associates and authenticated editors
-		if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) {
+		// the link url
+		if(Surfer::get_id()) {
 			$label = i18n::s('Link');
 			$input = '<input type="text" name="link_url" size="50" value="'.encode_field(isset($item['link_url'])?$item['link_url']:'').'" maxlength="255" accesskey="l" />';
 			$hint = i18n::s('You can make this image point to any web page if you wish');
@@ -454,7 +456,7 @@ if($with_form) {
 		}
 
 		// automatic processing
-		if(Surfer::is_associate()) {
+		if(Surfer::get_id()) {
 			$label = i18n::s('Image processing');
 			$fields[] = array($label, '<input type="checkbox" name="automatic_process" value="Y" checked="checked" /> '.i18n::s('Automatically resize the image if necessary'));
 		} else {
@@ -462,7 +464,7 @@ if($with_form) {
 		}
 
 		// how to use the thumbnail
-		if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
+		if(Surfer::get_id()) {
 			$label = i18n::s('Insert a thumbnail');
 			$input = '<input type="radio" name="use_thumbnail" value="Y"';
 			if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'Y'))
@@ -499,6 +501,9 @@ if($with_form) {
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
+
+	// validate page content
+	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

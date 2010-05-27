@@ -181,10 +181,6 @@ Class Notifications {
 
 		// only authenticated surfers can be notified
 		if(!Surfer::get_id()) {
-
-			// dump profile information, if any
-			Logger::profile_dump();
-
 			Safe::header('Status: 401 Forbidden', TRUE, 401);
 			die(i18n::s('You are not allowed to perform this operation.'));
 		}
@@ -201,10 +197,6 @@ Class Notifications {
 
 		// kill the request if there is nothing to return
 		if((!$record =& SQL::query_first($query)) || !isset($record['data'])) {
-
-			// dump profile information, if any
-			Logger::profile_dump();
-
 			header('Status: 504 Gateway Timeout', TRUE, 504);
 			die('Retry');
 		}

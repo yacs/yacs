@@ -269,10 +269,10 @@ if(!isset($item['id'])) {
 			$details[] = i18n::s('Subscriber');
 
 		elseif($item['capability'] == '?') {
-			$details[] = EXPIRED_FLAG.i18n::s('Banned');
+			$details[] = EXPIRED_FLAG.i18n::s('Locked');
 
 			// also make it clear to community member
-			Skin::error('This person has been banned and is not allowed to authenticate anymore.');
+			Skin::error('This profile has been locked and does not allow authentication.');
 		}
 
 		// the number of posts
@@ -496,7 +496,7 @@ if(!isset($item['id'])) {
 
 	}
 
-	// the list of contributed files if not at another follow-up page
+	// the list of recent contributed files if not at another follow-up page
 	if(!$zoom_type) {
 
 		// build a complete box
@@ -509,7 +509,7 @@ if(!isset($item['id'])) {
 			$layout->set_variant('user:'.$item['id']);
 
 		// list files by date
-		$items = Files::list_by_date_for_author($item['id'], 0, 20, $layout);
+		$items = Files::list_by_date_for_author($item['id'], 0, 30, $layout);
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
 
@@ -523,21 +523,21 @@ if(!isset($item['id'])) {
 	}
 
 	// the list of contributed links if not at another follow-up page
-	if(!$zoom_type) {
-
-		// build a complete box
-		$box['text'] = '';
-
-		// list links by date
-		$items = Links::list_by_date_for_author($item['id'], 0, 20, 'simple');
-
-		// actually render the html for the section
-		if(is_array($items))
-			$box['text'] .= Skin::build_list($items, 'compact');
-		if($box['text'])
-			$contributions .= Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'contributed_links');
-
-	}
+// 	if(!$zoom_type) {
+//
+// 		// build a complete box
+// 		$box['text'] = '';
+//
+// 		// list links by date
+// 		$items = Links::list_by_date_for_author($item['id'], 0, 20, 'simple');
+//
+// 		// actually render the html for the section
+// 		if(is_array($items))
+// 			$box['text'] .= Skin::build_list($items, 'compact');
+// 		if($box['text'])
+// 			$contributions .= Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'contributed_links');
+//
+// 	}
 
 	// in a separate panel
 	if(trim($contributions))
@@ -795,7 +795,7 @@ if(!isset($item['id'])) {
 		// the full text
 		$mainbar .= Skin::build_block($item['description'], 'description');
 
-		// birth date, if any, and only for authenticated memebers
+		// birth date, if any, and only for authenticated surfers
 		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE) && Surfer::is_logged())
 			$mainbar .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
 
@@ -815,7 +815,7 @@ if(!isset($item['id'])) {
 		}
 
 		if(count($menu))
-			$items .= Skin::finalize_list($menu, 'menu_bar');
+			$items = Skin::finalize_list($menu, 'menu_bar').$items;
 
 		if($items)
 			$mainbar .= Skin::build_box(i18n::s('Files'), $items);

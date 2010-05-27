@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-03-08 17:31+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -62,6 +62,7 @@ $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit a server profile']='Modifier un serveur';
 $_SESSION['l10n']['fr']['8790f3b669b8defa49266d41fac47eb7']='La section Généralités regroupe les informations descriptives.';
 $_SESSION['l10n']['fr']['Empty item!']='Entrée vide !';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['External News']='Nouvelles du monde';
 $_SESSION['l10n']['fr']['Feed']='Feed';
 $_SESSION['l10n']['fr']['Feed URL: %s']='Les nouveautés : %s';

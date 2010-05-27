@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-03-10 09:51+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -39,6 +39,7 @@ $_SESSION['l10n']['en']['86c56a7a7f1de49541c9835d0e87b60b']='Do not change modif
 $_SESSION['l10n']['en']['Double quote character']='Double quote character';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a table']='Edit a table';
+$_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['Error in table query %s']='Error in table query %s';
 $_SESSION['l10n']['en']['Fetch as CSV']='Fetch as CSV';
 $_SESSION['l10n']['en']['Fetch as JSON']='Fetch as JSON';

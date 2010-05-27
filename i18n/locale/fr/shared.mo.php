@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-04-08 23:00+0100
+POT-Creation-Date: 2010-05-28 00:03+0200
+PO-Revision-Date: 2010-05-27 10:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -20,6 +20,7 @@ X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: French
 ';
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif maintenant'.chr(0).'%d actifs maintenant';
+$_SESSION['l10n']['fr']['5c5d7433b029747dfb6d13f190504a0f']='%d personne a suivi le lien : %s'.chr(0).'%d personnes ont suivi le lien : %s';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
@@ -78,6 +79,7 @@ $_SESSION['l10n']['fr']['fc2edca5afeada33fbd4d829f8da5047']='Commandes système,
 $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
+$_SESSION['l10n']['fr']['This link has not been used yet']='Ce lien n\'a pas encore été utilisé';
 $_SESSION['l10n']['fr']['e6236ced25bee095095728d9b2de9a4f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour ne plus recevoir d\'alertes automatiques merci de visiter la page et de cliquer sur le lien Arrêter les notifications.';
 $_SESSION['l10n']['fr']['3761f289e530ecec30478aaa67bc049f']='Ce message a été généré automatiquement par %s car la page a été postée par un utilisateur qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Arréter les notifications.';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';

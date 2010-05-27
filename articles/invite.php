@@ -357,7 +357,7 @@ if(Surfer::is_crawler()) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$content = i18n::s('Please let me thank you for your kind support.')."\n\n".$author;
+	$content = i18n::s('Please let me thank you for your involvement.')."\n\n".$author;
 	$input = str_replace("\n", BR, $message_prefix)
 		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');

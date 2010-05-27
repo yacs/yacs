@@ -131,9 +131,6 @@ Class Skin_Skeleton {
 	function &build_block($text, $variant='', $id='', $options=NULL) {
 		global $context;
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_block', 'start');
-
 		// turn list to a string
 		if(is_array($text)) {
 			$concatenated = '';
@@ -301,9 +298,6 @@ Class Skin_Skeleton {
 
 		}
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_block', 'stop');
-
 		// job done
 		return $text;
 	}
@@ -338,9 +332,6 @@ Class Skin_Skeleton {
 	 */
 	function &build_box($title, $content, $variant='header1', $id='', $url='', $popup='') {
 		global $context;
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_box', 'start');
 
 		// append a link to the title, if any
 		if($url)
@@ -419,9 +410,6 @@ Class Skin_Skeleton {
 			break;
 
 		}
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_box', 'stop');
 
 		// job done
 		return $output;
@@ -597,11 +585,12 @@ Class Skin_Skeleton {
 	function &build_date($stamp, $variant='with_hour', $language=NULL, $gmt_offset=0) {
 		global $context, $local;
 
+		// return by reference
+		$output = '';
+
 		// sanity check
-		if(!isset($stamp) || !$stamp) {
-			$output = '';
+		if(!isset($stamp) || !$stamp)
 			return $output;
-		}
 
 		// surfer offset, except on 'day' and 'iso8601'
 		if(($variant == 'day') || ($variant == 'iso8601') || ($variant == 'standalone'))
@@ -682,27 +671,31 @@ Class Skin_Skeleton {
 		// format a date as an absolute string
 		if($variant == 'full') {
 			if($language == 'fr')
-				$output = 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
+				$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output = 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
+				$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
+
+		// stamp is in the future
+		if(strcmp($stamp, $context['now']) > 0)
+			$output .= DRAFT_FLAG;
 
 		// the same, but without prefix
 		if($variant == 'standalone') {
 			if($language == 'fr')
-				$output = $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
+				$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
+				$output .= $months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
 
 		// month only
 		if($variant == 'month') {
 			if($language == 'fr')
-				$output = $months[$items['mon']].' '.($items['year']);
+				$output .= $months[$items['mon']].' '.($items['year']);
 			else
-				$output = $months[$items['mon']].' '.($items['year']);
+				$output .= $months[$items['mon']].' '.($items['year']);
 			return $output;
 		}
 
@@ -712,16 +705,16 @@ Class Skin_Skeleton {
 			// same year, don't mention it
 			if($items['year'] == $today['year']) {
 				if($language == 'fr')
-					$output = $items['mday'].' '.$months[$items['mon']];
+					$output .= $items['mday'].' '.$months[$items['mon']];
 				else
-					$output = $months[$items['mon']].' '.$items['mday'];
+					$output .= $months[$items['mon']].' '.$items['mday'];
 
 			// different year
 			} else {
 				if($language == 'fr')
-					$output = $items['mday'].' '.$months[$items['mon']].' '.($items['year']);
+					$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']);
 				else
-					$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']);
+					$output .= $months[$items['mon']].' '.$items['mday'].' '.($items['year']);
 			}
 
 			return $output;
@@ -733,9 +726,9 @@ Class Skin_Skeleton {
 			$month_link =& Skin::build_link(Dates::get_url($items['year'].'/'.$items['mon'], 'month'), $months[$items['mon']], 'basic', i18n::s('Calendar of this month'));
 			$year_link =& Skin::build_link(Dates::get_url($items['year'], 'year'), $items['year'], 'basic', i18n::s('Calendar of this year'));
 			if($language == 'fr')
-				$output = $items['mday'].' '.$month_link.' '.$year_link;
+				$output .= $items['mday'].' '.$month_link.' '.$year_link;
 			else
-				$output = $month_link.' '.$items['mday'].' '.$year_link;
+				$output .= $month_link.' '.$items['mday'].' '.$year_link;
 			return $output;
 		}
 
@@ -792,19 +785,19 @@ Class Skin_Skeleton {
 		// this year
 		} elseif(($stamp <= $now) && ($items['year'] == $today['year'])) {
 			if($language == 'fr')
-				$output = 'le '.$items['mday'].' '.$months[$items['mon']];
+				$output .= 'le '.$items['mday'].' '.$months[$items['mon']];
 			else
-				$output = 'on '.$months[$items['mon']].' '.$items['mday'];
+				$output .= 'on '.$months[$items['mon']].' '.$items['mday'];
 			return $output;
 
 		// date in fr: le dd mmm yy
 		} elseif($language == 'fr') {
-			$output = 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']);
+			$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']);
 			return $output;
 
 		// date in en: on mmm dd yy
 		} else {
-			$output = 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']);
+			$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']);
 			return $output;
 		}
 
@@ -1371,6 +1364,7 @@ Class Skin_Skeleton {
 	 * - 'basic' - a very basic link - also the default
 	 * - 'button' - a link that looks like a button
 	 * - 'category' - jump to a category page
+	 * - 'click' - a button that records clicks
 	 * - 'comment' - jump to a comment page
 	 * - 'day' - a one day calendar
 	 * - 'email' - a mailto: link
@@ -1409,9 +1403,6 @@ Class Skin_Skeleton {
 		// don't create a link if there is no url - strip everything that begins with '_'
 		if(!$url || (strpos($url, '_') === 0))
 			return $label;
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_link', 'start');
 
 		// be sure to have a label
 		if(!$label)
@@ -1499,8 +1490,12 @@ Class Skin_Skeleton {
 		if($access_key)
 			$attributes .= ' accesskey="'.$access_key.'"';
 
+		// use the link as-is
+		if($variant == 'click')
+			;
+
 		// malformed url '//server/path' --> 'http://server/path'
-		if(!strncmp($url, '//', 2))
+		elseif(!strncmp($url, '//', 2))
 			$url = 'http:'.$url;
 
 		// fix relative path
@@ -1564,9 +1559,6 @@ Class Skin_Skeleton {
 			// default processing for external links
 			if($external) {
 
-				// count external clicks
-//				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
-
 				// finalize the hovering title
 				if(!$href_title)
 					$href_title = ' title="'.encode_field(i18n::s('Browse in a separate window')).'"';
@@ -1620,6 +1612,16 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('View the category')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="category"'.$attributes.'>'.$label.'</a>';
+			break;
+
+		case 'click':
+
+			// always count clicks
+			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
+
+			// always open in a separate window
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+
 			break;
 
 		case 'comment':
@@ -1840,9 +1842,6 @@ Class Skin_Skeleton {
 
 		}
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_link', 'stop');
-
 		// job done
 		return $text;
 	}
@@ -1927,9 +1926,6 @@ Class Skin_Skeleton {
 			// done
 			return $text;
 		}
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_list', 'start');
 
 		// a bare reference to an image
 		if($default_icon && strncmp($default_icon, '<img ', 5))
@@ -2035,9 +2031,6 @@ Class Skin_Skeleton {
 		// finalize the list
 		$text =& Skin::finalize_list($list, $variant);
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_list', 'stop');
-
 		return $text;
 	}
 
@@ -2131,9 +2124,6 @@ Class Skin_Skeleton {
 	function &build_presence($text, $variant) {
 		global $context;
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_presence', 'start');
-
 		switch($variant) {
 
 		case 'aim':
@@ -2189,9 +2179,6 @@ Class Skin_Skeleton {
 			$output = '???';
 			break;
 		}
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_presence', 'stop');
 
 		// job done
 		return $output;
@@ -2478,7 +2465,7 @@ Class Skin_Skeleton {
 	 * @param boolean TRUE to align left border of the sliding panel
 	 * @return the HTML to display
 	 */
-	function &build_sliding_box($title, &$content, $id, $onLeft=TRUE, $down=TRUE) {
+	function &build_sliding_box($title, &$content, $id=NULL, $onLeft=TRUE, $down=TRUE) {
 		global $context;
 
 		// the icon used to slide down
@@ -2897,9 +2884,6 @@ Class Skin_Skeleton {
 			return $output;
 		}
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_tree', 'start');
-
 		// item class
 		$class = 'tree_level_'.($level+1);
 
@@ -2975,9 +2959,6 @@ Class Skin_Skeleton {
 
 		// finalize this level
 		$text .= '</ul>';
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_tree', 'stop');
 
 		return $text;
 	}
@@ -3060,9 +3041,6 @@ Class Skin_Skeleton {
 	function &cap($input, $count=300, $url=NULL, $label = '') {
 		global $context;
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::cap', 'start');
-
 		// mention tags used as block boundary, no more -- else execution time will ramp up...
 		$areas = preg_split('/<(blockquote|code|div|dl|h1|h2|h3|noscript|ol|p|pre|script|table|ul)(.*?)>(.*?)<\/\1>/is', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -3138,9 +3116,6 @@ Class Skin_Skeleton {
 				$label = i18n::s('more').MORE_IMG;
 			$text .= ' '.Skin::build_link($url, $label, 'more').' ';
 		}
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::cap', 'stop');
 
 		return $text;
 
@@ -4003,7 +3978,7 @@ Class Skin_Skeleton {
 
 		// suffix of each item in a Yahoo-like list
 		if(!defined('YAHOO_ITEM_SUFFIX'))
-			define('YAHOO_ITEM_SUFFIX', BR."\n");
+			define('YAHOO_ITEM_SUFFIX', '');
 
 	}
 

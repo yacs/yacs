@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-12 21:01+0200
-PO-Revision-Date: 2010-04-09 00:20+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-25 13:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -203,8 +203,8 @@ $_SESSION['l10n']['fr']['Room']='Rendez-vous';
 $_SESSION['l10n']['fr']['Scope']='Etendue';
 $_SESSION['l10n']['fr']['See ballot papers']='Voir les décisions';
 $_SESSION['l10n']['fr']['Sign this petition']='Exprimez-vous et signez';
-$_SESSION['l10n']['fr']['84b777d44749c736951ea74dfaab0441']='La logiciel a été intégré';
-$_SESSION['l10n']['fr']['52805ab875131338b1dbf881c9555000']='La logiciel est disponible séparément';
+$_SESSION['l10n']['fr']['84b777d44749c736951ea74dfaab0441']='Le logiciel a été intégré';
+$_SESSION['l10n']['fr']['52805ab875131338b1dbf881c9555000']='Le logiciel est disponible séparément';
 $_SESSION['l10n']['fr']['b407003f533e443ee6bcdfde0ac63685']='L\'architecture de la solution a été documentée';
 $_SESSION['l10n']['fr']['1435562f97bc1d07ce06e75833f95837']='La solution a été intégrée';
 $_SESSION['l10n']['fr']['4c6c136b575ea4d41a252653c59027d6']='La solution est disponible séparément';

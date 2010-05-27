@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
+POT-Creation-Date: 2010-05-27 10:30+0200
 PO-Revision-Date: 2009-09-10 15:10+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -30,7 +30,6 @@ $_SESSION['l10n']['fr']['68350800b8828c34824f5a7001fe5874']='Impossible de resta
 $_SESSION['l10n']['fr']['List versions']='Toutes les versions';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
-$_SESSION['l10n']['fr']['No change']='Aucun changement';
 $_SESSION['l10n']['fr']['Restore this version']='Restaurer cette version';
 $_SESSION['l10n']['fr']['Restore: %s']='Restaurer : %s';
 $_SESSION['l10n']['fr']['de5d2b644781f70723536b82aeabe743']='Choisir une version pour visualiser les différences avec la page courante. Seule la dernière modification d\'une même journée est conservée dans la base de données.';
@@ -42,6 +41,7 @@ $_SESSION['l10n']['fr']['This has been posted by %s %s.']='Ceci a été envoyé 
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['Trailer']='Bas de page';
 $_SESSION['l10n']['fr']['Unknown anchor %s']='Ancrage inconnu %s';
+$_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['Versions: %s']='Version : %s';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['compare to current version']='comparer avec la version actuelle';

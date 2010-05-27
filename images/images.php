@@ -689,8 +689,8 @@ Class Images {
 		}
 
 		// set default values
-		if(!isset($fields['use_thumbnail']) || !Surfer::is_empowered())
-			$fields['use_thumbnail'] = 'Y'; 	// only associates can select to not moderate image sizes
+		if(!isset($fields['use_thumbnail']) || !Surfer::get_id())
+			$fields['use_thumbnail'] = 'Y'; 	// only authenticated users can select to not moderate image sizes
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);

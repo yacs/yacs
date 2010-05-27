@@ -630,8 +630,9 @@ Class Categories {
 		if($keywords_category = Categories::lookup('keywords'))
 			$where .= " AND (categories.anchor NOT LIKE '".$keywords_category."')";
 
-		// avoid featured if accessed remotely
-		$where .= " AND (categories.nick_name NOT LIKE '".i18n::c('featured')."')";
+		// only associates can assign featured pages
+		if(!Surfer::is_associate())
+			$where .= " AND (categories.nick_name NOT LIKE '".i18n::c('featured')."')";
 
 		// make an array of assigned categories
 		if(is_string($to_avoid) && $to_avoid) {
@@ -1697,6 +1698,9 @@ Class Categories {
 				}
 			}
 
+			// back to a string representation
+			$tags = join(', ', $tags);
+
 			// clean assignments for removed tags
 			// the list of members
 			$query = "SELECT anchor FROM ".SQL::table_name('members')
@@ -1707,7 +1711,9 @@ Class Categories {
 				while($row =& SQL::fetch($result)) {
 					if(in_array($row['anchor'], $assigned))
 						continue;
-					if(($category =& Anchors::get($row['anchor'])) && ($category->get_parent() == $root_category))
+
+					// assigned, and a keyword exists, but not in the string of tags
+					if(($category =& Anchors::get($row['anchor'])) && ($keywords = $category->get_value('keywords')) && (stripos($tags, $keywords) === FALSE))
 						Members::free($row['anchor'], $reference);
 				}
 			}

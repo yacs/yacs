@@ -178,7 +178,7 @@ if(Surfer::is_crawler()) {
 	Mailer::close();
 
 // send message to all watchers
-} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
+} elseif((!$recipients =& Members::list_editors_for_member('article:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form

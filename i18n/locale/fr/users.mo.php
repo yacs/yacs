@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-04-09 23:46+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -33,6 +33,7 @@ $_SESSION['l10n']['fr']['f6a30870fcfe0baeb6caff3d3b9c2c6c']='%s si vous devez as
 $_SESSION['l10n']['fr']['%s is following you']='%s vous a choisi comme contact';
 $_SESSION['l10n']['fr']['%s is unknown.']='%s est inconnu';
 $_SESSION['l10n']['fr']['94c9350ef42ae3892cb8b83e566c67ec']='%s sera notifié de chaque contribution que vous ferez sur %s';
+$_SESSION['l10n']['fr']['75dc1d43e6e4ae183b87e9050015bf8a']='%s sera notifié de chaque contribution publique que vous ferez sur %s';
 $_SESSION['l10n']['fr']['e7f2567d23d845a4439372c59aab8e4d']='%s souhaiterait partager une page privée avec vous';
 $_SESSION['l10n']['fr']['%s, and get basic directions']='%s, et obtenir quelques informations essentielles';
 $_SESSION['l10n']['fr']['4f1a57d5f64c6ae8131cb8a32c10d007']='%s, peut-être avec des images et/ou des fichiers';
@@ -99,7 +100,6 @@ $_SESSION['l10n']['fr']['41fc857c53b5476eb325975632e3c0f4']='Les authenticateurs
 $_SESSION['l10n']['fr']['c3de0b752b07de4f2eb99411d157b134']='Désactiver l\'archivage automatique.';
 $_SESSION['l10n']['fr']['Back to %s']='Retour à %s';
 $_SESSION['l10n']['fr']['Back to my profile']='Retour à mon profil';
-$_SESSION['l10n']['fr']['Banned']='Banni';
 $_SESSION['l10n']['fr']['Birth date']='Date de naissance';
 $_SESSION['l10n']['fr']['Browser GMT offset:']='Votre zone de temps:';
 $_SESSION['l10n']['fr']['Business card']='Carte de visite';
@@ -158,6 +158,7 @@ $_SESSION['l10n']['fr']['Edit my profile']='Modifier mon profil';
 $_SESSION['l10n']['fr']['Edit this profile']='Modifier ce profil';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editor: %s']='Editeur : %s';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['f7921c934b2fc657cfe6ef95511b471d']='Tout envoi est publié (mode wiki).';
 $_SESSION['l10n']['fr']['Extension']='Extension';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
@@ -216,10 +217,10 @@ $_SESSION['l10n']['fr']['LDAP %s: bad value \'%s\'.']='LDAP %s : valeur incorrec
 $_SESSION['l10n']['fr']['Language']='Langue';
 $_SESSION['l10n']['fr']['Last name(s)']='Nom de famille';
 $_SESSION['l10n']['fr']['Leave %s']='Quitter %s';
-$_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['0b8cd519dd337044da7ac8644d610983']='Lister les balises HTML permises aux membres.';
 $_SESSION['l10n']['fr']['Location %d of %d']='Emplacement %d de %d';
 $_SESSION['l10n']['fr']['Locations']='Emplacements';
+$_SESSION['l10n']['fr']['Locked']='Bloqué';
 $_SESSION['l10n']['fr']['Login']='Authentifier';
 $_SESSION['l10n']['fr']['e2860b63d1eeb35f238cd8abc67e30ad']='Les informations d\'authentification sont vérifiées localement.';
 $_SESSION['l10n']['fr']['b340ed939ccdd989fb39827e471994e2']='Authentification utilisant le mot de passe de dernier ressort';
@@ -482,7 +483,7 @@ $_SESSION['l10n']['fr']['Your nick name is %s']='Votre pseudo est %s';
 $_SESSION['l10n']['fr']['639f349aeaa83b3365738412411dc182']='Votre surnom, ou votre adresse e-mail';
 $_SESSION['l10n']['fr']['3c0f4eba7ce79541a1d7959fc09a6521']='Votre occupation, votre devise, ou quelque mots bien sentis';
 $_SESSION['l10n']['fr']['Your profile']='Votre profil';
-$_SESSION['l10n']['fr']['Your status']='Votre status';
+$_SESSION['l10n']['fr']['Your status']='Votre statut';
 $_SESSION['l10n']['fr']['Your threads with %s']='Vos discussions avec %s';
 $_SESSION['l10n']['fr']['8a7a2a3548d32a99ee43c60b96d8e211']='Votre liste de surveillance a été mise à jour';
 $_SESSION['l10n']['fr']['a page']='une page';

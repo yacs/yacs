@@ -849,7 +849,7 @@ Class Users {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
-		// protect the privacy of e-mail boxes and never send messages to banned users
+		// protect the privacy of e-mail boxes and never send messages to locked users
 		if($variant == 'address')
 			$where .= " AND (users.with_newsletters='Y') AND (users.capability != '?')";
 
@@ -1080,7 +1080,7 @@ Class Users {
 			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."' OR users.full_name LIKE '".SQL::escape($name)."'";
 		if(isset($context['users_connection']) && ($item =& SQL::query_first($query, FALSE, $context['users_connection']))) {
 
-			// the user has been explicitly banned
+			// the user has been explicitly locked
 			if($item['capability'] == '?')
 				return NULL;
 

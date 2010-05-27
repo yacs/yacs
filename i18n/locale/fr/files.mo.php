@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-04-08 22:43+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -75,6 +75,7 @@ $_SESSION['l10n']['fr']['Drop file content']='Supprimer le contenu de ce fichier
 $_SESSION['l10n']['fr']['Duration']='Durée';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['EasyGPS']='EasyGPS';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Estimated download time:']='Durée estimée du téléchargement :';
 $_SESSION['l10n']['fr']['1af5ec71336204568c61feb93174a23f']='Référence existante (ftp://, http://, ...)';
 $_SESSION['l10n']['fr']['Extensions']='Extensions';
@@ -207,7 +208,7 @@ $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View file details']='Voir les détails du fichier';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
-$_SESSION['l10n']['fr']['What is new in this file?']='Qui a-t-il de nouveau dans ce fichier ?';
+$_SESSION['l10n']['fr']['What is new in this file?']='Quoi de neuf dans ce fichier ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['278d07f7dafd5749bb1bdd201beb6bf0']='Bien que nous ayons pris beaucoup de soins à empêcher l\'infection des fichiers publiés sur ce serveur, nous vous recommandons d\'employer et d\'activer sur votre ordinateur un logiciel anti-virus ad hoc pour obtenir une protection optimale.';
 $_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';

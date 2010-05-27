@@ -294,18 +294,6 @@ if($context['with_debug'] == 'Y') {
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
 Safe::error_reporting($level);
 
-// profile this page -- add '?profile' at the end of the URL to profile, but only at selected sites
-if(($context['with_debug'] == 'Y') && isset($_REQUEST['profile']))
-	$context['with_profile'] = 'Y';
-
-// performance stuff
-global $logger_profile_data;
-$logger_profile_data = array();
-
-// profiling mode -- okay, we are missing things happening before this line...
-if($context['with_profile'] == 'Y')
-	logger::profile('global', 'start');
-
 // the name of this server
 if(isset($_SERVER['HTTP_HOST']))
 	$context['host_name'] = $_SERVER['HTTP_HOST']; // from HTTP request
@@ -756,10 +744,6 @@ function embed_yacs_suffix() {
 function load_skin($variant='', $anchor=NULL, $options='') {
 	global $context;
 
-	// profiling mode
-	if($context['with_profile'] == 'Y')
-		logger::profile('load_skin', 'start');
-
 	// use a specific skin, if any
 	if($options && preg_match('/\bskin_(.+?)\b/i', $options, $matches))
 		$context['skin'] = 'skins/'.$matches[1];
@@ -811,19 +795,9 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	else
 		$context['skin_variant'] = $variant;
 
-	if($context['with_profile'] == 'Y')
-		logger::profile('skin::load', 'start');
-
 	// initialize skin constants
 	if(!defined('BR'))
 		Skin::load();
-
-	if($context['with_profile'] == 'Y')
-		logger::profile('skin::load', 'stop');
-
-	// profiling mode
-	if($context['with_profile'] == 'Y')
-		logger::profile('load_skin', 'stop');
 
 }
 
@@ -1048,10 +1022,6 @@ function render_skin() {
 	if(is_callable(array('Mailer', 'close')))
 		Mailer::close();
 
-	// profiling mode
-	if($context['with_profile'] == 'Y')
-		logger::profile('render_skin', 'start');
-
 	// provide P3P compact policy, if any
 	if(isset($context['p3p_compact_policy']))
 		Safe::header('P3P: CP="'.$context['p3p_compact_policy'].'"');
@@ -1130,12 +1100,8 @@ function render_skin() {
 	}
 
 	// if it was a HEAD request, stop here
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD')) {
-		// dump profile information, if any
-		logger::profile_dump();
-
+	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 		return;
-	}
 
 	// normalize customized components of the head
 	if(isset($context['site_head']))
@@ -1383,13 +1349,6 @@ function render_skin() {
 
 	}
 
-	// profiling mode
-	if($context['with_profile'] == 'Y')
-		logger::profile('render_skin', 'stop');
-
-	// dump profile information, if any
-	Logger::profile_dump();
-
 	// tick only during regular operation
 	if(!file_exists($context['path_to_root'].'parameters/switch.on'))
 		return;
@@ -1508,9 +1467,6 @@ function finalize_page($no_return=FALSE) {
 	// always return on HEAD -- see scripts/validate.php
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 		$no_return = FALSE;
-
-	// dump profile information, if any
-	Logger::profile_dump();
 
 	// no tick on error
 	if(isset($context['skin_variant']) && ($context['skin_variant'] == 'error'))
@@ -1792,9 +1748,5 @@ function normalize_shortcut($id, $with_prefix=FALSE) {
 	// job done
 	return $link;
 }
-
-// profiling mode
-if($context['with_profile'] == 'Y')
-	logger::profile('global', 'stop');
 
 ?>

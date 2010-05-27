@@ -16,7 +16,7 @@ echo i18n::user('label')."<br />\n";
 // the reference server to use
 @include_once $context['path_to_root'].'scripts/parameters.include.php';
 if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = 'www.yetanothercommunitysystem.com';
+	$context['reference_server'] = 'www.yacs.fr';
 
 // files to fetch, from root path
 unset($files);

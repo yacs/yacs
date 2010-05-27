@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-11-29 23:34+0100
+POT-Creation-Date: 2010-05-12 16:23+0200
+PO-Revision-Date: 2010-05-12 16:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -129,7 +129,7 @@ $_SESSION['l10n']['fr']['58307fee2eb36a82781084c561fff62d']='Suppression des pag
 $_SESSION['l10n']['fr']['Reference script: %s']='Script de référence : %s';
 $_SESSION['l10n']['fr']['17f3d5f530a5076c5820d9b50f3474db']='Ensemble de référence de %d fichiers créé le %s sur le serveur %s';
 $_SESSION['l10n']['fr']['Review']='Visualiser';
-$_SESSION['l10n']['fr']['5bf3b809e693a9ac0b4dcf5e6e4e028a']='Contrôler les nouveaux scripts avant la mise à jour';
+$_SESSION['l10n']['fr']['54efde986e4e1ce67197e8e89a1822ef']='Contrôler les nouveaux scripts avant la mise à jour';
 $_SESSION['l10n']['fr']['Run once']='Exécution unique';
 $_SESSION['l10n']['fr']['Run one-time scripts']='Chargement des scripts à exécution unique';
 $_SESSION['l10n']['fr']['a09ec6a44e8678d5cbbb8a7c5f5ba286']='Les scripts sont à jour par rapport à l\'ensemble de référence.';

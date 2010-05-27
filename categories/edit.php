@@ -111,7 +111,7 @@ else
 	$context['page_title'] = i18n::s('Add a category');
 
 // validate input syntax
-if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))) {
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
 	if(isset($_REQUEST['introduction']))
 		xml::validate($_REQUEST['introduction']);
 	if(isset($_REQUEST['description']))
@@ -900,8 +900,7 @@ if($with_form) {
 		$input[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
 	// validate page content
-	if(Surfer::is_empowered())
-		$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+	$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
 	// append post-processing options
 	if($input)

@@ -1290,11 +1290,20 @@ if(!isset($item['id'])) {
 				$order = $layout->items_order();
 			else
 				$order = 'edition';
-			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+
+			// list pages under preparation
+			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+			}
 
 			// top menu
 			if($box['top_bar'])
 				$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
+
+			// get pages
+			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 			// items in the middle
 			if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))

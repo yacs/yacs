@@ -36,8 +36,6 @@ http::expire(0);
 
 // surfer has to be logged --provide a short response
 if(!Surfer::get_id()) {
-	Logger::profile_dump();
-
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 

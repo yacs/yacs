@@ -478,11 +478,20 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				$order = $layout->items_order();
 			else
 				$order = 'edition';
-			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+
+			// list pages under preparation
+			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+			}
 
 			// top menu
 			if($box['top_bar'])
 				$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
+
+			// get pages
+			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 			// items in the middle
 			if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
@@ -826,12 +835,6 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	if($wcount > 1)
 		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wcount), $wcount));
 
-	// send a message to a section
-	if(($ecount > 1) && Sections::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
-		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Send a message'));
-	}
-
 	// add to the watch list -- $in_watch_list is set in sections/view.php
 	if(Surfer::get_id() && !$in_watch_list) {
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
@@ -841,6 +844,12 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// spread the list over several pages
 	if($wcount > 1)
 		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
+
+	// send a message to a section
+	if(($ecount > 1) && Sections::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
+		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Send a message'));
+	}
 
 	// navigation commands for users
 	$home = Sections::get_permalink($item).'#_users';

@@ -242,10 +242,6 @@ Class Comments {
 		if($optional && ($context['skins_with_details'] != 'Y'))
 			return NULL;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('comments::count_for_anchor');
-
 		// select among available items
 		$query = "SELECT COUNT(id) as count"
 			." FROM ".SQL::table_name('comments')." AS comments "
@@ -1806,10 +1802,6 @@ Class Comments {
 	 */
 	function &stat_for_anchor($anchor) {
 		global $context;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('comments::stat_for_anchor');
 
 		// sanity check
 		if(!$anchor)

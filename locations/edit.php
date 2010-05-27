@@ -86,11 +86,13 @@ if(isset($item['id']))
 else
 	$context['page_title'] = i18n::s('Add a location');
 
-// always validate input syntax
-if(isset($_REQUEST['introduction']))
-	xml::validate($_REQUEST['introduction']);
-if(isset($_REQUEST['description']))
-	xml::validate($_REQUEST['description']);
+// validate input syntax only if required
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
+	if(isset($_REQUEST['introduction']))
+		xml::validate($_REQUEST['introduction']);
+	if(isset($_REQUEST['description']))
+		xml::validate($_REQUEST['description']);
+}
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -292,6 +294,9 @@ if($with_form) {
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+
+	// validate page content
+	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

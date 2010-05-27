@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-10-05 00:04+0100
+POT-Creation-Date: 2010-05-27 10:07+0200
+PO-Revision-Date: 2010-05-27 10:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -42,6 +42,7 @@ $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the action']='Modifier l\'action';
 $_SESSION['l10n']['fr']['Edited by']='Modifié par';
+$_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Look for orphan records']='Recherche des enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';

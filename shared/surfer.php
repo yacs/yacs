@@ -131,9 +131,14 @@ Class Surfer {
 	function assigned_sections($id=NULL, $maximum=200) {
 		global $context;
 
+		// don't look at sub-levels
+		$with_subs = FALSE;
+
 		// default to current surfer
-		if(!$id)
+		if(!$id) {
 			$id = Surfer::get_id();
+			$with_subs = TRUE;
+		}
 
 		// sanity check
 		if(!$id)
@@ -169,6 +174,101 @@ Class Surfer {
 				// build the list
 				while($row =& SQL::fetch($result))
 					$cache[ $id ][] = $row['id'];
+
+			}
+
+			// re-enforce ownership inheritance
+			if($with_subs) {
+
+				// level 2
+				$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+					." WHERE sections.anchor IN ('section:".join("', 'section:", $cache[ $id ])."')"
+					."	AND (".$where.")"
+					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
+
+				// submit a silent query because at setup tables don't exist
+				$level = array();
+				if(($result =& SQL::query($query, TRUE))) {
+
+					// build the list
+					while($row =& SQL::fetch($result)) {
+						$cache[ $id ][] = $row['id'];
+						$level[] = $row['id'];
+					}
+
+				}
+
+				// level 3
+				$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+					." WHERE sections.anchor IN ('section:".join("', 'section:", $level)."')"
+					."	AND (".$where.")"
+					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
+
+				// submit a silent query because at setup tables don't exist
+				if($level && ($result =& SQL::query($query, TRUE))) {
+
+					// build the list
+					$level = array();
+					while($row =& SQL::fetch($result)) {
+						$cache[ $id ][] = $row['id'];
+						$level[] = $row['id'];
+					}
+
+				}
+
+				// level 4
+				$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+					." WHERE sections.anchor IN ('section:".join("', 'section:", $level)."')"
+					."	AND (".$where.")"
+					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
+
+				// submit a silent query because at setup tables don't exist
+				if($level && ($result =& SQL::query($query, TRUE))) {
+
+					// build the list
+					$level = array();
+					while($row =& SQL::fetch($result)) {
+						$cache[ $id ][] = $row['id'];
+						$level[] = $row['id'];
+					}
+
+				}
+
+				// level 5
+				$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+					." WHERE sections.anchor IN ('section:".join("', 'section:", $level)."')"
+					."	AND (".$where.")"
+					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
+
+				// submit a silent query because at setup tables don't exist
+				if($level && ($result =& SQL::query($query, TRUE))) {
+
+					// build the list
+					$level = array();
+					while($row =& SQL::fetch($result)) {
+						$cache[ $id ][] = $row['id'];
+						$level[] = $row['id'];
+					}
+
+				}
+
+				// level 6
+				$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+					." WHERE sections.anchor IN ('section:".join("', 'section:", $level)."')"
+					."	AND (".$where.")"
+					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
+
+				// submit a silent query because at setup tables don't exist
+				if($level && ($result =& SQL::query($query, TRUE))) {
+
+					// build the list
+					$level = array();
+					while($row =& SQL::fetch($result)) {
+						$cache[ $id ][] = $row['id'];
+						$level[] = $row['id'];
+					}
+
+				}
 
 			}
 

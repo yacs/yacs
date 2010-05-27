@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-04-08 22:39+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -33,6 +33,7 @@ $_SESSION['l10n']['en']['f6a30870fcfe0baeb6caff3d3b9c2c6c']='%s if you have to a
 $_SESSION['l10n']['en']['%s is following you']='%s is following you';
 $_SESSION['l10n']['en']['%s is unknown.']='%s is unknown.';
 $_SESSION['l10n']['en']['94c9350ef42ae3892cb8b83e566c67ec']='%s will receive notifications when you will create new content at %s';
+$_SESSION['l10n']['en']['75dc1d43e6e4ae183b87e9050015bf8a']='%s will receive notifications when you will create new public content at %s';
 $_SESSION['l10n']['en']['e7f2567d23d845a4439372c59aab8e4d']='%s would like to share a private page with you';
 $_SESSION['l10n']['en']['%s, and get basic directions']='%s, and get basic directions';
 $_SESSION['l10n']['en']['4f1a57d5f64c6ae8131cb8a32c10d007']='%s, maybe with some images and/or files';
@@ -99,7 +100,6 @@ $_SESSION['l10n']['en']['41fc857c53b5476eb325975632e3c0f4']='Authenticators list
 $_SESSION['l10n']['en']['c3de0b752b07de4f2eb99411d157b134']='Automatic archiving is disabled.';
 $_SESSION['l10n']['en']['Back to %s']='Back to %s';
 $_SESSION['l10n']['en']['Back to my profile']='Back to my profile';
-$_SESSION['l10n']['en']['Banned']='Banned';
 $_SESSION['l10n']['en']['Birth date']='Birth date';
 $_SESSION['l10n']['en']['Browser GMT offset:']='Browser GMT offset:';
 $_SESSION['l10n']['en']['Business card']='Business card';
@@ -158,6 +158,7 @@ $_SESSION['l10n']['en']['Edit my profile']='Edit my profile';
 $_SESSION['l10n']['en']['Edit this profile']='Edit this profile';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editor: %s']='Editor: %s';
+$_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['f7921c934b2fc657cfe6ef95511b471d']='Every post is published (Wiki mode).';
 $_SESSION['l10n']['en']['Extension']='Extension';
 $_SESSION['l10n']['en']['FCKEditor']='FCKEditor';
@@ -216,10 +217,10 @@ $_SESSION['l10n']['en']['LDAP %s: bad value \'%s\'.']='LDAP %s: bad value \'%s\'
 $_SESSION['l10n']['en']['Language']='Language';
 $_SESSION['l10n']['en']['Last name(s)']='Last name(s)';
 $_SESSION['l10n']['en']['Leave %s']='Leave %s';
-$_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['0b8cd519dd337044da7ac8644d610983']='List HTML tags allowed to members.';
 $_SESSION['l10n']['en']['Location %d of %d']='Location %d of %d';
 $_SESSION['l10n']['en']['Locations']='Locations';
+$_SESSION['l10n']['en']['Locked']='Locked';
 $_SESSION['l10n']['en']['Login']='Login';
 $_SESSION['l10n']['en']['e2860b63d1eeb35f238cd8abc67e30ad']='Login information is checked locally.';
 $_SESSION['l10n']['en']['b340ed939ccdd989fb39827e471994e2']='Login using the last resort password';

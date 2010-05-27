@@ -138,11 +138,13 @@ elseif(Surfer::is_associate())
 else
 	$context['page_title'] = i18n::s('Register on this server');
 
-// always validate input syntax
-if(isset($_REQUEST['introduction']))
-	xml::validate($_REQUEST['introduction']);
-if(isset($_REQUEST['description']))
-	xml::validate($_REQUEST['description']);
+// validate input syntax only if required
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
+	if(isset($_REQUEST['introduction']))
+		xml::validate($_REQUEST['introduction']);
+	if(isset($_REQUEST['description']))
+		xml::validate($_REQUEST['description']);
+}
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -367,7 +369,7 @@ if($with_form) {
 		$input .= '<input type="radio" name="capability" value="?"';
 		if(isset($item['capability']) && ($item['capability'] == '?'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Banned')."\n";
+		$input .= ' /> '.i18n::s('Locked')."\n";
 		$fields[] = array($label, $input);
 	}
 
@@ -806,13 +808,16 @@ if($with_form) {
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
-	// link to privacy statement
-	if(!isset($item['id']) && !Surfer::is_associate())
-		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</p>';
-
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y"/>'.' '.i18n::s('Do not change modification date.').'</p>';
+
+	// validate page content
+	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+
+	// link to privacy statement
+	if(!isset($item['id']) && !Surfer::is_associate())
+		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

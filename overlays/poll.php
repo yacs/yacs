@@ -31,6 +31,7 @@ class Poll extends Overlay {
 
 		// a placeholder for new answers
 		if(!isset($this->attributes['answers']) || !is_array($this->attributes['answers'])) {
+			$this->attributes['answers'] = array();
 			$this->attributes['answers'][] = array(i18n::s('Answer 1'), 0);
 			$this->attributes['answers'][] = array(i18n::s('Answer 2'), 0);
 			$this->attributes['answers'][] = array(i18n::s('Answer 3'), 0);

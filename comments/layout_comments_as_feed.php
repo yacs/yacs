@@ -49,8 +49,9 @@ Class Layout_comments_as_feed extends Layout_interface {
 			// the title as the label
 			$label = '';
 			if($item['create_name'])
-				$label .= ucfirst($item['create_name']).' ';
-			$label .= Skin::build_date($item['edit_date']);
+				$label .= ucfirst($item['create_name']);
+			if(is_object($anchor))
+				$label .= ' '.sprintf(i18n::s('on %s'), $anchor->get_title());
 
 			// the section
 			$section = '';

@@ -133,12 +133,20 @@ $context['text'] .= '[title]'.i18n::s('Labelled link').' [escape][link=&lt;label
 	.'<td>'.i18n::s('You can visit [link=Cisco On Line]www.cisco.com[/link]').'</td></tr>'
 	.Skin::table_suffix();
 
-// [button=label]url[/button]
-$context['text'] .= '[title]'.i18n::s('Labelled button').' [escape][button=&lt;label&gt;]&lt;url&gt;[/button][/escape][/title]'
+// [button=label|url]
+$context['text'] .= '[title]'.i18n::s('Labelled button').' [escape][button=&lt;label&gt;|&lt;url&gt;][/escape][/title]'
 	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [button=Cisco On Line]www.cisco.com[/button]').'[/escape]</td>'
-	.'<td>'.i18n::s('You can visit [button=Cisco On Line]www.cisco.com[/button]').'</td></tr>'
+	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [button=Cisco On Line|www.cisco.com]').'[/escape]</td>'
+	.'<td>'.i18n::s('You can visit [button=Cisco On Line|www.cisco.com]').'</td></tr>'
+	.Skin::table_suffix();
+
+// [click=label|url] [clicks=url]
+$context['text'] .= '[title]'.i18n::s('Count clicks').' [escape][click=&lt;label&gt;|&lt;url&gt;] [clicks=&lt;url&gt;][/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]').'[/escape]</td>'
+	.'<td>'.i18n::s('You can visit [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]').'</td></tr>'
 	.Skin::table_suffix();
 
 // address
@@ -171,6 +179,14 @@ $context['text'] .= '[title]'.i18n::s('Selector').' [escape][go=&lt;name&gt;, &l
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Please use our [go=monthly, monthly archive] for reference').'[/escape]</td>'
 	.'<td>'.i18n::s('Please use our [go=monthly, monthly archive] for reference').'</td></tr>'
+	.Skin::table_suffix();
+
+// [[monthly, monthly archive]]
+$context['text'] .= '[title]'.i18n::s('Selector').' [escape][[&lt;name&gt;, &lt;label&gt;]][/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape]'.i18n::s('Please use our [[monthly, monthly archive]] for reference').'[/escape]</td>'
+	.'<td>'.i18n::s('Please use our [[monthly, monthly archive]] for reference').'</td></tr>'
 	.Skin::table_suffix();
 
 // [article=id]

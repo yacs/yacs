@@ -129,6 +129,10 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			if($introduction)
 				$suffix .= BR.Codes::beautify_introduction($introduction);
 
+			// insert overlay data, if any
+			if(is_object($overlay))
+				$suffix .= $overlay->get_text('list', $item);
+
 			// page size for comments
 			$layout = new Layout_comments_as_yabb();
 

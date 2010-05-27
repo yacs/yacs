@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:23+0200
-PO-Revision-Date: 2010-04-08 22:39+0100
+POT-Creation-Date: 2010-05-27 10:07+0200
+PO-Revision-Date: 2010-05-27 10:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -70,6 +70,7 @@ $_SESSION['l10n']['fr']['Color']='Couleur';
 $_SESSION['l10n']['fr']['Comic']='Comic';
 $_SESSION['l10n']['fr']['Comma-separated values']='Données importées';
 $_SESSION['l10n']['fr']['Comment shortcut']='Commentaire';
+$_SESSION['l10n']['fr']['Count clicks']='Compter les clics';
 $_SESSION['l10n']['fr']['Cursive']='Cursive';
 $_SESSION['l10n']['fr']['Decision shortcut']='Décision';
 $_SESSION['l10n']['fr']['Decorated']='Décoré';
@@ -161,6 +162,7 @@ $_SESSION['l10n']['fr']['Personal hits']='Succès personnels';
 $_SESSION['l10n']['fr']['Personal pages']='Pages personnelles';
 $_SESSION['l10n']['fr']['Personal updates']='Mises à jour personnelles';
 $_SESSION['l10n']['fr']['214dd1acc22b2d7285559324bc6bdda0']='Bien entendu, le rendu visuel dépend du %s choisi pour l\'affichage';
+$_SESSION['l10n']['fr']['903777e765243d090e5ab33012a315fc']='Merci de consulter les [[monthly, archives mensuelles]] pour plus d\'information';
 $_SESSION['l10n']['fr']['1a768e2d0dde5c2e0daa2c23845b22d9']='Merci de consulter les [go=monthly, archives mensuelles] pour plus d\'information';
 $_SESSION['l10n']['fr']['Popular']='Populaire';
 $_SESSION['l10n']['fr']['Pre-formatted']='Pré-formatté';
@@ -261,7 +263,8 @@ $_SESSION['l10n']['fr']['94f3c1716b226c10660346cffdf24674']='Vous pouvez envoyer
 $_SESSION['l10n']['fr']['88c8f1151cc55ecdebed9bf4cd119abe']='Vous pouvez envoyer un message à l\'adresse suivante : webmaster@acme.com';
 $_SESSION['l10n']['fr']['0cc217b44799b71fe26dc9446f035fe2']='Vous pouvez envoyer un message à l\'[email=équipe de support]webmaster@acme.com[/email]';
 $_SESSION['l10n']['fr']['e17fd555af132dccc1b8c69e85fcc29e']='Vous pouvez visiter [Cisco On Line|www.cisco.com]';
-$_SESSION['l10n']['fr']['eea00a581df4ad0ba5a2989ee5b7fde5']='Vous pouvez visiter [button=Cisco On Line]www.cisco.com[/button]';
+$_SESSION['l10n']['fr']['4ff93192addc6e98848d5748775b5030']='Vous pouvez visiter [button=Cisco On Line|www.cisco.com]';
+$_SESSION['l10n']['fr']['1dc9ee6195498eb761c1ce57d7e9b2d3']='Vous pouvez visiter [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]';
 $_SESSION['l10n']['fr']['aca55e7e9fc28e93c965f0b6d460d2e9']='Vous pouvez visiter [link=Cisco On Line]www.cisco.com[/link]';
 $_SESSION['l10n']['fr']['c47f633bd83faf4c5e26ec301fd65d72']='Vous pouvez visiter [link]codes/basic.php[/link] ou [link]index.php[/link]';
 $_SESSION['l10n']['fr']['78bd8c1de20db3f6bb92c282fd10d94b']='Vous pouvez visiter [link]www.cisco.com[/link] ou [link]http://www.nortel.com[/link], ou discuter à [link]irc://irc.eu.be.ofloo.net/[/link]';

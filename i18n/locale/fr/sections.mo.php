@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-03-08 17:31+0100
+POT-Creation-Date: 2010-05-28 00:03+0200
+PO-Revision-Date: 2010-05-27 10:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -145,6 +145,7 @@ $_SESSION['l10n']['fr']['Do not list sections']='Ne pas lister les sections';
 $_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['Download']='Télécharger';
 $_SESSION['l10n']['fr']['Draft']='Brouillon';
+$_SESSION['l10n']['fr']['Draft pages']='Pages en cours de préparation';
 $_SESSION['l10n']['fr']['Duplicate']='Dupliquer';
 $_SESSION['l10n']['fr']['Duplicate following pages in']='Dupliquer les pages suivantes dans';
 $_SESSION['l10n']['fr']['Duplicate this section']='Dupliquer cette section';
@@ -228,6 +229,7 @@ $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Manage']='Gérer';
 $_SESSION['l10n']['fr']['Manage content']='Gérer le contenu';
 $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
+$_SESSION['l10n']['fr']['Manage it']='Gérer le contenu';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['Manage: %s']='Gérer : %s';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='Les champs obligatoires sont signalés par un *';
@@ -292,7 +294,6 @@ $_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['ed85a2a609bc10e316ded371a55e5531']='Merci de confirmer que vous souhaitez supprimer les pages suivantes.';
 $_SESSION['l10n']['fr']['be72d222dbc7f97ae5604c94564f135e']='Merci de taper le texte de votre nouvelle page et de cliquer sur le bouton en bas du formulaire. L\'envoi des images, des fichiers et des liens se fait dans un deuxième temps.';
-$_SESSION['l10n']['fr']['87c663a3043f841f20b28627d553226a']='Merci par avance de votre contribution.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';

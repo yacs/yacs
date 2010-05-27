@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
+POT-Creation-Date: 2010-05-28 00:03+0200
 PO-Revision-Date: 2010-02-10 14:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -234,7 +234,6 @@ $_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have b
 $_SESSION['l10n']['en']['Ping']='Ping';
 $_SESSION['l10n']['en']['7ddc27bb7cf70408e6ca481071e4270f']='Please carefully select a model for your page.';
 $_SESSION['l10n']['en']['247995c3285df0a70d924ad9d3385e88']='Please carefully select a section for your page.';
-$_SESSION['l10n']['en']['87c663a3043f841f20b28627d553226a']='Please let me thank you for your kind support.';
 $_SESSION['l10n']['en']['b6b885d5f202a4571c1af504d8c504d7']='Please note that this page has not been advertised to aggregation servers.';
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';

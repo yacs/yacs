@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-04-08 22:38+0100
+POT-Creation-Date: 2010-05-28 00:03+0200
+PO-Revision-Date: 2010-05-27 10:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -20,6 +20,7 @@ X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: English
 ';
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
+$_SESSION['l10n']['en']['5c5d7433b029747dfb6d13f190504a0f']='%d person has followed the link: %s'.chr(0).'%d persons have followed the link: %s';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
@@ -78,6 +79,7 @@ $_SESSION['l10n']['en']['fc2edca5afeada33fbd4d829f8da5047']='System commands, co
 $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
+$_SESSION['l10n']['en']['This link has not been used yet']='This link has not been used yet';
 $_SESSION['l10n']['en']['e6236ced25bee095095728d9b2de9a4f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.';
 $_SESSION['l10n']['en']['3761f289e530ecec30478aaa67bc049f']='This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on Stop notifications.';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';

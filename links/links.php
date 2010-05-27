@@ -222,7 +222,7 @@ Class Links {
 	}
 
 	/**
-	 * increment one click link
+	 * record a click
 	 *
 	 * @param string the external url that is targeted
 	 *
@@ -234,11 +234,15 @@ Class Links {
 		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'GET'))
 			return;
 
-		// stop crawlers
+		// do not count crawling
 		if(isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/(blo\.gs|\bblog|bot\b|crawler\b|frontier\b|slurp\b|spider\b)/i', $_SERVER['HTTP_USER_AGENT']))
 			return;
 
-		// do not record links to search engines
+		// record the activity
+		include_once $context['path_to_root'].'users/activities.php';
+		Activities::post($url, 'click');
+
+		// do not record clicks driving to search engines
 		if(preg_match('/\b(google|yahoo)\b/i', $url))
 			return;
 
@@ -306,10 +310,6 @@ Class Links {
 		// request the database only in hi-fi mode
 		if($optional && ($context['skins_with_details'] != 'Y'))
 			return NULL;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('links::count_for_anchor');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count"
@@ -1418,10 +1418,6 @@ Class Links {
 	 */
 	function &stat_for_anchor($anchor) {
 		global $context;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('links::stat_for_anchor');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"

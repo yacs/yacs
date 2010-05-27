@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-03-02 22:46+0100
+POT-Creation-Date: 2010-05-28 00:03+0200
+PO-Revision-Date: 2010-05-25 15:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -37,7 +37,7 @@ $_SESSION['l10n']['fr']['%s vote'.chr(0).'%s votes']='%s vote'.chr(0).'%s votes'
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['(anonymous)']='(anonyme)';
 $_SESSION['l10n']['fr']['10000']='10000';
-$_SESSION['l10n']['fr']['0ca45ffa169a38619afd4a1a16c62332']='<p>N\'oubliez pas de publier la nouvelle page un jour ou l\'autre. Editez la page, améliorer la, puis cliquez sur la commande Publier pour la rendre disponible à tous.</p>';
+$_SESSION['l10n']['fr']['0ca45ffa169a38619afd4a1a16c62332']='<p>N\'oubliez pas de publier la nouvelle page un jour ou l\'autre. Editez la page, améliorez la, puis cliquez sur la commande Publier pour la rendre disponible à tous.</p>';
 $_SESSION['l10n']['fr']['18d7b1ad712e8d2c1d84e48d9ed1b103']='<p>La nouvelle page a été publiée avec succès. Merci de vous relire afin d\'éviter toute erreur involontaire.</p>';
 $_SESSION['l10n']['fr']['75f7fa82ced121791f3dc2124599df75']='<p>La nouvelle page va être controlée avant sa publication. Normalement ce processus prend moins de 24 heures, en fonction de la disponibilité des uns et des autres.</p>';
 $_SESSION['l10n']['fr']['c8e8765c2b28f43d6edb308e5dab306e']='Une liste de mots-clés, séparés par des virgules';
@@ -234,7 +234,6 @@ $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties 
 $_SESSION['l10n']['fr']['Ping']='Ping';
 $_SESSION['l10n']['fr']['7ddc27bb7cf70408e6ca481071e4270f']='Choisissez le modèle de page à utiliser.';
 $_SESSION['l10n']['fr']['247995c3285df0a70d924ad9d3385e88']='Choisissez où placer la nouvelle page';
-$_SESSION['l10n']['fr']['87c663a3043f841f20b28627d553226a']='Merci par avance de votre contribution.';
 $_SESSION['l10n']['fr']['b6b885d5f202a4571c1af504d8c504d7']='Notez que cette page n\'a pas été signalée aux serveurs d\'aggrégation.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';

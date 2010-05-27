@@ -54,12 +54,12 @@ $context['page_title'] = i18n::s('New page');
 
 // the form to edit an article
 $context['text'] .= '<form method="post"'
-	.' action="'.$context['url_to_root'].'articles/edit.php" target="'.htmlspecialchars($target).'" id="main_form">';
+	.' action="'.$context['url_to_root'].'articles/edit.php" target="'.htmlspecialchars($target).'" id="side_form">';
 
 // the section
-$context['text'] .= '<p>'.i18n::s('Section').BR
-	.'<select name="anchor">'.Sections::get_options().'</select>'
-	.'</p>'."\n";
+// $context['text'] .= '<p>'.i18n::s('Section').BR
+// 	.'<select name="anchor">'.Sections::get_options().'</select>'
+// 	.'</p>'."\n";
 
 // the title
 $context['text'] .= '<p>'.i18n::s('Title').BR
@@ -73,7 +73,7 @@ $context['text'] .= '<p>'.i18n::s('Introduction').BR
 
 // the description label
 $context['text'] .= '<p>'.i18n::s('Page content').BR
-	.'<textarea name="description" rows="10" cols="20" accesskey="c"></textarea>'
+	.'<textarea name="text" rows="10" cols="20" accesskey="c"></textarea>'
 	.'</p>'."\n";
 
 // the submit and reset buttons

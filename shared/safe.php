@@ -383,9 +383,6 @@ class Safe {
 	function GetImageSize($file) {
 		global $context;
 
-		if($context['with_profile'] == 'Y')
-			logger::profile('GetImageSize', 'start');
-
 		// translate the path
 		$file = Safe::realpath($file);
 
@@ -394,9 +391,6 @@ class Safe {
 			$output = @GetImageSize($file);
 		else
 			$output = FALSE;
-
-		if($context['with_profile'] == 'Y')
-			logger::profile('GetImageSize', 'stop');
 
 		// end of job
 		return $output;

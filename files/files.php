@@ -79,13 +79,26 @@ Class Files {
 				return FALSE;
 		}
 
-		// only in articles
+		// attach a file to an article
 		if($variant == 'article') {
 
 			// 'no files' option
 			if(Articles::has_option('no_files', $anchor, $item))
 				return FALSE;
 
+
+		// attach a file to a user profile
+		} elseif($variant == 'user') {
+
+			// associates can always proceed
+			if(Surfer::is_associate())
+				;
+
+			// you can't attach a file to the profile of someone else
+			elseif(!is_object($anchor) || !Surfer::get_id())
+				return FALSE;
+			elseif($anchor->get_reference() != 'user:'.Surfer::get_id())
+				return FALSE;
 
 		// other containers
 		} else {
@@ -384,10 +397,6 @@ Class Files {
 		// request the database only in hi-fi mode
 		if($optional && ($context['skins_with_details'] != 'Y'))
 			return NULL;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('files::count_for_anchor');
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
@@ -1319,7 +1328,7 @@ Class Files {
 			// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 				.JS_PREFIX
-				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 				.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 				.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
 				.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
@@ -2342,10 +2351,6 @@ Class Files {
 		// sanity check
 		if(!$anchor)
 			return NULL;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('files::stat_for_anchor');
 
 		// limit the scope of the request
 		$where = "files.active='Y'";

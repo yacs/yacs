@@ -60,8 +60,6 @@ if(Surfer::is_crawler()) {
 
 // an anchor is mandatory
 } elseif(!is_object($anchor)) {
-	Logger::profile_dump();
-
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	die(i18n::s('No anchor has been found.'));
 

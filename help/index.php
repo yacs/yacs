@@ -260,121 +260,18 @@ if(Surfer::is_associate())
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('help/index.php#prefix');
 
-// shortcuts for members
-if(Surfer::is_member()) {
-	$context['text'] .= Skin::build_block(i18n::s('Selected shortcuts'), 'title')
-		.'<ul>'."\n"
-		.'<li>'.sprintf(i18n::s('%s and change it if you like.'), Skin::build_link('users/view.php', i18n::s('Review your profile'), 'shortcut')).'</li>'."\n";
-	if(Surfer::is_associate())
-		$context['text'] .= '<li>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</li>'."\n"
-			.'<li>'.sprintf(i18n::s('%s. Some people would say \'a new blog\'.'), Skin::build_link('sections/edit.php', i18n::s('Add a section'), 'shortcut')).'</li>'."\n";
-	$context['text'] .= '<li>'.sprintf(i18n::s('%s. Or call it a \'blog entry\' if you prefer.'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'shortcut')).'</li>'."\n"
-		.'<li>'.sprintf(i18n::s('%s, the central place to manage this server.'), Skin::build_link('control/', i18n::s('Control Panel'), 'shortcut')).'</li>'."\n"
-		.'<li>'.sprintf(i18n::s('%s of this site.'), Skin::build_link($context['url_to_root'], i18n::s('Go to the front page'), 'shortcut')).'</li>'."\n"
-		.'</ul>'."\n";
-}
-
 // where to look for information
 $context['text'] .= Skin::build_block(i18n::s('Where to look for information?'), 'title')
 	.'<ul>'
+	.'<li>'.sprintf(i18n::s('%s and change it if you like.'), Skin::build_link('users/view.php', i18n::s('Review your profile'))).'</li>'
+	.'<li>'.sprintf(i18n::s('%s of this site.'), Skin::build_link($context['url_to_root'], i18n::s('Go to the front page'))).'</li>'
 	.'<li>'.Skin::build_link('sections/', i18n::s('Site map')).'</li>'
 	.'<li>'.Skin::build_link('categories/', i18n::s('Categories')).'</li>'
 	.'<li>'.sprintf(i18n::s('Index of most recent %1$s, %2$s, %3$s and %4$s'), Skin::build_link('articles/', i18n::s('pages')), Skin::build_link('files/', i18n::s('files')), Skin::build_link('comments/', i18n::s('threads')), Skin::build_link('users/', i18n::s('people'))).'</li>'
-	.'<li>'.Skin::build_link('search.php', i18n::s('Full-text search')).'</li>'
-	.'<li>'.Skin::build_link('control/', i18n::s('Control Panel')).'</li>';
+	.'<li>'.Skin::build_link('search.php', i18n::s('Full-text search')).'</li>';
 if(!Surfer::is_logged() && (!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')))
 	$context['text'] .= '<li> '.sprintf(i18n::s('%s to access more material, and to receive our newsletters'), Skin::build_link('users/edit.php', i18n::s('Register'))).'</li>';
 $context['text'] .= '</ul>';
-
-// everybody, but subscriptors, may contribute
-if(!Surfer::is_logged() || Surfer::is_member()) {
-
-	// how to contribute
-	$context['text'] .= Skin::build_block(i18n::s('How to contribute?'), 'title');
-
-	// introduce contribution links
-	$context['text'] .= i18n::s('<p>You will have to be registered and authenticated to submit new articles. Then browse any section, or use your user menu, to post new material.</p>')."\n";
-
-	$context['text'] .= '<ul>';
-
-	// offer anonymous surfer to register
-	if(!Surfer::is_logged() && (!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')))
-		$context['text'] .= '<li>'.sprintf(i18n::s('%s to be authenticated at each visit'), Skin::build_link('users/edit.php', i18n::s('Register'))).'</li>';
-
-	// actual contributions
-	if(Surfer::is_member()) {
-		$context['text'] .= '<li>'.sprintf(i18n::s('%s that will be published on this site'), Skin::build_link('articles/edit.php', i18n::s('Add a page'))).'</li>';
-
-		$context['text'] .= '<li>'.i18n::s('While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have').'</li>';
-	}
-
-	// special command to associate
-	if(Surfer::is_associate())
-		$context['text'] .= '<li> '.sprintf(i18n::s('%s to publish them'), Skin::build_link('articles/review.php', i18n::s('Review submitted articles'))).'</li>';
-
-	$context['text'] .= '</ul>';
-}
-
-// how to contribute later
-if(Surfer::is_member()) {
-
-	// introduce bookmarklets
-	$context['text'] .= i18n::s('<p>To install following bookmarklets, right-click over them and add them to your bookmarks. Then recall them at any time while browsing the Internet, to add content to this site.</p>')."\n".'<ul>';
-
-	// the blogging bookmarklet uses YACS codes
-	$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
-		."var s='';"
-		."d=document;"
-		."s=d.selection?findFrame(window):window.getSelection();"
-		."window.location='".$context['url_to_home'].$context['url_to_root']."articles/edit.php?"
-			."title='+escape(d.title)+'"
-			."&amp;text='+escape('%22'+s+'%22%5Bnl]-- %5Blink='+d.title+']'+d.location+'%5B/link]')+'"
-			."&amp;source='+escape(d.location);";
-	$context['text'] .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Blog at %s'), $context['site_name']).'</a></li>'."\n";
-
-	// the bookmarking bookmarklet
-	$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
-		."var s='';"
-		."d=document;"
-		."s=d.selection?findFrame(window):window.getSelection();"
-		."window.location='".$context['url_to_home'].$context['url_to_root']."links/edit.php?"
-			."link='+escape(d.location)+'"
-			."&amp;title='+escape(d.title)+'"
-			."&amp;text='+escape(s);";
-	$context['text'] .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Bookmark at %s'), $context['site_name']).'</a></li>'."\n";
-
-	// end of bookmarklets
-	$context['text'] .= '</ul>'."\n";
-
-	// the command to add a side panel
-	$context['text'] .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="javascript:addSidePanel()">'.i18n::s('add a blogging panel').'</a>').'</p>'."\n";
-
-	// the actual javascript code to add a panel
-	$context['page_footer'] .= JS_PREFIX
-		.'// add a side panel to the current browser instance'."\n"
-		.'function addSidePanel() {'."\n"
-		.'	// a gecko-based browser: netscape, mozilla, firefox'."\n"
-		.'	if((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function")) {'."\n"
-		.'		window.sidebar.addPanel("'.strip_tags($context['site_name']).'", "'.$context['url_to_home'].$context['url_to_root'].'panel.php", "");'."\n"
-		.'		alert("'.i18n::s('The panel has been added. You may have to ask your browser to make it visible (Ctrl-B for Firefox).').'");'."\n"
-		.'	} else {'."\n"
-		.'		// internet explorer'."\n"
-		.'		if(document.all) {'."\n"
-		.'			window.open("'.$context['url_to_home'].$context['url_to_root'].'panel.php?target=_main" ,"_search");'."\n"
-		.'		// side panels are not supported'."\n"
-		.'		} else {'."\n"
-		.'			var rv = alert("'.i18n::s('Your browser do not support side panel. Do you want to upgrade to Mozilla Firefox?').'");'."\n"
-		.'			if(rv)'."\n"
-		.'				document.location.href = "http://www.mozilla.org/products/firefox/";'."\n"
-		.'		}'."\n"
-		.'	}'."\n"
-		.'}'."\n"
-		.JS_SUFFIX."\n";
-
-	// the command to install a bookmaklet into internet explorer
-	$context['text'] .= '<p>'.sprintf(i18n::s('If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
-
-}
 
 // everybody, but subscriptors, may contribute
 if(!Surfer::is_logged() || Surfer::is_member()) {
@@ -404,27 +301,9 @@ if(isset($context['reference_server']) && $context['reference_server'])
 else
 	$target = 'http://www.yacs.fr/';
 
-// where is the documentation
-include_once '../scripts/scripts.php';
-$context['text'] .= Skin::build_block(i18n::s('Get the source code?'), 'title')
-	.'<ul>'
-	.'<li>'.Skin::build_link($target.'scripts/', i18n::s('Server software')).'</li>'
-	.'<li>'.sprintf(i18n::s('YACS %s and %s'), Skin::build_link($target.Scripts::get_url('authors'), i18n::s('authors')), Skin::build_link('scripts/view.php?script=testers', i18n::s('testers'))).'</li>'
-	.'<li>'.sprintf(i18n::s('%s LGPL and variations'), Skin::build_link($target.Scripts::get_url('licenses'), i18n::s('Licenses'))).'</li>'
-	.'<li>'.Skin::build_link($target, i18n::s('Contribute to the development')).'</li>'
-	.'</ul>';
-
 // the suffix hook for the help page
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('help/index.php#suffix');
-
-// last resort
-$context['text'] .= Skin::build_block(i18n::s('Not satisfied yet?'), 'title')
-	.'<ul>'
-	.'<li>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'), 'shortcut')).'</li>'
-	.'<li>'.sprintf(i18n::s('Browse %s to look for additional support'), Skin::build_link('http://www.yacs.fr/')).'</li>'
-	.'<li>'.Skin::build_link('http://www.google.com/', i18n::s('Search at Google')).'</li>'
-	.'</ul>';
 
 // render the skin
 render_skin();

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-04-08 22:25+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:11+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -75,6 +75,7 @@ $_SESSION['l10n']['en']['Drop file content']='Drop file content';
 $_SESSION['l10n']['en']['Duration']='Duration';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['EasyGPS']='EasyGPS';
+$_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['Estimated download time:']='Estimated download time:';
 $_SESSION['l10n']['en']['1af5ec71336204568c61feb93174a23f']='Existing reference (ftp://, http://, ...)';
 $_SESSION['l10n']['en']['Extensions']='Extensions';

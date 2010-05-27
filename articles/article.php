@@ -1092,6 +1092,10 @@ Class Article extends Anchor {
 			// message to watchers
 			$mail['message'] =& Mailer::build_notification($action, $title, $link, 1);
 
+			// we only have mail address of page creator
+			if(!$this->item['create_id'] && $this->item['create_address'])
+				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
+
 			// alert watchers
 			Users::alert_watchers('article:'.$this->item['id'], $mail);
 

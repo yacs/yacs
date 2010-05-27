@@ -145,9 +145,11 @@ else
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Decide: %s'), $anchor->get_title());
 
-// always validate input syntax
-if(isset($_REQUEST['description']))
-	xml::validate($_REQUEST['description']);
+// validate input syntax only if required
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
+	if(isset($_REQUEST['description']))
+		xml::validate($_REQUEST['description']);
+}
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -401,6 +403,9 @@ if($with_form) {
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
+
+	// validate page content
+	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

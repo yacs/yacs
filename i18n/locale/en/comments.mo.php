@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-10-05 00:02+0100
+POT-Creation-Date: 2010-05-27 10:08+0200
+PO-Revision-Date: 2010-05-27 10:11+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -47,6 +47,7 @@ $_SESSION['l10n']['en']['e1f523c999eb49f4167786b09262280c']='Each article also h
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit your post below']='Edit your post below';
 $_SESSION['l10n']['en']['Edited by']='Edited by';
+$_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['FCKEditor']='FCKEditor';
 $_SESSION['l10n']['en']['4bb33a5f640ed9b688aede2807e169fc']='Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.';
 $_SESSION['l10n']['en']['Help']='Help';
@@ -126,6 +127,7 @@ $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
 $_SESSION['l10n']['en']['from %s']='from %s';
 $_SESSION['l10n']['en']['inspired from %s']='inspired from %s';
 $_SESSION['l10n']['en']['modified by %s']='modified by %s';
+$_SESSION['l10n']['en']['on %s']='on %s';
 $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
 $_SESSION['l10n']['en']['quote']='quote';
 $_SESSION['l10n']['en']['registered %s']='registered %s';

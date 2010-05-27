@@ -263,6 +263,8 @@ if(is_object($anchor))
 $context['path_bar'] = Surfer::get_path_bar($anchor);
 
 // page title
+if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now']))
+	$context['page_title'] .= DRAFT_FLAG;
 if(isset($item['active']) && ($item['active'] == 'R'))
 	$context['page_title'] .= RESTRICTED_FLAG.' ';
 elseif(isset($item['active']) && ($item['active'] == 'N'))

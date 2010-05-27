@@ -29,7 +29,7 @@
  * To get your YACS site listed, Yahoo! must be informed about your site's updates.
  * Based on a XML-RPC call to [code]weblogUpdates.ping[/code] when your site is updated.
  *
- * [*] [link=yetanothercommunitysystem]http://www.yacs.fr/[/link] is advertised as well,
+ * [*] [link=yacs.fr]http://www.yacs.fr/[/link] is advertised as well,
  * in order to maintain the list of (active) servers using YACS.
  * Based on a XML-RPC call to [code]weblogUpdates.ping[/code] when your site is updated.
  *

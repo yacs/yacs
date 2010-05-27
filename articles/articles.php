@@ -624,10 +624,6 @@ Class Articles {
 		if(!$anchor)
 			return NULL;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('articles::count_for_anchor');
-
 		// select among active items
 		$where = "articles.active='Y'";
 
@@ -1865,6 +1861,10 @@ Class Articles {
 		// list only draft articles
 		if($order == 'draft')
 			$where .= " AND ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))";
+
+		// list only published articles
+		elseif($order == 'publication')
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))";
 
 		// provide published pages to anonymous surfers
 		elseif(!Surfer::is_logged()) {

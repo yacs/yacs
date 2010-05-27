@@ -776,7 +776,7 @@ Class Members {
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
-		if(Surfer::is_empowered())
+		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
@@ -824,7 +824,7 @@ Class Members {
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
-		if(Surfer::is_empowered())
+		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 
 		// use sub-queries
@@ -936,7 +936,7 @@ Class Members {
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
-		if(Surfer::is_empowered())
+		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 
 		// use sub-queries
@@ -1079,7 +1079,7 @@ Class Members {
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
-		if(Surfer::is_empowered())
+		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 

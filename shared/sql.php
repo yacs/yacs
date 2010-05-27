@@ -257,7 +257,9 @@ Class SQL {
 	 * @return array related to next row, or FALSE if there is no more row
 	 */
 	function &fetch(&$result) {
-		if(is_callable('mysqli_fetch_array'))
+		if(is_bool($result))
+			$output = FALSE;
+		elseif(is_callable('mysqli_fetch_array'))
 			$output = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		else
 			$output = mysql_fetch_array($result, MYSQL_ASSOC);
@@ -739,23 +741,11 @@ Class SQL {
 		// profile database requests
 		$query_stamp = get_micro_time();
 
-		// profiling mode
-		if($context['with_profile'] == 'Y') {
-			logger::profile('sql::query', 'start');
-			logger::profile('sql::query('.$query.')', 'start');
-		}
-
 		// do the job
 		if(is_callable('mysqli_query'))
 			$result = mysqli_query($connection, $query);
 		else
 			$result = mysql_query($query, $connection);
-
-		// profiling mode
-		if($context['with_profile'] == 'Y') {
-			logger::profile('sql::query', 'stop');
-			logger::profile('sql::query('.$query.')', 'stop');
-		}
 
 		// finalize result
 		if($result) {

@@ -223,8 +223,8 @@ if(!Surfer::is_logged() || !is_object($anchor)) {
 		$_SESSION['pasted_variant'] = $_REQUEST['variant'];
 }
 
-// validate input syntax
-if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))) {
+// validate input syntax only if required
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
 	if(isset($_REQUEST['introduction']))
 		xml::validate($_REQUEST['introduction']);
 	if(isset($_REQUEST['description']))
@@ -362,7 +362,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
 		// associates are allowed to change overlay types -- see overlays/select.php
-		if(!Surfer::is_associate())
+		if(!Surfer::is_associate() && isset($_REQUEST['id']))
 			unset($_REQUEST['overlay_type']);
 
 		// overlay type has not changed
@@ -1216,8 +1216,7 @@ if($with_form) {
 		$input[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('Avoid implicit transformations (links, lists, ...), but process yacs codes as usual.');
 
 	// validate page content
-	if(Surfer::is_associate())
-		$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+	$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
 	// append post-processing options
 	if($input)

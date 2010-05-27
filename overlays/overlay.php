@@ -643,9 +643,8 @@ class Overlay {
 	 */
 	function save() {
 
-		foreach($this->attributes as $name => $value)
-			$this->attributes[$name] = utf8::to_unicode($value);
-//			$this->attributes[$name] = utf8::to_unicode(str_replace('"', '', $value);
+		// ensure we put only pure ASCII in strings
+		utf8::to_unicode($this->attributes);
 
 		// just serialize
 		return serialize($this->attributes);

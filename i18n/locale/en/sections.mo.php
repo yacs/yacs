@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-14 22:54+0200
-PO-Revision-Date: 2010-03-03 00:52+0100
+POT-Creation-Date: 2010-05-28 00:03+0200
+PO-Revision-Date: 2010-05-27 10:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -145,6 +145,7 @@ $_SESSION['l10n']['en']['Do not list sections']='Do not list sections';
 $_SESSION['l10n']['en']['Done']='Done';
 $_SESSION['l10n']['en']['Download']='Download';
 $_SESSION['l10n']['en']['Draft']='Draft';
+$_SESSION['l10n']['en']['Draft pages']='Draft pages';
 $_SESSION['l10n']['en']['Duplicate']='Duplicate';
 $_SESSION['l10n']['en']['Duplicate following pages in']='Duplicate following pages in';
 $_SESSION['l10n']['en']['Duplicate this section']='Duplicate this section';
@@ -228,6 +229,7 @@ $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Manage']='Manage';
 $_SESSION['l10n']['en']['Manage content']='Manage content';
 $_SESSION['l10n']['en']['Manage editors']='Manage editors';
+$_SESSION['l10n']['en']['Manage it']='Manage it';
 $_SESSION['l10n']['en']['Manage your watch list']='Manage your watch list';
 $_SESSION['l10n']['en']['Manage: %s']='Manage: %s';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
@@ -292,7 +294,6 @@ $_SESSION['l10n']['en']['Persons']='Persons';
 $_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['ed85a2a609bc10e316ded371a55e5531']='Please confirm that you want to delete following pages.';
 $_SESSION['l10n']['en']['be72d222dbc7f97ae5604c94564f135e']='Please describe the new section and hit the submit button. You will then be able to post images, files and links on subsequent forms.';
-$_SESSION['l10n']['en']['87c663a3043f841f20b28627d553226a']='Please let me thank you for your kind support.';
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['b415a5c94f6a4a564921362b1e8516ac']='Please provide a recipient address.';

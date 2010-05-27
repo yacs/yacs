@@ -235,6 +235,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Fw_crocodile
  * @tester Tingadon
  * @tester Mark
@@ -460,10 +461,6 @@ Class Sections {
 		if(!$anchor)
 			return NULL;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('sections::count_for_anchor');
-
 		// limit the query to one level
 		if($anchor)
 			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
@@ -556,7 +553,7 @@ Class Sections {
 			$where .= " OR sections.active='N'";
 
 		// include assigned sections
-		if($my_sections = Surfer::assigned_sections())
+		if($my_sections = Surfer::assigned_sections($user_id))
 			$where .= " OR sections.id IN (".join(', ', $my_sections).")";
 
 		$where .= ')';
@@ -1260,38 +1257,7 @@ Class Sections {
 		// get the current parent, if any
 		$item = Sections::get($current);
 
-		// list everything to associates
-		if(Surfer::is_associate())
-			$where = " AND (sections.active IN ('Y', 'R', 'N')";
-
-		// list unlocked sections
-		else {
-
-			// display active items
-			$where = " AND ((sections.active='Y')";
-
-			// add restricted items to logged members, or if teasers are allowed
-			if(Surfer::is_logged() || Surfer::is_teased())
-				$where .= " OR (sections.active='R')";
-
-		}
-
-		// always mention current and parent sections
-		if($me)
-			$where .= " OR (sections.id=".$me.")";
-		if($current)
-			$where .= " OR (sections.id=".$current.")";
-
-		// include managed sections for editors
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// end of scope
-		$where .= ")";
-
-		// list all children sections
+		// list all children sections of parent
 		$children = '';
 		if(isset($item['id'])) {
 
@@ -1302,8 +1268,10 @@ Class Sections {
 				while($row =& SQL::fetch($result)) {
 					if($children)
 						$children .= BR;
+
+					// prevent anchoring to myself
 					if($row['id'] == $me)
-						$children .= '<input type="radio" name="anchor" disabled="disabled" /> '.Codes::beautify_title($row['title']);
+						$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" disabled="disabled" /> <i>'.Codes::beautify_title($row['title']).'</i>';
 					else
 						$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Codes::beautify_title($row['title']);
 				}
@@ -1311,16 +1279,41 @@ Class Sections {
 
 		}
 
-		// list sections at the same level
+		// list sections at the same level as parent
 		$family = '';
-		if(isset($item['anchor']) && ($parent =& Anchors::get($item['anchor']))) {
+		if(isset($item['anchor']) && ($granparent =& Anchors::get($item['anchor']))) {
+
+			// list everything to associates
+			if(Surfer::is_associate())
+				$where = " AND (sections.active IN ('Y', 'R', 'N')";
+
+			// list unlocked sections
+			else {
+
+				// display active items
+				$where = " AND ((sections.active='Y')";
+
+				// add restricted items to logged members, or if teasers are allowed
+				if(Surfer::is_logged() || Surfer::is_teased())
+					$where .= " OR (sections.active='R')";
+
+			}
+
+			// include managed sections for editors
+			if($my_sections = Surfer::assigned_sections()) {
+				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+			}
+
+			// end of scope
+			$where .= ")";
 
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (anchor LIKE '".$item['anchor']."')"
+				." WHERE (anchor LIKE '".$item['anchor']."')".$where
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
 
-				// brothers and sisters
+				// brothers and sisters of parent
 				while($row =& SQL::fetch($result)) {
 
 					if($family && strncmp(substr($family, -6), '</div>', 6))
@@ -1339,21 +1332,52 @@ Class Sections {
 				}
 			}
 
-			// move to parent
-			if($parent->is_assigned() && !$parent->has_option('locked'))
-				$family = '<input type="radio" name="anchor" value="'.$parent->get_reference().'" /> '.$parent->get_title()
+			// move to granparent
+			if($granparent->is_assigned())
+				$family = '<input type="radio" name="anchor" value="'.$granparent->get_reference().'" /> '.$granparent->get_title()
 					.'<div style="margin: 0 0 0 3em">'.$family.'</div>';
 			else
-				$family = '<input type="radio" name="anchor" value="'.$parent->get_reference().'"  disabled="disabled" /> '.$parent->get_title()
+				$family = '<input type="radio" name="anchor" value="'.$granparent->get_reference().'"  disabled="disabled" /> '.$granparent->get_title()
 					.'<div style="margin: 0 0 0 3em">'.$family.'</div>';
 
 		// list top-level sections
 		} else {
 
 			// at the very top of the content tree
-			if(!isset($item['id']))
-				$family .= '<input type="radio" name="anchor" value="" checked="checked" /> '.i18n::s('Top of the content tree').BR
+			if(surfer::is_associate())
+				$family .= '<input type="radio" name="anchor" value="" '.((!isset($item['id']))?'checked="checked"':'').' /> '.i18n::s('Top of the content tree').BR
 					.'<div style="margin: 0 0 0 3em">';
+
+			// list everything to associates
+			if(Surfer::is_associate())
+				$where = " AND (sections.active IN ('Y', 'R', 'N')";
+
+			// list unlocked sections
+			else {
+
+				// display active items
+				$where = " AND ((sections.active='Y')";
+
+				// add restricted items to logged members, or if teasers are allowed
+				if(Surfer::is_logged() || Surfer::is_teased())
+					$where .= " OR (sections.active='R')";
+
+			}
+
+			// always mention current and parent sections
+			if($me)
+				$where .= " OR (sections.id=".$me.")";
+			if($current)
+				$where .= " OR (sections.id=".$current.")";
+
+			// include managed sections for editors
+			if($my_sections = Surfer::assigned_sections()) {
+				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+			}
+
+			// end of scope
+			$where .= ")";
 
 			// list regular sections first
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
@@ -1383,7 +1407,7 @@ Class Sections {
 			}
 
 			// close the top of the content tree
-			if(!isset($item['id']))
+			if(surfer::is_associate())
 				$family .= '</div>';
 
 			// list special sections to associates
@@ -1928,7 +1952,7 @@ Class Sections {
 			$where .= " OR sections.active='N'";
 
 		// include managed sections
-		if($my_sections = Surfer::assigned_sections())
+		if($my_sections = Surfer::assigned_sections($user_id))
 			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
 
 		$where .= ')';
@@ -3055,10 +3079,6 @@ Class Sections {
 	 */
 	function &stat_for_anchor($anchor = '') {
 		global $context;
-
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('sections::stat_for_anchor');
 
 		// limit the query to one level
 		if($anchor)

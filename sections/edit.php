@@ -32,6 +32,7 @@
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Agnes
  * @tester Marco Pici
  * @tester Ghjmora
@@ -122,8 +123,8 @@ if(isset($item['title']))
 else
 	$context['page_title'] = i18n::s('Add a section');
 
-// validate input syntax
-if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))) {
+// validate input syntax only if required
+if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
 	if(isset($_REQUEST['introduction']))
 		xml::validate($_REQUEST['introduction']);
 	if(isset($_REQUEST['description']))
@@ -967,26 +968,26 @@ if($with_form) {
 	// provide my id
 	$me = isset($item['id']) ? $item['id'] : NULL;
 
-	// parent section has been defined
-	if(is_object($anchor)) {
-
-		// allow to change to another section
-		if($anchor->is_assigned()) {
-
-			$label = i18n::s('Section');
-			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference(), $me), 'folded');
-			$fields[] = array($label, $input);
-
-		// preserve the existing anchor
-		} else
-			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+	// reference to parent section
+	$ref = is_object($anchor) ? $anchor->get_reference(): NULL;
 
 	// associates can anchor the section anywhere
-	} elseif(Surfer::is_associate()) {
+	if(Surfer::is_associate()) {
 		$label = i18n::s('Section');
-		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons(NULL, $me), 'folded');
+		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
 		$fields[] = array($label, $input);
-	}
+        // parent section is defined and surfer is an editor of it
+	}elseif(is_object($anchor) && ($anchor->is_assigned())) {
+
+			$label = i18n::s('Section');
+			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
+			$fields[] = array($label, $input);
+
+	// preserve the existing anchor
+	} else
+		$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+
+
 
 	// append fields
 	$parent .= Skin::build_form($fields);
@@ -1217,12 +1218,11 @@ if($with_form) {
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
 		.'	// title is mandatory'."\n"
-		.'//	if(!container.title_index.value) {'."\n"
-		.'		alert(container.title_index.value);'."\n"
-		.'//		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
+		.'	if(!container.index_title.value) {'."\n"
+		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
-		.'//	}'."\n"
+		.'	}'."\n"
 		."\n"
 		.'	// successful check'."\n"
 		.'//	return true;'."\n"
