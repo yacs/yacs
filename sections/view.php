@@ -1005,10 +1005,6 @@ if(!isset($item['id'])) {
 
 		}
 
-		// add trailer information from the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
-
 	}
 
 	//
@@ -1666,6 +1662,10 @@ if(!isset($item['id'])) {
 	//
 	// trailer information
 	//
+
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$text .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

@@ -246,10 +246,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		}
 
-		// insert overlay data, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
-
 		//
 		// list related files
 		//
@@ -335,6 +331,14 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// view permalink
 		if(Surfer::is_empowered())
 			$this->menu[] = Skin::build_link($url, i18n::s('Permalink'), 'span');
+
+		// insert overlay data, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('trailer', $item);
+
+		// add trailer information from this item, if any
+		if(isset($item['trailer']) && trim($item['trailer']))
+			$text .= utf8::to_unicode(Codes::beautify($item['trailer']));
 
 		// returned the formatted content
 		return $text;

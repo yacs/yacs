@@ -1,0 +1,23 @@
+User-agent: *
+Disallow: /actions/
+Disallow: /agents/
+Disallow: /behaviors/
+Disallow: /codes/
+Disallow: /control/
+Disallow: /help/
+Disallow: /i18n/
+Disallow: /included/
+Disallow: /overlays/
+Disallow: /parameters/
+Disallow: /scripts/
+Disallow: /services/
+Disallow: /shared/
+Disallow: /skins/
+Disallow: /smileys/
+Disallow: /tables/
+Disallow: /temporary/
+Disallow: /tools/
+Disallow: /versions/
+
+
+

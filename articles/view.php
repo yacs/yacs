@@ -855,10 +855,6 @@ if(!isset($item['id'])) {
 
 		}
 
-		// add trailer information from the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
-
 		// the poster profile, if any, at the end of the page
 		if(isset($poster['id']) && is_object($anchor))
 			$text .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
@@ -1106,6 +1102,10 @@ if(!isset($item['id'])) {
 	//
 	// trailer information
 	//
+
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$text .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

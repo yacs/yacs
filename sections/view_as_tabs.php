@@ -215,10 +215,6 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		}
 	}
 
-	// add trailer information from the overlay, if any
-	if(is_object($overlay))
-		$text .= $overlay->get_text('trailer', $item);
-
 	// gadget boxes
 	$content = '';
 
@@ -679,6 +675,10 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 	// trailer information
 	//
+
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$text .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

@@ -1865,6 +1865,10 @@ tr.odd td.sorted {
  * @see sections/layout_sections_as_accordion.php
  */
 
+div.accordion_handle {
+	width: 99%; /* avoid horizontal slider */
+}
+
 div.accordion_handle a.accordion_link {
 	display: block;
 	font-size: 1.2em;

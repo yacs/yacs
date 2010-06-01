@@ -119,10 +119,6 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= $description."\n";
 	}
 
-	// add trailer information from the overlay, if any
-	if(is_object($overlay))
-		$context['text'] .= utf8::to_unicode($overlay->get_text('trailer', $item));
-
 	//
 	// the files section
 	//
@@ -167,6 +163,10 @@ if(Surfer::is_crawler()) {
 	//
 	// page suffix
 	//
+
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= utf8::to_unicode($overlay->get_text('trailer', $item));
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

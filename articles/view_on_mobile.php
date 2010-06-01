@@ -71,10 +71,6 @@ if($description) {
 	}
 }
 
-// add trailer information from the overlay, if any
-if(is_object($overlay))
-	$context['text'] .= $overlay->get_text('trailer', $item);
-
 // display a transcript of past comments
 include_once $context['path_to_root'].'comments/comments.php';
 $items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
@@ -86,6 +82,10 @@ elseif(is_string($items))
 //
 // trailer information
 //
+
+// add trailer information from the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('trailer', $item);
 
 // add trailer information from this item, if any
 if(isset($item['trailer']) && trim($item['trailer']))

@@ -108,6 +108,10 @@ elseif(isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
 elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 	$zoom_type = 'links';
 
+// view.php?id=12&users=2
+elseif(isset($_REQUEST['users']) && ($zoom_index = $_REQUEST['users']))
+	$zoom_type = 'users';
+
 // view.php/12/files/2
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
@@ -392,10 +396,6 @@ if(!isset($item['id'])) {
 
 		// the description, which is the actual page body
 		$text .= Skin::build_block($item['description'], 'description');
-
-		// add trailer information from the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
 
 		$context['text'] .= $text;
 	}
@@ -849,6 +849,10 @@ if(!isset($item['id'])) {
 	//
 	// trailer
 	//
+
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

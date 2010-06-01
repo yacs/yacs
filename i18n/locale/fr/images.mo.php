@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:21+0100
+PO-Revision-Date: 2010-05-31 12:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -34,7 +34,7 @@ $_SESSION['l10n']['fr']['Bulk upload']='Téléversement multiple';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Cannot copy image to %s']='Impossible de copier vers %s';
 $_SESSION['l10n']['fr']['c156e2550e8cfa17dd2a0eb590ef4664']='Impossible d\'écrire l\'image ajustée %s.';
-$_SESSION['l10n']['fr']['Delete an image']='Effacer une image';
+$_SESSION['l10n']['fr']['Delete an image']='Supprimer une image';
 $_SESSION['l10n']['fr']['Delete this image']='Supprimer cette image';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';

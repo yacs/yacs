@@ -5,7 +5,6 @@
  * @todo allow for one-time download files
  * @todo allow for a limited period of time for sharing
  * @todo allow for password-control files
- * @todo support .m4v for iPod videos video/x-m4v
  * @todo support KOffice file extensions
  * @todo support .dia for Dia http://live.gnome.org/Dia
  * @todo support .sla for scribus http://www.scribus.net/
@@ -676,6 +675,7 @@ Class Files {
 				'jpg' => $files_icons_url.'image_icon.gif',
 				'latex' => $files_icons_url.'tex_icon.gif',
 				'm3u' => $files_icons_url.'midi_icon.gif',			// playlist
+				'm4v' => $files_icons_url.'mov_icon.gif',			// video/x-m4v
 				'mdb' => $files_icons_url.'access_icon.gif',
 				'mid' => $files_icons_url.'midi_icon.gif',
 				'midi' => $files_icons_url.'midi_icon.gif',
@@ -892,6 +892,7 @@ Class Files {
 				'jpg' => 'image/jpeg',
 				'latex' => 'application/x-latex',
 				'm3u' => 'audio/x-mpegurl', // playlist
+				'm4v' => 'video/x-m4v',
 				'mdb' => 'application/x-msaccess',
 				'mid' => 'audio/mid',
 				'midi' => 'audio/mid',

@@ -408,17 +408,18 @@ if($with_form) {
 
 	}
 
+
 	// show the description
-	$text .= Skin::build_block($item['description'], 'description');
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// the form
-	$text .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// form fields
 	$fields = array();
 
 	// transmit the id as a hidden field
-	$text .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
+	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
 	// additional fields for anonymous surfers
 	if(!Surfer::is_logged()) {
@@ -430,7 +431,7 @@ if($with_form) {
 			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php?anchor='.$anchor->get_reference());
 		else
 			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php');
-		$text .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
 
 		// the name, if any
 		$label = i18n::s('Your name');
@@ -465,12 +466,12 @@ if($with_form) {
 	}
 
 	// we are now entering regular fields
-	$text .= Skin::build_form($fields);
+	$context['text'] .= Skin::build_form($fields);
 	$fields = array();
 
 	// the title
 	$title = sprintf('%s - %s', Surfer::get_name(i18n::s('Your name')), $item['title']);
-	$text .= Skin::build_block(i18n::s('Title'), 'subtitle')."\n"
+	$context['text'] .= Skin::build_block(i18n::s('Title'), 'subtitle')."\n"
 		.'<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.$title.'</textarea>'
 		.BR.'<span class="tiny">'.i18n::s('Please provide a meaningful title.').'</span>'.BR;
 
@@ -492,17 +493,17 @@ if($with_form) {
 			// upload a file
 			case 'file':
 				if(Surfer::may_upload())
-					$text .= '<input type="file" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+					$context['text'] .= '<input type="file" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
 				break;
 
 			// insert a field to get some text
 			case 'label':
 				if(isset($field['type']) && ($field['type'] == 'title'))
-					$text .= Skin::build_block($field['text'], 'title')."\n";
+					$context['text'] .= Skin::build_block($field['text'], 'title')."\n";
 				elseif(isset($field['type']) && ($field['type'] == 'subtitle'))
-					$text .= Skin::build_block($field['text'], 'subtitle')."\n";
+					$context['text'] .= Skin::build_block($field['text'], 'subtitle')."\n";
 				else
-					$text .= '<div>'.$field['text'].'</div>';
+					$context['text'] .= '<div>'.$field['text'].'</div>';
 				break;
 
 			// insert a field to select among several options
@@ -514,18 +515,18 @@ if($with_form) {
 						$options[] = array($matches[1], $matches[2]);
 				}
 				if(isset($field['type']) && ($field['type'] == 'drop')) {
-					$text .= '<select name="'.encode_field($field['name']).'">'."\n";
+					$context['text'] .= '<select name="'.encode_field($field['name']).'">'."\n";
 					foreach($options as $option) {
-						$text .= '<option value="'.encode_field($option[0]).'"> '.$option[1]."</option>\n";
+						$context['text'] .= '<option value="'.encode_field($option[0]).'"> '.$option[1]."</option>\n";
 					}
-					$text .= '</select>'."\n";
+					$context['text'] .= '</select>'."\n";
 				} elseif(isset($field['type']) && ($field['type'] == 'check')) {
 					foreach($options as $option) {
-						$text .= '<input type="checkbox" name="'.encode_field($field['name']).'[]" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
+						$context['text'] .= '<input type="checkbox" name="'.encode_field($field['name']).'[]" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
 					}
 				} else {
 					foreach($options as $option) {
-						$text .= '<input type="radio" name="'.encode_field($field['name']).'" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
+						$context['text'] .= '<input type="radio" name="'.encode_field($field['name']).'" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
 					}
 				}
 				break;
@@ -533,11 +534,11 @@ if($with_form) {
 			// display some text
 			case 'text':
 				if(isset($field['type']) && ($field['type'] == 'textarea'))
-					$text .= '<textarea name="'.encode_field($field['name']).'" rows="7" cols="50"></textarea>';
+					$context['text'] .= '<textarea name="'.encode_field($field['name']).'" rows="7" cols="50"></textarea>';
 				elseif(isset($field['type']) && ($field['type'] == 'password'))
-					$text .= '<input type="password" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+					$context['text'] .= '<input type="password" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
 				else
-					$text .= '<input type="text" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+					$context['text'] .= '<input type="text" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
 				break;
 			}
 		}
@@ -547,10 +548,10 @@ if($with_form) {
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 	$menu[] = Skin::build_link('forms/', i18n::s('Cancel'), 'span');
-	$text .= Skin::finalize_list($menu, 'assistant_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
-	$text .= '</div></form>';
+	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
 	$context['page_footer'] .= JS_PREFIX
@@ -569,9 +570,6 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.JS_SUFFIX."\n";
-
-	// put in page
-	$context['text'] .= $text;
 
 	// page tools
 	//
