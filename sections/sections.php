@@ -10,7 +10,7 @@
  *
  * Sections provide following advanced features:
  *
- * [*] Access restriction - Some sections are public, while others are reserved to authenticated members or only to associates.
+ * [*] Access restriction - Some sections are public, while others are reserved to authenticated persons or only to associates.
  * Of course, YACS ensures that access rules are cascaded to anchored articles.
  * Create protected sections each time you want to restrict access to some information.
  *
@@ -75,7 +75,7 @@
  * [*] [code]auto_publish[/code] - Every post is automatically published, without control from an associate.
  * Posters can prevent publication by adding the option 'draft' to their post.
  *
- * [*] [code]members_edit[/code] - Allow authenticated members to handle pages, files, etc., attached to the section.
+ * [*] [code]members_edit[/code] - Allow authenticated persons to handle pages, files, etc., attached to the section.
  * Use this setting to create Wikis restricted to the community.
  *
  * [*] [code]no_comments[/code] - Prevent surfers to react to posted articles.
@@ -247,6 +247,57 @@
 Class Sections {
 
 	/**
+	 * check if a section can be accessed
+	 *
+	 * This function returns TRUE if the item can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target section
+	 * @param object an instance of the Anchor interface, if any
+	 * @return boolean TRUE or FALSE
+	 */
+	function allow_access($item, $anchor) {
+		global $context;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns this item, or the anchor
+		if(Sections::is_owned($item, $anchor))
+			return TRUE;
+
+		// anonymous surfer has provided the secret handle
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
+
+		// surfer is an editor
+		if(isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is logged
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// public page
+		return TRUE;
+	}
+
+	/**
 	 * check if new sections can be added
 	 *
 	 * This function returns TRUE if sections can be added to some place,
@@ -361,6 +412,22 @@ Class Sections {
 
 		// allow editor of parent section, if not subscriber, to manage content, except on private sections
 		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// section has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// maybe this anonymous surfer is allowed to handle this item
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
+
+		// community wiki
+		if(Surfer::is_logged() && Sections::has_option('members_edit', $anchor, $item))
+			return TRUE;
+
+		// public wiki
+		if(Sections::has_option('anonymous_edit', $anchor, $item))
 			return TRUE;
 
 		// default case

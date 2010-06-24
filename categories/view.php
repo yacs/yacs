@@ -269,6 +269,8 @@ if(!isset($item['id'])) {
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
 
 	//
 	// page details -- $context['page_details']
@@ -287,7 +289,7 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 		// restricted to associates
 		if($item['active'] == 'N')

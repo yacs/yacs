@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-09 11:07+0100
-PO-Revision-Date: 2010-03-01 14:59+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 21:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -38,7 +38,7 @@ $_SESSION['l10n']['fr']['b8b07936b356f7906cdd5ef6b01e7821']='Un compte existe d�
 $_SESSION['l10n']['fr']['Anonymous wiki']='Wiki anonyme';
 $_SESSION['l10n']['fr']['717d50c64a625363713751145cf1f7ca']='Tout surfer peut modifier le contenu de cette section';
 $_SESSION['l10n']['fr']['Assembling javascript files...']='Assemblage des fichiers Javascripts ...';
-$_SESSION['l10n']['fr']['70871921675454ac43a2a5fe9444af55']='Les membres authentifiés peuvent modifier les pages de cette section';
+$_SESSION['l10n']['fr']['b7e6262eb0a58061fdf756e5d5b12b4a']='Les personnes authentifiées peuvent modifier les pages de cette section';
 $_SESSION['l10n']['fr']['Blog']='Blog';
 $_SESSION['l10n']['fr']['Bob']='Bob';
 $_SESSION['l10n']['fr']['Browse notification']='Notification de co-navigation';
@@ -144,6 +144,7 @@ $_SESSION['l10n']['fr']['Sample wiki page']='Page wiki de démonstration';
 $_SESSION['l10n']['fr']['Sample yabb thread']='Discussion yabb de démonstration';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Sections']='Sections';
+$_SESSION['l10n']['fr']['Share: %s']='Partager : %s';
 $_SESSION['l10n']['fr']['Social bookmarking section']='Section de liens partagés';
 $_SESSION['l10n']['fr']['Sophie']='Sophie';
 $_SESSION['l10n']['fr']['Sponge Bob']='Bob l\'Eponge';

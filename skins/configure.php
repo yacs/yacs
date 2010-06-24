@@ -418,19 +418,19 @@ elseif(!Surfer::is_associate()) {
 	$search = '<p><input type="radio" name="skins_delegate_search" value="N"';
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1" /> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
 
 	// distinguish content from users
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="S"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1" /> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
 
 	// search extension
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="X"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1"/> '.i18n::s('Extend search results on a separate tab');
+	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1" /> '.i18n::s('Extend search results on a separate tab');
 
 	// default to Google customized seach
 	if(!isset($context['skins_search_extension']) || !$context['skins_search_extension'])
@@ -446,7 +446,7 @@ elseif(!Surfer::is_associate()) {
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="Y"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0" /> '.i18n::s('Use the following form to delegate search requests');
 
 	// default to Google appliance
 	if(!isset($context['skins_search_form']) || !$context['skins_search_form'])

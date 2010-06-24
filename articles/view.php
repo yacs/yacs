@@ -204,6 +204,22 @@ $behaviors = NULL;
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
+//
+// is this surfer allowed to browse the page?
+//
+
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
+	$permitted = FALSE;
+
+// check access rights
+elseif(Articles::allow_access($item, $anchor))
+	$permitted = TRUE;
+
+// the default is to disallow access
+else
+	$permitted = FALSE;
+
 // owners can do what they want
 if(Articles::allow_modification($item, $anchor))
 	Surfer::empower();
@@ -213,34 +229,6 @@ elseif(Surfer::is_logged() && is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower('S');
 elseif(isset($item['id']) && Articles::is_assigned($item['id']) && Surfer::is_logged())
 	Surfer::empower('S');
-
-//
-// is this surfer allowed to browse the page?
-//
-
-// associates, editors and readers can read this page
-if(Surfer::is_empowered('S'))
-	$permitted = TRUE;
-
-// change default behavior
-elseif(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
-	$permitted = FALSE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated surfer
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
 
 // is the article on user watch list?
 $in_watch_list = FALSE;
@@ -396,6 +384,8 @@ if(!isset($item['id'])) {
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
 	if(isset($item['publish_name']) && $item['publish_name'])
 		$context['page_publisher'] = $item['publish_name'];
 
@@ -451,7 +441,7 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
@@ -1208,10 +1198,6 @@ if(!isset($item['id'])) {
 	}
 
 }
-
-// use date of last modification into etag computation
-if(isset($item['edit_date']))
-	$context['etag'] = $item['edit_date'];
 
 // render the skin
 render_skin();

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:17+0100
+POT-Creation-Date: 2010-06-24 19:59+0200
+PO-Revision-Date: 2010-06-24 20:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -92,8 +92,8 @@ $_SESSION['l10n']['en']['eb6a6edda550644a64d0c8d220fb50f4']='At your request, a 
 $_SESSION['l10n']['en']['Authenticate with password %s']='Authenticate with password %s';
 $_SESSION['l10n']['en']['Authenticate with this profile']='Authenticate with this profile';
 $_SESSION['l10n']['en']['Authenticated externally.']='Authenticated externally.';
-$_SESSION['l10n']['en']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Authenticated members are allowed to post images and files.';
 $_SESSION['l10n']['en']['816c9a402dbb6753bef8bde81ebdecc3']='Authenticated members are allowed to submit new content.';
+$_SESSION['l10n']['en']['543ad9b49cd1e9787188134f27e57294']='Authenticated persons are allowed to post images and files.';
 $_SESSION['l10n']['en']['Authentication']='Authentication';
 $_SESSION['l10n']['en']['Authenticators']='Authenticators';
 $_SESSION['l10n']['en']['41fc857c53b5476eb325975632e3c0f4']='Authenticators listed below can be used to link this server to an existing list of users.';
@@ -117,7 +117,7 @@ $_SESSION['l10n']['en']['7fb096f01683499a98de8b53f0fdef56']='Click on the link b
 $_SESSION['l10n']['en']['Co-browsing']='Co-browsing';
 $_SESSION['l10n']['en']['Code to reference this user: %s']='Code to reference this user: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
-$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
 $_SESSION['l10n']['en']['Complex interface']='Complex interface';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
@@ -365,7 +365,7 @@ $_SESSION['l10n']['en']['101e8406e19b26c4e2d699a5eb5db4a0']='Set a long-lasting 
 $_SESSION['l10n']['en']['Share']='Share';
 $_SESSION['l10n']['en']['e47d04bbe5a79b797e0184d5b6c5f8a5']='Share email addresses as much as possible (for intranet servers).';
 $_SESSION['l10n']['en']['Share screen']='Share screen';
-$_SESSION['l10n']['en']['86214b25bcf6b75ae74bb86bab3bdaa9']='Show email addresses to authenticated members.';
+$_SESSION['l10n']['en']['347db00e2fdd4638c2fc9130d394363e']='Show email addresses to authenticated persons.';
 $_SESSION['l10n']['en']['Signature']='Signature';
 $_SESSION['l10n']['en']['Site map']='Site map';
 $_SESSION['l10n']['en']['Skype']='Skype';

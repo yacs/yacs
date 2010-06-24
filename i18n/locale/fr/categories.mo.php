@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2010-03-08 17:29+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 21:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ $_SESSION['l10n']['fr']['Classified pages']='Page classées';
 $_SESSION['l10n']['fr']['Cloud of tags']='Nuage d\'étiquettes';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Complete tags']='Etiquetage';
 $_SESSION['l10n']['fr']['Contact']='Contact';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';

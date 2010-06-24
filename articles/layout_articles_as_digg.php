@@ -159,7 +159,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// the publish date
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$details[] = Skin::build_date($item['publish_date']);
+				$details[] = Skin::build_date($item['publish_date'], 'publishing');
 
 			// read the article
 			$details[] = Skin::build_link($url, i18n::s('View the page'), 'basic');

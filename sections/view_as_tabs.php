@@ -44,7 +44,7 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 	// restricted to associates
 	if($item['active'] == 'N')
@@ -1052,7 +1052,7 @@ if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 
 // use date of last modification into etag computation
 if(isset($item['edit_date']))
-	$context['etag'] = $item['edit_date'];
+	$context['page_date'] = $item['edit_date'];
 
 // render the skin
 render_skin();

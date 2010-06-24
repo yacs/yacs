@@ -34,13 +34,6 @@
  *
  * @link http://support.microsoft.com/default.aspx?scid=kb;[LN];834489	Microsoft Knowledge Base Article - 834489
  *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - feed.php/12
  * - feed.php?id=12
@@ -85,26 +78,6 @@ if(isset($item['anchor']) && $item['anchor'])
 if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower('A');
 
-// associates and editors are always authorized
-if(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_empowered('M'))
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load a skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -119,7 +92,7 @@ if(!isset($item['id']) || !$item['id']) {
 	include '../error.php';
 
 // access denied
-} elseif(!$permitted) {
+} elseif(!Sections::allow_access($item, $anchor)) {
 
 	// give anonymous surfers a chance for HTTP authentication
 	if(!Surfer::is_logged()) {

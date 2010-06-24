@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-04-12 21:05+0100
+POT-Creation-Date: 2010-06-24 19:59+0200
+PO-Revision-Date: 2010-06-24 20:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -78,7 +78,7 @@ $_SESSION['l10n']['en']['Color: %s']='Color: %s';
 $_SESSION['l10n']['en']['Columns']='Columns';
 $_SESSION['l10n']['en']['7b8b184e437fa18729c21ab3a9625bed']='Commands to share the page, if any';
 $_SESSION['l10n']['en']['415674b7415e0cddd5b728d3a1d3f00e']='Commands to stay informed, if any';
-$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
 $_SESSION['l10n']['en']['109b3de113f9002c492c903a28fde2c6']='Complementary information, if any';
 $_SESSION['l10n']['en']['Components']='Components';
 $_SESSION['l10n']['en']['4669e64a262daee067f971af4ba69082']='Compute page elements dynamically';

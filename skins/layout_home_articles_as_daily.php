@@ -100,7 +100,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			if(!isset($previous_date)) {
 				$text .= '<div class="newest">'."\n";
 				$in_north = TRUE;
-				$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'no_hour')."</p>\n";
+				$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'publishing')."</p>\n";
 				$previous_date = $current_date;
 			}
 
@@ -110,7 +110,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 					$text .= '</div>'.BR.BR."\n";
 				$in_north = FALSE;
 				if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-					$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'no_hour')."</p>\n";
+					$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'publishing')."</p>\n";
 				$previous_date = $current_date;
 			}
 

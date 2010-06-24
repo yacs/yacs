@@ -140,7 +140,7 @@ if(!$permitted) {
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
 		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -964,7 +964,7 @@ if(!$permitted) {
 		$item['nick_name'] = 'bookmarks';
 		$item['title'] = i18n::c('Bookmarks');
 		$item['introduction'] = i18n::c('Shared links of interest');
-		$item['description'] = i18n::c('This section, and related sub-sections, lists links submitted by authenticated members.');
+		$item['description'] = i18n::c('This section, and related sub-sections, lists links submitted by authenticated persons.');
 		$item['sections_layout'] = 'yahoo';
 		$item['locked'] = 'Y';
 		$item['id'] = Sections::post($item);
@@ -1150,7 +1150,7 @@ if(!$permitted) {
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
 		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1384,7 +1384,7 @@ if(!$permitted) {
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
 		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1503,7 +1503,7 @@ if(!$permitted) {
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
 		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1750,7 +1750,7 @@ if(!$permitted) {
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
 		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 

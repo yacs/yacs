@@ -95,7 +95,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 			// board introduction
 			if($item['introduction'])
-				$suffix .= '<br style="clear: none;"/>'.Codes::beautify_introduction($item['introduction']);
+				$suffix .= '<br style="clear: none;" />'.Codes::beautify_introduction($item['introduction']);
 
 			// more details
 			$details = '';

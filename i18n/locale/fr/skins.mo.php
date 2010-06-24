@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-04-12 21:06+0100
+POT-Creation-Date: 2010-06-24 19:59+0200
+PO-Revision-Date: 2010-06-24 21:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -78,7 +78,7 @@ $_SESSION['l10n']['fr']['Color: %s']='Couleur : %s';
 $_SESSION['l10n']['fr']['Columns']='Colonnes';
 $_SESSION['l10n']['fr']['7b8b184e437fa18729c21ab3a9625bed']='Commandes pour partager cette page, si présentes';
 $_SESSION['l10n']['fr']['415674b7415e0cddd5b728d3a1d3f00e']='Commandes pour rester informé, si présentes';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['109b3de113f9002c492c903a28fde2c6']='Informations complémentaires';
 $_SESSION['l10n']['fr']['Components']='Composants';
 $_SESSION['l10n']['fr']['4669e64a262daee067f971af4ba69082']='Calcul dynamique des éléments de page';

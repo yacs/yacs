@@ -1830,14 +1830,35 @@ Class Codes {
 				$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
 			$flashvars .= 'width='.$width.'&height='.$height;
 
-			// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-			$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
-				.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
-				.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
-				.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-				.JS_SUFFIX."\n";
+			// rely on Flash
+			if(Surfer::has_flash()) {
+
+				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
+				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.JS_PREFIX
+					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
+					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
+					.JS_SUFFIX."\n";
+
+			// native support
+ 			} else {
+
+				// <video> is HTML5, <object> is legacy
+ 				$output = '<video width="'.$width.'" height="'.$height.'" autoplay="" controls="">'."\n"
+					.'	<source src="'.$url.'" />'."\n"
+					.'	<object width="'.$width.'" height="'.$height.'" data="'.$url.'" type="'.Files::get_mime_type($item['file_name']).'">'."\n"
+					.'		<param value="'.$url.'" name="movie" />'."\n"
+					.'		<param value="true" name="allowFullScreen" />'."\n"
+					.'		<param value="always" name="allowscriptaccess" />'."\n"
+					.'		<a href="'.$url.'">No video playback capabilities, please download the file</a>'."\n"
+ 					.'	</object>'."\n"
+					.'</video>'."\n";
+
+			}
+
+			// job done
 			return $output;
 
 		// a ganttproject timeline

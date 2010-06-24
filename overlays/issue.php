@@ -597,7 +597,7 @@ class Issue extends Overlay {
 			$extra = '';
 
 		// return
-		return '<img src="'.$context['url_to_root'].'skins/_reference/overlays/percent-'.$meter.$extra.'.png" alt="'.$meter.'%"/>';
+		return '<img src="'.$context['url_to_root'].'skins/_reference/overlays/percent-'.$meter.$extra.'.png" alt="'.$meter.'%" />';
 	}
 
 	/**

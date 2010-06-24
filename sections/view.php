@@ -245,28 +245,12 @@ elseif((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_l
 // is this surfer allowed to browse the page?
 //
 
-// page is not defined
-if(!isset($item['id']))
-	$permitted = FALSE;
-
-// associates, editors and readers can read this page
-elseif(Surfer::is_empowered('S'))
-	$permitted = TRUE;
-
 // change default behavior
-elseif(is_object($behaviors) && !$behaviors->allow('sections/view.php', 'section:'.$item['id']))
+if(is_object($behaviors) && !$behaviors->allow('sections/view.php', 'section:'.$item['id']))
 	$permitted = FALSE;
 
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated surfer
-elseif(($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif($item['active'] == 'Y')
+// check access rights
+elseif(Sections::allow_access($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -435,6 +419,8 @@ if(!isset($item['id'])) {
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
 
 	//
 	// set page details -- $context['page_details']
@@ -457,7 +443,7 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 		// restricted to associates
 		if($item['active'] == 'N')
@@ -1781,11 +1767,6 @@ if(!isset($item['id'])) {
 
 }
 
-// use date of last modification into etag computation
-if(isset($item['edit_date']))
-	$context['etag'] = $item['edit_date'];
-
 // render the skin
 render_skin();
-
 ?>

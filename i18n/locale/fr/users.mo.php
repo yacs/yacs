@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:25+0100
+POT-Creation-Date: 2010-06-24 19:59+0200
+PO-Revision-Date: 2010-06-24 21:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -92,8 +92,8 @@ $_SESSION['l10n']['fr']['eb6a6edda550644a64d0c8d220fb50f4']='Comme demandé, une
 $_SESSION['l10n']['fr']['Authenticate with password %s']='Mot de passe %s';
 $_SESSION['l10n']['fr']['Authenticate with this profile']='Choisir ce profil';
 $_SESSION['l10n']['fr']['Authenticated externally.']='Authentifiés extérieurement.';
-$_SESSION['l10n']['fr']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Tout membre authentifié est autorisé à envoyer des images ou des fichiers.';
 $_SESSION['l10n']['fr']['816c9a402dbb6753bef8bde81ebdecc3']='Tout membre authentifié est autorisé à ajouter du contenu nouveau.';
+$_SESSION['l10n']['fr']['543ad9b49cd1e9787188134f27e57294']='Toute personne authentifiée est autorisée à envoyer des images ou des fichiers.';
 $_SESSION['l10n']['fr']['Authentication']='Authentification';
 $_SESSION['l10n']['fr']['Authenticators']='Authentification';
 $_SESSION['l10n']['fr']['41fc857c53b5476eb325975632e3c0f4']='Les authenticateurs ci-dessous facilitent l\'intégration de votre serveur à un gestionnaire d\'utilisateurs existant.';
@@ -117,7 +117,7 @@ $_SESSION['l10n']['fr']['7fb096f01683499a98de8b53f0fdef56']='Cliquez sur le lien
 $_SESSION['l10n']['fr']['Co-browsing']='Co-navigation';
 $_SESSION['l10n']['fr']['Code to reference this user: %s']='Code pour référencer cette personne : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Complex interface']='Interface complexe';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
@@ -365,7 +365,7 @@ $_SESSION['l10n']['fr']['101e8406e19b26c4e2d699a5eb5db4a0']='Positionner un cook
 $_SESSION['l10n']['fr']['Share']='Partager';
 $_SESSION['l10n']['fr']['e47d04bbe5a79b797e0184d5b6c5f8a5']='Partager les adresses de courrier électronique autant que possible (pour les serveurs intranet).';
 $_SESSION['l10n']['fr']['Share screen']='Partager l\'écran';
-$_SESSION['l10n']['fr']['86214b25bcf6b75ae74bb86bab3bdaa9']='Montrer les adresses de courrier électronique aux membres.';
+$_SESSION['l10n']['fr']['347db00e2fdd4638c2fc9130d394363e']='Montrer les adresses de courrier électronique aux personnes authentifiées.';
 $_SESSION['l10n']['fr']['Signature']='Signature';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['Skype']='Skype';

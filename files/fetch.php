@@ -13,6 +13,10 @@
  * File content is provided in pass-through mode most of the time, meaning this
  * script does not unveil the real web path to target file.
  *
+ * This script is able to serve partial requests (e.g., from iPhone, iPod a,d iPad) if necessary
+ *
+ * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.1 Byte Ranges
+ *
  * Restrictions apply on this page:
  * - associates and editors are allowed to move forward
  * - permission is denied if the anchor is not viewable
@@ -344,14 +348,6 @@ if(!isset($item['id']) || !$item['id']) {
 		// maybe we will pass the file through
 		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
-			// serve the right type --avoid opening in Word and Excel, this is confusing most end-users
-			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
-//			Safe::header('Content-Type: application/download');
-
-			// suggest a name for the saved file
-			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
-			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
-
 			// stream FLV files if required to do so
 			if((substr($item['file_name'], -4) == '.flv') && isset($_REQUEST['position']) && ($_REQUEST['position'] > 0) && ($_REQUEST['position'] < $stat['size'])) {
 				Safe::header('Content-Length: '.($stat['size']-$_REQUEST['position']+13));
@@ -362,9 +358,6 @@ if(!isset($item['id']) || !$item['id']) {
 				fclose($handle);
 				return;
 			}
-
-			// file size
-			Safe::header('Content-Length: '.$stat['size']);
 
 			// load some file parser if one is available
 			$analyzer = NULL;
@@ -410,17 +403,69 @@ if(!isset($item['id']) || !$item['id']) {
 
 			}
 
-			// weak validator
-			$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
+			// serve the right type --avoid opening in Word and Excel, this is confusing most end-users
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
+//			Safe::header('Content-Type: application/download');
 
-			// validate content in cache
-			if(http::validate($last_modified))
+			// suggest a name for the saved file
+			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
+			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+
+			// file size
+			Safe::header('Content-Length: '.$stat['size']);
+
+			// we accepted (limited) range requests
+			Safe::header('Accept-Ranges: bytes');
+
+			// provide only a slice of the file
+			if(isset($_SERVER['HTTP_RANGE']) && preg_match('/bytes=([0-9\-]+)?/', $_SERVER['HTTP_RANGE'], $range)) {
+
+				// bytes=0-499 to get the first 500 bytes
+				if(preg_match('/^(\d+)-(\d+)/', $range[1], $matches)) {
+					$offset = intval($matches[1]);
+					$length = intval($matches[2]) - $offset + 1; // bytes=0-0 to get first byte
+
+				// bytes=9500- to get the last 500 bytes (out of 10000)
+				} elseif(preg_match('/^(\d+)-/', $range[1], $matches)) {
+					$offset = intval($matches[1]);
+					$length = $stat['size'] - $offset;
+
+				// bytes=-500 to get the last 500 bytes
+				} elseif(preg_match('/^-(\d+)/', $range[1], $matches)) {
+					$offset = $stat['size'] - intval($matches[1]);
+					$length = $stat['size'] - offset;
+				}
+
+				// describe what is returned
+				Safe::header('HTTP/1.1 206 Partial Content');
+				Safe::header('Content-Range: bytes '.$offset .'-'.($offset + $length - 1).'/'.$stat['size']);
+
+				// slice itself
+				fseek($handle, $offset);
+				$slice = fread($handle, $length);
+
+				// actual transmission except on a HEAD request
+				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+					echo $slice;
+				fclose($handle);
 				return;
 
-			// actual transmission except on a HEAD request
-			if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-				fpassthru($handle);
-			fclose($handle);
+			// regular download
+			} else {
+
+				// weak validator
+				$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
+
+				// validate content in cache
+				if(http::validate($last_modified))
+					return;
+
+				// actual transmission except on a HEAD request
+				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+					fpassthru($handle);
+				fclose($handle);
+
+			}
 
 			// the post-processing hook, then exit
 			finalize_page(TRUE);

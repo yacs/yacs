@@ -1043,13 +1043,10 @@ Class SQL {
 	 * convert a stamp to an integer
 	 *
 	 * Use this function to convert dates fetched from the database to
-	 * times in the context of the server.
+	 * time stamps.
 	 *
 	 * Since dates saved in the database are always aligned to UTC time zone,
 	 * this function also adjusts the provided string to the server time zone.
-	 *
-	 * To adjust strings received from the surfer to UTC time zone, you should
-	 * use Surfer::to_GMT() instead of SQL::strtotime().
 	 *
 	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
 	 * @return int the number of seconds since 1st January of 1970

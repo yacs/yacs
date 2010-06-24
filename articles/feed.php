@@ -78,7 +78,7 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 
 	// the image for this channel
 	if(isset($context['powered_by_image']) && $context['powered_by_image'])
-		$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
+		$values['channel']['image'] = $context['powered_by_image'];
 
 	// get local news
 	include_once '../feeds/feeds.php';

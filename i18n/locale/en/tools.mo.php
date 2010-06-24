@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-09 11:07+0100
-PO-Revision-Date: 2010-02-09 11:12+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 20:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -38,7 +38,7 @@ $_SESSION['l10n']['en']['b8b07936b356f7906cdd5ef6b01e7821']='An account already 
 $_SESSION['l10n']['en']['Anonymous wiki']='Anonymous wiki';
 $_SESSION['l10n']['en']['717d50c64a625363713751145cf1f7ca']='Anyone can update pages in this section';
 $_SESSION['l10n']['en']['Assembling javascript files...']='Assembling javascript files...';
-$_SESSION['l10n']['en']['70871921675454ac43a2a5fe9444af55']='Authenticated members can update pages in this section';
+$_SESSION['l10n']['en']['b7e6262eb0a58061fdf756e5d5b12b4a']='Authenticated persons can update pages in this section';
 $_SESSION['l10n']['en']['Blog']='Blog';
 $_SESSION['l10n']['en']['Bob']='Bob';
 $_SESSION['l10n']['en']['Browse notification']='Browse notification';
@@ -144,6 +144,7 @@ $_SESSION['l10n']['en']['Sample wiki page']='Sample wiki page';
 $_SESSION['l10n']['en']['Sample yabb thread']='Sample yabb thread';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Sections']='Sections';
+$_SESSION['l10n']['en']['Share: %s']='Share: %s';
 $_SESSION['l10n']['en']['Social bookmarking section']='Social bookmarking section';
 $_SESSION['l10n']['en']['Sophie']='Sophie';
 $_SESSION['l10n']['en']['Sponge Bob']='Sponge Bob';

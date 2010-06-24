@@ -115,7 +115,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date']);
+			$details[] = Skin::build_date($item['publish_date'], 'publishing');
 
 			// details
 			if(count($details))

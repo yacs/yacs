@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2010-05-27 10:20+0100
+PO-Revision-Date: 2010-06-24 21:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -67,6 +67,7 @@ $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page to review']='Page concernée';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';

@@ -399,7 +399,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
@@ -909,7 +909,7 @@ Class Files {
 				'mov' => 'video/quicktime',
 				'mp2' => 'video/mpeg',
 				'mp3' => 'audio/mpeg',
-				'mp4' => 'video/mpeg',
+				'mp4' => 'video/mp4',
 				'mpe' => 'video/mpeg',
 				'mpeg' => 'video/mpeg',
 				'mpg' => 'video/mpeg',
@@ -1018,7 +1018,7 @@ Class Files {
 
 		// limit the scope of the request
 		$query .= "(files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$query .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$query .= " OR files.active='N'";
@@ -1052,7 +1052,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
@@ -1114,7 +1114,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
@@ -1326,14 +1326,30 @@ Class Files {
 				$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
 			$flashvars .= 'width='.$width.'&height='.$height;
 
-			// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
-				.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
-				.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
-				.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-				.JS_SUFFIX."\n";
+			// rely on Flash
+			if(Surfer::has_flash()) {
+
+				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
+				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.JS_PREFIX
+					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
+					.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
+					.JS_SUFFIX."\n";
+
+			// native support
+			} else {
+
+				$output = '<object width="'.$width.'" height="'.$height.'" data="'.$url.'" type="'.Files::get_mime_type($item['file_name']).'">'."\n"
+					.'	<param value="'.$url.'" name="movie" />'."\n"
+					.'	<param value="true" name="allowFullScreen" />'."\n"
+					.'	<param value="always" name="allowscriptaccess" />'."\n"
+					.'	<a href="'.$url.'">No video playback capabilities, please download the file</a>'."\n"
+					.'</object>'."\n";
+
+			}
+
 			return $output;
 
 		}
@@ -1501,7 +1517,7 @@ Class Files {
 
 		// limit the scope of the request
 		$query .= "(files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$query .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$query .= " OR files.active='N'";
@@ -1557,7 +1573,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
@@ -1648,7 +1664,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -1698,7 +1714,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where .= "(files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -1734,7 +1750,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -1766,7 +1782,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -1806,7 +1822,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where .= "(files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -1856,7 +1872,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
@@ -1940,7 +1956,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";
@@ -2043,7 +2059,7 @@ Class Files {
 
 		// limit the scope of the request - hidden files are never listed here
 		$where .= "(files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		$where .= ")";
 
@@ -2128,7 +2144,7 @@ Class Files {
 				$query[] = "file_size='".SQL::escape($fields['file_size'])."'";
 			}
 
-			// fields that are visible only to authenticated associates and editors
+			// fields that are visible only to people allowed to update a file
 			if(Surfer::is_member()) {
 				$query[] = "active='".SQL::escape($fields['active'])."'";
 				$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
@@ -2231,7 +2247,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -2325,7 +2341,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "(files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
@@ -2355,7 +2371,7 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "files.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_logged())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR files.active='N'";

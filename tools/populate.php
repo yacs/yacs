@@ -57,7 +57,7 @@
  * - 'wikis' - top-level section for wiki samples
  * - 'wiki_anonymous' - a section that can be modified by anonymous surfers
  * - 'wiki_anonymous_page' - an article in 'wiki_anonymous'
- * - 'wiki_members' - a section that can be modified by authenticated members
+ * - 'wiki_members' - a section that can be modified by authenticated persons
  * - 'wiki_members_page' - an article in 'wiki_anonymous'
  * - 'wiki_template' - to create a wiki page
  *
@@ -826,7 +826,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'wiki_members';
 		$fields['title'] = i18n::c('Restricted wiki');
-		$fields['introduction'] = i18n::c('Authenticated members can update pages in this section');
+		$fields['introduction'] = i18n::c('Authenticated persons can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
 		$fields['content_options'] = 'view_as_wiki members_edit auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))

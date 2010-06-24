@@ -7,14 +7,6 @@
  *
  * @link http://evamoraga.net/efectokiwano/mm/
  *
- * Restrictions apply on this page:
- * - if no section id is provided, access is granted
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - freemind.php - reflect the entire content tree
  * - freemind.php/12/any_name - provide content of section 12
@@ -53,30 +45,6 @@ if(isset($item['anchor']) && $item['anchor'])
 if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower('A');
 
-// access to main map is always granted
-if(!isset($item['id']))
-	$permitted = TRUE;
-
-// associates and editors are always authorized
-elseif(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_empowered('M'))
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load a skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -94,7 +62,7 @@ if($id && !isset($item['id'])) {
 	include '../error.php';
 
 // access denied
-} elseif(!$permitted) {
+} elseif(!Sections::allow_access($item, $anchor)) {
 
 	// give anonymous surfers a chance for HTTP authentication
 	if(!Surfer::is_logged()) {

@@ -962,7 +962,7 @@ var Yacs = {
 		//
 		// <div id="yacsWorkingOverlay">
 		//	<div>
-		//		<img src="/yacs/skins/_reference/ajax/ajax_working.gif"/>
+		//		<img src="/yacs/skins/_reference/ajax/ajax_working.gif" />
 		//	</div>
 		// </div>
 

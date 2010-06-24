@@ -268,9 +268,10 @@ Class rss_Codec extends Codec {
 		// the preamble
 		$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
 			.'<rss version="2.0" '."\n"
+				.'	xmlns:atom="http://www.w3.org/2005/Atom" '."\n"
 				.'	xmlns:content="http://purl.org/rss/1.0/modules/content/" '."\n"
 				.'	xmlns:dc="http://purl.org/dc/elements/1.1/" '."\n"
-				.'	xmlns:icbm="http://postneo.com/icbm/" '."\n"
+				.'	xmlns:icbm="http://postneo.com/icbm" '."\n"
 				.'	xmlns:slash="http://purl.org/rss/1.0/modules/slash/" '."\n"
 				.'	xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" '."\n"
 				.'	xmlns:wfw="http://wellformedweb.org/CommentAPI/" >'."\n"
@@ -279,12 +280,13 @@ Class rss_Codec extends Codec {
 			.'<channel>'."\n"
 			.'	<title>'.rss_codec::clean($channel_title).'</title>'."\n"
 			.'	<link>'.encode_link($channel_link).'</link>'."\n"
+			.'	<atom:link href="'.encode_link($context['self_url']).'"  rel="self" type="application/rss+xml" />'."\n"
 			.'	<description>'.rss_codec::clean($values['channel']['description'], $allowed).'</description>'."\n";
 
 		if(isset($values['channel']['image']) && $values['channel']['image'] && ($size = Safe::GetImageSize($values['channel']['image']))) {
 
 			$text .= '	<image>'."\n"
-				.'		<url>'.encode_link($values['channel']['image']).'</url>'."\n"
+				.'		<url>'.encode_link($context['url_to_home'].$context['url_to_root'].$values['channel']['image']).'</url>'."\n"
 				.'		<width>'.$size[0].'</width>'."\n"
 				.'		<height>'.$size[1].'</height>'."\n"
 				.'		<title>'.rss_codec::clean($channel_title).'</title>'."\n"

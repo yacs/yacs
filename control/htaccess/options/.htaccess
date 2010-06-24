@@ -150,14 +150,14 @@ Options -Indexes
 	RewriteRule privacy$  articles/view.php?id=privacy	[QSA,L]
 	RewriteRule search$  search.php  [QSA,L]
 
-	# translate authentication data if PHP runs as CGI -- see agents/feed.php
-	#
-	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
-
 	# legacy stuff, to be removed someday
 	#
 	RewriteRule feeds/atom_0.3.php$  feeds/atom.php  [QSA,L]
 	RewriteRule feeds/rss_2.0.php$	feeds/rss.php  [QSA,L]
+
+	# translate authentication data if PHP runs as CGI -- see agents/feed.php
+	#
+	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
 
 </IfModule>
 

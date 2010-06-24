@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2010-05-27 10:23+0100
+POT-Creation-Date: 2010-06-24 19:59+0200
+PO-Revision-Date: 2010-06-24 21:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -70,8 +70,10 @@ $_SESSION['l10n']['fr']['Add new content to this section']='Ajouter du contenu �
 $_SESSION['l10n']['fr']['4c5f93a83d5bdf6cb8d38ef1d7056175']='Tous les caractères après cette chaîne seront supprimés';
 $_SESSION['l10n']['fr']['d467e1d6f6f52ea9e7934fc95eef8ea6']='Tous les caractères avant cette chaîne seront supprimés';
 $_SESSION['l10n']['fr']['c148006ede24ddc2d95717ec7d80aeb4']='Les surfeurs anonymes peuvent changer le contenu';
+$_SESSION['l10n']['fr']['e0505deafaddcb1c64c1fe609cab8361']='Les surfeurs anonymes peuvent modifier le contenu';
 $_SESSION['l10n']['fr']['938ce40939cb309af06c1cc6644797dc']='Favoriser les interactions entre les gens';
 $_SESSION['l10n']['fr']['Allow members to change content']='Les membres peuvent changer le contenu';
+$_SESSION['l10n']['fr']['Allow members to edit content']='Les membres peuvent modifier le contenu';
 $_SESSION['l10n']['fr']['9cd2d568cc55c69de1af0be1a063ec12']='Titre utilisé dans les listes et dans le menu contextuel';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Annotate this page']='Annoter cette page';
@@ -111,7 +113,7 @@ $_SESSION['l10n']['fr']['3fb33a4e3fa3c042499e1c67214eb944']='Rubrique : %s'.chr(
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['5cb4a37477ac11b8572c1f97c42ec259']='Vient avant le titre. Pour catégoriser les sections dans les forums';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Visibilité restreinte aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Visibilité restreinte aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Compact title']='Titre compact';
 $_SESSION['l10n']['fr']['30ca048e4f2b284723125df404049949']='Félicitations, vous avez étendu votre espace web avec succès';
 $_SESSION['l10n']['fr']['8c68013ff17b0314c06d5fcacd1a5eda']='Félicitations, votre contribution a bien été enregistrée.';
@@ -294,6 +296,7 @@ $_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['ed85a2a609bc10e316ded371a55e5531']='Merci de confirmer que vous souhaitez supprimer les pages suivantes.';
 $_SESSION['l10n']['fr']['be72d222dbc7f97ae5604c94564f135e']='Merci de taper le texte de votre nouvelle page et de cliquer sur le bouton en bas du formulaire. L\'envoi des images, des fichiers et des liens se fait dans un deuxième temps.';
+$_SESSION['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';
