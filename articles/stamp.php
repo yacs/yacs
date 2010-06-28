@@ -73,8 +73,8 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id'])) {
 	include '../error.php';
 
-// publication is restricted to container owners
-} elseif(!is_object($anchor) || !$anchor->is_owned()) {
+// publication is restricted to some people
+} elseif(!Articles::allow_publication($anchor, $item)) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

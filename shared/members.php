@@ -820,6 +820,17 @@ Class Members {
 	function &list_editors_for_member($member, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
+		// several references
+		if(is_array($member)) {
+			$items = array();
+			foreach($member as $token)
+				$items[] = "members.member LIKE '".SQL::escape($token)."'";
+			$where_m = '('.join(' OR ', $items).')';
+
+		// or only one
+		} elseif($member)
+			$where_m = "(members.member LIKE '".SQL::escape($member)."')";
+
 		// display active and restricted items
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
@@ -831,7 +842,7 @@ Class Members {
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
 
 			// the list of users
-			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
+			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
 				.", ".SQL::table_name('users')." AS users"
 				." WHERE (users.id = ids.target)"
 				."	AND (users.capability IN ('S', 'M', 'A'))"
@@ -844,7 +855,7 @@ Class Members {
 			// the list of users
 			$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('users')." AS users"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
+				." WHERE ".$where_m
 				."	AND (members.anchor LIKE 'user:%')"
 				."	AND (users.id = SUBSTRING(members.anchor, 6))"
 				."	AND (users.capability IN ('S', 'M', 'A'))"

@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 20:56+0100
+POT-Creation-Date: 2010-06-29 00:36+0200
+PO-Revision-Date: 2010-06-29 00:09+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -190,6 +190,7 @@ $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['Most recent comments']='Most recent comments';
 $_SESSION['l10n']['en']['Move a page']='Move a page';
 $_SESSION['l10n']['en']['Moved by %s from %s to %s']='Moved by %s from %s to %s';
+$_SESSION['l10n']['en']['Name: %s']='Name: %s';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New page: %s']='New page: %s';
 $_SESSION['l10n']['en']['New submission: %s']='New submission: %s';

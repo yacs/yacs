@@ -339,6 +339,19 @@ class Anchor {
 	}
 
 	/**
+	 * get the named url for this anchor
+	 *
+	 * If the anchor as been named, this function returns the related url.
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_named_url() {
+		return NULL;
+	}
+
+	/**
 	 * get data related to next and previous items, if any
 	 *
 	 * This function is used to add navigation links to pages.
@@ -515,6 +528,19 @@ class Anchor {
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
 	function get_reference() {
+		return NULL;
+	}
+
+	/**
+	 * get the short url for this anchor
+	 *
+	 * If the anchor has one, this function returns a minimal url.
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_short_url() {
 		return NULL;
 	}
 
@@ -963,10 +989,6 @@ class Anchor {
 			// test strict ownership
 			if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
 				return TRUE;
-
-			// section editor also owns content, if member, except on private section
-// 			if(($this->item['active'] != 'N') && Surfer::is_member() && is_object($this->anchor) && $this->anchor->is_assigned($user_id))
-// 				return TRUE;
 
 		}
 

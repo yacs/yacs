@@ -276,9 +276,20 @@ if(Surfer::is_crawler()) {
 		.Skin::build_block(encode_field($summary), 'code');
 
 	// permalink
-	$label = i18n::s('Page address (permalink):');
+	$label = i18n::s('Permament address (permalink):');
 	$value = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 	$text .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
+
+	// other links
+	$other = array();
+	if($link = $anchor->get_named_url())
+		$other[] = $context['url_to_home'].$context['url_to_root'].$link;
+	if($link = $anchor->get_short_url())
+		$other[] = $context['url_to_home'].$context['url_to_root'].$link;
+	if($other) {
+		$label = i18n::ns('Other address:', 'Other addresses:', count($other));
+		$text .= '<p>'.$label.BR.'<code>'.join(BR, $other).'</code></p>'."\n";
+	}
 
 	$context['text'] .= Skin::build_box(i18n::s('External reference'), $text);
 

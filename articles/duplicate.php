@@ -54,15 +54,6 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// owners can do what they want
-if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))) {
-	Surfer::empower();
-	$permitted = TRUE;
-
-// the default is to deny access
-} else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -84,7 +75,7 @@ if(!isset($item['id'])) {
 	include '../error.php';
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Articles::is_owned($item, $anchor)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

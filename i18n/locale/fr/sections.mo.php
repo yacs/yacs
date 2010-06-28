@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-24 19:59+0200
-PO-Revision-Date: 2010-06-24 21:03+0100
+POT-Creation-Date: 2010-06-29 00:36+0200
+PO-Revision-Date: 2010-06-29 00:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -138,7 +138,6 @@ $_SESSION['l10n']['fr']['Disallow post of new links']='Empêcher les nouveaux li
 $_SESSION['l10n']['fr']['Discuss']='Commenter';
 $_SESSION['l10n']['fr']['Discuss: %s']='Discussion : %s';
 $_SESSION['l10n']['fr']['35d424d67ce1dbcbf5af24bb60597b41']='Le contenu et la discussion sont séparées';
-$_SESSION['l10n']['fr']['Discussions']='Discussions';
 $_SESSION['l10n']['fr']['924d5d235c3c0af4f7b9dfd32b8176f6']='Afficher le profil du propriétaire de la section';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not list news.']='Ne pas lister les nouvelles.';
@@ -253,6 +252,7 @@ $_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['More spaces']='Plus d\'espaces web';
 $_SESSION['l10n']['fr']['Move']='Déplacer';
 $_SESSION['l10n']['fr']['Move following pages to']='Déplacer les pages suivantes vers';
+$_SESSION['l10n']['fr']['Name: %s']='Nom : %s';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New section: %s']='Nouvelle : %s';
 $_SESSION['l10n']['fr']['News']='Nouvelles';

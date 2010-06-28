@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 20:58+0100
+POT-Creation-Date: 2010-06-28 11:01+0200
+PO-Revision-Date: 2010-06-28 11:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -31,6 +31,7 @@ $_SESSION['l10n']['en']['65bef34af7002e4930f9e15aa6ae63bd']='A section "%s" has 
 $_SESSION['l10n']['en']['A table "%s" has been created.']='A table "%s" has been created.';
 $_SESSION['l10n']['en']['b3390a8d554fe09cfe0a9781ad299561']='A user profile "%s" has been created, with the password "%s".';
 $_SESSION['l10n']['en']['AJAX demonstration']='AJAX demonstration';
+$_SESSION['l10n']['en']['Access rights']='Access rights';
 $_SESSION['l10n']['en']['Alert box']='Alert box';
 $_SESSION['l10n']['en']['Alert notification']='Alert notification';
 $_SESSION['l10n']['en']['Alice']='Alice';
@@ -109,6 +110,9 @@ foo bar']='Note #%d
 foo bar';
 $_SESSION['l10n']['en']['OK']='OK';
 $_SESSION['l10n']['en']['Optional cookie string: %s']='Optional cookie string: %s';
+$_SESSION['l10n']['en']['Page editor']='Page editor';
+$_SESSION['l10n']['en']['Page owner']='Page owner';
+$_SESSION['l10n']['en']['Page reader']='Page reader';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['3f075990c51c31f2eaec0ec034f83131']='Please include all elements we could need';
 $_SESSION['l10n']['en']['c5c719de6fb3f96ed08644a66784d873']='Post pages here to populate chapter 1';
@@ -143,16 +147,24 @@ $_SESSION['l10n']['en']['Sample subscriber profile']='Sample subscriber profile'
 $_SESSION['l10n']['en']['Sample wiki page']='Sample wiki page';
 $_SESSION['l10n']['en']['Sample yabb thread']='Sample yabb thread';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
+$_SESSION['l10n']['en']['Section editor']='Section editor';
+$_SESSION['l10n']['en']['Section owner']='Section owner';
+$_SESSION['l10n']['en']['Section reader']='Section reader';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Share: %s']='Share: %s';
 $_SESSION['l10n']['en']['Social bookmarking section']='Social bookmarking section';
 $_SESSION['l10n']['en']['Sophie']='Sophie';
 $_SESSION['l10n']['en']['Sponge Bob']='Sponge Bob';
 $_SESSION['l10n']['en']['Start']='Start';
+$_SESSION['l10n']['en']['Sub-section editor']='Sub-section editor';
+$_SESSION['l10n']['en']['Sub-section reader']='Sub-section reader';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tags cloud']='Tags cloud';
 $_SESSION['l10n']['en']['d6367f713cada24d92c2ddb26ecea04a']='Take a break, and discuss important things';
+$_SESSION['l10n']['en']['Test page']='Test page';
+$_SESSION['l10n']['en']['Test section']='Test section';
+$_SESSION['l10n']['en']['Test sub-section']='Test sub-section';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['dca2fa65038c5d2238e149e36d226711']='The Fat Index cannot be computed';
 $_SESSION['l10n']['en']['Themes']='Themes';
@@ -173,6 +185,7 @@ $_SESSION['l10n']['en']['4a026ed4f6e4d92bdb76a1a696d9edd3']='This page has %d re
 $_SESSION['l10n']['en']['93367d2113574e84fd7ad73d762080f9']='This script adds various sample records, including sections, categories, articles, comments and tables, to the database.';
 $_SESSION['l10n']['en']['7eb9b5b621c8704d27281b0fa06bdecc']='This script can be used only by an authenticated user of this server.';
 $_SESSION['l10n']['en']['22d066ce7e26cfbbe0f1465ed632b136']='This script strips tags and white space to evaluate the amount of useful bytes. Then it computes the fat index as follows:';
+$_SESSION['l10n']['en']['9ce42343c4fe139d3e7ae4fd85e44a15']='To demonstrate access right management';
 $_SESSION['l10n']['en']['00a511eb5dccc62b6b63c5c104d9a5d5']='To seek for help from other members of the community';
 $_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Use the command \'Edit this page\' to add some text or to change this content.';
@@ -200,6 +213,7 @@ $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['error while fetching %s']='error while fetching %s';
 $_SESSION['l10n']['en']['extra']='extra';
+$_SESSION['l10n']['en']['locked']='locked';
 $_SESSION['l10n']['en']['navigation']='navigation';
 $_SESSION['l10n']['en']['or']='or';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

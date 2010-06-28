@@ -210,6 +210,134 @@ if(Surfer::is_crawler()) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
+	// 'sowner' is a section owner
+	if(Users::get('sowner'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'sowner').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'sowner';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Section owner');
+		$fields['capability'] = 'M';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'seditor' is a section editor
+	if(Users::get('seditor'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'seditor').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'seditor';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Section editor');
+		$fields['capability'] = 'M';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'sseditor' is a sub-section editor
+	if(Users::get('sseditor'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'sseditor').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'sseditor';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Sub-section editor');
+		$fields['capability'] = 'M';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'sreader' is a section reader
+	if(Users::get('sreader'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'sreader').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'sreader';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Section reader');
+		$fields['capability'] = 'S';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'ssreader' is a sub-section reader
+	if(Users::get('ssreader'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'ssreader').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'ssreader';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Sub-section reader');
+		$fields['capability'] = 'Ss';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'aowner' is a article owner
+	if(Users::get('aowner'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'aowner').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'aowner';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Page owner');
+		$fields['capability'] = 'M';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'aeditor' is a article editor
+	if(Users::get('aeditor'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'aeditor').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'aeditor';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Page editor');
+		$fields['capability'] = 'M';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'areader' is a article reader
+	if(Users::get('areader'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'areader').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'areader';
+		$fields['password'] = 'test';
+		$fields['confirm'] = 'test';
+		$fields['introduction'] = i18n::c('Page reader');
+		$fields['capability'] = 'S';
+		if(Users::post($fields))
+			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
 	// distribute names
 	$names = array( i18n::c('Alice'), i18n::c('Bob'), i18n::c('Carol') );
 
@@ -865,6 +993,515 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// access rights
+	//
+	$text .= Skin::build_block(i18n::s('Access rights'), 'subtitle');
+
+	// 'test_s' section
+	if(Sections::get('test_s'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'test_s').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'test_s';
+		$fields['title'] = i18n::c('Test section');
+		$fields['introduction'] = i18n::c('To demonstrate access right management');
+		$fields['options'] = 'with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['content_options'] = 'comments_as_wall view_as_tabs with_neighbours';
+		$fields['sections_layout'] = 'decorated'; // show both sub-sections and articles
+		if($user = Users::get('sowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Sections::post($fields)) {
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign seditor
+			if($user = Users::get('seditor')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign sreader
+			if($user = Users::get('sreader')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ss' section
+	if(Sections::get('test_ss'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'test_ss').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ss';
+		$fields['title'] = i18n::c('Test sub-section');
+		$fields['options'] = 'with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		if($user = Users::get('sowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Sections::post($fields)) {
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign sseditor
+			if($user = Users::get('sseditor')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign ssreader
+			if($user = Users::get('ssreader')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssp' article
+	if(Articles::get('test_ssp'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_ssp').BR."\n";
+	elseif($anchor = Sections::lookup('test_ss')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssp';
+		$fields['title'] = i18n::c('Test page');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssa' section
+	if(Sections::get('test_ssa'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'test_ssa').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssa';
+		$fields['title'] = i18n::c('Test sub-section').' anonymous_edit';
+		$fields['options'] = 'anonymous_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		if($user = Users::get('sowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Sections::post($fields)) {
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign sseditor
+			if($user = Users::get('sseditor')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign ssreader
+			if($user = Users::get('ssreader')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssap' article
+	if(Articles::get('test_ssap'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_ssap').BR."\n";
+	elseif($anchor = Sections::lookup('test_ssa')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssap';
+		$fields['title'] = i18n::c('Test page');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssal' section
+	if(Sections::get('test_ssal'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'test_ssal').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssal';
+		$fields['locked'] = 'Y';
+		$fields['title'] = i18n::c('Test sub-section').' anonymous_edit '.i18n::s('locked');
+		$fields['options'] = 'anonyous_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		if($user = Users::get('sowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Sections::post($fields)) {
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign sseditor
+			if($user = Users::get('sseditor')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign ssreader
+			if($user = Users::get('ssreader')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssalp' article
+	if(Articles::get('test_ssalp'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_ssalp').BR."\n";
+	elseif($anchor = Sections::lookup('test_ssal')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssalp';
+		$fields['title'] = i18n::c('Test page');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssm' section
+	if(Sections::get('test_ssm'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'test_ssm').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssm';
+		$fields['title'] = i18n::c('Test sub-section').' members_edit';
+		$fields['options'] = 'members_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		if($user = Users::get('sowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Sections::post($fields)) {
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign sseditor
+			if($user = Users::get('sseditor')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign ssreader
+			if($user = Users::get('ssreader')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssmp' article
+	if(Articles::get('test_ssmp'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_ssmp').BR."\n";
+	elseif($anchor = Sections::lookup('test_ssm')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssmp';
+		$fields['title'] = i18n::c('Test page');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssml' section
+	if(Sections::get('test_ssml'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'test_ssml').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssml';
+		$fields['locked'] = 'Y';
+		$fields['title'] = i18n::c('Test sub-section').' members_edit '.i18n::s('locked');
+		$fields['options'] = 'members_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		if($user = Users::get('sowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Sections::post($fields)) {
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign sseditor
+			if($user = Users::get('sseditor')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign ssreader
+			if($user = Users::get('ssreader')) {
+				Members::assign('user:'.$user['id'], 'section:'.$id);
+				Members::assign('section:'.$id, 'user:'.$user['id']);
+			}
+
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_ssmlp' article
+	if(Articles::get('test_ssmlp'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_ssmlp').BR."\n";
+	elseif($anchor = Sections::lookup('test_ssml')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_ssmlp';
+		$fields['title'] = i18n::c('Test page');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_sa' article
+	if(Articles::get('test_sa'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_sa').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_sa';
+		$fields['title'] = i18n::c('Test page');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign aeditor
+			if($user = Users::get('aeditor')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign areader
+			if($user = Users::get('areader')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+		 } else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_saa' article
+	if(Articles::get('test_saa'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_saa').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_saa';
+		$fields['options'] = 'anonymous_edit';
+		$fields['title'] = i18n::c('Test page').' '.$fields['options'];
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign aeditor
+			if($user = Users::get('aeditor')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign areader
+			if($user = Users::get('areader')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+		 } else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_saal' article
+	if(Articles::get('test_saal'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_saal').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_saal';
+		$fields['options'] = 'anonymous_edit';
+		$fields['locked'] = 'Y';
+		$fields['title'] = i18n::c('Test page').' '.$fields['options'].' '.i18n::s('locked');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign aeditor
+			if($user = Users::get('aeditor')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign areader
+			if($user = Users::get('areader')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+		 } else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_sam' article
+	if(Articles::get('test_sam'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_sam').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_sam';
+		$fields['options'] = 'members_edit';
+		$fields['title'] = i18n::c('Test page').' '.$fields['options'];
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign aeditor
+			if($user = Users::get('aeditor')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign areader
+			if($user = Users::get('areader')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+		 } else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'test_saml' article
+	if(Articles::get('test_saml'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'test_saml').BR."\n";
+	elseif($anchor = Sections::lookup('test_s')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'test_saml';
+		$fields['options'] = 'members_edit';
+		$fields['locked'] = 'Y';
+		$fields['title'] = i18n::c('Test page').' '.$fields['options'].' '.i18n::s('locked');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if($user = Users::get('aowner')) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['full_name'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['full_name'];
+			$fields['owner_id'] = $user['id'];
+		}
+		if($id = Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+
+			// assign aeditor
+			if($user = Users::get('aeditor')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+			// assign areader
+			if($user = Users::get('areader')) {
+				Members::assign('user:'.$user['id'], 'article:'.$id);
+				Members::assign('article:'.$id, 'user:'.$user['id']);
+			}
+
+		 } else
 			$text .= Logger::error_pop().BR."\n";
 	}
 

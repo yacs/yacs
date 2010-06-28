@@ -65,6 +65,12 @@ class Feeds {
 
 	}
 
+	/**
+	 * suppress invisible HTML tags
+	 *
+	 * @param string submitted text
+	 * @return string filtered text
+	 */
 	function encode_text($text) {
 
 		// remove blank blocks

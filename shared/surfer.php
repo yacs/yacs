@@ -1380,6 +1380,9 @@ Class Surfer {
 		else
 			$default_capability = 'M';
 
+		if(!isset($fields['capability']))
+			throw new exception('paf');
+
 		$_SESSION['surfer_capability'] = isset($fields['capability'])?$fields['capability']:$default_capability;
 
 		// editor preference

@@ -358,7 +358,7 @@ if(!isset($item['id'])) {
 
 			// the nick name
 			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
-				$context['page_details'] .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+				$context['page_details'] .= BR.sprintf(i18n::s('Name: %s'), $link);
 		}
 
 		$context['page_details'] .= '</p>';

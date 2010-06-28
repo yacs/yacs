@@ -100,9 +100,8 @@ if(Surfer::is_crawler()) {
 	$with_children = FALSE;
 	if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'group')) {
 		$_REQUEST['articles_layout'] = 'yabb';
-		$_REQUEST['options'] = 'view_as_tabs with_comments comments_as_wall with_files with_links';
+		$_REQUEST['options'] = 'view_as_tabs';
 		$_REQUEST['locked'] = 'N'; // allow for group contributions
-		$_REQUEST['description'] = '[title]'.i18n::s('Discussions').'[/title]';
 		$with_children = TRUE;
 
 		// put all groups at the same place
@@ -172,7 +171,7 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['home_panel'] = 'none';
 
 	// make it personal and avoid publishing step
-	$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall';
+	$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall with_neighbours';
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
@@ -206,11 +205,13 @@ if(Surfer::is_crawler()) {
 			$fields['rank'] = 1000; // sticky page
 			Articles::post($fields);
 
-			// a first comment
+			// a welcome thread
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
-			$fields['description'] = sprintf(i18n::c('Welcome to the group "%s"'), $_REQUEST['title']);
-			Comments::post($fields);
+			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['title'] = sprintf(i18n::c('Welcome to the group "%s"'), $_REQUEST['title']);
+			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			Articles::post($fields);
 
 		}
 

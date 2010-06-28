@@ -65,6 +65,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$default_href = NULL;
 
 			// process all items in the list
+			include_once $context['path_to_root'].'overlays/overlay.php';
 			while($item =& SQL::fetch($result)) {
 
 				// get the related overlay

@@ -143,7 +143,10 @@ if(!Surfer::is_crawler()) {
 
 		// the nick name
 		if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
-			$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+			$text .= BR.sprintf(i18n::s('Name: %s'), $link);
+
+		// short link
+		$text .= BR.sprintf(i18n::s('Shortcut: %s'), $context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item));
 	}
 
 	// no more details
@@ -162,7 +165,7 @@ if(!Surfer::is_crawler()) {
 if(is_object($anchor))
 	$context['text'] .= $anchor->get_prefix();
 
-// buttons to display previous and next pages, if any
+// links to previous and next pages, if any
 if(isset($neighbours) && $neighbours)
 	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
@@ -650,7 +653,7 @@ if(Articles::allow_modification($item, $anchor)) {
 }
 
 // access previous versions, if any
-if($has_versions && Articles::is_owned($item, $anchor)) {
+if($has_versions && Articles::is_owned(NULL, $anchor)) {
 	Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 }
@@ -662,7 +665,7 @@ if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Ar
 }
 
 // review command provided to container owners
-if(is_object($anchor) && $anchor->is_owned()) {
+if(Articles::allow_publication($anchor, $item)) {
 	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 }
@@ -686,7 +689,7 @@ if(Articles::allow_deletion($item, $anchor)) {
 }
 
 // duplicate command provided to container owners
-if(Articles::is_owned(NULL, $anchor)) {
+if(Articles::is_owned($item, $anchor)) {
 	Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 }

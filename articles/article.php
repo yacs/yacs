@@ -81,6 +81,19 @@ Class Article extends Anchor {
 	}
 
 	/**
+	 * get the named url for this anchor
+	 *
+	 * If the anchor as been named, this function returns the related url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
+		return NULL;
+	}
+
+	/**
 	 * get next and previous items, if any
 	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
@@ -268,6 +281,19 @@ Class Article extends Anchor {
 	function get_reference() {
 		if(isset($this->item['id']))
 			return 'article:'.$this->item['id'];
+		return NULL;
+	}
+
+	/**
+	 * get the short url for this anchor
+	 *
+	 * If the anchor has one, this function returns a minimal url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_short_url() {
+		if(isset($this->item['id']))
+			return 'a~'.reduce_number($this->item['id']);;
 		return NULL;
 	}
 

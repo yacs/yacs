@@ -786,8 +786,12 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
 
+	// variant is already set
+	if(isset($context['skin_variant']))
+		;
+
 	// use item variant
-	if($options && preg_match('/\bvariant_(.+?)\b/i', $options, $matches))
+	elseif($options && preg_match('/\bvariant_(.+?)\b/i', $options, $matches))
 		$context['skin_variant'] = $matches[1];
 
 	// use anchor variant
@@ -1609,6 +1613,55 @@ function yacs_handler($content) {
 	return $data;
 }
 
+/**
+ * change base use for a large number in order to reduce the number of digits
+ *
+ * @param int number to convert
+ * @return string reduced representation
+ */
+function reduce_number($number) {
+
+	// 62 digits
+	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
+
+	// compute each digit
+	bcscale(0);
+	$result = '';
+	while($number > 61) {
+		$rest = bcmod($number, 62);
+		$result = $digits[$rest].$result;
+
+		$number = bcdiv($number, 62);
+	}
+	$result = $digits[intval($number)].$result;
+
+	// job done
+	return $result;
+}
+
+/**
+ * restore a reduced number
+ *
+ * @return string reduced representation
+ * @param int associated number
+ */
+function restore_number($number) {
+
+	// 62 digits
+	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
+
+	// compute each digit
+	$result = '0';
+	$count = strlen($number);
+	for($index = 0; $index < $count; $index++) {
+		$position = strpos($digits, $number[$index]);
+		$result = bcadd($result, bcmul($position, bcpow(62, $count-$index-1)));
+	}
+
+	// job done
+	return $result;
+
+}
 
 /**
  * normalize links

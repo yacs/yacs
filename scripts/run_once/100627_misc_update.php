@@ -20,7 +20,13 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'codes/edit.js';
+$files[] = 'control/htaccess/indexes/.htaccess';
 $files[] = 'control/htaccess/options/.htaccess';
+$files[] = 'robots.txt';
+$files[] = 'skins/_reference/feeds/brand.jpg';
+$files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/_reference/tree/vertical.gif';
 
 // process every file
 $count = 0;

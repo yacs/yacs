@@ -1515,6 +1515,18 @@ Class Sections {
 		return $text;
 	}
 
+	/**
+	 * get short link
+	 *
+	 * @param array page attributes
+	 * @return string the short url
+	 */
+	function &get_short_url($item) {
+		$output = 's~'.reduce_number($item['id']);
+		return $output;
+	}
+
+
 	function &get_tree() {
 		global $context;
 
@@ -1574,7 +1586,6 @@ Class Sections {
 		// build the tree
 		Sections::get_tree_level($sections_tree, $sections_handles, 'top');
 
-//		logger::debug($sections_tree);
 		return $sections_tree;
 	}
 

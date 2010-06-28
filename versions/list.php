@@ -52,6 +52,9 @@ if(is_object($anchor) && $anchor->is_owned())
 	$permitted = TRUE;
 
 // editors of parent anchor can do it also
+elseif(is_object($anchor) && ($anchor->get_type() == 'article') && Articles::is_owned(NULL, $anchor))
+	$permitted = TRUE;
+
 elseif(is_object($anchor) && ($anchor->get_type() == 'section') && Sections::is_owned(NULL, $anchor))
 	$permitted = TRUE;
 

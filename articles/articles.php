@@ -307,6 +307,18 @@ Class Articles {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
+		// anonymous contributions are allowed for articles
+		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+			return TRUE;
+
+		// subscribers can contribute too
+		if(Surfer::is_logged() && isset($item['options']) && preg_match('/\bmembers_edit\b/i', $item['options']))
+			return TRUE;
+		if(Surfer::is_logged() && is_object($anchor) && $anchor->has_option('members_edit'))
+			return TRUE;
+
 		// not for subscribers
 		if(Surfer::is_member()) {
 
@@ -326,18 +338,6 @@ Class Articles {
 
 		// surfer is a member
 		if(Surfer::is_member())
-			return TRUE;
-
-		// container is restricted
-		if(isset($item['active']) && ($item['active'] == 'R'))
-			return FALSE;
-		if(is_object($anchor) && !$anchor->is_public())
-			return FALSE;
-
-		// anonymous contributions are allowed for articles
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-		if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
 			return TRUE;
 
 		// the default is to not allow for new articles
@@ -452,7 +452,7 @@ Class Articles {
 		if(Articles::is_owned($item, $anchor))
 			return TRUE;
 
-		// allow section editors --not subscribers-- to manage content, except on private sections
+		// allow section editors to manage content, except on private sections
 		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
@@ -514,7 +514,7 @@ Class Articles {
 			return TRUE;
 
 		// allow editors to manage content, except on private sections
-		if(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// default case
@@ -1250,6 +1250,17 @@ Class Articles {
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
+	}
+
+	/**
+	 * get short url for an article
+	 *
+	 * @param array page attributes
+	 * @return string the short link
+	 */
+	function &get_short_url($item) {
+		$output = 'a~'.reduce_number($item['id']);
+		return $output;
 	}
 
 	/**

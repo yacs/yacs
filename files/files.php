@@ -186,8 +186,8 @@ Class Files {
 		if(is_object($anchor) && !$anchor->is_public())
 			return FALSE;
 
-		// anonymous contributions are allowed for articles
-		if($variant == 'article') {
+		// anonymous contributions are allowed for articles and for sections
+		if(($variant == 'article') || ($variant == 'section')) {
 			if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
 				return TRUE;
 			if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
