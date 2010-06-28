@@ -1101,8 +1101,8 @@ class Issue extends Overlay {
 	function remember($variant, $host) {
 		global $context;
 
-		if(!isset($host['self_reference']))
-			throw new Exception('need a reference to move forward!');
+//		if(!isset($host['self_reference']))
+//			throw new Exception('need a reference to move forward!');
 
 		// if a comment has to be apended as well
 		$comments = array();

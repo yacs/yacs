@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on June 28, 2010, 10:45 pm GMT, for Bernard Paques. Please do not modify it manually.
+// on June 28, 2010, 10:57 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(153, '69145cd2c926d0136702b7c027084f64');
@@ -389,7 +389,7 @@ $footprints['overlays/form.php']=array(105, 'd7fca2deb8bf40b21871300a1fb02b94');
 $footprints['overlays/forms/fetch_as_csv.php']=array(222, 'd1f4976e021c47b6d61e58884a33042d');
 $footprints['overlays/generic_meeting.php']=array(1056, '817b34215d2256dbcba83ab042dd901a');
 $footprints['overlays/index.php']=array(224, 'f10d436b41e494b342f5b46cefb9d108');
-$footprints['overlays/issue.php']=array(1356, '54247377301fefabb26357bdb87c817c');
+$footprints['overlays/issue.php']=array(1356, '1ff2df2962294eb5bb7bebd32463ffd0');
 $footprints['overlays/issues/hook.php']=array(28, 'ca2424a727f4ae6a6d7cbec83f5172b5');
 $footprints['overlays/meetings/hook.php']=array(24, '222ae238cc399380639c23734a1a06a1');
 $footprints['overlays/mutable.php']=array(179, 'cc6602de5eefb0c6319d536e50fc71a6');
@@ -545,7 +545,7 @@ $footprints['shared/safe.php']=array(1164, '2faf6c19d2b473eb6a2bd418415632c4');
 $footprints['shared/sparkline.php']=array(283, 'dc401cbb758b8ac4ef85c8569893f0fb');
 $footprints['shared/sql.php']=array(1155, 'b0de297fbf5a81ec0920ffcbc886b32f');
 $footprints['shared/sql_hook.php']=array(29, 'c14ba2f95e0f077361dd633a36e124a5');
-$footprints['shared/surfer.php']=array(1589, 'eab6c4350e83dc02d402d221f9120e8b');
+$footprints['shared/surfer.php']=array(1586, '3d0f1b6e48756aa80c32b7d1a7e2b4da');
 $footprints['shared/utf8.php']=array(926, 'a61a0aede822554769effe67616c7f0f');
 $footprints['shared/values.php']=array(161, 'd22f1b50c0c8131577cbe37ef7c81dae');
 $footprints['shared/xml.php']=array(233, '56a4904da33a7544afa01fa07f7a75b8');
@@ -676,9 +676,9 @@ $footprints['versions/versions.php']=array(460, '015e434611e79c630fab88715f24d02
 $footprints['versions/view.php']=array(188, 'fa1b0e1af6fcf3e11d1eb536822f3fdf');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='100628-22:45:27 GMT';
+$generation['date']='100628-22:57:41 GMT';
 $generation['server']='127.0.0.1';
 $generation['version']='10.6.28';
 $generation['scripts']='671'; // number of reference scripts
-$generation['lines']='197803'; // lines of code
+$generation['lines']='197800'; // lines of code
 ?>
