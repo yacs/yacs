@@ -339,6 +339,26 @@ Class Sections {
 
 		}
 
+		// container has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
+		// anonymous contributions are allowed for articles
+		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+			return TRUE;
+
+		// subscribers can contribute too
+		if(Surfer::is_logged() && isset($item['options']) && preg_match('/\bmembers_edit\b/i', $item['options']))
+			return TRUE;
+		if(Surfer::is_logged() && is_object($anchor) && $anchor->has_option('members_edit'))
+			return TRUE;
+
 		// the default is to not allow for new sections
 		return FALSE;
 	}
