@@ -229,7 +229,7 @@ Class Category extends Anchor {
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image =& Images::get($origin)) {
-				if($url = Images::get_icon_img($image))
+				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
 				// also use it as thumnail if none has been defined yet
