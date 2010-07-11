@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on July 5, 2010, 5:58 am GMT, for Bernard Paques. Please do not modify it manually.
+// on July 11, 2010, 8:52 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(153, '69145cd2c926d0136702b7c027084f64');
@@ -78,7 +78,7 @@ $footprints['articles/mail.php']=array(265, '5d0f364f1b6f393f14bdc06b5cd3b016');
 $footprints['articles/move.php']=array(148, '62f01bb282bc0ad96ea7d8dc171548a3');
 $footprints['articles/own.php']=array(127, '5e579dacbece38e03a2d8c6538913df3');
 $footprints['articles/print.php']=array(169, '19ec28c39b476dadbc162d1ce5a48e7d');
-$footprints['articles/publish.php']=array(316, '037099004b7eb013391685d19935e9ea');
+$footprints['articles/publish.php']=array(314, 'ecf6f0c80925849fad336240b256200d');
 $footprints['articles/rate.php']=array(210, '40ebaa1302b056ea3d3fe3bc67cf5e24');
 $footprints['articles/review.php']=array(103, 'f845fbcd58df180c6805a991e39c54c2');
 $footprints['articles/stamp.php']=array(304, '87578d7127ee48e9365a3d1e72f6759f');
@@ -172,7 +172,7 @@ $footprints['control/htaccess/indexes/index.php']=array(47, 'e443f502ef8945d31b7
 $footprints['control/htaccess/options/index.php']=array(47, 'e1a34cb4f24aed2f40a7cf190d26dfa0');
 $footprints['control/index.php']=array(975, 'fbd9b1066c5221eb867758f05fd9581e');
 $footprints['control/info.php']=array(233, '674e0334c2657facd4e8139032a56a10');
-$footprints['control/populate.php']=array(656, '9cda4adbb739c3981447396b927d0966');
+$footprints['control/populate.php']=array(633, 'd337e544d9ebf96d36af86a6a3e58e06');
 $footprints['control/purge.php']=array(480, '962f9258bca38dba6433410551f0771d');
 $footprints['control/scan.php']=array(839, '0cbc894a5a7f00c6c54f04baa3cfd26b');
 $footprints['control/setup.php']=array(321, '41ba7b6810bb90ef8d49f9b3b67e365e');
@@ -256,13 +256,13 @@ $footprints['help/populate.php']=array(1949, '295894c87b246e9be3a92c2250fbc05d')
 $footprints['i18n/i18n.php']=array(1493, '739438ddaa96b1f37c93bc14cef7aee3');
 $footprints['i18n/locale/en/actions.mo.php']=array(98, '04ff47d4e2842bbbb9c7657fad7b3252');
 $footprints['i18n/locale/en/agents.mo.php']=array(111, 'f96402360461faab69cb03fd4b2585e3');
-$footprints['i18n/locale/en/articles.mo.php']=array(428, '4fdc07d0bb4e1d89737119d6385e7698');
+$footprints['i18n/locale/en/articles.mo.php']=array(427, '1e99e0b1dca0932d4b5653e6729a94d9');
 $footprints['i18n/locale/en/behaviors.mo.php']=array(41, 'cbbfdb383f65d2a297dc492433b23e2d');
 $footprints['i18n/locale/en/categories.mo.php']=array(270, '44fef27e50f86777478f877742fbbdee');
 $footprints['i18n/locale/en/codes.mo.php']=array(289, 'fb871fcd2e25f052bbe44cbb75a257c0');
 $footprints['i18n/locale/en/collections.mo.php']=array(119, '3ed89646336e893e22dfa4d4d1dc45d1');
 $footprints['i18n/locale/en/comments.mo.php']=array(137, '5cf4938e96620b047341ba5e0bf6e298');
-$footprints['i18n/locale/en/control.mo.php']=array(578, '8c7b0bf70fb2a0ff22e1d4ec1eceda66');
+$footprints['i18n/locale/en/control.mo.php']=array(576, '463ba5518eb1263a5b7b465d6f82a202');
 $footprints['i18n/locale/en/dates.mo.php']=array(96, '77c9a174ad5c3d37f28562e5d548e3c6');
 $footprints['i18n/locale/en/decisions.mo.php']=array(117, 'e2a31e9194ecaf299a7873d1f5782e0c');
 $footprints['i18n/locale/en/feeds.mo.php']=array(129, '0949b023c5b3ec2c2c4e288bc3080579');
@@ -290,13 +290,13 @@ $footprints['i18n/locale/en/users.mo.php']=array(511, '435e15ce84c83c29ed5f82e9f
 $footprints['i18n/locale/en/versions.mo.php']=array(50, '636971f24881678df131d5587d2d6ad7');
 $footprints['i18n/locale/fr/actions.mo.php']=array(98, 'd06ed6b9054f70801c9813a68e46a86b');
 $footprints['i18n/locale/fr/agents.mo.php']=array(111, 'e6816a025482989a940e652f54ab14ce');
-$footprints['i18n/locale/fr/articles.mo.php']=array(428, '44ae7f6ec669796714bf88c6590925d7');
+$footprints['i18n/locale/fr/articles.mo.php']=array(427, '1dd84e23dd96ea7a2b80d149737e6de4');
 $footprints['i18n/locale/fr/behaviors.mo.php']=array(41, '87ced0ca764c5dd74fd9c880033a2290');
 $footprints['i18n/locale/fr/categories.mo.php']=array(270, '1c1bc6e6299133b5ed7745b13de23808');
 $footprints['i18n/locale/fr/codes.mo.php']=array(289, 'd257d246452021c052696cbc28063320');
 $footprints['i18n/locale/fr/collections.mo.php']=array(119, '7708e7d3e87d78cd6e92937910ed099d');
 $footprints['i18n/locale/fr/comments.mo.php']=array(137, '61b48b45475ef2b4288626cf61dcf6aa');
-$footprints['i18n/locale/fr/control.mo.php']=array(578, '703cb906d3028a64d81a9664bbea5ba8');
+$footprints['i18n/locale/fr/control.mo.php']=array(576, '74b2952752883374e24107d2abf31463');
 $footprints['i18n/locale/fr/dates.mo.php']=array(96, '9f5a10a04a79c83e2bafaf16d79677fb');
 $footprints['i18n/locale/fr/decisions.mo.php']=array(117, '65b6a337df5a3af858c1e4a0222e1678');
 $footprints['i18n/locale/fr/feeds.mo.php']=array(129, '88a2193a497fc5ebd88c0f8752af6f61');
@@ -316,7 +316,7 @@ $footprints['i18n/locale/fr/sections.mo.php']=array(533, '9a9630da97de4eaed170c3
 $footprints['i18n/locale/fr/servers.mo.php']=array(148, '7483a0a71e024e1717bf878cd5da0af9');
 $footprints['i18n/locale/fr/services.mo.php']=array(104, '3b5cedd23da5d227b9312c18dbefc345');
 $footprints['i18n/locale/fr/shared.mo.php']=array(131, 'b5e0eb14f45905ec8410a92d5e82a950');
-$footprints['i18n/locale/fr/skins.mo.php']=array(440, '181d8c745261905b11f52f70abd9a391');
+$footprints['i18n/locale/fr/skins.mo.php']=array(440, '1388a0a06178c8093132b81786616f18');
 $footprints['i18n/locale/fr/smileys.mo.php']=array(133, '1878f11d9d5a75d8fccb110ca88d6537');
 $footprints['i18n/locale/fr/tables.mo.php']=array(117, 'b2723476241cd5f4d4fc35ca91df5d35');
 $footprints['i18n/locale/fr/tools.mo.php']=array(220, '6d899f1d7bf71b3824912a5da33d59ce');
@@ -676,9 +676,9 @@ $footprints['versions/versions.php']=array(460, '015e434611e79c630fab88715f24d02
 $footprints['versions/view.php']=array(188, 'fa1b0e1af6fcf3e11d1eb536822f3fdf');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='100705-05:58:11 GMT';
-$generation['server']='127.0.0.1';
-$generation['version']='10.7.5';
+$generation['date']='100711-20:52:40 GMT';
+$generation['server']='localhost';
+$generation['version']='10.7.11';
 $generation['scripts']='671'; // number of reference scripts
-$generation['lines']='197902'; // lines of code
+$generation['lines']='197871'; // lines of code
 ?>

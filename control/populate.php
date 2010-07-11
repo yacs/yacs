@@ -243,9 +243,7 @@ if(!$permitted) {
 	$text = '';
 
 	// 'covers' section
-	if(Sections::get('covers'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Covers')).BR."\n";
-	else {
+	if(!Sections::get('covers')) {
 		$fields = array();
 		$fields['nick_name'] = 'covers';
 		$fields['title'] = i18n::c('Covers');
@@ -261,9 +259,7 @@ if(!$permitted) {
 	}
 
 	// 'default' section
-	if(Sections::get('default'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Pages')).BR."\n";
-	else {
+	if(!Sections::get('default')) {
 		$fields = array();
 		$fields['nick_name'] = 'default';
 		$fields['title'] = i18n::c('Pages');
@@ -276,9 +272,7 @@ if(!$permitted) {
 	}
 
 	// 'extra_boxes' section
-	if(Sections::get('extra_boxes'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Extra boxes')).BR."\n";
-	else {
+	if(!Sections::get('extra_boxes')) {
 		$fields = array();
 		$fields['nick_name'] = 'extra_boxes';
 		$fields['title'] = i18n::c('Extra boxes');
@@ -294,9 +288,7 @@ if(!$permitted) {
 	}
 
 	// 'gadget_boxes' section
-	if(Sections::get('gadget_boxes'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Gadget boxes')).BR."\n";
-	else {
+	if(!Sections::get('gadget_boxes')) {
 		$fields = array();
 		$fields['nick_name'] = 'gadget_boxes';
 		$fields['title'] = i18n::c('Gadget boxes');
@@ -312,9 +304,7 @@ if(!$permitted) {
 	}
 
 	// 'global' section
-	if(Sections::get('global'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Global pages')).BR."\n";
-	else {
+	if(!Sections::get('global')) {
 		$fields = array();
 		$fields['nick_name'] = 'global';
 		$fields['title'] = i18n::c('Global pages');
@@ -330,9 +320,7 @@ if(!$permitted) {
 	}
 
 	// 'navigation_boxes' section
-	if(Sections::get('navigation_boxes'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Navigation boxes')).BR."\n";
-	else {
+	if(!Sections::get('navigation_boxes')) {
 		$fields = array();
 		$fields['nick_name'] = 'navigation_boxes';
 		$fields['title'] = i18n::c('Navigation boxes');
@@ -349,7 +337,6 @@ if(!$permitted) {
 
 	// 'processed_queries' section
 	if($section = Sections::get('processed_queries')) {
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Processed queries')).BR."\n";
 		$processed_id = $section['id'];
 	} else {
 		$fields = array();
@@ -368,9 +355,7 @@ if(!$permitted) {
 	}
 
 	// 'queries' section --after processed_queries
-	if(Sections::get('queries'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Queries')).BR."\n";
-	else {
+	if(!Sections::get('queries')) {
 		$fields = array();
 		$fields['nick_name'] = 'queries';
 		$fields['title'] = i18n::c('Queries');
@@ -390,9 +375,7 @@ if(!$permitted) {
 	}
 
 	// 'templates' section
-	if(Sections::get('templates'))
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Templates')).BR."\n";
-	else {
+	if(!Sections::get('templates')) {
 		$fields = array();
 		$fields['nick_name'] = 'templates';
 		$fields['title'] = i18n::c('Templates');
@@ -409,9 +392,7 @@ if(!$permitted) {
 	}
 
 	// 'threads' section
-	if($section = Sections::get('threads')) {
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Threads')).BR."\n";
-	} else {
+	if(!Sections::get('threads')) {
 		$fields = array();
 		$fields['nick_name'] = 'threads';
 		$fields['title'] =& i18n::c('Threads');
@@ -428,6 +409,10 @@ if(!$permitted) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
+	// nothing added
+	if(!$text)
+		$text = i18n::s('No item has been added');
+
 	// report to surfer
 	$context['text'] .= Skin::build_box(i18n::s('Sections'), $text);
 
@@ -435,9 +420,7 @@ if(!$permitted) {
 	$text = '';
 
 	// 'featured' category
-	if(Categories::get(i18n::c('featured')))
-		$text .= sprintf(i18n::s('A category "%s" already exists.'), i18n::c('Featured')).BR."\n";
-	else {
+	if(!Categories::get(i18n::c('featured'))) {
 		$fields = array();
 		$fields['nick_name'] = i18n::c('featured');
 		$fields['title'] = i18n::c('Featured');
@@ -451,9 +434,7 @@ if(!$permitted) {
 	}
 
 	// 'monthly' category
-	if(Categories::get(i18n::c('monthly')))
-		$text .= sprintf(i18n::s('A category "%s" already exists.'), i18n::c('Publications by month')).BR."\n";
-	else {
+	if(!Categories::get(i18n::c('monthly'))) {
 		$fields = array();
 		$fields['nick_name'] = i18n::c('monthly');
 		$fields['title'] = i18n::c('Publications by month');
@@ -465,9 +446,7 @@ if(!$permitted) {
 	}
 
 	// 'weekly' category
-	if(Categories::get(i18n::c('weekly')))
-		$text .= sprintf(i18n::s('A category "%s" already exists.'), i18n::c('Publications by week')).BR."\n";
-	else {
+	if(!Categories::get(i18n::c('weekly'))) {
 		$fields = array();
 		$fields['nick_name'] = i18n::c('weekly');
 		$fields['title'] = i18n::c('Publications by week');
@@ -478,6 +457,10 @@ if(!$permitted) {
 			$text .= sprintf(i18n::s('A category "%s" has been created.'), $fields['title']).BR."\n";
 	}
 
+	// nothing added
+	if(!$text)
+		$text = i18n::s('No item has been added');
+
 	// report to surfer
 	$context['text'] .= Skin::build_box(i18n::s('Categories'), $text);
 
@@ -485,9 +468,7 @@ if(!$permitted) {
 	$text = '';
 
 	// 'about' article
-	if(Articles::get('about'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('About this site')).BR."\n";
-	elseif($anchor = Sections::lookup('global')) {
+	if(!Articles::get('about') && ($anchor = Sections::lookup('global'))) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'about';
@@ -526,9 +507,7 @@ if(!$permitted) {
 	}
 
 	// 'cover' article - basic data
-	if(Articles::get('cover'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Welcome!')).BR."\n";
-	elseif($anchor = Sections::lookup('covers')) {
+	if(!Articles::get('cover') && ($anchor = Sections::lookup('covers'))) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'cover';
@@ -542,9 +521,7 @@ if(!$permitted) {
 	}
 
 	// 'extra_rss' article - basic data
-	if(Articles::get('extra_rss'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Information channels')).BR."\n";
-	elseif($anchor = Sections::lookup('extra_boxes')) {
+	if(!Articles::get('extra_rss') && ($anchor = Sections::lookup('extra_boxes'))) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'extra_rss';
@@ -561,9 +538,7 @@ if(!$permitted) {
 	}
 
 	// 'menu' article - basic data
-	if(Articles::get('menu'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Menu')).BR."\n";
-	elseif($anchor = Sections::lookup('global')) {
+	if(!Articles::get('menu') && ($anchor = Sections::lookup('global'))) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'menu';
@@ -584,9 +559,7 @@ if(!$permitted) {
 	}
 
 	// 'privacy' article
-	if(Articles::get('privacy'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Privacy statement')).BR."\n";
-	elseif($anchor = Sections::lookup('global')) {
+	if(!Articles::get('privacy') && ($anchor = Sections::lookup('global'))) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'privacy';
@@ -613,6 +586,10 @@ if(!$permitted) {
 		else
 			$text .= Logger::error_pop().BR."\n";
 	}
+
+	// nothing added
+	if(!$text)
+		$text = i18n::s('No item has been added');
 
 	// report to surfer
 	$context['text'] .= Skin::build_box(i18n::s('Pages'), $text);

@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2010-06-24 19:59+0200
-PO-Revision-Date: 2010-06-24 21:04+0100
+PO-Revision-Date: 2010-07-09 23:16+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -71,7 +71,7 @@ $_SESSION['l10n']['fr']['Canvas']='Canevas';
 $_SESSION['l10n']['fr']['Change your own picture']='Changer votre propre image';
 $_SESSION['l10n']['fr']['ea7fa6962ef375d9d49226af5933fd79']='Cliquez sur l\'une des images ci-dessous pour changer le thème actif.';
 $_SESSION['l10n']['fr']['Click to reload this page']='Recharger cette page';
-$_SESSION['l10n']['fr']['Click to slide']='Cliquer pour faire apparaitre';
+$_SESSION['l10n']['fr']['Click to slide']='Cliquer pour faire glisser';
 $_SESSION['l10n']['fr']['Click to sort']='Cliquer pour trier';
 $_SESSION['l10n']['fr']['Color']='Couleur';
 $_SESSION['l10n']['fr']['Color: %s']='Couleur : %s';

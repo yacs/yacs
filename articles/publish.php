@@ -182,9 +182,7 @@ if(Surfer::is_crawler()) {
 			// report on job done
 			$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
 
-		// not advertised
-		} else
-			$context['text'] .= '<p>'.i18n::s('Please note that this page has not been advertised to aggregation servers.').'</p>';
+		}
 
 		// 'publish' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
@@ -274,7 +272,7 @@ if($with_form) {
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('This publication should be advertised at:').$list;
 
-	} else
+	} elseif(Surfer::is_associate())
 		$input = sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php?action=servers', i18n::s('Content Assistant'), 'shortcut'));
 
 	$fields[] = array($label, $input);
