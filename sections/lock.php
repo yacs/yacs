@@ -36,14 +36,6 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// ensure that the surfer can change the section
-if(Sections::allow_modification($item, $anchor))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -72,7 +64,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Sections::is_owned($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

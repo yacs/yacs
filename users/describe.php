@@ -155,7 +155,7 @@ if(!isset($item['id'])) {
 			$text .= '	<foaf:knows>'."\n"
 				.'		<foaf:Person>'."\n"
 				.'			<foaf:name>'.encode_field($attributes['full_name']).'</foaf:name>'."\n"
-				.'			<rdfs:seeAlso rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'describe')).'"/>'."\n"
+				.'			<rdfs:seeAlso rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'describe')).'" />'."\n"
 				.'		</foaf:Person>'."\n"
 				.'	</foaf:knows>'."\n";
 	}

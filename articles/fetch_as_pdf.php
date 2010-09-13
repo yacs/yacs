@@ -69,7 +69,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Articles::allow_display($anchor, $item)) {
+} elseif(!Articles::allow_access($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
@@ -87,10 +87,12 @@ if(Surfer::is_crawler()) {
 		$context['subject'] = utf8::to_unicode($anchor->get_title());
 
 	// set specific headers
-	if(isset($item['introduction']) && $item['introduction'])
-		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
+	if(isset($item['introduction']) && $item['introduction'])
+		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['publish_name']) && $item['publish_name'])
 		$context['page_publisher'] = $item['publish_name'];
 

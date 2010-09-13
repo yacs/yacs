@@ -81,6 +81,19 @@ Class Article extends Anchor {
 	}
 
 	/**
+	 * get the named url for this anchor
+	 *
+	 * If the anchor as been named, this function returns the related url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
+		return NULL;
+	}
+
+	/**
 	 * get next and previous items, if any
 	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
@@ -272,6 +285,19 @@ Class Article extends Anchor {
 	}
 
 	/**
+	 * get the short url for this anchor
+	 *
+	 * If the anchor has one, this function returns a minimal url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_short_url() {
+		if(isset($this->item['id']))
+			return 'a~'.reduce_number($this->item['id']);;
+		return NULL;
+	}
+
+	/**
 	 * get some introductory text from an article
 	 *
 	 * This function is used to introduce comments, or any sub-item related to an anchor.
@@ -285,7 +311,7 @@ Class Article extends Anchor {
 	 * Following variants may be selected to adapt to various situations:
 	 * - 'basic' - strip every tag, we want almost plain ASCII - maybe this will be send in a mail message
 	 * - 'hover' - some text to be displayed while hovering a link
-	 * - 'quote' - transform YACS codes, then strip most HTML tags
+	 * - 'quote' - strip most HTML tags
 	 * - 'teaser' - limit the number of words, tranform YACS codes, and link to permalink
 	 *
 	 * @param string an optional variant, including
@@ -321,17 +347,6 @@ Class Article extends Anchor {
 
 			}
 
-			// preserve HTML only for teasers
-			if($variant != 'teaser') {
-
-				// preserve breaks
-				$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
-
-				// strip most html tags
-				$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
-
-			}
-
 			// combine with description
 			if($variant == 'quote')
 				$text .= BR.BR;
@@ -348,7 +363,7 @@ Class Article extends Anchor {
 
 		// use the description field, if any
 		$in_description = FALSE;
-		if((!$text && ($variant != 'hover')) || ($variant == 'quote')) {
+		if(!$text && ($variant != 'hover')) {
 			$text .= trim($this->item['description']);
 			$in_description = TRUE;
 
@@ -356,7 +371,7 @@ Class Article extends Anchor {
 			$text = preg_replace(FORBIDDEN_IN_TEASERS, '', $text);
 
 			// render all codes
-			if(is_callable(array('Codes', 'beautify')))
+			if(($variant == 'teaser') && is_callable(array('Codes', 'beautify')))
 				$text = Codes::beautify($text, $this->item['options']);
 
 		}
@@ -371,15 +386,9 @@ Class Article extends Anchor {
 		case 'basic':
 		default:
 
-			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
-
-			// strip every html tags
-			$text = strip_tags($text);
-
-			// limit the number of words
-			if(is_callable(array('Skin', 'cap')))
-				$text = Skin::cap($text, 70);
+			// strip every HTML and limit the size
+			if(is_callable(array('Skin', 'strip')))
+				$text = Skin::strip($text, 70, NULL, '');
 
 			// done
 			return $text;
@@ -387,15 +396,9 @@ Class Article extends Anchor {
 		// some text for pop-up panels
 		case 'hover':
 
-			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
-
-			// strip every html tags
-			$text = strip_tags($text);
-
-			// limit the number of words
+			// strip every HTML and limit the size
 			if(is_callable(array('Skin', 'strip')))
-				$text = Skin::strip($text, 70);
+				$text = Skin::strip($text, 70, NULL, '');
 
 			// ensure we have some text
 			if(!$text)
@@ -411,15 +414,9 @@ Class Article extends Anchor {
 		// quote this
 		case 'quote':
 
-			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
-
-			// strip most html tags
-			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
-
-			// limit the number of words
-			if(is_callable(array('Skin', 'cap')))
-				$text = Skin::cap($text, 300);
+			// strip every HTML and limit the size
+			if(is_callable(array('Skin', 'strip')))
+				$text = Skin::strip($text, 300, NULL, '<a><b><br><i><img><strong><u>');
 
 			// done
 			return $text;
@@ -427,7 +424,8 @@ Class Article extends Anchor {
 		// preserve as much as possible
 		case 'teaser':
 
-			// push titles
+			// lower level of titles
+ 			$text = str_replace(array('<h4', '</h4'), array('<h5', '</h5'), $text);
  			$text = str_replace(array('<h3', '</h3'), array('<h4', '</h4'), $text);
  			$text = str_replace(array('<h2', '</h2'), array('<h3', '</h3'), $text);
 

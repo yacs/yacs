@@ -82,7 +82,7 @@ document.write('<div style="margin-top: 2px;">'
 	+ '<a href="#" onclick="edit_insert(\'[Label|http://link]\',\'\');return false;" class="button" title="Link [l]" tabindex="1007" accesskey="l"><span>[link]</span></a>'
 	+ '<a href="#" onclick="edit_insert(\'[email]\',\'[/email]\');return false;" class="button" title="Email address [e]" tabindex="1008" accesskey="e"><span>[email]</span></a>'
 	+ '<a href="#" onclick="edit_insert(\'\\n[quote]\',\'[/quote]\\n\');return false;" class="button" title="Quote [q]" tabindex="1009" accesskey="q"><span>&quot;..&quot;</span></a>'
-	+ '<a href="#" onclick="edit_insert(\'\\n\\n[title]\',\'[/title]\\n\');return false;" class="button" title="Level 1 title [1]" tabindex="1010" accesskey="1"><span>h1</span></a>'
-	+ '<a href="#" onclick="edit_insert(\'\\n\\n[subtitle]\',\'[/subtitle]\\n\');return false;" class="button" title="Level 2 title [2]" tabindex="1011" accesskey="2"><span>h2</span></a>'
+	+ '<a href="#" onclick="edit_insert(\'\\n\\n==\',\'==\\n\');return false;" class="button" title="Level 1 title [1]" tabindex="1010" accesskey="1"><span>h1</span></a>'
+	+ '<a href="#" onclick="edit_insert(\'\\n\\n===\',\'===\\n\');return false;" class="button" title="Level 2 title [2]" tabindex="1011" accesskey="2"><span>h2</span></a>'
 	+ '</div><br />');
 

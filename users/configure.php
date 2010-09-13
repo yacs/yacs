@@ -350,7 +350,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="users_with_email_display" value="R"';
 	if(!isset($context['users_with_email_display']) || ($context['users_with_email_display'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Show email addresses to authenticated members.');
+	$input .= '/> '.i18n::s('Show email addresses to authenticated persons.');
 	$input .= BR.'<input type="radio" name="users_with_email_display" value="Y"';
 	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
 		$input .= ' checked="checked"';
@@ -448,7 +448,7 @@ elseif(!Surfer::is_associate()) {
 		$input = '<input type="radio" name="users_without_uploads" value="N"';
 		if(!isset($context['users_without_uploads']) || ($context['users_without_uploads'] != 'Y'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Authenticated members are allowed to post images and files.');
+		$input .= '/> '.i18n::s('Authenticated persons are allowed to post images and files.');
 		$input .= BR.'<input type="radio" name="users_without_uploads" value="R"';
 		if(isset($context['users_without_uploads']) && ($context['users_without_uploads'] == 'R'))
 			$input .= ' checked="checked"';

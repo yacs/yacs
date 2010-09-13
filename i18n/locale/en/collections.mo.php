@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-12 21:01+0200
-PO-Revision-Date: 2009-08-26 02:00+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 20:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -33,7 +33,7 @@ $_SESSION['l10n']['en']['9953b8a98446c15990e30aa788d57d9d']='Click to view only 
 $_SESSION['l10n']['en']['Codec: %s']='Codec: %s';
 $_SESSION['l10n']['en']['Collection nick name']='Collection nick name';
 $_SESSION['l10n']['en']['Collections']='Collections';
-$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';

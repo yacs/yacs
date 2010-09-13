@@ -409,7 +409,7 @@ Class Section extends Anchor {
 
 		// the parent level
 		$parent = array();
-		if(is_object($this->anchor))
+		if(is_object($this->anchor) && $this->anchor->is_viewable())
 			$parent = $this->anchor->get_path_bar();
 
 		// this section
@@ -819,8 +819,7 @@ Class Section extends Anchor {
 			return TRUE;
 
 		// options that are not cascaded to sub-sections -- e.g. extra boxes aside a forum
-		$screened = '/(anonymous_edit'		// security hole if cascaded
-			.'|articles_by_publication' 	// no way to revert from this
+		$screened = '/(articles_by_publication' 	// no way to revert from this
 			.'|articles_by_title'
 			.'|auto_publish'		// e.g. extra boxes aside a forum...
 			.'|comments_as_wall'
@@ -828,15 +827,17 @@ Class Section extends Anchor {
 			.'|links_by_title'
 			.'|no_comments' 		// e.g. master section vs. sub-forum
 			.'|no_links'
-//			.'|with_export_tools'
 			.'|with_comments'		// no way to revert from this in sub-sections
 			.'|with_extra_profile'	// only in blog
 			.'|with_files'			// no way to depart from this in sub-sections
 			.'|with_links'			// no way ...
 			.'|with_neighbours'
 			.'|with_prefix_profile' // only in discussion boards
-//			.'|without_rating'
 			.'|with_suffix_profile)/';	// only in authoring sections
+
+		// cascade options for this parent, if any
+		if(!preg_match($screened, $option) && preg_match('/\b'.$option.'\b/i', $this->item['options']))
+			return TRUE;
 
 		// climb the anchoring chain, if any, but only for options to be cascaded
 		if(!preg_match($screened, $option) && isset($this->item['anchor']) && $this->item['anchor']) {
@@ -985,6 +986,32 @@ Class Section extends Anchor {
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item =& Sections::get($id, $mutable);
+	}
+
+	/**
+	 * get the named url for this anchor
+	 *
+	 * If the anchor as been named, this function returns the related url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
+		return NULL;
+	}
+
+	/**
+	 * get the short url for this anchor
+	 *
+	 * If the anchor has one, this function returns a minimal url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_short_url() {
+		if(isset($this->item['id']))
+			return 's~'.reduce_number($this->item['id']);;
+		return NULL;
 	}
 
 	/**

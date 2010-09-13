@@ -2,9 +2,32 @@
 #
 DirectoryIndex index.php index.html index.htm default.html default.htm
 
-# cache static objects -- requires "AllowOverride Indexes" in main Apache configuration file#<IfModule mod_expires.c>	# enable expiration	ExpiresActive On	# don't expire dynamic pages	ExpiresDefault A0
+# cache static objects -- requires "AllowOverride Indexes" in main Apache configuration file
+#
+<IfModule mod_expires.c>
+
+	# enable expiration
+	ExpiresActive On
+
+	# don't expire dynamic pages
+	ExpiresDefault A0
 
 	# short expiration period for some data objects
 	ExpiresByType text/calendar	"access plus 1 hour"
 
-	# expire common static objects, as recommendations from Yahoo! performance group	ExpiresByType application/javascript	"access plus 3 days"	ExpiresByType application/x-javascript	"access plus 3 days"	ExpiresByType image/gif		"access plus 3 days"	ExpiresByType image/jpeg	"access plus 3 days"	ExpiresByType image/png		"access plus 3 days"	ExpiresByType image/x-icon	"access plus 3 days"	ExpiresByType text/css		"access plus 3 days"	ExpiresByType text/javascript	"access plus 3 days"</IfModule># no etag on static objects, as recommendations from Yahoo! performance group#FileETag none
+
+	# expire common static objects, as recommendations from Yahoo! performance group
+	ExpiresByType application/javascript	"access plus 3 days"
+	ExpiresByType application/x-javascript	"access plus 3 days"
+	ExpiresByType image/gif		"access plus 3 days"
+	ExpiresByType image/jpeg	"access plus 3 days"
+	ExpiresByType image/png		"access plus 3 days"
+	ExpiresByType image/x-icon	"access plus 3 days"
+	ExpiresByType text/css		"access plus 3 days"
+	ExpiresByType text/javascript	"access plus 3 days"
+
+</IfModule>
+
+# no etag on static objects, as recommendations from Yahoo! performance group
+#
+FileETag none

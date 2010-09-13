@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-04-08 22:24+0100
+POT-Creation-Date: 2010-07-11 22:35+0200
+PO-Revision-Date: 2010-07-11 22:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -82,14 +82,11 @@ $_SESSION['l10n']['en']['0380899d64bbd378aeb965a4cd4244ae']='%s, to understand i
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['99bb226626a516acb3ab4c7c6ade2209']='(%sbytes data, %sbytes index, %sbytes unused)';
 $_SESSION['l10n']['en']['*** undefined label']='*** undefined label';
-$_SESSION['l10n']['en']['A category "%s" already exists.']='A category "%s" already exists.';
 $_SESSION['l10n']['en']['ee4c4307567fad8ef9e100aa3236eff8']='A category "%s" has been created.';
 $_SESSION['l10n']['en']['A complex POST test']='A complex POST test';
 $_SESSION['l10n']['en']['39442430beff9d5a0558913806fbcab2']='A configuration file is missing. If you are installing a brand new server, follow the link to create one.';
 $_SESSION['l10n']['en']['A more complex GET test']='A more complex GET test';
-$_SESSION['l10n']['en']['A page "%s" already exists.']='A page "%s" already exists.';
 $_SESSION['l10n']['en']['A page "%s" has been created.']='A page "%s" has been created.';
-$_SESSION['l10n']['en']['A section "%s" already exists.']='A section "%s" already exists.';
 $_SESSION['l10n']['en']['65bef34af7002e4930f9e15aa6ae63bd']='A section "%s" has been created.';
 $_SESSION['l10n']['en']['A self-referencing POST test']='A self-referencing POST test';
 $_SESSION['l10n']['en']['About this site']='About this site';
@@ -299,6 +296,7 @@ $_SESSION['l10n']['en']['00cb3f098d28e004551a0cd959568220']='No configuration fi
 $_SESSION['l10n']['en']['6a9093e953b3488468be05de9991717d']='No configuration file has been found. If you are installing a brand new server, follow the link below to create one.';
 $_SESSION['l10n']['en']['No file have been found.']='No file have been found.';
 $_SESSION['l10n']['en']['No image have been found.']='No image have been found.';
+$_SESSION['l10n']['en']['No item has been added']='No item has been added';
 $_SESSION['l10n']['en']['No item has been found.']='No item have been found.';
 $_SESSION['l10n']['en']['No statement has been uploaded.']='No statement has been uploaded.';
 $_SESSION['l10n']['en']['87ef6f7124dac5a5dcfe5ddbaa75be8a']='Normalized format, for example: "John Ford" &lt;john.ford@acme.com&gt;';

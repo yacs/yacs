@@ -2,31 +2,11 @@
 /**
  * create a new section or edit an existing one
  *
- * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
- *
- * This script attempts to validate the new or updated article description against a standard PHP XML parser.
- * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
- *
- * Optional expiration date is automatically translated from and to the surfer time zone and the
- * server time zone.
- *
- * Restrictions apply on this page:
- * - associates can always proceed
- * - a managing editor of a container can create a sub-section
- * - a section owner is allowed to modify a section he is in charge of
- * - else permission is denied
- *
- * Moreover, editors can modify only a subset of all section fields.
- *
  * Accepted calls:
  * - edit.php
  * - edit.php/&lt;id&gt;
  * - edit.php?id=&lt;id&gt;
  * - edit.php?anchor=&lt;anchor&gt;
- *
- * If this section, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
  * @author Vincent No&euml;l
@@ -823,7 +803,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="active_set" value="R"';
 	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active_set" value="N"';
@@ -1086,6 +1066,8 @@ if($with_form) {
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'no_contextual_menu\')" style="cursor: pointer;">no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
+	$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
+	$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
 	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
 	$fields[] = array($label, $input, $hint);
 

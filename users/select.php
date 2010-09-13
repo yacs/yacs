@@ -219,7 +219,7 @@ elseif(!$permitted) {
 		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
 
 	// users assigned to this anchor
-	} elseif(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	} elseif(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
 		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
@@ -263,7 +263,7 @@ elseif(!$permitted) {
 	while($handle && ($parent = Anchors::get($handle))) {
 		$handle = $parent->get_parent();
 
-		if(($users =& Members::list_users_by_posts_for_member($parent->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+		if(($users =& Members::list_users_by_posts_for_member($parent->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 			// browse the list
 			$items = array();

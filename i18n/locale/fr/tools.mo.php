@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-02-09 11:07+0100
-PO-Revision-Date: 2010-03-01 14:59+0100
+POT-Creation-Date: 2010-06-28 11:01+0200
+PO-Revision-Date: 2010-06-28 11:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -31,6 +31,7 @@ $_SESSION['l10n']['fr']['65bef34af7002e4930f9e15aa6ae63bd']='La section "%s" a �
 $_SESSION['l10n']['fr']['A table "%s" has been created.']='La table "%s" a été créée.';
 $_SESSION['l10n']['fr']['b3390a8d554fe09cfe0a9781ad299561']='Un compte "%s" a été créé, avec le mot de passe "%s".';
 $_SESSION['l10n']['fr']['AJAX demonstration']='Démonstration AJAX';
+$_SESSION['l10n']['fr']['Access rights']='Droits d\'accès';
 $_SESSION['l10n']['fr']['Alert box']='Boîte d\'alerte';
 $_SESSION['l10n']['fr']['Alert notification']='Notification d\'alerte';
 $_SESSION['l10n']['fr']['Alice']='Alice';
@@ -38,7 +39,7 @@ $_SESSION['l10n']['fr']['b8b07936b356f7906cdd5ef6b01e7821']='Un compte existe d�
 $_SESSION['l10n']['fr']['Anonymous wiki']='Wiki anonyme';
 $_SESSION['l10n']['fr']['717d50c64a625363713751145cf1f7ca']='Tout surfer peut modifier le contenu de cette section';
 $_SESSION['l10n']['fr']['Assembling javascript files...']='Assemblage des fichiers Javascripts ...';
-$_SESSION['l10n']['fr']['70871921675454ac43a2a5fe9444af55']='Les membres authentifiés peuvent modifier les pages de cette section';
+$_SESSION['l10n']['fr']['b7e6262eb0a58061fdf756e5d5b12b4a']='Les personnes authentifiées peuvent modifier les pages de cette section';
 $_SESSION['l10n']['fr']['Blog']='Blog';
 $_SESSION['l10n']['fr']['Bob']='Bob';
 $_SESSION['l10n']['fr']['Browse notification']='Notification de co-navigation';
@@ -109,6 +110,9 @@ foo bar']='Annotation numéro %d
 ga bu zo meu';
 $_SESSION['l10n']['fr']['OK']='OK';
 $_SESSION['l10n']['fr']['Optional cookie string: %s']='Cookie (option) : %s';
+$_SESSION['l10n']['fr']['Page editor']='Editeur de page';
+$_SESSION['l10n']['fr']['Page owner']='Propriétaire de page';
+$_SESSION['l10n']['fr']['Page reader']='Lecteur de page';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['3f075990c51c31f2eaec0ec034f83131']='Merci d\'ajouter tous les éléments dont nous pourrions avoir besoin';
 $_SESSION['l10n']['fr']['c5c719de6fb3f96ed08644a66784d873']='Ajouter des pages pour compléter le chapitre 1';
@@ -143,15 +147,24 @@ $_SESSION['l10n']['fr']['Sample subscriber profile']='Exemple de souscripteur';
 $_SESSION['l10n']['fr']['Sample wiki page']='Page wiki de démonstration';
 $_SESSION['l10n']['fr']['Sample yabb thread']='Discussion yabb de démonstration';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
+$_SESSION['l10n']['fr']['Section editor']='Editeur de section';
+$_SESSION['l10n']['fr']['Section owner']='Propriétaire de section';
+$_SESSION['l10n']['fr']['Section reader']='Lecteur de section';
 $_SESSION['l10n']['fr']['Sections']='Sections';
+$_SESSION['l10n']['fr']['Share: %s']='Partager : %s';
 $_SESSION['l10n']['fr']['Social bookmarking section']='Section de liens partagés';
 $_SESSION['l10n']['fr']['Sophie']='Sophie';
 $_SESSION['l10n']['fr']['Sponge Bob']='Bob l\'Eponge';
 $_SESSION['l10n']['fr']['Start']='Commencer';
+$_SESSION['l10n']['fr']['Sub-section editor']='Editeur de sous-section';
+$_SESSION['l10n']['fr']['Sub-section reader']='Lecteur de sous-section';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['Tags cloud']='Nuage d\'étiquettes';
 $_SESSION['l10n']['fr']['d6367f713cada24d92c2ddb26ecea04a']='Faites une pause, et discutez de choses importantes';
+$_SESSION['l10n']['fr']['Test page']='Page de test';
+$_SESSION['l10n']['fr']['Test section']='Section de test';
+$_SESSION['l10n']['fr']['Test sub-section']='Sous-section de test';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['dca2fa65038c5d2238e149e36d226711']='L\'indice d\'inefficacité ne peut pas être calculé';
 $_SESSION['l10n']['fr']['Themes']='Thèmes';
@@ -172,6 +185,7 @@ $_SESSION['l10n']['fr']['4a026ed4f6e4d92bdb76a1a696d9edd3']='Cette page a %d ré
 $_SESSION['l10n']['fr']['93367d2113574e84fd7ad73d762080f9']='Ce script ajoute différents exemples à la base de données, y compris des sections, des catégories, des pages, des commentaire et des tables.';
 $_SESSION['l10n']['fr']['7eb9b5b621c8704d27281b0fa06bdecc']='Ce script ne peut être utilisé que par un utilisateur authentifié.';
 $_SESSION['l10n']['fr']['22d066ce7e26cfbbe0f1465ed632b136']='Ce script enlève les balises HTML et les espaces pour évaluer la taille utile d\'une page web. Puis il calcule l\'indice d\'inefficacité comme suit :';
+$_SESSION['l10n']['fr']['9ce42343c4fe139d3e7ae4fd85e44a15']='pour démontrer la gestion des droits d\'accès';
 $_SESSION['l10n']['fr']['00a511eb5dccc62b6b63c5c104d9a5d5']='Pour rechercher l\'aide des autres membres de la communauté';
 $_SESSION['l10n']['fr']['Tools']='Outils';
 $_SESSION['l10n']['fr']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Utiliser la commande \'Modifier cette page\' pour ajouter du texte ou pour modifier ce contenu.';
@@ -199,6 +213,7 @@ $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['error while fetching %s']='Impossible d\'accéder à %s';
 $_SESSION['l10n']['fr']['extra']='extra';
+$_SESSION['l10n']['fr']['locked']='verrouillé';
 $_SESSION['l10n']['fr']['navigation']='navigation';
 $_SESSION['l10n']['fr']['or']='ou bien';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';

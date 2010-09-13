@@ -39,11 +39,19 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 		.' xmlns:dc="http://purl.org/dc/elements/1.1/"'
 		.' xmlns="http://www.w3.org/2005/Atom">'."\n"
 		.'	<title>'.encode_field(strip_tags($context['channel_title'])).'</title>'."\n"
+		.'	<subtitle type="text">'.encode_field($context['channel_description']).'</subtitle>'."\n"
+		.'	<id>'.encode_field($context['self_url']).'</id>'."\n"
+		.'	<link rel="self" href="'.$context['self_url'].'/" />'."\n"
 		.'	<link rel="alternate" type="text/html" href="'.$context['url_to_home'].'/" />'."\n"
-		.'	<author><name>'.encode_field($context['site_owner']).'</name></author>'."\n"
-		.'	<tagline type="text/plain" mode="escaped">'.encode_field($context['channel_description']).'</tagline>'."\n"
-		.'	<modified>'.gmdate('Y-m-d\TG:i:s\Z').'</modified>'."\n"
-		.'	<generator url="http://www.yacs.fr/">YACS</generator>'."\n";
+		.'	<updated>'.gmdate('Y-m-d\TH:i:s\Z').'</updated>'."\n"
+		.'	<generator uri="http://www.yacs.fr/">yacs</generator>'."\n";
+
+	if($context['site_owner'])
+		$text .= '	<author><name>'.encode_field($context['site_owner']).'</name></author>'."\n";
+
+	// the image for this channel
+	if(isset($context['powered_by_image']) && $context['powered_by_image'])
+		$text .= '	<icon>'.encode_field($context['url_to_home'].$context['url_to_root'].strip_tags($context['powered_by_image'])).'</icon>'."\n";
 
 	// get local news
 	include_once 'feeds.php';
@@ -77,13 +85,18 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 				$text .= '		<author><name>'.encode_field($author).'</name></author>'."\n";
 
 			if($introduction)
-				$text .= '		<summary type="text/html" mode="escaped"><![CDATA[ '.$introduction." ]]></summary>\n";
+				$text .= '		<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+'.Feeds::encode_text($introduction)."</div></summary>\n";
+			else
+				$text .= '		<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+'."</div></summary>\n";
 
 			if($description)
-				$text .= '		<content type="text/html" mode="escaped"><![CDATA[ '.$description." ]]></content>\n";
+				$text .= '		<content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+'.Feeds::encode_text($description)."</div></content>\n";
 
 			if(intval($time))
-				$text .= '		<updated>'.gmdate('Y-m-d\TG:i:s\Z', intval($time))."</updated>\n";
+				$text .= '		<updated>'.gmdate('Y-m-d\TH:i:s\Z', intval($time))."</updated>\n";
 
 			if($section)
 				$text .= '		<dc:source>'.encode_field($section).'</dc:source>'."\n";

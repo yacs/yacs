@@ -2,13 +2,6 @@
 /**
  * print one section
  *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
  * Accept following invocations:
  * - print.php/12
  * - print.php?id=12
@@ -42,26 +35,6 @@ if(isset($item['anchor']) && $item['anchor'])
 if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
-// associates and editors are always authorized
-if(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && $item['active'] == 'Y')
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
 // load the skin, with a specific variant
 load_skin('print');
 
@@ -79,7 +52,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!$permitted) {
+} elseif(!Sections::allow_access($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
@@ -106,7 +79,7 @@ if(Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 	// restricted to associates
 	elseif($item['active'] == 'N')

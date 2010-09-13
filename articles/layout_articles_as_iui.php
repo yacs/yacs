@@ -67,7 +67,7 @@ Class Layout_articles_as_iui extends Layout_interface {
 	// 			$text .= '		<content type="text/html" mode="escaped"><![CDATA[ '.$description." ]]></content>\n";
 	//
 	// 		if(intval($time))
-	// 			$text .= '		<updated>'.gmdate('Y-m-d\TG:i:s\Z', intval($time))."</updated>\n";
+	// 			$text .= '		<updated>'.gmdate('Y-m-d\TH:i:s\Z', intval($time))."</updated>\n";
 	//
 	// 		if($section)
 	// 			$text .= '		<dc:source>'.encode_field($section).'</dc:source>'."\n";

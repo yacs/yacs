@@ -207,6 +207,57 @@ Class Articles {
 	}
 
 	/**
+	 * check if an article can be accessed
+	 *
+	 * This function returns TRUE if the item can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target page
+	 * @param object an instance of the Anchor interface, if any
+	 * @return boolean TRUE or FALSE
+	 */
+	function allow_access($item, $anchor) {
+		global $context;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer owns this item, or the anchor
+		if(Articles::is_owned($item, $anchor))
+			return TRUE;
+
+		// anonymous surfer has provided the secret handle
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
+
+		// surfer is an editor
+		if(isset($item['id']) && Articles::is_assigned($item['id']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is logged
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// public page
+		return TRUE;
+	}
+
+	/**
 	 * check if new articles can be added
 	 *
 	 * This function returns TRUE if articles can be added to some place,
@@ -256,6 +307,18 @@ Class Articles {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
+		// anonymous contributions are allowed for articles
+		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+		if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+			return TRUE;
+
+		// subscribers can contribute too
+		if(Surfer::is_logged() && isset($item['options']) && preg_match('/\bmembers_edit\b/i', $item['options']))
+			return TRUE;
+		if(Surfer::is_logged() && is_object($anchor) && $anchor->has_option('members_edit'))
+			return TRUE;
+
 		// not for subscribers
 		if(Surfer::is_member()) {
 
@@ -275,18 +338,6 @@ Class Articles {
 
 		// surfer is a member
 		if(Surfer::is_member())
-			return TRUE;
-
-		// container is restricted
-		if(isset($item['active']) && ($item['active'] == 'R'))
-			return FALSE;
-		if(is_object($anchor) && !$anchor->is_public())
-			return FALSE;
-
-		// anonymous contributions are allowed for articles
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-		if(is_object($anchor) && $anchor->has_option('anonymous_edit'))
 			return TRUE;
 
 		// the default is to not allow for new articles
@@ -328,57 +379,6 @@ Class Articles {
 
 		// default case
 		return FALSE;
-	}
-
-	/**
-	 * check if an article can be displayed
-	 *
-	 * This function returns TRUE if articles can be transferred to surfer,
-	 * and FALSE otherwise.
-	 *
-	 * @param object an instance of the Anchor interface, if any
-	 * @param array a set of item attributes, aka, the target page
-	 * @return boolean TRUE or FALSE
-	 */
-	function allow_display($anchor, $item) {
-		global $context;
-
-		// surfer is an associate
-		if(Surfer::is_associate())
-			return TRUE;
-
-		// surfer owns this item, or the anchor
-		if(Articles::is_owned($item, $anchor))
-			return TRUE;
-
-		// anonymous surfer has provided the secret handle
-		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
-			return TRUE;
-
-		// surfer is an editor
-		if(isset($item['id']) && Articles::is_assigned($item['id']))
-			return TRUE;
-		if(is_object($anchor) && $anchor->is_assigned())
-			return TRUE;
-
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N'))
-			return FALSE;
-		if(is_object($anchor) && $anchor->is_hidden())
-			return FALSE;
-
-		// surfer is logged
-		if(Surfer::is_logged())
-			return TRUE;
-
-		// container is restricted
-		if(isset($item['active']) && ($item['active'] == 'R'))
-			return FALSE;
-		if(is_object($anchor) && !$anchor->is_public())
-			return FALSE;
-
-		// public page
-		return TRUE;
 	}
 
 	/**
@@ -440,6 +440,10 @@ Class Articles {
 		if(Surfer::is_associate())
 			return TRUE;
 
+		// ensure access rights
+		if(!Articles::allow_access($item, $anchor))
+			return FALSE;
+
 		// submissions have been disallowed
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
@@ -448,7 +452,7 @@ Class Articles {
 		if(Articles::is_owned($item, $anchor))
 			return TRUE;
 
-		// allow section editors --not subscribers-- to manage content, except on private sections
+		// allow section editors to manage content, except on private sections
 		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
@@ -461,7 +465,7 @@ Class Articles {
 			return TRUE;
 
 		// community wiki
-		if(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
+		if(Surfer::is_logged() && Articles::has_option('members_edit', $anchor, $item))
 			return TRUE;
 
 		// public wiki
@@ -510,7 +514,7 @@ Class Articles {
 			return TRUE;
 
 		// allow editors to manage content, except on private sections
-		if(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// default case
@@ -559,7 +563,7 @@ Class Articles {
 			if($item['publish_name'])
 				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
 			else
-				$details[] = Skin::build_date($item['publish_date']);
+				$details[] = Skin::build_date($item['publish_date'], 'publishing');
 
 		}
 
@@ -1246,6 +1250,17 @@ Class Articles {
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
+	}
+
+	/**
+	 * get short url for an article
+	 *
+	 * @param array page attributes
+	 * @return string the short link
+	 */
+	function &get_short_url($item) {
+		$output = 'a~'.reduce_number($item['id']);
+		return $output;
 	}
 
 	/**

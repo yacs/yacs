@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2010-03-08 17:29+0100
+POT-Creation-Date: 2010-06-29 00:09+0200
+PO-Revision-Date: 2010-06-29 00:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ $_SESSION['l10n']['fr']['Classified pages']='Page classées';
 $_SESSION['l10n']['fr']['Cloud of tags']='Nuage d\'étiquettes';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Complete tags']='Etiquetage';
 $_SESSION['l10n']['fr']['Contact']='Contact';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
@@ -122,6 +122,7 @@ $_SESSION['l10n']['fr']['More']='Suite';
 $_SESSION['l10n']['fr']['More content']='Contenu additionnel';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';
 $_SESSION['l10n']['fr']['More specific:']='Plus précis :';
+$_SESSION['l10n']['fr']['Name: %s']='Nom : %s';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['b9c31c633231af3c1ab38bbfc75bbcb9']='Aucune catégorie n\'a été créée à ce jour.';
@@ -173,7 +174,6 @@ $_SESSION['l10n']['fr']['Send']='Envoyer';
 $_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Share']='Partager';
-$_SESSION['l10n']['fr']['Shortcut: %s']='Raccourci : %s';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers par titre (et non par date)';
 $_SESSION['l10n']['fr']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Trier les liens par titre (et non par date)';

@@ -236,6 +236,8 @@ if(!isset($item['id'])) {
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
 
 	//
 	// page details -- $context['page_details']
@@ -372,6 +374,7 @@ if(!isset($item['id'])) {
 		// one box
 		if($box['text'])
 			$contributions .= Skin::build_box(i18n::s('Sections'), $box['text']);
+
 
 	}
 
@@ -700,7 +703,7 @@ if(!isset($item['id'])) {
 				if($item['active'] == 'Y')
 					$box .= '<p>'.i18n::s('Anyone may read this profile.').'</p>';
 				elseif($item['active'] == 'R')
-					$box .= '<p>'.RESTRICTED_FLAG.i18n::s('Community - Access is restricted to authenticated members').'</p>';
+					$box .= '<p>'.RESTRICTED_FLAG.i18n::s('Community - Access is restricted to authenticated persons').'</p>';
 				elseif($item['active'] == 'N')
 					$box .= '<p>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</p>';
 			}
@@ -982,7 +985,7 @@ if(!isset($item['id'])) {
 
 }
 
-// render the skin
-render_skin();
+// render the skin -- do not provide Last-Modified header
+render_skin(FALSE);
 
 ?>

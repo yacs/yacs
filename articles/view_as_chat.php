@@ -172,7 +172,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$context['text'] .= '<div id="thread_wrapper">'."\n";
 
 	// text panel
-	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..."/></div>'."\n";
+	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /></div>'."\n";
 
 	// surfer cannot contribute
 	if(!Comments::allow_creation($anchor, $item))

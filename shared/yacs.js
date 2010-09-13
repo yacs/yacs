@@ -211,7 +211,11 @@ var Yacs = {
 				detected = 'yes';
 			}
 		} else if(navigator.userAgent.toLowerCase().indexOf("webtv") != -1) {
-				detected = 'yes';
+			detected = 'yes';
+
+		// assume Flash is embedded in Windows
+		} else if(navigator.userAgent.toLowerCase().indexOf("windows") != -1) {
+			detected = 'yes';
 		}
 
 		// remember this in a cookie
@@ -962,7 +966,7 @@ var Yacs = {
 		//
 		// <div id="yacsWorkingOverlay">
 		//	<div>
-		//		<img src="/yacs/skins/_reference/ajax/ajax_working.gif"/>
+		//		<img src="/yacs/skins/_reference/ajax/ajax_working.gif" />
 		//	</div>
 		// </div>
 

@@ -344,7 +344,7 @@ if($with_form) {
 	$input .= '<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active" value="N"';

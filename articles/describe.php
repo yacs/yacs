@@ -76,7 +76,7 @@ if(!isset($item['id'])) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Articles::allow_display($anchor, $item)) {
+} elseif(!Articles::allow_access($item, $anchor)) {
 
 	// give anonymous surfers a chance for HTTP authentication
 	if(!Surfer::is_logged()) {

@@ -155,6 +155,9 @@ $context['p3p_compact_policy'] = 'CAO PSA OUR';
 // page author (meta-information)
 $context['page_author'] = '';
 
+// page date (meta-information)
+$context['page_date'] = '';
+
 // page details (complementary information about the page)
 $context['page_details'] = '';
 
@@ -523,25 +526,25 @@ function &encode_field($text) {
 	global $context;
 
 	// encode special chars
-	$output = htmlspecialchars($text);
+	$text = htmlspecialchars($text);
 
 	// preserve unicode entities
-	$output = preg_replace(array('/&amp;#/i', '/&amp;u/i'), array('&#', '&u'), $output);
+	$text = preg_replace(array('/&amp;#/i', '/&amp;u/i'), array('&#', '&u'), $text);
 
 	// transcode HTML entities to unicode
-	$output =& utf8::transcode($output);
+	$text =& utf8::transcode($text);
 
 	// escape double quotes
 	if($context['charset'] == 'utf-8')
-		$output = str_replace(array('"', '&quot;', '&#34;'), '&quot;', $output);
+		$text = str_replace(array('"', '&quot;', '&#34;'), '&quot;', $text);
 	else
-		$output = str_replace(array('"', '&quot;', '&#34;'), "'", $output);
+		$text = str_replace(array('"', '&quot;', '&#34;'), "'", $text);
 
 	// prevent codes rendering within encoded fields
-	$output = str_replace(array('[', ']'), array('&#91;', '&#93;'), $output);
+	$text = str_replace(array('[', ']'), array('&#91;', '&#93;'), $text);
 
 	// done
-	return $output;
+	return $text;
 
 }
 
@@ -783,8 +786,12 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
 
+	// variant is already set
+	if(isset($context['skin_variant']))
+		;
+
 	// use item variant
-	if($options && preg_match('/\bvariant_(.+?)\b/i', $options, $matches))
+	elseif($options && preg_match('/\bvariant_(.+?)\b/i', $options, $matches))
 		$context['skin_variant'] = $matches[1];
 
 	// use anchor variant
@@ -866,7 +873,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  * including the poor-man's cron so the user who kicks off the cron jobs should not notice any delay.
  *
  */
-function render_skin() {
+function render_skin($with_last_modified=TRUE) {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
 
 	// allow for only one call -- see scripts/validate.php
@@ -1074,8 +1081,7 @@ function render_skin() {
 				hash_update($h, $context['suffix']);
 			if(isset($context['text']))
 				hash_update($h, $context['text']);
-			if(isset($context['etag']))
-				hash_update($h, $context['etag']);
+			hash_update($h, $context['page_date']);
 			hash_update($h, Safe::filemtime($context['path_to_root'].'parameters/control.include.php').':'
 				.Safe::filemtime($context['path_to_root'].'parameters/skins.include.php'));
 
@@ -1093,7 +1099,10 @@ function render_skin() {
 		}
 
 		// manage web cache
-		if(http::validate(NULL, $etag))
+		$stamp = $context['page_date'];
+		if(isset($context['cache_has_been_poisoned']) || !$with_last_modified)
+			$stamp = NULL;
+		if(http::validate($stamp, $etag))
 			return;
 
 
@@ -1103,11 +1112,14 @@ function render_skin() {
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 		return;
 
+	// we support Dublin Core too
+	$context['page_header'] .= '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />'."\n";
+
 	// normalize customized components of the head
 	if(isset($context['site_head']))
 		$context['page_header'] .= $context['site_head']."\n";
 
-	// the title
+	// page title
 	$page_title = ucfirst(strip_tags($context['page_title']));
 	$context['page_header'] .= '<title>'.$page_title;
 	if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
@@ -1116,6 +1128,8 @@ function render_skin() {
 		$context['page_header'] .= strip_tags($context['site_name']);
 	}
 	$context['page_header'] .= "</title>\n";
+	if($page_title)
+		$context['page_header'] .= '<meta name="DC.title" content="'.encode_field($page_title).'" />'."\n";
 
 	// set icons for this site
 	if($context['site_icon']) {
@@ -1126,27 +1140,40 @@ function render_skin() {
 	// a meta-link to our help page
 	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />'."\n";
 
-	// the description of this page
+	// page description
 	if(isset($context['page_description']) && $context['page_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n";
+		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n"
+			.'<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n";
 	elseif(isset($context['site_description']) && $context['site_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n";
+		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n"
+			.'<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n";
 
-	// copyright
+	// page copyright
 	if(isset($context['site_copyright']) && $context['site_copyright'])
 		$context['page_header'] .= '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />'."\n";
 
-	// author
+	// page author
 	if(isset($context['page_author']) && $context['page_author'])
-		$context['page_header'] .= '<meta name="author" content="'.encode_field($context['page_author']).'" />'."\n";
+		$context['page_header'] .= '<meta name="author" content="'.encode_field($context['page_author']).'" />'."\n"
+			.'<meta name="DC.author" content="'.encode_field($context['page_author']).'" />'."\n";
 
-	// publisher
+	// page publisher
 	if(isset($context['page_publisher']) && $context['page_publisher'])
-		$context['page_header'] .= '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />'."\n";
+		$context['page_header'] .= '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />'."\n"
+			.'<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />'."\n";
 
-	// the keywords to be used for this page
+	// page keywords
 	if(isset($context['site_keywords']) && $context['site_keywords'])
-		$context['page_header'] .= '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />'."\n";
+		$context['page_header'] .= '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />'."\n"
+			.'<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />'."\n";
+
+	// page date
+	if($context['page_date'])
+		$context['page_header'] .= '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />'."\n";
+
+	// page language
+	if($context['page_language'])
+		$context['page_header'] .= '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />'."\n";
 
 	// revisit-after
 	if(!isset($context['site_revisit_after']))
@@ -1586,6 +1613,55 @@ function yacs_handler($content) {
 	return $data;
 }
 
+/**
+ * change base use for a large number in order to reduce the number of digits
+ *
+ * @param int number to convert
+ * @return string reduced representation
+ */
+function reduce_number($number) {
+
+	// 62 digits
+	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
+
+	// compute each digit
+	bcscale(0);
+	$result = '';
+	while($number > 61) {
+		$rest = bcmod($number, 62);
+		$result = $digits[$rest].$result;
+
+		$number = bcdiv($number, 62);
+	}
+	$result = $digits[intval($number)].$result;
+
+	// job done
+	return $result;
+}
+
+/**
+ * restore a reduced number
+ *
+ * @return string reduced representation
+ * @param int associated number
+ */
+function restore_number($number) {
+
+	// 62 digits
+	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
+
+	// compute each digit
+	$result = '0';
+	$count = strlen($number);
+	for($index = 0; $index < $count; $index++) {
+		$position = strpos($digits, $number[$index]);
+		$result = bcadd($result, bcmul($position, bcpow(62, $count-$index-1)));
+	}
+
+	// job done
+	return $result;
+
+}
 
 /**
  * normalize links

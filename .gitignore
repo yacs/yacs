@@ -1,0 +1,39 @@
+# Ignore htaccess at root level only
+/.htaccess
+
+# Ignore parameters
+parameters/
+!parameters/index.php
+
+# Ignore images and files sub-folder content
+images/*/
+files/*/
+
+# Temporary folder
+temporary/
+!temporary/index.php
+
+# Inbox folder
+/inbox
+
+# Scripts
+scripts/run_once/
+scripts/staging/
+
+#bak files
+*.bak
+
+# Some temporary files from editors
+*~
+*.swp
+*.svn
+
+#netbeans metadata
+nbproject/
+
+# OS generated files 
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+

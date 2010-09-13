@@ -428,7 +428,7 @@ if(Articles::is_owned(NULL, $anchor)) {
 
 // use date of last modification into etag computation
 if(isset($item['edit_date']))
-	$context['etag'] = $item['edit_date'];
+	$context['page_date'] = $item['edit_date'];
 
 // render the skin
 render_skin();

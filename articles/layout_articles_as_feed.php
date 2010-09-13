@@ -107,7 +107,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 
 			// url for comments
 			if(is_object($anchor))
-				$extensions[] = '<comments>'.encode_link($context['url_to_root'].$anchor->get_url('comments')).'</comments>';
+				$extensions[] = '<comments>'.encode_link($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments')).'</comments>';
 
 			// count comments
 			$comment_count = Comments::count_for_anchor('article:'.$item['id']);

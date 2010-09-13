@@ -64,12 +64,12 @@ class Proxy_hook {
 
 			// box content
 			if(($enclosure = $item->get_enclosure()) && ($thumbnail = $enclosure->get_thumbnail()))
-				$content .= '<a href="'.$item->get_permalink().'"><img src="'.$thumbnail.'" class="left_image" style="margin-right: 1em;"/></a>';
+				$content .= '<a href="'.$item->get_permalink().'"><img src="'.$thumbnail.'" class="left_image" style="margin-right: 1em;" alt="" /></a>';
 
-			$content .= '<div style="margin: 0.5em 0 1em 0;">'.$item->get_description()."</div></dd>\n";
+			$content .= '<div style="margin: 0.5em 0 1em 0;">'.$item->get_description().'<br style="clear:left;" /></div></dd>'."\n";
 
 			// wrap the full box
-			$output['text'] .= '<dl class="newsfeed_item">'."\n".$content.'<br clear="left" /></dl>'."\n";
+			$output['text'] .= '<dl class="newsfeed_item">'."\n".$content.'</dl>'."\n";
 
 		}
 

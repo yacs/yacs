@@ -35,7 +35,7 @@ else
 	echo '<title>'.strip_tags($context['site_name']).'</title>';
 
 ?>
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 	<link rel="apple-touch-icon" href="<?php echo $context['url_to_root']; ?>skins/_mobile/iui/iui-logo-touch-icon.png" />
 	<meta name="apple-touch-fullscreen" content="YES" />
 <!--	<style type="text/css" media="screen">@import "<?php echo $context['url_to_root']; ?>skins/_reference/yacs.css";</style> -->

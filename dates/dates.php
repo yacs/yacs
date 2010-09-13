@@ -190,7 +190,7 @@ Class Dates {
 					$icon = $context['url_to_root'].$icon;
 
 				// build the complete HTML element
-				$icon = Skin::build_link($date_link, '<img src="'.$icon.'" alt="" title="'.encode_field($label).'"/>', 'basic').BR;
+				$icon = Skin::build_link($date_link, '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" />', 'basic').BR;
 			}
 
 

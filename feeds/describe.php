@@ -51,7 +51,7 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 
 	// the preamble
 	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
-		.'<opml xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'."\n";
+		.'<opml version="2.0">'."\n";
 
 	// the head
 	$text .= '<head>'."\n";
@@ -63,31 +63,31 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	$text .= '</head>'."\n".'<body>'."\n";
 
 	// the main rss feed of this site
-	$text .= '	<outline type="rss" title="'.encode_field($context['channel_title']).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss').'"'." />\n";
+	$text .= '	<outline type="rss" text="'.encode_field($context['channel_title']).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss').'"'." />\n";
 
 	// full articles
-	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Pages with full content').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('articles').'"'." />\n";
+	$text .= '	<outline type="rss" text="'.encode_field(i18n::c('Pages with full content').$suffix).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('articles').'"'." />\n";
 
 	// newest comments
-	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Comments').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('comments').'"'." />\n";
+	$text .= '	<outline type="rss" text="'.encode_field(i18n::c('Comments').$suffix).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('comments').'"'." />\n";
 
 	// the file rss feed for podcasting, etc.
-	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Files and podcasts').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('files').'"'." />\n";
+	$text .= '	<outline type="rss" text="'.encode_field(i18n::c('Files and podcasts').$suffix).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('files').'"'." />\n";
 
 	// one feed per section
 	if($items = Sections::list_by_title_for_anchor(NULL, 0, COMPACT_LIST_SIZE, 'raw'))
 		foreach($items as $id => $attributes)
-			$text .= '	<outline type="rss" title="'.encode_field(strip_tags($attributes['title']).$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'feed').'"'." />\n";
+			$text .= '	<outline type="rss" text="'.encode_field(strip_tags($attributes['title']).$suffix).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'feed').'"'." />\n";
 
 	// one feed per category
 	if($items = Categories::list_by_date(0, COMPACT_LIST_SIZE, 'raw'))
 		foreach($items as $id => $attributes)
-			$text .= '	<outline type="rss" title="'.encode_field(strip_tags($attributes['title']).$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed').'"'." />\n";
+			$text .= '	<outline type="rss" text="'.encode_field(strip_tags($attributes['title']).$suffix).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed').'"'." />\n";
 
 	// one feed per user
 	if($items = Users::list_by_posts(0, COMPACT_LIST_SIZE, 'raw'))
 		foreach($items as $id => $attributes)
-			$text .= '	<outline type="rss" title="'.encode_field(strip_tags($attributes['nick_name']).$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'feed').'"'." />\n";
+			$text .= '	<outline type="rss" text="'.encode_field(strip_tags($attributes['nick_name']).$suffix).'" xmlUrl="'.$context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'feed').'"'." />\n";
 
 
 	// the postamble

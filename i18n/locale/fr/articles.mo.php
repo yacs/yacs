@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2010-05-25 15:41+0100
+POT-Creation-Date: 2010-07-11 22:35+0200
+PO-Revision-Date: 2010-06-29 00:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -80,7 +80,7 @@ $_SESSION['l10n']['fr']['Change to draft mode']='Passer en mode brouillon';
 $_SESSION['l10n']['fr']['c6cc8e98456cebe65b4e8e5f19008c18']='Cliquez sur le bouton ci-dessous pour retirer la page de la liste des contrôles à effectuer.';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['4158dec895b46349386efea0e7ee92a9']='Participez à l\'extension du web et indiquez les autres pages pertinentes.';
@@ -190,6 +190,7 @@ $_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['Most recent comments']='Les commentaires les plus récents';
 $_SESSION['l10n']['fr']['Move a page']='Déplacer une page';
 $_SESSION['l10n']['fr']['Moved by %s from %s to %s']='Déplacé par %s de %s vers %s';
+$_SESSION['l10n']['fr']['Name: %s']='Nom : %s';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New page: %s']='Nouvelle page : %s';
 $_SESSION['l10n']['fr']['New submission: %s']='Nouvel envoi : %s';
@@ -234,7 +235,7 @@ $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties 
 $_SESSION['l10n']['fr']['Ping']='Ping';
 $_SESSION['l10n']['fr']['7ddc27bb7cf70408e6ca481071e4270f']='Choisissez le modèle de page à utiliser.';
 $_SESSION['l10n']['fr']['247995c3285df0a70d924ad9d3385e88']='Choisissez où placer la nouvelle page';
-$_SESSION['l10n']['fr']['b6b885d5f202a4571c1af504d8c504d7']='Notez que cette page n\'a pas été signalée aux serveurs d\'aggrégation.';
+$_SESSION['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';

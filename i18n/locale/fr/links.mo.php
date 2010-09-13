@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:21+0100
+POT-Creation-Date: 2010-06-29 00:36+0200
+PO-Revision-Date: 2010-06-29 00:40+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -72,7 +72,8 @@ $_SESSION['l10n']['fr']['No resource to track back.']='La ressource à lier n\'e
 $_SESSION['l10n']['fr']['0fb9e6055d4a788a90ac09118a7e4653']='Normaliser les références extérieures. Les références provenant des moteurs de recherche seront simplifiées autant que possible. De plus, les mots-clés seront extraits pour usage ultérieur.';
 $_SESSION['l10n']['fr']['54e29b42a59e1e8727ac836e3f2bd4e6']='Ouvrir une fenêtre séparée pour les liens exterieurs';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$_SESSION['l10n']['fr']['Page address (permalink):']='Adresse de l\'article (permalink) :';
+$_SESSION['l10n']['fr']['Other address:'.chr(0).'Other addresses:']='Autre adresse :'.chr(0).'Autres adresses :';
+$_SESSION['l10n']['fr']['Permament address (permalink):']='Adresse permamente (permalink) :';
 $_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['61ab86a39172b19e7cd47a8dec28c0e1']='Choisissez l\'emplacement adéquat pour partager votre lien';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
