@@ -2928,6 +2928,8 @@ Class Codes {
 		// link to a form
 		case 'form':
 
+         include_once $context['path_to_root'].'forms/forms.php';
+         
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
 			$id = $attributes[0];
@@ -2946,7 +2948,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Forms::get_url($item['']);
+				$url =& Forms::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
