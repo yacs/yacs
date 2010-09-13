@@ -269,6 +269,8 @@ if(!isset($item['id'])) {
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
 
 	//
 	// page details -- $context['page_details']
@@ -287,7 +289,7 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 		// restricted to associates
 		if($item['active'] == 'N')
@@ -388,14 +390,14 @@ if(!isset($item['id'])) {
 			$text .= $anchor->get_prefix();
 
 		// the introduction text, if any
-		$text .= Skin::build_block($item['introduction'], 'introduction');
+		$text .= Skin::build_block($item['introduction'], 'introduction', 'category:'.$item['id']);
 
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$text .= $overlay->get_text('view', $item);
 
 		// the description, which is the actual page body
-		$text .= Skin::build_block($item['description'], 'description');
+		$text .= Skin::build_block($item['description'], 'description', 'category:'.$item['id']);
 
 		$context['text'] .= $text;
 	}
@@ -412,7 +414,7 @@ if(!isset($item['id'])) {
 	// the list of related sections if not at another follow-up page
 	if(((!$zoom_type) || ($zoom_type == 'sections'))
 		&& (!isset($item['sections_layout']) || ($item['sections_layout'] != 'none'))) {
-
+		
 		// build a complete box
 		$box = array('bar' => array(), 'text' => '');
 
@@ -448,25 +450,25 @@ if(!isset($item['id'])) {
 
 		// count the number of sections in this category
 		$count = Members::count_sections_for_anchor('category:'.$item['id']);
-		if($count > SECTIONS_PER_PAGE)
-			$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
+		if($count > $items_per_page)
+			$box['bar'] = array('_count' => sprintf(i18n::ns('%d produit', '%d produits', $count), $count));
 
 		// navigation commands for sections
 		$home =& Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'sections');
 		$box['bar'] = array_merge($box['bar'],
-			Skin::navigate($home, $prefix, $count, SECTIONS_PER_PAGE, $zoom_index));
+			Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
 
 		// list items by date (default) or by title (option 'sections_by_title')
-		$offset = ($zoom_index - 1) * SECTIONS_PER_PAGE;
-		$items =& Members::list_sections_by_title_for_anchor('category:'.$item['id'], $offset, SECTIONS_PER_PAGE, $layout_sections);
+		$offset = ($zoom_index - 1) * $items_per_page;
+		$items =& Members::list_sections_by_title_for_anchor('category:'.$item['id'], $offset, $items_per_page, $layout_sections, 'nick_name');
 
 		// actually render the html for the section
-		if(is_array($items))
+		if(is_array($items) && count($items))
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))
 			$box['text'] .= $items;
-		if(is_array($box['bar']))
+		if($box['text'] && is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
@@ -531,11 +533,11 @@ if(!isset($item['id'])) {
 			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
 
 		// actually render the html for the section
-		if(is_array($items))
+		if(is_array($items) && count($items))
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))
 			$box['text'] .= $items;
-		if(is_array($box['bar']))
+		if($box['text'] && is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
@@ -583,7 +585,7 @@ if(!isset($item['id'])) {
 		}
 
 		// actually render the html for the section
-		if(is_array($box['bar']))
+		if(is_array($box['bar']) && count($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
@@ -633,7 +635,7 @@ if(!isset($item['id'])) {
 		}
 
 		// actually render the html
-		if(is_array($box['bar']))
+		if(is_array($box['bar']) && count($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
@@ -680,7 +682,7 @@ if(!isset($item['id'])) {
 		}
 
 		// actually render the html
-		if(is_array($box['bar']))
+		if(is_array($box['bar']) && count($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
@@ -732,7 +734,7 @@ if(!isset($item['id'])) {
 		// count the number of subcategories
 		$stats = Categories::stat_for_anchor('category:'.$item['id']);
 		if($stats['count'])
-			$box['bar'] += array('_count' => sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']));
+			;//$box['bar'] += array('_count' => sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']));
 
 		// list items by date (default) or by title (option 'categories_by_title')
 		$offset = ($zoom_index - 1) * $items_per_page;
@@ -754,11 +756,11 @@ if(!isset($item['id'])) {
 		}
 
 		// actually render the html for the section
-		if(is_array($items))
+		if(is_array($items) && count($items))
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))
 			$box['text'] .= $items;
-		if(is_array($box['bar']))
+		if($box['text'] && is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
@@ -824,14 +826,12 @@ if(!isset($item['id'])) {
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 		$items =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, $layout);
 
-		// actually render the html
-		if(is_array($box['bar']))
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if(is_array($items))
+		// actually render the html for the section
+		if(is_array($items) && count($items))
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))
 			$box['text'] .= $items;
-		if(is_array($box['bar']) && (($stats['count'] - $offset) > 5))
+		if($box['text'] && is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel

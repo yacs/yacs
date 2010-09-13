@@ -16,148 +16,150 @@ Options -Indexes
 
 	# to test rewriting from control/configure.php
 	#
-	RewriteRule rewrite_test/([0-9]+)$	control/test.php?a=$1  [QSA,L]
-	RewriteRule rewrite_test$ control/test.php	[QSA,L]
+	RewriteRule ^rewrite_test/([0-9]+)$	control/test.php?a=$1  [QSA]
+	RewriteRule ^rewrite_test$ control/test.php	[QSA]
 
 	# actions
 	#
-	RewriteRule action-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	actions/$1.php?id=$2&action=$3  [QSA,L]
-	RewriteRule action-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  actions/$1.php?id=$2	[QSA,L]
-	RewriteRule action-([0-9]+)$  actions/view.php?id=$1  [QSA,L]
-	RewriteRule actions/([0-9]+)$  actions/index.php?page=$1  [QSA,L]
+	RewriteRule ^action-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	actions/$1.php?id=$2&action=$3  [QSA]
+	RewriteRule ^action-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  actions/$1.php?id=$2	[QSA]
+	RewriteRule ^action-([0-9]+)$  actions/view.php?id=$1  [QSA]
+	RewriteRule ^actions/([0-9]+)$  actions/index.php?page=$1  [QSA]
 
 	# articles
 	#
-	RewriteRule article-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	articles/$1.php?id=$2&action=$3  [QSA,L]
-	RewriteRule article-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  articles/$1.php?id=$2  [QSA,L]
-	RewriteRule article-([0-9]+)-([^/]+)$  articles/view.php?id=$1	[QSA,L]
-	RewriteRule article-([0-9]+)/([a-z]+)-([0-9]+)$	articles/view.php?id=$1&$2=$3  [QSA,L]
-	RewriteRule article-([^/]+)$  articles/view.php?id=$1  [QSA,L]
-	RewriteRule articles/([0-9]+)$  articles/index.php?page=$1  [QSA,L]
+	RewriteRule ^article-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	articles/$1.php?id=$2&action=$3  [QSA]
+	RewriteRule ^article-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  articles/$1.php?id=$2  [QSA]
+	RewriteRule ^article-([0-9]+)-([^/]+)$  articles/view.php?id=$1	[QSA]
+	RewriteRule ^article-([0-9]+)/([a-z]+)-([0-9]+)$	articles/view.php?id=$1&$2=$3  [QSA]
+	RewriteRule ^article-([^/]+)$  articles/view.php?id=$1  [QSA]
+	RewriteRule ^articles/([0-9]+)$  articles/index.php?page=$1  [QSA]
 
 	# categories
 	#
-	RewriteRule category-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  categories/$1.php?id=$2  [QSA,L]
-	RewriteRule category-([a-zA-Z_]+)/([0-9a-zA-Z:\-]+)$	categories/$1.php?id=$2  [QSA,L]
-	RewriteRule category-([0-9]+)-([^/]+)$	categories/view.php?id=$1  [QSA,L]
-	RewriteRule category-([0-9]+)/([a-z]+)-([0-9]+)$	categories/view.php?id=$1&$2=$3  [QSA,L]
-	RewriteRule category-([^/]+)$  categories/view.php?id=$1  [QSA,L]
-	RewriteRule categories/([0-9]+)$  categories/index.php?page=$1  [QSA,L]
+	RewriteRule ^category-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  categories/$1.php?id=$2  [QSA]
+	RewriteRule ^category-([a-zA-Z_]+)/([0-9a-zA-Z:\-]+)$	categories/$1.php?id=$2  [QSA]
+	RewriteRule ^category-([0-9]+)-([^/]+)$	categories/view.php?id=$1  [QSA]
+	RewriteRule ^category-([0-9]+)/([a-z]+)-([0-9]+)$	categories/view.php?id=$1&$2=$3  [QSA]
+	RewriteRule ^category-([^/]+)$  categories/view.php?id=$1  [QSA]
+	RewriteRule ^categories/([0-9]+)$  categories/index.php?page=$1  [QSA]
 
 	# comments
 	#
-	RewriteRule comment-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	comments/$1.php?id=$2  [QSA,L]
-	RewriteRule comment-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  comments/$1.php?id=$2  [QSA,L]
-	RewriteRule comment-([0-9]+)$  comments/view.php?id=$1	[QSA,L]
-	RewriteRule comments/([0-9]+)$  comments/index.php?page=$1	[QSA,L]
+	RewriteRule ^comment-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	comments/$1.php?id=$2  [QSA]
+	RewriteRule ^comment-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  comments/$1.php?id=$2  [QSA]
+	RewriteRule ^comment-([0-9]+)$  comments/view.php?id=$1	[QSA]
+	RewriteRule ^comments/([0-9]+)$  comments/index.php?page=$1	[QSA]
 
 	# dates
 	#
-	RewriteRule date-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	dates/$1.php?id=$2	[QSA,L]
-	RewriteRule date-([0-9]+)$	dates/view.php?id=$1  [QSA,L]
+	RewriteRule ^date-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	dates/$1.php?id=$2	[QSA]
+	RewriteRule ^date-([0-9]+)$	dates/view.php?id=$1  [QSA]
 
 	# decisions
 	#
-	RewriteRule decision-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	decisions/$1.php?id=$2	[QSA,L]
-	RewriteRule decision-([0-9]+)$	decisions/view.php?id=$1  [QSA,L]
-	RewriteRule decisions/([0-9]+)$	decisions/index.php?page=$1  [QSA,L]
+	RewriteRule ^decision-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	decisions/$1.php?id=$2	[QSA]
+	RewriteRule ^decision-([0-9]+)$	decisions/view.php?id=$1  [QSA]
+	RewriteRule ^decisions/([0-9]+)$	decisions/index.php?page=$1  [QSA]
 
 	# feeds
 	#
-	RewriteRule feeds/articles$  articles/feed.php	[QSA,L]
-	RewriteRule feeds/atom$  feeds/atom.php  [QSA,L]
-	RewriteRule feeds/comments$  comments/feed.php	[QSA,L]
-	RewriteRule feeds/files$  files/feed.php  [QSA,L]
-	RewriteRule feeds/opml$  feeds/describe.php  [QSA,L]
-	RewriteRule feeds/rdf$	feeds/rdf.php  [QSA,L]
-	RewriteRule feeds/rss$	feeds/rss.php  [QSA,L]
+	RewriteRule ^feeds/articles$  articles/feed.php	[QSA]
+	RewriteRule ^feeds/atom$  feeds/atom.php  [QSA]
+	RewriteRule ^feeds/comments$  comments/feed.php	[QSA]
+	RewriteRule ^feeds/files$  files/feed.php  [QSA]
+	RewriteRule ^feeds/opml$  feeds/describe.php  [QSA]
+	RewriteRule ^feeds/rdf$	feeds/rdf.php  [QSA]
+	RewriteRule ^feeds/rss$	feeds/rss.php  [QSA]
 
 	# files
 	#
-	RewriteRule file-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  files/$1.php?id=$2&action=$3  [QSA,L]
-	RewriteRule file-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	files/$1.php?id=$2	[QSA,L]
-	RewriteRule file-([0-9]+)-([^/]+)$	files/view.php?id=$1  [QSA,L]
-	RewriteRule file-([0-9]+)$	files/view.php?id=$1  [QSA,L]
-	RewriteRule files/([0-9]+)$	files/index.php?page=$1  [QSA,L]
+	RewriteRule ^file-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  files/$1.php?id=$2&action=$3  [QSA]
+	RewriteRule ^file-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	files/$1.php?id=$2	[QSA]
+	RewriteRule ^file-([0-9]+)-([^/]+)$	files/view.php?id=$1  [QSA]
+	RewriteRule ^file-([0-9]+)$	files/view.php?id=$1  [QSA]
+	RewriteRule ^files/([0-9]+)$	files/index.php?page=$1  [QSA]
 
 	# forms
 	#
-	RewriteRule form-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  forms/$1.php?id=$2&action=$3  [QSA,L]
-	RewriteRule form-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	forms/$1.php?id=$2	[QSA,L]
-	RewriteRule form-([0-9]+)-([^/]+)$	forms/view.php?id=$1  [QSA,L]
-	RewriteRule form-([0-9]+)$	forms/view.php?id=$1  [QSA,L]
-	RewriteRule forms/([0-9]+)$	forms/index.php?page=$1  [QSA,L]
+	RewriteRule ^form-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  forms/$1.php?id=$2&action=$3  [QSA]
+	RewriteRule ^form-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	forms/$1.php?id=$2	[QSA]
+	RewriteRule ^form-([0-9]+)-([^/]+)$	forms/view.php?id=$1  [QSA]
+	RewriteRule ^form-([0-9]+)$	forms/view.php?id=$1  [QSA]
+	RewriteRule ^forms/([0-9]+)$	forms/index.php?page=$1  [QSA]
 
 	# images
 	#
-	RewriteRule image-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  images/$1.php?id=$2  [QSA,L]
-	RewriteRule image-([0-9]+)$  images/view.php?id=$1	[QSA,L]
-	RewriteRule images/([0-9]+)$  images/index.php?page=$1	[QSA,L]
+	RewriteRule ^image-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  images/$1.php?id=$2  [QSA]
+	RewriteRule ^image-([0-9]+)$  images/view.php?id=$1	[QSA]
+	RewriteRule ^images/([0-9]+)$  images/index.php?page=$1	[QSA]
 
 	# links
 	#
-	RewriteRule links/([0-9]+)$  links/index.php?page=$1	[QSA,L]
+	RewriteRule ^links/([0-9]+)$  links/index.php?page=$1	[QSA]
 
 	# locations
 	#
-	RewriteRule location-([a-zA-Z_]+)/([^/]+)$	locations/$1.php?id=$2	[QSA,L]
-	RewriteRule location-([0-9]+)$	locations/view.php?id=$1  [QSA,L]
-	RewriteRule locations/([0-9]+)$	locations/index.php?page=$1  [QSA,L]
+	RewriteRule ^location-([a-zA-Z_]+)/([^/]+)$	locations/$1.php?id=$2	[QSA]
+	RewriteRule ^location-([0-9]+)$	locations/view.php?id=$1  [QSA]
+	RewriteRule ^locations/([0-9]+)$	locations/index.php?page=$1  [QSA]
 
 	# sections
 	#
-	RewriteRule section-([a-zA-Z_]+)/(([0-9]+|all))-([^/]+)$  sections/$1.php?id=$2  [QSA,L]
-	RewriteRule section-([a-zA-Z_]+)/(([0-9a-zA-Z:]+|all))$  sections/$1.php?id=$2	[QSA,L]
-	RewriteRule section-([0-9]+)-([^/]+)$  sections/view.php?id=$1	[QSA,L]
-	RewriteRule section-([0-9]+)/([a-z]+)-([0-9]+)$	sections/view.php?id=$1&$2=$3  [QSA,L]
-	RewriteRule section-([^/]+)$  sections/view.php?id=$1  [QSA,L]
-	RewriteRule sections/([0-9]+)$  sections/index.php?page=$1	[QSA,L]
+	RewriteRule ^section-([a-zA-Z_]+)/(([0-9]+|all))-([^/]+)$  sections/$1.php?id=$2  [QSA]
+	RewriteRule ^section-([a-zA-Z_]+)/(([0-9a-zA-Z:]+|all))$  sections/$1.php?id=$2	[QSA]
+	RewriteRule ^section-([0-9]+)-([^/]+)$  sections/view.php?id=$1	[QSA]
+	RewriteRule ^section-([0-9]+)/([a-z]+)-([0-9]+)$	sections/view.php?id=$1&$2=$3  [QSA]
+	RewriteRule ^section-([^/]+)$  sections/view.php?id=$1  [QSA]
+	RewriteRule ^sections/([0-9]+)$  sections/index.php?page=$1	[QSA]
 
 	# servers
 	#
-	RewriteRule server-([a-zA-Z_]+)/([0-9]+)$  servers/$1.php?id=$2  [QSA,L]
-	RewriteRule server-([0-9]+)$  servers/view.php?id=$1  [QSA,L]
-	RewriteRule servers/([0-9]+)$  servers/index.php?page=$1  [QSA,L]
+	RewriteRule ^server-([a-zA-Z_]+)/([0-9]+)$  servers/$1.php?id=$2  [QSA]
+	RewriteRule ^server-([0-9]+)$  servers/view.php?id=$1  [QSA]
+	RewriteRule ^servers/([0-9]+)$  servers/index.php?page=$1  [QSA]
 
 	# tables
 	#
-	RewriteRule table-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  tables/$1.php?id=$2  [QSA,L]
-	RewriteRule table-([0-9]+)$  tables/view.php?id=$1	[QSA,L]
-	RewriteRule tables/([0-9]+)$  tables/index.php?page=$1	[QSA,L]
+	RewriteRule ^table-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  tables/$1.php?id=$2  [QSA]
+	RewriteRule ^table-([0-9]+)$  tables/view.php?id=$1	[QSA]
+	RewriteRule ^tables/([0-9]+)$  tables/index.php?page=$1	[QSA]
 
 	# users
 	#
-	RewriteRule user-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  users/$1.php?id=$2&action=$3  [QSA,L]
-	RewriteRule user-([a-zA-Z_]+)/([0-9a-fA-F]+)$  users/$1.php?id=$2  [QSA,L]
-	RewriteRule user-([0-9]+)-([^/]+)$	users/view.php?id=$1  [QSA,L]
-	RewriteRule user-([0-9]+)/([a-z]+)-([0-9]+)$	users/view.php?id=$1&$2=$3  [QSA,L]
-	RewriteRule user-([^/]+)$  users/view.php?id=$1  [QSA,L]
-	RewriteRule users/([0-9]+)$	users/index.php?page=$1  [QSA,L]
+	RewriteRule ^user-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  users/$1.php?id=$2&action=$3  [QSA]
+	RewriteRule ^user-([a-zA-Z_]+)/([0-9a-fA-F]+)$  users/$1.php?id=$2  [QSA]
+	RewriteRule ^user-([0-9]+)-([^/]+)$	users/view.php?id=$1  [QSA]
+	RewriteRule ^user-([0-9]+)/([a-z]+)-([0-9]+)$	users/view.php?id=$1&$2=$3  [QSA]
+	RewriteRule ^user-([^/]+)$  users/view.php?id=$1  [QSA]
+	RewriteRule ^users/([0-9]+)$	users/index.php?page=$1  [QSA]
 
 	# versions
 	#
-	RewriteRule version-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  versions/$1.php?id=$2  [QSA,L]
-	RewriteRule version-([0-9]+)$  versions/view.php?id=$1	[QSA,L]
+	RewriteRule ^version-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  versions/$1.php?id=$2  [QSA]
+	RewriteRule ^version-([0-9]+)$  versions/view.php?id=$1	[QSA]
 
 	# selector  go/keyword -> go.php/keyword --see go.php
 	#
-	RewriteRule go/([^/]+)$ go.php?id=$1  [QSA,L]
+	RewriteRule ^go/([^/]+)$ go.php?id=$1  [QSA]
+	RewriteRule ^(a~[^/]+)$ go.php?id=$1  [QSA]
+	RewriteRule ^(s~[^/]+)$ go.php?id=$1  [QSA]
 
 	# other top-level scripts
 	#
-	RewriteRule about$	articles/view.php?id=about	[QSA,L]
-	RewriteRule cron$  cron.php  [QSA,L]
-	RewriteRule privacy$  articles/view.php?id=privacy	[QSA,L]
-	RewriteRule search$  search.php  [QSA,L]
+	RewriteRule ^about$	articles/view.php?id=about	[QSA]
+	RewriteRule ^cron$  cron.php  [QSA]
+	RewriteRule ^privacy$  articles/view.php?id=privacy	[QSA]
+	RewriteRule ^search$  search.php  [QSA]
+
+	# legacy stuff, to be removed someday
+	#
+	RewriteRule ^feeds/atom_0.3.php$  feeds/atom.php  [QSA]
+	RewriteRule ^feeds/rss_2.0.php$	feeds/rss.php  [QSA]
 
 	# translate authentication data if PHP runs as CGI -- see agents/feed.php
 	#
 	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
-
-	# legacy stuff, to be removed someday
-	#
-	RewriteRule feeds/atom_0.3.php$  feeds/atom.php  [QSA,L]
-	RewriteRule feeds/rss_2.0.php$	feeds/rss.php  [QSA,L]
 
 </IfModule>
 

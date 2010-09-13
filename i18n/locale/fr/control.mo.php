@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2010-04-08 22:42+0100
+POT-Creation-Date: 2010-07-11 22:35+0200
+PO-Revision-Date: 2010-07-11 22:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -82,14 +82,11 @@ $_SESSION['l10n']['fr']['0380899d64bbd378aeb965a4cd4244ae']='%s, pour décrire l
 $_SESSION['l10n']['fr']['%s: %s']='%s: %s';
 $_SESSION['l10n']['fr']['99bb226626a516acb3ab4c7c6ade2209']='(%soctets de données, %soctets d\'index, %soctets inutilisés)';
 $_SESSION['l10n']['fr']['*** undefined label']='*** pas de libellé';
-$_SESSION['l10n']['fr']['A category "%s" already exists.']='Une catégorie "%s" existe déjà.';
 $_SESSION['l10n']['fr']['ee4c4307567fad8ef9e100aa3236eff8']='Une catégorie "%s" a été créée.';
 $_SESSION['l10n']['fr']['A complex POST test']='Un test de POST complexe';
 $_SESSION['l10n']['fr']['39442430beff9d5a0558913806fbcab2']='Un fichier de configuration est absent. Si vous êtes en train d\'installer un nouveau serveur, suivez le lien ci-dessous.';
 $_SESSION['l10n']['fr']['A more complex GET test']='Un test de GET plus compliqué';
-$_SESSION['l10n']['fr']['A page "%s" already exists.']='La page "%s" existe déjà.';
 $_SESSION['l10n']['fr']['A page "%s" has been created.']='Une page "%s" a été créée.';
-$_SESSION['l10n']['fr']['A section "%s" already exists.']='Une section "%s" existe déjà.';
 $_SESSION['l10n']['fr']['65bef34af7002e4930f9e15aa6ae63bd']='Une section "%s" a été créée.';
 $_SESSION['l10n']['fr']['A self-referencing POST test']='Un test de POST réflexif';
 $_SESSION['l10n']['fr']['About this site']='A propos de ce site';
@@ -299,6 +296,7 @@ $_SESSION['l10n']['fr']['00cb3f098d28e004551a0cd959568220']='Aucun fichier de co
 $_SESSION['l10n']['fr']['6a9093e953b3488468be05de9991717d']='Aucun fichier de configuration n\'a été trouvé. Si vous êtes en train d\'installer un nouveau serveur, suivez le lien ci-dessous.';
 $_SESSION['l10n']['fr']['No file have been found.']='Aucun fichier n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No image have been found.']='Aucune image n\'a été trouvée.';
+$_SESSION['l10n']['fr']['No item has been added']='Aucun élément n\'a été ajouté';
 $_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No statement has been uploaded.']='Aucune commande n\'a été transmise.';
 $_SESSION['l10n']['fr']['87ef6f7124dac5a5dcfe5ddbaa75be8a']='Format normalisé, par exemple : "Jean Dupont" &lt;jean.dupont@entreprise.fr&gt;';

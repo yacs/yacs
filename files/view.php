@@ -191,7 +191,7 @@ if(!isset($item['id'])) {
 
 			// restricted to logged members
 			if($item['active'] == 'R')
-				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members').BR."\n";
+				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons').BR."\n";
 
 			// restricted to associates
 			elseif($item['active'] == 'N')
@@ -316,6 +316,7 @@ if(!isset($item['id'])) {
 	//
 	// plugins
 	//
+	$description = '';
 
 	// offer audio streaming, where applicable
 	if(Files::is_audio_stream($item['file_name'])) {

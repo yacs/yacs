@@ -44,7 +44,7 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 	// restricted to associates
 	if($item['active'] == 'N')
@@ -132,7 +132,10 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// the nick name
 		if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
-			$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+			$text .= BR.sprintf(i18n::s('Name: %s'), $link);
+
+		// short link
+		$text .= BR.sprintf(i18n::s('Shortcut: %s'), $context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item));
 	}
 
 	// no more details
@@ -145,6 +148,14 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 //
 // main panel -- $context['text']
 //
+
+// insert anchor prefix
+if(is_object($anchor))
+	$context['text'] .= $anchor->get_prefix();
+
+// links to previous and next pages, if any
+if(isset($neighbours) && $neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
 // only at the first page
 if($page == 1) {
@@ -684,6 +695,10 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	if(isset($item['trailer']) && trim($item['trailer']))
 		$text .= Codes::beautify($item['trailer']);
 
+	// insert anchor suffix
+	if(is_object($anchor))
+		$text .= $anchor->get_suffix();
+
 }
 
 // display in a separate panel
@@ -826,6 +841,17 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// build a complete box
 	$box = array('bar' => array(), 'text' => '');
 
+	// list all involved references
+	$references = array( 'section:'.$item['id'] );
+	if(is_object($anchor)) {
+		$references[] = $anchor->get_reference();
+		$handle = $anchor->get_parent();
+		while($handle && ($parent = Anchors::get($handle))) {
+			$references[] = $handle;
+			$handle = $parent->get_parent();
+		}
+	}
+
 	// count the number of users
 	$ecount = Members::count_users_for_member('section:'.$item['id']);
 	$wcount = Members::count_users_for_anchor('section:'.$item['id']);
@@ -876,7 +902,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
 	$rows = array();
 	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-	if($items =& Members::list_editors_for_member('section:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch')) {
+	if($items =& Members::list_editors_for_member($references, $offset, USERS_LIST_SIZE, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 			$owner = '';
 			if($user_id == $item['owner_id'])
@@ -891,7 +917,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 
 	// watchers
 	if(count($rows) < USERS_LIST_SIZE) {
-		if($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], $offset, 2*USERS_LIST_SIZE, 'watch')) {
+		if($items =& Members::list_watchers_by_posts_for_anchor($references, $offset, 2*USERS_LIST_SIZE, 'watch')) {
 			foreach($items as $user_id => $user_label) {
 
 				// add the checkmark to existing row
@@ -943,6 +969,10 @@ if($users) {
 // assemble all tabs
 //
 $context['text'] .= Skin::build_tabs($panels);
+
+// buttons to display previous and next pages, if any
+if(isset($neighbours) && $neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
 //
 // the extra panel -- most content is cached, except commands specific to current surfer
@@ -1011,8 +1041,13 @@ if(Sections::allow_modification($item, $anchor)) {
 		$label = i18n::s('Edit this section');
 	$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), SECTIONS_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
+}
+
+// commands for section owners
+if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
+
 	// access previous versions, if any
-	if($has_versions && Sections::is_owned($item, $anchor)) {
+	if($has_versions) {
 		Skin::define_img('SECTIONS_VERSIONS_IMG', 'sections/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), SECTIONS_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}
@@ -1026,11 +1061,6 @@ if(Sections::allow_modification($item, $anchor)) {
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), SECTIONS_UNLOCK_IMG.i18n::s('Unlock'), 'basic');
 	}
 
-}
-
-// commands for section owners
-if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
-
 	// delete the page
 	Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
 	$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.i18n::s('Delete this section'), 'basic');
@@ -1042,17 +1072,15 @@ if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 	}
 
 	// duplicate command provided to container owners
-	if(Sections::is_owned(NULL, $anchor)) {
-		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
-	}
+	Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
+	$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
 
 }
 
 
 // use date of last modification into etag computation
 if(isset($item['edit_date']))
-	$context['etag'] = $item['edit_date'];
+	$context['page_date'] = $item['edit_date'];
 
 // render the skin
 render_skin();

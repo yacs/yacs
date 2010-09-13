@@ -204,6 +204,22 @@ $behaviors = NULL;
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
+//
+// is this surfer allowed to browse the page?
+//
+
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
+	$permitted = FALSE;
+
+// check access rights
+elseif(Articles::allow_access($item, $anchor))
+	$permitted = TRUE;
+
+// the default is to disallow access
+else
+	$permitted = FALSE;
+
 // owners can do what they want
 if(Articles::allow_modification($item, $anchor))
 	Surfer::empower();
@@ -213,34 +229,6 @@ elseif(Surfer::is_logged() && is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower('S');
 elseif(isset($item['id']) && Articles::is_assigned($item['id']) && Surfer::is_logged())
 	Surfer::empower('S');
-
-//
-// is this surfer allowed to browse the page?
-//
-
-// associates, editors and readers can read this page
-if(Surfer::is_empowered('S'))
-	$permitted = TRUE;
-
-// change default behavior
-elseif(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
-	$permitted = FALSE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// access is restricted to authenticated surfer
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
 
 // is the article on user watch list?
 $in_watch_list = FALSE;
@@ -335,7 +323,7 @@ if(!isset($item['id'])) {
 
 	// neighbours information
 	$neighbours = NULL;
-	if(Articles::has_option('with_neighbours', $anchor, $item))
+	if(Articles::has_option('with_neighbours', $anchor, $item) && is_object($anchor))
 		$neighbours = $anchor->get_neighbours('article', $item);
 
 	//
@@ -396,6 +384,8 @@ if(!isset($item['id'])) {
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
+	if(isset($item['edit_date']) && $item['edit_date'])
+		$context['page_date'] = $item['edit_date'];
 	if(isset($item['publish_name']) && $item['publish_name'])
 		$context['page_publisher'] = $item['publish_name'];
 
@@ -451,7 +441,7 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
@@ -523,7 +513,10 @@ if(!isset($item['id'])) {
 
 			// the nick name
 			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
-				$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+				$text .= BR.sprintf(i18n::s('Name: %s'), $link);
+
+			// short link
+			$text .= BR.sprintf(i18n::s('Shortcut: %s'), $context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item));
 		}
 
 		// no more details
@@ -569,13 +562,13 @@ if(!isset($item['id'])) {
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
-		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
-		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_LINKEDIN_IMG', 'pagers/linkedin.gif');
-		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode($anchor->get_title()), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode($anchor->get_title()), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
 
 	}
 
@@ -1166,7 +1159,7 @@ if(!isset($item['id'])) {
 	}
 
 	// access previous versions, if any
-	if($has_versions && Articles::is_owned($item, $anchor)) {
+	if($has_versions && Articles::is_owned(NULL, $anchor)) {
 		Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}
@@ -1177,8 +1170,8 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
 	}
 
-	// review command provided to container owners
-	if(is_object($anchor) && $anchor->is_owned()) {
+	// review various dates
+	if(Articles::allow_publication($anchor, $item)) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
@@ -1208,10 +1201,6 @@ if(!isset($item['id'])) {
 	}
 
 }
-
-// use date of last modification into etag computation
-if(isset($item['edit_date']))
-	$context['etag'] = $item['edit_date'];
 
 // render the skin
 render_skin();

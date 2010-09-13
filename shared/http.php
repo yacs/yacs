@@ -106,25 +106,15 @@ class http {
 		}
 
 		// client has the right data
-		if($cached) {
-
-			// set the date for last modification
-			if($last_modified)
-				Safe::header('If-Modified-Since: '.$last_modified);
-
-			// set the opaque string for this object
-			if($etag)
-				Safe::header('If-None-Match: '.$etag);
-
-			// the client should use data in cache
+		if($cached)
 			Safe::header('Status: 304 Not Modified', TRUE, 304);
 
-		// set meta information to allow for cache
-		} else {
+		// else inform the browser
+		else {
 
-			// set the date for last modification
-			if($last_modified)
-				Safe::header('Last-Modified: '.$last_modified);
+			// set the date of last modification
+			if($last_modified && is_callable(array('SQL', 'strtotime')))
+				Safe::header('Last-Modified: '.gmdate('D, d M Y H:i:s', SQL::strtotime($last_modified)).' GMT');
 
 			// set the opaque string for this object
 			if($etag)

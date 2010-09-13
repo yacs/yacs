@@ -560,6 +560,7 @@ Class Skin_Skeleton {
 	 * - 'no_hour' - adapts to time scale, but don't mention hours
 	 * - 'full' - display the full date
 	 * - 'month' - only month and year
+	 * - 'publishing' - with a draft icon in the future, else equivalent to 'no_hour'
 	 * - 'standalone' - like full, but without the 'on ' prefix
 	 * - 'iso8601' - special format
 	 * - 'plain' - example 'Feb 26 2010 22:30:31 GMT'
@@ -677,9 +678,13 @@ Class Skin_Skeleton {
 			return $output;
 		}
 
-		// stamp is in the future
-		if(strcmp($stamp, $context['now']) > 0)
+		// publishing date is in the future
+		if(($variant == 'publishing') && (strcmp($stamp, $context['now']) > 0))
 			$output .= DRAFT_FLAG;
+
+		// don't display publishing hour
+		if($variant == 'publishing')
+			$variant = 'no_hour';
 
 		// the same, but without prefix
 		if($variant == 'standalone') {
@@ -736,7 +741,7 @@ Class Skin_Skeleton {
 		if($variant == 'iso8601') {
 			$tzd = date('O', $actual_stamp);
 			$tzd = $tzd[0].str_pad((int)($tzd / 100), 2, "0", STR_PAD_LEFT).':'.str_pad((int)($tzd % 100), 2, "0", STR_PAD_LEFT);
-			$output = date('Y-m-d\TG:i:s', $actual_stamp).$tzd;
+			$output = date('Y-m-d\TH:i:s', $actual_stamp).$tzd;
 			return $output;
 		}
 
@@ -4675,8 +4680,15 @@ Class Skin_Skeleton {
 			$text = Codes::beautify($text);
 
 		// suppress all pairing yacs codes, but not unitary codes (could be added by overlay at end of titles)
-		} else
-			$text = Codes::strip($text, FALSE);
+		}
+// 		} else
+// 			$text = Codes::strip($text, FALSE);
+
+		// suppress all javascript
+		$text = preg_replace('#<script[^>]*>.*?</script>#is', '', $text);
+
+		// preserve breaks
+		$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
 		if($allowed_html)

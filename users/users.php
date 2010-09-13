@@ -109,6 +109,10 @@ Class Users {
 			// check every watcher
 			foreach($items as $id => $attributes) {
 
+				// skip banned users
+				if($attributes['capability'] == '?')
+					continue;
+
 				// current surfer is already watching the thing
 				if(Surfer::get_id() && (Surfer::get_id() == $id))
 					continue;

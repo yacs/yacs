@@ -278,7 +278,7 @@ if(Surfer::is_crawler()) {
 		Surfer::check_default_editor($_REQUEST);
 
 		// shape the new element
-		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id'], TRUE), Skin::build_date($_REQUEST['edit_date'])).'</dt>'
+		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id'], TRUE), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
 			.'<dd>'.$_REQUEST['version'].'</dd>';
 
 		// keep it for history
@@ -595,7 +595,7 @@ if($with_form) {
 			.BR.'<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members')
+		$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons')
 			.BR.'<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';

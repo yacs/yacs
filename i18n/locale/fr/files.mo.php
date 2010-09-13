@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:20+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 21:01+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Change']='Changer';
 $_SESSION['l10n']['fr']['36a3d377dfebacd9d29b637d7ecefb82']='Vérifier la page de téléchargement pour ce fichier';
 $_SESSION['l10n']['fr']['Close']='Fermer';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';

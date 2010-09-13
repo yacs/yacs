@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2009-12-18 00:04+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 21:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -101,7 +101,7 @@ $_SESSION['l10n']['fr']['a225f280790879a5cf526aacf3d83cac']='Modifier la valeur 
 $_SESSION['l10n']['fr']['Check the new forum']='Vérifier le nouveau forum de discussion';
 $_SESSION['l10n']['fr']['efd5c51c4c0368779ba4a1cc048f29fa']='Cliquez sur un nom de fichier pour le transférer vers votre machine, ou pour déclencher une session de vidéo à la demande.';
 $_SESSION['l10n']['fr']['Collection nick name']='Nom de la collection';
-$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
 $_SESSION['l10n']['fr']['Companion sections']='Composants annexes';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['8c68013ff17b0314c06d5fcacd1a5eda']='Félicitations, votre contribution a bien été enregistrée.';
@@ -199,7 +199,7 @@ $_SESSION['l10n']['fr']['ac478ac7ebc42dbade3a2589204a5550']='Ceci est un exemple
 $_SESSION['l10n']['fr']['40b107fa0a1dea05340cabab9db7f5eb']='Ce script ajoute quelques serveurs publics à prévenir lorsque le contenu de votre serveur évolue. Ne cliquez pas sur le bouton ci-dessous si votre machine n\'est pas visible depuis l\'Internet.';
 $_SESSION['l10n']['fr']['d708f0176203fa03a0558bbfc4dd3d34']='Ce script va créer une page spécialisée. Quel type de support recherchez-vous ?';
 $_SESSION['l10n']['fr']['a663b01f9bea22ed763c10ceadbd8bed']='Ce script va vous aider à étendre la structure de votre serveur. Choisissez ci-dessous l\'action à effectuer. En fonction de votre choix, l\'assistant pourra être amené à demander des paramètres complémentaires.';
-$_SESSION['l10n']['fr']['3435400eef9382f22deee3230806399b']='Cette section, et ses sous-sections, présente les liens envoyés par les membres authentifiés.';
+$_SESSION['l10n']['fr']['e2f5cae416064749243a90b9b94f0fab']='Cette section, et ses sous-sections, présente les liens envoyés par les personnes authentifiées.';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['Titles and questions']='Titres et questions';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';

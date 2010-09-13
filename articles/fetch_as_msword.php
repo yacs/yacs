@@ -63,7 +63,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Articles::allow_display($anchor, $item)) {
+} elseif(!Articles::allow_access($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())

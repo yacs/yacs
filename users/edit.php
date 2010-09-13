@@ -395,6 +395,19 @@ if($with_form) {
 	$hint = i18n::s('Please carefully select a meaningful and unused nick name.');
 	$fields[] = array($label, $input, $hint);
 
+	// the email address on registration
+	if(!isset($item['id'])) {
+		$label = i18n::s('E-mail address');
+		if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+			$label .= ' *';
+		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
+		$hint = '';
+		if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+			$hint = i18n::s('You will receive a message on this address to activate your membership.');
+		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// the password, but only for registering user
 	if(!isset($item['id'])) {
 		$label = i18n::s('Password').' *';
@@ -447,15 +460,17 @@ if($with_form) {
 	$fields[] = array($label, $input);
 
 	// the email address
-	$label = i18n::s('E-mail address');
-	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
-		$label .= ' *';
-	$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
-	$hint = '';
-	if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
-		$hint = i18n::s('You will receive a message on this address to activate your membership.');
-	$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
-	$fields[] = array($label, $input, $hint);
+	if(isset($item['id'])) {
+		$label = i18n::s('E-mail address');
+		if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+			$label .= ' *';
+		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
+		$hint = '';
+		if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+			$hint = i18n::s('You will receive a message on this address to activate your membership.');
+		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// web address, if any
 	$label = i18n::s('Web address');
@@ -596,7 +611,7 @@ if($with_form) {
 			.BR.'<input type="radio" name="active" value="R"';
 		if(isset($item['active']) && ($item['active'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Community - Access is restricted to authenticated members')
+		$input .= ' /> '.i18n::s('Community - Access is restricted to authenticated persons')
 			.BR.'<input type="radio" name="active" value="N"';
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			$input .= ' checked="checked"';
@@ -810,7 +825,7 @@ if($with_form) {
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y"/>'.' '.i18n::s('Do not change modification date.').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.').'</p>';
 
 	// validate page content
 	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
@@ -821,7 +836,7 @@ if($with_form) {
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
-		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'"/>';
+		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
 	// transmit the link to use after registration
 	if(!isset($item['id']) && isset($_REQUEST['forward']) && $_REQUEST['forward'])

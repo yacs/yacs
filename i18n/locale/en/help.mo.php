@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2009-12-18 00:00+0100
+POT-Creation-Date: 2010-06-14 21:24+0200
+PO-Revision-Date: 2010-06-24 20:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -101,7 +101,7 @@ $_SESSION['l10n']['en']['a225f280790879a5cf526aacf3d83cac']='Change the value of
 $_SESSION['l10n']['en']['Check the new forum']='Check the new forum';
 $_SESSION['l10n']['en']['efd5c51c4c0368779ba4a1cc048f29fa']='Click on file names to transfer them to your workstation, or to start a Video-on-demand session.';
 $_SESSION['l10n']['en']['Collection nick name']='Collection nick name';
-$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
 $_SESSION['l10n']['en']['Companion sections']='Companion sections';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['8c68013ff17b0314c06d5fcacd1a5eda']='Congratulations, you have shared new content.';
@@ -199,7 +199,7 @@ $_SESSION['l10n']['en']['ac478ac7ebc42dbade3a2589204a5550']='This is a sample sc
 $_SESSION['l10n']['en']['40b107fa0a1dea05340cabab9db7f5eb']='This script adds some public servers to be pinged when content is added to your server. Do not trigger this if your host is not visible from the Internet.';
 $_SESSION['l10n']['en']['d708f0176203fa03a0558bbfc4dd3d34']='This script will create one single page to capture collective feed-back. What kind of support are you looking for?';
 $_SESSION['l10n']['en']['a663b01f9bea22ed763c10ceadbd8bed']='This script will help to structure content for your server. Please select below the action you would like to perform.Depending on your choice, the assistant may ask for additional parameters on successive panels.';
-$_SESSION['l10n']['en']['3435400eef9382f22deee3230806399b']='This section, and related sub-sections, lists links submitted by authenticated members.';
+$_SESSION['l10n']['en']['e2f5cae416064749243a90b9b94f0fab']='This section, and related sub-sections, lists links submitted by authenticated persons.';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['Titles and questions']='Titles and questions';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';

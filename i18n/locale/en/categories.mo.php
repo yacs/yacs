@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-28 00:03+0200
-PO-Revision-Date: 2010-02-10 15:17+0100
+POT-Creation-Date: 2010-06-29 00:09+0200
+PO-Revision-Date: 2010-06-29 00:09+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ $_SESSION['l10n']['en']['Classified pages']='Classified pages';
 $_SESSION['l10n']['en']['Cloud of tags']='Cloud of tags';
 $_SESSION['l10n']['en']['Code to reference this page: %s']='Code to reference this page: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
-$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
 $_SESSION['l10n']['en']['Complete tags']='Complete tags';
 $_SESSION['l10n']['en']['Contact']='Contact';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
@@ -122,6 +122,7 @@ $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More content']='More content';
 $_SESSION['l10n']['en']['More options']='More options';
 $_SESSION['l10n']['en']['More specific:']='More specific:';
+$_SESSION['l10n']['en']['Name: %s']='Name: %s';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['b9c31c633231af3c1ab38bbfc75bbcb9']='No category has been created yet.';
@@ -173,7 +174,6 @@ $_SESSION['l10n']['en']['Send']='Send';
 $_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Share']='Share';
-$_SESSION['l10n']['en']['Shortcut: %s']='Shortcut: %s';
 $_SESSION['l10n']['en']['Site map']='Site map';
 $_SESSION['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title (and not by date)';
 $_SESSION['l10n']['en']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Sort links by title (and not by date)';
