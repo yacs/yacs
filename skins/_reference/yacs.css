@@ -2557,6 +2557,31 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 	margin-top: 0;
 }
 
+/* direct edition link */
+.thumbnail_image, 
+.left_image,
+.right_image,
+.center_image,
+.inline_image
+{position:relative;}
+
+.image_edit {
+	display:none;
+	position:absolute;
+	top:0;left:0;
+}
+
+.center_image .image_edit {
+	left : 45%;
+}  
+
+.thumbnail_image:hover .image_edit,
+.left_image:hover .image_edit,
+.right_image:hover .image_edit,
+.center_image:hover .image_edit,
+.inline_image:hover .image_edit
+{display:block;}
+
 /* Skin::build_list() */
 
 dl.column { /* one single column */
