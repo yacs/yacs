@@ -1169,10 +1169,11 @@ Class Skin_Skeleton {
 	 * @param string the image href
 	 * @param string the image title
 	 * @param string a link to make a clickable image, if any
+	 * @param string id of image, to display edition direct link, if desired
 	 * @return the HTML to display
 	 *
 	 */
-	function &build_image($variant, $href, $title, $link='') {
+	function &build_image($variant, $href, $title, $link='',$id='') {
 		global $context;
 
 		// sanity check
@@ -1253,6 +1254,8 @@ Class Skin_Skeleton {
 
 		} else
 			$text .= $image;
+			
+			
 
 		// make the title visible as a caption
 		if($title && $with_caption)
@@ -1261,6 +1264,15 @@ Class Skin_Skeleton {
 		// end of freedom
 		if($complement)
 			$text .= '</span>';
+			
+		//edit image direct access
+      $edit = '';
+      if((($variant=='center')||($variant=='right')||($variant=='left')||($variant=='thumbnail')||($complement=='large')) && $id) {
+         Skin::define_img('IMAGES_EDIT_IMG', 'images/edit.gif');
+         $edit_title = i18n::s('Update this image').' ['.$id.']';
+         $edit = '<span class="image_edit">'.Skin::build_link(Images::get_url($id,'edit'),IMAGES_EDIT_IMG,NULL,$edit_title).'</span>';
+         }
+      $text .= $edit;   	
 
 		// end of wrapper
 		$text .= '</span>';
