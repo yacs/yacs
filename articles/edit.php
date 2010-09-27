@@ -95,7 +95,7 @@
  * @tester GnapZ
  * @tester Pascal
  * @tester Guillaume Perez
- * @tester Manuel López Gallego
+ * @tester Manuel Lï¿½pez Gallego
  * @tester J&eacute;r&ocirc;me Douill&eacute;
  * @tester Jan Boen
  * @tester Olivier
@@ -723,7 +723,8 @@ if($with_form) {
 		$value = $item['introduction'];
 	elseif(isset($_SESSION['pasted_introduction']))
 		$value = $_SESSION['pasted_introduction'];
-	$input = '<textarea name="introduction" rows="3" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
+	//$input = '<textarea name="introduction" rows="3" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
+	$input = Surfer::get_editor('introduction', $value);
 	if(!is_object($overlay) || !($hint = $overlay->get_label('introduction_hint', isset($item['id'])?'edit':'new')))
 		$hint = i18n::s('Also complements the title in lists featuring this page');
 	$fields[] = array($label, $input, $hint);
@@ -765,7 +766,8 @@ if($with_form) {
 
 	// extra information
 	$label = i18n::s('Extra');
-	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
+	//$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
+	$input = Surfer::get_editor('extra', $value);
 	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
 	$fields[] = array($label, $input, $hint);
 
