@@ -481,6 +481,7 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+)/i', // YouTube link
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
@@ -497,6 +498,7 @@ Class Codes {
 				"</h2>",
 				"</h3>",
 				"</h4>",
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
 				"Skin::build_link('$1://$2', '$1://$2')",
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
@@ -1321,6 +1323,10 @@ Class Codes {
 				BR																	// [br] (deprecated by [nl])
 			);
 		}
+
+		// include code extensions
+//		include_once $context['path_to_root'].'scripts/scripts.php';
+//		Scripts::load_scripts_at('codes/extensions');
 
 		// ensure we have enough time to execute
 		Safe::set_time_limit(30);

@@ -68,7 +68,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
@@ -110,10 +110,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// list persons that have been notified
-		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
+		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -263,66 +263,44 @@ if($with_form) {
  		$panels = array_merge($panels, $more_tabs);
 
 	//
-	// attachments tab
+	// resources tab
 	//
 	$text = '';
 
-	// the icon url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Image');
-
-		// show the current icon
-		if(isset($item['icon_url']) && $item['icon_url']) {
-			$input = '<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
-			$command = i18n::s('Change');
-		} else {
-			$input = '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$value = '';
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$value = $item['icon_url'];
-		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Thumbnail');
-
-		// show the current thumbnail
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input = '<img src="'.$item['thumbnail_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} else {
-			$input = '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
-
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
+		$text .= '<p>'.i18n::s('Submit the new item, and you will be able to add resources afterwards.').'</p>';
 
-	// the list of images
-	elseif($items = Images::list_by_date_for_anchor('article:'.$item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
+	// resources attached to this anchor
+	else {
+
+		// images
+		$box = '';
+		if(Images::allow_creation($anchor, $item)) {
+			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Images::list_by_date_for_anchor('article:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Images'), $box, 'folded');
+
+		// files
+		$box = '';
+		if(Files::allow_creation($anchor, $item)) {
+			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Files::list_embeddable_for_anchor('article:'.$item['id'], 0, 50))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Files'), $box, 'folded');
+
+	}
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
 
 	//
 	// assemble all tabs

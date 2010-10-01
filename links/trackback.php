@@ -276,7 +276,7 @@ if(Surfer::is_crawler()) {
 		.Skin::build_block(encode_field($summary), 'code');
 
 	// permalink
-	$label = i18n::s('Permament address (permalink):');
+	$label = i18n::s('Permanent address (permalink):');
 	$value = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 	$text .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
 

@@ -155,7 +155,7 @@ if(!isset($item['id'])) {
 	// manage command
 	if(Surfer::is_associate() || (Surfer::get_id() == $item['id'])) {
 		Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
-		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage contacts'), 'span');
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage followers'), 'span');
 	}
 
 	// build the menu
@@ -168,9 +168,9 @@ if(!isset($item['id'])) {
 			$items = Skin::build_list($items, 'decorated');
 		$watched .= $items;
 	} elseif(Surfer::get_id() == $item['id'])
-		$watched .= '<p>'.i18n::s('Click on the link above to add new contacts.').'</p>';
+		$watched .= '<p>'.i18n::s('Click on the link above to follow someone.').'</p>';
 	else
-		$watched .= '<p>'.sprintf(i18n::s('%s has not yet connected to other persons.'), $item['full_name']).'</p>';
+		$watched .= '<p>'.sprintf(i18n::s('%s is not yet following other persons.'), $item['full_name']).'</p>';
 
 	// the list of followers
 	$followers = '';
@@ -178,9 +178,9 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
 		if(Surfer::get_id() == $item['id'])
-			$followers .= '<p>'.i18n::s('Following persons are connected to you:').'</p>'.$items;
+			$followers .= '<p>'.i18n::s('Persons who follow you:').'</p>'.$items;
 		else
-			$followers .= '<p>'.sprintf(i18n::s('Following persons are connected to %s:'), $item['full_name']).'</p>'.$items;
+			$followers .= '<p>'.sprintf(i18n::s('Persons who follow %s:'), $item['full_name']).'</p>'.$items;
 
 	}
 
@@ -191,7 +191,7 @@ if(!isset($item['id'])) {
 		if(!Members::check('user:'.$item['id'], 'user:'.Surfer::get_id())) {
 			Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
 			$link = Users::get_url('user:'.$item['id'], 'track');
-			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, USERS_WATCH_IMG.sprintf(i18n::s('Connect to %s'), $item['full_name']), 'basic', i18n::s('Add this person to your contacts')).'</p>';
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, USERS_WATCH_IMG.sprintf(i18n::s('Follow %s'), $item['full_name']), 'basic', i18n::s('Be notified of additions from this person')).'</p>';
 		}
 
 	}

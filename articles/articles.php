@@ -2000,13 +2000,8 @@ Class Articles {
 	 * This is used by the page locator to offer alternatives when several pages have the same nick names.
 	 * It is also used to link a page to twins, these being, most of the time, translations.
 	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is protected (active='N'), but surfer is an associate or an editor
-	 * - article has been officially published, or surfer is an associate or an editor
-	 * - an expiry date has not been defined, or is not yet passed
+	 * Most matching articles are returned, and we assume that access control to private articles
+	 * is postponed to actual access to these articles.
 	 *
 	 * @param string the nick name
 	 * @param int the id of the current page, which will not be listed
@@ -2016,45 +2011,17 @@ Class Articles {
 	function &list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// add hidden items to associates, editors and readers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// bracket OR statements
-		$where = '('.$where.')';
+		// gather constraints
+		$where = '';
 
 		// avoid exception, if any
 		if($exception)
 			$where .= " AND (articles.id != ".SQL::escape($exception).")";
 
-		// list draft pages only to associates and editors
-		if(!Surfer::is_empowered())
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$context['now']."')";
-
-		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
-
 		// articles by title -- no more than 100 pages with the same name
 		$query = "SELECT articles.*"
 			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."') AND ".$where
+			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."')".$where
 			." ORDER BY articles.title LIMIT 100";
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);

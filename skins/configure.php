@@ -430,19 +430,19 @@ elseif(!Surfer::is_associate()) {
 	$search = '<p><input type="radio" name="skins_delegate_search" value="N"';
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1" /> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
 
 	// distinguish content from users
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="S"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1" /> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
 
 	// search extension
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="X"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1"/> '.i18n::s('Extend search results on a separate tab');
+	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1" /> '.i18n::s('Extend search results on a separate tab');
 
 	// default to Google customized seach
 	if(!isset($context['skins_search_extension']) || !$context['skins_search_extension'])
@@ -458,7 +458,7 @@ elseif(!Surfer::is_associate()) {
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="Y"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0" /> '.i18n::s('Use the following form to delegate search requests');
 
 	// default to Google appliance
 	if(!isset($context['skins_search_form']) || !$context['skins_search_form'])
@@ -654,23 +654,25 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	$images .= '<p class="details">'.i18n::s('YACS uses the GD module of PHP to resize large pictures, and to create thumbnail images.')."</p>\n";
-	
+
 	// google map parameters
 	$gmap = '';
-	if (!isset($context['skins_gmap_default_width']))
-    $context['skins_gmap_default_width'] = '500px';
-	if (!isset($context['skins_gmap_default_height']))
-    $context['skins_gmap_default_height'] = '300px';
+
+	// map size on screen
 	$label = i18n::s('Map Size');
+	if(!isset($context['skins_gmap_default_width']))
+    	$context['skins_gmap_default_width'] = '500px';
+	if(!isset($context['skins_gmap_default_height']))
+    	$context['skins_gmap_default_height'] = '300px';
 	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_gmap_default_width" size="8" value="'.encode_field($context['skins_gmap_default_width']).'" maxlength="10" />')
 		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_gmap_default_height" size="8" value="'.encode_field($context['skins_gmap_default_height']).'" maxlength="10" />');
 	$hint = i18n::s('Width and height of Google Maps.');
 	$fields[] = array($label, $input, $hint);
 
-	if (!isset($context['skins_gmap_default_scale']))
-    $context['skins_gmap_default_scale'] = '5';
-
+	// map scale
 	$label = i18n::s('Map Scale');
+	if(!isset($context['skins_gmap_default_scale']))
+    	$context['skins_gmap_default_scale'] = '5';
 	$input = sprintf(i18n::s('Scale: %s'), '<input type="text" name="skins_gmap_default_scale" size="8" value="'.encode_field($context['skins_gmap_default_scale']).'" maxlength="10" />');
 	$hint = i18n::s('Scale of Google Maps.');
 	$fields[] = array($label, $input, $hint);

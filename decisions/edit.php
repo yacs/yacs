@@ -203,7 +203,7 @@ if(Surfer::is_crawler()) {
 	} elseif(!isset($item['id'])) {
 
 		// touch the related anchor
-		$anchor->touch('decision:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('decision:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
 
 		// clear cache
 		Decisions::clear($_REQUEST);
@@ -232,7 +232,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');

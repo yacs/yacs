@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2008-11-02 23:17+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-09-29 14:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -59,11 +60,11 @@ $_SESSION['l10n']['en']['No recipient has been defined.']='No recipient has been
 $_SESSION['l10n']['en']['032c2f23bd59663ca206107c001dd7d6']='No recipient has been processed.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['57180483e589be9878ef20a97d697488']='No transmission error has been encountered.';
+$_SESSION['l10n']['en']['87ef6f7124dac5a5dcfe5ddbaa75be8a']='Normalized format, for example: "John Ford" &lt;john.ford@acme.com&gt;';
 $_SESSION['l10n']['en']['4d2c68a988903f3c828c7c25293d22a0']='One invalid address has been skipped.';
 $_SESSION['l10n']['en']['9b35b350b112edcee6093f790461efa5']='One letter has been transmitted.';
 $_SESSION['l10n']['en']['a32a88bd9a66546f4811763515172667']='One recipient has been processed.';
 $_SESSION['l10n']['en']['8bc805238cc17bc1ff473525b211e01c']='One transmission error has been encountered.';
-$_SESSION['l10n']['en']['346eba4a5ba08a8111c1742aef5e19e6']='Please add something to your message.';
 $_SESSION['l10n']['en']['Post a letter']='Post a letter';
 $_SESSION['l10n']['en']['Press [s] to continue']='Press [s] to continue';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
@@ -84,9 +85,7 @@ $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['Title prefix']='Title prefix';
 $_SESSION['l10n']['en']['Title suffix']='Title suffix';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
-$_SESSION['l10n']['en']['975b351d36078c17358eb1af565b533c']='To let people react to your posts';
 $_SESSION['l10n']['en']['7317a606cbe6c8fec5c1b050b626a84a']='To remember our previous messages';
-$_SESSION['l10n']['en']['222d89e36b8faf8048f833b54810fe2f']='Use only plain ASCII at the moment';
 $_SESSION['l10n']['en']['Used as e-mail subject']='Used as e-mail subject';
 $_SESSION['l10n']['en']['Used as message subject line']='Used as message subject line';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';

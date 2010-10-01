@@ -550,6 +550,24 @@ if($with_form) {
 	//
 	$text = '';
 
+	// the avatar url
+	if(isset($item['id'])) {
+		$label = i18n::s('Picture URL');
+
+		// show the current avatar
+		if(isset($item['avatar_url']) && $item['avatar_url'])
+			$input = '<img src="'.$item['avatar_url'].'" alt="" />'.BR;
+
+		$value = '';
+		if(isset($item['avatar_url']) && $item['avatar_url'])
+			$value = $item['avatar_url'];
+		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+
+		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
+
+		$fields[] = array($label, $input);
+	}
+
 	// from where
 	$label = i18n::s('From');
 	$input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" />';
@@ -607,11 +625,11 @@ if($with_form) {
 		$input = '<input type="radio" name="active" value="Y"';
 		if(!isset($item['active']) || ($item['active'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Public - Access is granted to anonymous surfers')
+		$input .= ' /> '.i18n::s('Public - Everybody, including anonymous surfers')
 			.BR.'<input type="radio" name="active" value="R"';
 		if(isset($item['active']) && ($item['active'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Community - Access is restricted to authenticated persons')
+		$input .= ' /> '.i18n::s('Community - Access is granted to any identified surfer')
 			.BR.'<input type="radio" name="active" value="N"';
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			$input .= ' checked="checked"';
@@ -736,27 +754,9 @@ if($with_form) {
  		$panels = array_merge($panels, $more_tabs);
 
 	//
-	// attachments tab
+	// resources tab
 	//
 	$text = '';
-
-	// the avatar url
-	if(isset($item['id'])) {
-		$label = i18n::s('Picture URL');
-
-		// show the current avatar
-		if(isset($item['avatar_url']) && $item['avatar_url'])
-			$input = '<img src="'.$item['avatar_url'].'" alt="" />'.BR;
-
-		$value = '';
-		if(isset($item['avatar_url']) && $item['avatar_url'])
-			$value = $item['avatar_url'];
-		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-
-		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
-
-		$fields[] = array($label, $input);
-	}
 
 	// end of regular fields
 	$text .= Skin::build_form($fields);
@@ -803,7 +803,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);

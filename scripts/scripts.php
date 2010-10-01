@@ -478,8 +478,8 @@ class Scripts {
 						$context['text'] .= '.';
 					if($script_count++ > 50) {
 						$script_count = 0;
-							if($verbose)
-						$context['text'] .= BR."\n";
+						if($verbose)
+							$context['text'] .= BR."\n";
 					}
 				}
 			}
@@ -490,6 +490,52 @@ class Scripts {
 	}
 
 	/**
+	 * load PHP scripts at a certain path
+	 *
+	 * This script is used to load extensions of yacs.
+	 *
+	 * @param string the path to scan, e.g., 'codes/extensions'
+	 *
+	 */
+	function load_scripts_at($path) {
+		global $context;
+
+		// relative to yacs installation directory
+		$path_translated = $context['path_to_root'];
+		if($path)
+			$path_translated .= '/'.$path;
+
+		// target directory does exist
+		if($handle = Safe::opendir($path_translated)) {
+
+			// look at all entries there
+			while(($node = Safe::readdir($handle)) !== FALSE) {
+
+				// skip special files
+				if($node[0] == '.')
+					continue;
+
+				// make a real name
+				if($path)
+					$target = $path.'/'.$node;
+				else
+					$target = $node;
+				$target_translated = $path_translated.'/'.$node;
+
+				// process only PHP files
+				if(is_file($target_translated) && preg_match('/\.php$/i', $node) && is_readable($target_translated)) {
+
+					// load the script
+					include_once $target_translated;
+
+				}
+			}
+			Safe::closedir($handle);
+		}
+
+	}
+
+	/**
 	 * list running scripts below a certain path
 	 *
 	 * This script is used to list scripts below the YACS installation path.
@@ -497,14 +543,16 @@ class Scripts {
 	 * Also directory entries named either 'files' or 'images' are not recursively scanned,
 	 * because of the potential high number of uninteresting files they can contain.
 	 *
-	 * Also echo '.' (one per file) and '!' (one per directory) during the scan.
+	 * Also echo '.' (one per file) and '!' (one per directory) during the scan,
+	 * if the verbose parameter is set to TRUE.
 	 *
 	 * @param string the path to scan
+	 * @param boolean TRUE to animate the screen, FALSE to stay silent
 	 * @return an array of file names
 	 *
 	 * @see scripts/build.php
 	 */
-	function list_scripts_at($path) {
+	function list_scripts_at($path, $verbose=TRUE) {
 		global $context, $script_count;
 
 		// we want a list of files
@@ -546,10 +594,12 @@ class Scripts {
 					$files = array_merge($files, Scripts::list_scripts_at($target));
 
 					// animate the screen
-					$context['text'] .= '!';
+					if($verbose)
+						$context['text'] .= '!';
 					if($script_count++ > 50) {
 						$script_count = 0;
-						$context['text'] .= BR."\n";
+						if($verbose)
+							$context['text'] .= BR."\n";
 					}
 
 				// scan a file
@@ -559,10 +609,12 @@ class Scripts {
 					$files[] = array($path, $node);
 
 					// animate the screen
-					$context['text'] .= '.';
+					if($verbose)
+						$context['text'] .= '.';
 					if($script_count++ > 50) {
 						$script_count = 0;
-						$context['text'] .= BR."\n";
+						if($verbose)
+							$context['text'] .= BR."\n";
 						Safe::set_time_limit(30);
 					}
 				}

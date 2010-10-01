@@ -11,7 +11,7 @@
  * - The list of related links
  *
  * There are several options to display author's information, depending of option set in section.
- * Poster's avatar is displayed if the layout is a forum and if we are not building the page for a mobile device.
+ * Owner's avatar is displayed if the layout is a forum and if we are not building the page for a mobile device.
  *
  * If the main description field of the article has been split into pages with the keyword [code]&#91;page][/code],
  * a navigation menu is added at the bottom of the page to move around.
@@ -176,10 +176,10 @@ if($zoom_index < 1)
 // get the item from the database
 $item =& Articles::get($id);
 
-// get poster profile, if any
-$poster = array();
-if(isset($item['create_id']))
-	$poster =& Users::get($item['create_id']);
+// get owner profile, if any
+$owner = array();
+if(isset($item['owner_id']))
+	$owner =& Users::get($item['owner_id']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -246,6 +246,10 @@ load_skin('article', $anchor, isset($item['options']) ? $item['options'] : '');
 // clear the tab we are in
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
+
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'article:'.$item['id'];
 
 // path to this page
 $context['path_bar'] = Surfer::get_path_bar($anchor);
@@ -441,7 +445,7 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
@@ -452,6 +456,10 @@ if(!isset($item['id'])) {
 				&& ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 		}
+
+		// page owner
+		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
 		// page editors, for associates and section editors
 		if(Surfer::is_empowered() && Surfer::is_logged() && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
@@ -531,9 +539,9 @@ if(!isset($item['id'])) {
 	// generic page components --can be overwritten in view_as_XXX.php if necessary
 	//
 
-	// the poster profile, if any, aside
-	if(isset($poster['id']) && is_object($anchor))
-		$context['components']['profile'] = $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
+	// the owner profile, if any, aside
+	if(isset($owner['id']) && is_object($anchor))
+		$context['components']['profile'] = $anchor->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
 
 	// add extra information from the overlay, if any
 	if(is_object($overlay))
@@ -765,9 +773,9 @@ if(!isset($item['id'])) {
 		if($neighbours)
 			$text .= Skin::neighbours($neighbours, 'manual');
 
-		// the poster profile, if any, at the beginning of the first page
-		if(($page == 1) && isset($poster['id']) && is_object($anchor))
-			$text .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
+		// the owner profile, if any, at the beginning of the first page
+		if(($page == 1) && isset($owner['id']) && is_object($anchor))
+			$text .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
 		// only at the first page
 		if($page == 1) {
@@ -848,9 +856,9 @@ if(!isset($item['id'])) {
 
 		}
 
-		// the poster profile, if any, at the end of the page
-		if(isset($poster['id']) && is_object($anchor))
-			$text .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
+		// the owner profile, if any, at the end of the page
+		if(isset($owner['id']) && is_object($anchor))
+			$text .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
 
 	}
 

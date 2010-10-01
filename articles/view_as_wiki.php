@@ -87,9 +87,9 @@ if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_opti
 if(defined('DIGG'))
 	$article .= '<div class="digg_content">';
 
-// the poster profile, if any, at the beginning of the first page
-if(isset($poster['id']) && is_object($anchor))
-	$article .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the beginning of the first page
+if(isset($owner['id']) && is_object($anchor))
+	$article .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
 // only at the first page
 if($page == 1) {
@@ -142,9 +142,9 @@ if($description) {
 if(defined('DIGG'))
 	$article .= '</div>';
 
-// the poster profile, if any, at the end of the page
-if(isset($poster['id']) && is_object($anchor))
-	$article .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the end of the page
+if(isset($owner['id']) && is_object($anchor))
+	$article .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
 
 // list files only to people able to change the page
 if(Articles::allow_modification($item, $anchor))
@@ -345,9 +345,9 @@ $context['text'] .= Skin::build_tabs($panels);
 // extra panel -- most content is cached, except commands specific to current surfer
 //
 
-// the poster profile, if any, aside
-if(isset($poster['id']) && is_object($anchor))
-	$context['components']['profile'] = $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
+// the owner profile, if any, aside
+if(isset($owner['id']) && is_object($anchor))
+	$context['components']['profile'] = $anchor->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
 
 // page tools
 //

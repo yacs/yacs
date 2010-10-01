@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 21:02+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-09-29 15:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -101,7 +102,7 @@ $_SESSION['l10n']['fr']['a225f280790879a5cf526aacf3d83cac']='Modifier la valeur 
 $_SESSION['l10n']['fr']['Check the new forum']='Vérifier le nouveau forum de discussion';
 $_SESSION['l10n']['fr']['efd5c51c4c0368779ba4a1cc048f29fa']='Cliquez sur un nom de fichier pour le transférer vers votre machine, ou pour déclencher une session de vidéo à la demande.';
 $_SESSION['l10n']['fr']['Collection nick name']='Nom de la collection';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Companion sections']='Composants annexes';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['8c68013ff17b0314c06d5fcacd1a5eda']='Félicitations, votre contribution a bien été enregistrée.';
@@ -164,7 +165,7 @@ $_SESSION['l10n']['fr']['Post your brand new ideas here!']='La meilleure place p
 $_SESSION['l10n']['fr']['6ee289163f01468f3861f7131b961100']='Inséré devant le chemin d\'accès aux fichiers de la collection. Court de préférence';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
-$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
+$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['Public files to download']='Fichiers à télécharger';
 $_SESSION['l10n']['fr']['Read, learn, and react!']='Lisez, apprenez, réagissez !';
 $_SESSION['l10n']['fr']['Register']='Enregistrez-vous';

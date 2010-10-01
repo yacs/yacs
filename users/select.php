@@ -73,9 +73,9 @@ elseif(!$permitted) {
 	if(is_object($anchor)) {
 		if(!strncmp($anchor->get_reference(), 'user:', 5)) {
 			if(Surfer::is(intval(substr($anchor->get_reference(), 5))))
-				$context['page_title'] = i18n::s('My contacts');
+				$context['page_title'] = i18n::s('Persons that I am following');
 			else
-				$context['page_title'] = sprintf(i18n::s('Contacts of %s'), $anchor->get_title());
+				$context['page_title'] = sprintf(i18n::s('Persons followed by %s'), $anchor->get_title());
 		} elseif(!strncmp($anchor->get_reference(), 'category:', 9)) {
 			$context['page_title'] = sprintf(i18n::s('Members of %s'), $anchor->get_title());
 		} else {
@@ -185,7 +185,7 @@ elseif(!$permitted) {
 	} elseif(!strncmp($anchor->get_reference(), 'user:', 5) && ($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
-		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Contacts of %s'), $anchor->get_title()).'</p>';
+		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons followed by %s'), $anchor->get_title()).'</p>';
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -308,7 +308,7 @@ elseif(!$permitted) {
 	$links = array();
 	$url = $anchor->get_url();
 	if(!strncmp($anchor->get_reference(), 'user:', 5))
-		$url .= '#_contacts';
+		$url .= '#_followers';
 	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
@@ -321,10 +321,10 @@ elseif(!$permitted) {
 			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 		}
 
-	// adding contacts
+	// adding followers
 	} else {
 		if(Surfer::may_mail()) {
-			$help = i18n::s('Each new contact will be notified that you are following him.');
+			$help = i18n::s('Each new person will be notified that you are following him.');
 
 			// in a side box
 			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');

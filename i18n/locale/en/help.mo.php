@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 20:57+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-09-29 14:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -101,7 +102,7 @@ $_SESSION['l10n']['en']['a225f280790879a5cf526aacf3d83cac']='Change the value of
 $_SESSION['l10n']['en']['Check the new forum']='Check the new forum';
 $_SESSION['l10n']['en']['efd5c51c4c0368779ba4a1cc048f29fa']='Click on file names to transfer them to your workstation, or to start a Video-on-demand session.';
 $_SESSION['l10n']['en']['Collection nick name']='Collection nick name';
-$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
+$_SESSION['l10n']['en']['e7eace704dc70e1603783efa3807ecbd']='Community - Access is granted to any identified surfer';
 $_SESSION['l10n']['en']['Companion sections']='Companion sections';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['8c68013ff17b0314c06d5fcacd1a5eda']='Congratulations, you have shared new content.';
@@ -164,7 +165,7 @@ $_SESSION['l10n']['en']['Post your brand new ideas here!']='Post your brand new 
 $_SESSION['l10n']['en']['6ee289163f01468f3861f7131b961100']='Prepended to the path of each file of the collection. Short and meaningful';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
-$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
+$_SESSION['l10n']['en']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Everybody, including anonymous surfers';
 $_SESSION['l10n']['en']['Public files to download']='Public files to download';
 $_SESSION['l10n']['en']['Read, learn, and react!']='Read, learn, and react!';
 $_SESSION['l10n']['en']['Register']='Register';

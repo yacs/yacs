@@ -223,7 +223,11 @@ if(Surfer::is_crawler()) {
 
 			// touch the related anchor
 			if(is_object($anchor))
-				$anchor->touch('section:update', $item['id']);
+				$anchor->touch('section:update', $item['id'],
+					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+					isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+
 
 			// display the updated page
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
@@ -247,7 +251,10 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			$anchor->touch('section:create', $_REQUEST['id'],
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -261,7 +268,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -356,91 +363,6 @@ if($with_form) {
 
 	// append regular fields
 	$text .= Skin::build_form($fields);
-	$fields = array();
-
-	// settings for sub-sections
-	//
-
-	// layout for sub-sections - default is 'decorated'
-	$label = i18n::s('Layout');
-	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
-		$item['sections_count'] = SECTIONS_PER_PAGE;
-	$input = sprintf(i18n::s('List up to %s sub-sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
-	$custom_layout = '';
-	if(!isset($item['sections_layout']))
-		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
-		$custom_layout = $item['sections_layout'];
-		$item['sections_layout'] = 'custom';
-	}
-	$input .= '<input type="radio" name="sections_layout" value="decorated"';
-	if($item['sections_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images')
-		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
-	if($item['sections_layout'] == 'slashdot')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
-		.BR.'<input type="radio" name="sections_layout" value="map"';
-	if($item['sections_layout'] == 'map')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="sections_layout" value="accordion"';
-	if($item['sections_layout'] == 'accordion')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
-		.BR.'<input type="radio" name="sections_layout" value="carrousel"';
-	if($item['sections_layout'] == 'carrousel')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('carrousel - Animate clickable images')
-		.BR.'<input type="radio" name="sections_layout" value="titles"';
-	if($item['sections_layout'] == 'titles')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
-		.BR.'<input type="radio" name="sections_layout" value="freemind"';
-	if($item['sections_layout'] == 'freemind')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
-		.BR.'<input type="radio" name="sections_layout" value="jive"';
-	if($item['sections_layout'] == 'jive')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - List 5 threads per board')
-		.BR.'<input type="radio" name="sections_layout" value="yabb"';
-	if($item['sections_layout'] == 'yabb')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion forum')
-		.BR.'<input type="radio" name="sections_layout" value="inline"';
-	if($item['sections_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sections and related pages')
-		.BR.'<input type="radio" name="sections_layout" value="folded"';
-	if($item['sections_layout'] == 'folded')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
-		.BR.'<input type="radio" name="sections_layout" value="compact"';
-	if($item['sections_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
-	if($item['sections_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />')
-		.BR.'<input type="radio" name="sections_layout" value="none"';
-	if($item['sections_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list sections');
-	$fields[] = array($label, $input);
-
-	// content overlay
-	if(Surfer::is_associate()) {
-		$label = i18n::s('Overlay');
-		$input = '<input type="text" name="section_overlay" size="20" value="'.encode_field(isset($item['section_overlay']) ? $item['section_overlay'] : '').'" maxlength="64" />';
-		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'help'));
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// append fields
-	$text .= Skin::build_box(i18n::s('Sub-sections'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// settings for attached pages
@@ -588,19 +510,104 @@ if($with_form) {
 	}
 
 	// the prefix
-	$label = i18n::s('Prefix');
+	$label = i18n::s('Header');
 	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
 	$hint = i18n::s('To be inserted at the top of related pages.');
 	$fields[] = array($label, $input, $hint);
 
 	// the suffix
-	$label = i18n::s('Suffix');
+	$label = i18n::s('Footer');
 	$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
 	$hint = i18n::s('To be inserted at the bottom of related pages.');
 	$fields[] = array($label, $input, $hint);
 
 	// append fields
 	$text .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
+	$fields = array();
+
+	// settings for sub-sections
+	//
+
+	// layout for sub-sections - default is 'decorated'
+	$label = i18n::s('Layout');
+	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
+		$item['sections_count'] = SECTIONS_PER_PAGE;
+	$input = sprintf(i18n::s('List up to %s sub-sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
+	$custom_layout = '';
+	if(!isset($item['sections_layout']))
+		$item['sections_layout'] = 'none';
+	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
+		$custom_layout = $item['sections_layout'];
+		$item['sections_layout'] = 'custom';
+	}
+	$input .= '<input type="radio" name="sections_layout" value="decorated"';
+	if($item['sections_layout'] == 'decorated')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('decorated - A list decorated with images')
+		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
+	if($item['sections_layout'] == 'slashdot')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
+		.BR.'<input type="radio" name="sections_layout" value="map"';
+	if($item['sections_layout'] == 'map')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
+		.BR.'<input type="radio" name="sections_layout" value="accordion"';
+	if($item['sections_layout'] == 'accordion')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
+		.BR.'<input type="radio" name="sections_layout" value="carrousel"';
+	if($item['sections_layout'] == 'carrousel')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('carrousel - Animate clickable images')
+		.BR.'<input type="radio" name="sections_layout" value="titles"';
+	if($item['sections_layout'] == 'titles')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
+		.BR.'<input type="radio" name="sections_layout" value="freemind"';
+	if($item['sections_layout'] == 'freemind')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
+		.BR.'<input type="radio" name="sections_layout" value="jive"';
+	if($item['sections_layout'] == 'jive')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('jive - List 5 threads per board')
+		.BR.'<input type="radio" name="sections_layout" value="yabb"';
+	if($item['sections_layout'] == 'yabb')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('yabb - A discussion forum')
+		.BR.'<input type="radio" name="sections_layout" value="inline"';
+	if($item['sections_layout'] == 'inline')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('inline - List sections and related pages')
+		.BR.'<input type="radio" name="sections_layout" value="folded"';
+	if($item['sections_layout'] == 'folded')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
+		.BR.'<input type="radio" name="sections_layout" value="compact"';
+	if($item['sections_layout'] == 'compact')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('compact - A compact list')
+		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
+	if($item['sections_layout'] == 'custom')
+		$input .= ' checked="checked"';
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />')
+		.BR.'<input type="radio" name="sections_layout" value="none"';
+	if($item['sections_layout'] == 'none')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not list sections');
+	$fields[] = array($label, $input);
+
+	// content overlay
+	if(Surfer::is_associate()) {
+		$label = i18n::s('Overlay');
+		$input = '<input type="text" name="section_overlay" size="20" value="'.encode_field(isset($item['section_overlay']) ? $item['section_overlay'] : '').'" maxlength="64" />';
+		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'help'));
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// append fields
+	$text .= Skin::build_box(i18n::s('Sub-sections'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// rendering options
@@ -610,6 +617,30 @@ if($with_form) {
 	$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
 	$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
 	$fields[] = array($label, $input, $hint);
+
+	// the icon url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Image');
+		$input = '';
+		$hint = '';
+
+		// show the current icon
+		if(isset($item['icon_url']) && $item['icon_url']) {
+			$input .= '<img src="'.preg_replace('/\/images\/section\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$hint .= i18n::s('Image to be displayed in the panel aside the page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$value = '';
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$value = $item['icon_url'];
+		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// extra information
 	$label = i18n::s('Extra');
@@ -652,91 +683,66 @@ if($with_form) {
 		$panels[] = array('index', i18n::s('Index page'), 'index_panel', $text);
 
 	//
-	// attachments tab
+	// resources tab
 	//
 	$text = '';
 
-	// the icon url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Image');
-
-		// show the current icon
-		$input = '';
-		if(isset($item['icon_url']) && $item['icon_url']) {
-			$input .= '<img src="'.preg_replace('/\/images\/section\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$value = '';
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$value = $item['icon_url'];
-		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Thumbnail');
-
-		// show the current thumbnail
-		$input = '';
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
-
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
+		$text .= '<p>'.i18n::s('Submit the new item, and you will be able to add resources afterwards.').'</p>';
 
-	// the list of images
-	elseif($items = Images::list_by_date_for_anchor('section:'.$item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
+	// resources attached to this anchor
+	else {
 
-	// if we are editing an existing section
-	if(isset($item['id'])) {
+		// images
+		$box = '';
+		if(Images::allow_creation($anchor, $item, 'section')) {
+			$menu = array( 'images/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Images::list_by_date_for_anchor('section:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Images'), $box, 'folded');
 
-		// files are reserved to authenticated members
+		// files
+		$box = '';
+		if(Files::allow_creation($anchor, $item, 'section')) {
+			$menu = array( 'files/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a file') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
 		if($items = Files::list_embeddable_for_anchor('section:'.$item['id'], 0, 50))
-			$text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Files'), $box, 'folded');
 
-		// locations are reserved to authenticated members
-		if(Locations::allow_creation($anchor, $item)) {
+		// locations
+		$box = '';
+		if(Locations::allow_creation($anchor, $item, 'section')) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50, 'section:'.$item['id']);
-			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+			$box .= Skin::build_list($menu, 'menu_bar');
 		}
+		if($items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50, 'section:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Locations'), $box, 'folded');
 
-		// tables are reserved to associates
-		if(Tables::allow_creation($anchor, $item)) {
+		// tables
+		$box = '';
+		if(Tables::allow_creation($anchor, $item, 'section')) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50, 'section:'.$item['id']);
-			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+			$box .= Skin::build_list($menu, 'menu_bar');
 		}
+		if($items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50, 'section:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Tables'), $box, 'folded');
 
 	}
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
 
 	//
 	// options tab
@@ -796,14 +802,14 @@ if($with_form) {
 	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 
 	// maybe a restricted page
 	$input .= '<input type="radio" name="active_set" value="R"';
 	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active_set" value="N"';
@@ -1020,6 +1026,27 @@ if($with_form) {
 
 	}
 
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// the nick name
 	$label = i18n::s('Nick name');
 	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field(isset($item['nick_name']) ? $item['nick_name'] : '').'" maxlength="64" accesskey="n" />';
@@ -1173,19 +1200,23 @@ if($with_form) {
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
-	// several options to check
-	$input = array();
+	// optional checkboxes
+	$context['text'] .= '<p>';
+
+	// notify watchers
+	if(!isset($item['id']))
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+
+	// notify people following me
+	if(!isset($item['id']) && Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden())
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())
-		$input[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
+		$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
 
 	// validate page content
-	$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
-
-	// append post-processing options
-	if($input)
-		$context['text'] .= '<p>'.implode(BR, $input).'</p>';
+	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

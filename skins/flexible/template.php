@@ -100,6 +100,9 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 	// end of the header panel
 	echo '</div>'."\n";
 
+	// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
+	Page::bread_crumbs();
+
 	// concatenate side columns
 	if(isset($context['flexible_columns']) && (($context['flexible_columns'] == '2_1_3') || ($context['flexible_columns'] == '2_3_1')))
 		$class = 'blogstyle';
@@ -112,9 +115,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 			.'<div class="colleft">'
 				.'<div class="col1wrap">'
 					.'<div id="main_panel">';
-
-	// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
-	Page::bread_crumbs(1);
 
 	// display main content
 	Page::content();

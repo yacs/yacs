@@ -197,7 +197,7 @@ Class Notifications {
 
 		// kill the request if there is nothing to return
 		if((!$record =& SQL::query_first($query)) || !isset($record['data'])) {
-			header('Status: 504 Gateway Timeout', TRUE, 504);
+			http::no_content();
 			die('Retry');
 		}
 

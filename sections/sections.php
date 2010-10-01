@@ -1981,12 +1981,8 @@ Class Sections {
 	 * This is used by the page locator to offer alternatives when several pages have the same nick names.
 	 * It is also used to link a page to twins, these being, most of the time, translations.
 	 *
-	 * Only sections matching following criteria are returned:
-	 * - related section is visible (active='Y')
-	 * - related section is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - related section is hidden (active='N'), but the surfer is an associate or an editor,
-	 * - an expiry date has not been defined, or is not yet passed
+	 * Most matching sections are returned, and we assume that access control to private sections
+	 * is postponed to actual access to these sections.
 	 *
 	 * @param string the nick name
 	 * @param int the id of the current page, which will not be listed
@@ -1996,32 +1992,17 @@ Class Sections {
 	function &list_for_name($name, $exception=NULL, $variant='compact') {
 		global $context;
 
-		// select among active items
-		$where = "sections.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// add hidden items to associates, editors and readers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// bracket OR statements
-		$where = '('.$where.')';
+		// gather constraints
+		$where = '';
 
 		// avoid exception, if any
 		if($exception)
 			$where .= " AND (sections.id != ".SQL::escape($exception).")";
 
-		// only consider live sections
-		$where .= " AND ((sections.expiry_date is NULL) "
-				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
-
 		// sections by title -- up to 100 sections with the same name
 		$query = "SELECT sections.*"
 			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (sections.nick_name LIKE '".SQL::escape($name)."') AND ".$where
+			." WHERE (sections.nick_name LIKE '".SQL::escape($name)."')".$where
 			." ORDER BY sections.title LIMIT 100";
 
 		$output =& Sections::list_selected(SQL::query($query), $variant);

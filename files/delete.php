@@ -200,7 +200,7 @@ else {
 		if($item['active'] == 'N' && Surfer::is_associate())
 			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Private - Access is restricted to selected persons')), $lines++);
 		elseif($item['active'] == 'R' && Surfer::is_member())
-			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Community - Access is restricted to authenticated persons')), $lines++);
+			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Community -Access is granted to any identified surfer')), $lines++);
 	}
 
 	// end of the table

@@ -113,6 +113,9 @@ $context['content_type'] = 'text/html';
 $context['country'] = 'N/A';
 $context['country_code'] = '--';
 
+// handle of the current page (e.g., 'article:123')
+$context['current_item'] = NULL;
+
 // where developers can add debugging messages --one string per row
 $context['debug'] = array();
 
@@ -1093,18 +1096,23 @@ function render_skin($with_last_modified=TRUE) {
 			if(is_callable(array('Surfer', 'get_name')))
 				hash_update($h, Surfer::get_name());
 
+			// afford content negociation
+			if(isset($_SERVER['HTTP_ACCEPT_ENCODING']))
+				hash_update($h, $_SERVER['HTTP_ACCEPT_ENCODING']);
+
 			// hash content to create the etag string
 			$etag = '"'.hash_final($h).'"';
 
 		}
 
-		// manage web cache
-		$stamp = $context['page_date'];
+		// provide stamp in the expected format
+		$stamp = NULL;
 		if(isset($context['cache_has_been_poisoned']) || !$with_last_modified)
-			$stamp = NULL;
+			;
+		elseif($context['page_date'] && is_callable(array('SQL', 'strtotime')))
+			$stamp = gmdate('D, d M Y H:i:s', SQL::strtotime($context['page_date'])).' GMT';
 		if(http::validate($stamp, $etag))
 			return;
-
 
 	}
 

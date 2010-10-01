@@ -44,6 +44,10 @@ if(isset($item['anchor']) && $item['anchor'])
 // load the skin, maybe with a variant
 load_skin('dates', $anchor);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'date:'.$item['id'];
+
 // the path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();

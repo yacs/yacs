@@ -81,7 +81,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			$box = array('title' => '', 'text' => '');
 
 			// add a direct link to the section
-			$box['title'] = $prefix.$title.$suffix.'&nbsp;'.Skin::build_link($url, MORE_IMG, 'basic');
+			$box['title'] = $prefix.Skin::build_link($url, $title, 'basic').$suffix;
 
 			// box content
 			$elements = array();

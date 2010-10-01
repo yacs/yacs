@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 21:01+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-10-01 23:14+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -55,7 +56,8 @@ $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Change']='Changer';
 $_SESSION['l10n']['fr']['36a3d377dfebacd9d29b637d7ecefb82']='Vérifier la page de téléchargement pour ce fichier';
 $_SESSION['l10n']['fr']['Close']='Fermer';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
+$_SESSION['l10n']['fr']['fe1a23cebe508106ea3fb5702287c729']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -103,6 +105,7 @@ $_SESSION['l10n']['fr']['a9dc0459a1fe4e8573e0046b4ba8e4bb']='Si vous avez instal
 $_SESSION['l10n']['fr']['6b10d5461809d38d5e90d39a67071ed4']='Si vous avez installé Overnet, Emule, ou Edonkey, vous pouvez aussi cliquer sur le lien ed2k suivant : %s';
 $_SESSION['l10n']['fr']['Image']='Image';
 $_SESSION['l10n']['fr']['Image %d of %d']='Image %d de %d';
+$_SESSION['l10n']['fr']['9c27a1eb2c2550657e92d3a090f674db']='Image à afficher dans un panneau sur le côté de la page.';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de copier le fichier %s';
 $_SESSION['l10n']['fr']['Impossible to create path %s.']='Impossible de créer le chemin %s.';
@@ -117,7 +120,6 @@ $_SESSION['l10n']['fr']['e6546034f92007b1997e44de29b5b3f2']='Lister les extensio
 $_SESSION['l10n']['fr']['Local path']='Chemin d\'accès local';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
-$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Microsoft web server']='serveur de Microsoft';
 $_SESSION['l10n']['fr']['MindManager']='MindManager';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';
@@ -132,6 +134,8 @@ $_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été t
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['33e3985733e2c1e8e90fb4c2a8a0fb67']='Non, tous les fichiers sont placés dans l\'espace web.';
 $_SESSION['l10n']['fr']['44ecc95028969d4dc5f8fbc8e5097e7e']='Rien n\'a été reçu. Vérifier que vous respectez les limitations de taille de ce serveur.';
+$_SESSION['l10n']['fr']['Notify my followers.']='Alerter mes abonnés.';
+$_SESSION['l10n']['fr']['Notify watchers.']='Alerter les observateurs.';
 $_SESSION['l10n']['fr']['Oldest files']='Fichiers anciens';
 $_SESSION['l10n']['fr']['Open Office web server']='La fondation Open Office';
 $_SESSION['l10n']['fr']['Open Workbench']='Open Workbench';
@@ -143,7 +147,7 @@ $_SESSION['l10n']['fr']['4a6bd811816f43d2d60e858ba1b41651']='Les autres personne
 $_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la référence P2P (ed2k, torrent, etc.)';
-$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['Play']='Jouer';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Podcast']='Podcast';
@@ -155,12 +159,13 @@ $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoye
 $_SESSION['l10n']['fr']['fc0f2f82c3a214a6c50adb3aea6fa1d3']='Empêcher d\'autres personnes de modifier ce fichier pendant que vous le mettez à jour';
 $_SESSION['l10n']['fr']['Previous image']='Image précédente';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
-$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
+$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['37ad9546a387c8d0623a2d297a553d2b']='Les logiciels adaptés sont indiqués au moments du téléchargement.';
 $_SESSION['l10n']['fr']['Release reservation']='Annuler la réservation';
 $_SESSION['l10n']['fr']['Reserve']='Réserver';
 $_SESSION['l10n']['fr']['4b7a9cc519bf0b451a0443b0d43cc5c6']='Réservez ce fichier si vous souhaitez modifier son contenu';
+$_SESSION['l10n']['fr']['Resources']='Ressources';
 $_SESSION['l10n']['fr']['Review files']='Fichiers à contrôler';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['e38356c677eda6ec20dd764987901cff']='Choisir un fichier de remplacement';
@@ -172,7 +177,7 @@ $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Storage']='Rangement';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
-$_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
+$_SESSION['l10n']['fr']['0b9f1178eb8585f2ca70cbffeea9435a']='Créez le nouvel élément, et vous pourrez ajouter des ressources par la suite.';
 $_SESSION['l10n']['fr']['Supported extensions']='Extensions supportées';
 $_SESSION['l10n']['fr']['TeX']='TeX';
 $_SESSION['l10n']['fr']['Texinfo']='Texinfo';
@@ -198,7 +203,6 @@ $_SESSION['l10n']['fr']['Update: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Updated by']='Mis à jour par';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
-$_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';
 $_SESSION['l10n']['fr']['Upload another file']='Ajouter un autre fichier';
 $_SESSION['l10n']['fr']['Use FTP']='Utiliser FTP';
 $_SESSION['l10n']['fr']['d1ec6c64d705f2700ae41fb5a3f440dc']='Codes pour référencer ce fichier : %s';

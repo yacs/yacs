@@ -305,8 +305,11 @@ if(Surfer::is_crawler()) {
 	// reward the poster for new posts, or for actual upload
 	} elseif(!isset($item['id']) || ($action == 'file:create')) {
 
-		// always touch the related anchor on new posts
-		$anchor->touch('file:create', $_REQUEST['id']);
+		// touch the related anchor
+		$anchor->touch('file:create', $_REQUEST['id'],
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// clear cache
 		Files::clear($_REQUEST);
@@ -332,7 +335,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -360,7 +363,10 @@ if(Surfer::is_crawler()) {
 	} else {
 
 		// touch the related anchor
-		$anchor->touch('file:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('file:update', $_REQUEST['id'],
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// clear cache
 		Files::clear($_REQUEST);
@@ -519,58 +525,13 @@ if($with_form) {
 		$panels[] = array('information', i18n::s('Information'), 'information_panel', $text);
 
 	//
-	// attachments tab
+	// resources tab
 	//
 	$text = '';
 
-	// the icon url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_member()) {
-		$label = i18n::s('Image');
-
-		// show the current icon
-		if(isset($item['icon_url']) && $item['icon_url']) {
-			$input = '<img src="'.preg_replace('/\/images\/file\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
-			$command = i18n::s('Change');
-		} else {
-			$input = '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$value = '';
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$value = $item['icon_url'];
-		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_member()) {
-		$label = i18n::s('Thumbnail');
-
-		// show the current thumbnail
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input = '<img src="'.$item['thumbnail_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} else {
-			$input = '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
-
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
+		$text .= '<p>'.i18n::s('Submit the new item, and you will be able to add resources afterwards.').'</p>';
 
 	// the list of images
 	elseif($items = Images::list_by_date_for_anchor('file:'.$item['id']))
@@ -578,7 +539,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
 
 	//
 	// options tab
@@ -591,11 +552,11 @@ if($with_form) {
 		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers')
+		$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers')
 			.BR.'<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons')
+		$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer')
 			.BR.'<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';
@@ -616,6 +577,51 @@ if($with_form) {
 	// append fields
 	$text .= Skin::build_form($fields);
 	$fields = array();
+
+	// the icon url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_member()) {
+		$label = i18n::s('Image');
+		$input = '';
+		$hint = '';
+
+		// show the current icon
+		if(isset($item['icon_url']) && $item['icon_url']) {
+			$input .= '<img src="'.preg_replace('/\/images\/file\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint .= i18n::s('Image to be displayed in the panel aside the page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$value = '';
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$value = $item['icon_url'];
+		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_member()) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input = '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint = i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// the source
 	$label = i18n::s('Source');
@@ -655,12 +661,24 @@ if($with_form) {
 		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
+	// optional checkboxes
+	$context['text'] .= '<p>';
+
+	// notify watchers
+	if(!isset($item['id']))
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+
+	// notify people following me
+	if(!isset($item['id']) && Surfer::get_id() && !$anchor->is_hidden())
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
+
 	// associates may decide to not stamp changes, but only for changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && isset($anchor) && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
+	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
+		$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
 
 	// validate page content
-	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

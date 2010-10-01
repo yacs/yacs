@@ -155,11 +155,8 @@ Class Forms {
 	 * This is used by the page locator to offer alternatives when several pages have the same nick names.
 	 * It is also used to link a page to twins, these being, most of the time, translations.
 	 *
-	 * Only forms matching following criteria are returned:
-	 * - form is visible (active='Y')
-	 * - form is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - form is protected (active='N'), but surfer is an associate
+	 * Most matching forms are returned, and we assume that access control to private forms
+	 * is postponed to actual access to these forms.
 	 *
 	 * @param string the nick name
 	 * @param int the id of the current page, which will not be listed
@@ -169,19 +166,8 @@ Class Forms {
 	function &list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
-		// select among active items
-		$where = "forms.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR forms.active='R'";
-
-		// add hidden items to associates
-		if(Surfer::is_empowered('S'))
-			$where .= " OR forms.active='N'";
-
-		// bracket OR statements
-		$where = '('.$where.')';
+		// gather constraints
+		$where = '';
 
 		// avoid exception, if any
 		if($exception)
@@ -190,7 +176,7 @@ Class Forms {
 		// forms by title -- no more than 100 pages with the same name
 		$query = "SELECT forms.*"
 			." FROM ".SQL::table_name('forms')." AS forms"
-			." WHERE (forms.nick_name LIKE '".SQL::escape($name)."') AND ".$where
+			." WHERE (forms.nick_name LIKE '".SQL::escape($name)."')".$where
 			." ORDER BY forms.title LIMIT 100";
 
 		$output =& Forms::list_selected(SQL::query($query), $layout);

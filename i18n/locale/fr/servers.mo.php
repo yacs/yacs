@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 21:04+0100
+POT-Creation-Date: 2010-09-29 14:21+0200
+PO-Revision-Date: 2010-09-29 15:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -39,7 +40,7 @@ $_SESSION['l10n']['fr']['Another famous blogs aggregator']='Un autre consolidate
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Back to servers']='Retour aux serveurs';
 $_SESSION['l10n']['fr']['ab29426eac97a8fac53f1263996c2dc2']='Vérification à chaque requête transmise';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configuration';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -91,14 +92,14 @@ $_SESSION['l10n']['fr']['Populate']='Peupler les serveurs';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['47b78f39e64497e39883fac579c63f84']='Services autorisés pour ce serveur';
-$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
+$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['Received from feeding servers']='Les informations transmises par les autres serveurs';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous pour invalider un serveur indélicat en cas de besoin.';
 $_SESSION['l10n']['fr']['Search']='Recherche';
 $_SESSION['l10n']['fr']['Server description']='Description de ce serveur';
 $_SESSION['l10n']['fr']['Servers']='Serveurs';
-$_SESSION['l10n']['fr']['330771532d2cbb01e66f93a36b64bf81']='Serveurs notifiés de votre envoi';
+$_SESSION['l10n']['fr']['Servers that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['Servers to be banned']='Serveurs à bannir';
 $_SESSION['l10n']['fr']['Services accessed remotely']='Services distants utilisés';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';

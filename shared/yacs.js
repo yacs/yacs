@@ -1,6 +1,8 @@
 /**
  * the YACS AJAX shared library.
  *
+ * @link http://andykdocs.de/andykdocs/document/Migrating-from-the-Prototype-JavaScript-Framework-to-jQuery/Prototype-JS-to-jQuery-Migration-Cheat-Sheet-V1-April-2010.html
+ *
  * This file extends prototype, etc., to enhance interactions with the end-user
  *
  * @author Bernard Paques
@@ -948,7 +950,7 @@ var Yacs = {
 	 */
 	spin: function(panel) {
 
-		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
+		Element.update(panel, '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 	},
 
@@ -1507,7 +1509,7 @@ var Yacs = {
 	update: function(panel, address, args) {
 
 		// the spinning image
-		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
+		Element.update(panel, '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 		// basic options
 		var options = {

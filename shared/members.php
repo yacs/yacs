@@ -407,14 +407,11 @@ Class Members {
 		$anchors = array();
 
 		// several members
-		if(is_array($member)) {
-			$items = array();
-			foreach($member as $token)
-				$items[] = "member LIKE '".SQL::escape($token)."'";
-			$where = '('.join(' OR ', $items).')';
+		if(is_array($member))
+			$where = "(member IN ('".join("', '", $member)."'))";
 
 		// or only one
-		} elseif($member)
+		elseif($member)
 			$where = "(member LIKE '".SQL::escape($member)."')";
 
 		// the list of members
@@ -821,14 +818,11 @@ Class Members {
 		global $context;
 
 		// several references
-		if(is_array($member)) {
-			$items = array();
-			foreach($member as $token)
-				$items[] = "members.member LIKE '".SQL::escape($token)."'";
-			$where_m = '('.join(' OR ', $items).')';
+		if(is_array($member))
+			$where_m = "(members.member IN ('".join("', '", $member)."'))";
 
 		// or only one
-		} elseif($member)
+		elseif($member)
 			$where_m = "(members.member LIKE '".SQL::escape($member)."')";
 
 		// display active and restricted items
@@ -1125,26 +1119,24 @@ Class Members {
 		global $context;
 
 		// several anchors
-		if(is_array($anchor)) {
-			$items = array();
-			foreach($anchor as $token)
-				$items[] = "members.anchor LIKE '".SQL::escape($token)."'";
-			$where = '('.join(' OR ', $items).')';
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
 
 		// or only one
-		} elseif($anchor)
+		elseif($anchor)
 			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
 
 		// security constraint
 		if($restricted && is_array($restricted))
 			$where .= " AND (users.id IN (".join(", ", $restricted)."))";
 
-		// the list of users
+		// the list of users -- never list banned users
 		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
+			."	AND (users.capability IN ('S', 'M', 'A'))"
 			." GROUP BY users.id ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility

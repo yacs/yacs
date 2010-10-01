@@ -139,8 +139,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1149,8 +1149,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1383,8 +1383,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1502,8 +1502,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1749,8 +1749,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
