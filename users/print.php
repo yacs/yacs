@@ -111,7 +111,7 @@ if(Surfer::is_crawler()) {
 	// warns associates if not active
 	if(($item['active'] != 'Y') && Surfer::is_associate()) {
 		if($item['active'] == 'R')
-			$details[] = i18n::s('Community - Access is restricted to authenticated persons');
+			$details[] = i18n::s('Community - Access is granted to any identified surfer');
 		else
 			$details[] = i18n::s('Private - Access is restricted to selected persons');
 	}

@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:07+0200
-PO-Revision-Date: 2010-05-27 10:11+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-09-29 14:30+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -269,6 +270,7 @@ $_SESSION['l10n']['en']['aca55e7e9fc28e93c965f0b6d460d2e9']='You can visit [link
 $_SESSION['l10n']['en']['c47f633bd83faf4c5e26ec301fd65d72']='You can visit [link]codes/basic.php[/link] or [link]index.php[/link]';
 $_SESSION['l10n']['en']['78bd8c1de20db3f6bb92c282fd10d94b']='You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]';
 $_SESSION['l10n']['en']['fa5d07d3ec64ed9ec20c5b5995c381d7']='You can visit www.cisco.com or http://www.nortel.com, or have a chat at irc://irc.eu.be.ofloo.net/';
+$_SESSION['l10n']['en']['YouTube link']='YouTube link';
 $_SESSION['l10n']['en']['9e11eaa0e66c78f102a768ddbdbaf325']='[flag]important![/flag] Don\'t forget to give something to your cat today.';
 $_SESSION['l10n']['en']['a previous message']='a previous message';
 $_SESSION['l10n']['en']['another one']='another one';

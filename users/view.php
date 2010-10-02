@@ -167,6 +167,10 @@ else
 // load the skin
 load_skin('users');
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'user:'.$item['id'];
+
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
@@ -703,7 +707,7 @@ if(!isset($item['id'])) {
 				if($item['active'] == 'Y')
 					$box .= '<p>'.i18n::s('Anyone may read this profile.').'</p>';
 				elseif($item['active'] == 'R')
-					$box .= '<p>'.RESTRICTED_FLAG.i18n::s('Community - Access is restricted to authenticated persons').'</p>';
+					$box .= '<p>'.RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').'</p>';
 				elseif($item['active'] == 'N')
 					$box .= '<p>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</p>';
 			}
@@ -843,7 +847,7 @@ if(!isset($item['id'])) {
 	// assemble tabs
 	//
 	if(!$zoom_type)
-		$panels[] = array('contacts', i18n::s('Contacts'), 'contacts_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('followers', i18n::s('Followers'), 'followers_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 

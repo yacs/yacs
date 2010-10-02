@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-29 00:36+0200
-PO-Revision-Date: 2010-06-29 00:37+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-08-11 17:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -73,8 +74,8 @@ $_SESSION['l10n']['en']['0fb9e6055d4a788a90ac09118a7e4653']='Normalize referrals
 $_SESSION['l10n']['en']['54e29b42a59e1e8727ac836e3f2bd4e6']='Open a separate window for external links';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Other address:'.chr(0).'Other addresses:']='Other address:'.chr(0).'Other addresses:';
-$_SESSION['l10n']['en']['Permament address (permalink):']='Permament address (permalink):';
-$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
+$_SESSION['l10n']['en']['Permanent address (permalink):']='Permanent address (permalink):';
+$_SESSION['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $_SESSION['l10n']['en']['61ab86a39172b19e7cd47a8dec28c0e1']='Please carefully select a section for your link';
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';

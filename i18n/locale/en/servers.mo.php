@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 20:58+0100
+POT-Creation-Date: 2010-09-29 14:21+0200
+PO-Revision-Date: 2010-09-29 15:15+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -39,7 +40,7 @@ $_SESSION['l10n']['en']['Another famous blogs aggregator']='Another famous blogs
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Back to servers']='Back to servers';
 $_SESSION['l10n']['en']['ab29426eac97a8fac53f1263996c2dc2']='Checked on each server request to us';
-$_SESSION['l10n']['en']['5f95b706a6701b58c5b3dc992656b3f2']='Community - Access is restricted to authenticated persons';
+$_SESSION['l10n']['en']['e7eace704dc70e1603783efa3807ecbd']='Community - Access is granted to any identified surfer';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
@@ -91,14 +92,14 @@ $_SESSION['l10n']['en']['Populate']='Populate';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
 $_SESSION['l10n']['en']['47b78f39e64497e39883fac579c63f84']='Processing of queries received from this server';
-$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
+$_SESSION['l10n']['en']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Everybody, including anonymous surfers';
 $_SESSION['l10n']['en']['Received from feeding servers']='Received from feeding servers';
 $_SESSION['l10n']['en']['Related to %s']='Related to %s';
 $_SESSION['l10n']['en']['f29869af2b6e35819bc5a7c5872e8dca']='Remote calls are allowed by default. Uncheck boxes below to ban this server if necessary.';
 $_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Server description']='Server description';
 $_SESSION['l10n']['en']['Servers']='Servers';
-$_SESSION['l10n']['en']['330771532d2cbb01e66f93a36b64bf81']='Servers that have been notified of your post';
+$_SESSION['l10n']['en']['Servers that have been notified']='Servers that have been notified';
 $_SESSION['l10n']['en']['Servers to be banned']='Servers to be banned';
 $_SESSION['l10n']['en']['Services accessed remotely']='Services accessed remotely';
 $_SESSION['l10n']['en']['Submit']='Submit';

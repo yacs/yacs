@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-14 21:24+0200
-PO-Revision-Date: 2010-06-24 21:00+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-09-29 15:40+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -33,7 +34,7 @@ $_SESSION['l10n']['fr']['9953b8a98446c15990e30aa788d57d9d']='Cliquer pour voir s
 $_SESSION['l10n']['fr']['Codec: %s']='Codec : %s';
 $_SESSION['l10n']['fr']['Collection nick name']='Identifiant de collection';
 $_SESSION['l10n']['fr']['Collections']='Collections';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -75,7 +76,7 @@ $_SESSION['l10n']['fr']['Prefix']='Préfixe';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
-$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
+$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['Restricted access']='Accès restreint';
 $_SESSION['l10n']['fr']['Select the slide to show']='Choisir l\'image à afficher';
 $_SESSION['l10n']['fr']['Size']='Taille';

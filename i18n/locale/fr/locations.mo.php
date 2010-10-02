@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:21+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-08-11 17:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -59,7 +60,7 @@ $_SESSION['l10n']['fr']['95eeec18709a90fc951edc69a4187d66']='Aucun emplacement n
 $_SESSION['l10n']['fr']['a9864baa813ec36afd9d1d510045645a']='Impossible de créer une image dynamique';
 $_SESSION['l10n']['fr']['On page %s']='Sur la page %s';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['Place name']='Lieu géographique';
 $_SESSION['l10n']['fr']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Merci d\'indiquer un titre pour cet emplacement';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';

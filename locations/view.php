@@ -54,6 +54,10 @@ else
 // load the skin, maybe with a variant
 load_skin('locations', $anchor);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'location:'.$item['id'];
+
 // the path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();

@@ -2,6 +2,10 @@
 /**
  * handle the web protocol
  *
+ * You can use the Resource Expert Droid (RED) web service to validate headers produced by your scripts.
+ *
+ * @link http://redbot.org/
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -13,7 +17,6 @@ class http {
 	 *
 	 * Ask the user agent to cache data for some time.
 	 * If the provided parameter is set to 0, ask for systematic validation instead.
-	 *
 	 *
 	 * [*] Internet Explorer may have strange behaviour with the [code]Expire[/code] attribute.
 	 * It does not take into account very short-term expiration date and does not validate after the deadline.
@@ -29,7 +32,7 @@ class http {
 	 * you can use [code]Safe::header("Cache-Control: no-cache, max-age=10800");[/code].
 	 *
 	 * [*] What to do with [code]Pragma:[/code]? Well, almost nothing; this is used only by some legacy browsers.
-	 * If you want an old browser to cache some object, use [code]Safe::header("Pragma:");[/code].
+	 * If you want an old browser to cache some object, use [code]Safe::header("Pragma: no-cache");[/code].
 	 *
 	 * @param int number of seconds to cache (default: 30 minutes)
 	 */
@@ -39,11 +42,11 @@ class http {
 		if(!$time || ($time < 1)) {
 			Safe::header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
 			Safe::header('Cache-Control: no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0');
-			Safe::header('Pragma:');
+			Safe::header('Pragma: no-cache');
 		} else {
 			Safe::header('Expires: '.gmdate("D, d M Y H:i:s", time() + $time).' GMT');
 			Safe::header('Cache-Control: private, max-age='.$time);
-			Safe::header('Pragma: ');
+			Safe::header('Pragma: no-cache');
 		}
 	}
 
@@ -74,9 +77,20 @@ class http {
 	}
 
 	/**
-	 * validate data from user agent
+	 * just terminate the web transaction
 	 *
-	 * @param string the date of last modification
+	 * Useful to AJAX responses when nothing has to be transmitted back to the browser.
+	 */
+	function no_content() {
+		Safe::header('Status: 204 No Content', TRUE, 204);
+		Safe::header('Content-Length: 0',true);
+		Safe::header('Content-Type: text/html',true);
+	}
+
+	/**
+	 * validate data cached by user agent
+	 *
+	 * @param string the date of last modification, as per HTTP specification
 	 * @param string the opaque string characterizing the target object
 	 * @return boolean TRUE if the client has provided the right headers, FALSE otherwise
 	 */
@@ -113,8 +127,8 @@ class http {
 		else {
 
 			// set the date of last modification
-			if($last_modified && is_callable(array('SQL', 'strtotime')))
-				Safe::header('Last-Modified: '.gmdate('D, d M Y H:i:s', SQL::strtotime($last_modified)).' GMT');
+			if($last_modified)
+				Safe::header('Last-Modified: '.$last_modified);
 
 			// set the opaque string for this object
 			if($etag)

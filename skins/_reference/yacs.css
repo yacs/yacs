@@ -462,9 +462,10 @@ table.neighbours tr td.previous { /* to the left */
 }
 
 
-/* vertical and horizontal layouts */
+/* vertical and horizontal layouts --it used to be named "form" instaed of "layout" */
 
-table.layout {
+table.layout,
+table.form {
 /*	margin: 0 auto; */
 	width: 99%; /* not 100% because of IE6 */
 	border: none; /* we are only interested into the layout */
@@ -473,12 +474,19 @@ table.layout {
 }
 
 table.layout tbody tr td.center,
+table.form tbody tr td.center,
 table.layout tbody tr td.east,
+table.form tbody tr td.east,
 table.layout tbody tr td.west,
+table.form tbody tr td.west,
 table.layout tbody tr td.north,
+table.form tbody tr td.north,
 table.layout tbody tr td.equator,
+table.form tbody tr td.equator,
 table.layout tbody tr td.south,
-table.layout tbody tr td{
+table.form tbody tr td.south,
+table.layout tbody tr td,
+table.form tbody tr td{
 	padding: 0; /* save on space around cells */
 	margin: 0;
 	text-align: left; /* prefix cells with 'left=' or 'center=' or 'right=' to change alignment */
@@ -487,13 +495,21 @@ table.layout tbody tr td{
 }
 
 table.layout tbody tr.even td.center,
+table.form tbody tr.even td.center,
 table.layout tbody tr.even td.east,
+table.form tbody tr.even td.east,
 table.layout tbody tr.even td.west,
+table.form tbody tr.even td.west,
 table.layout tbody tr.even td,
+table.form tbody tr.even td,
 table.layout tbody tr.odd td.center,
+table.form tbody tr.odd td.center,
 table.layout tbody tr.odd td.east,
+table.form tbody tr.odd td.east,
 table.layout tbody tr.odd td.west,
-table.layout tbody tr.odd td { /* some space around content when background is paint */
+table.form tbody tr.odd td.west,
+table.layout tbody tr.odd td,
+table.form tbody tr.odd td { /* some space around content when background is paint */
 	padding: 0.5em;
 }
 
@@ -505,10 +521,6 @@ table.layout tbody tr td.equator { /* some room between rows */
 table.layout tbody tr td.west,
 table.layout tbody tr td.center { /* some room between columns */
 	padding-right: 3em;
-}
-
-table.form { /* legacy stuff */
-	border: none;
 }
 
 /* explorer tree (in #contextual_menu) */
@@ -2701,7 +2713,7 @@ div#tabs_panels {
 
 div#tabs_panels div.panel-foreground {
 	display: block;
-	position: static;
+/*	position: static; */
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }

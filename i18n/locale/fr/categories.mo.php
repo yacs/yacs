@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-29 00:09+0200
-PO-Revision-Date: 2010-06-29 00:39+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-09-29 15:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -34,6 +35,7 @@ $_SESSION['l10n']['fr']['-- Root level']='-- Niveau de base';
 $_SESSION['l10n']['fr']['A message has been sent to:']='Un message a été envoyé à :';
 $_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['Add a category']='Ajouter une catégorie';
+$_SESSION['l10n']['fr']['Add a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['Add a link']='Ajouter un lien';
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['717b0d5012e8e4ce5a261c185245281d']='Toutes les catégories qui ont été associées à cette page :';
@@ -56,7 +58,7 @@ $_SESSION['l10n']['fr']['Classified pages']='Page classées';
 $_SESSION['l10n']['fr']['Cloud of tags']='Nuage d\'étiquettes';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Complete tags']='Etiquetage';
 $_SESSION['l10n']['fr']['Contact']='Contact';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
@@ -90,6 +92,7 @@ $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Help index']='Index de l\'aide';
 $_SESSION['l10n']['fr']['98b2e1b34b14f94d2493eb4999e0fd72']='Vous pouvez perdre des informations si vous changez l\'overlay.';
 $_SESSION['l10n']['fr']['Image']='Image';
+$_SESSION['l10n']['fr']['9c27a1eb2c2550657e92d3a090f674db']='Image à afficher dans un panneau sur le côté de la page.';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['173cbab1842331c3e4fbf99b25f42e56']='Impossible de mettre l\'ancre à jour.';
 $_SESSION['l10n']['fr']['Impossible to update the item.']='Mise à jour impossible.';
@@ -112,7 +115,6 @@ $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Manage members']='Gérer les membres';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $_SESSION['l10n']['fr']['076258fa009ea3b6a42ad8ef12aca098']='Vous pourriez peut-être lister d\'autres pages ou d\'autres éléments en soumettant le mot-clé qui suit à notre moteur de recherche. Qui sait ? %s';
-$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide.';
 $_SESSION['l10n']['fr']['Message recipients']='Destinataires du message';
@@ -150,7 +152,7 @@ $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
-$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
+$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['Rank']='Rang';
 $_SESSION['l10n']['fr']['Rebuild title paths']='Reconstruire les chemins de titrage';
@@ -161,6 +163,7 @@ $_SESSION['l10n']['fr']['Related categories']='Catégories associées';
 $_SESSION['l10n']['fr']['e498dcae23db686a9c5135bd8855740b']='Masquer le contenu à échéance, automatiquement';
 $_SESSION['l10n']['fr']['Rendering']='Rendu';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
+$_SESSION['l10n']['fr']['Resources']='Ressources';
 $_SESSION['l10n']['fr']['9dcd55ec867280d2a3afd1c82fd36aa7']='Analyser les articles et mémoriser les dates de publication';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Script used to %s this category']='Script utilisé comme %s dans cette catégorie';
@@ -182,7 +185,7 @@ $_SESSION['l10n']['fr']['Special categories']='Catégories spéciales';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Sub-categories']='sous-catégories';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
-$_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
+$_SESSION['l10n']['fr']['0b9f1178eb8585f2ca70cbffeea9435a']='Créez le nouvel élément, et vous pourrez ajouter des ressources par la suite.';
 $_SESSION['l10n']['fr']['Technorati']='Technorati';
 $_SESSION['l10n']['fr']['1191989b64153cc1569ba37769dff14b']='Texte à ajouter en bas de page, après tous les éléments attachés à cette page.';
 $_SESSION['l10n']['fr']['15b447c7a95325a403b1ed99b405e008']='Texte inséré dans le panneau extra, sur le côté de la page. Utiliser [box.extra=titre]contenu[/box] ou des balises HTML.';
@@ -206,7 +209,6 @@ $_SESSION['l10n']['fr']['e0d8b6d765ad12a441a66eeaa6e77e71']='Membre inconnu %s, 
 $_SESSION['l10n']['fr']['Unlink']='Délier';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
-$_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';
 $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';

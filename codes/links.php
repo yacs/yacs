@@ -109,6 +109,14 @@ $context['text'] .= '[title]'.i18n::s('External link').' [escape][link]&lt;url&g
 	.'<td>'.i18n::s('You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]').'</td></tr>'
 	.Skin::table_suffix();
 
+// YouTube link
+$context['text'] .= '[title]'.i18n::s('YouTube link').' [escape]http://www.youtube.com/watch?v=Qo7vUdKTlhk[/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape]http://www.youtube.com/watch?v=Qo7vUdKTlhk[/escape]</td>'
+	.'<td>http://www.youtube.com/watch?v=Qo7vUdKTlhk</td></tr>'
+	.Skin::table_suffix();
+
 // [link]url[/link] - internal
 $context['text'] .= '[title]'.i18n::s('Internal link').' [escape][link]&lt;url&gt;[/link][/escape][/title]'
 	.Skin::table_prefix('wide')

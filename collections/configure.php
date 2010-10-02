@@ -92,11 +92,11 @@ elseif(!Surfer::is_associate()) {
 			$input = '<input type="radio" name="collection_visibilities['.$name.']" value="Y"';
 			if(!isset($visibility) || !$visibility || ($visibility == 'Y'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers');
+			$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="R"';
 			if(isset($visibility) && ($visibility == 'R'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons');
+			$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="N"';
 			if(isset($visibility) && ($visibility == 'N'))
 				$input .= ' checked="checked"';
@@ -156,9 +156,9 @@ elseif(!Surfer::is_associate()) {
 
 	$label = i18n::s('Access');
 	$input = '<input type="radio" name="collection_visibilities[]" value="Y" checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers');
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="R"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons');
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="N"';
 	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 	$fields[] = array($label, $input);

@@ -1605,7 +1605,7 @@ Class Comments {
 
 			// kill the request to avoid repeated transmissions when nothing has changed
 			if(--$timer < 1) {
-				header('Status: 504 Gateway Timeout', TRUE, 504);
+				http::no_content();
 				die();
 			}
 

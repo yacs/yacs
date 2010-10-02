@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-29 00:36+0200
-PO-Revision-Date: 2010-06-29 00:40+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-08-11 17:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -73,8 +74,8 @@ $_SESSION['l10n']['fr']['0fb9e6055d4a788a90ac09118a7e4653']='Normaliser les réf
 $_SESSION['l10n']['fr']['54e29b42a59e1e8727ac836e3f2bd4e6']='Ouvrir une fenêtre séparée pour les liens exterieurs';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Other address:'.chr(0).'Other addresses:']='Autre adresse :'.chr(0).'Autres adresses :';
-$_SESSION['l10n']['fr']['Permament address (permalink):']='Adresse permamente (permalink) :';
-$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['Permanent address (permalink):']='Adresse permanente (permalink) :';
+$_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['61ab86a39172b19e7cd47a8dec28c0e1']='Choisissez l\'emplacement adéquat pour partager votre lien';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';

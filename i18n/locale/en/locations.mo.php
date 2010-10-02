@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:12+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-08-11 17:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -59,7 +60,7 @@ $_SESSION['l10n']['en']['95eeec18709a90fc951edc69a4187d66']='No location has bee
 $_SESSION['l10n']['en']['a9864baa813ec36afd9d1d510045645a']='Not capable to generate dynamic images.';
 $_SESSION['l10n']['en']['On page %s']='On page %s';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
-$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
+$_SESSION['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $_SESSION['l10n']['en']['Place name']='Place name';
 $_SESSION['l10n']['en']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Please add a geo_place_name for this location';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';

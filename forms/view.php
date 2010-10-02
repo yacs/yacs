@@ -62,6 +62,10 @@ else
 // load the skin
 load_skin('forms');
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'form:'.$item['id'];
+
 // the path to this page
 $context['path_bar'] = array( 'forms/' => i18n::s('Forms') );
 
@@ -396,7 +400,7 @@ if($with_form) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons').BR."\n";
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 		// restricted to associates
 		elseif($item['active'] == 'N')

@@ -92,9 +92,9 @@ if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_
 	define('DIGG', TRUE);
 }
 
-// the poster profile, if any, at the beginning of the first page
-if(isset($poster['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the beginning of the first page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
 // the introduction text, if any
 if(is_object($overlay))
@@ -142,9 +142,9 @@ if($description) {
 	}
 }
 
-// the poster profile, if any, at the bottom of the page
-if(isset($poster['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the bottom of the page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
 
 // special layout for digg
 if(defined('DIGG'))
