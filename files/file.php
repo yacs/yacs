@@ -229,13 +229,15 @@ Class File extends Anchor {
 	 *
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
-	 * @param boolean TRUE to not change the edit date of the file, default is FALSE
+	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
+	 * @param boolean TRUE to notify section watchers, default is FALSE
+	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see files/file.php
 	 * @see files/edit.php
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin, $silently = FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -377,7 +379,7 @@ Class File extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('file:update', $this->item['id'], TRUE);
+			$this->anchor->touch('file:update', $this->item['id'], TRUE, $to_watchers, $to_followers);
 
 	}
 

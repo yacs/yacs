@@ -73,7 +73,7 @@ if(!$item['id']) {
 
 	// successful operation reflected into page title
 	if(!strncmp($track, 'user:', 5))
-		$context['page_title'] = i18n::s('Your contacts have been updated');
+		$context['page_title'] = i18n::s('The list of persons that you follow has been updated');
 	else
 		$context['page_title'] = i18n::s('Your watch list has been updated');
 
@@ -151,7 +151,7 @@ if(!$item['id']) {
 	// check the watch list
 	if(Surfer::get_id()) {
 		if(!strncmp($track, 'user:', 5))
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_connections', i18n::s('My contacts'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_followers', i18n::s('My followers'), 'basic');
 		else
 			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'basic');
 	}

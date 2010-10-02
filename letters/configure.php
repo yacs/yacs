@@ -102,7 +102,7 @@ elseif(!Surfer::is_associate()) {
 		$context['letter_reply_to'] = $context['site_email'];
 	$label = i18n::s('Mail address to be used on replies');
 	$input = '<input type="text" name="letter_reply_to" size="50" value="'.encode_field($context['letter_reply_to']).'" maxlength="255" />';
-	$hint = i18n::s('To let people react to your posts');
+	$hint = i18n::s('Normalized format, for example: "John Ford" &lt;john.ford@acme.com&gt;');
 	$fields[] = array($label, $input, $hint);
 
 	// build the form

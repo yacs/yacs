@@ -588,13 +588,22 @@ Class Locations {
 	 */
 	function &map_on_google($items, $scale=null, $width=null, $height=null) {
 		global $context;
-		
-		if (!$scale)
-      $scale = $context['skins_gmap_default_scale'];
-    if (!$width)
-      $width = $context['skins_gmap_default_width'];
-    if (!$height)
-      $height = $context['skins_gmap_default_height'];
+
+		// default values if not defined in skin
+		if(!isset($context['skins_gmap_default_width']))
+			$context['skins_gmap_default_width'] = '500px';
+		if(!isset($context['skins_gmap_default_height']))
+			$context['skins_gmap_default_height'] = '300px';
+		if(!isset($context['skins_gmap_default_scale']))
+			$context['skins_gmap_default_scale'] = '5';
+
+		// default values from the skin
+		if(!$scale)
+			$scale = $context['skins_gmap_default_scale'];
+		if(!$width)
+			$width = $context['skins_gmap_default_width'];
+		if(!$height)
+			$height = $context['skins_gmap_default_height'];
 
 		// we return some text
 		$text = '';

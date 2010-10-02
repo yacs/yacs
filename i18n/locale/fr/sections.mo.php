@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-07-05 07:41+0200
-PO-Revision-Date: 2010-06-29 00:41+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-10-01 23:15+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -53,9 +54,11 @@ $_SESSION['l10n']['fr']['A file has been uploaded by %s']='Un fichier a été en
 $_SESSION['l10n']['fr']['A group space']='Un groupe';
 $_SESSION['l10n']['fr']['A message has been sent to:']='Un message a été envoyé à :';
 $_SESSION['l10n']['fr']['A page has been submitted by %s']='Une page a été envoyée par %s';
+$_SESSION['l10n']['fr']['7a3adad064f9107127b9d6b67448d46e']='Une section a été créée par %s';
 $_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['Action']='Action';
 $_SESSION['l10n']['fr']['Activation date']='Date d\'activation';
+$_SESSION['l10n']['fr']['Add a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['Add a link']='Ajouter un lien';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
@@ -113,7 +116,7 @@ $_SESSION['l10n']['fr']['3fb33a4e3fa3c042499e1c67214eb944']='Rubrique : %s'.chr(
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['5cb4a37477ac11b8572c1f97c42ec259']='Vient avant le titre. Pour catégoriser les sections dans les forums';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Visibilité restreinte aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Compact title']='Titre compact';
 $_SESSION['l10n']['fr']['30ca048e4f2b284723125df404049949']='Félicitations, vous avez étendu votre espace web avec succès';
 $_SESSION['l10n']['fr']['8c68013ff17b0314c06d5fcacd1a5eda']='Félicitations, votre contribution a bien été enregistrée.';
@@ -177,12 +180,14 @@ $_SESSION['l10n']['fr']['2271438f4fe95f0020c64c077667af75']='Les premiers articl
 $_SESSION['l10n']['fr']['f69ad4a45059b16c98c268d40d7132cd']='Les premiers articles sont affichés sur la page de la section parente, dans des boîtes gadget distinctes.';
 $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suivants vont aussi être supprimés.';
 $_SESSION['l10n']['fr']['6ee252c696702812c3725d02d8e2db2e']='Si vous continuez, les éléments suivants seront aussi dupliqués dans la base de données.';
+$_SESSION['l10n']['fr']['Footer']='Bas de page';
 $_SESSION['l10n']['fr']['Freemind']='Freemind';
 $_SESSION['l10n']['fr']['Freemind map']='Carte Freemind';
 $_SESSION['l10n']['fr']['Get a paper copy of this page.']='Obtenir une copie papier de cette page.';
 $_SESSION['l10n']['fr']['Go']='Go';
 $_SESSION['l10n']['fr']['Group policy']='Règles de fonctionnement';
 $_SESSION['l10n']['fr']['Groups']='Groupes';
+$_SESSION['l10n']['fr']['Header']='Haut de page';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Help index']='Index de l\'aide';
 $_SESSION['l10n']['fr']['Hidden pages']='Pages masquées';
@@ -191,6 +196,7 @@ $_SESSION['l10n']['fr']['98b2e1b34b14f94d2493eb4999e0fd72']='Vous pouvez perdre 
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['Image']='Image';
 $_SESSION['l10n']['fr']['Image %d of %d']='Image %d de %d';
+$_SESSION['l10n']['fr']['9c27a1eb2c2550657e92d3a090f674db']='Image à afficher dans un panneau sur le côté de la page.';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Import section content']='Importer du contenu';
 $_SESSION['l10n']['fr']['Imported page']='Page importée';
@@ -234,7 +240,6 @@ $_SESSION['l10n']['fr']['Manage it']='Gérer le contenu';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['Manage: %s']='Gérer : %s';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='Les champs obligatoires sont signalés par un *';
-$_SESSION['l10n']['fr']['Media']='Médias';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide.';
 $_SESSION['l10n']['fr']['27e4e516d735c2be8c7f81d26d82ced5']='Le corps du message ne peut pas être vide.';
@@ -275,6 +280,8 @@ $_SESSION['l10n']['fr']['Notes']='Annotations';
 $_SESSION['l10n']['fr']['Notes: %s']='Annotations : %s';
 $_SESSION['l10n']['fr']['bc9e1ae097aa296b3e304e2d12888466']='Rien n\'a été extrait de %s.';
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
+$_SESSION['l10n']['fr']['Notify my followers.']='Alerter mes abonnés.';
+$_SESSION['l10n']['fr']['Notify watchers.']='Alerter les observateurs.';
 $_SESSION['l10n']['fr']['One %s per line']='Un %s par ligne';
 $_SESSION['l10n']['fr']['0036d35feb7fd2c4c6545c79b7e41cf4']='Une ou plusieurs %s. Ce réglage annule la définition d\'overlay.';
 $_SESSION['l10n']['fr']['1aa95809831b5b955d1c13f3a59c5d94']='Seuls les personnes assignées, les propriétaires et les associés peuvent ajouter du contenu';
@@ -293,7 +300,7 @@ $_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pa
 $_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['Person']='Personne';
 $_SESSION['l10n']['fr']['Persons']='Personnes';
-$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['ed85a2a609bc10e316ded371a55e5531']='Merci de confirmer que vous souhaitez supprimer les pages suivantes.';
 $_SESSION['l10n']['fr']['be72d222dbc7f97ae5604c94564f135e']='Merci de taper le texte de votre nouvelle page et de cliquer sur le bouton en bas du formulaire. L\'envoi des images, des fichiers et des liens se fait dans un deuxième temps.';
 $_SESSION['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
@@ -305,7 +312,6 @@ $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Post a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['Poster']='Auteur';
-$_SESSION['l10n']['fr']['Prefix']='Préfixe';
 $_SESSION['l10n']['fr']['Prefix separator']='Séparateur de préfixe';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -316,7 +322,7 @@ $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès lim
 $_SESSION['l10n']['fr']['Promote a comment']='Promouvoir un commentaire';
 $_SESSION['l10n']['fr']['Promote a note']='Promouvoir une annotation';
 $_SESSION['l10n']['fr']['Promote a reply']='Promouvoir une réponse';
-$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
+$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['Publish']='Publier';
 $_SESSION['l10n']['fr']['9d1b6fac8572663f13358c2ef7a973ac']='Faire apparaître le contenu dans le futur, automatiquement';
 $_SESSION['l10n']['fr']['474f9f13dfabde8542ecef34bd170aec']='Pour être notifié des réactions';
@@ -339,6 +345,7 @@ $_SESSION['l10n']['fr']['Replies']='Réponses';
 $_SESSION['l10n']['fr']['Replies: %s']='Réponses : %s';
 $_SESSION['l10n']['fr']['Reply to this post']='Répondre à cet envoi';
 $_SESSION['l10n']['fr']['Reply: %s']='Réponse : %s';
+$_SESSION['l10n']['fr']['Resources']='Ressources';
 $_SESSION['l10n']['fr']['ebd0c9b97dd4fa2b5e2da8afd29eef24']='Restaurer une version précédente si nécessaire';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['2b9541b77bbbfba3f2d8868fa698edd1']='Script utilisé comme %s dans cette section';
@@ -382,8 +389,7 @@ $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Stop notifications']='Arrêter les notifications';
 $_SESSION['l10n']['fr']['Sub-sections']='Sous-sections';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
-$_SESSION['l10n']['fr']['bdeb1dc12f294e399cc258881ddba332']='Envoyer la nouvelle page pour pouvoir ensuite ajouter des images.';
-$_SESSION['l10n']['fr']['Suffix']='Suffixe';
+$_SESSION['l10n']['fr']['0b9f1178eb8585f2ca70cbffeea9435a']='Créez le nouvel élément, et vous pourrez ajouter des ressources par la suite.';
 $_SESSION['l10n']['fr']['Suffix separator']='Séparateur de suffixe';
 $_SESSION['l10n']['fr']['fd807bc3514cbdaa40ee26b44c4b319e']='Interdire de noter les pages de cette section';
 $_SESSION['l10n']['fr']['Tabbed panels']='Panneaux à onglets';
@@ -424,7 +430,6 @@ $_SESSION['l10n']['fr']['Update a note']='Modifier une annotation';
 $_SESSION['l10n']['fr']['Update a reply']='Modifier une réponse';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
-$_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['36ab5b5ac398b5cfe4feb817d68c45f1']='Utilisez l\'%s pour peupler ce serveur.';
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';

@@ -432,8 +432,12 @@ class Safe {
 		if(headers_sent())
 			return;
 
+		// in case we are validating all scripts
+		if($_SERVER['REQUEST_METHOD'] == 'HEAD')
+			return;
+
 		// function has been allowed
-		elseif(is_callable('header')) {
+		if(is_callable('header')) {
 			if($status)
 				header($attribute, $replace, $status);
 			elseif($replace)
@@ -1159,6 +1163,6 @@ class Safe {
 }
 
 // yes, we are proud of this piece of software
-Safe::header('X-Powered-By: YACS (http://www.yacs.fr/)');
+Safe::header('X-Powered-By: yacs (http://www.yacs.fr/)');
 
 ?>

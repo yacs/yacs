@@ -238,7 +238,10 @@ if(Surfer::is_crawler()) {
 	} elseif(!isset($item['id'])) {
 
 		// touch the related anchor
-		$anchor->touch('comment:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('comment:create', $_REQUEST['id'],
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// clear cache
 		Comments::clear($_REQUEST);
@@ -253,7 +256,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -290,7 +293,10 @@ if(Surfer::is_crawler()) {
 		}
 
 		// touch the related anchor
-		$anchor->touch('comment:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+		$anchor->touch('comment:update', $item['id'],
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// clear cache
 		Comments::clear($_REQUEST);
@@ -341,8 +347,7 @@ if($with_form) {
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// reference the anchor page
-	if(is_object($anchor))
-		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+	$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// display info on current version
 	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action)) {
@@ -438,12 +443,23 @@ if($with_form) {
 		$menu[] = Skin::build_link($anchor->get_url('comments'), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
+	// optional checkboxes
+	$context['text'] .= '<p>';
+
+	// notify watchers
+	if(!isset($item['id']))
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+
+	// notify people following me
+	if(!isset($item['id']) && Surfer::get_id() && !$anchor->is_hidden())
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
+
 	// associates and editors may decide to not stamp changes -- complex command
 	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
+		$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
 
 	// validate page content
-	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

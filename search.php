@@ -2,9 +2,6 @@
 /**
  * search among pages
  *
- * @todo search locally, and offer extension to Google (assistant-like)
- * @todo allow for a search limited to files
- *
  * This script calls for a search pattern, then actually searches the database.
  *
  * The request can be limited to only one section. In this case, sub-sections are searched as well.
@@ -14,11 +11,6 @@
  * @link http://dev.mysql.com/doc/mysql/en/Fulltext_Search.html MySQL Manual | 12.6 Full-Text Search Functions
  * @link http://www.databasejournal.com/features/mysql/article.php/1578331 Using Fulltext Indexes in MySQL - Part 1
  * @link http://www.databasejournal.com/features/mysql/article.php/1587371 Using Fulltext Indexes in MySQL - Part 2, Boolean searches
- *
- * At the bottom of the page the search can be extended to the page locator,
- * and to external search engines including Google and Yahoo!
- *
- * @see go.php
  *
  * A link to get search results as a rss feed is offered in an extra box.
  *
@@ -32,6 +24,7 @@
  * - search.php?search=&lt;keywords&gt;&anchor=section:12
  *
  * @author Bernard Paques
+ * @tester Guillaume Garnier
  * @tester Dobliu
  * @tester fw_crocodile
  * @tester Aleko
@@ -170,6 +163,12 @@ $no_result = TRUE;
 // provide results in separate panels
 $panels = array();
 
+// search in sections
+if($rows = Sections::search_in_section($section_id, $search)) {
+	$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
+	$no_result = FALSE;
+}
+
 // search in articles
 $box = array();
 $box['title'] = '';
@@ -218,12 +217,6 @@ if($box['text'])
 // on first page, and if search is not constrained
 if(($page == 1) && !$section_id) {
 
-	// search in categories
-	if($rows = Categories::search($search)) {
-		$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
 	// search in files
 	if($rows = Files::search($search)) {
 		$panels[] = array('files', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
@@ -236,12 +229,12 @@ if(($page == 1) && !$section_id) {
 		$no_result = FALSE;
 	}
 
-}
+	// search in categories
+	if($rows = Categories::search($search)) {
+		$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
+		$no_result = FALSE;
+	}
 
-// search in sections
-if($rows = Sections::search_in_section($section_id, $search)) {
-	$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-	$no_result = FALSE;
 }
 
 // add an extra panel
@@ -249,6 +242,7 @@ if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'
 
 	$text = '';
 
+	// typically, a form and a button to search at another place
 	if(isset($context['skins_search_extension']) && $context['skins_search_extension'])
 		$text .= str_replace('%s', encode_field($search), $context['skins_search_extension']);
 
@@ -275,7 +269,7 @@ if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'
 	$text .= '<li>'.Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').'</li>';
 
 	// in a separate panel
-	$panels[] = array('extension', i18n::s('More results'), 'extensions_panel', $text);
+	$panels[] = array('extension', i18n::s('Extended search'), 'extensions_panel', $text);
 	$no_result = FALSE;
 }
 

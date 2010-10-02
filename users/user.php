@@ -373,12 +373,13 @@ Class User extends Anchor {
 	 *
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
-	 * @param boolean TRUE for a silent update
-	 * @return a string in case of error
+	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
+	 * @param boolean TRUE to notify section watchers, default is FALSE
+	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin, $silently = FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -495,15 +496,13 @@ Class User extends Anchor {
 
 		// ensure we have a valid update query
 		if(!@count($query))
-			return NULL;
+			return;
 
 		// update the anchor user
 		$query = "UPDATE ".SQL::table_name('users')." SET ".implode(', ',$query)
 			." WHERE id = ".SQL::escape($this->item['id']);
 		SQL::query($query, FALSE, $context['users_connection']);
 
-		// end of job
-		return NULL;
 	}
 
 	/**

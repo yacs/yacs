@@ -135,7 +135,7 @@ if(Surfer::is_crawler()) {
 
 		// we were waiting for changes, and this is an internal error
 		if($pending && !headers_sent())
-			header('Status: 504 Gateway Timeout', TRUE, 504);
+			http::no_content();
 	}
 
 	// attempt to manage timeouts properly

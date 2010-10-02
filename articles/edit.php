@@ -489,7 +489,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
@@ -531,10 +531,10 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// list endpoints that have been notified
-		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
+		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -763,6 +763,30 @@ if($with_form) {
 	$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
 	$fields[] = array($label, $input, $hint);
 
+	// the icon url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
+		$label = i18n::s('Image');
+		$input = '';
+		$hint = '';
+
+		// show the current icon
+		if(isset($item['icon_url']) && $item['icon_url']) {
+			$input .= '<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint .= i18n::s('Image to be displayed in the panel aside the page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$value = '';
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$value = $item['icon_url'];
+		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// extra information
 	$label = i18n::s('Extra');
 	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
@@ -784,110 +808,66 @@ if($with_form) {
  		$panels = array_merge($panels, $more_tabs);
 
 	//
-	// embedded tab
+	// resources tab
 	//
 	$text = '';
 
-	// the icon url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Image');
-
-		// show the current icon
-		if(isset($item['icon_url']) && $item['icon_url']) {
-			$input = '<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
-			$command = i18n::s('Change');
-		} else {
-			$input = '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$value = '';
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$value = $item['icon_url'];
-		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Thumbnail');
-
-		// show the current thumbnail
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input = '<img src="'.$item['thumbnail_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} else {
-			$input = '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
-
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
+		$text .= '<p>'.i18n::s('Submit the new item, and you will be able to add resources afterwards.');
 
-	// the list of images
-	elseif($items = Images::list_by_date_for_anchor('article:'.$item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
+	// resources attached to this anchor
+	else {
 
-	// if we are editing an existing article
-	if(isset($item['id'])) {
+		// images
+		$box = '';
+		if(Images::allow_creation($anchor, $item)) {
+			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Images::list_by_date_for_anchor('article:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Images'), $box, 'folded');
 
-		// files are reserved to authenticated members
+		// files
+		$box = '';
+		if(Files::allow_creation($anchor, $item)) {
+			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
 		if($items = Files::list_embeddable_for_anchor('article:'.$item['id'], 0, 50))
-			$text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Files'), $box, 'folded');
 
-		// locations are reserved to authenticated members
+		// locations
+		$box = '';
 		if(Locations::allow_creation($anchor, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
-			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+			$box .= Skin::build_list($menu, 'menu_bar');
 		}
+		if($items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Locations'), $box, 'folded');
 
-		// tables are reserved to associates
+		// tables
+		$box = '';
 		if(Tables::allow_creation($anchor, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
-			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+			$box .= Skin::build_list($menu, 'menu_bar');
 		}
+		if($items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Tables'), $box, 'folded');
 
 	}
-
-	// the prefix
-// 	if(Surfer::is_associate()) {
-// 		$label = i18n::s('Prefix');
-// 		$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
-// 		$hint = i18n::s('To be inserted at the top of related pages.');
-// 		$fields[] = array($label, $input, $hint);
-// 	}
-
-	// the suffix
-// 	if(Surfer::is_associate()) {
-// 		$label = i18n::s('Suffix');
-// 		$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
-// 		$hint = i18n::s('To be inserted at the bottom of related pages.');
-// 		$fields[] = array($label, $input, $hint);
-// 	}
-
-	// add a folded box
-	if(count($fields))
-		$text .= Skin::build_box(i18n::s('Other attachments'), Skin::build_form($fields), 'folded');
-	$fields = array();
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
 
 	//
 	// options tab
@@ -940,13 +920,13 @@ if($with_form) {
 		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+		$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 		// maybe a restricted page
 		$input .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 		// or a hidden page
 		$input .= '<input type="radio" name="active_set" value="N"';
@@ -1041,16 +1021,24 @@ if($with_form) {
 	$text .= Skin::build_box($label, Skin::build_form($fields), 'folded');
 	$fields = array();
 
-	// the nick name
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
-		$label = i18n::s('Nick name');
-		$value = '';
-		if(isset($item['nick_name']) && $item['nick_name'])
-			$value = $item['nick_name'];
-		elseif(isset($_SESSION['pasted_name']))
-			$value = $_SESSION['pasted_name'];
-		$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
-		$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1064,6 +1052,19 @@ if($with_form) {
 	$input = '<input type="text" name="source" value="'.encode_field($value).'" size="45" maxlength="255" accesskey="e" />';
 	$hint = i18n::s('Mention your source, if any. Web link (http://...), internal reference ([user=tom]), or free text.');
 	$fields[] = array($label, $input, $hint);
+
+	// the nick name
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		$label = i18n::s('Nick name');
+		$value = '';
+		if(isset($item['nick_name']) && $item['nick_name'])
+			$value = $item['nick_name'];
+		elseif(isset($_SESSION['pasted_name']))
+			$value = $_SESSION['pasted_name'];
+		$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
+		$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// rendering options
 	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
@@ -1112,6 +1113,22 @@ if($with_form) {
 // 		$label = i18n::s('Behaviors');
 // 		$input = '<textarea name="behaviors" rows="2" cols="50">'.encode_field(isset($item['behaviors']) ? $item['behaviors'] : '').'</textarea>';
 // 		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'help'));
+// 		$fields[] = array($label, $input, $hint);
+// 	}
+
+	// the prefix
+// 	if(Surfer::is_associate()) {
+// 		$label = i18n::s('Prefix');
+// 		$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
+// 		$hint = i18n::s('To be inserted at the top of related pages.');
+// 		$fields[] = array($label, $input, $hint);
+// 	}
+
+	// the suffix
+// 	if(Surfer::is_associate()) {
+// 		$label = i18n::s('Suffix');
+// 		$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
+// 		$hint = i18n::s('To be inserted at the bottom of related pages.');
 // 		$fields[] = array($label, $input, $hint);
 // 	}
 

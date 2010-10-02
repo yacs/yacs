@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-06-24 19:59+0200
-PO-Revision-Date: 2010-07-09 23:16+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-10-01 23:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -78,7 +79,7 @@ $_SESSION['l10n']['fr']['Color: %s']='Couleur : %s';
 $_SESSION['l10n']['fr']['Columns']='Colonnes';
 $_SESSION['l10n']['fr']['7b8b184e437fa18729c21ab3a9625bed']='Commandes pour partager cette page, si présentes';
 $_SESSION['l10n']['fr']['415674b7415e0cddd5b728d3a1d3f00e']='Commandes pour rester informé, si présentes';
-$_SESSION['l10n']['fr']['5f95b706a6701b58c5b3dc992656b3f2']='Communauté - Accès restreint aux personnes authentifiées';
+$_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['109b3de113f9002c492c903a28fde2c6']='Informations complémentaires';
 $_SESSION['l10n']['fr']['Components']='Composants';
 $_SESSION['l10n']['fr']['4669e64a262daee067f971af4ba69082']='Calcul dynamique des éléments de page';
@@ -150,6 +151,7 @@ $_SESSION['l10n']['fr']['Geographical position']='Position géographique';
 $_SESSION['l10n']['fr']['fbffe723787b0edf518f4ee687637d79']='Télécharger le contenu sous forme de carte mentale Freemind';
 $_SESSION['l10n']['fr']['Go']='Go';
 $_SESSION['l10n']['fr']['Go to the documentation page']='Voir la documentation';
+$_SESSION['l10n']['fr']['Google Map']='Google Map';
 $_SESSION['l10n']['fr']['Google Search']='Recherche google';
 $_SESSION['l10n']['fr']['Head']='En-tête (Head)';
 $_SESSION['l10n']['fr']['Header']='Haut de page';
@@ -195,6 +197,8 @@ $_SESSION['l10n']['fr']['Logo']='Logo';
 $_SESSION['l10n']['fr']['Main node']='Noeud principal';
 $_SESSION['l10n']['fr']['Main panel']='Panneau principal';
 $_SESSION['l10n']['fr']['5b26a56b7dda650e50f8441575df6619']='Faites votre choix parmi les thèmes disponibles sur ce serveur :';
+$_SESSION['l10n']['fr']['Map Scale']='Echelle de la carte';
+$_SESSION['l10n']['fr']['Map Size']='Taille de la carte';
 $_SESSION['l10n']['fr']['Margin']='Marges';
 $_SESSION['l10n']['fr']['Maximum number of extra boxes']='Nombre maximum de boîtes extra';
 $_SESSION['l10n']['fr']['7a4c5f39b8d735814d991c857c6b3583']='Nombre maximum de boîtes de navigation';
@@ -268,6 +272,8 @@ $_SESSION['l10n']['fr']['Return to front page']='Retour à la page d\'accueil';
 $_SESSION['l10n']['fr']['8e8eb648edb57efc53bb3a619f5bd494']='Contrôler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
 $_SESSION['l10n']['fr']['Sample box']='Boîte exemple';
 $_SESSION['l10n']['fr']['Sample text']='Exemple de texte';
+$_SESSION['l10n']['fr']['Scale of Google Maps.']='Echelle des Google Maps.';
+$_SESSION['l10n']['fr']['Scale: %s']='Echelle : %s';
 $_SESSION['l10n']['fr']['Search']='Chercher';
 $_SESSION['l10n']['fr']['Search only %s']='Chercher seulement %s';
 $_SESSION['l10n']['fr']['Search...']='Chercher...';
@@ -362,6 +368,7 @@ $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['Width']='Largeur';
 $_SESSION['l10n']['fr']['a72113e9ac1ae12cd54e4476d7ffac42']='Dimensions du canevas Flash ou Java utilisé pour la visualisation.';
+$_SESSION['l10n']['fr']['d958f687196bd7a7b0f3552f112a8bea']='Largeur et hauteur des cartes Google Maps.';
 $_SESSION['l10n']['fr']['Width: %s']='Largeur: %s';
 $_SESSION['l10n']['fr']['642dd6914d4d8812e94b08ed4b7866d4']='YACS utilise l\'extension GD de PHP pour retailler les images trop grandes, et pour créer les vignettes.';
 $_SESSION['l10n']['fr']['Yearly calendar']='Calendrier de l\'année';

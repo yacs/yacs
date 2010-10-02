@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-01-02 23:33+0100
-PO-Revision-Date: 2010-01-04 23:32+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-09-29 15:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -59,11 +60,11 @@ $_SESSION['l10n']['fr']['No recipient has been defined.']='Aucun destinaire n\'a
 $_SESSION['l10n']['fr']['032c2f23bd59663ca206107c001dd7d6']='Aucun destinataire n\'a été traité.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
 $_SESSION['l10n']['fr']['57180483e589be9878ef20a97d697488']='Aucune erreur de transmission n\'a eu lieu.';
+$_SESSION['l10n']['fr']['87ef6f7124dac5a5dcfe5ddbaa75be8a']='Format normalisé, par exemple : "Jean Dupont" &lt;jean.dupont@entreprise.fr&gt;';
 $_SESSION['l10n']['fr']['4d2c68a988903f3c828c7c25293d22a0']='Une adresse invalide a été rencontrée.';
 $_SESSION['l10n']['fr']['9b35b350b112edcee6093f790461efa5']='Une lettre a été transmise.';
 $_SESSION['l10n']['fr']['a32a88bd9a66546f4811763515172667']='Un destinataire a été traité.';
 $_SESSION['l10n']['fr']['8bc805238cc17bc1ff473525b211e01c']='Une erreur de transmission a eu lieu.';
-$_SESSION['l10n']['fr']['346eba4a5ba08a8111c1742aef5e19e6']='Merci de fournir un contenu à votre message.';
 $_SESSION['l10n']['fr']['Post a letter']='Envoyer une lettre';
 $_SESSION['l10n']['fr']['Press [s] to continue']='Appuyer sur [s] pour continuer';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -84,9 +85,7 @@ $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['Title prefix']='Préfixe de titre';
 $_SESSION['l10n']['fr']['Title suffix']='Suffixe de titre';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration merci de copier et de coller les lignes suivantes dans le fichier %s :';
-$_SESSION['l10n']['fr']['975b351d36078c17358eb1af565b533c']='Pour laisser les récipiendaires réagir à vos envois';
 $_SESSION['l10n']['fr']['7317a606cbe6c8fec5c1b050b626a84a']='Pour se rappeler les envois précédents';
-$_SESSION['l10n']['fr']['222d89e36b8faf8048f833b54810fe2f']='Utilisez seulement des caractères ASCII';
 $_SESSION['l10n']['fr']['Used as e-mail subject']='Utilisé comme titre de courrier électronique';
 $_SESSION['l10n']['fr']['Used as message subject line']='Utilisé en tant qu\'objet du message';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';

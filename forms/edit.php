@@ -338,13 +338,13 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 	// maybe a restricted page
 	$input .= '<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active" value="N"';

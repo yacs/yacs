@@ -79,7 +79,7 @@ if(!Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
+		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
@@ -200,9 +200,9 @@ if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_opti
 if(defined('DIGG'))
 	$context['text'] .= '<div class="digg_content">';
 
-// the poster profile, if any, at the beginning of the first page
-if(isset($poster['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the beginning of the first page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
 // only at the first page
 if($page == 1) {
@@ -251,9 +251,9 @@ if($description) {
 if(defined('DIGG'))
 	$context['text'] .= '</div>';
 
-// the poster profile, if any, at the end of the page
-if(isset($poster['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the end of the page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
 
 //
 // panels
@@ -613,9 +613,9 @@ if(isset($neighbours) && $neighbours)
 // extra panel -- most content is cached, except commands specific to current surfer
 //
 
-// the poster profile, if any, aside
-if(isset($poster['id']) && is_object($anchor))
-	$context['components']['profile'] = $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
+// the owner profile, if any, aside
+if(isset($owner['id']) && is_object($anchor))
+	$context['components']['profile'] = $anchor->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
 
 // page tools
 //

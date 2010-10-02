@@ -37,8 +37,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../images/images.php';
 include_once '../shared/xml.php';	// input validation
+include_once '../images/images.php';
 include_once 'categories.php';
 
 // load jscolor library
@@ -227,7 +227,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
 
 		// clear cache
 		Categories::clear($_REQUEST);
@@ -309,58 +309,6 @@ if($with_form) {
 
 	// append regular fields
 	$text .= Skin::build_form($fields);
-	$fields = array();
-
-	// layouts for the category page
-	//
-	$label = i18n::s('Layout');
-	if(!isset($item['categories_count']) || ($item['categories_count'] < 1))
-		$item['categories_count'] = 5;
-	$input = sprintf(i18n::s('List up to %s sub-categories with the following layout:'), '<input type="text" name="categories_count" value="'.encode_field($item['categories_count']).'" size="2" />').BR;
-	$custom_layout = '';
-	if(!isset($item['categories_layout']) || !$item['categories_layout'])
-		$item['categories_layout'] = 'decorated';
-	elseif(!preg_match('/(compact|cloud|decorated|inline|yahoo|none)/', $item['categories_layout'])) {
-		$custom_layout = $item['categories_layout'];
-		$item['categories_layout'] = 'custom';
-	}
-	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
-	if($item['categories_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
-	if($item['categories_layout'] == 'yahoo')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yahoo - List these categories on two columns, like Yahoo!');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="inline"';
-	if($item['categories_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List categories and related pages');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
-	if($item['categories_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
-	if($item['categories_layout'] == 'cloud')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('clouds - List sub-categories as clouds.');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
-	if($item['categories_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_categories_layout\').checked=1" />');
-	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
-	if($item['categories_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list categories');
-	$fields[] = array($label, $input);
-
-	// append fields
-	$text .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// layout for  related sections
@@ -525,92 +473,53 @@ if($with_form) {
 	$text .= Skin::build_box(i18n::s('Persons'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
-	// trailer information
-	$label = i18n::s('Trailer');
-	$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
-	$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
-	$fields[] = array($label, $input, $hint);
-
-	// extra information
-	$label = i18n::s('Extra');
-	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
-	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
-	$fields[] = array($label, $input, $hint);
-
-	// append fields
-	$text .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
-	$fields = array();
-
-	// display in a separate panel
-	if($text)
-		$panels[] = array('information', i18n::s('Index page'), 'information_panel', $text);
-
+	// layouts for sub-categories
 	//
-	// attachments tab
-	//
-	$text = '';
-
-	// the icon url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Image');
-
-		// show the current icon
-		$input = '';
-		if(isset($item['icon_url']) && $item['icon_url']) {
-			$input .= '<img src="'.preg_replace('/\/images\/category\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$value = '';
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$value = $item['icon_url'];
-		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
+	$label = i18n::s('Layout');
+	if(!isset($item['categories_count']) || ($item['categories_count'] < 1))
+		$item['categories_count'] = 5;
+	$input = sprintf(i18n::s('List up to %s sub-categories with the following layout:'), '<input type="text" name="categories_count" value="'.encode_field($item['categories_count']).'" size="2" />').BR;
+	$custom_layout = '';
+	if(!isset($item['categories_layout']) || !$item['categories_layout'])
+		$item['categories_layout'] = 'decorated';
+	elseif(!preg_match('/(compact|cloud|decorated|inline|yahoo|none)/', $item['categories_layout'])) {
+		$custom_layout = $item['categories_layout'];
+		$item['categories_layout'] = 'custom';
 	}
+	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
+	if($item['categories_layout'] == 'decorated')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Thumbnail');
+	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
+	if($item['categories_layout'] == 'yahoo')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('yahoo - List these categories on two columns, like Yahoo!');
 
-		// show the current thumbnail
-		$input = '';
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-			$command = i18n::s('Add an image');
-		}
+	$input .= BR.'<input type="radio" name="categories_layout" value="inline"';
+	if($item['categories_layout'] == 'inline')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('inline - List categories and related pages');
 
-		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
+	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
+	if($item['categories_layout'] == 'compact')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('compact - A compact list');
 
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
+	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
+	if($item['categories_layout'] == 'cloud')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('clouds - List sub-categories as clouds.');
 
-	// splash message for new items
-	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
-
-	// the list of images
-	elseif($items = Images::list_by_date_for_anchor('category:'.$item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
-
-	// this category
-	//
-
-	// fields related to this category
-	$text .= Skin::build_form($fields);
-	$fields = array();
+	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
+	if($item['categories_layout'] == 'custom')
+		$input .= ' checked="checked"';
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_categories_layout\').checked=1" />');
+	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
+	if($item['categories_layout'] == 'none')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not list categories');
+	$fields[] = array($label, $input);
 
 	// categories overlay
 	$label = i18n::s('Category overlay');
@@ -630,13 +539,93 @@ if($with_form) {
 // 	$hint = i18n::s('To be inserted at the bottom of related pages.');
 // 	$fields[] = array($label, $input, $hint);
 
-	// sub-categories
+	// append fields
 	$text .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
+	$fields = array();
+
+	// trailer information
+	$label = i18n::s('Trailer');
+	$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
+	$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
+	$fields[] = array($label, $input, $hint);
+
+	// the icon url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Image');
+		$input = '';
+		$hint = '';
+
+		// show the current icon
+		if(isset($item['icon_url']) && $item['icon_url']) {
+			$input .= '<img src="'.preg_replace('/\/images\/category\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$hint .= i18n::s('Image to be displayed in the panel aside the page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$value = '';
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$value = $item['icon_url'];
+		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// extra information
+	$label = i18n::s('Extra');
+	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
+	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
+	$fields[] = array($label, $input, $hint);
+
+	// append fields
+	$text .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('information', i18n::s('Index page'), 'information_panel', $text);
+
+	//
+	// resources tab
+	//
+	$text = '';
+
+	// splash message for new items
+	if(!isset($item['id']))
+		$text .= '<p>'.i18n::s('Submit the new item, and you will be able to add resources afterwards.').'</p>';
+
+	// resources attached to this anchor
+	else {
+
+		// images
+		$box = '';
+		if(Images::allow_creation($anchor, $item, 'category')) {
+			$menu = array( 'images/edit.php?anchor='.urlencode('category:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Images::list_by_date_for_anchor('category:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Images'), $box, 'folded');
+
+		// files
+		$box = '';
+		if(Files::allow_creation($anchor, $item, 'category')) {
+			$menu = array( 'files/edit.php?anchor='.urlencode('category:'.$item['id']) => i18n::s('Add a file') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Files::list_embeddable_for_anchor('category:'.$item['id'], 0, 50))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Files'), $box, 'folded');
+
+	}
+
+	// display in a separate panel
+	if($text)
+		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
 
 	//
 	// options tab
@@ -650,13 +639,13 @@ if($with_form) {
 	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 	// maybe a restricted page
 	$input .= '<input type="radio" name="active_set" value="R"';
 	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active_set" value="N"';
@@ -773,6 +762,28 @@ if($with_form) {
 
 		// excerpts
 		$text .= Skin::build_box(i18n::s('Excerpts'), $input, 'folded');
+	}
+
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		$input = '';
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
 	}
 
 	// the background color

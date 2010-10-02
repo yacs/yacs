@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-31 12:51+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-08-11 17:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -75,7 +76,7 @@ $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Operation has failed.']='Impossible de mener l\'opération à son terme';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['Please provide an archive file.']='Merci de choisir le fichier archive à téléverser.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['16f90961d2f522242b4ab751e6de2bf0']='Merci de choisir une vignette pour cette page.';

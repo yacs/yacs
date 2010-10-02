@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-05-27 10:08+0200
-PO-Revision-Date: 2010-05-27 10:20+0100
+POT-Creation-Date: 2010-10-01 23:04+0200
+PO-Revision-Date: 2010-10-01 23:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -64,9 +65,11 @@ $_SESSION['l10n']['fr']['My two cents']='Une contribution personnelle';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['f0aef7225e9f1cda90eb746e36e84868']='Aucun commentaire n\'a été transmis.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
+$_SESSION['l10n']['fr']['Notify my followers.']='Alerter mes abonnés.';
+$_SESSION['l10n']['fr']['Notify watchers.']='Alerter les observateurs.';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page bottom']='Bas de page';
-$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
+$_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['7a17d7031870526c6fc12193234221f7']='Choisissez un type de commentaire représentatif de votre contribution.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';

@@ -45,7 +45,7 @@ elseif(!Surfer::is_associate()) {
 	// list servers to be advertised
 	if($servers = Servers::list_for_ping(0, 20, 'ping')) {
 
-		$context['text'] .= '<p>'.i18n::s('Servers that have been notified of your post').'</p><ul>';
+		$context['text'] .= '<p>'.i18n::s('Servers that have been notified').'</p><ul>';
 
 		// ping each server
 		foreach($servers as $server_url => $attributes) {

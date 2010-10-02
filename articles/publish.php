@@ -126,13 +126,13 @@ if(Surfer::is_crawler()) {
 	else {
 
 		// advertise watchers
-		$anchor->touch('article:create', $item['id']);
+		$anchor->touch('article:create', $item['id'], FALSE, TRUE, TRUE);
 
 		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
 
 		// trackback option
 		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {
@@ -180,17 +180,13 @@ if(Surfer::is_crawler()) {
 			Servers::notify($anchor->get_url());
 
 			// report on job done
-			$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
+			$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
 
 		}
 
 		// 'publish' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			$context['text'] .= Hooks::include_scripts('publish', $item['id']);
-
-		// touch the related anchor
-		if(is_object($anchor))
-			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
 		// clear the cache
 		Articles::clear($item);

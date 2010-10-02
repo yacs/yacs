@@ -52,6 +52,29 @@
 class Mailer {
 
 	/**
+	 * prepare a multi-part message
+	 *
+	 * @param string message title
+	 * @param string message HTML or ASCII content
+	 * @return array containing message parts ($type => $content)
+	 */
+	function &build_message($title, $text) {
+
+		// one element per type
+		$message = array();
+
+		// text/plain part has no tag anymore
+		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text)))));
+
+		// text/html part
+		$message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
+			.'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
+
+		// return all parts
+		return $message;
+	}
+
+	/**
 	 * format a message
 	 *
 	 * This function prepares a localized message
@@ -92,21 +115,23 @@ class Mailer {
 			break;
 
 		case 1: // you are watching the container
-			$reason = "\n\n"
-				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.'), $context['site_name']);
+			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.'), $context['site_name']).'</p>';
 
+			$tail = array();
 			if($watch_title)
-				$reason .= "\n\n".$watch_title;
+				$tail[] = $watch_title;
 			if($watch_link)
-				$reason .= "\n".$context['url_to_home'].$context['url_to_root'].$watch_link;
+				$tail[] = $context['url_to_home'].$context['url_to_root'].$watch_link;
+
+			if($tail)
+				$reason .= '<p>'.join(BR, $tail).'</p>';
 
 			break;
 
 		case 2: // you are watching the poster
-			$reason = "\n\n"
-				.sprintf(i18n::c('This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on Stop notifications.'), $context['site_name'])
-				."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-				."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name'])
+				.'</p><p>'.ucfirst(strip_tags(Surfer::get_name()))
+				.BR.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'</p>';
 			break;
 
 		}
@@ -531,6 +556,39 @@ class Mailer {
 	}
 
 	/**
+	 * adapt content to legacy transmission pipes
+	 *
+	 * @param string the original string
+	 * @return string the encoded string
+	 */
+	function encode_to_quoted_printable($text) {
+		global $context;
+
+		// remove CR
+		$text = str_replace("\r", '', $text);
+
+		// encode non-ASCII chars and white spaces
+		$text = preg_replace("/([\x01-\x09\x10-\x1F\x20\x3D\x7F-\xFF])/e", "sprintf('=%02X', ord('\\1'))", $text);
+
+		// break long lines
+        $lines = explode("\n", $text);
+		for($index=count($lines); $index >= 0; $i--) {
+
+			// no more than 76 chars
+			if(strlen($lines[$index]) > 76)
+				$lines[$index] = preg_replace("/((.){73,76}((=[0-9A-Fa-f]{2})|([^=]{0,3})))/", "\\1=\n", $lines[$index]);
+
+		}
+
+		// produce one single string
+		$text = implode("\r\n", $lines);
+
+		// encoded string
+		return $text;
+
+	}
+
+	/**
 	 * send a short email message
 	 *
 	 * This is the function used by yacs to notify community members of various events.
@@ -569,6 +627,9 @@ class Mailer {
 		// add site name to message title
 		} else
 			$subject .= ' ['.$context['site_name'].']';
+
+		// allow for HTML rendering
+		$message = Mailer::build_message($subject, $message);
 
 		// do the job -- don't stop on error
 		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
@@ -767,14 +828,17 @@ class Mailer {
 		if(!defined('WRAPPING_LENGTH'))
 			define('WRAPPING_LENGTH', 70);
 
+		// decode encoding settings
+		$content_encoding = '8bit';
+		if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
+			$content_encoding = 'base64';
+
 		// combine message parts
 		$content_type = '';
-		$content_encoding = '8bit';
 		$body = '';
 		foreach($message as $type => $part) {
 
 			// encode plain text parts
-			$content_encoding = '8bit';
 			if(!strncmp($type, 'text/plain', 10)) {
 
 				// wrap the message if necessary
@@ -785,10 +849,6 @@ class Mailer {
 
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
-
-				// use global parameter
- 				if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
- 					$content_encoding = 'base64';
 
 				// encode the message for it transfer
 				if($content_encoding == 'base64')
@@ -803,12 +863,15 @@ class Mailer {
 			// one part among several
 			} else {
 
+				// the external type of assembled parts
 				if(!$content_type)
 					$content_type = 'multipart/alternative; boundary="'.$boundary.'-internal"';
 
+				// introduction to assembled parts
 				if(!$body)
 					$body = 'This is a multi-part message in MIME format.'.CRLF;
 
+				// this part only
 				$body .= CRLF.'--'.$boundary.'-internal'
 					.CRLF.'Content-Type: '.$type
 					.CRLF.'Content-Transfer-Encoding: '.$content_encoding
@@ -991,7 +1054,7 @@ class Mailer {
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command MAIL FROM has been rejected at '.$server);
+				Logger::remember('shared/mailer.php', 'Command MAIL FROM has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1004,7 +1067,7 @@ class Mailer {
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command RCPT TO has been rejected at '.$server);
+				Logger::remember('shared/mailer.php', 'Command RCPT TO has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1017,7 +1080,7 @@ class Mailer {
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 354) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command DATA has been rejected at '.$server);
+				Logger::remember('shared/mailer.php', 'Command DATA has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1050,7 +1113,7 @@ class Mailer {
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Message has been rejected at '.$server);
+				Logger::remember('shared/mailer.php', 'Message has been rejected by server');
 				Mailer::close();
 				return 0;
 			}

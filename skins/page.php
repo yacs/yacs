@@ -107,7 +107,10 @@
 			// fix the layout
 			else
 				echo '<p id="crumbs">&nbsp;</p>';
-		}
+
+		// fix the layout
+		} else
+			echo '<p id="crumbs">&nbsp;</p>';
 
 	}
 

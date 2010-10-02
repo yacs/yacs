@@ -2,8 +2,6 @@
 /**
  * download one file
  *
- * @todo allow for download resuming as in http://w-shadow.com/blog/2007/08/12/how-to-force-file-download-with-php/
-
  * By default the script provides content of the target file.
  * Depending of the optional action parameter, behaviour is changed as follows:
  * - 'release' - assignment information is cleared, and no download takes place
@@ -16,15 +14,6 @@
  * This script is able to serve partial requests (e.g., from iPhone, iPod a,d iPad) if necessary
  *
  * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.1 Byte Ranges
- *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
- * Moreover, detach operations require the surfer to be an authenticated member.
  *
  * Optionnally, this script also read internal information for some file types,
  * in order to enhance the provided listing.
@@ -54,9 +43,6 @@
  * - fetch.php?id=12&action=confirm
  * - fetch.php/12/detach
  * - fetch.php?id=12&action=detach
- *
- * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -237,7 +223,7 @@ if(!isset($item['id']) || !$item['id']) {
 		}
 		fclose($output_handle);
 
-		// update the associate record in the database
+		// also update the database
 		$item['file_size'] = $new_size;
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];
@@ -342,10 +328,10 @@ if(!isset($item['id']) || !$item['id']) {
 		// file attributes
 		$attributes = array();
 
-		// map the file on the regular web space
+		// map the file onto the regular web space
 		$url_prefix = $context['url_to_home'].$context['url_to_root'];
 
-		// maybe we will pass the file through
+		// transmit file content
 		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
 			// stream FLV files if required to do so
@@ -403,55 +389,53 @@ if(!isset($item['id']) || !$item['id']) {
 
 			}
 
-			// serve the right type --avoid opening in Word and Excel, this is confusing most end-users
+			// serve the right type
 			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
-//			Safe::header('Content-Type: application/download');
 
 			// suggest a name for the saved file
 			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
 			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 
-			// file size
-			Safe::header('Content-Length: '.$stat['size']);
-
 			// we accepted (limited) range requests
 			Safe::header('Accept-Ranges: bytes');
 
 			// provide only a slice of the file
-			if(isset($_SERVER['HTTP_RANGE']) && preg_match('/bytes=([0-9\-]+)?/', $_SERVER['HTTP_RANGE'], $range)) {
+			if(isset($_SERVER['HTTP_RANGE']) && !strncmp('bytes=', $_SERVER['HTTP_RANGE'], 6)) {
 
-				// bytes=0-499 to get the first 500 bytes
-				if(preg_match('/^(\d+)-(\d+)/', $range[1], $matches)) {
-					$offset = intval($matches[1]);
-					$length = intval($matches[2]) - $offset + 1; // bytes=0-0 to get first byte
+				// maybe several ranges
+				$ranges = substr($_SERVER['HTTP_RANGE'], 6);
 
-				// bytes=9500- to get the last 500 bytes (out of 10000)
-				} elseif(preg_match('/^(\d+)-/', $range[1], $matches)) {
-					$offset = intval($matches[1]);
+				// process only the first range, if several are specified
+				list($range, $dropped) = explode(',', $ranges, 2);
+
+				// beginning and end of the range
+				list($offset, $end) = explode('-', $range);
+				$offset = intval($offset);
+				if(!$end)
 					$length = $stat['size'] - $offset;
-
-				// bytes=-500 to get the last 500 bytes
-				} elseif(preg_match('/^-(\d+)/', $range[1], $matches)) {
-					$offset = $stat['size'] - intval($matches[1]);
-					$length = $stat['size'] - offset;
-				}
+				else
+					$length = intval($end) - $offset + 1;
 
 				// describe what is returned
 				Safe::header('HTTP/1.1 206 Partial Content');
 				Safe::header('Content-Range: bytes '.$offset .'-'.($offset + $length - 1).'/'.$stat['size']);
 
-				// slice itself
-				fseek($handle, $offset);
-				$slice = fread($handle, $length);
+				// slice size
+				Safe::header('Content-Length: '.$length);
 
 				// actual transmission except on a HEAD request
-				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) {
+					fseek($handle, $offset);
+					$slice = fread($handle, $length);
 					echo $slice;
+				}
 				fclose($handle);
-				return;
 
 			// regular download
 			} else {
+
+				// file size
+				Safe::header('Content-Length: '.$stat['size']);
 
 				// weak validator
 				$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
@@ -467,8 +451,9 @@ if(!isset($item['id']) || !$item['id']) {
 
 			}
 
-			// the post-processing hook, then exit
-			finalize_page(TRUE);
+			// the post-processing hook, then exit even on HEAD
+			finalize_page();
+			return;
 
 		}
 

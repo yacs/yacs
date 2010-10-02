@@ -110,6 +110,10 @@ load_skin('files', $anchor);
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'file:'.$item['id'];
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
@@ -191,7 +195,7 @@ if(!isset($item['id'])) {
 
 			// restricted to logged members
 			if($item['active'] == 'R')
-				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons').BR."\n";
+				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 			// restricted to associates
 			elseif($item['active'] == 'N')

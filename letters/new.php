@@ -135,7 +135,7 @@ if(!Surfer::is_associate()) {
 
 	// append surfer signature, if any
 	if(Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && $user['signature'])
-		$context['letter_body'] .= "\n-----\n".strip_tags($user['signature']);
+		$context['letter_body'] .= '<p>-----'.BR.strip_tags($user['signature'].'</p>');
 
 	// the letter suffix
 	if($context['letter_suffix'])
@@ -155,8 +155,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter content
 	$label = i18n::s('Content');
-	$input = '<textarea name="letter_body" id="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII at the moment');
+	$input = Surfer::get_editor('letter_body', $context['letter_body']);
 	$fields[] = array($label, $input, $hint);
 
 	// letter recipients
@@ -186,13 +185,6 @@ if(!Surfer::is_associate()) {
 		.'		// letter_title is mandatory'."\n"
 		.'		if(!container.letter_title.value) {'."\n"
 		.'			alert("'.i18n::s('No title has been provided.').'");'."\n"
-		.'			Yacs.stopWorking();'."\n"
-		.'			return false;'."\n"
-		.'		}'."\n"
-		."\n"
-		.'		// letter_body is mandatory'."\n"
-		.'		if(!container.letter_body.value) {'."\n"
-		.'			alert("'.i18n::s('Please add something to your message.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
@@ -240,22 +232,28 @@ if(!Surfer::is_associate()) {
 			}
 
 			// format the title
-			$text .= $context['title_prefix'].$label.$context['title_suffix']."\n";
+			$text .= $context['title_prefix'].'<a href="'.$url.'">'.$label.'</a>'.$context['title_suffix'].BR;
 
-			// introduction
-			if($introduction)
-				$text .= ucfirst(trim(strip_tags(preg_replace('/\s+/', ' ', Codes::beautify($introduction)))))."\n";
+			// small details
+			$text .= '<span style="color: #ccc; font-size: 0.8em;">';
 
 			// author
 			if($author)
-				$text .= sprintf(i18n::c('By %s'), $author)."\n";
+				$text .= sprintf(i18n::c('By %s'), $author).' ';
 
 			// publication time
 			if($time)
-				$text .= Skin::build_date($time, 'no_hour', $context['preferred_language'])."\n";
+				$text .= Skin::build_date($time, 'no_hour', $context['preferred_language']);
 
-			// link to the page
-			$text .= $url."\n";
+			// end of details
+			$text .= '</span>'.BR;
+
+			// introduction
+			if($introduction)
+				$text .= Codes::beautify($introduction).BR;
+
+			// extra space
+			$text .= BR;
 
 			// save it in section slot
 			if(isset($slots[$section]))
@@ -270,7 +268,7 @@ if(!Surfer::is_associate()) {
 
 		// populate letter
 		foreach($slots as $section => $text)
-			$context['letter_body'] .= $section."\n".$text."\n";
+			$context['letter_body'] .= '<h2>'.$section.'</h2>'.BR.$text.BR;
 
 	}
 
@@ -293,8 +291,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter content
 	$label = i18n::s('Content');
-	$input = '<textarea name="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII at the moment');
+	$input = Surfer::get_editor('letter_body', $context['letter_body']);
 	$fields[] = array($label, $input, $hint);
 
 	// letter recipients
@@ -324,13 +321,6 @@ if(!Surfer::is_associate()) {
 		.'	// letter_title is mandatory'."\n"
 		.'	if(!container.letter_title.value) {'."\n"
 		.'		alert("'.i18n::s('No title has been provided.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// letter_body is mandatory'."\n"
-		.'	if(!container.letter_body.value) {'."\n"
-		.'		alert("'.i18n::s('Please add something to your message.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
@@ -377,22 +367,25 @@ if(!Surfer::is_associate()) {
 			}
 
 			// format the title
-			$context['letter_body'] .= $context['title_prefix'].$label.$context['title_suffix']."\n";
+			$context['letter_body'] .= $context['title_prefix'].'<a href="'.$url.'">'.$label.'</a>'.$context['title_suffix']."\n";
 
-			// introduction
-			if($introduction)
-				$context['letter_body'] .= ucfirst(trim(strip_tags(preg_replace('/\s+/', ' ', Codes::beautify($introduction)))))."\n";
+			// small details
+			$context['letter_body'] .= '<span style="color: #ccc; font-size: 0.8em;">';
 
 			// author
 			if($author)
-				$context['letter_body'] .= sprintf(i18n::c('By %s'), $author)."\n";
+				$context['letter_body'] .= sprintf(i18n::c('By %s'), $author).' ';
 
 			// publication time
 			if($time)
-				$context['letter_body'] .= Skin::build_date($time, 'no_hour', $context['preferred_language'])."\n";
+				$context['letter_body'] .= Skin::build_date($time, 'no_hour', $context['preferred_language']);
 
-			// link to the page
-			$context['letter_body'] .= $url."\n";
+			// end of details
+			$context['letter_body'] .= '</span>'.BR;
+
+			// introduction
+			if($introduction)
+				$context['letter_body'] .= Codes::beautify($introduction).BR;
 
 		}
 
@@ -416,8 +409,7 @@ if(!Surfer::is_associate()) {
 
 	// letter content
 	$label = i18n::s('Content');
-	$input = '<textarea name="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII at the moment');
+	$input = Surfer::get_editor('letter_body', $context['letter_body']);
 	$fields[] = array($label, $input, $hint);
 
 	// letter recipients
@@ -447,13 +439,6 @@ if(!Surfer::is_associate()) {
 		.'	// letter_title is mandatory'."\n"
 		.'	if(!container.letter_title.value) {'."\n"
 		.'		alert("'.i18n::s('No title has been provided.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// letter_body is mandatory'."\n"
-		.'	if(!container.letter_body.value) {'."\n"
-		.'		alert("'.i18n::s('Please add something to your message.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
@@ -511,8 +496,7 @@ if(!Surfer::is_associate()) {
 	if(($_REQUEST['letter_recipients'] == 'custom') && isset($_REQUEST['mail_to']))
 		$label = $_REQUEST['mail_to'];
 	$fields['introduction'] = sprintf(i18n::c('Sent %s to&nbsp;"%s"'), Skin::build_date(time(), 'full', $context['preferred_language']), $label);
-	$fields['description'] = preg_replace("/^http:\/\/.*?$/mi", '<a href="\\0">\\0</a>', $_REQUEST['letter_body']);
-	$fields['description'] = str_replace("\n", BR, $fields['description']);
+	$fields['description'] = $_REQUEST['letter_body'];
 	$fields['publish_name'] = Surfer::get_name();
 	$fields['publish_id'] = Surfer::get_id();
 	$fields['publish_address'] = Surfer::get_email_address();
@@ -521,9 +505,9 @@ if(!Surfer::is_associate()) {
 
 	// from: from configuration files
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
-		$from = $context['site_name'].' <'.$context['letter_reply_to'].'>';
+		$from = $context['letter_reply_to'];
 	elseif(isset($context['mail_from']) && $context['mail_from'])
-		$from = $context['site_name'].' <'.$context['mail_from'].'>';
+		$from = $context['mail_from'];
 	else
 		$from = $context['site_name'];
 
@@ -581,8 +565,11 @@ if(!Surfer::is_associate()) {
 	// subject
 	$subject = $_REQUEST['letter_title'];
 
-	// the message itself
-	$message = $_REQUEST['letter_body'];
+	// yes, you can use yacs codes in messages
+	$text = Codes::beautify($_REQUEST['letter_body']);
+
+	// preserve tagging as much as possible
+	$message = Mailer::build_message($subject, $text);
 
 	// reply-to: from the letters configuration file
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
@@ -606,6 +593,10 @@ if(!Surfer::is_associate()) {
 	if($recipients_processed) {
 		$recipients_ok = Mailer::post($from, $to, $subject, $message);
 		Mailer::close();
+
+		// we may have more recipients than expected
+		if($recipients_ok > $recipients_processed)
+			$recipients_processed = $recipients_ok;
 
 		// reports on error
 		$recipients_errors = $recipients_processed - $recipients_ok;

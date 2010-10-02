@@ -7,10 +7,11 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-04-08 22:10+0200
-PO-Revision-Date: 2009-10-05 00:02+0100
+POT-Creation-Date: 2010-09-29 14:20+0200
+PO-Revision-Date: 2010-08-11 17:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -60,7 +61,7 @@ $_SESSION['l10n']['en']['b5dbc68e3397cbbe537f4a7c53b6fc4d']='Nothing has been re
 $_SESSION['l10n']['en']['November']='November';
 $_SESSION['l10n']['en']['October']='October';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
-$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
+$_SESSION['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $_SESSION['l10n']['en']['Please provide a date.']='Please provide a date.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';

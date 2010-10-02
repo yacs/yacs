@@ -1055,12 +1055,14 @@ Class Section extends Anchor {
 	 *
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
-	 * @param boolean TRUE for a silent update
+	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
+	 * @param boolean TRUE to notify section watchers, default is FALSE
+	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see articles/article.php
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin, $silently = FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -1335,6 +1337,19 @@ Class Section extends Anchor {
 				// threads messages
 				$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
 
+			// a section has been added to the section
+			} elseif(strpos($action, 'section') === 0) {
+				if((!$target = Sections::get($origin)) || !$target['id'])
+					return;
+
+				// message components
+				$action = sprintf(i18n::c('A section has been created by %s'), $surfer);
+				$title = ucfirst(strip_tags($target['title']));
+				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+
+				// threads messages
+				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
+
 			// something else has been added to the section
 			} else {
 
@@ -1368,17 +1383,17 @@ Class Section extends Anchor {
 			}
 
 			// alert all watchers at once
-			Users::alert_watchers($containers, $mail, $restricted);
+			if($to_watchers)
+				Users::alert_watchers($containers, $mail, $restricted);
 
 			// alert connections, except on private pages
-			if($this->item['active'] != 'N') {
+			if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
 
 				// message to connections
 				$mail['message'] =& Mailer::build_notification($action, $title, $link, 2);
 
 				// alert connections
-				if(Surfer::get_id())
-					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
 			}
 
 		}
