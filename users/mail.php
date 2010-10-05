@@ -2,25 +2,6 @@
 /**
  * mail a message to a user
  *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the front page of the web server.
- *
- * Senders can select to get a copy of messages.
- *
- * Messages are sent using utf-8, and are base64-encoded.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
- *
- * Restrictions apply on this page:
- * - associates are allowed to move forward
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y') and the surfer has been logged
- * - permission denied is the default
- *
  * This script prevents mail when the target surfer has disallowed private messages.
  *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
@@ -81,9 +62,7 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))
-	$context['page_title'] .= sprintf(i18n::s('Mail to %s'), $item['nick_name']);
-else
-	$context['page_title'] .= i18n::s('Send a message');
+	$context['page_title'] .= sprintf(i18n::s('Mail to %s'), $item['full_name']);
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -147,35 +126,11 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// message body
-	$message = '';
-	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+	// enable yacs codes in messages
+	$text = Codes::beautify($_REQUEST['message']);
 
-	// add a tail to the sent message
-	if($message) {
-
-		// use surfer signature, if any
-		$signature = '';
-		if(($user =& Users::get(Surfer::get_id())) && $user['signature'])
-			$signature = $user['signature'];
-
-		// else use default signature
-		else
-			$signature = sprintf(i18n::c('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
-
-		// transform YACS code, if any
-		if(is_callable('Codes', 'render'))
-			$signature = Codes::render($signature);
-
-		// plain text only
-		$signature = trim(strip_tags($signature));
-
-		// append the signature
-		if($signature)
-			$message .= "\n\n-----\n".$signature;
-
-	}
+	// preserve tagging as much as possible
+	$message = Mailer::build_message($subject, $text);
 
 	// send the message
 	if(Mailer::post($from, $to, $subject, $message)) {
@@ -211,14 +166,12 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// the subject
 	$label = i18n::s('Message title');
 	$input = '<input type="text" name="subject" id="subject" size="70" />';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = '<textarea name="message" rows="15" cols="50"></textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('message', '');
+	$fields[] = array($label, $input);
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);

@@ -1218,7 +1218,7 @@ if($with_form) {
 
 	// keep as draft
 	if(!isset($item['id']))
-		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not publish the page, even if auto-publish has been enabled.');
+		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not notify watchers nor followers.');
 
 	// do not remember changes on existing pages -- complex command
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())

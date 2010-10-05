@@ -976,12 +976,50 @@ Class Members {
 	}
 
 	/**
-	 * list alphabetically users assigned to an anchor
+	 * list users assigned to an anchor ordered by name
 	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
+	 * @param the target anchor
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @param string an id to avoid, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+		global $context;
+
+		// locate where we are
+		if(!$variant)
+			$variant = $anchor;
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// avoid this one
+		if($to_avoid)
+			$where .= " AND (users.id != '".SQL::escape($to_avoid)."')";
+
+		// the list of users
+		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND ".$where
+			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::debug($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list users assigned to an anchor ordered by contributions
 	 *
 	 * @param the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1097,6 +1135,47 @@ Class Members {
 			." WHERE (id = ".join(" OR id = ", $ids).")"
 			."	AND ".$where
 			." ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list watchers of given anchor
+	 *
+	 * Actually list users in alphabetical order.
+	 *
+	 * @param mixed, either a string the target anchor, or an array of anchors
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @param array users assigned to the reference, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	function &list_watchers_by_name_for_anchor($anchor, $offset=0, $count=200, $variant='raw', $restricted=NULL) {
+		global $context;
+
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
+		// security constraint
+		if($restricted && is_array($restricted))
+			$where .= " AND (users.id IN (".join(", ", $restricted)."))";
+
+		// the list of users -- never list banned users
+		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE ".$where
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND (users.capability IN ('S', 'M', 'A'))"
+			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);

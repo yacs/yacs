@@ -813,7 +813,7 @@ if(!isset($item['id'])) {
 		// send a message to a category
 		if(($count > 1) && Surfer::is_associate()) {
 			Skin::define_img('CATEGORIES_EMAIL_IMG', 'categories/email.gif');
-			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Send a message'));
+			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Notify participants'));
 		}
 
 		// spread the list over several pages
@@ -828,7 +828,7 @@ if(!isset($item['id'])) {
 
 		// list items by date (default) or by title (option 'users_by_title')
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-		$items =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, $layout);
+		$items =& Members::list_users_by_name_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, $layout);
 
 		// actually render the html
 		if($box['bar'])
