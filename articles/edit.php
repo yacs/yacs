@@ -789,7 +789,7 @@ if($with_form) {
 
 	// extra information
 	$label = i18n::s('Extra');
-	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
+	$input = Surfer::get_editor('extra', isset($item['extra'])?$item['extra']:'');
 	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
 	$fields[] = array($label, $input, $hint);
 
@@ -965,6 +965,27 @@ if($with_form) {
 	$text .= Skin::build_form($fields);
 	$fields = array();
 
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// the rank
 	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
 
@@ -1020,27 +1041,6 @@ if($with_form) {
 		$label = i18n::s('Contribution to parent container');
 	$text .= Skin::build_box($label, Skin::build_form($fields), 'folded');
 	$fields = array();
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Thumbnail');
-		$input = '';
-		$hint = '';
-
-		// show the current thumbnail
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
-			$command = i18n::s('Change');
-		} else {
-			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input, $hint);
-	}
 
 	// the source
 	$label = i18n::s('Source');

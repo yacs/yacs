@@ -213,8 +213,8 @@ Class Layout_articles extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// or inherit from the anchor
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 
 			// list all components for this item
 			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);

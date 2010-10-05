@@ -112,7 +112,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 					$image = $item['icon_url'];
 				elseif(isset($item['thumbnail_url']) && $item['thumbnail_url'])
 					$image = $item['thumbnail_url'];
-				elseif(is_object($anchor) && ($image = $anchor->get_thumbnail_url()))
+				elseif(is_callable(array($anchor, 'get_bullet_url')) && ($image = $anchor->get_bullet_url()))
 					;
 				elseif($default_href)
 					$image = $default_href;
