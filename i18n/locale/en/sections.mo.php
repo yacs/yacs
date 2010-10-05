@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
-PO-Revision-Date: 2010-10-01 23:07+0100
+POT-Creation-Date: 2010-10-05 23:05+0200
+PO-Revision-Date: 2010-10-05 23:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 Language: 
@@ -281,6 +281,7 @@ $_SESSION['l10n']['en']['Notes: %s']='Notes: %s';
 $_SESSION['l10n']['en']['bc9e1ae097aa296b3e304e2d12888466']='Nothing has been extracted from %s.';
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
 $_SESSION['l10n']['en']['Notify my followers.']='Notify my followers.';
+$_SESSION['l10n']['en']['Notify participants']='Notify participants';
 $_SESSION['l10n']['en']['Notify watchers.']='Notify watchers.';
 $_SESSION['l10n']['en']['One %s per line']='One %s per line';
 $_SESSION['l10n']['en']['0036d35feb7fd2c4c6545c79b7e41cf4']='One or several %s. This setting overrides the overlay setting.';
@@ -360,10 +361,10 @@ $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select all/none']='Select all/none';
 $_SESSION['l10n']['en']['20535dd4a4c7c09c812f0d918644a3c2']='Select items you want to manage, and click some button at the bottom of the page.';
 $_SESSION['l10n']['en']['Select parent container']='Select parent container';
+$_SESSION['l10n']['en']['Select recipients']='Select recipients';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['0e47211d01c4146ec82ef084405f3603']='Select the language used for this page';
 $_SESSION['l10n']['en']['Send']='Send';
-$_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';

@@ -512,7 +512,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// send a message to an article
 	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
+		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// navigation commands for users

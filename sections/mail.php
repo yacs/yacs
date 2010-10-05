@@ -1,19 +1,6 @@
 <?php
 /**
- * send a message to section participants
- *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the site front page.
- *
- * Senders can select to get a copy of messages.
- *
- * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
+ * send a message to section watchers
  *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
@@ -71,7 +58,7 @@ if(isset($item['id']) && $item['title'])
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title'] ));
 
 // page title
-$context['page_title'] = i18n::s('Send a message');
+$context['page_title'] = i18n::s('Notify participants');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -114,44 +101,16 @@ if(Surfer::is_crawler()) {
 	foreach($_REQUEST['selected_users'] as $address)
 		$to[] = $address;
 
-	// get a copy
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && $from)
-		$to[] = $from;
-
 	// message subject
 	$subject = '';
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// message body
-	$message = '';
-	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+	// enable yacs codes in messages
+	$text = Codes::beautify($_REQUEST['message']);
 
-	// add a tail to the sent message
-	if($message) {
-
-		// use surfer signature, if any
-		$signature = '';
-		if(($user =& Users::get(Surfer::get_id())) && $user['signature'])
-			$signature = $user['signature'];
-
-		// else use default signature
-		else
-			$signature = sprintf(i18n::c('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
-
-		// transform YACS code, if any
-		if(is_callable('Codes', 'render'))
-			$signature = Codes::render($signature);
-
-		// plain text only
-		$signature = trim(strip_tags($signature));
-
-		// append the signature
-		if($signature)
-			$message .= "\n\n-----\n".$signature;
-
-	}
+	// preserve tagging as much as possible
+	$message = Mailer::build_message($subject, $text);
 
 	// send the message
 	if(Mailer::post($from, $to, $subject, $message)) {
@@ -171,8 +130,7 @@ if(Surfer::is_crawler()) {
 	Mailer::close();
 
 // send message to all watchers
-//} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
-} elseif((!$recipients =& Members::list_editors_for_member('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
+} elseif((!$recipients =& Members::list_watchers_by_name_for_anchor('section:'.$item['id'], 0, 300, 'mail')) || !count($recipients)) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form
@@ -182,19 +140,19 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// build a nice list of recipients
-	$context['text'] .= Skin::build_box(i18n::s('Message recipients'), $recipients, 'folded');
+	$label = i18n::s('Message recipients');
+	$input = Skin::build_box(i18n::s('Select recipients'), $recipients, 'folded');
+	$fields[] = array($label, $input);
 
 	// the subject
 	$label = i18n::s('Message title');
 	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($item['title']).'" />';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = '<textarea name="message" rows="15" cols="50">'."\n\n\n\n".$item['title']."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'</p>');
+	$fields[] = array($label, $input);
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
@@ -213,10 +171,6 @@ if(Surfer::is_crawler()) {
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
-
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

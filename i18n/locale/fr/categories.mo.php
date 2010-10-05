@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
-PO-Revision-Date: 2010-09-29 15:39+0100
+POT-Creation-Date: 2010-10-05 23:05+0200
+PO-Revision-Date: 2010-10-05 23:10+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -135,6 +135,7 @@ $_SESSION['l10n']['fr']['22ce3d88217e83036f3285bba141bfe3']='Aucun overlay n\'a 
 $_SESSION['l10n']['fr']['No recipient has been found.']='Aucun destinataire n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
 $_SESSION['l10n']['fr']['b0f806749991a1314b97a00231ee673c']='Non, merci de ne pas gérer d\'extraits pour cette catégorie';
+$_SESSION['l10n']['fr']['Notify participants']='Notifier les participants';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Pages']='Pages';
@@ -173,9 +174,8 @@ $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['Select a category']='Sélectionner une catégorie';
 $_SESSION['l10n']['fr']['Select categories for this page']='Choix des catégories pour cette page';
+$_SESSION['l10n']['fr']['Select recipients']='Choisir les destinataires';
 $_SESSION['l10n']['fr']['Send']='Envoyer';
-$_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
-$_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Share']='Partager';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers par titre (et non par date)';
@@ -210,12 +210,10 @@ $_SESSION['l10n']['fr']['Unlink']='Délier';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
-$_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';
 $_SESSION['l10n']['fr']['a9ac06b6f2238dbd54599d32e0fa95cf']='Utiliser la vignette comme vignette de la page';
 $_SESSION['l10n']['fr']['7095a3461ba51a372774ee8a1ce5d15b']='Différents moyens de lier cette page';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
-$_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lire d\'autres pages intéressantes.';
 $_SESSION['l10n']['fr']['6214aa6c778c69428ff7146f8e56867a']='Attention : aucun script ne correspond à la mise en page %s';
 $_SESSION['l10n']['fr']['Week of&nbsp;%s']='Semaine du&nbsp;%s';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
