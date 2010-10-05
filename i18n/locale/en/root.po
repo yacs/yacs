@@ -1,0 +1,2159 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"PO-Revision-Date: 2010-03-22 23:12+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-Language: English\n"
+
+#: configure.php:128 configure.php:518 configure.php:663 setup.php:290
+#: setup.php:336 setup.php:350
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: configure.php:131
+#, php-format
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: configure.php:131 index.php:692
+msgid "Configure"
+msgstr "Configure"
+
+#: configure.php:131 configure.php:522 configure.php:660 query.php:152
+msgid "Front page"
+msgstr "Front page"
+
+#: configure.php:140 query.php:49 setup.php:84
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: configure.php:147
+msgid ""
+"You can use default values and change these later on. Hit the button at the "
+"bottom of the page to move forward."
+msgstr ""
+"You can use default values and change these later on. Hit the button at the "
+"bottom of the page to move forward."
+
+#: configure.php:157
+msgid "Cover article"
+msgstr "Cover article"
+
+#: configure.php:161
+msgid "Display the cover article at the front page."
+msgstr "Display the cover article at the front page."
+
+#: configure.php:165
+msgid "Display the main part of the cover article, but not the title."
+msgstr "Display the main part of the cover article, but not the title."
+
+#: configure.php:169
+msgid "Do not use the cover article at the front page."
+msgstr "Do not use the cover article at the front page."
+
+#: configure.php:173 search.php:168
+msgid "Sections"
+msgstr "Sections"
+
+#: configure.php:180
+#, php-format
+msgid "List up to %s sections:"
+msgstr "List up to %s sections:"
+
+#: configure.php:184
+msgid "List top-level sections."
+msgstr "List top-level sections."
+
+#: configure.php:192
+msgid "List only section with the following id"
+msgstr "List only section with the following id"
+
+#: configure.php:196
+msgid ""
+"Do not list sections explicitly -- Useful for skins that feature tabbed "
+"sections."
+msgstr ""
+"Do not list sections explicitly -- Useful for skins that feature tabbed "
+"sections."
+
+#: configure.php:199
+msgid "Following layouts can be used for selected sections:"
+msgstr "Following layouts can be used for selected sections:"
+
+#: configure.php:214
+msgid "menu - List sections in the menu bar."
+msgstr "menu - List sections in the menu bar."
+
+#: configure.php:218
+msgid "decorated - A list decorated with images"
+msgstr "decorated - A list decorated with images"
+
+#: configure.php:222
+msgid "map - Map in two columns, like Yahoo!"
+msgstr "map - Map in two columns, like Yahoo!"
+
+#: configure.php:226
+msgid "freemind - Build an interactive mind map"
+msgstr "freemind - Build an interactive mind map"
+
+#: configure.php:230
+msgid "jive - List 5 threads per board"
+msgstr "jive - List 5 threads per board"
+
+#: configure.php:234
+msgid "yabb - A discussion forum"
+msgstr "yabb - A discussion forum"
+
+#: configure.php:238
+msgid "inline - List sections and related pages"
+msgstr "inline - List sections and related pages"
+
+#: configure.php:242
+msgid "folded - One folded box per section, with content"
+msgstr "folded - One folded box per section, with content"
+
+#: configure.php:246
+msgid "compact - A compact list"
+msgstr "compact - A compact list"
+
+#: configure.php:250
+msgid "titles - Use only titles and thumbnails"
+msgstr "titles - Use only titles and thumbnails"
+
+#: configure.php:254 configure.php:355
+#, php-format
+msgid "Use the customized layout %s"
+msgstr "Use the customized layout %s"
+
+#: configure.php:258
+msgid "Flash"
+msgstr "Flash"
+
+#: configure.php:262
+msgid "Do not list recent pages in an animated Flash object."
+msgstr "Do not list recent pages in an animated Flash object."
+
+#: configure.php:266
+#, php-format
+msgid ""
+"List most recent pages in a dynamic and clickable Flash panel. Check this "
+"option only if the %s module has been installed. This is the case if you "
+"have some text displayed %s."
+msgstr ""
+"List most recent pages in a dynamic and clickable Flash panel. Check this "
+"option only if the %s module has been installed. This is the case if you "
+"have some text displayed %s."
+
+#: configure.php:268
+msgid "here"
+msgstr "here"
+
+#: configure.php:272 index.php:696
+msgid "Gadget boxes"
+msgstr "Gadget boxes"
+
+#: configure.php:276
+#, php-format
+msgid ""
+"Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can "
+"also flag some sections or some categories to list their content in gadget "
+"boxes."
+msgstr ""
+"Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can "
+"also flag some sections or some categories to list their content in gadget "
+"boxes."
+
+#: configure.php:276
+msgid "the section dedicated to gadget boxes"
+msgstr "the section dedicated to gadget boxes"
+
+#: configure.php:280
+msgid "Do not show gadget boxes at the front page."
+msgstr "Do not show gadget boxes at the front page."
+
+#: configure.php:284 search.php:215
+msgid "Pages"
+msgstr "Pages"
+
+#: configure.php:287
+msgid "Following layouts can be used for recent pages:"
+msgstr "Following layouts can be used for recent pages:"
+
+#: configure.php:302
+msgid "For weblogs and blogmarks."
+msgstr "For weblogs and blogmarks."
+
+#: configure.php:303 configure.php:310 configure.php:317 configure.php:324
+#: configure.php:349
+msgid "Preview"
+msgstr "Preview"
+
+#: configure.php:309
+msgid ""
+"Focus on the last published article, and on the three articles published "
+"previously."
+msgstr ""
+"Focus on the last published article, and on the three articles published "
+"previously."
+
+#: configure.php:316
+msgid ""
+"Focus on the last two most recent articles, then list previous pages. Click "
+"on article titles to read full text."
+msgstr ""
+"Focus on the last two most recent articles, then list previous pages. Click "
+"on article titles to read full text."
+
+#: configure.php:323
+msgid "List most recent pages equally."
+msgstr "List most recent pages equally."
+
+#: configure.php:330
+msgid ""
+"A decorated list of pages that have been most rated by community members."
+msgstr ""
+"A decorated list of pages that have been most rated by community members."
+
+#: configure.php:336
+msgid ""
+"A decorated list of most recent pages. This layout is suitable for sites "
+"with a long cover article at the front page."
+msgstr ""
+"A decorated list of most recent pages. This layout is suitable for sites "
+"with a long cover article at the front page."
+
+#: configure.php:342
+msgid ""
+"A compact list of most recent pages. This layout is suitable for sites with "
+"a lot of items (gadget boxes, etc.) at the front page."
+msgstr ""
+"A compact list of most recent pages. This layout is suitable for sites with "
+"a lot of items (gadget boxes, etc.) at the front page."
+
+#: configure.php:348
+msgid ""
+"Display only the most recent published page. Previous articles may be "
+"accessed through a menu. This layout is suitable for sites with a low number "
+"of heavy publications."
+msgstr ""
+"Display only the most recent published page. Previous articles may be "
+"accessed through a menu. This layout is suitable for sites with a low number "
+"of heavy publications."
+
+#: configure.php:361
+#, php-format
+msgid ""
+"Do not list recent pages. The layout of the front page is solely based on a "
+"%s, on %s, plus %s."
+msgstr ""
+"Do not list recent pages. The layout of the front page is solely based on a "
+"%s, on %s, plus %s."
+
+#: configure.php:362
+msgid "cover article"
+msgstr "cover article"
+
+#: configure.php:363
+msgid "the site map"
+msgstr "the site map"
+
+#: configure.php:364
+msgid "gadget boxes"
+msgstr "gadget boxes"
+
+#: configure.php:369
+#, php-format
+msgid ""
+"Display %s articles at the front page. Put a number if you wish to override "
+"the default value for the selected layout."
+msgstr ""
+"Display %s articles at the front page. Put a number if you wish to override "
+"the default value for the selected layout."
+
+#: configure.php:374
+msgid "Options"
+msgstr "Options"
+
+#: configure.php:377
+msgid "Following elements can be added to the main panel:"
+msgstr "Following elements can be added to the main panel:"
+
+#: configure.php:383
+msgid "Include the list of recent files"
+msgstr "Include the list of recent files"
+
+#: configure.php:389
+msgid "Include the list of recent links"
+msgstr "Include the list of recent links"
+
+#: configure.php:402
+msgid "Featured"
+msgstr "Featured"
+
+#: configure.php:408
+#, php-format
+msgid "List up to %s featured pages aside."
+msgstr "List up to %s featured pages aside."
+
+#: configure.php:412 configure.php:434
+msgid ""
+"Similar to the first option, except that displayed information is scrolling."
+msgstr ""
+"Similar to the first option, except that displayed information is scrolling."
+
+#: configure.php:416
+msgid "Similar to the first option, except that featured are rotated."
+msgstr "Similar to the first option, except that featured are rotated."
+
+#: configure.php:420
+msgid "Do not list featured pages."
+msgstr "Do not list featured pages."
+
+#: configure.php:424 index.php:791
+msgid "News"
+msgstr "News"
+
+#: configure.php:430
+#, php-format
+msgid "List up to %s news aside."
+msgstr "List up to %s news aside."
+
+#: configure.php:438
+msgid "Similar to the first option, except that news are rotated."
+msgstr "Similar to the first option, except that news are rotated."
+
+#: configure.php:442
+msgid "Do not list news."
+msgstr "Do not list news."
+
+#: configure.php:446
+msgid "Extra"
+msgstr "Extra"
+
+#: configure.php:447
+msgid "Following elements can be added to the extra panel:"
+msgstr "Following elements can be added to the extra panel:"
+
+#: configure.php:453
+msgid "Include the last recent poll"
+msgstr "Include the last recent poll"
+
+#: configure.php:459
+msgid "Include the list of servers that ping us"
+msgstr "Include the list of servers that ping us"
+
+#: configure.php:465
+msgid "List older articles as well"
+msgstr "List older articles as well"
+
+#: configure.php:471
+msgid "Include the list of most read articles"
+msgstr "Include the list of most read articles"
+
+#: configure.php:477
+msgid "Include the list of most popular files"
+msgstr "Include the list of most popular files"
+
+#: configure.php:483
+msgid "Include the list of most popular links"
+msgstr "Include the list of most popular links"
+
+#: configure.php:489
+msgid "Include a sample of random articles"
+msgstr "Include a sample of random articles"
+
+#: configure.php:501
+msgid "Main panel"
+msgstr "Main panel"
+
+#: configure.php:502
+msgid "Side panel"
+msgstr "Side panel"
+
+#: configure.php:514 panel.php:80 query.php:252 search.php:135
+msgid "Submit"
+msgstr "Submit"
+
+#: configure.php:514 panel.php:80 query.php:252 search.php:135
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: configure.php:533
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr "You are not allowed to perform this operation in demonstration mode."
+
+#: configure.php:619
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+
+#: configure.php:622
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+
+#: configure.php:627
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "The following configuration has been saved into the file %s."
+
+#: configure.php:631
+msgid ""
+"Review provided information and go to the bottom of the page to move forward."
+msgstr ""
+"Review provided information and go to the bottom of the page to move forward."
+
+#: configure.php:637
+#, php-format
+msgid "%s has been updated"
+msgstr "%s has been updated"
+
+#: configure.php:642
+msgid "Configuration parameters"
+msgstr "Configuration parameters"
+
+#: configure.php:647
+msgid "Switch the server on"
+msgstr "Switch the server on"
+
+#: configure.php:654 query.php:150
+msgid "Where do you want to go now?"
+msgstr "Where do you want to go now?"
+
+#: configure.php:666
+msgid "Configure again"
+msgstr "Configure again"
+
+#: error.php:75
+msgid "You are not authorized to access this page (401)"
+msgstr "You are not authorized to access this page (401)"
+
+#: error.php:78 error.php:102
+#, php-format
+msgid "We're sorry. You are not authorized to view %s"
+msgstr "We're sorry. You are not authorized to view %s"
+
+#: error.php:82
+#, php-format
+msgid "Unauthorized (401) at %s"
+msgstr "Unauthorized (401) at %s"
+
+#: error.php:99
+msgid "Access to this page is forbidden (403)"
+msgstr "Access to this page is forbidden (403)"
+
+#: error.php:106
+#, php-format
+msgid "Forbidden (403) at %s"
+msgstr "Forbidden (403) at %s"
+
+#: error.php:124
+msgid "Page not found (404)"
+msgstr "Page not found (404)"
+
+#: error.php:127
+#, php-format
+msgid "We're sorry. The page you requested doesn't exist on this server %s"
+msgstr "We're sorry. The page you requested doesn't exist on this server %s"
+
+#: error.php:130
+msgid "Check the address"
+msgstr "Check the address"
+
+#: error.php:130
+msgid "Normally we are not using upper case letters, and no spacing sign."
+msgstr "Normally we are not using upper case letters, and no spacing sign."
+
+#: error.php:133
+msgid "Update your bookmark"
+msgstr "Update your bookmark"
+
+#: error.php:134
+#, php-format
+msgid ""
+"It is likely that we have changed the content of this site without warning "
+"you. Thank you for browsing %s and to refresh your bookmark."
+msgstr ""
+"It is likely that we have changed the content of this site without warning "
+"you. Thank you for browsing %s and to refresh your bookmark."
+
+#: error.php:134
+msgid "the site front page"
+msgstr "the site front page"
+
+#: error.php:137 go.php:163 query.php:155 search.php:108
+msgid "Search"
+msgstr "Search"
+
+#: error.php:138
+#, php-format
+msgid "Type one or several words in %s."
+msgstr "Type one or several words in %s."
+
+#: error.php:138
+msgid "the searching form"
+msgstr "the searching form"
+
+#: error.php:141
+msgid "Browse index pages"
+msgstr "Browse index pages"
+
+#: error.php:142
+#, php-format
+msgid ""
+"Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the "
+"freshest pages and the most read pages on this site. This can be an "
+"efficient way for you to reach the information you are looking after."
+msgstr ""
+"Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the "
+"freshest pages and the most read pages on this site. This can be an "
+"efficient way for you to reach the information you are looking after."
+
+#: error.php:142
+msgid "pages"
+msgstr "pages"
+
+#: error.php:142
+msgid "files"
+msgstr "files"
+
+#: error.php:142
+msgid "comments"
+msgstr "comments"
+
+#: error.php:142
+msgid "people"
+msgstr "people"
+
+#: error.php:150
+#, php-format
+msgid "Page not found (404) at %s"
+msgstr "Page not found (404) at %s"
+
+#: go.php:80
+msgid "Page locator"
+msgstr "Page locator"
+
+#: go.php:84
+msgid "Please indicate a nick name to look for."
+msgstr "Please indicate a nick name to look for."
+
+#: go.php:104
+msgid "Select below among available sections."
+msgstr "Select below among available sections."
+
+#: go.php:123 go.php:138
+msgid "Select below among available pages."
+msgstr "Select below among available pages."
+
+#: go.php:149
+#, php-format
+msgid "Sorry, no page has the provided name: %s"
+msgstr "Sorry, no page has the provided name: %s"
+
+#: go.php:152
+msgid "Add a page with this name"
+msgstr "Add a page with this name"
+
+#: go.php:159
+msgid "Look for"
+msgstr "Look for"
+
+#: go.php:161
+msgid "Nick name"
+msgstr "Nick name"
+
+#: go.php:174 search.php:147
+msgid "Please type something to search for"
+msgstr "Please type something to search for"
+
+#: go.php:191
+#, php-format
+msgid "Submit \"%s\" to our %s in case some pages could match this keyword."
+msgstr "Submit \"%s\" to our %s in case some pages could match this keyword."
+
+#: go.php:191
+msgid "search engine"
+msgstr "search engine"
+
+#: index.php:344 index.php:896
+msgid "View the category"
+msgstr "View the category"
+
+#: index.php:355 index.php:413 index.php:870 index.php:918
+msgid "More pages"
+msgstr "More pages"
+
+#: index.php:370 index.php:657
+msgid "More links"
+msgstr "More links"
+
+#: index.php:391 index.php:422 index.php:834 index.php:880
+msgid "View the section"
+msgstr "View the section"
+
+#: index.php:486 index.php:560
+#, php-format
+msgid "Warning: No script exists for the customized layout %s"
+msgstr "Warning: No script exists for the customized layout %s"
+
+#: index.php:603
+msgid "No page to display."
+msgstr "No page to display."
+
+#: index.php:605
+#, php-format
+msgid "Use the %s to populate this server."
+msgstr "Use the %s to populate this server."
+
+#: index.php:605 setup.php:335
+msgid "Content Assistant"
+msgstr "Content Assistant"
+
+#: index.php:614 index.php:970 query.php:153
+msgid "All pages"
+msgstr "All pages"
+
+#: index.php:625 index.php:973
+msgid "Recent Pages"
+msgstr "Recent Pages"
+
+#: index.php:639
+msgid "Recent files"
+msgstr "Recent files"
+
+#: index.php:642 search.php:222
+msgid "Files"
+msgstr "Files"
+
+#: index.php:654
+msgid "Recent links"
+msgstr "Recent links"
+
+#: index.php:694
+msgid "Cover page"
+msgstr "Cover page"
+
+#: index.php:698
+msgid "Extra boxes"
+msgstr "Extra boxes"
+
+#: index.php:700
+msgid "Navigation boxes"
+msgstr "Navigation boxes"
+
+#: index.php:715
+msgid "featured"
+msgstr "featured"
+
+#: index.php:719 index.php:727
+msgid "Featured pages"
+msgstr "Featured pages"
+
+#: index.php:940
+msgid "Polls"
+msgstr "Polls"
+
+#: index.php:1000
+msgid "Peers"
+msgstr "Peers"
+
+#: index.php:1006
+msgid "Popular Pages"
+msgstr "Popular Pages"
+
+#: index.php:1012
+msgid "Popular Files"
+msgstr "Popular Files"
+
+#: index.php:1019
+msgid "Popular Links"
+msgstr "Popular Links"
+
+#: index.php:1025
+msgid "Random Pages"
+msgstr "Random Pages"
+
+#: panel.php:53
+msgid "New page"
+msgstr "New page"
+
+#: panel.php:65
+msgid "Title"
+msgstr "Title"
+
+#: panel.php:70
+msgid "Introduction"
+msgstr "Introduction"
+
+#: panel.php:75
+msgid "Page content"
+msgstr "Page content"
+
+#: query.php:44 query.php:315 search.php:352
+msgid "Help"
+msgstr "Help"
+
+#: query.php:70
+msgid "Queries"
+msgstr "Queries"
+
+#: query.php:71
+msgid "Submitted to the webmaster by any surfers"
+msgstr "Submitted to the webmaster by any surfers"
+
+#: query.php:72
+msgid ""
+"<p>This section has been created automatically on query submission. It's "
+"aiming to capture feedback directly from surfers. It is highly recommended "
+"to delete pages below after their processing. Of course you can edit "
+"submitted queries to assign them to other sections if necessary.</p>"
+msgstr ""
+"<p>This section has been created automatically on query submission. It's "
+"aiming to capture feedback directly from surfers. It is highly recommended "
+"to delete pages below after their processing. Of course you can edit "
+"submitted queries to assign them to other sections if necessary.</p>"
+
+#: query.php:92
+msgid "(anonymous)"
+msgstr "(anonymous)"
+
+#: query.php:103
+#, php-format
+msgid "Sent by %s"
+msgstr "Sent by %s"
+
+#: query.php:103
+msgid "e-mail"
+msgstr "e-mail"
+
+#: query.php:108
+msgid "Please prove you are not a robot."
+msgstr "Please prove you are not a robot."
+
+#: query.php:119
+msgid "Your query has been registered"
+msgstr "Your query has been registered"
+
+#: query.php:141
+msgid "<p>You can check the status of your query at the following address:</p>"
+msgstr ""
+"<p>You can check the status of your query at the following address:</p>"
+
+#: query.php:142
+msgid "The permanent address for your query"
+msgstr "The permanent address for your query"
+
+#: query.php:146
+msgid ""
+"<p>Your query will now be reviewed by one of the associates of this "
+"community. It is likely that this will be done within the next 24 hours at "
+"the latest.</p>"
+msgstr ""
+"<p>Your query will now be reviewed by one of the associates of this "
+"community. It is likely that this will be done within the next 24 hours at "
+"the latest.</p>"
+
+#: query.php:154
+msgid "Site map"
+msgstr "Site map"
+
+#: query.php:156 setup.php:340
+msgid "Help index"
+msgstr "Help index"
+
+#: query.php:167
+#, php-format
+msgid "Your query: %s"
+msgstr "Your query: %s"
+
+#: query.php:170
+#, php-format
+msgid ""
+"Your query will now be reviewed by one of the associates of this community. "
+"It is likely that this will be done within the next 24 hours at the latest.\n"
+"\n"
+"You can check the status of your query at the following address:\n"
+"\n"
+"%s\n"
+"\n"
+"We would like to thank you for your interest in our web site."
+msgstr ""
+"Your query will now be reviewed by one of the associates of this community. "
+"It is likely that this will be done within the next 24 hours at the latest.\n"
+"\n"
+"You can check the status of your query at the following address:\n"
+"\n"
+"%s\n"
+"\n"
+"We would like to thank you for your interest in our web site."
+
+#: query.php:188
+#, php-format
+msgid "New query: %s"
+msgstr "New query: %s"
+
+#: query.php:204
+msgid ""
+"Please fill out the form and it will be sent automatically to the site "
+"managers. Be as precise as possible, and mention your e-mail address to let "
+"us a chance to contact you back."
+msgstr ""
+"Please fill out the form and it will be sent automatically to the site "
+"managers. Be as precise as possible, and mention your e-mail address to let "
+"us a chance to contact you back."
+
+#: query.php:212
+msgid "Your name"
+msgstr "Your name"
+
+#: query.php:214
+msgid "Let us a chance to know who you are"
+msgstr "Let us a chance to know who you are"
+
+#: query.php:220
+msgid "Your e-mail address"
+msgstr "Your e-mail address"
+
+#: query.php:222
+msgid "To be alerted during the processing of your request"
+msgstr "To be alerted during the processing of your request"
+
+#: query.php:232
+msgid "Query object"
+msgstr "Query object"
+
+#: query.php:234
+msgid "The main object of your query"
+msgstr "The main object of your query"
+
+#: query.php:240
+msgid "Details of your request"
+msgstr "Details of your request"
+
+#: query.php:242
+msgid ""
+"Please mention any reference information required to process the request"
+msgstr ""
+"Please mention any reference information required to process the request"
+
+#: query.php:256
+msgid "Cancel"
+msgstr "Cancel"
+
+#: query.php:271
+msgid "Please give your first and last names"
+msgstr "Please give your first and last names"
+
+#: query.php:278
+msgid "Please give your e-mail address"
+msgstr "Please give your e-mail address"
+
+#: query.php:285
+msgid "Please provide a meaningful title."
+msgstr "Please provide a meaningful title."
+
+#: query.php:291
+msgid "The description should not exceed 64000 characters."
+msgstr "The description should not exceed 64000 characters."
+
+#: query.php:305
+msgid ""
+"<p>Use this form to submit any kind of request you can have, from simple "
+"suggestions to complex questions.</p><p>Hearty discussion and unpopular "
+"viewpoints are welcome, but please keep queries civil. Flaming, trolling, "
+"and smarmy queries are discouraged and may be deleted. In fact, we reserve "
+"the right to delete any post for any reason. Don't make us do it.</p>"
+msgstr ""
+"<p>Use this form to submit any kind of request you can have, from simple "
+"suggestions to complex questions.</p><p>Hearty discussion and unpopular "
+"viewpoints are welcome, but please keep queries civil. Flaming, trolling, "
+"and smarmy queries are discouraged and may be deleted. In fact, we reserve "
+"the right to delete any post for any reason. Don't make us do it.</p>"
+
+#: query.php:307
+msgid ""
+"If you paste some existing HTML content and want to avoid the implicit "
+"formatting insert the code <code>[formatted]</code> at the very beginning of "
+"the description field."
+msgstr ""
+"If you paste some existing HTML content and want to avoid the implicit "
+"formatting insert the code <code>[formatted]</code> at the very beginning of "
+"the description field."
+
+#: query.php:309
+msgid "Most HTML tags are removed."
+msgstr "Most HTML tags are removed."
+
+#: query.php:310
+#, php-format
+msgid "You can use %s to beautify your post"
+msgstr "You can use %s to beautify your post"
+
+#: query.php:310
+msgid "YACS codes"
+msgstr "YACS codes"
+
+#: query.php:313
+msgid "Mandatory fields are marked with a *"
+msgstr "Mandatory fields are marked with a *"
+
+#: search.php:106
+#, php-format
+msgid "Search: %s"
+msgstr "Search: %s"
+
+#: search.php:115
+msgid "You are searching for"
+msgstr "You are searching for"
+
+#: search.php:117
+msgid "Type one or several words."
+msgstr "Type one or several words."
+
+#: search.php:121
+msgid "Search in"
+msgstr "Search in"
+
+#: search.php:126
+msgid "-- All sections"
+msgstr "-- All sections"
+
+#: search.php:127
+msgid "Look in all or only one section."
+msgstr "Look in all or only one section."
+
+#: search.php:179
+msgid "Matching articles"
+msgstr "Matching articles"
+
+#: search.php:199
+msgid "Results"
+msgstr "Results"
+
+#: search.php:201
+#, php-format
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] "%d result"
+msgstr[1] "%d results"
+
+#: search.php:228
+msgid "People"
+msgstr "People"
+
+#: search.php:234
+msgid "Categories"
+msgstr "Categories"
+
+#: search.php:250
+msgid "Search all of the Internet"
+msgstr "Search all of the Internet"
+
+#: search.php:257
+msgid "Google"
+msgstr "Google"
+
+#: search.php:261
+msgid "Bing"
+msgstr "Bing"
+
+#: search.php:265
+msgid "Yahoo!"
+msgstr "Yahoo!"
+
+#: search.php:269
+msgid "Ask Jeeves"
+msgstr "Ask Jeeves"
+
+#: search.php:272
+msgid "Extended search"
+msgstr "Extended search"
+
+#: search.php:282
+#, php-format
+msgid ""
+"<p>No page has been found. This will happen with very short words (less than "
+"%d letters), that are not fully indexed. This can happen as well if more "
+"than half of pages contain the searched words. Try to use most restrictive "
+"words and to suppress \"noise\" words.</p>"
+msgstr ""
+"<p>No page has been found. This will happen with very short words (less than "
+"%d letters), that are not fully indexed. This can happen as well if more "
+"than half of pages contain the searched words. Try to use most restrictive "
+"words and to suppress \"noise\" words.</p>"
+
+#: search.php:289
+msgid "At partner sites"
+msgstr "At partner sites"
+
+#: search.php:339
+msgid "Remember this search"
+msgstr "Remember this search"
+
+#: search.php:343
+msgid "Search in all sections"
+msgstr "Search in all sections"
+
+#: search.php:347
+msgid "Look for a named page"
+msgstr "Look for a named page"
+
+#: search.php:352
+msgid ""
+"This search engine only display pages that have all words in it. <p>Also, "
+"only exact matches will be listed. Therefore \"category\" and \"categories\" "
+"won't give the same results. Note that \"red\" and \"reds\" may also give "
+"different results.</p>"
+msgstr ""
+"This search engine only display pages that have all words in it. <p>Also, "
+"only exact matches will be listed. Therefore \"category\" and \"categories\" "
+"won't give the same results. Note that \"red\" and \"reds\" may also give "
+"different results.</p>"
+
+#: search.php:357
+msgid "Matching pages"
+msgstr "Matching pages"
+
+#: search.php:358
+msgid "Monitor"
+msgstr "Monitor"
+
+#: search.php:364
+msgid "Recent searches"
+msgstr "Recent searches"
+
+#: setup.php:79
+msgid "Setup assistant"
+msgstr "Setup assistant"
+
+#: setup.php:96
+#, php-format
+msgid ""
+"ERROR: YACS requires at least PHP version 4.3. The server runs version %s."
+msgstr ""
+"ERROR: YACS requires at least PHP version 4.3. The server runs version %s."
+
+#: setup.php:98
+msgid "Check PHP version again"
+msgstr "Check PHP version again"
+
+#: setup.php:101 setup.php:119 setup.php:139
+msgid "ERROR"
+msgstr "ERROR"
+
+#: setup.php:104 setup.php:123 setup.php:143 setup.php:160 setup.php:176
+#: setup.php:231
+msgid "OK"
+msgstr "OK"
+
+#: setup.php:107
+msgid "PHP"
+msgstr "PHP"
+
+#: setup.php:113
+msgid "ERROR: YACS requires the MySQL PHP extension."
+msgstr "ERROR: YACS requires the MySQL PHP extension."
+
+#: setup.php:115
+msgid "Check the MySQL PHP extension again"
+msgstr "Check the MySQL PHP extension again"
+
+#: setup.php:118 setup.php:138 setup.php:155
+msgid "Absent"
+msgstr "Absent"
+
+#: setup.php:122 setup.php:142 setup.php:159
+msgid "Present"
+msgstr "Present"
+
+#: setup.php:127
+msgid "MySQL"
+msgstr "MySQL"
+
+#: setup.php:133
+msgid "ERROR: YACS requires the XML PHP extension."
+msgstr "ERROR: YACS requires the XML PHP extension."
+
+#: setup.php:135
+msgid "Check the XML PHP extension again"
+msgstr "Check the XML PHP extension again"
+
+#: setup.php:147
+msgid "XML"
+msgstr "XML"
+
+#: setup.php:151
+msgid "WARNING: You will not be able to upload zip files."
+msgstr "WARNING: You will not be able to upload zip files."
+
+#: setup.php:152
+msgid "Check the ZIP PHP extension again"
+msgstr "Check the ZIP PHP extension again"
+
+#: setup.php:156 setup.php:172 setup.php:227
+msgid "WARNING"
+msgstr "WARNING"
+
+#: setup.php:164
+msgid "zip"
+msgstr "zip"
+
+#: setup.php:168
+msgid ""
+"WARNING: This server runs in safe mode, and YACS may be prevented to perform "
+"a number of key operations."
+msgstr ""
+"WARNING: This server runs in safe mode, and YACS may be prevented to perform "
+"a number of key operations."
+
+#: setup.php:171
+msgid "Yes"
+msgstr "Yes"
+
+#: setup.php:175
+msgid "No"
+msgstr "No"
+
+#: setup.php:180
+msgid "Safe mode"
+msgstr "Safe mode"
+
+#: setup.php:209
+#, php-format
+msgid "Impossible to write to %s."
+msgstr "Impossible to write to %s."
+
+#: setup.php:218
+msgid ""
+"WARNING: YACS cannot write to files. If you are running some Unix, please "
+"ensure that permissions have been properly set. This issue can also be due "
+"to server running in safe mode."
+msgstr ""
+"WARNING: YACS cannot write to files. If you are running some Unix, please "
+"ensure that permissions have been properly set. This issue can also be due "
+"to server running in safe mode."
+
+#: setup.php:220
+#, php-format
+msgid "Check the provided %s file to find more help on file permissions."
+msgstr "Check the provided %s file to find more help on file permissions."
+
+#: setup.php:220 setup.php:248
+msgid "readme.txt"
+msgstr "readme.txt"
+
+#: setup.php:222
+msgid "Check again our ability to write to files"
+msgstr "Check again our ability to write to files"
+
+#: setup.php:226
+msgid "Configuration files cannot be changed"
+msgstr "Configuration files cannot be changed"
+
+#: setup.php:230
+msgid "May change configuration files"
+msgstr "May change configuration files"
+
+#: setup.php:235
+msgid "Permissions"
+msgstr "Permissions"
+
+#: setup.php:238
+msgid "Pre-installation checks"
+msgstr "Pre-installation checks"
+
+#: setup.php:248
+#, php-format
+msgid "Check the provided %s file to ensure prerequisites are fulfilled."
+msgstr "Check the provided %s file to ensure prerequisites are fulfilled."
+
+#: setup.php:254
+msgid "Ready to start the installation"
+msgstr "Ready to start the installation"
+
+#: setup.php:257
+msgid ""
+"<p>At the moment no configuration file has been found. You will now have to "
+"pass through several steps in order to achieve the setup of your server:</"
+"p>\n"
+"<ul>\n"
+"<li>Configure parameters related to the database.</li>\n"
+"<li>Load extension hooks.</li>\n"
+"<li>Create tables in the database.</li>\n"
+"<li>Add one user profile and populate the database.</li>\n"
+"<li>Configure the theme of your server.</li>\n"
+"</ul>\n"
+"In normal conditions this will take only some minutes. If you have any "
+"problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for "
+"additional support.<p>Thank you for having selected the YACS solution.</p>"
+msgstr ""
+"<p>At the moment no configuration file has been found. You will now have to "
+"pass through several steps in order to achieve the setup of your server:</"
+"p>\n"
+"<ul>\n"
+"<li>Configure parameters related to the database.</li>\n"
+"<li>Load extension hooks.</li>\n"
+"<li>Create tables in the database.</li>\n"
+"<li>Add one user profile and populate the database.</li>\n"
+"<li>Configure the theme of your server.</li>\n"
+"</ul>\n"
+"In normal conditions this will take only some minutes. If you have any "
+"problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for "
+"additional support.<p>Thank you for having selected the YACS solution.</p>"
+
+#: setup.php:261
+msgid "Start the installation process"
+msgstr "Start the installation process"
+
+#: setup.php:271
+msgid ""
+"You must enable cookies to manage this server. Change settings of your "
+"browser accordingly, then revisit this page afterwards."
+msgstr ""
+"You must enable cookies to manage this server. Change settings of your "
+"browser accordingly, then revisit this page afterwards."
+
+#: setup.php:287
+msgid ""
+"Some configuration files are missing. Please follow the link to complete the "
+"installation process."
+msgstr ""
+"Some configuration files are missing. Please follow the link to complete the "
+"installation process."
+
+#: setup.php:305
+msgid ""
+"ERROR: YACS cannot create the file parameters/switch.on to activate the "
+"server."
+msgstr ""
+"ERROR: YACS cannot create the file parameters/switch.on to activate the "
+"server."
+
+#: setup.php:308
+#, php-format
+msgid ""
+"To actually switch on the server, please copy and paste following lines by "
+"yourself in file %s."
+msgstr ""
+"To actually switch on the server, please copy and paste following lines by "
+"yourself in file %s."
+
+#: setup.php:326 setup.php:341
+msgid "www.yacs.fr"
+msgstr "www.yacs.fr"
+
+#: setup.php:333
+#, php-format
+msgid ""
+"<p>You have passed through the several installation steps.</p>\n"
+"What do you want to do now?<ul>\n"
+"<li>Select %s for your site.</li>\n"
+"<li>Populate your site with the %s.</li>\n"
+"<li>Manage everything from the %s.</li>\n"
+"<li>Check the %s of this site.</li>\n"
+"<li>Review %s.</li>\n"
+"<li>%s.</li>\n"
+"<li>Look at the %s.</li>\n"
+"<li>Visit %s to learn more.</li>\n"
+"</ul>\n"
+"<p>Thank you for having selected to use YACS for your web site.</p>\n"
+msgstr ""
+"<p>You have passed through the several installation steps.</p>\n"
+"What do you want to do now?<ul>\n"
+"<li>Select %s for your site.</li>\n"
+"<li>Populate your site with the %s.</li>\n"
+"<li>Manage everything from the %s.</li>\n"
+"<li>Check the %s of this site.</li>\n"
+"<li>Review %s.</li>\n"
+"<li>%s.</li>\n"
+"<li>Look at the %s.</li>\n"
+"<li>Visit %s to learn more.</li>\n"
+"</ul>\n"
+"<p>Thank you for having selected to use YACS for your web site.</p>\n"
+
+#: setup.php:334
+msgid "another skin"
+msgstr "another skin"
+
+#: setup.php:337
+msgid "front page"
+msgstr "front page"
+
+#: setup.php:338
+msgid "your profile"
+msgstr "your profile"
+
+#: setup.php:339
+msgid "Add a page"
+msgstr "Add a page"
+
+#: setup.php:341
+msgid "http://www.yacs.fr/"
+msgstr "http://www.yacs.fr/"
+
+#: setup.php:347
+msgid ""
+"<p>Since basic configuration files exist on your server, it is likely that "
+"the installation has been achieved successfully. Click on the link below to "
+"modify the running parameters of your server.</p>"
+msgstr ""
+"<p>Since basic configuration files exist on your server, it is likely that "
+"the installation has been achieved successfully. Click on the link below to "
+"modify the running parameters of your server.</p>"
+
+#~ msgid "More results"
+#~ msgstr "More results"
+
+#~ msgid "Section"
+#~ msgstr "Section"
+
+#~ msgid "Extension"
+#~ msgstr "Extension"
+
+#~ msgid "Technorati"
+#~ msgstr "Technorati"
+
+#~ msgid ""
+#~ "folded - List sub-sections as folded boxes, with content (one box per "
+#~ "section)."
+#~ msgstr ""
+#~ "folded - List sub-sections as folded boxes, with content (one box per "
+#~ "section)."
+
+#~ msgid "Information channels"
+#~ msgstr "Information channels"
+
+#~ msgid "www.yetanothercommunitysystem.com"
+#~ msgstr "www.yetanothercommunitysystem.com"
+
+#~ msgid "http://www.yetanothercommunitysystem.com/"
+#~ msgstr "http://www.yetanothercommunitysystem.com/"
+
+#~ msgid "View the cover page alone"
+#~ msgstr "View the cover page alone"
+
+#~ msgid "All the web"
+#~ msgstr "All the web"
+
+#~ msgid "Feedster"
+#~ msgstr "Feedster"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configure: %s"
+
+#~ msgid "Impossible to read %s."
+#~ msgstr "Impossible to read %s."
+
+#~ msgid "Script terminated in %.2f seconds."
+#~ msgstr "Script terminated in %.2f seconds."
+
+#~ msgid "Reset"
+#~ msgstr "Reset"
+
+#~ msgid "Add an article"
+#~ msgstr "Add an article"
+
+#~ msgid "A section \"%s\" has been created."
+#~ msgstr "A section \"%s\" has been created."
+
+#~ msgid "Search this site"
+#~ msgstr "Search this site"
+
+#~ msgid "No page has been attached to this category..."
+#~ msgstr "No page has been attached to this category..."
+
+#~ msgid "No page has been created yet."
+#~ msgstr "No page has been created yet."
+
+#~ msgid "Articles"
+#~ msgstr "Articles"
+
+#~ msgid "More featured pages"
+#~ msgstr "More featured pages"
+
+#~ msgid "More information"
+#~ msgstr "More information"
+
+#~ msgid "help index page"
+#~ msgstr "help index page"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+
+#~ msgid "Edited %s"
+#~ msgstr "Edited %s"
+
+#~ msgid "Selected shortcuts"
+#~ msgstr "Selected shortcuts"
+
+#~ msgid "%s and change it if you like."
+#~ msgstr "%s and change it if you like."
+
+#~ msgid "Review your user profile"
+#~ msgstr "Review your user profile"
+
+#~ msgid "%s. Some people would say 'a new blog'."
+#~ msgstr "%s. Some people would say 'a new blog'."
+
+#~ msgid "Add a section"
+#~ msgstr "Add a section"
+
+#~ msgid "%s. Or call it a 'blog entry' if you prefer."
+#~ msgstr "%s. Or call it a 'blog entry' if you prefer."
+
+#~ msgid "%s, the central place to manage this server."
+#~ msgstr "%s, the central place to manage this server."
+
+#~ msgid "%s of this site."
+#~ msgstr "%s of this site."
+
+#~ msgid "Go to the front page"
+#~ msgstr "Go to the front page"
+
+#~ msgid "Where to look for information?"
+#~ msgstr "Where to look for information?"
+
+#~ msgid "Index of most recent %1$s, %2$s, %3$s and %4$s"
+#~ msgstr "Index of most recent %1$s, %2$s, %3$s and %4$s"
+
+#~ msgid "threads"
+#~ msgstr "threads"
+
+#~ msgid "Full-text search"
+#~ msgstr "Full-text search"
+
+#~ msgid "%s to access more material, and to receive our newsletters"
+#~ msgstr "%s to access more material, and to receive our newsletters"
+
+#~ msgid "Register"
+#~ msgstr "Register"
+
+#~ msgid "How to contribute?"
+#~ msgstr "How to contribute?"
+
+#~ msgid ""
+#~ "<p>You will have to be registered and authenticated to submit new "
+#~ "articles. Then browse any section, or use your user menu, to post new "
+#~ "material.</p>"
+#~ msgstr ""
+#~ "<p>You will have to be registered and authenticated to submit new "
+#~ "articles. Then browse any section, or use your user menu, to post new "
+#~ "material.</p>"
+
+#~ msgid "%s to be authenticated at each visit"
+#~ msgstr "%s to be authenticated at each visit"
+
+#~ msgid "%s that will be published on this site"
+#~ msgstr "%s that will be published on this site"
+
+#~ msgid ""
+#~ "While you're browsing, don't hesitate to comment visited pages, to send "
+#~ "images or files, or to share some interesting link you may have"
+#~ msgstr ""
+#~ "While you're browsing, don't hesitate to comment visited pages, to send "
+#~ "images or files, or to share some interesting link you may have"
+
+#~ msgid "%s to publish them"
+#~ msgstr "%s to publish them"
+
+#~ msgid "Review submitted articles"
+#~ msgstr "Review submitted articles"
+
+#~ msgid ""
+#~ "<p>To install following bookmarklets, right-click over them and add them "
+#~ "to your bookmarks. Then recall them at any time while browsing the "
+#~ "Internet, to add content to this site.</p>"
+#~ msgstr ""
+#~ "<p>To install following bookmarklets, right-click over them and add them "
+#~ "to your bookmarks. Then recall them at any time while browsing the "
+#~ "Internet, to add content to this site.</p>"
+
+#~ msgid "Blog at %s"
+#~ msgstr "Blog at %s"
+
+#~ msgid "Bookmark at %s"
+#~ msgstr "Bookmark at %s"
+
+#~ msgid ""
+#~ "<p>If your browser supports side panels and javascript, click on the "
+#~ "following link to %s.</p>"
+#~ msgstr ""
+#~ "<p>If your browser supports side panels and javascript, click on the "
+#~ "following link to %s.</p>"
+
+#~ msgid "add a blogging panel"
+#~ msgstr "add a blogging panel"
+
+#~ msgid ""
+#~ "The panel has been added. You may have to ask your browser to make it "
+#~ "visible (Ctrl-B for Firefox)."
+#~ msgstr ""
+#~ "The panel has been added. You may have to ask your browser to make it "
+#~ "visible (Ctrl-B for Firefox)."
+
+#~ msgid ""
+#~ "Your browser do not support side panel. Do you want to upgrade to Mozilla "
+#~ "Firefox?"
+#~ msgstr ""
+#~ "Your browser do not support side panel. Do you want to upgrade to Mozilla "
+#~ "Firefox?"
+
+#~ msgid ""
+#~ "<p>If your are running Internet Explorer under Windows, click on the "
+#~ "following link to %s triggered on right-click. Accept registry updates, "
+#~ "and restart the browser afterwards.</p>"
+#~ msgstr ""
+#~ "<p>If your are running Internet Explorer under Windows, click on the "
+#~ "following link to %s triggered on right-click. Accept registry updates, "
+#~ "and restart the browser afterwards.</p>"
+
+#~ msgid "add a contextual bookmarklet"
+#~ msgstr "add a contextual bookmarklet"
+
+#~ msgid "How to format text in pages?"
+#~ msgstr "How to format text in pages?"
+
+#~ msgid ""
+#~ "<p>To ease the production of text YACS has a little code interpreter. You "
+#~ "will find in pages listed below descriptions of these codes, but also "
+#~ "examples of their visual rendering on your system.</p>"
+#~ msgstr ""
+#~ "<p>To ease the production of text YACS has a little code interpreter. You "
+#~ "will find in pages listed below descriptions of these codes, but also "
+#~ "examples of their visual rendering on your system.</p>"
+
+#~ msgid "Smileys available at this system"
+#~ msgstr "Smileys available at this system"
+
+#~ msgid "%s (bold, underline, ...)"
+#~ msgstr "%s (bold, underline, ...)"
+
+#~ msgid "In-line"
+#~ msgstr "In-line"
+
+#~ msgid "%s (and shortcuts, buttons, ...)"
+#~ msgstr "%s (and shortcuts, buttons, ...)"
+
+#~ msgid "Links"
+#~ msgstr "Links"
+
+#~ msgid "%s (with bullets, numbered, ...)"
+#~ msgstr "%s (with bullets, numbered, ...)"
+
+#~ msgid "Lists"
+#~ msgstr "Lists"
+
+#~ msgid "%s (indentation, script, quote, ...)"
+#~ msgstr "%s (indentation, script, quote, ...)"
+
+#~ msgid "Blocks"
+#~ msgstr "Blocks"
+
+#~ msgid "%s (with headers, with grids, use CSV data, ...)"
+#~ msgstr "%s (with headers, with grids, use CSV data, ...)"
+
+#~ msgid "Tables"
+#~ msgstr "Tables"
+
+#~ msgid "%s (and table of content)"
+#~ msgstr "%s (and table of content)"
+
+#~ msgid "Titles and questions"
+#~ msgstr "Titles and questions"
+
+#~ msgid "%s (cloud, locations, ...)"
+#~ msgstr "%s (cloud, locations, ...)"
+
+#~ msgid "Dynamic queries"
+#~ msgstr "Dynamic queries"
+
+#~ msgid "%s (flags, ...)"
+#~ msgstr "%s (flags, ...)"
+
+#~ msgid "Miscelleanous codes"
+#~ msgstr "Miscelleanous codes"
+
+#~ msgid "Get the source code?"
+#~ msgstr "Get the source code?"
+
+#~ msgid "Server software"
+#~ msgstr "Server software"
+
+#~ msgid "YACS %s and %s"
+#~ msgstr "YACS %s and %s"
+
+#~ msgid "authors"
+#~ msgstr "authors"
+
+#~ msgid "testers"
+#~ msgstr "testers"
+
+#~ msgid "%s LGPL and variations"
+#~ msgstr "%s LGPL and variations"
+
+#~ msgid "Licenses"
+#~ msgstr "Licenses"
+
+#~ msgid "Contribute to the development"
+#~ msgstr "Contribute to the development"
+
+#~ msgid "Not satisfied yet?"
+#~ msgstr "Not satisfied yet?"
+
+#~ msgid "%s on this site"
+#~ msgstr "%s on this site"
+
+#~ msgid "Submit a query to ask for help"
+#~ msgstr "Submit a query to ask for help"
+
+#~ msgid "%s to look for additional support"
+#~ msgstr "%s to look for additional support"
+
+#~ msgid "Browse yetanothercommunitysystem.com"
+#~ msgstr "Browse yetanothercommunitysystem.com"
+
+#~ msgid "Search at Google"
+#~ msgstr "Search at Google"
+
+#~ msgid "Control panel"
+#~ msgstr "Control panel"
+
+#~ msgid "Go to the control panel"
+#~ msgstr "Go to the control panel"
+
+#~ msgid "%s with the Content Assistant"
+#~ msgstr "%s with the Content Assistant"
+
+#~ msgid "Structure content of your server"
+#~ msgstr "Structure content of your server"
+
+#~ msgid "Still on the to-do list"
+#~ msgstr "Still on the to-do list"
+
+#~ msgid "We are here to help"
+#~ msgstr "We are here to help"
+
+#~ msgid "Server search"
+#~ msgstr "Server search"
+
+#~ msgid "First installation"
+#~ msgstr "First installation"
+
+#~ msgid "Welcome in the YACS setup assistant"
+#~ msgstr "Welcome in the YACS setup assistant"
+
+#~ msgid "Incomplete installation"
+#~ msgstr "Incomplete installation"
+
+#~ msgid "End of installation"
+#~ msgstr "End of installation"
+
+#~ msgid "No need for setup"
+#~ msgstr "No need for setup"
+
+#~ msgid "Categories tree"
+#~ msgstr "Categories tree"
+
+#~ msgid "Go to the main page"
+#~ msgstr "Go to the main page"
+
+#~ msgid "Stay tuned"
+#~ msgstr "Stay tuned"
+
+#~ msgid "Matching sections"
+#~ msgstr "Matching sections"
+
+#~ msgid "Update the category %s"
+#~ msgstr "Update the category %s"
+
+#~ msgid "Matching files"
+#~ msgstr "Matching files"
+
+#~ msgid "Matching users"
+#~ msgstr "Matching users"
+
+#~ msgid ""
+#~ "Submit %s to our %s in case this word would be a known nick name for any "
+#~ "page."
+#~ msgstr ""
+#~ "Submit %s to our %s in case this word would be a known nick name for any "
+#~ "page."
+
+#~ msgid "page locator"
+#~ msgstr "page locator"
+
+#~ msgid "Search for %s at "
+#~ msgstr "Search for %s at "
+
+#~ msgid "You can get a RSS list of matching pages for this search %s"
+#~ msgstr "You can get a RSS list of matching pages for this search %s"
+
+#~ msgid "Enter some keyword and hit enter to build a customized newsfeed."
+#~ msgstr "Enter some keyword and hit enter to build a customized newsfeed."
+
+#~ msgid "Customized Newsfeed"
+#~ msgstr "Customized Newsfeed"
+
+#~ msgid "The configuration panel for the front page"
+#~ msgstr "The configuration panel for the front page"
+
+#~ msgid "View the front page"
+#~ msgstr "View the front page"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Go to the Control Panel"
+
+#~ msgid "articles"
+#~ msgstr "articles"
+
+#~ msgid "users"
+#~ msgstr "users"
+
+#~ msgid "%s and check some configuration parameters."
+#~ msgstr "%s and check some configuration parameters."
+
+#~ msgid "Index of reference scripts"
+#~ msgstr "Index of reference scripts"
+
+#~ msgid "All articles"
+#~ msgstr "All articles"
+
+#~ msgid "More files"
+#~ msgstr "More files"
+
+#~ msgid "List recent pages"
+#~ msgstr "List recent pages"
+
+#~ msgid "View the site map"
+#~ msgstr "View the site map"
+
+#~ msgid "Use the search engine"
+#~ msgstr "Use the search engine"
+
+#~ msgid "Visit the help index"
+#~ msgstr "Visit the help index"
+
+#~ msgid ""
+#~ "Invalid parameters/hooks.include.php you should rescan for software "
+#~ "extensions"
+#~ msgstr ""
+#~ "Invalid parameters/hooks.include.php you should rescan for software "
+#~ "extensions"
+
+#~ msgid "Back"
+#~ msgstr "Back"
+
+#~ msgid "The extra panel"
+#~ msgstr "The extra panel"
+
+#~ msgid "Save parameters"
+#~ msgstr "Save parameters"
+
+#~ msgid "Create a new section"
+#~ msgstr "Create a new section"
+
+#~ msgid "Create a new article"
+#~ msgstr "Create a new article"
+
+#~ msgid "%s to be viewed by other members"
+#~ msgstr "%s to be viewed by other members"
+
+#~ msgid "Post an image or a photo"
+#~ msgstr "Post an image or a photo"
+
+#~ msgid "%s with other members"
+#~ msgstr "%s with other members"
+
+#~ msgid "Share a file"
+#~ msgstr "Share a file"
+
+#~ msgid "main page"
+#~ msgstr "main page"
+
+#~ msgid "new page"
+#~ msgstr "new page"
+
+#~ msgid "Edit again"
+#~ msgstr "Edit again"
+
+#~ msgid "Matching links"
+#~ msgstr "Matching links"
+
+#~ msgid "Matching comments"
+#~ msgstr "Matching comments"
+
+#~ msgid "Unable to read parameters/hooks.include.php"
+#~ msgstr "Unable to read parameters/hooks.include.php"
+
+#~ msgid "%s has been renamed with a '.bak' extension"
+#~ msgstr "%s has been renamed with a '.bak' extension"
+
+#~ msgid "Save the configuration"
+#~ msgstr "Save the configuration"
+
+#~ msgid "About this server"
+#~ msgstr "About this server"
+
+#~ msgid "What is %s about?"
+#~ msgstr "What is %s about?"
+
+#~ msgid ""
+#~ "Welcome to this server! Here are attributes transmitted in the header of "
+#~ "each page:"
+#~ msgstr ""
+#~ "Welcome to this server! Here are attributes transmitted in the header of "
+#~ "each page:"
+
+#~ msgid "Description"
+#~ msgstr "Description"
+
+#~ msgid "Keywords"
+#~ msgstr "Keywords"
+
+#~ msgid "Geographical position"
+#~ msgstr "Geographical position"
+
+#~ msgid "Copyright"
+#~ msgstr "Copyright"
+
+#~ msgid "Owner"
+#~ msgstr "Owner"
+
+#~ msgid ""
+#~ "This site is powered by %s, %s, and %s - a fast, easy-to-use site that "
+#~ "lets you access, review, and download information that matters for you."
+#~ msgstr ""
+#~ "This site is powered by %s, %s, and %s - a fast, easy-to-use site that "
+#~ "lets you access, review, and download information that matters for you."
+
+#~ msgid "YACS"
+#~ msgstr "YACS"
+
+#~ msgid "http://www.php.net/"
+#~ msgstr "http://www.php.net/"
+
+#~ msgid "Contact Us"
+#~ msgstr "Contact Us"
+
+#~ msgid ""
+#~ "<p>The preferred mean to join us is to use the general-purpose query "
+#~ "form. This is a convenient tool for you and for us, because your request "
+#~ "and related answers will be listed at a single place accessible from your "
+#~ "web browser. Moreover, you will be informed by e-mail of any progressing "
+#~ "step to your query.</p>"
+#~ msgstr ""
+#~ "<p>The preferred mean to join us is to use the general-purpose query "
+#~ "form. This is a convenient tool for you and for us, because your request "
+#~ "and related answers will be listed at a single place accessible from your "
+#~ "web browser. Moreover, you will be informed by e-mail of any progressing "
+#~ "step to your query.</p>"
+
+#~ msgid "Query: %s"
+#~ msgstr "Query: %s"
+
+#~ msgid "Use the on-line form"
+#~ msgstr "Use the on-line form"
+
+#~ msgid ""
+#~ "<p>It seems to be one of the Laws of the Internet that every site of any "
+#~ "importance must have an email address for the webmaster. Far be it from "
+#~ "us to break the trend; so, if you have something vitally important to "
+#~ "tell the folks who designed this place, send a message at the following "
+#~ "address.</p>"
+#~ msgstr ""
+#~ "<p>It seems to be one of the Laws of the Internet that every site of any "
+#~ "importance must have an email address for the webmaster. Far be it from "
+#~ "us to break the trend; so, if you have something vitally important to "
+#~ "tell the folks who designed this place, send a message at the following "
+#~ "address.</p>"
+
+#~ msgid "Webmaster: %s"
+#~ msgstr "Webmaster: %s"
+
+#~ msgid ""
+#~ "Due to the large amount of e-mail that we get, we can NOT guarantee a "
+#~ "response! This is especially true if your e-mail concerns issues we can't "
+#~ "really help you with."
+#~ msgstr ""
+#~ "Due to the large amount of e-mail that we get, we can NOT guarantee a "
+#~ "response! This is especially true if your e-mail concerns issues we can't "
+#~ "really help you with."
+
+#~ msgid "How you can help"
+#~ msgstr "How you can help"
+
+#~ msgid ""
+#~ "<p>We're proud of this server, but it certainly isn't perfect. We're "
+#~ "always looking for ways to improve the site. So, if you've got any great "
+#~ "ideas, then please let us know about them. Or, if you know of some "
+#~ "important information that isn't listed here, email the author and tell "
+#~ "them you want it listed on this site! It'll help make this server a "
+#~ "better site for the whole community - and that's who we're here to serve."
+#~ "</p>"
+#~ msgstr ""
+#~ "<p>We're proud of this server, but it certainly isn't perfect. We're "
+#~ "always looking for ways to improve the site. So, if you've got any great "
+#~ "ideas, then please let us know about them. Or, if you know of some "
+#~ "important information that isn't listed here, email the author and tell "
+#~ "them you want it listed on this site! It'll help make this server a "
+#~ "better site for the whole community - and that's who we're here to serve."
+#~ "</p>"
+
+#~ msgid "Legal Stuff"
+#~ msgstr "Legal Stuff"
+
+#~ msgid ""
+#~ "<p>Be nice to other people, don't spam them, and don't do anything bad "
+#~ "with any information you might get from this site.</p>"
+#~ msgstr ""
+#~ "<p>Be nice to other people, don't spam them, and don't do anything bad "
+#~ "with any information you might get from this site.</p>"
+
+#~ msgid ""
+#~ "<p>All content, including but not limited to user reviews, application "
+#~ "listings and information contained therein, is owned by %s and may not be "
+#~ "copied without permission. However, the above content my be freely "
+#~ "modified and/or removed by the person or persons responsible for "
+#~ "submitting it.</p>"
+#~ msgstr ""
+#~ "<p>All content, including but not limited to user reviews, application "
+#~ "listings and information contained therein, is owned by %s and may not be "
+#~ "copied without permission. However, the above content my be freely "
+#~ "modified and/or removed by the person or persons responsible for "
+#~ "submitting it.</p>"
+
+#~ msgid ""
+#~ "<p>%1$s is not responsible for the content of information submitted to "
+#~ "the site. %1$s is not responsible for any content contained on other "
+#~ "sites that may link to or be linked to %2$s. As such, the existence of a "
+#~ "link to another site on %2$s does not express endorsement by %1$s of said "
+#~ "site or its contents.</p>"
+#~ msgstr ""
+#~ "<p>%1$s is not responsible for the content of information submitted to "
+#~ "the site. %1$s is not responsible for any content contained on other "
+#~ "sites that may link to or be linked to %2$s. As such, the existence of a "
+#~ "link to another site on %2$s does not express endorsement by %1$s of said "
+#~ "site or its contents.</p>"
+
+#~ msgid ""
+#~ "<p>All other trademarks, icons, and logos, shown or mentioned, are the "
+#~ "property of their respective owners, including those associated with any "
+#~ "solutions listed in %2$s. Although %1$s does not own and is not "
+#~ "responsible for all of the content on the site, we reserve the right to "
+#~ "edit or remove any content at any time in any way we deem necessary, "
+#~ "without any notification whatselver to the owner(s) of that content, to "
+#~ "keep it better in line with our stated and/or unstated policies. %1$s is "
+#~ "not responsible for any copyright laws violated by the applications "
+#~ "listed herein, although we will do everything we can do resolve any "
+#~ "disputes that may arise in this area.</p>"
+#~ msgstr ""
+#~ "<p>All other trademarks, icons, and logos, shown or mentioned, are the "
+#~ "property of their respective owners, including those associated with any "
+#~ "solutions listed in %2$s. Although %1$s does not own and is not "
+#~ "responsible for all of the content on the site, we reserve the right to "
+#~ "edit or remove any content at any time in any way we deem necessary, "
+#~ "without any notification whatselver to the owner(s) of that content, to "
+#~ "keep it better in line with our stated and/or unstated policies. %1$s is "
+#~ "not responsible for any copyright laws violated by the applications "
+#~ "listed herein, although we will do everything we can do resolve any "
+#~ "disputes that may arise in this area.</p>"
+
+#~ msgid "Edited"
+#~ msgstr "Edited"
+
+#~ msgid "<p>To change information displayed, go to the %s.</p>"
+#~ msgstr "<p>To change information displayed, go to the %s.</p>"
+
+#~ msgid "configuration panel for skins"
+#~ msgstr "configuration panel for skins"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Privacy Policy"
+
+#~ msgid ""
+#~ "<p>We respect your privacy! Any and all information collected at this "
+#~ "site will be kept strictly confidential and will not be sold, reused, "
+#~ "rented, loaned or otherwise disclosed. Any information you give to us "
+#~ "will be held with the utmost care, and will not be used in ways that you "
+#~ "have not consented to. Read on for more specific information.</p>"
+#~ msgstr ""
+#~ "<p>We respect your privacy! Any and all information collected at this "
+#~ "site will be kept strictly confidential and will not be sold, reused, "
+#~ "rented, loaned or otherwise disclosed. Any information you give to us "
+#~ "will be held with the utmost care, and will not be used in ways that you "
+#~ "have not consented to. Read on for more specific information.</p>"
+
+#~ msgid ""
+#~ "<p>In order to make certain parts of this server work, some sections of "
+#~ "the site require you to give us your e-mail address and/or other types of "
+#~ "personal information (or may do so in the future). We do not sell, rent, "
+#~ "loan, trade, or lease any personal information collected at our site, "
+#~ "including survey forms or email lists. In other words, your information "
+#~ "is safe with us.</p>"
+#~ msgstr ""
+#~ "<p>In order to make certain parts of this server work, some sections of "
+#~ "the site require you to give us your e-mail address and/or other types of "
+#~ "personal information (or may do so in the future). We do not sell, rent, "
+#~ "loan, trade, or lease any personal information collected at our site, "
+#~ "including survey forms or email lists. In other words, your information "
+#~ "is safe with us.</p>"
+
+#~ msgid "Mailings"
+#~ msgstr "Mailings"
+
+#~ msgid ""
+#~ "<p>In some cases we will use your email address internally, both for "
+#~ "identification purposes and to email you updates related to your pages. "
+#~ "Your explicit approval is required to mail you our periodic newsletter. "
+#~ "At any time you can easily configure your account to enable or to disable "
+#~ "such mailings. We <i>may</i>, in certain cases, send you email updates "
+#~ "you haven't specifically requested to receive; if and when we do this, we "
+#~ "won't do it without a good reason (and this certainly won't serve as our "
+#~ "excuse to spam you.)</p>"
+#~ msgstr ""
+#~ "<p>In some cases we will use your email address internally, both for "
+#~ "identification purposes and to email you updates related to your pages. "
+#~ "Your explicit approval is required to mail you our periodic newsletter. "
+#~ "At any time you can easily configure your account to enable or to disable "
+#~ "such mailings. We <i>may</i>, in certain cases, send you email updates "
+#~ "you haven't specifically requested to receive; if and when we do this, we "
+#~ "won't do it without a good reason (and this certainly won't serve as our "
+#~ "excuse to spam you.)</p>"
+
+#~ msgid "Web Logs"
+#~ msgstr "Web Logs"
+
+#~ msgid ""
+#~ "<p>We occasionally analyzes our website logs to constantly improve the "
+#~ "value of the content available on our website. Our website logs are not "
+#~ "personally identifiable, and we make no attempt to link them with the "
+#~ "individuals that actually browse the site.</p>"
+#~ msgstr ""
+#~ "<p>We occasionally analyzes our website logs to constantly improve the "
+#~ "value of the content available on our website. Our website logs are not "
+#~ "personally identifiable, and we make no attempt to link them with the "
+#~ "individuals that actually browse the site.</p>"
+
+#~ msgid "Cookies"
+#~ msgstr "Cookies"
+
+#~ msgid ""
+#~ "<p>Although some Internet users think cookies are a serious privacy "
+#~ "issue, as web designers we think that they come in darned handy. This "
+#~ "site uses cookies for basic account identification purposes, but that's "
+#~ "as far as we go. We won't use any information from cookies to track your "
+#~ "browsing sessions, attempt to extract personal information from them that "
+#~ "we wouldn't otherwise have access to, or do any other naughty things with "
+#~ "your cookies. If you don't agree with our use of cookies, you can "
+#~ "configure most web browsers not to accept them. Even without a cookie, a "
+#~ "significant part of this server will still be accessible to you (although "
+#~ "you will lose the ability to do anything that requires you to be logged "
+#~ "into the server).</p>"
+#~ msgstr ""
+#~ "<p>Although some Internet users think cookies are a serious privacy "
+#~ "issue, as web designers we think that they come in darned handy. This "
+#~ "site uses cookies for basic account identification purposes, but that's "
+#~ "as far as we go. We won't use any information from cookies to track your "
+#~ "browsing sessions, attempt to extract personal information from them that "
+#~ "we wouldn't otherwise have access to, or do any other naughty things with "
+#~ "your cookies. If you don't agree with our use of cookies, you can "
+#~ "configure most web browsers not to accept them. Even without a cookie, a "
+#~ "significant part of this server will still be accessible to you (although "
+#~ "you will lose the ability to do anything that requires you to be logged "
+#~ "into the server).</p>"
+
+#~ msgid "Passwords"
+#~ msgstr "Passwords"
+
+#~ msgid ""
+#~ "<p>This server requires you to define and enter passwords to access "
+#~ "certain areas of the site. In case this conjures up images of crackers "
+#~ "breaking into our databases and getting your passwords, you don't have to "
+#~ "worry about it. Passwords are stored in an encrypted format, so that "
+#~ "<i>we</i> can't even look at them. This encryption <i>is</i> breakable, "
+#~ "but it takes a lot of effort and computing time (days or weeks to crack a "
+#~ "single password) so for all intents and purposes, your passwords are safe "
+#~ "here. The downside to this, of course, is that if you lose or forget your "
+#~ "password we can't get it back for you. We've provided a method to reset "
+#~ "your password if this happens, but as with any other password, it's best "
+#~ "not to forget in the first place.</p>"
+#~ msgstr ""
+#~ "<p>This server requires you to define and enter passwords to access "
+#~ "certain areas of the site. In case this conjures up images of crackers "
+#~ "breaking into our databases and getting your passwords, you don't have to "
+#~ "worry about it. Passwords are stored in an encrypted format, so that "
+#~ "<i>we</i> can't even look at them. This encryption <i>is</i> breakable, "
+#~ "but it takes a lot of effort and computing time (days or weeks to crack a "
+#~ "single password) so for all intents and purposes, your passwords are safe "
+#~ "here. The downside to this, of course, is that if you lose or forget your "
+#~ "password we can't get it back for you. We've provided a method to reset "
+#~ "your password if this happens, but as with any other password, it's best "
+#~ "not to forget in the first place.</p>"
+
+#~ msgid "Posted material"
+#~ msgstr "Posted material"
+
+#~ msgid ""
+#~ "<p>Posted material is, of course, not private; several persons can look "
+#~ "at them. But this is as good a time as any to point out that we own and "
+#~ "retain control of whatever records you enter into the system. This means "
+#~ "that we reserve the right to view and modify your articles, files, links, "
+#~ "comments, etc. and we exercise this right. Most of the time we do this to "
+#~ "fix trivial things; for example, if you post a page into an incorrect "
+#~ "section, made a really obvious typo, or put in something really "
+#~ "inappropriate, then we might modify it. But in any case, you should be "
+#~ "aware that this could happen. FYI, <i>we</i> get to decide what's "
+#~ "inappropriate, but you should all know your netiquette by now, right?  :-)"
+#~ "</p>"
+#~ msgstr ""
+#~ "<p>Posted material is, of course, not private; several persons can look "
+#~ "at them. But this is as good a time as any to point out that we own and "
+#~ "retain control of whatever records you enter into the system. This means "
+#~ "that we reserve the right to view and modify your articles, files, links, "
+#~ "comments, etc. and we exercise this right. Most of the time we do this to "
+#~ "fix trivial things; for example, if you post a page into an incorrect "
+#~ "section, made a really obvious typo, or put in something really "
+#~ "inappropriate, then we might modify it. But in any case, you should be "
+#~ "aware that this could happen. FYI, <i>we</i> get to decide what's "
+#~ "inappropriate, but you should all know your netiquette by now, right?  :-)"
+#~ "</p>"
+
+#~ msgid ""
+#~ "<hr><p>If you have any questions or comments about our privacy policy, or "
+#~ "would like more information about a particular category, please <a href="
+#~ "\"about.php\">get in touch</a> with us.</p>"
+#~ msgstr ""
+#~ "<hr><p>If you have any questions or comments about our privacy policy, or "
+#~ "would like more information about a particular category, please <a href="
+#~ "\"about.php\">get in touch</a> with us.</p>"

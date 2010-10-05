@@ -1,0 +1,660 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"PO-Revision-Date: 2009-10-05 16:04+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: feeds/configure.php:68 feeds/configure.php:203 feeds/configure.php:292
+#: feeds/flash/configure.php:53 feeds/flash/configure.php:158
+#: feeds/flash/configure.php:249
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: feeds/configure.php:71 feeds/flash/configure.php:56
+#, php-format
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: feeds/configure.php:71 feeds/index.php:185 feeds/flash/configure.php:56
+msgid "Configure"
+msgstr "Configure"
+
+#: feeds/configure.php:71 feeds/configure.php:207 feeds/configure.php:291
+#: feeds/index.php:60 feeds/flash/configure.php:166
+#: feeds/flash/configure.php:248
+msgid "Information channels"
+msgstr "Information channels"
+
+#: feeds/configure.php:80 feeds/flash/configure.php:65
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: feeds/configure.php:96
+msgid ""
+"Type below information that will be spread everywhere through news feeding."
+msgstr ""
+"Type below information that will be spread everywhere through news feeding."
+
+#: feeds/configure.php:101
+msgid "Channel title"
+msgstr "Channel title"
+
+#: feeds/configure.php:103
+msgid "Short and meaningful label"
+msgstr "Short and meaningful label"
+
+#: feeds/configure.php:109
+msgid "Channel description"
+msgstr "Channel description"
+
+#: feeds/configure.php:111
+msgid "Up to two lines of text"
+msgstr "Up to two lines of text"
+
+#: feeds/configure.php:117
+msgid "Webmaster mail address"
+msgstr "Webmaster mail address"
+
+#: feeds/configure.php:119
+msgid "May be subject to spam attacks"
+msgstr "May be subject to spam attacks"
+
+#: feeds/configure.php:129
+msgid "Channel image"
+msgstr "Channel image"
+
+#: feeds/configure.php:131
+msgid "Relative to YACS installation path"
+msgstr "Relative to YACS installation path"
+
+#: feeds/configure.php:137
+msgid "Time to live"
+msgstr "Time to live"
+
+#: feeds/configure.php:139
+msgid "The suggested amount of time before fetching a feed again"
+msgstr "The suggested amount of time before fetching a feed again"
+
+#: feeds/configure.php:151 feeds/index.php:146
+#, php-format
+msgid "To extend the list of feeders add adequate %s."
+msgstr "To extend the list of feeders add adequate %s."
+
+#: feeds/configure.php:151 feeds/index.php:146
+msgid "server profiles"
+msgstr "server profiles"
+
+#: feeds/configure.php:156
+msgid "Feeding period"
+msgstr "Feeding period"
+
+#: feeds/configure.php:158
+msgid "In minutes. 60 means one hour, etc. Minimum value is 5 minutes"
+msgstr "In minutes. 60 means one hour, etc. Minimum value is 5 minutes"
+
+#: feeds/configure.php:164
+msgid "Maximum news"
+msgstr "Maximum news"
+
+#: feeds/configure.php:166
+msgid "Oldest news entries will be deleted"
+msgstr "Oldest news entries will be deleted"
+
+#: feeds/configure.php:170
+msgid "Debug feeds"
+msgstr "Debug feeds"
+
+#: feeds/configure.php:174
+msgid "Save data sent and received in temporary/debug.txt"
+msgstr "Save data sent and received in temporary/debug.txt"
+
+#: feeds/configure.php:175
+msgid "Use this option only for troubleshooting"
+msgstr "Use this option only for troubleshooting"
+
+#: feeds/configure.php:186
+msgid "Outbound"
+msgstr "Outbound"
+
+#: feeds/configure.php:187
+msgid "Inbound"
+msgstr "Inbound"
+
+#: feeds/configure.php:199 feeds/flash/configure.php:154
+msgid "Submit"
+msgstr "Submit"
+
+#: feeds/configure.php:199 feeds/flash/configure.php:154
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: feeds/configure.php:222
+#, php-format
+msgid "To ban some hosts or domains, go to the %s."
+msgstr "To ban some hosts or domains, go to the %s."
+
+#: feeds/configure.php:222
+msgid "configuration panel for servers"
+msgstr "configuration panel for servers"
+
+#: feeds/configure.php:223 feeds/flash/configure.php:182
+msgid "Help"
+msgstr "Help"
+
+#: feeds/configure.php:228 feeds/flash/configure.php:187
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr "You are not allowed to perform this operation in demonstration mode."
+
+#: feeds/configure.php:266 feeds/flash/configure.php:225
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+
+#: feeds/configure.php:269 feeds/flash/configure.php:228
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+
+#: feeds/configure.php:274 feeds/flash/configure.php:233
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "The following configuration has been saved into the file %s."
+
+#: feeds/configure.php:280 feeds/flash/configure.php:236
+#, php-format
+msgid "%s has been updated"
+msgstr "%s has been updated"
+
+#: feeds/configure.php:286 feeds/flash/configure.php:242
+msgid "Configuration parameters"
+msgstr "Configuration parameters"
+
+#: feeds/configure.php:289 feeds/flash/configure.php:245
+msgid "Where do you want to go now?"
+msgstr "Where do you want to go now?"
+
+#: feeds/configure.php:293 feeds/flash/configure.php:250
+msgid "Configure again"
+msgstr "Configure again"
+
+#: feeds/describe.php:69
+msgid "Pages with full content"
+msgstr "Pages with full content"
+
+#: feeds/describe.php:72
+msgid "Comments"
+msgstr "Comments"
+
+#: feeds/describe.php:75
+msgid "Files and podcasts"
+msgstr "Files and podcasts"
+
+#: feeds/feeds.php:340
+msgid "External News"
+msgstr "External News"
+
+#: feeds/feeds.php:341
+msgid "Received from feeding servers"
+msgstr "Received from feeding servers"
+
+#: feeds/index.php:74
+#, php-format
+msgid ""
+"If you are unfamiliar with news feeds, they are easy to use. First, download "
+"a newsreader application like %s or %s. Then, copy and paste the URL of any "
+"news feed below into the application subscribe dialogue. See Google for more "
+"about %s."
+msgstr ""
+"If you are unfamiliar with news feeds, they are easy to use. First, download "
+"a newsreader application like %s or %s. Then, copy and paste the URL of any "
+"news feed below into the application subscribe dialogue. See Google for more "
+"about %s."
+
+#: feeds/index.php:74
+msgid "http://www.rssbandit.org/"
+msgstr "http://www.rssbandit.org/"
+
+#: feeds/index.php:74
+msgid "Rss Bandit"
+msgstr "Rss Bandit"
+
+#: feeds/index.php:74
+msgid "http://www.feedreader.com/"
+msgstr "http://www.feedreader.com/"
+
+#: feeds/index.php:74
+msgid "FeedReader"
+msgstr "FeedReader"
+
+#: feeds/index.php:74
+msgid "http://www.google.com/search?q=RSS+newsreaders"
+msgstr "http://www.google.com/search?q=RSS+newsreaders"
+
+#: feeds/index.php:74
+msgid "RSS newsreaders"
+msgstr "RSS newsreaders"
+
+#: feeds/index.php:77
+msgid ""
+"Regular individuals will feed their preferred news reader with one of the "
+"links below:"
+msgstr ""
+"Regular individuals will feed their preferred news reader with one of the "
+"links below:"
+
+#: feeds/index.php:80
+msgid "RSS format"
+msgstr "RSS format"
+
+#: feeds/index.php:81
+msgid "ATOM format"
+msgstr "ATOM format"
+
+#: feeds/index.php:82
+msgid "RDF/RSS format"
+msgstr "RDF/RSS format"
+
+#: feeds/index.php:83
+msgid "Index of main channels in OPML format"
+msgstr "Index of main channels in OPML format"
+
+#: feeds/index.php:89
+msgid "Advanced bloggers can also use heavy feeds:"
+msgstr "Advanced bloggers can also use heavy feeds:"
+
+#: feeds/index.php:92
+msgid "recent articles, integral version"
+msgstr "recent articles, integral version"
+
+#: feeds/index.php:93 feeds/index.php:100
+msgid "recent files"
+msgstr "recent files"
+
+#: feeds/index.php:94
+msgid "recent comments"
+msgstr "recent comments"
+
+#: feeds/index.php:100
+#, php-format
+msgid "YACS enables automatic downloads and %s through a feed dedicated to %s."
+msgstr ""
+"YACS enables automatic downloads and %s through a feed dedicated to %s."
+
+#: feeds/index.php:100
+msgid "http://en.wikipedia.org/wiki/Podcasting"
+msgstr "http://en.wikipedia.org/wiki/Podcasting"
+
+#: feeds/index.php:100
+msgid "podcasting"
+msgstr "podcasting"
+
+#: feeds/index.php:103
+msgid ""
+"More specific outbound feeds are also available. Look for the XML button at "
+"other places:"
+msgstr ""
+"More specific outbound feeds are also available. Look for the XML button at "
+"other places:"
+
+#: feeds/index.php:104
+#, php-format
+msgid "Browse the %s; each section has its own feed."
+msgstr "Browse the %s; each section has its own feed."
+
+#: feeds/index.php:104
+msgid "site map"
+msgstr "site map"
+
+#: feeds/index.php:105
+#, php-format
+msgid "Or browse %s to get a more focused feed."
+msgstr "Or browse %s to get a more focused feed."
+
+#: feeds/index.php:105
+msgid "categories"
+msgstr "categories"
+
+#: feeds/index.php:106
+#, php-format
+msgid "Visit %s, each one has a feed to monitor contributions from one person."
+msgstr ""
+"Visit %s, each one has a feed to monitor contributions from one person."
+
+#: feeds/index.php:106
+msgid "user profiles"
+msgstr "user profiles"
+
+#: feeds/index.php:107
+#, php-format
+msgid "You can even use our %s to build one customised feed."
+msgstr "You can even use our %s to build one customised feed."
+
+#: feeds/index.php:107
+msgid "search engine"
+msgstr "search engine"
+
+#: feeds/index.php:111
+#, php-format
+msgid "To help %s we also maintain a %s to be indexed."
+msgstr "To help %s we also maintain a %s to be indexed."
+
+#: feeds/index.php:111
+msgid "https://www.google.com/webmasters/sitemaps/"
+msgstr "https://www.google.com/webmasters/sitemaps/"
+
+#: feeds/index.php:111
+msgid "Google"
+msgstr "Google"
+
+#: feeds/index.php:111
+msgid "Sitemap list of important pages"
+msgstr "Sitemap list of important pages"
+
+#: feeds/index.php:115
+#, php-format
+msgid "As a an associate, you can also access the %s."
+msgstr "As a an associate, you can also access the %s."
+
+#: feeds/index.php:115
+msgid "event log"
+msgstr "event log"
+
+#: feeds/index.php:124
+msgid "Current local news"
+msgstr "Current local news"
+
+#: feeds/index.php:135
+msgid "Outbound feeds"
+msgstr "Outbound feeds"
+
+#: feeds/index.php:153
+#, php-format
+msgid ""
+"No feeder has been defined. If you need to integrate some external RSS %s."
+msgstr ""
+"No feeder has been defined. If you need to integrate some external RSS %s."
+
+#: feeds/index.php:153
+msgid "add a server profile"
+msgstr "add a server profile"
+
+#: feeds/index.php:159
+msgid "Most recent external news"
+msgstr "Most recent external news"
+
+#: feeds/index.php:168
+msgid "Inbound feeds"
+msgstr "Inbound feeds"
+
+#: feeds/index.php:202
+msgid "Pick a feed"
+msgstr "Pick a feed"
+
+#: feeds/index.php:207
+msgid "Aggregate this site"
+msgstr "Aggregate this site"
+
+#: feeds/rss.php:112
+msgid "Latest Articles"
+msgstr "Latest Articles"
+
+#: feeds/flash/configure.php:56
+msgid "Flash"
+msgstr "Flash"
+
+#: feeds/flash/configure.php:77
+msgid "Font Red"
+msgstr "Font Red"
+
+#: feeds/flash/configure.php:79 feeds/flash/configure.php:85
+#: feeds/flash/configure.php:91 feeds/flash/configure.php:97
+#: feeds/flash/configure.php:103 feeds/flash/configure.php:109
+msgid "An integer value, in decimal or hexadecimal, eg, 0x11"
+msgstr "An integer value, in decimal or hexadecimal, eg, 0x11"
+
+#: feeds/flash/configure.php:83
+msgid "Font Green"
+msgstr "Font Green"
+
+#: feeds/flash/configure.php:89
+msgid "Font Blue"
+msgstr "Font Blue"
+
+#: feeds/flash/configure.php:95
+msgid "Background Red"
+msgstr "Background Red"
+
+#: feeds/flash/configure.php:101
+msgid "Background Green"
+msgstr "Background Green"
+
+#: feeds/flash/configure.php:107
+msgid "Background Blue"
+msgstr "Background Blue"
+
+#: feeds/flash/configure.php:115
+msgid "Font file"
+msgstr "Font file"
+
+#: feeds/flash/configure.php:117
+msgid "Ensure the file already exists and is a valid font description"
+msgstr "Ensure the file already exists and is a valid font description"
+
+#: feeds/flash/configure.php:123
+msgid "Font height"
+msgstr "Font height"
+
+#: feeds/flash/configure.php:125
+msgid "Compare to the internal vertical scale below"
+msgstr "Compare to the internal vertical scale below"
+
+#: feeds/flash/configure.php:131
+msgid "Object width"
+msgstr "Object width"
+
+#: feeds/flash/configure.php:133
+msgid "Internal horizontal scale"
+msgstr "Internal horizontal scale"
+
+#: feeds/flash/configure.php:139
+msgid "Object height"
+msgstr "Object height"
+
+#: feeds/flash/configure.php:141
+msgid "Internal vertical scale"
+msgstr "Internal vertical scale"
+
+#: feeds/flash/configure.php:162 feeds/flash/configure.php:247
+msgid "Front page"
+msgstr "Front page"
+
+#: feeds/flash/configure.php:181
+msgid "Do not set any background color to achieve a transparent object."
+msgstr "Do not set any background color to achieve a transparent object."
+
+#~ msgid "RSS 0.92 format"
+#~ msgstr "RSS 0.92 format"
+
+#~ msgid ""
+#~ "Visit any of the available %s to list articles from your preferred author."
+#~ msgstr ""
+#~ "Visit any of the available %s to list articles from your preferred author."
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configure: %s"
+
+#~ msgid "Comments and reactions"
+#~ msgstr "Comments and reactions"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode.For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode.For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+
+#~ msgid "public files"
+#~ msgstr "public files"
+
+#~ msgid "Feeds"
+#~ msgstr "Feeds"
+
+#~ msgid "The configuration panel for feeds"
+#~ msgstr "The configuration panel for feeds"
+
+#~ msgid "All feeds"
+#~ msgstr "All feeds"
+
+#~ msgid "Feeding other sites"
+#~ msgstr "Feeding other sites"
+
+#~ msgid "Beeing feeded by others"
+#~ msgstr "Beeing feeded by others"
+
+#~ msgid "Save parameters"
+#~ msgstr "Save parameters"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Go to the Control Panel"
+
+#~ msgid "The configuration panel for Flash"
+#~ msgstr "The configuration panel for Flash"
+
+#~ msgid "create an adequate server profile"
+#~ msgstr "create an adequate server profile"
+
+#~ msgid "Edit again"
+#~ msgstr "Edit again"
+
+#~ msgid "Configure feeds"
+#~ msgstr "Configure feeds"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Save changes"
+#~ msgstr "Save changes"
+
+#~ msgid ""
+#~ "ERROR: Impossible to write to the file parameters/feeds.flash.include."
+#~ "php. The configuration has not been saved."
+#~ msgstr ""
+#~ "ERROR: Impossible to write to the file parameters/feeds.flash.include."
+#~ "php. The configuration has not been saved."
+
+#~ msgid ""
+#~ "To actually change the configuration, please copy and paste following "
+#~ "lines by yourself in file parameters/feeds.flash.include.php:"
+#~ msgstr ""
+#~ "To actually change the configuration, please copy and paste following "
+#~ "lines by yourself in file parameters/feeds.flash.include.php:"
+
+#~ msgid ""
+#~ "The following configuration has been saved into the file parameters/feeds."
+#~ "flash.include.php:"
+#~ msgstr ""
+#~ "The following configuration has been saved into the file parameters/feeds."
+#~ "flash.include.php:"
+
+#~ msgid ""
+#~ "Click on this button to subscribe with SharpReader, Radio Userland, "
+#~ "NewsGator, or with any news reader listening on port 5335"
+#~ msgstr ""
+#~ "Click on this button to subscribe with SharpReader, Radio Userland, "
+#~ "NewsGator, or with any news reader listening on port 5335"
+
+#~ msgid "Bloglines citations"
+#~ msgstr "Bloglines citations"
+
+#~ msgid "Technorati"
+#~ msgstr "Technorati"
+
+#~ msgid "See also"
+#~ msgstr "See also"
+
+#~ msgid "RSS references"
+#~ msgstr "RSS references"
+
+#~ msgid "parameters/feeds.include.php has been renamed with a .bak extension."
+#~ msgstr ""
+#~ "parameters/feeds.include.php has been renamed with a .bak extension."
+
+#~ msgid "parameters/feeds.include.php has been changed"
+#~ msgstr "parameters/feeds.include.php has been changed"
+
+#~ msgid ""
+#~ "parameters/feeds.flash.include.php has been renamed with a .bak extension"
+#~ msgstr ""
+#~ "parameters/feeds.flash.include.php has been renamed with a .bak extension"
+
+#~ msgid "parameters/feeds.flash.include.php has been changed"
+#~ msgstr "parameters/feeds.flash.include.php has been changed"
+
+#~ msgid "You are not allowed to handle parameters of this server."
+#~ msgstr "You are not allowed to handle parameters of this server."
+
+#~ msgid ""
+#~ "feeds/flash/parameters.include.php has been renamed with a .bak extension"
+#~ msgstr ""
+#~ "feeds/flash/parameters.include.php has been renamed with a .bak extension"
+
+#~ msgid ""
+#~ "ERROR: Impossible to write to the file feeds/flash/parameters.include."
+#~ "php. The configuration has not been saved."
+#~ msgstr ""
+#~ "ERROR: Impossible to write to the file feeds/flash/parameters.include."
+#~ "php. The configuration has not been saved."
+
+#~ msgid ""
+#~ "To actually change the configuration, please copy and paste following "
+#~ "lines by yourself in file feeds/flash/parameters.include.php:"
+#~ msgstr ""
+#~ "To actually change the configuration, please copy and paste following "
+#~ "lines by yourself in file feeds/flash/parameters.include.php:"
+
+#~ msgid ""
+#~ "The following configuration has been saved into the file feeds/flash/"
+#~ "parameters.include.php:"
+#~ msgstr ""
+#~ "The following configuration has been saved into the file feeds/flash/"
+#~ "parameters.include.php:"
+
+#~ msgid "feeds/flash/parameters.include.php has been changed"
+#~ msgstr "feeds/flash/parameters.include.php has been changed"
+
+#~ msgid "Quick setup"
+#~ msgstr "Quick setup"
+
+#~ msgid "Standards"
+#~ msgstr "Standards"

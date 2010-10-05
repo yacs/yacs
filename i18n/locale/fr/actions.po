@@ -1,0 +1,428 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"PO-Revision-Date: 2010-08-11 17:29+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Language: French\n"
+
+#: actions/accept.php:95 actions/delete.php:82 actions/edit.php:115
+#: actions/view.php:124
+#, php-format
+msgid "%s: %s"
+msgstr "%s : %s"
+
+#: actions/accept.php:95
+msgid "Accept"
+msgstr "Accepter"
+
+#: actions/accept.php:110 actions/check.php:28 actions/delete.php:91
+#: actions/edit.php:128 actions/edit.php:139 actions/index.php:63
+#: actions/list.php:114 actions/list.php:119 actions/view.php:87
+msgid "You are not allowed to perform this operation."
+msgstr "Vous n'êtes pas autorisé à faire cette opération."
+
+#: actions/accept.php:125 actions/edit.php:313
+msgid "On-going"
+msgstr "En cours"
+
+#: actions/accept.php:129 actions/edit.php:317 actions/view.php:136
+msgid "Completed"
+msgstr "Terminée"
+
+#: actions/accept.php:133 actions/edit.php:321 actions/view.php:137
+msgid "Rejected"
+msgstr "Rejetée"
+
+#: actions/accept.php:139
+#, php-format
+msgid ""
+"<p>The following action has been flagged with the status:</p><p><b>%s</b></p>"
+msgstr "<p>L'action suivante a maintenant l'état :</p><p><b>%s</b></p>"
+
+#: actions/actions.php:63
+msgid "No item has the provided id."
+msgstr "Identifiant inconnu."
+
+#: actions/actions.php:73
+#, php-format
+msgid "Unknown status %s"
+msgstr "Etat inconnu %s"
+
+#: actions/actions.php:644 actions/edit.php:354
+msgid "No title has been provided."
+msgstr "Aucun titre n'a été fourni."
+
+#: actions/actions.php:650 actions/edit.php:144 actions/list.php:103
+msgid "No anchor has been found."
+msgstr "Aucun ancrage n'a été trouvé."
+
+#: actions/check.php:20
+msgid "actions"
+msgstr "actions"
+
+#: actions/check.php:23 actions/index.php:100
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: actions/check.php:31 actions/check.php:85 actions/delete.php:78
+#: actions/edit.php:111 actions/index.php:58 actions/list.php:80
+#: actions/list.php:86 actions/view.php:68
+msgid "Actions"
+msgstr "Actions"
+
+#: actions/check.php:38
+#, php-format
+msgid "Analyzing table %s..."
+msgstr "Analyse de la table %s ..."
+
+#: actions/check.php:57 actions/check.php:78
+#, php-format
+msgid "%d records have been processed"
+msgstr "%d enregistrements ont été traités"
+
+#: actions/check.php:65
+#, php-format
+msgid "Orphan: %s"
+msgstr "Orphelin : %s"
+
+#: actions/check.php:67
+msgid "Too many successive errors. Aborted"
+msgstr "Trop d'erreurs successives. Abandon"
+
+#: actions/check.php:82
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Exécution terminée en %.2f secondes."
+
+#: actions/check.php:92
+msgid "Please select the action to perform."
+msgstr "Merci de choisir l'opération à effectuer."
+
+#: actions/check.php:98
+msgid "Look for orphan records"
+msgstr "Recherche des enregistrements orphelins"
+
+#: actions/check.php:101
+msgid "Start"
+msgstr "Commencer"
+
+#: actions/delete.php:82 actions/view.php:216
+msgid "Delete"
+msgstr "Supprimer"
+
+#: actions/delete.php:108
+msgid "The action has not been confirmed."
+msgstr "L'action n'a pas été confirmée."
+
+#: actions/delete.php:119
+msgid "Yes, I want to delete this action"
+msgstr "Oui, je veux supprimer cette action"
+
+#: actions/delete.php:121
+msgid "Cancel"
+msgstr "Annuler"
+
+#: actions/delete.php:147 actions/view.php:132
+msgid "Action is on-going"
+msgstr "L'action est en cours"
+
+#: actions/delete.php:152 actions/view.php:144
+msgid "Action has been completed"
+msgstr "L'action est terminée"
+
+#: actions/delete.php:157 actions/view.php:155
+msgid "Action has been rejected"
+msgstr "L'action a été rejetée"
+
+#: actions/delete.php:166 actions/view.php:172
+#, php-format
+msgid "posted by %s %s"
+msgstr "posté par %s %s"
+
+#: actions/delete.php:170 actions/view.php:176
+#, php-format
+msgid "edited by %s %s"
+msgstr "modifié par %s %s"
+
+#: actions/edit.php:115 actions/view.php:207
+msgid "Edit"
+msgstr "Modifier"
+
+#: actions/edit.php:117 actions/list.php:97
+msgid "Add an action"
+msgstr "Ajouter une action"
+
+#: actions/edit.php:149
+msgid "This page has been locked."
+msgstr "Cette page a été verrouillée."
+
+#: actions/edit.php:194
+msgid "Thank you for your contribution"
+msgstr "Merci de votre contribution"
+
+#: actions/edit.php:201
+msgid "Persons that have been notified"
+msgstr "Personnes notifiées"
+
+#: actions/edit.php:204
+msgid "What do you want to do now?"
+msgstr "Que voulez-vous faire à présent ?"
+
+#: actions/edit.php:207 actions/view.php:190
+msgid "Back to main page"
+msgstr "Retour à la page principale"
+
+#: actions/edit.php:208
+msgid "Edit the action"
+msgstr "Modifier l'action"
+
+#: actions/edit.php:216
+#, php-format
+msgid "New action: %s"
+msgstr "Nouvelle action : %s"
+
+#: actions/edit.php:219
+#, php-format
+msgid ""
+"The following action has been added to your to-do list. Please process it as "
+"soon as possible to ensure minimal delay.\n"
+"\n"
+"Sender: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s\n"
+"\n"
+msgstr ""
+"L'action suivante a été ajoutée à votre liste de tâches. Merci de la prendre "
+"en compte dans les meilleurs délais.\n"
+"\n"
+"Emetteur : %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s\n"
+"\n"
+
+#: actions/edit.php:231
+#, php-format
+msgid "New action for %s"
+msgstr "Nouvelle action pour %s"
+
+#: actions/edit.php:261
+msgid ""
+"You can use actions to notify immediately other members of new things to do. "
+"Actions are sent by email where possible. Else they are listed at login time."
+msgstr ""
+"Vous pouvez utiliser les actions pour assigner des tâches aux membres de la "
+"communauté. Lorsque c'est possible, des messages électroniques sont propagés "
+"aux personnes concernées. Les nouvelles actions sont aussi affichées au "
+"moment de l'authentification sur le serveur."
+
+#: actions/edit.php:265
+#, php-format
+msgid "Action assigned to: %s"
+msgstr "Action assignée à %s"
+
+#: actions/edit.php:277
+msgid "Posted by"
+msgstr "Envoyé par"
+
+#: actions/edit.php:284
+msgid "Edited by"
+msgstr "Modifié par"
+
+#: actions/edit.php:290
+msgid "Title"
+msgstr "Titre"
+
+#: actions/edit.php:292
+msgid "Be straigthforward"
+msgstr "Soyez clair et concis"
+
+#: actions/edit.php:296
+msgid "Description"
+msgstr "Description"
+
+#: actions/edit.php:303 actions/view.php:124
+msgid "Target address"
+msgstr "Adresse cible"
+
+#: actions/edit.php:305
+msgid "The URL of the target page for this action, if any"
+msgstr "Une URL relative à cette action, le cas échéant"
+
+#: actions/edit.php:309
+msgid "Status"
+msgstr "Etat"
+
+#: actions/edit.php:328
+msgid "Submit"
+msgstr "Envoyer"
+
+#: actions/edit.php:328
+msgid "Press [s] to submit data"
+msgstr "Appuyer sur [s] pour envoyer les informations"
+
+#: actions/edit.php:331
+msgid "Ensure this post is valid XHTML."
+msgstr "Vérifier que le contenu est du XHTML valide."
+
+#: actions/edit.php:368
+msgid "Help"
+msgstr "Aide"
+
+#: actions/edit.php:369
+#, php-format
+msgid ""
+"<p>If possible, describe the whole action in its title. The description "
+"field should be used for additional non-essentiel details.</p><p>%s and %s "
+"are available to enhance text rendering.</p><p>Use the target field to "
+"designate the main web resource involved in the action.</p>"
+msgstr ""
+"<p>Essayez de décrire complètement l'action dans son titre, et placez les "
+"éléments d'information complémentaires dans le champ de description.</"
+"p><p>Utilisez %s et %s pour embellir le texte.</p><p>Renseignez l'adresse "
+"cible si cette action est reliée à une ressource web particulière.</p>"
+
+#: actions/edit.php:369
+msgid "YACS codes"
+msgstr "Les codes YACS"
+
+#: actions/edit.php:369
+msgid "smileys"
+msgstr "les emoticons"
+
+#: actions/index.php:71 actions/list.php:175
+#, php-format
+msgid "%d action"
+msgid_plural "%d actions"
+msgstr[0] "%d action"
+msgstr[1] "%d actions"
+
+#: actions/index.php:106
+msgid "Recent pages"
+msgstr "Pages récentes"
+
+#: actions/layout_actions.php:60
+msgid "edit"
+msgstr "modifier"
+
+#: actions/layout_actions.php:61
+msgid "delete"
+msgstr "supprimer"
+
+#: actions/list.php:145
+msgid "On-going actions"
+msgstr "Actions en cours"
+
+#: actions/list.php:168
+msgid "Completed actions"
+msgstr "Actions terminées"
+
+#: actions/list.php:229
+msgid "Rejected actions"
+msgstr "Actions rejetées"
+
+#: actions/view.php:148 actions/view.php:159
+msgid "Reset"
+msgstr "Ré-initialiser"
+
+#~ msgid "Navigation"
+#~ msgstr "Navigation"
+
+#~ msgid "Overview of your post:"
+#~ msgstr "Aperçu de votre envoi :"
+
+#~ msgid ""
+#~ "Because of our security policy you are not allowed to list actions. "
+#~ "Please browse %s to visualize any action attached."
+#~ msgstr ""
+#~ "Notre politique de sécurité ne vous donne pas accès à l'index général des "
+#~ "actions. Merci de consulter %s pour visualiser les actions attachées."
+
+#~ msgid "pages"
+#~ msgstr "pages"
+
+#~ msgid "Referrals"
+#~ msgstr "Références externes"
+
+#~ msgid "Delete: %s"
+#~ msgstr "Supprimer : %s"
+
+#~ msgid "Edit: %s"
+#~ msgstr "Modifier : %s"
+
+#~ msgid "New to-do: %s"
+#~ msgstr "Nouvelle action : %s"
+
+#~ msgid "Looking for orphans in actions table..."
+#~ msgstr "Recherche des orphelins dans la table des actions..."
+
+#~ msgid "No action has been created yet!"
+#~ msgstr "Aucune action n'a été créée"
+
+#~ msgid "Accept one action"
+#~ msgstr "Accepter une action"
+
+#~ msgid "Your request has been processed."
+#~ msgstr "Votre commande a été prise en compte."
+
+#~ msgid "Actions validation"
+#~ msgstr "Validation des actions"
+
+#~ msgid "Delete an action"
+#~ msgstr "Supprimer une action"
+
+#~ msgid "The action has been put in the to-do list"
+#~ msgstr "L'action a été ajoutée dans la liste des choses à faire"
+
+#~ msgid "View an action"
+#~ msgstr "Voir une action"
+
+#~ msgid "View the main page"
+#~ msgstr "Voir la page principale"
+
+#~ msgid "Main page"
+#~ msgstr "Page principale"
+
+#~ msgid "Posts are not allowed anymore here."
+#~ msgstr "Les envois ne sont pas autorisés à cet endroit."
+
+#~ msgid "1&nbsp;action"
+#~ msgid_plural "%d&nbsp;actions"
+#~ msgstr[0] "1&nbsp;action"
+#~ msgstr[1] "%d actions"
+
+#~ msgid "Update an action"
+#~ msgstr "Mettre une action à jour"
+
+#~ msgid "Recent actions"
+#~ msgstr "Actions récentes"
+
+#~ msgid "All actions"
+#~ msgstr "Toutes les actions"
+
+#~ msgid "published pages"
+#~ msgstr "pages publiées"
+
+#~ msgid "%d records have been processed. Done"
+#~ msgstr "%d enregistrements ont été traités."
+
+#~ msgid "Modify the action description"
+#~ msgstr "Modifier la description de l'action"

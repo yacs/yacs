@@ -1,0 +1,109 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: behaviors/agree_on_file_access.php:34
+#: behaviors/move_on_article_access.php:39
+#: behaviors/move_on_article_access.php:41
+msgid "No anchor has been found."
+msgstr ""
+
+#: behaviors/agree_on_file_access.php:44
+#: behaviors/move_on_article_access.php:45
+#, php-format
+msgid "No parameter has been provided to %s"
+msgstr ""
+
+#: behaviors/agree_on_file_access.php:48
+#, php-format
+msgid "Bad parameter to behavior <code>%s %s</code>"
+msgstr ""
+
+#: behaviors/agree_on_file_access.php:51
+msgid ""
+"Before moving forward, please read following text and express yourself at "
+"the end of the page."
+msgstr ""
+
+#: behaviors/agree_on_file_access.php:63
+msgid "Do you agree?"
+msgstr ""
+
+#: behaviors/agree_on_file_access.php:64
+msgid "Yes"
+msgstr ""
+
+#: behaviors/agree_on_file_access.php:65
+msgid "No"
+msgstr ""
+
+#: behaviors/behaviors.php:183 behaviors/behaviors.php:185
+#: behaviors/behaviors.php:189 behaviors/behaviors.php:191
+#, php-format
+msgid "No behavior %s has been found."
+msgstr ""
+
+#: behaviors/index.php:20
+msgid "Behaviors"
+msgstr ""
+
+#: behaviors/index.php:24
+msgid ""
+"Behaviors listed below can be used to customise articles attached to some "
+"sections."
+msgstr ""
+
+#: behaviors/index.php:55
+#, php-format
+msgid ""
+"For example, if you want to apply the behavior <code>foo</code>, go to the "
+"%s , and select a target section, or add a new one."
+msgstr ""
+
+#: behaviors/index.php:55
+msgid "site map"
+msgstr ""
+
+#: behaviors/index.php:56
+msgid ""
+"In the form used to edit the section, type the keyword <code>foo</code> in "
+"the behavior field, then save changes."
+msgstr ""
+
+#: behaviors/move_on_article_access.php:63
+#, php-format
+msgid "Move to %s"
+msgstr ""
+
+#: behaviors/agreements/agree.php:49
+msgid "No item has the provided id."
+msgstr ""
+
+#: behaviors/agreements/deny.php:28
+msgid "Access has been denied"
+msgstr ""
+
+#: behaviors/agreements/deny.php:31
+msgid ""
+"Your agreement is required to access the target page. Sorry for any "
+"inconvenience."
+msgstr ""
+
+#: behaviors/agreements/deny.php:35
+msgid "Back to main page"
+msgstr ""

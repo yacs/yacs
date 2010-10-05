@@ -1,0 +1,482 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: shared/anchors.php:360
+msgid "imported"
+msgstr ""
+
+#: shared/anchors.php:364
+msgid "created"
+msgstr ""
+
+#: shared/anchors.php:367 shared/anchors.php:385 shared/anchors.php:440
+msgid "edited"
+msgstr ""
+
+#: shared/anchors.php:370
+msgid "published"
+msgstr ""
+
+#: shared/anchors.php:373
+msgid "reviewed"
+msgstr ""
+
+#: shared/anchors.php:376
+msgid "section created"
+msgstr ""
+
+#: shared/anchors.php:379
+msgid "section updated"
+msgstr ""
+
+#: shared/anchors.php:382
+msgid "commented"
+msgstr ""
+
+#: shared/anchors.php:388
+msgid "file uploaded"
+msgstr ""
+
+#: shared/anchors.php:391
+msgid "file updated"
+msgstr ""
+
+#: shared/anchors.php:394
+msgid "file released"
+msgstr ""
+
+#: shared/anchors.php:397
+msgid "file reserved"
+msgstr ""
+
+#: shared/anchors.php:400
+msgid "image uploaded"
+msgstr ""
+
+#: shared/anchors.php:403
+msgid "image updated"
+msgstr ""
+
+#: shared/anchors.php:406
+msgid "icon set"
+msgstr ""
+
+#: shared/anchors.php:410
+msgid "link posted"
+msgstr ""
+
+#: shared/anchors.php:413
+msgid "link updated"
+msgstr ""
+
+#: shared/anchors.php:416
+msgid "page updated"
+msgstr ""
+
+#: shared/anchors.php:419
+msgid "location created"
+msgstr ""
+
+#: shared/anchors.php:422
+msgid "location updated"
+msgstr ""
+
+#: shared/anchors.php:425
+msgid "table posted"
+msgstr ""
+
+#: shared/anchors.php:428
+msgid "table updated"
+msgstr ""
+
+#: shared/anchors.php:431
+msgid "new message"
+msgstr ""
+
+#: shared/anchors.php:434
+msgid "new user"
+msgstr ""
+
+#: shared/anchors.php:437
+msgid "profile updated"
+msgstr ""
+
+#: shared/anchors.php:465
+msgid "Categories"
+msgstr ""
+
+#: shared/anchors.php:477
+msgid "Sections"
+msgstr ""
+
+#: shared/anchors.php:489
+msgid "Pages"
+msgstr ""
+
+#: shared/anchors.php:501
+msgid "Images"
+msgstr ""
+
+#: shared/anchors.php:512
+msgid "Locations"
+msgstr ""
+
+#: shared/anchors.php:523
+msgid "Tables"
+msgstr ""
+
+#: shared/anchors.php:533
+msgid "Files"
+msgstr ""
+
+#: shared/anchors.php:544
+msgid "Actions"
+msgstr ""
+
+#: shared/anchors.php:555
+msgid "Dates"
+msgstr ""
+
+#: shared/anchors.php:566
+msgid "Decisions"
+msgstr ""
+
+#: shared/anchors.php:577
+msgid "Comments"
+msgstr ""
+
+#: shared/anchors.php:588
+msgid "Links"
+msgstr ""
+
+#: shared/anchors.php:599
+msgid "Versions"
+msgstr ""
+
+#: shared/anchors.php:608
+msgid ""
+"Following items are attached to this record and will be impacted as well."
+msgstr ""
+
+#: shared/anchors.php:616
+msgid "Table"
+msgstr ""
+
+#: shared/anchors.php:616
+msgid "Records"
+msgstr ""
+
+#: shared/anchors.php:616
+msgid "Creation date"
+msgstr ""
+
+#: shared/anchors.php:616
+msgid "Last edition"
+msgstr ""
+
+#: shared/anchors.php:621
+msgid "Related items"
+msgstr ""
+
+#: shared/codes.php:1527
+#, php-format
+msgid "%d person has followed the link: %s"
+msgid_plural "%d persons have followed the link: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: shared/codes.php:1531
+msgid "This link has not been used yet"
+msgstr ""
+
+#: shared/codes.php:1552
+msgid "No item has been found."
+msgstr ""
+
+#: shared/codes.php:1596
+msgid "Access collection"
+msgstr ""
+
+#: shared/codes.php:1657
+msgid "Filter"
+msgstr ""
+
+#: shared/codes.php:1780
+msgid "Play in a separate window"
+msgstr ""
+
+#: shared/codes.php:2004 shared/codes.php:2218
+msgid "Browse this map with Freemind"
+msgstr ""
+
+#: shared/codes.php:2146 shared/codes.php:2158
+msgid "Full-size"
+msgstr ""
+
+#: shared/codes.php:2352
+msgid "Your browser does not accept iframes"
+msgstr ""
+
+#: shared/codes.php:2836
+msgid "View this comment"
+msgstr ""
+
+#: shared/codes.php:2865
+msgid "View this decision"
+msgstr ""
+
+#: shared/codes.php:4366
+#, php-format
+msgid "%d active now"
+msgid_plural "%d active now"
+msgstr[0] ""
+msgstr[1] ""
+
+#: shared/global.php:974
+msgid "View the category"
+msgstr ""
+
+#: shared/logger.php:206
+#, php-format
+msgid ""
+"This message has been generated automatically by %s. If you wish to stop "
+"these automatic alerts please visit the following link and remove your "
+"address from recipients of system events."
+msgstr ""
+
+#: shared/mailer.php:101
+#, php-format
+msgid "%s by %s"
+msgstr ""
+
+#: shared/mailer.php:118
+#, php-format
+msgid ""
+"This message has been generated automatically by %s since the new item has "
+"been posted in a web space that is part of your watch list. If you wish to "
+"not be alerted automatically please visit the page and click on Stop "
+"notifications."
+msgstr ""
+
+#: shared/mailer.php:132
+#, php-format
+msgid ""
+"This message has been generated automatically by %s since you are following "
+"the person who posted the new item. If you wish to stop these automatic "
+"alerts please visit the user profile below and click on Stop notifications."
+msgstr ""
+
+#: shared/mailer.php:177
+#, php-format
+msgid "and %d other persons"
+msgstr ""
+
+#: shared/mailer.php:302 shared/mailer.php:752 shared/mailer.php:996
+#: shared/mailer.php:1135
+msgid "E-mail has not been enabled on this system."
+msgstr ""
+
+#: shared/mailer.php:757
+msgid "Empty sender address"
+msgstr ""
+
+#: shared/mailer.php:762 shared/mailer.php:1001
+msgid "Empty recipient address"
+msgstr ""
+
+#: shared/mailer.php:767 shared/mailer.php:1006
+msgid "No subject"
+msgstr ""
+
+#: shared/mailer.php:772 shared/mailer.php:1011
+msgid "No message"
+msgstr ""
+
+#: shared/mailer.php:1127 shared/mailer.php:1129
+#, php-format
+msgid "Error while sending the message to %s"
+msgstr ""
+
+#: shared/members.php:78 shared/members.php:377 shared/members.php:1269
+msgid "An anchor is required for this operation."
+msgstr ""
+
+#: shared/members.php:82 shared/members.php:381 shared/members.php:1273
+msgid "A member is required for this operation."
+msgstr ""
+
+#: shared/members.php:657 shared/members.php:718
+msgid "weekly"
+msgstr ""
+
+#: shared/members.php:658 shared/members.php:719
+msgid "monthly"
+msgstr ""
+
+#: shared/pdf.php:324
+msgid "PDF export created by YACS"
+msgstr ""
+
+#: shared/safe.php:907
+#, php-format
+msgid "Redirecting to %s"
+msgstr ""
+
+#: shared/sql.php:422
+#, php-format
+msgid "Impossible to connect to %s."
+msgstr ""
+
+#: shared/sql.php:555 shared/zipfile.php:197
+#, php-format
+msgid "Impossible to read %s."
+msgstr ""
+
+#: shared/sql.php:728 shared/sql.php:730
+msgid "Connection to the database has been lost"
+msgstr ""
+
+#: shared/sql.php:994
+msgid "The table"
+msgstr ""
+
+#: shared/sql.php:998
+msgid "has been created"
+msgstr ""
+
+#: shared/sql.php:1000
+msgid "has been updated"
+msgstr ""
+
+#: shared/sql.php:1015
+msgid "and analyzed"
+msgstr ""
+
+#: shared/sql.php:1026
+msgid "and optimized"
+msgstr ""
+
+#: shared/sql.php:1035
+#, php-format
+msgid "ERROR for the table %s"
+msgstr ""
+
+#: shared/surfer.php:302
+msgid "My profile"
+msgstr ""
+
+#: shared/surfer.php:302
+msgid "View all data this site knows about you"
+msgstr ""
+
+#: shared/surfer.php:305
+msgid "Review queue"
+msgstr ""
+
+#: shared/surfer.php:305
+msgid "Check requests, publish submitted articles, review old pages"
+msgstr ""
+
+#: shared/surfer.php:308
+msgid "Control Panel"
+msgstr ""
+
+#: shared/surfer.php:308
+msgid "System commands, configuration panels, content overview"
+msgstr ""
+
+#: shared/surfer.php:310
+msgid "Logout"
+msgstr ""
+
+#: shared/surfer.php:310
+msgid "You will be considered as an anonymous surfer"
+msgstr ""
+
+#: shared/surfer.php:327
+msgid "User"
+msgstr ""
+
+#: shared/surfer.php:330
+msgid "Password"
+msgstr ""
+
+#: shared/surfer.php:333
+msgid "Login"
+msgstr ""
+
+#: shared/surfer.php:343
+msgid "Register"
+msgstr ""
+
+#: shared/surfer.php:343
+msgid "Share your profile in this community"
+msgstr ""
+
+#: shared/surfer.php:345
+msgid "Lost password"
+msgstr ""
+
+#: shared/surfer.php:345
+msgid "Prove who you are"
+msgstr ""
+
+#: shared/surfer.php:599
+msgid "You are allowed to post any XHTML."
+msgstr ""
+
+#: shared/surfer.php:601
+#, php-format
+msgid "Following XHTML tags are allowed: %s"
+msgstr ""
+
+#: shared/surfer.php:688
+msgid "anonymous"
+msgstr ""
+
+#: shared/surfer.php:704
+msgid "My pages"
+msgstr ""
+
+#: shared/surfer.php:708
+msgid "All pages"
+msgstr ""
+
+#: shared/surfer.php:771
+msgid "Robot stopper"
+msgstr ""
+
+#: shared/surfer.php:772
+msgid "Type exactly the following 5 chars:"
+msgstr ""
+
+#: shared/xml.php:208
+#, php-format
+msgid "XML error: %s at line %d"
+msgstr ""
+
+#: shared/xml.php:218
+#, php-format
+msgid "Last stacking element: %s"
+msgstr ""
+
+#: shared/zipfile.php:191
+msgid "Impossible to extract files."
+msgstr ""

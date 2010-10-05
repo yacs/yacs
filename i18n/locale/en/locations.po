@@ -1,0 +1,417 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-01 23:04+0200\n"
+"PO-Revision-Date: 2010-08-11 17:28+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: locations/check.php:21 locations/check.php:32 locations/check.php:91
+#: locations/check.php:147 locations/delete.php:75 locations/edit.php:81
+#: locations/index.php:58 locations/map_on_earth.php:32
+#: locations/map_on_google.php:52 locations/view.php:65
+msgid "Locations"
+msgstr "Locations"
+
+#: locations/check.php:24 locations/index.php:107
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: locations/check.php:29 locations/delete.php:87 locations/edit.php:100
+#: locations/edit.php:111 locations/index.php:63
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: locations/check.php:39 locations/check.php:98
+#, php-format
+msgid "Analyzing table %s..."
+msgstr "Analyzing table %s..."
+
+#: locations/check.php:59 locations/check.php:84 locations/check.php:118
+#: locations/check.php:140
+#, php-format
+msgid "%d records have been processed"
+msgstr "%d records have been processed"
+
+#: locations/check.php:71
+#, php-format
+msgid "Unused: %s"
+msgstr "Unused: %s"
+
+#: locations/check.php:73 locations/check.php:129
+msgid "Too many successive errors. Aborted"
+msgstr "Too many successive errors. Aborted"
+
+#: locations/check.php:88 locations/check.php:144
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Script terminated in %.2f seconds."
+
+#: locations/check.php:127
+#, php-format
+msgid "Orphan: %s"
+msgstr "Orphan: %s"
+
+#: locations/check.php:154
+msgid "Please select the action to perform."
+msgstr "Please select the action to perform."
+
+#: locations/check.php:160
+msgid "Look for unused locations"
+msgstr "Look for unused locations"
+
+#: locations/check.php:163
+msgid "Look for orphan records"
+msgstr "Look for orphan records"
+
+#: locations/check.php:166
+msgid "Start"
+msgstr "Start"
+
+#: locations/delete.php:78
+msgid "Delete a location"
+msgstr "Delete a location"
+
+#: locations/delete.php:109
+msgid "The action has not been confirmed."
+msgstr "The action has not been confirmed."
+
+#: locations/delete.php:116
+msgid "Yes, I want to delete this location"
+msgstr "Yes, I want to delete this location"
+
+#: locations/delete.php:118
+msgid "Cancel"
+msgstr "Cancel"
+
+#: locations/delete.php:144 locations/layout_locations.php:81
+#: locations/view.php:190
+#, php-format
+msgid "edited by %s %s"
+msgstr "edited by %s %s"
+
+#: locations/edit.php:85
+msgid "Edit a location"
+msgstr "Edit a location"
+
+#: locations/edit.php:87
+msgid "Add a location"
+msgstr "Add a location"
+
+#: locations/edit.php:116 locations/locations.php:776
+msgid "No anchor has been found."
+msgstr "No anchor has been found."
+
+#: locations/edit.php:121
+msgid "This page has been locked."
+msgstr "This page has been locked."
+
+#: locations/edit.php:146
+msgid "Thank you for your contribution"
+msgstr "Thank you for your contribution"
+
+#: locations/edit.php:158
+msgid "The location has been appended to the page."
+msgstr "The location has been appended to the page."
+
+#: locations/edit.php:167
+msgid "Persons that have been notified"
+msgstr "Persons that have been notified"
+
+#: locations/edit.php:170
+msgid "What do you want to do now?"
+msgstr "What do you want to do now?"
+
+#: locations/edit.php:172
+msgid "View the page"
+msgstr "View the page"
+
+#: locations/edit.php:173
+msgid "Edit the page"
+msgstr "Edit the page"
+
+#: locations/edit.php:179
+#, php-format
+msgid "New location in %s"
+msgstr "New location in %s"
+
+#: locations/edit.php:181
+#, php-format
+msgid "at %s"
+msgstr "at %s"
+
+#: locations/edit.php:211
+#, php-format
+msgid "On page %s"
+msgstr "On page %s"
+
+#: locations/edit.php:226
+msgid "Posted by"
+msgstr "Posted by"
+
+#: locations/edit.php:232
+msgid "Place name"
+msgstr "Place name"
+
+#: locations/edit.php:239
+msgid "Encode this address"
+msgstr "Encode this address"
+
+#: locations/edit.php:252
+msgid "This address has not been found"
+msgstr "This address has not been found"
+
+#: locations/edit.php:255
+msgid "This address has been encoded as"
+msgstr "This address has been encoded as"
+
+#: locations/edit.php:265
+msgid "Street address, city, country"
+msgstr "Street address, city, country"
+
+#: locations/edit.php:269
+msgid "Coordinates"
+msgstr "Coordinates"
+
+#: locations/edit.php:271
+msgid "Latitude, Longitude -- west longitudes and south latitudes are negative"
+msgstr ""
+"Latitude, Longitude -- west longitudes and south latitudes are negative"
+
+#: locations/edit.php:275
+msgid "Country"
+msgstr "Country"
+
+#: locations/edit.php:277
+msgid "For regional positioning"
+msgstr "For regional positioning"
+
+#: locations/edit.php:281
+msgid "Description"
+msgstr "Description"
+
+#: locations/edit.php:293
+msgid "Do not change modification date of the main page."
+msgstr "Do not change modification date of the main page."
+
+#: locations/edit.php:296
+msgid "Submit"
+msgstr "Submit"
+
+#: locations/edit.php:296
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: locations/edit.php:299
+msgid "Ensure this post is valid XHTML."
+msgstr "Ensure this post is valid XHTML."
+
+#: locations/edit.php:318
+msgid "You must give a name to this location."
+msgstr "You must give a name to this location."
+
+#: locations/edit.php:325
+msgid "Please type some geographical coordinates."
+msgstr "Please type some geographical coordinates."
+
+#: locations/edit.php:339
+msgid ""
+"Latitude and longitude are numbers separated by a comma and spaces, for "
+"example: 47.98481,-71.42124."
+msgstr ""
+"Latitude and longitude are numbers separated by a comma and spaces, for "
+"example: 47.98481,-71.42124."
+
+#: locations/edit.php:340
+msgid "To find coordinates of any emplacement you can visit following sites:"
+msgstr "To find coordinates of any emplacement you can visit following sites:"
+
+#: locations/edit.php:341
+msgid "http://www.batchgeocode.com/lookup/"
+msgstr "http://www.batchgeocode.com/lookup/"
+
+#: locations/edit.php:341
+msgid "Address Map Coordinate (Lat/Long) Finder"
+msgstr "Address Map Coordinate (Lat/Long) Finder"
+
+#: locations/edit.php:342
+msgid "http://www.travelgis.com/geocode/Default.aspx"
+msgstr "http://www.travelgis.com/geocode/Default.aspx"
+
+#: locations/edit.php:342
+msgid "Free Geocoding Service for 22 Countries"
+msgstr "Free Geocoding Service for 22 Countries"
+
+#: locations/edit.php:344
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "%s and %s are available to enhance text rendering."
+
+#: locations/edit.php:344
+msgid "YACS codes"
+msgstr "YACS codes"
+
+#: locations/edit.php:344
+msgid "smileys"
+msgstr "smileys"
+
+#: locations/edit.php:345
+msgid "Help"
+msgstr "Help"
+
+#: locations/index.php:71
+#, php-format
+msgid "%d location"
+msgid_plural "%d locations"
+msgstr[0] "%d location"
+msgstr[1] "%d locations"
+
+#: locations/index.php:92
+msgid "No location has been created yet."
+msgstr "No location has been created yet."
+
+#: locations/index.php:115
+msgid "Recent pages"
+msgstr "Recent pages"
+
+#: locations/layout_locations.php:63 locations/view.php:212
+#: locations/view.php:217
+msgid "Edit"
+msgstr "Edit"
+
+#: locations/layout_locations.php:64 locations/view.php:213
+msgid "Delete"
+msgstr "Delete"
+
+#: locations/layout_locations.php:90
+#, php-format
+msgid "in %s"
+msgstr "in %s"
+
+#: locations/locations.php:628 locations/view.php:100
+msgid "Loading..."
+msgstr "Loading..."
+
+#: locations/locations.php:723 locations/map_on_google.php:66
+msgid ""
+"Use the configuration panel for web services to enter your Google API key."
+msgstr ""
+"Use the configuration panel for web services to enter your Google API key."
+
+#: locations/locations.php:770
+msgid "Please add a geo_place_name for this location"
+msgstr "Please add a geo_place_name for this location"
+
+#: locations/locations.php:792
+msgid "No item has the provided id."
+msgstr "No item has the provided id."
+
+#: locations/map_on_earth.php:44
+msgid "Not capable to generate dynamic images."
+msgstr "Not capable to generate dynamic images."
+
+#: locations/map_on_earth.php:48
+msgid "No image to use as a map."
+msgstr "No image to use as a map."
+
+#: locations/map_on_google.php:56
+#, php-format
+msgid "Locations related to %s"
+msgstr "Locations related to %s"
+
+#: locations/map_on_google.php:58
+msgid "Locations related to community members"
+msgstr "Locations related to community members"
+
+#: locations/map_on_google.php:62
+msgid "Reference a valid anchor, or all users."
+msgstr "Reference a valid anchor, or all users."
+
+#: locations/view.php:98 locations/view.php:175
+#, php-format
+msgid "Geographical coordinates: %s"
+msgstr "Geographical coordinates: %s"
+
+#: locations/view.php:182
+#, php-format
+msgid "Regional position: %s"
+msgstr "Regional position: %s"
+
+#: locations/view.php:202
+msgid "Back to main page"
+msgstr "Back to main page"
+
+#~ msgid "Navigation"
+#~ msgstr "Navigation"
+
+#~ msgid ""
+#~ "Because of our security policy you are not allowed to list locations."
+#~ msgstr ""
+#~ "Because of our security policy you are not allowed to list locations."
+
+#~ msgid "Please browse %s to visualize any location that could be embedded."
+#~ msgstr "Please browse %s to visualize any location that could be embedded."
+
+#~ msgid "pages"
+#~ msgstr "pages"
+
+#~ msgid "Neighbours"
+#~ msgstr "Neighbours"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Scanning locations table..."
+#~ msgstr "Scanning locations table..."
+
+#~ msgid "View the updated page"
+#~ msgstr "View the updated page"
+
+#~ msgid "Add another location"
+#~ msgstr "Add another location"
+
+#~ msgid "Locations maintenance"
+#~ msgstr "Locations maintenance"
+
+#~ msgid "Unknown location"
+#~ msgstr "Unknown location"
+
+#~ msgid "Unknown locations"
+#~ msgstr "Unknown locations"
+
+#~ msgid "This page has been locked. It cannot be modified anymore."
+#~ msgstr "This page has been locked. It cannot be modified anymore."
+
+#~ msgid "Posts are not allowed anymore here."
+#~ msgstr "Posts are not allowed anymore here."
+
+#~ msgid "1&nbsp;location"
+#~ msgid_plural "%d&nbsp;locations"
+#~ msgstr[0] "1&nbsp;location"
+#~ msgstr[1] "%d&nbsp;locations"
+
+#~ msgid "Recent locations"
+#~ msgstr "Recent locations"
+
+#~ msgid "published pages"
+#~ msgstr "published pages"
+
+#~ msgid "%d records have been processed. Done"
+#~ msgstr "%d records have been processed. Done"
+
+#~ msgid "posted by %s"
+#~ msgstr "posted by %s"
