@@ -1,0 +1,531 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:21+0200\n"
+"PO-Revision-Date: 2010-05-27 10:17+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: tables/check.php:21 tables/check.php:32 tables/check.php:91
+#: tables/check.php:147 tables/delete.php:62 tables/edit.php:78
+#: tables/fetch_as_csv.php:56 tables/fetch_as_json.php:53
+#: tables/fetch_as_png.php:56 tables/fetch_as_raw.php:55
+#: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:63
+#: tables/view.php:70
+msgid "Tables"
+msgstr "Tables"
+
+#: tables/check.php:24 tables/index.php:104
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: tables/check.php:29 tables/delete.php:74 tables/edit.php:97
+#: tables/edit.php:122 tables/fetch_as_csv.php:67 tables/fetch_as_csv.php:82
+#: tables/fetch_as_json.php:64 tables/fetch_as_json.php:79
+#: tables/fetch_as_png.php:65 tables/fetch_as_png.php:80
+#: tables/fetch_as_raw.php:64 tables/fetch_as_raw.php:79
+#: tables/fetch_as_xml.php:68 tables/fetch_as_xml.php:83 tables/import.php:26
+#: tables/import.php:35 tables/index.php:68 tables/view.php:95
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: tables/check.php:39 tables/check.php:98
+#, php-format
+msgid "Analyzing table %s..."
+msgstr "Analyzing table %s..."
+
+#: tables/check.php:59 tables/check.php:84 tables/check.php:118
+#: tables/check.php:140
+#, php-format
+msgid "%d records have been processed"
+msgstr "%d records have been processed"
+
+#: tables/check.php:71
+#, php-format
+msgid "Unused: %s"
+msgstr "Unused: %s"
+
+#: tables/check.php:73 tables/check.php:129
+msgid "Too many successive errors. Aborted"
+msgstr "Too many successive errors. Aborted"
+
+#: tables/check.php:88 tables/check.php:144
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Script terminated in %.2f seconds."
+
+#: tables/check.php:127
+#, php-format
+msgid "Orphan: %s"
+msgstr "Orphan: %s"
+
+#: tables/check.php:154
+msgid "Please select the action to perform."
+msgstr "Please select the action to perform."
+
+#: tables/check.php:160
+msgid "Look for unused tables"
+msgstr "Look for unused tables"
+
+#: tables/check.php:163
+msgid "Look for orphan records"
+msgstr "Look for orphan records"
+
+#: tables/check.php:166
+msgid "Start"
+msgstr "Start"
+
+#: tables/delete.php:65
+msgid "Delete a table"
+msgstr "Delete a table"
+
+#: tables/delete.php:94
+msgid "The action has not been confirmed."
+msgstr "The action has not been confirmed."
+
+#: tables/delete.php:101
+msgid "Yes, I want to delete this table"
+msgstr "Yes, I want to delete this table"
+
+#: tables/delete.php:103 tables/edit.php:244
+msgid "Cancel"
+msgstr "Cancel"
+
+#: tables/delete.php:138 tables/layout_tables.php:104 tables/view.php:129
+#, php-format
+msgid "edited by %s %s"
+msgstr "edited by %s %s"
+
+#: tables/edit.php:82
+msgid "Edit a table"
+msgstr "Edit a table"
+
+#: tables/edit.php:84
+msgid "Add a table"
+msgstr "Add a table"
+
+#: tables/edit.php:102 tables/tables.php:971 tables/tables.php:977
+msgid "No anchor has been found."
+msgstr "No anchor has been found."
+
+#: tables/edit.php:127
+msgid "This page has been locked."
+msgstr "This page has been locked."
+
+#: tables/edit.php:184
+#, php-format
+msgid "In: %s"
+msgstr "In: %s"
+
+#: tables/edit.php:199
+msgid "Posted by"
+msgstr "Posted by"
+
+#: tables/edit.php:204
+msgid "Title"
+msgstr "Title"
+
+#: tables/edit.php:206
+msgid "Please provide a meaningful title."
+msgstr "Please provide a meaningful title."
+
+#: tables/edit.php:210
+msgid "SQL Query"
+msgstr "SQL Query"
+
+#: tables/edit.php:212
+msgid "The SELECT command submitted to the database"
+msgstr "The SELECT command submitted to the database"
+
+#: tables/edit.php:216
+msgid "First column"
+msgstr "First column"
+
+#: tables/edit.php:220
+msgid "First column contains useful data"
+msgstr "First column contains useful data"
+
+#: tables/edit.php:224
+msgid "First column refers to time"
+msgstr "First column refers to time"
+
+#: tables/edit.php:228
+msgid "First column provides a web link"
+msgstr "First column provides a web link"
+
+#: tables/edit.php:232
+msgid "Description"
+msgstr "Description"
+
+#: tables/edit.php:234
+msgid ""
+"As this field may be searched by surfers, please choose adequate searchable "
+"words"
+msgstr ""
+"As this field may be searched by surfers, please choose adequate searchable "
+"words"
+
+#: tables/edit.php:242
+msgid "Submit"
+msgstr "Submit"
+
+#: tables/edit.php:242 tables/import.php:231
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: tables/edit.php:249
+msgid "Do not change modification date of the main page."
+msgstr "Do not change modification date of the main page."
+
+#: tables/edit.php:252
+msgid "Ensure this post is valid XHTML."
+msgstr "Ensure this post is valid XHTML."
+
+#: tables/edit.php:271
+msgid "Please type a valid SQL query."
+msgstr "Please type a valid SQL query."
+
+#: tables/edit.php:285
+msgid ""
+"Please ensure you are using a compliant and complete SQL SELECT statement."
+msgstr ""
+"Please ensure you are using a compliant and complete SQL SELECT statement."
+
+#: tables/edit.php:286
+#, php-format
+msgid "For more information check the %s."
+msgstr "For more information check the %s."
+
+#: tables/edit.php:286
+msgid "MySQL reference page"
+msgstr "MySQL reference page"
+
+#: tables/edit.php:287
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "%s and %s are available to enhance text rendering."
+
+#: tables/edit.php:287
+msgid "YACS codes"
+msgstr "YACS codes"
+
+#: tables/edit.php:287
+msgid "smileys"
+msgstr "smileys"
+
+#: tables/edit.php:288
+msgid "Help"
+msgstr "Help"
+
+#: tables/fetch_as_csv.php:62
+msgid "Fetch as CSV"
+msgstr "Fetch as CSV"
+
+#: tables/fetch_as_json.php:59
+msgid "Fetch as JSON"
+msgstr "Fetch as JSON"
+
+#: tables/fetch_as_xml.php:63
+msgid "Fetch as XML"
+msgstr "Fetch as XML"
+
+#: tables/import.php:21
+msgid "Import table content"
+msgstr "Import table content"
+
+#: tables/import.php:38
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: tables/import.php:78
+msgid "No table name has been provided."
+msgstr "No table name has been provided."
+
+#: tables/import.php:82 tables/import.php:86
+msgid "Nothing has been received."
+msgstr "Nothing has been received."
+
+#: tables/import.php:90
+msgid "Possible file attack."
+msgstr "Possible file attack."
+
+#: tables/import.php:94
+#, php-format
+msgid "Impossible to read %s."
+msgstr "Impossible to read %s."
+
+#: tables/import.php:98
+#, php-format
+msgid "No headers to read from %s."
+msgstr "No headers to read from %s."
+
+#: tables/import.php:104
+#, php-format
+msgid "Importing data into %s from %s..."
+msgstr "Importing data into %s from %s..."
+
+#: tables/import.php:180
+#, php-format
+msgid "%d SQL statements have been processed in %.2f seconds."
+msgstr "%d SQL statements have been processed in %.2f seconds."
+
+#: tables/import.php:191
+msgid ""
+"This script allows for the upload of data to some table of the database."
+msgstr ""
+"This script allows for the upload of data to some table of the database."
+
+#: tables/import.php:201
+msgid "File"
+msgstr "File"
+
+#: tables/import.php:202
+msgid "Press to select a local file"
+msgstr "Press to select a local file"
+
+#: tables/import.php:203
+msgid "bytes"
+msgstr "bytes"
+
+#: tables/import.php:204
+msgid "Please select a CSV file (.csv or .xls)"
+msgstr "Please select a CSV file (.csv or .xls)"
+
+#: tables/import.php:208
+msgid "Table name"
+msgstr "Table name"
+
+#: tables/import.php:210
+msgid "Table will be dropped and re-created"
+msgstr "Table will be dropped and re-created"
+
+#: tables/import.php:214
+msgid "Field delimiter"
+msgstr "Field delimiter"
+
+#: tables/import.php:215
+msgid "Tabulation character"
+msgstr "Tabulation character"
+
+#: tables/import.php:216
+msgid "Comma character \",\""
+msgstr "Comma character \",\""
+
+#: tables/import.php:217
+msgid "Colon character \";\""
+msgstr "Colon character \";\""
+
+#: tables/import.php:218
+msgid "Pipe character \"|\""
+msgstr "Pipe character \"|\""
+
+#: tables/import.php:222
+msgid "Field enclosure"
+msgstr "Field enclosure"
+
+#: tables/import.php:223
+msgid "Double quote character"
+msgstr "Double quote character"
+
+#: tables/import.php:224
+msgid "Single quote character"
+msgstr "Single quote character"
+
+#: tables/import.php:231
+msgid "Import data"
+msgstr "Import data"
+
+#: tables/import.php:237
+msgid ""
+"When you will click on the button the server will be immediately requested "
+"to proceed. However, because of the so many things to do on the back-end, "
+"you may have to wait for minutes before getting a response displayed. Thank "
+"you for your patience."
+msgstr ""
+"When you will click on the button the server will be immediately requested "
+"to proceed. However, because of the so many things to do on the back-end, "
+"you may have to wait for minutes before getting a response displayed. Thank "
+"you for your patience."
+
+#: tables/index.php:76
+#, php-format
+msgid "%d table"
+msgid_plural "%d tables"
+msgstr[0] "%d table"
+msgstr[1] "%d tables"
+
+#: tables/index.php:93
+msgid "No table has been created yet."
+msgstr "No table has been created yet."
+
+#: tables/index.php:103
+msgid "Import"
+msgstr "Import"
+
+#: tables/index.php:113
+msgid "Recent pages"
+msgstr "Recent pages"
+
+#: tables/layout_tables.php:109
+msgid "details"
+msgstr "details"
+
+#: tables/layout_tables.php:110 tables/tables.php:306
+msgid "edit"
+msgstr "edit"
+
+#: tables/layout_tables.php:111
+msgid "delete"
+msgstr "delete"
+
+#: tables/tables.php:79
+#, php-format
+msgid "Error in table query %s"
+msgstr "Error in table query %s"
+
+#: tables/tables.php:965
+msgid "Please add some SQL query."
+msgstr "Please add some SQL query."
+
+#: tables/tables.php:993
+msgid "No item has the provided id."
+msgstr "No item has the provided id."
+
+#: tables/view.php:80
+msgid "View a table"
+msgstr "View a table"
+
+#: tables/view.php:122
+msgid "Query string"
+msgstr "Query string"
+
+#: tables/view.php:141
+msgid "Back to main page"
+msgstr "Back to main page"
+
+#: tables/view.php:147
+msgid "CSV (Excel)"
+msgstr "CSV (Excel)"
+
+#: tables/view.php:148
+msgid "JSON"
+msgstr "JSON"
+
+#: tables/view.php:149
+msgid "XML"
+msgstr "XML"
+
+#: tables/view.php:151
+msgid "Edit"
+msgstr "Edit"
+
+#: tables/view.php:151
+msgid "Press [e] to edit"
+msgstr "Press [e] to edit"
+
+#: tables/view.php:152
+msgid "Delete"
+msgstr "Delete"
+
+#~ msgid "With zoom"
+#~ msgstr "With zoom"
+
+#~ msgid "Everything may be downloaded as CSV"
+#~ msgstr "Everything may be downloaded as CSV"
+
+#~ msgid "With index"
+#~ msgstr "With index"
+
+#~ msgid "Do not display row numbers"
+#~ msgstr "Do not display row numbers"
+
+#~ msgid "Insert a column with row numbers"
+#~ msgstr "Insert a column with row numbers"
+
+#~ msgid "Edit filters"
+#~ msgstr "Edit filters"
+
+#~ msgid "Add filters"
+#~ msgstr "Add filters"
+
+#~ msgid "In %s"
+#~ msgstr "In %s"
+
+#~ msgid "more"
+#~ msgstr "more"
+
+#~ msgid "Add Filters"
+#~ msgstr "Add Filters"
+
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgid "Because of our security policy you are not allowed to list tables."
+#~ msgstr "Because of our security policy you are not allowed to list tables."
+
+#~ msgid "Please browse %s to visualize any table that could be embedded."
+#~ msgstr "Please browse %s to visualize any table that could be embedded."
+
+#~ msgid "published pages"
+#~ msgstr "published pages"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Tables maintenance"
+#~ msgstr "Tables maintenance"
+
+#~ msgid "Main page"
+#~ msgstr "Main page"
+
+#~ msgid "This page has been locked. It cannot be modified anymore."
+#~ msgstr "This page has been locked. It cannot be modified anymore."
+
+#~ msgid "Posts are not allowed anymore here."
+#~ msgstr "Posts are not allowed anymore here."
+
+#~ msgid "A sample \"my_articles\" table already exists."
+#~ msgstr "A sample \"my_articles\" table already exists."
+
+#~ msgid "My Articles"
+#~ msgstr "My Articles"
+
+#~ msgid "This is a sample table to let you learn and practice."
+#~ msgstr "This is a sample table to let you learn and practice."
+
+#~ msgid "A table %s has been created."
+#~ msgstr "A table %s has been created."
+
+#~ msgid "1&nbsp;table"
+#~ msgid_plural "%d&nbsp;tables"
+#~ msgstr[0] "1&nbsp;table"
+#~ msgstr[1] "%d&nbsp;tables"
+
+#~ msgid "Recent tables"
+#~ msgstr "Recent tables"
+
+#~ msgid "No file has been uploaded."
+#~ msgstr "No file has been uploaded."
+
+#~ msgid "%d records have been processed. Done"
+#~ msgstr "%d records have been processed. Done"
+
+#~ msgid "posted by %s"
+#~ msgstr "posted by %s"
+
+#~ msgid "Zero bytes transmitted."
+#~ msgstr "Zero bytes transmitted."
