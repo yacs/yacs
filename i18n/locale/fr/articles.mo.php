@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
-PO-Revision-Date: 2010-09-29 15:38+0100
+POT-Creation-Date: 2010-10-05 23:05+0200
+PO-Revision-Date: 2010-10-05 23:10+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -207,6 +207,7 @@ $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été f
 $_SESSION['l10n']['fr']['No vote']='Aucun vote';
 $_SESSION['l10n']['fr']['eade49618563da311f01c557b52f763a']='Personne n\'a été assigné à cette page.';
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
+$_SESSION['l10n']['fr']['Notify participants']='Notifier les participants';
 $_SESSION['l10n']['fr']['Number']='Numéro';
 $_SESSION['l10n']['fr']['Oldest articles']='Articles anciens';
 $_SESSION['l10n']['fr']['One page of comments']='Une page de commentaires';
@@ -297,11 +298,11 @@ $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['Select all/none']='Tous/aucun';
 $_SESSION['l10n']['fr']['Select parent container']='Choisir la section parente';
+$_SESSION['l10n']['fr']['Select recipients']='Choisir les destinataires';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['0e47211d01c4146ec82ef084405f3603']='Choisissez la langue employée pour cette page';
 $_SESSION['l10n']['fr']['Select this model']='Sélectionner ce modèle';
 $_SESSION['l10n']['fr']['Send']='Envoyer';
-$_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
@@ -349,7 +350,7 @@ $_SESSION['l10n']['fr']['c784dae7fc29d8c1f54a4f9497ebae2f']='La page a été pub
 $_SESSION['l10n']['fr']['2cc171975411f4b265ff24cd051fa9cd']='La date de publication a été modifiée.';
 $_SESSION['l10n']['fr']['e19d1d51fcb39f09b7a4f917bb493d97']='La date de publication à été supprimée.';
 $_SESSION['l10n']['fr']['6f667d5aa6579c8239335c342b69c9c1']='Ceci est une copie du message que vous avez envoyé, pour mémoire.';
-$_SESSION['l10n']['fr']['38b77492862aef3e5f2894c4c1379167']='Cette page est un brouillon. Ne pas la publier, même si la publication automatique est activée.';
+$_SESSION['l10n']['fr']['90df479ff757e0d021662d61d272b2bd']='Cette page est un brouillon. Ne pas notifier les observateurs, ni les abonnés.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['5ba6a855747f2ced505ea08ed6ec0b2b']='Faire la publicité de cette publication :';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';

@@ -874,7 +874,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// send a message to a section
 	if(($ecount > 1) && Sections::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
-		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Send a message'));
+		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// navigation commands for users

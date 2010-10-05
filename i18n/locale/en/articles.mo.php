@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
-PO-Revision-Date: 2010-09-29 14:23+0100
+POT-Creation-Date: 2010-10-05 23:05+0200
+PO-Revision-Date: 2010-10-05 23:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 Language: 
@@ -207,6 +207,7 @@ $_SESSION['l10n']['en']['No title has been provided.']='No title has been provid
 $_SESSION['l10n']['en']['No vote']='No vote';
 $_SESSION['l10n']['en']['eade49618563da311f01c557b52f763a']='Nobody has been assigned to this page.';
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
+$_SESSION['l10n']['en']['Notify participants']='Notify participants';
 $_SESSION['l10n']['en']['Number']='Number';
 $_SESSION['l10n']['en']['Oldest articles']='Oldest articles';
 $_SESSION['l10n']['en']['One page of comments']='One page of comments';
@@ -297,11 +298,11 @@ $_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select all/none']='Select all/none';
 $_SESSION['l10n']['en']['Select parent container']='Select parent container';
+$_SESSION['l10n']['en']['Select recipients']='Select recipients';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['0e47211d01c4146ec82ef084405f3603']='Select the language used for this page';
 $_SESSION['l10n']['en']['Select this model']='Select this model';
 $_SESSION['l10n']['en']['Send']='Send';
-$_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
@@ -349,7 +350,7 @@ $_SESSION['l10n']['en']['c784dae7fc29d8c1f54a4f9497ebae2f']='The page has been s
 $_SESSION['l10n']['en']['2cc171975411f4b265ff24cd051fa9cd']='The publication date has been changed.';
 $_SESSION['l10n']['en']['e19d1d51fcb39f09b7a4f917bb493d97']='The publication date has been removed.';
 $_SESSION['l10n']['en']['6f667d5aa6579c8239335c342b69c9c1']='This is a copy of the message you have sent, for your own record.';
-$_SESSION['l10n']['en']['38b77492862aef3e5f2894c4c1379167']='This is a draft document. Do not publish the page, even if auto-publish has been enabled.';
+$_SESSION['l10n']['en']['90df479ff757e0d021662d61d272b2bd']='This is a draft document. Do not notify watchers nor followers.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['5ba6a855747f2ced505ea08ed6ec0b2b']='This publication should be advertised at:';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
