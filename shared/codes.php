@@ -2933,6 +2933,7 @@ Class Codes {
 
 		// link to a form
 		case 'form':
+			include_once $context['path_to_root'].'forms/forms.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
