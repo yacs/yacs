@@ -1,0 +1,1644 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"PO-Revision-Date: 2009-03-11 00:05+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Language: French\n"
+
+#: i18n/i18n.php:188
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: i18n/i18n.php:189
+msgid "Albania"
+msgstr "Albanie"
+
+#: i18n/i18n.php:190
+msgid "Algeria"
+msgstr "Algérie"
+
+#: i18n/i18n.php:191
+msgid "American Samoa"
+msgstr "Samoa américaines"
+
+#: i18n/i18n.php:192
+msgid "Andorra"
+msgstr "Andorre"
+
+#: i18n/i18n.php:193
+msgid "Angola"
+msgstr "Angola"
+
+#: i18n/i18n.php:194
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: i18n/i18n.php:195
+msgid "Anonymous Proxy"
+msgstr "Proxy anonyme"
+
+#: i18n/i18n.php:196
+msgid "Antarctica"
+msgstr "Antarctique"
+
+#: i18n/i18n.php:197
+msgid "Antigua and Barbuda"
+msgstr "Antigua et Barbuda"
+
+#: i18n/i18n.php:198
+msgid "Argentina"
+msgstr "Argentine"
+
+#: i18n/i18n.php:199
+msgid "Armenia"
+msgstr "Arménie"
+
+#: i18n/i18n.php:200
+msgid "Aruba"
+msgstr "Aruba"
+
+#: i18n/i18n.php:201
+msgid "Asia/Pacific"
+msgstr "Asie/Pacifique"
+
+#: i18n/i18n.php:202
+msgid "Australia"
+msgstr "Australie"
+
+#: i18n/i18n.php:203
+msgid "Austria"
+msgstr "Autriche"
+
+#: i18n/i18n.php:204
+msgid "Azerbaijan"
+msgstr "Azerbaïdjan"
+
+#: i18n/i18n.php:205
+msgid "Bahamas"
+msgstr "Bahamas"
+
+#: i18n/i18n.php:206
+msgid "Bahrain"
+msgstr "Bahreïn"
+
+#: i18n/i18n.php:207
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+#: i18n/i18n.php:208
+msgid "Barbados"
+msgstr "Barbade"
+
+#: i18n/i18n.php:209
+msgid "Belarus"
+msgstr "Biélorussie"
+
+#: i18n/i18n.php:210
+msgid "Belgium"
+msgstr "Belgique"
+
+#: i18n/i18n.php:211
+msgid "Belize"
+msgstr "Belize"
+
+#: i18n/i18n.php:212
+msgid "Benin"
+msgstr "Bénin"
+
+#: i18n/i18n.php:213
+msgid "Bermuda"
+msgstr "Bermudes"
+
+#: i18n/i18n.php:214
+msgid "Bhutan"
+msgstr "Bhoutan"
+
+#: i18n/i18n.php:215
+msgid "Bolivia"
+msgstr "Bolivie"
+
+#: i18n/i18n.php:216
+msgid "Bosnia and Herzegovina"
+msgstr "Bosnie Herzégovine"
+
+#: i18n/i18n.php:217
+msgid "Botswana"
+msgstr "Botswana"
+
+#: i18n/i18n.php:218
+msgid "Bouvet Island"
+msgstr "Ile Bouvet"
+
+#: i18n/i18n.php:219
+msgid "Brazil"
+msgstr "Brésil"
+
+#: i18n/i18n.php:220
+msgid "British Indian Ocean Territory"
+msgstr "Territoire britanique de l'océan Indien"
+
+#: i18n/i18n.php:221
+msgid "Brunei Darussalam"
+msgstr "Brunéi Darussalam"
+
+#: i18n/i18n.php:222
+msgid "Bulgaria"
+msgstr "Bulgarie"
+
+#: i18n/i18n.php:223
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+#: i18n/i18n.php:224
+msgid "Burundi"
+msgstr "Burundi"
+
+#: i18n/i18n.php:225
+msgid "Cambodia"
+msgstr "Cambodge"
+
+#: i18n/i18n.php:226
+msgid "Cameroon"
+msgstr "Cameroun, République du"
+
+#: i18n/i18n.php:227
+msgid "Canada"
+msgstr "Canada"
+
+#: i18n/i18n.php:228
+msgid "Cape Verde"
+msgstr "Cap-Vert"
+
+#: i18n/i18n.php:229
+msgid "Cayman Islands"
+msgstr "Iles Caïmans"
+
+#: i18n/i18n.php:230
+msgid "Central African Republic"
+msgstr "République Centrafricaine"
+
+#: i18n/i18n.php:231
+msgid "Chad"
+msgstr "Tchad"
+
+#: i18n/i18n.php:232
+msgid "Chile"
+msgstr "Chili"
+
+#: i18n/i18n.php:233
+msgid "China"
+msgstr "Chine"
+
+#: i18n/i18n.php:234
+msgid "Christmas Island"
+msgstr "Ile Christmas"
+
+#: i18n/i18n.php:235
+msgid "Cocos (keeling) Islands"
+msgstr "Iles Cocos (îles Keeling)"
+
+#: i18n/i18n.php:236
+msgid "Colombia"
+msgstr "Colombie"
+
+#: i18n/i18n.php:237
+msgid "Comoros"
+msgstr "Comores"
+
+#: i18n/i18n.php:238
+msgid "Congo"
+msgstr "Congo"
+
+#: i18n/i18n.php:239
+msgid "Congo, the Democratic Republic of the"
+msgstr "Congo, République démocratique du"
+
+#: i18n/i18n.php:240
+msgid "Cook Islands "
+msgstr "Iles Cook"
+
+#: i18n/i18n.php:241
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+#: i18n/i18n.php:242
+msgid "Cote D'ivoire"
+msgstr "Côte D'ivoire"
+
+#: i18n/i18n.php:243
+msgid "Croatia"
+msgstr "Croatie"
+
+#: i18n/i18n.php:244
+msgid "Cuba"
+msgstr "Cuba"
+
+#: i18n/i18n.php:245
+msgid "Cyprus"
+msgstr "Chypre"
+
+#: i18n/i18n.php:246
+msgid "Czech Republic"
+msgstr "République Tchèque"
+
+#: i18n/i18n.php:247
+msgid "Denmark"
+msgstr "Danemark"
+
+#: i18n/i18n.php:248
+msgid "Djibouti"
+msgstr "Djibouti"
+
+#: i18n/i18n.php:249
+msgid "Dominica"
+msgstr "Dominique"
+
+#: i18n/i18n.php:250
+msgid "Dominican Republic"
+msgstr "République Dominicaine"
+
+#: i18n/i18n.php:251 i18n/i18n.php:252
+msgid "East Timor"
+msgstr "Timor Oriental"
+
+#: i18n/i18n.php:253
+msgid "Ecuador"
+msgstr "Equateur"
+
+#: i18n/i18n.php:254
+msgid "Egypt"
+msgstr "Egypte"
+
+#: i18n/i18n.php:255
+msgid "Europe"
+msgstr "Europe"
+
+#: i18n/i18n.php:256
+msgid "El Salvador"
+msgstr "Salvador"
+
+#: i18n/i18n.php:257
+msgid "Equatorial Guinea"
+msgstr "Guinée équatoriale"
+
+#: i18n/i18n.php:258
+msgid "Eritrea"
+msgstr "Erythrée"
+
+#: i18n/i18n.php:259
+msgid "Estonia"
+msgstr "Estonie"
+
+#: i18n/i18n.php:260
+msgid "Ethiopia"
+msgstr "Ethiopie"
+
+#: i18n/i18n.php:261
+msgid "Falkland Islands (malvinas)"
+msgstr "Iles Falkland (îles Malouines)"
+
+#: i18n/i18n.php:262
+msgid "Faroe Islands"
+msgstr "Iles Féroe"
+
+#: i18n/i18n.php:263
+msgid "Fiji"
+msgstr "Fidji"
+
+#: i18n/i18n.php:264
+msgid "Finland"
+msgstr "Finlande"
+
+#: i18n/i18n.php:265
+msgid "France"
+msgstr "France"
+
+#: i18n/i18n.php:266
+msgid "France, Metropolitan"
+msgstr "France métropolitaine"
+
+#: i18n/i18n.php:267
+msgid "French Guiana"
+msgstr "Guyane française"
+
+#: i18n/i18n.php:268
+msgid "French Polynesia"
+msgstr "Polynésie française"
+
+#: i18n/i18n.php:269
+msgid "French Southern Territories"
+msgstr "Terres australes et antarctiques françaises"
+
+#: i18n/i18n.php:270
+msgid "Gabon"
+msgstr "Gabon"
+
+#: i18n/i18n.php:271
+msgid "Gambia"
+msgstr "Gambie"
+
+#: i18n/i18n.php:272
+msgid "Georgia"
+msgstr "Géorgie"
+
+#: i18n/i18n.php:273
+msgid "Germany"
+msgstr "Allemagne"
+
+#: i18n/i18n.php:274
+msgid "Ghana"
+msgstr "Ghana"
+
+#: i18n/i18n.php:275
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: i18n/i18n.php:276
+msgid "Greece"
+msgstr "Grèce"
+
+#: i18n/i18n.php:277
+msgid "Greenland"
+msgstr "Groenland"
+
+#: i18n/i18n.php:278
+msgid "Grenada"
+msgstr "Grenade"
+
+#: i18n/i18n.php:279
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+#: i18n/i18n.php:280
+msgid "Guam"
+msgstr "Guam"
+
+#: i18n/i18n.php:281
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: i18n/i18n.php:282
+msgid "Guinea"
+msgstr "Guinée"
+
+#: i18n/i18n.php:283
+msgid "Guinea-bissau"
+msgstr "Guinée-Bissau"
+
+#: i18n/i18n.php:284
+msgid "Guyana"
+msgstr "Guyanne"
+
+#: i18n/i18n.php:285
+msgid "Haiti"
+msgstr "Haïti"
+
+#: i18n/i18n.php:286
+msgid "Heard Island and Mcdonald Islands"
+msgstr "Ile Heard et Iles Mcdonald"
+
+#: i18n/i18n.php:287
+msgid "Holy See (vatican City State)"
+msgstr "Vatican (Cité du Vatican)"
+
+#: i18n/i18n.php:288
+msgid "Honduras"
+msgstr "Honduras"
+
+#: i18n/i18n.php:289
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: i18n/i18n.php:290
+msgid "Hungary"
+msgstr "Hongrie"
+
+#: i18n/i18n.php:291
+msgid "Iceland"
+msgstr "Islande"
+
+#: i18n/i18n.php:292
+msgid "India"
+msgstr "Inde"
+
+#: i18n/i18n.php:293
+msgid "Indonesia"
+msgstr "Indonésie"
+
+#: i18n/i18n.php:294
+msgid "Iran, Islamic Republic of"
+msgstr "Iran, République islamique d'"
+
+#: i18n/i18n.php:295
+msgid "Iraq"
+msgstr "Irak"
+
+#: i18n/i18n.php:296
+msgid "Ireland"
+msgstr "Irlande"
+
+#: i18n/i18n.php:297
+msgid "Israel"
+msgstr "Israel"
+
+#: i18n/i18n.php:298
+msgid "Italy"
+msgstr "Italie"
+
+#: i18n/i18n.php:299
+msgid "Jamaica"
+msgstr "Jamaique"
+
+#: i18n/i18n.php:300
+msgid "Japan"
+msgstr "Japon"
+
+#: i18n/i18n.php:301
+msgid "Jordan"
+msgstr "Jordanie"
+
+#: i18n/i18n.php:302
+msgid "Kazakstan"
+msgstr "Kazakstan"
+
+#: i18n/i18n.php:303
+msgid "Kenya"
+msgstr "Kenya"
+
+#: i18n/i18n.php:304
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#: i18n/i18n.php:305
+msgid "Korea, Democratic People's Republic of"
+msgstr "Corée, République populaire démocratique de"
+
+#: i18n/i18n.php:306
+msgid "Korea, Republic of"
+msgstr "Corée, République de"
+
+#: i18n/i18n.php:307
+msgid "Kuwait"
+msgstr "Koweit"
+
+#: i18n/i18n.php:308
+msgid "Kyrgyzstan"
+msgstr "Kirghizistan"
+
+#: i18n/i18n.php:309
+msgid "Lao People's Democratic Republic"
+msgstr "Laos (République populaire démocratique du Lao)"
+
+#: i18n/i18n.php:310
+msgid "Latvia"
+msgstr "Lettonie"
+
+#: i18n/i18n.php:311
+msgid "Lebanon"
+msgstr "Liban"
+
+#: i18n/i18n.php:312
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: i18n/i18n.php:313
+msgid "Liberia"
+msgstr "Libéria"
+
+#: i18n/i18n.php:314
+msgid "Libyan Arab Jamahiriya"
+msgstr "Lybie (Jamahiriya arabe libyenne populaire et socialiste)"
+
+#: i18n/i18n.php:315
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+#: i18n/i18n.php:316
+msgid "Lithuania"
+msgstr "Lituanie"
+
+#: i18n/i18n.php:317
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+#: i18n/i18n.php:318
+msgid "Macau"
+msgstr "Macao"
+
+#: i18n/i18n.php:319
+msgid "Macedonia, the Former Yugoslav Republic of"
+msgstr "ex-République yougoslave de Macédoine"
+
+#: i18n/i18n.php:320
+msgid "Madagascar"
+msgstr "Madagascar"
+
+#: i18n/i18n.php:321
+msgid "Malawi"
+msgstr "Malawi"
+
+#: i18n/i18n.php:322
+msgid "Malaysia"
+msgstr "Malaisie"
+
+#: i18n/i18n.php:323
+msgid "Maldives"
+msgstr "Maldives"
+
+#: i18n/i18n.php:324
+msgid "Mali"
+msgstr "Mali"
+
+#: i18n/i18n.php:325
+msgid "Malta"
+msgstr "Malte"
+
+#: i18n/i18n.php:326
+msgid "Marshall Islands"
+msgstr "Iles Marshall"
+
+#: i18n/i18n.php:327
+msgid "Martinique"
+msgstr "Martinique"
+
+#: i18n/i18n.php:328
+msgid "Mauritania"
+msgstr "Mauritanie"
+
+#: i18n/i18n.php:329
+msgid "Mauritius"
+msgstr "Maurice"
+
+#: i18n/i18n.php:330
+msgid "Mayotte"
+msgstr "Mayotte"
+
+#: i18n/i18n.php:331
+msgid "Mexico"
+msgstr "Mexique"
+
+#: i18n/i18n.php:332
+msgid "Micronesia, Federated States of"
+msgstr "Micronésie, Etats fédérés de"
+
+#: i18n/i18n.php:333
+msgid "Moldova, Republic of"
+msgstr "Moldavie (République de Moldova)"
+
+#: i18n/i18n.php:334
+msgid "Monaco"
+msgstr "Monaco"
+
+#: i18n/i18n.php:335
+msgid "Mongolia"
+msgstr "Mongolie"
+
+#: i18n/i18n.php:336
+msgid "Montenegro"
+msgstr "Montenegro"
+
+#: i18n/i18n.php:337
+msgid "Montserrat"
+msgstr "Montserrat"
+
+#: i18n/i18n.php:338
+msgid "Morocco"
+msgstr "Maroc"
+
+#: i18n/i18n.php:339
+msgid "Mozambique"
+msgstr "Mozambique"
+
+#: i18n/i18n.php:340
+msgid "Myanmar"
+msgstr "Myanmar"
+
+#: i18n/i18n.php:341
+msgid "Namibia"
+msgstr "Namibie"
+
+#: i18n/i18n.php:342
+msgid "Nauru"
+msgstr "Nauru"
+
+#: i18n/i18n.php:343
+msgid "Nepal"
+msgstr "Nepal"
+
+#: i18n/i18n.php:344
+msgid "Netherlands"
+msgstr "Pays Bas"
+
+#: i18n/i18n.php:345
+msgid "Netherlands Antilles"
+msgstr "Antilles néerlandaises"
+
+#: i18n/i18n.php:346
+msgid "New Caledonia"
+msgstr "Nouvelle Calédonie"
+
+#: i18n/i18n.php:347
+msgid "New Zealand"
+msgstr "Nouvelle Zélande"
+
+#: i18n/i18n.php:348
+msgid "Nicaragua"
+msgstr "Nicaragua"
+
+#: i18n/i18n.php:349
+msgid "Niger"
+msgstr "Niger"
+
+#: i18n/i18n.php:350
+msgid "Nigeria"
+msgstr "Nigeria"
+
+#: i18n/i18n.php:351
+msgid "Niue"
+msgstr "Niué"
+
+#: i18n/i18n.php:352
+msgid "Norfolk Island"
+msgstr "Ile Norfolk"
+
+#: i18n/i18n.php:353
+msgid "Northern Mariana Islands"
+msgstr "Iles Mariannes du Nord"
+
+#: i18n/i18n.php:354
+msgid "Norway"
+msgstr "Norvège"
+
+#: i18n/i18n.php:355
+msgid "Oman"
+msgstr "Oman"
+
+#: i18n/i18n.php:356
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: i18n/i18n.php:357
+msgid "Palau"
+msgstr "Palaos"
+
+#: i18n/i18n.php:358
+msgid "Palestinian Territory, Occupied"
+msgstr "Territoires Palestiniens"
+
+#: i18n/i18n.php:359
+msgid "Panama"
+msgstr "Panama"
+
+#: i18n/i18n.php:360
+msgid "Papua New Guinea"
+msgstr "Papouasie Nouvelle Guinée"
+
+#: i18n/i18n.php:361
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: i18n/i18n.php:362
+msgid "Peru"
+msgstr "Pérou"
+
+#: i18n/i18n.php:363
+msgid "Philippines"
+msgstr "Philippines"
+
+#: i18n/i18n.php:364
+msgid "Pitcairn"
+msgstr "Iles Pitcairn"
+
+#: i18n/i18n.php:365
+msgid "Poland"
+msgstr "Pologne"
+
+#: i18n/i18n.php:366
+msgid "Portugal"
+msgstr "Portugal"
+
+#: i18n/i18n.php:367
+msgid "Puerto Rico"
+msgstr "Porto Rico"
+
+#: i18n/i18n.php:368
+msgid "Qatar"
+msgstr "Qatar"
+
+#: i18n/i18n.php:369
+msgid "Reunion"
+msgstr "Réunion"
+
+#: i18n/i18n.php:370
+msgid "Romania"
+msgstr "Roumanie"
+
+#: i18n/i18n.php:371
+msgid "Russian Federation"
+msgstr "Fédération de Russie"
+
+#: i18n/i18n.php:372
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: i18n/i18n.php:373
+msgid "Saint Helena"
+msgstr "Sainte Hélène"
+
+#: i18n/i18n.php:374
+msgid "Saint Kitts and Nevis"
+msgstr "Saint-Christophe-et-Niévès"
+
+#: i18n/i18n.php:375
+msgid "Saint Lucia"
+msgstr "Sainte-Lucie"
+
+#: i18n/i18n.php:376
+msgid "Saint Pierre and Miquelon"
+msgstr "Saint Pierre et Miquelon"
+
+#: i18n/i18n.php:377
+msgid "Saint Vincent and the Grenadines"
+msgstr "Saint Vincent et les Grenadines"
+
+#: i18n/i18n.php:378
+msgid "Samoa"
+msgstr "Samoa"
+
+#: i18n/i18n.php:379
+msgid "San Marino"
+msgstr "Saint Marin"
+
+#: i18n/i18n.php:380
+msgid "Sao Tome and Principe"
+msgstr "Sao Tomé-et-Principe"
+
+#: i18n/i18n.php:381
+msgid "Satellite Provider"
+msgstr "Satellite"
+
+#: i18n/i18n.php:382
+msgid "Saudi Arabia"
+msgstr "Arabie Saoudite"
+
+#: i18n/i18n.php:383
+msgid "Senegal"
+msgstr "Sénégal"
+
+#: i18n/i18n.php:384
+msgid "Serbia"
+msgstr "Serbie"
+
+#: i18n/i18n.php:385
+msgid "Seychelles"
+msgstr "Seychelles"
+
+#: i18n/i18n.php:386
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: i18n/i18n.php:387
+msgid "Singapore"
+msgstr "Singapour"
+
+#: i18n/i18n.php:388
+msgid "Slovakia"
+msgstr "Slovaquie"
+
+#: i18n/i18n.php:389
+msgid "Slovenia"
+msgstr "Slovénie"
+
+#: i18n/i18n.php:390
+msgid "Solomon Islands"
+msgstr "Iles Salomon"
+
+#: i18n/i18n.php:391
+msgid "Somalia"
+msgstr "Somalie"
+
+#: i18n/i18n.php:392
+msgid "South Africa"
+msgstr "Afrique du Sud"
+
+#: i18n/i18n.php:393
+msgid "South Georgia and the South Sandwich Islands"
+msgstr "Georgie du Sud et Iles Sandwich du Sud"
+
+#: i18n/i18n.php:394
+msgid "Spain"
+msgstr "Espagne"
+
+#: i18n/i18n.php:395
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: i18n/i18n.php:396
+msgid "Sudan"
+msgstr "Soudan"
+
+#: i18n/i18n.php:397
+msgid "Suriname"
+msgstr "Suriname"
+
+#: i18n/i18n.php:398
+msgid "Svalbard and Jan Mayen"
+msgstr "Svalbard et Jan Mayen"
+
+#: i18n/i18n.php:399
+msgid "Swaziland"
+msgstr "Swaziland"
+
+#: i18n/i18n.php:400
+msgid "Sweden"
+msgstr "Suède"
+
+#: i18n/i18n.php:401
+msgid "Switzerland"
+msgstr "Suisse"
+
+#: i18n/i18n.php:402
+msgid "Syrian Arab Republic"
+msgstr "Syrie (République arabe syrienne)"
+
+#: i18n/i18n.php:403
+msgid "Taiwan, Province of China"
+msgstr "Taiwan, Province de Chine"
+
+#: i18n/i18n.php:404
+msgid "Tajikistan"
+msgstr "Tadjikistan"
+
+#: i18n/i18n.php:405
+msgid "Tanzania, United Republic of"
+msgstr "Tanzanie, République unie de"
+
+#: i18n/i18n.php:406
+msgid "Thailand"
+msgstr "Thaïlande"
+
+#: i18n/i18n.php:407
+msgid "Togo"
+msgstr "Togo"
+
+#: i18n/i18n.php:408
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#: i18n/i18n.php:409
+msgid "Tonga"
+msgstr "Tonga"
+
+#: i18n/i18n.php:410
+msgid "Trinidad and Tobago"
+msgstr "Trinité-et-Tobago"
+
+#: i18n/i18n.php:411
+msgid "Tunisia"
+msgstr "Tunisie"
+
+#: i18n/i18n.php:412
+msgid "Turkey"
+msgstr "Turquie"
+
+#: i18n/i18n.php:413
+msgid "Turkmenistan"
+msgstr "Turkmenistan"
+
+#: i18n/i18n.php:414
+msgid "Turks and Caicos Islands"
+msgstr "Iles Turques et Caïques"
+
+#: i18n/i18n.php:415
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: i18n/i18n.php:416
+msgid "Uganda"
+msgstr "Ouganda"
+
+#: i18n/i18n.php:417
+msgid "Ukraine"
+msgstr "Ukraine"
+
+#: i18n/i18n.php:418
+msgid "United Arab Emirates"
+msgstr "Emirats Arabes Unis"
+
+#: i18n/i18n.php:419
+msgid "United Kingdom"
+msgstr "Royaume Unis"
+
+#: i18n/i18n.php:420
+msgid "United States"
+msgstr "Etats Unis"
+
+#: i18n/i18n.php:421
+msgid "United States Minor Outlying Islands"
+msgstr "Iles mineures éloignées des États-Unis"
+
+#: i18n/i18n.php:422
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#: i18n/i18n.php:423
+msgid "Uzbekistan"
+msgstr "Ouzbékistan"
+
+#: i18n/i18n.php:424
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: i18n/i18n.php:425
+msgid "Venezuela"
+msgstr "Venezuela"
+
+#: i18n/i18n.php:426
+msgid "Viet Nam"
+msgstr "Viét Nam"
+
+#: i18n/i18n.php:427
+msgid "Virgin Islands, British"
+msgstr "Iles Vierges britaniques"
+
+#: i18n/i18n.php:428
+msgid "Virgin Islands, U.s."
+msgstr "Iles Vierges américaines"
+
+#: i18n/i18n.php:429
+msgid "Wallis and Futuna"
+msgstr "Wallis et Futuna"
+
+#: i18n/i18n.php:430
+msgid "Western Sahara"
+msgstr "Sahara occidental"
+
+#: i18n/i18n.php:431
+msgid "Yemen"
+msgstr "Yémen"
+
+#: i18n/i18n.php:432
+msgid "Zambia"
+msgstr "Zambie"
+
+#: i18n/i18n.php:433
+msgid "Zaire"
+msgstr "Zaire"
+
+#: i18n/i18n.php:434
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: i18n/i18n.php:463
+msgid "Select a country"
+msgstr "Choisissez un pays"
+
+#: i18n/i18n.php:556
+msgid "abkhazian"
+msgstr "Abkhaze"
+
+#: i18n/i18n.php:557
+msgid "afan (oromo)"
+msgstr "Oromo (Afaan Oromo)"
+
+#: i18n/i18n.php:558
+msgid "afar"
+msgstr "Afar"
+
+#: i18n/i18n.php:559
+msgid "afrikaans"
+msgstr "Afrikaans"
+
+#: i18n/i18n.php:560
+msgid "albanian"
+msgstr "Albanais"
+
+#: i18n/i18n.php:561
+msgid "amharic"
+msgstr "Amharique"
+
+#: i18n/i18n.php:562
+msgid "arabic"
+msgstr "Arabe"
+
+#: i18n/i18n.php:563
+msgid "armenian"
+msgstr "Arménien"
+
+#: i18n/i18n.php:564
+msgid "assamese"
+msgstr "Assamais"
+
+#: i18n/i18n.php:565
+msgid "aymara"
+msgstr "Aymara"
+
+#: i18n/i18n.php:566
+msgid "azerbaijani"
+msgstr "Azéri"
+
+#: i18n/i18n.php:567
+msgid "bashkir"
+msgstr "Bachkir"
+
+#: i18n/i18n.php:568
+msgid "basque"
+msgstr "Basque"
+
+#: i18n/i18n.php:569
+msgid "bengali;bangla"
+msgstr "Bengalî ; Bânglâ"
+
+#: i18n/i18n.php:570
+msgid "bihari"
+msgstr "Bihari"
+
+#: i18n/i18n.php:571
+msgid "bislama"
+msgstr "Bislama"
+
+#: i18n/i18n.php:572
+msgid "breton"
+msgstr "Breton"
+
+#: i18n/i18n.php:573
+msgid "bulgarian"
+msgstr "Bulgare"
+
+#: i18n/i18n.php:574
+msgid "burmese"
+msgstr "Birman"
+
+#: i18n/i18n.php:575
+msgid "byelorussian"
+msgstr "Biélorusse"
+
+#: i18n/i18n.php:576
+msgid "catalan"
+msgstr "Catalan"
+
+#: i18n/i18n.php:577
+msgid "chinese"
+msgstr "Chinois"
+
+#: i18n/i18n.php:578
+msgid "corsican"
+msgstr "Corse"
+
+#: i18n/i18n.php:579
+msgid "croatian"
+msgstr "Croate"
+
+#: i18n/i18n.php:580
+msgid "czech"
+msgstr "Tchèque"
+
+#: i18n/i18n.php:581
+msgid "danish"
+msgstr "Danois"
+
+#: i18n/i18n.php:582
+msgid "dutch"
+msgstr "Hollandais"
+
+#: i18n/i18n.php:583
+msgid "dzongkha"
+msgstr "Dzongkha"
+
+#: i18n/i18n.php:584
+msgid "english"
+msgstr "Anglais"
+
+#: i18n/i18n.php:585
+msgid "esperanto"
+msgstr "Esperanto"
+
+#: i18n/i18n.php:586
+msgid "estonian"
+msgstr "Estonien"
+
+#: i18n/i18n.php:587
+msgid "faroese"
+msgstr "Féroïen"
+
+#: i18n/i18n.php:588
+msgid "fiji"
+msgstr "Fidjien"
+
+#: i18n/i18n.php:589
+msgid "finnish"
+msgstr "Finnois"
+
+#: i18n/i18n.php:590
+msgid "french"
+msgstr "Français"
+
+#: i18n/i18n.php:591
+msgid "frisian"
+msgstr "Frison"
+
+#: i18n/i18n.php:592
+msgid "galician"
+msgstr "Galicien"
+
+#: i18n/i18n.php:593
+msgid "georgian"
+msgstr "Géorgien"
+
+#: i18n/i18n.php:594
+msgid "german"
+msgstr "Allemand"
+
+#: i18n/i18n.php:595
+msgid "greek"
+msgstr "Grec"
+
+#: i18n/i18n.php:596
+msgid "greenlandic"
+msgstr "Kalaallisut (Groenlandais)"
+
+#: i18n/i18n.php:597
+msgid "guarani"
+msgstr "Guarani"
+
+#: i18n/i18n.php:598
+msgid "gujarati"
+msgstr "Gujarâtî"
+
+#: i18n/i18n.php:599
+msgid "hausa"
+msgstr "Haoussa"
+
+#: i18n/i18n.php:600
+msgid "hebrew"
+msgstr "Hébreu"
+
+#: i18n/i18n.php:601
+msgid "hindi"
+msgstr "Hindî"
+
+#: i18n/i18n.php:602
+msgid "hungarian"
+msgstr "Hongrois"
+
+#: i18n/i18n.php:603
+msgid "icelandic"
+msgstr "Islandais"
+
+#: i18n/i18n.php:604
+msgid "indonesian"
+msgstr "Indonésien"
+
+#: i18n/i18n.php:605
+msgid "interlingua"
+msgstr "Interlingua"
+
+#: i18n/i18n.php:606
+msgid "interlingue"
+msgstr "Interlingue"
+
+#: i18n/i18n.php:607
+msgid "inuktitut"
+msgstr "Inuktitut"
+
+#: i18n/i18n.php:608
+msgid "inupiak"
+msgstr "Inupiaq"
+
+#: i18n/i18n.php:609
+msgid "irish"
+msgstr "Irlandais"
+
+#: i18n/i18n.php:610
+msgid "italian"
+msgstr "Italien"
+
+#: i18n/i18n.php:611
+msgid "japanese"
+msgstr "Japonais"
+
+#: i18n/i18n.php:612
+msgid "javanese"
+msgstr "Javanais"
+
+#: i18n/i18n.php:613
+msgid "kannada"
+msgstr "Kannada"
+
+#: i18n/i18n.php:614
+msgid "kashmiri"
+msgstr "Kashmiri"
+
+#: i18n/i18n.php:615
+msgid "kazakh"
+msgstr "Kazakh"
+
+#: i18n/i18n.php:616
+msgid "khmer"
+msgstr "Khmer"
+
+#: i18n/i18n.php:617
+msgid "kinyarwanda"
+msgstr "Kinyarwanda"
+
+#: i18n/i18n.php:618
+msgid "kirghiz"
+msgstr "Kirghiz"
+
+#: i18n/i18n.php:619
+msgid "korean"
+msgstr "Coréen"
+
+#: i18n/i18n.php:620
+msgid "kurdish"
+msgstr "Kurde"
+
+#: i18n/i18n.php:621
+msgid "kurundi"
+msgstr "Kirundi"
+
+#: i18n/i18n.php:622
+msgid "laothian"
+msgstr "Laotien"
+
+#: i18n/i18n.php:623
+msgid "latin"
+msgstr "Latin"
+
+#: i18n/i18n.php:624
+msgid "latvian;lettish"
+msgstr "Letton;Lette"
+
+#: i18n/i18n.php:625
+msgid "lingala"
+msgstr "Lingala"
+
+#: i18n/i18n.php:626
+msgid "lithuanian"
+msgstr "Lituanien"
+
+#: i18n/i18n.php:627
+msgid "macedonian"
+msgstr "Macédonien"
+
+#: i18n/i18n.php:628
+msgid "malagasy"
+msgstr "Malgache"
+
+#: i18n/i18n.php:629
+msgid "malay"
+msgstr "Malais"
+
+#: i18n/i18n.php:630
+msgid "malayalam"
+msgstr "Malayalam"
+
+#: i18n/i18n.php:631
+msgid "maltese"
+msgstr "Maltais"
+
+#: i18n/i18n.php:632
+msgid "maori"
+msgstr "Maori"
+
+#: i18n/i18n.php:633
+msgid "marathi"
+msgstr "Marâthî"
+
+#: i18n/i18n.php:634
+msgid "moldavian"
+msgstr "Moldave"
+
+#: i18n/i18n.php:635
+msgid "mongolian"
+msgstr "Mongol"
+
+#: i18n/i18n.php:636
+msgid "nauru"
+msgstr "Nauruan"
+
+#: i18n/i18n.php:637
+msgid "nepali"
+msgstr "Népalais"
+
+#: i18n/i18n.php:638
+msgid "norwegian"
+msgstr "Norvégien"
+
+#: i18n/i18n.php:639
+msgid "occitan"
+msgstr "Occitan"
+
+#: i18n/i18n.php:640
+msgid "oriya"
+msgstr "Oriya"
+
+#: i18n/i18n.php:641
+msgid "pashto;pushto"
+msgstr "Pachto"
+
+#: i18n/i18n.php:642
+msgid "persian (farsi)"
+msgstr "Persan (farsi)"
+
+#: i18n/i18n.php:643
+msgid "polish"
+msgstr "Polonais"
+
+#: i18n/i18n.php:644
+msgid "portuguese"
+msgstr "Portugais"
+
+#: i18n/i18n.php:645
+msgid "punjabi"
+msgstr "Panjâbî"
+
+#: i18n/i18n.php:646
+msgid "quechua"
+msgstr "Quechua"
+
+#: i18n/i18n.php:647
+msgid "rhaeto-romance"
+msgstr "Rhéto-roman"
+
+#: i18n/i18n.php:648
+msgid "romanian"
+msgstr "Roumain"
+
+#: i18n/i18n.php:649
+msgid "russian"
+msgstr "Russe"
+
+#: i18n/i18n.php:650
+msgid "samoan"
+msgstr "Samoan"
+
+#: i18n/i18n.php:651
+msgid "sangho"
+msgstr "Sango"
+
+#: i18n/i18n.php:652
+msgid "sanskrit"
+msgstr "Sanskrit"
+
+#: i18n/i18n.php:653
+msgid "scots gaelic"
+msgstr "Écossais"
+
+#: i18n/i18n.php:654
+msgid "serbian"
+msgstr "Serbe"
+
+#: i18n/i18n.php:655
+msgid "serbo-croatian"
+msgstr "Serbo-croate"
+
+#: i18n/i18n.php:656
+msgid "sesotho"
+msgstr "Sesotho"
+
+#: i18n/i18n.php:657
+msgid "setswana"
+msgstr "Setswana"
+
+#: i18n/i18n.php:658
+msgid "shona"
+msgstr "Shona"
+
+#: i18n/i18n.php:659
+msgid "sindhi"
+msgstr "Sindhi"
+
+#: i18n/i18n.php:660
+msgid "singhalese"
+msgstr "Cingalais"
+
+#: i18n/i18n.php:661
+msgid "siswati"
+msgstr "Siswati"
+
+#: i18n/i18n.php:662
+msgid "slovak"
+msgstr "Slovaque"
+
+#: i18n/i18n.php:663
+msgid "slovenian"
+msgstr "Slovène"
+
+#: i18n/i18n.php:664
+msgid "somali"
+msgstr "Somali"
+
+#: i18n/i18n.php:665
+msgid "spanish"
+msgstr "Espagnol"
+
+#: i18n/i18n.php:666
+msgid "sundanese"
+msgstr "Sundanais"
+
+#: i18n/i18n.php:667
+msgid "swahili"
+msgstr "Swahili"
+
+#: i18n/i18n.php:668
+msgid "swedish"
+msgstr "Suédois"
+
+#: i18n/i18n.php:669
+msgid "tagalog"
+msgstr "Tagalog"
+
+#: i18n/i18n.php:670
+msgid "tajik"
+msgstr "Tadjik"
+
+#: i18n/i18n.php:671
+msgid "tamil"
+msgstr "Tamoul"
+
+#: i18n/i18n.php:672
+msgid "tatar"
+msgstr "Tatar"
+
+#: i18n/i18n.php:673
+msgid "telugu"
+msgstr "Télougou"
+
+#: i18n/i18n.php:674
+msgid "thai"
+msgstr "Thaï"
+
+#: i18n/i18n.php:675
+msgid "tibetan"
+msgstr "Tibétain"
+
+#: i18n/i18n.php:676
+msgid "tigrinya"
+msgstr "Tigrinya"
+
+#: i18n/i18n.php:677
+msgid "tonga"
+msgstr "Tongien"
+
+#: i18n/i18n.php:678
+msgid "tsonga"
+msgstr "Tsonga"
+
+#: i18n/i18n.php:679
+msgid "turkish"
+msgstr "Turc"
+
+#: i18n/i18n.php:680
+msgid "turkmen"
+msgstr "Turkmène"
+
+#: i18n/i18n.php:681
+msgid "twi"
+msgstr "Twi"
+
+#: i18n/i18n.php:682
+msgid "uigur"
+msgstr "Ouïghour"
+
+#: i18n/i18n.php:683
+msgid "ukrainian"
+msgstr "Ukrainien"
+
+#: i18n/i18n.php:684
+msgid "urdu"
+msgstr "Ourdou"
+
+#: i18n/i18n.php:685
+msgid "uzbek"
+msgstr "Ouzbek"
+
+#: i18n/i18n.php:686
+msgid "vietnamese"
+msgstr "Vietnamien"
+
+#: i18n/i18n.php:687
+msgid "volapuk"
+msgstr "Volapük"
+
+#: i18n/i18n.php:688
+msgid "welsh"
+msgstr "Gallois"
+
+#: i18n/i18n.php:689
+msgid "wolof"
+msgstr "Wolof"
+
+#: i18n/i18n.php:690
+msgid "xhosa"
+msgstr "Xhosa"
+
+#: i18n/i18n.php:691
+msgid "yiddish"
+msgstr "Yiddish"
+
+#: i18n/i18n.php:692
+msgid "yoruba"
+msgstr "Yoruba"
+
+#: i18n/i18n.php:693
+msgid "zhuang"
+msgstr "Zhuang"
+
+#: i18n/i18n.php:694
+msgid "zulu"
+msgstr "Zoulou"
+
+#: i18n/i18n.php:728
+msgid "Select a language"
+msgstr "Choisissez une langue"
+
+#: i18n/test.php:17
+msgid "Test i18n"
+msgstr "Test d'internationalisation"
+
+#: i18n/test.php:21
+msgid "Edited"
+msgstr "Modifié"
+
+#: i18n/test.php:26
+msgid "Translation to surfer language"
+msgstr "Localisation dans le langage du surfeur"
+
+#: i18n/test.php:29
+msgid "This is a simple label, according to user preference"
+msgstr "Ceci est un label simple, localisé dans le langage du surfeur"
+
+#: i18n/test.php:32
+#, php-format
+msgid ""
+"This string, using surfer language, allows for argument reordering: %2$s %1$s"
+msgstr ""
+"Cette chaîne, localisé dans le langage du surfeur, autorise le "
+"réordonnancement des arguments : %2$s %1$s"
+
+#: i18n/test.php:35 i18n/test.php:38 i18n/test.php:55 i18n/test.php:58
+#, php-format
+msgid "There is %d item"
+msgid_plural "There are %d items"
+msgstr[0] "Il y a %d élément"
+msgstr[1] "Il y a %d éléments"
+
+#: i18n/test.php:41 i18n/test.php:61
+msgid ""
+"<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
+"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
+"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
+"consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit "
+"esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum.</p>"
+msgstr ""
+"<p>(français) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in "
+"voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint "
+"occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit "
+"anim id est laborum.</p>"
+
+#: i18n/test.php:46
+msgid "Translation to community language"
+msgstr "Localisation dans le langage communautaire"
+
+#: i18n/test.php:49
+msgid "This is a simple label, according to community preference"
+msgstr "Ceci est un label simple, localisé dans le langage de la communauté"
+
+#: i18n/test.php:52
+#, php-format
+msgid ""
+"This string, using community language, allows for argument reordering: %2$s "
+"%1$s"
+msgstr ""
+"Cette chaîne, localisée dans le langage de la communauté, autorise le "
+"réordonnancement des arguments : %2$s %1$s"
+
+#~ msgid "Select a time zone"
+#~ msgstr "Choisissez une zone horaire"
+
+#~ msgid "bhutani"
+#~ msgstr "Dzongkha"
+
+#~ msgid "cambodian"
+#~ msgstr "Khmer"
