@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on October 5, 2010, 9:15 pm GMT, for Bernard Paques. Please do not modify it manually.
+// on October 5, 2010, 10:08 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(153, '69145cd2c926d0136702b7c027084f64');
@@ -532,7 +532,7 @@ $footprints['setup.php']=array(356, 'e35e553c75ca9c87e65343df6da21220');
 $footprints['shared/anchor.php']=array(1181, '54b575949b0b5428c2ee7452da86abaf');
 $footprints['shared/anchors.php']=array(631, '9e1adf8fcd48223b8584b32242798605');
 $footprints['shared/cache.php']=array(356, '0077e5ac6c94300710d87593ef46cc5b');
-$footprints['shared/codes.php']=array(4517, 'b1c540e54cb5cdcf3d79c94866359c9d');
+$footprints['shared/codes.php']=array(4518, '6834e3c971ce90d2e897f176bdde0235');
 $footprints['shared/global.php']=array(1836, 'fafbedbc4bac58624e11495c69f9f692');
 $footprints['shared/http.php']=array(144, 'ca2a6a0934cfc4de7af60f9fca9644c8');
 $footprints['shared/index.php']=array(14, '690601cbf1cfd62381e764f497e6a32a');
@@ -676,7 +676,7 @@ $footprints['versions/versions.php']=array(460, '015e434611e79c630fab88715f24d02
 $footprints['versions/view.php']=array(192, '8f434ec2491cd373c001092f1c942606');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='101005-21:15:51 GMT';
+$generation['date']='101005-22:08:56 GMT';
 $generation['server']='localhost';
 $generation['version']='10.10.5';
 $generation['scripts']='671'; // number of reference scripts
