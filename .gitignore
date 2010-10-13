@@ -1,3 +1,6 @@
+#Ignore signatures file updated while building a archive
+footprints.php
+
 # Ignore htaccess at root level only
 /.htaccess
 
