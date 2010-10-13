@@ -84,6 +84,10 @@ Class Layout_users_as_mail extends Layout_interface {
 			else
 				$title = Codes::beautify_title($item['full_name']);
 
+			// sanity check
+			if(!$title)
+				$title = $item['nick_name'];
+
 			// link to this page
 			$text .= Skin::build_link($url, $title, 'user');
 
