@@ -30,7 +30,7 @@
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Alexis Raimbault
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -287,7 +287,7 @@ if($with_form) {
 
 	// the introduction
 	$label = i18n::s('Introduction');
-	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
 	$hint = i18n::s('Appears in list of categories near the title');
 	$fields[] = array($label, $input, $hint);
 
@@ -625,7 +625,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
 	// options tab

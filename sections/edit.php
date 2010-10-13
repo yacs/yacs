@@ -17,7 +17,7 @@
  * @tester Marco Pici
  * @tester Ghjmora
  * @tester Aleko
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @tester Jan Boen
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -336,7 +336,7 @@ if($with_form) {
 	// the introduction
 	if(!is_object($overlay) || !($label = $overlay->get_label('introduction', isset($item['id'])?'edit':'new')))
 		$label = i18n::s('Introduction');
-	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(isset($item['introduction']) ? $item['introduction'] : '').'</textarea>';
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(isset($item['introduction']) ? $item['introduction'] : '').'</textarea>';
 	if(!is_object($overlay) || !($hint = $overlay->get_label('introduction_hint', isset($item['id'])?'edit':'new')))
 		$hint = i18n::s('Appears at the site map, near section title');
 	$fields[] = array($label, $input, $hint);
@@ -742,7 +742,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
 	// options tab
