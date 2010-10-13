@@ -108,6 +108,9 @@ Class Layout_articles_as_daily extends Layout_interface {
 			else
 				$box['title'] = Codes::beautify_title($item['title']);
 
+			// make a clickable title
+			$box['title'] = Skin::build_link($url, $box['title'], 'basic');
+
 			// the icon to put aside - never use anchor images
 			if($item['icon_url'])
 				$box['content'] .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['icon_url'].'" class="left_image" alt="" /></a>';
@@ -122,10 +125,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$details[] = NEW_FLAG;
 			elseif($item['edit_date'] >= $context['fresh'])
 				$detaisl[] = UPDATED_FLAG;
-
-			// publication hour
-// 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-// 				$details[] = Skin::build_time($item['publish_date']);
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
