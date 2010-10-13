@@ -849,11 +849,11 @@ class Mailer {
 
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
-
-				// encode the message for it transfer
-				if($content_encoding == 'base64')
-					$part = chunk_split(base64_encode($part));
 			}
+
+			// encode the part for it transfer
+			if($content_encoding == 'base64')
+				$part = chunk_split(base64_encode($part));
 
 			// only one part
 			if(count($message) == 1) {

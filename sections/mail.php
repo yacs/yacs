@@ -130,7 +130,7 @@ if(Surfer::is_crawler()) {
 	Mailer::close();
 
 // send message to all watchers
-} elseif((!$recipients =& Members::list_watchers_by_name_for_anchor('section:'.$item['id'], 0, 300, 'mail')) || !count($recipients)) {
+} elseif((!$recipients =& Members::list_watchers_by_name_for_anchor(array_merge($context['current_focus'], array('section:'.$item['id'])), 0, 300, 'mail')) || !count($recipients)) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form
