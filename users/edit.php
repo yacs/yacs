@@ -803,7 +803,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);
