@@ -257,26 +257,6 @@ elseif(Sections::allow_access($item, $anchor))
 else
 	$permitted = FALSE;
 
-// is the page on user watch list?
-$in_watch_list = FALSE;
-if(Surfer::is_logged() && isset($item['id']))
-	$in_watch_list = Members::check('section:'.$item['id'], 'user:'.Surfer::get_id());
-
-// has this page some versions?
-$has_versions = FALSE;
-if(isset($item['id']) && !$zoom_type && Surfer::is_empowered() && Surfer::is_logged() && Versions::count_for_anchor('section:'.$item['id']))
-	$has_versions = TRUE;
-
-// has this page some content to manage?
-if(!isset($item['id']))
-	$has_content = FALSE;
-elseif(Articles::count_for_anchor('section:'.$item['id']))
-	$has_content = TRUE;
-elseif(Sections::count_for_anchor('section:'.$item['id']))
-	$has_content = TRUE;
-else
-	$has_content = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -321,6 +301,30 @@ if(isset($item['family']) && $item['family'])
 // page language, if any
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
 	$context['page_language'] = $item['language'];
+
+// is the page on user watch list?
+$in_watch_list = 'N';
+if(Surfer::is_logged() && isset($item['id'])) {
+	if(Members::check('section:'.$item['id'], 'user:'.Surfer::get_id()))
+		$in_watch_list = 'Y';
+	elseif(Members::check($context['current_focus'], 'user:'.Surfer::get_id()))
+		$in_watch_list = 'P';
+}
+
+// has this page some versions?
+$has_versions = FALSE;
+if(isset($item['id']) && !$zoom_type && Surfer::is_empowered() && Surfer::is_logged() && Versions::count_for_anchor('section:'.$item['id']))
+	$has_versions = TRUE;
+
+// has this page some content to manage?
+if(!isset($item['id']))
+	$has_content = FALSE;
+elseif(Articles::count_for_anchor('section:'.$item['id']))
+	$has_content = TRUE;
+elseif(Sections::count_for_anchor('section:'.$item['id']))
+	$has_content = TRUE;
+else
+	$has_content = FALSE;
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -700,24 +704,6 @@ if(!isset($item['id'])) {
 	//
 	$lines = array();
 
-	// add participants
-	if((Sections::is_owned($item, $anchor, TRUE) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
-	}
-
-	// notify participants
-	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
-	}
-
-	// manage editors
-	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
-	}
-
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
@@ -729,6 +715,24 @@ if(!isset($item['id'])) {
 		Skin::define_img('PAGERS_LINKEDIN_IMG', 'pagers/linkedin.gif');
 		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode(is_object($anchor)?$anchor->get_title():$context['site_name']), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
 
+	}
+
+	// notify participants
+	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
+	}
+
+	// invite participants
+	if((Sections::is_owned($item, $anchor, TRUE) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
+	}
+
+	// manage editors
+	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 	}
 
 	// the command to track back
@@ -747,7 +751,7 @@ if(!isset($item['id'])) {
 	if(count($lines))
 		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
 
-	// 'Information channels' box
+	// 'Monitor' box
 	$lines = array();
 
 	// watch command is provided to logged surfers
@@ -755,13 +759,15 @@ if(!isset($item['id'])) {
 
 		$link = Users::get_url('section:'.$item['id'], 'track');
 
-		if($in_watch_list)
+		if($in_watch_list == 'Y')
 			$label = i18n::s('Stop notifications');
-		else
+		elseif($in_watch_list == 'N')
 			$label = i18n::s('Watch this section');
 
-		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
-		$lines[] = Skin::build_link($link, TOOLS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
+		if($in_watch_list != 'P') {
+			Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
+			$lines[] = Skin::build_link($link, TOOLS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
+		}
 	}
 
 	// allow to leave the section
