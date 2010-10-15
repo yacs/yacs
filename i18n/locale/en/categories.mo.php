@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
-PO-Revision-Date: 2010-09-29 14:30+0100
+POT-Creation-Date: 2010-10-05 23:05+0200
+PO-Revision-Date: 2010-10-05 23:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 Language: 
@@ -135,6 +135,7 @@ $_SESSION['l10n']['en']['22ce3d88217e83036f3285bba141bfe3']='No overlay has been
 $_SESSION['l10n']['en']['No recipient has been found.']='No recipient has been found.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['b0f806749991a1314b97a00231ee673c']='No, thank you to not handle excerpts for this category';
+$_SESSION['l10n']['en']['Notify participants']='Notify participants';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Pages']='Pages';
@@ -173,9 +174,8 @@ $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select a category']='Select a category';
 $_SESSION['l10n']['en']['Select categories for this page']='Select categories for this page';
+$_SESSION['l10n']['en']['Select recipients']='Select recipients';
 $_SESSION['l10n']['en']['Send']='Send';
-$_SESSION['l10n']['en']['Send a message']='Send a message';
-$_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Share']='Share';
 $_SESSION['l10n']['en']['Site map']='Site map';
 $_SESSION['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title (and not by date)';
@@ -210,12 +210,10 @@ $_SESSION['l10n']['en']['Unlink']='Unlink';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $_SESSION['l10n']['en']['Use an image']='Use an image';
-$_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';
 $_SESSION['l10n']['en']['a9ac06b6f2238dbd54599d32e0fa95cf']='Use this thumbnail as the thumbnail of the page';
 $_SESSION['l10n']['en']['7095a3461ba51a372774ee8a1ce5d15b']='Various means to link to this page';
 $_SESSION['l10n']['en']['View the category']='View the category';
-$_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['6214aa6c778c69428ff7146f8e56867a']='Warning: No script exists for the customized layout %s';
 $_SESSION['l10n']['en']['Week of&nbsp;%s']='Week of&nbsp;%s';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';

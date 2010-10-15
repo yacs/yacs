@@ -125,8 +125,8 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$icon = $article['thumbnail_url'];
 
 				// the icon to put aside
-				if(!$icon && is_object($anchor))
-					$icon = $anchor->get_thumbnail_url();
+				if(!$icon && is_callable(array($anchor, 'get_bullet_url')))
+					$icon = $anchor->get_bullet_url();
 				if($icon)
 					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 

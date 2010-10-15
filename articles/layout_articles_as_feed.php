@@ -68,8 +68,8 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$icon = '';
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
-				$icon = $anchor->get_thumbnail_url();
+			elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])) && is_callable($anchor, 'get_bullet_url'))
+				$icon = $anchor->get_bullet_url();
 			if($icon)
 				$icon = $context['url_to_home'].$context['url_to_home'].$icon;
 

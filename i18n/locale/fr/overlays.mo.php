@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 15:11+0200
-PO-Revision-Date: 2010-05-25 13:05+0100
+POT-Creation-Date: 2010-10-04 14:07+0200
+PO-Revision-Date: 2010-10-04 14:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -33,6 +33,7 @@ $_SESSION['l10n']['fr']['%s has been changed']='%s a été modifié';
 $_SESSION['l10n']['fr']['(to be defined)']='(à définir)';
 $_SESSION['l10n']['fr']['A developer is working on this']='Un développeur travaille dessus';
 $_SESSION['l10n']['fr']['508b20ca4f8ac036f229430fe3ff9f44']='Une solution est disponible';
+$_SESSION['l10n']['fr']['Action']='Action';
 $_SESSION['l10n']['fr']['Add a meeting']='Ajouter une réunion';
 $_SESSION['l10n']['fr']['Add a poll']='Ajouter un sondage';
 $_SESSION['l10n']['fr']['Add a recipe']='Ajouter une recette';
@@ -198,7 +199,6 @@ $_SESSION['l10n']['fr']['7b39fe90e507c1b2790a352169e39e76']='La qualification a 
 $_SESSION['l10n']['fr']['Red']='Rouge';
 $_SESSION['l10n']['fr']['Rejected']='Rejeté';
 $_SESSION['l10n']['fr']['Released']='Livré';
-$_SESSION['l10n']['fr']['Resolution']='Résolution';
 $_SESSION['l10n']['fr']['6760e488df9acff8649cd606d6687b5a']='La résolution a eu lieu le %s';
 $_SESSION['l10n']['fr']['Room']='Rendez-vous';
 $_SESSION['l10n']['fr']['Scope']='Etendue';

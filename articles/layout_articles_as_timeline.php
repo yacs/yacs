@@ -140,13 +140,12 @@ Class Layout_articles_as_timeline extends Layout_interface {
 				$hover .= ' [article='.$item['id'].']';
 
 			// add an image if available
-			$icon = '';
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
 
 			// or inherit from the anchor
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 
 			// format the image
 			if($icon)
