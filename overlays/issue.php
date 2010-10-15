@@ -238,7 +238,7 @@ class Issue extends Overlay {
 
 		// the solution step
 		if(in_array($this->attributes['status'], $steps) && $row['resolution_date'] && ($row['resolution_date'] > NULL_DATE))
-			$text .= self::get_history_item(i18n::s('Resolution'), $row['resolution_date'], $row['resolution_name'], $row['resolution_address'], $row['resolution_id']);
+			$text .= self::get_history_item(i18n::s('Action'), $row['resolution_date'], $row['resolution_name'], $row['resolution_address'], $row['resolution_id']);
 
 		// remove resolution
 		array_shift($steps);

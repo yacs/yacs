@@ -7,7 +7,6 @@
  * @todo allow for pre-defined lists of recipients (Jan)
  * @todo automate the process (Jan)
  * @todo help: explain that one message will be sent per recipient
- * @todo allow for embedded images http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1
  *
  * This script fills a form to prepare the letter, then send it by e-mail to targeted recipients.
  *
@@ -15,8 +14,6 @@
  * - of digests - YACS list published articles since the previous digest
  * - of release - YACS lists featured pages
  * - of announcement - type any text and hit the submit button
- *
- * @todo allow for embedded images http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1
  *
  * This script builds a digest of most recent articles, and it's up to the writer to change its content
  * based on previous sending.
@@ -32,14 +29,6 @@
  *
  * Note that once a letter has been sent it becomes a standard article
  * in the 'letters' section, and can be edited via usual tools for articles.
- *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Messages are sent using utf-8, and are base64-encoded.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
  *
  * This page can only be used by associates.
  *
@@ -156,7 +145,7 @@ if(!Surfer::is_associate()) {
 	// the letter content
 	$label = i18n::s('Content');
 	$input = Surfer::get_editor('letter_body', $context['letter_body']);
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// letter recipients
 	$label = i18n::s('Recipients');
@@ -565,7 +554,7 @@ if(!Surfer::is_associate()) {
 	// subject
 	$subject = $_REQUEST['letter_title'];
 
-	// yes, you can use yacs codes in messages
+	// enable yacs codes in messages
 	$text = Codes::beautify($_REQUEST['letter_body']);
 
 	// preserve tagging as much as possible
@@ -609,6 +598,22 @@ if(!Surfer::is_associate()) {
 
 	// report on counters
 	$context['text'] .= BR."\n";
+
+	// list of recipients
+	if($recipients_processed == 0)
+		$context['text'] .= i18n::s('No recipient has been processed.').BR."\n";
+	elseif($recipients_processed == 1)
+		$context['text'] .= i18n::s('One recipient has been processed.').BR."\n";
+	else
+		$context['text'] .= sprintf(i18n::s('%d recipients have been processed'), $recipients_processed).BR."\n";
+
+	// invalid addresses
+	if($recipients_skipped == 1)
+		$context['text'] .= i18n::s('One invalid address has been skipped.').BR."\n";
+	elseif($recipients_skipped > 1)
+		$context['text'] .= sprintf(i18n::s('%d invalid addresses have been skipped'), $recipients_skipped).BR."\n";
+
+	// transmitted messages
 	if($recipients_ok == 0)
 		$context['text'] .= i18n::s('No letter has been transmitted.').BR."\n";
 	elseif($recipients_ok == 1)
@@ -616,26 +621,12 @@ if(!Surfer::is_associate()) {
 	else
 		$context['text'] .= sprintf(i18n::s('%d letters have been transmitted.'), $recipients_ok).BR."\n";
 
-	if($recipients_errors == 0)
-		$context['text'] .= i18n::s('No transmission error has been encountered.').BR."\n";
-	elseif($recipients_errors == 1)
+	// transmission errors, if any
+	if($recipients_errors == 1)
 		$context['text'] .= i18n::s('One transmission error has been encountered.').BR."\n";
-	else
+	elseif($recipients_errors > 1)
 		$context['text'] .= sprintf(i18n::s('%d transmission errors have been encountered.'), $recipients_errors).BR."\n";
 
-	if($recipients_skipped == 0)
-		$context['text'] .= i18n::s('No invalid address has been skipped.').BR."\n";
-	elseif($recipients_skipped == 1)
-		$context['text'] .= i18n::s('One invalid address has been skipped.').BR."\n";
-	else
-		$context['text'] .= sprintf(i18n::s('%d invalid addresses have been skipped'), $recipients_skipped).BR."\n";
-
-	if($recipients_processed == 0)
-		$context['text'] .= i18n::s('No recipient has been processed.').BR."\n";
-	elseif($recipients_processed == 1)
-		$context['text'] .= i18n::s('One recipient has been processed.').BR."\n";
-	else
-		$context['text'] .= sprintf(i18n::s('%d recipients have been processed'), $recipients_processed).BR."\n";
 
 	// save digest stamp, if any
 	if(isset($_REQUEST['digest_stamp']) && ($_REQUEST['digest_stamp'] > NULL_DATE))

@@ -94,8 +94,8 @@ if(!$item['id']) {
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags(Surfer::get_name()));
 				$message = sprintf(i18n::c('%s will receive notifications when you will create new public content at %s'), Surfer::get_name(), $context['site_name'])
-					."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-					."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+					.'<p>'.ucfirst(strip_tags(Surfer::get_name()))
+					.BR.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'</p>';
 
 				// sent by the server
 				Mailer::post(NULL, $user['email'], $subject, $message);

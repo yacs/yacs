@@ -1778,7 +1778,7 @@ Class Codes {
 		if(isset($attributes[1]) && preg_match('/window/i', $attributes[1])) {
 			if(!isset($attributes[2]))
 				$attributes[2] = i18n::s('Play in a separate window');
-			$output = '<a href="'.Files::get_url($item['id'], 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
+			$output = '<a href="'.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
 			return $output;
 		}
 
@@ -2655,7 +2655,7 @@ Class Codes {
 					$text =& Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url = Actions::get_url($item['id']);
+				$url = $context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
@@ -2836,7 +2836,7 @@ Class Codes {
 					$text = i18n::s('View this comment');
 
 				// make a link to the target page
-				$url = Comments::get_url($item['id']);
+				$url = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
@@ -2865,7 +2865,7 @@ Class Codes {
 					$text = i18n::s('View this decision');
 
 				// make a link to the target page
-				$url = Decisions::get_url($item['id']);
+				$url = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
@@ -2893,7 +2893,7 @@ Class Codes {
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// always download the file
-				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
+				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'file');
@@ -2954,7 +2954,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Forms::get_url($item['id']);
+				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2976,7 +2976,7 @@ Class Codes {
 				$text = $name;
 
 			// return a complete anchor
-			$output =& Skin::build_link(normalize_shortcut($name), $text, 'basic');
+			$output = Skin::build_link($context['url_to_home'].$context['url_to_root'].normalize_shortcut($name), $text, 'basic');
 			return $output;
 
 		// embed an image
@@ -3266,7 +3266,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url = Servers::get_url($id);
+				$url = $context['url_to_home'].$context['url_to_root'].Servers::get_url($id);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -3294,7 +3294,7 @@ Class Codes {
 			if(isset($item['file_href']) && $item['file_href'])
 				$url = $item['file_href'];
 			else
-				$url = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			// several ways to play flash
 			switch(strtolower(substr(strrchr($url, '.'), 1))) {

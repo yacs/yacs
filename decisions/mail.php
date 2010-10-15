@@ -7,14 +7,6 @@
  * When a message is sent to invited people, these may, or not, be part of
  * the community.
  *
- * Restrictions apply on this page:
- * - surfer has to have an e-mail address
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - article is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y'), and the surfer has been authenticated
- * - permission denied is the default
- *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
@@ -23,9 +15,6 @@
  * - mail.php?id=&lt;id&gt;
  * - mail.php/&lt;id&gt;
  * - mail.php?id=&lt;id&gt;
- *
- * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
  * @reference

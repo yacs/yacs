@@ -1185,6 +1185,12 @@ Class Skin_Skeleton {
 			return $output;
 		}
 
+		// provide absolute references
+		if($href && ($href[0] == '/'))
+			$href = $context['url_to_home'].$href;
+		if($link && ($link[0] == '/'))
+			$link = $context['url_to_home'].$link;
+
 		// always display captions aside large images
 		if(preg_match('/\blarge\b/i', $variant))
 			$with_caption = TRUE;
