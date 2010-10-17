@@ -7,14 +7,16 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class code {
 
-    function set_pattern_replace(&$pattern,&$replace) {
-        $regexp_pattern = array();
-        $php_replace_command = array("code::render()");
+abstract class Code {
 
-        $pattern = array_merge($pattern, $regexp_pattern);
-        $replace = array_merge($replace, $php_replace_command);
+    abstract function set_pattern_replace(&$pattern,&$replace) {
+        
+        //$regexp_pattern = array('your regular expression');
+        //$php_replace_command = array("code_yourclass::render($1...)");
+
+        //$pattern = array_merge($pattern, $regexp_pattern);
+        //$replace = array_merge($replace, $php_replace_command);
     }
 
     function render() {

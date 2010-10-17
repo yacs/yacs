@@ -418,7 +418,7 @@ Class Codes {
 	 * - render simple bulleted lines
 	 * - make URL clickable (http://..., www.foo.bar, foo.bar@foo.com)
 	 *
-	 * Now this function looks for the keyword &#91;escape] in order
+	 * Now this function looks for the keyword [escape] in order
 	 * to avoid for formatting pre-formatted areas.
 	 *
 	 * For example, if you type:
@@ -484,8 +484,8 @@ Class Codes {
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
-				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
+				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, ï¿½, or ï¿½ -- no space ahead */
+				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, ï¿½, or ï¿½ -- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
@@ -904,6 +904,8 @@ Class Codes {
 	function &render($text) {
 		global $context;
 
+                include_once $context['path_to_root'].'codes/code.php';
+
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
@@ -928,6 +930,7 @@ Class Codes {
 //
 //			$pattern[] = ;
 //			$replace[] = ;
+
 
 			$pattern = array(
 				"|<!-- .* -->|i",								// remove HTML comments
@@ -1321,6 +1324,37 @@ Class Codes {
 				BR																	// [br] (deprecated by [nl])
 			);
 		}
+
+                $pattern = array();
+                $replace = array();
+
+                // load formatting codes from files
+		$dir = $context['path_to_root'].'codes/';
+                if ($handle = opendir($dir)) {
+
+                    while (false !== ($file = readdir($handle))) {
+                      if ($file == '..')
+                        continue;
+
+                      if ($file == '.')
+                        continue;
+
+                      //get file only begining with code_
+                      if (!(substr($file,0,5)=='code_'))
+                        continue;
+
+                      include_once($dir.$file);
+
+                      //get formatting code patterns from this file
+                      $classname = stristr($file,'.',TRUE);
+                      $code = new $classname;
+                      $code->set_pattern_replace($pattern,$replace);
+                      unset($code);
+                    }
+
+
+                    closedir($handle);
+                }
 
 		// ensure we have enough time to execute
 		Safe::set_time_limit(30);
