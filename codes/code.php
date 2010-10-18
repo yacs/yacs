@@ -10,6 +10,17 @@
 
 abstract class Code {
 
+    /** 
+     * Give the patterns to detect formatting codes in text, 
+     * and the corresponding replacement texts (or function to call)
+     * 
+     * Works with regular expression.
+     *
+     * To be overloaded into derivated class
+     * 
+     * @param array $pattern, add your patterns at it
+     * @param array $replace, add your replacement-texts at it
+     */
     function get_pattern_replace(&$pattern,&$replace) {
         
         //$regexp_pattern = array('your regular expression');
@@ -19,8 +30,16 @@ abstract class Code {
         //$replace = array_merge($replace, $php_replace_command);
     }
 
-    function render() {
-        $text ='';
+    /**
+     * Perform calculation to give replacement text
+     * To be overloaded into derivated class
+     *
+     * Create a render function if you need and call it within get_pattern_replace
+     *
+     * @param string the argument of formatting code (could be more than one)
+     * @return string the replacement text
+     */
+    function render($text) {
 
         return $text;
     }

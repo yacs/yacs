@@ -945,7 +945,7 @@ Class Codes {
                           $code->get_pattern_replace($pattern,$replace);
                           unset($code);
                         }
-                        closedir($handle);
+                        Safe::closedir($handle);
                     }
 		} // end setting $pattern & $replace
 
