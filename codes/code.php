@@ -10,7 +10,7 @@
 
 abstract class Code {
 
-    abstract function set_pattern_replace(&$pattern,&$replace) {
+    function get_pattern_replace(&$pattern,&$replace) {
         
         //$regexp_pattern = array('your regular expression');
         //$php_replace_command = array("code_yourclass::render($1...)");

@@ -12,7 +12,7 @@
 
 class Code_animated extends Code {
     
-    function set_pattern_replace(&$pattern,&$replace) {
+    function get_pattern_replace(&$pattern,&$replace) {
         $regexp_pattern = array('/\[scroller\](.*?)\[\/scroller\]/ise');
         $php_replace_command = array("Code_animated::render(Codes::fix_tags('$1'), 'scroller')");
 
