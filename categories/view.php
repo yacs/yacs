@@ -810,10 +810,10 @@ if(!isset($item['id'])) {
 		// count the number of users in this category
 		$count = Members::count_users_for_anchor('category:'.$item['id']);
 
-		// send a message to a category
+		// notify members
 		if(($count > 1) && Surfer::is_associate()) {
 			Skin::define_img('CATEGORIES_EMAIL_IMG', 'categories/email.gif');
-			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Notify participants'));
+			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Notify members'));
 		}
 
 		// spread the list over several pages
