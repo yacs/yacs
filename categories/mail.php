@@ -54,8 +54,8 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
-// the title of the page
-$context['page_title'] .= i18n::s('Notify participants');
+// page title
+$context['page_title'] .= i18n::s('Notify members');
 
 // stop crawlers
 if(Surfer::is_crawler()) {

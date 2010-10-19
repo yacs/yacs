@@ -117,7 +117,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter prefix
 	if($context['letter_prefix'])
-		$context['letter_body'] .= $context['letter_prefix']."\n";
+		$context['letter_body'] .= '<div>'.$context['letter_prefix'].'</div>';
 
 	// body is free
 	$context['letter_body'] .= "\n\n\n";
@@ -128,7 +128,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter suffix
 	if($context['letter_suffix'])
-		$context['letter_body'] .= "\n".$context['letter_suffix'];
+		$context['letter_body'] .= '<div>'.$context['letter_suffix'].'</div>';
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
@@ -191,7 +191,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter prefix
 	if($context['letter_prefix'])
-		$context['letter_body'] .= $context['letter_prefix']."\n";
+		$context['letter_body'] .= '<div>'.$context['letter_prefix'].'</div>';
 
 	// get the date of previous newsletter
 	$digest_stamp = Values::get('letters.digest.stamp', NULL_DATE);
@@ -263,7 +263,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter suffix
 	if($context['letter_suffix'])
-		$context['letter_body'] .= "\n".$context['letter_suffix'];
+		$context['letter_body'] .= '<div>'.$context['letter_suffix'].'</div>';
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
@@ -327,7 +327,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter prefix
 	if($context['letter_prefix'])
-		$context['letter_body'] .= $context['letter_prefix']."\n";
+		$context['letter_body'] .= '<div>'.$context['letter_prefix'].'</div>';
 
 	// re-use parameter for featured pages at the front page
 	if(!isset($context['root_featured_count']) || ($context['root_featured_count'] < 1))
@@ -382,7 +382,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter suffix
 	if($context['letter_suffix'])
-		$context['letter_body'] .= "\n".$context['letter_suffix'];
+		$context['letter_body'] .= '<div>'.$context['letter_suffix'].'</div>';
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
