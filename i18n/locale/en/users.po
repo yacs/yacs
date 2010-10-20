@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:05+0200\n"
+"POT-Creation-Date: 2010-10-19 22:05+0200\n"
 "PO-Revision-Date: 2010-10-01 23:08+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -458,7 +458,7 @@ msgstr "%s has been updated"
 msgid "Configuration parameters"
 msgstr "Configuration parameters"
 
-#: users/configure.php:627 users/contact.php:258 users/login.php:409
+#: users/configure.php:627 users/contact.php:259 users/login.php:409
 #: users/validate.php:74
 msgid "Where do you want to go now?"
 msgstr "Where do you want to go now?"
@@ -509,7 +509,7 @@ msgstr "New page: %s"
 msgid "%s would like to share a private page with you"
 msgstr "%s would like to share a private page with you"
 
-#: users/contact.php:231
+#: users/contact.php:233
 msgid ""
 "To prevent other surfers from contacting you, please visit your profile at "
 "the following address, and change preferences."
@@ -517,25 +517,25 @@ msgstr ""
 "To prevent other surfers from contacting you, please visit your profile at "
 "the following address, and change preferences."
 
-#: users/contact.php:237 users/contact.php:241
+#: users/contact.php:238 users/contact.php:242
 #, php-format
 msgid "Impossible to send a message to %s."
 msgstr "Impossible to send a message to %s."
 
-#: users/contact.php:252
+#: users/contact.php:253
 msgid "View the new thread"
 msgstr "View the new thread"
 
-#: users/contact.php:254
+#: users/contact.php:255
 #, php-format
 msgid "Back to %s"
 msgstr "Back to %s"
 
-#: users/contact.php:256
+#: users/contact.php:257
 msgid "Back to my profile"
 msgstr "Back to my profile"
 
-#: users/contact.php:278
+#: users/contact.php:279
 #, php-format
 msgid "Your threads with %s"
 msgstr "Your threads with %s"
@@ -1217,7 +1217,7 @@ msgstr[1] "and %d other persons"
 msgid "and many more persons"
 msgstr "and many more persons"
 
-#: users/layout_users_as_mail.php:108
+#: users/layout_users_as_mail.php:112
 msgid "Select all/none"
 msgstr "Select all/none"
 

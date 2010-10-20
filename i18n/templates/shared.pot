@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,14 +242,14 @@ msgstr ""
 msgid "View this decision"
 msgstr ""
 
-#: shared/codes.php:4366
+#: shared/codes.php:4367
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/global.php:974
+#: shared/global.php:977
 msgid "View the category"
 msgstr ""
 
@@ -314,19 +314,19 @@ msgstr ""
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:78 shared/members.php:377 shared/members.php:1269
+#: shared/members.php:78 shared/members.php:401 shared/members.php:1293
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:82 shared/members.php:381 shared/members.php:1273
+#: shared/members.php:82 shared/members.php:405 shared/members.php:1297
 msgid "A member is required for this operation."
 msgstr ""
 
-#: shared/members.php:657 shared/members.php:718
+#: shared/members.php:681 shared/members.php:742
 msgid "weekly"
 msgstr ""
 
-#: shared/members.php:658 shared/members.php:719
+#: shared/members.php:682 shared/members.php:743
 msgid "monthly"
 msgstr ""
 

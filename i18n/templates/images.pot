@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Add an image"
 msgstr ""
 
-#: images/edit.php:170 images/images.php:681 images/images.php:687
+#: images/edit.php:170 images/images.php:686 images/images.php:692
 #: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
 #: images/upload.php:105
 msgid "No anchor has been found."
@@ -384,26 +384,26 @@ msgstr ""
 msgid "Rejected file type %s"
 msgstr ""
 
-#: images/images.php:237 images/set_as_icon.php:70
+#: images/images.php:242 images/set_as_icon.php:70
 #: images/set_as_thumbnail.php:68
 msgid "No item has been found."
 msgstr ""
 
-#: images/images.php:305
+#: images/images.php:310
 #, php-format
 msgid "Impossible to create path %s."
 msgstr ""
 
-#: images/images.php:322
+#: images/images.php:327
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr ""
 
-#: images/images.php:703
+#: images/images.php:708
 msgid "No item has the provided id."
 msgstr ""
 
-#: images/images.php:755
+#: images/images.php:760
 msgid "No image has been uploaded."
 msgstr ""
 

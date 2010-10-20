@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-05 23:05+0200
-PO-Revision-Date: 2010-10-05 23:06+0100
+POT-Creation-Date: 2010-10-19 22:05+0200
+PO-Revision-Date: 2010-10-20 07:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 Language: 
@@ -135,7 +135,7 @@ $_SESSION['l10n']['en']['22ce3d88217e83036f3285bba141bfe3']='No overlay has been
 $_SESSION['l10n']['en']['No recipient has been found.']='No recipient has been found.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['b0f806749991a1314b97a00231ee673c']='No, thank you to not handle excerpts for this category';
-$_SESSION['l10n']['en']['Notify participants']='Notify participants';
+$_SESSION['l10n']['en']['Notify members']='Notify members';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Pages']='Pages';

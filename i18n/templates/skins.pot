@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -890,7 +890,7 @@ msgid "Go"
 msgstr ""
 
 #: skins/edit.php:140 skins/layout_home_articles_as_alistapart.php:309
-#: skins/layout_home_articles_as_daily.php:192
+#: skins/layout_home_articles_as_daily.php:195
 msgid "Files"
 msgstr ""
 
@@ -992,7 +992,7 @@ msgstr ""
 
 #: skins/layout_home_articles_as_alistapart.php:190
 #: skins/layout_home_articles_as_alistapart.php:352
-#: skins/layout_home_articles_as_daily.php:199
+#: skins/layout_home_articles_as_daily.php:202
 msgid "Permalink"
 msgstr ""
 
@@ -1005,7 +1005,7 @@ msgid "Rate this page"
 msgstr ""
 
 #: skins/layout_home_articles_as_alistapart.php:283
-#: skins/layout_home_articles_as_daily.php:203
+#: skins/layout_home_articles_as_daily.php:206
 #: skins/layout_home_articles_as_digg.php:161
 #: skins/layout_home_articles_as_hardboiled.php:194
 #: skins/layout_home_articles_as_hardboiled.php:356
@@ -1027,7 +1027,7 @@ msgid "Post a comment"
 msgstr ""
 
 #: skins/layout_home_articles_as_alistapart.php:321
-#: skins/layout_home_articles_as_daily.php:207
+#: skins/layout_home_articles_as_daily.php:210
 #: skins/layout_home_articles_as_digg.php:166
 #: skins/layout_home_articles_as_hardboiled.php:202
 #: skins/layout_home_articles_as_newspaper.php:216
@@ -1041,14 +1041,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: skins/layout_home_articles_as_alistapart.php:325
-#: skins/layout_home_articles_as_daily.php:219
+#: skins/layout_home_articles_as_daily.php:222
 #: skins/layout_home_articles_as_digg.php:179
 #: skins/layout_home_articles_as_slashdot.php:162
 msgid "Reference this page"
 msgstr ""
 
 #: skins/layout_home_articles_as_alistapart.php:329
-#: skins/layout_home_articles_as_daily.php:215
+#: skins/layout_home_articles_as_daily.php:218
 #: skins/layout_home_articles_as_digg.php:175
 #: skins/layout_home_articles_as_hardboiled.php:198
 #: skins/layout_home_articles_as_newspaper.php:224
@@ -1068,7 +1068,7 @@ msgstr ""
 msgid "not published"
 msgstr ""
 
-#: skins/layout_home_articles_as_daily.php:211
+#: skins/layout_home_articles_as_daily.php:214
 #: skins/layout_home_articles_as_digg.php:171
 #: skins/layout_home_articles_as_newspaper.php:220
 #: skins/layout_home_articles_as_newspaper.php:307
@@ -1085,7 +1085,7 @@ msgstr ""
 #: skins/layout_home_articles_as_newspaper.php:303
 #: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1597
 #: skins/skin_skeleton.php:1691 skins/skin_skeleton.php:1788
-#: skins/skin_skeleton.php:2034 skins/skin_skeleton.php:4768
+#: skins/skin_skeleton.php:2034 skins/skin_skeleton.php:4770
 msgid "View the page"
 msgstr ""
 
@@ -1145,7 +1145,7 @@ msgid "More pages"
 msgstr ""
 
 #: skins/layout_home_articles_as_newspaper.php:195
-#: skins/skin_skeleton.php:1717 skins/skin_skeleton.php:4316
+#: skins/skin_skeleton.php:1717 skins/skin_skeleton.php:4318
 msgid "More"
 msgstr ""
 
@@ -1275,14 +1275,14 @@ msgstr ""
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:1730 skins/skin_skeleton.php:4322
-#: skins/skin_skeleton.php:4375 skins/skin_skeleton.php:4377
+#: skins/skin_skeleton.php:1730 skins/skin_skeleton.php:4324
+#: skins/skin_skeleton.php:4377 skins/skin_skeleton.php:4379
 #: skins/test.php:245
 msgid "Next"
 msgstr ""
 
-#: skins/skin_skeleton.php:1743 skins/skin_skeleton.php:4363
-#: skins/skin_skeleton.php:4365 skins/test.php:245
+#: skins/skin_skeleton.php:1743 skins/skin_skeleton.php:4365
+#: skins/skin_skeleton.php:4367 skins/test.php:245
 msgid "Previous"
 msgstr ""
 
@@ -1404,16 +1404,16 @@ msgstr ""
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:4229
+#: skins/skin_skeleton.php:4230
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:4765
+#: skins/skin_skeleton.php:4767
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:4901
+#: skins/skin_skeleton.php:4903
 msgid "Click to sort"
 msgstr ""
 

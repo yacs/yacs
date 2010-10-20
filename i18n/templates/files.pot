@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -589,11 +589,11 @@ msgstr ""
 msgid "Download this file"
 msgstr ""
 
-#: files/fetch.php:474
+#: files/fetch.php:475
 msgid "You are requesting the following file:"
 msgstr ""
 
-#: files/fetch.php:479
+#: files/fetch.php:480
 msgid ""
 "The download should start automatically within seconds. Else hit the "
 "provided link to trigger it manually."
@@ -769,11 +769,11 @@ msgstr ""
 msgid "%d items in the list of noise words"
 msgstr ""
 
-#: files/stream.php:254 files/stream.php:281 files/stream.php:326
+#: files/stream.php:255 files/stream.php:282 files/stream.php:327
 msgid "Close"
 msgstr ""
 
-#: files/stream.php:371
+#: files/stream.php:372
 msgid "Do not know how to stream this file type"
 msgstr ""
 

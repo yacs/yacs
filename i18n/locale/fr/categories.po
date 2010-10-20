@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:05+0200\n"
-"PO-Revision-Date: 2010-10-05 23:10+0100\n"
+"POT-Creation-Date: 2010-10-19 22:05+0200\n"
+"PO-Revision-Date: 2010-10-20 07:25+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -914,8 +914,8 @@ msgstr "Suite"
 
 #: categories/mail.php:58
 #: categories/view.php:816
-msgid "Notify participants"
-msgstr "Notifier les participants"
+msgid "Notify members"
+msgstr "Notifier les membres"
 
 #: categories/mail.php:72
 msgid "E-mail has not been enabled on this system."
@@ -1177,6 +1177,9 @@ msgstr "Technorati"
 #: categories/view.php:994
 msgid "External search"
 msgstr "Recherche externe"
+
+#~ msgid "Notify participants"
+#~ msgstr "Notifier les participants"
 
 #~ msgid "Send a message"
 #~ msgstr "Envoyer un message"
