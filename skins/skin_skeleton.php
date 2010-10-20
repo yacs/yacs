@@ -4195,6 +4195,7 @@ Class Skin_Skeleton {
 	 * @param int the page size
 	 * @param int current page index, starting at 1 (e.g., 3)
 	 * @param boolean TRUE to add a link to page 1
+	 * @param string to be appended to each link created by the script
 	 * @return an array of ( $url => $label )
 	 *
 	 * @see actions/index.php
@@ -4215,7 +4216,7 @@ Class Skin_Skeleton {
 	 * @see users/index.php
 	 * @see users/view.php
 	 */
-	function &navigate($back, $prefix, $range, $page_size, $page_index, $zooming = FALSE, $to_next_page = FALSE) {
+	function &navigate($back, $prefix, $range, $page_size, $page_index, $zooming=FALSE, $to_next_page=FALSE, $suffix='') {
 		global $context;
 
 		// no next page yet
@@ -4277,7 +4278,8 @@ Class Skin_Skeleton {
 				}
 
 			}
-			$bar = array_merge($bar, array( $url => array('', $label, '', 'basic') ));
+
+			$bar = array_merge($bar, array( $url.$suffix => array('', $label, '', 'basic') ));
 		}
 
 		// commands to see next pages
@@ -4299,7 +4301,7 @@ Class Skin_Skeleton {
 				else
 					$label = $first;
 
-				$bar = array_merge($bar, array( $prefix.$page_index => array('', $label, '', 'basic') ));
+				$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', $label, '', 'basic') ));
 
 				if((++$count >= 2) && ($last + $page_size < $range)) {
 					$bar[] = '...';
@@ -4313,7 +4315,7 @@ Class Skin_Skeleton {
 			if(!$next_page)
 				$next_page = $prefix.$page_index;
 
-			$bar = array_merge($bar, array( $prefix.$page_index => array('', i18n::s('More'), '', 'basic') ));
+			$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', i18n::s('More'), '', 'basic') ));
 
 		}
 

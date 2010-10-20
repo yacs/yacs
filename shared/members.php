@@ -136,24 +136,32 @@ Class Members {
 		if(!$anchor || !$member)
 			return FALSE;
 
+		// several anchors
+		if(is_array($anchor))
+			$where = "(anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(anchor LIKE '".SQL::escape($anchor)."')";
+
 		// cache previous answers
 		static $cache;
 		if(!is_array($cache))
 			$cache = array();
 
 		// cache hit
-		if(isset($cache[$anchor.':'.$member]))
-			return $cache[$anchor.':'.$member];
+		if(isset($cache[$where.':'.$member]))
+			return $cache[$where.':'.$member];
 
 		// check at least one record
 		$query = "SELECT id  FROM ".SQL::table_name('members')
-			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 1";
+			." WHERE ".$where." AND (member LIKE '".SQL::escape($member)."') LIMIT 1";
 
 		if(SQL::query_count($query))
-			return $cache[$anchor.':'.$member] = TRUE;
+			return $cache[$where.':'.$member] = TRUE;
 
 		// end of job
-		return $cache[$anchor.':'.$member] = FALSE;
+		return $cache[$where.':'.$member] = FALSE;
 	}
 
 	/**
@@ -248,21 +256,29 @@ Class Members {
 	function count_users_for_anchor($anchor) {
 		global $context;
 
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
 		// limit the scope of the request
-		$where = "users.active='Y'";
+		$where .= " AND (users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where .= ")";
 
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
 			." FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
-			."	AND (users.id = members.member_id)"
-			."	AND (".$where.")";
+			."	AND (users.id = members.member_id)";
 		return SQL::query_count($query);
 	}
 
@@ -277,21 +293,29 @@ Class Members {
 	function count_users_for_member($member) {
 		global $context;
 
+		// several anchors
+		if(is_array($member))
+			$where = "(members.member IN ('".join("', '", $member)."'))";
+
+		// or only one
+		elseif($member)
+			$where = "(members.member LIKE '".SQL::escape($member)."')";
+
 		// limit the scope of the request
-		$where = "users.active='Y'";
+		$where .= " AND (users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where .= ')';
 
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
 			." FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			." WHERE ".$where
 			."	AND (members.anchor LIKE 'user:%')"
-			."	AND (users.id = SUBSTRING(members.anchor, 6))"
-			."	AND (".$where.")";
+			."	AND (users.id = SUBSTRING(members.anchor, 6))";
 		return SQL::query_count($query);
 	}
 
@@ -1014,7 +1038,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::debug($query), $variant);
+		$output =& Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
