@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:05+0200\n"
+"POT-Creation-Date: 2010-10-19 22:05+0200\n"
 "PO-Revision-Date: 2010-10-01 23:22+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -464,7 +464,7 @@ msgstr "%s a été mis à jour"
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
-#: users/configure.php:627 users/contact.php:258 users/login.php:409
+#: users/configure.php:627 users/contact.php:259 users/login.php:409
 #: users/validate.php:74
 msgid "Where do you want to go now?"
 msgstr "Où souhaitez-vous aller à présent ?"
@@ -515,7 +515,7 @@ msgstr "Nouvelle page : %s"
 msgid "%s would like to share a private page with you"
 msgstr "%s souhaiterait partager une page privée avec vous"
 
-#: users/contact.php:231
+#: users/contact.php:233
 msgid ""
 "To prevent other surfers from contacting you, please visit your profile at "
 "the following address, and change preferences."
@@ -523,25 +523,25 @@ msgstr ""
 "Pour empêcher les autres personnes de vous contacter, visitez votre profil, "
 "à l'adresse suivante, et changez les préférences."
 
-#: users/contact.php:237 users/contact.php:241
+#: users/contact.php:238 users/contact.php:242
 #, php-format
 msgid "Impossible to send a message to %s."
 msgstr "Impossible de transmettre un message à %s."
 
-#: users/contact.php:252
+#: users/contact.php:253
 msgid "View the new thread"
 msgstr "Voir la nouvelle conversation"
 
-#: users/contact.php:254
+#: users/contact.php:255
 #, php-format
 msgid "Back to %s"
 msgstr "Retour à %s"
 
-#: users/contact.php:256
+#: users/contact.php:257
 msgid "Back to my profile"
 msgstr "Retour à mon profil"
 
-#: users/contact.php:278
+#: users/contact.php:279
 #, php-format
 msgid "Your threads with %s"
 msgstr "Vos discussions avec %s"
@@ -1225,7 +1225,7 @@ msgstr[1] "et %d autres personnes"
 msgid "and many more persons"
 msgstr "et beaucoup d'autres personnes"
 
-#: users/layout_users_as_mail.php:108
+#: users/layout_users_as_mail.php:112
 msgid "Select all/none"
 msgstr "Tous/aucun"
 

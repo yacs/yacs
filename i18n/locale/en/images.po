@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"POT-Creation-Date: 2010-10-19 22:05+0200\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -131,7 +131,7 @@ msgstr "Update an image"
 msgid "Add an image"
 msgstr "Add an image"
 
-#: images/edit.php:170 images/images.php:681 images/images.php:687
+#: images/edit.php:170 images/images.php:686 images/images.php:692
 #: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
 #: images/upload.php:105
 msgid "No anchor has been found."
@@ -401,26 +401,26 @@ msgstr "Impossible to write to %s."
 msgid "Rejected file type %s"
 msgstr "Rejected file type %s"
 
-#: images/images.php:237 images/set_as_icon.php:70
+#: images/images.php:242 images/set_as_icon.php:70
 #: images/set_as_thumbnail.php:68
 msgid "No item has been found."
 msgstr "No item has been found."
 
-#: images/images.php:305
+#: images/images.php:310
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible to create path %s."
 
-#: images/images.php:322
+#: images/images.php:327
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible to copy file %s."
 
-#: images/images.php:703
+#: images/images.php:708
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
-#: images/images.php:755
+#: images/images.php:760
 msgid "No image has been uploaded."
 msgstr "No image has been uploaded."
 

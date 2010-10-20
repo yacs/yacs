@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:05+0200\n"
+"POT-Creation-Date: 2010-10-19 22:05+0200\n"
 "PO-Revision-Date: 2010-10-01 23:07+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -949,7 +949,7 @@ msgid "Go"
 msgstr "Go"
 
 #: skins/edit.php:140 skins/layout_home_articles_as_alistapart.php:309
-#: skins/layout_home_articles_as_daily.php:192
+#: skins/layout_home_articles_as_daily.php:195
 msgid "Files"
 msgstr "Files"
 
@@ -1051,7 +1051,7 @@ msgstr "Follow-up"
 
 #: skins/layout_home_articles_as_alistapart.php:190
 #: skins/layout_home_articles_as_alistapart.php:352
-#: skins/layout_home_articles_as_daily.php:199
+#: skins/layout_home_articles_as_daily.php:202
 msgid "Permalink"
 msgstr "Permalink"
 
@@ -1064,7 +1064,7 @@ msgid "Rate this page"
 msgstr "Rate this page"
 
 #: skins/layout_home_articles_as_alistapart.php:283
-#: skins/layout_home_articles_as_daily.php:203
+#: skins/layout_home_articles_as_daily.php:206
 #: skins/layout_home_articles_as_digg.php:161
 #: skins/layout_home_articles_as_hardboiled.php:194
 #: skins/layout_home_articles_as_hardboiled.php:356
@@ -1086,7 +1086,7 @@ msgid "Post a comment"
 msgstr "Post a comment"
 
 #: skins/layout_home_articles_as_alistapart.php:321
-#: skins/layout_home_articles_as_daily.php:207
+#: skins/layout_home_articles_as_daily.php:210
 #: skins/layout_home_articles_as_digg.php:166
 #: skins/layout_home_articles_as_hardboiled.php:202
 #: skins/layout_home_articles_as_newspaper.php:216
@@ -1100,14 +1100,14 @@ msgstr[0] "%d comment"
 msgstr[1] "%d comments"
 
 #: skins/layout_home_articles_as_alistapart.php:325
-#: skins/layout_home_articles_as_daily.php:219
+#: skins/layout_home_articles_as_daily.php:222
 #: skins/layout_home_articles_as_digg.php:179
 #: skins/layout_home_articles_as_slashdot.php:162
 msgid "Reference this page"
 msgstr "Reference this page"
 
 #: skins/layout_home_articles_as_alistapart.php:329
-#: skins/layout_home_articles_as_daily.php:215
+#: skins/layout_home_articles_as_daily.php:218
 #: skins/layout_home_articles_as_digg.php:175
 #: skins/layout_home_articles_as_hardboiled.php:198
 #: skins/layout_home_articles_as_newspaper.php:224
@@ -1127,7 +1127,7 @@ msgstr "Edit"
 msgid "not published"
 msgstr "not published"
 
-#: skins/layout_home_articles_as_daily.php:211
+#: skins/layout_home_articles_as_daily.php:214
 #: skins/layout_home_articles_as_digg.php:171
 #: skins/layout_home_articles_as_newspaper.php:220
 #: skins/layout_home_articles_as_newspaper.php:307
@@ -1144,7 +1144,7 @@ msgstr "Discuss"
 #: skins/layout_home_articles_as_newspaper.php:303
 #: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1597
 #: skins/skin_skeleton.php:1691 skins/skin_skeleton.php:1788
-#: skins/skin_skeleton.php:2034 skins/skin_skeleton.php:4768
+#: skins/skin_skeleton.php:2034 skins/skin_skeleton.php:4770
 msgid "View the page"
 msgstr "View the page"
 
@@ -1204,7 +1204,7 @@ msgid "More pages"
 msgstr "More pages"
 
 #: skins/layout_home_articles_as_newspaper.php:195
-#: skins/skin_skeleton.php:1717 skins/skin_skeleton.php:4316
+#: skins/skin_skeleton.php:1717 skins/skin_skeleton.php:4318
 msgid "More"
 msgstr "More"
 
@@ -1334,14 +1334,14 @@ msgstr "Send a message"
 msgid "Monthly calendar"
 msgstr "Monthly calendar"
 
-#: skins/skin_skeleton.php:1730 skins/skin_skeleton.php:4322
-#: skins/skin_skeleton.php:4375 skins/skin_skeleton.php:4377
+#: skins/skin_skeleton.php:1730 skins/skin_skeleton.php:4324
+#: skins/skin_skeleton.php:4377 skins/skin_skeleton.php:4379
 #: skins/test.php:245
 msgid "Next"
 msgstr "Next"
 
-#: skins/skin_skeleton.php:1743 skins/skin_skeleton.php:4363
-#: skins/skin_skeleton.php:4365 skins/test.php:245
+#: skins/skin_skeleton.php:1743 skins/skin_skeleton.php:4365
+#: skins/skin_skeleton.php:4367 skins/test.php:245
 msgid "Previous"
 msgstr "Previous"
 
@@ -1463,16 +1463,16 @@ msgstr "restricted"
 msgid "updated"
 msgstr "updated"
 
-#: skins/skin_skeleton.php:4229
+#: skins/skin_skeleton.php:4230
 msgid "Back to main page"
 msgstr "Back to main page"
 
-#: skins/skin_skeleton.php:4765
+#: skins/skin_skeleton.php:4767
 #, php-format
 msgid "%d words to read"
 msgstr "%d words to read"
 
-#: skins/skin_skeleton.php:4901
+#: skins/skin_skeleton.php:4903
 msgid "Click to sort"
 msgstr "Click to sort"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 23:12+0200\n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -441,7 +441,7 @@ msgstr ""
 msgid "Configuration parameters"
 msgstr ""
 
-#: users/configure.php:627 users/contact.php:258 users/login.php:409
+#: users/configure.php:627 users/contact.php:259 users/login.php:409
 #: users/validate.php:74
 msgid "Where do you want to go now?"
 msgstr ""
@@ -489,31 +489,31 @@ msgstr ""
 msgid "%s would like to share a private page with you"
 msgstr ""
 
-#: users/contact.php:231
+#: users/contact.php:233
 msgid ""
 "To prevent other surfers from contacting you, please visit your profile at "
 "the following address, and change preferences."
 msgstr ""
 
-#: users/contact.php:237 users/contact.php:241
+#: users/contact.php:238 users/contact.php:242
 #, php-format
 msgid "Impossible to send a message to %s."
 msgstr ""
 
-#: users/contact.php:252
+#: users/contact.php:253
 msgid "View the new thread"
 msgstr ""
 
-#: users/contact.php:254
+#: users/contact.php:255
 #, php-format
 msgid "Back to %s"
 msgstr ""
 
-#: users/contact.php:256
+#: users/contact.php:257
 msgid "Back to my profile"
 msgstr ""
 
-#: users/contact.php:278
+#: users/contact.php:279
 #, php-format
 msgid "Your threads with %s"
 msgstr ""
@@ -1180,7 +1180,7 @@ msgstr[1] ""
 msgid "and many more persons"
 msgstr ""
 
-#: users/layout_users_as_mail.php:108
+#: users/layout_users_as_mail.php:112
 msgid "Select all/none"
 msgstr ""
 
