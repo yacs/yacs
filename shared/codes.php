@@ -965,6 +965,35 @@ Class Codes {
 	}
 
 
+        /**
+         * render an animated block of text
+         * keep this only for backward compatibility
+         * @see codes/code_animated.php
+         *
+         * @param string the text
+         * @param string the variant
+         * @return string the rendered text
+        **/
+        function &render_animated($text, $variant) {
+                include_once $context['path_to_root'].'codes/code_animated.php';
+
+                return Code_Animated::render($text, $variant);
+        }
+
+         /**
+          * render a calendar
+          * keep this only for backward compatibility
+          * @see codes/code_calendar.php
+          *
+          * @param string the anchor (e.g. 'section:123')
+          * @return string the rendered text
+         **/
+        function &render($anchor='') {
+                include_once $context['path_to_root'].'codes/code_calendar.php';
+
+                return Code_Calendar::render($anchor);
+        }
+
 	/**
 	 * render a list of categories
 	 *
