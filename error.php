@@ -14,7 +14,7 @@
  * we don't log these errors if the referer URL matches [code]/scripts.view.php[/code].
  *
  * @author Bernard Paques
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @tester NickR
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
