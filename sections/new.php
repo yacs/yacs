@@ -297,8 +297,7 @@ if($with_form) {
 	// the title
 	$label = i18n::s('Title');
 	$input = '<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the introduction
 	$label = i18n::s('Introduction');
@@ -307,9 +306,8 @@ if($with_form) {
 	if(!isset($item['introduction']))
 		$item['introduction'] = i18n::s('What is this new web space about?');
 
-	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
-	$hint = i18n::s('Appears at the site map, near section title');
-	$fields[] = array($label, $input, $hint);
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
+	$fields[] = array($label, $input);
 
 	// actually build the form
 	$context['text'] .= Skin::build_form($fields);
