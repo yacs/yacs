@@ -719,7 +719,7 @@ Class Codes {
 					$position++;
 
 					// exact match
-					if(($position + 2 + strlen($id) < $count) && !strcmp(substr($text, $position, strlen($id)), $id)) {
+					if(($position + strlen($id) <= $count) && !strcmp(substr($text, $position, strlen($id)), $id)) {
 						$position += strlen($id);
 
 						// look for ']'
@@ -2953,7 +2953,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['']);
+				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
