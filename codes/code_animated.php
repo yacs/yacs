@@ -10,14 +10,13 @@
  * @author Alexis Raimbault
  */
 
-class Code_animated extends Code {
+class Code_Animated extends Code {
     
     function get_pattern_replace(&$pattern,&$replace) {
-        $regexp_pattern = array('/\[scroller\](.*?)\[\/scroller\]/ise');
-        $php_replace_command = array("Code_animated::render(Codes::fix_tags('$1'), 'scroller')");
-
-        $pattern = array_merge($pattern, $regexp_pattern);
-        $replace = array_merge($replace, $php_replace_command);
+        
+        // [scroller]...[/scroller]
+        $pattern[] ='/\[scroller\](.*?)\[\/scroller\]/ise';
+        $replace[] ="Code_Animated::render(Codes::fix_tags('$1'), 'scroller')";
     }
 
     /**

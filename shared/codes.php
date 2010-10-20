@@ -904,6 +904,7 @@ Class Codes {
 	function &render($text) {
 		global $context;
 
+                // the formatting code interface
                 include_once $context['path_to_root'].'codes/code.php';
 
 		// streamline newlines, even if this has been done elsewhere
@@ -963,52 +964,6 @@ Class Codes {
 
 	}
 
-	/**
-	 * render an animated block of text
-	 *
-	 * @param string the text
-	 * @param string the variant
-	 * @return string the rendered text
-	**/
-	function &render_animated($text, $variant) {
-		global $context, $scroller_counter;
-
-		$scroller_counter++;
-		$output = '<marquee id="scroller_'.$scroller_counter.'">'.$text.'</marquee>';
-		return $output;
-	}
-
-	/**
-	 * render a calendar
-	 *
-	 * The provided anchor can reference:
-	 * - a section 'section:123'
-	 * - nothing
-	 *
-	 * @param string the anchor (e.g. 'section:123')
-	 * @return string the rendered text
-	**/
-	function &render_calendar($anchor='') {
-		global $context;
-
-		// a list of dates
-		include_once $context['path_to_root'].'dates/dates.php';
-
-		// sanity check
-		$anchor = trim($anchor);
-
-		// get records
-		if(strpos($anchor, 'section:') === 0)
-			$items =& Dates::list_for_prefix(NULL, 'compact', $anchor);
-		else
-			$items =& Dates::list_for_prefix(NULL, 'compact', NULL);
-
-		// build calendar for current month
-		$text =& Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmstrftime('%Y'), gmstrftime('%m'), 'compact calendar');
-
-		// job done
-		return $text;
-	}
 
 	/**
 	 * render a list of categories
