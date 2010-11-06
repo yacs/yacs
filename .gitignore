@@ -3,34 +3,25 @@
 
 # ignore uploaded files (in sub-folders)
 files/*/
-
 # ignore footprints
 footprints.php
-
 # ignore uploaded images (in sub-folders)
 images/*/
-
 # ignore uploaded archives
 /inbox
-
 # ignore netbeans metadata
 nbproject/
-
 # ignore parameter files
 parameters/
 !parameters/index.php
-
 # ignore temporary files
 temporary/
 !temporary/index.php
-
 # ignore temporary or processed scripts
 scripts/run_once/*.done
 scripts/staging/
-
 # ignore backup files
 *.bak
-
 # ignore special files
 *~
 *.swp
@@ -39,4 +30,21 @@ scripts/staging/
 ehthumbs.db
 Icon?
 Thumbs.db
-
+skins/_reference/avatars/
+/Microsoft.VC80.CRT.manifest
+/WinSparkle.dll
+/libcharset-1.dll
+/libgettextlib-0-17.dll
+/libgettextsrc-0-17.dll
+/libiconv-2.dll
+/libintl-8.dll
+/mingwm10.dll
+/msgcat.exe
+/msgfmt.exe
+/msgmerge.exe
+/msgunfmt.exe
+/msvcm80.dll
+/msvcp80.dll
+/msvcr80.dll
+/pthreadGC2.dll
+/xgettext.exe
