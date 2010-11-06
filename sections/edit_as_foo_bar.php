@@ -1,211 +1,25 @@
 <?php
 /**
- * create a new section or edit an existing one
+ * to test the option 'edit_as_simple'
  *
- * Accepted calls:
- * - edit.php
- * - edit.php/&lt;id&gt;
- * - edit.php?id=&lt;id&gt;
- * - edit.php?anchor=&lt;anchor&gt;
+ * This script allows only to change the description field, and overlay data.
  *
- * @author Bernard Paques
- * @author Vincent No&euml;l
- * @author GnapZ
- * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
- * @author Alexis Raimbault
- * @tester Agnes
- * @tester Marco Pici
- * @tester Ghjmora
- * @tester Aleko
- * @tester Manuel Lopez Gallego
- * @tester Jan Boen
+ * @author Jean-marc Schwartz 
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// common definitions and initial processing
-include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
-include_once '../images/images.php';
-include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
-include_once '../tables/tables.php';
-include_once '../versions/versions.php'; // roll-back
-
-// look for the id
-$id = NULL;
-if(isset($_REQUEST['id']))
-	$id = $_REQUEST['id'];
-elseif(isset($context['arguments'][0]))
-	$id = $context['arguments'][0];
-$id = strip_tags($id);
-
-// get the item from the database
-$item =& Sections::get($id);
-
-// get the related anchor, if any --use request first, because anchor can change
-$anchor = NULL;
-if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
-elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
-
-// reflect access rights from anchor
-if(!isset($item['active']) && is_object($anchor))
-	$item['active'] = $anchor->get_active();
-
-// get the related overlay, if any
-$overlay = NULL;
-if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
-elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
-	$overlay = Overlay::bind($_REQUEST['variant']);
-elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
-	$overlay = Overlay::bind($_SESSION['pasted_variant']);
-	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay('section_overlay')))
-	$overlay = Overlay::bind($overlay_class);
-
-// we are allowed to add a new section
-if(!isset($item['id']) && Sections::allow_creation(NULL, $anchor))
-	$permitted = TRUE;
-
-// we are allowed to modify an existing section
-elseif(isset($item['id']) && Sections::allow_modification($item, $anchor))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
-// do not always show the edition form
-$with_form = FALSE;
-
-// load the skin, maybe with a variant
-load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
-
-// clear the tab we are in, if any
-if(is_object($anchor))
-	$context['current_focus'] = $anchor->get_focus();
-
-// path to this page
-if(is_object($anchor)&& $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
-
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
-
-// page title
-if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('Add a section');
-
-// validate input syntax only if required
-if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
-	if(isset($_REQUEST['introduction']))
-		xml::validate($_REQUEST['introduction']);
-	if(isset($_REQUEST['description']))
-		xml::validate($_REQUEST['description']);
-}
-
-// adjust dates from surfer time zone to UTC time zone
-if(isset($_REQUEST['activation_date']) && $_REQUEST['activation_date'])
-	$_REQUEST['activation_date'] = Surfer::to_GMT($_REQUEST['activation_date']);
-if(isset($_REQUEST['expiry_date']) && $_REQUEST['expiry_date'])
-	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
-
-// stop crawlers
-if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// access denied
-} elseif(!$permitted) {
-
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged()) {
-
-		if(isset($item['id']))
-			$link = Sections::get_url($item['id'], 'edit');
-		elseif(isset($_REQUEST['anchor']))
-			$link = 'sections/edit.php?anchor='.urlencode($_REQUEST['anchor']);
-		else
-			$link = 'sections/edit.php';
-
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode($link));
-	}
-
-	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// an error occured
-} elseif(count($context['error'])) {
-	$item = $_REQUEST;
-	$with_form = TRUE;
+// loaded from sections/view.php
+defined('YACS') or exit('Script must be included');
 
 // process uploaded data
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// protect from hackers
-	if(isset($_REQUEST['edit_name']))
-		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
-	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+	// set in sections/edit.php, but we don't use it here
+	unset($_REQUEST['options']);
 
-	// allow back-referencing from overlay
-	if(isset($_REQUEST['id'])) {
-		$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
-	}
-
-	// overlay may have changed
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
-
-		// associates are allowed to change overlay types -- see overlays/select.php
-		if(!Surfer::is_associate())
-			unset($_REQUEST['overlay_type']);
-
-		// overlay type has not changed
-		elseif(is_object($overlay) && ($overlay->get_type() == $_REQUEST['overlay_type']))
-			unset($_REQUEST['overlay_type']);
-	}
-
-	// new overlay type
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
-
-		// delete the previous version, if any
-		if(is_object($overlay))
-			$overlay->remember('delete', $_REQUEST);
-
-		// new version of page overlay
-		$overlay = Overlay::bind($_REQUEST['overlay_type']);
-	}
-
-	// when the page has been overlaid
-	if(is_object($overlay)) {
-
-		// update the overlay from form content
-		$overlay->parse_fields($_REQUEST);
-
-		// save content of the overlay in this item
-		$_REQUEST['overlay'] = $overlay->save();
-		$_REQUEST['overlay_id'] = $overlay->get_id();
-	}
-
-	// branch to another script to save data
-	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
-		include $matches[0].'.php';
-		return;
-	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
-		include 'edit_as_'.$deputy.'.php';
-		return;
-	
 	// update an existing page
-	} elseif(isset($_REQUEST['id'])) {
+	if(isset($_REQUEST['id'])) {
 
 		// remember the previous version
 		if($item['id'])
@@ -242,7 +56,7 @@ if(Surfer::is_crawler()) {
 		}
 
 	// create a new section
-	} elseif(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = sections::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -312,15 +126,6 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
-
-	// branch to another script to display form fields, tabs, etc
-	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
-		include $matches[0].'.php';
-		return;
-	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
-		include 'edit_as_'.$deputy.'.php';
-		return;
-	}
 
 	// the form to edit a section
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
@@ -1104,6 +909,9 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Display profile of section owner');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
+	$local['label_fr'] = "les membres peuvent ajouter une section";
+	$local['label_en'] = "Members can add a section";			
+	$keywords[] = '<a onclick="javascript:append_to_options(\'with_sections\')" style="cursor: pointer;">with_sections</a> - '.i18n::l($local, 'label');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
@@ -1346,5 +1154,7 @@ if($with_form) {
 
 // render the skin
 render_skin();
+
+
 
 ?>
