@@ -101,6 +101,12 @@ if(!isset($item['id'])) {
 
 	// if no error, back to the anchor or to the index page
 	if(Files::delete($item['id'])) {
+
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
+		$description = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+		Logger::remember('files/delete.php', $label, $description);
+
 		Files::clear($item);
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#files');
