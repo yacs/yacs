@@ -38,6 +38,12 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
+// get the related overlay, if any
+$overlay = NULL;
+include_once '../overlays/overlay.php';
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item);
+
 // associates and authenticated editors can do what they want
 if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
