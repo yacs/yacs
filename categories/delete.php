@@ -86,6 +86,11 @@ if(!isset($item['id'])) {
 	// attempt to delete
 	if(Categories::delete($item['id'])) {
 
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
+		$description = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+		Logger::remember('categories/delete.php', $label, $description);
+
 		// this can appear anywhere
 		Cache::clear();
 
