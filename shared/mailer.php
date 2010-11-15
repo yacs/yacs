@@ -120,9 +120,13 @@ class Mailer {
 			$tail = array();
 			if($watch_title)
 				$tail[] = $watch_title;
-			if($watch_link)
-				$tail[] = $context['url_to_home'].$context['url_to_root'].$watch_link;
-
+			if($watch_link) {
+    		// build html link
+    		$watch_link = $context['url_to_home'].$context['url_to_root'].$watch_link;
+    		$watch_link = '<a href="'.$watch_link.'">'.$watch_link.'</a>';
+      	$tail[] = $watch_link;
+      }
+      
 			if($tail)
 				$reason .= '<p>'.join(BR, $tail).'</p>';
 
@@ -138,6 +142,9 @@ class Mailer {
 
 		// allow for localized templates
 		$template = i18n::get_template('mail_notification');
+		
+		// build html link
+		$link = '<a href="'.$link.'">'.$link.'</a>';
 
 		// assemble everything
 		$text = sprintf($template, $action, $title, $link).$reason;
