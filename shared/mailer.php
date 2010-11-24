@@ -58,7 +58,7 @@ class Mailer {
 	 * @param string message HTML or ASCII content
 	 * @return array containing message parts ($type => $content)
 	 */
-	function &build_message($title, $text) {
+	function &build_message($title, $text,$plain_only=FALSE) {
 
 		// one element per type
 		$message = array();
