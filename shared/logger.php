@@ -206,8 +206,8 @@ class Logger {
 			$description .= "\n\n".sprintf(i18n::c('This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.'), $context['site_name'])
 				."\n\n".$context['url_to_home'].$context['url_to_root'].'control/configure.php';
 
-			// actual mail message
-			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description);
+			// actual mail message, plain text only
+			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description, TRUE);
 		}
 	}
 
