@@ -73,6 +73,7 @@
  * @tester J&eacute;r&ocirc;me Douill&eacute;
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Mathieu Favez
+ * @tester Jean-Marc Schwartz
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -402,7 +403,7 @@ if($with_form) {
 			$label .= ' *';
 		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
 		$hint = '';
-		if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+		if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 			$hint = i18n::s('You will receive a message on this address to activate your membership.');
 		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
 		$fields[] = array($label, $input, $hint);
@@ -466,7 +467,7 @@ if($with_form) {
 			$label .= ' *';
 		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
 		$hint = '';
-		if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+		if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 			$hint = i18n::s('You will receive a message on this address to activate your membership.');
 		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
 		$fields[] = array($label, $input, $hint);
