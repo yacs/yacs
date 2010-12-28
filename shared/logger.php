@@ -207,7 +207,7 @@ class Logger {
 				."\n\n".$context['url_to_home'].$context['url_to_root'].'control/configure.php';
 
 			// actual mail message, plain text only
-			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description, TRUE);
+			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description,'', TRUE);
 		}
 	}
 
