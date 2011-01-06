@@ -9,9 +9,6 @@
  * Example:
  * [code]links/click.php?url=www.cisco.com[/code]
  *
- * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
- *
  * @author Bernard Paques
  * @author GnapZ
  * @tester Cyril Blondin

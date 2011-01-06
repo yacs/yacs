@@ -569,7 +569,7 @@ if(Surfer::is_crawler()) {
 		// title and link
 		if($title = $article->get_title())
 			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
+		$description .= $context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
 
 		// teaser
 		if($teaser = $article->get_teaser('basic'))

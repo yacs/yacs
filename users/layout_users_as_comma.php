@@ -71,8 +71,8 @@ Class Layout_users_as_comma extends Layout_interface {
 			$items[$url] = array($prefix, $label, $suffix, $class, NULL, $hover);
 
 			// provide only some results
-			if(++$count >= 4)
-				break;
+//			if(++$count >= 4)
+//				break;
 		}
 
 		// end of processing
@@ -82,8 +82,8 @@ Class Layout_users_as_comma extends Layout_interface {
 		$text = Skin::build_list($items, 'comma');
 
 		// some indications on the number of connections
-		if($delta -= $count)
-			$text .= ', ...';
+// 		if($delta -= $count)
+// 			$text .= ', ...';
 
 		return $text;
 	}
