@@ -56,9 +56,10 @@ class Mailer {
 	 *
 	 * @param string message title
 	 * @param string message HTML or ASCII content
+	 * @param bool use only plain text for message
 	 * @return array containing message parts ($type => $content)
 	 */
-	function &build_message($title, $text) {
+	function &build_message($title, $text,$plain_only=FALSE) {
 
 		// one element per type
 		$message = array();
@@ -67,8 +68,9 @@ class Mailer {
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text)))));
 
 		// text/html part
-		$message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
-			.'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
+		if(!$plain_only) 
+		    $message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
+			   .'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
 
 		// return all parts
 		return $message;
@@ -120,9 +122,13 @@ class Mailer {
 			$tail = array();
 			if($watch_title)
 				$tail[] = $watch_title;
-			if($watch_link)
-				$tail[] = $context['url_to_home'].$context['url_to_root'].$watch_link;
-
+			if($watch_link) {
+    		// build html link
+    		$watch_link = $context['url_to_home'].$context['url_to_root'].$watch_link;
+    		$watch_link = '<a href="'.$watch_link.'">'.$watch_link.'</a>';
+      	$tail[] = $watch_link;
+      }
+      
 			if($tail)
 				$reason .= '<p>'.join(BR, $tail).'</p>';
 
@@ -138,6 +144,9 @@ class Mailer {
 
 		// allow for localized templates
 		$template = i18n::get_template('mail_notification');
+		
+		// build html link
+		$link = '<a href="'.$link.'">'.$link.'</a>';
 
 		// assemble everything
 		$text = sprintf($template, $action, $title, $link).$reason;
@@ -598,6 +607,7 @@ class Mailer {
 	 * @param string subject
 	 * @param string actual message
 	 * @param mixed to be given to Mailer::post()
+	 * @param bool use only plain text for notification
 	 * @return TRUE on success, FALSE otherwise
 	 *
 	 * @see agents/messages.php
@@ -606,7 +616,7 @@ class Mailer {
 	 * @see shared/logger.php
 	 * @see users/users.php
 	 */
-	function notify($from, $to, $subject, $message, $headers='') {
+	function notify($from, $to, $subject, $message, $headers='',$plain_only=FALSE) {
 		global $context;
 
 		// email services have to be activated
@@ -629,7 +639,7 @@ class Mailer {
 			$subject .= ' ['.$context['site_name'].']';
 
 		// allow for HTML rendering
-		$message = Mailer::build_message($subject, $message);
+		$message = Mailer::build_message($subject, $message, $plain_only);
 
 		// do the job -- don't stop on error
 		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
