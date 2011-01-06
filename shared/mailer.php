@@ -68,9 +68,14 @@ class Mailer {
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text)))));
 
 		// text/html part
-		if(!$plain_only) 
+		if(!$plain_only) {
+
+                    // format links inside text in HTML (with <a> tag)
+                    $text = preg_replace('#http://[a-z0-9._/-]+#i', '<a href="$0">$0</a>', $text);
+
 		    $message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
 			   .'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
+                }
 
 		// return all parts
 		return $message;
@@ -122,12 +127,8 @@ class Mailer {
 			$tail = array();
 			if($watch_title)
 				$tail[] = $watch_title;
-			if($watch_link) {
-    		// build html link
-    		$watch_link = $context['url_to_home'].$context['url_to_root'].$watch_link;
-    		$watch_link = '<a href="'.$watch_link.'">'.$watch_link.'</a>';
-      	$tail[] = $watch_link;
-      }
+			if($watch_link)
+                                $tail[] = $context['url_to_home'].$context['url_to_root'].$watch_link;
       
 			if($tail)
 				$reason .= '<p>'.join(BR, $tail).'</p>';
@@ -144,9 +145,6 @@ class Mailer {
 
 		// allow for localized templates
 		$template = i18n::get_template('mail_notification');
-		
-		// build html link
-		$link = '<a href="'.$link.'">'.$link.'</a>';
 
 		// assemble everything
 		$text = sprintf($template, $action, $title, $link).$reason;
