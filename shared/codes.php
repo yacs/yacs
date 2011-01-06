@@ -3059,7 +3059,11 @@ Class Codes {
 			}
 
 			// use the skin
-			$output =& Skin::build_image($variant, $href, $title, $link);
+			if (surfer::is_empowered())
+			   //build editable image
+			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
+			else 
+			   $output =& Skin::build_image($variant, $href, $title, $link);
 			return $output;
 
 		// embed a stack of images
