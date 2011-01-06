@@ -150,7 +150,7 @@ $context['text'] .= '[title]'.i18n::s('Labelled button').' [escape][button=&lt;l
 	.Skin::table_suffix();
 
 // [click=label|url] [clicks=url]
-$context['text'] .= '[title]'.i18n::s('Count clicks').' [escape][click=&lt;label&gt;|&lt;url&gt;] [clicks=&lt;url&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Member clicks').' [escape][click=&lt;label&gt;|&lt;url&gt;] [clicks=&lt;url&gt;][/escape][/title]'
 	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]').'[/escape]</td>'
@@ -299,6 +299,14 @@ $context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Click to %s'), '[download='.$file_id.', '.i18n::s('download the file').']').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Click to %s'), '[download='.$file_id.', '.i18n::s('download the file').']').'</td></tr>'
+	.Skin::table_suffix();
+
+// [clicks=id]
+$context['text'] .= '[title]'.i18n::s('Member clicks').' [escape][clicks=&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][clicks='.$file_id.'][/escape]</td>'
+	.'<td>[clicks='.$file_id.']</td></tr>'
 	.Skin::table_suffix();
 
 // [action=id]

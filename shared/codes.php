@@ -1514,21 +1514,23 @@ Class Codes {
 
 		$text = '';
 
-		// the list of people who have clicked this link
+		// sanity check
+		if(!$url)
+			return $text;
+
+		// if we received only an id, assume file access
+		if(preg_match('/^[0-9]+$/', $url))
+			$url = 'file:'.$url;
+
+		// the list of people who have followed this link
 		include_once $context['path_to_root'].'users/activities.php';
-		if($users = Activities::list_at($url, 'click', 30, 'comma')) {
+		if($users = Activities::list_at($url, array('click', 'fetch'), 50, 'comma')) {
 
-			$count = Activities::count_at($url, 'click');
-			if($count > 30)
-				$more = ' ...';
-			else
-				$more = '';
-
-			$text .= sprintf(i18n::ns('%d person has followed the link: %s', '%d persons have followed the link: %s', $count), $count, $users);
-
+			$count = Activities::count_at($url, array('click', 'fetch'));
+			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $users);
 
 		} else
-			$text .= i18n::s('This link has not been used yet');
+			$text .= i18n::s('No authenticated person has used this link yet');
 
 		return $text;
 
