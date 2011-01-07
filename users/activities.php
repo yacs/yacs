@@ -31,8 +31,10 @@ Class Activities {
 		// limit the query to one anchor
 		$where = "(anchor LIKE '".SQL::escape($anchor)."')";
 
-		// limit to one action
-		if($action)
+		// for some actions only
+		if(is_array($action))
+			$where .= " AND (action IN ('".implode("', '", $action)."'))";
+		elseif($action)
 			$where .= " AND (action LIKE '".SQL::escape($action)."')";
 
 		// the list of users
@@ -61,8 +63,10 @@ Class Activities {
 		// limit the query to one anchor
 		$where = "(anchor LIKE '".SQL::escape($anchor)."')";
 
-		// limit to one action
-		if($action)
+		// for some actions only
+		if(is_array($action))
+			$where .= " AND (action IN ('".implode("', '", $action)."'))";
+		elseif($action)
 			$where .= " AND (action LIKE '".SQL::escape($action)."')";
 
 		// the list of users
@@ -122,7 +126,7 @@ Class Activities {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['action']		= "VARCHAR(64) DEFAULT 'view' NOT NULL";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";
+		$fields['anchor']		= "VARCHAR(512) DEFAULT '' NOT NULL"; // can also be a web URL
 		$fields['data'] 		= "TEXT";
 		$fields['edit_date']	= "DATETIME";
 		$fields['user_id']		= "MEDIUMINT NOT NULL";

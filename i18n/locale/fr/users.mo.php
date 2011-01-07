@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
+POT-Creation-Date: 2010-10-19 22:05+0200
 PO-Revision-Date: 2010-10-01 23:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -360,7 +360,6 @@ $_SESSION['l10n']['fr']['abbb7ad09d40d7272c30569b47a44199']='Choisissez votre ou
 $_SESSION['l10n']['fr']['Self-deletion']='Auto-effacement';
 $_SESSION['l10n']['fr']['c135a8dca58a3d9943aeac7d94451d30']='Les surfeurs sont enregistrés comme membres (communauté ouverte).';
 $_SESSION['l10n']['fr']['193e85a18aebf9904dc94a0de4ecba92']='L\'auto-enregistrement n\'est pas autorisé. Utilisez le %s pour transmettre votre demande.';
-$_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Send me periodical newsletters.']='M\'adresser les lettres d\'information.';
 $_SESSION['l10n']['fr']['101e8406e19b26c4e2d699a5eb5db4a0']='Positionner un cookie à durée de vie longue pour ne plus demander l\'authentification (pour les intranets).';
@@ -419,7 +418,6 @@ $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['Upload an image']='Téléverser une image';
 $_SESSION['l10n']['fr']['Uploads']='Téléchargements';
 $_SESSION['l10n']['fr']['Use a gravatar']='Utiliser un gravatar';
-$_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the %s to ask for help']='Utilisez le %s pour demander de l\'aide';
 $_SESSION['l10n']['fr']['Use the authenticator %s']='Utiliser l\'authentifieur %s';
 $_SESSION['l10n']['fr']['Use the library']='Utiliser la librairie';
@@ -430,7 +428,6 @@ $_SESSION['l10n']['fr']['Validate your e-mail address']='Validation de votre adr
 $_SESSION['l10n']['fr']['View profile']='Voir le profil';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View the new thread']='Voir la nouvelle conversation';
-$_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lire d\'autres pages intéressantes.';
 $_SESSION['l10n']['fr']['2470a7b84e0565efbfd25c51005b44b5']='Attendez une heure avant de vous authentifier à nouveau.';
 $_SESSION['l10n']['fr']['Watch list']='Pages surveillées';
 $_SESSION['l10n']['fr']['3b9f16a2d4a75ed76b06726e46487cd8']='Nous conservons seulement une copie de ce profil. Merci de gérer ce compte à %s';

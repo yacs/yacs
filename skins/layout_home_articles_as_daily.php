@@ -124,6 +124,9 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			else
 				$box['title'] = Codes::beautify_title($item['title']);
 
+			// make a clickable title
+			$box['title'] = Skin::build_link($url, $box['title'], 'basic');
+
 			// the icon to put aside - never use anchor images
 			if($item['icon_url'])
 				$box['content'] .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['icon_url'].'" class="left_image" alt="" /></a>';

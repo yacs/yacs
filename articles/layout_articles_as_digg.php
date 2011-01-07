@@ -83,11 +83,10 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$content = $prefix = $label = $suffix = $icon = '';
 
 			// the icon to put aside
-			if($item['thumbnail_url']) {
+			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			} elseif(is_object($anchor)) {
-				$icon = $anchor->get_thumbnail_url();
-			}
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 

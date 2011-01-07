@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:20+0200
+POT-Creation-Date: 2010-10-05 23:05+0200
 PO-Revision-Date: 2010-09-29 15:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -53,13 +53,11 @@ $_SESSION['l10n']['fr']['Members only']='Seulement les membres';
 $_SESSION['l10n']['fr']['Newsletters']='Lettres d\'information';
 $_SESSION['l10n']['fr']['Next step']='Etape suivante';
 $_SESSION['l10n']['fr']['b78e4b19c12f3ceb7fa22aaa7ea1eb0d']='Aucun compte pour envoyer votre lettre. Merci d\'en %s.';
-$_SESSION['l10n']['fr']['2c734f876fd4607e8ea46099c5af1d24']='Aucune adresse invalide n\'a été rencontrée.';
 $_SESSION['l10n']['fr']['No letter has been sent yet.']='Aucune lettre n\'a été envoyée';
 $_SESSION['l10n']['fr']['No letter has been transmitted.']='Aucune lettre n\'a été transmise.';
 $_SESSION['l10n']['fr']['No recipient has been defined.']='Aucun destinaire n\'a été défini.';
 $_SESSION['l10n']['fr']['032c2f23bd59663ca206107c001dd7d6']='Aucun destinataire n\'a été traité.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
-$_SESSION['l10n']['fr']['57180483e589be9878ef20a97d697488']='Aucune erreur de transmission n\'a eu lieu.';
 $_SESSION['l10n']['fr']['87ef6f7124dac5a5dcfe5ddbaa75be8a']='Format normalisé, par exemple : "Jean Dupont" &lt;jean.dupont@entreprise.fr&gt;';
 $_SESSION['l10n']['fr']['4d2c68a988903f3c828c7c25293d22a0']='Une adresse invalide a été rencontrée.';
 $_SESSION['l10n']['fr']['9b35b350b112edcee6093f790461efa5']='Une lettre a été transmise.';

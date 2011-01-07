@@ -64,7 +64,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// one box per article
-			$prefix = $suffix = '';
+			$prefix = $suffix = $icon = '';
 
 			// build a box around two first articles
 			if($item_count == 1)
@@ -86,12 +86,10 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				}
 
 				// the icon to put aside
-				$icon = '';
-				if($item['thumbnail_url']) {
+				if($item['thumbnail_url'])
 					$icon = $item['thumbnail_url'];
-				} elseif(is_object($anchor)) {
+				elseif(is_object($anchor))
 					$icon = $anchor->get_thumbnail_url();
-				}
 				if($icon)
 					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
 
@@ -227,17 +225,13 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);
 				$suffix = str_replace('<span class="details"></span>', '', $suffix);
 
-				// insert a suffix separator
-	//			if(trim($suffix))
-	//				$suffix = ' -&nbsp;'.$suffix;
-
 				// the icon to put in the left column
 				if($item['thumbnail_url'])
 					$icon = $item['thumbnail_url'];
 
 				// or inherit from the anchor
-				elseif(is_object($anchor))
-					$icon = $anchor->get_thumbnail_url();
+				elseif(is_callable(array($anchor, 'get_bullet_url')))
+					$icon = $anchor->get_bullet_url();
 
 				// list all components for this item
 				$items[$url] = array($prefix, $title, $suffix, 'article', $icon);

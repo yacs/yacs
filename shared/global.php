@@ -113,6 +113,9 @@ $context['content_type'] = 'text/html';
 $context['country'] = 'N/A';
 $context['country_code'] = '--';
 
+// list of containers of the current page (e.g., array('section:123', 'section:456'))
+$context['current_focus'] = array();
+
 // handle of the current page (e.g., 'article:123')
 $context['current_item'] = NULL;
 

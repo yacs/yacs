@@ -1432,31 +1432,31 @@ Class Users {
 			$subject = sprintf(i18n::s('Your account at %s'), strip_tags($context['site_name']));
 
 			// top of the message
-			$message = i18n::s('Welcome!')."\n"
-				."\n".sprintf(i18n::s('This message relates to your account at %s.'), strip_tags($context['site_name']))."\n"
-				."\n".$context['url_to_home'].$context['url_to_root']."\n";
+			$message = '<p>'.i18n::s('Welcome!').'</p>'
+				.'<p>'.sprintf(i18n::s('This message relates to your account at %s.'), strip_tags($context['site_name']))
+				.BR.$context['url_to_home'].$context['url_to_root'].'</p>';
 
 			// mention nick name
-			$message .= "\n".sprintf(i18n::s('Your nick name is %s'), $fields['nick_name'])."\n";
+			$message .= '<p>'.sprintf(i18n::s('Your nick name is %s'), $fields['nick_name']).'</p>';
 
 			// direct link to login page --see users/login.php
-			$message .= "\n".i18n::s('Record this message and use the following link to authenticate to the site at any time:')."\n"
-				."\n".$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $fields['id'], rand(1000, 9999), $fields['handle'])."\n";
+			$message .= '<p>'.i18n::s('Record this message and use the following link to authenticate to the site at any time:')
+				.BR.$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $fields['id'], rand(1000, 9999), $fields['handle']).'</p>';
 
 			// caution note
-			$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";
+			$message .= '<p>'.i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.').'</p>';
 
 			// confirmation link
 			if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y')) {
-				$message = "\n".i18n::s('Click on the link below to activate your new account.')."\n";
+				$message .= '<p>'.i18n::s('Click on the link below to activate your new account.').'</p>';
 
 				// use the secret handle
-				$message .= "\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($fields['handle'], 'validate')."\n";
+				$message .= '<p>'.$context['url_to_home'].$context['url_to_root'].Users::get_url($fields['handle'], 'validate').'</p>';
 			}
 
 			// bottom of the message
-			$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
-				."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
+			$message .= '<p>'.sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/').'</p>'
+				.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name'])).'</p>';
 
 			// enable threading
 			$headers = Mailer::set_thread('user:'.$fields['id']);

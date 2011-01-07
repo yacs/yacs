@@ -1,0 +1,1922 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-19 22:05+0200\n"
+"PO-Revision-Date: 2010-10-01 23:06+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: files/check.php:23 files/check.php:34 files/check.php:90
+#: files/configure.php:44 files/configure.php:150 files/configure.php:224
+#: files/delete.php:68 files/edit.php:125 files/feed.php:109
+#: files/fetch.php:123 files/fetch_all.php:99 files/index.php:60
+#: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
+#: files/stream.php:125 files/thread.php:60 files/thread.php:63
+#: files/view.php:121
+msgid "Files"
+msgstr "Files"
+
+#: files/check.php:26 files/index.php:111
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: files/check.php:31 files/configure.php:53 files/delete.php:81
+#: files/edit.php:144 files/edit.php:169 files/feed.php:125
+#: files/fetch.php:156 files/fetch_all.php:116 files/files.php:2565
+#: files/index.php:70 files/list.php:88 files/list.php:93 files/stream.php:152
+#: files/thread.php:68 files/view.php:150
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: files/check.php:41
+#, php-format
+msgid "Analyzing table %s..."
+msgstr "Analyzing table %s..."
+
+#: files/check.php:61 files/check.php:83
+#, php-format
+msgid "%d records have been processed"
+msgstr "%d records have been processed"
+
+#: files/check.php:70
+#, php-format
+msgid "Orphan: %s"
+msgstr "Orphan: %s"
+
+#: files/check.php:72
+msgid "Too many successive errors. Aborted"
+msgstr "Too many successive errors. Aborted"
+
+#: files/check.php:87
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Script terminated in %.2f seconds."
+
+#: files/check.php:96
+msgid "Please select the action to perform."
+msgstr "Please select the action to perform."
+
+#: files/check.php:102
+msgid "Look for orphan records"
+msgstr "Look for orphan records"
+
+#: files/check.php:105 files/view.php:337 files/view.php:354
+#: files/view.php:368 files/view.php:385 files/view.php:405
+msgid "Start"
+msgstr "Start"
+
+#: files/configure.php:41 files/configure.php:146 files/configure.php:225
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: files/configure.php:44 files/delete.php:72 files/fetch.php:244
+#: files/fetch.php:263
+#, php-format
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: files/configure.php:44 files/index.php:110
+msgid "Configure"
+msgstr "Configure"
+
+#: files/configure.php:70
+msgid "Supported extensions"
+msgstr "Supported extensions"
+
+#: files/configure.php:73
+msgid "Recommended tools are listed for each extension on download."
+msgstr "Recommended tools are listed for each extension on download."
+
+#: files/configure.php:77
+msgid "Additional extensions"
+msgstr "Additional extensions"
+
+#: files/configure.php:81
+msgid ""
+"List extensions you would like to support, separated by spaces or commas."
+msgstr ""
+"List extensions you would like to support, separated by spaces or commas."
+
+#: files/configure.php:91
+msgid ""
+"By default files are stored into the web space of your server. To optimize "
+"the transfer of large files, you should setup an anonymous ftp service on "
+"your server, and then use this configuration panel to enable its usage."
+msgstr ""
+"By default files are stored into the web space of your server. To optimize "
+"the transfer of large files, you should setup an anonymous ftp service on "
+"your server, and then use this configuration panel to enable its usage."
+
+#: files/configure.php:94
+msgid "Use FTP"
+msgstr "Use FTP"
+
+#: files/configure.php:98
+msgid "No, all uploaded files are placed in the web space."
+msgstr "No, all uploaded files are placed in the web space."
+
+#: files/configure.php:102
+msgid ""
+"Yes, and following parameters are used for the mapping to the FTP service."
+msgstr ""
+"Yes, and following parameters are used for the mapping to the FTP service."
+
+#: files/configure.php:108
+msgid "Local path"
+msgstr "Local path"
+
+#: files/configure.php:110
+msgid "The place where shared files will be written."
+msgstr "The place where shared files will be written."
+
+#: files/configure.php:116
+msgid "FTP prefix"
+msgstr "FTP prefix"
+
+#: files/configure.php:118
+msgid ""
+"The ftp:// address that is inserted in links used to download files remotely"
+msgstr ""
+"The ftp:// address that is inserted in links used to download files remotely"
+
+#: files/configure.php:129
+msgid "Extensions"
+msgstr "Extensions"
+
+#: files/configure.php:130
+msgid "Storage"
+msgstr "Storage"
+
+#: files/configure.php:142 files/edit.php:659
+msgid "Submit"
+msgstr "Submit"
+
+#: files/configure.php:142 files/edit.php:659
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: files/configure.php:165
+msgid ""
+"Shared files are not put in the database, but in the file system of the web "
+"server."
+msgstr ""
+"Shared files are not put in the database, but in the file system of the web "
+"server."
+
+#: files/configure.php:166
+msgid ""
+"If you cannot upload files because of permissions settings, use the "
+"configuration panel for users to disable all uploads."
+msgstr ""
+"If you cannot upload files because of permissions settings, use the "
+"configuration panel for users to disable all uploads."
+
+#: files/configure.php:167
+msgid "Help"
+msgstr "Help"
+
+#: files/configure.php:172
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr "You are not allowed to perform this operation in demonstration mode."
+
+#: files/configure.php:199
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+
+#: files/configure.php:202
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+
+#: files/configure.php:207
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "The following configuration has been saved into the file %s."
+
+#: files/configure.php:213
+#, php-format
+msgid "%s has been updated"
+msgstr "%s has been updated"
+
+#: files/configure.php:219
+msgid "Configuration parameters"
+msgstr "Configuration parameters"
+
+#: files/configure.php:222
+msgid "Where do you want to go now?"
+msgstr "Where do you want to go now?"
+
+#: files/configure.php:226
+msgid "Configure again"
+msgstr "Configure again"
+
+#: files/delete.php:72
+msgid "Delete"
+msgstr "Delete"
+
+#: files/delete.php:87 files/edit.php:175 files/edit.php:391
+#, php-format
+msgid ""
+"This file has been reserved by %s %s, and it is likely that an updated "
+"version will be made available soon."
+msgstr ""
+"This file has been reserved by %s %s, and it is likely that an updated "
+"version will be made available soon."
+
+#: files/delete.php:91 files/edit.php:178 files/fetch.php:257
+#: files/fetch.php:277
+msgid "Done"
+msgstr "Done"
+
+#: files/delete.php:92 files/fetch.php:244
+msgid "Release reservation"
+msgstr "Release reservation"
+
+#: files/delete.php:113
+msgid "The action has not been confirmed."
+msgstr "The action has not been confirmed."
+
+#: files/delete.php:120
+msgid "Yes, I want to delete this file"
+msgstr "Yes, I want to delete this file"
+
+#: files/delete.php:122 files/edit.php:661 files/fetch.php:288
+msgid "Cancel"
+msgstr "Cancel"
+
+#: files/delete.php:143 files/edit.php:502 files/view.php:289
+msgid "Title"
+msgstr "Title"
+
+#: files/delete.php:149
+msgid "Description"
+msgstr "Description"
+
+#: files/delete.php:164 files/edit.php:627
+msgid "Source"
+msgstr "Source"
+
+#: files/delete.php:169
+msgid "Actual file"
+msgstr "Actual file"
+
+#: files/delete.php:173 files/edit.php:434 files/edit.php:493
+msgid "File size"
+msgstr "File size"
+
+#: files/delete.php:173
+#, php-format
+msgid "%d bytes"
+msgstr "%d bytes"
+
+#: files/delete.php:178
+msgid "Downloads"
+msgstr "Downloads"
+
+#: files/delete.php:178 files/edit.php:468 files/layout_files.php:91
+#: files/layout_files_as_hits.php:60 files/view.php:242
+msgid "downloads"
+msgstr "downloads"
+
+#: files/delete.php:184
+msgid "Posted by"
+msgstr "Posted by"
+
+#: files/delete.php:190
+msgid "Updated by"
+msgstr "Updated by"
+
+#: files/delete.php:195
+msgid "Last action"
+msgstr "Last action"
+
+#: files/delete.php:201 files/delete.php:203 files/edit.php:551
+msgid "Access"
+msgstr "Access"
+
+#: files/delete.php:201 files/edit.php:563 files/view.php:202
+msgid "Private - Access is restricted to selected persons"
+msgstr "Private - Access is restricted to selected persons"
+
+#: files/delete.php:203
+msgid "Community -Access is granted to any identified surfer"
+msgstr "Community -Access is granted to any identified surfer"
+
+#: files/delete.php:210
+msgid ""
+"Following items are attached to this record and will be deleted as well."
+msgstr ""
+"Following items are attached to this record and will be deleted as well."
+
+#: files/edit.php:129 files/edit.php:131
+#, php-format
+msgid "Update: %s"
+msgstr "Update: %s"
+
+#: files/edit.php:133
+msgid "Add a file"
+msgstr "Add a file"
+
+#: files/edit.php:149 files/fetch.php:143 files/files.php:2092
+#: files/list.php:77 files/thread.php:73
+msgid "No anchor has been found."
+msgstr "No anchor has been found."
+
+#: files/edit.php:183 files/files.php:2569
+msgid "This type of file is not allowed."
+msgstr "This type of file is not allowed."
+
+#: files/edit.php:262 files/files.php:2581 files/files.php:2585
+#: files/files.php:2589
+msgid "No file has been transmitted."
+msgstr "No file has been transmitted."
+
+#: files/edit.php:281
+#, php-format
+msgid "%s %s"
+msgstr "%s %s"
+
+#: files/edit.php:321
+msgid "Thank you for your contribution"
+msgstr "Thank you for your contribution"
+
+#: files/edit.php:335
+msgid "The upload has been successfully recorded."
+msgstr "The upload has been successfully recorded."
+
+#: files/edit.php:338
+msgid "Persons that have been notified"
+msgstr "Persons that have been notified"
+
+#: files/edit.php:341
+msgid "What do you want to do now?"
+msgstr "What do you want to do now?"
+
+#: files/edit.php:346 files/list.php:156 files/list.php:166
+msgid "Back to main page"
+msgstr "Back to main page"
+
+#: files/edit.php:347
+msgid "Check the download page for this file"
+msgstr "Check the download page for this file"
+
+#: files/edit.php:349 files/edit.php:593 files/edit.php:617 files/view.php:885
+msgid "Add an image"
+msgstr "Add an image"
+
+#: files/edit.php:351
+msgid "Upload another file"
+msgstr "Upload another file"
+
+#: files/edit.php:357
+#, php-format
+msgid "New file in %s"
+msgstr "New file in %s"
+
+#: files/edit.php:358
+#, php-format
+msgid "%s at %s"
+msgstr "%s at %s"
+
+#: files/edit.php:409
+msgid "File"
+msgstr "File"
+
+#: files/edit.php:422 files/list.php:151 files/list.php:163
+msgid "Upload a file"
+msgstr "Upload a file"
+
+#: files/edit.php:424 files/edit.php:435 files/edit.php:449 files/edit.php:470
+#: files/edit.php:483 files/edit.php:494 files/layout_files.php:87
+#: files/view.php:238
+msgid "bytes"
+msgstr "bytes"
+
+#: files/edit.php:427
+msgid "or"
+msgstr "or"
+
+#: files/edit.php:432
+msgid "Share an existing reference (ftp://, http://, ...)"
+msgstr "Share an existing reference (ftp://, http://, ...)"
+
+#: files/edit.php:463
+#, php-format
+msgid "posted by %s %s"
+msgstr "posted by %s %s"
+
+#: files/edit.php:481
+msgid "Select another file to replace the current one"
+msgstr "Select another file to replace the current one"
+
+#: files/edit.php:491
+msgid "Existing reference (ftp://, http://, ...)"
+msgstr "Existing reference (ftp://, http://, ...)"
+
+#: files/edit.php:507
+msgid "Version"
+msgstr "Version"
+
+#: files/edit.php:509
+msgid "What is new in this file?"
+msgstr "What is new in this file?"
+
+#: files/edit.php:514 files/layout_files.php:152 files/view.php:318
+msgid "History"
+msgstr "History"
+
+#: files/edit.php:525
+msgid "Information"
+msgstr "Information"
+
+#: files/edit.php:534
+msgid "Submit the new item, and you will be able to add resources afterwards."
+msgstr "Submit the new item, and you will be able to add resources afterwards."
+
+#: files/edit.php:538
+msgid "Images"
+msgstr "Images"
+
+#: files/edit.php:542
+msgid "Resources"
+msgstr "Resources"
+
+#: files/edit.php:555
+msgid "Public - Everybody, including anonymous surfers"
+msgstr "Public - Everybody, including anonymous surfers"
+
+#: files/edit.php:559 files/view.php:198
+msgid "Community - Access is granted to any identified surfer"
+msgstr "Community - Access is granted to any identified surfer"
+
+#: files/edit.php:567
+msgid "Parent is private, and this will be re-enforced anyway"
+msgstr "Parent is private, and this will be re-enforced anyway"
+
+#: files/edit.php:569
+msgid "Parent is not public, and this will be re-enforced anyway"
+msgstr "Parent is not public, and this will be re-enforced anyway"
+
+#: files/edit.php:571
+msgid "Who is allowed to access?"
+msgstr "Who is allowed to access?"
+
+#: files/edit.php:583
+msgid "Image"
+msgstr "Image"
+
+#: files/edit.php:590 files/edit.php:614
+msgid "Change"
+msgstr "Change"
+
+#: files/edit.php:592
+msgid "Image to be displayed in the panel aside the page."
+msgstr "Image to be displayed in the panel aside the page."
+
+#: files/edit.php:607
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+#: files/edit.php:616
+msgid ""
+"Upload a small image to illustrate this page when it is listed into parent "
+"page."
+msgstr ""
+"Upload a small image to illustrate this page when it is listed into parent "
+"page."
+
+#: files/edit.php:629
+msgid "If you have got this file from outside source, please describe it here"
+msgstr "If you have got this file from outside source, please describe it here"
+
+#: files/edit.php:633
+msgid "Keywords"
+msgstr "Keywords"
+
+#: files/edit.php:635
+msgid ""
+"As this field may be searched by surfers, please choose adequate searchable "
+"words"
+msgstr ""
+"As this field may be searched by surfers, please choose adequate searchable "
+"words"
+
+#: files/edit.php:639
+msgid "Alternate link"
+msgstr "Alternate link"
+
+#: files/edit.php:641
+msgid "Paste here complicated peer-to-peer href (ed2k, torrent, etc.)"
+msgstr "Paste here complicated peer-to-peer href (ed2k, torrent, etc.)"
+
+#: files/edit.php:645
+msgid "More options"
+msgstr "More options"
+
+#: files/edit.php:650
+msgid "Options"
+msgstr "Options"
+
+#: files/edit.php:669
+msgid "Notify watchers."
+msgstr "Notify watchers."
+
+#: files/edit.php:673
+msgid "Notify my followers."
+msgstr "Notify my followers."
+
+#: files/edit.php:678
+msgid "Do not change modification date of the main page."
+msgstr "Do not change modification date of the main page."
+
+#: files/edit.php:681
+msgid "Ensure this post is valid XHTML."
+msgstr "Ensure this post is valid XHTML."
+
+#: files/feed.php:112
+msgid "RSS feed"
+msgstr "RSS feed"
+
+#: files/feed.php:146
+#, php-format
+msgid "Files at %s"
+msgstr "Files at %s"
+
+#: files/feed.php:148
+msgid "Most recent public files"
+msgstr "Most recent public files"
+
+#: files/fetch.php:138
+msgid "No item has been found."
+msgstr "No item has been found."
+
+#: files/fetch.php:250
+msgid ""
+"You have released this file, and other surfers can reserve it for revision."
+msgstr ""
+"You have released this file, and other surfers can reserve it for revision."
+
+#: files/fetch.php:254 files/fetch.php:274 files/fetch_all.php:182
+msgid "Operation has failed."
+msgstr "Operation has failed."
+
+#: files/fetch.php:263
+msgid "Reserve"
+msgstr "Reserve"
+
+#: files/fetch.php:270
+#, php-format
+msgid ""
+"You have reserved this file, and you are encouraged to %s as soon as "
+"possible, or to %s."
+msgstr ""
+"You have reserved this file, and you are encouraged to %s as soon as "
+"possible, or to %s."
+
+#: files/fetch.php:270 files/view.php:468
+msgid "upload an updated version"
+msgstr "upload an updated version"
+
+#: files/fetch.php:270 files/layout_files.php:135 files/view.php:468
+msgid "release reservation"
+msgstr "release reservation"
+
+#: files/fetch.php:283 files/view.php:472
+#, php-format
+msgid ""
+"This file has been assigned to %s %s, and it is likely that an updated "
+"version will be made available soon."
+msgstr ""
+"This file has been assigned to %s %s, and it is likely that an updated "
+"version will be made available soon."
+
+#: files/fetch.php:287
+msgid "Download this file"
+msgstr "Download this file"
+
+#: files/fetch.php:475
+msgid "You are requesting the following file:"
+msgstr "You are requesting the following file:"
+
+#: files/fetch.php:480
+msgid ""
+"The download should start automatically within seconds. Else hit the "
+"provided link to trigger it manually."
+msgstr ""
+"The download should start automatically within seconds. Else hit the "
+"provided link to trigger it manually."
+
+#: files/file.php:94
+msgid "Previous image"
+msgstr "Previous image"
+
+#: files/file.php:104
+msgid "Next image"
+msgstr "Next image"
+
+#: files/file.php:108
+#, php-format
+msgid "Image %d of %d"
+msgstr "Image %d of %d"
+
+#: files/files.php:432 files/files.php:2124
+msgid "No item has the provided id."
+msgstr "No item has the provided id."
+
+#: files/files.php:500
+#, php-format
+msgid "Impossible to create path %s."
+msgstr "Impossible to create path %s."
+
+#: files/files.php:516
+#, php-format
+msgid "Impossible to copy file %s."
+msgstr "Impossible to copy file %s."
+
+#: files/files.php:2214
+msgid ""
+"Nothing has been received. Ensure you are below size limits set for this "
+"server."
+msgstr ""
+"Nothing has been received. Ensure you are below size limits set for this "
+"server."
+
+#: files/files.php:2573 files/files.php:2577
+msgid "The size of this file is over limit."
+msgstr "The size of this file is over limit."
+
+#: files/files.php:2593
+msgid "Possible file attack."
+msgstr "Possible file attack."
+
+#: files/files.php:2608
+#, php-format
+msgid "Impossible to move the upload file to %s."
+msgstr "Impossible to move the upload file to %s."
+
+#: files/index.php:65 files/list.php:121
+#, php-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d file"
+msgstr[1] "%d files"
+
+#: files/index.php:93
+msgid "No file has been uploaded yet."
+msgstr "No file has been uploaded yet."
+
+#: files/index.php:108
+msgid "Review files"
+msgstr "Review files"
+
+#: files/index.php:115
+msgid "Podcast"
+msgstr "Podcast"
+
+#: files/index.php:116
+#, php-format
+msgid "You can list new public files through RSS by going %s"
+msgstr "You can list new public files through RSS by going %s"
+
+#: files/index.php:125
+msgid "Popular"
+msgstr "Popular"
+
+#: files/index.php:133
+msgid "View the category"
+msgstr "View the category"
+
+#: files/layout_files.php:105 files/layout_files_as_feed.php:73
+#: files/layout_files_as_simple.php:68
+#, php-format
+msgid "in %s"
+msgstr "in %s"
+
+#: files/layout_files.php:110 files/layout_files_as_embeddable.php:88
+#: files/view.php:210
+#, php-format
+msgid "edited by %s %s"
+msgstr "edited by %s %s"
+
+#: files/layout_files.php:119 files/view.php:248
+#, php-format
+msgid "reserved by you %s"
+msgstr "reserved by you %s"
+
+#: files/layout_files.php:121 files/view.php:250
+#, php-format
+msgid "reserved by %s %s"
+msgstr "reserved by %s %s"
+
+#: files/layout_files.php:128
+msgid "update"
+msgstr "update"
+
+#: files/layout_files.php:128
+msgid "Share a new version of this file, or change details"
+msgstr "Share a new version of this file, or change details"
+
+#: files/layout_files.php:131
+msgid "reserve"
+msgstr "reserve"
+
+#: files/layout_files.php:131 files/view.php:853
+msgid "Prevent other persons from changing this file until you update it"
+msgstr "Prevent other persons from changing this file until you update it"
+
+#: files/layout_files.php:135
+msgid "Allow other persons to update this file"
+msgstr "Allow other persons to update this file"
+
+#: files/layout_files.php:140 files/layout_files_as_embeddable.php:93
+msgid "details"
+msgstr "details"
+
+#: files/layout_files.php:140
+msgid "View file details"
+msgstr "View file details"
+
+#: files/layout_files.php:144 files/layout_files_as_embeddable.php:95
+msgid "delete"
+msgstr "delete"
+
+#: files/layout_files.php:144
+msgid "Drop file content"
+msgstr "Drop file content"
+
+#: files/layout_files.php:163
+msgid "Get the file"
+msgstr "Get the file"
+
+#: files/layout_files_as_embeddable.php:94
+msgid "edit"
+msgstr "edit"
+
+#: files/list.php:70
+#, php-format
+msgid "Files: %s"
+msgstr "Files: %s"
+
+#: files/review.php:33
+msgid "Files to review"
+msgstr "Files to review"
+
+#: files/review.php:47
+msgid "Oldest files"
+msgstr "Oldest files"
+
+#: files/review.php:56
+msgid "Biggest files"
+msgstr "Biggest files"
+
+#: files/review.php:65
+msgid "Less downloaded files"
+msgstr "Less downloaded files"
+
+#: files/review.php:76
+#, php-format
+msgid "%d items in the list of noise words"
+msgstr "%d items in the list of noise words"
+
+#: files/stream.php:255 files/stream.php:282 files/stream.php:327
+msgid "Close"
+msgstr "Close"
+
+#: files/stream.php:372
+msgid "Do not know how to stream this file type"
+msgstr "Do not know how to stream this file type"
+
+#: files/thread.php:89
+msgid "All files"
+msgstr "All files"
+
+#: files/view.php:187
+#, php-format
+msgid "Source: %s"
+msgstr "Source: %s"
+
+#: files/view.php:219
+#, php-format
+msgid "Use following codes to reference this item: %s"
+msgstr "Use following codes to reference this item: %s"
+
+#: files/view.php:285
+msgid "Artist"
+msgstr "Artist"
+
+#: files/view.php:293
+msgid "Genre"
+msgstr "Genre"
+
+#: files/view.php:297
+msgid "Duration"
+msgstr "Duration"
+
+#: files/view.php:307
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: files/view.php:329 files/view.php:346
+msgid "This file may be accessed on-demand."
+msgstr "This file may be accessed on-demand."
+
+#: files/view.php:333 files/view.php:350 files/view.php:398
+msgid "Play"
+msgstr "Play"
+
+#: files/view.php:364 files/view.php:381
+#, php-format
+msgid "Browse %s"
+msgstr "Browse %s"
+
+#: files/view.php:377 files/view.php:394
+msgid ""
+"This file allows for interactions over the web. Click on the link if some "
+"Flash player has been installed."
+msgstr ""
+"This file allows for interactions over the web. Click on the link if some "
+"Flash player has been installed."
+
+#: files/view.php:468
+#, php-format
+msgid ""
+"You have reserved this file %s, and you are encouraged to %s as soon as "
+"possible, or to %s."
+msgstr ""
+"You have reserved this file %s, and you are encouraged to %s as soon as "
+"possible, or to %s."
+
+#: files/view.php:490
+#, php-format
+msgid "%d person has asked for this file: %s"
+msgid_plural "%d persons have asked for this file: %s"
+msgstr[0] "%d person has asked for this file: %s"
+msgstr[1] "%d persons have asked for this file: %s"
+
+#: files/view.php:500
+#, php-format
+msgid ""
+"You are about to download a small video. To take the most of it we recommend "
+"you to use %s (open source)."
+msgstr ""
+"You are about to download a small video. To take the most of it we recommend "
+"you to use %s (open source)."
+
+#: files/view.php:500 files/view.php:534 files/view.php:545 files/view.php:612
+msgid "http://www.videolan.org/vlc/"
+msgstr "http://www.videolan.org/vlc/"
+
+#: files/view.php:500 files/view.php:534 files/view.php:612
+msgid "VLC media player"
+msgstr "VLC media player"
+
+#: files/view.php:506
+#, php-format
+msgid ""
+"You are about to download a Postscript file. %s is a popular rendering "
+"platform (free for non-commercial use)."
+msgstr ""
+"You are about to download a Postscript file. %s is a popular rendering "
+"platform (free for non-commercial use)."
+
+#: files/view.php:506
+msgid "http://www.cs.wisc.edu/~ghost/"
+msgstr "http://www.cs.wisc.edu/~ghost/"
+
+#: files/view.php:506
+msgid "Ghostscript, Ghostview and GSview"
+msgstr "Ghostscript, Ghostview and GSview"
+
+#: files/view.php:519
+#, php-format
+msgid ""
+"You are about to download an archive file. Popular software to handle such "
+"file include %s (open source) and %s (freeware)."
+msgstr ""
+"You are about to download an archive file. Popular software to handle such "
+"file include %s (open source) and %s (freeware)."
+
+#: files/view.php:519
+msgid "http://www.7-zip.org/"
+msgstr "http://www.7-zip.org/"
+
+#: files/view.php:519
+msgid "7-zip"
+msgstr "7-zip"
+
+#: files/view.php:519
+msgid "www.ultimatezip.com"
+msgstr "www.ultimatezip.com"
+
+#: files/view.php:519
+msgid "ultimatezip"
+msgstr "ultimatezip"
+
+#: files/view.php:534
+#, php-format
+msgid ""
+"You are about to download a sound or music file. To take the most of it we "
+"recommend you to use %s (open source) or, alternatively, %s (free)."
+msgstr ""
+"You are about to download a sound or music file. To take the most of it we "
+"recommend you to use %s (open source) or, alternatively, %s (free)."
+
+#: files/view.php:534 files/view.php:612
+msgid "www.winamp.com"
+msgstr "www.winamp.com"
+
+#: files/view.php:534 files/view.php:612
+msgid "Winamp"
+msgstr "Winamp"
+
+#: files/view.php:545
+#, php-format
+msgid ""
+"You are about to download a movie file. To take the most of it please check "
+"the %s (open source) or, alternatively, the %s (free)."
+msgstr ""
+"You are about to download a movie file. To take the most of it please check "
+"the %s (open source) or, alternatively, the %s (free)."
+
+#: files/view.php:545
+msgid " VLC media player"
+msgstr " VLC media player"
+
+#: files/view.php:545
+msgid "www.divx.com"
+msgstr "www.divx.com"
+
+#: files/view.php:545
+msgid "Divx Player"
+msgstr "Divx Player"
+
+#: files/view.php:549
+msgid "You are about to download a AWK script file."
+msgstr "You are about to download a AWK script file."
+
+#: files/view.php:553
+msgid "You are about to download a X.509 certificate."
+msgstr "You are about to download a X.509 certificate."
+
+#: files/view.php:561
+#, php-format
+msgid ""
+"You are about to download a Microsoft Word document. If you do not have this "
+"software, you may download a free vizualiser from %s. Or you may prefer to "
+"use the free office solution from the %s."
+msgstr ""
+"You are about to download a Microsoft Word document. If you do not have this "
+"software, you may download a free vizualiser from %s. Or you may prefer to "
+"use the free office solution from the %s."
+
+#: files/view.php:561 files/view.php:616 files/view.php:642 files/view.php:715
+#: files/view.php:719 files/view.php:755 files/view.php:759 files/view.php:765
+msgid "www.microsoft.com"
+msgstr "www.microsoft.com"
+
+#: files/view.php:561 files/view.php:616 files/view.php:642 files/view.php:715
+#: files/view.php:719 files/view.php:755 files/view.php:759 files/view.php:765
+msgid "Microsoft web server"
+msgstr "Microsoft web server"
+
+#: files/view.php:561 files/view.php:669 files/view.php:715 files/view.php:765
+msgid "www.openoffice.org"
+msgstr "www.openoffice.org"
+
+#: files/view.php:561 files/view.php:715 files/view.php:765
+msgid "Open Office web server"
+msgstr "Open Office web server"
+
+#: files/view.php:566
+msgid "You are about to download an executable file."
+msgstr "You are about to download an executable file."
+
+#: files/view.php:580
+#, php-format
+msgid ""
+"You are about to download an image file. Popular software to handle such "
+"file include %s (shareware) and %s (freeware)."
+msgstr ""
+"You are about to download an image file. Popular software to handle such "
+"file include %s (shareware) and %s (freeware)."
+
+#: files/view.php:580 files/view.php:708
+msgid "www.acdsee.com"
+msgstr "www.acdsee.com"
+
+#: files/view.php:580 files/view.php:708
+msgid "Acdsee"
+msgstr "Acdsee"
+
+#: files/view.php:580 files/view.php:708
+msgid "www.xnview.com"
+msgstr "www.xnview.com"
+
+#: files/view.php:580 files/view.php:708
+msgid "xnview"
+msgstr "xnview"
+
+#: files/view.php:587
+msgid ""
+"You are about to download a web page. This HTML document will be displayed "
+"within your browser as usual."
+msgstr ""
+"You are about to download a web page. This HTML document will be displayed "
+"within your browser as usual."
+
+#: files/view.php:591
+msgid "You are about to download a RFC822 message."
+msgstr "You are about to download a RFC822 message."
+
+#: files/view.php:595
+#, php-format
+msgid ""
+"You are about to download a Google Desktop gadget. Obviously this would "
+"require to use %s."
+msgstr ""
+"You are about to download a Google Desktop gadget. Obviously this would "
+"require to use %s."
+
+#: files/view.php:595
+msgid "http://desktop.google.com/"
+msgstr "http://desktop.google.com/"
+
+#: files/view.php:595
+msgid "Google Desktop"
+msgstr "Google Desktop"
+
+#: files/view.php:599
+#, php-format
+msgid ""
+"You are about to download a set of GPS points. To handle it, you may have to "
+"download %s."
+msgstr ""
+"You are about to download a set of GPS points. To handle it, you may have to "
+"download %s."
+
+#: files/view.php:599
+msgid "http://www.easygps.com/"
+msgstr "http://www.easygps.com/"
+
+#: files/view.php:599
+msgid "EasyGPS"
+msgstr "EasyGPS"
+
+#: files/view.php:603 files/view.php:742
+#, php-format
+msgid "You are about to download some %s document."
+msgstr "You are about to download some %s document."
+
+#: files/view.php:603
+msgid "http://en.wikipedia.org/wiki/LaTeX"
+msgstr "http://en.wikipedia.org/wiki/LaTeX"
+
+#: files/view.php:603
+msgid "LaTeX"
+msgstr "LaTeX"
+
+#: files/view.php:612
+#, php-format
+msgid ""
+"You are about to download a playlist. To take the most of it please check "
+"the %s (open source) or, alternatively, %s (free)."
+msgstr ""
+"You are about to download a playlist. To take the most of it please check "
+"the %s (open source) or, alternatively, %s (free)."
+
+#: files/view.php:616
+#, php-format
+msgid ""
+"You are about to download a Microsoft Access document. If you do not have "
+"this software, you can get more information at the %s."
+msgstr ""
+"You are about to download a Microsoft Access document. If you do not have "
+"this software, you can get more information at the %s."
+
+#: files/view.php:620 files/view.php:629
+#, php-format
+msgid "You are about to download a %s file."
+msgstr "You are about to download a %s file."
+
+#: files/view.php:620
+msgid "http://freemind.sourceforge.net/wiki/index.php/Main_Page"
+msgstr "http://freemind.sourceforge.net/wiki/index.php/Main_Page"
+
+#: files/view.php:620
+msgid "Freemind"
+msgstr "Freemind"
+
+#: files/view.php:629
+msgid "http://www.mindjet.com/"
+msgstr "http://www.mindjet.com/"
+
+#: files/view.php:629
+msgid "MindManager"
+msgstr "MindManager"
+
+#: files/view.php:633 files/view.php:699
+msgid "You are about to download a set of translated strings."
+msgstr "You are about to download a set of translated strings."
+
+#: files/view.php:638
+#, php-format
+msgid ""
+"You are about to download a movie film. To use it, you may download the free "
+"QuickTime vizualiser from %s."
+msgstr ""
+"You are about to download a movie film. To use it, you may download the free "
+"QuickTime vizualiser from %s."
+
+#: files/view.php:638
+msgid "www.apple.com"
+msgstr "www.apple.com"
+
+#: files/view.php:638
+msgid "Apple web server"
+msgstr "Apple web server"
+
+#: files/view.php:642
+#, php-format
+msgid ""
+"You are about to download a Microsoft Project document. If you do not have "
+"this software, you can get more information at the %s."
+msgstr ""
+"You are about to download a Microsoft Project document. If you do not have "
+"this software, you can get more information at the %s."
+
+#: files/view.php:669
+#, php-format
+msgid ""
+"You are about to download an OpenDocument document or a StarOffice document. "
+"If you do not have a software able to handle it, you can get more "
+"information at the %s."
+msgstr ""
+"You are about to download an OpenDocument document or a StarOffice document. "
+"If you do not have a software able to handle it, you can get more "
+"information at the %s."
+
+#: files/view.php:669
+msgid "OpenOffice web server"
+msgstr "OpenOffice web server"
+
+#: files/view.php:674
+msgid "You are about to download a PKCS#12 certificate."
+msgstr "You are about to download a PKCS#12 certificate."
+
+#: files/view.php:678
+#, php-format
+msgid ""
+"You are about to download captured network packets in pcap format. To handle "
+"it, you may have to download %s, which has succeeded Ethereal as most "
+"popular open network protocol analyzer."
+msgstr ""
+"You are about to download captured network packets in pcap format. To handle "
+"it, you may have to download %s, which has succeeded Ethereal as most "
+"popular open network protocol analyzer."
+
+#: files/view.php:678
+msgid "http://www.wireshark.org/"
+msgstr "http://www.wireshark.org/"
+
+#: files/view.php:678
+msgid "Wireshark"
+msgstr "Wireshark"
+
+#: files/view.php:682
+#, php-format
+msgid ""
+"You are about to download a podcast subscription file. To handle it, you may "
+"have to download %s."
+msgstr ""
+"You are about to download a podcast subscription file. To handle it, you may "
+"have to download %s."
+
+#: files/view.php:682
+msgid "http://www.apple.com/"
+msgstr "http://www.apple.com/"
+
+#: files/view.php:682
+msgid "iTunes"
+msgstr "iTunes"
+
+#: files/view.php:687
+msgid "You are about to download a file for your Palm OS handheld device."
+msgstr "You are about to download a file for your Palm OS handheld device."
+
+#: files/view.php:691
+#, php-format
+msgid ""
+"You are about to download a PDF document. To use it, we recommend you to use "
+"the lightweight and free %s. Alternatively, you may download the original "
+"Acrobat reader software from %s."
+msgstr ""
+"You are about to download a PDF document. To use it, we recommend you to use "
+"the lightweight and free %s. Alternatively, you may download the original "
+"Acrobat reader software from %s."
+
+#: files/view.php:691
+msgid "www.foxitsoftware.com"
+msgstr "www.foxitsoftware.com"
+
+#: files/view.php:691
+msgid "Foxit Reader"
+msgstr "Foxit Reader"
+
+#: files/view.php:691
+msgid "www.adobe.com"
+msgstr "www.adobe.com"
+
+#: files/view.php:691 files/view.php:730
+msgid "Adobe web server"
+msgstr "Adobe web server"
+
+#: files/view.php:695
+msgid "You are about to download a message signed by PGP."
+msgstr "You are about to download a message signed by PGP."
+
+#: files/view.php:703
+msgid "You are about to download a template of strings to be translated."
+msgstr "You are about to download a template of strings to be translated."
+
+#: files/view.php:708
+#, php-format
+msgid ""
+"You are about to download a Photoshop image file. Popular software to handle "
+"such file include %s (shareware) and %s (freeware)."
+msgstr ""
+"You are about to download a Photoshop image file. Popular software to handle "
+"such file include %s (shareware) and %s (freeware)."
+
+#: files/view.php:715
+#, php-format
+msgid ""
+"You are about to download a Microsoft Powerpoint document. If you do not "
+"have this software, you may download a free vizualiser from %s. Or you may "
+"prefer to use the free office solution from the %s."
+msgstr ""
+"You are about to download a Microsoft Powerpoint document. If you do not "
+"have this software, you may download a free vizualiser from %s. Or you may "
+"prefer to use the free office solution from the %s."
+
+#: files/view.php:719
+#, php-format
+msgid ""
+"You are about to download a Microsoft Publisher document. If you do not have "
+"this software, you can get more information at the %s."
+msgstr ""
+"You are about to download a Microsoft Publisher document. If you do not have "
+"this software, you can get more information at the %s."
+
+#: files/view.php:723
+msgid "You are about to download a Real Audio file."
+msgstr "You are about to download a Real Audio file."
+
+#: files/view.php:730
+#, php-format
+msgid ""
+"You are about to download a Shockwave Flash file. A player is available for "
+"free at the %s."
+msgstr ""
+"You are about to download a Shockwave Flash file. A player is available for "
+"free at the %s."
+
+#: files/view.php:730
+msgid ""
+"http://www.adobe.com/shockwave/download/index.cgi?"
+"P1_Prod_Version=ShockwaveFlash"
+msgstr ""
+"http://www.adobe.com/shockwave/download/index.cgi?"
+"P1_Prod_Version=ShockwaveFlash"
+
+#: files/view.php:734
+#, php-format
+msgid ""
+"You are about to download an %s file. Open Workbench is an open source "
+"desktop application that provides project scheduling and management "
+"functions. It is a free alternative to programs like Microsoft Project."
+msgstr ""
+"You are about to download an %s file. Open Workbench is an open source "
+"desktop application that provides project scheduling and management "
+"functions. It is a free alternative to programs like Microsoft Project."
+
+#: files/view.php:734
+msgid "http://www.openworkbench.org/"
+msgstr "http://www.openworkbench.org/"
+
+#: files/view.php:734
+msgid "Open Workbench"
+msgstr "Open Workbench"
+
+#: files/view.php:738
+msgid "You are about to download some SQL commands."
+msgstr "You are about to download some SQL commands."
+
+#: files/view.php:742
+msgid "http://en.wikipedia.org/wiki/TeX"
+msgstr "http://en.wikipedia.org/wiki/TeX"
+
+#: files/view.php:742
+msgid "TeX"
+msgstr "TeX"
+
+#: files/view.php:747
+#, php-format
+msgid ""
+"You are about to download some %s file. This format is used to document %s "
+"projects."
+msgstr ""
+"You are about to download some %s file. This format is used to document %s "
+"projects."
+
+#: files/view.php:747
+msgid "http://www.gnu.org/software/texinfo/texinfo.html"
+msgstr "http://www.gnu.org/software/texinfo/texinfo.html"
+
+#: files/view.php:747
+msgid "Texinfo"
+msgstr "Texinfo"
+
+#: files/view.php:747
+msgid "http://www.gnu.org/"
+msgstr "http://www.gnu.org/"
+
+#: files/view.php:747
+msgid "GNU"
+msgstr "GNU"
+
+#: files/view.php:751
+msgid "You are about to download some text."
+msgstr "You are about to download some text."
+
+#: files/view.php:755
+#, php-format
+msgid ""
+"You are about to download a Microsoft Visio document. If you do not have "
+"this software, you can get more information at the %s."
+msgstr ""
+"You are about to download a Microsoft Visio document. If you do not have "
+"this software, you can get more information at the %s."
+
+#: files/view.php:759
+#, php-format
+msgid ""
+"You are about to download a Microsoft Write document. If you do not have "
+"this software, you can get more information at the %s."
+msgstr ""
+"You are about to download a Microsoft Write document. If you do not have "
+"this software, you can get more information at the %s."
+
+#: files/view.php:765
+#, php-format
+msgid ""
+"You are about to download a Microsoft Excel document. If you do not have "
+"this software, you may download a free vizualiser from %s. Or you may prefer "
+"to use the free office solution from the %s."
+msgstr ""
+"You are about to download a Microsoft Excel document. If you do not have "
+"this software, you may download a free vizualiser from %s. Or you may prefer "
+"to use the free office solution from the %s."
+
+#: files/view.php:775
+msgid "Estimated download time:"
+msgstr "Estimated download time:"
+
+#: files/view.php:780 files/view.php:789 files/view.php:798
+#, php-format
+msgid "%d minute at %s"
+msgid_plural "%d minutes at %s"
+msgstr[0] "%d minute at %s"
+msgstr[1] "%d minutes at %s"
+
+#: files/view.php:783 files/view.php:792 files/view.php:801
+#, php-format
+msgid "%d second at %s"
+msgid_plural "%d seconds at %s"
+msgstr[0] "%d second at %s"
+msgstr[1] "%d seconds at %s"
+
+#: files/view.php:811
+msgid "Get a copy of this file"
+msgstr "Get a copy of this file"
+
+#: files/view.php:815
+#, php-format
+msgid "Download %s"
+msgstr "Download %s"
+
+#: files/view.php:827
+#, php-format
+msgid ""
+"If you have installed some Overnet, Emule, or Edonkey client software, you "
+"may prefer click on the following ed2k link: %s"
+msgstr ""
+"If you have installed some Overnet, Emule, or Edonkey client software, you "
+"may prefer click on the following ed2k link: %s"
+
+#: files/view.php:827 files/view.php:831
+msgid "Download from peers"
+msgstr "Download from peers"
+
+#: files/view.php:831
+#, php-format
+msgid ""
+"If you have installed some BitTorrent client software, you may prefer click "
+"on the following torrent link: %s"
+msgstr ""
+"If you have installed some BitTorrent client software, you may prefer click "
+"on the following torrent link: %s"
+
+#: files/view.php:835
+#, php-format
+msgid "You may prefer to use the following link: %s"
+msgstr "You may prefer to use the following link: %s"
+
+#: files/view.php:840
+msgid ""
+"While every care has been taken to ensure that files published on this "
+"server have not been infected by any known virus, please always use and "
+"activate specialized software on your computer to achieve an optimal "
+"protection."
+msgstr ""
+"While every care has been taken to ensure that files published on this "
+"server have not been infected by any known virus, please always use and "
+"activate specialized software on your computer to achieve an optimal "
+"protection."
+
+#: files/view.php:844
+#, php-format
+msgid "Keywords: %s"
+msgstr "Keywords: %s"
+
+#: files/view.php:856
+msgid "Reserve this file if you are intended to change its content"
+msgstr "Reserve this file if you are intended to change its content"
+
+#: files/view.php:859
+msgid ""
+"Other surfers will be warned that you are working on it, until you upload a "
+"new version or release the reservation."
+msgstr ""
+"Other surfers will be warned that you are working on it, until you upload a "
+"new version or release the reservation."
+
+#: files/view.php:880
+msgid "Update this file"
+msgstr "Update this file"
+
+#: files/view.php:880
+msgid "Press [e] to edit"
+msgstr "Press [e] to edit"
+
+#: files/view.php:893
+msgid "Versions"
+msgstr "Versions"
+
+#: files/view.php:899
+msgid "Delete this file"
+msgstr "Delete this file"
+
+#: files/view.php:911
+msgid "Navigation"
+msgstr "Navigation"
+
+#~ msgid "Media"
+#~ msgstr "Media"
+
+#~ msgid ""
+#~ "Please set a meaningful title to be used instead of the file name in "
+#~ "lists of files."
+#~ msgstr ""
+#~ "Please set a meaningful title to be used instead of the file name in "
+#~ "lists of files."
+
+#~ msgid ""
+#~ "Also, take the time to describe your post. This field is fully indexed "
+#~ "for searches."
+#~ msgstr ""
+#~ "Also, take the time to describe your post. This field is fully indexed "
+#~ "for searches."
+
+#~ msgid "%s and %s are available to enhance text rendering."
+#~ msgstr "%s and %s are available to enhance text rendering."
+
+#~ msgid "YACS codes"
+#~ msgstr "YACS codes"
+
+#~ msgid "smileys"
+#~ msgstr "smileys"
+
+#~ msgid ""
+#~ "Lastly, indicate the original source of the file if you know it, either "
+#~ "with a name or, better, with a web address."
+#~ msgstr ""
+#~ "Lastly, indicate the original source of the file if you know it, either "
+#~ "with a name or, better, with a web address."
+
+#~ msgid ""
+#~ "If the Adobe plug-in reports an error, please save the file on some hard "
+#~ "drive and use this local copy to launch the Acrobat software."
+#~ msgstr ""
+#~ "If the Adobe plug-in reports an error, please save the file on some hard "
+#~ "drive and use this local copy to launch the Acrobat software."
+
+#~ msgid "Click on codes to insert images in the page."
+#~ msgstr "Click on codes to insert images in the page."
+
+#~ msgid "Use codes to insert images in the page."
+#~ msgstr "Use codes to insert images in the page."
+
+#~ msgid "Stream"
+#~ msgstr "Stream"
+
+#~ msgid ""
+#~ "This file may be accessed on-demand. You may have to use an advanced "
+#~ "media player such as %s (open source) or %s (free)."
+#~ msgstr ""
+#~ "This file may be accessed on-demand. You may have to use an advanced "
+#~ "media player such as %s (open source) or %s (free)."
+
+#~ msgid ""
+#~ "If Flash or Java has been installed at your workstation, click on the "
+#~ "link to browse this mind map."
+#~ msgstr ""
+#~ "If Flash or Java has been installed at your workstation, click on the "
+#~ "link to browse this mind map."
+
+#~ msgid "Open this map"
+#~ msgstr "Open this map"
+
+#~ msgid "Embedments"
+#~ msgstr "Embedments"
+
+#~ msgid "Attachments"
+#~ msgstr "Attachments"
+
+#~ msgid "Download"
+#~ msgstr "Download"
+
+#~ msgid "Release"
+#~ msgstr "Release"
+
+#~ msgid "release"
+#~ msgstr "release"
+
+#~ msgid "more"
+#~ msgstr "more"
+
+#~ msgid ""
+#~ "You are encouraged to wait for a fresher version to be available before "
+#~ "moving forward."
+#~ msgstr ""
+#~ "You are encouraged to wait for a fresher version to be available before "
+#~ "moving forward."
+
+#~ msgid ""
+#~ "The assignment has been successfully cleared, and the file is again "
+#~ "available for download."
+#~ msgstr ""
+#~ "The assignment has been successfully cleared, and the file is again "
+#~ "available for download."
+
+#~ msgid "Download page"
+#~ msgstr "Download page"
+
+#~ msgid ""
+#~ "You have asked to detach the file, and this will be recorded by the "
+#~ "server. You are expected to change the provided document, and then to "
+#~ "upload an updated version here. In the meantime other surfers will be "
+#~ "advised to delay their downloads."
+#~ msgstr ""
+#~ "You have asked to detach the file, and this will be recorded by the "
+#~ "server. You are expected to change the provided document, and then to "
+#~ "upload an updated version here. In the meantime other surfers will be "
+#~ "advised to delay their downloads."
+
+#~ msgid ""
+#~ "Alternatively, you may download a copy of this file for you own usage."
+#~ msgstr ""
+#~ "Alternatively, you may download a copy of this file for you own usage."
+
+#~ msgid "Detach this file"
+#~ msgstr "Detach this file"
+
+#~ msgid "Download a copy"
+#~ msgstr "Download a copy"
+
+#~ msgid ""
+#~ "Since the file has been assigned to you, other surfers will be "
+#~ "discouraged to download copies from the server until you upload an "
+#~ "updated version."
+#~ msgstr ""
+#~ "Since the file has been assigned to you, other surfers will be "
+#~ "discouraged to download copies from the server until you upload an "
+#~ "updated version."
+
+#~ msgid ""
+#~ "Please note that the current shared version is %s if you absolutely "
+#~ "require it."
+#~ msgstr ""
+#~ "Please note that the current shared version is %s if you absolutely "
+#~ "require it."
+
+#~ msgid "still available for download"
+#~ msgstr "still available for download"
+
+#~ msgid "detached by %s %s"
+#~ msgstr "detached by %s %s"
+
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgid "Detach"
+#~ msgstr "Detach"
+
+#~ msgid "Unassign"
+#~ msgstr "Unassign"
+
+#~ msgid "pending refresh"
+#~ msgstr "pending refresh"
+
+#~ msgid "Signal others that you are working on this file"
+#~ msgstr "Signal others that you are working on this file"
+
+#~ msgid "This page has been locked."
+#~ msgstr "This page has been locked."
+
+#~ msgid ""
+#~ "This script will create a brand new page for the uploaded file. If you "
+#~ "would like to attach a file to an existing page, browse the target page "
+#~ "instead and use the adequate command from the menu."
+#~ msgstr ""
+#~ "This script will create a brand new page for the uploaded file. If you "
+#~ "would like to attach a file to an existing page, browse the target page "
+#~ "instead and use the adequate command from the menu."
+
+#~ msgid "Section"
+#~ msgstr "Section"
+
+#~ msgid "Please carefully select a section for your file"
+#~ msgstr "Please carefully select a section for your file"
+
+#~ msgid "Icon"
+#~ msgstr "Icon"
+
+#~ msgid "Priavte - Access is restricted to selected persons"
+#~ msgstr "Priavte - Access is restricted to selected persons"
+
+#~ msgid ""
+#~ "Upload an image file and integrate it into the page. Big images will be "
+#~ "rendered as clickable thumbnails."
+#~ msgstr ""
+#~ "Upload an image file and integrate it into the page. Big images will be "
+#~ "rendered as clickable thumbnails."
+
+#~ msgid "Change page thumbnail"
+#~ msgstr "Change page thumbnail"
+
+#~ msgid "Add page thumbnail"
+#~ msgstr "Add page thumbnail"
+
+#~ msgid "Change page icon"
+#~ msgstr "Change page icon"
+
+#~ msgid "Add page icon"
+#~ msgstr "Add page icon"
+
+#~ msgid ""
+#~ "Upload an image to be displayed at page top. This will also be the "
+#~ "default icon image for items attached to this page."
+#~ msgstr ""
+#~ "Upload an image to be displayed at page top. This will also be the "
+#~ "default icon image for items attached to this page."
+
+#~ msgid "The image that illustrates the page at parent level."
+#~ msgstr "The image that illustrates the page at parent level."
+
+#~ msgid "Access is restricted to authenticated members"
+#~ msgstr "Access is restricted to authenticated members"
+
+#~ msgid "Access is restricted to associates and editors"
+#~ msgstr "Access is restricted to associates and editors"
+
+#~ msgid "Visibility"
+#~ msgstr "Visibility"
+
+#~ msgid "File can be downloaded from the anonymous ftp service"
+#~ msgstr "File can be downloaded from the anonymous ftp service"
+
+#~ msgid "Upload files"
+#~ msgstr "Upload files"
+
+#~ msgid "Posts are not allowed here."
+#~ msgstr "Posts are not allowed here."
+
+#~ msgid "Previous edition by %s %s"
+#~ msgstr "Previous edition by %s %s"
+
+#~ msgid "Please provide a meaningful title."
+#~ msgstr "Please provide a meaningful title."
+
+#~ msgid "Refresh from a local file"
+#~ msgstr "Refresh from a local file"
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configure: %s"
+
+#~ msgid "Delete: %s"
+#~ msgstr "Delete: %s"
+
+#~ msgid "Scanning files table..."
+#~ msgstr "Scanning files table..."
+
+#~ msgid "%d hits"
+#~ msgstr "%d hits"
+
+#~ msgid "&lt;&nbsp;%s&nbsp;bytes"
+#~ msgstr "&lt;&nbsp;%s&nbsp;bytes"
+
+#~ msgid "%d downloads"
+#~ msgstr "%d downloads"
+
+#~ msgid "Error while delivering the archive file."
+#~ msgstr "Error while delivering the archive file."
+
+#~ msgid "No file found for this id"
+#~ msgstr "No file found for this id"
+
+#~ msgid "%s&nbsp;hits"
+#~ msgstr "%s&nbsp;hits"
+
+#~ msgid "%d&nbsp;bytes"
+#~ msgstr "%d&nbsp;bytes"
+
+#~ msgid "%d&nbsp;downloads"
+#~ msgstr "%d&nbsp;downloads"
+
+#~ msgid "An error has been encountered while clearing file assignment."
+#~ msgstr "An error has been encountered while clearing file assignment."
+
+#~ msgid ""
+#~ "This file format supports on-demand access, meaning you do not have to "
+#~ "wait for the end of the download to benefit from file content."
+#~ msgstr ""
+#~ "This file format supports on-demand access, meaning you do not have to "
+#~ "wait for the end of the download to benefit from file content."
+
+#~ msgid "Start the show"
+#~ msgstr "Start the show"
+
+#~ msgid ""
+#~ "To stream images over the network and to render them on arrival, use an "
+#~ "advanced media player such as %s."
+#~ msgstr ""
+#~ "To stream images over the network and to render them on arrival, use an "
+#~ "advanced media player such as %s."
+
+#~ msgid "File transfer has been interrupted."
+#~ msgstr "File transfer has been interrupted."
+
+#~ msgid ""
+#~ "It is likely file size goes beyond the limit displayed in upload form. "
+#~ "Nothing has been transmitted for %s."
+#~ msgstr ""
+#~ "It is likely file size goes beyond the limit displayed in upload form. "
+#~ "Nothing has been transmitted for %s."
+
+#~ msgid "No file has been transferred. Check maximum file size."
+#~ msgstr "No file has been transferred. Check maximum file size."
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+
+#~ msgid "The size of this file is over server limit (php.ini)."
+#~ msgstr "The size of this file is over server limit (php.ini)."
+
+#~ msgid "Files maintenance"
+#~ msgstr "Files maintenance"
+
+#~ msgid "View the main page"
+#~ msgstr "View the main page"
+
+#~ msgid "Main page"
+#~ msgstr "Main page"
+
+#~ msgid "(%s is unknown)"
+#~ msgstr "(%s is unknown)"
+
+#~ msgid ""
+#~ "You can click on the 'Set as icon' link in the list of images, if any."
+#~ msgstr ""
+#~ "You can click on the 'Set as icon' link in the list of images, if any."
+
+#~ msgid ""
+#~ "You can click on the 'Set as thumbnail' link in the list of images, if "
+#~ "any."
+#~ msgstr ""
+#~ "You can click on the 'Set as thumbnail' link in the list of images, if "
+#~ "any."
+
+#~ msgid "Yes, I want to detach this file"
+#~ msgstr "Yes, I want to detach this file"
+
+#~ msgid "Just provide me a copy of this file"
+#~ msgstr "Just provide me a copy of this file"
+
+#~ msgid "Please type a meaningful and sortable title to help your peers"
+#~ msgstr "Please type a meaningful and sortable title to help your peers"
+
+#~ msgid "Reference this page"
+#~ msgstr "Reference this page"
+
+#~ msgid ""
+#~ "Here, use code [escape][file=%s][/escape][nl]Elsewhere, bookmark the "
+#~ "[link=full link]%s[/link]"
+#~ msgstr ""
+#~ "Here, use code [escape][file=%s][/escape][nl]Elsewhere, bookmark the "
+#~ "[link=full link]%s[/link]"
+
+#~ msgid "1&nbsp;file"
+#~ msgid_plural "%d&nbsp;files"
+#~ msgstr[0] "1&nbsp;file"
+#~ msgstr[1] "%d&nbsp;files"
+
+#~ msgid "Files feed"
+#~ msgstr "Files feed"
+
+#~ msgid "The configuration panel for files"
+#~ msgstr "The configuration panel for files"
+
+#~ msgid "Recent files"
+#~ msgstr "Recent files"
+
+#~ msgid "Extensions management"
+#~ msgstr "Extensions management"
+
+#~ msgid "Anonymous FTP"
+#~ msgstr "Anonymous FTP"
+
+#~ msgid "Save parameters"
+#~ msgstr "Save parameters"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Go to the Control Panel"
+
+#~ msgid "Edit again"
+#~ msgstr "Edit again"
+
+#~ msgid "or %s"
+#~ msgstr "or %s"
+
+#~ msgid "Attach another file"
+#~ msgstr "Attach another file"
+
+#~ msgid "%d records have been processed. Done"
+#~ msgstr "%d records have been processed. Done"
+
+#~ msgid "Posted by %s %s"
+#~ msgstr "Posted by %s %s"
+
+#~ msgid "Post a new image"
+#~ msgstr "Post a new image"
+
+#~ msgid "posted %s"
+#~ msgstr "posted %s"
+
+#~ msgid "Post an image"
+#~ msgstr "Post an image"
+
+#~ msgid "Visibility is restricted to authenticated members."
+#~ msgstr "Visibility is restricted to authenticated members."
+
+#~ msgid "Visibility is restricted to associates and editors."
+#~ msgstr "Visibility is restricted to associates and editors."
+
+#~ msgid "Save changes"
+#~ msgstr "Save changes"

@@ -1145,6 +1145,17 @@ Class Section extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
+		// suppress references to a deleted file
+		} elseif($action == 'file:delete') {
+
+			// suppress reference in main description field
+			$text = Codes::delete_embedded($this->item['description'], 'download', $origin);
+			$text = Codes::delete_embedded($text, 'embed', $origin);
+			$text = Codes::delete_embedded($text, 'file', $origin);
+
+			// save changes
+			$query[] = "description = '".SQL::escape($text)."'";
+
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
@@ -1345,7 +1356,7 @@ Class Section extends Anchor {
 				// message components
 				$action = sprintf(i18n::c('A section has been created by %s'), $surfer);
 				$title = ucfirst(strip_tags($target['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
 
 				// threads messages
 				$mail['headers'] = Mailer::set_thread('', $this->get_reference());

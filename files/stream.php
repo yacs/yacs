@@ -205,7 +205,8 @@ if(!$item['id']) {
 	case 'm4v':
 	case 'mov':
 	case 'mp4':
-		// we are invoking some flash player
+
+		// embed into a web page
 		$type = '';
 		$mime = 'text/html';
 

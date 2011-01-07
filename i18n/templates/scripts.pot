@@ -1,0 +1,884 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: scripts/browse.php:62 scripts/build.php:86 scripts/build.php:101
+#: scripts/build.php:425 scripts/check.php:32 scripts/check.php:51
+#: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
+#: scripts/configure.php:167 scripts/fetch.php:62 scripts/index.php:99
+#: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:75
+#: scripts/stage.php:232 scripts/stage.php:251 scripts/stage.php:337
+#: scripts/stage.php:346 scripts/update.php:48 scripts/update.php:67
+#: scripts/update.php:181 scripts/update.php:319 scripts/upload.php:30
+#: scripts/upload.php:114 scripts/validate.php:29 scripts/validate.php:52
+#: scripts/view.php:56 scripts/view.php:102
+msgid "Server software"
+msgstr ""
+
+#: scripts/browse.php:66
+#, php-format
+msgid "Reference script: %s"
+msgstr ""
+
+#: scripts/browse.php:68
+#, php-format
+msgid "Staging script: %s"
+msgstr ""
+
+#: scripts/browse.php:70
+msgid "Script view"
+msgstr ""
+
+#: scripts/browse.php:74 scripts/parse.php:58
+msgid "No script has been provided."
+msgstr ""
+
+#: scripts/browse.php:78 scripts/parse.php:62
+msgid "Script does not exist."
+msgstr ""
+
+#: scripts/browse.php:96
+msgid "View the documentation page"
+msgstr ""
+
+#: scripts/browse.php:100 scripts/view.php:98
+msgid "Fetch the script file"
+msgstr ""
+
+#: scripts/build.php:89 scripts/index.php:187
+msgid "Build the software"
+msgstr ""
+
+#: scripts/build.php:98 scripts/check.php:44 scripts/compare.php:51
+#: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:126
+#: scripts/update.php:60 scripts/upload.php:42 scripts/validate.php:49
+msgid "You are not allowed to perform this operation."
+msgstr ""
+
+#: scripts/build.php:108
+msgid ""
+"This script will scan current php scripts and build the related reference "
+"store that other servers may use to update their software."
+msgstr ""
+
+#: scripts/build.php:114
+msgid "Version string (optional)"
+msgstr ""
+
+#: scripts/build.php:117
+msgid "Yes, I want to (re)build the reference store"
+msgstr ""
+
+#: scripts/build.php:120
+msgid "Enable remote servers to update from this reference store."
+msgstr ""
+
+#: scripts/build.php:131 scripts/update.php:212 scripts/validate.php:72
+#: scripts/validate.php:206
+msgid ""
+"When you will click on the button the server will be immediately requested "
+"to proceed. However, because of the so many things to do on the back-end, "
+"you may have to wait for minutes before getting a response displayed. Thank "
+"you for your patience."
+msgstr ""
+
+#: scripts/build.php:135
+#, php-format
+msgid "Current content of %s"
+msgstr ""
+
+#: scripts/build.php:140 scripts/configure.php:121 scripts/update.php:73
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr ""
+
+#: scripts/build.php:146
+msgid ""
+"Please go to the end of this page to check results of the building process."
+msgstr ""
+
+#: scripts/build.php:149
+msgid "Suppressing the footprints file to disable remote updates..."
+msgstr ""
+
+#: scripts/build.php:153 scripts/build.php:233 scripts/validate.php:81
+msgid "Listing files..."
+msgstr ""
+
+#: scripts/build.php:158 scripts/validate.php:86
+#, php-format
+msgid "%d scripts have been found."
+msgstr ""
+
+#: scripts/build.php:162
+msgid "Copying files..."
+msgstr ""
+
+#: scripts/build.php:181
+#, php-format
+msgid "%s is not a reference script"
+msgstr ""
+
+#: scripts/build.php:193 scripts/update.php:148
+#, php-format
+msgid "Impossible to create path %s."
+msgstr ""
+
+#: scripts/build.php:197
+#, php-format
+msgid "Impossible to copy file %s."
+msgstr ""
+
+#: scripts/build.php:219
+#, php-format
+msgid "%d reference scripts have been copied."
+msgstr ""
+
+#: scripts/build.php:223
+msgid "Purging the documentation pages..."
+msgstr ""
+
+#: scripts/build.php:238
+#, php-format
+msgid "%d files have been found."
+msgstr ""
+
+#: scripts/build.php:242
+msgid "Building documentation pages..."
+msgstr ""
+
+#: scripts/build.php:265
+#, php-format
+msgid "*** %s has no documentation block"
+msgstr ""
+
+#: scripts/build.php:284
+#, php-format
+msgid "%d scripts have been parsed."
+msgstr ""
+
+#: scripts/build.php:337
+#, php-format
+msgid ""
+"The file %s has not been generated and the reference store can only be used "
+"for test purpose."
+msgstr ""
+
+#: scripts/build.php:341 scripts/stage.php:237 scripts/stage.php:314
+#: scripts/update.php:140 scripts/update.php:165
+#, php-format
+msgid "Impossible to write to %s."
+msgstr ""
+
+#: scripts/build.php:345
+#, php-format
+msgid "Meta data have been saved in %s"
+msgstr ""
+
+#: scripts/build.php:356
+msgid "On-going archive preparation..."
+msgstr ""
+
+#: scripts/build.php:422 scripts/run_once.php:200 scripts/validate.php:198
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr ""
+
+#: scripts/build.php:429
+msgid "The reference store has been rebuilt"
+msgstr ""
+
+#: scripts/check.php:35 scripts/index.php:181
+msgid "Check software integrity"
+msgstr ""
+
+#: scripts/check.php:48 scripts/check.php:95 scripts/update.php:64
+#: scripts/update.php:124 scripts/update.php:271 scripts/update.php:278
+#: scripts/update.php:286
+#, php-format
+msgid "ERROR: File %s is missing or corrupted."
+msgstr ""
+
+#: scripts/check.php:98 scripts/check.php:102
+#, php-format
+msgid "File %s is not part of Yacs."
+msgstr ""
+
+#: scripts/check.php:111
+msgid "Checking scripts..."
+msgstr ""
+
+#: scripts/check.php:117
+msgid "Click on the button below to check running scripts on your server."
+msgstr ""
+
+#: scripts/check.php:121
+msgid "Yes, I want to check scripts on this server"
+msgstr ""
+
+#: scripts/compare.php:46
+msgid "Script comparison"
+msgstr ""
+
+#: scripts/compare.php:60
+msgid "Original script"
+msgstr ""
+
+#: scripts/compare.php:65
+msgid "Updated script"
+msgstr ""
+
+#: scripts/compare.php:70
+msgid "Output"
+msgstr ""
+
+#: scripts/compare.php:72
+msgid "tabular"
+msgstr ""
+
+#: scripts/compare.php:74 scripts/compare.php:116 scripts/compare.php:145
+msgid "gdiff"
+msgstr ""
+
+#: scripts/compare.php:76
+msgid "merge"
+msgstr ""
+
+#: scripts/compare.php:80
+msgid "Compare"
+msgstr ""
+
+#: scripts/compare.php:97 scripts/compare.php:101
+#, php-format
+msgid "Script %s does not exist"
+msgstr ""
+
+#: scripts/compare.php:124 scripts/compare.php:166
+msgid "Merge"
+msgstr ""
+
+#: scripts/compare.php:137 scripts/compare.php:158
+msgid "Tabular"
+msgstr ""
+
+#: scripts/configure.php:40 scripts/configure.php:97 scripts/configure.php:168
+#: scripts/run_once.php:88 scripts/run_once.php:205 scripts/run_once.php:210
+msgid "Control Panel"
+msgstr ""
+
+#: scripts/configure.php:43
+#, php-format
+msgid "%s: %s"
+msgstr ""
+
+#: scripts/configure.php:43 scripts/index.php:178
+msgid "Configure"
+msgstr ""
+
+#: scripts/configure.php:65 scripts/index.php:115 scripts/index.php:156
+#: scripts/stage.php:62
+msgid "www.yacs.fr"
+msgstr ""
+
+#: scripts/configure.php:66
+msgid ""
+"If you are using some reference server to download updated scripts, please "
+"type its address below (name or IP address)"
+msgstr ""
+
+#: scripts/configure.php:74
+msgid "Update the front page of this server:"
+msgstr ""
+
+#: scripts/configure.php:78
+msgid "No, the front page of this server is not managed by YACS."
+msgstr ""
+
+#: scripts/configure.php:82
+msgid ""
+"Yes. If the script index.php is updated into the YACS directory, it will be "
+"duplicated at the upper directory as well"
+msgstr ""
+
+#: scripts/configure.php:93 scripts/stage.php:386 scripts/upload.php:140
+msgid "Submit"
+msgstr ""
+
+#: scripts/configure.php:93 scripts/stage.php:386 scripts/upload.php:140
+msgid "Press [s] to submit data"
+msgstr ""
+
+#: scripts/configure.php:116
+msgid "Indicate only the DNS name or IP address of the reference server."
+msgstr ""
+
+#: scripts/configure.php:141
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+
+#: scripts/configure.php:144
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+
+#: scripts/configure.php:149
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr ""
+
+#: scripts/configure.php:155 scripts/update.php:135 scripts/update.php:160
+#, php-format
+msgid "%s has been updated"
+msgstr ""
+
+#: scripts/configure.php:161
+msgid "Configuration parameters"
+msgstr ""
+
+#: scripts/configure.php:164
+msgid "Where do you want to go now?"
+msgstr ""
+
+#: scripts/configure.php:166 scripts/stage.php:78 scripts/update.php:229
+#: scripts/update.php:311
+msgid "Stage updated scripts"
+msgstr ""
+
+#: scripts/configure.php:169
+msgid "Configure again"
+msgstr ""
+
+#: scripts/fetch.php:70 scripts/fetch.php:74
+msgid "Please indicate a script name."
+msgstr ""
+
+#: scripts/index.php:105
+msgid "Incremental upgrades"
+msgstr ""
+
+#: scripts/index.php:110
+#, php-format
+msgid "Last update took place on %s"
+msgstr ""
+
+#: scripts/index.php:118 scripts/index.php:175 scripts/update.php:51
+msgid "Update the software"
+msgstr ""
+
+#: scripts/index.php:130
+msgid "To do"
+msgstr ""
+
+#: scripts/index.php:133
+msgid "Testers"
+msgstr ""
+
+#: scripts/index.php:136
+msgid "Authors"
+msgstr ""
+
+#: scripts/index.php:139
+msgid "Licenses"
+msgstr ""
+
+#: scripts/index.php:141
+msgid "See also"
+msgstr ""
+
+#: scripts/index.php:144
+msgid ""
+"Click on any link below to access the documentation extracted from each "
+"script (phpDoc)."
+msgstr ""
+
+#: scripts/index.php:152
+msgid "The complete documentation is available at the following server:"
+msgstr ""
+
+#: scripts/index.php:162
+msgid "On-line Documentation"
+msgstr ""
+
+#: scripts/index.php:168 scripts/upload.php:33
+msgid "Apply a patch"
+msgstr ""
+
+#: scripts/index.php:172
+msgid "Run once"
+msgstr ""
+
+#: scripts/index.php:184 scripts/validate.php:32
+msgid "Validate PHP syntax"
+msgstr ""
+
+#: scripts/parse.php:54 scripts/view.php:70
+msgid "View PHP documentation"
+msgstr ""
+
+#: scripts/parse.php:78
+msgid "Browse"
+msgstr ""
+
+#: scripts/parse.php:79
+msgid "Fetch"
+msgstr ""
+
+#: scripts/phpdoc.php:304
+msgid "See also:"
+msgstr ""
+
+#: scripts/phpdoc.php:312
+msgid "License:"
+msgstr ""
+
+#: scripts/phpdoc.php:320
+msgid "Authors:"
+msgstr ""
+
+#: scripts/phpdoc.php:328
+msgid "Testers:"
+msgstr ""
+
+#: scripts/phpdoc.php:336
+msgid "On the to-do list:"
+msgstr ""
+
+#: scripts/phpdoc.php:355
+msgid "No comments to report on!"
+msgstr ""
+
+#: scripts/phpdoc.php:359
+msgid "Generating script documentation, please wait..."
+msgstr ""
+
+#: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
+#: scripts/scripts.php:141 scripts/scripts.php:147 scripts/scripts.php:179
+#: scripts/scripts.php:186 scripts/scripts.php:640 scripts/scripts.php:646
+#: scripts/stage.php:175 scripts/stage.php:304 scripts/upload.php:75
+#, php-format
+msgid "Impossible to read %s."
+msgstr ""
+
+#: scripts/run_once.php:91
+msgid "Run one-time scripts"
+msgstr ""
+
+#: scripts/run_once.php:161
+#, php-format
+msgid "script %s has been executed"
+msgstr ""
+
+#: scripts/run_once.php:193
+#, php-format
+msgid "%d script has been executed"
+msgid_plural "%d scripts have been executed"
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/run_once.php:195
+msgid "No script has been executed"
+msgstr ""
+
+#: scripts/scripts.php:161
+msgid "Delta"
+msgstr ""
+
+#: scripts/stage.php:143 scripts/upload.php:52 scripts/upload.php:64
+msgid "Nothing has been received."
+msgstr ""
+
+#: scripts/stage.php:147 scripts/upload.php:68
+msgid "Possible file attack."
+msgstr ""
+
+#: scripts/stage.php:184 scripts/upload.php:88
+#, php-format
+msgid "%d files have been extracted."
+msgstr ""
+
+#: scripts/stage.php:187 scripts/upload.php:91
+#, php-format
+msgid "Nothing has been extracted from %s."
+msgstr ""
+
+#: scripts/stage.php:191 scripts/upload.php:95
+msgid "Impossible to extract files."
+msgstr ""
+
+#: scripts/stage.php:201
+#, php-format
+msgid "Impossible to complete update of the staging store from %s"
+msgstr ""
+
+#: scripts/stage.php:206
+msgid "The staging directory has been updated."
+msgstr ""
+
+#: scripts/stage.php:210 scripts/stage.php:355
+msgid "Review staged scripts before the update"
+msgstr ""
+
+#: scripts/stage.php:219
+msgid "Purging old staging files..."
+msgstr ""
+
+#: scripts/stage.php:223
+#, php-format
+msgid "%d items have been purged"
+msgstr ""
+
+#: scripts/stage.php:229
+#, php-format
+msgid "Impossible to get %s. Please %s again."
+msgstr ""
+
+#: scripts/stage.php:229
+msgid "configure"
+msgstr ""
+
+#: scripts/stage.php:241
+msgid ""
+"Footprints of reference scripts have been saved in file scripts/staging/"
+"footprints.php."
+msgstr ""
+
+#: scripts/stage.php:248
+msgid "Invalid reference index. Staging has been cancelled."
+msgstr ""
+
+#: scripts/stage.php:256 scripts/update.php:240
+#, php-format
+msgid "Reference set of %d files built on %s on server %s"
+msgstr ""
+
+#: scripts/stage.php:259
+msgid "Download of updated scripts. Please wait..."
+msgstr ""
+
+#: scripts/stage.php:292
+#, php-format
+msgid "Using staged file %s"
+msgstr ""
+
+#: scripts/stage.php:299
+#, php-format
+msgid "Staging %s"
+msgstr ""
+
+#: scripts/stage.php:322
+msgid "File has been corrupted!"
+msgstr ""
+
+#: scripts/stage.php:334
+msgid ""
+"Errors have been encountered, and you cannot proceed with the network update."
+msgstr ""
+
+#: scripts/stage.php:343
+msgid ""
+"No file has been staged. Scripts on your server are exact copies of the "
+"reference set."
+msgstr ""
+
+#: scripts/stage.php:351
+#, php-format
+msgid "%d file has been downloaded from the reference server."
+msgid_plural "%d files have been downloaded from the reference server."
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/stage.php:366
+msgid ""
+"This script allows you to stage new scripts that will then be used to update "
+"your YACS server."
+msgstr ""
+
+#: scripts/stage.php:370
+#, php-format
+msgid ""
+"Extended processing time is not allowed on this server. In case of trouble, "
+"please upload individual files manually to the <code>scripts/staging</code> "
+"directory, using your preferred FTP tool or equivalent. When this is "
+"completed, jump to %s to complete the software update."
+msgstr ""
+
+#: scripts/stage.php:370
+msgid "the update script"
+msgstr ""
+
+#: scripts/stage.php:373
+msgid "Direct upload"
+msgstr ""
+
+#: scripts/stage.php:376
+msgid "Pick-up and upload the archive file to use for the upgrade."
+msgstr ""
+
+#: scripts/stage.php:383 scripts/upload.php:137
+msgid "bytes"
+msgstr ""
+
+#: scripts/stage.php:392
+msgid ""
+"The upload will start on your click. Then the archive will be exploded to "
+"stage files. You may have to wait for minutes before getting a response "
+"displayed."
+msgstr ""
+
+#: scripts/stage.php:395
+msgid "Indirect upload"
+msgstr ""
+
+#: scripts/stage.php:398
+#, php-format
+msgid ""
+"If the file is too large for the web, you can upload it by yourself, for "
+"example with FTP, in the directory %s."
+msgstr ""
+
+#: scripts/stage.php:432
+#, php-format
+msgid "Install release %s"
+msgstr ""
+
+#: scripts/stage.php:437
+msgid ""
+"Click to explode the selected archive. You may have to wait for some time "
+"before getting a response displayed."
+msgstr ""
+
+#: scripts/stage.php:463
+msgid "Direct staging"
+msgstr ""
+
+#: scripts/stage.php:466
+#, php-format
+msgid ""
+"Ultimately, you can populate the directory %s by yourself. On completion you "
+"can start the %s."
+msgstr ""
+
+#: scripts/stage.php:466
+msgid "update process"
+msgstr ""
+
+#: scripts/update.php:79
+msgid ""
+"Scripts of your server are now updated from the staging store. Please do not "
+"close your browser until the end of this process"
+msgstr ""
+
+#: scripts/update.php:83
+msgid ""
+"The server has been switched OFF. Switch it back on as soon as possible."
+msgstr ""
+
+#: scripts/update.php:86
+msgid "The server has been switched off."
+msgstr ""
+
+#: scripts/update.php:93
+msgid "Updating scripts..."
+msgstr ""
+
+#: scripts/update.php:135 scripts/update.php:160 scripts/update.php:294
+msgid "lines"
+msgstr ""
+
+#: scripts/update.php:178
+msgid "Scripts on your server are exact copies of the reference set."
+msgstr ""
+
+#: scripts/update.php:186
+msgid "No file has been updated."
+msgstr ""
+
+#: scripts/update.php:192
+#, php-format
+msgid "%d file has been updated."
+msgid_plural "%d files have been updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/update.php:203
+msgid ""
+"Now that new scripts have been copied to your server, you should update the "
+"database as well. Please click on the link below before switching your "
+"server on again."
+msgstr ""
+
+#: scripts/update.php:207
+msgid "Install all hooks"
+msgstr ""
+
+#: scripts/update.php:222
+msgid "Warning! Some files have not been updated."
+msgstr ""
+
+#: scripts/update.php:226 scripts/update.php:308
+msgid "Some updated files are missing."
+msgstr ""
+
+#: scripts/update.php:292
+msgid "Review"
+msgstr ""
+
+#: scripts/update.php:293
+msgid "Diff"
+msgstr ""
+
+#: scripts/update.php:304
+msgid "Staging scripts"
+msgstr ""
+
+#: scripts/update.php:316
+msgid "Running scripts are exact copies of the reference set."
+msgstr ""
+
+#: scripts/update.php:324
+#, php-format
+msgid "%d script has to be updated."
+msgid_plural "%d scripts have to be updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/update.php:327
+msgid ""
+"Click on the button below to actually update running scripts on your server. "
+"Please note that your server will be temporarily switched off, and that you "
+"will also have to refresh the database."
+msgstr ""
+
+#: scripts/update.php:331
+msgid ""
+"Yes, I have checked every item and want to update scripts on this server"
+msgstr ""
+
+#: scripts/update_header.php:26
+msgid "This script will change running scripts at your server."
+msgstr ""
+
+#: scripts/upload.php:105
+#, php-format
+msgid "Error while processing %s."
+msgstr ""
+
+#: scripts/upload.php:111
+msgid "Congratulations, the patch has been applied."
+msgstr ""
+
+#: scripts/upload.php:115
+msgid "Extensions"
+msgstr ""
+
+#: scripts/upload.php:116
+msgid "Database maintenance"
+msgstr ""
+
+#: scripts/upload.php:130
+msgid ""
+"This script allows you to upload an archive file and to extract its content "
+"to patch running scripts. Please note that any file may be modified during "
+"the process, therefore the need to trust the patch provider, and to "
+"carefully select a patch adapted to your current situation."
+msgstr ""
+
+#: scripts/validate.php:59
+msgid ""
+"This tool will include most of the running reference PHP scripts. Any syntax "
+"error should be spotted easily."
+msgstr ""
+
+#: scripts/validate.php:63
+msgid "Yes, I want to validate scripts"
+msgstr ""
+
+#: scripts/validate.php:78
+msgid ""
+"All reference scripts are included, to show evidence of possible syntax "
+"errors."
+msgstr ""
+
+#: scripts/validate.php:90
+msgid "Including reference scripts..."
+msgstr ""
+
+#: scripts/validate.php:134 scripts/validate.php:140
+#, php-format
+msgid "%s has no readable content."
+msgstr ""
+
+#: scripts/validate.php:166
+#, php-format
+msgid "inclusion of %s"
+msgstr ""
+
+#: scripts/validate.php:183
+#, php-format
+msgid "%d files have been included."
+msgstr ""
+
+#: scripts/validate.php:187
+msgid "Following scripts have to be included separately:"
+msgstr ""
+
+#: scripts/validate.php:193
+#, php-format
+msgid "%d files to be checked manually."
+msgstr ""
+
+#: scripts/validate.php:202
+msgid "If no error has popped up, build the reference set >>"
+msgstr ""
+
+#: scripts/view.php:60
+msgid "To-do list"
+msgstr ""
+
+#: scripts/view.php:62
+msgid "Authors of all those scripts"
+msgstr ""
+
+#: scripts/view.php:64
+msgid "Testers of all those scripts"
+msgstr ""
+
+#: scripts/view.php:66
+msgid "Licenses for all those scripts"
+msgstr ""
+
+#: scripts/view.php:68
+msgid "Documentation:"
+msgstr ""
+
+#: scripts/view.php:75
+msgid "No script has been provided"
+msgstr ""
+
+#: scripts/view.php:80
+msgid "Script does not exist"
+msgstr ""
+
+#: scripts/view.php:94
+msgid "Browse the source of this script"
+msgstr ""

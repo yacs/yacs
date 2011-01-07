@@ -1,0 +1,390 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: agents/configure.php:49 agents/configure.php:265 agents/configure.php:351
+#: agents/index.php:49
+msgid "Control Panel"
+msgstr ""
+
+#: agents/configure.php:52
+#, php-format
+msgid "%s: %s"
+msgstr ""
+
+#: agents/configure.php:52
+msgid "Configure"
+msgstr ""
+
+#: agents/configure.php:52 agents/configure.php:269 agents/configure.php:350
+#: agents/index.php:52
+msgid "Background processing"
+msgstr ""
+
+#: agents/configure.php:61 agents/feed.php:77 agents/index.php:61
+msgid "You are not allowed to perform this operation."
+msgstr ""
+
+#: agents/configure.php:78
+msgid ""
+"Mail accounts from which messages can be fetched and posted in the database."
+msgstr ""
+
+#: agents/configure.php:87
+#, php-format
+msgid "Queue #%d"
+msgstr ""
+
+#: agents/configure.php:91 agents/configure.php:155
+msgid "Nick name"
+msgstr ""
+
+#: agents/configure.php:93
+msgid "Delete to suppress this queue entry"
+msgstr ""
+
+#: agents/configure.php:96 agents/configure.php:160
+msgid "Server name"
+msgstr ""
+
+#: agents/configure.php:98 agents/configure.php:162
+msgid ""
+"Use either the network name (e.g., 'pop.foo.bar') or the IP address of the "
+"mail server"
+msgstr ""
+
+#: agents/configure.php:101 agents/configure.php:165
+msgid "Account name"
+msgstr ""
+
+#: agents/configure.php:103 agents/configure.php:167
+msgid "The POP3 user name"
+msgstr ""
+
+#: agents/configure.php:106 agents/configure.php:170
+msgid "Password"
+msgstr ""
+
+#: agents/configure.php:108 agents/configure.php:172
+msgid "The POP3 password"
+msgstr ""
+
+#: agents/configure.php:111 agents/configure.php:175
+msgid "Allowed senders"
+msgstr ""
+
+#: agents/configure.php:113 agents/configure.php:177
+msgid ""
+"A list of e-mail addresses allowed to post to this queue, or 'any_member', "
+"'any_subscriber', or 'anyone' (do not replicate associates addresses)"
+msgstr ""
+
+#: agents/configure.php:116 agents/configure.php:180
+msgid "Security match"
+msgstr ""
+
+#: agents/configure.php:118 agents/configure.php:182
+msgid ""
+"A regularity expression to be matched by incoming messages to be accepted (e."
+"g., 'X-Originating-IP:  [21.18.33.9]')"
+msgstr ""
+
+#: agents/configure.php:121 agents/configure.php:185
+msgid "Default section"
+msgstr ""
+
+#: agents/configure.php:123 agents/configure.php:187
+msgid "Nickname or id of the default section for new pages (e.g., '45')"
+msgstr ""
+
+#: agents/configure.php:126 agents/configure.php:190
+msgid "Preamble boundary"
+msgstr ""
+
+#: agents/configure.php:128 agents/configure.php:192
+msgid "Everything before this string, and the string itself, is removed"
+msgstr ""
+
+#: agents/configure.php:131 agents/configure.php:195
+msgid "Signature boundary"
+msgstr ""
+
+#: agents/configure.php:133 agents/configure.php:197
+msgid "The boundary used to locate signatures (e.g., '___' for Yahoo mail)"
+msgstr ""
+
+#: agents/configure.php:136 agents/configure.php:200
+msgid "Processing options"
+msgstr ""
+
+#: agents/configure.php:138 agents/configure.php:202
+msgid "You may combine several keywords:"
+msgstr ""
+
+#: agents/configure.php:141 agents/configure.php:205
+msgid "Processing hooks"
+msgstr ""
+
+#: agents/configure.php:143 agents/configure.php:207
+msgid "Hook id(s) to be used on each message fetched from this queue"
+msgstr ""
+
+#: agents/configure.php:153
+msgid "Add a mail queue"
+msgstr ""
+
+#: agents/configure.php:157
+msgid "Use a short nick name"
+msgstr ""
+
+#: agents/configure.php:218
+msgid ""
+"Debug mail protocol in temporary/debug.txt, and file each message processed "
+"by agents/messages.php. Use this option for troubleshooting only."
+msgstr ""
+
+#: agents/configure.php:226
+msgid ""
+"Following parameters are used for files uploaded to this server, for example "
+"via FTP. These do not apply to pages submitted through web forms or XML-RPC."
+msgstr ""
+
+#: agents/configure.php:229
+msgid "Author nick name or id"
+msgstr ""
+
+#: agents/configure.php:231
+msgid "To impersonate the default user that has uploaded a file"
+msgstr ""
+
+#: agents/configure.php:235
+msgid "Section"
+msgstr ""
+
+#: agents/configure.php:237
+msgid "The section to post new pages (e.g., 'section:2343')"
+msgstr ""
+
+#: agents/configure.php:248
+msgid "Messages"
+msgstr ""
+
+#: agents/configure.php:249
+msgid "Uploads"
+msgstr ""
+
+#: agents/configure.php:261
+msgid "Submit"
+msgstr ""
+
+#: agents/configure.php:261
+msgid "Press [s] to submit data"
+msgstr ""
+
+#: agents/configure.php:278
+msgid ""
+"Use this page to configure agents, that is, scripts executed in the "
+"background without any human interaction."
+msgstr ""
+
+#: agents/configure.php:279
+msgid "Help"
+msgstr ""
+
+#: agents/configure.php:284
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr ""
+
+#: agents/configure.php:326
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+
+#: agents/configure.php:329
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+
+#: agents/configure.php:333
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr ""
+
+#: agents/configure.php:339
+#, php-format
+msgid "%s has been updated"
+msgstr ""
+
+#: agents/configure.php:345
+msgid "Configuration parameters"
+msgstr ""
+
+#: agents/configure.php:348
+msgid "Where do you want to go now?"
+msgstr ""
+
+#: agents/configure.php:352
+msgid "Configure again"
+msgstr ""
+
+#: agents/feed.php:64
+msgid "Information channels"
+msgstr ""
+
+#: agents/feed.php:67
+msgid "RSS feed"
+msgstr ""
+
+#: agents/feed.php:86
+#, php-format
+msgid "Event log at %s"
+msgstr ""
+
+#: agents/feed.php:89
+#, php-format
+msgid "Most recent events at %s"
+msgstr ""
+
+#: agents/index.php:81 agents/index.php:130
+msgid "You can sort the table below by clicking on column headers."
+msgstr ""
+
+#: agents/index.php:82
+#, php-format
+msgid "To get the full list of events, please download %s."
+msgstr ""
+
+#: agents/index.php:85
+msgid "What?"
+msgstr ""
+
+#: agents/index.php:85
+msgid "When?"
+msgstr ""
+
+#: agents/index.php:85
+msgid "Where?"
+msgstr ""
+
+#: agents/index.php:85
+msgid "Who?"
+msgstr ""
+
+#: agents/index.php:95
+msgid "No event has been logged"
+msgstr ""
+
+#: agents/index.php:99
+msgid "Events"
+msgstr ""
+
+#: agents/index.php:119
+msgid "Values"
+msgstr ""
+
+#: agents/index.php:133
+msgid "Script"
+msgstr ""
+
+#: agents/index.php:133
+msgid "Hits"
+msgstr ""
+
+#: agents/index.php:133
+msgid "Average time"
+msgstr ""
+
+#: agents/index.php:133
+msgid "Minimum time"
+msgstr ""
+
+#: agents/index.php:133
+msgid "Maximum time"
+msgstr ""
+
+#: agents/index.php:133
+msgid "Total time"
+msgstr ""
+
+#: agents/index.php:140
+msgid "Performance"
+msgstr ""
+
+#: agents/index.php:151
+msgid "Domain"
+msgstr ""
+
+#: agents/index.php:151 agents/index.php:176
+msgid "Count"
+msgstr ""
+
+#: agents/index.php:165
+msgid "Referrals"
+msgstr ""
+
+#: agents/index.php:176
+msgid "Keywords"
+msgstr ""
+
+#: agents/index.php:190
+msgid "Searches"
+msgstr ""
+
+#: agents/messages.php:543
+msgid "Item sent by e-mail"
+msgstr ""
+
+#: agents/messages.php:1140
+msgid "Size"
+msgstr ""
+
+#: agents/messages.php:1380
+msgid ""
+"The page received by e-mail has been successfully published.\n"
+"Please review it now to ensure that it reflects your mind.\n"
+msgstr ""
+
+#: agents/messages.php:1382
+msgid ""
+"The page received by e-mail has been posted.\n"
+"Don't forget to read it online. Then click on the Publish command to make it "
+"publicly available.\n"
+msgstr ""
+
+#: agents/messages.php:1389
+msgid "Thank you for your contribution"
+msgstr ""
+
+#: agents/messages.php:1401
+#, php-format
+msgid "New submission: %s"
+msgstr ""
+
+#: agents/messages.php:1403
+#, php-format
+msgid "Sent by %s in %s"
+msgstr ""
+
+#: agents/messages.php:1405
+#, php-format
+msgid "Sent by %s"
+msgstr ""

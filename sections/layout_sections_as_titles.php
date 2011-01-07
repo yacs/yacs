@@ -67,8 +67,8 @@ Class Layout_sections_as_titles extends Layout_interface {
 			$icon = '';
 			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 
 			// use the thumbnail for this section
 			if($icon) {
