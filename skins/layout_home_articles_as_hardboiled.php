@@ -7,6 +7,7 @@
  * Subsequent articles are listed below an horizontal line, as per decorated layout.
  *
  * @author Bernard Paques
+ * @tester Christophe Battarel 
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -258,7 +259,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		}
 
 		// extend the #home_south in case of floats
-		if(($item_count > 1) && ($item_count < 3))
+		if(($item_count >= 1) && ($item_count < 3))
 			$text .= '<p style="clear: left;">&nbsp;</p></div>'."\n";
 
 		// finalize end of the list
