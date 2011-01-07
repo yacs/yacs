@@ -1,0 +1,194 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:21+0200\n"
+"PO-Revision-Date: 2009-09-10 15:07+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Core team\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: versions/layout_versions.php:47 versions/list.php:149
+#, php-format
+msgid "edited by %s %s"
+msgstr "edited by %s %s"
+
+#: versions/layout_versions.php:50
+msgid "compare to current version"
+msgstr "compare to current version"
+
+#: versions/list.php:83
+#, php-format
+msgid "Versions: %s"
+msgstr "Versions: %s"
+
+#: versions/list.php:85
+msgid "List versions"
+msgstr "List versions"
+
+#: versions/list.php:90 versions/restore.php:80 versions/versions.php:366
+msgid "No anchor has been found."
+msgstr "No anchor has been found."
+
+#: versions/list.php:101 versions/list.php:106 versions/restore.php:71
+#: versions/restore.php:91 versions/view.php:95
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: versions/list.php:130
+#, php-format
+msgid "%d version"
+msgid_plural "%d versions"
+msgstr[0] "%d version"
+msgstr[1] "%d versions"
+
+#: versions/list.php:167 versions/restore.php:103
+msgid "Done"
+msgstr "Done"
+
+#: versions/list.php:175
+msgid ""
+"Select a version to check differences with the current page. Only the last "
+"modification for any given date is saved in the database."
+msgstr ""
+"Select a version to check differences with the current page. Only the last "
+"modification for any given date is saved in the database."
+
+#: versions/list.php:176 versions/view.php:164
+msgid "Help"
+msgstr "Help"
+
+#: versions/restore.php:66
+#, php-format
+msgid "Restore: %s"
+msgstr "Restore: %s"
+
+#: versions/restore.php:100
+msgid "The page has been successfully restored."
+msgstr "The page has been successfully restored."
+
+#: versions/versions.php:322
+#, php-format
+msgid "Unknown anchor %s"
+msgstr "Unknown anchor %s"
+
+#: versions/versions.php:332
+msgid "Impossible to restore the previous version."
+msgstr "Impossible to restore the previous version."
+
+#: versions/view.php:110
+msgid "Title"
+msgstr "Title"
+
+#: versions/view.php:112
+msgid "Content of the overlay has changed"
+msgstr "Content of the overlay has changed"
+
+#: versions/view.php:114
+msgid "Tags"
+msgstr "Tags"
+
+#: versions/view.php:115
+msgid "Trailer"
+msgstr "Trailer"
+
+#: versions/view.php:116
+msgid "Extra"
+msgstr "Extra"
+
+#: versions/view.php:129
+#, php-format
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: versions/view.php:148
+msgid "Versions"
+msgstr "Versions"
+
+#: versions/view.php:151
+msgid "Restore this version"
+msgstr "Restore this version"
+
+#: versions/view.php:151 versions/view.php:163
+msgid "Caution: restoration can not be reversed!"
+msgstr "Caution: restoration can not be reversed!"
+
+#: versions/view.php:159
+#, php-format
+msgid "This has been posted by %s %s."
+msgstr "This has been posted by %s %s."
+
+#: versions/view.php:161
+msgid "Text inserted since that version."
+msgstr "Text inserted since that version."
+
+#: versions/view.php:162
+msgid "Text suppressed from this version."
+msgstr "Text suppressed from this version."
+
+#: versions/view.php:179
+msgid "Navigation"
+msgstr "Navigation"
+
+#~ msgid "No change"
+#~ msgstr "No change"
+
+#~ msgid "No item has the provided id."
+#~ msgstr "No item has the provided id."
+
+#, fuzzy
+#~ msgid "Revisions: %s"
+#~ msgstr "Versions: %s"
+
+#~ msgid "view"
+#~ msgstr "view"
+
+#~ msgid "Latest version"
+#~ msgstr "Latest version"
+
+#~ msgid "Text inserted in the current page."
+#~ msgstr "Text inserted in the current page."
+
+#~ msgid "%s by %s %s"
+#~ msgstr "%s by %s %s"
+
+#~ msgid "Current version"
+#~ msgstr "Current version"
+
+#~ msgid "restore"
+#~ msgstr "restore"
+
+#~ msgid "What do you want to do now?"
+#~ msgstr "What do you want to do now?"
+
+#~ msgid "View the restored page"
+#~ msgstr "View the restored page"
+
+#~ msgid "Yes, I want to restore this version"
+#~ msgstr "Yes, I want to restore this version"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Restore a version"
+#~ msgstr "Restore a version"
+
+#~ msgid "View a version"
+#~ msgstr "View a version"
+
+#~ msgid "1&nbsp;version"
+#~ msgid_plural "%d&nbsp;versions"
+#~ msgstr[0] "1&nbsp;version"
+#~ msgstr[1] "%d&nbsp;versions"

@@ -271,7 +271,7 @@ if($with_form) {
 	$value = '';
 	if(isset($item['introduction']) && $item['introduction'])
 		$value = $item['introduction'];
-	$input = '<textarea name="introduction" rows="3" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
 	$hint = i18n::s('Also complements the title in lists featuring this page');
 	$fields[] = array($label, $input, $hint);
 

@@ -195,8 +195,8 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 				$mail = array();
 				$mail['subject'] = sprintf(i18n::c('New page: %s'), strip_tags($article['title']));
 				$mail['message'] = sprintf(i18n::c('%s would like to share a private page with you'), Surfer::get_name())
-					."\n\n".ucfirst(strip_tags($article['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'];
+					.'<p>'.ucfirst(strip_tags($article['title']))
+					.BR.$context['url_to_home'].$context['url_to_root'];
 
 				// provide credentials by e-mail
 				if(isset($item['email'])) {
@@ -220,6 +220,8 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 				} else
 					$mail['message'] .= Articles::get_permalink($article);
 
+				$mail['message'] .= '</p>';
+
 				// enable threading
 				$mail['headers'] = Mailer::set_thread('article:'.$article['id'], $anchor);
 
@@ -227,10 +229,9 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 				if(isset($item['id'])) {
 
 					// suggest to change user preferences if applicable
-					$mail['message'] .= "\n\n"
-						.i18n::c('To prevent other surfers from contacting you, please visit your profile at the following address, and change preferences.')
-						."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($item)
-						."\n\n";
+					$mail['message'] .= '<p>&nbsp;</p>'
+						.'<p>'.i18n::c('To prevent other surfers from contacting you, please visit your profile at the following address, and change preferences.').'</p>'
+						.'<p>'.$context['url_to_home'].$context['url_to_root'].Users::get_permalink($item).'</p>';
 
 					// alert the target user
 					if(!Users::alert($item, $mail))

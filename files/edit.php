@@ -60,7 +60,7 @@
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Natice
  * @tester Vincent Weber
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @tester Christian Loubechine
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -539,7 +539,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
 	// options tab

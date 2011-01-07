@@ -300,7 +300,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
 	// assemble all tabs
@@ -327,7 +327,7 @@ if($with_form) {
 
 	// keep as draft
 	if(!isset($item['id']))
-		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not publish the page, even if auto-publish has been enabled.');
+		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not notify watchers nor followers.');
 
 	// validate page content
 	if(Surfer::is_associate())

@@ -1,0 +1,515 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-29 14:21+0200\n"
+"PO-Revision-Date: 2010-04-08 22:58+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: services/blog.php:522 services/blog.php:567 services/blog.php:666
+#: services/blog.php:749 services/blog.php:818 services/blog.php:849
+#: services/blog.php:880 services/blog.php:933 services/blog.php:1035
+#: services/blog.php:1067 services/blog.php:1163 services/blog.php:1205
+#: services/blog.php:1280 services/blog.php:1356 services/blog.php:1446
+#: services/blog.php:1565 services/blog.php:1600 services/blog.php:1639
+#: services/blog.php:1691
+#, php-format
+msgid "Please register at %s before blogging"
+msgstr "Merci de vous enregistrer à l'adresse %s avant de blogger"
+
+#: services/blog.php:526 services/blog.php:571 services/blog.php:670
+#: services/blog.php:1071 services/blog.php:1209
+#, php-format
+msgid "Unknown postid %s at %s"
+msgstr "Identifiant postid %s inconnu à l'adresse %s"
+
+#: services/blog.php:543 services/blog.php:591 services/blog.php:674
+#: services/blog.php:707 services/blog.php:757 services/blog.php:826
+#: services/blog.php:941 services/blog.php:945 services/blog.php:949
+#: services/blog.php:1043 services/blog.php:1047 services/blog.php:1090
+#: services/blog.php:1213 services/blog.php:1246 services/blog.php:1288
+#: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
+#: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
+#: services/blog.php:1462 services/blog.php:1647 services/check.php:57
+#: services/check.php:62 services/configure.php:71
+msgid "You are not allowed to perform this operation."
+msgstr "Vous n'êtes pas autorisé à faire cette opération."
+
+#: services/blog.php:547
+#, php-format
+msgid "Impossible to delete record of postid %s"
+msgstr "Impossible d'effacer l'envoi %s"
+
+#: services/blog.php:619 services/blog.php:1121
+#, php-format
+msgid "Impossible to update record of postid %s"
+msgstr "Impossible de modifier la page %s"
+
+#: services/blog.php:753 services/blog.php:822 services/blog.php:937
+#: services/blog.php:1039 services/blog.php:1284 services/blog.php:1368
+#: services/blog.php:1450 services/blog.php:1643
+#, php-format
+msgid "Unknown blog %s at %s"
+msgstr "Identifiant blog %s inconnu à l'adresse %s"
+
+#: services/blog.php:863
+msgid "Unknown user name"
+msgstr "Nom d'utilisateur inconnu"
+
+#: services/blog.php:1364
+msgid "No file data has been received."
+msgstr "Aucun fichier n'a été transmis."
+
+#: services/blog.php:1392
+#, php-format
+msgid "Impossible to save content of file %s"
+msgstr "Impossible d'enregistrer le contenu du fichier %s"
+
+#: services/blog.php:1746
+#, php-format
+msgid "Do not know how to process %s"
+msgstr "%s ne correspond à rien de connu"
+
+#: services/blog_test.php:29
+msgid "Sample blog client"
+msgstr "Exemple de client blog"
+
+#: services/blog_test.php:42 services/ping_test.php:75
+#: services/ping_test.php:102 services/rpc_echo_hook_test.php:32
+#: services/xml_rpc_drupal.login_hook_test.php:36
+msgid "Server address"
+msgstr "Adresse du serveur"
+
+#: services/blog_test.php:44 services/ping_test.php:77
+#: services/ping_test.php:104 services/rpc_echo_hook_test.php:34
+#: services/xml_rpc_drupal.login_hook_test.php:38
+msgid "Go"
+msgstr "Go"
+
+#: services/blog_test.php:45 services/ping_test.php:78
+#: services/ping_test.php:105 services/rpc_echo_hook_test.php:35
+#: services/xml_rpc_drupal.login_hook_test.php:39
+msgid "The name or the IP address of the yacs server"
+msgstr "Le nom ou l'adresse IP du serveur cible"
+
+#: services/blog_test.php:47 services/xml_rpc_drupal.login_hook_test.php:41
+msgid "User name"
+msgstr "Nom d'utilisateur"
+
+#: services/blog_test.php:50 services/xml_rpc_drupal.login_hook_test.php:44
+msgid "User password"
+msgstr "Mot de passe"
+
+#: services/blog_test.php:531
+#, php-format
+msgid ""
+"Go to the %s and check debug mode for <code>call</code> has been set, if you "
+"want to record HTTP requests and responses."
+msgstr ""
+"Allez dans le %s et assurez-vous que le mode de mise au point pour les "
+"<code>call</code> a été sélectionné si vous souhaitez enregistrer les "
+"requêtes et réponses HTTP."
+
+#: services/blog_test.php:531 services/rpc_echo_hook_test.php:86
+#: services/xml_rpc_drupal.login_hook_test.php:87
+msgid "configuration panel for services"
+msgstr "le panneau de configuration des services"
+
+#: services/blog_test.php:532 services/rpc_echo_hook_test.php:87
+#: services/xml_rpc_drupal.login_hook_test.php:88
+msgid "Help"
+msgstr "Aide"
+
+#: services/check.php:52
+msgid "No anchor has been found."
+msgstr "Aucun ancrage n'a été trouvé."
+
+#: services/configure.php:59 services/configure.php:162
+#: services/configure.php:237
+msgid "Control Panel"
+msgstr "Panneau de contrôle"
+
+#: services/configure.php:62
+#, php-format
+msgid "%s: %s"
+msgstr "%s : %s"
+
+#: services/configure.php:62 services/index.php:98
+msgid "Configure"
+msgstr "Configuration"
+
+#: services/configure.php:62 services/configure.php:166
+#: services/configure.php:236
+msgid "Web services"
+msgstr "Services web"
+
+#: services/configure.php:80
+msgid "Google API key"
+msgstr "Clé d'API Google"
+
+#: services/configure.php:84
+#, php-format
+msgid "To integrate Google Maps to your server, %s and enter it here"
+msgstr "Pour intégrer Google Maps à votre serveur, %s et indiquez-la ici"
+
+#: services/configure.php:84
+msgid "http://www.google.com/apis/maps/signup.html"
+msgstr "http://www.google.com/apis/maps/signup.html"
+
+#: services/configure.php:84
+msgid "apply for a key"
+msgstr "demandez une clé"
+
+#: services/configure.php:88
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+#: services/configure.php:92
+#, php-format
+msgid ""
+"To monitor your server with Google Analytics, %s and enter your account here"
+msgstr ""
+"To monitor your server with Google Analytics, %s and enter your account here"
+
+#: services/configure.php:92
+msgid "http://www.google-analytics.com/"
+msgstr "http://www.google-analytics.com/"
+
+#: services/configure.php:92
+msgid "register"
+msgstr "enregistrez-vous"
+
+#: services/configure.php:96
+msgid "Debug blog services"
+msgstr "Mode de mise au point des services blogs"
+
+#: services/configure.php:100
+msgid ""
+"Copy network packets sent and received by services/blog.php in temporary/"
+"debug.txt"
+msgstr ""
+"Sauver les paquets envoyés et reçus par services/blog.php dans le fichier "
+"temporary/debug.txt"
+
+#: services/configure.php:101 services/configure.php:110
+#: services/configure.php:119 services/configure.php:128
+#: services/configure.php:137 services/configure.php:146
+msgid "Use this option only for troubleshooting"
+msgstr "A réserver aux phases de mise au point"
+
+#: services/configure.php:105
+msgid "Debug commenting services"
+msgstr "Mode de mise au point des services de commentaire"
+
+#: services/configure.php:109
+msgid ""
+"Copy network packets sent and received by comments/post.php in temporary/"
+"debug.txt"
+msgstr ""
+"Sauver les paquets envoyés et reçus par comments/post.php dans le fichier "
+"temporary/debug.txt"
+
+#: services/configure.php:114
+msgid "Debug calls of web services"
+msgstr "Mode de mise au point des appels client"
+
+#: services/configure.php:118
+msgid ""
+"Copy network packets sent and received by services/call.php in temporary/"
+"debug.txt"
+msgstr ""
+"Sauver les paquets envoyés et reçus par services/call.php dans le fichier "
+"temporary/debug.txt"
+
+#: services/configure.php:123
+msgid "Debug ping services"
+msgstr "Mode de mise au point des services ping"
+
+#: services/configure.php:127
+msgid ""
+"Copy network packets sent and received by services/ping.php in temporary/"
+"debug.txt"
+msgstr ""
+"Sauver les paquets envoyés et reçus par services/ping.php dans le fichier "
+"temporary/debug.txt"
+
+#: services/configure.php:132
+msgid "Debug remote procedure calls"
+msgstr "Mode de mise au point des appels à distance (RPC)"
+
+#: services/configure.php:136
+msgid ""
+"Copy network packets sent and received by services/json_rpc.php and by "
+"services/xml_rpc.php in temporary/debug.txt"
+msgstr ""
+"Sauver les paquets envoyés et reçus par services/json_rpc.php et par "
+"services/xml_rpc.php dans le fichier temporary/debug.txt"
+
+#: services/configure.php:141
+msgid "Debug pingback and trackback services"
+msgstr "Mode de mise au point des services pingback et trackback"
+
+#: services/configure.php:145
+msgid ""
+"Copy network packets sent and received by links/trackback.php in temporary/"
+"debug.txt"
+msgstr ""
+"Sauver les paquets envoyés et reçus par links/trackback.php dans le fichier "
+"temporary/debug.txt"
+
+#: services/configure.php:158
+msgid "Submit"
+msgstr "Enregistrer"
+
+#: services/configure.php:158
+msgid "Press [s] to submit data"
+msgstr "Appuyer sur [s] pour envoyer les informations"
+
+#: services/configure.php:177
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr ""
+"Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
+
+#: services/configure.php:211
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERREUR : impossible d'écrire dans le fichier %s. La configuration n'a pas "
+"été sauvegardée."
+
+#: services/configure.php:214
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"Pour changer la configuration, merci de copier et de coller les lignes "
+"suivantes dans le fichier %s :"
+
+#: services/configure.php:219
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "La configuration suivante a été enregistrée dans le fichier %s."
+
+#: services/configure.php:225
+#, php-format
+msgid "%s has been updated"
+msgstr "%s a été mis à jour"
+
+#: services/configure.php:231
+msgid "Configuration parameters"
+msgstr "Paramètres de configuration"
+
+#: services/configure.php:234
+msgid "Where do you want to go now?"
+msgstr "Où voulez-vous aller à présent ?"
+
+#: services/configure.php:238
+msgid "Configure again"
+msgstr "Configurer de nouveau"
+
+#: services/index.php:34
+msgid "Back-end services"
+msgstr "Services distribués"
+
+#: services/index.php:37
+msgid ""
+"This index page lists the main services that you can use in the background. "
+"Connect your blogging software, RSS news feeder, or other web sites to this "
+"server through following Application Programming Interfaces (API)."
+msgstr ""
+"Cette page liste les principaux services que vous pouvez utiliser en arrière-"
+"plan. Connectez votre logiciel de blogging, votre lecteur de nouvelles RSS, "
+"ou d'autres sites à ce serveur web sur la base des interfaces "
+"programmatiques décrites ci-dessous."
+
+#: services/index.php:40
+msgid "Blogging interface"
+msgstr "Interface pour le webblogging"
+
+#: services/index.php:42
+msgid "Support popular blogging software such as w.bloggar."
+msgstr "Pour le support de logiciels de blogging usuels tels que w.bloggar."
+
+#: services/index.php:45 services/index.php:57 services/index.php:68
+#: services/index.php:80 services/index.php:91
+msgid "URL:"
+msgstr "Adresse :"
+
+#: services/index.php:46 services/index.php:58 services/index.php:69
+#: services/index.php:81 services/index.php:92
+msgid "Documentation:"
+msgstr "Documentation :"
+
+#: services/index.php:47 services/index.php:70 services/index.php:82
+msgid "Specifications:"
+msgstr "Spécifications :"
+
+#: services/index.php:52
+msgid "Generic JSON-RPC interface"
+msgstr "Interface JSON-RPC générique"
+
+#: services/index.php:54 services/index.php:88
+msgid "Bound to hooked back-end scripts"
+msgstr "Liée aux scripts de service"
+
+#: services/index.php:59 services/index.php:93
+msgid "Specification:"
+msgstr "Spécification :"
+
+#: services/index.php:63
+msgid "Ping interface"
+msgstr "Interface Ping"
+
+#: services/index.php:65
+msgid "To spread updates"
+msgstr "Pour diffuser les mises à jour"
+
+#: services/index.php:75
+msgid "Search"
+msgstr "Recherche"
+
+#: services/index.php:77
+msgid "Build a customised RSS feed based on any keyword"
+msgstr "Pour bâtir un fil de nouvelles RSS à partir de mots de recherche"
+
+#: services/index.php:86
+msgid "Generic XML-RPC interface"
+msgstr "Interface XML-RPC générique"
+
+#: services/ping_test.php:30
+msgid "Sample ping client"
+msgstr "Exemple de client ping"
+
+#: services/ping_test.php:70
+msgid "Test weblogUpdates.ping"
+msgstr "Test weblogUpdates.ping"
+
+#: services/ping_test.php:80
+msgid "Name of the updated server"
+msgstr "Nom du serveur mis à jour"
+
+#: services/ping_test.php:83
+msgid "URI of the updated server"
+msgstr "Adresse du serveur mis à jour"
+
+#: services/ping_test.php:97
+msgid "Test pingback.ping"
+msgstr "Test pingback.ping"
+
+#: services/ping_test.php:107
+msgid "URI of the source page"
+msgstr "Adresse de la page source"
+
+#: services/ping_test.php:110
+msgid "URI of the target page"
+msgstr "Adresse de la page cible"
+
+#: services/rpc_echo_hook_test.php:20
+#: services/xml_rpc_drupal.login_hook_test.php:23
+msgid "Web service test"
+msgstr "Test de service web"
+
+#: services/rpc_echo_hook_test.php:37
+msgid "Message"
+msgstr "Message"
+
+#: services/rpc_echo_hook_test.php:86
+#: services/xml_rpc_drupal.login_hook_test.php:87
+#, php-format
+msgid ""
+"Go to the %s and check debug mode for <code>rpc</code> has been set, if you "
+"want to record HTTP requests and responses."
+msgstr ""
+"Allez dans le %s et assurez-vous que le mode de mise au point pour les "
+"<code>rpc</code> a été sélectionné si vous souhaitez enregistrer les "
+"requêtes et réponses HTTP."
+
+#: services/search.php:87
+#, php-format
+msgid "%s at %s"
+msgstr "%s à %s"
+
+#~ msgid "You are not allowed to delete post %s at %s"
+#~ msgstr "Vous n'êtes pas autorisé à effacer l'envoi %s à l'adresse %s"
+
+#~ msgid "You are not allowed to post in blog %s at %s"
+#~ msgstr "Vous n'êtes pas autorisé à poster dans le blog %s à l'adresse %s"
+
+#~ msgid "You are not allowed to change blog %s at %s"
+#~ msgstr "Vous n'êtes pas autorisé à modifier le blog %s à l'adresse %s"
+
+#~ msgid "You are not allowed to get template for blog %s at %s"
+#~ msgstr ""
+#~ "Vous n'êtes pas autorisé à obtenir le modèle de page du blog %s à "
+#~ "l'adresse %s"
+
+#~ msgid "Only the main template can be changed"
+#~ msgstr "Seul le style principal peut être changé"
+
+#~ msgid "You are not allowed to upload files."
+#~ msgstr "Vous n'êtes pas autorisé à envoyer des fichiers."
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configurer : %s"
+
+#~ msgid "Search interface"
+#~ msgstr "Interface de recherche"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "Cette instance de YACS s'exécute en mode démonstration. Pour des raisons "
+#~ "de sécurité, les paramètres de configuration ne peuvent pas être modifiés "
+#~ "dans ce mode."
+
+#~ msgid "The configuration panel for services"
+#~ msgstr "Le panneau de configuration des services web"
+
+#~ msgid "All services"
+#~ msgstr "Index des services"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Aller au panneau de contrôle"
+
+#~ msgid "You are not allowed to change a published post in blog %s at %s"
+#~ msgstr ""
+#~ "Vous n'êtes pas autorisé à modifier un envoi publié dans le blog %s à "
+#~ "l'adresse %s"
+
+#~ msgid "You are not allowed to modify blog %s at %s"
+#~ msgstr "Vous n'êtes pas autorisé à modifier le blog %s à l'adresse %s"
+
+#~ msgid "Edit again"
+#~ msgstr "Modifier les paramètres"
+
+#~ msgid "Configure services"
+#~ msgstr "Panneau de configuration"
+
+#~ msgid "Sample authentication client"
+#~ msgstr "Exemple d'authentification distribuée"
+
+#~ msgid "Referrals"
+#~ msgstr "Références externes"
+
+#~ msgid ""
+#~ "parameters/services.include.php has been renamed with a .bak extension"
+#~ msgstr "parameters/services.include.php a été renommé avec l'extension .bak"
+
+#~ msgid "parameters/services.include.php has been changed"
+#~ msgstr "parameters/services.include.php a été modifié"
+
+#~ msgid "You are not allowed to handle services of this server."
+#~ msgstr "Vous n'êtes pas autorisé à configurer les services pour ce serveur."

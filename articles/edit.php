@@ -95,7 +95,7 @@
  * @tester GnapZ
  * @tester Pascal
  * @tester Guillaume Perez
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @tester J&eacute;r&ocirc;me Douill&eacute;
  * @tester Jan Boen
  * @tester Olivier
@@ -569,7 +569,7 @@ if(Surfer::is_crawler()) {
 		// title and link
 		if($title = $article->get_title())
 			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
+		$description .= $context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
 
 		// teaser
 		if($teaser = $article->get_teaser('basic'))
@@ -723,7 +723,7 @@ if($with_form) {
 		$value = $item['introduction'];
 	elseif(isset($_SESSION['pasted_introduction']))
 		$value = $_SESSION['pasted_introduction'];
-	$input = '<textarea name="introduction" rows="3" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
 	if(!is_object($overlay) || !($hint = $overlay->get_label('introduction_hint', isset($item['id'])?'edit':'new')))
 		$hint = i18n::s('Also complements the title in lists featuring this page');
 	$fields[] = array($label, $input, $hint);
@@ -789,7 +789,7 @@ if($with_form) {
 
 	// extra information
 	$label = i18n::s('Extra');
-	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
+	$input = Surfer::get_editor('extra', isset($item['extra'])?$item['extra']:'');
 	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
 	$fields[] = array($label, $input, $hint);
 
@@ -867,7 +867,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Resources'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
 	// options tab
@@ -965,6 +965,27 @@ if($with_form) {
 	$text .= Skin::build_form($fields);
 	$fields = array();
 
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// the rank
 	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
 
@@ -1020,27 +1041,6 @@ if($with_form) {
 		$label = i18n::s('Contribution to parent container');
 	$text .= Skin::build_box($label, Skin::build_form($fields), 'folded');
 	$fields = array();
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Thumbnail');
-		$input = '';
-		$hint = '';
-
-		// show the current thumbnail
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
-			$command = i18n::s('Change');
-		} else {
-			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input, $hint);
-	}
 
 	// the source
 	$label = i18n::s('Source');
@@ -1218,7 +1218,7 @@ if($with_form) {
 
 	// keep as draft
 	if(!isset($item['id']))
-		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not publish the page, even if auto-publish has been enabled.');
+		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not notify watchers nor followers.');
 
 	// do not remember changes on existing pages -- complex command
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())

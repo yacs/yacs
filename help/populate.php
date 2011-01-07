@@ -121,7 +121,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('The best place to express myself')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('The best place to express myself')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -267,7 +267,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('With reader notes')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('With reader notes')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near book title');
 		$fields[] = array($label, $input, $hint);
 
@@ -447,7 +447,7 @@ if(!$permitted) {
 
 			// introduction
 			$label = i18n::s('Introduction');
-			$input = '<textarea name="introduction" cols="40" rows="2">'.encode_field(i18n::c('Public files to download')).'</textarea>';
+			$input = '<textarea name="introduction" cols="40" rows="5">'.encode_field(i18n::c('Public files to download')).'</textarea>';
 			$hint = i18n::s('To be used at the front page and on the collections index page');
 			$fields[] = array($label, $input, $hint);
 
@@ -825,7 +825,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('Post your brand new ideas here!')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('Post your brand new ideas here!')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1130,7 +1130,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('Read, learn, and react!')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('Read, learn, and react!')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1276,7 +1276,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('They are trusting us')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('They are trusting us')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1377,7 +1377,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('The current active poll, plus previous ones')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('The current active poll, plus previous ones')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1496,7 +1496,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i"></textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i"></textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1730,7 +1730,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('Our collaborative place')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('Our collaborative place')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 

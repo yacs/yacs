@@ -101,8 +101,8 @@ elseif(!$permitted) {
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags($follower->get_title()));
 				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name'])
-					."\n\n".ucfirst(strip_tags($follower->get_title()))
-					."\n".$context['url_to_home'].$context['url_to_root'].$follower->get_url();
+					.'<p>'.ucfirst(strip_tags($follower->get_title()))
+					.BR.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'</p>';
 
 				// enable threading
 				$headers = Mailer::set_thread('', $anchor);

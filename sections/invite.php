@@ -7,19 +7,6 @@
  * When a message is sent to invited people, these may, or not, be part of
  * the community.
  *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the site front page.
- *
- * Senders can get a copy of messages if they want.
- *
- * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
- *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
@@ -28,9 +15,6 @@
  * - invite.php?id=&lt;id&gt;
  * - invite.php/&lt;id&gt;
  * - invite.php?id=&lt;id&gt;
- *
- * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
  * @reference

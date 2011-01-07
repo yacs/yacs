@@ -32,7 +32,7 @@
  * @author Richard Gilmour
  * @tester Antoine Bour
  * @tester Emmanuel Beucher
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

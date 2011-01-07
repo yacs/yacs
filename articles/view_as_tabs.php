@@ -215,38 +215,6 @@ if($page == 1) {
 
 }
 
-// filter description, if necessary
-if(is_object($overlay))
-	$description = $overlay->get_text('description', $item);
-else
-	$description = $item['description'];
-
-// the beautified description, which is the actual page body
-if($description) {
-
-	// provide only the requested page
-	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	$page = max(min($page, count($pages)), 1);
-	$description = $pages[ $page-1 ];
-
-	// if there are several pages, remove toc and toq codes
-	if(count($pages) > 1)
-		$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-	// beautify the target page
-	$context['text'] .= Skin::build_block($description, 'description', '', $item['options']);
-
-	// if there are several pages, add navigation commands to browse them
-	if(count($pages) > 1) {
-		$page_menu = array( '_' => i18n::s('Pages') );
-		$home = Articles::get_permalink($item);
-		$prefix = Articles::get_url($item['id'], 'navigate', 'page');
-		$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-		$context['text'] .= Skin::build_list($page_menu, 'menu_bar');
-	}
-}
-
 // special layout for digg
 if(defined('DIGG'))
 	$context['text'] .= '</div>';
@@ -268,6 +236,38 @@ $information = '';
 // get text related to the overlay, if any
 if(is_object($overlay))
 	$information .= $overlay->get_text('view', $item);
+
+// filter description, if necessary
+if(is_object($overlay))
+	$description = $overlay->get_text('description', $item);
+else
+	$description = $item['description'];
+
+// the beautified description, which is the actual page body
+if($description) {
+
+	// provide only the requested page
+	$pages = preg_split('/\s*\[page\]\s*/is', $description);
+	$page = max(min($page, count($pages)), 1);
+	$description = $pages[ $page-1 ];
+
+	// if there are several pages, remove toc and toq codes
+	if(count($pages) > 1)
+		$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+	// beautify the target page
+	$information .= Skin::build_block($description, 'description', '', $item['options']);
+
+	// if there are several pages, add navigation commands to browse them
+	if(count($pages) > 1) {
+		$page_menu = array( '_' => i18n::s('Pages') );
+		$home = Articles::get_permalink($item);
+		$prefix = Articles::get_url($item['id'], 'navigate', 'page');
+		$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
+
+		$information .= Skin::build_list($page_menu, 'menu_bar');
+	}
+}
 
 // add trailer information from the overlay, if any
 if(is_object($overlay))
@@ -499,38 +499,39 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	if($wcount > 1)
 		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wcount), $wcount));
 
+	// spread the list over several pages
+	if($ecount > 1)
+		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
+
+	// navigation commands for users
+	$home = Articles::get_permalink($item);
+	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
+	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $ecount, USERS_LIST_SIZE, $zoom_index, FALSE, FALSE, '#_users'));
+
 	// add to the watch list -- $in_wath_list is set in sections/view.php
 	if(Surfer::get_id() && !$in_watch_list) {
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'track') => TOOLS_WATCH_IMG.i18n::s('Watch this page'));
 	}
 
-	// spread the list over several pages
-	if($ecount > 1)
-		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
-
-	// send a message to an article
+	// notify participants
 	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
+		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
-	// navigation commands for users
-	$home = Articles::get_permalink($item);
-	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
-	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $ecount, USERS_LIST_SIZE, $zoom_index));
-
-	// assign command provided to associates and authenticated editors
+	// invite participants, for owners
 	if(Articles::is_owned($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
 		$box['bar'] += array(Articles::get_url($item['id'], 'invite') => ARTICLES_INVITE_IMG.i18n::s('Invite participants'));
+	}
 
-	// assign command provided to owners
-	} elseif(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+	// manage editors, for owners
+	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
 
-	// allow editors to leave their position
+	// leave this page, for editors
 	} elseif(Articles::is_assigned($item['id'])) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'sections/assign.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));

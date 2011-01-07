@@ -108,6 +108,11 @@ Class Images {
 		// only in user profiles
 		} elseif($variant == 'user') {
 
+			// the item is anchored to the profile of this member
+			if(Surfer::get_id() && is_object($anchor) && !strcmp($anchor->get_reference(), 'user:'.Surfer::get_id()))
+				return TRUE;
+
+			// should not happen...
 			if(isset($item['id']) && Surfer::is($item['id']))
 				return TRUE;
 

@@ -68,7 +68,7 @@ $context['text'] .= '<p>'.i18n::s('Title').BR
 
 // the introduction
 $context['text'] .= '<p>'.i18n::s('Introduction').BR
-	.'<textarea name="introduction" rows="2" cols="20" accesskey="i"></textarea>'
+	.'<textarea name="introduction" rows="3" cols="20" accesskey="i"></textarea>'
 	.'</p>'."\n";
 
 // the description label

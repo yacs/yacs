@@ -879,6 +879,17 @@ Class Article extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
+		// suppress references to a deleted file
+		} elseif($action == 'file:delete') {
+
+			// suppress reference in main description field
+			$text = Codes::delete_embedded($this->item['description'], 'download', $origin);
+			$text = Codes::delete_embedded($text, 'embed', $origin);
+			$text = Codes::delete_embedded($text, 'file', $origin);
+
+			// save changes
+			$query[] = "description = '".SQL::escape($text)."'";
+
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {

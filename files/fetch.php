@@ -403,10 +403,11 @@ if(!isset($item['id']) || !$item['id']) {
 			if(isset($_SERVER['HTTP_RANGE']) && !strncmp('bytes=', $_SERVER['HTTP_RANGE'], 6)) {
 
 				// maybe several ranges
-				$ranges = substr($_SERVER['HTTP_RANGE'], 6);
+				$range = substr($_SERVER['HTTP_RANGE'], 6);
 
 				// process only the first range, if several are specified
-				list($range, $dropped) = explode(',', $ranges, 2);
+				if($position = strpos($range, ','))
+					$range = substr($range, 0, $position);
 
 				// beginning and end of the range
 				list($offset, $end) = explode('-', $range);

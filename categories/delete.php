@@ -38,6 +38,12 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
+// get the related overlay, if any
+$overlay = NULL;
+include_once '../overlays/overlay.php';
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item);
+
 // associates and authenticated editors can do what they want
 if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
@@ -79,6 +85,11 @@ if(!isset($item['id'])) {
 
 	// attempt to delete
 	if(Categories::delete($item['id'])) {
+
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
+		$description = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+		Logger::remember('categories/delete.php', $label, $description);
 
 		// this can appear anywhere
 		Cache::clear();

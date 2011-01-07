@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
+POT-Creation-Date: 2010-10-19 22:05+0200
 PO-Revision-Date: 2010-10-01 23:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -360,7 +360,6 @@ $_SESSION['l10n']['en']['abbb7ad09d40d7272c30569b47a44199']='Select your preferr
 $_SESSION['l10n']['en']['Self-deletion']='Self-deletion';
 $_SESSION['l10n']['en']['c135a8dca58a3d9943aeac7d94451d30']='Self-registrating surfer will become a member (open community).';
 $_SESSION['l10n']['en']['193e85a18aebf9904dc94a0de4ecba92']='Self-registration is not allowed. Use the %s to submit your application.';
-$_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Send me periodical newsletters.']='Send me periodical newsletters.';
 $_SESSION['l10n']['en']['101e8406e19b26c4e2d699a5eb5db4a0']='Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).';
@@ -419,7 +418,6 @@ $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['Upload an image']='Upload an image';
 $_SESSION['l10n']['en']['Uploads']='Uploads';
 $_SESSION['l10n']['en']['Use a gravatar']='Use a gravatar';
-$_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['Use the %s to ask for help']='Use the %s to ask for help';
 $_SESSION['l10n']['en']['Use the authenticator %s']='Use the authenticator %s';
 $_SESSION['l10n']['en']['Use the library']='Use the library';
@@ -430,7 +428,6 @@ $_SESSION['l10n']['en']['Validate your e-mail address']='Validate your e-mail ad
 $_SESSION['l10n']['en']['View profile']='View profile';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View the new thread']='View the new thread';
-$_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['2470a7b84e0565efbfd25c51005b44b5']='Wait for one hour to recover from too many failed authentications.';
 $_SESSION['l10n']['en']['Watch list']='Watch list';
 $_SESSION['l10n']['en']['3b9f16a2d4a75ed76b06726e46487cd8']='We are only keeping a shadow record for this profile. Please handle this account at %s';

@@ -555,18 +555,6 @@ if(!isset($item['id'])) {
 	//
 	$lines = array();
 
-	// mail this page
-	if((Articles::is_owned($item, $anchor) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
-		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
-	}
-
-	// assign command provided to page owners
- 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
- 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
- 		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
- 	}
-
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
@@ -579,6 +567,24 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode($anchor->get_title()), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
 
 	}
+
+	// notify participants
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
+	}
+
+	// invite participants
+	if((Articles::is_owned($item, $anchor) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+	}
+
+	// manage editors
+ 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+ 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+ 		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
+ 	}
 
 	// the command to track back
 	if(Links::allow_trackback()) {

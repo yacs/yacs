@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-01 23:04+0200
-PO-Revision-Date: 2010-10-01 23:15+0100
+POT-Creation-Date: 2010-10-19 22:05+0200
+PO-Revision-Date: 2010-10-05 23:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -281,6 +281,7 @@ $_SESSION['l10n']['fr']['Notes: %s']='Annotations : %s';
 $_SESSION['l10n']['fr']['bc9e1ae097aa296b3e304e2d12888466']='Rien n\'a été extrait de %s.';
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['Notify my followers.']='Alerter mes abonnés.';
+$_SESSION['l10n']['fr']['Notify participants']='Notifier les participants';
 $_SESSION['l10n']['fr']['Notify watchers.']='Alerter les observateurs.';
 $_SESSION['l10n']['fr']['One %s per line']='Un %s par ligne';
 $_SESSION['l10n']['fr']['0036d35feb7fd2c4c6545c79b7e41cf4']='Une ou plusieurs %s. Ce réglage annule la définition d\'overlay.';
@@ -360,10 +361,10 @@ $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['Select all/none']='Tous/aucun';
 $_SESSION['l10n']['fr']['20535dd4a4c7c09c812f0d918644a3c2']='Sélectionner les éléments à manipuler, puis cliquer sur l\'un des boutons en bas de page.';
 $_SESSION['l10n']['fr']['Select parent container']='Choisir la section parente';
+$_SESSION['l10n']['fr']['Select recipients']='Choisir les destinataires';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['0e47211d01c4146ec82ef084405f3603']='Choisissez la langue employée pour cette page';
 $_SESSION['l10n']['fr']['Send']='Envoyer';
-$_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
