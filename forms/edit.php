@@ -245,7 +245,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form to edit an form
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="$(\'content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// this form has several panels
 	$panels = array();

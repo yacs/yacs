@@ -148,7 +148,7 @@ if($id) {
 	$context['text'] .= '<p>'.i18n::s('This script allows you to install or update a theme for your YACS server.')."</p>\n";
 
 	// the form to post an file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 
 	// upload an archive
 	$context['text'] .= '<p>'.i18n::s('Select the archive file that you want to install remotely.').'</p>';

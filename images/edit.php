@@ -335,7 +335,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form to edit an image
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
 	// we are updating a user profile

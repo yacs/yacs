@@ -191,7 +191,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('This script allows for the upload of data to some table of the database.')."</p>\n";
 
 	// the form to upload a file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>'
 		.'<input type="hidden" name="action" value="import" />';
 
 	// encode fields

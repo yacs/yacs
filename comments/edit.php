@@ -344,7 +344,7 @@ if($with_form) {
 	}
 
 	// the form to edit a comment
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// reference the anchor page
 	$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';

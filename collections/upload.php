@@ -185,7 +185,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('This script allows you to upload a file, or an archive file to this directory.')."</p>\n";
 
 		// the form to post an file
-		$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 
 		// upload an archive
 		$context['text'] .= '<p>'.i18n::s('Please note that archives will be exploded to expose their content.').'</p>';
