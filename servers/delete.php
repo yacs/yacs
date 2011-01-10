@@ -52,7 +52,7 @@ if(!isset($item['id'])) {
 
 // deletion is restricted to associates
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed

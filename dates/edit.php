@@ -71,7 +71,7 @@ else
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -82,7 +82,7 @@ if(Surfer::is_crawler()) {
 elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	&& !Surfer::is_associate() && is_object($anchor) && !$anchor->is_assigned()) {
 
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -92,7 +92,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured

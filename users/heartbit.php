@@ -36,7 +36,7 @@ http::expire(0);
 
 // surfer has to be logged --provide a short response
 if(!Surfer::get_id()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // a new notification has been submitted

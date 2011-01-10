@@ -25,7 +25,7 @@ $context['page_title'] = i18n::s('Change named overlays');
 
 // this is reserved to associates
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // update targeted overlays

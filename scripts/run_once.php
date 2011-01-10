@@ -97,7 +97,7 @@ $scripts= array();
 // if the user table exists, check that the user is an admin
 $query = "SELECT count(*) FROM ".SQL::table_name('users');
 if((SQL::query($query) !== FALSE) && !Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // open the directory
