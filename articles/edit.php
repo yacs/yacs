@@ -2,8 +2,6 @@
 /**
  * create a new article or edit an existing one
  *
- * @todo allow for the upload of one file on page creation
- *
  * This is the main script used to post a new page, or to modify an existing one.
  *
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
@@ -659,7 +657,7 @@ if($with_form) {
 	}
 
 	// the form to edit an article
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
 	//

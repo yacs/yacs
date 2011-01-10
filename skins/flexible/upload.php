@@ -70,7 +70,7 @@ elseif(!Surfer::is_associate()) {
 		$link = 'skins/flexible/configure.php';
 
 	// the form to select the file to upload
-	$context['text'] = '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'">'
+	$context['text'] = '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data">'
 		.'<p style="margin: 0; padding: 0;">'
 		.'<input type="file" name="upload" size="30" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
 		.Skin::build_submit_button(i18n::s('Submit'))
