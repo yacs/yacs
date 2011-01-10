@@ -48,7 +48,7 @@ $context['page_title'] = ucfirst(Dates::get_month_label($target));
 
 // we do need 6 or 7 chars
 if((strlen($target) < 6) && (strlen($target) > 7)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // parse the provided parameter
@@ -59,7 +59,7 @@ if((strlen($target) < 6) && (strlen($target) > 7)) {
 
 	// no more than two years difference with now
 	if(abs(mktime(0, 0, 0, $month, 1, $year) - time()) > (31536000 * 2)) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	} else {

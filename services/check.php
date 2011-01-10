@@ -53,12 +53,12 @@ if(!is_object($anchor)) {
 
 // the anchor has to be viewable by this surfer
 } elseif(is_object($anchor) && !$anchor->is_viewable()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // robots cannot contribute
 } elseif(isset($_REQUEST['message']) && Surfer::may_be_a_robot()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // check time stamp
