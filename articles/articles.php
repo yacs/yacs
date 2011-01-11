@@ -3159,6 +3159,109 @@ Class Articles {
 	}
 
 	/**
+	 * encode an item to XML
+	 *
+	 * @param array attributes of the item to encode
+	 * @param object overlay instance of this item, if any
+	 * @return string the XML encoding of this item
+	 */
+	function to_xml($item, $overlay) {
+		global $context;
+
+		// article header
+		$text = '<article>'."\n";
+
+		// get unique handle of the anchor of this item
+		if(isset($item['anchor']) && !strncmp($item['anchor'], 'section:', 8) && ($handle = Sections::get_handle(substr($item['anchor'], 8)))) {
+
+			$text .= "\t".'<anchor_type>section</anchor_type>'."\n"
+				."\t".'<anchor_handle>'.$handle.'</anchor_handle>'."\n";
+
+		}
+
+		// fields to be exported
+		$labels = array('id',
+			'active',
+			'active_set',
+			'behaviors',
+			'create_address',
+			'create_date',
+			'create_id',
+			'create_name',
+			'description',
+			'edit_action',
+			'edit_address',
+			'edit_date',
+			'edit_id',
+			'edit_name',
+			'expiry_date',
+			'extra',
+			'handle',
+			'hits',
+			'icon_url',
+			'introduction',
+			'language',
+			'locked',
+			'meta',
+			'nick_name',
+			'options',
+			'owner_id',
+			'prefix',
+			'publish_address',
+			'publish_date',
+			'publish_id',
+			'publish_name',
+			'rank',
+			'rating_count',
+			'rating_sum',
+			'review_date',
+			'source',
+			'suffix',
+			'tags',
+			'thumbnail_url',
+			'title',
+			'trailer');
+
+		// process all fields
+		foreach($labels as $label) {
+
+			// export this field
+			if(isset($item[ $label ]) && $item[ $label ])
+				$text .= "\t".'<'.$label.'>'.encode_field($item[ $label ]).'</'.$label.'>'."\n";
+
+		}
+
+		// handle of item owner
+		if(isset($item['owner_id']) && ($user = Users::get($item['owner_id'])))
+			$text .= "\t".'<owner_nick_name>'.$user['nick_name'].'</owner_nick_name>'."\n";
+
+		// handle of item creator
+		if(isset($item['create_id']) && ($user = Users::get($item['create_id'])))
+			$text .= "\t".'<create_nick_name>'.$user['nick_name'].'</create_nick_name>'."\n";
+
+		// handle of last editor
+		if(isset($item['edit_id']) && ($user = Users::get($item['edit_id'])))
+			$text .= "\t".'<edit_nick_name>'.$user['nick_name'].'</edit_nick_name>'."\n";
+
+		// handle of publisher
+		if(isset($item['publish_id']) && ($user = Users::get($item['publish_id'])))
+			$text .= "\t".'<publish_nick_name>'.$user['nick_name'].'</publish_nick_name>'."\n";
+
+		// the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->export();
+
+
+		// article footer
+		$text .= '</article>'."\n";
+
+		// job done
+		return $text;
+
+	}
+
+
+	/**
 	 * unpublish an article
 	 *
 	 * Clear all publishing information
