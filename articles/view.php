@@ -184,7 +184,7 @@ if(isset($item['owner_id']))
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -300,10 +300,6 @@ if(!isset($item['id'])) {
 
 // display the article
 } else {
-
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'article:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
 
 	// behaviors can change page menu
 	if(is_object($behaviors))

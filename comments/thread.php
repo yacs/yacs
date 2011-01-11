@@ -19,6 +19,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../overlays/overlay.php';
 include_once 'comments.php';
 
 // ensure browser always look for fresh data

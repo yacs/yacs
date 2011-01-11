@@ -2726,7 +2726,7 @@ Class Codes {
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
 					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
+					$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 					// get text related to the overlay, if any
 					if(is_object($overlay))
@@ -2802,7 +2802,7 @@ Class Codes {
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
 					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
+					$overlay = Overlay::load($item, 'category:'.$item['id']);
 
 					// get text related to the overlay, if any
 					if(is_object($overlay))
@@ -3059,11 +3059,7 @@ Class Codes {
 			}
 
 			// use the skin
-			if (surfer::is_empowered())
-			   //build editable image
-			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
-			else 
-			   $output =& Skin::build_image($variant, $href, $title, $link);
+			$output =& Skin::build_image($variant, $href, $title, $link);
 			return $output;
 
 		// embed a stack of images
@@ -3675,7 +3671,7 @@ Class Codes {
 					// load overlay, if any
 					if(isset($item['overlay']) && $item['overlay']) {
 						include_once '../overlays/overlay.php';
-						$overlay = Overlay::load($item);
+						$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 						// get text related to the overlay, if any
 						if(is_object($overlay))

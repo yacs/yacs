@@ -138,7 +138,7 @@ $item =& Users::get($id);
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
 // actual capability of current surfer
 if(isset($item['id']) && Surfer::get_id() && ($item['id'] == Surfer::get_id()) && ($item['capability'] != '?'))
@@ -210,10 +210,6 @@ if(!isset($item['id'])) {
 
 // display the user profile
 } else {
-
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'user:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Users::get_permalink($item);
 
 	// remember surfer visit
 	Surfer::is_visiting(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);

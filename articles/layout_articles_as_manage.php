@@ -60,7 +60,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$cells = array();
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);
