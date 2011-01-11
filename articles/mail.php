@@ -39,7 +39,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // owners can proceed
 if(Articles::allow_message($item, $anchor))

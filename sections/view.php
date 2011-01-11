@@ -216,7 +216,7 @@ $item =& Sections::get($id);
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // get the overlay for content of this section, if any
 $content_overlay = NULL;
@@ -349,10 +349,6 @@ if(!isset($item['id'])) {
 
 // display the section
 } else {
-
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'section:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Sections::get_permalink($item);
 
 	// behaviors can change page menu
 	if(is_object($behaviors))

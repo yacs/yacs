@@ -41,12 +41,6 @@ $anchor = NULL;
 if($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
-// get the related overlay, if any
-$overlay = NULL;
-include_once '../overlays/overlay.php';
-if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
-
 // what kind of action?
 $action = '';
 if(isset($_REQUEST['action']))

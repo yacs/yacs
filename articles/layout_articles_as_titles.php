@@ -36,7 +36,7 @@ Class Layout_articles_as_titles extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);

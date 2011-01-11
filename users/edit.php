@@ -102,7 +102,7 @@ $item =& Users::get($id);
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 elseif(isset($context['users_overlay']) && $context['users_overlay'])
 	$overlay = Overlay::bind($context['users_overlay']);
 
@@ -197,10 +197,6 @@ if(Surfer::is_crawler()) {
 		if(isset($item['capability']) && ($item['capability'] == 'A') && file_exists($context['path_to_root'].'parameters/demo.flag'))
 			$_REQUEST['capability'] = 'A';
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'user:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Users::get_permalink($item);
-
 		// actual update
 		if(Users::put($_REQUEST)
 			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST))) {
@@ -259,12 +255,8 @@ if(Surfer::is_crawler()) {
 		// successful post
 		} else {
 
-			// allow back-referencing from overlay
-			$_REQUEST['self_reference'] = 'user:'.$_REQUEST['id'];
-			$_REQUEST['self_url'] = Users::get_permalink($_REQUEST);
-
 			// post an overlay, with the new user id
-			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST)) {
+			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST, 'user:'.$_REQUEST['id'])) {
 				$item = $_REQUEST;
 				$with_form = TRUE;
 

@@ -789,11 +789,8 @@ Class Articles {
 
 		// remember overlay deletion
 		include_once '../overlays/overlay.php';
-		if(isset($item['overlay']) && ($overlay = Overlay::load($item))) {
-			$item['self_reference'] = 'article:'.$item['id'];
-			$item['self_url'] = Articles::get_permalink($item);
+		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])))
 			$overlay->remember('delete', $item);
-		}
 
 		// job done
 		return TRUE;

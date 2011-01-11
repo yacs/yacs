@@ -41,7 +41,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // the surfer can proceed
 if(Articles::allow_deletion($item, $anchor)) {
