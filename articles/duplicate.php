@@ -52,7 +52,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -109,11 +109,11 @@ if(!isset($item['id'])) {
 	// ensure this is a copy
 	$item['title'] = sprintf(i18n::s('Copy of %s'), $item['title']);
 
-	// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
-	$overlay = Overlay::load($item);
-
 	// create a new page
 	if($item['id'] = Articles::post($item)) {
+
+		// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// post an overlay, with the new article id
 		if(is_object($overlay))

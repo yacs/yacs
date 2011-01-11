@@ -39,7 +39,7 @@ Class Layout_articles_as_digest extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);

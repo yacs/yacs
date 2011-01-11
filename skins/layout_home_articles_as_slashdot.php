@@ -66,7 +66,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// next item
 			$item_count += 1;

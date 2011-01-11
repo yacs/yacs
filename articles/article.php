@@ -30,7 +30,7 @@ Class Article extends Anchor {
 		// cache the overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item);
+			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 
 		// delegate the validation to the overlay
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
@@ -356,9 +356,10 @@ Class Article extends Anchor {
 		// use overlay data, if any
 		if(!$text) {
 			include_once $context['path_to_root'].'overlays/overlay.php';
-			$overlay = Overlay::load($this->item);
-			if(is_object($overlay))
-				$text .= $overlay->get_text('list', $this->item);
+			if(!isset($this->overlay) && isset($this->item['overlay']))
+				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+			if(is_object($this->overlay))
+				$text .= $this->overlay->get_text('list', $this->item);
 		}
 
 		// use the description field, if any

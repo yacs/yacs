@@ -56,7 +56,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$cells = array();
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);

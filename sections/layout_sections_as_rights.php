@@ -58,7 +58,7 @@ Class Layout_sections_as_rights extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);

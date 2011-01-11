@@ -40,7 +40,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
