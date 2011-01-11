@@ -60,7 +60,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // link to contribute
 if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))

@@ -105,6 +105,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../behaviors/behaviors.php';	// input validation
 include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../links/links.php';
@@ -153,17 +154,26 @@ if(!isset($item['active']) && is_object($anchor))
 // get the related overlay, if any -- overlay_type will be considered later on
 $overlay = NULL;
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$overlay = Overlay::bind($_REQUEST['variant']);
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay()))
-	$overlay = Overlay::bind($overlay_class);
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('content_overlay');
+
+// get related behaviors, if any
+$behaviors = NULL;
+if(isset($item['id']))
+	$behaviors = new Behaviors($item, $anchor);
+
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/edit.php', 'article:'.$item['id']))
+	$permitted = FALSE;
 
 // we are allowed to add a new page
-if(!isset($item['id']) && Articles::allow_creation(NULL, $anchor))
+elseif(!isset($item['id']) && Articles::allow_creation(NULL, $anchor))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing page
@@ -350,12 +360,6 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['option_hardcoded']) && ($_REQUEST['option_hardcoded'] == 'Y'))
 		$_REQUEST['options'] .= ' hardcoded';
 
-	// allow back-referencing from overlay
-	if(isset($_REQUEST['id'])) {
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-	}
-
 	// overlay may have changed
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
@@ -372,15 +376,8 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
 		// delete the previous version, if any
-		if(is_object($overlay) && isset($_REQUEST['id'])) {
-
-			// allow back-referencing from overlay
-			$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-			$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-
-			// do the job
+		if(is_object($overlay) && isset($_REQUEST['id']))
 			$overlay->remember('delete', $_REQUEST);
-		}
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -441,7 +438,7 @@ if(Surfer::is_crawler()) {
 			$action = 'update';
 
 		// stop on error
-		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST))) {
+		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST, 'article:'.$_REQUEST['id']))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -499,13 +496,9 @@ if(Surfer::is_crawler()) {
 	// successful post
 	} else {
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-
-		// post an overlay, with the new article id --don't stop on error
+		// update the overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST);
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
@@ -645,7 +638,7 @@ if(Surfer::is_crawler()) {
 	unset($item['introduction']);
 	unset($item['nick_name']);
 
-	// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+	// also duplicate the provided overlay, if any
 	$overlay = Overlay::load($item);
 
 	// let the surfer do the rest
@@ -675,12 +668,6 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
-
-	// allow back-referencing from overlay
-	if(isset($item['id'])) {
-		$item['self_reference'] = 'article:'.$item['id'];
-		$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
-	}
 
 	// branch to another script to display form fields, tabs, etc
 	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {

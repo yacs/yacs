@@ -70,7 +70,7 @@ if(!isset($item['active']) && is_object($anchor))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']) && $item['overlay_id'])
 	$overlay = Overlay::bind($item['overlay_id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
@@ -78,8 +78,8 @@ elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 elseif(isset($_SESSION['variant']) && $_SESSION['variant']) {
 	$overlay = Overlay::bind($_SESSION['variant']);
 	unset($_SESSION['variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay('categories_overlay')))
-	$overlay = Overlay::bind($overlay_class);
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('categories_overlay');
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -218,7 +218,7 @@ if(Surfer::is_crawler()) {
 	}
 	// display the form on error
 	if((!$_REQUEST['id'] = Categories::post($_REQUEST))
-			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, $_REQUEST['id']))) {
+			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, 'category:'.$_REQUEST['id']))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 

@@ -219,6 +219,10 @@ if($page == 1) {
 if(defined('DIGG'))
 	$context['text'] .= '</div>';
 
+// get text related to the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('view', $item);
+
 // the owner profile, if any, at the end of the page
 if(isset($owner['id']) && is_object($anchor))
 	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
@@ -232,10 +236,6 @@ $panels = array();
 // information tab
 //
 $information = '';
-
-// get text related to the overlay, if any
-if(is_object($overlay))
-	$information .= $overlay->get_text('view', $item);
 
 // filter description, if necessary
 if(is_object($overlay))

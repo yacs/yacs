@@ -55,7 +55,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$item_count += 1;
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -265,7 +265,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		global $context;
 
 		// get the related overlay, if any
-		$overlay = Overlay::load($item);
+		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// the url to view this item
 		$url =& Articles::get_permalink($item);

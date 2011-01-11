@@ -947,7 +947,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$overlay = NULL;
 			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(isset($item['overlay']))
-				$overlay = Overlay::load($item);
+				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))

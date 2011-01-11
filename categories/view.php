@@ -134,7 +134,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']))
 	$overlay = Overlay::bind($item['overlay_id']);
 
@@ -813,7 +813,6 @@ if(!isset($item['id'])) {
 		// notify members
 		if(($count > 1) && Surfer::is_associate()) {
 			Skin::define_img('CATEGORIES_EMAIL_IMG', 'categories/email.gif');
-
 			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Notify members'));
 		}
 

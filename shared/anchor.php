@@ -395,9 +395,10 @@ class Anchor {
 	 * @return a string
 	 */
 	 function get_overlay($name='content_overlay') {
+	 	$overlay = NULL;
 		if($this->item && isset($this->item[$name]))
-			return $this->item[$name];
-		return NULL;
+			$overlay = Overlay::bind($this->item[$name]);
+		return $overlay;
 	 }
 
 	/**
@@ -1120,7 +1121,7 @@ class Anchor {
 	 * change some attributes of an anchor
 	 *
 	 * @param array of (name, value)
-	 * @return TRUE on success, FALSE otherwise
+	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	function set_values($fields) {
 		return FALSE;

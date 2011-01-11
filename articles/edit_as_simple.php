@@ -80,10 +80,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	// successful post
 	} else {
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-
 		// post an overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);

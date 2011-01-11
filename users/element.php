@@ -54,7 +54,7 @@ $item =& Users::get($id);
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
 // look for the action
 $action = NULL;

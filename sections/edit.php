@@ -57,14 +57,14 @@ if(!isset($item['active']) && is_object($anchor))
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$overlay = Overlay::bind($_REQUEST['variant']);
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay('section_overlay')))
-	$overlay = Overlay::bind($overlay_class);
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('section_overlay');
 
 // we are allowed to add a new section
 if(!isset($item['id']) && Sections::allow_creation(NULL, $anchor))
@@ -156,12 +156,6 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
-	// allow back-referencing from overlay
-	if(isset($_REQUEST['id'])) {
-		$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
-	}
-
 	// overlay may have changed
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
@@ -210,7 +204,7 @@ if(Surfer::is_crawler()) {
 			$action = 'update';
 
 		// stop on error
-		if(!Sections::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST))) {
+		if(!Sections::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST, 'section:'.$_REQUEST['id']))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -241,13 +235,9 @@ if(Surfer::is_crawler()) {
 	// successful post
 	} else {
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
-
 		// post an overlay, with the new section id --don't stop on error
 		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST);
+			$overlay->remember('insert', $_REQUEST, 'section:'.$_REQUEST['id']);
 
 		// touch the related anchor
 		if(is_object($anchor))
