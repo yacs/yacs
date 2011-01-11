@@ -1801,6 +1801,12 @@ if(!isset($item['id'])) {
 
 	}
 
+	// commands for associates
+	if(Surfer::is_associate()) {
+		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'export'), SECTIONS_DUPLICATE_IMG.i18n::s('Export this section'));
+	}
+
 }
 
 // render the skin

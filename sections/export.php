@@ -1,16 +1,12 @@
 <?php
 /**
- * download one article in XML
+ * download one section in XML
  *
  * Accept following invocations:
  * - export.php/12
  * - export.php?id=12
  *
- * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
- *
  * @author Bernard Paques
- * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -28,7 +24,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item =& Sections::get($id);
 
 // get the related anchor
 $anchor = NULL;
@@ -39,10 +35,10 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item, 'article:'.$item['id']);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // load the skin, maybe with a variant
-load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
+load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // clear the tab we are in, if any
 if(is_object($anchor))
@@ -57,11 +53,11 @@ if(!isset($item['id'])) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Articles::allow_access($item, $anchor)) {
+} elseif(!Sections::allow_access($item, $anchor)) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'export')));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'export')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -72,11 +68,12 @@ if(!isset($item['id'])) {
 
 	// file header
 	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
-		.'<!DOCTYPE article SYSTEM "'.$context['url_to_home'].$context['url_to_root'].'articles/article.dtd">'."\n"
-		.'<?xml-stylesheet type="text/css" href="'.$context['url_to_home'].$context['url_to_root'].'articles/article.css" ?>'."\n";
+		.'<content>'."\n";
 
 	// item actual content
-	$text .= Articles::to_xml($item, $overlay);
+	$text .= Sections::to_xml($item, $overlay);
+
+	$text .= "\n".'</content>';
 
 	//
 	// transfer to the user agent
