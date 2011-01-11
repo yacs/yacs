@@ -201,16 +201,16 @@ class Overlay {
 			$parameters = ' parameters="'.$this->attributes['overlay_parameters'].'"';
 		else
 			$parameters = '';
-		$text =  ' <overlay'.$class.$parameters.'>'."\n";
+		$text =  "\t".'<overlay'.$class.$parameters.'>'."\n";
 		foreach($this->attributes as $label => $value) {
 			if($label == 'overlay_type')
 				continue;
 			if($label == 'overlay_parameters')
 				continue;
 			if(is_array($value)) {
-				$text .=  "\t".' <'.$label.'><array>'."\n";
+				$text .=  "\t\t".' <'.$label.'><array>'."\n";
 				foreach($value as $sub_value) {
-					$text .=  "\t\t".' <item>';
+					$text .=  "\t\t\t".' <item>';
 					if(is_array($sub_value)) {
 						$text .=  '<array>';
 						foreach($sub_value as $sub_sub_value)
@@ -220,11 +220,11 @@ class Overlay {
 						$text .=  encode_field($sub_value);
 					$text .=  '</item>'."\n";
 				}
-				$text .=  "\t".' </array></'.$label.'>'."\n";
+				$text .=  "\t\t".' </array></'.$label.'>'."\n";
 			} else
-				$text .=  "\t".' <'.$label.'>'.encode_field($value).'</'.$label.'>'."\n";
+				$text .=  "\t\t".' <'.$label.'>'.encode_field($value).'</'.$label.'>'."\n";
 		}
-		$text .=  ' </overlay>'."\n";
+		$text .=  "\t".'</overlay>'."\n";
 
 		return $text;
 	}
