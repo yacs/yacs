@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-07 00:12+0200\n"
-"PO-Revision-Date: 2010-10-01 23:07+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2011-01-12 11:44+0100\n"
+"PO-Revision-Date: 2011-01-12 12:11+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -28,7 +28,9 @@ msgstr "imported"
 msgid "created"
 msgstr "created"
 
-#: shared/anchors.php:367 shared/anchors.php:385 shared/anchors.php:440
+#: shared/anchors.php:367
+#: shared/anchors.php:385
+#: shared/anchors.php:440
 msgid "edited"
 msgstr "edited"
 
@@ -173,10 +175,8 @@ msgid "Versions"
 msgstr "Versions"
 
 #: shared/anchors.php:608
-msgid ""
-"Following items are attached to this record and will be impacted as well."
-msgstr ""
-"Following items are attached to this record and will be impacted as well."
+msgid "Following items are attached to this record and will be impacted as well."
+msgstr "Following items are attached to this record and will be impacted as well."
 
 #: shared/anchors.php:616
 msgid "Table"
@@ -198,54 +198,56 @@ msgstr "Last edition"
 msgid "Related items"
 msgstr "Related items"
 
-#: shared/codes.php:1527
+#: shared/codes.php:1530
 #, php-format
-msgid "%d person has followed the link: %s"
-msgid_plural "%d persons have followed the link: %s"
-msgstr[0] "%d person has followed the link: %s"
-msgstr[1] "%d persons have followed the link: %s"
+msgid "%d named person has followed the link: %s"
+msgid_plural "%d named persons have followed the link: %s"
+msgstr[0] "%d named person has followed the link: %s"
+msgstr[1] "%d named persons have followed the link: %s"
 
-#: shared/codes.php:1531
-msgid "This link has not been used yet"
-msgstr "This link has not been used yet"
+#: shared/codes.php:1533
+msgid "No authenticated person has used this link yet"
+msgstr "No authenticated person has used this link yet"
 
-#: shared/codes.php:1552
+#: shared/codes.php:1554
 msgid "No item has been found."
 msgstr "No item has been found."
 
-#: shared/codes.php:1596
+#: shared/codes.php:1598
 msgid "Access collection"
 msgstr "Access collection"
 
-#: shared/codes.php:1657
+#: shared/codes.php:1659
 msgid "Filter"
 msgstr "Filter"
 
-#: shared/codes.php:1780
+#: shared/codes.php:1782
 msgid "Play in a separate window"
 msgstr "Play in a separate window"
 
-#: shared/codes.php:2004 shared/codes.php:2218
+#: shared/codes.php:2006
+#: shared/codes.php:2220
 msgid "Browse this map with Freemind"
 msgstr "Browse this map with Freemind"
 
-#: shared/codes.php:2146 shared/codes.php:2158
+#: shared/codes.php:2148
+#: shared/codes.php:2160
 msgid "Full-size"
 msgstr "Full-size"
 
-#: shared/codes.php:2352
+#: shared/codes.php:2354
 msgid "Your browser does not accept iframes"
 msgstr "Your browser does not accept iframes"
 
-#: shared/codes.php:2836
+#: shared/codes.php:2838
 msgid "View this comment"
 msgstr "View this comment"
 
-#: shared/codes.php:2865
+#: shared/codes.php:2867
 msgid "View this decision"
 msgstr "View this decision"
 
-#: shared/codes.php:4367
+#: shared/codes.php:4373
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
@@ -258,88 +260,80 @@ msgstr "View the category"
 
 #: shared/logger.php:206
 #, php-format
-msgid ""
-"This message has been generated automatically by %s. If you wish to stop "
-"these automatic alerts please visit the following link and remove your "
-"address from recipients of system events."
-msgstr ""
-"This message has been generated automatically by %s. If you wish to stop "
-"these automatic alerts please visit the following link and remove your "
-"address from recipients of system events."
+msgid "This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events."
+msgstr "This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events."
 
-#: shared/mailer.php:101
+#: shared/mailer.php:108
 #, php-format
 msgid "%s by %s"
 msgstr "%s by %s"
 
-#: shared/mailer.php:118
+#: shared/mailer.php:125
 #, php-format
-msgid ""
-"This message has been generated automatically by %s since the new item has "
-"been posted in a web space that is part of your watch list. If you wish to "
-"not be alerted automatically please visit the page and click on Stop "
-"notifications."
-msgstr ""
-"This message has been generated automatically by %s since the new item has "
-"been posted in a web space that is part of your watch list. If you wish to "
-"not be alerted automatically please visit the page and click on Stop "
-"notifications."
+msgid "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications."
+msgstr "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications."
 
-#: shared/mailer.php:132
+#: shared/mailer.php:139
 #, php-format
-msgid ""
-"This message has been generated automatically by %s since you are following "
-"the person who posted the new item. If you wish to stop these automatic "
-"alerts please visit the user profile below and click on Stop notifications."
-msgstr ""
-"This message has been generated automatically by %s since you are following "
-"the person who posted the new item. If you wish to stop these automatic "
-"alerts please visit the user profile below and click on Stop notifications."
+msgid "This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications."
+msgstr "This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications."
 
-#: shared/mailer.php:177
+#: shared/mailer.php:184
 #, php-format
 msgid "and %d other persons"
 msgstr "and %d other persons"
 
-#: shared/mailer.php:302 shared/mailer.php:752 shared/mailer.php:996
-#: shared/mailer.php:1135
+#: shared/mailer.php:309
+#: shared/mailer.php:760
+#: shared/mailer.php:1004
+#: shared/mailer.php:1143
 msgid "E-mail has not been enabled on this system."
 msgstr "E-mail has not been enabled on this system."
 
-#: shared/mailer.php:757
+#: shared/mailer.php:765
 msgid "Empty sender address"
 msgstr "Empty sender address"
 
-#: shared/mailer.php:762 shared/mailer.php:1001
+#: shared/mailer.php:770
+#: shared/mailer.php:1009
 msgid "Empty recipient address"
 msgstr "Empty recipient address"
 
-#: shared/mailer.php:767 shared/mailer.php:1006
+#: shared/mailer.php:775
+#: shared/mailer.php:1014
 msgid "No subject"
 msgstr "No subject"
 
-#: shared/mailer.php:772 shared/mailer.php:1011
+#: shared/mailer.php:780
+#: shared/mailer.php:1019
 msgid "No message"
 msgstr "No message"
 
-#: shared/mailer.php:1127 shared/mailer.php:1129
+#: shared/mailer.php:1135
+#: shared/mailer.php:1137
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr "Error while sending the message to %s"
 
-#: shared/members.php:78 shared/members.php:401 shared/members.php:1293
+#: shared/members.php:78
+#: shared/members.php:401
+#: shared/members.php:1293
 msgid "An anchor is required for this operation."
 msgstr "An anchor is required for this operation."
 
-#: shared/members.php:82 shared/members.php:405 shared/members.php:1297
+#: shared/members.php:82
+#: shared/members.php:405
+#: shared/members.php:1297
 msgid "A member is required for this operation."
 msgstr "A member is required for this operation."
 
-#: shared/members.php:681 shared/members.php:742
+#: shared/members.php:681
+#: shared/members.php:742
 msgid "weekly"
 msgstr "weekly"
 
-#: shared/members.php:682 shared/members.php:743
+#: shared/members.php:682
+#: shared/members.php:743
 msgid "monthly"
 msgstr "monthly"
 
@@ -357,12 +351,14 @@ msgstr "Redirecting to %s"
 msgid "Impossible to connect to %s."
 msgstr "Impossible to connect to %s."
 
-#: shared/sql.php:555 shared/zipfile.php:197
+#: shared/sql.php:555
+#: shared/zipfile.php:197
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible to read %s."
 
-#: shared/sql.php:728 shared/sql.php:730
+#: shared/sql.php:728
+#: shared/sql.php:730
 msgid "Connection to the database has been lost"
 msgstr "Connection to the database has been lost"
 
@@ -494,245 +490,172 @@ msgstr "Last stacking element: %s"
 msgid "Impossible to extract files."
 msgstr "Impossible to extract files."
 
+#~ msgid "This link has not been used yet"
+#~ msgstr "This link has not been used yet"
 #~ msgid "Tools"
 #~ msgstr "Tools"
-
 #~ msgid "User login"
 #~ msgstr "User login"
-
 #~ msgid "Visited"
 #~ msgstr "Visited"
-
 #~ msgid "Your private pages with %s"
 #~ msgstr "Your private pages with %s"
-
 #~ msgid "All threads"
 #~ msgstr "All threads"
-
 #~ msgid "Join %s at %s"
 #~ msgstr "Join %s at %s"
-
 #~ msgid "Co-browsing"
 #~ msgstr "Co-browsing"
-
 #~ msgid "Invite people"
 #~ msgstr "Invite people"
-
 #~ msgid "Enter nick names, or email addresses, separated by commas."
 #~ msgstr "Enter nick names, or email addresses, separated by commas."
-
 #~ msgid "Page topic"
 #~ msgstr "Page topic"
-
 #~ msgid "Your contribution"
 #~ msgstr "Your contribution"
-
 #~ msgid "Use only plain ASCII, no HTML."
 #~ msgstr "Use only plain ASCII, no HTML."
-
 #~ msgid "Submit"
 #~ msgstr "Submit"
-
 #~ msgid "Press [s] to submit data"
 #~ msgstr "Press [s] to submit data"
-
 #~ msgid "Start a private page"
 #~ msgstr "Start a private page"
-
 #~ msgid "Start a private page with %s"
 #~ msgstr "Start a private page with %s"
-
 #~ msgid "Please provide a recipient address."
 #~ msgstr "Please provide a recipient address."
-
 #~ msgid "Please provide a meaningful title."
 #~ msgstr "Please provide a meaningful title."
-
 #~ msgid "Your private pages"
 #~ msgstr "Your private pages"
-
 #~ msgid "page created"
 #~ msgstr "page created"
-
 #~ msgid "page edited"
 #~ msgstr "page edited"
-
 #~ msgid "Articles"
 #~ msgstr "Articles"
-
 #~ msgid "action %s"
 #~ msgstr "action %s"
-
 #~ msgid "article %s"
 #~ msgstr "article %s"
-
 #~ msgid "category %s"
 #~ msgstr "category %s"
-
 #~ msgid "comment %s"
 #~ msgstr "comment %s"
-
 #~ msgid "decision %s"
 #~ msgstr "decision %s"
-
 #~ msgid "file %s"
 #~ msgstr "file %s"
-
 #~ msgid "section %s"
 #~ msgstr "section %s"
-
 #~ msgid "server %s"
 #~ msgstr "server %s"
-
 #~ msgid "user %s"
 #~ msgstr "user %s"
-
 #~ msgid "No member has been provided."
 #~ msgstr "No member has been provided."
-
 #~ msgid "You have no private page."
 #~ msgstr "You have no private page."
-
 #~ msgid "You have no private page with %s."
 #~ msgstr "You have no private page with %s."
-
 #~ msgid "E-mail is not authorized on this system."
 #~ msgstr "E-mail is not authorized on this system."
-
 #~ msgid "Empty table name!"
 #~ msgstr "Empty table name!"
-
 #~ msgid "Surfer"
 #~ msgstr "Surfer"
-
 #~ msgid "Your presence"
 #~ msgstr "Your presence"
-
 #~ msgid "Options to contact %s"
 #~ msgstr "Options to contact %s"
-
 #~ msgid ""
 #~ "%s is currently present at this site, and several contact options are "
 #~ "available:"
 #~ msgstr ""
 #~ "%s is currently present at this site, and several contact options are "
 #~ "available:"
-
 #~ msgid "Start a private conversation"
 #~ msgstr "Start a private conversation"
-
 #~ msgid "Share the following web address"
 #~ msgstr "Share the following web address"
-
 #~ msgid "Send a private message"
 #~ msgstr "Send a private message"
-
 #~ msgid "Message to notify %s"
 #~ msgstr "Message to notify %s"
-
 #~ msgid "Send"
 #~ msgstr "Send"
-
 #~ msgid "Conversation topic"
 #~ msgstr "Conversation topic"
-
 #~ msgid "Help"
 #~ msgstr "Help"
-
 #~ msgid "If you don't know how to proceed, start here"
 #~ msgstr "If you don't know how to proceed, start here"
-
 #~ msgid "Use a web form to submit new content"
 #~ msgstr "Use a web form to submit new content"
-
 #~ msgid "Bookmark a link"
 #~ msgstr "Bookmark a link"
-
 #~ msgid "Share interesting pages"
 #~ msgstr "Share interesting pages"
-
 #~ msgid "Textarea"
 #~ msgstr "Textarea"
-
 #~ msgid "FCKEditor"
 #~ msgstr "FCKEditor"
-
 #~ msgid "TinyMCE"
 #~ msgstr "TinyMCE"
-
 #~ msgid ""
 #~ "Powered by %s. You can also select %s or include %s and %s to enhance the "
 #~ "rendering of your page."
 #~ msgstr ""
 #~ "Powered by %s. You can also select %s or include %s and %s to enhance the "
 #~ "rendering of your page."
-
 #~ msgid "FCKeditor"
 #~ msgstr "FCKeditor"
-
 #~ msgid "YACS codes"
 #~ msgstr "YACS codes"
-
 #~ msgid "smileys"
 #~ msgstr "smileys"
-
 #~ msgid "Please use %s to enhance the rendering of your page."
 #~ msgstr "Please use %s to enhance the rendering of your page."
-
 #~ msgid "You can switch to %s or %s in %s."
 #~ msgstr "You can switch to %s or %s in %s."
-
 #~ msgid "your user profile"
 #~ msgstr "your user profile"
-
 #~ msgid "Missing tables in the database"
 #~ msgstr "Missing tables in the database"
-
 #~ msgid "Upload a link in a new page"
 #~ msgstr "Upload a link in a new page"
-
 #~ msgid "Highlighted"
 #~ msgstr "Highlighted"
-
 #~ msgid "Post an image"
 #~ msgstr "Post an image"
-
 #~ msgid "Upload a picture in a new page"
 #~ msgstr "Upload a picture in a new page"
-
 #~ msgid "Share a file"
 #~ msgstr "Share a file"
-
 #~ msgid "Upload a file in a new page"
 #~ msgstr "Upload a file in a new page"
-
 #~ msgid "Impossible to invoke the zip library."
 #~ msgstr "Impossible to invoke the zip library."
-
 #~ msgid "Impossible to read %s"
 #~ msgstr "Impossible to read %s"
-
 #~ msgid "Unable to open the provided archive file."
 #~ msgstr "Unable to open the provided archive file."
-
 #~ msgid "An anchor is required for this association."
 #~ msgstr "An anchor is required for this association."
-
 #~ msgid "A member is required for this association."
 #~ msgstr "A member is required for this association."
-
 #~ msgid "Unable to activate the database server."
 #~ msgstr "Unable to activate the database server."
-
 #~ msgid "Anchors are required for these associations."
 #~ msgstr "Anchors are required for these associations."
-
 #~ msgid ""
 #~ "Powered by %s. You can also include %s or %s, and %s to enhance the "
 #~ "rendering of your page."
 #~ msgstr ""
 #~ "Powered by %s. You can also include %s or %s, and %s to enhance the "
 #~ "rendering of your page."
-
 #~ msgid "updated"
 #~ msgstr "updated"
+

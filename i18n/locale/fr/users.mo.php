@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-01 23:22+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 12:14+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
@@ -135,6 +135,7 @@ $_SESSION['l10n']['fr']['Current picture: %s']='Image actuelle : %s';
 $_SESSION['l10n']['fr']['Default editor']='Editeur par défaut';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this profile']='Supprimer ce profil';
+$_SESSION['l10n']['fr']['Deletion: %s']='Suppression : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Display individual pictures.']='Afficher les images individuelles.';
 $_SESSION['l10n']['fr']['af4fbb4e291ff093e5e2653e6e4aeabb']='Afficher la même image pour tous les profils.';

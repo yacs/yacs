@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-01 23:14+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 12:00+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
@@ -64,6 +64,7 @@ $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this file']='Supprimer ce fichier';
+$_SESSION['l10n']['fr']['Deletion: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Divx Player']='Divx Player';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';
