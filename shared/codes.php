@@ -3058,8 +3058,8 @@ Class Codes {
 			}
 
 			// use the skin
-			if (surfer::is_empowered())
-			   //build editable image
+			if(Images::allow_modification($image['anchor'],$id))
+			   // build editable image
 			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
 			else 
 			   $output =& Skin::build_image($variant, $href, $title, $link);
