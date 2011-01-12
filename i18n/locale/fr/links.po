@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"POT-Creation-Date: 2011-01-12 11:44+0100\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: links/check.php:56 links/check.php:67 links/check.php:161
 #: links/check.php:268 links/check.php:377 links/check.php:433
-#: links/click.php:92 links/delete.php:79 links/edit.php:188
+#: links/click.php:89 links/delete.php:79 links/edit.php:188
 #: links/index.php:48 links/trackback.php:115
 msgid "Links"
 msgstr "Liens"
@@ -26,7 +26,7 @@ msgstr "Liens"
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: links/check.php:64 links/click.php:100 links/delete.php:91
+#: links/check.php:64 links/click.php:97 links/delete.php:91
 #: links/edit.php:224 links/edit.php:244 links/index.php:58
 #: links/trackback.php:124 links/trackback.php:249
 msgid "You are not allowed to perform this operation."
@@ -150,11 +150,11 @@ msgstr "Détecter les enregistrements orphelins"
 msgid "Start"
 msgstr "Commencer"
 
-#: links/click.php:104 links/links.php:1129 links/links.php:1238
+#: links/click.php:101 links/links.php:1129 links/links.php:1238
 msgid "No link URL has been provided."
 msgstr "Aucun lien URL n'a été fourni."
 
-#: links/click.php:117
+#: links/click.php:114
 msgid "Click has not been recorded."
 msgstr "Les clics n'ont pas été enregistrés."
 
@@ -174,8 +174,8 @@ msgstr "Oui, je veux supprimer ce lien"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links.php:77
-#: links/layout_links_as_daily.php:95
+#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
+#: links/layout_links.php:77
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -408,8 +408,16 @@ msgstr "Hit-Parade"
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: links/layout_links.php:84 links/layout_links_as_daily.php:104
-#: links/layout_links_as_simple.php:54
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr "Modifier"
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr "Supprimer"
+
+#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
+#: links/layout_links.php:84
 #, php-format
 msgid "in %s"
 msgstr "dans %s"
@@ -421,14 +429,6 @@ msgstr "modifier"
 #: links/layout_links.php:90
 msgid "delete"
 msgstr "supprimer"
-
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr "Modifier"
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr "Supprimer"
 
 #: links/links.php:268
 msgid "Clicks"

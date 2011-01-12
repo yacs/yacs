@@ -2,8 +2,6 @@
 /**
  * create a new article or edit an existing one
  *
- * @todo allow for the upload of one file on page creation
- *
  * This is the main script used to post a new page, or to modify an existing one.
  *
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
@@ -233,7 +231,7 @@ if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -253,7 +251,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -585,7 +583,7 @@ if(Surfer::is_crawler()) {
 
 	// ensure we are not duplicating outside regular templates
 	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		die(i18n::s('You are not allowed to perform this operation.'));
 	}
 
@@ -659,7 +657,7 @@ if($with_form) {
 	}
 
 	// the form to edit an article
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
 	//

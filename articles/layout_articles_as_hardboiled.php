@@ -8,6 +8,7 @@
  *
  * @author Bernard Paques
  * @author Thierry Pinelli (ThierryP)
+ * @tester Denis Flouriot
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -241,7 +242,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		}
 
 		// extend the #home_south in case of floats
-		if(($item_count > 1) && ($item_count < 3))
+		if(($item_count >= 1) && ($item_count < 3))
 			$text .= '<p style="clear: left;">&nbsp;</p></div>'."\n";
 
 		// turn the list to a string

@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-20 07:25+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 12:04+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
@@ -66,6 +66,7 @@ $_SESSION['l10n']['fr']['4158dec895b46349386efea0e7ee92a9']='Participez à l\'ex
 $_SESSION['l10n']['fr']['Contribution to "%s"']='Contribution à "%s"';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this category']='Supprimer cette catégorie';
+$_SESSION['l10n']['fr']['Deletion: %s']='Suppression : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not list categories']='Ne pas lister les catégories';

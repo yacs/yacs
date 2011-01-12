@@ -40,7 +40,7 @@ if(!$root_category = Categories::lookup('keywords')) {
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a valid category to host keywords
@@ -49,7 +49,7 @@ if(Surfer::is_crawler()) {
 
 // operation is restricted to members
 elseif(!Surfer::is_member()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a keyword

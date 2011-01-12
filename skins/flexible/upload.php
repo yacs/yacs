@@ -29,7 +29,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // we need a target directory
@@ -70,7 +70,7 @@ elseif(!Surfer::is_associate()) {
 		$link = 'skins/flexible/configure.php';
 
 	// the form to select the file to upload
-	$context['text'] = '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'">'
+	$context['text'] = '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data">'
 		.'<p style="margin: 0; padding: 0;">'
 		.'<input type="file" name="upload" size="30" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
 		.Skin::build_submit_button(i18n::s('Submit'))

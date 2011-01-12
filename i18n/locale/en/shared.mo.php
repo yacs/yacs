@@ -7,21 +7,21 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-07 00:12+0200
-PO-Revision-Date: 2010-10-01 23:07+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 12:11+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: UNITED KINGDOM
 X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: English
 ';
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
-$_SESSION['l10n']['en']['5c5d7433b029747dfb6d13f190504a0f']='%d person has followed the link: %s'.chr(0).'%d persons have followed the link: %s';
+$_SESSION['l10n']['en']['5ee8eddc825b8b2e2b7c8667178e7594']='%d named person has followed the link: %s'.chr(0).'%d named persons have followed the link: %s';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
@@ -60,6 +60,7 @@ $_SESSION['l10n']['en']['Logout']='Logout';
 $_SESSION['l10n']['en']['Lost password']='Lost password';
 $_SESSION['l10n']['en']['My pages']='My pages';
 $_SESSION['l10n']['en']['My profile']='My profile';
+$_SESSION['l10n']['en']['06a14c54ca2ecb1f809e031c4c2c0909']='No authenticated person has used this link yet';
 $_SESSION['l10n']['en']['No item has been found.']='No item has been found.';
 $_SESSION['l10n']['en']['No message']='No message';
 $_SESSION['l10n']['en']['No subject']='No subject';
@@ -80,7 +81,6 @@ $_SESSION['l10n']['en']['fc2edca5afeada33fbd4d829f8da5047']='System commands, co
 $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
-$_SESSION['l10n']['en']['This link has not been used yet']='This link has not been used yet';
 $_SESSION['l10n']['en']['e6236ced25bee095095728d9b2de9a4f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.';
 $_SESSION['l10n']['en']['b0815cd5b64b817543f7e729e725554f']='This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';

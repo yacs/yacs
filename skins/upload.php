@@ -36,7 +36,7 @@ $context['page_title'] = i18n::s('Upload a theme');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -45,7 +45,7 @@ if(Surfer::is_crawler()) {
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -148,7 +148,7 @@ if($id) {
 	$context['text'] .= '<p>'.i18n::s('This script allows you to install or update a theme for your YACS server.')."</p>\n";
 
 	// the form to post an file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 
 	// upload an archive
 	$context['text'] .= '<p>'.i18n::s('Select the archive file that you want to install remotely.').'</p>';

@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:20+0200
+POT-Creation-Date: 2011-01-12 11:44+0100
 PO-Revision-Date: 2010-09-29 14:30+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM
@@ -71,7 +71,6 @@ $_SESSION['l10n']['en']['Color']='Color';
 $_SESSION['l10n']['en']['Comic']='Comic';
 $_SESSION['l10n']['en']['Comma-separated values']='Comma-separated values';
 $_SESSION['l10n']['en']['Comment shortcut']='Comment shortcut';
-$_SESSION['l10n']['en']['Count clicks']='Count clicks';
 $_SESSION['l10n']['en']['Cursive']='Cursive';
 $_SESSION['l10n']['en']['Decision shortcut']='Decision shortcut';
 $_SESSION['l10n']['en']['Decorated']='Decorated';

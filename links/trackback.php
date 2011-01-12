@@ -120,7 +120,7 @@ if(is_object($anchor) && ($title = $anchor->get_title()))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -245,7 +245,7 @@ if(Surfer::is_crawler()) {
 
 // ensure that access is allowed
 } elseif(is_object($anchor) && !$anchor->is_viewable()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // we have a valid reference, collect other information

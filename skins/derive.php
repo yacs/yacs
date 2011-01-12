@@ -52,7 +52,7 @@ $context['page_title'] = i18n::s('Derive a new skin from an existing one');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -61,12 +61,12 @@ if(Surfer::is_crawler()) {
 
 // only associates can use this tool
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // it is not allowed to rewrite one reference template
 } elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|images|joi|skeleton)$/', $_REQUEST['directory'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do the job

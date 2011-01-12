@@ -60,7 +60,11 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 		// post an overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST);
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
+
+		// attach some file
+		if(isset($_FILES['upload']))
+			Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']);
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
@@ -167,7 +171,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 if($with_form) {
 
 	// the form to edit an article
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
 	//
@@ -241,6 +245,21 @@ if($with_form) {
 	if(!is_object($overlay) || !($hint = $overlay->get_label('description_hint', isset($item['id'])?'edit':'new')))
 		$hint = '';
 	$fields[] = array($label, $input, $hint);
+
+	// allow for an initial upload, if allowed
+	if(Surfer::may_upload()) {
+
+		// attachment label
+		$label = i18n::s('Upload a file');
+
+		// an upload entry
+		$input = '<input type="hidden" name="file_type" value="upload" />'
+			.'<input type="file" name="upload" size="30" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+
+		$fields[] = array($label, $input);
+
+	}
 
 	// tags
 	$label = i18n::s('Tags');

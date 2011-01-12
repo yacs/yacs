@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:21+0200
+POT-Creation-Date: 2011-01-12 11:44+0100
 PO-Revision-Date: 2008-06-28 10:39+0100
 Last-Translator: Paques, Bernard
 Language-Team: Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM

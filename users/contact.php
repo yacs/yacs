@@ -101,12 +101,12 @@ if(count($context['error']))
 
 // private pages are disallowed
 elseif(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!Surfer::is_member()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the place for private pages

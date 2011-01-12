@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-01 23:07+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 12:13+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: UNITED KINGDOM
 X-Poedit-SourceCharset: utf-8
@@ -342,6 +342,7 @@ $_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['Trailer']='Trailer';
 $_SESSION['l10n']['en']['Transparent']='Transparent';
 $_SESSION['l10n']['en']['8addb3b5e126c5905fc1f9c4c81aa4c0']='Up to two lines of text, used in the "description" meta field to help search engines';
+$_SESSION['l10n']['en']['Update this image']='Update this image';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['Upload a theme']='Upload a theme';
 $_SESSION['l10n']['en']['39bea6edbd8e2b492554ecb2316dd544']='Use HTML codes for colors, and "fork" or "bubble" for style.';
