@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"POT-Creation-Date: 2011-01-12 12:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +19,7 @@ msgstr ""
 #: tools/ajax.php:20 tools/embed.php:19 tools/fat_index.php:78
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
 #: tools/mebeam.php:33 tools/populate.php:115 tools/populate.php:137
-#: tools/transform.php:29 tools/upload_excel.php:20
+#: tools/transform.php:29
 msgid "Tools"
 msgstr ""
 
