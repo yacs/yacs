@@ -46,7 +46,7 @@ $context['page_title'] = ucfirst(Skin::build_date($target, 'day'));
 
 // we do need between 8 and 10 chars
 if((strlen($target) < 8) || (strlen($target) > 10)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // parse the provided parameter
@@ -57,7 +57,7 @@ if((strlen($target) < 8) || (strlen($target) > 10)) {
 
 	// no more than two years difference with now
 	if(abs(mktime(0, 0, 0, $month, $day, $year) - time()) > (31536000 * 2)) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	} else {

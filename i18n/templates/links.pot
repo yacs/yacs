@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"POT-Creation-Date: 2011-01-12 12:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +19,7 @@ msgstr ""
 
 #: links/check.php:56 links/check.php:67 links/check.php:161
 #: links/check.php:268 links/check.php:377 links/check.php:433
-#: links/click.php:92 links/delete.php:79 links/edit.php:188
+#: links/click.php:89 links/delete.php:79 links/edit.php:188
 #: links/index.php:48 links/trackback.php:115
 msgid "Links"
 msgstr ""
@@ -29,7 +28,7 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: links/check.php:64 links/click.php:100 links/delete.php:91
+#: links/check.php:64 links/click.php:97 links/delete.php:91
 #: links/edit.php:224 links/edit.php:244 links/index.php:58
 #: links/trackback.php:124 links/trackback.php:249
 msgid "You are not allowed to perform this operation."
@@ -142,11 +141,11 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: links/click.php:104 links/links.php:1129 links/links.php:1238
+#: links/click.php:101 links/links.php:1129 links/links.php:1238
 msgid "No link URL has been provided."
 msgstr ""
 
-#: links/click.php:117
+#: links/click.php:114
 msgid "Click has not been recorded."
 msgstr ""
 
@@ -166,8 +165,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links.php:77
-#: links/layout_links_as_daily.php:95
+#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
+#: links/layout_links.php:77
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -386,8 +385,16 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: links/layout_links.php:84 links/layout_links_as_daily.php:104
-#: links/layout_links_as_simple.php:54
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr ""
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr ""
+
+#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
+#: links/layout_links.php:84
 #, php-format
 msgid "in %s"
 msgstr ""
@@ -398,14 +405,6 @@ msgstr ""
 
 #: links/layout_links.php:90
 msgid "delete"
-msgstr ""
-
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr ""
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
 msgstr ""
 
 #: links/links.php:268

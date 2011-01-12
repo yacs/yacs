@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:20+0200
-PO-Revision-Date: 2010-09-29 15:39+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 11:55+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
@@ -71,7 +71,6 @@ $_SESSION['l10n']['fr']['Color']='Couleur';
 $_SESSION['l10n']['fr']['Comic']='Comic';
 $_SESSION['l10n']['fr']['Comma-separated values']='Données importées';
 $_SESSION['l10n']['fr']['Comment shortcut']='Commentaire';
-$_SESSION['l10n']['fr']['Count clicks']='Compter les clics';
 $_SESSION['l10n']['fr']['Cursive']='Cursive';
 $_SESSION['l10n']['fr']['Decision shortcut']='Décision';
 $_SESSION['l10n']['fr']['Decorated']='Décoré';

@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-05 23:12+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-12 11:44+0100
+PO-Revision-Date: 2011-01-12 12:02+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -87,7 +87,7 @@ $_SESSION['l10n']['fr']['9d83de40ae122a7fb75e78ab801804ae']='Apparaît sur la ca
 $_SESSION['l10n']['fr']['2958d1a81937ecdca99b2bfd543039e0']='Décrire l\'auteur sur le côté de la page (pour les weblogs)';
 $_SESSION['l10n']['fr']['6e0757015942aa1e30fe10e04e85ea9b']='Ajouter quelques détails sur l\'auteur en bas de page';
 $_SESSION['l10n']['fr']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Appliquer un thème spécifique (dans skins/foo_bar)';
-$_SESSION['l10n']['fr']['fe2d9ddbe1196558ceec85389e94ac2c']='Les articles sont listé sur la page d\'accueil, dans la zone réservée aux dernières nouvelles';
+$_SESSION['l10n']['fr']['fe2d9ddbe1196558ceec85389e94ac2c']='Les articles sont listés sur la page d\'accueil, dans la zone réservée aux dernières nouvelles';
 $_SESSION['l10n']['fr']['0dd6439a054a9b376f3f0208c7a28e00']='Les articles sont listés sur la page de la section parente, dans la zone réservée aux nouvelles';
 $_SESSION['l10n']['fr']['Ask explicitly for more votes']='Etre encore plus explicite sur les demandes de vote';
 $_SESSION['l10n']['fr']['Assign categories']='Associer des catégories';
@@ -135,6 +135,7 @@ $_SESSION['l10n']['fr']['Delete a comment']='Supprimer un commentaire';
 $_SESSION['l10n']['fr']['Delete a note']='Supprimer une annotation';
 $_SESSION['l10n']['fr']['Delete a reply']='Supprimer une réponse';
 $_SESSION['l10n']['fr']['Delete this section']='Supprimer cette section';
+$_SESSION['l10n']['fr']['Deletion: %s']='Suppression : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Disallow post of new comments']='Empêcher les nouveaux commentaires';
 $_SESSION['l10n']['fr']['Disallow post of new links']='Empêcher les nouveaux liens';

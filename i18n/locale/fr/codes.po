@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-29 14:20+0200\n"
-"PO-Revision-Date: 2010-09-29 15:39+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2011-01-12 11:44+0100\n"
+"PO-Revision-Date: 2011-01-12 11:55+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -144,6 +144,7 @@ msgstr "Mise en gras wiki"
 #: codes/links.php:331
 #: codes/links.php:339
 #: codes/links.php:347
+#: codes/links.php:355
 #: codes/lists.php:52
 #: codes/lists.php:60
 #: codes/lists.php:68
@@ -287,6 +288,7 @@ msgstr "Exemple"
 #: codes/links.php:331
 #: codes/links.php:339
 #: codes/links.php:347
+#: codes/links.php:355
 #: codes/lists.php:52
 #: codes/lists.php:60
 #: codes/lists.php:68
@@ -591,7 +593,7 @@ msgstr "Mais où sera ce lapin dans quelques minutes ? Je ne sais pas, mais ça 
 
 #: codes/basic.php:289
 #: codes/blocks.php:243
-#: codes/links.php:356
+#: codes/links.php:364
 #: codes/lists.php:109
 #: codes/live.php:189
 #: codes/misc.php:222
@@ -604,7 +606,7 @@ msgstr "Bien entendu, le rendu visuel dépend du %s choisi pour l'affichage"
 
 #: codes/basic.php:289
 #: codes/blocks.php:243
-#: codes/links.php:356
+#: codes/links.php:364
 #: codes/lists.php:109
 #: codes/live.php:189
 #: codes/misc.php:222
@@ -616,7 +618,7 @@ msgstr "style"
 
 #: codes/basic.php:290
 #: codes/blocks.php:244
-#: codes/links.php:357
+#: codes/links.php:365
 #: codes/lists.php:110
 #: codes/live.php:190
 #: codes/misc.php:223
@@ -943,8 +945,10 @@ msgid "You can visit [button=Cisco On Line|www.cisco.com]"
 msgstr "Vous pouvez visiter [button=Cisco On Line|www.cisco.com]"
 
 #: codes/links.php:153
-msgid "Count clicks"
-msgstr "Compter les clics"
+#: codes/links.php:305
+#, fuzzy
+msgid "Member clicks"
+msgstr "Clics des membres"
 
 #: codes/links.php:156
 #: codes/links.php:157
@@ -1071,57 +1075,57 @@ msgstr "Cliquer pour %s"
 msgid "download the file"
 msgstr "télécharger le fichier"
 
-#: codes/links.php:305
+#: codes/links.php:313
 msgid "Action shortcut"
 msgstr "Action"
 
-#: codes/links.php:308
-#: codes/links.php:309
+#: codes/links.php:316
+#: codes/links.php:317
 msgid "Click to view the page of [action=2, this action]"
 msgstr "Cliquez pour voir la page de [action=2, cette action]"
 
-#: codes/links.php:313
+#: codes/links.php:321
 msgid "Comment shortcut"
 msgstr "Commentaire"
 
-#: codes/links.php:316
-#: codes/links.php:317
+#: codes/links.php:324
+#: codes/links.php:325
 msgid "Click to view the page of [comment=2, this comment]"
 msgstr "Cliquez pour voir la page de [comment=2, ce commentaire]"
 
-#: codes/links.php:321
+#: codes/links.php:329
 msgid "Decision shortcut"
 msgstr "Décision"
 
-#: codes/links.php:324
-#: codes/links.php:325
+#: codes/links.php:332
+#: codes/links.php:333
 msgid "Click to view the page of [decision=2, this decision]"
 msgstr "Cliquez pour voir la page de [decision=2, cette décision]"
 
-#: codes/links.php:329
+#: codes/links.php:337
 msgid "Script shortcut"
 msgstr "Script"
 
-#: codes/links.php:332
-#: codes/links.php:333
+#: codes/links.php:340
+#: codes/links.php:341
 msgid "You can access the documentation for the script [script]shared/codes.php[/script]"
 msgstr "Vous pouvez consulter la documentation du script [script]shared/codes.php[/script]"
 
-#: codes/links.php:337
+#: codes/links.php:345
 msgid "Search"
 msgstr "Recherche"
 
-#: codes/links.php:340
-#: codes/links.php:341
+#: codes/links.php:348
+#: codes/links.php:349
 msgid "All you want to know on [search=yacs]"
 msgstr "Chercher toutes les informations sur [search=yacs]"
 
-#: codes/links.php:345
+#: codes/links.php:353
 msgid "Wikipedia"
 msgstr "Wikipedia"
 
-#: codes/links.php:348
-#: codes/links.php:349
+#: codes/links.php:356
+#: codes/links.php:357
 msgid "All you want to know on [wikipedia=Web_2, the web 2.0]"
 msgstr "Tout ce que vous voulez savoir sur [wikipedia=Web_2, le web 2.0]"
 
@@ -1699,42 +1703,32 @@ msgstr "Evénements"
 msgid "Direct location"
 msgstr "Emplacement direct"
 
+#~ msgid "Count clicks"
+#~ msgstr "Compter les clics"
 #~ msgid "You can visit [button=Cisco On Line]www.cisco.com[/button]"
 #~ msgstr "Vous pouvez visiter [button=Cisco On Line]www.cisco.com[/button]"
-
 #~ msgid "the skin test page"
 #~ msgstr "la page de test des styles"
-
 #~ msgid "Updated"
 #~ msgstr "Mis à jour"
-
 #~ msgid "Our newsletter has been corrected!"
 #~ msgstr "Notre lettre d'information est corrigée !"
-
 #~ msgid "Article shortcut"
 #~ msgstr "Article"
-
 #~ msgid "Article labelled shortcut"
 #~ msgstr "Article avec label"
-
 #~ msgid "Previous article shortcut"
 #~ msgstr "Article précédent"
-
 #~ msgid "Next article shortcut"
 #~ msgstr "Article suivant"
-
 #~ msgid "Newest locations"
 #~ msgstr "Emplacements récents"
-
 #~ msgid "List of collections"
 #~ msgstr "Liste de collections"
-
 #~ msgid "Most read articles"
 #~ msgstr "Articles les plus lus"
-
 #~ msgid "Most recent publications"
 #~ msgstr "Publications récentes"
-
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of newest publications, "
 #~ "or limit the scope to: one section and related sub-sections, one "
@@ -1743,7 +1737,6 @@ msgstr "Emplacement direct"
 #~ "Utilisez la forme simple pour visualiser une liste compacte des dernières "
 #~ "publications, ou indiquez une section, une catégorie ou un auteur pour "
 #~ "limiter la recherche."
-
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of edited pages, or limit "
 #~ "the scope to : one section and related sub-sections, one category, or one "
@@ -1752,89 +1745,64 @@ msgstr "Emplacement direct"
 #~ "Utilisez la forme simple pour visualiser une liste compacte des dernières "
 #~ "modifications, ou indiquez une section, une catégorie ou un auteur pour "
 #~ "limiter la recherche."
-
 #~ msgid "Freshest threads"
 #~ msgstr "Nouvelles discussions"
-
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of freshest threads, or "
 #~ "limit the scope to one section and related sub-sections."
 #~ msgstr ""
 #~ "Utilisez la forme simple pour visualiser une liste compacte des "
 #~ "discussions récentes, ou indiquez une section pour limiter la recherche."
-
 #~ msgid "Most active pages"
 #~ msgstr "Articles les plus actifs"
-
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of most contributed "
 #~ "pages, or limit the scope to one section and related sub-sections."
 #~ msgstr ""
 #~ "Utilisez la forme simple pour visualiser une liste compacte des pages les "
 #~ "plus commentées, ou indiquez une section pour limiter la recherche."
-
 #~ msgid "You can take a look at [article=2]"
 #~ msgstr "Vous pouvez consulter [article=2]"
-
 #~ msgid "You can take a look at [article=2, this article]"
 #~ msgstr "Vous pouvez consulter [article=2, cet article]"
-
 #~ msgid "You can take a look at [previous=2, the previous page]"
 #~ msgstr "Vous pouvez consulter  [previous=2, la page précédente]"
-
 #~ msgid "You can take a look at [next=2, next page]"
 #~ msgstr "Vous pouvez consulter [next=2, la page suivante]"
-
 #~ msgid "You can take a look at [section=2, the manual]"
 #~ msgstr "Vous pouvez consulter [section=2, le manuel]"
-
 #~ msgid "You can take a look at [category=featured]"
 #~ msgstr "Vous pouvez consulter [category=featured]"
-
 #~ msgid "Click to view the page of [user=2]"
 #~ msgstr "Cliquez pour voir la page de [user=2]"
-
 #~ msgid "Click to view the page of [file=2, this file]"
 #~ msgstr "Cliquez pour voir la page de [file=2, ce fichier]"
-
 #~ msgid "Click to [download=2, download the file]"
 #~ msgstr "Cliquez pour [download=2, télécharger ce fichier]"
-
 #~ msgid "No item has been found."
 #~ msgstr "Aucun élément n'a été trouvé."
-
 #~ msgid "Access collection"
 #~ msgstr "Voir la collection"
-
 #~ msgid "Full-size"
 #~ msgstr "Pleine page"
-
 #~ msgid "Browse this map with Freemind"
 #~ msgstr "Charger cette carte dans Freemind"
-
 #~ msgid "article %s"
 #~ msgstr "article %s"
-
 #~ msgid "category %s"
 #~ msgstr "catégorie %s"
-
 #~ msgid "comment %s"
 #~ msgstr "commentaire %s"
-
 #~ msgid "decision %s"
 #~ msgstr "décision %s"
-
 #~ msgid "file %s"
 #~ msgstr "fichier %s"
-
 #~ msgid "Play in a separate window"
 #~ msgstr "Jouer dans une fenêtre séparée"
-
 #~ msgid "server %s"
 #~ msgstr "serveur %s"
-
 #~ msgid "user %s"
 #~ msgstr "utilisateur %s"
-
 #~ msgid "Referrals"
 #~ msgstr "Références externes"
+
