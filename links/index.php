@@ -54,7 +54,7 @@ if($stats['count'])
 
 // stop hackers
 if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {

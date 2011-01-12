@@ -101,7 +101,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 
 // stop hackers
 if($page > 10) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {

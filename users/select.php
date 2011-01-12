@@ -63,7 +63,7 @@ if(!is_object($anchor))
 
 // permission denied
 elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to manage all users linked to this item
