@@ -22,7 +22,7 @@ $context['page_title'] = i18n::s('Import table content');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -31,7 +31,7 @@ if(Surfer::is_crawler()) {
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -191,7 +191,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('This script allows for the upload of data to some table of the database.')."</p>\n";
 
 	// the form to upload a file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>'
 		.'<input type="hidden" name="action" value="import" />';
 
 	// encode fields

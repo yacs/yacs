@@ -103,7 +103,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	&& (file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
 
 	// prevent access to this script
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -858,7 +858,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.i18n::s('Use this script to upload and process a set of SQL statements. WARNING!!! If you upload a backup file existing data will be destroyed prior the restauration.')."</p>\n";
 
 	// the form to restore a file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>'
 		.'<input type="hidden" name="action" value="restore" />';
 
 	// select a file
@@ -923,7 +923,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.i18n::s('Type one or several SQL statements below to change the content of the database. WARNING!!! Be sure to understand the conceptual data model before proceeding, else you would corrupt database content.')."</p>\n";
 
 	// the form to apply statements
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>'
 		.'<input type="hidden" name="action" value="update" />';
 
 	// direct statements
