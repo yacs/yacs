@@ -366,6 +366,10 @@ if($with_form) {
 	// display info on current version
 	if(isset($item['id']) && $item['id']) {
 		$details = array();
+		
+		// thumbnail image, if any
+		if(isset($item['thumbnail_name']))
+         $details[] = skin::build_image('inline',Images::get_thumbnail_href($item),'',images::get_icon_href($item));
 
 		// file name
 		if(isset($item['image_name']))
