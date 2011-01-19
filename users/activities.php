@@ -126,7 +126,7 @@ Class Activities {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['action']		= "VARCHAR(64) DEFAULT 'view' NOT NULL";
-		$fields['anchor']		= "VARCHAR(512) DEFAULT '' NOT NULL"; // can also be a web URL
+		$fields['anchor']		= "VARCHAR(255) DEFAULT '' NOT NULL"; // can also be a web URL
 		$fields['data'] 		= "TEXT";
 		$fields['edit_date']	= "DATETIME";
 		$fields['user_id']		= "MEDIUMINT NOT NULL";
