@@ -71,7 +71,7 @@ class Mailer {
 		if(!$plain_only) {
 
           // format links inside text in HTML (with <a> tag)
-          $text = preg_replace('#[\n\t ](http://[a-z0-9._/-]+)#i', '<a href="$1">$0</a>', $text);
+          $text = preg_replace('#([\n\t ])(http://[a-z0-9._/-]+)#i', '$1<a href="$2">$2</a>', $text);
 
 		    $message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
 			   .'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
