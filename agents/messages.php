@@ -1377,16 +1377,14 @@ class Messages {
 
 				// let the sender know about his post
 				if($entry_fields['publish_date'])
-					$splash = i18n::s("The page received by e-mail has been successfully published.\nPlease review it now to ensure that it reflects your mind.\n");
+					$splash = i18n::s("The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind.");
 				else
-					$splash = i18n::s("The page received by e-mail has been posted.\nDon't forget to read it online. Then click on the Publish command to make it publicly available.\n");
+					$splash = i18n::s("The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available.");
 
-				$message = $splash."\n"
-					.$article->get_title()."\n"
-					.$article->get_teaser('basic')."\n"
-					."\n".$context['url_to_home'].$context['url_to_root'].$article->get_url()."\n"
-					."\n"
-					.i18n::c('Thank you for your contribution');
+				$message = '<p>'.$splash.'</p>'
+					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a></p>'
+					.'<div>'.$article->get_teaser('basic').'</div>'
+					.'<p>'.i18n::c('Thank you for your contribution').'</p>';
 
 				// enable threading
 				$headers = Mailer::set_thread($article->get_reference(), $section);

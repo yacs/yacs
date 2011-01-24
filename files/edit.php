@@ -670,7 +670,7 @@ if($with_form) {
 
 	// notify people following me
 	if(!isset($item['id']) && Surfer::get_id() && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
 
 	// associates may decide to not stamp changes, but only for changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && isset($anchor) && Surfer::has_all())

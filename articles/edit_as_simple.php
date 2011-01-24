@@ -35,14 +35,40 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 			// touch the related anchor, but only if the page has been published
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+				$anchor->touch('article:update', $_REQUEST['id'],
+					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'));
 
 			// add this page to poster watch list
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
+			// list persons that have been notified
+			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
+
+				$context['text'] .= $recipients;
+
+				// follow-up commands
+				$follow_up = i18n::s('What do you want to do now?');
+				$menu = array();
+				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
+				if(Surfer::may_upload())
+					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
+				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
+					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
+				if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
+					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'invite') => i18n::s('Invite participants')));
+				$follow_up .= Skin::build_list($menu, 'menu_bar');
+				$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
+				// log page modification
+				$label = sprintf(i18n::c('Modification: %s'), strip_tags($_REQUEST['title']));
+				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
+				Logger::notify('articles/edit.php', $label, $description);
+
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+			} else
+				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 		}
 
 
@@ -72,7 +98,16 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+
+			// notify my followers, but not on private pages
+			$with_followers = (isset($_REQUEST['active']) && ($_REQUEST['active'] != 'N'));
+
+			// allow the anchor to prevent notifications to followers
+			if($with_followers && is_object($overlay) && is_callable(array($overlay, 'should_notify_followers')))
+				$with_followers = $overlay->should_notify_followers();
+
+			// update anchors and forward notifications
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, $with_followers);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
@@ -347,6 +382,10 @@ if($with_form) {
 	// keep as draft
 	if(!isset($item['id']))
 		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not notify watchers nor followers.');
+
+	// notify watchers
+	else
+		$input[] = '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.');
 
 	// validate page content
 	if(Surfer::is_associate())
