@@ -106,22 +106,25 @@ if(Surfer::is_crawler()) {
 		$subject = sprintf(i18n::s('Your account at %s'), strip_tags($context['site_name']));
 
 		// top of the message
-		$message = sprintf(i18n::s('This message relates to your account at %s.'), strip_tags($context['site_name']))."\n"
-			."\n".$context['url_to_home'].$context['url_to_root']."\n";
+		$message = '<p>'.sprintf(i18n::s('This message relates to your account at %s.'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 		// mention nick name
-		$message .= "\n".sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])."\n";
+		$message .= '<p>'.sprintf(i18n::s('Your nick name is %s'), $item['nick_name']).'</p>';
 
 		// direct link to login page --see users/login.php
-		$message .= "\n".i18n::s('Record this message and use the following link to authenticate to the site at any time:')."\n"
-			."\n".$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $id, rand(1000, 9999), $item['handle'])."\n";
+		$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $id, rand(1000, 9999), $item['handle']);
+		$message .= '<p>'.i18n::s('Record this message and use the following link to authenticate to the site at any time:').'</p>'
+			.'<p><a href="'.$link.'">'.$link.'</a></p>';
 
 		// caution note
-		$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";
+		$message .= '<p>'.i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.').'</p>';
 
 		// bottom of the message
-		$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
-			."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
+		$message .= '<p>'.sprintf(i18n::s('On-line help is available at %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].'help/'.'">'.$context['url_to_home'].$context['url_to_root'].'help/'.'</a>').'</p>'
+			.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 		// enable threading
 		$headers = Mailer::set_thread('', 'user:'.$item['id']);
