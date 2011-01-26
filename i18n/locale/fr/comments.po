@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 11:44+0100\n"
+"POT-Creation-Date: 2011-01-26 11:33+0100\n"
 "PO-Revision-Date: 2010-10-01 23:13+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -87,54 +87,54 @@ msgstr "Appuyer sur [s] pour envoyer les informations"
 msgid "You may attach a file of up to %sbytes"
 msgstr "Vous pouvez envoyer un fichier de moins de %soctets"
 
-#: comments/comments.php:703 comments/comments.php:803
-#: comments/comments.php:860
+#: comments/comments.php:704 comments/comments.php:804
+#: comments/comments.php:861
 msgid "A suggestion"
 msgstr "Une suggestion"
 
-#: comments/comments.php:709 comments/comments.php:809
-#: comments/comments.php:862
+#: comments/comments.php:710 comments/comments.php:810
+#: comments/comments.php:863
 msgid "A question"
 msgstr "Une question"
 
-#: comments/comments.php:715 comments/comments.php:824
-#: comments/comments.php:864
+#: comments/comments.php:716 comments/comments.php:825
+#: comments/comments.php:865
 msgid "Warning!"
 msgstr "Attention !"
 
-#: comments/comments.php:721 comments/comments.php:815
-#: comments/comments.php:866
+#: comments/comments.php:722 comments/comments.php:816
+#: comments/comments.php:867
 msgid "I like..."
 msgstr "J'aime..."
 
-#: comments/comments.php:727 comments/comments.php:842
-#: comments/comments.php:868
+#: comments/comments.php:728 comments/comments.php:843
+#: comments/comments.php:869
 msgid "I don't like..."
 msgstr "Je n'aime pas..."
 
-#: comments/comments.php:733 comments/comments.php:836
-#: comments/comments.php:871
+#: comments/comments.php:734 comments/comments.php:837
+#: comments/comments.php:872
 msgid "My two cents"
 msgstr "Une contribution personnelle"
 
-#: comments/comments.php:797
+#: comments/comments.php:798
 msgid "Attention"
 msgstr "Important"
 
-#: comments/comments.php:830
+#: comments/comments.php:831
 msgid "Job has been completed"
 msgstr "C'est fait"
 
-#: comments/comments.php:1476 comments/index.php:82
+#: comments/comments.php:1477 comments/index.php:82
 msgid "No comment has been transmitted."
 msgstr "Aucun commentaire n'a été transmis."
 
-#: comments/comments.php:1482 comments/comments.php:1488 comments/edit.php:187
+#: comments/comments.php:1483 comments/comments.php:1489 comments/edit.php:187
 #: comments/list.php:110 comments/thread.php:59
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: comments/comments.php:1505
+#: comments/comments.php:1506
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

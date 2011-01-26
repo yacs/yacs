@@ -8,7 +8,7 @@
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 11:55+0100
+PO-Revision-Date: 2011-01-26 15:26+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -133,6 +133,7 @@ $_SESSION['l10n']['fr']['da6825ad5bbda2d7313669c2f5304614']='Liens (et raccourci
 $_SESSION['l10n']['fr']['List item']='Elément de liste';
 $_SESSION['l10n']['fr']['c48042b378c7e1a4d2cc72668bf53a1b']='Listes (à puces, numérotées...)';
 $_SESSION['l10n']['fr']['Live codes']='Codes dynamiques';
+$_SESSION['l10n']['fr']['Member clicks']='Clics provenant des membres';
 $_SESSION['l10n']['fr']['Miscellaneous codes']='Codes divers';
 $_SESSION['l10n']['fr']['056ceb8cc5e89e51dbb1dafe1a6bf49f']='Codes divers (graphiques...)';
 $_SESSION['l10n']['fr']['Net income']='Revenus net';

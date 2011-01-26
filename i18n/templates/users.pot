@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 12:20+0100\n"
+"POT-Creation-Date: 2011-01-26 15:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 #: users/feed.php:87 users/fetch_vcard.php:97 users/heartbit.php:40
 #: users/index.php:92 users/login.php:156 users/mail.php:70 users/mail.php:89
 #: users/mail.php:100 users/notifications.php:185 users/password.php:69
-#: users/password.php:74 users/password.php:153 users/print.php:65
+#: users/password.php:74 users/password.php:156 users/print.php:65
 #: users/print.php:80 users/select_avatar.php:76 users/select_avatar.php:89
 #: users/select.php:67 users/share.php:81 users/share.php:96
 #: users/track.php:60 users/track.php:65 users/validate.php:51
@@ -395,12 +395,12 @@ msgid "Submission"
 msgstr ""
 
 #: users/configure.php:510 users/edit.php:818 users/mail.php:185
-#: users/password.php:253 users/select_avatar.php:126 users/view.php:432
+#: users/password.php:256 users/select_avatar.php:126 users/view.php:432
 msgid "Submit"
 msgstr ""
 
 #: users/configure.php:510 users/edit.php:818 users/mail.php:185
-#: users/password.php:253 users/select_avatar.php:126 users/view.php:432
+#: users/password.php:256 users/select_avatar.php:126 users/view.php:432
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -570,7 +570,7 @@ msgstr ""
 msgid "Please confirm your password."
 msgstr ""
 
-#: users/edit.php:246 users/password.php:162
+#: users/edit.php:246 users/password.php:165
 msgid "Please prove you are not a robot."
 msgstr ""
 
@@ -659,7 +659,7 @@ msgstr ""
 msgid "Locked"
 msgstr ""
 
-#: users/edit.php:379 users/password.php:212 users/print.php:125
+#: users/edit.php:379 users/password.php:215 users/print.php:125
 msgid "Full name"
 msgstr ""
 
@@ -675,7 +675,7 @@ msgstr ""
 msgid "Last name(s)"
 msgstr ""
 
-#: users/edit.php:394 users/password.php:205
+#: users/edit.php:394 users/password.php:208
 msgid "Nick name"
 msgstr ""
 
@@ -683,7 +683,7 @@ msgstr ""
 msgid "Please carefully select a meaningful and unused nick name."
 msgstr ""
 
-#: users/edit.php:401 users/edit.php:465 users/password.php:219
+#: users/edit.php:401 users/edit.php:465 users/password.php:222
 msgid "E-mail address"
 msgstr ""
 
@@ -708,7 +708,7 @@ msgid ""
 "order"
 msgstr ""
 
-#: users/edit.php:420 users/password.php:233
+#: users/edit.php:420 users/password.php:236
 msgid "Password confirmation"
 msgstr ""
 
@@ -991,7 +991,7 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-#: users/edit.php:822 users/mail.php:189 users/password.php:254
+#: users/edit.php:822 users/mail.php:189 users/password.php:257
 msgid "Cancel"
 msgstr ""
 
@@ -1051,7 +1051,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: users/element.php:106 users/users.php:324 users/users.php:1497
+#: users/element.php:106 users/users.php:324 users/users.php:1502
 msgid "No item has the provided id."
 msgstr ""
 
@@ -1321,7 +1321,7 @@ msgstr ""
 msgid "Your nick name, or e-mail address"
 msgstr ""
 
-#: users/login.php:514 users/password.php:137
+#: users/login.php:514 users/password.php:140
 msgid "Login"
 msgstr ""
 
@@ -1421,7 +1421,7 @@ msgstr ""
 msgid "From %s:"
 msgstr ""
 
-#: users/password.php:106 users/users.php:1432 users/users.php:1670
+#: users/password.php:106 users/users.php:1432 users/users.php:1675
 #, php-format
 msgid "Your account at %s"
 msgstr ""
@@ -1431,72 +1431,72 @@ msgstr ""
 msgid "This message relates to your account at %s."
 msgstr ""
 
-#: users/password.php:113 users/users.php:1440 users/users.php:1677
+#: users/password.php:113 users/users.php:1440 users/users.php:1680
 #, php-format
 msgid "Your nick name is %s"
 msgstr ""
 
-#: users/password.php:116 users/users.php:1443
+#: users/password.php:117 users/users.php:1445
 msgid ""
 "Record this message and use the following link to authenticate to the site "
 "at any time:"
 msgstr ""
 
-#: users/password.php:120 users/users.php:1447
+#: users/password.php:121 users/users.php:1449
 msgid ""
 "Caution: This hyperlink contains your login credentials encrypted. Please be "
 "aware anyone who uses this link will have full access to your account."
 msgstr ""
 
-#: users/password.php:123 users/users.php:1458 users/users.php:1680
+#: users/password.php:124 users/users.php:1461 users/users.php:1682
 #, php-format
 msgid "On-line help is available at %s"
 msgstr ""
 
-#: users/password.php:124 users/users.php:1459 users/users.php:1681
+#: users/password.php:126 users/users.php:1463 users/users.php:1684
 #, php-format
 msgid "Thank you for your interest into %s."
 msgstr ""
 
-#: users/password.php:133
+#: users/password.php:136
 msgid ""
 "A reminder message has been sent to you. Check your mailbox and use provided "
 "information to authenticate to this site."
 msgstr ""
 
-#: users/password.php:145
+#: users/password.php:148
 #, php-format
 msgid ""
 "We are only keeping a shadow record for this profile. Please handle this "
 "account at %s"
 msgstr ""
 
-#: users/password.php:157
+#: users/password.php:160
 msgid "Please confirm your new password."
 msgstr ""
 
-#: users/password.php:177
+#: users/password.php:180
 msgid "Password has been changed."
 msgstr ""
 
-#: users/password.php:181 users/select_avatar.php:203 users/select.php:312
+#: users/password.php:184 users/select_avatar.php:203 users/select.php:312
 #: users/select.php:360 users/track.php:83
 msgid "Done"
 msgstr ""
 
-#: users/password.php:195
+#: users/password.php:198
 msgid ""
 "If you have registered to this site, type your nick name below and we will "
 "send you a web link to authenticate."
 msgstr ""
 
-#: users/password.php:197
+#: users/password.php:200
 msgid ""
 "Please confirm that you would like to receive a message to authenticate to "
 "the following account."
 msgstr ""
 
-#: users/password.php:228
+#: users/password.php:231
 msgid "New password"
 msgstr ""
 
@@ -1929,11 +1929,11 @@ msgstr ""
 msgid "You have 2 grace authentication attempts."
 msgstr ""
 
-#: users/users.php:1216 users/users.php:1521
+#: users/users.php:1216 users/users.php:1526
 msgid "Please indicate a nick name."
 msgstr ""
 
-#: users/users.php:1235 users/users.php:1530
+#: users/users.php:1235 users/users.php:1535
 msgid ""
 "Another member already has this nick name. Please select a different one."
 msgstr ""
@@ -1942,22 +1942,22 @@ msgstr ""
 msgid "Please indicate a password."
 msgstr ""
 
-#: users/users.php:1451
+#: users/users.php:1453
 msgid "Click on the link below to activate your new account."
 msgstr ""
 
-#: users/users.php:1509
+#: users/users.php:1514
 msgid "New password has to be confirmed."
 msgstr ""
 
-#: users/users.php:1673
+#: users/users.php:1678
 #, php-format
 msgid ""
 "This message has been automatically sent to you to confirm a change of your "
 "profile at %s."
 msgstr ""
 
-#: users/users.php:1678
+#: users/users.php:1681
 #, php-format
 msgid "Authenticate with password %s"
 msgstr ""

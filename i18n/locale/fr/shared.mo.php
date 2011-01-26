@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:10+0100
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 15:32+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -78,10 +78,11 @@ $_SESSION['l10n']['fr']['Robot stopper']='Anti-robot';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['fcbef7fec98dc3476784d70d17d0a89d']='Partager votre profil dans cette communauté';
 $_SESSION['l10n']['fr']['fc2edca5afeada33fbd4d829f8da5047']='Commandes système, panneaux de configuration, aperçu du contenu';
+$_SESSION['l10n']['fr']['System parameters']='Paramètres système';
 $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
-$_SESSION['l10n']['fr']['e6236ced25bee095095728d9b2de9a4f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour ne plus recevoir d\'alertes automatiques merci de visiter la page et de cliquer sur le lien Arrêter les notifications.';
+$_SESSION['l10n']['fr']['9b1afc16f251ec4d2bbc0d704b341958']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Si vous désirez stopper quelques notifications, s\'il vous plait passer en revue la liste de page surveillées depuis votre profil.';
 $_SESSION['l10n']['fr']['b0815cd5b64b817543f7e729e725554f']='Ce message a été généré automatiquement par %s car vous êtes abonné à la personne qui a posté l\'information. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Arrêter les notifications.';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';

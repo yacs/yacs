@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 12:20+0100\n"
+"POT-Creation-Date: 2011-01-26 15:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 #: sections/describe.php:90 sections/duplicate.php:68 sections/edit.php:123
 #: sections/edit.php:143 sections/feed.php:105 sections/freemind.php:75
 #: sections/import.php:47 sections/import.php:56 sections/index.php:105
-#: sections/invite.php:94 sections/invite.php:114 sections/lock.php:60
+#: sections/invite.php:110 sections/invite.php:130 sections/lock.php:60
 #: sections/lock.php:75 sections/mail.php:66 sections/mail.php:86
 #: sections/manage.php:201 sections/manage.php:216 sections/new.php:78
 #: sections/new.php:89 sections/own.php:67 sections/own.php:82
@@ -81,7 +81,7 @@ msgid "Start"
 msgstr ""
 
 #: sections/delete.php:84 sections/duplicate.php:59 sections/print.php:95
-#: sections/section.php:1314 sections/view.php:515 sections/view.php:520
+#: sections/section.php:1313 sections/view.php:515 sections/view.php:520
 #: sections/view.php:528
 #, php-format
 msgid "%s: %s"
@@ -110,7 +110,7 @@ msgid "Yes, I want to delete this section"
 msgstr ""
 
 #: sections/delete.php:139 sections/duplicate.php:170 sections/edit.php:1198
-#: sections/invite.php:362 sections/mail.php:170 sections/manage.php:1121
+#: sections/invite.php:431 sections/mail.php:170 sections/manage.php:1121
 #: sections/manage.php:1230
 msgid "Cancel"
 msgstr ""
@@ -149,7 +149,7 @@ msgstr ""
 msgid "The section has been duplicated."
 msgstr ""
 
-#: sections/duplicate.php:128 sections/edit.php:274 sections/invite.php:272
+#: sections/duplicate.php:128 sections/edit.php:274 sections/invite.php:316
 #: sections/manage.php:297 sections/manage.php:319 sections/manage.php:403
 #: sections/manage.php:426 sections/manage.php:466 sections/manage.php:594
 #: sections/manage.php:650 sections/manage.php:690 sections/manage.php:730
@@ -264,7 +264,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: sections/edit.php:333 sections/edit.php:1235 sections/invite.php:390
+#: sections/edit.php:333 sections/edit.php:1235 sections/invite.php:452
 #: sections/mail.php:188 sections/new.php:341
 msgid "Please provide a meaningful title."
 msgstr ""
@@ -663,7 +663,7 @@ msgstr ""
 msgid "No editor has been assigned to this section."
 msgstr ""
 
-#: sections/edit.php:779 sections/invite.php:275 sections/invite.php:312
+#: sections/edit.php:779 sections/invite.php:319 sections/invite.php:356
 #: sections/view_as_tabs.php:888 sections/view.php:729
 msgid "Invite participants"
 msgstr ""
@@ -972,12 +972,12 @@ msgstr ""
 msgid "More options"
 msgstr ""
 
-#: sections/edit.php:1194 sections/import.php:205 sections/invite.php:358
+#: sections/edit.php:1194 sections/import.php:205 sections/invite.php:427
 #: sections/new.php:322
 msgid "Submit"
 msgstr ""
 
-#: sections/edit.php:1194 sections/import.php:205 sections/invite.php:358
+#: sections/edit.php:1194 sections/import.php:205 sections/invite.php:427
 #: sections/mail.php:166 sections/new.php:322
 msgid "Press [s] to submit data"
 msgstr ""
@@ -1042,7 +1042,7 @@ msgstr ""
 msgid "Content Assistant"
 msgstr ""
 
-#: sections/edit.php:1325 sections/invite.php:416 sections/new.php:398
+#: sections/edit.php:1325 sections/invite.php:478 sections/new.php:398
 msgid "Help"
 msgstr ""
 
@@ -1232,119 +1232,133 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: sections/invite.php:56
+#: sections/invite.php:72
 msgid "I would like to invite you to the following page."
 msgstr ""
 
-#: sections/invite.php:89
+#: sections/invite.php:105
 #, php-format
 msgid "Share: %s"
 msgstr ""
 
-#: sections/invite.php:103 sections/mail.php:75
+#: sections/invite.php:119 sections/mail.php:75
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: sections/invite.php:119 sections/mail.php:91
+#: sections/invite.php:135 sections/mail.php:91
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: sections/invite.php:124 sections/invite.php:383
-msgid "Please provide a recipient address."
-msgstr ""
-
-#: sections/invite.php:129
+#: sections/invite.php:140
 msgid "Please prove you are not a robot."
 msgstr ""
 
-#: sections/invite.php:182
+#: sections/invite.php:180
 #, php-format
 msgid "Visit %s to get more interesting pages."
 msgstr ""
 
-#: sections/invite.php:252
+#: sections/invite.php:294
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: sections/invite.php:258
+#: sections/invite.php:300
 msgid "This is a copy of the message you have sent, for your own record."
 msgstr ""
 
-#: sections/invite.php:269
+#: sections/invite.php:311
 #, php-format
 msgid "Your message is being transmitted to %s"
 msgstr ""
 
-#: sections/invite.php:274
+#: sections/invite.php:313
+msgid "No message has been sent"
+msgstr ""
+
+#: sections/invite.php:318
 msgid "Back to main page"
 msgstr ""
 
-#: sections/invite.php:291
+#: sections/invite.php:335
 #, php-format
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
 msgstr ""
 
-#: sections/invite.php:294
+#: sections/invite.php:338
 msgid "Your name"
 msgstr ""
 
-#: sections/invite.php:296
+#: sections/invite.php:340
 msgid "Let us a chance to know who you are"
 msgstr ""
 
-#: sections/invite.php:300
+#: sections/invite.php:344
 msgid "Your e-mail address"
 msgstr ""
 
-#: sections/invite.php:302
+#: sections/invite.php:346
 msgid "Put your e-mail address to receive feed-back"
 msgstr ""
 
-#: sections/invite.php:317 sections/invite.php:322
-msgid "to manage content"
-msgstr ""
-
-#: sections/invite.php:321
+#: sections/invite.php:365
 msgid "to review content"
 msgstr ""
 
-#: sections/invite.php:325
+#: sections/invite.php:366
+msgid "to manage content"
+msgstr ""
+
+#: sections/invite.php:379
+#, php-format
+msgid "Invite editors of %s"
+msgstr ""
+
+#: sections/invite.php:385
+#, php-format
+msgid "Invite watchers of %s"
+msgstr ""
+
+#: sections/invite.php:393
+msgid "Invite some individuals"
+msgstr ""
+
+#: sections/invite.php:394
 msgid "Enter nick names, or email addresses, separated by commas."
 msgstr ""
 
-#: sections/invite.php:329 sections/mail.php:148
+#: sections/invite.php:398 sections/mail.php:148
 msgid "Message title"
 msgstr ""
 
-#: sections/invite.php:332
+#: sections/invite.php:401
 #, php-format
 msgid "Invitation: %s"
 msgstr ""
 
-#: sections/invite.php:342 sections/mail.php:153
+#: sections/invite.php:411 sections/mail.php:153
 msgid "Message content"
 msgstr ""
 
-#: sections/invite.php:343
+#: sections/invite.php:412
 msgid "Please let me thank you for your involvement."
 msgstr ""
 
-#: sections/invite.php:346
+#: sections/invite.php:415
 msgid "Use only plain ASCII, no HTML."
 msgstr ""
 
-#: sections/invite.php:368
+#: sections/invite.php:437
 msgid "Send me a copy of this message."
 msgstr ""
 
-#: sections/invite.php:397
+#: sections/invite.php:459
 msgid "Message content can not be empty."
 msgstr ""
 
-#: sections/invite.php:415
+#: sections/invite.php:477
 msgid ""
 "Recipient addresses are used only once, to send your message, and are not "
 "stored afterwards."
@@ -1513,7 +1527,7 @@ msgstr ""
 msgid "Last post"
 msgstr ""
 
-#: sections/layout_sections_as_yabb.php:167 sections/section.php:1369
+#: sections/layout_sections_as_yabb.php:167 sections/section.php:1396
 #, php-format
 msgid "%s by %s"
 msgstr ""
@@ -2040,32 +2054,37 @@ msgstr ""
 msgid "(anonymous)"
 msgstr ""
 
-#: sections/section.php:1298
+#: sections/section.php:1298 sections/section.php:1330
 #, php-format
 msgid "Modification: %s"
 msgstr ""
 
-#: sections/section.php:1309
+#: sections/section.php:1308
 #, php-format
 msgid "A page has been submitted by %s"
 msgstr ""
 
-#: sections/section.php:1331
+#: sections/section.php:1325
+#, php-format
+msgid "Page has been modified by %s"
+msgstr ""
+
+#: sections/section.php:1354
 #, php-format
 msgid "A file has been uploaded by %s"
 msgstr ""
 
-#: sections/section.php:1344
+#: sections/section.php:1368
 #, php-format
 msgid "%s has posted a comment"
 msgstr ""
 
-#: sections/section.php:1357
+#: sections/section.php:1382
 #, php-format
 msgid "A section has been created by %s"
 msgstr ""
 
-#: sections/section.php:1374
+#: sections/section.php:1401
 #, php-format
 msgid "%s in %s"
 msgstr ""
