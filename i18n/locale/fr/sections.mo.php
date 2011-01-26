@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:02+0100
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 15:29+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -211,7 +211,10 @@ $_SESSION['l10n']['fr']['Information']='Informations';
 $_SESSION['l10n']['fr']['2245ce899408df76205082ed11841a9e']='Présenter l\'auteur avant le texte principal';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['Invitation: %s']='Invitation : %s';
+$_SESSION['l10n']['fr']['Invite editors of %s']='Inviter les éditeurs de %s';
 $_SESSION['l10n']['fr']['Invite participants']='Inviter des participants';
+$_SESSION['l10n']['fr']['Invite some individuals']='Inviter quelques personnes';
+$_SESSION['l10n']['fr']['Invite watchers of %s']='Inviter les participants de %s';
 $_SESSION['l10n']['fr']['b7b98cdf95371442ef2398cb89096237']='Apparaît sur la page d\'accueil,parmi les boîtes extra.';
 $_SESSION['l10n']['fr']['7c2371bb041b0aedad334b4076b9b13d']='Apparaît sur la page de la section parente parmi les boîtes extra';
 $_SESSION['l10n']['fr']['ba5d915743d34ef667d5b3cefb1d05c4']='Apparaît au milieu de la page d\'accueil, parmi les boîtes gadget';
@@ -268,6 +271,7 @@ $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été t
 $_SESSION['l10n']['fr']['9071323dbd195e8885a22a93ffd985e9']='Aucun éditeur n\'a été assigné à cette section';
 $_SESSION['l10n']['fr']['6be61fe0c5b23922c2316b5229f26cb7']='Ne pas lister les sections avoisinantes';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
+$_SESSION['l10n']['fr']['No message has been sent']='Aucun message n\'a été envoyé';
 $_SESSION['l10n']['fr']['22ce3d88217e83036f3285bba141bfe3']='Aucun overlay n\'a été sélectionné.';
 $_SESSION['l10n']['fr']['No owner has been found.']='Aucun propriétaire n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No page has been selected.']='Aucune page n\'a été sélectionnée.';
@@ -296,6 +300,7 @@ $_SESSION['l10n']['fr']['Other sections']='Autres sections';
 $_SESSION['l10n']['fr']['Overlay']='Overlay';
 $_SESSION['l10n']['fr']['Owner']='Propriétaire';
 $_SESSION['l10n']['fr']['Owner of %s']='Propriétaire de %s';
+$_SESSION['l10n']['fr']['Page has been modified by %s']='Une page a été modifiée par %s';
 $_SESSION['l10n']['fr']['Pages']='Articles';
 $_SESSION['l10n']['fr']['9395d63e2f35e55bb88eb5c03c766146']='Les articles ne sont pas contrôlés avant publication';
 $_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
@@ -308,7 +313,6 @@ $_SESSION['l10n']['fr']['be72d222dbc7f97ae5604c94564f135e']='Merci de taper le t
 $_SESSION['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
-$_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';
 $_SESSION['l10n']['fr']['1e15bcb69dd742712c3a2af4431b476e']='Merci de contrôler soigneusement la nouvelle page, et de corriger les erreurs s\'il y a lieu.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';

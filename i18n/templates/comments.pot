@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 12:20+0100\n"
+"POT-Creation-Date: 2011-01-26 15:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,54 +89,54 @@ msgstr ""
 msgid "You may attach a file of up to %sbytes"
 msgstr ""
 
-#: comments/comments.php:703 comments/comments.php:803
-#: comments/comments.php:860
+#: comments/comments.php:704 comments/comments.php:804
+#: comments/comments.php:861
 msgid "A suggestion"
 msgstr ""
 
-#: comments/comments.php:709 comments/comments.php:809
-#: comments/comments.php:862
+#: comments/comments.php:710 comments/comments.php:810
+#: comments/comments.php:863
 msgid "A question"
 msgstr ""
 
-#: comments/comments.php:715 comments/comments.php:824
-#: comments/comments.php:864
+#: comments/comments.php:716 comments/comments.php:825
+#: comments/comments.php:865
 msgid "Warning!"
 msgstr ""
 
-#: comments/comments.php:721 comments/comments.php:815
-#: comments/comments.php:866
+#: comments/comments.php:722 comments/comments.php:816
+#: comments/comments.php:867
 msgid "I like..."
 msgstr ""
 
-#: comments/comments.php:727 comments/comments.php:842
-#: comments/comments.php:868
+#: comments/comments.php:728 comments/comments.php:843
+#: comments/comments.php:869
 msgid "I don't like..."
 msgstr ""
 
-#: comments/comments.php:733 comments/comments.php:836
-#: comments/comments.php:871
+#: comments/comments.php:734 comments/comments.php:837
+#: comments/comments.php:872
 msgid "My two cents"
 msgstr ""
 
-#: comments/comments.php:797
+#: comments/comments.php:798
 msgid "Attention"
 msgstr ""
 
-#: comments/comments.php:830
+#: comments/comments.php:831
 msgid "Job has been completed"
 msgstr ""
 
-#: comments/comments.php:1476 comments/index.php:82
+#: comments/comments.php:1477 comments/index.php:82
 msgid "No comment has been transmitted."
 msgstr ""
 
-#: comments/comments.php:1482 comments/comments.php:1488 comments/edit.php:187
+#: comments/comments.php:1483 comments/comments.php:1489 comments/edit.php:187
 #: comments/list.php:110 comments/thread.php:59
 msgid "No anchor has been found."
 msgstr ""
 
-#: comments/comments.php:1505
+#: comments/comments.php:1506
 msgid "No item has the provided id."
 msgstr ""
 

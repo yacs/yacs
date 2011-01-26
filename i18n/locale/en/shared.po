@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 11:44+0100\n"
-"PO-Revision-Date: 2011-01-12 12:11+0100\n"
+"POT-Creation-Date: 2011-01-26 11:33+0100\n"
+"PO-Revision-Date: 2011-01-26 15:31+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "MIME-Version: 1.0\n"
@@ -263,54 +263,58 @@ msgstr "View the category"
 msgid "This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events."
 msgstr "This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events."
 
-#: shared/mailer.php:108
+#: shared/logger.php:207
+msgid "System parameters"
+msgstr "System parameters"
+
+#: shared/mailer.php:102
 #, php-format
 msgid "%s by %s"
 msgstr "%s by %s"
 
-#: shared/mailer.php:125
+#: shared/mailer.php:119
 #, php-format
-msgid "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications."
-msgstr "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications."
+msgid "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile."
+msgstr "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile."
 
-#: shared/mailer.php:139
+#: shared/mailer.php:124
 #, php-format
 msgid "This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications."
 msgstr "This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications."
 
-#: shared/mailer.php:184
+#: shared/mailer.php:169
 #, php-format
 msgid "and %d other persons"
 msgstr "and %d other persons"
 
-#: shared/mailer.php:309
-#: shared/mailer.php:760
-#: shared/mailer.php:1004
-#: shared/mailer.php:1143
+#: shared/mailer.php:294
+#: shared/mailer.php:744
+#: shared/mailer.php:988
+#: shared/mailer.php:1135
 msgid "E-mail has not been enabled on this system."
 msgstr "E-mail has not been enabled on this system."
 
-#: shared/mailer.php:765
+#: shared/mailer.php:749
 msgid "Empty sender address"
 msgstr "Empty sender address"
 
-#: shared/mailer.php:770
-#: shared/mailer.php:1009
+#: shared/mailer.php:754
+#: shared/mailer.php:993
 msgid "Empty recipient address"
 msgstr "Empty recipient address"
 
-#: shared/mailer.php:775
-#: shared/mailer.php:1014
+#: shared/mailer.php:759
+#: shared/mailer.php:998
 msgid "No subject"
 msgstr "No subject"
 
-#: shared/mailer.php:780
-#: shared/mailer.php:1019
+#: shared/mailer.php:764
+#: shared/mailer.php:1003
 msgid "No message"
 msgstr "No message"
 
-#: shared/mailer.php:1135
-#: shared/mailer.php:1137
+#: shared/mailer.php:1127
+#: shared/mailer.php:1129
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr "Error while sending the message to %s"

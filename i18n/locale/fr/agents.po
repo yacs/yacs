@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 11:44+0100\n"
-"PO-Revision-Date: 2009-10-05 16:05+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2011-01-26 11:33+0100\n"
+"PO-Revision-Date: 2011-01-26 13:28+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,7 +20,9 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Language: French\n"
 
-#: agents/configure.php:49 agents/configure.php:265 agents/configure.php:351
+#: agents/configure.php:49
+#: agents/configure.php:265
+#: agents/configure.php:351
 #: agents/index.php:49
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
@@ -34,27 +36,30 @@ msgstr "%s : %s"
 msgid "Configure"
 msgstr "Configurer"
 
-#: agents/configure.php:52 agents/configure.php:269 agents/configure.php:350
+#: agents/configure.php:52
+#: agents/configure.php:269
+#: agents/configure.php:350
 #: agents/index.php:52
 msgid "Background processing"
 msgstr "Traitements d'arrière-plan"
 
-#: agents/configure.php:61 agents/feed.php:77 agents/index.php:61
+#: agents/configure.php:61
+#: agents/feed.php:77
+#: agents/index.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
 #: agents/configure.php:78
-msgid ""
-"Mail accounts from which messages can be fetched and posted in the database."
-msgstr ""
-"Comptes de messagerie utilisés pour la réception de messages électroniques."
+msgid "Mail accounts from which messages can be fetched and posted in the database."
+msgstr "Comptes de messagerie utilisés pour la réception de messages électroniques."
 
 #: agents/configure.php:87
 #, php-format
 msgid "Queue #%d"
 msgstr "Compte #%d"
 
-#: agents/configure.php:91 agents/configure.php:155
+#: agents/configure.php:91
+#: agents/configure.php:155
 msgid "Nick name"
 msgstr "Surnom"
 
@@ -62,99 +67,103 @@ msgstr "Surnom"
 msgid "Delete to suppress this queue entry"
 msgstr "Effacer pour supprimer cette entrée"
 
-#: agents/configure.php:96 agents/configure.php:160
+#: agents/configure.php:96
+#: agents/configure.php:160
 msgid "Server name"
 msgstr "Nom du serveur"
 
-#: agents/configure.php:98 agents/configure.php:162
-msgid ""
-"Use either the network name (e.g., 'pop.foo.bar') or the IP address of the "
-"mail server"
-msgstr ""
-"Utilisez soit le nom (exemple : 'pop.foo.bar') ou l'adresse IP du serveur de "
-"messagerie"
+#: agents/configure.php:98
+#: agents/configure.php:162
+msgid "Use either the network name (e.g., 'pop.foo.bar') or the IP address of the mail server"
+msgstr "Utilisez soit le nom (exemple : 'pop.foo.bar') ou l'adresse IP du serveur de messagerie"
 
-#: agents/configure.php:101 agents/configure.php:165
+#: agents/configure.php:101
+#: agents/configure.php:165
 msgid "Account name"
 msgstr "Intitulé du compte"
 
-#: agents/configure.php:103 agents/configure.php:167
+#: agents/configure.php:103
+#: agents/configure.php:167
 msgid "The POP3 user name"
 msgstr "Le nom POP3 de la boîte aux lettres de réception"
 
-#: agents/configure.php:106 agents/configure.php:170
+#: agents/configure.php:106
+#: agents/configure.php:170
 msgid "Password"
 msgstr "Mot de passe"
 
-#: agents/configure.php:108 agents/configure.php:172
+#: agents/configure.php:108
+#: agents/configure.php:172
 msgid "The POP3 password"
 msgstr "Le mot de passe POP3"
 
-#: agents/configure.php:111 agents/configure.php:175
+#: agents/configure.php:111
+#: agents/configure.php:175
 msgid "Allowed senders"
 msgstr "Emetteurs autorisés"
 
-#: agents/configure.php:113 agents/configure.php:177
-msgid ""
-"A list of e-mail addresses allowed to post to this queue, or 'any_member', "
-"'any_subscriber', or 'anyone' (do not replicate associates addresses)"
-msgstr ""
-"Liste des adresses autorisées, ou 'any_member', 'any_subscriber' ou "
-"'anyone'. Les associés ont toujours le droit de poster des messages, il est "
-"inutile de répéter leurs adresses."
+#: agents/configure.php:113
+#: agents/configure.php:177
+msgid "A list of e-mail addresses allowed to post to this queue, or 'any_member', 'any_subscriber', or 'anyone' (do not replicate associates addresses)"
+msgstr "Liste des adresses autorisées, ou 'any_member', 'any_subscriber' ou 'anyone'. Les associés ont toujours le droit de poster des messages, il est inutile de répéter leurs adresses."
 
-#: agents/configure.php:116 agents/configure.php:180
+#: agents/configure.php:116
+#: agents/configure.php:180
 msgid "Security match"
 msgstr "Contrôle de sécurité"
 
-#: agents/configure.php:118 agents/configure.php:182
-msgid ""
-"A regularity expression to be matched by incoming messages to be accepted (e."
-"g., 'X-Originating-IP:  [21.18.33.9]')"
-msgstr ""
-"Une expression régulière qui doit correspondre aux messages reçus pour "
-"qu'ils soient acceptés (exemple : 'X-Originating-IP:  [21.18.33.9]')"
+#: agents/configure.php:118
+#: agents/configure.php:182
+msgid "A regularity expression to be matched by incoming messages to be accepted (e.g., 'X-Originating-IP:  [21.18.33.9]')"
+msgstr "Une expression régulière qui doit correspondre aux messages reçus pour qu'ils soient acceptés (exemple : 'X-Originating-IP:  [21.18.33.9]')"
 
-#: agents/configure.php:121 agents/configure.php:185
+#: agents/configure.php:121
+#: agents/configure.php:185
 msgid "Default section"
 msgstr "Section par défaut"
 
-#: agents/configure.php:123 agents/configure.php:187
+#: agents/configure.php:123
+#: agents/configure.php:187
 msgid "Nickname or id of the default section for new pages (e.g., '45')"
-msgstr ""
-"Surnom ou identifiant de la section utilisée pour les nouveaux messages "
-"(exemple : 45)"
+msgstr "Surnom ou identifiant de la section utilisée pour les nouveaux messages (exemple : 45)"
 
-#: agents/configure.php:126 agents/configure.php:190
+#: agents/configure.php:126
+#: agents/configure.php:190
 msgid "Preamble boundary"
 msgstr "Limite de préambule"
 
-#: agents/configure.php:128 agents/configure.php:192
+#: agents/configure.php:128
+#: agents/configure.php:192
 msgid "Everything before this string, and the string itself, is removed"
 msgstr "Tout ce qui précéde cette chaîne, et la chaîne elle-même, est supprimé"
 
-#: agents/configure.php:131 agents/configure.php:195
+#: agents/configure.php:131
+#: agents/configure.php:195
 msgid "Signature boundary"
 msgstr "Limite de signature"
 
-#: agents/configure.php:133 agents/configure.php:197
+#: agents/configure.php:133
+#: agents/configure.php:197
 msgid "The boundary used to locate signatures (e.g., '___' for Yahoo mail)"
-msgstr ""
-"Le séparateur de signature (par exemple, '___' pour les messages Yahoo)"
+msgstr "Le séparateur de signature (par exemple, '___' pour les messages Yahoo)"
 
-#: agents/configure.php:136 agents/configure.php:200
+#: agents/configure.php:136
+#: agents/configure.php:200
 msgid "Processing options"
 msgstr "Options de traitement"
 
-#: agents/configure.php:138 agents/configure.php:202
+#: agents/configure.php:138
+#: agents/configure.php:202
 msgid "You may combine several keywords:"
 msgstr "Vous pouvez combiner plusieurs mots-clés :"
 
-#: agents/configure.php:141 agents/configure.php:205
+#: agents/configure.php:141
+#: agents/configure.php:205
 msgid "Processing hooks"
 msgstr "Extensions de traitement"
 
-#: agents/configure.php:143 agents/configure.php:207
+#: agents/configure.php:143
+#: agents/configure.php:207
 msgid "Hook id(s) to be used on each message fetched from this queue"
 msgstr "Identifiants des extensions à appliquer sur les messages reçus"
 
@@ -167,21 +176,12 @@ msgid "Use a short nick name"
 msgstr "Utilisez un nom court"
 
 #: agents/configure.php:218
-msgid ""
-"Debug mail protocol in temporary/debug.txt, and file each message processed "
-"by agents/messages.php. Use this option for troubleshooting only."
-msgstr ""
-"Mode de mise au point. Enregistrer les éléments de protocole dans temporary/"
-"debug.txt, et faire un fichier de chaque message reçu."
+msgid "Debug mail protocol in temporary/debug.txt, and file each message processed by agents/messages.php. Use this option for troubleshooting only."
+msgstr "Mode de mise au point. Enregistrer les éléments de protocole dans temporary/debug.txt, et faire un fichier de chaque message reçu."
 
 #: agents/configure.php:226
-msgid ""
-"Following parameters are used for files uploaded to this server, for example "
-"via FTP. These do not apply to pages submitted through web forms or XML-RPC."
-msgstr ""
-"Les paramètres suivants s'appliquent aux fichiers téléversés sur ce serveur, "
-"par exemple par FTP, et transformées en pages web. Ceci ne concerne pas les "
-"pages envoyées directement par formulaire ou par XML-RPC."
+msgid "Following parameters are used for files uploaded to this server, for example via FTP. These do not apply to pages submitted through web forms or XML-RPC."
+msgstr "Les paramètres suivants s'appliquent aux fichiers téléversés sur ce serveur, par exemple par FTP, et transformées en pages web. Ceci ne concerne pas les pages envoyées directement par formulaire ou par XML-RPC."
 
 #: agents/configure.php:229
 msgid "Author nick name or id"
@@ -216,12 +216,8 @@ msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
 #: agents/configure.php:278
-msgid ""
-"Use this page to configure agents, that is, scripts executed in the "
-"background without any human interaction."
-msgstr ""
-"Utilisez cette page pour configurer les agents, c'est-à-dire les scripts qui "
-"s'exécutent en tâche de fond, sans intervention humaine."
+msgid "Use this page to configure agents, that is, scripts executed in the background without any human interaction."
+msgstr "Utilisez cette page pour configurer les agents, c'est-à-dire les scripts qui s'exécutent en tâche de fond, sans intervention humaine."
 
 #: agents/configure.php:279
 msgid "Help"
@@ -229,26 +225,17 @@ msgstr "Aide"
 
 #: agents/configure.php:284
 msgid "You are not allowed to perform this operation in demonstration mode."
-msgstr ""
-"Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
+msgstr "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
 #: agents/configure.php:326
 #, php-format
-msgid ""
-"ERROR: Impossible to write to the file %s. The configuration has not been "
-"saved."
-msgstr ""
-"ERREUR: Impossible d'écrire dans le fichier %s. Les paramètres n'ont pas été "
-"enregistrés."
+msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
+msgstr "ERREUR: Impossible d'écrire dans le fichier %s. Les paramètres n'ont pas été enregistrés."
 
 #: agents/configure.php:329
 #, php-format
-msgid ""
-"To actually change the configuration, please copy and paste following lines "
-"by yourself in file %s."
-msgstr ""
-"Pour modifier la configuration, merci de copier les lignes ci-dessous et de "
-"les placer par vous-même dans le fichier %s :"
+msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
+msgstr "Pour modifier la configuration, merci de copier les lignes ci-dessous et de les placer par vous-même dans le fichier %s :"
 
 #: agents/configure.php:333
 #, php-format
@@ -290,7 +277,8 @@ msgstr "Evénements enregistrés à %s"
 msgid "Most recent events at %s"
 msgstr "Evénements récents à %s"
 
-#: agents/index.php:81 agents/index.php:130
+#: agents/index.php:81
+#: agents/index.php:130
 msgid "You can sort the table below by clicking on column headers."
 msgstr "Cliquez sur les en-têtes de colonnes pour trier la table."
 
@@ -359,7 +347,8 @@ msgstr "Performance"
 msgid "Domain"
 msgstr "Domaine"
 
-#: agents/index.php:151 agents/index.php:176
+#: agents/index.php:151
+#: agents/index.php:176
 msgid "Count"
 msgstr "Nombre"
 
@@ -384,51 +373,42 @@ msgid "Size"
 msgstr "Taille"
 
 #: agents/messages.php:1380
-msgid ""
-"The page received by e-mail has been successfully published.\n"
-"Please review it now to ensure that it reflects your mind.\n"
+msgid "The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind."
 msgstr ""
 "La page reçue par courrier électronique a été publiée avec succès.\n"
-"Merci de la passer en revue maintenant.\n"
+"Merci de la passer en revue maintenant."
 
 #: agents/messages.php:1382
-msgid ""
-"The page received by e-mail has been posted.\n"
-"Don't forget to read it online. Then click on the Publish command to make it "
-"publicly available.\n"
+msgid "The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available."
 msgstr ""
 "La page reçue par courrier électronique a été enregistrée.\n"
-"Vous pouvez la consulter en ligne. Elle sera accessible publiquement après "
-"publication.\n"
+"Vous pouvez la consulter en ligne, puis cliquez sur la commande Publier pour la rendre publiquement visible"
 
-#: agents/messages.php:1389
+#: agents/messages.php:1387
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
-#: agents/messages.php:1401
+#: agents/messages.php:1399
 #, php-format
 msgid "New submission: %s"
 msgstr "Nouvel envoi : %s"
 
-#: agents/messages.php:1403
+#: agents/messages.php:1401
 #, php-format
 msgid "Sent by %s in %s"
 msgstr "Envoyé par %s dans %s"
 
-#: agents/messages.php:1405
+#: agents/messages.php:1403
 #, php-format
 msgid "Sent by %s"
 msgstr "Envoyé par %s"
 
 #~ msgid "No data to display"
 #~ msgstr "Rien à afficher"
-
 #~ msgid "Operating systems"
 #~ msgstr "Systèmes d'exploitation"
-
 #~ msgid "Browsers"
 #~ msgstr "Navigateurs"
-
 #~ msgid ""
 #~ "<p>This is the list of most recent events at %s</p><p>You can also use "
 #~ "following shortcuts to get more information for this server:</"
@@ -439,20 +419,16 @@ msgstr "Envoyé par %s"
 #~ "plus d'information à l'aide des raccourcis suivants :</p><ul><li><a href="
 #~ "\"%s\">Allez à la page frontale (%s)</a></li><li><a href=\"%s\">Allez sur "
 #~ "le Panneau de contrôle (%s)</a></li></ul>"
-
 #~ msgid "Configure: %s"
 #~ msgstr "Configurer : %s"
-
 #~ msgid ""
 #~ "This instance of YACS runs in demonstration mode. For security reasons "
 #~ "configuration parameters cannot be changed in this mode."
 #~ msgstr ""
 #~ "Ce serveur est en mode de démonstration. Pour des raisons de sécurité les "
 #~ "paramètres de configuration ne peuvent pas être modifiés dans ce mode."
-
 #~ msgid "Cron"
 #~ msgstr "Cron"
-
 #~ msgid ""
 #~ "<p>Please select among available commands:</p><ul><li>%s - Who is driving "
 #~ "traffic to us?</li><li>%s - What are the keywords used to come to us?</"
@@ -467,99 +443,68 @@ msgstr "Envoyé par %s"
 #~ "temps d'exécution minimum, maximum, et moyen.</li><li>%s - suivi des "
 #~ "traitements d'arrière-plan.</li><li>%s - lancer un traitement d'arrière-"
 #~ "plan.</li><li>%s - les événements système.</li></ul>"
-
 #~ msgid "Date of last cron: %s"
 #~ msgstr "Date du dernier traitement d'arrière-plan : %s"
-
 #~ msgid "Stay tuned"
 #~ msgstr "Fils d'information"
-
 #~ msgid "system events"
 #~ msgstr "événements système"
-
 #~ msgid "User Agents"
 #~ msgstr "Navigateurs"
-
 #~ msgid "Last events on this server"
 #~ msgstr "Derniers événements sur ce serveur"
-
 #~ msgid "Most popular scripts"
 #~ msgstr "Fréquences d'exécution"
-
 #~ msgid "Keywords used for searches"
 #~ msgstr "Mots-clés utilisés pour les recherches"
-
 #~ msgid "Monitoring Feed"
 #~ msgstr "Fil des événements"
-
 #~ msgid "You can get a RSS list of most recent events for this server %s"
 #~ msgstr ""
 #~ "Vous pouvez être informé des derniers événements sous forme de fil de "
 #~ "nouvelles RSS %s"
-
 #~ msgid "here"
 #~ msgstr "ici"
-
 #~ msgid "The configuration panel for agents"
 #~ msgstr "Panneau de configuration des agents"
-
 #~ msgid "The index page for agents"
 #~ msgstr "Page d'index des agents"
-
 #~ msgid "Edit"
 #~ msgstr "Modifier"
-
 #~ msgid "Display referrals:"
 #~ msgstr "Afficher les références externes :"
-
 #~ msgid "only to associates"
 #~ msgstr "seulement aux associés"
-
 #~ msgid "to every surfer"
 #~ msgstr "à tout les surfeurs"
-
 #~ msgid "Inbound messages"
 #~ msgstr "Messages entrants"
-
 #~ msgid "Inbound files"
 #~ msgstr "Réception de fichiers"
-
 #~ msgid "Save parameters"
 #~ msgstr "Sauver les paramètres"
-
 #~ msgid "Edit parameters again"
 #~ msgstr "Modifier les paramètres à nouveau"
-
 #~ msgid "Go to the Control Panel"
 #~ msgstr "Aller au Panneau de Contrôle"
-
 #~ msgid "All feeds"
 #~ msgstr "Les fils de nouvelles"
-
 #~ msgid "You can combine: 'with_apop', 'no_reply', 'auto_publish'"
 #~ msgstr "Vous pouvez combiner : 'with_apop', 'no_reply', 'auto_publish'"
-
 #~ msgid "Agents"
 #~ msgstr "Agents"
-
 #~ msgid "Script performance"
 #~ msgstr "Performance des scripts"
-
 #~ msgid "%s has been renamed with a '.bak' extension"
 #~ msgstr "%s a été renommé avec l'extension '.bak'"
-
 #~ msgid "Save changes"
 #~ msgstr "Enregistrer les changements"
-
 #~ msgid "parameters/agents.include.php has been changed"
 #~ msgstr "parameters/agents.include.php a été modifié"
-
 #~ msgid "Only associates may access this page."
 #~ msgstr "Seuls les associés peuvent accèder à cette page."
-
 #~ msgid "You are not allowed to handle agents of this server."
 #~ msgstr "Vous n'êtes pas autorisé à manipuler les agents sur ce serveur."
-
 #~ msgid ""
 #~ "This message has been generated automatically by %s. If you wish to stop "
 #~ "these automatic alerts please visit the following link and remove your "
@@ -568,6 +513,6 @@ msgstr "Envoyé par %s"
 #~ "Ce message a été généré automatiquement par %s. Pour arrêter les alertes "
 #~ "automatiques visitez le lien qui suit et retirer votre adresse des "
 #~ "destinaires des événements système."
-
 #~ msgid "User agents"
 #~ msgstr "Navigateurs"
+

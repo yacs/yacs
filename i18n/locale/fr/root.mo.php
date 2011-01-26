@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2010-03-22 23:27+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 13:23+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -53,6 +53,7 @@ Que voulez-vous faire à présent ?<ul>
 <p>Merci d\'avoir choisi YACS pour propulser votre site.</p>
 ';
 $_SESSION['l10n']['fr']['7ba883ac892a1b2f08c0cf103474ab7b']='<p>Votre requête va à présent être traitée par l\'un des associés de ce site. Cette étape dure moins de 24 heures le plus souvent.</p>';
+$_SESSION['l10n']['fr']['dc304975fe373fb874b2ee20aa195214']='<p>Votre requête va être traitée dans les meilleurs délais, moins de 24 heures le plus souvent.</p><p>Vous pouvez suivre l\'avancement de votre requête à l\'adresse suivante :</p><p>%s</p><p>Nous vous remercions de votre intérêt pour notre site web.</p>';
 $_SESSION['l10n']['fr']['992503b2fb62c9c97a31d6ce8e71758e']='Une liste compacte des articles les plus récents. Cette mise en page convient aux pages d\'accueil avec beaucoup de composants (boîtes gadgets, ...).';
 $_SESSION['l10n']['fr']['ad677f0d9c431772d2107a46318cbc19']='Une liste décorée des pages les plus récentes. Cette mise en page convient aux sites avec un article de couverture assez long en page d\'accueil.';
 $_SESSION['l10n']['fr']['2b0dd86a832a950fdf658419be572d7a']='Une liste des pages élues par les membres de la communauté.';
@@ -265,13 +266,6 @@ $_SESSION['l10n']['fr']['ce541bde1ce59c6a40e4c9f643933a0d']='Vous devez autorise
 $_SESSION['l10n']['fr']['Your e-mail address']='Votre adresse de courrier électronique';
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['Your query has been registered']='Votre requête a été enregistrée';
-$_SESSION['l10n']['fr']['b41844323b44c5a749d939bb4354ce2e']='Votre requête va être traitée dans les meilleurs délais, moins de 24 heures le plus souvent.
-
-Vous pouvez suivre l\'avancement de votre requête à l\'adresse suivante :
-
-%s
-
-Nous vous remercions de votre intérêt pour notre site web.';
 $_SESSION['l10n']['fr']['Your query: %s']='Votre requête : %s';
 $_SESSION['l10n']['fr']['another skin']='un autre style';
 $_SESSION['l10n']['fr']['comments']='commentaires';
