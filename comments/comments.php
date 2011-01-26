@@ -399,6 +399,7 @@ Class Comments {
 
 		$text .= '<input type="hidden" name="anchor" value="'.$anchor.'" />'
 			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
+			.'<input type="hidden" name="notify_watchers" value="Y" />'
 			.Skin::finalize_list($menu, 'menu_bar')
 			.'</div></form>';
 

@@ -356,9 +356,10 @@ Class Article extends Anchor {
 		// use overlay data, if any
 		if(!$text) {
 			include_once $context['path_to_root'].'overlays/overlay.php';
-			$overlay = Overlay::load($this->item);
-			if(is_object($overlay))
-				$text .= $overlay->get_text('list', $this->item);
+			if(!isset($this->overlay) && isset($this->item['overlay']))
+				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+			if(is_object($this->overlay))
+				$text .= $this->overlay->get_text('list', $this->item);
 		}
 
 		// use the description field, if any
@@ -475,7 +476,7 @@ Class Article extends Anchor {
 			if($this->has_option('view_as_tabs'))
 				return $this->get_url().'#_discussion';
 
-			if($this->is_interactive())
+			if($this->has_option('view_as_chat'))
 				return $this->get_url().'#comments';
 
 			// start threads on a separate page
@@ -845,7 +846,7 @@ Class Article extends Anchor {
 			}
 
 			// we are in some interactive thread
-			if($this->is_interactive()) {
+			if($this->has_option('view_as_chat')) {
 
 				// default is to download the file
 				if(!$label)
@@ -859,7 +860,7 @@ Class Article extends Anchor {
 					$fields['description'] = $label;
 
 				// this is a continuated contribution from this authenticated surfer
-				} elseif(Surfer::get_id() && (isset($comment['create_id']) && (Surfer::get_id() == $comment['create_id']))) {
+				} elseif(($comment['type'] != 'notification') && Surfer::get_id() && (isset($comment['create_id']) && (Surfer::get_id() == $comment['create_id']))) {
 					$comment['description'] .= BR.$label;
 					$fields = $comment;
 
@@ -1035,7 +1036,7 @@ Class Article extends Anchor {
 			$anchor =& Anchors::get($this->item['anchor']);
 
 		// send alert only on new stuff, and if the page has been published
-		if(preg_match('/:create$/i', $action) && !$this->is_interactive() && isset($this->item['publish_date']) &&  ($this->item['publish_date'] > NULL_DATE)) {
+		if(preg_match('/:create$/i', $action) && isset($this->item['publish_date']) &&  ($this->item['publish_date'] > NULL_DATE)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
@@ -1048,48 +1049,50 @@ Class Article extends Anchor {
 			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
 
 			// nothing done yet
-			$title = $link = '';
+			$summary = $title = $link = '';
 
 			// a file has been added to the page
-			if(strpos($action, 'file') === 0) {
-				if((!$target = Files::get($origin)) || !$target['id'])
-					return;
+			if($action == 'file:create') {
+				if(($target = Files::get($origin)) && $target['id']) {
 
-				// file title
-				if($target['title'])
-					$title = $target['title'];
-				else
-					$title = $target['file_name'];
+					// file title
+					if($target['title'])
+						$title = $target['title'];
+					else
+						$title = $target['file_name'];
 
-				// message components
-				$action = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
-				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
+					// message components
+					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
+					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
 
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
+
+				}
 
 			// a comment has been added to the page
-			} else if(strpos($action, 'comment') === 0) {
+			} else if($action == 'comment:create') {
 				include_once $context['path_to_root'].'comments/comments.php';
-				if((!$target = Comments::get($origin)) || !$target['id'])
-					return;
+				if(($target = Comments::get($origin)) && $target['id']) {
 
-				// message components
-				$action = sprintf(i18n::c('%s has posted a comment'), $surfer);
-				$title = Skin::strip($target['description'], 20, NULL, NULL);
-				$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
+					// message components
+					$summary = sprintf(i18n::c('%s has posted a comment'), $surfer);
+					$title = Skin::strip($target['description'], 20, NULL, NULL);
+					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
 
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
+
+				}
 
 			// something else has been added to the section
 			} else {
 
 				// add poster name if applicable
 				if($surfer = Surfer::get_name())
-					$action = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
+					$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
 				else
-					$action = Anchors::get_action_label($action);
+					$summary = Anchors::get_action_label($action);
 
 				// message components
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
@@ -1101,7 +1104,7 @@ Class Article extends Anchor {
 			}
 
 			// message to watchers
-			$mail['message'] =& Mailer::build_notification($action, $title, $link, 1);
+			$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
 			// we only have mail address of page creator
 			if(!$this->item['create_id'] && $this->item['create_address'])
@@ -1115,7 +1118,7 @@ Class Article extends Anchor {
 			if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
 
 				// message to connexions
-				$mail['message'] =& Mailer::build_notification($action, $title, $link, 2);
+				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
 
 				// alert connexions
 				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
@@ -1138,7 +1141,7 @@ Class Article extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('article:update', $this->item['id'], TRUE);
+			$this->anchor->touch('article:touch', $this->item['id'], TRUE);
 
 	}
 

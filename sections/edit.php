@@ -1209,7 +1209,7 @@ if($with_form) {
 
 	// notify people following me
 	if(!isset($item['id']) && Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())
