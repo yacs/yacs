@@ -568,16 +568,16 @@ if(!isset($item['id'])) {
 
 	}
 
-	// notify participants
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
-		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
-	}
-
 	// invite participants
 	if((Articles::is_owned($item, $anchor) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+	}
+
+	// notify participants
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// manage editors

@@ -1284,8 +1284,8 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
-		// send alerts on new item, except for pages in special sections
-		if(preg_match('/:create$/i', $action) && isset($this->item['index_map']) && ($this->item['index_map'] == 'Y') && !$this->is_interactive()) {
+		// send alerts on new item, or on article modification, except for pages in special sections
+		if(preg_match('/(:create|article:update)$/i', $action) && isset($this->item['index_map']) && ($this->item['index_map'] == 'Y')) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
@@ -1298,77 +1298,104 @@ Class Section extends Anchor {
 			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
 
 			// nothing done yet
-			$title = $link = '';
+			$summary = $title = $link = '';
 
 			// an article has been added to the section
-			if(strpos($action, 'article') === 0) {
-				if((!$target = Articles::get($origin)) || !$target['id'])
-					return;
+			if($action == 'article:create') {
+				if(($target = Articles::get($origin)) && $target['id']) {
 
-				// message components
-				$action = sprintf(i18n::c('A page has been submitted by %s'), $surfer);
-				$title = ucfirst(strip_tags($target['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+					// message components
+					$summary = sprintf(i18n::c('A page has been submitted by %s'), $surfer);
+					$title = ucfirst(strip_tags($target['title']));
+					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
 
-				// message subject
-				$mail['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), $title);
+					// message subject
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), $title);
 
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('article:'.$target['id'], $this->get_reference());
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('article:'.$target['id'], $this->get_reference());
+
+				}
+
+			// an article has been updated
+			} elseif($action == 'article:update') {
+				if(($target = Articles::get($origin)) && $target['id'] && $to_watchers) {
+
+					// message components
+					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
+					$title = ucfirst(strip_tags($target['title']));
+					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+
+					// message subject
+					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
+
+					// message to watchers
+					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+
+					// special case of article watchers
+					Users::alert_watchers('article:'.$target['id'], $mail);
+
+				}
 
 			// a file has been added to the section
-			} else if(strpos($action, 'file') === 0) {
-				if((!$target = Files::get($origin)) || !$target['id'])
-					return;
+			} else if($action == 'file:create') {
+				if(($target = Files::get($origin)) && $target['id']) {
 
-				// file title
-				if($target['title'])
-					$title = $target['title'];
-				else
-					$title = $target['file_name'];
+					// file title
+					if($target['title'])
+						$title = $target['title'];
+					else
+						$title = $target['file_name'];
 
-				// message components
-				$action = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
-				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
+					// message components
+					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
+					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
 
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
+
+				}
 
 			// a comment has been added to the section
-			} else if(strpos($action, 'comment') === 0) {
+			} else if($action == 'comment:create') {
 				include_once $context['path_to_root'].'comments/comments.php';
-				if((!$target = Comments::get($origin)) || !$target['id'])
-					return;
+				if(($target = Comments::get($origin)) && $target['id']) {
 
-				// message components
-				$action = sprintf(i18n::c('%s has posted a comment'), $surfer);
-				$title = Skin::strip($target['description'], 20, NULL, NULL);
-				$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
+					// message components
+					$summary = sprintf(i18n::c('%s has posted a comment'), $surfer);
+					$title = Skin::strip($target['description'], 20, NULL, NULL);
+					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
 
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
+
+				}
 
 			// a section has been added to the section
-			} elseif(strpos($action, 'section') === 0) {
-				if((!$target = Sections::get($origin)) || !$target['id'])
-					return;
+			} elseif($action == 'section:create') {
+				if(($target = Sections::get($origin)) && $target['id']) {
 
-				// message components
-				$action = sprintf(i18n::c('A section has been created by %s'), $surfer);
-				$title = ucfirst(strip_tags($target['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
+					// message components
+					$summary = sprintf(i18n::c('A section has been created by %s'), $surfer);
+					$title = ucfirst(strip_tags($target['title']));
+					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
 
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('', $this->get_reference());
+
+				}
 
 			// something else has been added to the section
 			} else {
 
 				// add poster name if applicable
 				if($surfer = Surfer::get_name())
-					$action = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
+					$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
 				else
-					$action = Anchors::get_action_label($action);
+					$summary = Anchors::get_action_label($action);
 
 				// message components
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
@@ -1379,34 +1406,37 @@ Class Section extends Anchor {
 
 			}
 
-			// message to watchers
-			$mail['message'] =& Mailer::build_notification($action, $title, $link, 1);
+			// regular case of section update
+			if($action != 'article:update') {
 
-			// the path of containers to this item
-			$containers = $this->get_focus();
+				// message to watchers
+				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
-			// autorized users
-			$restricted = NULL;
-			if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
-				foreach($editors as $editor)
-					if(strpos($editor, 'user:') === 0)
-						$restricted[] = substr($editor, strlen('user:'));
+				// the path of containers to this item
+				$containers = $this->get_focus();
+
+				// autorized users
+				$restricted = NULL;
+				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
+					foreach($editors as $editor)
+						if(strpos($editor, 'user:') === 0)
+							$restricted[] = substr($editor, strlen('user:'));
+				}
+
+				// alert all watchers at once
+				if($to_watchers)
+					Users::alert_watchers($containers, $mail, $restricted);
+
+				// alert connections, except on private pages
+				if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
+
+					// message to connections
+					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
+
+					// alert connections
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+				}
 			}
-
-			// alert all watchers at once
-			if($to_watchers)
-				Users::alert_watchers($containers, $mail, $restricted);
-
-			// alert connections, except on private pages
-			if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
-
-				// message to connections
-				$mail['message'] =& Mailer::build_notification($action, $title, $link, 2);
-
-				// alert connections
-				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-			}
-
 		}
 
 		// always clear the cache, even on no update

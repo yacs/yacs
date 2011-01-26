@@ -113,8 +113,8 @@ if(Surfer::is_crawler()) {
 		die(i18n::s('Your contribution has not been posted.'));
 	}
 
-	// touch the related anchor
-	$anchor->touch('comment:create', $fields['id']);
+	// touch the related anchor, but don't notify watchers
+	$anchor->touch('comment:thread', $fields['id']);
 
 	// clear cache
 	Comments::clear($fields);

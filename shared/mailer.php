@@ -56,26 +56,22 @@ class Mailer {
 	 *
 	 * @param string message title
 	 * @param string message HTML or ASCII content
-	 * @param bool use only plain text for message
 	 * @return array containing message parts ($type => $content)
 	 */
-	function &build_message($title, $text,$plain_only=FALSE) {
+	function &build_message($title, $text) {
 
 		// one element per type
 		$message = array();
 
 		// text/plain part has no tag anymore
-		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text)))));
+		$replacements = array("/<a href=\"(.*?)\">(.*?)<\/a>/i" => "\\2 \\1",
+			'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
+			'/&nbsp;/' => ' ');
+		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)))));
 
 		// text/html part
-		if(!$plain_only) {
-
-          // format links inside text in HTML (with <a> tag)
-          $text = preg_replace('#([\n\t ])(http://[a-z0-9._/-]+)#i', '$1<a href="$2">$2</a>', $text);
-
-		    $message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
-			   .'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
-                }
+		$message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
+			.'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
 
 		// return all parts
 		return $message;
@@ -95,11 +91,9 @@ class Mailer {
 	 * @param string title of the target page
 	 * @param string link to the target page
 	 * @param int reason for notification
-	 * @param string title of the watched page
-	 * @param string link to the watched page
 	 * @return string text to be put in message
 	 */
-	function &build_notification($action, $title, $link, $reason=0, $watch_title=NULL, $watch_link=NULL) {
+	function &build_notification($action, $title, $link, $reason=0) {
 		global $context;
 
 		// decode action
@@ -121,24 +115,15 @@ class Mailer {
 			$reason = '';
 			break;
 
-		case 1: // you are watching the container
-			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.'), $context['site_name']).'</p>';
-
-			$tail = array();
-			if($watch_title)
-				$tail[] = $watch_title;
-			if($watch_link)
-                                $tail[] = $context['url_to_home'].$context['url_to_root'].$watch_link;
-      
-			if($tail)
-				$reason .= '<p>'.join(BR, $tail).'</p>';
+		case 1: // you are watching some container
+			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.'), $context['site_name']).'</p>';
 
 			break;
 
 		case 2: // you are watching the poster
-			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name'])
-				.'</p><p>'.ucfirst(strip_tags(Surfer::get_name()))
-				.BR.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'</p>';
+			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name()))
+				.'</a></p>';
 			break;
 
 		}
@@ -605,7 +590,6 @@ class Mailer {
 	 * @param string subject
 	 * @param string actual message
 	 * @param mixed to be given to Mailer::post()
-	 * @param bool use only plain text for notification
 	 * @return TRUE on success, FALSE otherwise
 	 *
 	 * @see agents/messages.php
@@ -614,7 +598,7 @@ class Mailer {
 	 * @see shared/logger.php
 	 * @see users/users.php
 	 */
-	function notify($from, $to, $subject, $message, $headers='',$plain_only=FALSE) {
+	function notify($from, $to, $subject, $message, $headers='') {
 		global $context;
 
 		// email services have to be activated
@@ -637,7 +621,7 @@ class Mailer {
 			$subject .= ' ['.$context['site_name'].']';
 
 		// allow for HTML rendering
-		$message = Mailer::build_message($subject, $message, $plain_only);
+		$message = Mailer::build_message($subject, $message);
 
 		// do the job -- don't stop on error
 		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
@@ -1034,6 +1018,28 @@ class Mailer {
 		if(preg_match('/^=\?[^\?]+\?B\?(.*)=$/i', $subject, $matches))
 			$decoded_subject = base64_decode($matches[1]);
 
+		// mail() is expecting a string
+		if(is_array($headers))
+			$headers = implode("\n", $headers);
+
+		// determine the From: address
+		if(isset($context['mail_from']) && $context['mail_from'])
+			$from = $context['mail_from'];
+		else
+			$from = $context['host_name'];
+
+		// From: header is mandatory
+		if(!preg_match('/^From: /im', $headers))
+			$headers .= "\n".'From: '.$from;
+
+		if($context['debug_mail'] == 'Y') {
+
+			$all_headers = 'Subject: '.$subject."\n".'To: '.$decoded_recipient."\n".$headers;
+
+			Logger::remember('shared/mailer.php', 'sending a message to '.$decoded_recipient, htmlentities($all_headers)."\n\n".$message, 'debug');
+			Safe::file_put_contents('temporary/mailer.process.txt', $all_headers."\n\n".$message);
+		}
+
 		// connect to the mail server
 		if(!isset($context['mail_handle']) && !Mailer::connect())
 			return 0;
@@ -1041,12 +1047,6 @@ class Mailer {
 		// we manage directly the SMTP transaction
 		if(isset($context['mail_variant']) && (($context['mail_variant'] == 'pop3') || ($context['mail_variant'] == 'smtp'))) {
 			$handle = $context['mail_handle'];
-
-			// determine the From: address
-			if(isset($context['mail_from']) && $context['mail_from'])
-				$from = $context['mail_from'];
-			else
-				$from = $context['host_name'];
 
 			// the adress to use on error
 			if(preg_match('/<([^>]+)>/', $from, $matches))
@@ -1092,14 +1092,6 @@ class Mailer {
 				Mailer::close();
 				return 0;
 			}
-
-			// make some text out of an array
-			if(is_array($headers))
-				$headers = implode("\n", $headers);
-
-			// From: header
-			if(!preg_match('/^From: /im', $headers))
-				$headers .= "\n".'From: '.$from;
 
 			// To: header
 			if(!preg_match('/^To: /im', $headers))

@@ -774,7 +774,7 @@ Class i18n {
 		default:
 
 			// action, then title and link
-			$text = '<div>%s</div><p>&nbsp;</p><div>%s'.BR.'%s</div>';
+			$text = '<div>%1$s</div><p>&nbsp;</p><div><a href="%3$s">%2$s</a></div>';
 			break;
 
 		}
