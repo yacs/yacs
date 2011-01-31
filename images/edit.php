@@ -297,7 +297,8 @@ if(Surfer::is_crawler()) {
 		// log the submission by a non-associate
 		if(!Surfer::is_associate() && is_object($anchor)) {
 			$label = sprintf(i18n::c('New image in %s'), strip_tags($anchor->get_title()));
-			$description = sprintf(i18n::s('%s at %s'), $_REQUEST['image_name']."\n", $context['url_to_home'].$context['url_to_root'].Images::get_url($_REQUEST['id']));
+                        $link = $context['url_to_home'].$context['url_to_root'].Images::get_url($_REQUEST['id']);
+			$description = sprintf(i18n::s('%s at %s'), $_REQUEST['image_name']."\n", '<a href="'.$link.'">'.$link.'</a>');
 			Logger::notify('images/edit.php', $label, $description);
 		}
 

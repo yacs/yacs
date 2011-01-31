@@ -246,7 +246,8 @@ if(Surfer::is_crawler()) {
 		// log the submission of a new decision by a non-associate
 		if(!Surfer::is_associate()) {
 			$label = sprintf(i18n::c('New decision: %s'), strip_tags($anchor->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($_REQUEST['id']);
+			$link = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($_REQUEST['id']);
+                        $description = '<a href="'.$link.'">'.$link.'</a>';
 			Logger::notify('decisions/edit.php', $label, $description);
 		}
 

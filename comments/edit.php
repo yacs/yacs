@@ -278,7 +278,8 @@ if(Surfer::is_crawler()) {
 
 		// log the submission of a new comment
 		$label = sprintf(i18n::c('%s: %s'), $author, strip_tags($anchor->get_title()));
-		$description = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
+                $link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
+		$description = '<a href="'.$link.'">'.$link.'</a>';
 
 		// notify sysops
 		Logger::notify('comments/edit.php', $label, $description);
