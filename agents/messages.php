@@ -1403,7 +1403,7 @@ class Messages {
 					$description = sprintf(i18n::c('Sent by %s'), $user['nick_name']);
 				if(is_object($article))
 					$description .= "\n\n".$article->get_teaser('basic')
-						."\n\n".$context['url_to_home'].$context['url_to_root'].$article->get_url();
+						."\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
 				Logger::notify('agents/messages.php', $label, $description);
 
 			}

@@ -369,7 +369,8 @@ if(Surfer::is_crawler()) {
 		$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title());
 
 		// title and link
-		$description .= "\n\n".$context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
+		$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
+                $description .= "\n\n".'<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
 		Logger::notify('forms/view.php', $label, $description);

@@ -233,7 +233,7 @@ if(Surfer::is_crawler()) {
 		// log the submission of a new comment by a non-associate
 		if(!Surfer::is_associate()) {
 			$label = sprintf(i18n::c('New action for %s'), strip_tags($anchor->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']);
+			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']).'">'.$_REQUEST['title'].'</a>';
 			Logger::notify('actions/edit.php', $label, $description);
 		}
 

@@ -187,7 +187,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// title and link
 		if($title = $article->get_title())
 			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
+		$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
 
 		// teaser
 		if($teaser = $article->get_teaser('basic'))

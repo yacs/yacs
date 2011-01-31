@@ -229,8 +229,9 @@ if(Surfer::is_crawler()) {
 
 		// title and link
 		if($title = $form['title'])
-			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].Forms::get_url($form['id'], 'view', $form['title'])."\n\n";
+			$description .= $title."\n";		
+               $link = $context['url_to_home'].$context['url_to_root'].Forms::get_url($form['id'], 'view', $form['title']);
+               $description .= '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
 		Logger::notify('forms/edit.php', $label, $description);
