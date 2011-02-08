@@ -26,8 +26,8 @@ class Logger {
 	function debug($value='', $label=NULL) {
 		global $context;
 
-		// ensure we have a string
-		$value = Logger::to_string($value);
+		// ensure we have a string --preserve HTML
+		$value = Logger::to_string($value, FALSE);
 
 		// stamp the line
 		$line = gmdate('Y-m-d H:i:s')."\t";
@@ -203,11 +203,11 @@ class Logger {
 				return;
 
 			// message footer
-			$description .= "\n\n".sprintf(i18n::c('This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.'), $context['site_name'])
-				."\n\n".$context['url_to_home'].$context['url_to_root'].'control/configure.php';
+			$description .= '<div>'.sprintf(i18n::c('This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.'), $context['site_name']).'</div>'
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].'control/configure.php'.'">'.i18n::s('System parameters').'</a></p>';
 
-			// actual mail message, plain text only
-			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description,'', TRUE);
+			// actual mail message
+			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description);
 		}
 	}
 
@@ -244,7 +244,7 @@ class Logger {
 		global $context;
 
 		// ensure we have a string
-		$description = Logger::to_string($description);
+		$description = Logger::to_string($description, ($store != 'debug'));
 
 		// cap the description, just in case...
 		$description = substr($description, 0, 4096);
@@ -299,9 +299,10 @@ class Logger {
 	 * make a string out of something
 	 *
 	 * @param mixed something to be printed
+	 * @param boolean TRUE if HTML tags should be suppressed, FALSE otherwise
 	 * @return string
 	 */
-	function &to_string($value='') {
+	function &to_string($value='', $strip_tags=TRUE) {
 		global $context;
 
 		// a boolean
@@ -314,6 +315,23 @@ class Logger {
 		elseif(isset($value) && !is_string($value))
 			$value = print_r($value, TRUE);
 
+		// stick to simple line returns
+		$value = str_replace("\r", '', $value);
+
+		// log simple messages
+		if($strip_tags) {
+			$replacements = array('/<a href="([^"]*?)">(.*?)<\/a>/i' => "\\2 \\1",
+				'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
+				'/&nbsp;/' => ' ');
+			$value = trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $value)));
+		} else
+			$value = trim($value);
+
+		// ensure proper encoding
+		if(is_callable(array('utf8', 'encode')))
+			$value = utf8::from_unicode(utf8::encode($value));
+
+		// return a clean string
 		return $value;
 	}
 

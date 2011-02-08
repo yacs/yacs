@@ -7,6 +7,19 @@
  * When a message is sent to invited people, these may, or not, be part of
  * the community.
  *
+ * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
+ *
+ * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
+ *
+ * Surfer signature is appended to the message, if any.
+ * Else a default signature is used instead, with a link to the site front page.
+ *
+ * Senders can get a copy of messages if they want.
+ *
+ * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
+ *
+ * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
+ *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
@@ -15,6 +28,9 @@
  * - invite.php?id=&lt;id&gt;
  * - invite.php/&lt;id&gt;
  * - invite.php?id=&lt;id&gt;
+ *
+ * If this section, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
+ * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
  * @reference
@@ -118,11 +134,6 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
-// no recipient has been found
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && (!isset($_REQUEST['to']) || !$_REQUEST['to'])) {
-	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('Please provide a recipient address.'));
-
 // stop robots
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && Surfer::may_be_a_robot()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -145,19 +156,6 @@ if(Surfer::is_crawler()) {
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
-
-	// sender address
-	$from = Surfer::from();
-
-	// recipient(s) address(es)
-	$to = '';
-	if(isset($_REQUEST['to']))
-		$to = strip_tags($_REQUEST['to']);
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && strpos($from, '@')) {
-		if($to)
-			$to .= ', ';
-		$to .= $from;
-	}
 
 	// message subject
 	$subject = '';
@@ -194,9 +192,53 @@ if(Surfer::is_crawler()) {
 
 	}
 
+	// sender address
+	$from = Surfer::from();
+
+	// recipient(s) address(es)
+	$to = '';
+	if(isset($_REQUEST['to']))
+		$to = strip_tags($_REQUEST['to']);
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && strpos($from, '@')) {
+		if($to)
+			$to .= ', ';
+		$to .= $from;
+	}
+
 	// make an array of recipients
 	if(!is_array($to))
 		$to = Mailer::explode_recipients($to);
+
+	// append lists, if any
+	if(isset($_REQUEST['to_list'])) {
+
+		foreach($_REQUEST['to_list'] as $reference) {
+
+			// invitation to a private page should be limited to editors
+			if($item['active'] == 'N')
+				$users =& Members::list_users_by_posts_for_member($reference, 0, 50*USERS_LIST_SIZE, 'raw');
+
+			// else invitation should be extended to watchers
+			else
+				$users =& Members::list_users_by_posts_for_anchor($reference, 0, 50*USERS_LIST_SIZE, 'raw');
+
+			// list members
+			if(count($users)) {
+
+				// enroll each member separately
+				foreach($users as $id => $user) {
+
+					// this person has no email address
+					if(!$user['email'])
+						continue;
+
+					// extend the list of recipients
+					$to[] = $user['nick_name'];
+
+				}
+			}
+		}
+	}
 
 	// process every recipient
 	$actual_names = array();
@@ -266,7 +308,9 @@ if(Surfer::is_crawler()) {
 
 	// display the list of actual recipients
 	if($actual_names)
-		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</p>';
+		$context['text'] .= '<div>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</div>';
+	else
+		$context['text'] .= '<p>'.i18n::s('No message has been sent').'</p>';
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
@@ -314,14 +358,39 @@ if(Surfer::is_crawler()) {
 	if(Surfer::is_empowered()) {
 		// share a private page
 		if($item['active'] == 'N')
-			$input .= '<input type="radio" name="provide_credentials" value="Y" checked="checked" /> '.i18n::s('to manage content').BR;
+			$input .= '<input type="hidden" name="provide_credentials" value="Y" checked="checked" />';
 
 		// page can be accessed by many people
 		else
-			$input .= '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review content')
-				.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage content').BR;
+			$input .= '<p><input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review content')
+				.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage content').'</p>';
 	}
-	$input .= '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
+
+	// list also selectable groups of people
+	$items = array();
+	$handle = $item['anchor'];
+	while($handle && ($parent = Anchors::get($handle))) {
+		$handle = $parent->get_parent();
+
+		// invitation to a private page should be limited to editors
+		if($anchor->is_hidden()) {
+
+			if($count = Members::count_users_for_member($parent->get_reference()))
+				$items[] = '<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'"> '.sprintf(i18n::s('Invite editors of %s'), $parent->get_title()).' ('.$count.')';
+
+		// else invitation should be extended to watchers
+		} else {
+
+			if($count = Members::count_users_for_anchor($parent->get_reference()))
+				$items[] = '<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'"> '.sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()).' ('.$count.')';
+
+		}
+	}
+	if($items)
+		$input .= '<p>'.implode(BR, $items).'</p>';
+
+	// add some names manually
+	$input .= i18n::s('Invite some individuals').BR.'<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);
 
@@ -377,13 +446,6 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// to is mandatory'."\n"
-		.'	if(!container.to.value) {'."\n"
-		.'		alert("'.i18n::s('Please provide a recipient address.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
 		."\n"
 		.'	// title is mandatory'."\n"
 		.'	if(!container.subject.value) {'."\n"

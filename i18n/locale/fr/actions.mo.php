@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2010-08-11 17:29+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 13:25+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -71,15 +71,7 @@ $_SESSION['l10n']['fr']['Target address']='Adresse cible';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['495e87f04f0246c5e3ae83e2f3df4580']='Une URL relative à cette action, le cas échéant';
 $_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
-$_SESSION['l10n']['fr']['9cec816052ab7b14408c4549ecc5b2c8']='L\'action suivante a été ajoutée à votre liste de tâches. Merci de la prendre en compte dans les meilleurs délais.
-
-Emetteur : %s
-
-%s
-
-%s
-
-';
+$_SESSION['l10n']['fr']['b17110d405f9faa4d46eb5a9f5206b82']='L\'action suivante a été ajoutée à votre liste de tâches. Merci de la prendre en compte dans les meilleurs délais.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';

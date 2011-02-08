@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:11+0100
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 15:31+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -78,10 +78,11 @@ $_SESSION['l10n']['en']['Robot stopper']='Robot stopper';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['fcbef7fec98dc3476784d70d17d0a89d']='Share your profile in this community';
 $_SESSION['l10n']['en']['fc2edca5afeada33fbd4d829f8da5047']='System commands, configuration panels, content overview';
+$_SESSION['l10n']['en']['System parameters']='System parameters';
 $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
-$_SESSION['l10n']['en']['e6236ced25bee095095728d9b2de9a4f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to not be alerted automatically please visit the page and click on Stop notifications.';
+$_SESSION['l10n']['en']['9b1afc16f251ec4d2bbc0d704b341958']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.';
 $_SESSION['l10n']['en']['b0815cd5b64b817543f7e729e725554f']='This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
 $_SESSION['l10n']['en']['b14e57cf6aea5bcf8b57974ce6a1545d']='Type exactly the following 5 chars:';

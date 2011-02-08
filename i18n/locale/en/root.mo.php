@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2010-03-22 23:12+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 13:22+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -53,6 +53,7 @@ What do you want to do now?<ul>
 <p>Thank you for having selected to use YACS for your web site.</p>
 ';
 $_SESSION['l10n']['en']['7ba883ac892a1b2f08c0cf103474ab7b']='<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p>';
+$_SESSION['l10n']['en']['dc304975fe373fb874b2ee20aa195214']='<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p><p>You can check the status of your query at the following address:</p><p>%s</p><p>We would like to thank you for your interest in our web site.</p>';
 $_SESSION['l10n']['en']['992503b2fb62c9c97a31d6ce8e71758e']='A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.';
 $_SESSION['l10n']['en']['ad677f0d9c431772d2107a46318cbc19']='A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.';
 $_SESSION['l10n']['en']['2b0dd86a832a950fdf658419be572d7a']='A decorated list of pages that have been most rated by community members.';
@@ -265,13 +266,6 @@ $_SESSION['l10n']['en']['ce541bde1ce59c6a40e4c9f643933a0d']='You must enable coo
 $_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['Your query has been registered']='Your query has been registered';
-$_SESSION['l10n']['en']['b41844323b44c5a749d939bb4354ce2e']='Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.
-
-You can check the status of your query at the following address:
-
-%s
-
-We would like to thank you for your interest in our web site.';
 $_SESSION['l10n']['en']['Your query: %s']='Your query: %s';
 $_SESSION['l10n']['en']['another skin']='another skin';
 $_SESSION['l10n']['en']['comments']='comments';

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-12 11:44+0100\n"
-"PO-Revision-Date: 2011-01-12 11:55+0100\n"
+"PO-Revision-Date: 2011-01-26 15:26+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "MIME-Version: 1.0\n"
@@ -946,9 +946,8 @@ msgstr "Vous pouvez visiter [button=Cisco On Line|www.cisco.com]"
 
 #: codes/links.php:153
 #: codes/links.php:305
-#, fuzzy
 msgid "Member clicks"
-msgstr "Clics des membres"
+msgstr "Clics provenant des membres"
 
 #: codes/links.php:156
 #: codes/links.php:157

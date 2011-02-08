@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 12:20+0100\n"
+"POT-Creation-Date: 2011-01-26 15:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,21 +260,25 @@ msgid ""
 "address from recipients of system events."
 msgstr ""
 
-#: shared/mailer.php:108
+#: shared/logger.php:207
+msgid "System parameters"
+msgstr ""
+
+#: shared/mailer.php:102
 #, php-format
 msgid "%s by %s"
 msgstr ""
 
-#: shared/mailer.php:125
+#: shared/mailer.php:119
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since the new item has "
 "been posted in a web space that is part of your watch list. If you wish to "
-"not be alerted automatically please visit the page and click on Stop "
-"notifications."
+"stop some notifications please review watched elements listed in your user "
+"profile."
 msgstr ""
 
-#: shared/mailer.php:139
+#: shared/mailer.php:124
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since you are following "
@@ -282,33 +286,33 @@ msgid ""
 "alerts please visit the user profile below and click on Stop notifications."
 msgstr ""
 
-#: shared/mailer.php:184
+#: shared/mailer.php:169
 #, php-format
 msgid "and %d other persons"
 msgstr ""
 
-#: shared/mailer.php:309 shared/mailer.php:760 shared/mailer.php:1004
-#: shared/mailer.php:1143
+#: shared/mailer.php:294 shared/mailer.php:744 shared/mailer.php:988
+#: shared/mailer.php:1135
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: shared/mailer.php:765
+#: shared/mailer.php:749
 msgid "Empty sender address"
 msgstr ""
 
-#: shared/mailer.php:770 shared/mailer.php:1009
+#: shared/mailer.php:754 shared/mailer.php:993
 msgid "Empty recipient address"
 msgstr ""
 
-#: shared/mailer.php:775 shared/mailer.php:1014
+#: shared/mailer.php:759 shared/mailer.php:998
 msgid "No subject"
 msgstr ""
 
-#: shared/mailer.php:780 shared/mailer.php:1019
+#: shared/mailer.php:764 shared/mailer.php:1003
 msgid "No message"
 msgstr ""
 
-#: shared/mailer.php:1135 shared/mailer.php:1137
+#: shared/mailer.php:1127 shared/mailer.php:1129
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr ""

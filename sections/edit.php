@@ -292,8 +292,10 @@ if(Surfer::is_crawler()) {
 			$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title());
 		else
 			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name());
-		$description .= "\n\n".$section->get_teaser('basic')
-			."\n\n".$context['url_to_home'].$context['url_to_root'].$section->get_url();
+		
+                $link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
+                $description .= "\n\n".$section->get_teaser('basic')
+			."\n\n".'<a href="'.$link.'">'.$link.'</a>';
 		Logger::notify('sections/edit.php', $label, $description);
 
 	}
@@ -1209,7 +1211,7 @@ if($with_form) {
 
 	// notify people following me
 	if(!isset($item['id']) && Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())
