@@ -336,8 +336,9 @@ if(Surfer::is_crawler()) {
 			// log the submission of a new link by a non-associate
 			if(!Surfer::is_associate() && is_object($anchor)) {
 				$label = sprintf(i18n::c('New link at %s'), strip_tags($anchor->get_title()));
+                                $link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links';
 				$description = $_REQUEST['link_url']."\n"
-					.sprintf(i18n::c('at %s'), $context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links');
+					.sprintf(i18n::c('at %s'),'<a href="'.$link.'">'.$link.'</a>');
 				Logger::notify('links/edit.php', $label, $description);
 			}
 		}

@@ -144,7 +144,8 @@ if(!isset($item['id'])) {
 		// title and link
 		if($title = $section->get_title())
 			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].$section->get_url()."\n\n";
+		$link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
+                $description = '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
 		Logger::notify('sections/duplicate.php', $label, $description);

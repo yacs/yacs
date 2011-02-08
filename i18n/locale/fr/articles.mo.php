@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:03+0100
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 13:17+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -160,7 +160,10 @@ $_SESSION['l10n']['fr']['Information']='Information';
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['Invitation: %s']='Invitation : %s';
+$_SESSION['l10n']['fr']['Invite editors of %s']='Inviter les éditeurs de %s';
 $_SESSION['l10n']['fr']['Invite participants']='Inviter des participants';
+$_SESSION['l10n']['fr']['Invite some individuals']='Inviter quelques personnes';
+$_SESSION['l10n']['fr']['Invite watchers of %s']='Inviter les participants de %s';
 $_SESSION['l10n']['fr']['Language']='Langue';
 $_SESSION['l10n']['fr']['Last post']='Mise à jour';
 $_SESSION['l10n']['fr']['Leave this page']='Quitter cette page';
@@ -201,6 +204,7 @@ $_SESSION['l10n']['fr']['Next']='Suivant';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
+$_SESSION['l10n']['fr']['No message has been sent']='Aucun message n\'a été envoyé';
 $_SESSION['l10n']['fr']['22ce3d88217e83036f3285bba141bfe3']='Aucun overlay n\'a été sélectionné.';
 $_SESSION['l10n']['fr']['No owner has been found.']='Aucun propriétaire n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No recipient has been found.']='Aucun destinataire n\'a été trouvé.';
@@ -209,6 +213,7 @@ $_SESSION['l10n']['fr']['No vote']='Aucun vote';
 $_SESSION['l10n']['fr']['eade49618563da311f01c557b52f763a']='Personne n\'a été assigné à cette page.';
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['Notify participants']='Notifier les participants';
+$_SESSION['l10n']['fr']['Notify watchers.']='Notifier les participants';
 $_SESSION['l10n']['fr']['Number']='Numéro';
 $_SESSION['l10n']['fr']['Oldest articles']='Articles anciens';
 $_SESSION['l10n']['fr']['One page of comments']='Une page de commentaires';
@@ -241,7 +246,6 @@ $_SESSION['l10n']['fr']['247995c3285df0a70d924ad9d3385e88']='Choisissez où plac
 $_SESSION['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
-$_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['a5a7c2b006f2fe940008621110c4ea54']='Merci de taper le texte de votre nouvelle page et de cliquer sur le bouton en bas du formulaire. L\'envoi des images, des fichiers et des liens se fait dans un deuxième temps.';
 $_SESSION['l10n']['fr']['Poor']='Pauvre';

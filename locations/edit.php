@@ -177,8 +177,9 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		// log the submission by a non-associate
 		if(!Surfer::is_associate() && is_object($anchor)) {
 			$label = sprintf(i18n::c('New location in %s'), strip_tags($anchor->get_title()));
+                        $link = $context['url_to_home'].$context['url_to_root'].Locations::get_url($_REQUEST['id']);
 			$description = $_REQUEST['geo_place_name']."\n"
-				.sprintf(i18n::c('at %s'), $context['url_to_home'].$context['url_to_root'].Locations::get_url($_REQUEST['id']));
+				.sprintf(i18n::c('at %s'), '<a href="'.$link.'">'.$link.'</a>');
 			Logger::notify('locations/edit.php', $label, $description);
 		}
 

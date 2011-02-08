@@ -1433,15 +1433,17 @@ Class Users {
 
 			// top of the message
 			$message = '<p>'.i18n::s('Welcome!').'</p>'
-				.'<p>'.sprintf(i18n::s('This message relates to your account at %s.'), strip_tags($context['site_name']))
-				.BR.$context['url_to_home'].$context['url_to_root'].'</p>';
+				.'<p>'.sprintf(i18n::s('This message relates to your account at %s.'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 			// mention nick name
 			$message .= '<p>'.sprintf(i18n::s('Your nick name is %s'), $fields['nick_name']).'</p>';
 
 			// direct link to login page --see users/login.php
-			$message .= '<p>'.i18n::s('Record this message and use the following link to authenticate to the site at any time:')
-				.BR.$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $fields['id'], rand(1000, 9999), $fields['handle']).'</p>';
+			$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $fields['id'], rand(1000, 9999), $fields['handle']);
+
+			$message .= '<p>'.i18n::s('Record this message and use the following link to authenticate to the site at any time:').'</p>'
+				.'<p><a href="'.$link.'">'.$link.'</a></p>';
 
 			// caution note
 			$message .= '<p>'.i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.').'</p>';
@@ -1451,12 +1453,15 @@ Class Users {
 				$message .= '<p>'.i18n::s('Click on the link below to activate your new account.').'</p>';
 
 				// use the secret handle
-				$message .= '<p>'.$context['url_to_home'].$context['url_to_root'].Users::get_url($fields['handle'], 'validate').'</p>';
+				$link = $context['url_to_home'].$context['url_to_root'].Users::get_url($fields['handle'], 'validate');
+				$message .= '<p><a href="'.$link.'">'.$link.'</a></p>';
 			}
 
 			// bottom of the message
-			$message .= '<p>'.sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/').'</p>'
-				.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name'])).'</p>';
+			$message .= '<p>'.sprintf(i18n::s('On-line help is available at %s'),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].'help/'.'">'.$context['url_to_home'].$context['url_to_root'].'help/'.'</a>').'</p>'
+				.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 			// enable threading
 			$headers = Mailer::set_thread('user:'.$fields['id']);
@@ -1663,22 +1668,21 @@ Class Users {
 		Users::clear($fields);
 
 		// send a confirmation message on password change
-		if(isset($fields['email']) && $fields['email'] && isset($context['with_email']) && ($context['with_email'] == 'Y')
-			&& isset($fields['confirm']) && $fields['confirm'] && $item['email'] && ($item['without_confirmations'] != 'Y')) {
+		if(isset($context['with_email']) && ($context['with_email'] == 'Y')
+			&& isset($fields['confirm']) && $item['email'] && ($item['without_confirmations'] != 'Y')) {
 
 			// message title
 			$subject = sprintf(i18n::s('Your account at %s'), strip_tags($context['site_name']));
 
 			// message body
-			$message = sprintf(i18n::s('This message has been automatically sent to you to confirm a change of your profile at %s.'), strip_tags($context['site_name']))."\n"
-				."\n"
-				.$context['url_to_home'].$context['url_to_root']."\n"
-				."\n"
-				.sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])."\n"
-				.sprintf(i18n::s('Authenticate with password %s'), $fields['confirm'])."\n" 	// $fields['password'] has been hashed
-				."\n"
-				.sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
-				.sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
+			$message = '<p>'.sprintf(i18n::s('This message has been automatically sent to you to confirm a change of your profile at %s.'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>'
+				.'<p>'.sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])
+				.BR.sprintf(i18n::s('Authenticate with password %s'), $fields['confirm']).'</p>' 	// $fields['password'] has been hashed
+				.'<p>'.sprintf(i18n::s('On-line help is available at %s'),
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].'help/'.'">'.$context['url_to_home'].$context['url_to_root'].'help/'.'</a>').'</p>'
+				.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 			// enable threading
 			$headers = Mailer::set_thread('', 'user:'.$item['id']);

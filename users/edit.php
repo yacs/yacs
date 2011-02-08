@@ -327,7 +327,8 @@ if(Surfer::is_crawler()) {
 						$label = sprintf(i18n::c('New subscriber: %s'), $item['nick_name']);
 						break;
 					}
-					$description = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
+					$link = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
+                                        $description = '<a href="'.$link.'">'.$link.'</a>';
 					Logger::notify('users/edit.php', $label, $description);
 				}
 			}

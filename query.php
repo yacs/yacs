@@ -167,7 +167,7 @@ if(Surfer::is_crawler()) {
 			$subject = sprintf(i18n::s('Your query: %s'), strip_tags($_REQUEST['title']));
 
 			// message body
-			$message = sprintf(i18n::s("Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.\n\nYou can check the status of your query at the following address:\n\n%s\n\nWe would like to thank you for your interest in our web site."), $link);
+			$message = sprintf(i18n::s("<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p><p>You can check the status of your query at the following address:</p><p>%s</p><p>We would like to thank you for your interest in our web site.</p>"), '<a href="'.$link.'">'.$link.'</a>');
 
 			// enable threading
 			if(isset($item['id']))
@@ -186,7 +186,8 @@ if(Surfer::is_crawler()) {
 		// log the query submission
 		if(is_object($article)) {
 			$label = sprintf(i18n::c('New query: %s'), strip_tags($article->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].$article->get_url()
+			$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
+                        $description = '<a href="'.$link.'">'.$link.'</a>'
 				."\n\n".$article->get_teaser('basic');
 			Logger::notify('query.php', $label, $description);
 		}

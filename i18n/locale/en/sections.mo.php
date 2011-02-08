@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2010-10-05 23:08+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-01-26 11:33+0100
+PO-Revision-Date: 2011-01-26 15:27+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -135,6 +135,7 @@ $_SESSION['l10n']['en']['Delete a comment']='Delete a comment';
 $_SESSION['l10n']['en']['Delete a note']='Delete a note';
 $_SESSION['l10n']['en']['Delete a reply']='Delete a reply';
 $_SESSION['l10n']['en']['Delete this section']='Delete this section';
+$_SESSION['l10n']['en']['Deletion: %s']='Deletion: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Disallow post of new comments']='Disallow post of new comments';
 $_SESSION['l10n']['en']['Disallow post of new links']='Disallow post of new links';
@@ -210,7 +211,10 @@ $_SESSION['l10n']['en']['Information']='Information';
 $_SESSION['l10n']['en']['2245ce899408df76205082ed11841a9e']='Introduce the poster before main text';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
 $_SESSION['l10n']['en']['Invitation: %s']='Invitation: %s';
+$_SESSION['l10n']['en']['Invite editors of %s']='Invite editors of %s';
 $_SESSION['l10n']['en']['Invite participants']='Invite participants';
+$_SESSION['l10n']['en']['Invite some individuals']='Invite some individuals';
+$_SESSION['l10n']['en']['Invite watchers of %s']='Invite watchers of %s';
 $_SESSION['l10n']['en']['b7b98cdf95371442ef2398cb89096237']='Is displayed at the front page, among other extra boxes.';
 $_SESSION['l10n']['en']['7c2371bb041b0aedad334b4076b9b13d']='Is displayed at the parent section page among other extra boxes.';
 $_SESSION['l10n']['en']['ba5d915743d34ef667d5b3cefb1d05c4']='Is displayed in the middle of the front page, among other gadget boxes.';
@@ -267,6 +271,7 @@ $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.'
 $_SESSION['l10n']['en']['9071323dbd195e8885a22a93ffd985e9']='No editor has been assigned to this section.';
 $_SESSION['l10n']['en']['6be61fe0c5b23922c2316b5229f26cb7']='No information about surrounding sections';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
+$_SESSION['l10n']['en']['No message has been sent']='No message has been sent';
 $_SESSION['l10n']['en']['22ce3d88217e83036f3285bba141bfe3']='No overlay has been selected yet.';
 $_SESSION['l10n']['en']['No owner has been found.']='No owner has been found.';
 $_SESSION['l10n']['en']['No page has been selected.']='No page has been selected.';
@@ -295,6 +300,7 @@ $_SESSION['l10n']['en']['Other sections']='Other sections';
 $_SESSION['l10n']['en']['Overlay']='Overlay';
 $_SESSION['l10n']['en']['Owner']='Owner';
 $_SESSION['l10n']['en']['Owner of %s']='Owner of %s';
+$_SESSION['l10n']['en']['Page has been modified by %s']='Page has been modified by %s';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['9395d63e2f35e55bb88eb5c03c766146']='Pages are not reviewed prior publication';
 $_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
@@ -307,7 +313,6 @@ $_SESSION['l10n']['en']['be72d222dbc7f97ae5604c94564f135e']='Please describe the
 $_SESSION['l10n']['en']['cb80e3a58896b7ed8f62cb578e73aa7b']='Please let me thank you for your involvement.';
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
-$_SESSION['l10n']['en']['b415a5c94f6a4a564921362b1e8516ac']='Please provide a recipient address.';
 $_SESSION['l10n']['en']['1e15bcb69dd742712c3a2af4431b476e']='Please review the new page carefully and fix possible errors rapidly.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
