@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-22 00:03+0100\n"
+"POT-Creation-Date: 2011-02-23 21:14+0100\n"
 "PO-Revision-Date: 2011-02-21 00:26+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -1157,7 +1157,7 @@ msgstr "Commenter"
 #: skins/layout_home_articles_as_newspaper.php:303
 #: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1597
 #: skins/skin_skeleton.php:1686 skins/skin_skeleton.php:1783
-#: skins/skin_skeleton.php:2030 skins/skin_skeleton.php:4791
+#: skins/skin_skeleton.php:2030 skins/skin_skeleton.php:4851
 msgid "View the page"
 msgstr "Voir la page"
 
@@ -1217,7 +1217,7 @@ msgid "More pages"
 msgstr "Autres pages"
 
 #: skins/layout_home_articles_as_newspaper.php:195
-#: skins/skin_skeleton.php:1712 skins/skin_skeleton.php:4339
+#: skins/skin_skeleton.php:1712 skins/skin_skeleton.php:4353
 msgid "More"
 msgstr "Suite"
 
@@ -1347,14 +1347,14 @@ msgstr "Envoyer un message"
 msgid "Monthly calendar"
 msgstr "Calendrier de ce mois"
 
-#: skins/skin_skeleton.php:1725 skins/skin_skeleton.php:4345
-#: skins/skin_skeleton.php:4398 skins/skin_skeleton.php:4400
+#: skins/skin_skeleton.php:1725 skins/skin_skeleton.php:4359
+#: skins/skin_skeleton.php:4416 skins/skin_skeleton.php:4418
 #: skins/test.php:245
 msgid "Next"
 msgstr "Suivant"
 
-#: skins/skin_skeleton.php:1738 skins/skin_skeleton.php:4386
-#: skins/skin_skeleton.php:4388 skins/test.php:245
+#: skins/skin_skeleton.php:1738 skins/skin_skeleton.php:4402
+#: skins/skin_skeleton.php:4404 skins/test.php:245
 msgid "Previous"
 msgstr "Précédent"
 
@@ -1482,16 +1482,24 @@ msgstr "Protégé"
 msgid "updated"
 msgstr "mis à jour"
 
-#: skins/skin_skeleton.php:4251
+#: skins/skin_skeleton.php:4265
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: skins/skin_skeleton.php:4788
+#: skins/skin_skeleton.php:4541
+msgid "Previous page"
+msgstr "Page précédente"
+
+#: skins/skin_skeleton.php:4566
+msgid "Next page"
+msgstr "Page suivante"
+
+#: skins/skin_skeleton.php:4848
 #, php-format
 msgid "%d words to read"
 msgstr "encore %d mots"
 
-#: skins/skin_skeleton.php:4924
+#: skins/skin_skeleton.php:4984
 msgid "Click to sort"
 msgstr "Cliquer pour trier"
 
@@ -2481,12 +2489,6 @@ msgstr ""
 
 #~ msgid "More to read..."
 #~ msgstr "Voir la suite..."
-
-#~ msgid "Next page"
-#~ msgstr "Page suivante"
-
-#~ msgid "Previous page"
-#~ msgstr "Page précédente"
 
 #~ msgid "sidebar content"
 #~ msgstr "contenu du pavé de détail"

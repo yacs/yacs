@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-24 23:23+0100
+POT-Creation-Date: 2011-02-23 21:14+0100
 PO-Revision-Date: 2010-11-12 18:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -54,7 +54,6 @@ $_SESSION['l10n']['fr']['Browse %s']='Naviguer %s';
 $_SESSION['l10n']['fr']['bfbcc298c988f6d70e9919fba19bda0d']='Par défaut, les fichiers sont rangés dans l\'espace web de votre serveur. Pour optimiser le transfert des grands fichiers, vous pouvez installer un ftp anonyme sur votre serveur, puis utiliser ce panneau de configuration pour en activer l\'usage.';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Change']='Changer';
-$_SESSION['l10n']['fr']['36a3d377dfebacd9d29b637d7ecefb82']='Vérifier la page de téléchargement pour ce fichier';
 $_SESSION['l10n']['fr']['Close']='Fermer';
 $_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['fe1a23cebe508106ea3fb5702287c729']='Communauté - Accès autorisé à toute personne identifiée';
