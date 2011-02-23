@@ -271,10 +271,10 @@ if(!isset($item['id'])) {
 			$details[] = i18n::s('Subscriber');
 
 		elseif($item['capability'] == '?') {
-			$details[] = EXPIRED_FLAG.i18n::s('Locked');
+			$details[] = EXPIRED_FLAG.i18n::s('Suspended');
 
 			// also make it clear to community member
-			Skin::error('This profile has been locked and does not allow authentication.');
+			Skin::error('This person has been suspended and cannot authenticate anymore.');
 		}
 
 		// the number of posts
