@@ -232,7 +232,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
-		$overlay = Overlay::load($item);
+		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
 		$anchor =& Anchors::get($item['anchor']);
@@ -329,7 +329,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
-		$overlay = Overlay::load($item);
+		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
 		$anchor =& Anchors::get($item['anchor']);
