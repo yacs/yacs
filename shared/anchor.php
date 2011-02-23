@@ -931,25 +931,6 @@ class Anchor {
 	}
 
 	/**
-	 * is this an interactive thread?
-	 *
-	 * @return TRUE is this page supports interactions, FALSE otherwise
-	 */
-	function is_interactive() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// section asks for threads
-		if(Articles::has_option('view_as_chat', $this->anchor, $this->item))
-			return TRUE;
-
-		// not an interactive page
-		return FALSE;
-	}
-
-	/**
 	 * check that the surfer owns an anchor
 	 *
 	 * To be overloaded into derivated class if field has a different name

@@ -575,10 +575,6 @@ Class Files {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-//		// strip extra text from enhanced ids '3-page-title' -> '3'
-//		if($position = strpos($id, '-'))
-//			$id = substr($id, 0, $position);
-
 		// cache previous answers
 		static $cache;
 		if(!is_array($cache))

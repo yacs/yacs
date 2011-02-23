@@ -222,7 +222,7 @@ if(Surfer::is_crawler()) {
 
 	// attach some file
 	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
-		$_REQUEST['description'] .= $file;
+		$_REQUEST['description'] .= '<div>'.$file.'</div>';
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {

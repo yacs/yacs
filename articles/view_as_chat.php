@@ -3,7 +3,7 @@
  * real-time chat facility
  *
  * This script is included into [script]articles/view.php[/script], when the
- * option is set to 'view_as_chat' or 'view_as_thread'.
+ * option is set to 'view_as_chat'.
  *
  * On a regular page, it allows for dynamic conversations involving two people
  * or more. When the page is locked, only a transcript is displayed.

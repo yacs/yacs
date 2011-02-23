@@ -130,7 +130,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('This script allows you to upload an archive file and to extract its content to patch running scripts. Please note that any file may be modified during the process, therefore the need to trust the patch provider, and to carefully select a patch adapted to your current situation.')."</p>\n";
 
 		// the form to post an file
-		$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 
 		// the file
 		$context['text'] .= '<input type="file" name="upload" id="focus" size="30" />'

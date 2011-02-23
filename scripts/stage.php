@@ -375,7 +375,7 @@ if($id) {
 	$context['text'] .= '<p>'.i18n::s('Pick-up and upload the archive file to use for the upgrade.').'</p>';
 
 	// the form to post an file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>';
 
 	// the file
 	$context['text'] .= '<input type="file" name="upload" id="focus" size="30" />'

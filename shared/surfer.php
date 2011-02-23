@@ -1411,9 +1411,21 @@ Class Surfer {
 		// the surfer has been authenticated, do not challenge him anymore
 		$_SESSION['surfer_is_not_a_robot'] = TRUE;
 
-		// remember silently the date of the last login
-		if($update_flag && isset($fields['id'])) {
-			$query = "UPDATE ".SQL::table_name('users')." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."', authenticate_failures=0 WHERE id = ".$fields['id'];
+		// update user record
+		if(isset($fields['id'])) {
+
+			// clear tentatives of authentication
+			$query = array();
+			$query[] = 'authenticate_failures=0';
+
+			// remember the date of login
+			if($update_flag) {
+				$query[] = "login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+				$query[] = "login_address='".$_SERVER['REMOTE_ADDR']."'";
+			}
+
+			// do the update
+			$query = "UPDATE ".SQL::table_name('users')." SET ".implode(', ', $query)." WHERE id = ".$fields['id'];
 			SQL::query($query, FALSE, $context['users_connection']);
 		}
 

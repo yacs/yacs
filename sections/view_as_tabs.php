@@ -874,16 +874,16 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$box['bar'] += array(Users::get_url('section:'.$item['id'], 'track') => TOOLS_WATCH_IMG.i18n::s('Watch this section'));
 	}
 
-	// notify participants
-	if(($wcount > 1) && Sections::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
-		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
-	}
-
 	// invite participants, for owners
 	if(Sections::is_owned($item, $anchor, TRUE) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$box['bar'] += array(Sections::get_url($item['id'], 'invite') => SECTIONS_INVITE_IMG.i18n::s('Invite participants'));
+	}
+
+	// notify participants
+	if(($wcount > 1) && Sections::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
+		$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// manage editors, for owners

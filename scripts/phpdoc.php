@@ -249,7 +249,7 @@ class PhpDoc {
 
 			// extract the block name
 			$name = ltrim($matches[2], "&").'()';;
-			$parameters = preg_split('/,\s*/', $matches[3], -1, PREG_SPLIT_NO_EMPTY);
+			$parameters = preg_split('/[\s,]+/', $matches[3], -1, PREG_SPLIT_NO_EMPTY);
 
 			// name and first line as a title
 			$title = $name.$first_line;

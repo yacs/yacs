@@ -37,7 +37,7 @@ if(!Surfer::is_crawler()) {
 
 	// tags, if any
 	if(isset($item['tags']))
-		$context['page_tags'] =& Skin::build_tags($item['tags'], 'article:'.$item['id']);
+		$context['page_tags'] =& Skin::build_tags($item['tags']);
 
 	// one detail per line
 	$text .= '<p class="details">';
@@ -204,16 +204,11 @@ if(defined('DIGG'))
 if(isset($owner['id']) && is_object($anchor))
 	$context['text'] .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
-// only at the first page
-if($page == 1) {
-
-	// the introduction text, if any
-	if(is_object($overlay))
-		$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-	elseif(isset($item['introduction']) && trim($item['introduction']))
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
-
-}
+// the introduction text, if any
+if(is_object($overlay))
+	$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+elseif(isset($item['introduction']) && trim($item['introduction']))
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 // special layout for digg
 if(defined('DIGG'))

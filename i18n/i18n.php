@@ -1389,6 +1389,17 @@ Class i18n {
 	}
 
 	/**
+	 * reset localized strings in memory
+	 *
+	 */
+	function reset() {
+
+		if(isset($_SESSION['l10n_modules']))
+			unset($_SESSION['l10n_modules']);
+
+	}
+
+	/**
 	 * get a localized string for a surfer
 	 *
 	 * This function is an equivalent to gettext(), except it deals with surfer localization.
