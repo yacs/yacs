@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-01 23:07+0100
+POT-Creation-Date: 2011-02-22 00:03+0100
+PO-Revision-Date: 2011-02-21 00:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 Language: 
@@ -64,6 +64,7 @@ $_SESSION['l10n']['en']['Borders']='Borders';
 $_SESSION['l10n']['en']['Box background']='Box background';
 $_SESSION['l10n']['en']['Box content']='Box content';
 $_SESSION['l10n']['en']['Box title']='Box title';
+$_SESSION['l10n']['en']['Breadcrumbs']='Breadcrumbs';
 $_SESSION['l10n']['en']['Browse in a separate window']='Browse in a separate window';
 $_SESSION['l10n']['en']['CSS classes']='CSS classes';
 $_SESSION['l10n']['en']['Calendar of this month']='Calendar of this month';
@@ -185,6 +186,8 @@ $_SESSION['l10n']['en']['Keywords']='Keywords';
 $_SESSION['l10n']['en']['8962bcb765ae897c885bcd0cd1506038']='Keywords separated with commas, inserted in the "keyword" meta field for search engines';
 $_SESSION['l10n']['en']['Large images']='Large images';
 $_SESSION['l10n']['en']['8d4eacdb85ee087e973e5165a9f801b3']='Latitude and longitude, separated by a comma, for example: 47.98481,-71.42124, featured as meta fields "geo.position" and "ICBM" at the front page. See %s or %s';
+$_SESSION['l10n']['en']['Level 1 title']='Level 1 title';
+$_SESSION['l10n']['en']['Level 2 title']='Level 2 title';
 $_SESSION['l10n']['en']['Level of details']='Level of details';
 $_SESSION['l10n']['en']['Link color']='Link color';
 $_SESSION['l10n']['en']['Links']='Links';
@@ -272,6 +275,7 @@ $_SESSION['l10n']['en']['Return to front page']='Return to front page';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Sample box']='Sample box';
 $_SESSION['l10n']['en']['Sample text']='Sample text';
+$_SESSION['l10n']['en']['Sample title']='Sample title';
 $_SESSION['l10n']['en']['Scale of Google Maps.']='Scale of Google Maps.';
 $_SESSION['l10n']['en']['Scale: %s']='Scale: %s';
 $_SESSION['l10n']['en']['Search']='Search';
@@ -314,6 +318,7 @@ $_SESSION['l10n']['en']['Switch the server on']='Switch the server on';
 $_SESSION['l10n']['en']['Tabs']='Tabs';
 $_SESSION['l10n']['en']['Tags: %s']='Tags: %s';
 $_SESSION['l10n']['en']['4e344a4334c81facb5832b1ebda218fd']='Template has been imported. Check skin %s';
+$_SESSION['l10n']['en']['Test']='Test';
 $_SESSION['l10n']['en']['Test page']='Test page';
 $_SESSION['l10n']['en']['Test this theme']='Test this theme';
 $_SESSION['l10n']['en']['Text']='Text';
@@ -377,7 +382,6 @@ $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['169dbe1e15bea547371df14376d4fb80']='You can now visit the index of themes, and select the one you prefer.';
 $_SESSION['l10n']['en']['6aa04f19a0e5ba58a3f2ec185e2687ca']='You can use default values and change these later on. Hit the button at the bottom of the page to move forward.';
-$_SESSION['l10n']['en']['Your picture']='Your picture';
 $_SESSION['l10n']['en']['about']='about';
 $_SESSION['l10n']['en']['about this site']='about this site';
 $_SESSION['l10n']['en']['bbaa44ba62be4f1f0b4d1f8023961884']='align to bottom, then repeat horizontally';

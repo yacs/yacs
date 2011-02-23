@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"POT-Creation-Date: 2011-02-22 16:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 
 #: files/check.php:31 files/configure.php:53 files/delete.php:81
 #: files/edit.php:144 files/edit.php:169 files/feed.php:125
-#: files/fetch.php:156 files/fetch_all.php:116 files/files.php:2565
+#: files/fetch.php:156 files/fetch_all.php:116 files/files.php:2561
 #: files/index.php:70 files/list.php:88 files/list.php:93 files/stream.php:152
 #: files/thread.php:68 files/view.php:150
 msgid "You are not allowed to perform this operation."
@@ -237,77 +237,82 @@ msgstr ""
 msgid "Release reservation"
 msgstr ""
 
-#: files/delete.php:113
-msgid "The action has not been confirmed."
+#: files/delete.php:106
+#, php-format
+msgid "Deletion: %s"
 msgstr ""
 
 #: files/delete.php:120
+msgid "The action has not been confirmed."
+msgstr ""
+
+#: files/delete.php:127
 msgid "Yes, I want to delete this file"
 msgstr ""
 
-#: files/delete.php:122 files/edit.php:661 files/fetch.php:288
+#: files/delete.php:129 files/edit.php:661 files/fetch.php:288
 msgid "Cancel"
 msgstr ""
 
-#: files/delete.php:143 files/edit.php:502 files/view.php:289
+#: files/delete.php:150 files/edit.php:502 files/view.php:289
 msgid "Title"
 msgstr ""
 
-#: files/delete.php:149
+#: files/delete.php:156
 msgid "Description"
 msgstr ""
 
-#: files/delete.php:164 files/edit.php:627
+#: files/delete.php:171 files/edit.php:627
 msgid "Source"
 msgstr ""
 
-#: files/delete.php:169
+#: files/delete.php:176
 msgid "Actual file"
 msgstr ""
 
-#: files/delete.php:173 files/edit.php:434 files/edit.php:493
+#: files/delete.php:180 files/edit.php:434 files/edit.php:493
 msgid "File size"
 msgstr ""
 
-#: files/delete.php:173
+#: files/delete.php:180
 #, php-format
 msgid "%d bytes"
 msgstr ""
 
-#: files/delete.php:178
+#: files/delete.php:185
 msgid "Downloads"
 msgstr ""
 
-#: files/delete.php:178 files/edit.php:468 files/layout_files.php:91
+#: files/delete.php:185 files/edit.php:468 files/layout_files.php:91
 #: files/layout_files_as_hits.php:60 files/view.php:242
 msgid "downloads"
 msgstr ""
 
-#: files/delete.php:184
+#: files/delete.php:191
 msgid "Posted by"
 msgstr ""
 
-#: files/delete.php:190
+#: files/delete.php:197
 msgid "Updated by"
 msgstr ""
 
-#: files/delete.php:195
+#: files/delete.php:202
 msgid "Last action"
 msgstr ""
 
-#: files/delete.php:201 files/delete.php:203 files/edit.php:551
+#: files/delete.php:208 files/delete.php:210 files/edit.php:551
 msgid "Access"
 msgstr ""
 
-#: files/delete.php:201 files/edit.php:563 files/view.php:202
+#: files/delete.php:208 files/edit.php:563 files/view.php:202
 msgid "Private - Access is restricted to selected persons"
 msgstr ""
 
-#: files/delete.php:203
+#: files/delete.php:210
 msgid "Community -Access is granted to any identified surfer"
 msgstr ""
 
-#: files/delete.php:210
+#: files/delete.php:217
 msgid ""
 "Following items are attached to this record and will be deleted as well."
 msgstr ""
@@ -321,17 +326,17 @@ msgstr ""
 msgid "Add a file"
 msgstr ""
 
-#: files/edit.php:149 files/fetch.php:143 files/files.php:2092
+#: files/edit.php:149 files/fetch.php:143 files/files.php:2088
 #: files/list.php:77 files/thread.php:73
 msgid "No anchor has been found."
 msgstr ""
 
-#: files/edit.php:183 files/files.php:2569
+#: files/edit.php:183 files/files.php:2565
 msgid "This type of file is not allowed."
 msgstr ""
 
-#: files/edit.php:262 files/files.php:2581 files/files.php:2585
-#: files/files.php:2589
+#: files/edit.php:262 files/files.php:2577 files/files.php:2581
+#: files/files.php:2585
 msgid "No file has been transmitted."
 msgstr ""
 
@@ -612,7 +617,7 @@ msgstr ""
 msgid "Image %d of %d"
 msgstr ""
 
-#: files/files.php:432 files/files.php:2124
+#: files/files.php:432 files/files.php:2120
 msgid "No item has the provided id."
 msgstr ""
 
@@ -626,21 +631,21 @@ msgstr ""
 msgid "Impossible to copy file %s."
 msgstr ""
 
-#: files/files.php:2214
+#: files/files.php:2210
 msgid ""
 "Nothing has been received. Ensure you are below size limits set for this "
 "server."
 msgstr ""
 
-#: files/files.php:2573 files/files.php:2577
+#: files/files.php:2569 files/files.php:2573
 msgid "The size of this file is over limit."
 msgstr ""
 
-#: files/files.php:2593
+#: files/files.php:2589
 msgid "Possible file attack."
 msgstr ""
 
-#: files/files.php:2608
+#: files/files.php:2604
 #, php-format
 msgid "Impossible to move the upload file to %s."
 msgstr ""

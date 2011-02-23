@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:20+0200
-PO-Revision-Date: 2010-08-11 17:26+0100
+POT-Creation-Date: 2011-01-24 23:23+0100
+PO-Revision-Date: 2011-01-24 23:40+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 Language: 
@@ -71,15 +71,7 @@ $_SESSION['l10n']['en']['Target address']='Target address';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['495e87f04f0246c5e3ae83e2f3df4580']='The URL of the target page for this action, if any';
 $_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
-$_SESSION['l10n']['en']['9cec816052ab7b14408c4549ecc5b2c8']='The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.
-
-Sender: %s
-
-%s
-
-%s
-
-';
+$_SESSION['l10n']['en']['b17110d405f9faa4d46eb5a9f5206b82']='The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
