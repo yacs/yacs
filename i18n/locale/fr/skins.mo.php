@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-22 00:03+0100
+POT-Creation-Date: 2011-02-23 21:14+0100
 PO-Revision-Date: 2011-02-21 00:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -217,6 +217,7 @@ $_SESSION['l10n']['fr']['0ea64d397f291e9bd09373bd4936d928']='Les boîtes de navi
 $_SESSION['l10n']['fr']['Navigation panel']='Panneau de navigation';
 $_SESSION['l10n']['fr']['Next']='Suivant';
 $_SESSION['l10n']['fr']['Next and previous, if any']='Suivant et précédent, si présents';
+$_SESSION['l10n']['fr']['Next page']='Page suivante';
 $_SESSION['l10n']['fr']['8efade0a8f036f70a78a2d6d10bcc125']='Aucun block de blogging n\'a été trouvvé';
 $_SESSION['l10n']['fr']['No file has been transmitted.']='Aucun fichier n\'a été transmis.';
 $_SESSION['l10n']['fr']['No page to display.']='Aucune page à afficher.';
@@ -258,6 +259,7 @@ $_SESSION['l10n']['fr']['Powered by %s']='Encore un serveur %s';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
+$_SESSION['l10n']['fr']['Previous page']='Page précédente';
 $_SESSION['l10n']['fr']['Previous pages']='Pages précédentes';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['2911c36b2184f7af42772a0c11761838']='Utiliser la base de données interne pour traiter les demandes de recherche';

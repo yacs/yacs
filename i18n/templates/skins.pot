@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-22 16:58+0100\n"
+"POT-Creation-Date: 2011-02-23 21:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1085,7 +1085,7 @@ msgstr ""
 #: skins/layout_home_articles_as_newspaper.php:303
 #: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1597
 #: skins/skin_skeleton.php:1686 skins/skin_skeleton.php:1783
-#: skins/skin_skeleton.php:2030 skins/skin_skeleton.php:4791
+#: skins/skin_skeleton.php:2030 skins/skin_skeleton.php:4851
 msgid "View the page"
 msgstr ""
 
@@ -1145,7 +1145,7 @@ msgid "More pages"
 msgstr ""
 
 #: skins/layout_home_articles_as_newspaper.php:195
-#: skins/skin_skeleton.php:1712 skins/skin_skeleton.php:4339
+#: skins/skin_skeleton.php:1712 skins/skin_skeleton.php:4353
 msgid "More"
 msgstr ""
 
@@ -1275,14 +1275,14 @@ msgstr ""
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:1725 skins/skin_skeleton.php:4345
-#: skins/skin_skeleton.php:4398 skins/skin_skeleton.php:4400
+#: skins/skin_skeleton.php:1725 skins/skin_skeleton.php:4359
+#: skins/skin_skeleton.php:4416 skins/skin_skeleton.php:4418
 #: skins/test.php:245
 msgid "Next"
 msgstr ""
 
-#: skins/skin_skeleton.php:1738 skins/skin_skeleton.php:4386
-#: skins/skin_skeleton.php:4388 skins/test.php:245
+#: skins/skin_skeleton.php:1738 skins/skin_skeleton.php:4402
+#: skins/skin_skeleton.php:4404 skins/test.php:245
 msgid "Previous"
 msgstr ""
 
@@ -1404,16 +1404,24 @@ msgstr ""
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:4251
+#: skins/skin_skeleton.php:4265
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:4788
+#: skins/skin_skeleton.php:4541
+msgid "Previous page"
+msgstr ""
+
+#: skins/skin_skeleton.php:4566
+msgid "Next page"
+msgstr ""
+
+#: skins/skin_skeleton.php:4848
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:4924
+#: skins/skin_skeleton.php:4984
 msgid "Click to sort"
 msgstr ""
 
