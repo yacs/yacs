@@ -282,7 +282,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// allow for an initial upload, if allowed
-	if(Surfer::may_upload()) {
+	if(!isset($item['id']) && Surfer::may_upload()) {
 
 		// attachment label
 		$label = i18n::s('Upload a file');
@@ -357,9 +357,322 @@ if($with_form) {
 		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
+	// options tab
+	//
+	$text = '';
+
+	// provide information to section owner
+	if(isset($item['id'])) {
+
+		// owner
+		$label = i18n::s('Owner');
+		$input = '';
+		if(isset($item['owner_id'])) {
+			if($owner = Users::get($item['owner_id']))
+				$input = Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+			else
+				$input = i18n::s('No owner has been found.');
+		}
+
+		// change the owner
+		if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
+			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
+
+		$fields[] = array($label, $input);
+
+		// editors
+		$label = i18n::s('Editors');
+		if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma'))
+			$input =& Skin::build_list($items, 'comma');
+		else
+			$input = i18n::s('Nobody has been assigned to this page.');
+
+		// manage participants and editors
+ 		if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+
+			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
+
+			$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Manage editors'), 'button').'</span>';
+
+		}
+
+		$fields[] = array($label, $input);
+	}
+
+	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		$label = i18n::s('Access');
+
+		// maybe a public page
+		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+
+		// maybe a restricted page
+		$input .= '<input type="radio" name="active_set" value="R"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+
+		// or a hidden page
+		$input .= '<input type="radio" name="active_set" value="N"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+
+		// combine this with inherited access right
+		if(is_object($anchor) && $anchor->is_hidden())
+			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+		elseif(is_object($anchor) && !$anchor->is_public())
+			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+		else
+			$hint = i18n::s('Who is allowed to access?');
+
+		// expand the form
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// locked: Yes / No
+	$label = i18n::s('Locker');
+	$input = '<input type="radio" name="locked" value="N"';
+	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Contributions are accepted').' '
+		.BR.'<input type="radio" name="locked" value="Y"';
+	if(isset($item['locked']) && ($item['locked'] == 'Y'))
+		$input .= ' checked="checked"';
+	if(isset($item['active']) && ($item['active'] == 'N'))
+		$input .= '/> '.i18n::s('Only owners and associates can add content');
+	else
+		$input .= '/> '.i18n::s('Only assigned persons, owners and associates can add content');
+	$fields[] = array($label, $input);
+
+	// append fields
+	$text .= Skin::build_form($fields);
+	$fields = array();
+
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} else {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// the rank
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+
+		// the default value
+		if(!isset($item['rank']))
+			$item['rank'] = 10000;
+
+		$label = i18n::s('Rank');
+		$input = '<input type="text" name="rank" id="rank" size="10" value="'.encode_field($item['rank']).'" maxlength="255" />';
+		$hint = sprintf(i18n::s('For %s pages; regular pages are ranked at %s.'),
+			'<a href="#" onclick="$(\'rank\').value=10; return false;">'.i18n::s('sticky').'</a>',
+			'<a href="#" onclick="$(\'rank\').value=10000; return false;">'.i18n::s('10000').'</a>');
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// the publication date
+	$label = i18n::s('Publication date');
+	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+		$input = Surfer::from_GMT($item['publish_date']);
+	elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
+		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
+		$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'), 'basic');
+	} else {
+		Skin::define_img('ARTICLES_UNPUBLISH_IMG', 'articles/unpublish.gif');
+		$input = ARTICLES_UNPUBLISH_IMG.i18n::s('not published');
+	}
+	$fields[] = array($label, $input);
+
+	// the expiry date
+	$label = i18n::s('Expiry date');
+	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE))
+		$input = Surfer::from_GMT($item['expiry_date']);
+	else
+		$input = i18n::s('never');
+	$fields[] = array($label, $input);
+
+	// the parent section
+	if(is_object($anchor)) {
+
+		if(isset($item['id']) && Articles::is_owned($item, $anchor)) {
+			$label = i18n::s('Section');
+			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
+			$fields[] = array($label, $input);
+		} else
+			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+
+	}
+
+	// append fields
+	if(is_object($anchor))
+		$label = sprintf(i18n::s('Contribution to "%s"'), $anchor->get_title());
+	else
+		$label = i18n::s('Contribution to parent container');
+	$text .= Skin::build_box($label, Skin::build_form($fields), 'folded');
+	$fields = array();
+
+	// the source
+	$label = i18n::s('Source');
+	$value = '';
+	if(isset($item['source']) && $item['source'])
+		$value = $item['source'];
+	elseif(isset($_SESSION['pasted_source']))
+		$value = $_SESSION['pasted_source'];
+	$input = '<input type="text" name="source" value="'.encode_field($value).'" size="45" maxlength="255" accesskey="e" />';
+	$hint = i18n::s('Mention your source, if any. Web link (http://...), internal reference ([user=tom]), or free text.');
+	$fields[] = array($label, $input, $hint);
+
+	// the nick name
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		$label = i18n::s('Nick name');
+		$value = '';
+		if(isset($item['nick_name']) && $item['nick_name'])
+			$value = $item['nick_name'];
+		elseif(isset($_SESSION['pasted_name']))
+			$value = $_SESSION['pasted_name'];
+		$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
+		$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// rendering options
+	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		$label = i18n::s('Rendering');
+		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
+			.JS_PREFIX
+			.'function append_to_options(keyword) {'."\n"
+			.'	var target = $("options");'."\n"
+			.'	target.value = target.value + " " + keyword;'."\n"
+			.'}'."\n"
+			.JS_SUFFIX;
+		$keywords = array();
+		$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
+		$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
+		$keywords[] = '<a onclick="append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+		$keywords[] = '<a onclick="append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments');
+		$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
+		$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_wiki\')" style="cursor: pointer;">view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
+		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
+		$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
+		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
+		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
+		$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// language of this page
+	$label = i18n::s('Language');
+	$input = i18n::get_languages_select(isset($item['language'])?$item['language']:'');
+	$hint = i18n::s('Select the language used for this page');
+	$fields[] = array($label, $input, $hint);
+
+	// meta information
+	$label = i18n::s('Meta information');
+	$input = '<textarea name="meta" rows="10" cols="50">'.encode_field(isset($item['meta']) ? $item['meta'] : '').'</textarea>';
+	$hint = i18n::s('Type here any XHTML tags to be put in page header.');
+	$fields[] = array($label, $input, $hint);
+
+	// associates can change the overlay --complex interface
+	if(Surfer::is_associate() && Surfer::has_all()) {
+
+		// current type
+		$overlay_type = '';
+		if(is_object($overlay))
+			$overlay_type = $overlay->get_type();
+
+		// list overlays available on this system
+		$label = i18n::s('Change the overlay');
+		$input = '<select name="overlay_type">';
+		if($overlay_type) {
+			$input .= '<option value="none">('.i18n::s('none').")</option>\n";
+			$hint = i18n::s('If you change the overlay you may loose some data.');
+		} else {
+			$hint = i18n::s('No overlay has been selected yet.');
+			$input .= '<option value="" selected="selected">'.i18n::s('none')."</option>\n";
+		}
+		if ($dir = Safe::opendir($context['path_to_root'].'overlays')) {
+
+			// every php script is an overlay, except index.php, overlay.php, and hooks
+			while(($file = Safe::readdir($dir)) !== FALSE) {
+				if(($file[0] == '.') || is_dir($context['path_to_root'].'overlays/'.$file))
+					continue;
+				if($file == 'index.php')
+					continue;
+				if($file == 'overlay.php')
+					continue;
+				if(preg_match('/hook\.php$/i', $file))
+					continue;
+				if(!preg_match('/(.*)\.php$/i', $file, $matches))
+					continue;
+				$overlays[] = $matches[1];
+			}
+			Safe::closedir($dir);
+			if(@count($overlays)) {
+				natsort($overlays);
+				foreach($overlays as $overlay_name) {
+					$selected = '';
+					if($overlay_name == $overlay_type)
+						$selected = ' selected="selected"';
+					$input .= '<option value="'.$overlay_name.'"'.$selected.'>'.$overlay_name."</option>\n";
+				}
+			}
+		}
+		$input .= '</select>';
+		$fields[] = array($label, $input, $hint);
+
+	// remember overlay type
+	} elseif(is_object($overlay))
+		$text .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
+
+
+	// add a folded box
+	$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
+	$fields = array();
+
+	// display in a separate panel, but only to associates
+	if($text && Surfer::is_associate())
+		$panels[] = array('options', i18n::s('Options'), 'options_panel', $text);
+
+	//
 	// assemble all tabs
 	//
 	$context['text'] .= Skin::build_tabs($panels);
+
+	//
+	// preserve attributes not managed interactively
+	//
+	$hidden = array('active_set', 'behaviors', 'extra', 'icon_url', 'home_panel', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
+	foreach($hidden as $name) {
+		if(isset($item[ $name ]))
+			$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';
+	}
+
+	// preserve overlay type
+	if(is_object($overlay))
+		$context['text'] .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
 	//
 	// bottom commands

@@ -1450,7 +1450,7 @@ Class Articles {
 	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
-		// id of requesting user
+		// ownership requires to be authenticated
 		if(!$user_id) {
 			if(!Surfer::get_id())
 				return FALSE;
@@ -1471,6 +1471,10 @@ Class Articles {
 
 		// surfer owns parent container
 		if($anchor->is_owned($user_id))
+			return TRUE;
+
+		// page has not been created yet, section is not private, and surfer is member --not subscriber
+		if(!$strict && !isset($item['id']) && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden())
 			return TRUE;
 
 		// page is not private, and surfer is editor --not subscriber-- of parent container
@@ -2554,12 +2558,34 @@ Class Articles {
 		// quey components
 		$query = array();
 
+		// change access rights
+		if(isset($fields['active_set'])) {
+
+			// anchor cannot be empty
+			if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+				Logger::error(i18n::s('No anchor has been found.'));
+				return FALSE;
+			}
+
+			// determine the actual right
+			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
+
+			// remember these in this record
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+
+			// cascade anchor access rights
+			Anchors::cascade('article:'.$fields['id'], $fields['active']);
+
+		}
+
 		// anchor this page to another place
 		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
 			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
 			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
 		}
+
 		if(isset($fields['prefix']) && Surfer::is_associate())
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['suffix']) && Surfer::is_associate())

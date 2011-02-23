@@ -283,7 +283,7 @@ Class Members {
 	}
 
 	/**
-	 * count users linked to one member
+	 * count editors of the provided reference
 	 *
 	 * @param string the selected member (e.g., 'category:12')
 	 * @return int the resulting count
@@ -1043,7 +1043,7 @@ Class Members {
 	}
 
 	/**
-	 * list users assigned to an anchor ordered by contributions
+	 * list users who are watching some reference
 	 *
 	 * @param the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1088,12 +1088,7 @@ Class Members {
 	}
 
 	/**
-	 * list users with some member
-	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
+	 * list users who are editors of some reference
 	 *
 	 * @param string reference to the associated item
 	 * @param int the offset from the start of the list; usually, 0 or 1
