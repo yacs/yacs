@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-22 16:58+0100\n"
+"POT-Creation-Date: 2011-02-23 21:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,7 +164,7 @@ msgstr ""
 #: sections/manage.php:650 sections/manage.php:690 sections/manage.php:730
 #: sections/manage.php:827 sections/manage.php:855 sections/manage.php:891
 #: sections/manage.php:935 sections/manage.php:971 sections/manage.php:1011
-#: sections/new.php:274
+#: sections/new.php:275
 msgid "What do you want to do now?"
 msgstr ""
 
@@ -242,18 +242,18 @@ msgid "Persons that have been notified"
 msgstr ""
 
 #: sections/edit.php:268 sections/edit.php:629 sections/edit.php:696
-#: sections/edit.php:938 sections/new.php:283 sections/view.php:1752
+#: sections/edit.php:938 sections/new.php:284 sections/view.php:1752
 #: sections/view_as_tabs.php:1031
 msgid "Add an image"
 msgstr ""
 
-#: sections/edit.php:270 sections/new.php:285 sections/view.php:1382
+#: sections/edit.php:270 sections/new.php:286 sections/view.php:1382
 #: sections/view.php:1740 sections/view_as_tabs.php:760
 #: sections/view_as_tabs.php:1019
 msgid "Upload a file"
 msgstr ""
 
-#: sections/edit.php:272 sections/new.php:287 sections/view.php:1539
+#: sections/edit.php:272 sections/new.php:288 sections/view.php:1539
 #: sections/view.php:1746 sections/view_as_tabs.php:809
 #: sections/view_as_tabs.php:1025
 msgid "Add a link"
@@ -268,16 +268,16 @@ msgstr ""
 msgid "New section: %s"
 msgstr ""
 
-#: sections/edit.php:314 sections/new.php:335
+#: sections/edit.php:314 sections/new.php:336
 msgid "Title"
 msgstr ""
 
 #: sections/edit.php:323 sections/edit.php:1231 sections/invite.php:452
-#: sections/mail.php:188 sections/new.php:394
+#: sections/mail.php:188 sections/new.php:395
 msgid "Please provide a meaningful title."
 msgstr ""
 
-#: sections/edit.php:328 sections/new.php:340
+#: sections/edit.php:328 sections/new.php:341
 msgid "Introduction"
 msgstr ""
 
@@ -687,20 +687,20 @@ msgstr ""
 msgid "No reader has been assigned to this section."
 msgstr ""
 
-#: sections/edit.php:795 sections/new.php:350
+#: sections/edit.php:795 sections/new.php:351
 msgid "Access"
 msgstr ""
 
-#: sections/edit.php:801 sections/new.php:354
+#: sections/edit.php:801 sections/new.php:355
 msgid "Public - Everybody, including anonymous surfers"
 msgstr ""
 
-#: sections/edit.php:808 sections/new.php:358 sections/print.php:82
+#: sections/edit.php:808 sections/new.php:359 sections/print.php:82
 #: sections/view.php:455 sections/view_as_tabs.php:47
 msgid "Community - Access is granted to any identified surfer"
 msgstr ""
 
-#: sections/edit.php:814 sections/new.php:362 sections/print.php:86
+#: sections/edit.php:814 sections/new.php:363 sections/print.php:86
 #: sections/view.php:459 sections/view_as_tabs.php:51
 msgid "Private - Access is restricted to selected persons"
 msgstr ""
@@ -979,12 +979,12 @@ msgstr ""
 msgid "More options"
 msgstr ""
 
-#: sections/edit.php:1190 sections/invite.php:427 sections/new.php:375
+#: sections/edit.php:1190 sections/invite.php:427 sections/new.php:376
 msgid "Submit"
 msgstr ""
 
 #: sections/edit.php:1190 sections/invite.php:427 sections/mail.php:166
-#: sections/new.php:375
+#: sections/new.php:376
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -1010,7 +1010,7 @@ msgid ""
 "able to post images, files and links on subsequent forms."
 msgstr ""
 
-#: sections/edit.php:1295 sections/new.php:433
+#: sections/edit.php:1295 sections/new.php:434
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
@@ -1048,7 +1048,7 @@ msgstr ""
 msgid "Content Assistant"
 msgstr ""
 
-#: sections/edit.php:1321 sections/invite.php:478 sections/new.php:434
+#: sections/edit.php:1321 sections/invite.php:478 sections/new.php:435
 msgid "Help"
 msgstr ""
 
@@ -1689,7 +1689,7 @@ msgstr ""
 msgid "Group policy"
 msgstr ""
 
-#: sections/new.php:195 sections/new.php:221
+#: sections/new.php:195 sections/new.php:222
 #, php-format
 msgid "Welcome to \"%s\""
 msgstr ""
@@ -1698,86 +1698,86 @@ msgstr ""
 msgid "What is new?"
 msgstr ""
 
-#: sections/new.php:232
+#: sections/new.php:233
 msgid "Working together"
 msgstr ""
 
-#: sections/new.php:235
+#: sections/new.php:236
 msgid "Activities"
 msgstr ""
 
-#: sections/new.php:245
+#: sections/new.php:246
 msgid "Information pages"
 msgstr ""
 
-#: sections/new.php:248
+#: sections/new.php:249
 msgid "Documentation"
 msgstr ""
 
-#: sections/new.php:258
+#: sections/new.php:259
 msgid "Reserved to project members"
 msgstr ""
 
-#: sections/new.php:262
+#: sections/new.php:263
 msgid "Internal"
 msgstr ""
 
-#: sections/new.php:271
+#: sections/new.php:272
 msgid "Congratulation, you have successfully added a new web space"
 msgstr ""
 
-#: sections/new.php:277
+#: sections/new.php:278
 msgid "View the new blog"
 msgstr ""
 
-#: sections/new.php:279
+#: sections/new.php:280
 msgid "View the new project"
 msgstr ""
 
-#: sections/new.php:281
+#: sections/new.php:282
 msgid "View the new group"
 msgstr ""
 
-#: sections/new.php:309
+#: sections/new.php:310
 #, php-format
 msgid "The personal space of %s"
 msgstr ""
 
-#: sections/new.php:313
+#: sections/new.php:314
 #, php-format
 msgid "Another personal space of %s"
 msgstr ""
 
-#: sections/new.php:317
+#: sections/new.php:318
 #, php-format
 msgid "Another personal space of %s (%d)"
 msgstr ""
 
-#: sections/new.php:324
+#: sections/new.php:325
 msgid "Purpose"
 msgstr ""
 
-#: sections/new.php:325
+#: sections/new.php:326
 msgid "What are you aiming to create?"
 msgstr ""
 
-#: sections/new.php:327
+#: sections/new.php:328
 msgid "A group, for people interested in some topic"
 msgstr ""
 
-#: sections/new.php:329
+#: sections/new.php:330
 msgid "A blog, to express your thoughts and to lead the pack"
 msgstr ""
 
-#: sections/new.php:331
+#: sections/new.php:332
 msgid "A project, to support teamwork"
 msgstr ""
 
-#: sections/new.php:344
+#: sections/new.php:345
 msgid "What is this new web space about?"
 msgstr ""
 
-#: sections/new.php:379
+#: sections/new.php:380
 msgid "Back to my profile"
 msgstr ""
 
