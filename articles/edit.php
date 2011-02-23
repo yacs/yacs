@@ -1058,7 +1058,7 @@ if($with_form) {
 	// the parent section
 	if(is_object($anchor)) {
 
-		if(isset($item['id']) && $anchor->is_assigned()) {
+		if(isset($item['id']) && Articles::is_owned($item, $anchor)) {
 			$label = i18n::s('Section');
 			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 			$fields[] = array($label, $input);
