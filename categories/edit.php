@@ -313,9 +313,7 @@ if($with_form) {
 
 	// layout for  related sections
 	$label = i18n::s('Layout');
-	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
-		$item['sections_count'] = SECTIONS_PER_PAGE;
-	$input = sprintf(i18n::s('List up to %s sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
+	$input = '';
 	$custom_layout = '';
 	if(!isset($item['sections_layout']) || !$item['sections_layout'])
 		$item['sections_layout'] = 'map';

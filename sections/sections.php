@@ -2622,7 +2622,6 @@ Class Sections {
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
 			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
-			."sections_count=".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30).","
 			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."',"
@@ -2771,7 +2770,6 @@ Class Sections {
 		$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 		$query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."'";
 		$query[] = "section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."'";
-		$query[] = "sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30)."'";
 		$query[] = "sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."'";
 		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
@@ -3179,7 +3177,6 @@ Class Sections {
 		$fields['prefix']		= "TEXT NOT NULL";
 		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['section_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
-		$fields['sections_count']	= "SMALLINT UNSIGNED DEFAULT 5 NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT 'none' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
 		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -3343,7 +3340,6 @@ Class Sections {
 			'prefix',
 			'rank',
 			'section_overlay',
-			'sections_count',
 			'sections_layout',
 			'suffix',
 			'tags',

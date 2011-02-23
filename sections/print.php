@@ -144,8 +144,6 @@ if(Surfer::is_crawler()) {
 	// the maximum number of sections per page
 	if(is_object($layout))
 		$items_per_page = $layout->items_per_page();
-	elseif(isset($item['sections_count']) && ($item['sections_count'] > 0))
-		$items_per_page = $item['sections_count'];
 	else
 		$items_per_page = SECTIONS_PER_PAGE;
 
