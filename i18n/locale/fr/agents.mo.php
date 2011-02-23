@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:20+0200
-PO-Revision-Date: 2009-10-05 16:05+0100
+POT-Creation-Date: 2011-01-24 23:23+0100
+PO-Revision-Date: 2011-01-25 00:07+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -83,12 +83,8 @@ $_SESSION['l10n']['fr']['The POP3 password']='Le mot de passe POP3';
 $_SESSION['l10n']['fr']['The POP3 user name']='Le nom POP3 de la boîte aux lettres de réception';
 $_SESSION['l10n']['fr']['b7112832e54441549cb9b3531ff53657']='Le séparateur de signature (par exemple, \'___\' pour les messages Yahoo)';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
-$_SESSION['l10n']['fr']['450e8f27237a8670a67656322ed91e8b']='La page reçue par courrier électronique a été enregistrée.
-Vous pouvez la consulter en ligne. Elle sera accessible publiquement après publication.
-';
-$_SESSION['l10n']['fr']['cf0b11099660e4750c9499f08e97b617']='La page reçue par courrier électronique a été publiée avec succès.
-Merci de la passer en revue maintenant.
-';
+$_SESSION['l10n']['fr']['c6d7dacb7306d1ae7dc2459ce581bd0a']='La page reçue par courrier électronique a été enregistrée. Vous pouvez la consulter en ligne, puis la publier pour la rendre accessible.';
+$_SESSION['l10n']['fr']['7a5f4f2978a3da651a7199d89a8cda14']='La page reçue par courrier électronique a été publiée avec succès. Merci de la passer en revue maintenant.';
 $_SESSION['l10n']['fr']['37e9184187437711aaa070624ba60528']='L\'endroit où placer les nouvelles pages (exemple \'section:2343\')';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour modifier la configuration, merci de copier les lignes ci-dessous et de les placer par vous-même dans le fichier %s :';
 $_SESSION['l10n']['fr']['946f1d0811c618fdbe17d8a92a15c312']='Téléchargez %s pour obtenir la liste complète des événements.';

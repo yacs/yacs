@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-10-19 22:05+0200
-PO-Revision-Date: 2010-10-20 07:25+0100
+POT-Creation-Date: 2011-02-16 16:45+0100
+PO-Revision-Date: 2010-11-12 18:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -66,6 +66,7 @@ $_SESSION['l10n']['fr']['4158dec895b46349386efea0e7ee92a9']='Participez à l\'ex
 $_SESSION['l10n']['fr']['Contribution to "%s"']='Contribution à "%s"';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this category']='Supprimer cette catégorie';
+$_SESSION['l10n']['fr']['Deletion: %s']='Suppression : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not list categories']='Ne pas lister les catégories';
@@ -108,7 +109,6 @@ $_SESSION['l10n']['fr']['Keywords update']='Mise à jour des mots clés';
 $_SESSION['l10n']['fr']['Layout']='Mise en page';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['932f09e2a8f6216bed67e5409a6369b0']='Des liens peuvent être ajoutés à la page d\'index';
-$_SESSION['l10n']['fr']['ecc7ab4a52b62f6e4deb6339dc119ec5']='Lister jusqu\'à %s sections avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['b50b92192131c5e24b75ab0be52428e8']='Lister jusqu\'à %s sous-catégories avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';

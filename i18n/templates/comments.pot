@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"POT-Creation-Date: 2011-02-22 16:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,8 +31,8 @@ msgstr ""
 #: comments/edit.php:182 comments/edit.php:198 comments/feed.php:89
 #: comments/index.php:53 comments/list.php:121 comments/list.php:126
 #: comments/post.php:186 comments/promote.php:77 comments/promote.php:92
-#: comments/thread.php:54 comments/thread.php:64 comments/thread.php:69
-#: comments/thread.php:74 comments/view.php:96
+#: comments/thread.php:55 comments/thread.php:65 comments/thread.php:70
+#: comments/thread.php:75 comments/view.php:96
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -90,54 +90,54 @@ msgstr ""
 msgid "You may attach a file of up to %sbytes"
 msgstr ""
 
-#: comments/comments.php:703 comments/comments.php:803
-#: comments/comments.php:860
+#: comments/comments.php:691 comments/comments.php:791
+#: comments/comments.php:848
 msgid "A suggestion"
 msgstr ""
 
-#: comments/comments.php:709 comments/comments.php:809
-#: comments/comments.php:862
+#: comments/comments.php:697 comments/comments.php:797
+#: comments/comments.php:850
 msgid "A question"
 msgstr ""
 
-#: comments/comments.php:715 comments/comments.php:824
-#: comments/comments.php:864
+#: comments/comments.php:703 comments/comments.php:812
+#: comments/comments.php:852
 msgid "Warning!"
 msgstr ""
 
-#: comments/comments.php:721 comments/comments.php:815
-#: comments/comments.php:866
+#: comments/comments.php:709 comments/comments.php:803
+#: comments/comments.php:854
 msgid "I like..."
 msgstr ""
 
-#: comments/comments.php:727 comments/comments.php:842
-#: comments/comments.php:868
+#: comments/comments.php:715 comments/comments.php:830
+#: comments/comments.php:856
 msgid "I don't like..."
 msgstr ""
 
-#: comments/comments.php:733 comments/comments.php:836
-#: comments/comments.php:871
+#: comments/comments.php:721 comments/comments.php:824
+#: comments/comments.php:859
 msgid "My two cents"
 msgstr ""
 
-#: comments/comments.php:797
+#: comments/comments.php:785
 msgid "Attention"
 msgstr ""
 
-#: comments/comments.php:830
+#: comments/comments.php:818
 msgid "Job has been completed"
 msgstr ""
 
-#: comments/comments.php:1476 comments/index.php:82
+#: comments/comments.php:1464 comments/index.php:82
 msgid "No comment has been transmitted."
 msgstr ""
 
-#: comments/comments.php:1482 comments/comments.php:1488 comments/edit.php:187
-#: comments/list.php:110 comments/thread.php:59
+#: comments/comments.php:1470 comments/comments.php:1476 comments/edit.php:187
+#: comments/list.php:110 comments/thread.php:60
 msgid "No anchor has been found."
 msgstr ""
 
-#: comments/comments.php:1505
+#: comments/comments.php:1493
 msgid "No item has the provided id."
 msgstr ""
 
@@ -163,7 +163,7 @@ msgid "by %s %s"
 msgstr ""
 
 #: comments/delete.php:140 comments/layout_comments_as_jive.php:174
-#: comments/layout_comments_as_yabb.php:181 comments/promote.php:165
+#: comments/layout_comments_as_yabb.php:207 comments/promote.php:165
 #: comments/view.php:164
 #, php-format
 msgid "edited by %s %s"
@@ -394,7 +394,7 @@ msgstr ""
 #: comments/layout_comments_as_boxesandarrows.php:54
 #: comments/layout_comments_as_daily.php:86
 #: comments/layout_comments_as_jive.php:147
-#: comments/layout_comments_as_yabb.php:154
+#: comments/layout_comments_as_yabb.php:173
 msgid "View this comment"
 msgstr ""
 
@@ -430,33 +430,34 @@ msgstr ""
 
 #: comments/layout_comments_as_daily.php:104
 #: comments/layout_comments_as_jive.php:117
-#: comments/layout_comments_as_yabb.php:125 comments/view.php:190
+#: comments/layout_comments_as_yabb.php:142 comments/view.php:190
 #: comments/view.php:220
 msgid "Reply"
 msgstr ""
 
 #: comments/layout_comments_as_daily.php:105
 #: comments/layout_comments_as_jive.php:120
-#: comments/layout_comments_as_yabb.php:128 comments/view.php:193
+#: comments/layout_comments_as_yabb.php:145 comments/view.php:193
 #: comments/view.php:223
 msgid "Quote"
 msgstr ""
 
 #: comments/layout_comments_as_daily.php:110
 #: comments/layout_comments_as_jive.php:127
-#: comments/layout_comments_as_thread.php:77
-#: comments/layout_comments_as_yabb.php:134 comments/view.php:184
+#: comments/layout_comments_as_thread.php:84
+#: comments/layout_comments_as_yabb.php:151 comments/view.php:184
 #: comments/view.php:214 comments/view.php:227
 msgid "Edit"
 msgstr ""
 
 #: comments/layout_comments_as_daily.php:111
 #: comments/layout_comments_as_jive.php:130
-#: comments/layout_comments_as_yabb.php:137 comments/view.php:236
+#: comments/layout_comments_as_yabb.php:132
+#: comments/layout_comments_as_yabb.php:154 comments/view.php:236
 msgid "Delete"
 msgstr ""
 
-#: comments/layout_comments_as_excerpt.php:39
+#: comments/layout_comments_as_excerpt.php:47
 msgid "anonymous"
 msgstr ""
 
@@ -466,13 +467,13 @@ msgid "on %s"
 msgstr ""
 
 #: comments/layout_comments_as_jive.php:79
-#: comments/layout_comments_as_yabb.php:98
+#: comments/layout_comments_as_yabb.php:101
 #, php-format
 msgid "from %s"
 msgstr ""
 
 #: comments/layout_comments_as_jive.php:85
-#: comments/layout_comments_as_yabb.php:105
+#: comments/layout_comments_as_yabb.php:108
 msgid "Associate"
 msgstr ""
 
@@ -481,12 +482,12 @@ msgid "Member"
 msgstr ""
 
 #: comments/layout_comments_as_jive.php:89
-#: comments/layout_comments_as_yabb.php:109
+#: comments/layout_comments_as_yabb.php:112
 msgid "Subscriber"
 msgstr ""
 
 #: comments/layout_comments_as_jive.php:93
-#: comments/layout_comments_as_yabb.php:113
+#: comments/layout_comments_as_yabb.php:116
 #, php-format
 msgid "%d post"
 msgid_plural "%d posts"
@@ -499,7 +500,7 @@ msgid "registered %s"
 msgstr ""
 
 #: comments/layout_comments_as_jive.php:151
-#: comments/layout_comments_as_yabb.php:158
+#: comments/layout_comments_as_yabb.php:177
 #, php-format
 msgid "inspired from %s"
 msgstr ""
@@ -539,7 +540,7 @@ msgstr ""
 msgid "Yes, I want to promote this comment to an article"
 msgstr ""
 
-#: comments/thread.php:113
+#: comments/thread.php:114
 msgid "Your contribution has not been posted."
 msgstr ""
 

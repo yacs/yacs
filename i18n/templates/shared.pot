@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 08:43+0200\n"
+"POT-Creation-Date: 2011-02-22 16:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,61 +195,61 @@ msgstr ""
 msgid "Related items"
 msgstr ""
 
-#: shared/codes.php:1527
+#: shared/codes.php:1533
 #, php-format
-msgid "%d person has followed the link: %s"
-msgid_plural "%d persons have followed the link: %s"
+msgid "%d named person has followed the link: %s"
+msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/codes.php:1531
-msgid "This link has not been used yet"
+#: shared/codes.php:1536
+msgid "No authenticated person has used this link yet"
 msgstr ""
 
-#: shared/codes.php:1552
+#: shared/codes.php:1557
 msgid "No item has been found."
 msgstr ""
 
-#: shared/codes.php:1596
+#: shared/codes.php:1601
 msgid "Access collection"
 msgstr ""
 
-#: shared/codes.php:1657
+#: shared/codes.php:1662
 msgid "Filter"
 msgstr ""
 
-#: shared/codes.php:1780
+#: shared/codes.php:1785
 msgid "Play in a separate window"
 msgstr ""
 
-#: shared/codes.php:2004 shared/codes.php:2218
+#: shared/codes.php:2009 shared/codes.php:2223
 msgid "Browse this map with Freemind"
 msgstr ""
 
-#: shared/codes.php:2146 shared/codes.php:2158
+#: shared/codes.php:2151 shared/codes.php:2163
 msgid "Full-size"
 msgstr ""
 
-#: shared/codes.php:2352
+#: shared/codes.php:2357
 msgid "Your browser does not accept iframes"
 msgstr ""
 
-#: shared/codes.php:2836
+#: shared/codes.php:2841
 msgid "View this comment"
 msgstr ""
 
-#: shared/codes.php:2865
+#: shared/codes.php:2870
 msgid "View this decision"
 msgstr ""
 
-#: shared/codes.php:4367
+#: shared/codes.php:4372
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/global.php:977
+#: shared/global.php:981
 msgid "View the category"
 msgstr ""
 
@@ -261,21 +261,25 @@ msgid ""
 "address from recipients of system events."
 msgstr ""
 
-#: shared/mailer.php:101
+#: shared/logger.php:207
+msgid "System parameters"
+msgstr ""
+
+#: shared/mailer.php:102
 #, php-format
 msgid "%s by %s"
 msgstr ""
 
-#: shared/mailer.php:118
+#: shared/mailer.php:119
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since the new item has "
 "been posted in a web space that is part of your watch list. If you wish to "
-"not be alerted automatically please visit the page and click on Stop "
-"notifications."
+"stop some notifications please review watched elements listed in your user "
+"profile."
 msgstr ""
 
-#: shared/mailer.php:132
+#: shared/mailer.php:124
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since you are following "
@@ -283,29 +287,29 @@ msgid ""
 "alerts please visit the user profile below and click on Stop notifications."
 msgstr ""
 
-#: shared/mailer.php:177
+#: shared/mailer.php:169
 #, php-format
 msgid "and %d other persons"
 msgstr ""
 
-#: shared/mailer.php:302 shared/mailer.php:752 shared/mailer.php:996
+#: shared/mailer.php:294 shared/mailer.php:744 shared/mailer.php:988
 #: shared/mailer.php:1135
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: shared/mailer.php:757
+#: shared/mailer.php:749
 msgid "Empty sender address"
 msgstr ""
 
-#: shared/mailer.php:762 shared/mailer.php:1001
+#: shared/mailer.php:754 shared/mailer.php:993
 msgid "Empty recipient address"
 msgstr ""
 
-#: shared/mailer.php:767 shared/mailer.php:1006
+#: shared/mailer.php:759 shared/mailer.php:998
 msgid "No subject"
 msgstr ""
 
-#: shared/mailer.php:772 shared/mailer.php:1011
+#: shared/mailer.php:764 shared/mailer.php:1003
 msgid "No message"
 msgstr ""
 
@@ -314,11 +318,11 @@ msgstr ""
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:78 shared/members.php:401 shared/members.php:1293
+#: shared/members.php:78 shared/members.php:401 shared/members.php:1288
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:82 shared/members.php:405 shared/members.php:1297
+#: shared/members.php:82 shared/members.php:405 shared/members.php:1292
 msgid "A member is required for this operation."
 msgstr ""
 
@@ -339,41 +343,41 @@ msgstr ""
 msgid "Redirecting to %s"
 msgstr ""
 
-#: shared/sql.php:422
+#: shared/sql.php:425
 #, php-format
 msgid "Impossible to connect to %s."
 msgstr ""
 
-#: shared/sql.php:555 shared/zipfile.php:197
+#: shared/sql.php:558 shared/zipfile.php:197
 #, php-format
 msgid "Impossible to read %s."
 msgstr ""
 
-#: shared/sql.php:728 shared/sql.php:730
+#: shared/sql.php:731 shared/sql.php:733
 msgid "Connection to the database has been lost"
 msgstr ""
 
-#: shared/sql.php:994
+#: shared/sql.php:997
 msgid "The table"
 msgstr ""
 
-#: shared/sql.php:998
+#: shared/sql.php:1001
 msgid "has been created"
 msgstr ""
 
-#: shared/sql.php:1000
+#: shared/sql.php:1003
 msgid "has been updated"
 msgstr ""
 
-#: shared/sql.php:1015
+#: shared/sql.php:1018
 msgid "and analyzed"
 msgstr ""
 
-#: shared/sql.php:1026
+#: shared/sql.php:1029
 msgid "and optimized"
 msgstr ""
 
-#: shared/sql.php:1035
+#: shared/sql.php:1038
 #, php-format
 msgid "ERROR for the table %s"
 msgstr ""

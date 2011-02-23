@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-07 00:12+0200\n"
-"PO-Revision-Date: 2010-10-01 23:07+0100\n"
+"POT-Creation-Date: 2011-02-18 19:22+0100\n"
+"PO-Revision-Date: 2011-01-25 00:04+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
@@ -198,61 +198,61 @@ msgstr "Last edition"
 msgid "Related items"
 msgstr "Related items"
 
-#: shared/codes.php:1527
+#: shared/codes.php:1533
 #, php-format
-msgid "%d person has followed the link: %s"
-msgid_plural "%d persons have followed the link: %s"
-msgstr[0] "%d person has followed the link: %s"
-msgstr[1] "%d persons have followed the link: %s"
+msgid "%d named person has followed the link: %s"
+msgid_plural "%d named persons have followed the link: %s"
+msgstr[0] "%d named person has followed the link: %s"
+msgstr[1] "%d named persons have followed the link: %s"
 
-#: shared/codes.php:1531
-msgid "This link has not been used yet"
-msgstr "This link has not been used yet"
+#: shared/codes.php:1536
+msgid "No authenticated person has used this link yet"
+msgstr "No authenticated person has used this link yet"
 
-#: shared/codes.php:1552
+#: shared/codes.php:1557
 msgid "No item has been found."
 msgstr "No item has been found."
 
-#: shared/codes.php:1596
+#: shared/codes.php:1601
 msgid "Access collection"
 msgstr "Access collection"
 
-#: shared/codes.php:1657
+#: shared/codes.php:1662
 msgid "Filter"
 msgstr "Filter"
 
-#: shared/codes.php:1780
+#: shared/codes.php:1785
 msgid "Play in a separate window"
 msgstr "Play in a separate window"
 
-#: shared/codes.php:2004 shared/codes.php:2218
+#: shared/codes.php:2009 shared/codes.php:2223
 msgid "Browse this map with Freemind"
 msgstr "Browse this map with Freemind"
 
-#: shared/codes.php:2146 shared/codes.php:2158
+#: shared/codes.php:2151 shared/codes.php:2163
 msgid "Full-size"
 msgstr "Full-size"
 
-#: shared/codes.php:2352
+#: shared/codes.php:2357
 msgid "Your browser does not accept iframes"
 msgstr "Your browser does not accept iframes"
 
-#: shared/codes.php:2836
+#: shared/codes.php:2841
 msgid "View this comment"
 msgstr "View this comment"
 
-#: shared/codes.php:2865
+#: shared/codes.php:2870
 msgid "View this decision"
 msgstr "View this decision"
 
-#: shared/codes.php:4367
+#: shared/codes.php:4372
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] "%d active now"
 msgstr[1] "%d active now"
 
-#: shared/global.php:977
+#: shared/global.php:981
 msgid "View the category"
 msgstr "View the category"
 
@@ -267,25 +267,29 @@ msgstr ""
 "these automatic alerts please visit the following link and remove your "
 "address from recipients of system events."
 
-#: shared/mailer.php:101
+#: shared/logger.php:207
+msgid "System parameters"
+msgstr "System parameters"
+
+#: shared/mailer.php:102
 #, php-format
 msgid "%s by %s"
 msgstr "%s by %s"
 
-#: shared/mailer.php:118
+#: shared/mailer.php:119
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since the new item has "
 "been posted in a web space that is part of your watch list. If you wish to "
-"not be alerted automatically please visit the page and click on Stop "
-"notifications."
+"stop some notifications please review watched elements listed in your user "
+"profile."
 msgstr ""
 "This message has been generated automatically by %s since the new item has "
 "been posted in a web space that is part of your watch list. If you wish to "
-"not be alerted automatically please visit the page and click on Stop "
-"notifications."
+"stop some notifications please review watched elements listed in your user "
+"profile."
 
-#: shared/mailer.php:132
+#: shared/mailer.php:124
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since you are following "
@@ -296,29 +300,29 @@ msgstr ""
 "the person who posted the new item. If you wish to stop these automatic "
 "alerts please visit the user profile below and click on Stop notifications."
 
-#: shared/mailer.php:177
+#: shared/mailer.php:169
 #, php-format
 msgid "and %d other persons"
 msgstr "and %d other persons"
 
-#: shared/mailer.php:302 shared/mailer.php:752 shared/mailer.php:996
+#: shared/mailer.php:294 shared/mailer.php:744 shared/mailer.php:988
 #: shared/mailer.php:1135
 msgid "E-mail has not been enabled on this system."
 msgstr "E-mail has not been enabled on this system."
 
-#: shared/mailer.php:757
+#: shared/mailer.php:749
 msgid "Empty sender address"
 msgstr "Empty sender address"
 
-#: shared/mailer.php:762 shared/mailer.php:1001
+#: shared/mailer.php:754 shared/mailer.php:993
 msgid "Empty recipient address"
 msgstr "Empty recipient address"
 
-#: shared/mailer.php:767 shared/mailer.php:1006
+#: shared/mailer.php:759 shared/mailer.php:998
 msgid "No subject"
 msgstr "No subject"
 
-#: shared/mailer.php:772 shared/mailer.php:1011
+#: shared/mailer.php:764 shared/mailer.php:1003
 msgid "No message"
 msgstr "No message"
 
@@ -327,11 +331,11 @@ msgstr "No message"
 msgid "Error while sending the message to %s"
 msgstr "Error while sending the message to %s"
 
-#: shared/members.php:78 shared/members.php:401 shared/members.php:1293
+#: shared/members.php:78 shared/members.php:401 shared/members.php:1288
 msgid "An anchor is required for this operation."
 msgstr "An anchor is required for this operation."
 
-#: shared/members.php:82 shared/members.php:405 shared/members.php:1297
+#: shared/members.php:82 shared/members.php:405 shared/members.php:1292
 msgid "A member is required for this operation."
 msgstr "A member is required for this operation."
 
@@ -352,41 +356,41 @@ msgstr "PDF export created by YACS"
 msgid "Redirecting to %s"
 msgstr "Redirecting to %s"
 
-#: shared/sql.php:422
+#: shared/sql.php:425
 #, php-format
 msgid "Impossible to connect to %s."
 msgstr "Impossible to connect to %s."
 
-#: shared/sql.php:555 shared/zipfile.php:197
+#: shared/sql.php:558 shared/zipfile.php:197
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible to read %s."
 
-#: shared/sql.php:728 shared/sql.php:730
+#: shared/sql.php:731 shared/sql.php:733
 msgid "Connection to the database has been lost"
 msgstr "Connection to the database has been lost"
 
-#: shared/sql.php:994
+#: shared/sql.php:997
 msgid "The table"
 msgstr "The table"
 
-#: shared/sql.php:998
+#: shared/sql.php:1001
 msgid "has been created"
 msgstr "has been created"
 
-#: shared/sql.php:1000
+#: shared/sql.php:1003
 msgid "has been updated"
 msgstr "has been updated"
 
-#: shared/sql.php:1015
+#: shared/sql.php:1018
 msgid "and analyzed"
 msgstr "and analyzed"
 
-#: shared/sql.php:1026
+#: shared/sql.php:1029
 msgid "and optimized"
 msgstr "and optimized"
 
-#: shared/sql.php:1035
+#: shared/sql.php:1038
 #, php-format
 msgid "ERROR for the table %s"
 msgstr "ERROR for the table %s"
@@ -493,6 +497,9 @@ msgstr "Last stacking element: %s"
 #: shared/zipfile.php:191
 msgid "Impossible to extract files."
 msgstr "Impossible to extract files."
+
+#~ msgid "This link has not been used yet"
+#~ msgstr "This link has not been used yet"
 
 #~ msgid "Tools"
 #~ msgstr "Tools"

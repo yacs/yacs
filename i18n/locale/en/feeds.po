@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"POT-Creation-Date: 2011-01-24 23:23+0100\n"
 "PO-Revision-Date: 2009-10-05 16:04+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -213,11 +213,11 @@ msgstr "Comments"
 msgid "Files and podcasts"
 msgstr "Files and podcasts"
 
-#: feeds/feeds.php:340
+#: feeds/feeds.php:338
 msgid "External News"
 msgstr "External News"
 
-#: feeds/feeds.php:341
+#: feeds/feeds.php:339
 msgid "Received from feeding servers"
 msgstr "Received from feeding servers"
 

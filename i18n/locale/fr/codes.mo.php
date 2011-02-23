@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2010-09-29 14:20+0200
-PO-Revision-Date: 2010-09-29 15:39+0100
+POT-Creation-Date: 2011-01-06 18:18+0100
+PO-Revision-Date: 2011-01-06 18:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 Language: 
@@ -71,7 +71,6 @@ $_SESSION['l10n']['fr']['Color']='Couleur';
 $_SESSION['l10n']['fr']['Comic']='Comic';
 $_SESSION['l10n']['fr']['Comma-separated values']='Données importées';
 $_SESSION['l10n']['fr']['Comment shortcut']='Commentaire';
-$_SESSION['l10n']['fr']['Count clicks']='Compter les clics';
 $_SESSION['l10n']['fr']['Cursive']='Cursive';
 $_SESSION['l10n']['fr']['Decision shortcut']='Décision';
 $_SESSION['l10n']['fr']['Decorated']='Décoré';
@@ -134,6 +133,7 @@ $_SESSION['l10n']['fr']['da6825ad5bbda2d7313669c2f5304614']='Liens (et raccourci
 $_SESSION['l10n']['fr']['List item']='Elément de liste';
 $_SESSION['l10n']['fr']['c48042b378c7e1a4d2cc72668bf53a1b']='Listes (à puces, numérotées...)';
 $_SESSION['l10n']['fr']['Live codes']='Codes dynamiques';
+$_SESSION['l10n']['fr']['Member clicks']='Clics des membres';
 $_SESSION['l10n']['fr']['Miscellaneous codes']='Codes divers';
 $_SESSION['l10n']['fr']['056ceb8cc5e89e51dbb1dafe1a6bf49f']='Codes divers (graphiques...)';
 $_SESSION['l10n']['fr']['Net income']='Revenus net';
@@ -169,6 +169,7 @@ $_SESSION['l10n']['fr']['Popular']='Populaire';
 $_SESSION['l10n']['fr']['Pre-formatted']='Pré-formatté';
 $_SESSION['l10n']['fr']['Present users']='Personnes présentes';
 $_SESSION['l10n']['fr']['Previous page']='Page précédente';
+$_SESSION['l10n']['fr']['Proxy']='Proxy';
 $_SESSION['l10n']['fr']['Question']='Question';
 $_SESSION['l10n']['fr']['Question-title']='Question-titre';
 $_SESSION['l10n']['fr']['Quote']='Citer';
