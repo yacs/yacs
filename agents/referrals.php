@@ -77,8 +77,7 @@ class Referrals {
 		} else {
 
 			// ensure the referer is accessible
-			include_once $context['path_to_root'].'links/link.php';
-			if(($content = Link::fetch($referer, '', '', 'agents/referrals.php')) === FALSE)
+			if(($content = http::proceed($referer, '', '', 'agents/referrals.php')) === FALSE)
 				return;
 
 			// we have to find a reference to ourself in this page
