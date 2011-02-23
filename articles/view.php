@@ -993,7 +993,7 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 		// feed the wall
-		if(isset($comments_prefix))
+		if(Comments::allow_creation($anchor, $item) && $reverted)
 			$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 		// a navigation bar for these comments
@@ -1017,7 +1017,7 @@ if(!isset($item['id'])) {
 		}
 
 		// new comments are allowed
-		if(isset($comments_suffix)) {
+		if(Comments::allow_creation($anchor, $item) && !$reverted) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$box['bar'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment')));
 
@@ -1136,8 +1136,8 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 
-	// comment this page if anchor does not prevent it
-	if(Comments::allow_creation($anchor, $item)) {
+	// comment this page if anchor does not prevent it --anonymous surfers will have it in main area
+	if(Comments::allow_creation($anchor, $item) && Surfer::get_id()) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}

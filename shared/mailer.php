@@ -150,7 +150,7 @@ class Mailer {
 		global $context;
 
 		// nothing to show
-		if(!Surfer::get_id() || !isset($context['mailer_recipients']))
+		if(!isset($context['mailer_recipients']))
 			return '';
 
 		// return the bare list

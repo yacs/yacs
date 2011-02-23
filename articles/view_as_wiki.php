@@ -262,17 +262,8 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 // on-going conversation
 } else {
 
-	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item)) {
-
-		// we have a wall
-		if(Articles::has_option('comments_as_wall', $anchor, $item))
-			$comments_prefix = TRUE;
-
-		// editors and associates can always contribute to a thread
-		else
-			$comments_suffix = TRUE;
-	}
+	// we have a wall, or not
+	$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 	// get a layout for these comments
 	$layout =& Comments::get_layout($anchor, $item);
@@ -296,7 +287,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(isset($comments_prefix))
+	if(Comments::allow_creation($anchor, $item) && $reverted)
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -305,7 +296,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// list comments by date
-		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
 
 		// actually render the html
 		if(is_array($items))
@@ -320,7 +311,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	}
 
 	// new comments are allowed
-	if(isset($comments_suffix)) {
+	if(Comments::allow_creation($anchor, $item) && !$reverted) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
 	}
