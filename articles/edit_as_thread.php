@@ -1,9 +1,9 @@
 <?php
 /**
- * a streamlined form to change an article
+ * use to initiate a new discussion thread
  *
- * This script allows only to change the description field, and overlay data.
- * Add the option 'edit_as_simple' to activate this script in some article.
+ * This script capture a title and a first comment on thread creation.
+ * Add the option 'edit_as_thread' to activate this script in some article.
  *
  * @author Bernard Paques
  * @reference
@@ -81,8 +81,17 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// attach some file
-		if(isset($_FILES['upload']))
-			Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']);
+		if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']))
+			$_REQUEST['first_comment'] .= '<div>'.$file.'</div>';
+
+		// capture first comment too
+		if(isset($_REQUEST['first_comment']) && $_REQUEST['first_comment']) {
+			include_once $context['path_to_root'].'comments/comments.php';
+			$fields = array();
+			$fields['anchor'] = 'article:'.$_REQUEST['id'];
+			$fields['description'] = $_REQUEST['first_comment'];
+			Comments::post($fields);
+		}
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
@@ -253,33 +262,36 @@ if($with_form) {
 	if(is_object($overlay))
 		$fields = array_merge($fields, $overlay->get_fields($item));
 
-	// the description label
-	if(!is_object($overlay) || !($label = $overlay->get_label('description', isset($item['id'])?'edit':'new')))
-		$label = i18n::s('Description');
+	// on page creation
+	if(!isset($item['id'])) {
 
-	// use the editor if possible
-	$value = '';
-	if(isset($item['description']) && $item['description'])
-		$value = $item['description'];
-	elseif(isset($_SESSION['pasted_text']))
-		$value = $_SESSION['pasted_text'];
-	$input = Surfer::get_editor('description', $value);
-	if(!is_object($overlay) || !($hint = $overlay->get_label('description_hint', isset($item['id'])?'edit':'new')))
-		$hint = '';
-	$fields[] = array($label, $input, $hint);
+		// no description on initial submit
+		$text .= '<input type="hidden" name="description" value="" />';
 
-	// allow for an initial upload, if allowed
-	if(!isset($item['id']) && Surfer::may_upload()) {
+		// but a field to capture a comment
+		$label = i18n::s('Introduction');
 
-		// attachment label
-		$label = i18n::s('Upload a file');
-
-		// an upload entry
-		$input = '<input type="hidden" name="file_type" value="upload" />'
-			.'<input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
-
+		// use the editor if possible
+		$value = '';
+		if(isset($_SESSION['pasted_text']))
+			$value = $_SESSION['pasted_text'];
+		$input = Surfer::get_editor('first_comment', $value);
 		$fields[] = array($label, $input);
+
+		// allow for an initial upload, if allowed
+		if(Surfer::may_upload()) {
+
+			// attachment label
+			$label = i18n::s('Upload a file');
+
+			// an upload entry
+			$input = '<input type="hidden" name="file_type" value="upload" />'
+				.'<input type="file" name="upload" size="30" />'
+				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+
+			$fields[] = array($label, $input);
+
+		}
 
 	}
 
@@ -288,6 +300,47 @@ if($with_form) {
 	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
 	$hint = i18n::s('A comma-separated list of keywords');
 	$fields[] = array($label, $input, $hint);
+
+	// associates will have it on options tab
+	if(Surfer::is_associate())
+		;
+
+	// the active flag: Yes/public, Restricted/logged, No/associates
+	elseif(Articles::is_owned($item, $anchor)) {
+		$label = i18n::s('Access');
+
+		// maybe a public page
+		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+
+		// maybe a restricted page
+		$input .= '<input type="radio" name="active_set" value="R"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+
+		// or a hidden page
+		$input .= '<input type="radio" name="active_set" value="N"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+
+		// combine this with inherited access right
+		if(is_object($anchor) && $anchor->is_hidden())
+			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+		elseif(is_object($anchor) && !$anchor->is_public())
+			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+		else
+			$hint = i18n::s('Who is allowed to access?');
+
+		// expand the form
+		$fields[] = array($label, $input, $hint);
+
+	// else preserve attribute given by template, if any
+	} else
+		$context['text'] .= '<input type="hidden" name="active_set" value="'.$item['active_set'].'" />';
 
 	// end of regular fields
 	$text .= Skin::build_form($fields);
@@ -651,7 +704,7 @@ if($with_form) {
 	//
 	// preserve attributes not managed interactively
 	//
-	$hidden = array('active_set', 'behaviors', 'extra', 'icon_url', 'home_panel', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
+	$hidden = array('anchor', 'behaviors', 'extra', 'icon_url', 'home_panel', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
 	foreach($hidden as $name) {
 		if(isset($item[ $name ]))
 			$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';
