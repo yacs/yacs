@@ -414,11 +414,9 @@ if(Surfer::is_crawler()) {
 			$menu[] = Skin::build_link($_SERVER['HTTP_REFERER'], i18n::s('Move forward'), 'button');
 		else
 			$menu[] = Skin::build_link($context['url_to_root'], i18n::s('Front page'), 'button');
-		if(Surfer::is_associate())
-			$menu[] = Skin::build_link('articles/review.php', i18n::s('Review queue'), 'span');
+		$menu[] = Skin::build_link(Surfer::get_permalink(), i18n::s('My profile'), 'span');
 		if(Surfer::is_associate())
 			$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
-		$menu[] = Skin::build_link(Surfer::get_permalink(), i18n::s('My profile'), 'span');
 		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -458,17 +456,6 @@ if(Surfer::is_crawler()) {
 				$items =& Skin::build_list($items, 'decorated');
 			$context['text'] .= Skin::build_box(i18n::s('Have you lost your password?'), $items);
 
-		// offer to register, if possible
-		} elseif(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
-
-			if(isset($_REQUEST['url'])) {
-				$link = 'users/edit.php?forward='.htmlentities(urlencode($_REQUEST['url']));
-			} elseif(isset($_SERVER['HTTP_REFERER'])) {
-				$link = 'users/edit.php?forward='.htmlentities(urlencode($_SERVER['HTTP_REFERER']));
-			} else
-				$link = 'users/edit.php';
-
-			$context['text'] .= Skin::build_box(i18n::s('Create your profile'), sprintf(i18n::s('%s if you have not yet a profile for yourself at %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']));
 		}
 
 		// ask for support
@@ -520,7 +507,9 @@ if(Surfer::is_crawler()) {
 	$main_column .= Skin::finalize_list($menu, 'menu_bar');
 
 	// save the forwarding url as well
-	if(isset($_REQUEST['url']))
+	if(isset($_REQUEST['url']) && !strncmp($_REQUEST['url'], 'http', 4))
+		$main_column .= '<p><input type="hidden" name="login_forward" value="'.encode_field($_REQUEST['url']).'" /></p>';
+	elseif(isset($_REQUEST['url']))
 		$main_column .= '<p><input type="hidden" name="login_forward" value="'.encode_field($context['url_to_root'].$_REQUEST['url']).'" /></p>';
 	elseif(isset($_SERVER['HTTP_REFERER']))
 		$main_column .= '<p><input type="hidden" name="login_forward" value="'.encode_field($_SERVER['HTTP_REFERER']).'" /></p>';
