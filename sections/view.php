@@ -512,16 +512,16 @@ if(!isset($item['id'])) {
 
 		// section editors and readers
 		if(Surfer::is_logged()) {
-			if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
-				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
+			if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
-			if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
-				$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
+			if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma5'))
+				$details[] = sprintf(i18n::s('Readers: %s'), $items);
 		}
 
 		// page watchers
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], 0, 50, 'comma')))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Watchers'), Skin::build_list($items, 'comma'));
+		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], 0, 50, 'comma5')))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		// display details, if any
 		if(count($details))
