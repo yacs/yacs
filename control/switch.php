@@ -18,6 +18,9 @@
  *
  * @see control/closed.php
  *
+ * When switching on, the script reset localized strings, in case they would have changed
+ * while the server was off.
+ *
  * @author Bernard Paques
  * @author GnapZ
  * @reference
@@ -79,6 +82,10 @@ if(!Surfer::is_associate()) {
 	// back to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+	// reset localized strings to reload those who could have changed during the update
+	if(is_callable(array('i18n', 'reset')))
+		i18n::reset();
 
 // switch off
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'off')) {

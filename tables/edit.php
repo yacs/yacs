@@ -202,13 +202,13 @@ if($with_form) {
 
 	// the title
 	$label = i18n::s('Title');
-	$input = '<textarea name="title" id="title" rows="2" cols="50">'.encode_field($item['title']).'</textarea>';
+	$input = '<textarea name="title" id="title" rows="2" cols="50">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
 	$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
 
 	// the query
 	$label = i18n::s('SQL Query');
-	$input = '<textarea name="query" rows="15" cols="50">'.encode_field($item['query']).'</textarea>';
+	$input = '<textarea name="query" rows="15" cols="50">'.encode_field(isset($item['query']) ? $item['query'] : '').'</textarea>';
 	$hint = i18n::s('The SELECT command submitted to the database');
 	$fields[] = array($label, $input, $hint);
 
@@ -230,7 +230,7 @@ if($with_form) {
 
 	// the description
 	$label = i18n::s('Description');
-	$input = '<textarea name="description" rows="5" cols="50">'.encode_field($item['description']).'</textarea>';
+	$input = '<textarea name="description" rows="5" cols="50">'.encode_field(isset($item['description']) ? $item['description'] : '').'</textarea>';
 	$hint = i18n::s('As this field may be searched by surfers, please choose adequate searchable words');
 	$fields[] = array($label, $input, $hint);
 

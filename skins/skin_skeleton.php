@@ -88,6 +88,7 @@ Class Skin_Skeleton {
 	 *
 	 * Accepted variants:
 	 * - 'bottom' the last div in the content area
+	 * - 'caution' get reader attention
 	 * - 'center' some centered text
 	 * - 'code' a snippet of code
 	 * - 'decorated' to add on beauty
@@ -103,7 +104,6 @@ Class Skin_Skeleton {
 	 * - 'search' a form to search some text
 	 * - 'subtitle' a second-level title
 	 * - 'title' a first-level title
-	 * - 'warning' get reader attention
 	 * - default make a &lt;span class=...>
 	 *
 	 * Example to build a title:

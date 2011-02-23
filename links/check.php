@@ -93,7 +93,6 @@ if(!Surfer::is_associate()) {
 				}
 
 				// the url is valid
-				include_once 'link.php';
 				if($stamp = Link::validate($actual_url)) {
 					$context['text'] .= '.';
 

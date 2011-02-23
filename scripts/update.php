@@ -215,6 +215,10 @@ elseif(!Surfer::is_associate()) {
 		Cache::clear();
 		Cache::purge('js');
 
+		// reset localized strings to reload those who could have changed during the update
+		if(isset($_SESSION['l10n_modules']))
+			unset($_SESSION['l10n_modules']);
+
 	}
 
 	// report on failures, if any

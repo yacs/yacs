@@ -663,11 +663,15 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// branch to another script to display form fields, tabs, etc
-	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
-		include $matches[0].'.php';
-		return;
-	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
-		include 'edit_as_'.$deputy.'.php';
+	$branching = '';
+	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php'))
+		$branching = $matches[0].'.php';
+	elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php'))
+		$branching = 'edit_as_'.$deputy.'.php';
+
+	// branching out
+	if($branching) {
+		include $branching;
 		return;
 	}
 

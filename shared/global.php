@@ -216,7 +216,7 @@ $context['site_slogan'] = '';
 $context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
 
 // components to put in the main panel --see skins/configure.php
-$context['skins_main_components'] = 'title error text tags details bar';
+$context['skins_main_components'] = 'bar title error text tags details';
 
 // components to put in the side panel --see skins/configure.php
 $context['skins_navigation_components'] = 'menu user navigation';
@@ -531,6 +531,10 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 function &encode_field($text) {
 	global $context;
 
+	// not a string
+	if(!is_string($text))
+		return $text;
+
 	// encode special chars
 	$text = htmlspecialchars($text);
 
@@ -665,7 +669,7 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 
 // use special skin for handhelds
 if(!Surfer::is_desktop())
-	$context['skin'] = 'skins/_mobile.php';
+	$context['skin'] = 'skins/_mobile';
 
 // start with a default skin
 elseif(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))

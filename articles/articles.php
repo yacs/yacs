@@ -1743,7 +1743,7 @@ Class Articles {
 
 		// turn a string to an array
 		if(!is_array($ids))
-			$ids = preg_split('/,\s*/', (string)$ids);
+			$ids = preg_split('/[\s,]+/', (string)$ids);
 
 		// check every id
 		$items = array();
@@ -2878,8 +2878,8 @@ Class Articles {
 		$fields['publish_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['publish_name'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['rank'] 		= "INT UNSIGNED DEFAULT 10000 NOT NULL";
-		$fields['rating_sum']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['rating_count'] = "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['rating_sum']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['review_date']	= "DATETIME";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";

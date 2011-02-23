@@ -17,10 +17,9 @@
 // loaded from articles/view.php
 defined('YACS') or exit('Script must be included');
 
-//
-// rewrite $context['page_details'] because information is split in tabs
-//
-$text = '';
+// links to previous and next pages, if any
+if(isset($neighbours) && $neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
 //
 // panels
@@ -51,10 +50,6 @@ if(Articles::allow_modification($item, $anchor)) {
 // insert anchor prefix
 if(is_object($anchor))
 	$article .= $anchor->get_prefix();
-
-// links to previous and next pages, if any
-if(isset($neighbours) && $neighbours)
-	$article .= Skin::neighbours($neighbours, 'manual');
 
 // article rating, if the anchor allows for it, and if no rating has already been registered
 if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_option('rate_as_digg', $anchor, $item)) {

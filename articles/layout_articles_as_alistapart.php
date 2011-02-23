@@ -107,7 +107,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 				// display all tags
 				if($item['tags'])
-					$context['page_tags'] = '<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+					$context['page_tags'] = Skin::build_tags($item['tags']);
 
 				// layout recent articles
 				} else

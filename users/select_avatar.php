@@ -115,7 +115,7 @@ if(!count($context['error']) && isset($item['id'])) {
 	if(Images::allow_creation(NULL, $item, 'user')) {
 
 		// the form to post an image
-		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'images/edit.php" id="main_form"><div>'
+		$text = '<form method="post" action="'.$context['url_to_root'].'images/edit.php" id="main_form" enctype="multipart/form-data"><div>'
 			.'<input type="hidden" name="anchor" value="user:'.$item['id'].'" />'
 			.'<input type="hidden" name="action" value="set_as_avatar" />';
 

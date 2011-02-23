@@ -269,10 +269,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $iso_entity => $unicode_entity) {
-				$iso_entities[] = $iso_entity;
-				$unicode_entities[] = $unicode_entity;
-			}
+			$iso_entities = array_keys($codes);
+			$unicode_entities = array_values($codes);
 		}
 
 		// here are the tables
@@ -403,10 +401,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $utf_entity => $safe_entity) {
-				$utf_entities[] = $utf_entity;
-				$safe_entities[] = $safe_entity;
-			}
+			$utf_entities = array_keys($codes);
+			$safe_entities = array_values($codes);
 		}
 
 		// transcode iso 8859 chars to safer ascii entities
@@ -902,10 +898,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $unicode_entity => $html_entity) {
-				$unicode_entities[] = $unicode_entity;
-				$html_entities[] = $html_entity;
-			}
+			$unicode_entities = array_keys($codes);
+			$html_entities = array_values($codes);
 		}
 
 		// transcode HTML entities to Unicode

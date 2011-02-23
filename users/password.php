@@ -7,7 +7,7 @@
  *
  * Users that have only a shadow user profile are invited to go to the origin server.
  *
- * To avoid replay attacks YACS generates a random string and asks end user to type it.
+ * To avoid replay attacks YACS generates a random string and asks anonymous users to type it.
  *
  * This page also helps to recover from lost password. Non-authenticated users
  * can provide their nick name, and a message is sent to the related e-mail

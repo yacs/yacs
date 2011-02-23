@@ -294,7 +294,7 @@ Class Codes {
 	 * or if options have the keyword ##formatted##, no implicit formatting is performed.
 	 *
 	 * If the keyword [escape][hardcoded][/escape] appears at the first line of text,
-	 * or if options have the keyword ##hardcoded##, the only transformation is is new lines to breaks.
+	 * or if options have the keyword ##hardcoded##, the only transformation is new lines to breaks.
 	 *
 	 * If options feature the keyword ##compact##, then YACS codes that may
 	 * generate big objects are removed, such as [escape][table]...[/table][/escape]

@@ -178,10 +178,10 @@
 	 * for the page factory.
 	 *
 	 * You can override this behavior and pass a hard-coded list of elements to include, with following tokens:
+	 * - 'bar' - page menu bar
 	 * - 'details' - page details, if any
 	 * - 'error' - the error block, if any
 	 * - 'image' - page image, if any
-	 * - 'bar' - page menu bar
 	 * - 'tags' - page tags, if any
 	 * - 'text' - main content area
 	 * - 'title' - page title
