@@ -1588,9 +1588,7 @@ if(!isset($item['id'])) {
 			}
 
 			// the maximum number of sections per page
-			if(isset($item['sections_count']) && ($item['sections_count'] > 1))
-				$items_per_page = $item['sections_count'];
-			elseif(is_object($layout))
+			if(is_object($layout))
 				$items_per_page = $layout->items_per_page();
 			else
 				$items_per_page = SECTIONS_PER_PAGE;
