@@ -149,6 +149,21 @@ if(Surfer::is_crawler()) {
 	// shutdown is not an error anymore
 	$pending = FALSE;
 
+	// ensure that the conversation is on-going
+	$status = 'started';
+	if($anchor->get_value('locked') == 'Y')
+		$status = 'stopped';
+	else {
+		$fields = array();
+		$fields['id'] = $anchor->get_value('id');
+		$fields['overlay'] = $anchor->get_value('overlay');
+		if($overlay = Overlay::load($fields, $anchor->get_reference()))
+			$status = $overlay->get_value('status', 'started');
+	}
+
+	// provide page status
+	$response['status'] = $status;
+
 	// encode result in JSON
 	$output = Safe::json_encode($response);
 
