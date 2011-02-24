@@ -1289,7 +1289,7 @@ Class Section extends Anchor {
 
 			// an article has been updated
 			} elseif($action == 'article:update') {
-				if(($target = Articles::get($origin)) && $target['id'] && $to_watchers) {
+				if(($target = Articles::get($origin)) && $target['id']) {
 
 					// message components
 					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
@@ -1306,7 +1306,8 @@ Class Section extends Anchor {
 					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
 					// special case of article watchers
-					Users::alert_watchers('article:'.$target['id'], $mail);
+					if($to_watchers)
+						Users::alert_watchers('article:'.$target['id'], $mail);
 
 				}
 
@@ -1376,8 +1377,31 @@ Class Section extends Anchor {
 
 			}
 
-			// regular case of section update
-			if($action != 'article:update') {
+			// alert only watchers of this section
+			if($action == 'article:update') {
+
+				// we will re-use the message sent to page watchers
+				if(isset($mail['message'])) {
+
+					// reference of this section only
+					$container = $this->get_reference();
+
+					// autorized users
+					$restricted = NULL;
+					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+						foreach($editors as $editor)
+							if(strpos($editor, 'user:') === 0)
+								$restricted[] = substr($editor, strlen('user:'));
+					}
+
+					// alert all watchers at once
+					if($to_watchers)
+						Users::alert_watchers($container, $mail, $restricted);
+
+				}
+
+			// alert watchers of all sections upwards
+			} else {
 
 				// message to watchers
 				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
