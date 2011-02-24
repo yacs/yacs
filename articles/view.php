@@ -462,7 +462,8 @@ if(!isset($item['id'])) {
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 		// page watchers
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 50, 'comma5')))
+		$anchors = array('article:'.$item['id'], $anchor->get_reference());
+		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 50, 'comma5')))
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		// no more details

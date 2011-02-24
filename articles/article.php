@@ -1139,9 +1139,9 @@ Class Article extends Anchor {
 		if(!$this->anchor)
 			$this->anchor =& Anchors::get($this->item['anchor']);
 
-		// propagate the touch upwards silently -- we only want to purge the cache
+		// propagate the touch upwards
 		if(is_object($this->anchor))
-			$this->anchor->touch('article:touch', $this->item['id'], TRUE);
+			$this->anchor->touch('article:update', $this->item['id'], TRUE, $to_watchers);
 
 	}
 
