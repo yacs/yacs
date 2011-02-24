@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 11:44+0100\n"
-"PO-Revision-Date: 2011-01-26 15:26+0100\n"
-"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
+"POT-Creation-Date: 2011-01-06 18:18+0100\n"
+"PO-Revision-Date: 2011-01-06 18:20+0100\n"
+"Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: codes/basic.php:52
 #: codes/blocks.php:41
 #: codes/index.php:23
-#: codes/links.php:80
+#: codes/links.php:81
 #: codes/lists.php:33
 #: codes/live.php:52
 #: codes/misc.php:46
@@ -30,7 +30,7 @@ msgstr "Index de l'aide"
 
 #: codes/basic.php:53
 #: codes/blocks.php:42
-#: codes/links.php:81
+#: codes/links.php:82
 #: codes/lists.php:34
 #: codes/live.php:53
 #: codes/misc.php:47
@@ -47,7 +47,7 @@ msgstr "Formattage de caractères"
 #: codes/basic.php:60
 #: codes/blocks.php:49
 #: codes/index.php:30
-#: codes/links.php:88
+#: codes/links.php:89
 #: codes/lists.php:41
 #: codes/live.php:60
 #: codes/misc.php:54
@@ -112,39 +112,40 @@ msgstr "Mise en gras wiki"
 #: codes/blocks.php:218
 #: codes/blocks.php:226
 #: codes/blocks.php:234
-#: codes/links.php:99
-#: codes/links.php:107
-#: codes/links.php:115
-#: codes/links.php:123
-#: codes/links.php:131
-#: codes/links.php:139
-#: codes/links.php:147
-#: codes/links.php:155
-#: codes/links.php:163
-#: codes/links.php:171
-#: codes/links.php:179
-#: codes/links.php:187
-#: codes/links.php:195
-#: codes/links.php:203
-#: codes/links.php:211
-#: codes/links.php:219
-#: codes/links.php:227
-#: codes/links.php:235
-#: codes/links.php:243
-#: codes/links.php:251
-#: codes/links.php:259
-#: codes/links.php:267
-#: codes/links.php:275
-#: codes/links.php:283
-#: codes/links.php:291
-#: codes/links.php:299
-#: codes/links.php:307
-#: codes/links.php:315
-#: codes/links.php:323
-#: codes/links.php:331
-#: codes/links.php:339
-#: codes/links.php:347
-#: codes/links.php:355
+#: codes/links.php:100
+#: codes/links.php:108
+#: codes/links.php:116
+#: codes/links.php:124
+#: codes/links.php:132
+#: codes/links.php:140
+#: codes/links.php:148
+#: codes/links.php:156
+#: codes/links.php:164
+#: codes/links.php:172
+#: codes/links.php:180
+#: codes/links.php:188
+#: codes/links.php:196
+#: codes/links.php:204
+#: codes/links.php:212
+#: codes/links.php:220
+#: codes/links.php:228
+#: codes/links.php:236
+#: codes/links.php:244
+#: codes/links.php:252
+#: codes/links.php:260
+#: codes/links.php:268
+#: codes/links.php:276
+#: codes/links.php:284
+#: codes/links.php:292
+#: codes/links.php:300
+#: codes/links.php:308
+#: codes/links.php:316
+#: codes/links.php:324
+#: codes/links.php:332
+#: codes/links.php:340
+#: codes/links.php:348
+#: codes/links.php:356
+#: codes/links.php:364
 #: codes/lists.php:52
 #: codes/lists.php:60
 #: codes/lists.php:68
@@ -256,39 +257,40 @@ msgstr "Exemple"
 #: codes/blocks.php:218
 #: codes/blocks.php:226
 #: codes/blocks.php:234
-#: codes/links.php:99
-#: codes/links.php:107
-#: codes/links.php:115
-#: codes/links.php:123
-#: codes/links.php:131
-#: codes/links.php:139
-#: codes/links.php:147
-#: codes/links.php:155
-#: codes/links.php:163
-#: codes/links.php:171
-#: codes/links.php:179
-#: codes/links.php:187
-#: codes/links.php:195
-#: codes/links.php:203
-#: codes/links.php:211
-#: codes/links.php:219
-#: codes/links.php:227
-#: codes/links.php:235
-#: codes/links.php:243
-#: codes/links.php:251
-#: codes/links.php:259
-#: codes/links.php:267
-#: codes/links.php:275
-#: codes/links.php:283
-#: codes/links.php:291
-#: codes/links.php:299
-#: codes/links.php:307
-#: codes/links.php:315
-#: codes/links.php:323
-#: codes/links.php:331
-#: codes/links.php:339
-#: codes/links.php:347
-#: codes/links.php:355
+#: codes/links.php:100
+#: codes/links.php:108
+#: codes/links.php:116
+#: codes/links.php:124
+#: codes/links.php:132
+#: codes/links.php:140
+#: codes/links.php:148
+#: codes/links.php:156
+#: codes/links.php:164
+#: codes/links.php:172
+#: codes/links.php:180
+#: codes/links.php:188
+#: codes/links.php:196
+#: codes/links.php:204
+#: codes/links.php:212
+#: codes/links.php:220
+#: codes/links.php:228
+#: codes/links.php:236
+#: codes/links.php:244
+#: codes/links.php:252
+#: codes/links.php:260
+#: codes/links.php:268
+#: codes/links.php:276
+#: codes/links.php:284
+#: codes/links.php:292
+#: codes/links.php:300
+#: codes/links.php:308
+#: codes/links.php:316
+#: codes/links.php:324
+#: codes/links.php:332
+#: codes/links.php:340
+#: codes/links.php:348
+#: codes/links.php:356
+#: codes/links.php:364
 #: codes/lists.php:52
 #: codes/lists.php:60
 #: codes/lists.php:68
@@ -593,7 +595,7 @@ msgstr "Mais où sera ce lapin dans quelques minutes ? Je ne sais pas, mais ça 
 
 #: codes/basic.php:289
 #: codes/blocks.php:243
-#: codes/links.php:364
+#: codes/links.php:373
 #: codes/lists.php:109
 #: codes/live.php:189
 #: codes/misc.php:222
@@ -606,7 +608,7 @@ msgstr "Bien entendu, le rendu visuel dépend du %s choisi pour l'affichage"
 
 #: codes/basic.php:289
 #: codes/blocks.php:243
-#: codes/links.php:364
+#: codes/links.php:373
 #: codes/lists.php:109
 #: codes/live.php:189
 #: codes/misc.php:222
@@ -618,7 +620,7 @@ msgstr "style"
 
 #: codes/basic.php:290
 #: codes/blocks.php:244
-#: codes/links.php:365
+#: codes/links.php:374
 #: codes/lists.php:110
 #: codes/live.php:190
 #: codes/misc.php:223
@@ -884,249 +886,253 @@ msgstr "Vous pouvez aussi naviguer sur les liens ci-dessus en complément de %s.
 msgid "Theme test"
 msgstr "Test de thème"
 
-#: codes/links.php:84
+#: codes/links.php:85
 msgid "Codes to format links"
 msgstr "Codes de formattage des liens"
 
-#: codes/links.php:91
+#: codes/links.php:92
 msgid "Various methods are presented to link your pages to others."
 msgstr "Présentation des nombreuses possibilités de liaison de vos pages vers d'autres."
 
-#: codes/links.php:97
-#: codes/links.php:105
+#: codes/links.php:98
+#: codes/links.php:106
 msgid "External link"
 msgstr "Lien externe"
 
-#: codes/links.php:100
 #: codes/links.php:101
+#: codes/links.php:102
 msgid "You can visit www.cisco.com or http://www.nortel.com, or have a chat at irc://irc.eu.be.ofloo.net/"
 msgstr "Vous pouvez visiter www.cisco.com ou http://www.nortel.com, ou discuter à irc://irc.eu.be.ofloo.net/"
 
-#: codes/links.php:108
 #: codes/links.php:109
+#: codes/links.php:110
 msgid "You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]"
 msgstr "Vous pouvez visiter [link]www.cisco.com[/link] ou [link]http://www.nortel.com[/link], ou discuter à [link]irc://irc.eu.be.ofloo.net/[/link]"
 
-#: codes/links.php:113
+#: codes/links.php:114
 msgid "YouTube link"
 msgstr "Lien YouTube"
 
-#: codes/links.php:121
+#: codes/links.php:122
 msgid "Internal link"
 msgstr "Lien interne"
 
-#: codes/links.php:124
 #: codes/links.php:125
+#: codes/links.php:126
 msgid "You can visit [link]codes/basic.php[/link] or [link]index.php[/link]"
 msgstr "Vous pouvez visiter [link]codes/basic.php[/link] ou [link]index.php[/link]"
 
-#: codes/links.php:129
-#: codes/links.php:137
+#: codes/links.php:130
+#: codes/links.php:138
 msgid "Labelled link"
 msgstr "Lien avec label"
 
-#: codes/links.php:132
 #: codes/links.php:133
+#: codes/links.php:134
 msgid "You can visit [Cisco On Line|www.cisco.com]"
 msgstr "Vous pouvez visiter [Cisco On Line|www.cisco.com]"
 
-#: codes/links.php:140
 #: codes/links.php:141
+#: codes/links.php:142
 msgid "You can visit [link=Cisco On Line]www.cisco.com[/link]"
 msgstr "Vous pouvez visiter [link=Cisco On Line]www.cisco.com[/link]"
 
-#: codes/links.php:145
+#: codes/links.php:146
 msgid "Labelled button"
 msgstr "Bouton avec label"
 
-#: codes/links.php:148
 #: codes/links.php:149
+#: codes/links.php:150
 msgid "You can visit [button=Cisco On Line|www.cisco.com]"
 msgstr "Vous pouvez visiter [button=Cisco On Line|www.cisco.com]"
 
-#: codes/links.php:153
-#: codes/links.php:305
+#: codes/links.php:154
+#: codes/links.php:306
 msgid "Member clicks"
-msgstr "Clics provenant des membres"
+msgstr "Clics des membres"
 
-#: codes/links.php:156
 #: codes/links.php:157
+#: codes/links.php:158
 msgid "You can visit [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]"
 msgstr "Vous pouvez visiter [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]"
 
-#: codes/links.php:161
-#: codes/links.php:169
+#: codes/links.php:162
+#: codes/links.php:170
 msgid "e-mail address"
 msgstr "Adresse électronique"
 
-#: codes/links.php:164
 #: codes/links.php:165
+#: codes/links.php:166
 msgid "You can send a message at webmaster@acme.com"
 msgstr "Vous pouvez envoyer un message à l'adresse suivante : webmaster@acme.com"
 
-#: codes/links.php:172
 #: codes/links.php:173
+#: codes/links.php:174
 msgid "You can send a message at [email]webmaster@acme.com[/email]"
 msgstr "Vous pouvez envoyer un message à l'adresse suivante : [email]webmaster@acme.com[/email]"
 
-#: codes/links.php:177
+#: codes/links.php:178
 msgid "Labelled e-mail address"
 msgstr "Adresse avec label"
 
-#: codes/links.php:180
 #: codes/links.php:181
+#: codes/links.php:182
 msgid "You can send a message to our [email=support team]webmaster@acme.com[/email]"
 msgstr "Vous pouvez envoyer un message à l'[email=équipe de support]webmaster@acme.com[/email]"
 
-#: codes/links.php:185
-#: codes/links.php:193
+#: codes/links.php:186
+#: codes/links.php:194
 msgid "Selector"
 msgstr "Sélecteur"
 
-#: codes/links.php:188
 #: codes/links.php:189
+#: codes/links.php:190
 msgid "Please use our [go=monthly, monthly archive] for reference"
 msgstr "Merci de consulter les [go=monthly, archives mensuelles] pour plus d'information"
 
-#: codes/links.php:196
 #: codes/links.php:197
+#: codes/links.php:198
 msgid "Please use our [[monthly, monthly archive]] for reference"
 msgstr "Merci de consulter les [[monthly, archives mensuelles]] pour plus d'information"
 
-#: codes/links.php:201
-#: codes/links.php:209
+#: codes/links.php:202
+#: codes/links.php:210
 msgid "Page shortcut"
 msgstr "Raccourci de page"
 
-#: codes/links.php:204
 #: codes/links.php:205
-#: codes/links.php:212
+#: codes/links.php:206
 #: codes/links.php:213
-#: codes/links.php:252
+#: codes/links.php:214
 #: codes/links.php:253
-#: codes/links.php:260
+#: codes/links.php:254
 #: codes/links.php:261
-#: codes/links.php:276
+#: codes/links.php:262
 #: codes/links.php:277
-#: codes/links.php:292
+#: codes/links.php:278
 #: codes/links.php:293
+#: codes/links.php:294
 #, php-format
 msgid "Have a look at %s"
 msgstr "Jetez un coup d'oeil à %s"
 
-#: codes/links.php:217
+#: codes/links.php:218
 msgid "Page"
 msgstr "Page"
 
-#: codes/links.php:225
+#: codes/links.php:226
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: codes/links.php:233
+#: codes/links.php:234
 msgid "Next page"
 msgstr "Page suivante"
 
-#: codes/links.php:241
+#: codes/links.php:242
 msgid "Random"
 msgstr "Aléatoire"
 
-#: codes/links.php:249
+#: codes/links.php:250
 msgid "Section shortcut"
 msgstr "Section"
 
-#: codes/links.php:257
+#: codes/links.php:258
 msgid "Category shortcut"
 msgstr "Catégorie"
 
-#: codes/links.php:265
+#: codes/links.php:266
 msgid "Category"
 msgstr "Catégorie"
 
-#: codes/links.php:273
+#: codes/links.php:274
 msgid "User shortcut"
 msgstr "Utilisateur"
 
-#: codes/links.php:281
+#: codes/links.php:282
 msgid "Server shortcut"
 msgstr "Serveur"
 
-#: codes/links.php:284
 #: codes/links.php:285
+#: codes/links.php:286
 msgid "Click to view the page of [server=2, this server]"
 msgstr "Cliquez pour voir la page de [serveur=2, ce serveur]"
 
-#: codes/links.php:289
+#: codes/links.php:290
 msgid "File shortcut"
 msgstr "Fichier"
 
-#: codes/links.php:297
+#: codes/links.php:298
 msgid "Download shortcut"
 msgstr "Raccourci de téléchargement"
 
-#: codes/links.php:300
 #: codes/links.php:301
+#: codes/links.php:302
 #, php-format
 msgid "Click to %s"
 msgstr "Cliquer pour %s"
 
-#: codes/links.php:300
 #: codes/links.php:301
+#: codes/links.php:302
 msgid "download the file"
 msgstr "télécharger le fichier"
 
-#: codes/links.php:313
+#: codes/links.php:314
 msgid "Action shortcut"
 msgstr "Action"
 
-#: codes/links.php:316
 #: codes/links.php:317
+#: codes/links.php:318
 msgid "Click to view the page of [action=2, this action]"
 msgstr "Cliquez pour voir la page de [action=2, cette action]"
 
-#: codes/links.php:321
+#: codes/links.php:322
 msgid "Comment shortcut"
 msgstr "Commentaire"
 
-#: codes/links.php:324
 #: codes/links.php:325
+#: codes/links.php:326
 msgid "Click to view the page of [comment=2, this comment]"
 msgstr "Cliquez pour voir la page de [comment=2, ce commentaire]"
 
-#: codes/links.php:329
+#: codes/links.php:330
 msgid "Decision shortcut"
 msgstr "Décision"
 
-#: codes/links.php:332
 #: codes/links.php:333
+#: codes/links.php:334
 msgid "Click to view the page of [decision=2, this decision]"
 msgstr "Cliquez pour voir la page de [decision=2, cette décision]"
 
-#: codes/links.php:337
+#: codes/links.php:338
 msgid "Script shortcut"
 msgstr "Script"
 
-#: codes/links.php:340
 #: codes/links.php:341
+#: codes/links.php:342
 msgid "You can access the documentation for the script [script]shared/codes.php[/script]"
 msgstr "Vous pouvez consulter la documentation du script [script]shared/codes.php[/script]"
 
-#: codes/links.php:345
+#: codes/links.php:346
 msgid "Search"
 msgstr "Recherche"
 
-#: codes/links.php:348
 #: codes/links.php:349
+#: codes/links.php:350
 msgid "All you want to know on [search=yacs]"
 msgstr "Chercher toutes les informations sur [search=yacs]"
 
-#: codes/links.php:353
+#: codes/links.php:354
 msgid "Wikipedia"
 msgstr "Wikipedia"
 
-#: codes/links.php:356
 #: codes/links.php:357
+#: codes/links.php:358
 msgid "All you want to know on [wikipedia=Web_2, the web 2.0]"
 msgstr "Tout ce que vous voulez savoir sur [wikipedia=Web_2, le web 2.0]"
+
+#: codes/links.php:362
+msgid "Proxy"
+msgstr "Proxy"
 
 #: codes/lists.php:37
 msgid "Codes to format lists"
@@ -1704,30 +1710,46 @@ msgstr "Emplacement direct"
 
 #~ msgid "Count clicks"
 #~ msgstr "Compter les clics"
+
+#~ msgid "List named downloads"
+#~ msgstr "Téléchargements nommés"
+
 #~ msgid "You can visit [button=Cisco On Line]www.cisco.com[/button]"
 #~ msgstr "Vous pouvez visiter [button=Cisco On Line]www.cisco.com[/button]"
+
 #~ msgid "the skin test page"
 #~ msgstr "la page de test des styles"
+
 #~ msgid "Updated"
 #~ msgstr "Mis à jour"
+
 #~ msgid "Our newsletter has been corrected!"
 #~ msgstr "Notre lettre d'information est corrigée !"
+
 #~ msgid "Article shortcut"
 #~ msgstr "Article"
+
 #~ msgid "Article labelled shortcut"
 #~ msgstr "Article avec label"
+
 #~ msgid "Previous article shortcut"
 #~ msgstr "Article précédent"
+
 #~ msgid "Next article shortcut"
 #~ msgstr "Article suivant"
+
 #~ msgid "Newest locations"
 #~ msgstr "Emplacements récents"
+
 #~ msgid "List of collections"
 #~ msgstr "Liste de collections"
+
 #~ msgid "Most read articles"
 #~ msgstr "Articles les plus lus"
+
 #~ msgid "Most recent publications"
 #~ msgstr "Publications récentes"
+
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of newest publications, "
 #~ "or limit the scope to: one section and related sub-sections, one "
@@ -1736,6 +1758,7 @@ msgstr "Emplacement direct"
 #~ "Utilisez la forme simple pour visualiser une liste compacte des dernières "
 #~ "publications, ou indiquez une section, une catégorie ou un auteur pour "
 #~ "limiter la recherche."
+
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of edited pages, or limit "
 #~ "the scope to : one section and related sub-sections, one category, or one "
@@ -1744,64 +1767,89 @@ msgstr "Emplacement direct"
 #~ "Utilisez la forme simple pour visualiser une liste compacte des dernières "
 #~ "modifications, ou indiquez une section, une catégorie ou un auteur pour "
 #~ "limiter la recherche."
+
 #~ msgid "Freshest threads"
 #~ msgstr "Nouvelles discussions"
+
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of freshest threads, or "
 #~ "limit the scope to one section and related sub-sections."
 #~ msgstr ""
 #~ "Utilisez la forme simple pour visualiser une liste compacte des "
 #~ "discussions récentes, ou indiquez une section pour limiter la recherche."
+
 #~ msgid "Most active pages"
 #~ msgstr "Articles les plus actifs"
+
 #~ msgid ""
 #~ "Use the simplest form to display a compact list of most contributed "
 #~ "pages, or limit the scope to one section and related sub-sections."
 #~ msgstr ""
 #~ "Utilisez la forme simple pour visualiser une liste compacte des pages les "
 #~ "plus commentées, ou indiquez une section pour limiter la recherche."
+
 #~ msgid "You can take a look at [article=2]"
 #~ msgstr "Vous pouvez consulter [article=2]"
+
 #~ msgid "You can take a look at [article=2, this article]"
 #~ msgstr "Vous pouvez consulter [article=2, cet article]"
+
 #~ msgid "You can take a look at [previous=2, the previous page]"
 #~ msgstr "Vous pouvez consulter  [previous=2, la page précédente]"
+
 #~ msgid "You can take a look at [next=2, next page]"
 #~ msgstr "Vous pouvez consulter [next=2, la page suivante]"
+
 #~ msgid "You can take a look at [section=2, the manual]"
 #~ msgstr "Vous pouvez consulter [section=2, le manuel]"
+
 #~ msgid "You can take a look at [category=featured]"
 #~ msgstr "Vous pouvez consulter [category=featured]"
+
 #~ msgid "Click to view the page of [user=2]"
 #~ msgstr "Cliquez pour voir la page de [user=2]"
+
 #~ msgid "Click to view the page of [file=2, this file]"
 #~ msgstr "Cliquez pour voir la page de [file=2, ce fichier]"
+
 #~ msgid "Click to [download=2, download the file]"
 #~ msgstr "Cliquez pour [download=2, télécharger ce fichier]"
+
 #~ msgid "No item has been found."
 #~ msgstr "Aucun élément n'a été trouvé."
+
 #~ msgid "Access collection"
 #~ msgstr "Voir la collection"
+
 #~ msgid "Full-size"
 #~ msgstr "Pleine page"
+
 #~ msgid "Browse this map with Freemind"
 #~ msgstr "Charger cette carte dans Freemind"
+
 #~ msgid "article %s"
 #~ msgstr "article %s"
+
 #~ msgid "category %s"
 #~ msgstr "catégorie %s"
+
 #~ msgid "comment %s"
 #~ msgstr "commentaire %s"
+
 #~ msgid "decision %s"
 #~ msgstr "décision %s"
+
 #~ msgid "file %s"
 #~ msgstr "fichier %s"
+
 #~ msgid "Play in a separate window"
 #~ msgstr "Jouer dans une fenêtre séparée"
+
 #~ msgid "server %s"
 #~ msgstr "serveur %s"
+
 #~ msgid "user %s"
 #~ msgstr "utilisateur %s"
+
 #~ msgid "Referrals"
 #~ msgstr "Références externes"
-

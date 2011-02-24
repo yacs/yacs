@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:00+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
+POT-Creation-Date: 2011-02-23 21:14+0100
+PO-Revision-Date: 2010-11-12 18:23+0100
+Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM
@@ -54,7 +54,6 @@ $_SESSION['l10n']['en']['Browse %s']='Browse %s';
 $_SESSION['l10n']['en']['bfbcc298c988f6d70e9919fba19bda0d']='By default files are stored into the web space of your server. To optimize the transfer of large files, you should setup an anonymous ftp service on your server, and then use this configuration panel to enable its usage.';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Change']='Change';
-$_SESSION['l10n']['en']['36a3d377dfebacd9d29b637d7ecefb82']='Check the download page for this file';
 $_SESSION['l10n']['en']['Close']='Close';
 $_SESSION['l10n']['en']['e7eace704dc70e1603783efa3807ecbd']='Community - Access is granted to any identified surfer';
 $_SESSION['l10n']['en']['fe1a23cebe508106ea3fb5702287c729']='Community -Access is granted to any identified surfer';
@@ -64,7 +63,7 @@ $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete this file']='Delete this file';
-$_SESSION['l10n']['en']['Deletion: %s']='Delete: %s';
+$_SESSION['l10n']['en']['Deletion: %s']='Deletion: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Divx Player']='Divx Player';
 $_SESSION['l10n']['en']['86c56a7a7f1de49541c9835d0e87b60b']='Do not change modification date of the main page.';

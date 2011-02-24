@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-26 11:33+0100\n"
-"PO-Revision-Date: 2011-01-26 13:27+0100\n"
-"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
+"POT-Creation-Date: 2011-01-24 23:23+0100\n"
+"PO-Revision-Date: 2011-01-24 23:40+0100\n"
+"Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -374,15 +374,11 @@ msgstr "Size"
 
 #: agents/messages.php:1380
 msgid "The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind."
-msgstr ""
-"The page received by e-mail has been successfully published.\n"
-"Please review it now to ensure that it reflects your mind."
+msgstr "The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind."
 
 #: agents/messages.php:1382
 msgid "The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available."
-msgstr ""
-"The page received by e-mail has been posted.\n"
-"Don't forget to read it online. Then click on the Publish command to make it publicly available."
+msgstr "The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available."
 
 #: agents/messages.php:1387
 msgid "Thank you for your contribution"
@@ -405,30 +401,37 @@ msgstr "Sent by %s"
 
 #~ msgid "No data to display"
 #~ msgstr "No data to display"
+
 #~ msgid "Operating systems"
 #~ msgstr "Operating systems"
+
 #~ msgid "Browsers"
 #~ msgstr "Browsers"
+
 #~ msgid ""
 #~ "<p>This is the list of most recent events at %s</p><p>You can also use "
 #~ "following shortcuts to get more information for this server:</"
-#~ "p><ul><li><a href=\"%s\">Go to the front page (%s)</a></li><li><a href=\"%"
-#~ "s\">Go to the control panel (%s)</a></li></ul>"
+#~ "p><ul><li><a href=\"%s\">Go to the front page (%s)</a></li><li><a href="
+#~ "\"%s\">Go to the control panel (%s)</a></li></ul>"
 #~ msgstr ""
 #~ "<p>This is the list of most recent events at %s</p><p>You can also use "
 #~ "following shortcuts to get more information for this server:</"
-#~ "p><ul><li><a href=\"%s\">Go to the front page (%s)</a></li><li><a href=\"%"
-#~ "s\">Go to the control panel (%s)</a></li></ul>"
+#~ "p><ul><li><a href=\"%s\">Go to the front page (%s)</a></li><li><a href="
+#~ "\"%s\">Go to the control panel (%s)</a></li></ul>"
+
 #~ msgid "Configure: %s"
 #~ msgstr "Configure: %s"
+
 #~ msgid ""
 #~ "This instance of YACS runs in demonstration mode. For security reasons "
 #~ "configuration parameters cannot be changed in this mode."
 #~ msgstr ""
 #~ "This instance of YACS runs in demonstration mode. For security reasons "
 #~ "configuration parameters cannot be changed in this mode."
+
 #~ msgid "Cron"
 #~ msgstr "Cron"
+
 #~ msgid ""
 #~ "<p>Please select among available commands:</p><ul><li>%s - Who is driving "
 #~ "traffic to us?</li><li>%s - What are the keywords used to come to us?</"
@@ -443,66 +446,97 @@ msgstr "Sent by %s"
 #~ "maximum, and average response times.</li><li>%s - monitor background "
 #~ "processing.</li><li>%s - tick background processing.</li><li>%s - the log "
 #~ "of system events.</li></ul>"
+
 #~ msgid "Date of last cron: %s"
 #~ msgstr "Date of last cron: %s"
+
 #~ msgid "Stay tuned"
 #~ msgstr "Stay tuned"
+
 #~ msgid "system events"
 #~ msgstr "system events"
+
 #~ msgid "User Agents"
 #~ msgstr "User Agents"
+
 #~ msgid "Last events on this server"
 #~ msgstr "Last events on this server"
+
 #~ msgid "Most popular scripts"
 #~ msgstr "Most popular scripts"
+
 #~ msgid "Keywords used for searches"
 #~ msgstr "Keywords used for searches"
+
 #~ msgid "Monitoring Feed"
 #~ msgstr "Monitoring Feed"
+
 #~ msgid "You can get a RSS list of most recent events for this server %s"
 #~ msgstr "You can get a RSS list of most recent events for this server %s"
+
 #~ msgid "here"
 #~ msgstr "here"
+
 #~ msgid "The configuration panel for agents"
 #~ msgstr "The configuration panel for agents"
+
 #~ msgid "The index page for agents"
 #~ msgstr "The index page for agents"
+
 #~ msgid "Edit"
 #~ msgstr "Edit"
+
 #~ msgid "Display referrals:"
 #~ msgstr "Display referrals:"
+
 #~ msgid "only to associates"
 #~ msgstr "only to associates"
+
 #~ msgid "to every surfer"
 #~ msgstr "to every surfer"
+
 #~ msgid "Inbound messages"
 #~ msgstr "Inbound messages"
+
 #~ msgid "Inbound files"
 #~ msgstr "Inbound files"
+
 #~ msgid "Save parameters"
 #~ msgstr "Save parameters"
+
 #~ msgid "Edit parameters again"
 #~ msgstr "Edit parameters again"
+
 #~ msgid "Go to the Control Panel"
 #~ msgstr "Go to the Control Panel"
+
 #~ msgid "All feeds"
 #~ msgstr "All feeds"
+
 #~ msgid "You can combine: 'with_apop', 'no_reply', 'auto_publish'"
 #~ msgstr "You can combine: 'with_apop', 'no_reply', 'auto_publish'"
+
 #~ msgid "Agents"
 #~ msgstr "Agents"
+
 #~ msgid "Script performance"
 #~ msgstr "Script performance"
+
 #~ msgid "%s has been renamed with a '.bak' extension"
 #~ msgstr "%s has been renamed with a '.bak' extension"
+
 #~ msgid "Save changes"
 #~ msgstr "Save changes"
+
 #~ msgid "parameters/agents.include.php has been changed"
 #~ msgstr "parameters/agents.include.php has been changed"
+
 #~ msgid "Only associates may access this page."
 #~ msgstr "Only associates may access this page."
+
 #~ msgid "You are not allowed to handle agents of this server."
 #~ msgstr "You are not allowed to handle agents of this server."
+
 #~ msgid ""
 #~ "This message has been generated automatically by %s. If you wish to stop "
 #~ "these automatic alerts please visit the following link and remove your "
@@ -511,6 +545,6 @@ msgstr "Sent by %s"
 #~ "This message has been generated automatically by %s. If you wish to stop "
 #~ "these automatic alerts please visit the following link and remove your "
 #~ "address from recipients of system events."
+
 #~ msgid "User agents"
 #~ msgstr "User agents"
-

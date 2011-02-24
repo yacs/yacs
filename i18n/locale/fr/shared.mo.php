@@ -7,21 +7,21 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-26 11:33+0100
-PO-Revision-Date: 2011-01-26 15:32+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
+POT-Creation-Date: 2011-02-18 19:22+0100
+PO-Revision-Date: 2011-01-25 00:24+0100
+Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: French
 ';
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif maintenant'.chr(0).'%d actifs maintenant';
-$_SESSION['l10n']['fr']['5ee8eddc825b8b2e2b7c8667178e7594']='%d personne authentifiée a suivi le lien : %s'.chr(0).'%d personnes authentifiées ont suivi le lien : %s';
+$_SESSION['l10n']['fr']['5ee8eddc825b8b2e2b7c8667178e7594']='%d personne identifiée a suivi le lien : %s'.chr(0).'%d personnes identifiées ont suivi le lien : %s';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
@@ -60,7 +60,7 @@ $_SESSION['l10n']['fr']['Logout']='Clore la session';
 $_SESSION['l10n']['fr']['Lost password']='Mot de passe perdu';
 $_SESSION['l10n']['fr']['My pages']='Mes pages';
 $_SESSION['l10n']['fr']['My profile']='Mon profil';
-$_SESSION['l10n']['fr']['06a14c54ca2ecb1f809e031c4c2c0909']='Aucune personne authentifié n\'a encore suivi ce lien';
+$_SESSION['l10n']['fr']['06a14c54ca2ecb1f809e031c4c2c0909']='Aucune personne authentifiée n\'a suivi le lien pour l\'instant';
 $_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No message']='Le corps du message est vide';
 $_SESSION['l10n']['fr']['No subject']='Pas de sujet';
@@ -82,7 +82,7 @@ $_SESSION['l10n']['fr']['System parameters']='Paramètres système';
 $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
-$_SESSION['l10n']['fr']['9b1afc16f251ec4d2bbc0d704b341958']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Si vous désirez stopper quelques notifications, s\'il vous plait passer en revue la liste de page surveillées depuis votre profil.';
+$_SESSION['l10n']['fr']['9b1afc16f251ec4d2bbc0d704b341958']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour ne plus recevoir d\'alertes automatiques merci de passer en revue votre profil utilisateur.';
 $_SESSION['l10n']['fr']['b0815cd5b64b817543f7e729e725554f']='Ce message a été généré automatiquement par %s car vous êtes abonné à la personne qui a posté l\'information. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Arrêter les notifications.';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';
