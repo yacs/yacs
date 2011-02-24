@@ -95,13 +95,10 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 		echo "\t".'<p id="header_slogan">'.$context['site_slogan'].'</p>';
 
 	// horizontal tabs -- add a tab for the front page, and reverse order
-	Page::tabs(FALSE, FALSE);
+	Page::tabs(TRUE, FALSE);
 
 	// end of the header panel
 	echo '</div>'."\n";
-
-	// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
-	Page::bread_crumbs();
 
 	// concatenate side columns
 	if(isset($context['flexible_columns']) && (($context['flexible_columns'] == '2_1_3') || ($context['flexible_columns'] == '2_3_1')))
@@ -115,6 +112,9 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 			.'<div class="colleft">'
 				.'<div class="col1wrap">'
 					.'<div id="main_panel">';
+
+	// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
+	Page::bread_crumbs();
 
 	// display main content
 	Page::content();
