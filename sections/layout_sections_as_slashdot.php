@@ -106,7 +106,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 				$anchor =& Anchors::get($article['anchor']);
 
 				// get the related overlay, if any
-				$overlay = Overlay::load($article);
+				$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 				// use the title to label the link
 				if(is_object($overlay))
