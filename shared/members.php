@@ -1061,13 +1061,21 @@ Class Members {
 		if(!$variant)
 			$variant = $anchor;
 
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
 		// limit the scope of the request
-		$where = "users.active='Y'";
+		$where .= " AND (users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
-		$where = '('.$where.')';
+		$where .= ')';
 
 		// avoid this one
 		if($to_avoid)
@@ -1076,10 +1084,9 @@ Class Members {
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
-			."	AND ".$where
 			." GROUP BY users.id ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility

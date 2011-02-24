@@ -78,8 +78,28 @@ elseif(!$permitted) {
 	// the title of the page
 	$context['page_title'] = sprintf(i18n::s('Watchers of %s'), $anchor->get_title());
 
+	// for articles, look at the item, and at its parent
+	if(!strncmp($anchor->get_reference(), 'article:', 8)) {
+		if($parent = $anchor->get_parent())
+			$anchors = array($anchor->get_reference(), $parent);
+		else
+			$anchors = $anchor->get_reference();
+
+	// for sections, show watchers at all levels
+	} else {
+		$anchors = array($anchor->get_reference());
+		if(is_object($anchor)) {
+			$anchors[] = $anchor->get_reference();
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				$anchors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+		}
+	}
+
 	// the current list of category members
-	if(($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	if(($users =& Members::list_users_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// browse the list
 		foreach($users as $id => $user) {
