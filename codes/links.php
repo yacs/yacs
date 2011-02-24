@@ -45,6 +45,7 @@
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
+ * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
  *
  * @see codes/index.php
  *
@@ -355,6 +356,14 @@ $context['text'] .= '[title]'.i18n::s('Wikipedia').' [escape][wikipedia=keyword]
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'[/escape]</td>'
 	.'<td>'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'</td></tr>'
+	.Skin::table_suffix();
+
+// [proxy]url[/proxy]
+$context['text'] .= '[title]'.i18n::s('Proxy').' [escape][proxy]web address[/proxy][/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][proxy]http://www.google.com/[/proxy][/escape]</td>'
+	.'<td>[proxy]http://www.google.com/[/proxy]</td></tr>'
 	.Skin::table_suffix();
 
 // transform the text
