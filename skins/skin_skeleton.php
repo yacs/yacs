@@ -672,9 +672,9 @@ Class Skin_Skeleton {
 		// format a date as an absolute string
 		if($variant == 'full') {
 			if($language == 'fr')
-				$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
+				$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
+				$output .= $months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
 
@@ -1260,8 +1260,6 @@ Class Skin_Skeleton {
 
 		} else
 			$text .= $image;
-			
-			
 
 		// make the title visible as a caption
 		if($title && $with_caption)
@@ -2639,9 +2637,9 @@ Class Skin_Skeleton {
 		if(!@count($tabs))
 			return $tabs_text;
 
-		// only one list
+		// only one tab to be displayed
 		if(count($tabs) == 1) {
-			$tabs_text .= '<div id="'.$tabs[0][2].'">'.$tabs[0][3].'</div>';
+			$tabs_text .= '<div id="'.$tabs[0][2].'" style="margin-top: 1em;">'.$tabs[0][3].'</div>';
 			return $tabs_text;
 		}
 
@@ -2705,12 +2703,12 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * build linked tags
 	 *
 	 * @param string the full list of tags
-	 * @param string reference to their anchor
 	 * @return string HTML tags to be put in the resulting page
 	 */
-	function &build_tags($tags, $reference) {
+	function &build_tags($tags) {
 		global $context;
 
 		$text = '';
@@ -3976,7 +3974,7 @@ Class Skin_Skeleton {
 
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))
-			define('USERS_LIST_SIZE', 20);
+			define('USERS_LIST_SIZE', 100);
 
 		// the maximum number of watched users per page
 		if(!defined('USERS_PER_PAGE'))
@@ -4174,6 +4172,20 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * load a skin, and initialize everything
+	 *
+	 */
+	function load() {
+
+		// set constants
+		Skin::initialize();
+
+		// set other constants, if any
+		Skin_skeleton::initialize();
+
+	}
+
+	/**
 	 * build a navigation bar for pages
 	 *
 	 * This is used to browse long lists of links.
@@ -4367,7 +4379,9 @@ Class Skin_Skeleton {
 		if(isset($data[0]) && $data[0])
 			$previous_url = $data[0];
 
-		if(isset($data[1]) && $data[1] && ($layout != 'manual')) {
+		if(!isset($data[1]))
+			$previous_label = $previous_hover = '';
+		elseif($data[1] && ($layout != 'manual')) {
 			$previous_label = Codes::strip($data[1]);
 			$previous_hover = i18n::s('Previous');
 		} else {
@@ -4379,7 +4393,9 @@ Class Skin_Skeleton {
 		if(isset($data[2]) && $data[2])
 			$next_url = $data[2];
 
-		if(isset($data[3]) && $data[3] && ($layout != 'manual')) {
+		if(!isset($data[3]))
+			$next_label = $next_hover = '';
+		elseif($data[3] && ($layout != 'manual')) {
 			$next_label = Codes::strip($data[3]);
 			$next_hover = i18n::s('Next');
 		} else {
@@ -4420,10 +4436,10 @@ Class Skin_Skeleton {
 
 		case 'slideshow':	// images/view.php
 
-			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&lt;&lt; ');
+			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&laquo; ');
 			$previous_label = PREVIOUS_PREFIX.$previous_label;
 
-			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &gt;&gt;');
+			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &raquo;');
 			$next_label = $next_label.NEXT_SUFFIX;
 
 			break;
