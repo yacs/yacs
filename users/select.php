@@ -27,9 +27,15 @@ include_once '../shared/global.php';
 $anchor = NULL;
 if(isset($_REQUEST['member']))
 	$anchor =& Anchors::get($_REQUEST['member']);
+elseif(isset($_REQUEST['anchor']))
+	$anchor =& Anchors::get($_REQUEST['anchor']);
+
+// only looking at watchers
+if(isset($_REQUEST['anchor']))
+	$permitted = 'watchers';
 
 // associates can do what they want
-if(Surfer::is_associate())
+elseif(Surfer::is_associate())
 	$permitted = 'all';
 
 // a member who manages his connections
@@ -66,6 +72,44 @@ elseif(!$permitted) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// list all watchers
+} elseif($permitted == 'watchers') {
+
+	// the title of the page
+	$context['page_title'] = sprintf(i18n::s('Watchers of %s'), $anchor->get_title());
+
+	// the current list of category members
+	if(($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+
+		// browse the list
+		foreach($users as $id => $user) {
+
+			// make an url
+			$url = Users::get_permalink($user);
+
+			// gather information on this user
+			$prefix = $suffix = $type = $icon = '';
+			if(isset($user['full_name']) && $user['full_name'])
+				$label = $user['full_name'].' ('.$user['nick_name'].')';
+			else
+				$label = $user['nick_name'];
+
+			// format the item
+			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
+
+		}
+
+		// display attached users with unlink buttons
+		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
+
+	}
+
+	// back to the anchor page
+	$links = array();
+	$url = $anchor->get_url();
+	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
+
 // build a form to manage all users linked to this item
 } elseif($permitted == 'all') {
 
@@ -100,9 +144,8 @@ elseif(!$permitted) {
 
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags($follower->get_title()));
-				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name'])
-					.'<p>'.ucfirst(strip_tags($follower->get_title()))
-					.BR.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'</p>';
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name']).'</p>'
+					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.ucfirst(strip_tags($follower->get_title())).'</a></p>';
 
 				// enable threading
 				$headers = Mailer::set_thread('', $anchor);
@@ -148,7 +191,7 @@ elseif(!$permitted) {
 	if(!strncmp($anchor->get_reference(), 'category:', 9) && ($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
-		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
+		$context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title());
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -179,13 +222,13 @@ elseif(!$permitted) {
 		}
 
 		// display attached users with unlink buttons
-		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
+		$context['text'] .= Skin::build_list($new_users, 'compact').'</div>';
 
 	// the current list of linked users
 	} elseif(!strncmp($anchor->get_reference(), 'user:', 5) && ($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
-		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons followed by %s'), $anchor->get_title()).'</p>';
+		$context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Persons followed by %s'), $anchor->get_title());
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -216,13 +259,13 @@ elseif(!$permitted) {
 		}
 
 		// display attached users with unlink buttons
-		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
+		$context['text'] .= Skin::build_list($new_users, 'compact').'</div>';
 
 	// users assigned to this anchor
 	} elseif(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
-		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
+		$context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title());
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -253,7 +296,7 @@ elseif(!$permitted) {
 		}
 
 		// display attached users with unlink buttons
-		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
+		$context['text'] .= Skin::build_list($new_users, 'compact').'</div>';
 
 	}
 

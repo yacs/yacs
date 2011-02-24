@@ -632,6 +632,10 @@ Class Users {
 		if($action == 'select')
 			return 'users/select.php?member='.urlencode($id);
 
+		// list watchers
+		if($action == 'watch')
+			return 'users/select.php?anchor='.urlencode($id);
+
 		// check the target action
 		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|navigate|password|print|select_avatar|share|validate|view|visit)$/', $action))
 			return 'users/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
