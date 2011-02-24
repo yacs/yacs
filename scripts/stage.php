@@ -51,7 +51,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../links/link.php';
 include_once 'scripts.php';
 
 // parameters for scripts
@@ -225,7 +224,7 @@ if($id) {
 
 	// get the reference footprints -- reference server have to be installed at the root
 	$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script=footprints.php';
-	if(($content = Link::fetch($url, '', '', 'scripts/stage.php')) === FALSE) {
+	if(($content = http::proceed($url, '', '', 'scripts/stage.php')) === FALSE) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to get %s. Please %s again.'), $url, '<a href="configure.php">'.i18n::s('configure').'</a>')."</p>\n";
 
 		// forward to the index page
@@ -300,7 +299,7 @@ if($id) {
 
 				// get the file -- reference server have to be installed at the root
 				$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script='.$file;
-				if(!$content = Link::fetch($url, '', '', 'scripts/stage.php')) {
+				if(!$content = http::proceed($url, '', '', 'scripts/stage.php')) {
 					$context['text'] .= sprintf(i18n::s('Impossible to read %s.'), $url).BR."\n";
 					$errors++;
 					continue;
@@ -376,7 +375,7 @@ if($id) {
 	$context['text'] .= '<p>'.i18n::s('Pick-up and upload the archive file to use for the upgrade.').'</p>';
 
 	// the form to post an file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>';
 
 	// the file
 	$context['text'] .= '<input type="file" name="upload" id="focus" size="30" />'

@@ -418,7 +418,7 @@ if($with_form) {
 	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// the form
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// form fields
 	$fields = array();

@@ -34,10 +34,20 @@
  *
  * Creates articles with following nick names:
  * - 'about' - a page providing an overview of this site
+ * - 'bbb_template' - to manage a BigBlueButton meeting
+ * - 'chat_template' - an on-line discussion
  * - 'cover' - a cover article for the front page
+ * - 'discussion_template' - to create a public discussion page
+ * - 'event_template' - for pages to be added to the event calendar
+ * - 'external_template' - a meeting at another web place
  * - 'extra_rss' - a sample extra box to link to our XML RSS feed
+ * - 'livestream_template' - a show at Livestream
  * - 'menu' - a sample general menu displayed on all pages
  * - 'privacy' - to provide clear statements to community members
+ * - 'simple_template' - streamlined form to create and modify a page
+ * - 'thread_template' - to create a private thread
+ * - 'ustream_template' - a show at USTREAM
+ * - 'wiki_template' - to create a wiki page
  *
  * If there is no [code]parameters/switch.on[/code] nor [code]parameters/switch.off[/code] file, the script
  * asks for a user name and password to create an associate user profile.
@@ -65,6 +75,7 @@
 
 // common libraries
 include_once '../shared/global.php';
+include_once '../overlays/overlay.php';
 
 // force the creation of a user profile if the user table does not exists, or is empty
 $query = "SELECT count(*) FROM ".SQL::table_name('users');
@@ -378,13 +389,13 @@ if(!$permitted) {
 	if(!Sections::get('templates')) {
 		$fields = array();
 		$fields['nick_name'] = 'templates';
-		$fields['title'] = i18n::c('Templates');
-		$fields['introduction'] = i18n::c('Models to be duplicated');
-		$fields['active_set'] = 'N'; // only associates can access these pages
+		$fields['articles_layout'] = 'yahoo'; // show thumbnails
+		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
 		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
+		$fields['introduction'] = i18n::c('Models to be duplicated');
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
+		$fields['title'] = i18n::c('Templates');
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -395,14 +406,14 @@ if(!$permitted) {
 	if(!Sections::get('threads')) {
 		$fields = array();
 		$fields['nick_name'] = 'threads';
-		$fields['title'] =& i18n::c('Threads');
-		$fields['introduction'] =& i18n::c('For on-demand conversations');
-		$fields['locked'] = 'Y'; // no direct contributions
-		$fields['home_panel'] = 'none'; // content is not pushed at the front page
-		$fields['index_map'] = 'N'; // this is a special section
 		$fields['articles_layout'] = 'yabb'; // these are threads
-		$fields['content_options'] = 'with_export_tools auto_publish with_comments_as_wall';
+		$fields['articles_templates'] = 'thread_template, chat_template, event_template';
+		$fields['content_options'] = 'with_export_tools auto_publish';
+		$fields['home_panel'] = 'none'; // content is not pushed at the front page
+		$fields['index_map'] = 'N'; // listed with special sections
+		$fields['introduction'] =& i18n::c('For standalone pages');
 		$fields['maximum_items'] = 20000; // limit the overall number of threads
+		$fields['title'] =& i18n::c('Threads');
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -506,6 +517,49 @@ if(!$permitted) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
+	// 'bbb_template' article
+	if(!Articles::get('bbb_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'bbb_template';
+		$fields['title'] = i18n::c('Web conference');
+		$fields['introduction'] = i18n::c('To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
+		$fields['options'] = 'view_as_tabs comments_as_wall';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
+
+		$overlay = Overlay::bind('bbb_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
+		if($fields['id'] = Articles::post($fields)) {
+			$overlay->remember('insert', $fields, 'article:'.$fields['id']);
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'chat_template' article
+	if(!Articles::get('chat_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'chat_template';
+		$fields['title'] = i18n::c('Interactive chat');
+		$fields['introduction'] = i18n::c('To arrange an interactive textual discussion. This is turned to a permanent transcript at the end of the meeting.');
+		$fields['options'] = 'edit_as_thread view_as_chat';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/chat.gif';
+
+		$overlay = Overlay::bind('chat_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
 	// 'cover' article - basic data
 	if(!Articles::get('cover') && ($anchor = Sections::lookup('covers'))) {
 		$fields = array();
@@ -514,6 +568,65 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Welcome!');
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'discussion_template' article
+	if(!Articles::get('discussion_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'discussion_template';
+		$fields['title'] = i18n::c('Discussion page');
+		$fields['introduction'] = i18n::c('To ask a question, or to suggest a new idea. Start a thread of discussion.');
+		$fields['options'] = 'view_as_tabs edit_as_thread';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'event_template' article
+	if(!Articles::get('event_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'event_template';
+		$fields['title'] = i18n::c('Event page');
+		$fields['introduction'] = i18n::c('To arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.');
+		$fields['options'] = 'comments_as_wall view_as_tabs';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+
+		$overlay = Overlay::bind('event');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
+		if($fields['id'] = Articles::post($fields)) {
+			$overlay->remember('insert', $fields, 'article:'.$fields['id']);
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'external_template' article
+	if(!Articles::get('external_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'external_template';
+		$fields['title'] = i18n::c('External web meeting');
+		$fields['introduction'] = i18n::c('To arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address.');
+		$fields['options'] = 'comments_as_wall view_as_tabs edit_as_thread';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+
+		$overlay = Overlay::bind('external_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -531,6 +644,27 @@ if(!$permitted) {
 			.BR.Skin::build_link('feeds/', i18n::c('Information channels'), 'shortcut');
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'livestream_template' article
+	if(!Articles::get('livestream_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'livestream_template';
+		$fields['title'] = i18n::c('Livestream broadcast');
+		$fields['introduction'] = i18n::c('To drive your audience to a Livestream channel. At the given date and time participants are invited to join the show.');
+		$fields['options'] = 'edit_as_thread view_as_chat';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
+
+		$overlay = Overlay::bind('livestream_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -587,6 +721,97 @@ if(!$permitted) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
+	// 'simple_template' article
+	if(!Articles::get('simple_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'simple_template';
+		$fields['title'] = i18n::c('Simple page');
+		$fields['introduction'] = i18n::c('To add a web page with a streamlined interface.');
+		$fields['options'] = 'edit_as_simple';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/basic.gif';
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'sync.in_template' article
+	if(!Articles::get('sync.in_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'sync.in_template';
+		$fields['title'] = i18n::c('Real-time collaboration');
+		$fields['introduction'] = i18n::c('To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.');
+		$fields['options'] = 'comments_as_wall edit_as_thread view_as_tabs';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+
+		$overlay = Overlay::bind('sync_in_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'thread_template' article
+	if(!Articles::get('thread_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'thread_template';
+		$fields['title'] = i18n::c('Private thread');
+		$fields['introduction'] = i18n::c('To interact privately with some persons.');
+		$fields['active_set'] = 'N'; // a private page
+		$fields['options'] = 'view_as_tabs comments_as_wall edit_as_thread';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'ustream_template' article
+	if(!Articles::get('ustream_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'ustream_template';
+		$fields['title'] = i18n::c('USTREAM broadcast');
+		$fields['introduction'] = i18n::c('To drive your audience to a USTREAM show. At the given date and time participants are invited to join the channel.');
+		$fields['options'] = 'view_as_tabs comments_as_wall edit_as_thread';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
+
+		$overlay = Overlay::bind('ustream_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'wiki_template' article
+	if(!Articles::get('wiki_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'wiki_template';
+		$fields['title'] = i18n::c('Wiki page');
+		$fields['introduction'] = i18n::c('To allow contributions from several persons. Create an initial page and invite participants to follow-up.');
+		$fields['options'] = 'view_as_wiki comments_as_wall edit_as_simple members_edit';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/page.gif';
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
 	// nothing added
 	if(!$text)
 		$text = i18n::s('No item has been added');
@@ -598,8 +823,12 @@ if(!$permitted) {
 	if(is_callable(array('Hooks', 'include_scripts')) && ($text = Hooks::include_scripts('control/populate.php')))
 		$context['text'] .= Skin::build_box(i18n::s('Extensions'), $text);
 
+	// script has ben included
+	if(isset($context['populate_follow_up']) && ($context['populate_follow_up'] == 'none'))
+		;
+
 	// configure the interface on first installation
-	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
+	elseif(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 		$context['text'] .= Skin::build_block('<form method="get" action="../skins/configure.php">'."\n"
 			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
 			.'</form>', 'bottom');

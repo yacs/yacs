@@ -19,6 +19,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../overlays/overlay.php';
 include_once 'comments.php';
 
 // ensure browser always look for fresh data
@@ -95,7 +96,7 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = $_REQUEST['message'];
 
 	// this is a continuated contribution from this authenticated surfer
-	} elseif(Surfer::get_id() && (isset($item['create_id']) && (Surfer::get_id() == $item['create_id'])) && ($continuity_limit < $item['edit_date'])) {
+	} elseif(($item['type'] != 'notification') && Surfer::get_id() && (isset($item['create_id']) && (Surfer::get_id() == $item['create_id'])) && ($continuity_limit < $item['edit_date'])) {
 		$item['description'] .= BR.$_REQUEST['message'];
 		$fields = $item;
 
@@ -147,6 +148,21 @@ if(Surfer::is_crawler()) {
 
 	// shutdown is not an error anymore
 	$pending = FALSE;
+
+	// ensure that the conversation is on-going
+	$status = 'started';
+	if($anchor->get_value('locked') == 'Y')
+		$status = 'stopped';
+	else {
+		$fields = array();
+		$fields['id'] = $anchor->get_value('id');
+		$fields['overlay'] = $anchor->get_value('overlay');
+		if($overlay = Overlay::load($fields, $anchor->get_reference()))
+			$status = $overlay->get_value('status', 'started');
+	}
+
+	// provide page status
+	$response['status'] = $status;
 
 	// encode result in JSON
 	$output = Safe::json_encode($response);

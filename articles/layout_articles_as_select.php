@@ -64,6 +64,12 @@ Class Layout_articles_as_select extends Layout_interface {
 		elseif($item['edit_date'] >= $context['fresh'])
 			$suffix .= UPDATED_FLAG;
 
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$prefix .= PRIVATE_FLAG;
+		elseif($item['active'] == 'R')
+			$prefix .= RESTRICTED_FLAG;
+
 		// details
 		$details = array();
 

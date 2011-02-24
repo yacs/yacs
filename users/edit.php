@@ -102,7 +102,7 @@ $item =& Users::get($id);
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 elseif(isset($context['users_overlay']) && $context['users_overlay'])
 	$overlay = Overlay::bind($context['users_overlay']);
 
@@ -197,10 +197,6 @@ if(Surfer::is_crawler()) {
 		if(isset($item['capability']) && ($item['capability'] == 'A') && file_exists($context['path_to_root'].'parameters/demo.flag'))
 			$_REQUEST['capability'] = 'A';
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'user:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Users::get_permalink($item);
-
 		// actual update
 		if(Users::put($_REQUEST)
 			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST))) {
@@ -259,12 +255,8 @@ if(Surfer::is_crawler()) {
 		// successful post
 		} else {
 
-			// allow back-referencing from overlay
-			$_REQUEST['self_reference'] = 'user:'.$_REQUEST['id'];
-			$_REQUEST['self_url'] = Users::get_permalink($_REQUEST);
-
 			// post an overlay, with the new user id
-			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST)) {
+			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST, 'user:'.$_REQUEST['id'])) {
 				$item = $_REQUEST;
 				$with_form = TRUE;
 
@@ -371,7 +363,7 @@ if($with_form) {
 		$input .= '<input type="radio" name="capability" value="?"';
 		if(isset($item['capability']) && ($item['capability'] == '?'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Locked')."\n";
+		$input .= ' /> '.i18n::s('Suspended')."\n";
 		$fields[] = array($label, $input);
 	}
 
@@ -717,30 +709,6 @@ if($with_form) {
 	$input .= '>'.i18n::s('Complex interface')."</option>\n";
 	$input .= '</select>';
 	$fields[] = array($label, $input);
-
-	// share screen
-	$label = i18n::s('Share screen');
-	$input = '<input type="radio" name="with_sharing" value="N"';
-	if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Screen is not shared with other people.')
-		.BR.'<input type="radio" name="with_sharing" value="V"';
-	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow remote access using VNC.')
-		.BR.'<input type="radio" name="with_sharing" value="M"';
-	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow remote access with NetMeeting.')."\n";
-	$fields[] = array($label, $input);
-
-	// proxy
-	if(isset($item['login_address'])) {
-		$label = i18n::s('Network address');
-		$input = '<input type="text" name="proxy_address" size="55" value="'.encode_field(isset($item['proxy_address']) ? $item['proxy_address'] : '').'" maxlength="255" />';
-		$hint = sprintf(i18n::s('The network address to be used to reach your workstation, if not %s'), $item['login_address']);
-		$fields[] = array($label, $input, $hint);
-	}
 
 	// form fields in this panel
 	$text .= Skin::build_box(i18n::s('Preferences'), Skin::build_form($fields), 'folded');

@@ -39,7 +39,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -70,37 +70,13 @@ if(!isset($item['id'])) {
 // display the article
 } else {
 
-	// article header
+	// file header
 	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
 		.'<!DOCTYPE article SYSTEM "'.$context['url_to_home'].$context['url_to_root'].'articles/article.dtd">'."\n"
-		.'<?xml-stylesheet type="text/css" href="'.$context['url_to_home'].$context['url_to_root'].'articles/article.css" ?>'."\n"
-		.'<article>'."\n";
+		.'<?xml-stylesheet type="text/css" href="'.$context['url_to_home'].$context['url_to_root'].'articles/article.css" ?>'."\n";
 
-	// the title
-	$text .= ' <title>'.encode_field($context['page_title']).'</title>'."\n";
-
-	// the nick name
-	if(isset($item['nick_name']) && $item['nick_name'])
-		$text .= ' <nick_name>'.encode_field($item['nick_name']).'</nick_name>'."\n";
-
-	// the introduction text
-	if(isset($item['introduction']) && $item['introduction'])
-		$text .=  ' <introduction>'.encode_field($item['introduction']).'</introduction>'."\n";
-
-	// the source
-	if(isset($item['source']) && $item['source'])
-		$text .=  ' <source>'.encode_field($item['source']).'</source>'."\n";
-
-	// the overlay, if any
-	if(is_object($overlay))
-		$text .= $overlay->export();
-
-	// the description, which is the actual page body
-	if(isset($item['description']) && $item['description'])
-		$text .=  " <description>\n".encode_field($item['description'])."\n</description>\n";
-
-	// article footer
-	$text .= '</article>'."\n";
+	// item actual content
+	$text .= Articles::to_xml($item, $overlay);
 
 	//
 	// transfer to the user agent

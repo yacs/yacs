@@ -849,8 +849,6 @@ Class Links {
 	function ping($text, $anchor) {
 		global $context;
 
-		include_once $context['path_to_root'].'links/link.php';
-
 		// render all codes
 		if(is_callable(array('Codes', 'beautify')))
 			$text = Codes::beautify($text);
@@ -895,7 +893,7 @@ Class Links {
 			}
 
 			// skip invalid links
-			if(($content = Link::fetch($url, '', '', 'links/links.php')) === FALSE) {
+			if(($content = http::proceed($url, '', '', 'links/links.php')) === FALSE) {
 				$links_skipped[] = $url;
 				continue;
 			}
@@ -1044,14 +1042,14 @@ Class Links {
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Link::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
+				Logger::remember('links/links.php', 'Links::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
 			return FALSE;
 		}
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30)) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Link::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
+				Logger::remember('links/links.php', 'Links::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
 			return FALSE;
 		}
 

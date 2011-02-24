@@ -558,7 +558,7 @@ Class Surfer {
 			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
 
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
+		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
@@ -933,19 +933,22 @@ Class Surfer {
 	function is_desktop() {
 		global $context;
 
-		// parse request headers
-		if(!is_callable('apache_request_headers'))
-			return TRUE;
-		if(!$headers = apache_request_headers())
-			return TRUE;
+		// use header provided by PHP
+		if(isset($_SERVER['HTTP_USER_AGENT']))
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		// look at specific attributes
-		$values = '';
-		foreach($headers as $name => $value)
- 			$values .= $value.' ';
+		// else rely on Apache integration
+		elseif(!is_callable('apache_request_headers'))
+			return TRUE;
+		elseif(!$headers = apache_request_headers())
+			return TRUE;
+		elseif(!isset($headers['User-Agent']))
+			return TRUE;
+		else
+			$user_agent = $headers['User-Agent'];
 
 		// not a desktop, for sure
-		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $values))
+		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $user_agent))
 			return FALSE;
 
 		// we don't know
@@ -1398,12 +1401,6 @@ Class Surfer {
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$_SESSION['workstation_id'] = $_SERVER['REMOTE_ADDR'];
 
-		// screen sharing
-		$_SESSION['with_sharing'] = isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N';
-
-		// an external network address has been defined
-		$_SESSION['proxy_address'] = isset($fields['proxy_address']) ? $fields['proxy_address'] : '';
-
 		// remember the authenticating instance
 		if(isset($context['url_to_root']) && $context['url_to_root'])
 			$_SESSION['server_id'] = $context['url_to_root'];
@@ -1411,9 +1408,21 @@ Class Surfer {
 		// the surfer has been authenticated, do not challenge him anymore
 		$_SESSION['surfer_is_not_a_robot'] = TRUE;
 
-		// remember silently the date of the last login
-		if($update_flag && isset($fields['id'])) {
-			$query = "UPDATE ".SQL::table_name('users')." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."', authenticate_failures=0 WHERE id = ".$fields['id'];
+		// update user record
+		if(isset($fields['id'])) {
+
+			// clear tentatives of authentication
+			$query = array();
+			$query[] = 'authenticate_failures=0';
+
+			// remember the date of login
+			if($update_flag) {
+				$query[] = "login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+				$query[] = "login_address='".$_SERVER['REMOTE_ADDR']."'";
+			}
+
+			// do the update
+			$query = "UPDATE ".SQL::table_name('users')." SET ".implode(', ', $query)." WHERE id = ".$fields['id'];
 			SQL::query($query, FALSE, $context['users_connection']);
 		}
 

@@ -217,6 +217,19 @@ Class Section extends Anchor {
 	}
 
 	/**
+	 * get the named url for this anchor
+	 *
+	 * If the anchor as been named, this function returns the related url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
+		return NULL;
+	}
+
+	/**
 	 * get next and previous items, if any
 	 *
 	 * @param string the item type (eg, 'article', 'image', 'file', etc.)
@@ -435,6 +448,19 @@ Class Section extends Anchor {
 	}
 
 	/**
+	 * get the short url for this anchor
+	 *
+	 * If the anchor has one, this function returns a minimal url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_short_url() {
+		if(isset($this->item['id']))
+			return 's~'.reduce_number($this->item['id']);;
+		return NULL;
+	}
+
+	/**
 	 * get some introductory text from a section
 	 *
 	 * This function is used to introduce comments, or any sub-item related to an anchor.
@@ -503,7 +529,7 @@ Class Section extends Anchor {
 		// use overlay data, if any
 		if(!$text) {
 			include_once $context['path_to_root'].'overlays/overlay.php';
-			$overlay = Overlay::load($this->item);
+			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
 			if(is_object($overlay))
 				$text .= $overlay->get_text('list', $this->item);
 		}
@@ -989,32 +1015,6 @@ Class Section extends Anchor {
 	}
 
 	/**
-	 * get the named url for this anchor
-	 *
-	 * If the anchor as been named, this function returns the related url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_named_url() {
-		if(isset($this->item['nick_name']) && $this->item['nick_name'])
-			return normalize_shortcut($this->item['nick_name']);
-		return NULL;
-	}
-
-	/**
-	 * get the short url for this anchor
-	 *
-	 * If the anchor has one, this function returns a minimal url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_short_url() {
-		if(isset($this->item['id']))
-			return 's~'.reduce_number($this->item['id']);;
-		return NULL;
-	}
-
-	/**
 	 * restore a previous version of this section
 	 *
 	 * @param array set of attributes to restore
@@ -1110,38 +1110,8 @@ Class Section extends Anchor {
 
 			}
 
-			// we are in some interactive thread
-			if($this->is_interactive()) {
-
-				// default is to download the file
-				if(!$label)
-					$label = '[download='.$origin.']';
-
-				// this is the first contribution to the thread
-				include_once $context['path_to_root'].'comments/comments.php';
-				if(!$comment = Comments::get_newest_for_anchor('section:'.$this->item['id'])) {
-					$fields = array();
-					$fields['anchor'] = 'section:'.$this->item['id'];
-					$fields['description'] = $label;
-
-				// this is a continuated contribution from this authenticated surfer
-				} elseif(Surfer::get_id() && (isset($comment['create_id']) && (Surfer::get_id() == $comment['create_id']))) {
-					$comment['description'] .= BR.$label;
-					$fields = $comment;
-
-				// else process the contribution as a new comment
-				} else {
-					$fields = array();
-					$fields['anchor'] = 'section:'.$this->item['id'];
-					$fields['description'] = $label;
-
-				}
-
-				// actual creation in the database, but silently
-				Comments::post($fields);
-
 			// include flash videos in a regular page
-			} elseif($label)
+			if($label)
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
@@ -1284,8 +1254,8 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
-		// send alerts on new item, or on article modification, except for pages in special sections
-		if(preg_match('/(:create|article:update)$/i', $action) && isset($this->item['index_map']) && ($this->item['index_map'] == 'Y')) {
+		// send alerts on new item, or on article modification
+		if(preg_match('/(:create|article:update)$/i', $action)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())

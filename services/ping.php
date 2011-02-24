@@ -115,7 +115,6 @@
  * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
  */
 include_once '../shared/global.php';
-include_once '../links/link.php';
 include_once '../links/links.php';
 
 // load a skin engine
@@ -219,7 +218,7 @@ if(!$raw_data) {
 			$response = 48;
 
 		// check that the source actually has a link to us
-		elseif(($content = Link::fetch($source, '', '', 'services/ping.php')) === FALSE)
+		elseif(($content = http::proceed($source, '', '', 'services/ping.php')) === FALSE)
 			$response = 16;
 
 		// we have to found a reference to the target here
@@ -228,7 +227,7 @@ if(!$raw_data) {
 			// ensure enough execution time
 			Safe::set_time_limit(30);
 
-			// we have to found a reference to the target here
+			// we have to find a reference to the target here
 			if(($position = strpos($content, $target)) === FALSE)
 				$response = 17;
 
@@ -276,7 +275,7 @@ if(!$raw_data) {
 			$response = array('flerror' => 1, 'message' => 'We don\'t accept local references '.$url);
 
 		// check we can read the given address, or the same with an additional '/'
-		elseif((($content = Link::fetch($url, '', '', 'services/ping.php')) === FALSE) && (($content = Link::fetch($url.'/', '', '', 'services/ping.php')) === FALSE))
+		elseif((($content = http::proceed($url, '', '', 'services/ping.php')) === FALSE) && (($content = http::proceed($url.'/', '', '', 'services/ping.php')) === FALSE))
 			$response = array('flerror' => 1, 'message' => 'Cannot read source address '.$url);
 
 		// create or update a server entry

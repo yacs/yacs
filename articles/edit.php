@@ -105,6 +105,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../behaviors/behaviors.php';	// input validation
 include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../links/links.php';
@@ -153,17 +154,26 @@ if(!isset($item['active']) && is_object($anchor))
 // get the related overlay, if any -- overlay_type will be considered later on
 $overlay = NULL;
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$overlay = Overlay::bind($_REQUEST['variant']);
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay()))
-	$overlay = Overlay::bind($overlay_class);
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('content_overlay');
+
+// get related behaviors, if any
+$behaviors = NULL;
+if(isset($item['id']))
+	$behaviors = new Behaviors($item, $anchor);
+
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/edit.php', 'article:'.$item['id']))
+	$permitted = FALSE;
 
 // we are allowed to add a new page
-if(!isset($item['id']) && Articles::allow_creation(NULL, $anchor))
+elseif(!isset($item['id']) && Articles::allow_creation(NULL, $anchor))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing page
@@ -350,12 +360,6 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['option_hardcoded']) && ($_REQUEST['option_hardcoded'] == 'Y'))
 		$_REQUEST['options'] .= ' hardcoded';
 
-	// allow back-referencing from overlay
-	if(isset($_REQUEST['id'])) {
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-	}
-
 	// overlay may have changed
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
@@ -372,15 +376,8 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
 		// delete the previous version, if any
-		if(is_object($overlay) && isset($_REQUEST['id'])) {
-
-			// allow back-referencing from overlay
-			$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-			$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-
-			// do the job
+		if(is_object($overlay) && isset($_REQUEST['id']))
 			$overlay->remember('delete', $_REQUEST);
-		}
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -420,7 +417,7 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// branch to another script to save data
-	} elseif(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+	} elseif(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
 	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
@@ -441,7 +438,7 @@ if(Surfer::is_crawler()) {
 			$action = 'update';
 
 		// stop on error
-		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST))) {
+		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST, 'article:'.$_REQUEST['id']))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -475,8 +472,6 @@ if(Surfer::is_crawler()) {
 					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
 				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'invite') => i18n::s('Invite participants')));
 				$follow_up .= Skin::build_list($menu, 'menu_bar');
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -499,13 +494,9 @@ if(Surfer::is_crawler()) {
 	// successful post
 	} else {
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
-
-		// post an overlay, with the new article id --don't stop on error
+		// update the overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST);
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
@@ -549,7 +540,7 @@ if(Surfer::is_crawler()) {
 
 		// the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
-			$context['text'] .= i18n::s('<p>The new page has been successfully published. Please review it now to ensure that it reflects your mind.</p>');
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully posted. Please review it now to ensure that it reflects your mind.').'</p>';
 
 		// remind that the page has to be published
 		elseif(Surfer::is_empowered())
@@ -573,15 +564,10 @@ if(Surfer::is_crawler()) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
-		if(Surfer::may_upload()) {
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add an image')));
+		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
-		}
-		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		if((!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'publish') => i18n::s('Publish the page')));
-		if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'invite') => i18n::s('Invite participants')));
 		if(is_object($anchor) && Surfer::is_empowered())
 			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -645,7 +631,7 @@ if(Surfer::is_crawler()) {
 	unset($item['introduction']);
 	unset($item['nick_name']);
 
-	// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+	// also duplicate the provided overlay, if any
 	$overlay = Overlay::load($item);
 
 	// let the surfer do the rest
@@ -676,18 +662,16 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
 
-	// allow back-referencing from overlay
-	if(isset($item['id'])) {
-		$item['self_reference'] = 'article:'.$item['id'];
-		$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
-	}
-
 	// branch to another script to display form fields, tabs, etc
-	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
-		include $matches[0].'.php';
-		return;
-	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
-		include 'edit_as_'.$deputy.'.php';
+	$branching = '';
+	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php'))
+		$branching = $matches[0].'.php';
+	elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php'))
+		$branching = 'edit_as_'.$deputy.'.php';
+
+	// branching out
+	if($branching) {
+		include $branching;
 		return;
 	}
 

@@ -433,14 +433,14 @@ class Safe {
 			return;
 
 		// in case we are validating all scripts
-		if($_SERVER['REQUEST_METHOD'] == 'HEAD')
+		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 			return;
 
 		// function has been allowed
 		if(is_callable('header')) {
 			if($status)
 				header($attribute, $replace, $status);
-			elseif($replace)
+			elseif(is_bool($replace))
 				header($attribute, $replace);
 			else
 				header($attribute);
@@ -984,7 +984,7 @@ class Safe {
 	 *
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function setcookie($name, $value, $expire, $path) {
+	function setcookie($name, $value, $expire, $path, $domain=NULL) {
 
 		// no way to send something back
 		if(headers_sent())
@@ -992,7 +992,7 @@ class Safe {
 
 		// ensure call is allowed
 		if(is_callable('setcookie'))
-			return setcookie($name, $value, $expire, $path);
+			return setcookie($name, $value, $expire, $path, $domain);
 
 		// tough luck
 		return FALSE;
