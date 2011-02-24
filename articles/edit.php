@@ -505,12 +505,13 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
-			// notify my followers, but not on private pages
-			$with_followers = (isset($_REQUEST['active']) && ($_REQUEST['active'] != 'N'));
-
-			// allow the anchor to prevent notifications to followers
-			if($with_followers && is_object($overlay) && is_callable(array($overlay, 'should_notify_followers')))
+			// allow the anchor to manage the notifications to followers
+			if(is_object($overlay) && is_callable(array($overlay, 'should_notify_followers')))
 				$with_followers = $overlay->should_notify_followers();
+
+			// default is to not notify followers on page creation
+			else
+				$with_followers = FALSE;
 
 			// update anchors and forward notifications
 			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, $with_followers);
