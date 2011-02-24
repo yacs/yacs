@@ -558,7 +558,7 @@ Class Surfer {
 			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
 
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
+		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
