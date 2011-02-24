@@ -1875,6 +1875,7 @@ Class Skin_Skeleton {
 	 * - '2-columns' - two stacks of links
 	 * - 'assistant_bar' - the bar of commands at the bottom of a page
 	 * - 'comma' - a trivial 'xxx, yyy, zzz' list
+	 * - 'comma5' - the same but truncated after 5 items
 	 * - 'compact' - a <ul class="compact"> list
 	 * - 'crumbs' - a list of containers -- should be called once per page
 	 * - 'decorated' - to prefix each item with an icon
@@ -3308,6 +3309,31 @@ Class Skin_Skeleton {
 					// between two items
 					if($line_count++)
 						$text .= ', ';
+
+					// drop the icon
+					if(is_array($label))
+						$label = $label[0];
+
+					$text .= $label;
+				}
+
+				break;
+
+			// separate items with commas
+			case 'comma5':
+
+				$line_count = 0;
+				foreach($list as $label) {
+
+					// between two items
+					if($line_count++)
+						$text .= ', ';
+
+					// limit ourselves to 5 items
+					if($line_count > 5) {
+						$text .= '...';
+						break;
+					}
 
 					// drop the icon
 					if(is_array($label))
