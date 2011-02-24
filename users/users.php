@@ -427,6 +427,49 @@ Class Users {
 	}
 
 	/**
+	 * get the unique handle associated to a user profile
+	 *
+	 * @param int or string the id or nick name of the user
+	 * @return the associated handle, or NULL if no record matches the input parameter
+	 */
+	function &get_handle($id) {
+		global $context;
+
+		// sanity check
+		if(!$id) {
+			$output = NULL;
+			return $output;
+		}
+
+		// ensure proper unicode encoding
+		$id = (string)$id;
+		$id = utf8::encode($id);
+
+		// cache previous answers
+		static $cache;
+		if(!is_array($cache))
+			$cache = array();
+
+		// cache hit
+		if(isset($cache[$id]))
+			return $cache[$id];
+
+		// search by id or nick name
+		$query = "SELECT handle FROM ".SQL::table_name('users')." AS users"
+			." WHERE (users.id = ".SQL::escape((integer)$id).") OR (users.nick_name LIKE '".SQL::escape($id)."')"
+			." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
+		$output =& SQL::query_scalar($query, FALSE, $context['users_connection']);
+
+		// save in cache
+		$cache[$id] = $output;
+
+		// return by reference
+		return $output;
+	}
+
+	/**
 	 * build a pretty link to a user page
 	 *
 	 * YACS has been designed to track people who submit or change information, and this small function
