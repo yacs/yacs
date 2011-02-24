@@ -2435,8 +2435,20 @@ Class Sections {
 	 * @see links/links.php
 	 */
 	function lookup($nick_name) {
+		global $context;
+
+		// the section already exists
 		if($item =& Sections::get($nick_name))
 			return 'section:'.$item['id'];
+
+		// attempt to create a default item
+		Sections::post_default($nick_name);
+
+		// do the check again
+		if($item =& Sections::get($nick_name))
+			return 'section:'.$item['id'];
+
+		// tough luck
 		return NULL;
 	}
 
@@ -2647,6 +2659,32 @@ Class Sections {
 
 		// return the id of the new item
 		return $fields['id'];
+	}
+
+	/**
+	 * create a default named section
+	 *
+	 * @param string the nick name of the item to create
+	 * @return string text to be displayed in the resulting page
+	 */
+	function post_default($nick_name) {
+		global $context;
+
+		// the section already exists
+		if($item =& Sections::get($nick_name))
+			return '';
+
+		// use the provided model for this item
+		if(is_readable($context['path_to_root'].'sections/defaults/'.$nick_name.'.php')) {
+			include_once $context['path_to_root'].'sections/defaults/'.$nick_name.'.php';
+
+			// do the job
+			if(is_callable(array($nick_name, 'initialize')))
+				return call_user_func(array($nick_name, 'initialize'));
+		}
+
+		// tough luck
+		return '';
 	}
 
 	/**
