@@ -96,7 +96,7 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = $_REQUEST['message'];
 
 	// this is a continuated contribution from this authenticated surfer
-	} elseif(Surfer::get_id() && (isset($item['create_id']) && (Surfer::get_id() == $item['create_id'])) && ($continuity_limit < $item['edit_date'])) {
+	} elseif(($item['type'] != 'notification') && Surfer::get_id() && (isset($item['create_id']) && (Surfer::get_id() == $item['create_id'])) && ($continuity_limit < $item['edit_date'])) {
 		$item['description'] .= BR.$_REQUEST['message'];
 		$fields = $item;
 
