@@ -215,16 +215,36 @@ if(Surfer::is_crawler()) {
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('section:'.$item['id'], $_REQUEST['active']);
 
-			// touch the related anchor
-			if(is_object($anchor))
-				$anchor->touch('section:update', $item['id'],
+			// notify watchers of the updated section and of its parent
+			if($updated = Anchors::get('section:'.$item['id']))
+				$updated->touch('section:update', $item['id'],
 					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
 					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
 					isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
+			// list persons that have been notified
+			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
+
+				$context['text'] .= $recipients;
+
+				// follow-up commands
+				$follow_up = i18n::s('What do you want to do now?');
+				$menu = array();
+				$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the section')));
+				if(preg_match('/\bwith_files\b/i', $_REQUEST['options']) && Surfer::may_upload())
+					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+				$follow_up .= Skin::build_list($menu, 'menu_bar');
+				$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
+				// log page modification
+				$label = sprintf(i18n::c('Modification: %s'), strip_tags($_REQUEST['title']));
+				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
+				Logger::notify('sections/edit.php', $label, $description);
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+			} else
+				Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+
 		}
 
 	// create a new section
@@ -282,7 +302,7 @@ if(Surfer::is_crawler()) {
 			$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title());
 		else
 			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name());
-		
+
                 $link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
                 $description .= "\n\n".$section->get_teaser('basic')
 			."\n\n".'<a href="'.$link.'">'.$link.'</a>';
@@ -1202,12 +1222,7 @@ if($with_form) {
 	$context['text'] .= '<p>';
 
 	// notify watchers
-	if(!isset($item['id']))
-		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers.').BR;
-
-	// notify people following me
-	if(!isset($item['id']) && Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
+	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers.').BR;
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())

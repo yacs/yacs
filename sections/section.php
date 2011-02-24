@@ -1254,8 +1254,8 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
-		// send alerts on new item, or on article modification
-		if(preg_match('/(:create|article:update)$/i', $action)) {
+		// send alerts on new item, or on article modification, or on section modification
+		if(preg_match('/(:create|article:update|section:update)$/i', $action)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
@@ -1359,6 +1359,30 @@ Class Section extends Anchor {
 
 				}
 
+			// a section has been updated
+			} elseif($action == 'section:update') {
+				if(($target = Sections::get($origin)) && $target['id']) {
+
+					// message components
+					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
+					$title = ucfirst(strip_tags($target['title']));
+					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
+
+					// message subject
+					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);
+
+					// message to watchers
+					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+
+					// special case of section watchers
+					if($to_watchers)
+						Users::alert_watchers('section:'.$target['id'], $mail);
+
+				}
+
 			// something else has been added to the section
 			} else {
 
@@ -1385,6 +1409,26 @@ Class Section extends Anchor {
 
 					// reference of this section only
 					$container = $this->get_reference();
+
+					// autorized users
+					$restricted = NULL;
+					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+						foreach($editors as $editor)
+							if(strpos($editor, 'user:') === 0)
+								$restricted[] = substr($editor, strlen('user:'));
+					}
+
+					// alert all watchers at once
+					if($to_watchers)
+						Users::alert_watchers($container, $mail, $restricted);
+
+				}
+
+			// alert only watchers of parent section
+			} elseif($action == 'section:update') {
+
+				// we will re-use the message sent to section watchers
+				if(isset($mail['message']) && ($container = $this->get_parent())) {
 
 					// autorized users
 					$restricted = NULL;
@@ -1442,7 +1486,7 @@ Class Section extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('section:update', $this->item['id'], TRUE);
+			$this->anchor->touch('section:touch', $this->item['id'], TRUE);
 
 	}
 
