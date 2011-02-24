@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-26 11:33+0100\n"
-"PO-Revision-Date: 2011-01-26 13:25+0100\n"
-"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
+"POT-Creation-Date: 2011-01-24 23:23+0100\n"
+"PO-Revision-Date: 2011-01-25 00:06+0100\n"
+"Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -346,60 +346,85 @@ msgstr "Ré-initialiser"
 
 #~ msgid "Navigation"
 #~ msgstr "Navigation"
+
 #~ msgid "Overview of your post:"
 #~ msgstr "Aperçu de votre envoi :"
+
 #~ msgid ""
 #~ "Because of our security policy you are not allowed to list actions. "
 #~ "Please browse %s to visualize any action attached."
 #~ msgstr ""
 #~ "Notre politique de sécurité ne vous donne pas accès à l'index général des "
 #~ "actions. Merci de consulter %s pour visualiser les actions attachées."
+
 #~ msgid "pages"
 #~ msgstr "pages"
+
 #~ msgid "Referrals"
 #~ msgstr "Références externes"
+
 #~ msgid "Delete: %s"
 #~ msgstr "Supprimer : %s"
+
 #~ msgid "Edit: %s"
 #~ msgstr "Modifier : %s"
+
 #~ msgid "New to-do: %s"
 #~ msgstr "Nouvelle action : %s"
+
 #~ msgid "Looking for orphans in actions table..."
 #~ msgstr "Recherche des orphelins dans la table des actions..."
+
 #~ msgid "No action has been created yet!"
 #~ msgstr "Aucune action n'a été créée"
+
 #~ msgid "Accept one action"
 #~ msgstr "Accepter une action"
+
 #~ msgid "Your request has been processed."
 #~ msgstr "Votre commande a été prise en compte."
+
 #~ msgid "Actions validation"
 #~ msgstr "Validation des actions"
+
 #~ msgid "Delete an action"
 #~ msgstr "Supprimer une action"
+
 #~ msgid "The action has been put in the to-do list"
 #~ msgstr "L'action a été ajoutée dans la liste des choses à faire"
+
 #~ msgid "View an action"
 #~ msgstr "Voir une action"
+
 #~ msgid "View the main page"
 #~ msgstr "Voir la page principale"
+
 #~ msgid "Main page"
 #~ msgstr "Page principale"
+
 #~ msgid "Posts are not allowed anymore here."
 #~ msgstr "Les envois ne sont pas autorisés à cet endroit."
+
 #~ msgid "1&nbsp;action"
+
 #~ msgid_plural "%d&nbsp;actions"
 #~ msgstr[0] "1&nbsp;action"
 #~ msgstr[1] "%d actions"
+
 #~ msgid "Update an action"
 #~ msgstr "Mettre une action à jour"
+
 #~ msgid "Recent actions"
 #~ msgstr "Actions récentes"
+
 #~ msgid "All actions"
 #~ msgstr "Toutes les actions"
+
 #~ msgid "published pages"
 #~ msgstr "pages publiées"
+
 #~ msgid "%d records have been processed. Done"
 #~ msgstr "%d enregistrements ont été traités."
+
 #~ msgid "Modify the action description"
 #~ msgstr "Modifier la description de l'action"
-

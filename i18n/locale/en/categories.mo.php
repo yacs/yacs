@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 11:49+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
+POT-Creation-Date: 2011-02-16 16:45+0100
+PO-Revision-Date: 2010-11-12 18:21+0100
+Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: UNITED KINGDOM
 X-Poedit-SourceCharset: utf-8
@@ -66,7 +66,7 @@ $_SESSION['l10n']['en']['4158dec895b46349386efea0e7ee92a9']='Contribute to the w
 $_SESSION['l10n']['en']['Contribution to "%s"']='Contribution to "%s"';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete this category']='Delete this category';
-$_SESSION['l10n']['en']['Deletion: %s']='Delete: %s';
+$_SESSION['l10n']['en']['Deletion: %s']='Deletion: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not list categories']='Do not list categories';
@@ -109,7 +109,6 @@ $_SESSION['l10n']['en']['Keywords update']='Keywords update';
 $_SESSION['l10n']['en']['Layout']='Layout';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['932f09e2a8f6216bed67e5409a6369b0']='Links can be added to the index page';
-$_SESSION['l10n']['en']['ecc7ab4a52b62f6e4deb6339dc119ec5']='List up to %s sections with the following layout:';
 $_SESSION['l10n']['en']['b50b92192131c5e24b75ab0be52428e8']='List up to %s sub-categories with the following layout:';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';

@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:04+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
+POT-Creation-Date: 2011-02-16 16:45+0100
+PO-Revision-Date: 2010-11-12 18:26+0100
+Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
@@ -109,7 +109,6 @@ $_SESSION['l10n']['fr']['Keywords update']='Mise à jour des mots clés';
 $_SESSION['l10n']['fr']['Layout']='Mise en page';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['932f09e2a8f6216bed67e5409a6369b0']='Des liens peuvent être ajoutés à la page d\'index';
-$_SESSION['l10n']['fr']['ecc7ab4a52b62f6e4deb6339dc119ec5']='Lister jusqu\'à %s sections avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['b50b92192131c5e24b75ab0be52428e8']='Lister jusqu\'à %s sous-catégories avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';

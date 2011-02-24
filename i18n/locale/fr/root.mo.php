@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-26 11:33+0100
-PO-Revision-Date: 2011-01-26 13:23+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
+POT-Creation-Date: 2011-02-07 18:40+0100
+PO-Revision-Date: 2011-02-09 10:46+0100
+Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -164,6 +164,7 @@ $_SESSION['l10n']['fr']['New query: %s']='Nouvelles requête : %s';
 $_SESSION['l10n']['fr']['News']='Nouvelles';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['No']='Non';
+$_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No page to display.']='Aucune page à afficher.';
 $_SESSION['l10n']['fr']['6601018830e1fe22681935a255feda03']='Normalement nous préférons les caractères minuscules, et évitons les signes d\'espacement';
 $_SESSION['l10n']['fr']['OK']='OK';

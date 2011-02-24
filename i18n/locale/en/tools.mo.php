@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
+POT-Creation-Date: 2011-01-24 23:23+0100
 PO-Revision-Date: 2010-06-28 11:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM
@@ -73,7 +73,6 @@ $_SESSION['l10n']['en']['eeb1a5b1e84f84128d95eab10517665a']='Drag and drop follo
 $_SESSION['l10n']['en']['Edit me']='Edit me';
 $_SESSION['l10n']['en']['Enter a floating number']='Enter a floating number';
 $_SESSION['l10n']['en']['Enter an integer']='Enter an integer';
-$_SESSION['l10n']['en']['Event']='Event';
 $_SESSION['l10n']['en']['Events']='Events';
 $_SESSION['l10n']['en']['6bcc0edc066d340a8f1a614a6daf6c8b']='Every page in this section is featured in a nice-looking calendar.';
 $_SESSION['l10n']['en']['0897318ae815f0a670a0ed03f6de4ecf']='Every page in this section supports interactive discussion and file sharing.';
@@ -128,7 +127,6 @@ $_SESSION['l10n']['en']['Real-time collaboration']='Real-time collaboration';
 $_SESSION['l10n']['en']['Reply #%d']='Reply #%d';
 $_SESSION['l10n']['en']['Restricted wiki']='Restricted wiki';
 $_SESSION['l10n']['en']['Sample article']='Sample article';
-$_SESSION['l10n']['en']['dac90d5afad2277d5aa694046bfc7482']='Sample article with its set of comments';
 $_SESSION['l10n']['en']['Sample associate profile']='Sample associate profile';
 $_SESSION['l10n']['en']['Sample blogging place']='Sample blogging place';
 $_SESSION['l10n']['en']['8e6607f092de29e061c7ee3abd86f108']='Sample content with its set of notes';
@@ -190,8 +188,6 @@ $_SESSION['l10n']['en']['9ce42343c4fe139d3e7ae4fd85e44a15']='To demonstrate acce
 $_SESSION['l10n']['en']['00a511eb5dccc62b6b63c5c104d9a5d5']='To seek for help from other members of the community';
 $_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Use the command \'Edit this page\' to add some text or to change this content.';
-$_SESSION['l10n']['en']['d94aaf4fa30ddc7d9d1074f60c074ff3']='Use this page model to add a new event to the calendar';
-$_SESSION['l10n']['en']['86e1bb0529b582dccf265b7e6656ad13']='Use this page model to add a page that can be modified by any surfer';
 $_SESSION['l10n']['en']['Useful Bytes: %d bytes']='Useful Bytes: %d bytes';
 $_SESSION['l10n']['en']['Users']='Users';
 $_SESSION['l10n']['en']['Video session by MeBeam: %s']='Video session by MeBeam: %s';
@@ -200,7 +196,6 @@ $_SESSION['l10n']['en']['f97b1321e05c23df5a37e76329c16098']='We will use this to
 $_SESSION['l10n']['en']['Web Reference: %s']='Web Reference: %s';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
-$_SESSION['l10n']['en']['Wiki page']='Wiki page';
 $_SESSION['l10n']['en']['Wikis']='Wikis';
 $_SESSION['l10n']['en']['Working overlay']='Working overlay';
 $_SESSION['l10n']['en']['71c285946fed2c37d64e6d619d563254']='Yes, I do want to compress and assemble Javascript files';

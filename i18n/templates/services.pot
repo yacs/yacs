@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-26 15:32+0100\n"
+"POT-Creation-Date: 2011-02-23 21:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,7 +42,8 @@ msgstr ""
 #: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
 #: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
 #: services/blog.php:1462 services/blog.php:1647 services/check.php:57
-#: services/check.php:62 services/configure.php:71
+#: services/check.php:62 services/configure.php:71 services/proxy.php:17
+#: services/proxy.php:22
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
