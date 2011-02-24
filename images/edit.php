@@ -276,8 +276,8 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('The image has been inserted.').'</p>';
 		}
 
-		// touch the related anchor
-		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		// touch the related anchor and alert watchers if surfer is not the owner
+		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), !$anchor->is_owned());
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
