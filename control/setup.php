@@ -26,6 +26,7 @@
  * - [script]sections/sections.php[/script]
  * - [script]servers/servers.php[/script]
  * - [script]shared/cache.php[/script]
+ * - [script]shared/enrolments.php[/script]
  * - [script]shared/mailer.php[/script]
  * - [script]shared/members.php[/script]
  * - [script]shared/values.php[/script]
@@ -43,7 +44,6 @@
  *
  * The integrated search engine is based on full-text indexing capabilities of MySQL.
  * Currently this is only available for the [code]MyISAM[/code] table type.
- * Therefore we enforce this type into every MySQL [code]CREATE[/code] statement.
  *
  * @link http://dev.mysql.com/doc/mysql/en/Fulltext_Search.html MySQL Manual | 12.6 Full-Text Search Functions
  *
@@ -236,6 +236,10 @@ function send_body() {
 		// create tables for versions
 		include_once '../versions/versions.php';
 		echo Versions::setup();
+
+		// create tables for enrolments
+		include_once '../shared/enrolments.php';
+		echo Enrolments::setup();
 
 		// create tables for values
 		include_once '../shared/values.php';
