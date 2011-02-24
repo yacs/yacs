@@ -1505,7 +1505,7 @@ Class Skin_Skeleton {
 
 		// open in a separate window if asked explicitly or on file streaming
 		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
-			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
+			$attributes = ' onclick="window.open(this.href); window.location.reload(); return false;" onkeypress="window.open(this.href); window.location.reload(); return false;"';
 		else
 			$attributes = '';
 
@@ -1618,13 +1618,8 @@ Class Skin_Skeleton {
 
 		case 'button':
 
-			// always open external links in a separate window
-			if($external)
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
-
-			// stay in the same window
-			else
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$label.'</span></a>';
+			// always stay in the same window
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" '.$attributes.'><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1643,7 +1638,7 @@ Class Skin_Skeleton {
 			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// always open in a separate window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1679,7 +1674,7 @@ Class Skin_Skeleton {
 
 		case 'external':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); window.location.reload(); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
