@@ -126,6 +126,7 @@
  * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
+ * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
  *
  * @see codes/links.php
  *
@@ -1034,6 +1035,7 @@ Class Codes {
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
 				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
 				'/\[link\](.*?)\[\/link\]/ise', 			// [link]url[/link]
+				'/\[proxy\](.*?)\[\/proxy\]/ise', 			// [proxy]url[/proxy]
 				'/\[button=([^\]]+?)\](.*?)\[\/button\]/ise',	// [button=label]url[/button]
 				'/\[button=([^\|]+?)\|([^\]]+?)]/ise',		// [button=label|url]
 				'/\[click=([^\|]+?)\|([^\]]+?)]/ise',		// [click=label|url]
@@ -1232,6 +1234,7 @@ Class Codes {
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
 				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
+				"proxy(encode_link('$1'))",											// [proxy]url[/proxy]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label]url[/button]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label|url]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'click')",	// [click=label|url]
