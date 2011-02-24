@@ -945,29 +945,8 @@ if(!isset($item['id'])) {
 		// no layout yet
 		$layout = NULL;
 
-		// new comments are allowed
-		if(Comments::allow_creation($anchor, $item)) {
-
-			// we have a wall
-			if(Articles::has_option('comments_as_wall', $anchor, $item))
-				$comments_prefix = TRUE;
-
-			// editors and associates can always contribute to a thread
-			else
-				$comments_suffix = TRUE;
-		}
-
-//			// label for one comment
-//			if(is_object($anchor) && $anchor->is_viewable())
-//				$comment_label = $anchor->get_label('comments', 'count_one');
-//			else
-//				$comment_label = i18n::s('comment');
-
-//			// label for several comments
-//			if(is_object($anchor) && $anchor->is_viewable())
-//				$comments_label = $anchor->get_label('comments', 'count_many');
-//			else
-//				$comments_label = i18n::s('comments');
+		// we have a wall, or not
+		$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 		// label to create a comment
 		if(is_object($anchor) && $anchor->is_viewable())
@@ -979,7 +958,7 @@ if(!isset($item['id'])) {
 		$layout =& Comments::get_layout($anchor, $item);
 
 		// provide author information to layout
-		if(is_object($layout) && $item['create_id'])
+		if(is_object($layout) && isset($item['create_id']) && $item['create_id'])
 			$layout->set_variant('user:'.$item['create_id']);
 
 		// the maximum number of comments per page
@@ -1006,7 +985,7 @@ if(!isset($item['id'])) {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
 
 			// actually render the html
 			if(is_array($items))
