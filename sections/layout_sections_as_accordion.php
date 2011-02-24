@@ -82,24 +82,6 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			// complement the title with interesting details
 			$details = array();
 
-			// list related sections, if any
-			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
-
-				// mention the number of sections in folded title
-				$details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));
-
-				// add one link per item
-				foreach($items as $url => $label) {
-					$prefix = $suffix = '';
-					if(is_array($label)) {
-						$prefix = $label[0];
-						$suffix = $label[2];
-						$label = $label[1];
-					}
-					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
-				}
-			}
-
 			// info on related articles
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
 				$order = $matches[1];
@@ -182,6 +164,24 @@ Class Layout_sections_as_accordion extends Layout_interface {
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label).$suffix;
+				}
+			}
+
+			// list related sections, if any
+			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+
+				// mention the number of sections in folded title
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));
+
+				// add one link per item
+				foreach($items as $url => $label) {
+					$prefix = $suffix = '';
+					if(is_array($label)) {
+						$prefix = $label[0];
+						$suffix = $label[2];
+						$label = $label[1];
+					}
+					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
 				}
 			}
 
