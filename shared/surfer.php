@@ -933,19 +933,22 @@ Class Surfer {
 	function is_desktop() {
 		global $context;
 
-		// parse request headers
-		if(!is_callable('apache_request_headers'))
-			return TRUE;
-		if(!$headers = apache_request_headers())
-			return TRUE;
+		// use header provided by PHP
+		if(isset($_SERVER['HTTP_USER_AGENT']))
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		// look at specific attributes
-		$values = '';
-		foreach($headers as $name => $value)
- 			$values .= $value.' ';
+		// else rely on Apache integration
+		elseif(!is_callable('apache_request_headers'))
+			return TRUE;
+		elseif(!$headers = apache_request_headers())
+			return TRUE;
+		elseif(!isset($headers['User-Agent']))
+			return TRUE;
+		else
+			$user_agent = $headers['User-Agent'];
 
 		// not a desktop, for sure
-		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $values))
+		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $user_agent))
 			return FALSE;
 
 		// we don't know
