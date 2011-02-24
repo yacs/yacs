@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-22 16:58+0100
+POT-Creation-Date: 2011-02-24 14:48+0100
 PO-Revision-Date: 2011-02-22 15:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM
@@ -48,7 +48,6 @@ $_SESSION['l10n']['en']['d0de950b57151d0e808234e9cea1b90e']='%s - connect remote
 $_SESSION['l10n']['en']['5036e894fe3a3460115f8d4d342916a3']='%s - create blogs, wikis, forums, and more';
 $_SESSION['l10n']['en']['adcdf83a409a61e551cff45a611e3ab6']='%s - define permissions given to people';
 $_SESSION['l10n']['en']['6a737e0297a09fc426bb34d6393897f6']='%s - enhance information provided through RSS';
-$_SESSION['l10n']['en']['c37b1523d12b28a287abb6df3ef686e5']='%s - exported from another server';
 $_SESSION['l10n']['en']['101ea3de053fb1ab6c2460f07c044629']='%s - fill pre-defined fields, then add images, files and links';
 $_SESSION['l10n']['en']['974ac36c1f13e18d696266525cd2259c']='%s - for incoming messages and files';
 $_SESSION['l10n']['en']['%s - learn about your visitors']='%s - learn about your visitors';
@@ -197,7 +196,6 @@ $_SESSION['l10n']['en']['3ba9d28263b44fe1f7c433530bfdd694']='Deleting the refere
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['5de98934abfaf98fcd8b687a57895acf']='Directory browsing will be prevented globally.';
 $_SESSION['l10n']['en']['Disabling extension %s']='Disabling extension %s';
-$_SESSION['l10n']['en']['Discussion page']='Discussion page';
 $_SESSION['l10n']['en']['Do not encode messages.']='Do not encode messages.';
 $_SESSION['l10n']['en']['d439e9863c1ec160af48834bc7a4c614']='Do not try to compress transmitted data. The web engine already does it.';
 $_SESSION['l10n']['en']['Done']='Done';
@@ -206,22 +204,18 @@ $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible t
 $_SESSION['l10n']['en']['d99776debd3d2959fe4de12593f7b175']='ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.';
 $_SESSION['l10n']['en']['306fc14245c8cfb0befbe2babb9af0b0']='Else follow the link below to load the configuration form.';
 $_SESSION['l10n']['en']['4e8ed20913950e42261dbf171877bd7a']='Ensure the database structure is accurate';
-$_SESSION['l10n']['en']['Event page']='Event page';
 $_SESSION['l10n']['en']['Express yourself']='Express yourself';
 $_SESSION['l10n']['en']['Extensions']='Extensions';
-$_SESSION['l10n']['en']['External web meeting']='External web meeting';
 $_SESSION['l10n']['en']['Extra boxes']='Extra boxes';
 $_SESSION['l10n']['en']['Featured']='Featured';
-$_SESSION['l10n']['en']['File']='File';
 $_SESSION['l10n']['en']['File collections']='File collections';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['First record']='First record';
 $_SESSION['l10n']['en']['Flash']='Flash';
 $_SESSION['l10n']['en']['adaee044121addf6d3c8da46446dd2d5']='Following hooks have been detected and integrated into the file parameters/hooks.include.php';
-$_SESSION['l10n']['en']['f1986c0268dca731f580ce504b94bb50']='Following items have been processed:';
 $_SESSION['l10n']['en']['a70352bea3305cc427af218bf51b2e14']='Following parameters may be provided by your Internet Service Provider (ISP), or by some database manager. If you manage your own server, the database should have been created before moving forward. You may check the %s file for further information.';
 $_SESSION['l10n']['en']['For example: %s']='For example: %s';
-$_SESSION['l10n']['en']['For standalone pages']='For standalone pages';
+$_SESSION['l10n']['en']['For on-demand conversations']='For on-demand conversations';
 $_SESSION['l10n']['en']['Front page']='Front page';
 $_SESSION['l10n']['en']['GIF support is NOT enabled']='GIF support is NOT enabled';
 $_SESSION['l10n']['en']['GIF support is enabled']='GIF support is enabled';
@@ -244,7 +238,6 @@ $_SESSION['l10n']['en']['de7a0ffdbb8f7ecd192221804b67c4c7']='If you have any que
 $_SESSION['l10n']['en']['cf5105c8f01d2bcbd081b512f7d872cb']='If you have something vitally important to tell us, send a message at the following address.';
 $_SESSION['l10n']['en']['e1549f24c173711dc074c8cda8a11f70']='If your browser supports side panels and javascript, click on the following link to %s.';
 $_SESSION['l10n']['en']['Images']='Images';
-$_SESSION['l10n']['en']['Import XML content']='Import XML content';
 $_SESSION['l10n']['en']['43d209e609db592246fbc3187e90ea7b']='Impossible to access the database mentioned in your configuration file. Please create a database, or follow the link to change the configuration file.';
 $_SESSION['l10n']['en']['Impossible to read %s.']='Impossible to read %s.';
 $_SESSION['l10n']['en']['41a9007130b083625da729ee71ed48bb']='Impossible to rename the file parameters/switch.on to parameters/switch.off. Do it yourself manually if you like.';
@@ -259,7 +252,6 @@ $_SESSION['l10n']['en']['Including hooks']='Including hooks';
 $_SESSION['l10n']['en']['Indexes (expiration cache)']='Indexes (expiration cache)';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Initialize the database']='Initialize the database';
-$_SESSION['l10n']['en']['Interactive chat']='Interactive chat';
 $_SESSION['l10n']['en']['Internet connectivity']='Internet connectivity';
 $_SESSION['l10n']['en']['JPG support is enabled']='JPG support is enabled';
 $_SESSION['l10n']['en']['Jump to the configuration page']='Jump to the configuration page';
@@ -274,7 +266,6 @@ $_SESSION['l10n']['en']['Linking hook %s for %s']='Linking hook %s for %s';
 $_SESSION['l10n']['en']['Linking hooks']='Linking hooks';
 $_SESSION['l10n']['en']['Listing files...']='Listing files...';
 $_SESSION['l10n']['en']['Listing images...']='Listing images...';
-$_SESSION['l10n']['en']['Livestream broadcast']='Livestream broadcast';
 $_SESSION['l10n']['en']['Login name']='Login name';
 $_SESSION['l10n']['en']['Login password']='Login password';
 $_SESSION['l10n']['en']['Look for software extensions']='Look for software extensions';
@@ -357,7 +348,6 @@ $_SESSION['l10n']['en']['Press [p] to save parameters']='Press [p] to save param
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['02aa4479d8bc853b63099204452e4186']='Prevent this server to connect to others.';
 $_SESSION['l10n']['en']['Privacy statement']='Privacy statement';
-$_SESSION['l10n']['en']['Private thread']='Private thread';
 $_SESSION['l10n']['en']['Processed queries']='Processed queries';
 $_SESSION['l10n']['en']['fdaa13bbee38a240996c4f098bf3ae13']='Provide as much information as possible (development server).';
 $_SESSION['l10n']['en']['Proxy account']='Proxy account';
@@ -375,7 +365,6 @@ $_SESSION['l10n']['en']['Purging...']='Purging...';
 $_SESSION['l10n']['en']['2877dbe34446fa49b87a1104ba739da8']='Put page titles in web addresses.';
 $_SESSION['l10n']['en']['Queries']='Queries';
 $_SESSION['l10n']['en']['216b1a7ae77683d1c4517d49f31c0f0b']='Query: [link=Use the on-line form]query.php[/link]';
-$_SESSION['l10n']['en']['Real-time collaboration']='Real-time collaboration';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Recipients of system events']='Recipients of system events';
 $_SESSION['l10n']['en']['Records']='Records';
@@ -420,7 +409,6 @@ $_SESSION['l10n']['en']['Serving hook %s for %s']='Serving hook %s for %s';
 $_SESSION['l10n']['en']['Session data:']='Session data:';
 $_SESSION['l10n']['en']['6d4f81abde957c532fddc57dc9132ad4']='Session variables are stored correctly if the counter increments on page reload: %s';
 $_SESSION['l10n']['en']['bdfdd0f20e31688332ccf319a9c8be56']='Set HTTP headers to enable private caching and to ask for every page revalidation.';
-$_SESSION['l10n']['en']['Simple page']='Simple page';
 $_SESSION['l10n']['en']['8a9f5f9ebf9f8bab756c5b6bce469502']='Since the full content of your database will be downloaded, you would like to %s it before proceeding.';
 $_SESSION['l10n']['en']['Site map']='Site map';
 $_SESSION['l10n']['en']['Site name']='Site name';
@@ -484,19 +472,8 @@ $_SESSION['l10n']['en']['06c9d7fc993053f7b3b01351d1b9fce8']='This system does no
 $_SESSION['l10n']['en']['0af91edfa726acd4cf2f04676fe5dabf']='This system is not configured to send e-mail messages.';
 $_SESSION['l10n']['en']['Threads']='Threads';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
-$_SESSION['l10n']['en']['6319c75c2d31ae4b678342195bf32276']='To add a web page with a streamlined interface.';
-$_SESSION['l10n']['en']['adc3cc27d52f55e4a7adbac84d6016b7']='To allow contributions from several persons. Create an initial page and invite participants to follow-up.';
-$_SESSION['l10n']['en']['82f9216a7bfa5c0e944c5a0fc15f8174']='To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.';
-$_SESSION['l10n']['en']['23b9748cb8522dccdecb577805e804a5']='To arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.';
-$_SESSION['l10n']['en']['f80b2f98dd0a1739d9b5a1d6d078e657']='To arrange an interactive textual discussion. This is turned to a permanent transcript at the end of the meeting.';
-$_SESSION['l10n']['en']['b9c71530480a12c7efc9ca34336c5979']='To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.';
-$_SESSION['l10n']['en']['a04b681cafe3c6c8387760fa553e7a13']='To arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address.';
-$_SESSION['l10n']['en']['c2d05a665bb5c5b4a20daa3d1a8f4874']='To ask a question, or to suggest a new idea. Start a thread of discussion.';
-$_SESSION['l10n']['en']['a5d7a376d8eda98f10b07ee6d9c71e0f']='To drive your audience to a Livestream channel. At the given date and time participants are invited to join the show.';
-$_SESSION['l10n']['en']['9335f2c15b59d8a9f03c66a4d556267b']='To drive your audience to a USTREAM show. At the given date and time participants are invited to join the channel.';
 $_SESSION['l10n']['en']['aeeda66c94ebd61effc36991519375d1']='To forward logged events to one or several recipients.';
 $_SESSION['l10n']['en']['4a2663fa577bb3ac997c6c7cd701db18']='To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.';
-$_SESSION['l10n']['en']['af4521735aed68b2f0641b4f18d0b8c1']='To interact privately with some persons.';
 $_SESSION['l10n']['en']['86afc75f7de95fed755b0c2073390060']='To share user information among several YACS servers configure below parameters specific to the table of users. Else keep fields empty.';
 $_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['c084e53bb1a030ebb344d6f7e9314e44']='Type one or several SQL statements below to change the content of the database. WARNING!!! Be sure to understand the conceptual data model before proceeding, else you would corrupt database content.';
@@ -504,7 +481,6 @@ $_SESSION['l10n']['en']['UPDATE commands separated by ;']='UPDATE commands separ
 $_SESSION['l10n']['en']['URL generation']='URL generation';
 $_SESSION['l10n']['en']['URL optimization']='URL optimization';
 $_SESSION['l10n']['en']['URL rewriting is available.']='URL rewriting is available.';
-$_SESSION['l10n']['en']['USTREAM broadcast']='USTREAM broadcast';
 $_SESSION['l10n']['en']['Update database content']='Update database content';
 $_SESSION['l10n']['en']['Update file permissions']='Update file permissions';
 $_SESSION['l10n']['en']['Update the database schema']='Update the database schema';
@@ -531,7 +507,6 @@ $_SESSION['l10n']['en']['841032d165945524632244aa2847b9fd']='We recommend at lea
 $_SESSION['l10n']['en']['7a617fb54d24e0f40c6a6e22952148ad']='We respect your privacy! Any and all information collected at this site will be kept strictly confidential and will not be sold, reused, rented, loaned or otherwise disclosed. Any information you give to us will be held with the utmost care, and will not be used in ways that you have not consented to. Read on for more specific information.';
 $_SESSION['l10n']['en']['Web Logs']='Web Logs';
 $_SESSION['l10n']['en']['Web cache']='Web cache';
-$_SESSION['l10n']['en']['Web conference']='Web conference';
 $_SESSION['l10n']['en']['Web security']='Web security';
 $_SESSION['l10n']['en']['Web services']='Web services';
 $_SESSION['l10n']['en']['2eb6779753c4216050cf23b874775f7a']='Webmaster: [parameter=site_email]';
@@ -541,7 +516,6 @@ $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do n
 $_SESSION['l10n']['en']['90f5ee2c45e5fd132a44849dd1ee4b2e']='What is [parameter=site_name] about?';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
-$_SESSION['l10n']['en']['Wiki page']='Wiki page';
 $_SESSION['l10n']['en']['YACS']='YACS';
 $_SESSION['l10n']['en']['74f70f22b0a6d647e02fb16c44ddd5bc']='YACS saves data Unicode entities encoded in ASCII character set.';
 $_SESSION['l10n']['en']['72ffd4bbbe87b43cc16e417b8360aaeb']='YACS saves data using UTF8 character set.';

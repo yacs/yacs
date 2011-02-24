@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-06 18:18+0100
+POT-Creation-Date: 2011-02-24 14:48+0100
 PO-Revision-Date: 2011-01-06 18:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
-Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM
@@ -169,7 +169,6 @@ $_SESSION['l10n']['en']['Popular']='Popular';
 $_SESSION['l10n']['en']['Pre-formatted']='Pre-formatted';
 $_SESSION['l10n']['en']['Present users']='Present users';
 $_SESSION['l10n']['en']['Previous page']='Previous page';
-$_SESSION['l10n']['en']['Proxy']='Proxy';
 $_SESSION['l10n']['en']['Question']='Question';
 $_SESSION['l10n']['en']['Question-title']='Question-title';
 $_SESSION['l10n']['en']['Quote']='Quote';
