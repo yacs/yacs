@@ -520,7 +520,11 @@ if(!isset($item['id'])) {
 		}
 
 		// page watchers
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], 0, 50, 'comma5')))
+		if(is_object($anchor))
+			$anchors = array('section:'.$item['id'], $anchor->get_reference());
+		else
+			$anchors = 'section:'.$item['id'];
+		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 50, 'comma5')))
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		// display details, if any
