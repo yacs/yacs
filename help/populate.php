@@ -344,7 +344,7 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'none'; // the preferred layout for books
 		$fields['sections_layout'] = 'inline'; // the preferred layout for books
 		$fields['options'] = 'articles_by_title'; // preserve page ordering over time
-		$fields['content_options'] = 'auto_publish view_as_wiki with_export_tools with_neighbours'; // let surfers convert pages
+		$fields['content_options'] = 'auto_publish view_as_wiki edit_as_simple with_export_tools with_neighbours'; // let surfers convert pages
 		$fields['rank'] = 10000; // default value
 		if($fields['id'] = Sections::post($fields)) {
 
@@ -358,7 +358,7 @@ if(!$permitted) {
 				$sub_section['articles_layout'] = 'manual'; // the preferred layout for books
 				$sub_section['sections_layout'] = 'none'; // the preferred layout for books
 				$sub_section['options'] = 'articles_by_title'; // preserve page ordering over time
-				$sub_section['content_options'] = 'auto_publish view_as_wiki with_export_tools with_neighbours'; // let surfers convert pages
+				$sub_section['content_options'] = 'auto_publish view_as_wiki edit_as_simple with_export_tools with_neighbours'; // let surfers convert pages
 				$sub_section['rank'] = ($index+1); //  preserve order
 				if($sub_section['title'])
 					Sections::post($sub_section, FALSE);
@@ -903,9 +903,8 @@ if(!$permitted) {
 		$fields['title'] = $_REQUEST['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
-		$fields['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
+		$fields['articles_layout'] = 'none'; // the preferred layout for discussion boards
 		$fields['sections_layout'] = 'yabb'; // the preferred layout for a forum
-		$fields['content_options'] = 'auto_publish, with_prefix_profile'; // control is a posteriori; show poster avatar, if any
 		$fields['locked'] = 'Y'; // post in discussion boards
 		if($fields['id'] = Sections::post($fields)) {
 
@@ -918,7 +917,7 @@ if(!$permitted) {
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
 				$sub_section['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
-				$sub_section['sections_layout'] = 'yabb'; // the preferred layout for a forum
+				$sub_section['articles_templates'] = 'discussion_template';
 				$sub_section['content_options'] = 'auto_publish, with_prefix_profile'; // control is a posteriori; show poster avatar, if any
 				$sub_section['rank'] = ($index+1); //  preserve order
 				if($sub_section['title'])
@@ -1805,7 +1804,7 @@ if(!$permitted) {
 		$fields['home_panel'] = $_REQUEST['home_panel'];
 		$fields['articles_layout'] = 'tagged'; // the preferred layout for wikis
 		$fields['options'] = 'articles_by_title'; // alphabetical order
-		$fields['content_options'] = 'view_as_wiki auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki auto_publish edit_as_simple with_export_tools';
 		if($_REQUEST['contribution'] == 'Y')		// anyone can contribute
 			$fields['content_options'] .= ' anonymous_edit';
 		elseif($_REQUEST['contribution'] == 'R')	// only members can contribute

@@ -65,7 +65,9 @@ if(isset($item['anchor']) && $item['anchor'])
 
 // get poll data
 include_once '../overlay.php';
-$overlay = Overlay::load($item);
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // look for the vote
 $vote = '';

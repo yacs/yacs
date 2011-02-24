@@ -184,7 +184,7 @@ if(isset($item['owner_id']))
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -301,10 +301,6 @@ if(!isset($item['id'])) {
 // display the article
 } else {
 
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'article:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
-
 	// behaviors can change page menu
 	if(is_object($behaviors))
 		$context['page_menu'] =& $behaviors->add_commands('articles/view.php', 'article:'.$item['id'], $context['page_menu']);
@@ -403,7 +399,7 @@ if(!isset($item['id'])) {
 
 		// tags, if any
 		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags'], 'article:'.$item['id']);
+			$context['page_tags'] =& Skin::build_tags($item['tags']);
 
 		// one detail per line
 		$text .= '<p class="details">';
@@ -462,12 +458,12 @@ if(!isset($item['id'])) {
 			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
 		// page editors, for associates and section editors
-		if(Surfer::is_empowered() && Surfer::is_logged() && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
+		if(Surfer::is_empowered() && Surfer::is_logged() && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5')))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 		// page watchers
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 50, 'comma')))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Watchers'), Skin::build_list($items, 'comma'));
+		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 50, 'comma5')))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		// no more details
 		if(count($details))
@@ -735,6 +731,54 @@ if(!isset($item['id'])) {
 	$context['components']['referrals'] =& Skin::build_referrals(Articles::get_permalink($item));
 
 	//
+	// the main part of the page
+	//
+	$context['page_description'] = '';
+
+	// filter description, if necessary
+	if(is_object($overlay))
+		$description = $overlay->get_text('description', $item);
+	else
+		$description = $item['description'];
+
+	// the beautified description, which is the actual page body
+	if($description) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$context['page_description'] .= Skin::build_block($label, 'title');
+
+		// provide only the requested page
+		$pages = preg_split('/\s*\[page\]\s*/is', $description);
+		$page = max(min($page, count($pages)), 1);
+		$description = $pages[ $page-1 ];
+
+		// several pages to manage
+		if(count($pages) > 1) {
+
+			$data = Skin::pager(Articles::get_permalink($item), Articles::get_url($item['id'], 'navigate', 'page'), $page, count($pages));
+
+			$neighbours = Skin::neighbours($data, 'slideshow');
+
+			// displayed at the top if not on first page
+			if($page > 1)
+				$context['page_description'] .= $neighbours;
+
+			// remove toc and toq codes
+			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+		}
+
+		// beautify the target page
+		$context['page_description'] .= Skin::build_block($description, 'description', '', $item['options']);
+
+		// if there are several pages, add navigation commands to browse them
+		if(count($pages) > 1)
+			$context['page_description'] .= $neighbours;
+
+	}
+
+	//
 	// use a specific script to render the page in replacement of the standard one
 	//
 
@@ -812,55 +856,20 @@ if(!isset($item['id'])) {
 				// signal DIGG
 				define('DIGG', TRUE);
 			}
-
-			// the introduction text, if any
-			if(is_object($overlay))
-				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-			else
-				$text .= Skin::build_block($item['introduction'], 'introduction');
-
-			// get text related to the overlay, if any
-			if(is_object($overlay))
-				$text .= $overlay->get_text('view', $item);
-
 		}
 
-		// filter description, if necessary
+		// the introduction text, if any
 		if(is_object($overlay))
-			$description = $overlay->get_text('description', $item);
+			$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
 		else
-			$description = $item['description'];
+			$text .= Skin::build_block($item['introduction'], 'introduction');
 
-		// the beautified description, which is the actual page body
-		if($description) {
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('view', $item);
 
-			// use adequate label
-			if(is_object($overlay) && ($label = $overlay->get_label('description')))
-				$text .= Skin::build_block($label, 'title');
-
-			// provide only the requested page
-			$pages = preg_split('/\s*\[page\]\s*/is', $description);
-			$page = max(min($page, count($pages)), 1);
-			$description = $pages[ $page-1 ];
-
-			// if there are several pages, remove toc and toq codes
-			if(count($pages) > 1)
-				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-			// beautify the target page
-			$text .= Skin::build_block($description, 'description', '', $item['options']);
-
-			// if there are several pages, add navigation commands to browse them
-			if(count($pages) > 1) {
-				$page_menu = array( '_' => i18n::s('Pages') );
-				$home = Articles::get_permalink($item);
-				$prefix = Articles::get_url($item['id'], 'navigate', 'page');
-				$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-				$text .= Skin::build_list($page_menu, 'menu_bar');
-			}
-
-		}
+		// the main part of the page
+		$text .= $context['page_description'];
 
 		// the owner profile, if any, at the end of the page
 		if(isset($owner['id']) && is_object($anchor))
@@ -945,29 +954,8 @@ if(!isset($item['id'])) {
 		// no layout yet
 		$layout = NULL;
 
-		// new comments are allowed
-		if(Comments::allow_creation($anchor, $item)) {
-
-			// we have a wall
-			if(Articles::has_option('comments_as_wall', $anchor, $item))
-				$comments_prefix = TRUE;
-
-			// editors and associates can always contribute to a thread
-			else
-				$comments_suffix = TRUE;
-		}
-
-//			// label for one comment
-//			if(is_object($anchor) && $anchor->is_viewable())
-//				$comment_label = $anchor->get_label('comments', 'count_one');
-//			else
-//				$comment_label = i18n::s('comment');
-
-//			// label for several comments
-//			if(is_object($anchor) && $anchor->is_viewable())
-//				$comments_label = $anchor->get_label('comments', 'count_many');
-//			else
-//				$comments_label = i18n::s('comments');
+		// we have a wall, or not
+		$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 		// label to create a comment
 		if(is_object($anchor) && $anchor->is_viewable())
@@ -979,7 +967,7 @@ if(!isset($item['id'])) {
 		$layout =& Comments::get_layout($anchor, $item);
 
 		// provide author information to layout
-		if(is_object($layout) && $item['create_id'])
+		if(is_object($layout) && isset($item['create_id']) && $item['create_id'])
 			$layout->set_variant('user:'.$item['create_id']);
 
 		// the maximum number of comments per page
@@ -1006,7 +994,7 @@ if(!isset($item['id'])) {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
 
 			// actually render the html
 			if(is_array($items))

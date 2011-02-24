@@ -396,9 +396,10 @@ class Vote extends Overlay {
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
+	 * @param string reference of the anchor, if any -- mandatory on 'insert'
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($variant, $host) {
+	function remember($action, $host, $reference=NULL) {
 		global $context;
 
 		// remember the id of the master record

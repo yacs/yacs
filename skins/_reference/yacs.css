@@ -25,7 +25,6 @@
 body {
 	font-family: Georgia, Times, serif;
 	font-size: 13px;
-	line-height: 18px;
 }
 
 form { /* inline rendering for all browsers */
@@ -198,14 +197,29 @@ p#crumbs a { /* one of the links to go up */
 p#page_menu { /* the main horizontal menu of commands */
 	margin: 0 0 8px 0;
 	font-weight: normal;
-	font-size: 0.8em;
 }
 
 p#page_menu a { /* a link in the menu */
+	margin: 0;
+	padding: 0px 0px 0px 7px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
+	text-decoration: none;
 	font-weight: normal;
 }
 
+p#page_menu a:hover { /* about to click */
+	margin: 0;
+	padding: 0px 0px 0px 7px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
+	text-decoration: none;
+	font-weight: normal;
+	color: red;
+}
+
 p#page_menu a span { /* to complement background, if required */
+	margin: 0;
+	padding: 0px 7px 0px 0px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
 }
 
 p#page_menu a span.first { /* first command on left */
@@ -368,6 +382,8 @@ div.box h2 span { /* for a complementary background image */
 }
 
 div.box div.content { /* actual content of the box */
+	overflow: hidden; /* clear floats, as in http://www.quirksmode.org/css/clearing.html */
+	width: 100%;
 }
 
 /* menu bars */
@@ -419,10 +435,22 @@ p.menu_bar a span.last { /* last command of the menu */
 
 /* navigation bar */
 
+.pager-current { /* where we are */
+	border: 1px solid #cccccc;
+	color: #000000;
+	margin: 0 3px;
+	padding: 0 3px;
+}
+
+.pager-item { /* navigation link */
+	margin: 0 3px;
+	padding: 0 3px;
+}
+
 table.neighbours { /* previous and next links */
 	clear: left;
 	border: none;
-	margin: 0;
+	margin: 0 auto;
 }
 
 table.neighbours tr td {
@@ -432,16 +460,19 @@ table.neighbours tr td {
 table.neighbours tr td.next { /* to the right */
 	border: none;
 	padding: 1em 0 1em 3em;
+	text-align: right;
 }
 
 table.neighbours tr td.option { /* label for this page */
 	border: none;
 	padding: 1em 2em 1em 2em;
+	text-align: center;
 }
 
 table.neighbours tr td.previous { /* to the left */
 	border: none;
 	padding: 1em 3em 1em 0;
+	text-align: left;
 }
 
 
@@ -462,7 +493,7 @@ table.neighbours tr td.previous { /* to the left */
 }
 
 
-/* vertical and horizontal layouts --it used to be named "form" instaed of "layout" */
+/* vertical and horizontal layouts --it used to be named "form" instead of "layout" */
 
 table.layout,
 table.form {
@@ -2026,6 +2057,27 @@ div.recent div.right { /* the second newest item */
     text-align: left;
 }
 
+/**
+ * index layout: an index of things
+ *
+ * <ul class="index" id=="letterX">
+ *    <li>item one</li>
+ *		...
+ * </ul>
+ *
+ * @see articles/layout_articles_as_index.php
+ */
+
+ul.index {
+	margin: 0;
+	padding: 0 0 2em 0;
+}
+
+ul.index li {
+    float: left;
+    margin-left: 25px;
+    margin-top: 4px;
+}
 
 /**
  * jive layout: a table of items

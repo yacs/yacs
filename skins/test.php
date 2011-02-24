@@ -135,7 +135,7 @@ if(isset($skin) && Surfer::is_associate())
 $context['page_publisher'] = 'webmaestro again, still through some PHP script';
 
 // page tags
-$context['page_tags'] = i18n::s('tag 1, tag 2');
+$context['page_tags'] = i18n::s('<a>tag 1</a> <a>tag 2</a>');
 
 // $context['page_title'] - the title of the page
 $context['page_title'] = i18n::s('Theme test');
@@ -242,7 +242,7 @@ $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s(
 $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
 // page neighbours
-$neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '#', 'index');
+$neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '', '<a class="pager-item">1</a> &nbsp; <a class="pager-current">2</a>');
 
 // $context['text'] - section with neighbours
 $text .= Skin::build_box(i18n::s('with neighbours'), DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));

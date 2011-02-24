@@ -427,6 +427,49 @@ Class Users {
 	}
 
 	/**
+	 * get the unique handle associated to a user profile
+	 *
+	 * @param int or string the id or nick name of the user
+	 * @return the associated handle, or NULL if no record matches the input parameter
+	 */
+	function &get_handle($id) {
+		global $context;
+
+		// sanity check
+		if(!$id) {
+			$output = NULL;
+			return $output;
+		}
+
+		// ensure proper unicode encoding
+		$id = (string)$id;
+		$id = utf8::encode($id);
+
+		// cache previous answers
+		static $cache;
+		if(!is_array($cache))
+			$cache = array();
+
+		// cache hit
+		if(isset($cache[$id]))
+			return $cache[$id];
+
+		// search by id or nick name
+		$query = "SELECT handle FROM ".SQL::table_name('users')." AS users"
+			." WHERE (users.id = ".SQL::escape((integer)$id).") OR (users.nick_name LIKE '".SQL::escape($id)."')"
+			." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
+		$output =& SQL::query_scalar($query, FALSE, $context['users_connection']);
+
+		// save in cache
+		$cache[$id] = $output;
+
+		// return by reference
+		return $output;
+	}
+
+	/**
 	 * build a pretty link to a user page
 	 *
 	 * YACS has been designed to track people who submit or change information, and this small function
@@ -588,6 +631,10 @@ Class Users {
 		// assign users to an anchor
 		if($action == 'select')
 			return 'users/select.php?member='.urlencode($id);
+
+		// list watchers
+		if($action == 'watch')
+			return 'users/select.php?anchor='.urlencode($id);
 
 		// check the target action
 		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|navigate|password|print|select_avatar|share|validate|view|visit)$/', $action))
@@ -1368,7 +1415,6 @@ Class Users {
 		$query[] = "post_date='".SQL::escape($fields['post_date'])."'";
 
 		$query[] = "posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0');
-		$query[] = "proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."'";
 		$query[] = "signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."'";
 		$query[] = "skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."'";
 
@@ -1387,10 +1433,6 @@ Class Users {
 		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
 			$fields['with_newsletters'] = 'Y';
 		$query[] = "with_newsletters='".$fields['with_newsletters']."'";
-
-		if(!isset($fields['with_sharing']) || ($fields['with_sharing'] != 'Y'))
-			$fields['with_sharing'] = 'N';
-		$query[] = "with_sharing='".$fields['with_sharing']."'";
 
 		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'Y'))
 			$fields['without_alerts'] = 'N';
@@ -1509,7 +1551,7 @@ Class Users {
 		// if a password change
 		if(isset($fields['password'])) {
 
-			// hash password if coming from a human facing a form
+			// ensure that the password has been provided twice
 			if(!isset($fields['confirm']) || ($fields['confirm'] != $fields['password'])) {
 				Logger::error(i18n::s('New password has to be confirmed.'));
 				return FALSE;
@@ -1619,7 +1661,6 @@ Class Users {
 				."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
 				."pgp_key='".SQL::escape(isset($fields['pgp_key']) ? $fields['pgp_key'] : '')."', "
 				."phone_number='".SQL::escape(isset($fields['phone_number']) ? $fields['phone_number'] : '')."', "
-				."proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."', "
 				."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
 				."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
 				."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
@@ -1630,7 +1671,6 @@ Class Users {
 				."vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."', "
 				."web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."', "
 				."with_newsletters='".($fields['with_newsletters'])."', "
-				."with_sharing='".(isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N')."', "
 				."without_alerts='".($fields['without_alerts'])."', "
 				."without_confirmations='".($fields['without_confirmations'])."', "
 				."without_messages='".($fields['without_messages'])."', "
@@ -1726,6 +1766,11 @@ Class Users {
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not show suspended users, except to associates
+		if(!Surfer::is_associate())
+			$where .= " AND (users.capability != '?')";
 
 		// match
 		$match = '';
@@ -1741,7 +1786,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (".$where.") AND (".$match.")"
+			." WHERE ".$where." AND (".$match.")"
 			." ORDER BY users.login_date DESC"
 			." LIMIT ".$offset.','.$count;
 
@@ -1802,7 +1847,6 @@ Class Users {
 		$fields['phone_number'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['post_date']	= "DATETIME";
 		$fields['posts']		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['proxy_address']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['signature']	= "TEXT NOT NULL";
 		$fields['skype_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -1813,7 +1857,6 @@ Class Users {
 		$fields['vcard_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['web_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['with_newsletters'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
-		$fields['with_sharing'] = "ENUM('N','V', 'M') DEFAULT 'N' NOT NULL";
 		$fields['without_alerts'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['without_confirmations'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['without_messages'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";

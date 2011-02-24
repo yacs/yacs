@@ -88,6 +88,7 @@ Class Skin_Skeleton {
 	 *
 	 * Accepted variants:
 	 * - 'bottom' the last div in the content area
+	 * - 'caution' get reader attention
 	 * - 'center' some centered text
 	 * - 'code' a snippet of code
 	 * - 'decorated' to add on beauty
@@ -103,7 +104,6 @@ Class Skin_Skeleton {
 	 * - 'search' a form to search some text
 	 * - 'subtitle' a second-level title
 	 * - 'title' a first-level title
-	 * - 'warning' get reader attention
 	 * - default make a &lt;span class=...>
 	 *
 	 * Example to build a title:
@@ -672,9 +672,9 @@ Class Skin_Skeleton {
 		// format a date as an absolute string
 		if($variant == 'full') {
 			if($language == 'fr')
-				$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
+				$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
+				$output .= $months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
 
@@ -1260,8 +1260,6 @@ Class Skin_Skeleton {
 
 		} else
 			$text .= $image;
-			
-			
 
 		// make the title visible as a caption
 		if($title && $with_caption)
@@ -1505,7 +1503,7 @@ Class Skin_Skeleton {
 
 		// open in a separate window if asked explicitly or on file streaming
 		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
-			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
+			$attributes = ' onclick="window.open(this.href); window.location.reload(); return false;" onkeypress="window.open(this.href); window.location.reload(); return false;"';
 		else
 			$attributes = '';
 
@@ -1618,13 +1616,8 @@ Class Skin_Skeleton {
 
 		case 'button':
 
-			// always open external links in a separate window
-			if($external)
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
-
-			// stay in the same window
-			else
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$label.'</span></a>';
+			// always stay in the same window
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" '.$attributes.'><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1643,7 +1636,7 @@ Class Skin_Skeleton {
 			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// always open in a separate window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1679,7 +1672,7 @@ Class Skin_Skeleton {
 
 		case 'external':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); window.location.reload(); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
@@ -1882,6 +1875,7 @@ Class Skin_Skeleton {
 	 * - '2-columns' - two stacks of links
 	 * - 'assistant_bar' - the bar of commands at the bottom of a page
 	 * - 'comma' - a trivial 'xxx, yyy, zzz' list
+	 * - 'comma5' - the same but truncated after 5 items
 	 * - 'compact' - a <ul class="compact"> list
 	 * - 'crumbs' - a list of containers -- should be called once per page
 	 * - 'decorated' - to prefix each item with an icon
@@ -2644,9 +2638,9 @@ Class Skin_Skeleton {
 		if(!@count($tabs))
 			return $tabs_text;
 
-		// only one list
+		// only one tab to be displayed
 		if(count($tabs) == 1) {
-			$tabs_text .= '<div id="'.$tabs[0][2].'">'.$tabs[0][3].'</div>';
+			$tabs_text .= '<div id="'.$tabs[0][2].'" style="margin-top: 1em;">'.$tabs[0][3].'</div>';
 			return $tabs_text;
 		}
 
@@ -2710,12 +2704,12 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * build linked tags
 	 *
 	 * @param string the full list of tags
-	 * @param string reference to their anchor
 	 * @return string HTML tags to be put in the resulting page
 	 */
-	function &build_tags($tags, $reference) {
+	function &build_tags($tags) {
 		global $context;
 
 		$text = '';
@@ -3315,6 +3309,31 @@ Class Skin_Skeleton {
 					// between two items
 					if($line_count++)
 						$text .= ', ';
+
+					// drop the icon
+					if(is_array($label))
+						$label = $label[0];
+
+					$text .= $label;
+				}
+
+				break;
+
+			// separate items with commas
+			case 'comma5':
+
+				$line_count = 0;
+				foreach($list as $label) {
+
+					// between two items
+					if($line_count++)
+						$text .= ', ';
+
+					// limit ourselves to 5 items
+					if($line_count > 5) {
+						$text .= '...';
+						break;
+					}
 
 					// drop the icon
 					if(is_array($label))
@@ -3981,7 +4000,7 @@ Class Skin_Skeleton {
 
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))
-			define('USERS_LIST_SIZE', 20);
+			define('USERS_LIST_SIZE', 100);
 
 		// the maximum number of watched users per page
 		if(!defined('USERS_PER_PAGE'))
@@ -4179,6 +4198,20 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * load a skin, and initialize everything
+	 *
+	 */
+	function load() {
+
+		// set constants
+		Skin::initialize();
+
+		// set other constants, if any
+		Skin_skeleton::initialize();
+
+	}
+
+	/**
 	 * build a navigation bar for pages
 	 *
 	 * This is used to browse long lists of links.
@@ -4372,7 +4405,9 @@ Class Skin_Skeleton {
 		if(isset($data[0]) && $data[0])
 			$previous_url = $data[0];
 
-		if(isset($data[1]) && $data[1] && ($layout != 'manual')) {
+		if(!isset($data[1]))
+			$previous_label = $previous_hover = '';
+		elseif($data[1] && ($layout != 'manual')) {
 			$previous_label = Codes::strip($data[1]);
 			$previous_hover = i18n::s('Previous');
 		} else {
@@ -4384,7 +4419,9 @@ Class Skin_Skeleton {
 		if(isset($data[2]) && $data[2])
 			$next_url = $data[2];
 
-		if(isset($data[3]) && $data[3] && ($layout != 'manual')) {
+		if(!isset($data[3]))
+			$next_label = $next_hover = '';
+		elseif($data[3] && ($layout != 'manual')) {
 			$next_label = Codes::strip($data[3]);
 			$next_hover = i18n::s('Next');
 		} else {
@@ -4425,10 +4462,10 @@ Class Skin_Skeleton {
 
 		case 'slideshow':	// images/view.php
 
-			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&lt;&lt; ');
+			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&laquo; ');
 			$previous_label = PREVIOUS_PREFIX.$previous_label;
 
-			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &gt;&gt;');
+			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &raquo;');
 			$next_label = $next_label.NEXT_SUFFIX;
 
 			break;
@@ -4490,17 +4527,59 @@ Class Skin_Skeleton {
 	}
 
 	/**
-	 * load a skin, and initialize everything
+	 * to page within a page
 	 *
+	 * @see articles/view.php
+	 *
+	 * @param string URL to the first page
+	 * @param string prefix to paging URLs, without the end number
+	 * @param int current page, starting at 1
+	 * @param int total number of pages
+	 * @result array to be provided to Skin::neighbours()
 	 */
-	function load() {
+	function pager($home, $prefix, $page, $count) {
+		global $context;
 
-		// set constants
-		Skin::initialize();
+		// go back to previous page
+		$previous_url = '';
+		$previous_label = '';
+		if($page > 1) {
+			if($page == 2)
+				$previous_url = $home;
+			else
+				$previous_url = $prefix.($page - 1);
+			$previous_label = i18n::s('Previous page');
+		}
 
-		// set other constants, if any
-		Skin_skeleton::initialize();
+		// where we are
+		$option_label = array();
+		for($index = 1; $index <= $count; $index++) {
 
+			if($index == $page) {
+				$option_label[] = '<span class="pager-current">'.$index.'</span>';
+			} else {
+				if($index == 1)
+					$url = $home;
+				else
+					$url = $prefix.$index;
+				$option_label[] = Skin::build_link($url, $index, 'pager-item');
+			}
+
+		}
+		$option_label = join(' &nbsp; ', $option_label);
+
+		// go forward to next page
+		$next_url = '';
+		$next_label = '';
+		if($page < $count) {
+			$next_url = $prefix.($page + 1);
+			$next_label = i18n::s('Next page');
+		}
+
+		// the HTML code for this
+		$data = array($previous_url, $previous_label, $next_url, $next_label, NULL, $option_label);
+
+		return $data;
 	}
 
 	/**

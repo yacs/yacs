@@ -350,12 +350,12 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Select and order components displayed in the main area of any page');
 	$input = '<textarea name="skins_main_components" id="skins_main_components"cols="60" rows="3">'.encode_field($context['skins_main_components']).'</textarea>';
 	$keywords = array();
+	$keywords[] = 'bar - '.i18n::s('Page menu, if any');
 	$keywords[] = 'title - '.i18n::s('Page title');
 	$keywords[] = 'error - '.i18n::s('Error messages, if any');
 	$keywords[] = 'text - '.i18n::s('Page main content');
 	$keywords[] = 'tags - '.i18n::s('Page tags, if any');
 	$keywords[] = 'details - '.i18n::s('Complementary information, if any');
-	$keywords[] = 'bar - '.i18n::s('Page menu, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
 	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
 

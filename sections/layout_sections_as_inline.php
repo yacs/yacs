@@ -44,7 +44,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -85,19 +85,6 @@ Class Layout_sections_as_inline extends Layout_interface {
 
 			// box content
 			$elements = array();
-
-			// list related sections, if any
-			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
-				foreach($items as $url => $label) {
-					$prefix = $suffix = '';
-					if(is_array($label)) {
-						$prefix = $label[0];
-						$suffix = $label[2];
-						$label = $label[1];
-					}
-					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
-				}
-			}
 
 			// info on related articles
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -144,6 +131,19 @@ Class Layout_sections_as_inline extends Layout_interface {
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label, 'comment').$suffix;
+				}
+			}
+
+			// list related sections, if any
+			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+				foreach($items as $url => $label) {
+					$prefix = $suffix = '';
+					if(is_array($label)) {
+						$prefix = $label[0];
+						$suffix = $label[2];
+						$label = $label[1];
+					}
+					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
 				}
 			}
 

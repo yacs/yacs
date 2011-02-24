@@ -138,7 +138,7 @@ $item =& Users::get($id);
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
 // actual capability of current surfer
 if(isset($item['id']) && Surfer::get_id() && ($item['id'] == Surfer::get_id()) && ($item['capability'] != '?'))
@@ -211,10 +211,6 @@ if(!isset($item['id'])) {
 // display the user profile
 } else {
 
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'user:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Users::get_permalink($item);
-
 	// remember surfer visit
 	Surfer::is_visiting(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
 
@@ -252,7 +248,7 @@ if(!isset($item['id'])) {
 
 		// tags, if any
 		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags'], 'user:'.$item['id']);
+			$context['page_tags'] =& Skin::build_tags($item['tags']);
 
 		// one detail per line
 		$context['page_details'] .= '<p class="details">';
@@ -275,10 +271,10 @@ if(!isset($item['id'])) {
 			$details[] = i18n::s('Subscriber');
 
 		elseif($item['capability'] == '?') {
-			$details[] = EXPIRED_FLAG.i18n::s('Locked');
+			$details[] = EXPIRED_FLAG.i18n::s('Suspended');
 
 			// also make it clear to community member
-			Skin::error('This profile has been locked and does not allow authentication.');
+			Skin::error('This person has been suspended and cannot authenticate anymore.');
 		}
 
 		// the number of posts
@@ -332,7 +328,7 @@ if(!isset($item['id'])) {
 		if(Surfer::is($item['id']) && Surfer::is_member() &&
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-			$box['top'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'));
+			$box['top'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add some space for your pages'));
 		}
 
 		// associates can assign editors and readers
@@ -391,76 +387,16 @@ if(!isset($item['id'])) {
 		// build a complete box
 		$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
-		// only members can create private pages, and only if private pages are allowed
-		if(!$zoom_type && Surfer::is_member() && (!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))) {
+		// only members can create threads
+		if(!$zoom_type && Surfer::is($item['id']) && Surfer::is_member() && (!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))) {
 
-			// start a new private page
-			//
-			$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'users/contact.php" onsubmit="return validateDocumentPost(this)" ><div>';
-
-			// thread title
-			$label = i18n::s('What do you want to talk about?');
-			$input = '<input type="text" name="title" style="width: 70%" maxlength="255" />';
-			$text .= '<p>'.$label.BR.$input.'</p>';
-
-			// on my page, engage with anybody
-			if(Surfer::get_id() == $item['id']) {
-
-				// recipients
-				$label = i18n::s('Who do you want to involve?');
-				$input = '<textarea name="id" id="id" rows="3" cols="50"></textarea><div id="id_choice" class="autocomplete"></div>';
-				$text .= '<div>'.$label.BR.$input.'</div>';
-
-			// engage the browsed surfer
-			} else
-				$text .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
-
-			// thread first contribution
-			$label = i18n::s('Provide context, and start the conversation');
-			$input = '<textarea name="message" rows="2" cols="50" onfocus="Yacs.growPanel(this);"></textarea>';
-			$text .= '<p>'.$label.BR.$input.'</p>';
-
-			// uploads are allowed
-			if(Surfer::may_upload()) {
-				$label = sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']);
-				$input = '<input type="file" name="upload" style="width: 30em" />';
-				$text .= '<p class="details">'.$label.BR.$input.'</p>';
+			// add a thread
+			if($reference = Sections::lookup('threads')) {
+				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+				$url = 'articles/edit.php?anchor='.urlencode($reference);
+				$box['top'] += array($url => ARTICLES_ADD_IMG.i18n::s('Add a standalone page'));
 			}
 
-			// bottom commands
-			$menu = array();
-			$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-			$text .= Skin::finalize_list($menu, 'menu_bar');
-
-			// end of the form
-			$text .= '</div></form>';
-
-			// in a folded box
-			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
-			if(Surfer::get_id() == $item['id'])
-				$box['top'] += array('_new_thread' => Skin::build_sliding_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'new_thread', TRUE));
-			else
-				$box['top'] += array('_new_thread' => Skin::build_sliding_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'new_thread', TRUE));
-
-			// append the script used for data checking on the browser
-			$box['text'] .= JS_PREFIX
-				.'// check that main fields are not empty'."\n"
-				.'func'.'tion validateDocumentPost(container) {'."\n"
-				."\n"
-				.'	// title is mandatory'."\n"
-				.'	if(!container.title.value) {'."\n"
-				.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-				.'		Yacs.stopWorking();'."\n"
-				.'		return false;'."\n"
-				.'	}'."\n"
-				."\n"
-				.'	// successful check'."\n"
-				.'	return true;'."\n"
-				.'}'."\n"
-				."\n"
-				.'// enable autocompletion'."\n"
-				.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-				.JS_SUFFIX;
 		}
 
 		// count the number of articles for this user
@@ -759,24 +695,6 @@ if(!isset($item['id'])) {
 					$box .= '<p>'.i18n::s('Improved interface').'</p>';
 				elseif($item['interface'] == 'C')
 					$box .= '<p>'.i18n::s('Complex interface').'</p>';
-			}
-
-			// share screen
-			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
-				if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
-					$box .= '<p>'.i18n::s('Screen is not shared with other people.').'</p>';
-				if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
-					$box .= '<p>'.i18n::s('Allow remote access using VNC.').'</p>';
-				if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
-					$box .= '<p>'.i18n::s('Allow remote access with NetMeeting.').'</p>';
-			}
-
-			// proxy
-			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
-				if(isset($item['proxy_address']) && $item['proxy_address'])
-					$box .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Network address'), $item['proxy_address']).'</p>';
-				elseif(isset($item['login_address']) && $item['login_address'])
-					$box.= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Network address'), $item['login_address']).'</p>';
 			}
 
 			// display workstation time offset

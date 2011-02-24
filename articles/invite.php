@@ -60,7 +60,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // link to contribute
 if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
@@ -406,11 +406,11 @@ if(Surfer::is_crawler()) {
 	// message author
 	$author = Surfer::get_name();
 	if($author_id = Surfer::get_id())
-		$author .= "\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($author_id, 'view', Surfer::get_name());
+		$author = '<a href="'.$context['url_to_home'].$context['url_to_root'].Users::get_url($author_id, 'view', Surfer::get_name()).'">'.$author.'</a>';
 
 	// the message
 	$label = i18n::s('Message content');
-	$content = i18n::s('Please let me thank you for your involvement.')."\n\n".$author;
+	$content = '<p>'.i18n::s('Please let me thank you for your involvement.').'</p><p>'.$author.'</p>';
 	$input = str_replace("\n", BR, $message_prefix)
 		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');

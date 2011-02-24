@@ -1,8 +1,9 @@
 <?php
 /**
- * to test the option 'edit_as_simple'
+ * a streamlined form to change an article
  *
  * This script allows only to change the description field, and overlay data.
+ * Add the option 'edit_as_simple' to activate this script in some article.
  *
  * @author Bernard Paques
  * @reference
@@ -14,9 +15,6 @@ defined('YACS') or exit('Script must be included');
 
 // process uploaded data
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
-
-	// set in articles/edit.php, but we don't use it here
-	unset($_REQUEST['options']);
 
 	// update an existing page
 	if(isset($_REQUEST['id'])) {
@@ -56,8 +54,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
 				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'invite') => i18n::s('Invite participants')));
 				$follow_up .= Skin::build_list($menu, 'menu_bar');
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -79,10 +75,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 	// successful post
 	} else {
-
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
 
 		// post an overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
@@ -134,7 +126,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 		// the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
-			$context['text'] .= i18n::s('<p>The new page has been successfully published. Please review it now to ensure that it reflects your mind.</p>');
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully posted. Please review it now to ensure that it reflects your mind.').'</p>';
 
 		// remind that the page has to be published
 		elseif(Surfer::is_empowered())
@@ -158,15 +150,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
-		if(Surfer::may_upload()) {
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add an image')));
+		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
-		}
-		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		if((!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'publish') => i18n::s('Publish the page')));
-		if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'invite') => i18n::s('Invite participants')));
 		if(is_object($anchor) && Surfer::is_empowered())
 			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');

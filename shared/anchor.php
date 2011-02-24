@@ -395,9 +395,10 @@ class Anchor {
 	 * @return a string
 	 */
 	 function get_overlay($name='content_overlay') {
+	 	$overlay = NULL;
 		if($this->item && isset($this->item[$name]))
-			return $this->item[$name];
-		return NULL;
+			$overlay = Overlay::bind($this->item[$name]);
+		return $overlay;
 	 }
 
 	/**
@@ -930,25 +931,6 @@ class Anchor {
 	}
 
 	/**
-	 * is this an interactive thread?
-	 *
-	 * @return TRUE is this page supports interactions, FALSE otherwise
-	 */
-	function is_interactive() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// section asks for threads
-		if(Articles::has_option('view_as_chat', $this->anchor, $this->item))
-			return TRUE;
-
-		// not an interactive page
-		return FALSE;
-	}
-
-	/**
 	 * check that the surfer owns an anchor
 	 *
 	 * To be overloaded into derivated class if field has a different name
@@ -1120,7 +1102,7 @@ class Anchor {
 	 * change some attributes of an anchor
 	 *
 	 * @param array of (name, value)
-	 * @return TRUE on success, FALSE otherwise
+	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	function set_values($fields) {
 		return FALSE;

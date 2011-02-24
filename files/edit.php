@@ -344,7 +344,6 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		if(is_object($anchor))
 			$menu = array_merge($menu, array($anchor->get_url('files') => i18n::s('Back to main page')));
-		$menu = array_merge($menu, array(Files::get_url($_REQUEST['id'], 'view', $_REQUEST['file_name']) => i18n::s('Check the download page for this file')));
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(is_object($anchor) && Surfer::may_upload())

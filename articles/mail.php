@@ -39,7 +39,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // owners can proceed
 if(Articles::allow_message($item, $anchor))
@@ -155,7 +155,7 @@ if(Surfer::is_crawler()) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'</p>');
+	$input = Surfer::get_editor('message', '<p>&nbsp;</p><p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>');
 	$fields[] = array($label, $input);
 
 	// build the form

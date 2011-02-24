@@ -36,14 +36,21 @@ Class Layout_articles_as_iui extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
+
+			// page address
+			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+
+			// use the title to label the link
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
+			else
+				$title = Codes::beautify_title($item['title']);
 
 			// output one story
 			$text = "\n".' <li>'."\n";
 
-			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-
-			$text .= '		<a href="'.str_replace('&', '&amp;', $url).'">'.encode_field(strip_tags($item['title']));
+			$text .= '		<a href="'.str_replace('&', '&amp;', $url).'">'.encode_field(strip_tags($title));
 
 			// get the introduction
 			if(is_object($overlay))

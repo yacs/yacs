@@ -30,7 +30,7 @@ Class Article extends Anchor {
 		// cache the overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item);
+			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 
 		// delegate the validation to the overlay
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
