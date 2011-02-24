@@ -1268,7 +1268,7 @@ Class Skin_Skeleton {
 		// end of freedom
 		if($complement)
 			$text .= '</span>';
-			
+
 		//edit image direct access
       $edit = '';
       if((($variant=='center')||($variant=='right')||($variant=='left')||($variant=='thumbnail')||($complement=='large')) && $id) {
