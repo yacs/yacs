@@ -174,10 +174,8 @@ class Issue extends Overlay {
 		$fields = array();
 
 		// capture of initial data
-		if(!isset($host['self_reference'])) {
-
-			if(!isset($this->attributes['type']))
-				$this->attributes['type'] = 'incident';
+		if(!isset($this->attributes['type'])) {
+			$this->attributes['type'] = 'incident';
 
 			$label = i18n::s('Workflow');
 			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
@@ -193,18 +191,17 @@ class Issue extends Overlay {
 	/**
 	 * build the history for this issue
 	 *
-	 * @param string anchor for the issue
 	 * @return string an unnumbered list of dates
 	 */
-	function get_history($anchor) {
+	function get_history() {
 		global $context;
 
 		// sanity check
-		if(!$anchor)
+		if(!is_object($this->anchor))
 			return NULL;
 
 		$query = "SELECT * FROM ".SQL::table_name('issues')." AS issues "
-			." WHERE (issues.anchor LIKE '".SQL::escape($anchor)."')";
+			." WHERE (issues.anchor LIKE '".SQL::escape($this->anchor->get_reference())."')";
 
 		// fetch the first row
 		if(!$row =& SQL::query_first($query))
@@ -803,7 +800,7 @@ class Issue extends Overlay {
 		$tracking = '';
 
 		// only associates and page owners can change the status
-		if(($variant == 'edit') && isset($host['self_reference']) && ($anchor = Anchors::get($host['self_reference'])) && $anchor->is_owned()) {
+		if(($variant == 'edit') && isset($this->anchor) && $this->anchor->is_owned()) {
 
 			// type
 			if(!isset($this->attributes['type']))
@@ -1029,9 +1026,7 @@ class Issue extends Overlay {
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
 
 		// the status and history
-		$history = '';
-		if(isset($host['self_reference']))
-			$history = self::get_history($host['self_reference']);
+		$history = self::get_history();
 		$rows[] = array(i18n::s('Status'), self::get_status_label($this->attributes['status']).$history);
 
 		// build a link to the owner page, if any
@@ -1138,7 +1133,7 @@ class Issue extends Overlay {
 		switch($action) {
 
 		case 'delete':
-			$query = "DELETE FROM ".SQL::table_name('issues')." WHERE anchor LIKE '".$host['self_reference']."'";
+			$query = "DELETE FROM ".SQL::table_name('issues')." WHERE anchor LIKE '".$this->attributes['anchor_reference']."'";
 			break;
 
 		case 'insert':
@@ -1287,7 +1282,7 @@ class Issue extends Overlay {
 		if($comments) {
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
-			$fields['anchor'] = $host['self_reference'];
+			$fields['anchor'] = $this->attributes['anchor_reference'];
 			$fields['description'] = join(BR, $comments);
 			$fields['type'] = 'notification';
 			Comments::post($fields);
