@@ -937,7 +937,7 @@ Class SQL {
 					$query .= ", ";
 				$query .= $index.' '.$definition;
 			}
-			$query .= " ) TYPE=MyISAM";
+			$query .= " ) ENGINE=MyISAM";
 
 		// else if the table exists
 		} else {
