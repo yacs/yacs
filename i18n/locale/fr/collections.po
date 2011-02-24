@@ -2,73 +2,55 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"POT-Creation-Date: 2011-02-24 14:48+0100\n"
 "PO-Revision-Date: 2010-09-29 15:40+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: collections/browse.php:84
-#: collections/configure.php:55
-#: collections/configure.php:226
-#: collections/configure.php:302
-#: collections/fetch.php:55
-#: collections/play_audio.php:71
-#: collections/play_slideshow.php:53
-#: collections/stream.php:85
+#: collections/browse.php:84 collections/configure.php:55
+#: collections/configure.php:226 collections/configure.php:302
+#: collections/fetch.php:55 collections/play_audio.php:71
+#: collections/play_slideshow.php:53 collections/stream.php:85
 #: collections/upload.php:53
 msgid "File collections"
 msgstr "Collections de fichiers"
 
-#: collections/browse.php:89
-#: collections/fetch.php:60
-#: collections/play_audio.php:76
-#: collections/play_slideshow.php:58
-#: collections/stream.php:90
-#: collections/upload.php:67
+#: collections/browse.php:89 collections/fetch.php:60
+#: collections/play_audio.php:76 collections/play_slideshow.php:58
+#: collections/stream.php:90 collections/upload.php:67
 msgid "Unknown collection"
 msgstr "Collection inconnue"
 
-#: collections/browse.php:90
-#: collections/fetch.php:61
-#: collections/play_audio.php:77
-#: collections/play_slideshow.php:59
-#: collections/stream.php:91
-#: collections/upload.php:68
+#: collections/browse.php:90 collections/fetch.php:61
+#: collections/play_audio.php:77 collections/play_slideshow.php:59
+#: collections/stream.php:91 collections/upload.php:68
 msgid "The collection asked for is unknown."
 msgstr "La collection demandée n'existe pas."
 
-#: collections/browse.php:104
-#: collections/fetch.php:75
-#: collections/play_audio.php:91
-#: collections/play_slideshow.php:73
+#: collections/browse.php:104 collections/fetch.php:75
+#: collections/play_audio.php:91 collections/play_slideshow.php:73
 #: collections/stream.php:105
 msgid "Restricted access"
 msgstr "Accès restreint"
 
-#: collections/browse.php:105
-#: collections/configure.php:64
-#: collections/fetch.php:76
-#: collections/play_audio.php:92
-#: collections/play_slideshow.php:74
-#: collections/stream.php:106
+#: collections/browse.php:105 collections/configure.php:64
+#: collections/fetch.php:76 collections/play_audio.php:92
+#: collections/play_slideshow.php:74 collections/stream.php:106
 #: collections/upload.php:62
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: collections/browse.php:124
-#: collections/fetch.php:95
-#: collections/play_audio.php:111
-#: collections/play_slideshow.php:88
-#: collections/stream.php:125
-#: collections/upload.php:87
+#: collections/browse.php:124 collections/fetch.php:95
+#: collections/play_audio.php:111 collections/play_slideshow.php:88
+#: collections/stream.php:125 collections/upload.php:87
 msgid "Untitled collection"
 msgstr "Collection sans titre"
 
@@ -77,12 +59,9 @@ msgstr "Collection sans titre"
 msgid "The directory %s does not exist. Please check %s"
 msgstr "Le répertoire %s n'existe pas. Vérifiez %s"
 
-#: collections/browse.php:143
-#: collections/fetch.php:107
-#: collections/play_audio.php:123
-#: collections/play_slideshow.php:92
-#: collections/play_slideshow.php:119
-#: collections/stream.php:137
+#: collections/browse.php:143 collections/fetch.php:107
+#: collections/play_audio.php:123 collections/play_slideshow.php:92
+#: collections/play_slideshow.php:119 collections/stream.php:137
 msgid "the index page"
 msgstr "la page d'index"
 
@@ -107,14 +86,12 @@ msgstr "Taille"
 msgid "Modified"
 msgstr "Modifié"
 
-#: collections/browse.php:202
-#: collections/browse.php:203
+#: collections/browse.php:202 collections/browse.php:203
 #: collections/upload.php:171
 msgid "Browse this directory"
 msgstr "Naviguer sur ce répertoire"
 
-#: collections/browse.php:223
-#: collections/browse.php:323
+#: collections/browse.php:223 collections/browse.php:323
 msgid "Start a play-on-demand session"
 msgstr "Ecouter la musique"
 
@@ -130,8 +107,7 @@ msgstr "Un moyen agréable de visionner photos et images d'art"
 msgid "Start a slideshow with all images of this folder"
 msgstr "Afficher un diaporama avec les images de ce répertoire"
 
-#: collections/browse.php:313
-#: collections/browse.php:362
+#: collections/browse.php:313 collections/browse.php:362
 #, php-format
 msgid "Duration: %s"
 msgstr "Durée : %s"
@@ -141,8 +117,7 @@ msgstr "Durée : %s"
 msgid "Codec: %s"
 msgstr "Codec : %s"
 
-#: collections/browse.php:336
-#: collections/browse.php:389
+#: collections/browse.php:336 collections/browse.php:389
 msgid "Download this file"
 msgstr "Télécharger ce fichier"
 
@@ -159,13 +134,21 @@ msgid "Upload a file"
 msgstr "Ajouter un fichier"
 
 #: collections/browse.php:447
-msgid "Click on file names to transfer them to your workstation, or to start a Play-on-demand session."
-msgstr "Cliquez sur un nom de fichier pour le transférer vers votre machine, ou pour déclencher une session à la demande."
+msgid ""
+"Click on file names to transfer them to your workstation, or to start a Play-"
+"on-demand session."
+msgstr ""
+"Cliquez sur un nom de fichier pour le transférer vers votre machine, ou pour "
+"déclencher une session à la demande."
 
 #: collections/browse.php:448
 #, php-format
-msgid "If you are looking for a good piece of software to manage streaming music and video, download %s or %s."
-msgstr "Si vous recherchez un excellent logiciel pour gérer les flots de musique et de vidéos (en streaming), téléchargez le %s ou %s."
+msgid ""
+"If you are looking for a good piece of software to manage streaming music "
+"and video, download %s or %s."
+msgstr ""
+"Si vous recherchez un excellent logiciel pour gérer les flots de musique et "
+"de vidéos (en streaming), téléchargez le %s ou %s."
 
 #: collections/browse.php:448
 msgid "http://www.videolan.org/vlc/"
@@ -183,13 +166,11 @@ msgstr "http://www.winamp.com/"
 msgid "Winamp player"
 msgstr "Winamp player"
 
-#: collections/browse.php:449
-#: collections/configure.php:236
+#: collections/browse.php:449 collections/configure.php:236
 msgid "Help"
 msgstr "Aide"
 
-#: collections/configure.php:52
-#: collections/configure.php:222
+#: collections/configure.php:52 collections/configure.php:222
 #: collections/configure.php:303
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
@@ -199,13 +180,11 @@ msgstr "Panneau de contrôle"
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: collections/configure.php:55
-#: collections/index.php:92
+#: collections/configure.php:55 collections/index.php:92
 msgid "Configure"
 msgstr "Configurer"
 
-#: collections/configure.php:86
-#: collections/configure.php:152
+#: collections/configure.php:86 collections/configure.php:152
 msgid "Collection nick name"
 msgstr "Identifiant de collection"
 
@@ -213,94 +192,76 @@ msgstr "Identifiant de collection"
 msgid "Delete to suppress"
 msgstr "Effacez pour supprimer"
 
-#: collections/configure.php:91
-#: collections/configure.php:157
+#: collections/configure.php:91 collections/configure.php:157
 msgid "Access"
 msgstr "Accès"
 
-#: collections/configure.php:95
-#: collections/configure.php:159
+#: collections/configure.php:95 collections/configure.php:159
 msgid "Public - Everybody, including anonymous surfers"
 msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
-#: collections/configure.php:99
-#: collections/configure.php:161
+#: collections/configure.php:99 collections/configure.php:161
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
-#: collections/configure.php:103
-#: collections/configure.php:163
+#: collections/configure.php:103 collections/configure.php:163
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
-#: collections/configure.php:106
-#: collections/configure.php:166
+#: collections/configure.php:106 collections/configure.php:166
 msgid "Label"
 msgstr "Titre"
 
-#: collections/configure.php:108
-#: collections/configure.php:168
+#: collections/configure.php:108 collections/configure.php:168
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
-#: collections/configure.php:111
-#: collections/configure.php:171
+#: collections/configure.php:111 collections/configure.php:171
 msgid "Path prefix"
 msgstr "Chemin d'accès local"
 
-#: collections/configure.php:113
-#: collections/configure.php:173
+#: collections/configure.php:113 collections/configure.php:173
 #, php-format
 msgid "Local access to files; YACS installation directory is at \"%s\""
 msgstr "Accès local aux fichiers. YACS est installé à l'adresse \"%s\""
 
-#: collections/configure.php:116
-#: collections/configure.php:176
+#: collections/configure.php:116 collections/configure.php:176
 msgid "URL prefix"
 msgstr "Préfixe d'accès réseau"
 
-#: collections/configure.php:118
-#: collections/configure.php:178
+#: collections/configure.php:118 collections/configure.php:178
 msgid "The ftp:// or http:// address used to access the collection"
 msgstr "L'adresse ftp:// ou http:// utilisée pour accéder à la collection"
 
-#: collections/configure.php:121
-#: collections/configure.php:181
+#: collections/configure.php:121 collections/configure.php:181
 msgid "Introduction"
 msgstr "Introduction"
 
-#: collections/configure.php:123
-#: collections/configure.php:183
+#: collections/configure.php:123 collections/configure.php:183
 msgid "To be used at the front page and on the collections index page"
 msgstr "Pour la page d'accueil et pour l'index de toutes les collections"
 
-#: collections/configure.php:126
-#: collections/configure.php:186
+#: collections/configure.php:126 collections/configure.php:186
 msgid "Description"
 msgstr "Description"
 
-#: collections/configure.php:128
-#: collections/configure.php:188
+#: collections/configure.php:128 collections/configure.php:188
 msgid "To be inserted on the index page of this collection"
 msgstr "Inséré dans la page d'index de cette collection"
 
-#: collections/configure.php:131
-#: collections/configure.php:191
+#: collections/configure.php:131 collections/configure.php:191
 msgid "Prefix"
 msgstr "Préfixe"
 
-#: collections/configure.php:133
-#: collections/configure.php:193
+#: collections/configure.php:133 collections/configure.php:193
 msgid "Inserted on top of pages for this collection"
 msgstr "Inséré en haut des pages générées pour cette collection"
 
-#: collections/configure.php:136
-#: collections/configure.php:196
+#: collections/configure.php:136 collections/configure.php:196
 msgid "Suffix"
 msgstr "Suffixe"
 
-#: collections/configure.php:138
-#: collections/configure.php:198
+#: collections/configure.php:138 collections/configure.php:198
 msgid "Inserted at bottom of pages for this collection"
 msgstr "Inséré en bas des pages générées pour cette collection"
 
@@ -312,13 +273,11 @@ msgstr "Utilisez un nom court"
 msgid "Add a collection"
 msgstr "Ajouter une collection"
 
-#: collections/configure.php:218
-#: collections/upload.php:198
+#: collections/configure.php:218 collections/upload.php:198
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: collections/configure.php:218
-#: collections/upload.php:198
+#: collections/configure.php:218 collections/upload.php:198
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -328,17 +287,26 @@ msgstr "Utilisez ce formulaire pour donner l'accès à certains dossiers."
 
 #: collections/configure.php:241
 msgid "You are not allowed to perform this operation in demonstration mode."
-msgstr "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
+msgstr ""
+"Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
 #: collections/configure.php:277
 #, php-format
-msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
-msgstr "ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas été sauvegardée."
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas "
+"été sauvegardée."
 
 #: collections/configure.php:280
 #, php-format
-msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
-msgstr "Pour changer la configuration merci de copier et de coller les lignes suivantes dans le fichier %s :"
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"Pour changer la configuration merci de copier et de coller les lignes "
+"suivantes dans le fichier %s :"
 
 #: collections/configure.php:285
 #, php-format
@@ -362,8 +330,7 @@ msgstr "Où voulez-vous aller à présent ?"
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
-#: collections/fetch.php:107
-#: collections/stream.php:137
+#: collections/fetch.php:107 collections/stream.php:137
 #, php-format
 msgid "The file %s does not exist. Please check %s."
 msgstr "Le fichier %s n'existe pas. Vérifiez %s."
@@ -373,8 +340,12 @@ msgid "You are requesting the following file:"
 msgstr "Vous avez demandé le fichier suivant :"
 
 #: collections/fetch.php:191
-msgid "The download should start automatically within seconds. Else hit the provided link to trigger it manually."
-msgstr "Le téléchargement devrait commencer automatiquement. Sinon, utilisez le lien fourni pour le déclencher manuellement."
+msgid ""
+"The download should start automatically within seconds. Else hit the "
+"provided link to trigger it manually."
+msgstr ""
+"Le téléchargement devrait commencer automatiquement. Sinon, utilisez le lien "
+"fourni pour le déclencher manuellement."
 
 #: collections/index.php:45
 msgid "Collections"
@@ -382,10 +353,10 @@ msgstr "Collections"
 
 #: collections/index.php:88
 msgid "No collection has been defined. Please configure."
-msgstr "Aucune collection n'a été définie Allez sur le panneau de configuration."
+msgstr ""
+"Aucune collection n'a été définie Allez sur le panneau de configuration."
 
-#: collections/play_audio.php:123
-#: collections/play_slideshow.php:92
+#: collections/play_audio.php:123 collections/play_slideshow.php:92
 #, php-format
 msgid "The directory %s does not exist. Please check %s."
 msgstr "Le répertoire %s n'existe pas. Vérifiez %s."
@@ -407,8 +378,7 @@ msgstr "Début"
 msgid "Previous"
 msgstr "Précédent"
 
-#: collections/play_slideshow.php:146
-#: collections/play_slideshow.php:346
+#: collections/play_slideshow.php:146 collections/play_slideshow.php:346
 msgid "Start"
 msgstr "Démarrer"
 
@@ -441,8 +411,7 @@ msgstr "Arrêter"
 msgid "Do not know how to stream this file type."
 msgstr "Impossible de streamer ce type de fichier."
 
-#: collections/upload.php:105
-#: collections/upload.php:117
+#: collections/upload.php:105 collections/upload.php:117
 msgid "Nothing has been received."
 msgstr "Rien n'a été reçu."
 
@@ -479,8 +448,12 @@ msgid "Congratulations, you have shared new content."
 msgstr "Félicitations, votre contribution a bien été enregistrée."
 
 #: collections/upload.php:185
-msgid "This script allows you to upload a file, or an archive file to this directory."
-msgstr "Ce script vous permet d'envoyer un fichier, ou une archive complète, dans le répertoire."
+msgid ""
+"This script allows you to upload a file, or an archive file to this "
+"directory."
+msgstr ""
+"Ce script vous permet d'envoyer un fichier, ou une archive complète, dans le "
+"répertoire."
 
 #: collections/upload.php:191
 msgid "Please note that archives will be exploded to expose their content."

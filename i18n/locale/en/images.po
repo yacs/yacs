@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-19 22:05+0200\n"
+"POT-Creation-Date: 2011-02-24 14:48+0100\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
@@ -104,11 +104,11 @@ msgstr "The action has not been confirmed."
 msgid "Yes, I want to delete this image"
 msgstr "Yes, I want to delete this image"
 
-#: images/delete.php:121 images/edit.php:498 images/upload.php:295
+#: images/delete.php:121 images/edit.php:503 images/upload.php:295
 msgid "Cancel"
 msgstr "Cancel"
 
-#: images/delete.php:159 images/edit.php:380 images/edit.php:392
+#: images/delete.php:159 images/edit.php:385 images/edit.php:397
 #: images/layout_images.php:99 images/upload.php:288
 msgid "bytes"
 msgstr "bytes"
@@ -188,20 +188,20 @@ msgstr "Submit another image"
 msgid "New image in %s"
 msgstr "New image in %s"
 
-#: images/edit.php:300
+#: images/edit.php:301
 #, php-format
 msgid "%s at %s"
 msgstr "%s at %s"
 
-#: images/edit.php:343 images/edit.php:347
+#: images/edit.php:344 images/edit.php:348
 msgid "Please upload an image to illustrate this user profile."
 msgstr "Please upload an image to illustrate this user profile."
 
-#: images/edit.php:351
+#: images/edit.php:352
 msgid "Please upload a thumbnail image for this page."
 msgstr "Please upload a thumbnail image for this page."
 
-#: images/edit.php:355
+#: images/edit.php:356
 #, php-format
 msgid ""
 "Please upload an image to illustrate this page. To transmit several images "
@@ -210,44 +210,44 @@ msgstr ""
 "Please upload an image to illustrate this page. To transmit several images "
 "in one single operation, go to %s instead."
 
-#: images/edit.php:355 images/upload.php:77
+#: images/edit.php:356 images/upload.php:77
 msgid "Bulk upload"
 msgstr "Bulk upload"
 
-#: images/edit.php:362
+#: images/edit.php:363
 msgid "Image"
 msgstr "Image"
 
-#: images/edit.php:376
+#: images/edit.php:381
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: images/edit.php:390
+#: images/edit.php:395
 msgid "Select another image to replace the current one"
 msgstr "Select another image to replace the current one"
 
-#: images/edit.php:391 images/upload.php:287
+#: images/edit.php:396 images/upload.php:287
 msgid "Press to select a local file"
 msgstr "Press to select a local file"
 
-#: images/edit.php:393
+#: images/edit.php:398
 msgid "Select a .png, .gif or .jpeg image."
 msgstr "Select a .png, .gif or .jpeg image."
 
-#: images/edit.php:403
+#: images/edit.php:408
 msgid "Title"
 msgstr "Title"
 
-#: images/edit.php:408
+#: images/edit.php:413
 msgid "Description"
 msgstr "Description"
 
-#: images/edit.php:413
+#: images/edit.php:418
 msgid "Source"
 msgstr "Source"
 
-#: images/edit.php:415
+#: images/edit.php:420
 msgid ""
 "If you have got this file from outside sources, please reference these "
 "sources here"
@@ -255,38 +255,38 @@ msgstr ""
 "If you have got this file from outside sources, please reference these "
 "sources here"
 
-#: images/edit.php:452
+#: images/edit.php:457
 msgid "Link"
 msgstr "Link"
 
-#: images/edit.php:454
+#: images/edit.php:459
 msgid "You can make this image point to any web page if you wish"
 msgstr "You can make this image point to any web page if you wish"
 
-#: images/edit.php:460
+#: images/edit.php:465
 msgid "Image processing"
 msgstr "Image processing"
 
-#: images/edit.php:461
+#: images/edit.php:466
 msgid "Automatically resize the image if necessary"
 msgstr "Automatically resize the image if necessary"
 
-#: images/edit.php:468
+#: images/edit.php:473
 msgid "Insert a thumbnail"
 msgstr "Insert a thumbnail"
 
-#: images/edit.php:472
+#: images/edit.php:477
 msgid ""
 "Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
 msgstr ""
 "Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
 
-#: images/edit.php:476
+#: images/edit.php:481
 msgid "Always use the thumbnail. Users will click on it to see the full image."
 msgstr ""
 "Always use the thumbnail. Users will click on it to see the full image."
 
-#: images/edit.php:480
+#: images/edit.php:485
 msgid ""
 "Never. Response times for surfers using modem links may be degraded on big "
 "images."
@@ -294,27 +294,27 @@ msgstr ""
 "Never. Response times for surfers using modem links may be degraded on big "
 "images."
 
-#: images/edit.php:487
+#: images/edit.php:492
 msgid "Options"
 msgstr "Options"
 
-#: images/edit.php:496 images/upload.php:293
+#: images/edit.php:501 images/upload.php:293
 msgid "Submit"
 msgstr "Submit"
 
-#: images/edit.php:496 images/upload.php:293
+#: images/edit.php:501 images/upload.php:293
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: images/edit.php:503
+#: images/edit.php:508
 msgid "Do not change modification date of the main page."
 msgstr "Do not change modification date of the main page."
 
-#: images/edit.php:506
+#: images/edit.php:511
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: images/edit.php:525
+#: images/edit.php:530
 msgid ""
 "Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
 "clicking on thumbnails people can access full-sized pictures. The title is "
@@ -326,20 +326,20 @@ msgstr ""
 "visible while the mouse is over the thumbnail. The description and the "
 "source information are displayed along the full-sized picture."
 
-#: images/edit.php:526
+#: images/edit.php:531
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: images/edit.php:526
+#: images/edit.php:531
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: images/edit.php:526
+#: images/edit.php:531
 msgid "smileys"
 msgstr "smileys"
 
-#: images/edit.php:527
+#: images/edit.php:532
 msgid ""
 "Smaller files are embedded as-is. The description and the source fields are "
 "more or less useless in this case."
@@ -347,7 +347,7 @@ msgstr ""
 "Smaller files are embedded as-is. The description and the source fields are "
 "more or less useless in this case."
 
-#: images/edit.php:528 images/view.php:250
+#: images/edit.php:533 images/view.php:250
 msgid "Help"
 msgstr "Help"
 
@@ -435,6 +435,10 @@ msgstr[1] "%d images"
 msgid "Recent pages"
 msgstr "Recent pages"
 
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr "hits"
+
 #: images/layout_images.php:86
 #, php-format
 msgid "In %s"
@@ -459,10 +463,6 @@ msgstr "Set as page thumbnail"
 #: images/layout_images.php:128 images/view.php:244
 msgid "Delete this image"
 msgstr "Delete this image"
-
-#: images/layout_images_as_hits.php:57
-msgid "hits"
-msgstr "hits"
 
 #: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
 msgid "Use an image"

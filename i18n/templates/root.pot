@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-23 21:14+0100\n"
+"POT-Creation-Date: 2011-02-24 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -234,8 +233,8 @@ msgstr ""
 #: configure.php:361
 #, php-format
 msgid ""
-"Do not list recent pages. The layout of the front page is solely based on a "
-"%s, on %s, plus %s."
+"Do not list recent pages. The layout of the front page is solely based on a %"
+"s, on %s, plus %s."
 msgstr ""
 
 #: configure.php:362
@@ -356,11 +355,11 @@ msgstr ""
 msgid "Side panel"
 msgstr ""
 
-#: configure.php:514 panel.php:80 query.php:260 search.php:135
+#: configure.php:514 panel.php:80 query.php:261 search.php:135
 msgid "Submit"
 msgstr ""
 
-#: configure.php:514 panel.php:80 query.php:260 search.php:135
+#: configure.php:514 panel.php:80 query.php:261 search.php:135
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -674,7 +673,7 @@ msgstr ""
 msgid "Page content"
 msgstr ""
 
-#: query.php:44 query.php:323 search.php:352
+#: query.php:44 query.php:324 search.php:352
 msgid "Help"
 msgstr ""
 
@@ -762,67 +761,67 @@ msgstr ""
 msgid "New query: %s"
 msgstr ""
 
-#: query.php:212
+#: query.php:213
 msgid ""
 "Please fill out the form and it will be sent automatically to the site "
 "managers. Be as precise as possible, and mention your e-mail address to let "
 "us a chance to contact you back."
 msgstr ""
 
-#: query.php:220
+#: query.php:221
 msgid "Your name"
 msgstr ""
 
-#: query.php:222
+#: query.php:223
 msgid "Let us a chance to know who you are"
 msgstr ""
 
-#: query.php:228
+#: query.php:229
 msgid "Your e-mail address"
 msgstr ""
 
-#: query.php:230
+#: query.php:231
 msgid "To be alerted during the processing of your request"
 msgstr ""
 
-#: query.php:240
+#: query.php:241
 msgid "Query object"
 msgstr ""
 
-#: query.php:242
+#: query.php:243
 msgid "The main object of your query"
 msgstr ""
 
-#: query.php:248
+#: query.php:249
 msgid "Details of your request"
 msgstr ""
 
-#: query.php:250
+#: query.php:251
 msgid ""
 "Please mention any reference information required to process the request"
 msgstr ""
 
-#: query.php:264
+#: query.php:265
 msgid "Cancel"
 msgstr ""
 
-#: query.php:279
+#: query.php:280
 msgid "Please give your first and last names"
 msgstr ""
 
-#: query.php:286
+#: query.php:287
 msgid "Please give your e-mail address"
 msgstr ""
 
-#: query.php:293
+#: query.php:294
 msgid "Please provide a meaningful title."
 msgstr ""
 
-#: query.php:299
+#: query.php:300
 msgid "The description should not exceed 64000 characters."
 msgstr ""
 
-#: query.php:313
+#: query.php:314
 msgid ""
 "<p>Use this form to submit any kind of request you can have, from simple "
 "suggestions to complex questions.</p><p>Hearty discussion and unpopular "
@@ -831,27 +830,27 @@ msgid ""
 "the right to delete any post for any reason. Don't make us do it.</p>"
 msgstr ""
 
-#: query.php:315
+#: query.php:316
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
 "the description field."
 msgstr ""
 
-#: query.php:317
+#: query.php:318
 msgid "Most HTML tags are removed."
 msgstr ""
 
-#: query.php:318
+#: query.php:319
 #, php-format
 msgid "You can use %s to beautify your post"
 msgstr ""
 
-#: query.php:318
+#: query.php:319
 msgid "YACS codes"
 msgstr ""
 
-#: query.php:321
+#: query.php:322
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 

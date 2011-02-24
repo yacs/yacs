@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-01 23:04+0200\n"
+"POT-Creation-Date: 2011-02-24 14:48+0100\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -144,86 +144,86 @@ msgstr "Modifier la page"
 msgid "New location in %s"
 msgstr "Nouvel emplacement dans %s"
 
-#: locations/edit.php:181
+#: locations/edit.php:182
 #, php-format
 msgid "at %s"
 msgstr "à %s"
 
-#: locations/edit.php:211
+#: locations/edit.php:212
 #, php-format
 msgid "On page %s"
 msgstr "Sur la page %s"
 
-#: locations/edit.php:226
+#: locations/edit.php:227
 msgid "Posted by"
 msgstr "Envoyé par"
 
-#: locations/edit.php:232
+#: locations/edit.php:233
 msgid "Place name"
 msgstr "Lieu géographique"
 
-#: locations/edit.php:239
+#: locations/edit.php:240
 msgid "Encode this address"
 msgstr "Encoder cette adresse"
 
-#: locations/edit.php:252
+#: locations/edit.php:253
 msgid "This address has not been found"
 msgstr "Cette adresse n'a pu être localisée"
 
-#: locations/edit.php:255
+#: locations/edit.php:256
 msgid "This address has been encoded as"
 msgstr "L'adresse a été encodée comme suit"
 
-#: locations/edit.php:265
+#: locations/edit.php:266
 msgid "Street address, city, country"
 msgstr "Adresse, ville, pays"
 
-#: locations/edit.php:269
+#: locations/edit.php:270
 msgid "Coordinates"
 msgstr "Coordonnées géographiques"
 
-#: locations/edit.php:271
+#: locations/edit.php:272
 msgid "Latitude, Longitude -- west longitudes and south latitudes are negative"
 msgstr ""
 "Latitude, Longitude -- négatif à l'ouest de Greenwich et au sud de l'équateur"
 
-#: locations/edit.php:275
+#: locations/edit.php:276
 msgid "Country"
 msgstr "Pays"
 
-#: locations/edit.php:277
+#: locations/edit.php:278
 msgid "For regional positioning"
 msgstr "Pour localisation régionale"
 
-#: locations/edit.php:281
+#: locations/edit.php:282
 msgid "Description"
 msgstr "Description"
 
-#: locations/edit.php:293
+#: locations/edit.php:294
 msgid "Do not change modification date of the main page."
 msgstr "Ne pas changer la date de modification de la page principale."
 
-#: locations/edit.php:296
+#: locations/edit.php:297
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: locations/edit.php:296
+#: locations/edit.php:297
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: locations/edit.php:299
+#: locations/edit.php:300
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: locations/edit.php:318
+#: locations/edit.php:319
 msgid "You must give a name to this location."
 msgstr "Vous devez donner un nom à cet emplacement."
 
-#: locations/edit.php:325
+#: locations/edit.php:326
 msgid "Please type some geographical coordinates."
 msgstr "Merci d'indiquer des coordonnées géographiques."
 
-#: locations/edit.php:339
+#: locations/edit.php:340
 msgid ""
 "Latitude and longitude are numbers separated by a comma and spaces, for "
 "example: 47.98481,-71.42124."
@@ -231,42 +231,42 @@ msgstr ""
 "La latitude et la longitude sont des nombres séparés par une virgule, par "
 "exemple : 47.98481,-71.42124."
 
-#: locations/edit.php:340
+#: locations/edit.php:341
 msgid "To find coordinates of any emplacement you can visit following sites:"
 msgstr ""
 "Pour trouver les coordonnées d'un emplacement, visitez l'un des sites "
 "suivants :"
 
-#: locations/edit.php:341
+#: locations/edit.php:342
 msgid "http://www.batchgeocode.com/lookup/"
 msgstr "http://www.batchgeocode.com/lookup/"
 
-#: locations/edit.php:341
+#: locations/edit.php:342
 msgid "Address Map Coordinate (Lat/Long) Finder"
 msgstr "Recherche de coordonnées géographiques"
 
-#: locations/edit.php:342
+#: locations/edit.php:343
 msgid "http://www.travelgis.com/geocode/Default.aspx"
 msgstr "http://www.travelgis.com/geocode/Default.aspx"
 
-#: locations/edit.php:342
+#: locations/edit.php:343
 msgid "Free Geocoding Service for 22 Countries"
 msgstr "Free Geocoding Service for 22 Countries"
 
-#: locations/edit.php:344
+#: locations/edit.php:345
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: locations/edit.php:344
+#: locations/edit.php:345
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: locations/edit.php:344
+#: locations/edit.php:345
 msgid "smileys"
 msgstr "emoticons"
 
-#: locations/edit.php:345
+#: locations/edit.php:346
 msgid "Help"
 msgstr "Aide"
 

@@ -7,23 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-29 14:20+0200\n"
+"POT-Creation-Date: 2011-02-24 14:48+0100\n"
 "PO-Revision-Date: 2010-09-29 15:48+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: forms/delete.php:43
-#: forms/edit.php:56
-#: forms/index.php:35
-#: forms/view.php:70
+#: forms/delete.php:43 forms/edit.php:56 forms/index.php:35 forms/view.php:70
 msgid "Forms"
 msgstr "Formulaires"
 
@@ -32,17 +29,12 @@ msgstr "Formulaires"
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: forms/delete.php:47
-#: forms/view.php:582
+#: forms/delete.php:47 forms/view.php:583
 msgid "Delete"
 msgstr "Supprimer"
 
-#: forms/delete.php:56
-#: forms/edit.php:77
-#: forms/edit.php:94
-#: forms/index.php:45
-#: forms/view.php:82
-#: forms/view.php:102
+#: forms/delete.php:56 forms/edit.php:77 forms/edit.php:94 forms/index.php:45
+#: forms/view.php:82 forms/view.php:102
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -54,27 +46,20 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to suppress this form"
 msgstr "Oui, je veux supprimer ce formulaire"
 
-#: forms/delete.php:80
-#: forms/edit.php:389
-#: forms/view.php:554
+#: forms/delete.php:80 forms/edit.php:390 forms/view.php:555
 msgid "Cancel"
 msgstr "Annuler"
 
-#: forms/delete.php:101
-#: forms/view.php:399
+#: forms/delete.php:101 forms/view.php:400
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: forms/delete.php:105
-#: forms/edit.php:347
-#: forms/view.php:403
+#: forms/delete.php:105 forms/edit.php:348 forms/view.php:404
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
-#: forms/delete.php:109
-#: forms/edit.php:353
-#: forms/view.php:407
+#: forms/delete.php:109 forms/edit.php:354 forms/view.php:408
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
@@ -88,8 +73,7 @@ msgstr "Attaché à %s"
 msgid "Edit: %s"
 msgstr "Modifier : %s"
 
-#: forms/edit.php:64
-#: forms/index.php:82
+#: forms/edit.php:64 forms/index.php:82
 msgid "Add a form"
 msgstr "Ajouter un formulaire"
 
@@ -118,13 +102,11 @@ msgstr "Assistant de contenu"
 msgid "Other sections"
 msgstr "Autres sections"
 
-#: forms/edit.php:214
-#: forms/view.php:350
+#: forms/edit.php:214 forms/view.php:350
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
-#: forms/edit.php:217
-#: forms/view.php:356
+#: forms/edit.php:217 forms/view.php:356
 msgid "What do you want to do now?"
 msgstr "Que souhaitez-vous faire maintenant ?"
 
@@ -146,135 +128,135 @@ msgstr "Nouveau formulaire : %s"
 msgid "Sent by %s"
 msgstr "Envoyé par %s"
 
-#: forms/edit.php:261
-#: forms/view.php:478
+#: forms/edit.php:262 forms/view.php:479
 msgid "Title"
 msgstr "Titre"
 
-#: forms/edit.php:266
-#: forms/edit.php:411
-#: forms/view.php:480
+#: forms/edit.php:267 forms/edit.php:412 forms/view.php:481
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
-#: forms/edit.php:270
+#: forms/edit.php:271
 msgid "Introduction"
 msgstr "Introduction"
 
-#: forms/edit.php:275
+#: forms/edit.php:276
 msgid "Also complements the title in lists featuring this page"
 msgstr "Complète le titre dans les listes où la page apparait"
 
-#: forms/edit.php:279
+#: forms/edit.php:280
 msgid "Usage"
 msgstr "Utilisation"
 
-#: forms/edit.php:287
+#: forms/edit.php:288
 msgid "Post processing"
 msgstr "Traitement de cet envoi"
 
-#: forms/edit.php:288
-#: forms/edit.php:395
+#: forms/edit.php:289 forms/edit.php:396
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: forms/edit.php:308
+#: forms/edit.php:309
 msgid "Add some text"
 msgstr "Ajouter du texte"
 
-#: forms/edit.php:309
+#: forms/edit.php:310
 msgid "Add a string input field"
 msgstr "Ajouter un champ de saisie"
 
-#: forms/edit.php:310
+#: forms/edit.php:311
 msgid "Add a selection input field"
 msgstr "Ajouter un champ de sélection"
 
-#: forms/edit.php:311
+#: forms/edit.php:312
 msgid "Enable file upload"
 msgstr "Faciliter l'envoi de fichier"
 
-#: forms/edit.php:314
+#: forms/edit.php:315
 msgid "Use links below to append new fields."
 msgstr "Utilisez les liens ci-dessous pour ajouter de nouveaux champs."
 
-#: forms/edit.php:326
+#: forms/edit.php:327
 msgid "Nick name"
 msgstr "Surnom"
 
-#: forms/edit.php:331
+#: forms/edit.php:332
 #, php-format
 msgid "To designate a page by its name in the %s"
 msgstr "Pour désigner une page par son nom avec le %s"
 
-#: forms/edit.php:335
+#: forms/edit.php:336
 msgid "Access"
 msgstr "Accès"
 
-#: forms/edit.php:341
+#: forms/edit.php:342
 msgid "Public - Everybody, including anonymous surfers"
 msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
-#: forms/edit.php:360
+#: forms/edit.php:361
 msgid "Capture"
 msgstr "Enregistrement"
 
-#: forms/edit.php:361
+#: forms/edit.php:362
 msgid "Select below the section to capture this form"
 msgstr "Choisissez ci-dessous la section où placer les formulaires saisis"
 
-#: forms/edit.php:373
+#: forms/edit.php:374
 msgid "Information"
 msgstr "Informations"
 
-#: forms/edit.php:374
+#: forms/edit.php:375
 msgid "Content"
 msgstr "Contenu"
 
-#: forms/edit.php:375
+#: forms/edit.php:376
 msgid "Processing"
 msgstr "Traitement"
 
-#: forms/edit.php:385
-#: forms/view.php:553
+#: forms/edit.php:386 forms/view.php:554
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: forms/edit.php:385
-#: forms/view.php:553
+#: forms/edit.php:386 forms/view.php:554
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: forms/edit.php:452
-msgid "If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field."
-msgstr "Si vous collez du texte contenant des balises HTML et voulez éviter le formatage implicite insérez le code <code>[formatted]</code> au tout début du champ de description."
-
 #: forms/edit.php:453
+msgid ""
+"If you paste some existing HTML content and want to avoid the implicit "
+"formatting insert the code <code>[formatted]</code> at the very beginning of "
+"the description field."
+msgstr ""
+"Si vous collez du texte contenant des balises HTML et voulez éviter le "
+"formatage implicite insérez le code <code>[formatted]</code> au tout début "
+"du champ de description."
+
+#: forms/edit.php:454
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: forms/edit.php:453
+#: forms/edit.php:454
 msgid "YACS codes"
 msgstr "les codes YACS"
 
-#: forms/edit.php:453
+#: forms/edit.php:454
 msgid "smileys"
 msgstr "les emoticons"
 
-#: forms/edit.php:460
+#: forms/edit.php:461
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: forms/edit.php:464
+#: forms/edit.php:465
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: forms/edit.php:468
+#: forms/edit.php:469
 msgid "Textarea"
 msgstr "Textarea"
 
-#: forms/edit.php:472
+#: forms/edit.php:473
 msgid "Help"
 msgstr "Aide"
 
@@ -282,8 +264,7 @@ msgstr "Aide"
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 
-#: forms/forms.php:264
-#: forms/view.php:91
+#: forms/forms.php:264 forms/view.php:91
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -328,14 +309,11 @@ msgstr "Email"
 msgid "Please prove you are not a robot."
 msgstr "Merci de prouver que vous n'êtes pas un robot."
 
-#: forms/view.php:284
-#: forms/view.php:288
+#: forms/view.php:284 forms/view.php:288
 msgid "The size of this file is over limit."
 msgstr "La taille du fichier dépasse la limite autorisée."
 
-#: forms/view.php:292
-#: forms/view.php:296
-#: forms/view.php:300
+#: forms/view.php:292 forms/view.php:296 forms/view.php:300
 msgid "No file has been transmitted."
 msgstr "Aucun fichier n'a été transmis."
 
@@ -349,8 +327,12 @@ msgid "Impossible to move the upload file to %s."
 msgstr "Impossible de déplacer le fichier vers %s."
 
 #: forms/view.php:353
-msgid "A new page has been created with submitted data. This will be reviewed by people in charge."
-msgstr "Une nouvelle page a été créée avec les informations fournies. Elle va être traitée dans les plus brefs délais."
+msgid ""
+"A new page has been created with submitted data. This will be reviewed by "
+"people in charge."
+msgstr ""
+"Une nouvelle page a été créée avec les informations fournies. Elle va être "
+"traitée dans les plus brefs délais."
 
 #: forms/view.php:359
 msgid "Front page"
@@ -370,31 +352,33 @@ msgstr "nouvelle page : %s"
 msgid "Sent by %s in %s"
 msgstr "Envoyé par %s dans %s"
 
-#: forms/view.php:438
+#: forms/view.php:439
 #, php-format
-msgid "If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields."
-msgstr "Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous."
+msgid ""
+"If you have previously registered to this site, please %s. Then the server "
+"will automatically put your name and address in following fields."
+msgstr ""
+"Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur "
+"pourra alors positionner votre nom et votre adresse automatiquement dans les "
+"champs ci-dessous."
 
-#: forms/view.php:441
-#: forms/view.php:460
-#: forms/view.php:477
+#: forms/view.php:442 forms/view.php:461 forms/view.php:478
 msgid "Your name"
 msgstr "Votre nom"
 
-#: forms/view.php:443
+#: forms/view.php:444
 msgid "Let us a chance to know who you are"
 msgstr "Donnez-nous une chance de savoir qui vous êtes"
 
-#: forms/view.php:447
-#: forms/view.php:466
+#: forms/view.php:448 forms/view.php:467
 msgid "Your e-mail address"
 msgstr "Votre adresse E-mail"
 
-#: forms/view.php:449
+#: forms/view.php:450
 msgid "Put your e-mail address to receive feed-back"
 msgstr "Pour être notifié des réactions"
 
-#: forms/view.php:581
+#: forms/view.php:582
 msgid "Edit"
 msgstr "Modifier"
 
@@ -467,7 +451,6 @@ msgstr "Modifier"
 #~ msgstr "Inviter des personnes à contribuer"
 
 #~ msgid "1&nbsp;page"
-
 #~ msgid_plural "%d&nbsp;pages"
 #~ msgstr[0] "1&nbsp;page"
 #~ msgstr[1] "%d&nbsp;pages"
