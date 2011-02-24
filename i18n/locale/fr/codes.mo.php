@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
+POT-Creation-Date: 2011-02-24 16:06+0100
 PO-Revision-Date: 2011-01-06 18:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -169,6 +169,7 @@ $_SESSION['l10n']['fr']['Popular']='Populaire';
 $_SESSION['l10n']['fr']['Pre-formatted']='Pré-formatté';
 $_SESSION['l10n']['fr']['Present users']='Personnes présentes';
 $_SESSION['l10n']['fr']['Previous page']='Page précédente';
+$_SESSION['l10n']['fr']['Proxy']='Proxy';
 $_SESSION['l10n']['fr']['Question']='Question';
 $_SESSION['l10n']['fr']['Question-title']='Question-titre';
 $_SESSION['l10n']['fr']['Quote']='Citer';
