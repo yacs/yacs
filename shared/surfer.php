@@ -1401,12 +1401,6 @@ Class Surfer {
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$_SESSION['workstation_id'] = $_SERVER['REMOTE_ADDR'];
 
-		// screen sharing
-		$_SESSION['with_sharing'] = isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N';
-
-		// an external network address has been defined
-		$_SESSION['proxy_address'] = isset($fields['proxy_address']) ? $fields['proxy_address'] : '';
-
 		// remember the authenticating instance
 		if(isset($context['url_to_root']) && $context['url_to_root'])
 			$_SESSION['server_id'] = $context['url_to_root'];
