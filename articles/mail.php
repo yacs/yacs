@@ -155,7 +155,7 @@ if(Surfer::is_crawler()) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'</p>');
+	$input = Surfer::get_editor('message', '<p>&nbsp;</p><p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>');
 	$fields[] = array($label, $input);
 
 	// build the form
