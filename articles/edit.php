@@ -417,7 +417,7 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// branch to another script to save data
-	} elseif(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+	} elseif(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
 	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
