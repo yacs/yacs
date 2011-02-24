@@ -2217,8 +2217,20 @@ Class Articles {
 	 * @return string either 'article:&lt;id&gt;', or NULL
 	 */
 	function lookup($nick_name) {
+		global $context;
+
+		// the page already exists
 		if($item =& Articles::get($nick_name))
 			return 'article:'.$item['id'];
+
+		// attempt to create a default item
+		Articles::post_default($nick_name);
+
+		// do the check again
+		if($item =& Articles::get($nick_name))
+			return 'article:'.$item['id'];
+
+		// tough luck
 		return NULL;
 	}
 
@@ -2372,6 +2384,32 @@ Class Articles {
 
 		// return the id of the new item
 		return $fields['id'];
+	}
+
+	/**
+	 * create a default named page
+	 *
+	 * @param string the nick name of the item to create
+	 * @return string text to be displayed in the resulting page
+	 */
+	function post_default($nick_name) {
+		global $context;
+
+		// the page already exists
+		if($item =& Articles::get($nick_name))
+			return '';
+
+		// use the provided model for this item
+		if(is_readable($context['path_to_root'].'articles/defaults/'.$nick_name.'.php')) {
+			include_once $context['path_to_root'].'articles/defaults/'.$nick_name.'.php';
+
+			// do the job
+			if(is_callable(array($nick_name, 'initialize')))
+				return call_user_func(array($nick_name, 'initialize'));
+		}
+
+		// tough luck
+		return '';
 	}
 
 	/**
