@@ -709,30 +709,6 @@ if($with_form) {
 	$input .= '</select>';
 	$fields[] = array($label, $input);
 
-	// share screen
-	$label = i18n::s('Share screen');
-	$input = '<input type="radio" name="with_sharing" value="N"';
-	if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Screen is not shared with other people.')
-		.BR.'<input type="radio" name="with_sharing" value="V"';
-	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow remote access using VNC.')
-		.BR.'<input type="radio" name="with_sharing" value="M"';
-	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow remote access with NetMeeting.')."\n";
-	$fields[] = array($label, $input);
-
-	// proxy
-	if(isset($item['login_address'])) {
-		$label = i18n::s('Network address');
-		$input = '<input type="text" name="proxy_address" size="55" value="'.encode_field(isset($item['proxy_address']) ? $item['proxy_address'] : '').'" maxlength="255" />';
-		$hint = sprintf(i18n::s('The network address to be used to reach your workstation, if not %s'), $item['login_address']);
-		$fields[] = array($label, $input, $hint);
-	}
-
 	// form fields in this panel
 	$text .= Skin::build_box(i18n::s('Preferences'), Skin::build_form($fields), 'folded');
 	$fields = array();

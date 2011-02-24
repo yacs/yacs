@@ -757,24 +757,6 @@ if(!isset($item['id'])) {
 					$box .= '<p>'.i18n::s('Complex interface').'</p>';
 			}
 
-			// share screen
-			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
-				if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
-					$box .= '<p>'.i18n::s('Screen is not shared with other people.').'</p>';
-				if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
-					$box .= '<p>'.i18n::s('Allow remote access using VNC.').'</p>';
-				if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
-					$box .= '<p>'.i18n::s('Allow remote access with NetMeeting.').'</p>';
-			}
-
-			// proxy
-			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
-				if(isset($item['proxy_address']) && $item['proxy_address'])
-					$box .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Network address'), $item['proxy_address']).'</p>';
-				elseif(isset($item['login_address']) && $item['login_address'])
-					$box.= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Network address'), $item['login_address']).'</p>';
-			}
-
 			// display workstation time offset
 			if(Surfer::get_id() && (Surfer::get_id() == $item['id']) && isset($_COOKIE['TimeZone']))
 				$box .= '<p>'.i18n::s('Browser GMT offset:').' UTC '.(($_COOKIE['TimeZone'] > 0) ? '+' : '-').$_COOKIE['TimeZone'].' '.i18n::s('hour(s)')."</p>\n";

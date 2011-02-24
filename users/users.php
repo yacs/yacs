@@ -1368,7 +1368,6 @@ Class Users {
 		$query[] = "post_date='".SQL::escape($fields['post_date'])."'";
 
 		$query[] = "posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0');
-		$query[] = "proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."'";
 		$query[] = "signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."'";
 		$query[] = "skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."'";
 
@@ -1387,10 +1386,6 @@ Class Users {
 		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
 			$fields['with_newsletters'] = 'Y';
 		$query[] = "with_newsletters='".$fields['with_newsletters']."'";
-
-		if(!isset($fields['with_sharing']) || ($fields['with_sharing'] != 'Y'))
-			$fields['with_sharing'] = 'N';
-		$query[] = "with_sharing='".$fields['with_sharing']."'";
 
 		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'Y'))
 			$fields['without_alerts'] = 'N';
@@ -1509,7 +1504,7 @@ Class Users {
 		// if a password change
 		if(isset($fields['password'])) {
 
-			// hash password if coming from a human facing a form
+			// ensure that the password has been provided twice
 			if(!isset($fields['confirm']) || ($fields['confirm'] != $fields['password'])) {
 				Logger::error(i18n::s('New password has to be confirmed.'));
 				return FALSE;
@@ -1619,7 +1614,6 @@ Class Users {
 				."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
 				."pgp_key='".SQL::escape(isset($fields['pgp_key']) ? $fields['pgp_key'] : '')."', "
 				."phone_number='".SQL::escape(isset($fields['phone_number']) ? $fields['phone_number'] : '')."', "
-				."proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."', "
 				."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
 				."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
 				."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
@@ -1630,7 +1624,6 @@ Class Users {
 				."vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."', "
 				."web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."', "
 				."with_newsletters='".($fields['with_newsletters'])."', "
-				."with_sharing='".(isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N')."', "
 				."without_alerts='".($fields['without_alerts'])."', "
 				."without_confirmations='".($fields['without_confirmations'])."', "
 				."without_messages='".($fields['without_messages'])."', "
@@ -1802,7 +1795,6 @@ Class Users {
 		$fields['phone_number'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['post_date']	= "DATETIME";
 		$fields['posts']		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['proxy_address']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['signature']	= "TEXT NOT NULL";
 		$fields['skype_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -1813,7 +1805,6 @@ Class Users {
 		$fields['vcard_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['web_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['with_newsletters'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
-		$fields['with_sharing'] = "ENUM('N','V', 'M') DEFAULT 'N' NOT NULL";
 		$fields['without_alerts'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['without_confirmations'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['without_messages'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
