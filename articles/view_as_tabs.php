@@ -510,7 +510,11 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 
 	// watchers
 	if(count($rows) < USERS_LIST_SIZE) {
-		if($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], $offset, 2*USERS_LIST_SIZE, 'watch')) {
+		if(is_object($anchor))
+			$anchors = array('article:'.$item['id'], $anchor->get_reference());
+		else
+			$anchors = 'article:'.$item['id'];
+		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, $offset, 2*USERS_LIST_SIZE, 'watch')) {
 			foreach($items as $user_id => $user_label) {
 
 				// add the checkmark to existing row
