@@ -376,7 +376,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -448,8 +448,12 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list');
-	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
+	$input .= '/> '.i18n::s('compact - A compact list')
+		.BR.'<input type="radio" name="articles_layout" value="directory"';
+	if($item['articles_layout'] == 'directory')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('directory - Break long lists in 26 smallest parts')
+		.BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
 	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />');
@@ -538,7 +542,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -590,6 +594,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('compact - A compact list')
+		.BR.'<input type="radio" name="sections_layout" value="directory"';
+	if($item['sections_layout'] == 'directory')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('directory - Break long lists in 26 smallest parts')
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
