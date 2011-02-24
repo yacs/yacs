@@ -2353,7 +2353,8 @@ Class Articles {
 		}
 
 		// always create a random handle for this article
-		$fields['handle'] = md5(mt_rand());
+		if(!isset($fields['handle']) || (strlen($fields['handle']) < 32))
+			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
 		// allow anonymous surfer to access this page during his session
