@@ -4527,17 +4527,59 @@ Class Skin_Skeleton {
 	}
 
 	/**
-	 * load a skin, and initialize everything
+	 * to page within a page
 	 *
+	 * @see articles/view.php
+	 *
+	 * @param string URL to the first page
+	 * @param string prefix to paging URLs, without the end number
+	 * @param int current page, starting at 1
+	 * @param int total number of pages
+	 * @result array to be provided to Skin::neighbours()
 	 */
-	function load() {
+	function pager($home, $prefix, $page, $count) {
+		global $context;
 
-		// set constants
-		Skin::initialize();
+		// go back to previous page
+		$previous_url = '';
+		$previous_label = '';
+		if($page > 1) {
+			if($page == 2)
+				$previous_url = $home;
+			else
+				$previous_url = $prefix.($page - 1);
+			$previous_label = i18n::s('Previous page');
+		}
 
-		// set other constants, if any
-		Skin_skeleton::initialize();
+		// where we are
+		$option_label = array();
+		for($index = 1; $index <= $count; $index++) {
 
+			if($index == $page) {
+				$option_label[] = '<span class="pager-current">'.$index.'</span>';
+			} else {
+				if($index == 1)
+					$url = $home;
+				else
+					$url = $prefix.$index;
+				$option_label[] = Skin::build_link($url, $index, 'pager-item');
+			}
+
+		}
+		$option_label = join(' &nbsp; ', $option_label);
+
+		// go forward to next page
+		$next_url = '';
+		$next_label = '';
+		if($page < $count) {
+			$next_url = $prefix.($page + 1);
+			$next_label = i18n::s('Next page');
+		}
+
+		// the HTML code for this
+		$data = array($previous_url, $previous_label, $next_url, $next_label, NULL, $option_label);
+
+		return $data;
 	}
 
 	/**

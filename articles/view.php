@@ -731,6 +731,54 @@ if(!isset($item['id'])) {
 	$context['components']['referrals'] =& Skin::build_referrals(Articles::get_permalink($item));
 
 	//
+	// the main part of the page
+	//
+	$context['page_description'] = '';
+
+	// filter description, if necessary
+	if(is_object($overlay))
+		$description = $overlay->get_text('description', $item);
+	else
+		$description = $item['description'];
+
+	// the beautified description, which is the actual page body
+	if($description) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$context['page_description'] .= Skin::build_block($label, 'title');
+
+		// provide only the requested page
+		$pages = preg_split('/\s*\[page\]\s*/is', $description);
+		$page = max(min($page, count($pages)), 1);
+		$description = $pages[ $page-1 ];
+
+		// several pages to manage
+		if(count($pages) > 1) {
+
+			$data = Skin::pager(Articles::get_permalink($item), Articles::get_url($item['id'], 'navigate', 'page'), $page, count($pages));
+
+			$neighbours = Skin::neighbours($data, 'slideshow');
+
+			// displayed at the top if not on first page
+			if($page > 1)
+				$context['page_description'] .= $neighbours;
+
+			// remove toc and toq codes
+			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+		}
+
+		// beautify the target page
+		$context['page_description'] .= Skin::build_block($description, 'description', '', $item['options']);
+
+		// if there are several pages, add navigation commands to browse them
+		if(count($pages) > 1)
+			$context['page_description'] .= $neighbours;
+
+	}
+
+	//
 	// use a specific script to render the page in replacement of the standard one
 	//
 
@@ -808,55 +856,20 @@ if(!isset($item['id'])) {
 				// signal DIGG
 				define('DIGG', TRUE);
 			}
-
-			// the introduction text, if any
-			if(is_object($overlay))
-				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-			else
-				$text .= Skin::build_block($item['introduction'], 'introduction');
-
-			// get text related to the overlay, if any
-			if(is_object($overlay))
-				$text .= $overlay->get_text('view', $item);
-
 		}
 
-		// filter description, if necessary
+		// the introduction text, if any
 		if(is_object($overlay))
-			$description = $overlay->get_text('description', $item);
+			$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
 		else
-			$description = $item['description'];
+			$text .= Skin::build_block($item['introduction'], 'introduction');
 
-		// the beautified description, which is the actual page body
-		if($description) {
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('view', $item);
 
-			// use adequate label
-			if(is_object($overlay) && ($label = $overlay->get_label('description')))
-				$text .= Skin::build_block($label, 'title');
-
-			// provide only the requested page
-			$pages = preg_split('/\s*\[page\]\s*/is', $description);
-			$page = max(min($page, count($pages)), 1);
-			$description = $pages[ $page-1 ];
-
-			// if there are several pages, remove toc and toq codes
-			if(count($pages) > 1)
-				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-			// beautify the target page
-			$text .= Skin::build_block($description, 'description', '', $item['options']);
-
-			// if there are several pages, add navigation commands to browse them
-			if(count($pages) > 1) {
-				$page_menu = array( '_' => i18n::s('Pages') );
-				$home = Articles::get_permalink($item);
-				$prefix = Articles::get_url($item['id'], 'navigate', 'page');
-				$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-				$text .= Skin::build_list($page_menu, 'menu_bar');
-			}
-
-		}
+		// the main part of the page
+		$text .= $context['page_description'];
 
 		// the owner profile, if any, at the end of the page
 		if(isset($owner['id']) && is_object($anchor))
