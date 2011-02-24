@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
+POT-Creation-Date: 2011-02-24 16:06+0100
 PO-Revision-Date: 2010-11-12 18:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -109,7 +109,6 @@ $_SESSION['l10n']['en']['Keywords update']='Keywords update';
 $_SESSION['l10n']['en']['Layout']='Layout';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['932f09e2a8f6216bed67e5409a6369b0']='Links can be added to the index page';
-$_SESSION['l10n']['en']['ecc7ab4a52b62f6e4deb6339dc119ec5']='List up to %s sections with the following layout:';
 $_SESSION['l10n']['en']['b50b92192131c5e24b75ab0be52428e8']='List up to %s sub-categories with the following layout:';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';

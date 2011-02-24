@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-24 15:03+0100
+POT-Creation-Date: 2011-02-24 16:06+0100
+PO-Revision-Date: 2011-02-24 16:17+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -39,6 +39,7 @@ $_SESSION['l10n']['fr']['3-2-1']='3-2-1';
 $_SESSION['l10n']['fr']['640px']='640px';
 $_SESSION['l10n']['fr']['850px']='850px';
 $_SESSION['l10n']['fr']['960px']='960px';
+$_SESSION['l10n']['fr']['<a>tag 1</a> <a>tag 2</a>']='<a>étiquette 1</a> <a>étiquette 2</a>';
 $_SESSION['l10n']['fr']['<b>Note:</b> ']='<b>Note :</b> ';
 $_SESSION['l10n']['fr']['<b>Warning:</b> ']='<b>Attention :</b> ';
 $_SESSION['l10n']['fr']['A: ']='R:';
@@ -64,6 +65,7 @@ $_SESSION['l10n']['fr']['Borders']='Bordures';
 $_SESSION['l10n']['fr']['Box background']='Fond de boîte';
 $_SESSION['l10n']['fr']['Box content']='Contenu de boîte';
 $_SESSION['l10n']['fr']['Box title']='Titre de boîte';
+$_SESSION['l10n']['fr']['Breadcrumbs']='Liens de retour';
 $_SESSION['l10n']['fr']['Browse in a separate window']='Lire dans une autre fenêtre';
 $_SESSION['l10n']['fr']['CSS classes']='Classes CSS';
 $_SESSION['l10n']['fr']['Calendar of this month']='Calendrier de ce mois';
@@ -185,6 +187,8 @@ $_SESSION['l10n']['fr']['Keywords']='Mots-clés';
 $_SESSION['l10n']['fr']['8962bcb765ae897c885bcd0cd1506038']='Mots-clés séparés par des virgules, placés dans le champ "keyword" pour les moteurs de recherche';
 $_SESSION['l10n']['fr']['Large images']='Grandes images';
 $_SESSION['l10n']['fr']['8d4eacdb85ee087e973e5165a9f801b3']='Latitude et longitude separées par une virgule, comme par exemple : 47.98481,-71.42124. Information placée dans les méta-champs "geo.position" et "ICBM" sur la page d\'accueil. Voir %s ou %s';
+$_SESSION['l10n']['fr']['Level 1 title']='Titre de niveau 1';
+$_SESSION['l10n']['fr']['Level 2 title']='Titre de niveau 2';
 $_SESSION['l10n']['fr']['Level of details']='Niveau de détails';
 $_SESSION['l10n']['fr']['Link color']='Couleur de lien';
 $_SESSION['l10n']['fr']['Links']='Liens';
@@ -214,6 +218,7 @@ $_SESSION['l10n']['fr']['0ea64d397f291e9bd09373bd4936d928']='Les boîtes de navi
 $_SESSION['l10n']['fr']['Navigation panel']='Panneau de navigation';
 $_SESSION['l10n']['fr']['Next']='Suivant';
 $_SESSION['l10n']['fr']['Next and previous, if any']='Suivant et précédent, si présents';
+$_SESSION['l10n']['fr']['Next page']='Page suivante';
 $_SESSION['l10n']['fr']['8efade0a8f036f70a78a2d6d10bcc125']='Aucun block de blogging n\'a été trouvvé';
 $_SESSION['l10n']['fr']['No file has been transmitted.']='Aucun fichier n\'a été transmis.';
 $_SESSION['l10n']['fr']['No page to display.']='Aucune page à afficher.';
@@ -255,6 +260,7 @@ $_SESSION['l10n']['fr']['Powered by %s']='Encore un serveur %s';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
+$_SESSION['l10n']['fr']['Previous page']='Page précédente';
 $_SESSION['l10n']['fr']['Previous pages']='Pages précédentes';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['2911c36b2184f7af42772a0c11761838']='Utiliser la base de données interne pour traiter les demandes de recherche';
@@ -272,6 +278,7 @@ $_SESSION['l10n']['fr']['Return to front page']='Retour à la page d\'accueil';
 $_SESSION['l10n']['fr']['8e8eb648edb57efc53bb3a619f5bd494']='Contrôler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
 $_SESSION['l10n']['fr']['Sample box']='Boîte exemple';
 $_SESSION['l10n']['fr']['Sample text']='Exemple de texte';
+$_SESSION['l10n']['fr']['Sample title']='Exemple de titre';
 $_SESSION['l10n']['fr']['Scale of Google Maps.']='Echelle des Google Maps.';
 $_SESSION['l10n']['fr']['Scale: %s']='Echelle : %s';
 $_SESSION['l10n']['fr']['Search']='Chercher';
@@ -314,6 +321,7 @@ $_SESSION['l10n']['fr']['Switch the server on']='Mettre le serveur en route';
 $_SESSION['l10n']['fr']['Tabs']='Onglets';
 $_SESSION['l10n']['fr']['Tags: %s']='Etiquettes : %s';
 $_SESSION['l10n']['fr']['4e344a4334c81facb5832b1ebda218fd']='Le modèle a été importé. Vérifiez le style %s';
+$_SESSION['l10n']['fr']['Test']='Test';
 $_SESSION['l10n']['fr']['Test page']='Page de test';
 $_SESSION['l10n']['fr']['Test this theme']='Tester ce thème';
 $_SESSION['l10n']['fr']['Text']='Texte';
@@ -378,7 +386,6 @@ $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas a
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à effectuer cette opération.';
 $_SESSION['l10n']['fr']['169dbe1e15bea547371df14376d4fb80']='Vous pouvez à présent visiter l\'index des thèmes et choisir celui que vous préférez.';
 $_SESSION['l10n']['fr']['6aa04f19a0e5ba58a3f2ec185e2687ca']='Vous pouvez garder les valeurs par défaut. Ceci peut être modifié plus tard. Cliquez sur le bouton en bas de page pour passer à l\'étape suivante.';
-$_SESSION['l10n']['fr']['Your picture']='Votre image de profil';
 $_SESSION['l10n']['fr']['about']='à propos';
 $_SESSION['l10n']['fr']['about this site']='à propos de ce site';
 $_SESSION['l10n']['fr']['bbaa44ba62be4f1f0b4d1f8023961884']='aligner en bas, puis répéter horizontalement';
@@ -434,7 +441,6 @@ $_SESSION['l10n']['fr']['939cc31abe59ffad78e48862baef99c2']='répéter horizonta
 $_SESSION['l10n']['fr']['restricted']='Protégé';
 $_SESSION['l10n']['fr']['right']='droite';
 $_SESSION['l10n']['fr']['sidebar box']='pavé de détails';
-$_SESSION['l10n']['fr']['tag 1, tag 2']='étiquette 1, étiquette 2';
 $_SESSION['l10n']['fr']['to everybody']='à tout le monde';
 $_SESSION['l10n']['fr']['to publish']='à publier';
 $_SESSION['l10n']['fr']['top']='haut';

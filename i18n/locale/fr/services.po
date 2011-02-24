@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
+"POT-Creation-Date: 2011-02-24 16:06+0100\n"
 "PO-Revision-Date: 2010-04-08 22:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -40,7 +40,8 @@ msgstr "Identifiant postid %s inconnu à l'adresse %s"
 #: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
 #: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
 #: services/blog.php:1462 services/blog.php:1647 services/check.php:57
-#: services/check.php:62 services/configure.php:71
+#: services/check.php:62 services/configure.php:71 services/proxy.php:17
+#: services/proxy.php:22
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
