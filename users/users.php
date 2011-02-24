@@ -1766,6 +1766,11 @@ Class Users {
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not show suspended users, except to associates
+		if(!Surfer::is_associate())
+			$where .= " AND (users.capability != '?')";
 
 		// match
 		$match = '';
@@ -1781,7 +1786,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (".$where.") AND (".$match.")"
+			." WHERE ".$where." AND (".$match.")"
 			." ORDER BY users.login_date DESC"
 			." LIMIT ".$offset.','.$count;
 
