@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2011-02-24 16:14+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: English
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d comments']='%d comments';
 $_SESSION['l10n']['en']['%d editor'.chr(0).'%d editors']='%d editor'.chr(0).'%d editors';
@@ -277,7 +262,6 @@ $_SESSION['l10n']['en']['No title has been provided.']='No title has been provid
 $_SESSION['l10n']['en']['Note: %s']='Note: %s';
 $_SESSION['l10n']['en']['Notes']='Notes';
 $_SESSION['l10n']['en']['Notes: %s']='Notes: %s';
-$_SESSION['l10n']['en']['Notify my followers.']='Notify my followers.';
 $_SESSION['l10n']['en']['Notify participants']='Notify participants';
 $_SESSION['l10n']['en']['Notify watchers.']='Notify watchers.';
 $_SESSION['l10n']['en']['One %s per line']='One %s per line';

@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2011-02-24 16:20+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['fr']['%d approval'.chr(0).'%d approvals']='%d approbation'.chr(0).'%d approbations';
 $_SESSION['l10n']['fr']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
 $_SESSION['l10n']['fr']['98474a5bd04c0bd2280e59b1e05eb961']='%d page a été traitée.'.chr(0).'%d pages ont été traitées.';
@@ -248,6 +233,7 @@ $_SESSION['l10n']['fr']['fc46838a2f9cf263521f8abdc7748636']='L\'enregistrement e
 $_SESSION['l10n']['fr']['Rejected']='Rejeté';
 $_SESSION['l10n']['fr']['Released']='Livré';
 $_SESSION['l10n']['fr']['6760e488df9acff8649cd606d6687b5a']='La résolution a eu lieu le %s';
+$_SESSION['l10n']['fr']['Resulting text']='Texte final';
 $_SESSION['l10n']['fr']['Scope']='Etendue';
 $_SESSION['l10n']['fr']['Seats']='Places';
 $_SESSION['l10n']['fr']['See ballot papers']='Voir les décisions';

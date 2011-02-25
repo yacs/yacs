@@ -1188,7 +1188,7 @@ Class i18n {
 			// read original string
 			fseek($handle, $original_table[$index * 2 + 2]);
 			if(!$length = $original_table[$index * 2 + 1])
-				$original = '_headers';
+				continue;
 			else
 				$original = fread($handle, $length);
 

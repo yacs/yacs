@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2011-02-24 16:13+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-';
 $_SESSION['l10n']['fr']['"%s" is not a valid date']='"%s" n\'est pas une date valide';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d editor'.chr(0).'%d editors']='%d éditeur'.chr(0).'%d éditeurs';

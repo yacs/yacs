@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2011-01-25 00:24+0100
-Last-Translator: Bernard Paques
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: French
-';
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif maintenant'.chr(0).'%d actifs maintenant';
 $_SESSION['l10n']['fr']['5ee8eddc825b8b2e2b7c8667178e7594']='%d personne identifiée a suivi le lien : %s'.chr(0).'%d personnes identifiées ont suivi le lien : %s';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';

@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2011-02-24 16:15+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: French
-';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d comments']='%d commentaires';
 $_SESSION['l10n']['fr']['%d editor'.chr(0).'%d editors']='%d éditeur'.chr(0).'%d éditeurs';
@@ -277,7 +262,6 @@ $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été f
 $_SESSION['l10n']['fr']['Note: %s']='Annotation : %s';
 $_SESSION['l10n']['fr']['Notes']='Annotations';
 $_SESSION['l10n']['fr']['Notes: %s']='Annotations : %s';
-$_SESSION['l10n']['fr']['Notify my followers.']='Alerter mes abonnés.';
 $_SESSION['l10n']['fr']['Notify participants']='Notifier les participants';
 $_SESSION['l10n']['fr']['Notify watchers.']='Alerter les observateurs.';
 $_SESSION['l10n']['fr']['One %s per line']='Un %s par ligne';
