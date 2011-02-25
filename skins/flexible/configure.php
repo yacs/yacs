@@ -2063,7 +2063,7 @@ elseif(!Surfer::is_associate()) {
 		// h1
 		//
 		$needles[] = '!!h1!!';
-		$values[] = 'h1 {'."\n"
+		$values[] = 'h1, h1 span, h1 span a {'."\n"
 			.'	background: '.($context['flexible_main_h1_bg']?$context['flexible_main_h1_bg']:'transparent').';'."\n"
 			.'	border-bottom: '.$context['flexible_main_h1_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_main_h1_left'].';'."\n"
@@ -2080,7 +2080,7 @@ elseif(!Surfer::is_associate()) {
 		// h2
 		//
 		$needles[] = '!!h2!!';
-		$values[] = 'h2 {'."\n"
+		$values[] = 'h2, h2 span, h2 span a {'."\n"
 			.'	background: '.($context['flexible_main_h2_bg']?$context['flexible_main_h2_bg']:'transparent').';'."\n"
 			.'	border-bottom: '.$context['flexible_main_h2_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_main_h2_left'].';'."\n"
@@ -2097,7 +2097,7 @@ elseif(!Surfer::is_associate()) {
 		// h3
 		//
 		$needles[] = '!!h3!!';
-		$values[] = 'h3 {'."\n"
+		$values[] = 'h3, h3 span, h3 span a {'."\n"
 			.'	background: '.($context['flexible_main_h3_bg']?$context['flexible_main_h3_bg']:'transparent').';'."\n"
 			.'	border-bottom: '.$context['flexible_main_h3_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_main_h3_left'].';'."\n"
