@@ -150,6 +150,7 @@ include_once '../links/links.php';				// related pages
 include_once '../overlays/overlay.php';
 include_once '../servers/servers.php';
 include_once '../versions/versions.php';		// back in history
+include_once '../sections/section.php';
 
 // look for the id
 $id = NULL;
