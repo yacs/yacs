@@ -100,13 +100,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
-			// notify my followers, but not on private pages
-			$with_followers = (isset($_REQUEST['active']) && ($_REQUEST['active'] != 'N'));
-
-			// allow the anchor to prevent notifications to followers
-			if($with_followers && is_object($overlay) && is_callable(array($overlay, 'should_notify_followers')))
-				$with_followers = $overlay->should_notify_followers();
-
 			// update anchors and forward notifications
 			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, $with_followers);
 
