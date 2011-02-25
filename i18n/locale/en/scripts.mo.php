@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2010-05-12 16:27+0100
-Last-Translator: Bernard Paques
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: English
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['en']['dcd21e522fbc94ded6a8e8b87a3e9462']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
 $_SESSION['l10n']['en']['7ad856d3f100e5b830e9dea5d1332045']='%d file has been updated.'.chr(0).'%d files have been updated.';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';

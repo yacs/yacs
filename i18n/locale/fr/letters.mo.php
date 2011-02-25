@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2010-09-29 15:51+0100
-Last-Translator: Bernard Paques
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['fr']['28c17c53fb37663d2b2193884152e9d5']='%d adresse invalides ont été rencontrées.';
 $_SESSION['l10n']['fr']['9e7b9305b0ae8cf576d14aa2fd99a9a5']='%d lettres ont été transmises.';
 $_SESSION['l10n']['fr']['e6e6bb4b8f56f6eefd1515aadb1db465']='%d destinataires ont été traités.';

@@ -5,21 +5,7 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 16:06+0100
-PO-Revision-Date: 2011-02-24 16:19+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: English
-';
+$_SESSION['l10n']['en'][' # ']=' ';
 $_SESSION['l10n']['en']['%d approval'.chr(0).'%d approvals']='%d approval'.chr(0).'%d approvals';
 $_SESSION['l10n']['en']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
 $_SESSION['l10n']['en']['98474a5bd04c0bd2280e59b1e05eb961']='%d page has been processed.'.chr(0).'%d pages have been processed.';
@@ -248,6 +234,7 @@ $_SESSION['l10n']['en']['fc46838a2f9cf263521f8abdc7748636']='Registration is man
 $_SESSION['l10n']['en']['Rejected']='Rejected';
 $_SESSION['l10n']['en']['Released']='Released';
 $_SESSION['l10n']['en']['6760e488df9acff8649cd606d6687b5a']='Resolution has been finalized on %s';
+$_SESSION['l10n']['en']['Resulting text']='Resulting text';
 $_SESSION['l10n']['en']['Scope']='Scope';
 $_SESSION['l10n']['en']['Seats']='Seats';
 $_SESSION['l10n']['en']['See ballot papers']='See ballot papers';

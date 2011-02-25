@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: Yacs
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2010-09-29 14:34+0100
-Last-Translator: Bernard Paques
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: English
-';
 $_SESSION['l10n']['en']['%d form'.chr(0).'%d forms']='%d form'.chr(0).'%d forms';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
