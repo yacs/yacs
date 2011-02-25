@@ -4,7 +4,8 @@ include_once 'event.php';
 /**
  * collaborate to some common text
  *
- * This overlay integrates collaboraton facility provided by sync.in
+ * This overlay integrates real-time collaborative edition with an Etherpad back-end.
+ * If you don't have set one for your organization, it will go to sync.in on public Internet.
  *
  * @link http://sync.in/
  *
@@ -21,11 +22,21 @@ include_once 'event.php';
  * - chairman
  * - number of seats
  *
+ * The host name of the Etherpad back-end has to be entered into the dedicated configuration
+ * panel.
+ *
+ * @see overlays/etherpad_meetings/configure.php
+ *
+ * This configuration panel is integrated into the control panel through the hooking
+ * file at overlays/etherpad_meetings/hook.php
+ *
+ * @see overlays/etherpad_meetings/hook.php
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class sync_in_Meeting extends Event {
+class Etherpad_Meeting extends Event {
 
 	/**
 	 * get parameters for one meeting facility
@@ -59,6 +70,11 @@ class sync_in_Meeting extends Event {
 	 * @return string host name of the target server
 	 */
 	function get_hostname() {
+		global $context;
+
+		// use the server that has been set in overlays/etherpad_meetings/configure.php
+		if(isset($context['etherpad_server']) && $context['etherpad_server'])
+			return $context['etherpad_server'];
 
 		// the server that is providing the service to us
 		return 'sync.in';
@@ -162,7 +178,7 @@ class sync_in_Meeting extends Event {
 		$data['padId'] = $this->attributes['meeting_id'];
 
 		// do create the meeting
-		if($response = http::proceed($url, NULL, $data, 'overlays/sync_in_meeting.php')) {
+		if($response = http::proceed($url, NULL, $data, 'overlays/etherpad_meeting.php')) {
 
 			// link to import data
 			$url = 'http://'.$this->get_hostname().'/ep/pad/impexp/import';
@@ -186,7 +202,7 @@ class sync_in_Meeting extends Event {
 				.'-----------------------------955793517264236671351016652--'."\n";
 
 			// don't stop on error
-			http::proceed($url, $headers, $data, 'overlays/sync_in_meeting.php');
+			http::proceed($url, $headers, $data, 'overlays/etherpad_meeting.php');
 
 		}
 
@@ -251,7 +267,8 @@ class sync_in_Meeting extends Event {
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
-			$fields['description'] = $matches[1];
+			$fields['description'] = i18n::s('Resulting text')
+				.'<div style="border: 2px solid #ccc; margin: 1em; padding: 1em;">'.$matches[1].'</div>';
 			$fields['type'] = 'notification';
 			Comments::post($fields);
 
@@ -268,11 +285,15 @@ class sync_in_Meeting extends Event {
 	/**
 	 * initialize this instance
 	 *
+	 * @see overlays/etherpad_meetings/configure.php
 	 * @see overlays/overlay.php
 	 *
 	 */
 	function initialize() {
 		global $context;
+
+		// load current parameters, if any
+		Safe::load('parameters/overlays.etherpad_meetings.include.php');
 
 		// use some unique id
 		if(!isset($this->attributes['meeting_id']))
