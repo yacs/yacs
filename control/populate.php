@@ -38,6 +38,7 @@
  * - 'chat_template' - an on-line discussion
  * - 'cover' - a cover article for the front page
  * - 'discussion_template' - to create a public discussion page
+ * - 'etherpad_template' - for real-time collaboration
  * - 'event_template' - for pages to be added to the event calendar
  * - 'external_template' - a meeting at another web place
  * - 'extra_rss' - a sample extra box to link to our XML RSS feed
@@ -612,6 +613,27 @@ if(!$permitted) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
+	// 'etherpad_template' article
+	if(!Articles::get('etherpad_template') && ($anchor = Sections::lookup('templates'))) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'etherpad_template';
+		$fields['title'] = i18n::c('Real-time collaboration');
+		$fields['introduction'] = i18n::c('To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.');
+		$fields['options'] = 'comments_as_wall view_as_tabs edit_as_thread';
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+
+		$overlay = Overlay::bind('etherpad_meeting');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+
+		if(Articles::post($fields))
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
 	// 'external_template' article
 	if(!Articles::get('external_template') && ($anchor = Sections::lookup('templates'))) {
 		$fields = array();
@@ -731,27 +753,6 @@ if(!$permitted) {
 		$fields['options'] = 'edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/basic.gif';
-		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
-		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
-	// 'sync.in_template' article
-	if(!Articles::get('sync.in_template') && ($anchor = Sections::lookup('templates'))) {
-		$fields = array();
-		$fields['anchor'] = $anchor;
-		$fields['nick_name'] = 'sync.in_template';
-		$fields['title'] = i18n::c('Real-time collaboration');
-		$fields['introduction'] = i18n::c('To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.');
-		$fields['options'] = 'comments_as_wall edit_as_thread view_as_tabs';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
-
-		$overlay = Overlay::bind('sync_in_meeting');
-		$fields['overlay'] = $overlay->save();
-		$fields['overlay_id'] = $overlay->get_id();
-
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
