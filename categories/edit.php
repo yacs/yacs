@@ -227,7 +227,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
 
 		// clear cache
 		Categories::clear($_REQUEST);
