@@ -1188,7 +1188,7 @@ Class i18n {
 			// read original string
 			fseek($handle, $original_table[$index * 2 + 2]);
 			if(!$length = $original_table[$index * 2 + 1])
-				continue;
+				$original = '_headers';
 			else
 				$original = fread($handle, $length);
 
@@ -1210,7 +1210,7 @@ Class i18n {
 			$translated = str_replace('\000', "'.chr(0).'", addcslashes($translated, "\0\\'"));
 
 			// update cache file, if any
-			if($cache)
+			if($cache && ($hash != '_headers'))
 				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
 		}
 
