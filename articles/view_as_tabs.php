@@ -474,12 +474,6 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$box['bar'] += array(Articles::get_url($item['id'], 'invite') => ARTICLES_INVITE_IMG.i18n::s('Invite participants'));
 	}
 
-	// notify participants
-	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
-	}
-
 	// manage editors, for owners
 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
