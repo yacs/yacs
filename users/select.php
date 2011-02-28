@@ -31,7 +31,7 @@ elseif(isset($_REQUEST['anchor']))
 	$anchor =& Anchors::get($_REQUEST['anchor']);
 
 // only looking at watchers
-if(isset($_REQUEST['anchor']))
+if(isset($_REQUEST['anchor']) && !isset($_REQUEST['action']))
 	$permitted = 'watchers';
 
 // associates can do what they want
