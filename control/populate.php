@@ -525,7 +525,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'bbb_template';
 		$fields['title'] = i18n::c('Web conference');
 		$fields['introduction'] = i18n::c('To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
-		$fields['options'] = 'view_as_tabs comments_as_wall';
+		$fields['options'] = 'edit_as_simple view_as_tabs comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
 
