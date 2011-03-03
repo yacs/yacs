@@ -632,34 +632,8 @@ if($with_form) {
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
 	$label = i18n::s('Access');
-
-	// maybe a public page
-	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
-	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
-
-	// maybe a restricted page
-	$input .= '<input type="radio" name="active_set" value="R"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
-
-	// or a hidden page
-	$input .= '<input type="radio" name="active_set" value="N"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
-
-	// combine this with inherited access right
-	if(is_object($anchor) && $anchor->is_hidden())
-		$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
-	elseif(is_object($anchor) && !$anchor->is_public())
-		$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
-	else
-		$hint = i18n::s('Who is allowed to access?');
-
-	// expand the form
+	$input = Skin::build_active_set_input($item);
+	$hint = Skin::build_active_set_hint($anchor);
 	$fields[] = array($label, $input, $hint);
 
 	// append fields

@@ -585,12 +585,6 @@ if($with_form) {
 	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
 	$fields[] = array($label, $input);
 
-	// tags
-	$label = i18n::s('Tags');
-	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
-	$hint = i18n::s('A comma-separated list of keywords');
-	$fields[] = array($label, $input, $hint);
-
 	// birth date
 	$label = i18n::s('Birth date');
 	if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
@@ -790,15 +784,18 @@ if($with_form) {
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'span');
 
-	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+	// several options to check
+	$suffix = array();
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.').'</p>';
+		$suffix[] = '<input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.');
 
 	// validate page content
-	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+	$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+
+	// an assistant-like rendering at page bottom
+	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
 
 	// link to privacy statement
 	if(!isset($item['id']) && !Surfer::is_associate())

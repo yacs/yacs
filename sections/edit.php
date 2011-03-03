@@ -367,12 +367,6 @@ if($with_form) {
 		$hint = '';
 	$fields[] = array($label, $input, $hint);
 
-	// tags
-	$label = i18n::s('Tags');
-	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
-	$hint = i18n::s('A comma-separated list of keywords');
-	$fields[] = array($label, $input, $hint);
-
 	// append regular fields
 	$text .= Skin::build_form($fields);
 	$fields = array();
@@ -815,35 +809,8 @@ if($with_form) {
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
 	$label = i18n::s('Access');
-
-	// maybe a public page
-	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
-	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
-
-
-	// maybe a restricted page
-	$input .= '<input type="radio" name="active_set" value="R"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
-
-	// or a hidden page
-	$input .= '<input type="radio" name="active_set" value="N"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
-
-	// combine this with inherited access right
-	if(is_object($anchor) && $anchor->is_hidden())
-		$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
-	elseif(is_object($anchor) && !$anchor->is_public())
-		$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
-	else
-		$hint = i18n::s('Who is allowed to access?');
-
-	// expand the form
+	$input = Skin::build_active_set_input($item);
+	$hint = Skin::build_active_set_hint($anchor);
 	$fields[] = array($label, $input, $hint);
 
 	// locked: Yes / No
@@ -1214,22 +1181,24 @@ if($with_form) {
 	// cancel button
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
+	elseif(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
 
-	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
-
-	// optional checkboxes
-	$context['text'] .= '<p>';
+	// several options to check
+	$suffix = array();
 
 	// notify watchers
-	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers.').BR;
+	$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers.');
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())
-		$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
+		$suffix[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
 	// validate page content
-	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+	$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+
+	// an assistant-like rendering at page bottom
+	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
