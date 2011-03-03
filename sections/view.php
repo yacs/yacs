@@ -150,6 +150,7 @@ include_once '../links/links.php';				// related pages
 include_once '../overlays/overlay.php';
 include_once '../servers/servers.php';
 include_once '../versions/versions.php';		// back in history
+include_once '../sections/section.php';
 
 // look for the id
 $id = NULL;
@@ -1207,10 +1208,14 @@ if(!isset($item['id'])) {
 				$order = 'edition';
 
 			// list pages under preparation
-			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
-				if(is_array($items))
-					$items = Skin::build_list($items, 'compact');
-				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+			$this_section = new section;
+			$this_section->load_by_content($item, $anchor);
+			if($this_section->is_assigned()) {
+   			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+   				if(is_array($items))
+   					$items = Skin::build_list($items, 'compact');
+   				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+   			}
 			}
 
 			// top menu
