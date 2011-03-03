@@ -82,6 +82,104 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * build the field to restrict access
+	 *
+	 * @see articles/edit.php
+	 *
+	 * @param array the item to be edited
+	 * @return string tags to be put in the form
+	 */
+	function build_active_set_input($item) {
+		global $context;
+
+		// maybe a public item
+		$text = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+
+		// maybe a restricted item
+		$text .= '<input type="radio" name="active_set" value="R"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+
+		// or a hidden item
+		$text .= '<input type="radio" name="active_set" value="N"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+
+		return $text;
+	}
+
+	/**
+	 * build the hint related to access restrictions
+	 *
+	 * @param object anchor of the edited item, if any
+	 * @return string tags to be put in the form
+	 */
+	function build_active_set_hint($anchor) {
+		global $context;
+
+		// combine this with inherited access right
+		if(is_object($anchor) && $anchor->is_hidden())
+			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+		elseif(is_object($anchor) && !$anchor->is_public())
+			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+		else
+			$hint = '';
+
+		return $hint;
+
+	}
+
+	/**
+	 * build an assistant-like bottom of the page
+	 *
+	 * @param mixed text to be put right after the horizontal separation
+	 * @param array a bar of commands to be put in a menu
+	 * @param mixed additional content put after the menu
+	 * @param string current value of tags
+	 * @return string text to be put in the rendered page
+	 */
+	function &build_assistant_bottom($prefix='', $menu=NULL, $suffix='', $tags=NULL) {
+		global $context;
+
+		// we return some text
+		$text = '';
+
+		// insert prefix
+		if(is_array($prefix))
+			$text .= '<div>'.implode(BR, $prefix).'</div>';
+		else
+			$text .= $prefix;
+
+		// insert the menu in the page
+		$text .= Skin::finalize_list($menu, 'menu_bar');
+
+		// insert suffix
+		if(is_array($suffix))
+			$text .= '<div>'.implode(BR, $suffix).'</div>';
+		else
+			$text .= $suffix;
+
+		// insert tags after options
+		if($tags !== NULL) {
+			$text .= '<p style="margin: 1em 0;">'.i18n::s('Tags')
+				.' '.'<input type="text" name="tags" id="tags" value="'.encode_field($tags).'" size="45" maxlength="255" accesskey="t" />'
+				.' <span class="tiny">'.i18n::s('Keywords separated by commas').'</span></p>'
+				.'<div id="tags_choices" class="autocomplete"></div>';
+		}
+
+		// make it a bottom block
+		$text = Skin::build_block($text, 'bottom');
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * decorate some text
 	 *
 	 * Useful for highlighting snippets of code or other types of text information
@@ -3280,7 +3378,7 @@ Class Skin_Skeleton {
 						$text .= $label;
 				}
 
-				$text = Skin::build_block(MENU_PREFIX.$text.MENU_SUFFIX, 'bottom');
+				$text = Skin::build_block('<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</p>', 'bottom');
 				break;
 
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
@@ -3479,7 +3577,13 @@ Class Skin_Skeleton {
 					if(is_array($label))
 						$label = $label[0];
 
-					$text .= $label;
+					// mark first and last items
+					if($line_count == 1)
+						$text .= '<span class="first">'.$label.'</span>';
+					elseif($line_count == count($list))
+						$text .= '<span class="last">'.$label.'</span>';
+					else
+						$text .= $label;
 
 				}
 
