@@ -2673,62 +2673,57 @@ Class Articles {
 			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
 		}
 
-		if(isset($fields['prefix']) && Surfer::is_associate())
-			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
-		if(isset($fields['suffix']) && Surfer::is_associate())
-			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
-
-		if(isset($fields['nick_name']))
-			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
+		// other fields that can be modified individually
 		if(isset($fields['behaviors']))
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
-		if(isset($fields['rank']))
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
-		if(isset($fields['thumbnail_url']))
-			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['introduction']))
+			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
+		if(isset($fields['language']))
+			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['locked']))
 			$query[] = "locked='".SQL::escape($fields['locked'])."'";
 		if(isset($fields['meta']))
 			$query[] = "meta='".SQL::escape($fields['meta'])."'";
+		if(isset($fields['nick_name']))
+			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
 		if(isset($fields['options']))
 			$query[] = "options='".SQL::escape($fields['options'])."'";
-		if(isset($fields['trailer']))
-			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
-//		if(Surfer::is_empowered())
-//			$query[] = "active='".SQL::escape($fields['active'])."',";
-//		if(Surfer::is_empowered())
-//			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
-		if(isset($fields['owner_id']))
-			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
-		if(isset($fields['title']))
-			$query[] = "title='".SQL::escape($fields['title'])."'";
-		if(isset($fields['source']))
-			$query[] = "source='".SQL::escape($fields['source'])."'";
-		if(isset($fields['introduction']))
-			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
-		if(isset($fields['description']))
-			$query[] = "description='".SQL::escape($fields['description'])."'";
-		if(isset($fields['language']))
-			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['overlay']))
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['owner_id']))
+			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
 		if(isset($fields['publish_date'])) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
 			$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
-
+		if(isset($fields['prefix']))
+			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
+		if(isset($fields['rank']))
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['source']))
+			$query[] = "source='".SQL::escape($fields['source'])."'";
+		if(isset($fields['suffix']))
+			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
+		if(isset($fields['thumbnail_url']))
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
 		if(isset($fields['tags']))
 			$query[] = "tags='".SQL::escape($fields['tags'])."'";
+		if(isset($fields['title']))
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		if(isset($fields['trailer']))
+			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
 
 		// nothing to update
 		if(!count($query))
