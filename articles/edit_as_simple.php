@@ -379,20 +379,10 @@ if($with_form) {
 
 			// editors
 			$label = i18n::s('Editors');
-			if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma'))
+			if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, 7, 'comma5'))
 				$input =& Skin::build_list($items, 'comma');
 			else
 				$input = i18n::s('Nobody has been assigned to this page.');
-
-			// manage participants and editors
-			if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-
-				$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
-
-				$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Manage editors'), 'button').'</span>';
-
-			}
-
 			$fields[] = array($label, $input);
 		}
 
