@@ -199,7 +199,8 @@ p#page_menu { /* the main horizontal menu of commands */
 	font-weight: normal;
 }
 
-p#page_menu a { /* a link in the menu */
+p#page_menu a,
+p#page_menu a:hover { /* a link in the menu */
 	margin: 0;
 	padding: 0px 0px 0px 7px;
 	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
@@ -208,12 +209,15 @@ p#page_menu a { /* a link in the menu */
 }
 
 p#page_menu a:hover { /* about to click */
-	margin: 0;
-	padding: 0px 0px 0px 7px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
-	text-decoration: none;
-	font-weight: normal;
 	color: red;
+}
+
+p#page_menu a.button,
+p#page_menu a.button span,
+p#page_menu a.button:hover,
+p#page_menu a.button:hover span { /* no specific background image for buttons */
+	background-color: #c0c0c0;
+	background-image: none;
 }
 
 p#page_menu a span { /* to complement background, if required */
@@ -407,17 +411,18 @@ p.menu_bar a:hover { /* behaviour on hovering */
 	color: red;
 }
 
-p.menu_bar a span { /* secondary background image */
-	margin: 0;
-	padding: 0px 7px 0px 0px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
-}
-
 p.menu_bar a.button,
 p.menu_bar a.button span,
 p.menu_bar a.button:hover,
 p.menu_bar a.button:hover span { /* no specific background image for buttons */
+	background-color: #c0c0c0;
 	background-image: none;
+}
+
+p.menu_bar a span { /* secondary background image */
+	margin: 0;
+	padding: 0px 7px 0px 0px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
 }
 
 p.menu_bar a span.first { /* first command of the menu */
