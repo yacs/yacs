@@ -457,16 +457,19 @@ if(!isset($item['id'])) {
 		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
 			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-		// page editors, for associates and section editors
-		if(Surfer::is_empowered() && Surfer::is_logged() && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5')))
+		// page editors
+		$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 		// page watchers
-		$anchors = array('article:'.$item['id'], $anchor->get_reference());
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 50, 'comma5')))
+		$anchors = array('article:'.$item['id']);
+		if(($item['active'] != 'N') || $anchor->is_assigned())
+			$anchors[] = $anchor->get_reference();
+		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
-		// no more details
+		// display details, if any
 		if(count($details))
 			$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
 

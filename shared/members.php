@@ -249,11 +249,12 @@ Class Members {
 	 * count users linked to one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'category:12')
+	 * @param boolean TRUE to include current surfer, or FALSE to exclude him
 	 * @return int the resulting count
 	 *
 	 * @see categories/view.php
 	 */
-	function count_users_for_anchor($anchor) {
+	function count_users_for_anchor($anchor, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -272,6 +273,10 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where .= ")";
 
+		// exclude current surfer
+		if(!$with_me && ($id = Surfer::get_id()))
+			$where .= " AND (members.member NOT LIKE 'user:".$id."')";
+
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
 			." FROM ".SQL::table_name('members')." AS members"
@@ -286,11 +291,12 @@ Class Members {
 	 * count editors of the provided reference
 	 *
 	 * @param string the selected member (e.g., 'category:12')
+	 * @param boolean TRUE to include current surfer, or FALSE to exclude him
 	 * @return int the resulting count
 	 *
 	 * @see sections/view_as_tabs.php
 	 */
-	function count_users_for_member($member) {
+	function count_users_for_member($member, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -308,6 +314,10 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where .= ')';
+
+		// exclude current surfer
+		if(!$with_me && ($id = Surfer::get_id()))
+			$where .= " AND (members.anchor NOT LIKE 'user:".$id."')";
 
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
@@ -865,7 +875,7 @@ Class Members {
 				." WHERE (users.id = ids.target)"
 				."	AND (users.capability IN ('S', 'M', 'A'))"
 				."	AND (".$where.")"
-				." GROUP BY users.id LIMIT ".$offset.','.$count;
+				." GROUP BY users.id ORDER BY users.login_date DESC LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {

@@ -262,7 +262,6 @@ else
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // clear the tab we are in
-$context['current_focus'] = array();
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 if(isset($item['id']))
@@ -508,24 +507,24 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
 		// section owner
-		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+		if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
 			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
 		// section editors and readers
-		if(Surfer::is_logged()) {
-			if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma5'))
-				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
-
-			if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma5'))
-				$details[] = sprintf(i18n::s('Readers: %s'), $items);
-		}
-
-		// page watchers
 		if(is_object($anchor))
-			$anchors = array('section:'.$item['id'], $anchor->get_reference());
+			$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
 		else
 			$anchors = 'section:'.$item['id'];
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 50, 'comma5')))
+		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+
+		if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('Readers: %s'), $items);
+
+		// page watchers
+		if($item['active'] == 'N')
+			$anchors = Sections::get_hidden_sections($item, $anchor);
+		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		// display details, if any
@@ -1211,11 +1210,11 @@ if(!isset($item['id'])) {
 			$this_section = new section;
 			$this_section->load_by_content($item, $anchor);
 			if($this_section->is_assigned()) {
-   			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
-   				if(is_array($items))
-   					$items = Skin::build_list($items, 'compact');
-   				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
-   			}
+				if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+					if(is_array($items))
+						$items = Skin::build_list($items, 'compact');
+					$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+				}
 			}
 
 			// top menu
