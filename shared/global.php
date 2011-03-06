@@ -216,7 +216,7 @@ $context['site_slogan'] = '';
 $context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
 
 // components to put in the main panel --see skins/configure.php
-$context['skins_main_components'] = 'bar title error text tags details';
+$context['skins_main_components'] = 'title bar error text tags details';
 
 // components to put in the side panel --see skins/configure.php
 $context['skins_navigation_components'] = 'menu user navigation';
