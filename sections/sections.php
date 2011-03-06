@@ -1156,6 +1156,36 @@ Class Sections {
 	}
 
 	/**
+	 * get references of watched sections
+	 *
+	 * This function is used to limit notifications related to some hidden section.
+	 *
+	 * @param array attributes of some hidden section
+	 * @param object parents of this section, if any
+	 * @return array references of hidden sections
+	 */
+	function get_hidden_sections($item, $anchor) {
+
+		// this section, at least
+		$anchors = array( 'section:'.$item['id'] );
+
+		// all hidden parent sections
+		if(is_object($anchor)) {
+			if($anchor->is_hidden())
+				$anchors[] = $anchor->get_reference();
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				if(!$parent->is_hidden())
+					break;
+				$anchors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+		}
+
+		return $anchors;
+	}
+
+	/**
 	 * get one section layout
 	 *
 	 * @param string name of the layout to load

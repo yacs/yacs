@@ -439,31 +439,60 @@ $users = '';
 $users_count = 0;
 
 // the list of related users if not at another follow-up page
-if(!$zoom_type || ($zoom_type == 'users')) {
+if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 
 	// build a complete box
 	$box = array('bar' => array(), 'text' => '');
 
-	// count the number of users
-	$ecount = Members::count_users_for_member('article:'.$item['id']);
-	$wcount = Members::count_users_for_anchor('article:'.$item['id']);
-	$users_count = max($ecount, $wcount);
+	// list participants
+	$rows = array();
+	Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
+	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 
-	// count watchers
-	if($wcount > 1)
-		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wcount), $wcount));
+	// list editors of this page, and of parent sections
+	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
+		foreach($items as $user_id => $user_label) {
+			$owner = '';
+			if($user_id == $item['owner_id'])
+				$owner = CHECKED_IMG;
+			$editor = CHECKED_IMG;
+			$watcher = '';
+			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+		}
+	}
 
-	// spread the list over several pages
-	if($ecount > 1)
-		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
+	// watching horizon is limited to parent section at most
+	$anchors = array('article:'.$item['id']);
+	if(($item['active'] != 'N') || $anchor->is_assigned())
+		$anchors[] = $anchor->get_reference();
 
-	// navigation commands for users
-	$home = Articles::get_permalink($item);
-	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
-	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $ecount, USERS_LIST_SIZE, $zoom_index, FALSE, FALSE, '#_users'));
+	// watchers
+	if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 500, 'watch')) {
+		foreach($items as $user_id => $user_label) {
 
-	// add to the watch list -- $in_wath_list is set in sections/view.php
-	if(Surfer::get_id() && !$in_watch_list) {
+			// add the checkmark to existing row
+			if(isset($rows[$user_id]))
+				$rows[$user_id][1] = CHECKED_IMG;
+
+			// append a new row
+			else {
+				$owner = '';
+				if($user_id == $item['owner_id'])
+					$owner = CHECKED_IMG;
+				$editor = '';
+				$watcher = CHECKED_IMG;
+				$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+			}
+		}
+	}
+
+	// count
+	if($count = count($rows))
+		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $count), $count));
+
+	// add to the watch list -- $in_watch_list is set in sections/view.php
+	if(Surfer::get_id() && ($in_watch_list == 'N')) {
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'track') => TOOLS_WATCH_IMG.i18n::s('Watch this page'));
 	}
@@ -472,6 +501,12 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	if(Articles::is_owned($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
 		$box['bar'] += array(Articles::get_url($item['id'], 'invite') => ARTICLES_INVITE_IMG.i18n::s('Invite participants'));
+	}
+
+	// notify participants
+	if(($count > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
+		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// manage editors, for owners
@@ -483,52 +518,6 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	} elseif(Articles::is_assigned($item['id'])) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'sections/assign.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
-	}
-
-	// list editors
-	Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
-	$rows = array();
-	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-	if($items =& Members::list_editors_for_member('article:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch')) {
-		foreach($items as $user_id => $user_label) {
-			$owner = '';
-			if($user_id == $item['owner_id'])
-				$owner = CHECKED_IMG;
-			$editor = CHECKED_IMG;
-			$watcher = '';
-			if(Members::check('article:'.$item['id'], 'user:'.$user_id))
-				$watcher = CHECKED_IMG;
-			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
-		}
-	}
-
-	// watchers
-	if(count($rows) < USERS_LIST_SIZE) {
-		if(is_object($anchor))
-			$anchors = array('article:'.$item['id'], $anchor->get_reference());
-		else
-			$anchors = 'article:'.$item['id'];
-		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, $offset, 2*USERS_LIST_SIZE, 'watch')) {
-			foreach($items as $user_id => $user_label) {
-
-				// add the checkmark to existing row
-				if(isset($rows[$user_id]))
-					$rows[$user_id][1] = CHECKED_IMG;
-
-				// append a new row
-				else {
-					$owner = '';
-					if($user_id == $item['owner_id'])
-						$owner = CHECKED_IMG;
-					$editor = '';
-					$watcher = CHECKED_IMG;
-					$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
-
-					if(count($rows) >= USERS_LIST_SIZE)
-						break;
-				}
-			}
-		}
 	}
 
 	// headers
@@ -555,7 +544,10 @@ if($users) {
 	$panels[] = array('users', $label, 'users_panel', $users);
 }
 
-// let YACS do the hard job
+
+//
+// assemble all tabs
+//
 $context['text'] .= Skin::build_tabs($panels);
 
 // buttons to display previous and next pages, if any

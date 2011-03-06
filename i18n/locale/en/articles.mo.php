@@ -7,13 +7,12 @@
  */
 $_SESSION['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
-$_SESSION['l10n']['en']['%d editor'.chr(0).'%d editors']='%d editor'.chr(0).'%d editors';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
 $_SESSION['l10n']['en']['%d link'.chr(0).'%d links']='%d link'.chr(0).'%d links';
 $_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
+$_SESSION['l10n']['en']['%d participant'.chr(0).'%d participants']='%d participant'.chr(0).'%d participants';
 $_SESSION['l10n']['en']['%d rate'.chr(0).'%d rates']='%d rate'.chr(0).'%d rates';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
-$_SESSION['l10n']['en']['%d watcher'.chr(0).'%d watchers']='%d watcher'.chr(0).'%d watchers';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
@@ -346,7 +345,6 @@ $_SESSION['l10n']['en']['View history']='View history';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['Views']='Views';
-$_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['Watch this page']='Watch this page';
 $_SESSION['l10n']['en']['Watcher']='Watcher';
 $_SESSION['l10n']['en']['Watchers']='Watchers';
@@ -389,7 +387,7 @@ $_SESSION['l10n']['en']['published by %s %s']='published by %s %s';
 $_SESSION['l10n']['en']['reviewed %s']='reviewed %s';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['sticky']='sticky';
-$_SESSION['l10n']['en']['to manage content']='to manage content';
-$_SESSION['l10n']['en']['to review content']='to review content';
+$_SESSION['l10n']['en']['d7f7ce7c3843c3e03df7d9524aefaf24']='to manage public and private content (editors)';
+$_SESSION['l10n']['en']['8adc64309d47ca5da514f33a0a59d66e']='to review public content (watchers)';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

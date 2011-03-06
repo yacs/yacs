@@ -7,13 +7,12 @@
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid date']='"%s" n\'est pas une date valide';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
-$_SESSION['l10n']['fr']['%d editor'.chr(0).'%d editors']='%d éditeur'.chr(0).'%d éditeurs';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
 $_SESSION['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
+$_SESSION['l10n']['fr']['%d participant'.chr(0).'%d participants']='%d participant'.chr(0).'%d participants';
 $_SESSION['l10n']['fr']['%d rate'.chr(0).'%d rates']='%d vote'.chr(0).'%d votes';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
-$_SESSION['l10n']['fr']['%d watcher'.chr(0).'%d watchers']='%d observateur'.chr(0).'%d observateurs';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
@@ -346,7 +345,6 @@ $_SESSION['l10n']['fr']['View history']='Lister toutes les contributions';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['Views']='Vues';
-$_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lire d\'autres pages intéressantes.';
 $_SESSION['l10n']['fr']['Watch this page']='Surveiller cette page';
 $_SESSION['l10n']['fr']['Watcher']='Observateur';
 $_SESSION['l10n']['fr']['Watchers']='Observateurs';
@@ -389,7 +387,7 @@ $_SESSION['l10n']['fr']['published by %s %s']='publié par %s %s';
 $_SESSION['l10n']['fr']['reviewed %s']='mis à jour %s';
 $_SESSION['l10n']['fr']['smileys']='les emoticons';
 $_SESSION['l10n']['fr']['sticky']='classées';
-$_SESSION['l10n']['fr']['to manage content']='à modifier le contenu';
-$_SESSION['l10n']['fr']['to review content']='à consulter le contenu';
+$_SESSION['l10n']['fr']['d7f7ce7c3843c3e03df7d9524aefaf24']='à gérer le contenu public et privé (éditeurs)';
+$_SESSION['l10n']['fr']['8adc64309d47ca5da514f33a0a59d66e']='à consulter le contenu public (observateurs)';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>
