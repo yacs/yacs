@@ -1174,7 +1174,7 @@ function render_skin($with_last_modified=TRUE) {
 			.'		languages : "fr",'."\n"
 			.'		disk_cache : false,'."\n"
 			.'		relative_urls : false,'."\n"
-			.'		remove_script_host : true,'."\n"
+			.'		remove_script_host : false,'."\n"
 			.'		document_base_url : "'.$context['url_to_home'].$context['url_to_root'].'",'."\n"
 			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,searchreplace,paste,directionality,fullscreen,visualchars",'."\n"
 			.'		theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,formatselect,fontselect,fontsizeselect",'."\n"
