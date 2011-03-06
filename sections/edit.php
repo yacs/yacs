@@ -781,20 +781,10 @@ if($with_form) {
 
 		// editors
 		$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items =& Members::list_editors_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
+		if(isset($item['id']) && ($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 7, 'comma5')))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('No editor has been assigned to this section.');
-		if(isset($item['id'])) {
-
-			// allow to involve more persons
-			$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
-
-			// only real owner can manage editors
-			if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())
-				$input .= ' <span class="details">'.Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Manage editors'), 'button').'</span>';
-
-		}
 		$fields[] = array($label, $input);
 
 		// readers
