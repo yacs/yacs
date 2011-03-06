@@ -765,6 +765,10 @@ class Mailer {
 			return 0;
 		}
 
+		// the end of line string for mail messages
+		if(!defined('M_EOL'))
+			define('M_EOL', "\n");
+
 		// no new line nor HTML tag in title
 		$subject = preg_replace('/\s+/', ' ', strip_tags($subject));
 
@@ -776,27 +780,27 @@ class Mailer {
 
 		// make some text out of an array
 		if(is_array($headers))
-			$headers = implode("\n", $headers);
+			$headers = implode(M_EOL, $headers);
 
 		// From: header
 		if(!preg_match('/^From: /im', $headers))
-			$headers .= "\n".'From: '.$from;
+			$headers .= M_EOL.'From: '.$from;
 
 		// Reply-To: header
 		if(!preg_match('/^Reply-To: /im', $headers))
-			$headers .= "\n".'Reply-To: '.$from;
+			$headers .= M_EOL.'Reply-To: '.$from;
 
 		// Return-Path: header --to process errors
 		if(!preg_match('/^Return-Path: /im', $headers))
-			$headers .= "\n".'Return-Path: '.$from;
+			$headers .= M_EOL.'Return-Path: '.$from;
 
 		// Message-ID: header --helps to avoid spam filters
 		if(!preg_match('/^Message-ID: /im', $headers))
-			$headers .= "\n".'Message-ID: <'.time().'@'.$context['host_name'].'>';
+			$headers .= M_EOL.'Message-ID: <'.time().'@'.$context['host_name'].'>';
 
 		// MIME-Version: header
 		if(!preg_match('/^MIME-Version: /im', $headers))
-			$headers .= "\n".'MIME-Version: 1.0';
+			$headers .= M_EOL.'MIME-Version: 1.0';
 
 		// arrays are easier to manage
 		if(is_string($message)) {
@@ -837,7 +841,7 @@ class Mailer {
 				$lines = explode("\n", $part);
 				$part = '';
 				foreach($lines as $line)
-					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.CRLF, 0).CRLF;
+					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.M_EOL, 0).M_EOL;
 
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
@@ -845,7 +849,7 @@ class Mailer {
 
 			// encode the part for it transfer
 			if($content_encoding == 'base64')
-				$part = chunk_split(base64_encode($part));
+				$part = chunk_split(base64_encode($part), 76, M_EOL);
 
 			// only one part
 			if(count($message) == 1) {
@@ -861,20 +865,20 @@ class Mailer {
 
 				// introduction to assembled parts
 				if(!$body)
-					$body = 'This is a multi-part message in MIME format.'.CRLF;
+					$body = 'This is a multi-part message in MIME format.';
 
-				// this part only
-				$body .= CRLF.'--'.$boundary.'-internal'
-					.CRLF.'Content-Type: '.$type
-					.CRLF.'Content-Transfer-Encoding: '.$content_encoding
-					.CRLF.CRLF.$part."\n";
+				// this part only --second EOL is part of the boundary chain
+				$body .= M_EOL.M_EOL.'--'.$boundary.'-internal'
+					.M_EOL.'Content-Type: '.$type
+					.M_EOL.'Content-Transfer-Encoding: '.$content_encoding
+					.M_EOL.M_EOL.$part;
 
 			}
 		}
 
 		// finalize the body
 		if(count($message) > 1)
-			$body .= CRLF.'--'.$boundary.'-internal--';
+			$body .= M_EOL.M_EOL.'--'.$boundary.'-internal--';
 
 		// a mix of things
 		if(count($attachments)) {
@@ -883,13 +887,13 @@ class Mailer {
 				if(!strncmp($content_type, 'multipart/', 10))
 					$content_encoding = '';
 				else
-					$content_encoding = CRLF.'Content-Transfer-Encoding: '.$content_encoding;
+					$content_encoding = M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
 
-				$body = 'This is a multi-part message in MIME format.'.CRLF
-					.CRLF.'--'.$boundary.'-external'
-					.CRLF.'Content-Type: '.$content_type
+				$body = 'This is a multi-part message in MIME format.'.M_EOL
+					.M_EOL.'--'.$boundary.'-external'
+					.M_EOL.'Content-Type: '.$content_type
 					.$content_encoding
-					.CRLF.CRLF.$body."\n";
+					.M_EOL.M_EOL.$body;
 
 				$content_type = 'multipart/mixed; boundary="'.$boundary.'-external"';
 				$content_encoding = '';
@@ -905,28 +909,30 @@ class Mailer {
 					$basename = basename($name);
 					$type = Files::get_mime_type($basename);
 
-					$body .= CRLF.'--'.$boundary.'-external'
-						.CRLF.'Content-Type: '.$type.'; name="'.$basename.'"'
-						.CRLF.'Content-Transfer-Encoding: base64'
-						.CRLF.CRLF.chunk_split(base64_encode($content))."\n";
+					$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
+						.M_EOL.'Content-Type: '.$type.'; name="'.$basename.'"'
+						.M_EOL.'Content-Transfer-Encoding: base64'
+						.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
 
 				}
-				$body .= CRLF.'--'.$boundary.'-external--';
+
+				// the closing boundary
+				$body .= M_EOL.M_EOL.'--'.$boundary.'-external--';
 
 		}
 
 
 		// Content-Type: header
 		if($content_type && !preg_match('/^Content-Type: /im', $headers))
-			$headers .= "\n".'Content-Type: '.$content_type;
+			$headers .= M_EOL.'Content-Type: '.$content_type;
 
 		// Content-Transfer-Encoding: header
 		if(!isset($boundary) && $content_encoding && !preg_match('/^Content-Transfer-Encoding: /im', $headers))
-			$headers .= "\n".'Content-Transfer-Encoding: '.$content_encoding;
+			$headers .= M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
 
 		// X-Mailer: header --helps to avoid spam filters
 		if(!preg_match('/^X-Mailer: /im', $headers))
-			$headers .= "\n".'X-Mailer: yacs';
+			$headers .= M_EOL.'X-Mailer: yacs';
 
 		// strip leading spaces and newlines
 		$headers = trim($headers);
