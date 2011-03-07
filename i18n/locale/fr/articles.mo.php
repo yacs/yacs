@@ -255,6 +255,7 @@ $_SESSION['l10n']['fr']['Related topics']='Sujets connexes';
 $_SESSION['l10n']['fr']['Remove expiry date']='Supprimer la date d\'expiration';
 $_SESSION['l10n']['fr']['Rendering']='Rendu';
 $_SESSION['l10n']['fr']['Replies']='Réactions';
+$_SESSION['l10n']['fr']['Reply']='Répondre';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
 $_SESSION['l10n']['fr']['Resources']='Ressources';
 $_SESSION['l10n']['fr']['ebd0c9b97dd4fa2b5e2da8afd29eef24']='Restaurer une version précédente si nécessaire';
