@@ -544,7 +544,7 @@ if(!Surfer::is_associate()) {
 			else {
 				if(preg_match('/,/', $label))
 					$label = implode(' ', array_reverse(preg_split("/[\s,]+/", $label)));
-				$to[] = '"'.$label.'" <'.$address.'>';
+				$to[] = Mailer::encode_recipient($address, $label);
 
 			}
 

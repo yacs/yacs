@@ -58,7 +58,7 @@ Class Users {
 			return FALSE;
 
 		// a valid address is required for e-mail...
-		if(!isset($user['email']) || !$user['email'])
+		if(!isset($user['email']) || !$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
 			return FALSE;
 
 		// ensure poster wants alerts
@@ -83,9 +83,9 @@ Class Users {
 
 		// use this email address
 		if($user['full_name'])
-			$recipient = '"'.str_replace(array(',', '"'), ' ', $user['full_name']).'" <'.$user['email'].'>';
+			$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
 		else
-			$recipient = '"'.str_replace(array(',', '"'), ' ', $user['nick_name']).'" <'.$user['email'].'>';
+			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 		// post a message to this particular user
 		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');

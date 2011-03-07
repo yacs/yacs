@@ -253,15 +253,15 @@ if(Surfer::is_crawler()) {
 			// always add the item to the watch list
 			Members::assign('section:'.$item['id'], 'user:'.$user['id']);
 
-			// this person has no email address
-			if(!$user['email'])
+			// this person has no valid email address
+			if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
 				continue;
 
 			// use this email address
 			if($user['full_name'])
-				$recipient = '"'.$user['full_name'].'" <'.$user['email'].'>';
+				$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
 			else
-				$recipient = '"'.$user['nick_name'].'" <'.$user['email'].'>';
+				$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 		// skip this recipient
 		} else {

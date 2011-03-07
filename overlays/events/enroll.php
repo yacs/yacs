@@ -122,7 +122,13 @@ else {
 					SQL::query($query);
 
 					// confirm enrolment by e-mail
-					if($user['email']) {
+					if($user['email'] && preg_match(VALID_RECIPIENT, $user['email'])) {
+
+						// use this email address
+						if($user['full_name'])
+							$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+						else
+							$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 						// mail message
 						$mail = array();
@@ -140,14 +146,10 @@ else {
 						$mail['headers'] = Mailer::set_thread($anchor->get_reference());
 
 						// send the message
-						Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+						Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['headers']);
 
 						// report on this notification
-						if(isset($user['full_name']) && $user['full_name'])
-							$label = ucfirst($user['full_name']);
-						else
-							$label = ucfirst($user['nick_name']);
-						$enrolled_names[] = htmlspecialchars('"'.$label.'" <'.$user['email'].'>');
+						$enrolled_names[] = htmlspecialchars($recipient);
 
 					}
 				}
@@ -192,7 +194,13 @@ else {
 				SQL::query($query);
 
 				// confirm enrolment by e-mail
-				if($user['email']) {
+				if($user['email'] && preg_match(VALID_RECIPIENT, $user['email'])) {
+
+					// use this email address
+					if($user['full_name'])
+						$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+					else
+						$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 					// mail message
 					$mail = array();
@@ -210,14 +218,10 @@ else {
 					$mail['headers'] = Mailer::set_thread($anchor->get_reference());
 
 					// send the message
-					Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+					Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['headers']);
 
 					// report on this notification
-					if(isset($user['full_name']) && $user['full_name'])
-						$label = ucfirst($user['full_name']);
-					else
-						$label = ucfirst($user['nick_name']);
-					$enrolled_names[] = htmlspecialchars('"'.$label.'" <'.$user['email'].'>');
+					$enrolled_names[] = htmlspecialchars($recipient);
 
 				}
 
@@ -274,7 +278,13 @@ else {
 				Members::assign('user:'.$user['id'], $anchor->get_reference());
 
 			// confirm enrolment by e-mail
-			if($user['email']) {
+			if($user['email'] && preg_match(VALID_RECIPIENT, $user['email'])) {
+
+				// use this email address
+				if($user['full_name'])
+					$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+				else
+					$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 				// mail message
 				$mail = array();
@@ -292,14 +302,10 @@ else {
 				$mail['headers'] = Mailer::set_thread($anchor->get_reference());
 
 				// send the message
-				Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+				Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['headers']);
 
 				// report on this notification
-				if(isset($user['full_name']) && $user['full_name'])
-					$label = ucfirst($user['full_name']);
-				else
-					$label = ucfirst($user['nick_name']);
-				$enrolled_names[] = htmlspecialchars('"'.$label.'" <'.$user['email'].'>');
+				$enrolled_names[] = htmlspecialchars($recipient);
 
 			}
 
