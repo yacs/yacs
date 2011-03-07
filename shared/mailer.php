@@ -59,12 +59,20 @@ class Mailer {
 	 * @return array containing message parts ($type => $content)
 	 */
 	function &build_message($title, $text) {
+		global $context;
+
+		// change links from relative to absolute
+		$text = str_replace(' href="/', ' href="'.$context['url_to_home'].'/', $text);
+		$text = str_replace(' src="/', ' src="'.$context['url_to_home'].'/', $text);
 
 		// one element per type
 		$message = array();
 
 		// text/plain part has no tag anymore
-		$replacements = array("/<a href=\"(.*?)\">(.*?)<\/a>/i" => "\\2 \\1",
+		$replacements = array("/<a [^>]*?><img [^>]*?><\/a>/i" => '', // suppress clickable images
+			"/<a href=\"([^\"]+?)\"([^>]*?)>\\1<\/a>/i" => "\\1",	// un-twin clickable links
+			"/<a href=\"([^\"]+?)\" ([^>]*?)>(.*?)<\/a>/i" => "\\3 \\1", // label and link
+			"/<a href=\"([^\"]+?)\">(.*?)<\/a>/i" => "\\2 \\1", // label and link too
 			'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
 			'/&nbsp;/' => ' ');
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)))));
