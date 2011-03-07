@@ -1632,6 +1632,10 @@ function yacs_handler($content) {
  */
 function reduce_number($number) {
 
+	// safety test
+	if(!is_callable('bcscale'))
+		return $number;
+
 	// 62 digits
 	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
 
@@ -1657,6 +1661,10 @@ function reduce_number($number) {
  * @param int associated number
  */
 function restore_number($number) {
+
+	// safety test
+	if(!is_callable('bcscale'))
+		return $number;
 
 	// 62 digits
 	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
