@@ -743,6 +743,14 @@ class Mailer {
 	 * For this to work, e-mail services have to be explicitly activated in the
 	 * main configuration panel, at [script]control/configure.php[/script].
 	 *
+	 * You can refer to local images in HTML parts, and the function will automatically attach these
+	 * to the message, else mail clients would not display them correctly.
+	 *
+	 * The message actually sent has a complex structure, with several parts assembled together,
+	 * as [explained at altepeter.net|http://altepeter.net/tech/articles/html-emails].
+	 *
+	 * @link http://altepeter.net/tech/articles/html-emails
+	 *
 	 * Several recipients can be provided as a list of addresses separated by
 	 * commas. For bulk posts, recipients can be transmitted as an array of strings.
 	 * In all cases, this function sends one separate message per recipient.
@@ -755,7 +763,7 @@ class Mailer {
 	 *
 	 * Bracketed recipients, such as ##Foo Bar <foo@bar.com>##, are handled properly,
 	 * meaning ##foo@bar.com## is transmitted to the mailing function, while
-	 * the string ##To : Foo Bar <foo@bar.com>## is added to headers.
+	 * the string ##To: Foo Bar <foo@bar.com>## is added to headers.
 	 *
 	 * If an array of messages is provided to the function, it is turned to a multi-part
 	 * message, as in the following example:
@@ -767,8 +775,8 @@ class Mailer {
 	 * Mailer::post($from, $to, $subject, $message);
 	 * [/php]
 	 *
-	 * If you don't provide a charset, then UTF-8 is used. Also, it is recommended to
-	 * begin with the bare text, and to have the rich format part comming after, as in the example.
+	 * It is recommended to begin with the bare text, and to have the rich format part comming
+	 * after, as in the example. Also, if you don't provide a charset, then UTF-8 is used.
 	 *
 	 * Long lines of text/plain parts are wrapped according to
 	 * [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
@@ -781,10 +789,12 @@ class Mailer {
 	 *
 	 * [php]
 	 * $attachments = array();
-	 * $attachments[] = 'report.pdf';
-	 * $attachments[] = 'image.png';
+	 * $attachments[] = 'special/report.pdf';
+	 * $attachments[] = 'skins/my_skin/newsletters/image.png';
 	 * Mailer::post($from, $to, $subject, $message, $attachments);
 	 * [/php]
+	 *
+	 * Files are named from the installation directory of yacs, as visible in the examples.
 	 *
 	 * This function returns the number of successful posts,
 	 * and populates the error context, where applicable.
@@ -876,8 +886,49 @@ class Mailer {
 			$message['text/plain; charset=utf-8'] = $copy;
 			unset($copy);
 		}
-		if(!$attachments)
+
+		// turn attachments to some array too
+		if(is_string($attachments))
+			$attachments = array( $attachments );
+		elseif(!is_array($attachments))
 			$attachments = array();
+
+		// we only consider objects from this server
+		$my_prefix = $context['url_to_home'].$context['url_to_root'];
+
+		// transcode objects that will be transmitted along the message (i.e., images)
+		foreach($message as $type => $part) {
+
+			// search throughout the full text
+			$head = 0;
+			while($head = strpos($part, ' src="', $head)) {
+				$head += strlen(' src="');
+
+				// a link has been found
+				if($tail = strpos($part, '"', $head+1)) {
+					$reference = substr($part, $head, $tail-$head);
+
+					// remember local links only
+					if(!strncmp($reference, $my_prefix, strlen($my_prefix))) {
+
+						// local name
+						$name = substr($reference, strlen($my_prefix));
+
+						// content-id to be used instead of the link
+						$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
+
+						// transcode the link in this part
+						$part = substr($part, 0, $head).'cid:'.$cid.substr($part, $tail);
+
+						// remember to put content in attachments of this message
+						$attachments[] = $name;
+					}
+				}
+			}
+
+			// remember the transcoded part
+			$message[ $type ] = $part;
+		}
 
 		// we need some boundary string
 		if((count($message) + count($attachments)) > 1)
@@ -922,7 +973,7 @@ class Mailer {
 			// one part among several
 			} else {
 
-				// the external type of assembled parts
+				// let user agent select among various alternatives
 				if(!$content_type)
 					$content_type = 'multipart/alternative; boundary="'.$boundary.'-internal"';
 
@@ -946,41 +997,51 @@ class Mailer {
 		// a mix of things
 		if(count($attachments)) {
 
-				// the current body becomes the first part of a larger message
-				if(!strncmp($content_type, 'multipart/', 10))
-					$content_encoding = '';
-				else
-					$content_encoding = M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
-
-				$body = 'This is a multi-part message in MIME format.'.M_EOL
-					.M_EOL.'--'.$boundary.'-external'
-					.M_EOL.'Content-Type: '.$content_type
-					.$content_encoding
-					.M_EOL.M_EOL.$body;
-
-				$content_type = 'multipart/mixed; boundary="'.$boundary.'-external"';
+			// encoding is irrelevant if there are multiple parts
+			if(!strncmp($content_type, 'multipart/', 10))
 				$content_encoding = '';
+			else
+				$content_encoding = M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
 
-				// process every file
-				foreach($attachments as $name) {
+			// identify the main part of the overall message
+			$content_start = 'mainpart';
 
-					// read file content
-					if(!$content = Safe::file_get_contents($name))
-						continue;
+			// the current body becomes the first part of a larger message
+			$body = 'This is a multi-part message in MIME format.'.M_EOL
+				.M_EOL.'--'.$boundary.'-external'
+				.M_EOL.'Content-Type: '.$content_type
+				.$content_encoding
+				.M_EOL.'Content-ID: <'.$content_start.'>'
+				.M_EOL.M_EOL.$body;
 
-					// append it to mail message
-					$basename = basename($name);
-					$type = Files::get_mime_type($basename);
+			// message parts should be considered as an aggregate whole --see RFC 2387
+			$content_type = 'multipart/related; type="multipart/alternative"; boundary="'.$boundary.'-external"';
+			$content_encoding = '';
 
-					$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
-						.M_EOL.'Content-Type: '.$type.'; name="'.$basename.'"'
-						.M_EOL.'Content-Transfer-Encoding: base64'
-						.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+			// process every file
+			foreach($attachments as $name) {
 
-				}
+				// read file content
+				if(!$content = Safe::file_get_contents($name))
+					continue;
 
-				// the closing boundary
-				$body .= M_EOL.M_EOL.'--'.$boundary.'-external--';
+				// append it to mail message
+				$basename = utf8::to_ascii(basename($name));
+				$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
+				$type = Files::get_mime_type($name);
+
+				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
+					.M_EOL.'Content-Type: '.$type
+					.M_EOL.'Content-Description: '.$basename
+					.M_EOL.'Content-Disposition: inline; filename="'.$basename.'"'
+					.M_EOL.'Content-ID: <'.$cid.'>'
+					.M_EOL.'Content-Transfer-Encoding: base64'
+					.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+
+			}
+
+			// the closing boundary
+			$body .= M_EOL.M_EOL.'--'.$boundary.'-external--';
 
 		}
 
@@ -992,6 +1053,10 @@ class Mailer {
 		// Content-Transfer-Encoding: header
 		if(!isset($boundary) && $content_encoding && !preg_match('/^Content-Transfer-Encoding: /im', $headers))
 			$headers .= M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
+
+		// Start: header
+		if(isset($boundary) && isset($content_start) && $content_start && !preg_match('/^Start: /im', $headers))
+			$headers .= M_EOL.'Start: '.$content_start;
 
 		// X-Mailer: header --helps to avoid spam filters
 		if(!preg_match('/^X-Mailer: /im', $headers))
@@ -1105,7 +1170,7 @@ class Mailer {
 
 			$all_headers = 'Subject: '.$subject."\n".'To: '.$decoded_recipient."\n".$headers;
 
-			Logger::remember('shared/mailer.php', 'sending a message to '.$decoded_recipient, htmlentities($all_headers)."\n\n".$message, 'debug');
+			Logger::remember('shared/mailer.php', 'sending a message to '.$decoded_recipient, $all_headers."\n\n".$message, 'debug');
 			Safe::file_put_contents('temporary/mailer.process.txt', $all_headers."\n\n".$message);
 		}
 
