@@ -1361,10 +1361,10 @@ Class Files {
 		else
 			$icon = $context['url_to_root'].Files::get_icon_url($item['file_name']);
 
-		// a clickable image to download the file
+		// a clickable image to access the file
 		if($icon) {
 			$icon = '<img src="'.$icon.'" />';
-			return Skin::build_link(Files::get_url($item['id'], Files::is_stream($item['file_name'])?'stream':'fetch', $item['file_name']), $icon, 'basic').BR;
+			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
 		}
 
 		// nothing special
