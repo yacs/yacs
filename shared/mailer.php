@@ -548,6 +548,67 @@ class Mailer {
 	}
 
 	/**
+	 * encode message recipient
+	 *
+	 * @param string the original recipient mail address
+	 * @param string the original recipient name, if any
+	 * @return string the encoded recipient
+	 */
+	function encode_recipient($address, $name=NULL) {
+
+		// no space nor HTML tag in address
+		$address = preg_replace('/\s/', '', strip_tags($address));
+
+		// if a name is provided
+		if($name) {
+
+			// don't break the list of recipients
+			$name = str_replace(array(',', '"'), ' ', $name);
+
+			// at the moment we only accept ASCII names
+			$name = utf8::to_ascii($name);
+
+			// the full recipient
+			$recipient = '"'.$name.'" <'.$address.'>';
+
+		// else use the plain mail address
+		} else
+			$recipient = $address;
+
+		// done
+		return $recipient;
+	}
+
+	/**
+	 * encode message subject
+	 *
+	 * This function preserves the original subject line if it only has ASCII characters.
+	 * Else is encodes it using UTF-8.
+	 *
+	 * @param string the original subject
+	 * @return string the encoded subject
+	 */
+	function encode_subject($text) {
+
+		// no new line nor HTML tag in title
+		$text = preg_replace('/\s+/', ' ', strip_tags($text));
+
+		// encode if text is not pure ASCII - ' ' = 0x20 and 'z' = 0x7a
+		if(preg_match('/[^ -z]/', $text)) {
+
+			// make it utf-8
+			$text = utf8::from_unicode($text);
+
+			// encode it for the transfer --see RFC 2047
+			$text = '=?utf-8?B?'.base64_encode($text).'?=';
+
+		}
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * adapt content to legacy transmission pipes
 	 *
 	 * @param string the original string
@@ -769,14 +830,8 @@ class Mailer {
 		if(!defined('M_EOL'))
 			define('M_EOL', "\n");
 
-		// no new line nor HTML tag in title
-		$subject = preg_replace('/\s+/', ' ', strip_tags($subject));
-
-		// make it utf-8
-		$subject = utf8::from_unicode($subject);
-
-		// encode it for the transfer
-		$encoded_subject = '=?utf-8?B?'.base64_encode($subject).'?=';
+		// encode the subject line
+		$subject = Mailer::encode_subject($subject);
 
 		// make some text out of an array
 		if(is_array($headers))
@@ -963,7 +1018,7 @@ class Mailer {
 				$context['mailer_recipients'][] = $recipient;
 
 			// queue the message
-			Mailer::queue($recipient, $encoded_subject, $body, $headers);
+			Mailer::queue($recipient, $subject, $body, $headers);
 			$posts++;
 		}
 
