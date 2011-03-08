@@ -810,6 +810,12 @@ if(!isset($item['id'])) {
 
 	}
 
+	// associates can transfer ownership
+	if(Surfer::is_associate()) {
+		Skin::define_img('USERS_TRANSFER_IMG', 'users/transfer.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'transfer'), USERS_TRANSFER_IMG.i18n::s('Transfer ownership'));
+	}
+
 	// user profile aside
 	$context['components']['profile'] = Skin::build_profile($item, 'extra');
 

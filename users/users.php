@@ -637,7 +637,7 @@ Class Users {
 			return 'users/select.php?anchor='.urlencode($id);
 
 		// check the target action
-		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|navigate|password|print|select_avatar|share|validate|view|visit)$/', $action))
+		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|navigate|password|print|select_avatar|share|transfer|validate|view|visit)$/', $action))
 			return 'users/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 // 		// view user profile --use only the nick name, since it is unique

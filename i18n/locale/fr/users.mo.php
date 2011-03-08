@@ -5,11 +5,15 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
+$_SESSION['l10n']['fr']['%d articles have been updated']='%d articles ont été mis à jour';
+$_SESSION['l10n']['fr']['6a3969354e1e229cfe04e2c45dccbc88']='%d assignations d\'éditeur ont été mises à jour';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['fr']['%d posts']='%d contributions';
 $_SESSION['l10n']['fr']['%d result'.chr(0).'%d results']='%d résultat'.chr(0).'%d résultats';
 $_SESSION['l10n']['fr']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%d sections';
+$_SESSION['l10n']['fr']['%d sections have been updated']='%d sections ont été mises à jour';
 $_SESSION['l10n']['fr']['%d user'.chr(0).'%d users']='%d utilisateur'.chr(0).'%d utilisateurs';
+$_SESSION['l10n']['fr']['b5d570929fee516916509141f3fdceea']='%d assignations de surveillance ont été mises à jour';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
@@ -94,6 +98,7 @@ $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['ed04cc084ae94b5055918b25c4b2aa6f']='Attention : Ce lien web contient des informations personnelles. Préservez la confidentialité de ce message pour éviter que quelqu\'un puisse l\'utiliser et accèder à votre compte.';
 $_SESSION['l10n']['fr']['Change password']='Changer le mot de passe';
 $_SESSION['l10n']['fr']['Change picture']='Changer l\'image';
+$_SESSION['l10n']['fr']['Changing ownership to %s']='Transfert des droits vers %s';
 $_SESSION['l10n']['fr']['Click here to register']='Cliquez ici pour vous enregistrer';
 $_SESSION['l10n']['fr']['0d31f10bcbbf938368199591c71a14f8']='Cliquez sur l\'une des images ci-dessous pour la faire afficher sur le profil.';
 $_SESSION['l10n']['fr']['611a9403c4ccd1ee4659a721d45d59b3']='Cliquez sur le lien ci-dessus pour ajouter un abonnement.';
@@ -383,6 +388,9 @@ $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la con
 $_SESSION['l10n']['fr']['5ee5081b787778a1bf2dc50267afcdb8']='Tapez quelques lettres du nom recherché, puis sélectionner une personne à la fois.';
 $_SESSION['l10n']['fr']['18eedbd621c48e8de9a3ec32a672c05d']='Ajoutée à vos commentaires et messages. Séparée par des traits du texte principal.';
 $_SESSION['l10n']['fr']['d16733532bc1f048a8bfd6230b0876d3']='Pour empêcher les autres personnes de vous contacter, visitez votre profil, à l\'adresse suivante, et changez les préférences.';
+$_SESSION['l10n']['fr']['dd269e53b9cb005bb7d75f3f50266c09']='Pour transférer les droits vers une autre personne, taper quelques lettres du nom recherché.';
+$_SESSION['l10n']['fr']['Transfer ownership']='Transférer les droits';
+$_SESSION['l10n']['fr']['Transfer ownership of %s']='Transférer les droits de %s';
 $_SESSION['l10n']['fr']['Twitter']='Twitter';
 $_SESSION['l10n']['fr']['Unknown LDAP option %s.']='Option LDAP %s inconnue.';
 $_SESSION['l10n']['fr']['Unknown authenticator type %s']='Type d\'authentifieur %s inconnu';
