@@ -783,20 +783,20 @@ Class Articles {
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT articles.id"
+			$query = "(SELECT articles.id"
 				." FROM (".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('articles')." AS articles)"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -805,7 +805,13 @@ Class Articles {
 			$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE articles.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include articles owned by this surfer
+		$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE articles.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// count records
 		return SQL::query_count($query);
@@ -2136,20 +2142,20 @@ Class Articles {
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT articles.*"
+			$query = "(SELECT articles.*"
 				." FROM (".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('articles')." AS articles)"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -2158,7 +2164,13 @@ Class Articles {
 			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE articles.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include articles owned by this surfer
+		$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE articles.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// finalize the query
 		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;

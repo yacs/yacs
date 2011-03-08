@@ -652,19 +652,19 @@ Class Sections {
 
 		// look for watched sections with sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT sections.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+			$query = "(SELECT sections.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
 				.", ".SQL::table_name('sections')." AS sections"
 				." WHERE (sections.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT sections.id FROM ".SQL::table_name('members')." AS members"
+			$query = "(SELECT sections.id FROM ".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('sections')." AS sections"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'section:%')"
 				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -673,7 +673,13 @@ Class Sections {
 			$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE sections.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include sections owned by this surfer
+		$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
+			." WHERE sections.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// count records
 		return SQL::query_count($query);
@@ -2118,19 +2124,19 @@ Class Sections {
 
 		// look for watched sections with sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+			$query = "(SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
 				.", ".SQL::table_name('sections')." AS sections"
 				." WHERE (sections.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT sections.* FROM ".SQL::table_name('members')." AS members"
+			$query = "(SELECT sections.* FROM ".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('sections')." AS sections"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'section:%')"
 				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -2139,7 +2145,13 @@ Class Sections {
 			$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE sections.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include sections owned by this surfer
+		$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
+			." WHERE sections.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// finalize the query
 		$query .= " ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
