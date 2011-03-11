@@ -701,6 +701,33 @@ class Overlay {
 
 	}
 
+	/**
+	 * notify followers or not?
+	 *
+	 * This function is used in articles/publish.php to prevent notification of followers.
+	 *
+	 * @see articles/publish.php
+	 *
+	 * @return boolean FALSE by default, but can be changed in derived overlay
+	 */
+	function should_notify_followers() {
+		return FALSE;
+	}
+
+	/**
+	 * notify watchers or not?
+	 *
+	 * This function is used in various scripts to prevent notification of watchers.
+	 *
+	 * @see articles/edit.php
+	 * @see articles/publish.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay, such as events
+	 */
+	function should_notify_watchers() {
+		return TRUE;
+	}
+
 }
 
 ?>
