@@ -1439,15 +1439,16 @@ class Event extends Overlay {
 	}
 
 	/**
-	 * do not notify followers
+	 * notify watchers or not?
 	 *
-	 * This function is used in articles/edit.php to prevent notification of page followers.
+	 * This function is used in various scripts to prevent notification of watchers.
 	 *
 	 * @see articles/edit.php
+	 * @see articles/publish.php
 	 *
-	 * @return boolean always FALSE, since events have to be communicated explicitly
+	 * @return boolean always FALSE for events, since notifications are made through enrolment
 	 */
-	function should_notify_followers() {
+	function should_notify_watchers() {
 		return FALSE;
 	}
 
