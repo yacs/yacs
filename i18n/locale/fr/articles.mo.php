@@ -370,6 +370,7 @@ $_SESSION['l10n']['fr']['Your sections']='Vos sections';
 $_SESSION['l10n']['fr']['Zip 20 first files']='Zip des 20 premiers fichiers';
 $_SESSION['l10n']['fr']['Zip all files']='Zip de tous les fichiers';
 $_SESSION['l10n']['fr']['advertised']='contacté';
+$_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';
 $_SESSION['l10n']['fr']['bytes']='octets';

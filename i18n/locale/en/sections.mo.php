@@ -447,6 +447,7 @@ $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is bei
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['3a123eb381c7b77022d31740519e6c0e']='accordion - Expose one item at a time in a stack';
 $_SESSION['l10n']['en']['3826678d554b3f49614db283670da2ca']='alistapart - Display entirely the last published page';
+$_SESSION['l10n']['en']['authenticate']='authenticate';
 $_SESSION['l10n']['en']['behavior']='behavior';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
