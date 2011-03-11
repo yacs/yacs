@@ -2,8 +2,6 @@
 /**
  * view one section
  *
- * @todo index presentation of articles (agnes)
- *
  * The main panel has following elements:
  * - top icons, if any --set in sub-section
  * - the section itself, with details, introduction, and main text.
