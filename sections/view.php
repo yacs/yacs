@@ -773,7 +773,7 @@ if(!isset($item['id'])) {
 	// allow to leave the section
 	if(Sections::is_assigned($item['id']) && !Sections::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
 
 	// get news from rss

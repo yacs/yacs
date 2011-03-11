@@ -517,7 +517,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	// leave this page, for editors
 	} elseif(Articles::is_assigned($item['id'])) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'sections/assign.gif');
-		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
+		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'leave') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	}
 
 	// headers

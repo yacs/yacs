@@ -640,7 +640,7 @@ if(!isset($item['id'])) {
 	// allow to leave the page
 	if(Articles::is_assigned($item['id']) && !Articles::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
+		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'leave'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	}
 
 	// get news from rss
