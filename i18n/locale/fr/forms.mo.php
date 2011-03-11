@@ -81,6 +81,7 @@ $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas a
 $_SESSION['l10n']['fr']['Your e-mail address']='Votre adresse E-mail';
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['Your sections']='Vos sections';
+$_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['edit']='modifier';
 $_SESSION['l10n']['fr']['edited %s']='modifié %s';

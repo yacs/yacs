@@ -447,6 +447,7 @@ $_SESSION['l10n']['fr']['82e1e4fa4163a6bb6fce5575a9d86438']='Votre message est e
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['3a123eb381c7b77022d31740519e6c0e']='accordion - Exposer un élément à la fois dans une pile';
 $_SESSION['l10n']['fr']['3826678d554b3f49614db283670da2ca']='alistapart - Dernier article dans son intégralité';
+$_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['behavior']='comportement';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';

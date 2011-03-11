@@ -81,6 +81,7 @@ $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed
 $_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['Your sections']='Your sections';
+$_SESSION['l10n']['en']['authenticate']='authenticate';
 $_SESSION['l10n']['en']['delete']='delete';
 $_SESSION['l10n']['en']['edit']='edit';
 $_SESSION['l10n']['en']['edited %s']='edited %s';

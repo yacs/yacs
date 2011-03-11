@@ -145,6 +145,7 @@ $_SESSION['l10n']['en']['Edit my profile']='Edit my profile';
 $_SESSION['l10n']['en']['Edit this profile']='Edit this profile';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editor: %s']='Editor: %s';
+$_SESSION['l10n']['en']['Editors']='Editors';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['f7921c934b2fc657cfe6ef95511b471d']='Every post is published (Wiki mode).';
 $_SESSION['l10n']['en']['Extension']='Extension';
