@@ -394,7 +394,7 @@
 
 		// tools are listed into $context
 		if(isset($context['page_tools']) && (@count($context['page_tools']) > 0))
-			echo Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
+			echo Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'newlines'), 'extra', 'page_tools');
 
 	}
 

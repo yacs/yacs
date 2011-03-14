@@ -3726,6 +3726,7 @@ Class Skin_Skeleton {
 				break;
 
 			// similar to compact
+			case 'newlines':
 			case 'tools':
 
 				if($list) {
