@@ -94,8 +94,8 @@ Class Tables {
 			if($table['title']) {
 				$label = preg_replace('/\s/', ' ', $table['title']);
 
-				// encode in iso8859
-				$label = utf8::to_iso8859($label);
+				// encode to ASCII
+				$label = utf8::to_ascii($label);
 
 				$text .= '"'.$label.'"';
 				$text .= "\n";
@@ -108,8 +108,8 @@ Class Tables {
 					$text .= $separator;
 				$label = trim(preg_replace('/\s/', ' ', ucfirst($field->name)));
 
-				// encode in iso8859
-				$label = utf8::to_iso8859($label);
+				// encode
+				$label = utf8::to_ascii($label);
 
 				$text .= '"'.$label.'"';
 			}
@@ -127,11 +127,14 @@ Class Tables {
 					if($index++)
 						$text .= $separator;
 
-					// clean spaces
-					$label = trim(preg_replace('/\s/', ' ', $value));
+					// remove HTML tags
+					$value = strip_tags(str_replace('</', ' </', str_replace(BR, ' / ', $value)));
 
-					// encode in iso8859
-					$label = utf8::to_iso8859($label);
+					// clean spaces
+					$label = trim(preg_replace('/\s+/', ' ', $value));
+
+					// encode
+					$label = utf8::to_ascii($label);
 
 					// escape quotes to preserve them in the data
 					$label = str_replace('"', '""', $label);
