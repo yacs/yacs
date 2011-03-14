@@ -501,7 +501,7 @@ class Messages {
 		$user =& Users::get($post_sender);
 
 		// the address is in the list of allowed addresses, including anyone
-		if($allowed && preg_match('/\b('.preg_quote($post_sender).'|anyone)\b/i', $allowed)) {
+		if($allowed && preg_match('/\b('.preg_quote($post_sender, '/').'|anyone)\b/i', $allowed)) {
 			$granted = TRUE;
 
 			// email addresses not present in the database are allowed
