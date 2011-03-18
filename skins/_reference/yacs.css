@@ -583,6 +583,7 @@ dl#contextual_menu ul.tree ul { /* indent all levels, except level 1 */
 }
 
 dl#contextual_menu ul.tree li { /* every branch of the tree */
+	border: none;
 	margin: 0;
 	padding-top: 0;
 	text-align: left;
