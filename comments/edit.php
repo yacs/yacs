@@ -448,11 +448,11 @@ if($with_form) {
 	$context['text'] .= '<p>';
 
 	// notify watchers
-	if(!isset($item['id']))
+	if($action != 'edit')
 		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
 
 	// notify people following me
-	if(!isset($item['id']) && Surfer::get_id() && !$anchor->is_hidden())
+	if(($action != 'edit') && Surfer::get_id() && !$anchor->is_hidden())
 		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
 
 	// associates and editors may decide to not stamp changes -- complex command
