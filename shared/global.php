@@ -219,7 +219,7 @@ $context['skins_extra_components'] = 'tools image profile news overlay boxes sha
 $context['skins_main_components'] = 'title bar error text tags details';
 
 // components to put in the side panel --see skins/configure.php
-$context['skins_navigation_components'] = 'menu user navigation contextual';
+$context['skins_navigation_components'] = 'user menu contextual navigation';
 
 // minimize CPU used by rendering engine --see skins/configure.php
 $context['skins_with_details'] = 'N';

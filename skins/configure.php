@@ -404,11 +404,11 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Navigation boxes are looking similar at all pages');
 	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
 	$keywords = array();
-	$keywords[] = 'menu - '.i18n::s('Site menu');
 	$keywords[] = 'user - '.i18n::s('User menu');
 	$keywords[] = 'extra - '.i18n::s('Include the extra panel, if your skin features a 2-column layout');
-	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
+	$keywords[] = 'menu - '.i18n::s('Site menu');
 	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
+	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
 	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
 
