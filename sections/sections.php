@@ -241,6 +241,7 @@
  * @tester Mark
  * @tester Ddaniel
  * @tester Olivier
+ * @tester JMarc
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -957,10 +958,10 @@ Class Sections {
 			." AND ((sections.expiry_date is NULL)"
 			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
-		// list up to 200 sections
+		// limit the number of results
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".implode(' AND', $criteria)
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
 			return $output;
@@ -1046,7 +1047,7 @@ Class Sections {
 		// ensure reasonable limit
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".implode(' AND ', $criteria)
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
 			return $output;
@@ -1431,7 +1432,7 @@ Class Sections {
 
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE 'section:".$item['id']."')"
-				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result =& SQL::query($query)) {
 				while($row =& SQL::fetch($result)) {
 					if($children)
@@ -1478,7 +1479,7 @@ Class Sections {
 
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE '".$item['anchor']."')".$where
-				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result =& SQL::query($query)) {
 
 				// brothers and sisters of parent
@@ -1551,7 +1552,7 @@ Class Sections {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where
 				." AND (sections.index_map = 'Y')"
-				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result =& SQL::query($query)) {
 
 				// process all matching sections
@@ -1583,7 +1584,7 @@ Class Sections {
 				$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 					." WHERE (sections.anchor='' OR sections.anchor IS NULL)"
 					." AND (sections.index_map != 'Y')"
-					." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+					." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 				if($result =& SQL::query($query)) {
 
 					$family .= '<hr />';
