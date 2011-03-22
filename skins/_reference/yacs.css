@@ -69,23 +69,23 @@ div.tabs ul { /* position tabs */
 }
 
 div.tabs ul li {
-      display:inline;
-      margin:0;
-      padding:0;
+      display: inline;
+      margin: 0;
+      padding: 0;
 }
 
 div.tabs li a { /* tab top left corner */
-      float:left;
-      margin:0;
-      padding:0 0 0 4px;
-      text-decoration:none;
+      float: left;
+      margin: 0;
+      padding: 0 0 0 4px;
+      text-decoration: none;
 }
 
 div.tabs li a span { /* tab top right corner */
-      float:left;
-      display:block;
-      padding:5px 12px 4px 6px;
-      color:#666;
+      float: left;
+      display: block;
+      padding: 5px 12px 4px 6px;
+      color: #666;
 }
 
 div.tabs li a:hover,
@@ -330,7 +330,8 @@ p.tags a, span.tags a { /* each tag can link to a category */
 
 @media screen { /* only on screen */
 
-	p.tags a, span.tags a {
+	p.tags a, span.tags a,
+	p.tags a:hover, span.tags a:hover {
 		background: transparent url("tools/tag_bg.gif") no-repeat left center;
 		border-right: 1px solid #c2c2c1;
 		padding: 2px 1px 2px 12px;
@@ -650,6 +651,7 @@ code { /* ##..## or [code]..[/code] -- some script shell */
 }
 
 a.tiny,
+span.tiny a,
 span.tiny { /* [tiny]...[/tiny] -- smaller than .small*/
 	font-family: sans-serif;
 	font-size: 9px;
@@ -1125,6 +1127,7 @@ table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table bord
 table.grid tbody tr td,
 table.grid tbody tr.even td,
 table.grid tbody tr.odd td,
+table.grid tbody tr th,
 table.grid thead tr th,
 table.exhibit-tabularView-body tbody tr td,
 table.exhibit-tabularView-body tbody tr th { /* a cell in a grid */

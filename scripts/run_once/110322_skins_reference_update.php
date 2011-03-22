@@ -1,6 +1,6 @@
 <?php
 /**
- * update misc. files
+ * update reference skins
  *
  * @author Bernard Paques
  * @reference
@@ -9,7 +9,7 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Update miscellaneous files';
+$local['label_en'] = 'Update reference skins';
 $local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
@@ -21,6 +21,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 $files = array();
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/flexible/flexible.css';
 
 // process every file
 $count = 0;
