@@ -166,7 +166,7 @@ else {
 		if($label = i18n::l($attributes, 'label')) {
 			if($context['skin'] == $id)
 				$label .= ' <span class="details">'.i18n::s('current theme').'</span>';
-			$text .= Skin::build_block($label, 'subtitle');
+			$text .= Skin::build_block($label, 'title');
 		}
 
 		// style description
@@ -203,7 +203,7 @@ else {
 
 
 		// append the menu to the text
-		$text .= Skin::build_list($menu, 'menu');
+		$text .= Skin::build_list($menu, 'menu_bar');
 
 		// the image
 		if($attributes['thumbnail']) {
