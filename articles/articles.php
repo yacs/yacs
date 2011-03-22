@@ -990,10 +990,10 @@ Class Articles {
 		// end of active filter
 		$where = '('.$where.')';
 
-		// list up to 200 sections
+		// limit the overall list of results
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
-			." LIMIT 200";
+			." LIMIT 5000";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
 			return $output;
