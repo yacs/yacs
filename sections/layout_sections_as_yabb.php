@@ -135,7 +135,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 			// get last post
 			$last_post = '--';
-			$article =& Articles::get_newest_for_anchor('section:'.$item['id'], TRUE);
+			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
 			if($article['id']) {
 
 				// flag articles updated recently
