@@ -134,6 +134,9 @@
 	function component($name, $variant='navigation') {
 		global $context;
 
+		// sanity check
+		$name = trim($name);
+
 		// for component 'foo' we are looking for member function 'echo_foo'  from the skin
 		$from_skin = array('Skin', 'echo_'.$name);
 		if(is_callable($from_skin)) {
@@ -408,9 +411,14 @@
 
 		// build menu content dynamically
 		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
-			if(Surfer::is_logged())
+			if(Surfer::is_logged()) {
 				$box_title = Surfer::get_name();
-			else
+
+				if(($item = Users::get(Surfer::get_id())) && isset($item['avatar_url']) && $item['avatar_url'])
+					$box_title = '<img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field(Surfer::get_name()).'" style="max-width: 25px; max-height: 25px; margin-right: 4px;" />'.$box_title;
+
+
+			} else
 				$box_title = i18n::s('User login');
 			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu');
 		}
