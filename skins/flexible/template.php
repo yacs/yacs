@@ -69,16 +69,16 @@ echo '</head>'."\n";
 // the body tag, plus some hidden tags
 Page::body();
 
-// div#page defines page width - fixes or liquid layout
-echo '<div id="page">'."\n";
+// table#page defines page width - fixes or liquid layout
+echo '<table id="page">'."\n";
 
 // the header panel comes before everything
-echo '<div id="header_panel">'."\n";
+echo '<tr id="header_panel"><td colspan="3"><div style="position: relative;">'."\n";
 
 // the site name, or site logo -- access key 1
 $name = '';
 if(isset($context['flexible_header_t_logo']) && $context['flexible_header_t_logo'] && ($context['flexible_header_t_logo'] != 'none'))
-	$name = '<img src="'.$context['flexible_header_t_logo'].'" />';
+	$name = '<img src="'.$context['flexible_header_t_logo'].'" alt="Logo"/>';
 elseif($context['site_name'])
 	$name = $context['site_name'];
 $title = '';
@@ -95,73 +95,93 @@ if($context['site_slogan'])
 Page::tabs(TRUE, FALSE);
 
 // end of the header panel
-echo '</div>'."\n";
+echo '</div></td></tr>'."\n";
 
-// concatenate side columns
-if(isset($context['flexible_columns']) && (($context['flexible_columns'] == '2_1_3') || ($context['flexible_columns'] == '2_3_1')))
-	$class = 'blogstyle';
-else
-	$class = 'holygrail';
+// main content
+echo '<tr id="columns">'."\n";
 
-// do the magic
-echo '<div class="colmask '.$class.'">'
-	.'<div class="colmid">'
-		.'<div class="colleft">'
-			.'<div class="col1wrap">'
-				.'<div id="main_panel">';
+switch($context['flexible_columns']) {
 
-// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
-Page::bread_crumbs();
-
-// display main content
-Page::content();
-
-// move to second column
-echo '</div>'	// main_panel
-	.'</div>';	// col1wrap
-
-// invert side and extra panels
-if(isset($context['flexible_columns']) && (($context['flexible_columns'] == '3_2_1') || ($context['flexible_columns'] == '2_3_1'))) {
-
-	// display complementary information, in div#side_panel
-	echo '<div id="side_panel">';
-	Page::extra_panel(NULL, FALSE);
-	echo '</div>';
-
-	// display side content, in div#extra_panel
-	echo '<div id="extra_panel">';
+case '1_2_3':
+	echo '<td id="side_panel">';
 	Page::side();
-	echo '</div>';
+	echo '</td>';
 
-} else {
+	echo '<td id="main_panel">';
+	Page::bread_crumbs();
+	Page::content();
+	echo '</td>';
 
-	// display side content, in div#side_panel
-	echo '<div id="side_panel">';
-	Page::side();
-	echo '</div>';
-
-	// display complementary information, in div#extra_panel
-	echo '<div id="extra_panel">';
+	echo '<td id="extra_panel">';
 	Page::extra_panel(NULL, FALSE);
-	echo '</div>';
+	echo '</td>';
+
+	break;
+
+case '3_2_1':
+	echo '<td id="extra_panel">';
+	Page::extra_panel(NULL, FALSE);
+	echo '</td>';
+
+	echo '<td id="main_panel">';
+	Page::bread_crumbs();
+	Page::content();
+	echo '</td>';
+
+	echo '<td id="side_panel">';
+	Page::side();
+	echo '</td>';
+
+	break;
+
+case '2_3_1':
+	echo '<td id="main_panel">';
+	Page::bread_crumbs();
+	Page::content();
+	echo '</td>';
+
+	echo '<td id="extra_panel">';
+	Page::extra_panel(NULL, FALSE);
+	echo '</td>';
+
+	echo '<td id="side_panel">';
+	Page::side();
+	echo '</td>';
+
+	break;
+
+case '2_1_3':
+	echo '<td id="main_panel">';
+	Page::bread_crumbs();
+	Page::content();
+	echo '</td>';
+
+	echo '<td id="side_panel">';
+	Page::side();
+	echo '</td>';
+
+	echo '<td id="extra_panel">';
+	Page::extra_panel(NULL, FALSE);
+	echo '</td>';
+
+	break;
 
 }
-// end layout
-echo '<span style="font-size:1px; line-height: 0px;">&nbsp;</span></div>'	// colleft
-	.'</div>'	// colmid
-	.'</div>';	// colmask
+
+// end of columns
+echo '</tr>'."\n";
 
 // the footer panel comes after everything else
-echo '<div id="footer"><div id="footer_panel">';
+echo '<tr id="footer_panel"><td colspan="3">';
 
 // display standard footer
 Page::footer();
 
 // end of the footer panel
-echo '</div></div>';
+echo '</td></tr>';
 
 // end of the page wrapper
-echo '</div>';
+echo '</table>';
 
 // insert the dynamic footer, if any, including inline scripts
 echo $context['page_footer'];
