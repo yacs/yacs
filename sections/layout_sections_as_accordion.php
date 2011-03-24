@@ -45,7 +45,17 @@ Class Layout_sections_as_accordion extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
+		$family = '';
 		while($item =& SQL::fetch($result)) {
+
+			// change the family
+			if($item['family'] != $family) {
+				$family = $item['family'];
+
+				// show the family
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n";
+
+			}
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
@@ -58,10 +68,6 @@ Class Layout_sections_as_accordion extends Layout_interface {
 
 			// box content
 			$elements = array();
-
-			// start the label with family, if any
-			if($item['family'])
-				$box['title'] = Skin::strip($item['family'], 30).' - ';
 
 			// signal articles to be published
 			if(isset($item['activation_date']) && ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -228,7 +234,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			}
 
 			// always make a box
-			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'accordion_section_'.$accordion_id);
+			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'accordion_section_'.$accordion_id.crc32($family));
 
 		}
 

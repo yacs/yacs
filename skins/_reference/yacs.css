@@ -379,7 +379,7 @@ div.box { /* some content with a title */
 div.box h2 { /* box title */
 }
 
-h2.top { /* no top margin */
+h2.top, h3.top { /* no top margin */
 	margin-top: 0;
 }
 

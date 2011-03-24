@@ -58,7 +58,11 @@ Class Layout_sections_as_jive extends Layout_interface {
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
-				$text .= '<tr class="'.$class_title.'"><td class="family" colspan="4">'.$family.'&nbsp;</td></tr>'."\n";
+				// show the family
+				$text .= Skin::table_suffix()
+					.'<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
+					.Skin::table_prefix('wide');
+
 			}
 
 			// reset everything
