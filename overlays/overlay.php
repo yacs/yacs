@@ -1,11 +1,11 @@
 <?php
 /**
- * the overlay interface used by articles
+ * the overlay interface
  *
- * Overlays are a straightforward way to extend YACS content pages.
+ * Overlays are a straightforward way to extend web pages.
  * For example, articles can be transformed to recipes, or to other pages that has to include some structured data.
  *
- * Overlay data is saved along standard articles as a serialized snippet.
+ * Overlay data is saved along standard yacs objects (e.g., articles) as a serialized snippet.
  * The encoding and decoding of this field requires a specialized class.
  *
  * The overlay interface masks these details and offers convenient methods to create, access and save piggy-back data.

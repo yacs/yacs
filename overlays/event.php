@@ -1085,7 +1085,7 @@ class Event extends Overlay {
 		// add this page to the watching list of this surfer
 		Members::assign($this->anchor->get_reference(), 'user:'.Surfer::get_id());
 
-		// create one comment only on first join
+		// create a comment only on first join
 		if(!isset($_SESSION['event_'.$this->anchor->get_reference()])) {
 
 			// track the new participant
