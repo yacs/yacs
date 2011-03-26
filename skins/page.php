@@ -414,10 +414,12 @@
 			if(Surfer::is_logged()) {
 				$box_title = Surfer::get_name();
 
+/** not fully integrated yet
+
 				if(($item = Users::get(Surfer::get_id())) && isset($item['avatar_url']) && $item['avatar_url'])
-					$box_title = '<img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field(Surfer::get_name()).'" style="max-width: 25px; max-height: 25px; margin-right: 4px;" />'.$box_title;
+					$box_title = '<img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field(Surfer::get_name()).'" class="box_title" />'.$box_title;
 
-
+*/
 			} else
 				$box_title = i18n::s('User login');
 			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu');
