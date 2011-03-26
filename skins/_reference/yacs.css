@@ -113,6 +113,12 @@ dl.navigation_box dt { /* box title */
 	font-size: 1.2em;
 }
 
+dl.navigation_box img.box_title {
+	max-width: 25px;
+	max-height: 25px;
+	margin-right: 4px;
+}
+
 dl.navigation_box dt span { /* for a secondary background image */
 }
 

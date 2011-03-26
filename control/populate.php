@@ -523,11 +523,11 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'bbb_template';
-		$fields['title'] = i18n::c('Web conference');
+		$fields['title'] = i18n::c('Web meeting');
 		$fields['introduction'] = i18n::c('To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
 		$fields['options'] = 'edit_as_simple view_as_tabs comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
 		$overlay = Overlay::bind('bbb_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -600,7 +600,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.');
 		$fields['options'] = 'comments_as_wall view_as_tabs';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
 		$overlay = Overlay::bind('event');
 		$fields['overlay'] = $overlay->save();
@@ -643,7 +643,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address.');
 		$fields['options'] = 'comments_as_wall view_as_tabs edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
 		$overlay = Overlay::bind('external_meeting');
 		$fields['overlay'] = $overlay->save();
