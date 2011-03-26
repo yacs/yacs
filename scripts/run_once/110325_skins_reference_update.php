@@ -21,6 +21,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 $files = array();
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/_reference/thumbnails/event.gif';
 $files[] = 'skins/flexible/flexible.css';
 
 // process every file
