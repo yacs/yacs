@@ -262,7 +262,7 @@ if(Surfer::is_crawler()) {
 				$fields['options'] = 'view_as_tabs'; // to list editors and watchers explicitly
 				$fields['rank'] = 4000;
 				$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
-				$fields['title'] = i18n::c('Internal');
+				$fields['title'] = i18n::c('Private activities');
 				Sections::post($fields);
 			}
 		}
