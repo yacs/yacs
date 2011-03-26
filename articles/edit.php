@@ -631,7 +631,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_by_title_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();

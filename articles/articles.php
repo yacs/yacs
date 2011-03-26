@@ -1783,59 +1783,6 @@ Class Articles {
 	}
 
 	/**
-	 * list these articles
-	 *
-	 * The first parameter can be either a string containing several ids or nick
-	 * names separated by commas, or it can be an array of ids or nick names.
-	 *
-	 * The second parameter can be either a string accepted by Articles::list_selected(),
-	 * or an instance of the Layout interface.
-	 *
-	 * @param mixed a list of ids or nick names
-	 * @param mixed the layout to apply
-	 * @return string to be inserted into the resulting page
-	 */
-	function &list_by_title_for_ids($ids, $layout='select') {
-		global $context;
-
-		// turn a string to an array
-		if(!is_array($ids))
-			$ids = preg_split('/[\s,]+/', (string)$ids);
-
-		// check every id
-		$items = array();
-		foreach($ids as $id) {
-
-			// we need some id
-			if(!$id)
-				continue;
-
-			// look by id or by nick name
-			if(is_numeric($id))
-				$items[] = "articles.id = ".SQL::escape($id);
-			else
-				$items[] = "articles.nick_name LIKE '".SQL::escape($id)."'";
-
-		}
-
-		// no valid id has been found
-		if(!count($items)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// the list of articles
-		$query = "SELECT articles.*"
-			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".join(' OR ', $items).")"
-			." ORDER BY articles.title";
-
-		// query and layout
-		$output =& Articles::list_selected(SQL::query($query), $layout);
-		return $output;
-	}
-
-	/**
 	 * list articles attached to one anchor
 	 *
 	 * The ordering method is provided by layout.
@@ -2046,6 +1993,56 @@ Class Articles {
 			." WHERE (".$where.")"
 			." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
+		$output =& Articles::list_selected(SQL::query($query), $layout);
+		return $output;
+	}
+
+	/**
+	 * list these articles
+	 *
+	 * The first parameter can be either a string containing several ids or nick
+	 * names separated by commas, or it can be an array of ids or nick names.
+	 *
+	 * The second parameter can be either a string accepted by Articles::list_selected(),
+	 * or an instance of the Layout interface.
+	 *
+	 * @param mixed a list of ids or nick names
+	 * @param mixed the layout to apply
+	 * @return string to be inserted into the resulting page
+	 */
+	function &list_for_ids($ids, $layout='select') {
+		global $context;
+
+		// turn a string to an array
+		if(!is_array($ids))
+			$ids = preg_split('/[\s,]+/', (string)$ids);
+
+		// check every id
+		$queries = array();
+		foreach($ids as $id) {
+
+			// we need some id
+			if(!$id)
+				continue;
+
+			// look by id or by nick name
+			if(is_numeric($id))
+				$queries[] = "SELECT * FROM ".SQL::table_name('articles')." WHERE (id = ".SQL::escape($id).")";
+			else
+				$queries[] = "SELECT * FROM ".SQL::table_name('articles')." WHERE (nick_name LIKE '".SQL::escape($id)."')";
+
+		}
+
+		// no valid id has been found
+		if(!count($queries)) {
+			$output = NULL;
+			return $output;
+		}
+
+		// return pages in the order of argument received
+		$query = "(".join(') UNION (', $queries).")";
+
+		// query and layout
 		$output =& Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
