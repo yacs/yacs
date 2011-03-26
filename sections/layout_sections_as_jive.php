@@ -65,6 +65,12 @@ Class Layout_sections_as_jive extends Layout_interface {
 
 			}
 
+			// get the related overlay, if any
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
+
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
+
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
 
@@ -82,8 +88,14 @@ Class Layout_sections_as_jive extends Layout_interface {
 			// the url to view this item
 			$url =& Sections::get_permalink($item);
 
+			// use the title to label the link
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
+			else
+				$title = Codes::beautify_title($item['title']);
+
 			// use the title as a link to the page
-			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
+			$title =& Skin::build_link($url, $title, 'basic', $hover);
 
 			// flag sections updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
@@ -106,6 +118,9 @@ Class Layout_sections_as_jive extends Layout_interface {
 
 				foreach($articles as $id => $article) {
 
+					// get the related overlay, if any
+					$article_overlay = Overlay::load($article, 'article:'.$id);
+
 					// flag articles updated recently
 					if(($article['expiry_date'] > NULL_DATE) && ($article['expiry_date'] <= $context['now']))
 						$flag = EXPIRED_FLAG.' ';
@@ -116,8 +131,14 @@ Class Layout_sections_as_jive extends Layout_interface {
 					else
 						$flag = '';
 
+					// use the title to label the link
+					if(is_object($article_overlay))
+						$title = Codes::beautify_title($article_overlay->get_text('title', $article));
+					else
+						$title = Codes::beautify_title($article['title']);
+
 					// title
-					$title = Skin::build_link(Articles::get_permalink($article), Codes::beautify_title($article['title']), 'article');
+					$title = Skin::build_link(Articles::get_permalink($article), $title, 'article');
 
 					// poster
 					$poster = Users::get_link($article['create_name'], $article['create_address'], $article['create_id']);
