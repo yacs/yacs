@@ -163,10 +163,14 @@ $no_result = TRUE;
 // provide results in separate panels
 $panels = array();
 
-// search in sections
-if($rows = Sections::search_in_section($section_id, $search)) {
-	$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-	$no_result = FALSE;
+// search in sections, but only on first page
+if(($page == 1)) {
+
+	if($rows = Sections::search_in_section($section_id, $search)) {
+		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
+		$no_result = FALSE;
+	}
+
 }
 
 // search in articles
