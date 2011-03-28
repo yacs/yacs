@@ -482,7 +482,7 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+)/i', // YouTube link
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_]+)/i', // YouTube link
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
