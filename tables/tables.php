@@ -197,12 +197,12 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = $value;
+					$datum[ $labels[$name] ] = utf8::to_ascii($value);
 
 				}
 
 				if($label && !in_array($labels, 'label'))
-					$datum['label'] = $label;
+					$datum['label'] = utf8::to_ascii($label);
 
 				// add a tip, if any
 				$data['items'][] = $datum;
