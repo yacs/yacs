@@ -1196,6 +1196,9 @@ function render_skin($with_last_modified=TRUE) {
 	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of $(document).ready( ... in $context['text']
 	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
 
+  // jquery-ui (at least for autocomplete)
+	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
+
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
 		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>'."\n";

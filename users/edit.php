@@ -483,12 +483,16 @@ if($with_form) {
 	$text .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'unfolded');
 	$fields = array();
 
+/*
+
+  TODO : enable jquery-ui autocomplete functionnality
+
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
 		.'// enable autocompletion for user names'."\n"
 		.'$(document).ready( function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
 		.JS_SUFFIX;
-
+*/
 	// instant messaging
 	//
 

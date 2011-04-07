@@ -803,8 +803,13 @@ if($with_form) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#title").focus() });'."\n"
 		."\n"
-		.'// enable tags autocompletion'."\n"
+/*
+
+  TODO : enable jquery-ui autocomplete functionnality
+
+  	.'// enable tags autocompletion'."\n"
 		.'$(document).ready( function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+*/
 		.JS_SUFFIX;
 
 	// branch to another script to display form fields, tabs, etc

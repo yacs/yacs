@@ -85,13 +85,17 @@ class Event extends Overlay {
 		$input = '<input type="text" name="chairman" id="chairman" value ="'.encode_field($value).'" size="25" maxlength="32" />'
 			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
+/*
+
+  TODO : enable jquery-ui autocomplete functionnality
+
 
 		// append the script used for autocompletion
 		$input .= JS_PREFIX
 			.'// enable autocompletion for user names'."\n"
 			.'$(document).ready( function() { new Ajax.Autocompleter("chairman", "chairman_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
 			.JS_SUFFIX;
-
+*/
 		// done
 		return $input;
 	}
