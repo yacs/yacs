@@ -581,7 +581,7 @@ var Yacs = {
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
-		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
+		var nodes = $(handle + ' span.onHoverLeft', 'span.onHoverRight');
 		nodes.each(function (node) { $(node).css('visibility', 'hidden'); });
 
 		nodes = null; // no memory leak
@@ -591,14 +591,14 @@ var Yacs = {
 	 * mouse is coming on top of some element
 	 */
 	mouseOver: function(handle) {
-		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
+		var nodes = $(handle + ' span.onHoverLeft', 'span.onHoverRight');
 		nodes.each(function (node) { $(node).css('visibility', 'visible'); });
 
 		nodes = null; // no memory leak
 	},
 
 	toggleProperties: function(handle) {
-		var nodes = $(handle).select('.properties');
+		var nodes = $(handle + ' .properties');
 		nodes.each(function (node) { $(node).toggle('slide'); });
 
 		nodes = null; // no memory leak
