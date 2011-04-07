@@ -442,8 +442,13 @@ if(Surfer::is_crawler()) {
 		.'$(document).ready( function() { $("#names").focus() });'."\n"
 		."\n"
 		."\n"
+/*
+
+  TODO : enable jquery-ui autocomplete functionnality
+
 		.'// enable autocompletion'."\n"
 		.'$(document).ready( function() { new Ajax.Autocompleter("names", "names_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+*/
 		.JS_SUFFIX;
 
 	// help message

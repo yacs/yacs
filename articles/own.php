@@ -110,8 +110,13 @@ if(Surfer::is_crawler()) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
+/*
+
+  TODO : enable jquery-ui autocomplete functionnality
+
 		.'// enable tags autocompletion'."\n"
 		.'$(document).ready( function() { new Ajax.Autocompleter("name", "name_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: ",", afterUpdateElement: function(text, li) { $("#ajax_spinner").style.display = "inline"; $("#main_form").submit() }, indicator: "ajax_spinner" }); });'."\n"
+*/
 		.JS_SUFFIX;
 
 	// back to the anchor page
