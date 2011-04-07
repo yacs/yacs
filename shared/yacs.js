@@ -581,7 +581,7 @@ var Yacs = {
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft', 'span.onHoverRight');
+		var nodes = $(handle + ' span.onHoverLeft', handle + ' span.onHoverRight');
 		nodes.each(function (node) { $(node).css('visibility', 'hidden'); });
 
 		nodes = null; // no memory leak
