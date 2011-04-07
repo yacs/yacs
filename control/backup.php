@@ -845,7 +845,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// set the focus on the backup button
 	$context['text'] .= JS_PREFIX
-		.'$("go").focus();'."\n"
+		.'$("#go").focus();'."\n"
 		.JS_SUFFIX;
 
 	// this may take several minutes

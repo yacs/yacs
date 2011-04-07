@@ -239,7 +239,7 @@ if($with_form) {
 
 		// append the script used for data checking on the browser
 		$context['page_footer'] .= JS_PREFIX
-			.'$("password").focus();'."\n"
+			.'$("#password").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	}

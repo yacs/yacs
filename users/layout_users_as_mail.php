@@ -37,7 +37,7 @@ Class Layout_users_as_mail extends Layout_interface {
 		// the script used to check all items at once
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_user_rows(handle) {'."\n"
-			.'	var checkers = $$("div#users_as_mail_panel input[type=\'checkbox\'].row_selector");'."\n"
+			.'	var checkers = $("#div#users_as_mail_panel input[type=\'checkbox\'].row_selector");'."\n"
 			.'	for(var index=0; index < checkers.length; index++) {'."\n"
 			.'		checkers[index].checked = handle.checked;'."\n"
 			.'	}'."\n"

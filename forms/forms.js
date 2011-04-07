@@ -629,5 +629,5 @@ var Forms = {
 }
 
 // ready to receive new notifications
-Event.observe(window, 'load', Forms.onWindowLoad);
+$(document).ready(Forms.onWindowLoad);
 

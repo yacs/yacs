@@ -1969,8 +1969,8 @@ Class Codes {
 				.'}'."\n"
 				."\n"
 				.'// observe page major events'."\n"
-				.'Event.observe(window, "load", onLoad);'."\n"
-				.'Event.observe(window, "resize", onResize);'."\n"
+				.'$(document).ready( onLoad);'."\n"
+				.'$(window).resize(onResize);'."\n"
 				.JS_SUFFIX;
 
 			// job done
@@ -2609,7 +2609,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'Event.observe(window, "load", function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' } }, function(s) { if(s.text) { $("newsfeed_'.$count.'").update(s.text.toString()); } else { $("newsfeed_'.$count.'").update(""); } } ) } );'."\n"
+			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' } }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").update(s.text.toString()); } else { $("#newsfeed_'.$count.'").update(""); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;

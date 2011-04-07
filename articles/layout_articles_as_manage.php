@@ -35,7 +35,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 		// the script used to check all pages at once
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_article_rows(handle) {'."\n"
-			.'	var checkers = $$("div#articles_panel input[type=\'checkbox\'].row_selector");'."\n"
+			.'	var checkers = $("#div#articles_panel input[type=\'checkbox\'].row_selector");'."\n"
 			.'	for(var index=0; index < checkers.length; index++) {'."\n"
 			.'		checkers[index].checked = handle.checked;'."\n"
 			.'	}'."\n"
@@ -196,7 +196,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$cells[] = $prefix.Skin::build_link($url, $title, 'article').' - '.Skin::finalize_list($commands, 'menu').$suffix;
 
 			// ranking
-			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'article_selector_'.$count.'\').checked = true;" onchange="$(\'act_on_articles\').selectedIndex = 9;" />';
+			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#article_selector_'.$count.'\').checked = true;" onchange="$(\'#act_on_articles\').selectedIndex = 9;" />';
 
 			// append the row
 			$text .= Skin::table_row($cells, $count++);

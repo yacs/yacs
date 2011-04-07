@@ -240,7 +240,7 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("subject").focus();'."\n"
+		.'$("#subject").focus();'."\n"
 		."\n"
 		.JS_SUFFIX;
 

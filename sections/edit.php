@@ -460,7 +460,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').checked=1" />');
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -472,7 +472,7 @@ if($with_form) {
 	$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : 'auto_publish').'" maxlength="255" accesskey="o" />'
 		.JS_PREFIX
 		.'function append_to_content_options(keyword) {'."\n"
-		.'	var target = $("content_options");'."\n"
+		.'	var target = $("#content_options");'."\n"
 		.'	target.value = target.value + " " + keyword;'."\n"
 		.'}'."\n"
 		.JS_SUFFIX."\n";
@@ -603,7 +603,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />')
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').checked=1" />')
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -1045,7 +1045,7 @@ if($with_form) {
 	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
 		.JS_PREFIX
 		.'function append_to_options(keyword) {'."\n"
-		.'	var target = $("options");'."\n"
+		.'	var target = $("#options");'."\n"
 		.'	target.value = target.value + " " + keyword;'."\n"
 		.'}'."\n"
 		.JS_SUFFIX."\n";
@@ -1216,48 +1216,48 @@ if($with_form) {
 		.'// update title'."\n"
 		.'func'.'tion updateTitle() {'."\n"
 		."\n"
-		.'	if(!$("title").value) {'."\n"
-		.'		$("title").value = $("index_title").value;'."\n"
+		.'	if(!$("#title").value) {'."\n"
+		.'		$("#title").value = $("#index_title").value;'."\n"
 		.'	}'."\n"
-		.'	if($("shadow_title").value == $("title").value) {'."\n"
-		.'		$("title").value = $("index_title").value;'."\n"
+		.'	if($("#shadow_title").value == $("#title").value) {'."\n"
+		.'		$("#title").value = $("#index_title").value;'."\n"
 		.'	}'."\n"
-		.'	$("shadow_title").value = $("index_title").value;'."\n"
+		.'	$("#shadow_title").value = $("#index_title").value;'."\n"
 		.'}'."\n"
 		."\n"
 		.'// observe changes in form'."\n"
-		.'Event.observe("index_title", "change", updateTitle);'."\n"
+		.'$("#index_title").change(updateTitle);'."\n"
 		."\n"
 		.'// disable editor selection on change'."\n"
 		.'func'.'tion detectChanges() {'."\n"
 		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	var nodes = $("form#main_form input");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	nodes = $("form#main_form textarea");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
+		.'	nodes = $("form#main_form select");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		.'}'."\n"
 		."\n"
 		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'$(document).ready( detectChanges);'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("index_title").focus();'."\n"
+		.'$("#index_title").focus();'."\n"
 		."\n"
 		.'// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+		.'$(document).ready( function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 		.JS_SUFFIX."\n";
 
 	// content of the help box
