@@ -1456,15 +1456,15 @@ var Yacs = {
 	toggle_folder: function(handle, down_href, up_href) {
 
 		// the panel to slide
-		var panel = Element.next(handle, '.folder_body');
+		var panel = $(handle).next('.folder_body');
 
 		// display the panel if it is not visible
 		if(panel.css("display") == 'none') {
 
-			$("#"+panel).slideDown({duration:.3, scaleContent:false});
+			$(panel).slideDown({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
- 			var icon = Element.down(handle, 'img');
+ 			var icon = $(handle +' img:first-child');
  			if(icon && up_href) {
  				icon.src = up_href;
  			}
@@ -1472,10 +1472,10 @@ var Yacs = {
 		// collapse the panel if it is visible
 		} else {
 
-			$("#"+panel).slideUp({duration:.3, scaleContent:false});
+			$(panel).slideUp({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.down(handle, 'img');
+			var icon = $(handle +' img:first-child');
 			if(icon && down_href) {
 				icon.src = down_href;
 			}
