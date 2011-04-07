@@ -309,7 +309,7 @@ function send_body() {
 		// the script used for form handling at the browser
 		echo JS_PREFIX
 			.'// set the focus on first form field'."\n"
-			.'$("confirmed").focus();'."\n"
+			.'$("#confirmed").focus();'."\n"
 			.JS_SUFFIX;
 
 		// this may take several minutes

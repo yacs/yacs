@@ -89,7 +89,7 @@ class Event extends Overlay {
 		// append the script used for autocompletion
 		$input .= JS_PREFIX
 			.'// enable autocompletion for user names'."\n"
-			.'Event.observe(window, "load", function() { new Ajax.Autocompleter("chairman", "chairman_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
+			.'$(document).ready( function() { new Ajax.Autocompleter("chairman", "chairman_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
 			.JS_SUFFIX;
 
 		// done

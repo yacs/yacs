@@ -174,7 +174,7 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("flash_font_r").focus();'."\n"
+		.'$("#flash_font_r").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// general help on this form

@@ -45,18 +45,18 @@ var Yacs = {
 
 		for (i = 0; i < tblEl.rows.length; i++) {
 			rowEl = tblEl.rows[i];
-			Element.removeClassName(rowEl, 'odd');
+			rowEl.removeClass('odd');
 			if((i % 2) !== 0) {
-				Element.addClassName(rowEl, 'odd');
+				rowEl.addClass('odd');
 			}
 
 			// set style classes on each column
 			for (j = 2; j < tblEl.rows[i].cells.length; j++) {
 				cellEl = rowEl.cells[j];
-				Element.removeClassName(cellEl, 'sorted');
+				cellEl.removeClass('sorted');
 				// highlight the one that was sorted
 				if (j == col) {
-					Element.addClassName(cellEl, 'sorted');
+					cellEl.addClass('sorted');
 				}
 			}
 		}
@@ -68,11 +68,11 @@ var Yacs = {
 		// set style classes for each column
 		for (i = 0; i < rowEl.cells.length; i++) {
 			cellEl = rowEl.cells[i];
-			Element.removeClassName(cellEl, 'sorted');
+			cellEl.removeClass('sorted');
 
 			// highlight the header of the sorted column
 			if (i == col) {
-				Element.addClassName(cellEl, 'sorted');
+				cellEl.addClass('sorted');
 			}
 		}
 	},
@@ -87,7 +87,7 @@ var Yacs = {
 		parameters = Object.toJSON(parameters);
 
 		// start an ajax transaction
-		var handle = new Ajax.Request(url_to_root + 'services/json_rpc.php', {
+		$.ajax(url_to_root + 'services/json_rpc.php', {
 			method: 'post',
 			parameters: parameters,
 			requestHeaders: {Accept: 'application/json'},
@@ -136,7 +136,7 @@ var Yacs = {
 	 */
 	closeModalBox: function() {
 
-		var handle = new Effect.Opacity('modal_content', {duration:0.3, from:1.0, to:0.3, queue: 'end',
+		$('#modal_content').opacity({duration:0.3, from:1.0, to:0.3, queue: 'end',
 			afterFinish: function(target) {
 
 				// clear the content
@@ -342,7 +342,7 @@ var Yacs = {
 			objBody.appendChild(Yacs.modalOverlay);
 
 			// just to fix a bug on first image rendering for Internet Explorer 7...
-			var fix = new Effect.MoveBy('modal_centered', 0, 0, {duration: 0.0});
+			$('#modal_centered').moveBy(0, 0, {duration: 0.0});
 
 		// ensure containers are visible to compute box size
 		} else {
@@ -350,7 +350,7 @@ var Yacs = {
 		}
 
 		// paint or repaint box content
-		var handle = new Effect.Opacity('modal_content', {duration:0.1, from:1.0, to:0.3, queue: 'end',
+		$('#modal_content').opacity({duration:0.1, from:1.0, to:0.3, queue: 'end',
 			afterFinish: function(target) {
 
 				// update the content
@@ -358,7 +358,7 @@ var Yacs = {
 
 				// display the updated box
 				Element.setStyle('modal_content', { visibility: 'visible' });
-				var opacity = new Effect.Opacity('modal_content', {duration:0.3, from:0.5, to:1.0, queue: 'end'});
+				$('#modal_content').opacity({duration:0.3, from:0.5, to:1.0, queue: 'end'});
 
 			} });
 
@@ -560,11 +560,11 @@ var Yacs = {
 		handle = $(handle);
 
 		var prefix = '';
-		if(handle.hasClassName('sortable')) {
+		if(handle.hasClass('sortable')) {
 			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
 		}
 		var suffix = '<span class="onHoverRight">';
-		if(handle.hasClassName('mutable')) {
+		if(handle.hasClass('mutable')) {
 			suffix += '<a href="#" onclick="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
 		suffix += '<a href="#" onclick="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
@@ -599,7 +599,7 @@ var Yacs = {
 
 	toggleProperties: function(handle) {
 		var nodes = $(handle).select('.properties');
-		nodes.each(function (node) { var handle = new Effect.toggle(node, 'slide'); });
+		nodes.each(function (node) { $(node).toggle('slide'); });
 
 		nodes = null; // no memory leak
 	},
@@ -630,11 +630,11 @@ var Yacs = {
 		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-		var buttons = $$('button');
+		var buttons = $('#button');
 		for(var index = 0; index < buttons.length; index++) {
 			var button = buttons[index];
 			var buttonType = String(button.getAttribute('type'));
-			if(buttonType.toLowerCase().match('submit') && !Element.hasClassName(button, 'no_spin_on_click')) {
+			if(buttonType.toLowerCase().match('submit') && !Element.hasClass(button, 'no_spin_on_click')) {
 				button.onclick = Yacs.startWorking;
 			}
 
@@ -642,14 +642,14 @@ var Yacs = {
 		}
 
 		// on-demand headers
-		var nodes = $$('.onDemandTools');
+		var nodes = $('#.onDemandTools');
 		for(index = 0; index < nodes.length; index++) {
 			var node = nodes[index];
 			Yacs.addOnDemandTools(node, { });
 		}
 
 		// prepare for a nice slideshow
-		var anchors = $$('a.image_show');
+		var anchors = $('#a.image_show');
 		for(index = 0; index < anchors.length; index++) {
 			var anchor = anchors[index];
 			anchor.onclick = Yacs.clickImage;
@@ -664,10 +664,10 @@ var Yacs = {
 		}
 
 		// slow down notifications on window blur
-		Event.observe(window, 'blur', Yacs.looseFocus);
+		$(window).blur(Yacs.looseFocus);
 
 		// back to normal rate on focus
-		Event.observe(window, 'focus', Yacs.getFocus);
+		$(window).focus(Yacs.getFocus);
 
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
@@ -804,10 +804,10 @@ var Yacs = {
 			Yacs.previousImageWidth = loader.width;
 
 			// rescale on size change
-			if((yDelta !== 0) && (xDelta !== 0) && $('modal_image_panel')) {
+			if((yDelta !== 0) && (xDelta !== 0) && $('#modal_image_panel')) {
 
 				// previous image -- <div id="modal_image_panel"><img ...
-				var previousImage = $('modal_image_panel').down();
+				var previousImage = $('#modal_image_panel').down();
 
 				// current height and width
 				var currentHeight = Element.getHeight(previousImage);
@@ -818,15 +818,15 @@ var Yacs = {
 				var xScale = ((currentWidth + xDelta) / currentWidth) * 100;
 
 				// scaling previous image makes ugly things
-				var opacity = new Effect.Opacity('modal_content', {duration:0.1, from:1.0, to:0.0});
+				$('#modal_content').opacity({duration:0.1, from:1.0, to:0.0});
 				Element.setStyle('modal_content', { visibility: 'hidden' });
 
 				// adjust the overall size
 				if(yDelta !== 0) {
-					var effect = new Effect.Scale(previousImage, yScale, {scaleX: false, duration: 0.4, queue: 'end'});
+					$(previousImage).scale(yScale, {scaleX: false, duration: 0.4, queue: 'end'});
 				}
 				if(xDelta !== 0) {
-					var effect2 = new Effect.Scale(previousImage, xScale, {scaleY: false, duration: 0.4, queue: 'end'});
+					$(previousImage).scale(xScale, {scaleY: false, duration: 0.4, queue: 'end'});
 				}
 			}
 
@@ -915,9 +915,9 @@ var Yacs = {
 		}
 
 		// display the panel if it is not visible
-		if(panel.style.display == 'none') {
+		if($(panel).css("display") == 'none') {
 
-			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
+			$(panel).slideDown({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = Element.next(Element.down(handle, 'span'), 'img');
@@ -928,7 +928,7 @@ var Yacs = {
 		// collapse the panel if it is visible
 		} else {
 
-			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+			$(panel).slideUp({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = Element.next(Element.down(handle, 'span'), 'img');
@@ -996,7 +996,7 @@ var Yacs = {
 	 */
 	stopWorking: function() {
 
-		var handle = $('yacsWorkingOverlay');
+		var handle = $('#yacsWorkingOverlay');
 		if(handle) {
 			Element.setStyle(handle, { display: 'none' });
 		}
@@ -1029,7 +1029,7 @@ var Yacs = {
 		}
 
 		// start an ajax transaction
-		Yacs.subscribeAjax = new Ajax.Request(url_to_root + 'users/heartbit.php', {
+		Yacs.subscribeAjax = $.ajax(url_to_root + 'users/heartbit.php', {
 			method: 'get',
 			parameters: { },
 			requestHeaders: {Accept: 'application/json'},
@@ -1108,8 +1108,8 @@ var Yacs = {
 		handle.lastColumn = column;
 
 		// hide the table during operations
-		var oldDsply = handle.style.display;
-		handle.style.display = "none";
+		var oldDsply = handle.css("display");
+		handle.css("display","none");
 
 		// use a selection sort algorithm
 		var tmpEl;
@@ -1159,7 +1159,7 @@ var Yacs = {
 		//	setRanks(handle, column, rev);
 
 		// show the table again
-		handle.style.display = oldDsply;
+		handle.css("display", "oldDsply");
 
 		return false;
 	},
@@ -1215,7 +1215,7 @@ var Yacs = {
 			if(tabs.hasOwnProperty(id)) {
 
 				// instrument this tab
-				Event.observe($(id), 'click', Yacs.tabsEvent);
+				$("#"+id).click(Yacs.tabsEvent);
 
 				// we are on first tab
 				if(!Yacs.tabs_current) {
@@ -1264,19 +1264,21 @@ var Yacs = {
 		for(iterator in Yacs.tabs_list) {
 
 			panel = Yacs.tabs_list[iterator][0];
-			if(id == $(iterator).id) {
+			if(id == iterator) {
 				newCurrent = iterator;
 
 			} else {
 
 				// update the tab
-				$(iterator).className = 'tab-background';
+				$("#"+iterator).removeClass('tab-foreground');
+				$("#"+iterator).addClass('tab-background');
 
 				// update the panel
-				if($(panel).style.display != 'none') {
-					new Effect.Fade(panel, {duration:.1, scaleContent:false});
+				if($("#"+panel).css("display") != 'none') {
+					$("#"+panel).fadeOut(.1);
 				}
-				$(panel).className = 'panel-background';
+        $("#"+panel).removeClass('panel-foreground');
+        $("#"+panel).addClass('panel-background');
 			}
 		}
 
@@ -1288,13 +1290,15 @@ var Yacs = {
 		Yacs.tabs_current = id;
 
 		// update the tab
-		$(newCurrent).className = 'tab-foreground';
+		$("#"+newCurrent).removeClass('tab-background');
+    $("#"+newCurrent).addClass('tab-foreground');
 
 		// update the panel
-		if($(panel).style.display == 'none') {
-			new Effect.Appear(panel, {duration:.1, scaleContent:false});
+		if($("#"+panel).css("display") == 'none') {
+			$("#"+panel).fadeIn(.1);
 		}
-		$(panel).className = 'panel-foreground';
+		$("#"+panel).removeClass('panel-background');
+		$("#"+panel).addClass('panel-foreground');
 
 		// load panel content, if necessary
 		if(Yacs.tabs_list[newCurrent].length > 1) {
@@ -1309,7 +1313,7 @@ var Yacs = {
 	tabsEvent: function(e) {
 
 		// target the clicked tab
-		var clicked = Event.element(e);
+		var clicked = this;
 
 		// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
 		if((clicked.tagName == 'a') || (clicked.tagName == 'A')) {
@@ -1325,7 +1329,7 @@ var Yacs = {
 		Yacs.tabsDisplay(clicked.id);
 
 		// do not propagate event
-		Event.stop(e);
+		e.stopPropagation();
 	},
 
 	/**
@@ -1382,15 +1386,15 @@ var Yacs = {
 		var currentSize = allSizes[ current.size ];
 
 		// resize the target container
-		$(current.handle).style.fontsize = currentSize;
+		$(current.handle).css("fontsize", currentSize);
 
 		// also resize poorly inherited items
 		allTags = $(current.handle).getElementsByTagName('div');
-		for(var index = 0; index < allTags.length; index++ ) { allTags[index].style.fontSize = currentSize; }
+		for(var index = 0; index < allTags.length; index++ ) { allTags[index].css("fontSize", currentSize); }
 		allTags = $(current.handle).getElementsByTagName('td');
-		for(index = 0; index < allTags.length; index++ ) { allTags[index].style.fontSize = currentSize; }
+		for(index = 0; index < allTags.length; index++ ) { allTags[index].css("fontSize", currentSize); }
 		allTags = $(current.handle).getElementsByTagName('tr');
-		for(index = 0; index < allTags.length; index++ ) { allTags[index].style.fontSize = currentSize; }
+		for(index = 0; index < allTags.length; index++ ) { allTags[index].css("fontSize", currentSize); }
 	},
 
 	/**
@@ -1408,11 +1412,11 @@ var Yacs = {
 		var processed = false;
 
 		// close all boxes in the accordion
- 		$$('.'+accordion).each( function(item) {
+ 		$('#.'+accordion).each( function(item) {
 
  			var panel = Element.down(item, '.accordion_content');
-			if(panel.style.display != 'none') {
-				new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+			if(panel.css("display") != 'none') {
+				$("#"+panel).slideUp({duration:.3, scaleContent:false});
 
 				// change the image (if there is an image)
 				var icon = Element.down(item, 'a').down('img');
@@ -1430,8 +1434,8 @@ var Yacs = {
  		} );
 
 		// only extend closed elements that have not been processed during this click
-		if((toggled.style.display == 'none') && !processed) {
-			new Effect.SlideDown(toggled, {duration:.3, scaleContent:false});
+		if((toggled.css("display") == 'none') && !processed) {
+			$("#"+toggled).slideDown({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = Element.down(handle, 'img');
@@ -1455,9 +1459,9 @@ var Yacs = {
 		var panel = Element.next(handle, '.folder_body');
 
 		// display the panel if it is not visible
-		if(panel.style.display == 'none') {
+		if(panel.css("display") == 'none') {
 
-			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
+			$("#"+panel).slideDown({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
  			var icon = Element.down(handle, 'img');
@@ -1468,7 +1472,7 @@ var Yacs = {
 		// collapse the panel if it is visible
 		} else {
 
-			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+			$("#"+panel).slideUp({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = Element.down(handle, 'img');
@@ -1547,12 +1551,12 @@ var Yacs = {
 
 		// center the box
 		var yShift, xShift;
-		yShift = Math.floor(((document.viewport.getHeight() - $('modal_centered').offsetHeight) / 2) - $('modal_centered').offsetTop);
-		xShift = Math.floor(((document.viewport.getWidth() - $('modal_centered').offsetWidth) / 2) - $('modal_centered').offsetLeft);
+		yShift = Math.floor(((document.viewport.getHeight() - $('#modal_centered').offsetHeight) / 2) - $('#modal_centered').offsetTop);
+		xShift = Math.floor(((document.viewport.getWidth() - $('#modal_centered').offsetWidth) / 2) - $('#modal_centered').offsetLeft);
 
 		// update box position
 		if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
-			var effect = new Effect.MoveBy('modal_centered', yShift, xShift, {duration: 0.2, queue: 'end'});
+			$('#modal_centered').moveBy(yShift, xShift, {duration: 0.2, queue: 'end'});
 		}
 
 	},
@@ -1583,4 +1587,4 @@ var Yacs = {
 };
 
 // initialize yacs
-Event.observe(window, "load", Yacs.onWindowLoad);
+$(document).ready( Yacs.onWindowLoad);

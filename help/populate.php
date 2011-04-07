@@ -180,7 +180,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -330,7 +330,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -490,7 +490,7 @@ if(!$permitted) {
 				.'}'."\n"
 				."\n"
 				.'// set the focus on first form field'."\n"
-				.'$("name").focus();'."\n"
+				.'$("#name").focus();'."\n"
 				.JS_SUFFIX."\n";
 
 		}
@@ -687,7 +687,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("main_title").focus();'."\n"
+			.'$("#main_title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create the stuff
@@ -892,7 +892,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1053,7 +1053,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("main_title").focus();'."\n"
+			.'$("#main_title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create the stuff
@@ -1189,7 +1189,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1306,7 +1306,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1423,7 +1423,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1542,7 +1542,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1789,7 +1789,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section

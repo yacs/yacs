@@ -268,9 +268,9 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= JS_PREFIX
 			.'document.cookie = \'CookiesEnabled=1\';'."\n"
 			.'if((document.cookie == "") && document.getElementById) {'."\n"
-			.'	$("ask_for_cookies").update("'.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'");'."\n"
-			.'	$("ask_for_cookies").style.display = "block";'."\n"
-			.'	$("confirmed").disabled = true;'."\n"
+			.'	$("#ask_for_cookies").update("'.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'");'."\n"
+			.'	$("#ask_for_cookies").style.display = "block";'."\n"
+			.'	$("#confirmed").disabled = true;'."\n"
 			.'}'."\n"
 			.JS_SUFFIX."\n";
 

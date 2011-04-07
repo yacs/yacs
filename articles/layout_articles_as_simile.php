@@ -223,8 +223,8 @@ Class Layout_articles_as_simile extends Layout_interface {
 			.'}'."\n"
 			."\n"
 			.'// observe page major events'."\n"
-			.'Event.observe(window, "load", onLoad'.$count.');'."\n"
-			.'Event.observe(window, "resize", onResize'.$count.');'."\n"
+			.'$(document).ready( onLoad'.$count.');'."\n"
+			.'$(window).resize(onResize'.$count.');'."\n"
 			.JS_SUFFIX;
 
 		// end of processing
