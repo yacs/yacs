@@ -140,10 +140,10 @@ var Yacs = {
 			afterFinish: function(target) {
 
 				// clear the content
-				Element.update('modal_content', '');
+				$('#modal_content').html('');
 
 				// mask the modal box
-				Element.setStyle('modal_panel', { display: 'none' });
+				$('#modal_panel').css('display', 'none');
 
 			} });
 	},
@@ -325,16 +325,16 @@ var Yacs = {
 		if(!Yacs.modalOverlay) {
 
 			var objContent = document.createElement("div");
-			objContent.setAttribute('id','modal_content');
-			Element.update(objContent, '<img src="'+Yacs.spinningImage.src+'" />');
+			objContent.attr('id','modal_content');
+			objContent.html('<img src="'+Yacs.spinningImage.src+'" />');
 
 			var objCentered = document.createElement("div");
-			objCentered.setAttribute('id','modal_centered');
+			objCentered.attr('id','modal_centered');
 //			objCentered.setStyle({ visibility: 'hidden' });
 			objCentered.appendChild(objContent);
 
 			Yacs.modalOverlay = document.createElement("div");
-			Yacs.modalOverlay.setAttribute('id','modal_panel');
+			Yacs.modalOverlay.attr('id','modal_panel');
 			Yacs.modalOverlay.onclick = function() {};	// you have to click in the box to close the modal box
 			Yacs.modalOverlay.appendChild(objCentered);
 
@@ -346,7 +346,7 @@ var Yacs = {
 
 		// ensure containers are visible to compute box size
 		} else {
-			Element.setStyle('modal_panel', { display: 'block' });
+			$('#modal_panel').css('display', 'block');
 		}
 
 		// paint or repaint box content
@@ -357,7 +357,7 @@ var Yacs = {
 				Yacs.updateModalBox(boxContent);
 
 				// display the updated box
-				Element.setStyle('modal_content', { visibility: 'visible' });
+				$('#modal_content').css('visibility', 'visible');
 				$('#modal_content').opacity({duration:0.3, from:0.5, to:1.0, queue: 'end'});
 
 			} });
@@ -484,7 +484,7 @@ var Yacs = {
 	 * @param handle to the item to expand
 	 */
 	growPanel: function(handle) {
-		Element.setStyle(handle, {height: '10em'});
+		$(handle).css('height', '10em');
 	},
 
 	/**
@@ -565,10 +565,10 @@ var Yacs = {
 		}
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClass('mutable')) {
-			suffix += '<a href="#" onclick="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
+			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-		var here = new Element.insert(handle, { top: suffix + prefix });
+		suffix += '<a href="#" onclick="$(\'#'+handle.identify()+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
+		var here = $(handle).before(suffix + prefix);
 
 		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
 		handle.onmouseover = function () { Yacs.mouseOver(this); return false; };
@@ -582,7 +582,7 @@ var Yacs = {
 	 */
 	mouseOut: function(handle) {
 		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
-		nodes.each(function (node) { Element.setStyle(node, { visibility: 'hidden' }); });
+		nodes.each(function (node) { $(node).css('visibility', 'hidden'); });
 
 		nodes = null; // no memory leak
 	},
@@ -592,7 +592,7 @@ var Yacs = {
 	 */
 	mouseOver: function(handle) {
 		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
-		nodes.each(function (node) { Element.setStyle(node, { visibility: 'visible' }); });
+		nodes.each(function (node) { $(node).css('visibility', 'visible'); });
 
 		nodes = null; // no memory leak
 	},
@@ -633,8 +633,8 @@ var Yacs = {
 		var buttons = $('#button');
 		for(var index = 0; index < buttons.length; index++) {
 			var button = buttons[index];
-			var buttonType = String(button.getAttribute('type'));
-			if(buttonType.toLowerCase().match('submit') && !Element.hasClass(button, 'no_spin_on_click')) {
+			var buttonType = String(button.attr('type'));
+			if(buttonType.toLowerCase().match('submit') && !button.hasClass('no_spin_on_click')) {
 				button.onclick = Yacs.startWorking;
 			}
 
@@ -810,8 +810,8 @@ var Yacs = {
 				var previousImage = $('#modal_image_panel').down();
 
 				// current height and width
-				var currentHeight = Element.getHeight(previousImage);
-				var currentWidth = Element.getWidth(previousImage);
+				var currentHeight = $(previousImage).height();
+				var currentWidth = $(previousImage).width();
 
 				// compute scaling factors
 				var yScale = ((currentHeight + yDelta) / currentHeight) * 100;
@@ -819,7 +819,7 @@ var Yacs = {
 
 				// scaling previous image makes ugly things
 				$('#modal_content').opacity({duration:0.1, from:1.0, to:0.0});
-				Element.setStyle('modal_content', { visibility: 'hidden' });
+				$('#modal_content').css('visibility', 'hidden');
 
 				// adjust the overall size
 				if(yDelta !== 0) {
@@ -831,10 +831,10 @@ var Yacs = {
 			}
 
 			// image title -- <a><span><img title="" ...
-			var imageTitle = Element.down(anchor, 'img').getAttribute('title');
+			var imageTitle = $(anchor + ' img:first-child').attr('title');
 
 			// image href
-			var imageReference = '<div id="modal_image_panel"><img src="'+anchor.getAttribute('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
+			var imageReference = '<div id="modal_image_panel"><img src="'+anchor.attr('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
 
 			// a neighbour on the left
 			if(anchor.previousAnchor) {
@@ -849,7 +849,7 @@ var Yacs = {
 
 				// do not wait for user click to load the image
 				var nextLoader = new Image();
-				nextLoader.src = anchor.nextAnchor.getAttribute('href');
+				nextLoader.src = anchor.nextAnchor.attr('href');
 
 			} else {
 				Yacs.modalCallNext = null;
@@ -867,7 +867,7 @@ var Yacs = {
 		};
 
 		// actual pre-load
-		loader.src = anchor.getAttribute('href');
+		loader.src = anchor.attr('href');
 
 	},
 
@@ -883,15 +883,15 @@ var Yacs = {
 	slidePanel: function(handle, down_href, up_href, onLeft, down) {
 
 		// align to the parent container
-		var container = Element.up(handle);
-		Element.setStyle(container, {position: 'relative'});
+		var container = $(handle).parent();
+		$(container).css('position', 'relative');
 
 		// the panel to slide
-		var panel = Element.next(handle, '.panel');
+		var panel = $(handle).next('.panel');
 
 		// align the sliding panel
 		if((onLeft !== true) && (onLeft !== false)) {
-			onLeft = (Element.getWidth(panel) > (Element.cumulativeOffset(container).left + Element.getWidth(handle)));
+			onLeft = ($(panel).width() > ($(container).offset().left + $(handle).width()));
 		}
 
 		if((down !== true) && (down !== false)) {
@@ -900,18 +900,18 @@ var Yacs = {
 
 		// do the alignment
 		if(onLeft && down) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', top: container.getHeight() + 'px', left: 0});
 
 		}
 		if(onLeft && !down) {
-			Element.setStyle(panel, {position: 'absolute', bottom: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', bottom: container.getHeight() + 'px', left: 0});
 
 		}
 		if(!onLeft && down) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', top: container.getHeight() + 'px', right: 0});
 		}
 		if(!onLeft && !down) {
-			Element.setStyle(panel, {position: 'absolute', bottom: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', bottom: container.getHeight() + 'px', right: 0});
 		}
 
 		// display the panel if it is not visible
@@ -920,7 +920,7 @@ var Yacs = {
 			$(panel).slideDown({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.next(Element.down(handle, 'span'), 'img');
+			var icon = $(handle + " span:first-child").next('img');
 			if(icon && up_href) {
 				icon.src = up_href;
 			}
@@ -931,7 +931,7 @@ var Yacs = {
 			$(panel).slideUp({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.next(Element.down(handle, 'span'), 'img');
+			var icon = $(handle + " span:first-child").next('img');
 			if(icon && down_href) {
 				icon.src = down_href;
 			}
@@ -950,7 +950,7 @@ var Yacs = {
 	 */
 	spin: function(panel) {
 
-		Element.update(panel, '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
+		$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 	},
 
@@ -960,7 +960,7 @@ var Yacs = {
 	startWorking: function() {
 
 		if(Yacs.workingOverlay) {
-			Element.setStyle(Yacs.workingOverlay, { display: 'block' });
+			$(Yacs.workingOverlay).css({ display: 'block' });
 			return true;
 		}
 
@@ -973,16 +973,16 @@ var Yacs = {
 		// </div>
 
 		var objWorkingImage = document.createElement("img");
-		objWorkingImage.setAttribute('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
+		objWorkingImage.attr('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
 
 		var objCentered = document.createElement("div");
-		Element.setStyle(objCentered, { position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
+		$(objCentered).css({ position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
 		objCentered.appendChild(objWorkingImage);
 
 		Yacs.workingOverlay = document.createElement("div");
-		Yacs.workingOverlay.setAttribute('id','yacsWorkingOverlay');
-		Element.setStyle(Yacs.workingOverlay, { position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
-		Yacs.workingOverlay.onclick = function() { Element.setStyle(Yacs.workingOverlay, { display: 'none' });};
+		Yacs.workingOverlay.attr('id','yacsWorkingOverlay');
+		$(Yacs.workingOverlay).css({ position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
+		Yacs.workingOverlay.onclick = function() { $(Yacs.workingOverlay).css({ display: 'none' });};
 		Yacs.workingOverlay.appendChild(objCentered);
 
 		var objBody = document.getElementsByTagName("body").item(0);
@@ -998,7 +998,7 @@ var Yacs = {
 
 		var handle = $('#yacsWorkingOverlay');
 		if(handle) {
-			Element.setStyle(handle, { display: 'none' });
+			$(handle).css({ display: 'none' });
 		}
 
 	},
@@ -1408,18 +1408,18 @@ var Yacs = {
 	toggle_accordion: function(handle, down_href, up_href, accordion) {
 
 		// the toggled panel
-		var toggled = Element.next(handle, '.accordion_content');
+		var toggled = $(handle).next('.accordion_content');
 		var processed = false;
 
 		// close all boxes in the accordion
  		$('#.'+accordion).each( function(item) {
 
- 			var panel = Element.down(item, '.accordion_content');
+ 			var panel = $(item + ' .accordion_content:first-child');
 			if(panel.css("display") != 'none') {
 				$("#"+panel).slideUp({duration:.3, scaleContent:false});
 
 				// change the image (if there is an image)
-				var icon = Element.down(item, 'a').down('img');
+				var icon = $(item + ' a:first-child img:first-child');
 				if(icon && down_href) {
 					icon.src = down_href;
 				}
@@ -1438,7 +1438,7 @@ var Yacs = {
 			$("#"+toggled).slideDown({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.down(handle, 'img');
+			var icon = $(handle + ' img:first-child');
 			if(icon && up_href) {
 				icon.src = up_href;
 			}
@@ -1513,7 +1513,7 @@ var Yacs = {
 	update: function(panel, address, args) {
 
 		// the spinning image
-		Element.update(panel, '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
+		$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 		// basic options
 		var options = {
@@ -1544,10 +1544,10 @@ var Yacs = {
 	updateModalBox: function(content) {
 
 		// update box content
-		Element.update('modal_content', content);
+		$('#modal_content').html(content);
 
 		// adjust box size
-		Element.setStyle('modal_content', { width: 'auto', height: 'auto' });
+		$('#modal_content').css({ width: 'auto', height: 'auto' });
 
 		// center the box
 		var yShift, xShift;
