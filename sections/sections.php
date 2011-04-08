@@ -3075,7 +3075,7 @@ Class Sections {
 	/**
 	 * search for some keywords in all sections
 	 *
-	 * @param the search string
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -3095,8 +3095,8 @@ Class Sections {
 	 *
 	 * @see search.php
 	 *
-	 * @param the id of the section to look in
-	 * @param the search string
+	 * @param int the id of the section to look in
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -3184,10 +3184,7 @@ Class Sections {
 				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words))
-			$match .=  " AND MATCH(title, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
+		$match = " AND MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of articles
 		$query = "SELECT sections.*"

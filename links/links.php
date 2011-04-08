@@ -1303,13 +1303,7 @@ Class Links {
 		}
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, link_url, description) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(title, link_url, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of links
 		$query = "SELECT * FROM ".SQL::table_name('links')." AS links "
