@@ -44,7 +44,7 @@ include_once 'services/call.php'; // list RSS resources
 // prevent attacks
 $search = '';
 if(isset($_REQUEST['search']))
-	$search = preg_replace('/[\'"\{\}\[\]\(\)]/', ' ', strip_tags($_REQUEST['search']));
+	$search = preg_replace('/[\'"]/', ' ', strip_tags($_REQUEST['search']));
 
 // convert from unicode to utf8
 $search = utf8::from_unicode($search);
