@@ -718,31 +718,36 @@ class Event extends Overlay {
 			// other event details
 			$fields = array_merge($fields, $this->get_event_fields());
 
-			// enrolment
-			$label = i18n::s('Enrolment');
+			// should we manage enrolment?
+			if($this->with_enrolment()) {
 
-			// none
-			if(!isset($this->attributes['enrolment']))
-				$this->attributes['enrolment'] = 'none';
-			$input = '<input type="radio" name="enrolment" value="none"';
-			if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'none'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Any page visitor can participate').BR;
+				// enrolment
+				$label = i18n::s('Enrolment');
 
-			// apply-and-validate
-			$input .= '<input type="radio" name="enrolment" value="validate"';
-			if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'validate'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Accept applications, to be confirmed by page owner').BR;
+				// none
+				if(!isset($this->attributes['enrolment']))
+					$this->attributes['enrolment'] = 'none';
+				$input = '<input type="radio" name="enrolment" value="none"';
+				if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'none'))
+					$input .= ' checked="checked"';
+				$input .= '/> '.i18n::s('Any page visitor can participate').BR;
 
-			// manual registration
-			$input .= '<input type="radio" name="enrolment" value="manual"';
-			if(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'manual'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Registration is managed by page owner').BR;
+				// apply-and-validate
+				$input .= '<input type="radio" name="enrolment" value="validate"';
+				if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'validate'))
+					$input .= ' checked="checked"';
+				$input .= '/> '.i18n::s('Accept applications, to be confirmed by page owner').BR;
 
-			// expand the form
-			$fields[] = array($label, $input);
+				// manual registration
+				$input .= '<input type="radio" name="enrolment" value="manual"';
+				if(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'manual'))
+					$input .= ' checked="checked"';
+				$input .= '/> '.i18n::s('Registration is managed by page owner').BR;
+
+				// expand the form
+				$fields[] = array($label, $input);
+
+			}
 
 			$manage .= Skin::build_form($fields);
 			$fields = array();
@@ -997,6 +1002,14 @@ class Event extends Overlay {
 			$rows[] = array(i18n::s('Chairman'), $label);
 		}
 
+		// finalize status
+		if(is_callable(array($this, 'finalize_status')))
+			$this->feed_back['status'] = $this->finalize_status($this->feed_back['status']);
+
+		// finalize menu
+		if(is_callable(array($this, 'finalize_menu')))
+			$this->feed_back['menu'] = $this->finalize_menu($this->feed_back['menu']);
+
 		// we have to refresh the page
 		if($this->feed_back['reload_this_page']) {
 			$reload_through_javascript = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
@@ -1174,7 +1187,8 @@ class Event extends Overlay {
 		$this->attributes['duration'] = isset($fields['duration']) ? $fields['duration'] : 60;
 
 		// enrolment
-		$this->attributes['enrolment'] = isset($fields['enrolment']) ? $fields['enrolment'] : 'none';
+		if($this->with_enrolment())
+			$this->attributes['enrolment'] = isset($fields['enrolment']) ? $fields['enrolment'] : 'none';
 
 		// static messages
 		$this->attributes['follow_up_message'] = isset($fields['follow_up_message']) ? $fields['follow_up_message'] : '';
@@ -1550,6 +1564,10 @@ class Event extends Overlay {
 	function transition_to_open() {
 		global $context;
 
+		// we don't manage enrolment, at all
+		if(!$this->with_enrolment())
+			return;
+
 		// no need to open enrolment
 		if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'none'))
 			return;
@@ -1604,7 +1622,8 @@ class Event extends Overlay {
 				$this->feed_back['status'][] = $status;
 
 		// surfer is legitimate to attend the event
-		} elseif(($this->attributes['enrolment'] == 'none') || enrolments::get_record($this->anchor->get_reference())) {
+		} elseif( !$this->with_enrolment() || ($this->attributes['enrolment'] == 'none')
+			|| enrolments::get_record($this->anchor->get_reference())) {
 
 			// refresh the page on meeting start
 			$this->feed_back['status'][] = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
@@ -1626,6 +1645,10 @@ class Event extends Overlay {
 	 */
 	function transition_to_stopped() {
 		global $context;
+
+		// no enrolment at all
+		if(!$this->with_enrolment())
+			return;
 
 		// no enrolment
 		if(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'none'))
@@ -1754,6 +1777,16 @@ class Event extends Overlay {
 	 * @return boolean should be TRUE for physical meetings, FALSE otherwise
 	 */
 	function with_automatic_stop() {
+		return TRUE;
+	}
+
+	/**
+	 * should we manage enrolment?
+	 *
+	 * @return boolean TRUE to manage the full list of participants, FALSE otherwise
+	 *
+	 */
+	function with_enrolment() {
 		return TRUE;
 	}
 
