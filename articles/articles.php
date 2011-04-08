@@ -992,7 +992,7 @@ Class Articles {
 
 		// list up to 200 sections
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$active
+			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
 			." LIMIT 200";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
