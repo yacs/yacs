@@ -247,7 +247,7 @@ class Logger {
 		$description = Logger::to_string($description, ($store != 'debug'));
 
 		// cap the description, just in case...
-		$description = substr($description, 0, 4096);
+		$description = substr($description, 0, 8192);
 
 		// event saved for debugging purpose
 		if($store == 'debug') {
