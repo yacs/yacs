@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-24 14:53+0100
+POT-Creation-Date: 2011-04-13 11:36+0200
+PO-Revision-Date: 2011-04-13 11:40+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -409,6 +409,7 @@ $_SESSION['l10n']['en']['Your sections']='Your sections';
 $_SESSION['l10n']['en']['Zip 20 first files']='Zip 20 first files';
 $_SESSION['l10n']['en']['Zip all files']='Zip all files';
 $_SESSION['l10n']['en']['advertised']='advertised';
+$_SESSION['l10n']['en']['authenticate']='authenticate';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
 $_SESSION['l10n']['en']['bytes']='bytes';

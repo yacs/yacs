@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
-"PO-Revision-Date: 2011-02-22 15:29+0100\n"
+"POT-Creation-Date: 2011-04-13 11:36+0200\n"
+"PO-Revision-Date: 2011-03-11 22:54+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "MIME-Version: 1.0\n"
@@ -2338,11 +2338,42 @@ msgstr "Impossible de compléter l'appel XML-RPC vers %s."
 #~ msgid "Watchers of %s"
 #~ msgstr "Observateurs de %s"
 
+#~ msgid "Editors"
+#~ msgstr "Editeurs"
+
+#~ msgid "Transfer ownership of %s"
+#~ msgstr "Transférer les droits de %s"
+
+#~ msgid "Changing ownership to %s"
+#~ msgstr "Transfert des droits vers %s"
+
+#~ msgid "%d sections have been updated"
+#~ msgstr "%d sections ont été mises à jour"
+
+#~ msgid "%d articles have been updated"
+#~ msgstr "%d articles ont été mis à jour"
+
+#~ msgid "%d editor assignments have been updated"
+#~ msgstr "%d assignations d'éditeur ont été mises à jour"
+
+#~ msgid "%d watching assignments have been updated"
+#~ msgstr "%d assignations de surveillance ont été mises à jour"
+
+#~ msgid ""
+#~ "To transfer ownership to another person, type some letters of the name "
+#~ "you are looking for."
+#~ msgstr ""
+#~ "Pour transférer les droits vers une autre personne, taper quelques "
+#~ "lettres du nom recherché."
+
 #~ msgid "Add some space for your pages"
 #~ msgstr "Ajouter un espace web pour vos pages"
 
 #~ msgid "Add a standalone page"
 #~ msgstr "Ajouter une page isolée"
+
+#~ msgid "Transfer ownership"
+#~ msgstr "Transférer les droits"
 
 #~ msgid "Send a message"
 #~ msgstr "Envoyer un message"
@@ -2373,9 +2404,6 @@ msgstr "Impossible de compléter l'appel XML-RPC vers %s."
 
 #~ msgid "Contacts of %s"
 #~ msgstr "Contacts de %s"
-
-#~ msgid "Your contacts have been updated"
-#~ msgstr "Vos contacts ont été mis à jour"
 
 #~ msgid "Contacts"
 #~ msgstr "Contacts"

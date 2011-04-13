@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-24 15:02+0100
+POT-Creation-Date: 2011-04-13 11:36+0200
+PO-Revision-Date: 2011-04-13 12:10+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -479,6 +479,7 @@ $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is bei
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['3a123eb381c7b77022d31740519e6c0e']='accordion - Expose one item at a time in a stack';
 $_SESSION['l10n']['en']['3826678d554b3f49614db283670da2ca']='alistapart - Display entirely the last published page';
+$_SESSION['l10n']['en']['authenticate']='authenticate';
 $_SESSION['l10n']['en']['behavior']='behavior';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
@@ -491,6 +492,7 @@ $_SESSION['l10n']['en']['a4896893448b9c1dbe2fb65fb48f68d6']='daily - A list of s
 $_SESSION['l10n']['en']['1ea7057e130399b867cb3dd7b33919bb']='decorated - A list decorated with images';
 $_SESSION['l10n']['en']['delete']='delete';
 $_SESSION['l10n']['en']['digg - To order pages by rating']='digg - To order pages by rating';
+$_SESSION['l10n']['en']['be6031fed77429ac67ed490d7e26139b']='directory - Break long lists in 26 smallest parts';
 $_SESSION['l10n']['en']['17042d1851bc5cc293b2f5d7f1dc6388']='displayed in distinct extra boxes';
 $_SESSION['l10n']['en']['696443a88a65f23ef7365b9f1b6bf3d8']='displayed in distinct gadget boxes';
 $_SESSION['l10n']['en']['f27f6eeaf408746cfdd8b246c2b99521']='displayed in the area reserved to news';

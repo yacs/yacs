@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
-"PO-Revision-Date: 2011-02-22 15:20+0100\n"
+"POT-Creation-Date: 2011-04-13 11:36+0200\n"
+"PO-Revision-Date: 2011-03-11 22:50+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
 "MIME-Version: 1.0\n"
@@ -2323,11 +2323,45 @@ msgstr "Impossible to complete XML-RPC call to %s."
 #~ msgid "Watchers of %s"
 #~ msgstr "Watchers of %s"
 
+#~ msgid "Editors"
+#~ msgstr "Editors"
+
+#~ msgid "Transfer ownership of %s"
+#~ msgstr "Transfer ownership of %s"
+
+#~ msgid "Changing ownership to %s"
+#~ msgstr "Changing ownership to %s"
+
+#~ msgid "%d sections have been updated"
+#~ msgstr "%d sections have been updated"
+
+#~ msgid "%d articles have been updated"
+#~ msgstr "%d articles have been updated"
+
+#~ msgid "%d editor assignments have been updated"
+#~ msgstr "%d editor assignments have been updated"
+
+#~ msgid "%d watching assignments have been updated"
+#~ msgstr "%d watching assignments have been updated"
+
+#~ msgid ""
+#~ "To transfer ownership to another person, type some letters of the name "
+#~ "you are looking for."
+#~ msgstr ""
+#~ "To transfer ownership to another person, type some letters of the name "
+#~ "you are looking for."
+
 #~ msgid "Add some space for your pages"
 #~ msgstr "Add some space for your pages"
 
 #~ msgid "Add a standalone page"
 #~ msgstr "Add a standalone page"
+
+#~ msgid "Transfer ownership"
+#~ msgstr "Transfer ownership"
+
+#~ msgid "Keywords separated by commas"
+#~ msgstr "Keywords separated by commas"
 
 #~ msgid "Send a message"
 #~ msgstr "Send a message"
@@ -2358,9 +2392,6 @@ msgstr "Impossible to complete XML-RPC call to %s."
 
 #~ msgid "Contacts of %s"
 #~ msgstr "Contacts of %s"
-
-#~ msgid "Your contacts have been updated"
-#~ msgstr "Your contacts have been updated"
 
 #~ msgid "Contacts"
 #~ msgstr "Contacts"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
-"PO-Revision-Date: 2011-02-24 14:52+0100\n"
+"POT-Creation-Date: 2011-04-13 11:36+0200\n"
+"PO-Revision-Date: 2011-04-13 11:40+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgstr "Modifier la page"
 #: articles/view_as_chat.php:308
 #: articles/view_as_tabs.php:632
 #: articles/view_as_wiki.php:367
-#: articles/view.php:1164
+#: articles/view.php:1143
 msgid "Add an image"
 msgstr "Ajouter une image"
 
@@ -386,7 +386,7 @@ msgstr "Ajouter une image"
 #: articles/view_as_wiki.php:178
 #: articles/view_as_wiki.php:355
 #: articles/view.php:908
-#: articles/view.php:1152
+#: articles/view.php:1131
 msgid "Upload a file"
 msgstr "Ajouter un fichier"
 
@@ -398,8 +398,8 @@ msgstr "Ajouter un fichier"
 #: articles/view_as_tabs.php:626
 #: articles/view_as_wiki.php:210
 #: articles/view_as_wiki.php:361
-#: articles/view.php:1099
-#: articles/view.php:1158
+#: articles/view.php:1078
+#: articles/view.php:1137
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
@@ -748,7 +748,7 @@ msgstr "Date de publication"
 #: articles/view_as_chat.php:330
 #: articles/view_as_tabs.php:652
 #: articles/view_as_wiki.php:387
-#: articles/view.php:1184
+#: articles/view.php:1163
 msgid "Publish"
 msgstr "Publier"
 
@@ -1068,6 +1068,11 @@ msgstr "Merci de prouver que vous n'êtes pas un robot."
 msgid "Please carefully select a model for your page."
 msgstr "Choisissez le modèle de page à utiliser."
 
+#: articles/edit.php:718
+#: articles/invite.php:336
+msgid "authenticate"
+msgstr "authentifier"
+
 #: articles/edit.php:753
 msgid "Introduction"
 msgstr "Introduction"
@@ -1307,7 +1312,7 @@ msgstr "Retour à la page principale"
 
 #: articles/invite.php:366
 msgid "to review content"
-msgstr "à consulter le contenu"
+msgstr "à passer en revue le contenu"
 
 #: articles/invite.php:367
 msgid "to manage content"
@@ -1425,7 +1430,7 @@ msgstr[1] "%d fichiers"
 #: articles/layout_articles.php:170
 #: articles/view_as_tabs.php:345
 #: articles/view_as_wiki.php:296
-#: articles/view.php:1006
+#: articles/view.php:985
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -1459,7 +1464,7 @@ msgstr[1] "%d commentaires"
 #: articles/layout_articles.php:166
 #: articles/view_as_tabs.php:434
 #: articles/view_as_wiki.php:193
-#: articles/view.php:1076
+#: articles/view.php:1055
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -1514,10 +1519,10 @@ msgstr "Notez cette page !"
 #: articles/view_as_tabs.php:614
 #: articles/view_as_wiki.php:316
 #: articles/view_as_wiki.php:349
-#: articles/view.php:976
-#: articles/view.php:1026
-#: articles/view.php:1030
-#: articles/view.php:1146
+#: articles/view.php:955
+#: articles/view.php:1005
+#: articles/view.php:1009
+#: articles/view.php:1125
 msgid "Post a comment"
 msgstr "Ajouter un commentaire"
 
@@ -1751,7 +1756,7 @@ msgstr "Surveiller cette page"
 #: articles/view_as_chat.php:346
 #: articles/view_as_tabs.php:666
 #: articles/view_as_wiki.php:401
-#: articles/view.php:1198
+#: articles/view.php:1177
 msgid "Lock"
 msgstr "Verrouiller"
 
@@ -1830,7 +1835,7 @@ msgstr "Pour transférer la propriété à une autre personne, taper quelques le
 #: articles/view_as_chat.php:431
 #: articles/view_as_tabs.php:458
 #: articles/view_as_wiki.php:217
-#: articles/view.php:1105
+#: articles/view.php:1084
 msgid "Links"
 msgstr "Liens"
 
@@ -2090,7 +2095,7 @@ msgstr "Authentifiez-vous ou enregistrez-vous pour contribuer à ce fil de discu
 #: articles/view_as_chat.php:308
 #: articles/view_as_tabs.php:632
 #: articles/view_as_wiki.php:367
-#: articles/view.php:1164
+#: articles/view.php:1143
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr "Vous pouvez télécharger une photo, un dessin ou une image."
 
@@ -2098,49 +2103,49 @@ msgstr "Vous pouvez télécharger une photo, un dessin ou une image."
 #: articles/view_as_tabs.php:639
 #: articles/view_as_wiki.php:45
 #: articles/view_as_wiki.php:374
-#: articles/view.php:1171
+#: articles/view.php:1150
 msgid "Edit this page"
 msgstr "Modifier cette page"
 
 #: articles/view_as_chat.php:316
 #: articles/view_as_tabs.php:640
 #: articles/view_as_wiki.php:375
-#: articles/view.php:1172
+#: articles/view.php:1151
 msgid "Press [e] to edit"
 msgstr "Appuyer sur [e] pour modifier"
 
 #: articles/view_as_chat.php:322
 #: articles/view_as_tabs.php:646
 #: articles/view_as_wiki.php:381
-#: articles/view.php:1178
+#: articles/view.php:1157
 msgid "Versions"
 msgstr "Versions"
 
 #: articles/view_as_chat.php:322
 #: articles/view_as_tabs.php:646
 #: articles/view_as_wiki.php:381
-#: articles/view.php:1178
+#: articles/view.php:1157
 msgid "Restore a previous version if necessary"
 msgstr "Restaurer une version précédente si nécessaire"
 
 #: articles/view_as_chat.php:338
 #: articles/view_as_tabs.php:658
 #: articles/view_as_wiki.php:393
-#: articles/view.php:1190
+#: articles/view.php:1169
 msgid "Stamp"
 msgstr "Dater"
 
 #: articles/view_as_chat.php:349
 #: articles/view_as_tabs.php:669
 #: articles/view_as_wiki.php:404
-#: articles/view.php:1201
+#: articles/view.php:1180
 msgid "Unlock"
 msgstr "Déverrouiller"
 
 #: articles/view_as_chat.php:356
 #: articles/view_as_tabs.php:676
 #: articles/view_as_wiki.php:411
-#: articles/view.php:1208
+#: articles/view.php:1187
 msgid "Delete this page"
 msgstr "Supprimer cette page"
 
@@ -2243,25 +2248,25 @@ msgstr "Personnes"
 
 #: articles/view_as_tabs.php:614
 #: articles/view_as_wiki.php:349
-#: articles/view.php:1146
+#: articles/view.php:1125
 msgid "Express yourself, and say what you think."
 msgstr "Exprimez-vous, et dites ce que vous en pensez."
 
 #: articles/view_as_tabs.php:620
 #: articles/view_as_wiki.php:355
-#: articles/view.php:1152
+#: articles/view.php:1131
 msgid "Attach related files."
 msgstr "Attacher les fichiers en rapport avec cette page."
 
 #: articles/view_as_tabs.php:626
 #: articles/view_as_wiki.php:361
-#: articles/view.php:1158
+#: articles/view.php:1137
 msgid "Contribute to the web and link to relevant pages."
 msgstr "Participez à l'extension du web et indiquez les autres pages pertinentes."
 
 #: articles/view_as_tabs.php:682
 #: articles/view_as_wiki.php:417
-#: articles/view.php:1214
+#: articles/view.php:1193
 msgid "Duplicate this page"
 msgstr "Dupliquer cette page"
 
@@ -2345,16 +2350,29 @@ msgstr "Zip des 20 premiers fichiers"
 msgid "Zip all files"
 msgstr "Zip de tous les fichiers"
 
-#~ msgid "You have not been enrolled into this interactive chat."
-#~ msgstr "Vous n'êtes pas sur la liste des inscrits à cette discussion."
-
-#, fuzzy
+#~ msgid "%s has contributed to %s"
+#~ msgstr "%s a contribué à %s"
+#~ msgid "Reply"
+#~ msgstr "Répondre"
 #~ msgid ""
 #~ "The page has been successfully posted. Please review it now to ensure "
-#~ "that it reflects your mind.w"
+#~ "that it reflects your mind."
 #~ msgstr ""
 #~ "La page a été postée avec succès. Merci de vous relire afin d'éviter "
 #~ "toute erreur involontaire."
+#~ msgid "to review public content (watchers)"
+#~ msgstr "à consulter le contenu public (observateurs)"
+#~ msgid "to manage public and private content (editors)"
+#~ msgstr "à gérer le contenu public et privé (éditeurs)"
+#~ msgid "You have not been enrolled into this interactive chat."
+#~ msgstr "Vous n'êtes pas sur la liste des inscrits à cette discussion."
+#~ msgid "%d participant"
+#~ msgid_plural "%d participants"
+#~ msgstr[0] "%d participant"
+#~ msgstr[1] "%d participants"
+#~ msgid "to review content and to be notified of public changes (watchers)"
+#~ msgstr ""
+#~ "à consulter le contenu et à être notifié des ajouts publics (observateurs)"
 #~ msgid "Please provide a recipient address."
 #~ msgstr "Merci d'indiquer une adresse de réception."
 #~ msgid "Send a message"
@@ -2602,8 +2620,6 @@ msgstr "Zip de tous les fichiers"
 #~ msgstr "Modifier cet article"
 #~ msgid "You are invited by %s"
 #~ msgstr "Vous êtes invité par %s"
-#~ msgid "reply"
-#~ msgstr "réponse"
 #~ msgid "Looking for orphans in articles table..."
 #~ msgstr "Détecter les enregistrements orphelins"
 #~ msgid "%d hits"

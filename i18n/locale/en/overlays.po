@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
-"PO-Revision-Date: 2011-02-22 15:17+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2011-04-13 11:36+0200\n"
+"PO-Revision-Date: 2011-04-13 11:43+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -24,7 +24,8 @@ msgstr ""
 msgid "Day"
 msgstr "Day"
 
-#: overlays/day.php:34 overlays/generic_meeting.php:359
+#: overlays/day.php:34
+#: overlays/generic_meeting.php:359
 msgid "Use format YYYY-MM-DD"
 msgstr "Use format YYYY-MM-DD"
 
@@ -36,7 +37,9 @@ msgstr "Please provide a date."
 msgid "Edit this event"
 msgstr "Edit this event"
 
-#: overlays/day.php:102 overlays/day.php:303 overlays/generic_meeting.php:917
+#: overlays/day.php:102
+#: overlays/day.php:303
+#: overlays/generic_meeting.php:917
 msgid "Add an event"
 msgstr "Add an event"
 
@@ -52,17 +55,22 @@ msgstr "Delete one day"
 msgid "New day"
 msgstr "New day"
 
-#: overlays/day.php:223 overlays/day.php:252 overlays/generic_meeting.php:837
+#: overlays/day.php:223
+#: overlays/day.php:252
+#: overlays/generic_meeting.php:837
 #: overlays/generic_meeting.php:866
 msgid "Impossible to add an item."
 msgstr "Impossible to add an item."
 
-#: overlays/day.php:245 overlays/generic_meeting.php:859
+#: overlays/day.php:245
+#: overlays/generic_meeting.php:859
 #, php-format
 msgid "Impossible to update date %s"
 msgstr "Impossible to update date %s"
 
-#: overlays/day.php:319 overlays/day.php:351 overlays/generic_meeting.php:933
+#: overlays/day.php:319
+#: overlays/day.php:351
+#: overlays/generic_meeting.php:933
 #: overlays/generic_meeting.php:965
 #, php-format
 msgid "%d date"
@@ -70,7 +78,8 @@ msgid_plural "%d dates"
 msgstr[0] "%d date"
 msgstr[1] "%d dates"
 
-#: overlays/day.php:332 overlays/generic_meeting.php:946
+#: overlays/day.php:332
+#: overlays/generic_meeting.php:946
 msgid "Past dates"
 msgstr "Past dates"
 
@@ -83,7 +92,8 @@ msgstr "Room"
 msgid "Enter a valid %s account"
 msgstr "Enter a valid %s account"
 
-#: overlays/dimdim_meeting.php:49 overlays/generic_meeting.php:742
+#: overlays/dimdim_meeting.php:49
+#: overlays/generic_meeting.php:742
 msgid "Join the meeting"
 msgstr "Join the meeting"
 
@@ -136,20 +146,19 @@ msgid "New meeting"
 msgstr "New meeting"
 
 #: overlays/generic_meeting.php:483
-#, fuzzy
 msgid "Please wait until the meeting begins."
-msgstr "Please wait until the meeting begins"
+msgstr "Please wait until the meeting begins."
 
 #: overlays/generic_meeting.php:500
 msgid "Address"
 msgstr "Address"
 
 #: overlays/generic_meeting.php:504
-#, fuzzy
 msgid "Paste the address of the meeting place"
 msgstr "Paste the web address of the meeting"
 
-#: overlays/generic_meeting.php:523 overlays/generic_meeting.php:574
+#: overlays/generic_meeting.php:523
+#: overlays/generic_meeting.php:574
 msgid "Meeting preparation"
 msgstr "Meeting preparation"
 
@@ -165,21 +174,20 @@ msgstr "Please wait"
 msgid "Meeting has started"
 msgstr "Meeting has started"
 
-#: overlays/generic_meeting.php:535 overlays/generic_meeting.php:649
+#: overlays/generic_meeting.php:535
+#: overlays/generic_meeting.php:649
 msgid "Meeting is over"
 msgstr "Meeting is over"
 
 #: overlays/generic_meeting.php:592
-#, fuzzy
 msgid "Meeting enrolment"
-msgstr "Manage enrolment"
+msgstr "Meeting enrolment"
 
 #: overlays/generic_meeting.php:610
 msgid "Waiting for meeting start"
 msgstr "Waiting for meeting start"
 
 #: overlays/generic_meeting.php:628
-#, fuzzy
 msgid "Meeting is starting"
 msgstr "Meeting has started"
 
@@ -188,42 +196,29 @@ msgid "Management"
 msgstr "Management"
 
 #: overlays/generic_meeting.php:741
-#, fuzzy
 msgid "Please click on the button below to join the meeting."
-msgstr "Provide directions to join the meeting"
+msgstr "Please click on the button below to join the meeting."
 
 #: overlays/index.php:179
 msgid "Overlays"
 msgstr "Overlays"
 
 #: overlays/index.php:183
-msgid ""
-"Overlays listed below can be used to customise articles attached to some "
-"sections."
-msgstr ""
-"Overlays listed below can be used to customise articles attached to some "
-"sections."
+msgid "Overlays listed below can be used to customise articles attached to some sections."
+msgstr "Overlays listed below can be used to customise articles attached to some sections."
 
 #: overlays/index.php:214
 #, php-format
-msgid ""
-"For example, if you want to apply the overlay <code>foo</code>, go to the %"
-"s, and select a target section, or add one."
-msgstr ""
-"For example, if you want to apply the overlay <code>foo</code>, go to the %"
-"s, and select a target section, or add one."
+msgid "For example, if you want to apply the overlay <code>foo</code>, go to the %s, and select a target section, or add one."
+msgstr "For example, if you want to apply the overlay <code>foo</code>, go to the %s, and select a target section, or add one."
 
 #: overlays/index.php:214
 msgid "site map"
 msgstr "site map"
 
 #: overlays/index.php:215
-msgid ""
-"In the form used to edit the section, type the keyword <code>foo</code> in "
-"the overlay field, then save changes."
-msgstr ""
-"In the form used to edit the section, type the keyword <code>foo</code> in "
-"the overlay field, then save changes."
+msgid "In the form used to edit the section, type the keyword <code>foo</code> in the overlay field, then save changes."
+msgstr "In the form used to edit the section, type the keyword <code>foo</code> in the overlay field, then save changes."
 
 #: overlays/issue.php:100
 msgid "under control"
@@ -249,7 +244,9 @@ msgstr "Orange"
 msgid "Red"
 msgstr "Red"
 
-#: overlays/issue.php:182 overlays/issue.php:813 overlays/issue.php:1029
+#: overlays/issue.php:182
+#: overlays/issue.php:813
+#: overlays/issue.php:1029
 msgid "Workflow"
 msgstr "Workflow"
 
@@ -299,16 +296,23 @@ msgstr "Delete an issue"
 msgid "Add an issue"
 msgstr "Add an issue"
 
-#: overlays/issue.php:345 overlays/issue.php:352 overlays/issue.php:355
-#: overlays/issue.php:385 overlays/issue.php:424
+#: overlays/issue.php:345
+#: overlays/issue.php:352
+#: overlays/issue.php:355
+#: overlays/issue.php:385
+#: overlays/issue.php:424
 msgid "Cancelled"
 msgstr "Cancelled"
 
-#: overlays/issue.php:349 overlays/issue.php:421 overlays/issue.php:439
+#: overlays/issue.php:349
+#: overlays/issue.php:421
+#: overlays/issue.php:439
 msgid "Solved"
 msgstr "Solved"
 
-#: overlays/issue.php:363 overlays/issue.php:367 overlays/issue.php:373
+#: overlays/issue.php:363
+#: overlays/issue.php:367
+#: overlays/issue.php:373
 msgid "Validated"
 msgstr "Validated"
 
@@ -316,16 +320,21 @@ msgstr "Validated"
 msgid "Confirmed"
 msgstr "Confirmed"
 
-#: overlays/issue.php:381 overlays/issue.php:391 overlays/issue.php:417
+#: overlays/issue.php:381
+#: overlays/issue.php:391
+#: overlays/issue.php:417
 #: overlays/issue.php:427
 msgid "Rejected"
 msgstr "Rejected"
 
-#: overlays/issue.php:399 overlays/issue.php:403 overlays/issue.php:409
+#: overlays/issue.php:399
+#: overlays/issue.php:403
+#: overlays/issue.php:409
 msgid "Analyzed"
 msgstr "Analyzed"
 
-#: overlays/issue.php:435 overlays/issue.php:445
+#: overlays/issue.php:435
+#: overlays/issue.php:445
 msgid "Pending"
 msgstr "Pending"
 
@@ -333,7 +342,8 @@ msgstr "Pending"
 msgid "Started"
 msgstr "Started"
 
-#: overlays/issue.php:453 overlays/issue.php:463
+#: overlays/issue.php:453
+#: overlays/issue.php:463
 msgid "Released"
 msgstr "Released"
 
@@ -345,7 +355,9 @@ msgstr "Patched"
 msgid "Terminated"
 msgstr "Terminated"
 
-#: overlays/issue.php:471 overlays/issue.php:475 overlays/issue.php:481
+#: overlays/issue.php:471
+#: overlays/issue.php:475
+#: overlays/issue.php:481
 msgid "Integrated"
 msgstr "Integrated"
 
@@ -369,7 +381,8 @@ msgstr "Change is foreseen"
 msgid "Patch has been submitted"
 msgstr "Patch has been submitted"
 
-#: overlays/issue.php:632 overlays/issue.php:635
+#: overlays/issue.php:632
+#: overlays/issue.php:635
 msgid "Immediate solution has been provided"
 msgstr "Immediate solution has been provided"
 
@@ -421,7 +434,8 @@ msgstr "Issue has been documented and cause has been identified"
 msgid "Patch should be integrated"
 msgstr "Patch should be integrated"
 
-#: overlays/issue.php:684 overlays/issue.php:691
+#: overlays/issue.php:684
+#: overlays/issue.php:691
 msgid "No resource to work on the software"
 msgstr "No resource to work on the software"
 
@@ -433,7 +447,8 @@ msgstr "No specific solution has been released"
 msgid "Change has been cancelled"
 msgstr "Change has been cancelled"
 
-#: overlays/issue.php:697 overlays/issue.php:704
+#: overlays/issue.php:697
+#: overlays/issue.php:704
 msgid "A developer is working on this"
 msgstr "A developer is working on this"
 
@@ -445,7 +460,8 @@ msgstr "A solution has been made available"
 msgid "Change has been initiated"
 msgstr "Change has been initiated"
 
-#: overlays/issue.php:710 overlays/issue.php:717
+#: overlays/issue.php:710
+#: overlays/issue.php:717
 msgid "Software is available separately"
 msgstr "Software is available separately"
 
@@ -457,7 +473,8 @@ msgstr "Solution is available separately"
 msgid "Partial change has been achieved"
 msgstr "Partial change has been achieved"
 
-#: overlays/issue.php:723 overlays/issue.php:730
+#: overlays/issue.php:723
+#: overlays/issue.php:730
 msgid "Software has been fully integrated"
 msgstr "Software has been fully integrated"
 
@@ -469,7 +486,8 @@ msgstr "Solution has been fully integrated"
 msgid "Change has been fully completed"
 msgstr "Change has been fully completed"
 
-#: overlays/issue.php:753 overlays/issue.php:760
+#: overlays/issue.php:753
+#: overlays/issue.php:760
 msgid "Submitted"
 msgstr "Submitted"
 
@@ -508,8 +526,11 @@ msgstr "Patch has been submitted on %s"
 msgid "Page has been created on %s"
 msgstr "Page has been created on %s"
 
-#: overlays/issue.php:838 overlays/issue.php:845 overlays/issue.php:862
-#: overlays/issue.php:887 overlays/issue.php:902
+#: overlays/issue.php:838
+#: overlays/issue.php:845
+#: overlays/issue.php:862
+#: overlays/issue.php:887
+#: overlays/issue.php:902
 msgid "now"
 msgstr "now"
 
@@ -523,7 +544,8 @@ msgstr "Qualification has taken place on %s"
 msgid "Analysis has ended on %s"
 msgstr "Analysis has ended on %s"
 
-#: overlays/issue.php:880 overlays/issue.php:884
+#: overlays/issue.php:880
+#: overlays/issue.php:884
 #, php-format
 msgid "Assignment has been finalized on %s"
 msgstr "Assignment has been finalized on %s"
@@ -543,7 +565,8 @@ msgstr "Resolution has been finalized on %s"
 msgid "Case has been closed on %s"
 msgstr "Case has been closed on %s"
 
-#: overlays/issue.php:920 overlays/issue.php:1039
+#: overlays/issue.php:920
+#: overlays/issue.php:1039
 msgid "Owner"
 msgstr "Owner"
 
@@ -598,7 +621,8 @@ msgstr "Color has been changed to \"%s\""
 msgid "Owner has been changed to %s"
 msgstr "Owner has been changed to %s"
 
-#: overlays/mutable.php:53 overlays/mutables/edit.php:84
+#: overlays/mutable.php:53
+#: overlays/mutables/edit.php:84
 msgid "Overlay identifier"
 msgstr "Overlay identifier"
 
@@ -649,7 +673,8 @@ msgstr "Only associates are allowed to sign."
 msgid "Allowed: %s"
 msgstr "Allowed: %s"
 
-#: overlays/petition.php:111 overlays/vote.php:352
+#: overlays/petition.php:111
+#: overlays/vote.php:352
 msgid "(to be defined)"
 msgstr "(to be defined)"
 
@@ -657,27 +682,34 @@ msgstr "(to be defined)"
 msgid "Scope"
 msgstr "Scope"
 
-#: overlays/petition.php:136 overlays/vote.php:115
+#: overlays/petition.php:136
+#: overlays/vote.php:115
 msgid "All members of the community"
 msgstr "All members of the community"
 
-#: overlays/petition.php:140 overlays/vote.php:119
+#: overlays/petition.php:140
+#: overlays/vote.php:119
 msgid "Editors of this section"
 msgstr "Editors of this section"
 
-#: overlays/petition.php:144 overlays/vote.php:123
+#: overlays/petition.php:144
+#: overlays/vote.php:123
 msgid "Associates only"
 msgstr "Associates only"
 
-#: overlays/petition.php:148 overlays/vote.php:127
+#: overlays/petition.php:148
+#: overlays/vote.php:127
 msgid "Following people:"
 msgstr "Following people:"
 
-#: overlays/petition.php:153 overlays/vote.php:144
+#: overlays/petition.php:153
+#: overlays/vote.php:144
 msgid "End date"
 msgstr "End date"
 
-#: overlays/petition.php:161 overlays/vote.php:140 overlays/vote.php:152
+#: overlays/petition.php:161
+#: overlays/vote.php:140
+#: overlays/vote.php:152
 msgid "YYYY-MM-AA HH:MM"
 msgstr "YYYY-MM-AA HH:MM"
 
@@ -693,7 +725,8 @@ msgstr "Delete petition record"
 msgid "New petition"
 msgstr "New petition"
 
-#: overlays/petition.php:233 overlays/vote.php:327
+#: overlays/petition.php:233
+#: overlays/vote.php:327
 msgid "See ballot papers"
 msgstr "See ballot papers"
 
@@ -725,7 +758,8 @@ msgstr "Answer"
 msgid "Delete to suppress"
 msgstr "Delete to suppress"
 
-#: overlays/poll.php:48 overlays/poll.php:59
+#: overlays/poll.php:48
+#: overlays/poll.php:59
 msgid "Count"
 msgstr "Count"
 
@@ -761,11 +795,14 @@ msgstr "Delete a poll"
 msgid "Add a poll"
 msgstr "Add a poll"
 
-#: overlays/poll.php:262 overlays/poll.php:364
+#: overlays/poll.php:262
+#: overlays/poll.php:364
 msgid "Cast your vote"
 msgstr "Cast your vote"
 
-#: overlays/poll.php:265 overlays/poll.php:271 overlays/poll.php:421
+#: overlays/poll.php:265
+#: overlays/poll.php:271
+#: overlays/poll.php:421
 #: overlays/poll.php:427
 msgid "View results"
 msgstr "View results"
@@ -809,8 +846,7 @@ msgstr "Ingredients"
 
 #: overlays/recipe.php:45
 msgid "Type each ingredient on one separate line starting with a '-' character"
-msgstr ""
-"Type each ingredient on one separate line starting with a '-' character"
+msgstr "Type each ingredient on one separate line starting with a '-' character"
 
 #: overlays/recipe.php:74
 msgid "Preparation steps"
@@ -857,7 +893,8 @@ msgstr "Ingredients: %s"
 msgid "with %s"
 msgstr "with %s"
 
-#: overlays/vote.php:69 overlays/polls/vote.php:145
+#: overlays/vote.php:69
+#: overlays/polls/vote.php:145
 msgid "You have already voted"
 msgstr "You have already voted"
 
@@ -910,7 +947,8 @@ msgstr "Vote is currently open"
 msgid "Vote is open until %s"
 msgstr "Vote is open until %s"
 
-#: overlays/vote.php:258 overlays/vote.php:293
+#: overlays/vote.php:258
+#: overlays/vote.php:293
 #, php-format
 msgid "Vote has ended on %s"
 msgstr "Vote has ended on %s"
@@ -983,11 +1021,13 @@ msgstr "Voters:"
 msgid "Fetch as CSV"
 msgstr "Fetch as CSV"
 
-#: overlays/forms/fetch_as_csv.php:135 overlays/mutables/edit.php:29
+#: overlays/forms/fetch_as_csv.php:135
+#: overlays/mutables/edit.php:29
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: overlays/mutables/edit.php:24 overlays/mutables/edit.php:71
+#: overlays/mutables/edit.php:24
+#: overlays/mutables/edit.php:71
 msgid "Change named overlays"
 msgstr "Change named overlays"
 
@@ -1086,214 +1126,158 @@ msgstr "Front page"
 
 #~ msgid " # "
 #~ msgstr " "
-
 #~ msgid "Chairman"
 #~ msgstr "Chairman"
-
 #~ msgid "Seats"
 #~ msgstr "Seats"
-
 #~ msgid "Maximum number of participants."
 #~ msgstr "Maximum number of participants."
-
 #~ msgid "%s: %s"
 #~ msgstr "%s: %s"
-
 #~ msgid "Title"
 #~ msgstr "Title"
-
 #~ msgid "minutes"
 #~ msgstr "minutes"
-
 #~ msgid "Meeting is under preparation"
 #~ msgstr "Meeting is under preparation"
-
 #~ msgid "Meeting has not started yet"
 #~ msgstr "Meeting has not started yet"
-
 #~ msgid "Account"
 #~ msgstr "Account"
-
 #~ msgid "Password"
 #~ msgstr "Password"
-
+#~ msgid "Resulting text"
+#~ msgstr "Resulting text"
 #~ msgid "Meeting location"
 #~ msgstr "Meeting location"
-
 #~ msgid "Edit an event"
 #~ msgstr "Edit an event"
-
 #~ msgid "Delete an event"
 #~ msgstr "Delete an event"
-
 #~ msgid "New event"
 #~ msgstr "New event"
-
 #~ msgid "Description"
 #~ msgstr "Description"
-
 #~ msgid "Welcome"
 #~ msgstr "Welcome"
-
 #~ msgid "Follow-up"
 #~ msgstr "Follow-up"
-
 #~ msgid "Event is under preparation"
 #~ msgstr "Event is under preparation"
-
 #~ msgid "Event has not started yet"
 #~ msgstr "Event has not started yet"
-
 #~ msgid "Event has started"
 #~ msgstr "Event has started"
-
 #~ msgid "Event is over"
 #~ msgstr "Event is over"
-
 #~ msgid "Event preparation"
 #~ msgstr "Event preparation"
-
 #~ msgid "Induction message"
 #~ msgstr "Induction message"
-
 #~ msgid "Displayed until the beginning of the event."
 #~ msgstr "Displayed until the beginning of the event."
-
 #~ msgid "Enrolment"
 #~ msgstr "Enrolment"
-
 #~ msgid "Any page visitor can participate"
 #~ msgstr "Any page visitor can participate"
-
 #~ msgid "Accept applications, to be confirmed by page owner"
 #~ msgstr "Accept applications, to be confirmed by page owner"
-
 #~ msgid "Registration is managed by page owner"
 #~ msgstr "Registration is managed by page owner"
-
 #~ msgid "During the event"
 #~ msgstr "During the event"
-
 #~ msgid "Lobby message"
 #~ msgstr "Lobby message"
-
 #~ msgid "Displayed one hour ahead the beginning of the event."
 #~ msgstr "Displayed one hour ahead the beginning of the event."
-
 #~ msgid "Welcome message"
 #~ msgstr "Welcome message"
-
 #~ msgid "Displayed only during the event."
 #~ msgstr "Displayed only during the event."
-
 #~ msgid "After the event"
 #~ msgstr "After the event"
-
 #~ msgid "Follow-up message"
 #~ msgstr "Follow-up message"
-
 #~ msgid ""
 #~ "Congratulate participants, and drive people to complementary information "
 #~ "or action."
 #~ msgstr ""
 #~ "Congratulate participants, and drive people to complementary information "
 #~ "or action."
-
 #~ msgid "Update my calendar"
 #~ msgstr "Update my calendar"
-
 #~ msgid "%s has joined the meeting"
 #~ msgstr "%s has joined the meeting"
-
 #~ msgid "%s has open enrolment to the event"
 #~ msgstr "%s has open enrolment to the event"
-
 #~ msgid "%s has started the meeting"
 #~ msgstr "%s has started the meeting"
-
 #~ msgid "%s has stopped the meeting"
 #~ msgstr "%s has stopped the meeting"
-
 #~ msgid "Open enrolment"
 #~ msgstr "Open enrolment"
-
 #~ msgid "Enrolment has not been opened yet"
 #~ msgstr "Enrolment has not been opened yet"
-
 #~ msgid "Start the meeting"
 #~ msgstr "Start the meeting"
-
+#~ msgid "Manage enrolment"
+#~ msgstr "Manage enrolment"
 #~ msgid "You have been enrolled"
 #~ msgstr "You have been enrolled"
-
 #~ msgid "You have asked for an invitation"
 #~ msgstr "You have asked for an invitation"
-
 #~ msgid "Confirm my participation"
 #~ msgstr "Confirm my participation"
-
 #~ msgid "Ask for an invitation"
 #~ msgstr "Ask for an invitation"
-
 #~ msgid "Stop the meeting"
 #~ msgstr "Stop the meeting"
-
 #~ msgid "Link to the meeting"
 #~ msgstr "Link to the meeting"
-
 #~ msgid "No information has been set for this meeting"
 #~ msgstr "No information has been set for this meeting"
-
 #~ msgid ""
 #~ "You have to activate %s externally, before the planned start of the "
 #~ "meeting"
 #~ msgstr ""
 #~ "You have to activate %s externally, before the planned start of the "
 #~ "meeting"
-
 #~ msgid "the meeting page"
 #~ msgstr "the meeting page"
-
 #~ msgid "Livestream channel"
 #~ msgstr "Livestream channel"
-
 #~ msgid "As registered at %s"
 #~ msgstr "As registered at %s"
-
+#~ msgid "Call %s with Skype"
+#~ msgstr "Call %s with Skype"
+#~ msgid "Skype id #1"
+#~ msgstr "Skype id #1"
+#~ msgid "Skype id #2"
+#~ msgstr "Skype id #2"
 #~ msgid "Show name"
 #~ msgstr "Show name"
-
 #~ msgid ""
 #~ "There is no seat left available for this event. We are sorry to not "
 #~ "consider your application."
 #~ msgstr ""
 #~ "There is no seat left available for this event. We are sorry to not "
 #~ "consider your application."
-
 #~ msgid "Application: %s"
 #~ msgstr "Application: %s"
-
 #~ msgid "%s would like to participate to this event"
 #~ msgstr "%s would like to participate to this event"
-
 #~ msgid "%s would like to be enrolled to this event"
 #~ msgstr "%s would like to be enrolled to this event"
-
 #~ msgid "Manage enrolment of %s"
 #~ msgstr "Manage enrolment of %s"
-
 #~ msgid "%s has confirmed his participation"
 #~ msgstr "%s has confirmed his participation"
-
 #~ msgid "Invitation: %s"
 #~ msgstr "Invitation: %s"
-
 #~ msgid "You have been enrolled by %s"
 #~ msgstr "You have been enrolled by %s"
-
 #~ msgid "Following persons have been notified of their enrolment by e-mail"
 #~ msgstr "Following persons have been notified of their enrolment by e-mail"
-
 #~ msgid ""
 #~ "Registration is managed by page owner. You have to enroll all "
 #~ "participants manually, and they will be notified by e-mail about this "
@@ -1302,14 +1286,12 @@ msgstr "Front page"
 #~ "Registration is managed by page owner. You have to enroll all "
 #~ "participants manually, and they will be notified by e-mail about this "
 #~ "event."
-
 #~ msgid ""
 #~ "Enrolment has been configured to accept any visitor. You may enroll "
 #~ "manually some participants to draw their attention on this event."
 #~ msgstr ""
 #~ "Enrolment has been configured to accept any visitor. You may enroll "
 #~ "manually some participants to draw their attention on this event."
-
 #~ msgid ""
 #~ "Visitors are entitled to ask for participation, and enrolment is "
 #~ "confirmed by page owner. Check the list below to validate applications, "
@@ -1318,51 +1300,38 @@ msgstr "Front page"
 #~ "Visitors are entitled to ask for participation, and enrolment is "
 #~ "confirmed by page owner. Check the list below to validate applications, "
 #~ "and to confirm registrations by e-mail."
-
 #~ msgid "Persons assigned to %s"
 #~ msgstr "Persons assigned to %s"
-
 #~ msgid "Persons watching %s"
 #~ msgstr "Persons watching %s"
-
 #~ msgid "To add several persons at once, use following lists"
 #~ msgstr "To add several persons at once, use following lists"
-
 #~ msgid ""
 #~ "To add a person, type some letters to look for a name, then select one "
 #~ "profile at a time."
 #~ msgstr ""
 #~ "To add a person, type some letters to look for a name, then select one "
 #~ "profile at a time."
-
 #~ msgid "Current enrolment"
 #~ msgstr "Current enrolment"
-
 #~ msgid "validate"
 #~ msgstr "validate"
-
 #~ msgid "drop"
 #~ msgstr "drop"
-
 #~ msgid "Done"
 #~ msgstr "Done"
-
 #~ msgid "Enroll"
 #~ msgstr "Enroll"
-
 #~ msgid "Before the event"
 #~ msgstr "Before the event"
-
 #~ msgid "Meeting follow-up"
 #~ msgstr "Meeting follow-up"
-
 #~ msgid "Resolution"
 #~ msgstr "Resolution"
 
 #, fuzzy
 #~ msgid "Street address:"
 #~ msgstr "Mail address:"
-
 #~ msgid "This field is hardcoded"
 #~ msgstr "This field is hardcoded"
 
@@ -1381,13 +1350,10 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Contact phone number:"
 #~ msgstr "Alternate phone number:"
-
 #~ msgid "Use the international notation, starting with a + sign"
 #~ msgstr "Use the international notation, starting with a + sign"
-
 #~ msgid "Email address:"
 #~ msgstr "Email address:"
-
 #~ msgid "Type a valid e-mail address"
 #~ msgstr "Type a valid e-mail address"
 
@@ -1402,10 +1368,8 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "IP v6 addressing:"
 #~ msgstr "Mail address:"
-
 #~ msgid "Additional data"
 #~ msgstr "Additional data"
-
 #~ msgid "Ensure you are sharing all of available information"
 #~ msgstr "Ensure you are sharing all of available information"
 
@@ -1424,20 +1388,16 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Street address"
 #~ msgstr "Mail address"
-
 #~ msgid "Full name"
 #~ msgstr "Full name"
-
 #~ msgid "Phone number"
 #~ msgstr "Phone number"
-
 #~ msgid "E-mail"
 #~ msgstr "E-mail"
 
 #, fuzzy
 #~ msgid "Site phone number"
 #~ msgstr "Main phone number:"
-
 #~ msgid "Type"
 #~ msgstr "Type"
 
@@ -1472,7 +1432,6 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Add an tracker"
 #~ msgstr "Add an answer"
-
 #~ msgid "No solution"
 #~ msgstr "No solution"
 
@@ -1519,16 +1478,12 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Step 5 - Tracker has been closed on %s"
 #~ msgstr "Case has been closed on %s"
-
 #~ msgid "Incident"
 #~ msgstr "Incident"
-
 #~ msgid "Maintenance"
 #~ msgstr "Maintenance"
-
 #~ msgid "Improvement"
 #~ msgstr "Improvement"
-
 #~ msgid "Development"
 #~ msgstr "Development"
 
@@ -1539,98 +1494,70 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Type has been changed to \"%s\""
 #~ msgstr "Color has been changed to \"%s\""
-
 #~ msgid "End of qualification"
 #~ msgstr "End of qualification"
-
 #~ msgid "End of analysis"
 #~ msgstr "End of analysis"
-
 #~ msgid "End of resolution efforts"
 #~ msgstr "End of resolution efforts"
 
 #, fuzzy
 #~ msgid "Tracker has been finalized"
 #~ msgstr "Issue has been finalized"
-
 #~ msgid "Creation"
 #~ msgstr "Creation"
-
 #~ msgid "Reproduced"
 #~ msgstr "Reproduced"
-
 #~ msgid "Solution Manager"
 #~ msgstr "Solution Manager"
-
 #~ msgid "this has been recognized as a valid problem"
 #~ msgstr "this has been recognized as a valid problem"
-
 #~ msgid "the problem has not been reproduced"
 #~ msgstr "the problem has not been reproduced"
-
 #~ msgid "a solution has been made available"
 #~ msgstr "a solution has been made available"
-
 #~ msgid "Solution Manager:"
 #~ msgstr "Solution Manager:"
-
 #~ msgid "All pages"
 #~ msgstr "All pages"
-
 #~ msgid "Back to main page"
 #~ msgstr "Back to main page"
-
 #~ msgid "Petition description"
 #~ msgstr "Petition description"
-
 #~ msgid "%d signature"
 #~ msgid_plural "%d signatures"
 #~ msgstr[0] "%d signature"
 #~ msgstr[1] "%d signatures"
-
 #~ msgid "Issue Status"
 #~ msgstr "Issue Status"
-
 #~ msgid "Dates as YYYY-MM-DD"
 #~ msgstr "Dates as YYYY-MM-DD"
-
 #~ msgid "Use the first name or nick name"
 #~ msgstr "Use the first name or nick name"
-
 #~ msgid "Referrals"
 #~ msgstr "Referrals"
-
 #~ msgid "Edit again"
 #~ msgstr "Edit again"
-
 #~ msgid "Type a valid web address (http://...)"
 #~ msgstr "Type a valid web address (http://...)"
-
 #~ msgid "Edit one contact"
 #~ msgstr "Edit one contact"
-
 #~ msgid "Delete one contact"
 #~ msgstr "Delete one contact"
-
 #~ msgid "New contact"
 #~ msgstr "New contact"
-
 #~ msgid "Alternate number"
 #~ msgstr "Alternate number"
-
 #~ msgid "Web"
 #~ msgstr "Web"
-
 #~ msgid "1 date"
 #~ msgid_plural "%d dates"
 #~ msgstr[0] "1 date"
 #~ msgstr[1] "%d dates"
-
 #~ msgid "1 approval"
 #~ msgid_plural "%d approvals"
 #~ msgstr[0] "1 approval"
 #~ msgstr[1] "%d approvals"
-
 #~ msgid "XML"
 #~ msgstr "XML"
 
@@ -1697,40 +1624,30 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Cancelled assignment"
 #~ msgstr "Cancelled"
-
 #~ msgid "Select an overlay"
 #~ msgstr "Select an overlay"
-
 #~ msgid "Edit this page to select some overlay."
 #~ msgstr "Edit this page to select some overlay."
-
 #~ msgid "1&nbsp;date"
 #~ msgid_plural "%d&nbsp;dates"
 #~ msgstr[0] "1&nbsp;date"
 #~ msgstr[1] "%d&nbsp;dates"
-
 #~ msgid "1&nbsp;approval"
 #~ msgid_plural "%d&nbsp;approvals"
 #~ msgstr[0] "1&nbsp;approval"
 #~ msgstr[1] "%d&nbsp;approvals"
-
 #~ msgid "1&nbsp;reject"
 #~ msgid_plural "%d&nbsp;rejects"
 #~ msgstr[0] "1&nbsp;reject"
 #~ msgstr[1] "%d&nbsp;rejects"
-
 #~ msgid "Available overlays"
 #~ msgstr "Available overlays"
-
 #~ msgid "Back"
 #~ msgstr "Back"
-
 #~ msgid "New issue"
 #~ msgstr "New issue"
-
 #~ msgid "Post a new poll"
 #~ msgstr "Post a new poll"
-
 #~ msgid "Previous dates"
 #~ msgstr "Previous dates"
 
@@ -1749,21 +1666,16 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Post a new documentation"
 #~ msgstr "Post a new recipe"
-
 #~ msgid "You should attach any relevant file or link for this day"
 #~ msgstr "You should attach any relevant file or link for this day"
-
 #~ msgid "You should attach any relevant file or link for this petition"
 #~ msgstr "You should attach any relevant file or link for this petition"
-
 #~ msgid "To complement polling results"
 #~ msgstr "To complement polling results"
-
 #~ msgid "You can begin each step with [*] to beautify your recipe"
 #~ msgstr "You can begin each step with [*] to beautify your recipe"
-
 #~ msgid "You should attach any relevant file or link to this vote"
 #~ msgstr "You should attach any relevant file or link to this vote"
-
 #~ msgid "You should attach every document related to this issue"
 #~ msgstr "You should attach every document related to this issue"
+

@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-22 15:25+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-04-13 11:36+0200
+PO-Revision-Date: 2011-04-13 11:44+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -133,8 +133,10 @@ $_SESSION['l10n']['fr']['1a61c382ad351d66f4696b362fb9fcc1']='Le problème a ét�
 $_SESSION['l10n']['fr']['Join the meeting']='Joindre la réunion';
 $_SESSION['l10n']['fr']['0985e124a45dcdf669edf50555f0141b']='Rédiger des sondages aussi simples que possible.';
 $_SESSION['l10n']['fr']['Management']='Gestion';
+$_SESSION['l10n']['fr']['Meeting enrolment']='Gérer les inscriptions';
 $_SESSION['l10n']['fr']['Meeting has started']='La réunion a commencé';
 $_SESSION['l10n']['fr']['Meeting is over']='La réunion est terminée';
+$_SESSION['l10n']['fr']['Meeting is starting']='La réunion a commencé';
 $_SESSION['l10n']['fr']['Meeting preparation']='Préparation de la réunion';
 $_SESSION['l10n']['fr']['Navigation box']='Boîte de navigation';
 $_SESSION['l10n']['fr']['New day']='Nouvelle journée';
@@ -165,6 +167,7 @@ $_SESSION['l10n']['fr']['Page has been created']='La page a été créée';
 $_SESSION['l10n']['fr']['Page has been created on %s']='La page a été créée le %s';
 $_SESSION['l10n']['fr']['38d314bab1066f2981168f116bfca8bb']='Le changement est partiel';
 $_SESSION['l10n']['fr']['Past dates']='Dates précédentes';
+$_SESSION['l10n']['fr']['005eb26c2b2b960de5955d5a12032093']='Coller l\'adresse web de la réunion virtuelle';
 $_SESSION['l10n']['fr']['Patch has been submitted']='Le correctif a été proposé';
 $_SESSION['l10n']['fr']['Patch has been submitted on %s']='Le correctif a été proposé %s';
 $_SESSION['l10n']['fr']['Patch should be integrated']='Le correctif devrait être intégré';
@@ -181,9 +184,11 @@ $_SESSION['l10n']['fr']['Petition has ended on %s.']='La pétition est fermée d
 $_SESSION['l10n']['fr']['Petition is currently open.']='La pétition est ouverte.';
 $_SESSION['l10n']['fr']['Petition is open until %s.']='La pétition est ouverte jusqu\'au %s.';
 $_SESSION['l10n']['fr']['Planned change']='Changement planifié';
+$_SESSION['l10n']['fr']['e263f0f80d01c4425818659d674ce33f']='Svp cliquez sur le bouton ci-dessous pour rejoindre la réunion';
 $_SESSION['l10n']['fr']['Please provide a date.']='Merci d\'indiquer une date.';
 $_SESSION['l10n']['fr']['fbfec63a77f8d801db1c826c3bf28a8d']='Merci d\'indiquer un identifiant d\'overlay';
 $_SESSION['l10n']['fr']['Please wait']='Merci de patienter';
+$_SESSION['l10n']['fr']['6902a87872c84f33a4e80962f5d0e9f9']='Merci de patienter en attendant que la réunion commence';
 $_SESSION['l10n']['fr']['Preparation steps']='Etapes de la recette';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Problem has been recorded']='Le problème a été enregistré';

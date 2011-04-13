@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 15:05+0100\n"
+"POT-Creation-Date: 2011-04-13 12:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,7 +293,7 @@ msgstr ""
 #: articles/edit.php:577 articles/edit.php:811 articles/edit.php:858
 #: articles/edit.php:1013 articles/view_as_chat.php:308
 #: articles/view_as_tabs.php:632 articles/view_as_wiki.php:367
-#: articles/view.php:1164
+#: articles/view.php:1143
 msgid "Add an image"
 msgstr ""
 
@@ -305,7 +305,7 @@ msgstr ""
 #: articles/view_as_chat.php:195 articles/view_as_chat.php:385
 #: articles/view_as_tabs.php:418 articles/view_as_tabs.php:620
 #: articles/view_as_wiki.php:178 articles/view_as_wiki.php:355
-#: articles/view.php:908 articles/view.php:1152
+#: articles/view.php:908 articles/view.php:1131
 msgid "Upload a file"
 msgstr ""
 
@@ -313,7 +313,7 @@ msgstr ""
 #: articles/edit.php:580 articles/view_as_chat.php:416
 #: articles/view_as_tabs.php:451 articles/view_as_tabs.php:626
 #: articles/view_as_wiki.php:210 articles/view_as_wiki.php:361
-#: articles/view.php:1099 articles/view.php:1158
+#: articles/view.php:1078 articles/view.php:1137
 msgid "Add a link"
 msgstr ""
 
@@ -592,7 +592,7 @@ msgstr ""
 
 #: articles/edit_as_simple.php:497 articles/edit.php:1043
 #: articles/view_as_chat.php:330 articles/view_as_tabs.php:652
-#: articles/view_as_wiki.php:387 articles/view.php:1184
+#: articles/view_as_wiki.php:387 articles/view.php:1163
 msgid "Publish"
 msgstr ""
 
@@ -852,6 +852,10 @@ msgstr ""
 
 #: articles/edit.php:667
 msgid "Please carefully select a model for your page."
+msgstr ""
+
+#: articles/edit.php:718 articles/invite.php:336
+msgid "authenticate"
 msgstr ""
 
 #: articles/edit.php:753
@@ -1201,7 +1205,7 @@ msgstr[1] ""
 #: articles/layout_articles_as_timeline.php:95
 #: articles/layout_articles_as_yahoo.php:102 articles/layout_articles.php:170
 #: articles/view_as_tabs.php:345 articles/view_as_wiki.php:296
-#: articles/view.php:1006
+#: articles/view.php:985
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -1233,7 +1237,7 @@ msgstr[1] ""
 #: articles/layout_articles_as_timeline.php:99
 #: articles/layout_articles_as_yahoo.php:96 articles/layout_articles.php:166
 #: articles/view_as_tabs.php:434 articles/view_as_wiki.php:193
-#: articles/view.php:1076
+#: articles/view.php:1055
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -1281,8 +1285,8 @@ msgstr ""
 #: articles/layout_articles_as_alistapart.php:298
 #: articles/layout_articles_as_jive.php:154 articles/view_as_tabs.php:364
 #: articles/view_as_tabs.php:614 articles/view_as_wiki.php:316
-#: articles/view_as_wiki.php:349 articles/view.php:976 articles/view.php:1026
-#: articles/view.php:1030 articles/view.php:1146
+#: articles/view_as_wiki.php:349 articles/view.php:955 articles/view.php:1005
+#: articles/view.php:1009 articles/view.php:1125
 msgid "Post a comment"
 msgstr ""
 
@@ -1501,7 +1505,7 @@ msgstr ""
 
 #: articles/lock.php:82 articles/view_as_chat.php:346
 #: articles/view_as_tabs.php:666 articles/view_as_wiki.php:401
-#: articles/view.php:1198
+#: articles/view.php:1177
 msgid "Lock"
 msgstr ""
 
@@ -1576,7 +1580,7 @@ msgstr ""
 
 #: articles/print.php:158 articles/view_as_chat.php:431
 #: articles/view_as_tabs.php:458 articles/view_as_wiki.php:217
-#: articles/view.php:1105
+#: articles/view.php:1084
 msgid "Links"
 msgstr ""
 
@@ -1825,43 +1829,43 @@ msgid "Authenticate or register to contribute to this thread"
 msgstr ""
 
 #: articles/view_as_chat.php:308 articles/view_as_tabs.php:632
-#: articles/view_as_wiki.php:367 articles/view.php:1164
+#: articles/view_as_wiki.php:367 articles/view.php:1143
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr ""
 
 #: articles/view_as_chat.php:315 articles/view_as_tabs.php:639
 #: articles/view_as_wiki.php:45 articles/view_as_wiki.php:374
-#: articles/view.php:1171
+#: articles/view.php:1150
 msgid "Edit this page"
 msgstr ""
 
 #: articles/view_as_chat.php:316 articles/view_as_tabs.php:640
-#: articles/view_as_wiki.php:375 articles/view.php:1172
+#: articles/view_as_wiki.php:375 articles/view.php:1151
 msgid "Press [e] to edit"
 msgstr ""
 
 #: articles/view_as_chat.php:322 articles/view_as_tabs.php:646
-#: articles/view_as_wiki.php:381 articles/view.php:1178
+#: articles/view_as_wiki.php:381 articles/view.php:1157
 msgid "Versions"
 msgstr ""
 
 #: articles/view_as_chat.php:322 articles/view_as_tabs.php:646
-#: articles/view_as_wiki.php:381 articles/view.php:1178
+#: articles/view_as_wiki.php:381 articles/view.php:1157
 msgid "Restore a previous version if necessary"
 msgstr ""
 
 #: articles/view_as_chat.php:338 articles/view_as_tabs.php:658
-#: articles/view_as_wiki.php:393 articles/view.php:1190
+#: articles/view_as_wiki.php:393 articles/view.php:1169
 msgid "Stamp"
 msgstr ""
 
 #: articles/view_as_chat.php:349 articles/view_as_tabs.php:669
-#: articles/view_as_wiki.php:404 articles/view.php:1201
+#: articles/view_as_wiki.php:404 articles/view.php:1180
 msgid "Unlock"
 msgstr ""
 
 #: articles/view_as_chat.php:356 articles/view_as_tabs.php:676
-#: articles/view_as_wiki.php:411 articles/view.php:1208
+#: articles/view_as_wiki.php:411 articles/view.php:1187
 msgid "Delete this page"
 msgstr ""
 
@@ -1952,22 +1956,22 @@ msgid "Persons"
 msgstr ""
 
 #: articles/view_as_tabs.php:614 articles/view_as_wiki.php:349
-#: articles/view.php:1146
+#: articles/view.php:1125
 msgid "Express yourself, and say what you think."
 msgstr ""
 
 #: articles/view_as_tabs.php:620 articles/view_as_wiki.php:355
-#: articles/view.php:1152
+#: articles/view.php:1131
 msgid "Attach related files."
 msgstr ""
 
 #: articles/view_as_tabs.php:626 articles/view_as_wiki.php:361
-#: articles/view.php:1158
+#: articles/view.php:1137
 msgid "Contribute to the web and link to relevant pages."
 msgstr ""
 
 #: articles/view_as_tabs.php:682 articles/view_as_wiki.php:417
-#: articles/view.php:1214
+#: articles/view.php:1193
 msgid "Duplicate this page"
 msgstr ""
 

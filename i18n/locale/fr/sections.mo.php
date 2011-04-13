@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-24 15:04+0100
+POT-Creation-Date: 2011-04-13 11:36+0200
+PO-Revision-Date: 2011-04-13 12:09+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -118,7 +118,7 @@ $_SESSION['l10n']['fr']['5cb4a37477ac11b8572c1f97c42ec259']='Vient avant le titr
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['Compact title']='Titre compact';
-$_SESSION['l10n']['fr']['30ca048e4f2b284723125df404049949']='Félicitations, vous avez ajouté un nouvel espace pour vos pages';
+$_SESSION['l10n']['fr']['30ca048e4f2b284723125df404049949']='Félicitations, vous avez ajouté un nouvel espace web';
 $_SESSION['l10n']['fr']['8c68013ff17b0314c06d5fcacd1a5eda']='Félicitations, votre contribution a bien été enregistrée.';
 $_SESSION['l10n']['fr']['Contact']='Contact';
 $_SESSION['l10n']['fr']['Content']='Contenu';
@@ -479,6 +479,7 @@ $_SESSION['l10n']['fr']['82e1e4fa4163a6bb6fce5575a9d86438']='Votre message est e
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['3a123eb381c7b77022d31740519e6c0e']='accordion - Exposer un élément à la fois dans une pile';
 $_SESSION['l10n']['fr']['3826678d554b3f49614db283670da2ca']='alistapart - Dernier article dans son intégralité';
+$_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['behavior']='comportement';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';
@@ -491,6 +492,7 @@ $_SESSION['l10n']['fr']['a4896893448b9c1dbe2fb65fb48f68d6']='daily - Une liste d
 $_SESSION['l10n']['fr']['1ea7057e130399b867cb3dd7b33919bb']='decorated - Une liste décorée avec des images';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['digg - To order pages by rating']='digg - Ordonner les pages en fonction des votes';
+$_SESSION['l10n']['fr']['be6031fed77429ac67ed490d7e26139b']='annuaire - Diviser les listes longues en 26 parties plus petites';
 $_SESSION['l10n']['fr']['17042d1851bc5cc293b2f5d7f1dc6388']='est affiché dans des boîtes extra distinctes';
 $_SESSION['l10n']['fr']['696443a88a65f23ef7365b9f1b6bf3d8']='est affiché dans des boîtes gagdet distinctes';
 $_SESSION['l10n']['fr']['f27f6eeaf408746cfdd8b246c2b99521']='est affiché dans la zone réservée aux nouvelles';
@@ -536,7 +538,7 @@ $_SESSION['l10n']['fr']['tagged - Titles and tags']='tagged - Titres et étiquet
 $_SESSION['l10n']['fr']['templates']='pages modèles';
 $_SESSION['l10n']['fr']['c67436d0c05ea8118905f418986fc235']='titles - Utiliser seulement les titres et les vignettes';
 $_SESSION['l10n']['fr']['to manage content']='à gérer le contenu';
-$_SESSION['l10n']['fr']['to review content']='à consulter le contenu';
+$_SESSION['l10n']['fr']['to review content']='à passer en revue le contenu';
 $_SESSION['l10n']['fr']['unassign']='retirer';
 $_SESSION['l10n']['fr']['yabb - A discussion board']='yabb - Une liste de discussion';
 $_SESSION['l10n']['fr']['yabb - A discussion forum']='yabb - Un forum de discussion';

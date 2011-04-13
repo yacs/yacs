@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-24 14:52+0100
+POT-Creation-Date: 2011-04-13 11:36+0200
+PO-Revision-Date: 2011-04-13 11:40+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -409,6 +409,7 @@ $_SESSION['l10n']['fr']['Your sections']='Vos sections';
 $_SESSION['l10n']['fr']['Zip 20 first files']='Zip des 20 premiers fichiers';
 $_SESSION['l10n']['fr']['Zip all files']='Zip de tous les fichiers';
 $_SESSION['l10n']['fr']['advertised']='contacté';
+$_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';
 $_SESSION['l10n']['fr']['bytes']='octets';
@@ -429,6 +430,6 @@ $_SESSION['l10n']['fr']['reviewed %s']='mis à jour %s';
 $_SESSION['l10n']['fr']['smileys']='les emoticons';
 $_SESSION['l10n']['fr']['sticky']='classées';
 $_SESSION['l10n']['fr']['to manage content']='à modifier le contenu';
-$_SESSION['l10n']['fr']['to review content']='à consulter le contenu';
+$_SESSION['l10n']['fr']['to review content']='à passer en revue le contenu';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

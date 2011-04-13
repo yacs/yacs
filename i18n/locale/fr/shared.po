@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
+"POT-Creation-Date: 2011-04-13 11:36+0200\n"
 "PO-Revision-Date: 2011-01-25 00:24+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -272,12 +272,12 @@ msgstr ""
 msgid "System parameters"
 msgstr "Paramètres système"
 
-#: shared/mailer.php:102
+#: shared/mailer.php:110
 #, php-format
 msgid "%s by %s"
 msgstr "%s par %s"
 
-#: shared/mailer.php:119
+#: shared/mailer.php:127
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since the new item has "
@@ -290,7 +290,7 @@ msgstr ""
 "ne plus recevoir d'alertes automatiques merci de passer en revue votre "
 "profil utilisateur."
 
-#: shared/mailer.php:124
+#: shared/mailer.php:132
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since you are following "
@@ -302,33 +302,33 @@ msgstr ""
 "merci de visiter le profil suivant et de cliquer sur le lien Arrêter les "
 "notifications."
 
-#: shared/mailer.php:169
+#: shared/mailer.php:177
 #, php-format
 msgid "and %d other persons"
 msgstr "et %d autres personnes"
 
-#: shared/mailer.php:294 shared/mailer.php:744 shared/mailer.php:988
-#: shared/mailer.php:1135
+#: shared/mailer.php:302 shared/mailer.php:752 shared/mailer.php:1002
+#: shared/mailer.php:1149
 msgid "E-mail has not been enabled on this system."
 msgstr "Le courrier électronique n'est pas mis en oeuvre sur ce serveur."
 
-#: shared/mailer.php:749
+#: shared/mailer.php:757
 msgid "Empty sender address"
 msgstr "Pas d'adresse d'émetteur"
 
-#: shared/mailer.php:754 shared/mailer.php:993
+#: shared/mailer.php:762 shared/mailer.php:1007
 msgid "Empty recipient address"
 msgstr "Pas d'adresse de destination"
 
-#: shared/mailer.php:759 shared/mailer.php:998
+#: shared/mailer.php:767 shared/mailer.php:1012
 msgid "No subject"
 msgstr "Pas de sujet"
 
-#: shared/mailer.php:764 shared/mailer.php:1003
+#: shared/mailer.php:772 shared/mailer.php:1017
 msgid "No message"
 msgstr "Le corps du message est vide"
 
-#: shared/mailer.php:1127 shared/mailer.php:1129
+#: shared/mailer.php:1141 shared/mailer.php:1143
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr "Erreur pendant l'expédition du message à %s"

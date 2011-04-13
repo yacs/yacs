@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 15:05+0100\n"
+"POT-Creation-Date: 2011-04-13 12:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -349,6 +349,10 @@ msgstr ""
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
+msgstr ""
+
+#: forms/view.php:439
+msgid "authenticate"
 msgstr ""
 
 #: forms/view.php:442 forms/view.php:461 forms/view.php:478

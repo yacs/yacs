@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-02-24 14:48+0100
-PO-Revision-Date: 2011-02-22 15:17+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-04-13 11:36+0200
+PO-Revision-Date: 2011-04-13 11:43+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -133,8 +133,10 @@ $_SESSION['l10n']['en']['1a61c382ad351d66f4696b362fb9fcc1']='Issue has been docu
 $_SESSION['l10n']['en']['Join the meeting']='Join the meeting';
 $_SESSION['l10n']['en']['0985e124a45dcdf669edf50555f0141b']='Keep your polls as simple to understand as possible.';
 $_SESSION['l10n']['en']['Management']='Management';
+$_SESSION['l10n']['en']['Meeting enrolment']='Meeting enrolment';
 $_SESSION['l10n']['en']['Meeting has started']='Meeting has started';
 $_SESSION['l10n']['en']['Meeting is over']='Meeting is over';
+$_SESSION['l10n']['en']['Meeting is starting']='Meeting has started';
 $_SESSION['l10n']['en']['Meeting preparation']='Meeting preparation';
 $_SESSION['l10n']['en']['Navigation box']='Navigation box';
 $_SESSION['l10n']['en']['New day']='New day';
@@ -165,6 +167,7 @@ $_SESSION['l10n']['en']['Page has been created']='Page has been created';
 $_SESSION['l10n']['en']['Page has been created on %s']='Page has been created on %s';
 $_SESSION['l10n']['en']['38d314bab1066f2981168f116bfca8bb']='Partial change has been achieved';
 $_SESSION['l10n']['en']['Past dates']='Past dates';
+$_SESSION['l10n']['en']['005eb26c2b2b960de5955d5a12032093']='Paste the web address of the meeting';
 $_SESSION['l10n']['en']['Patch has been submitted']='Patch has been submitted';
 $_SESSION['l10n']['en']['Patch has been submitted on %s']='Patch has been submitted on %s';
 $_SESSION['l10n']['en']['Patch should be integrated']='Patch should be integrated';
@@ -181,9 +184,11 @@ $_SESSION['l10n']['en']['Petition has ended on %s.']='Petition has ended on %s.'
 $_SESSION['l10n']['en']['Petition is currently open.']='Petition is currently open.';
 $_SESSION['l10n']['en']['Petition is open until %s.']='Petition is open until %s.';
 $_SESSION['l10n']['en']['Planned change']='Planned change';
+$_SESSION['l10n']['en']['e263f0f80d01c4425818659d674ce33f']='Please click on the button below to join the meeting.';
 $_SESSION['l10n']['en']['Please provide a date.']='Please provide a date.';
 $_SESSION['l10n']['en']['fbfec63a77f8d801db1c826c3bf28a8d']='Please provide an overlay identifier';
 $_SESSION['l10n']['en']['Please wait']='Please wait';
+$_SESSION['l10n']['en']['6902a87872c84f33a4e80962f5d0e9f9']='Please wait until the meeting begins.';
 $_SESSION['l10n']['en']['Preparation steps']='Preparation steps';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Problem has been recorded']='Problem has been recorded';
