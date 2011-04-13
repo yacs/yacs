@@ -894,13 +894,7 @@ Class Decisions {
 		}
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(description) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of decisions
 		$query = "SELECT * FROM ".SQL::table_name('decisions')." AS decisions "

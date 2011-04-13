@@ -197,12 +197,12 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = $value;
+					$datum[ $labels[$name] ] = utf8::to_ascii($value);
 
 				}
 
 				if($label && !in_array($labels, 'label'))
-					$datum['label'] = $label;
+					$datum['label'] = utf8::to_ascii($label);
 
 				// add a tip, if any
 				$data['items'][] = $datum;
@@ -720,6 +720,10 @@ Class Tables {
 
 					// more pairs of strings to transcode
 					$transcoded[] = array('/\[table='.preg_quote($old_id, '/').'/i', '[table='.$item['id']);
+					$transcoded[] = array('/\[table.bars='.preg_quote($old_id, '/').'/i', '[table.bars='.$item['id']);
+					$transcoded[] = array('/\[table.chart='.preg_quote($old_id, '/').'/i', '[table.chart='.$item['id']);
+					$transcoded[] = array('/\[table.filter='.preg_quote($old_id, '/').'/i', '[table.filter='.$item['id']);
+					$transcoded[] = array('/\[table.line='.preg_quote($old_id, '/').'/i', '[table.line='.$item['id']);
 
 					// duplicate elements related to this item
 					Anchors::duplicate_related_to('table:'.$old_id, 'table:'.$item['id']);

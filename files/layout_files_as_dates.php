@@ -55,10 +55,10 @@ Class Layout_files_as_dates extends Layout_interface {
 				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
 
 			// with dates
-			$suffix .= ' '.Skin::build_date($item['edit_date']);
+			$suffix .= ' '.Skin::build_date($item['edit_date'], 'yyyy-mm-dd');
 
 			// list all components for this item
-			$items[$url] = array('', $label, $suffix, 'file', NULL);
+			$items[$url] = array('', $label, trim($suffix), 'file', NULL);
 
 		}
 

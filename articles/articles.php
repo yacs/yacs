@@ -101,6 +101,7 @@
  * @tester Mark
  * @tester Fernand Le Chien
  * @tester NickR
+ * @tester Denis Flouriot
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -2792,7 +2793,7 @@ Class Articles {
 	 * @see services/search.php
 	 * @see categories/set_keyword.php
 	 *
-	 * @param the search string
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -2812,8 +2813,8 @@ Class Articles {
 	 *
 	 * @see search.php
 	 *
-	 * @param the id of the section to look in
-	 * @param the search string
+	 * @param int the id of the section to look in
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -2910,10 +2911,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words))
-			$match .=  " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($word['value'])."')";
+		$match = " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of articles
 		$query = "SELECT articles.*"

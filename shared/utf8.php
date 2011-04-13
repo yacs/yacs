@@ -322,7 +322,7 @@ Class Utf8 {
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	function &to_ascii($utf, $options=' /()') {
+	function &to_ascii($utf, $options=' =:/()<>"') {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
