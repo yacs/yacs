@@ -3,7 +3,7 @@
  * help to look for users
  *
  * This script is the back-end part in a AJAX architecture. It processes
- * data received in the parameter 'q', look in the database for matching
+ * data received in the parameter 'term', look in the database for matching
  * users, and return an unordered list of keywords. If full name or e-mail
  * address has been set, it is provided as well.
  *
@@ -28,13 +28,13 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
 // some input is mandatory
-if(!isset($_REQUEST['q']) || !$_REQUEST['q']) {
+if(!isset($_REQUEST['term']) || !$_REQUEST['term']) {
 	Safe::header('Status: 400 Bad Request', TRUE, 400);
 	die(i18n::s('Request is invalid.'));
 }
 
 // just for sanity
-$_REQUEST['q'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['q']);
+$_REQUEST['term'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['term']);
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -46,23 +46,21 @@ if(Surfer::is_crawler()) {
 $output = '';
 
 // look for matching items
-$items = Users::search($_REQUEST['q'], 0, 50, 'complete');
+$items = Users::search($_REQUEST['term'], 0, 50, 'complete');
 
 // build an unordered list
 if(count($items)) {
-	$output .= '<ul>'."\n";
+	$output .= '[';
+	$i = 0;
 
 	foreach($items as $label => $more) {
-		$output .= "\t".'<li>'.$label;
-
-		// append contextual information, if any --specific to scriptaculous
-		if($more)
-			$output .= '<span class="informal details"> -&nbsp;'.$more.'</span>';
-
-		$output .= '</li>'."\n";
+    if ($i > 0)
+      $output .= ',';
+    $i++;
+		$output .= '"'.$label.'"';
 	}
 
-	$output .= '</ul>';
+	$output .= ']';
 }
 
 // allow for data compression

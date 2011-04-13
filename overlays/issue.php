@@ -919,16 +919,14 @@ class Issue extends Overlay {
 				.'<div id="owner_choice" class="autocomplete"></div>'
 				.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 
-/*
-
-  TODO : enable jquery-ui autocomplete functionnality
-
-			// append the script used for autocompletion
-			$tracking .= JS_PREFIX
-				.'// enable autocompletion for user names'."\n"
-				.'$(document).ready( function() { new Ajax.Autocompleter("owner", "owner_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
-				.JS_SUFFIX;
-*/
+  	.'// enable owner autocompletion'."\n"
+    .'$(document).ready( function() {'."\n"
+    .'  $("#owner").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
+    .JS_SUFFIX;
 		}
 
 		// finalize this tab

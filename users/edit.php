@@ -483,16 +483,17 @@ if($with_form) {
 	$text .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'unfolded');
 	$fields = array();
 
-/*
-
-  TODO : enable jquery-ui autocomplete functionnality
-
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
 		.'// enable autocompletion for user names'."\n"
-		.'$(document).ready( function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
-		.JS_SUFFIX;
-*/
+    .'$(document).ready( function() {'."\n"
+    .'  $("#vcard_agent").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
+    .JS_SUFFIX;
+
 	// instant messaging
 	//
 
@@ -882,7 +883,12 @@ if($with_form) {
 	 		.'$("#first_name").focus();'."\n"
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'$(document).ready( function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+    .'$(document).ready( function() {'."\n"
+    .'  $("#tags").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
 		.JS_SUFFIX;
 
 	// the help panel
