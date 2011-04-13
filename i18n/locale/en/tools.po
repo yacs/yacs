@@ -7,23 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 16:06+0100\n"
+"POT-Creation-Date: 2011-03-03 22:35+0100\n"
 "PO-Revision-Date: 2010-06-28 11:08+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: tools/ajax.php:20 tools/embed.php:19 tools/fat_index.php:75
+#: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
 #: tools/mebeam.php:33 tools/populate.php:113 tools/populate.php:135
-#: tools/transform.php:29
+#: tools/transform.php:29 tools/upload_excel.php:20
 msgid "Tools"
 msgstr "Tools"
 
@@ -92,7 +92,7 @@ msgstr "Google"
 msgid "Click on the button to trigger the popup window"
 msgstr "Click on the button to trigger the popup window"
 
-#: tools/ajax.php:56 tools/embed.php:28 tools/hello.php:25
+#: tools/ajax.php:56 tools/embed.php:25 tools/hello.php:25
 #: tools/populate.php:407 tools/populate.php:1599 tools/transform.php:32
 msgid "Hello world"
 msgstr "Hello world"

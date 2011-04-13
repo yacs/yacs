@@ -662,6 +662,7 @@ Class Skin_Skeleton {
 	 * - 'standalone' - like full, but without the 'on ' prefix
 	 * - 'iso8601' - special format
 	 * - 'plain' - example 'Feb 26 2010 22:30:31 GMT'
+	 * - 'yyyy-mm-dd' - only day, month and year --no time information
 	 *
 	 * The date provided is considered to be GMT-based.
 	 * It is adjusted to the time zone of the surfer, if applicable.
@@ -840,6 +841,12 @@ Class Skin_Skeleton {
 			$tzd = date('O', $actual_stamp);
 			$tzd = $tzd[0].str_pad((int)($tzd / 100), 2, "0", STR_PAD_LEFT).':'.str_pad((int)($tzd % 100), 2, "0", STR_PAD_LEFT);
 			$output = date('Y-m-d\TH:i:s', $actual_stamp).$tzd;
+			return $output;
+		}
+
+		// format a raw date
+		if($variant == 'yyyy-mm-dd') {
+			$output = date('Y-m-d', $actual_stamp);
 			return $output;
 		}
 

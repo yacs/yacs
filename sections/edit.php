@@ -544,7 +544,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)$/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
