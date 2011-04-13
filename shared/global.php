@@ -1193,6 +1193,8 @@ function render_skin($with_last_modified=TRUE) {
 
 	}
 
+// jquery-ui stylesheet
+	$context['page_header'] .= "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
 	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of $(document).ready( ... in $context['text']
 	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
 
