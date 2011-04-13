@@ -88,10 +88,10 @@ var Yacs = {
 
 		// start an ajax transaction
 		$.ajax(url_to_root + 'services/json_rpc.php', {
-			method: 'post',
-			parameters: parameters,
-			requestHeaders: {Accept: 'application/json'},
-			onSuccess: function(transport) {
+			type: 'post',
+			data: parameters,
+			dataType: "json",
+			success: function(transport) {
 				var response = transport.responseText.evalJSON(true);
 				if(typeof callBack == 'function') {
 					if(response.error) {
@@ -104,7 +104,7 @@ var Yacs = {
 				}
 				response = null; // no memory leak
 			},
-			onFailure: function(transport) {
+			error: function(transport) {
 				if(typeof callBack == 'function') {
 					callBack(FALSE);
 				}
@@ -1030,11 +1030,11 @@ var Yacs = {
 
 		// start an ajax transaction
 		Yacs.subscribeAjax = $.ajax(url_to_root + 'users/heartbit.php', {
-			method: 'get',
-			parameters: { },
-			requestHeaders: {Accept: 'application/json'},
-			onSuccess: Yacs.subscribeSuccess,
-			onFailure: Yacs.subscribeFailure
+			type: 'get',
+			data: { },
+			dataType: "json",
+			success: Yacs.subscribeSuccess,
+			error: Yacs.subscribeFailure
 		});
 	},
 
