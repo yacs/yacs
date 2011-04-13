@@ -375,13 +375,14 @@ else {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
-/*
-
-  TODO : enable jquery-ui autocomplete functionnality
-
-		.'// enable tags autocompletion'."\n"
-		.'$(document).ready( function() { new Ajax.Autocompleter("name", "name_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: ",", afterUpdateElement: function(text, li) { $("#ajax_spinner").style.display = "inline"; $("#main_form").submit() }, indicator: "ajax_spinner" }); });'."\n"
-*/		.JS_SUFFIX;
+  	.'// enable name autocompletion'."\n"
+    .'$(document).ready( function() {'."\n"
+    .'  $("#name").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
+    .JS_SUFFIX;
 
 	// list enrolment for this meeting
 	$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".SQL::escape($anchor->get_reference())."'";
