@@ -565,10 +565,10 @@ var Yacs = {
 			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+Yacs.identify(handle)+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
 		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-		var here = handle.before(suffix + prefix);
+		var here = handle.prepend(suffix + prefix);
 
-		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
-		handle.onmouseover = function () { Yacs.mouseOver(this); return false; };
+		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
+		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
 
 		handle = null; // no memory leak
 	},
@@ -577,8 +577,8 @@ var Yacs = {
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft', handle + ' span.onHoverRight');
-		nodes.each(function (node) { $(node).css('visibility', 'hidden'); });
+		var nodes = $(handle + ' span.onHoverLeft, ' + handle + ' span.onHoverRight');
+		nodes.each(function () { $(this).css('visibility', 'hidden'); });
 
 		nodes = null; // no memory leak
 	},
@@ -587,15 +587,15 @@ var Yacs = {
 	 * mouse is coming on top of some element
 	 */
 	mouseOver: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft', 'span.onHoverRight');
-		nodes.each(function (node) { $(node).css('visibility', 'visible'); });
+		var nodes = $(handle + ' span.onHoverLeft, ' + handle + ' span.onHoverRight');
+		nodes.each(function () { $(this).css('visibility', 'visible'); });
 
 		nodes = null; // no memory leak
 	},
 
 	toggleProperties: function(handle) {
 		var nodes = $(handle + ' .properties');
-		nodes.each(function (node) { $(node).toggle('slide'); });
+		nodes.each(function () { $(this).toggle('slide'); });
 
 		nodes = null; // no memory leak
 	},
@@ -634,11 +634,9 @@ var Yacs = {
 		});
 
 		// on-demand headers
-		var nodes = $('.onDemandTools');
-		for(index = 0; index < nodes.length; index++) {
-			var node = nodes[index];
-			Yacs.addOnDemandTools(node, { });
-		}
+		$('.onDemandTools').each(function() {
+			Yacs.addOnDemandTools(this, { });
+		});
 
 		// prepare for a nice slideshow
 		var anchors = $('#a.image_show');

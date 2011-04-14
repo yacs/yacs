@@ -80,7 +80,7 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 // some AJAX to make it work
 $context['page_footer'] .= JS_PREFIX
 	.'$("#sortables .sortable").each( function() { Yacs.addOnDemandTools(this);}); '."\n"
-  .'$("#sortables .sortable").sortable({axis: "y", handle: "div"});'."\n"
+  .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"
 	.JS_SUFFIX."\n";
 
 // render the page according to the loaded skin
