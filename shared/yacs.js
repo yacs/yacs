@@ -84,15 +84,15 @@ var Yacs = {
 	call: function(parameters, callBack) {
 
 		// hash encoding to JSON
-		parameters = Object.toJSON(parameters);
+		parameters = $.toJSON(parameters);   // use jquery-json plugin
 
 		// start an ajax transaction
-		$.ajax(url_to_root + 'services/json_rpc.php', {
+		$.ajax( {
+      url: url_to_root + 'services/json_rpc.php',
 			type: 'post',
 			data: parameters,
 			dataType: "json",
-			success: function(transport) {
-				var response = transport.responseText.evalJSON(true);
+			success: function(response) {
 				if(typeof callBack == 'function') {
 					if(response.error) {
 						callBack(FALSE);
@@ -626,16 +626,12 @@ var Yacs = {
 		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-		var buttons = $('#button');
-		for(var index = 0; index < buttons.length; index++) {
-			var button = buttons[index];
-			var buttonType = String(button.attr('type'));
-			if(buttonType.toLowerCase().match('submit') && !button.hasClass('no_spin_on_click')) {
-				button.onclick = Yacs.startWorking;
+		$('button').each(function() {
+			var buttonType = String($(this).attr('type'));
+			if(buttonType.toLowerCase().match('submit') && !$(this).hasClass('no_spin_on_click')) {
+				$(this).click(Yacs.startWorking);
 			}
-
-			button = null; // no memory leak
-		}
+		});
 
 		// on-demand headers
 		var nodes = $('.onDemandTools');
@@ -700,7 +696,7 @@ var Yacs = {
 		};
 
 		// use provided options, if any
-		Object.extend(this.options, options || {});
+		$.extend(this.options, options || {});
 
 		// sanity check
 		if(this.options.normal) {
@@ -969,14 +965,14 @@ var Yacs = {
 		// </div>
 
 		var objWorkingImage = document.createElement("img");
-		objWorkingImage.attr('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
+		$(objWorkingImage).attr('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
 
 		var objCentered = document.createElement("div");
 		$(objCentered).css({ position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
 		$(objCentered).append(objWorkingImage);
 
 		Yacs.workingOverlay = document.createElement("div");
-		Yacs.workingOverlay.attr('id','yacsWorkingOverlay');
+		$(Yacs.workingOverlay).attr('id','yacsWorkingOverlay');
 		$(Yacs.workingOverlay).css({ position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
 		$(Yacs.workingOverlay).click(function() { $(Yacs.workingOverlay).css({ display: 'none' });});
 		$(Yacs.workingOverlay).append(objCentered);
