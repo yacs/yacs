@@ -136,8 +136,8 @@ var Yacs = {
 	 */
 	closeModalBox: function() {
 
-		$('#modal_content').opacity({duration:0.3, from:1.0, to:0.3, queue: 'end',
-			afterFinish: function(target) {
+		$('#modal_content').fadeTo(0.3, 0.3,
+			function() {
 
 				// clear the content
 				$('#modal_content').html('');
@@ -145,7 +145,7 @@ var Yacs = {
 				// mask the modal box
 				$('#modal_panel').css('display', 'none');
 
-			} });
+			} );
 	},
 
 	/**
@@ -325,24 +325,21 @@ var Yacs = {
 		if(!Yacs.modalOverlay) {
 
 			var objContent = document.createElement("div");
-			objContent.attr('id','modal_content');
-			objContent.html('<img src="'+Yacs.spinningImage.src+'" />');
+			$(objContent).attr('id','modal_content');
+			$(objContent).html('<img src="'+Yacs.spinningImage.src+'" />');
 
 			var objCentered = document.createElement("div");
-			objCentered.attr('id','modal_centered');
+			$(objCentered).attr('id','modal_centered');
 //			objCentered.setStyle({ visibility: 'hidden' });
-			objCentered.appendChild(objContent);
+			$(objCentered).append(objContent);
 
 			Yacs.modalOverlay = document.createElement("div");
-			Yacs.modalOverlay.attr('id','modal_panel');
-			Yacs.modalOverlay.onclick = function() {};	// you have to click in the box to close the modal box
-			Yacs.modalOverlay.appendChild(objCentered);
+			$(Yacs.modalOverlay).attr('id','modal_panel');
+			$(Yacs.modalOverlay).click(function() {});	// you have to click in the box to close the modal box
+			$(Yacs.modalOverlay).append(objCentered);
 
 			var objBody = document.getElementsByTagName("body").item(0);
-			objBody.appendChild(Yacs.modalOverlay);
-
-			// just to fix a bug on first image rendering for Internet Explorer 7...
-			$('#modal_centered').moveBy(0, 0, {duration: 0.0});
+			$(objBody).append(Yacs.modalOverlay);
 
 		// ensure containers are visible to compute box size
 		} else {
@@ -350,17 +347,17 @@ var Yacs = {
 		}
 
 		// paint or repaint box content
-		$('#modal_content').opacity({duration:0.1, from:1.0, to:0.3, queue: 'end',
-			afterFinish: function(target) {
+		$('#modal_content').fadeTo(0.1, 0.3,
+			function() {
 
 				// update the content
 				Yacs.updateModalBox(boxContent);
 
 				// display the updated box
 				$('#modal_content').css('visibility', 'visible');
-				$('#modal_content').opacity({duration:0.3, from:0.5, to:1.0, queue: 'end'});
+				$('#modal_content').fadeTo(0.3, 1.0);
 
-			} });
+			});
 
 
 
@@ -565,16 +562,15 @@ var Yacs = {
 		}
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClass('mutable')) {
-			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
+			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+Yacs.identify(handle)+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="$(\'#'+handle.identify()+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-		var here = $(handle).before(suffix + prefix);
+		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
+		var here = handle.before(suffix + prefix);
 
 		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
 		handle.onmouseover = function () { Yacs.mouseOver(this); return false; };
 
 		handle = null; // no memory leak
-
 	},
 
 	/**
@@ -642,7 +638,7 @@ var Yacs = {
 		}
 
 		// on-demand headers
-		var nodes = $('#.onDemandTools');
+		var nodes = $('.onDemandTools');
 		for(index = 0; index < nodes.length; index++) {
 			var node = nodes[index];
 			Yacs.addOnDemandTools(node, { });
@@ -818,7 +814,7 @@ var Yacs = {
 				var xScale = ((currentWidth + xDelta) / currentWidth) * 100;
 
 				// scaling previous image makes ugly things
-				$('#modal_content').opacity({duration:0.1, from:1.0, to:0.0});
+				$('#modal_content').fadeTo(0.1, 0.0);
 				$('#modal_content').css('visibility', 'hidden');
 
 				// adjust the overall size
@@ -977,16 +973,16 @@ var Yacs = {
 
 		var objCentered = document.createElement("div");
 		$(objCentered).css({ position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
-		objCentered.appendChild(objWorkingImage);
+		$(objCentered).append(objWorkingImage);
 
 		Yacs.workingOverlay = document.createElement("div");
 		Yacs.workingOverlay.attr('id','yacsWorkingOverlay');
 		$(Yacs.workingOverlay).css({ position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
-		Yacs.workingOverlay.onclick = function() { $(Yacs.workingOverlay).css({ display: 'none' });};
-		Yacs.workingOverlay.appendChild(objCentered);
+		$(Yacs.workingOverlay).click(function() { $(Yacs.workingOverlay).css({ display: 'none' });});
+		$(Yacs.workingOverlay).append(objCentered);
 
 		var objBody = document.getElementsByTagName("body").item(0);
-		objBody.appendChild(Yacs.workingOverlay);
+		$(objBody).append(Yacs.workingOverlay);
 
 		return true;
 	},
@@ -1181,8 +1177,8 @@ var Yacs = {
 			Yacs.window_ = win;
 		}
 		var logLine = Yacs.window_.document.createElement("div");
-		logLine.appendChild(Yacs.window_.document.createTextNode('=> ' + message));
-		Yacs.window_.document.body.appendChild(logLine);
+		$(logLine).append(Yacs.window_.document.createTextNode('=> ' + message));
+		$(Yacs.window_.document.body).append(logLine);
 
 	},
 
@@ -1551,8 +1547,8 @@ var Yacs = {
 
 		// center the box
 		var yShift, xShift;
-		yShift = Math.floor(((document.viewport.getHeight() - $('#modal_centered').offsetHeight) / 2) - $('#modal_centered').offsetTop);
-		xShift = Math.floor(((document.viewport.getWidth() - $('#modal_centered').offsetWidth) / 2) - $('#modal_centered').offsetLeft);
+		yShift = Math.floor((($(document).height() - $('#modal_centered').offsetHeight) / 2) - $('#modal_centered').offsetTop);
+		xShift = Math.floor((($(document).width() - $('#modal_centered').offsetWidth) / 2) - $('#modal_centered').offsetLeft);
 
 		// update box position
 		if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
@@ -1582,9 +1578,21 @@ var Yacs = {
 			Yacs.update(panel, address, args);
 		}
 
-	}
+	},
+	
+	identify: function(handle) {
+    var i = 0;
+    if(handle.attr('id')) return handle.attr('id');
+    do {
+        i++;
+        var id = 'anonymous_' + i;
+    } while(document.getElementById(id) != null);
+    handle.attr('id', id);
+    return id;
+  }
 
 };
 
 // initialize yacs
 $(document).ready( Yacs.onWindowLoad);
+
