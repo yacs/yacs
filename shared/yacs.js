@@ -769,14 +769,15 @@ var Yacs = {
 		loader.onload=function(){
 
 			// adjust image size to viewport dimensions
-			var scale = 1.0;
-			if((loader.width > 1) && (loader.width + 30 > document.viewport.getWidth())) {
-				scale = (document.viewport.getWidth() - 30) / loader.width;
+			var scale = 1.0;      
+			if((loader.width > 1) && (loader.width + 30 > $(window).width())) {
+				scale = ($(window).width() - 30) / loader.width;
 				loader.height*= scale;
 				loader.width *= scale;
-			}
-			if((loader.height > 1) && (loader.height + 110 > document.viewport.getHeight())) { // take title and buttons into account
-				scale = (document.viewport.getHeight() - 110) / loader.height;
+			}                                 
+			
+			if((loader.height > 1) && (loader.height + 110 > $(window).height())) { // take title and buttons into account
+				scale = ($(window).height() - 110) / loader.height;
 				loader.height*= scale;
 				loader.width *= scale;
 			}
@@ -824,7 +825,7 @@ var Yacs = {
 			var imageTitle = $(anchor + ' img:first-child').attr('title');
 
 			// image href
-			var imageReference = '<div id="modal_image_panel"><img src="'+anchor.attr('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
+			var imageReference = '<div id="modal_image_panel"><img src="'+$(anchor).attr('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
 
 			// a neighbour on the left
 			if(anchor.previousAnchor) {
@@ -839,7 +840,7 @@ var Yacs = {
 
 				// do not wait for user click to load the image
 				var nextLoader = new Image();
-				nextLoader.src = anchor.nextAnchor.attr('href');
+				nextLoader.src = $(anchor.nextAnchor).attr('href');
 
 			} else {
 				Yacs.modalCallNext = null;
@@ -857,7 +858,7 @@ var Yacs = {
 		};
 
 		// actual pre-load
-		loader.src = anchor.attr('href');
+		loader.src = $(anchor).attr('href');
 
 	},
 
@@ -1541,12 +1542,12 @@ var Yacs = {
 
 		// center the box
 		var yShift, xShift;
-		yShift = Math.floor((($(document).height() - $('#modal_centered').offsetHeight) / 2) - $('#modal_centered').offsetTop);
-		xShift = Math.floor((($(document).width() - $('#modal_centered').offsetWidth) / 2) - $('#modal_centered').offsetLeft);
-
+		yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));           
+		xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));                         
+                                                      
 		// update box position
 		if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
-			$('#modal_centered').moveBy(yShift, xShift, {duration: 0.2, queue: 'end'});
+			$('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
 		}
 
 	},
