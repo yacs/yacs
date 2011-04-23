@@ -31,10 +31,9 @@ Class Layout_sections_as_manage extends Layout_interface {
 		// the script used to check all pages at once
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_section_rows(handle) {'."\n"
-			.'	var checkers = $("#div#sections_panel input[type=\'checkbox\'].row_selector");'."\n"
-			.'	for(var index=0; index < checkers.length; index++) {'."\n"
-			.'		checkers[index].checked = handle.checked;'."\n"
-			.'	}'."\n"
+			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
+			.'		function() { $(this).attr("checked", $(handle).attr("checked"));}'."\n"
+			.'	);'."\n"
 			.'}'."\n"
 			.JS_SUFFIX."\n";
 

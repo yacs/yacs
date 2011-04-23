@@ -35,10 +35,9 @@ Class Layout_articles_as_manage extends Layout_interface {
 		// the script used to check all pages at once
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_article_rows(handle) {'."\n"
-			.'	var checkers = $("#div#articles_panel input[type=\'checkbox\'].row_selector");'."\n"
-			.'	for(var index=0; index < checkers.length; index++) {'."\n"
-			.'		checkers[index].checked = handle.checked;'."\n"
-			.'	}'."\n"
+			.'	$("div#articles_panel input[type=\'checkbox\'].row_selector").each('."\n"
+			.'		function() { $(this).attr("checked", $(handle).attr("checked"));}'."\n"
+			.'	);'."\n"
 			.'}'."\n"
 			.JS_SUFFIX;
 
