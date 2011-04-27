@@ -1235,7 +1235,7 @@ Class Section extends Anchor {
 
 		// suppress a reference to a table that has been deleted
 		} elseif($action == 'table:delete') {
-			$query[] = "description = '".SQL::escape(Codes::delete_embeded($this->item['description'], 'table', $origin))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
 
