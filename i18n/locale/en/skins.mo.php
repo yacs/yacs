@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:13+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: English
-';
 $_SESSION['l10n']['en'][' at %s%s']=' at %s%s';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
@@ -36,9 +21,10 @@ $_SESSION['l10n']['en']['1-2-3']='1-2-3';
 $_SESSION['l10n']['en']['2-1-3']='2-1-3';
 $_SESSION['l10n']['en']['2-3-1']='2-3-1';
 $_SESSION['l10n']['en']['3-2-1']='3-2-1';
-$_SESSION['l10n']['en']['640px']='640px';
+$_SESSION['l10n']['en']['760px']='760px';
 $_SESSION['l10n']['en']['850px']='850px';
 $_SESSION['l10n']['en']['960px']='960px';
+$_SESSION['l10n']['en']['<a>tag 1</a> <a>tag 2</a>']='<a>tag 1</a> <a>tag 2</a>';
 $_SESSION['l10n']['en']['<b>Note:</b> ']='<b>Note:</b> ';
 $_SESSION['l10n']['en']['<b>Warning:</b> ']='<b>Warning:</b> ';
 $_SESSION['l10n']['en']['A: ']='A: ';
@@ -64,6 +50,7 @@ $_SESSION['l10n']['en']['Borders']='Borders';
 $_SESSION['l10n']['en']['Box background']='Box background';
 $_SESSION['l10n']['en']['Box content']='Box content';
 $_SESSION['l10n']['en']['Box title']='Box title';
+$_SESSION['l10n']['en']['Breadcrumbs']='Breadcrumbs';
 $_SESSION['l10n']['en']['Browse in a separate window']='Browse in a separate window';
 $_SESSION['l10n']['en']['CSS classes']='CSS classes';
 $_SESSION['l10n']['en']['Calendar of this month']='Calendar of this month';
@@ -130,6 +117,7 @@ $_SESSION['l10n']['en']['d7e2ef2e0ee49871db66aab68eb84aaa']='Export tools are sh
 $_SESSION['l10n']['en']['7ec2a580c60504fb5a2abdff77661c9f']='Export tools convert pages to an alternate format or media (pdf, word):';
 $_SESSION['l10n']['en']['Export tools visibility']='Export tools visibility';
 $_SESSION['l10n']['en']['de8cd94ea4e9d337e073a1378c3252c5']='Extend search results on a separate tab';
+$_SESSION['l10n']['en']['Extra box']='Extra box';
 $_SESSION['l10n']['en']['91c9e7b9ae24afb801cef448f32a9dcc']='Extra boxes are displayed aside, and complement main content';
 $_SESSION['l10n']['en']['Extra panel']='Extra panel';
 $_SESSION['l10n']['en']['Extras']='Extras';
@@ -182,9 +170,12 @@ $_SESSION['l10n']['en']['In %s']='In %s';
 $_SESSION['l10n']['en']['2d3e09adc8853ee1a8585d25b6e636b7']='Include the extra panel, if your skin features a 2-column layout';
 $_SESSION['l10n']['en']['Install skin %s']='Install skin %s';
 $_SESSION['l10n']['en']['Keywords']='Keywords';
+$_SESSION['l10n']['en']['Keywords separated by commas']='Keywords separated by commas';
 $_SESSION['l10n']['en']['8962bcb765ae897c885bcd0cd1506038']='Keywords separated with commas, inserted in the "keyword" meta field for search engines';
 $_SESSION['l10n']['en']['Large images']='Large images';
 $_SESSION['l10n']['en']['8d4eacdb85ee087e973e5165a9f801b3']='Latitude and longitude, separated by a comma, for example: 47.98481,-71.42124, featured as meta fields "geo.position" and "ICBM" at the front page. See %s or %s';
+$_SESSION['l10n']['en']['Level 1 title']='Level 1 title';
+$_SESSION['l10n']['en']['Level 2 title']='Level 2 title';
 $_SESSION['l10n']['en']['Level of details']='Level of details';
 $_SESSION['l10n']['en']['Link color']='Link color';
 $_SESSION['l10n']['en']['Links']='Links';
@@ -210,10 +201,12 @@ $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More in %s']='More in %s';
 $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
+$_SESSION['l10n']['en']['Navigation box']='Navigation box';
 $_SESSION['l10n']['en']['0ea64d397f291e9bd09373bd4936d928']='Navigation boxes are looking similar at all pages';
 $_SESSION['l10n']['en']['Navigation panel']='Navigation panel';
 $_SESSION['l10n']['en']['Next']='Next';
 $_SESSION['l10n']['en']['Next and previous, if any']='Next and previous, if any';
+$_SESSION['l10n']['en']['Next page']='Next page';
 $_SESSION['l10n']['en']['8efade0a8f036f70a78a2d6d10bcc125']='No blogging block has been found.';
 $_SESSION['l10n']['en']['No file has been transmitted.']='No file has been transmitted.';
 $_SESSION['l10n']['en']['No page to display.']='No page to display.';
@@ -243,6 +236,8 @@ $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Pages under preparation']='Pages under preparation';
 $_SESSION['l10n']['en']['e74ca937f6902df4bcb150a96b4634b7']='Pages with the same name, if any';
 $_SESSION['l10n']['en']['Panel background']='Panel background';
+$_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
+$_SESSION['l10n']['en']['41dd8514175d79f308930ada3e52bf01']='Parent is private, and this will be re-enforced anyway';
 $_SESSION['l10n']['en']['People']='People';
 $_SESSION['l10n']['en']['Permalink']='Permalink';
 $_SESSION['l10n']['en']['Persons']='Persons';
@@ -255,11 +250,13 @@ $_SESSION['l10n']['en']['Powered by %s']='Powered by %s';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Press to select a local file']='Press to select a local file';
 $_SESSION['l10n']['en']['Previous']='Previous';
+$_SESSION['l10n']['en']['Previous page']='Previous page';
 $_SESSION['l10n']['en']['Previous pages']='Previous pages';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
 $_SESSION['l10n']['en']['2911c36b2184f7af42772a0c11761838']='Process search requests internally, by requesting the back-end database';
 $_SESSION['l10n']['en']['Profile pictures']='Profile pictures';
 $_SESSION['l10n']['en']['e1a228a54807b30b1336e2bf2d37560e']='Provide this link to specialized software, such as a RSS news reader';
+$_SESSION['l10n']['en']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Everybody, including anonymous surfers';
 $_SESSION['l10n']['en']['Q: ']='Q: ';
 $_SESSION['l10n']['en']['Questions']='Questions';
 $_SESSION['l10n']['en']['Rate this page']='Rate this page';
@@ -272,6 +269,7 @@ $_SESSION['l10n']['en']['Return to front page']='Return to front page';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Sample box']='Sample box';
 $_SESSION['l10n']['en']['Sample text']='Sample text';
+$_SESSION['l10n']['en']['Sample title']='Sample title';
 $_SESSION['l10n']['en']['Scale of Google Maps.']='Scale of Google Maps.';
 $_SESSION['l10n']['en']['Scale: %s']='Scale: %s';
 $_SESSION['l10n']['en']['Search']='Search';
@@ -312,8 +310,10 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Switch the server on']='Switch the server on';
 $_SESSION['l10n']['en']['Tabs']='Tabs';
+$_SESSION['l10n']['en']['Tags']='Tags';
 $_SESSION['l10n']['en']['Tags: %s']='Tags: %s';
 $_SESSION['l10n']['en']['4e344a4334c81facb5832b1ebda218fd']='Template has been imported. Check skin %s';
+$_SESSION['l10n']['en']['Test']='Test';
 $_SESSION['l10n']['en']['Test page']='Test page';
 $_SESSION['l10n']['en']['Test this theme']='Test this theme';
 $_SESSION['l10n']['en']['Text']='Text';
@@ -378,7 +378,6 @@ $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['169dbe1e15bea547371df14376d4fb80']='You can now visit the index of themes, and select the one you prefer.';
 $_SESSION['l10n']['en']['6aa04f19a0e5ba58a3f2ec185e2687ca']='You can use default values and change these later on. Hit the button at the bottom of the page to move forward.';
-$_SESSION['l10n']['en']['Your picture']='Your picture';
 $_SESSION['l10n']['en']['about']='about';
 $_SESSION['l10n']['en']['about this site']='about this site';
 $_SESSION['l10n']['en']['bbaa44ba62be4f1f0b4d1f8023961884']='align to bottom, then repeat horizontally';
@@ -434,7 +433,6 @@ $_SESSION['l10n']['en']['939cc31abe59ffad78e48862baef99c2']='repeat horizontally
 $_SESSION['l10n']['en']['restricted']='restricted';
 $_SESSION['l10n']['en']['right']='right';
 $_SESSION['l10n']['en']['sidebar box']='sidebar box';
-$_SESSION['l10n']['en']['tag 1, tag 2']='tag 1, tag 2';
 $_SESSION['l10n']['en']['to everybody']='to everybody';
 $_SESSION['l10n']['en']['to publish']='to publish';
 $_SESSION['l10n']['en']['top']='top';

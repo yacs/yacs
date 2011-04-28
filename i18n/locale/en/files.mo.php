@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:00+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: English
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['en'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
@@ -54,7 +39,6 @@ $_SESSION['l10n']['en']['Browse %s']='Browse %s';
 $_SESSION['l10n']['en']['bfbcc298c988f6d70e9919fba19bda0d']='By default files are stored into the web space of your server. To optimize the transfer of large files, you should setup an anonymous ftp service on your server, and then use this configuration panel to enable its usage.';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Change']='Change';
-$_SESSION['l10n']['en']['36a3d377dfebacd9d29b637d7ecefb82']='Check the download page for this file';
 $_SESSION['l10n']['en']['Close']='Close';
 $_SESSION['l10n']['en']['e7eace704dc70e1603783efa3807ecbd']='Community - Access is granted to any identified surfer';
 $_SESSION['l10n']['en']['fe1a23cebe508106ea3fb5702287c729']='Community -Access is granted to any identified surfer';
@@ -64,7 +48,7 @@ $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete this file']='Delete this file';
-$_SESSION['l10n']['en']['Deletion: %s']='Delete: %s';
+$_SESSION['l10n']['en']['Deletion: %s']='Deletion: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Divx Player']='Divx Player';
 $_SESSION['l10n']['en']['86c56a7a7f1de49541c9835d0e87b60b']='Do not change modification date of the main page.';
@@ -145,8 +129,6 @@ $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['4a6bd811816f43d2d60e858ba1b41651']='Other surfers will be warned that you are working on it, until you upload a new version or release the reservation.';
-$_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
-$_SESSION['l10n']['en']['41dd8514175d79f308930ada3e52bf01']='Parent is private, and this will be re-enforced anyway';
 $_SESSION['l10n']['en']['1cdd6622263afc815074f3c7faed3a2c']='Paste here complicated peer-to-peer href (ed2k, torrent, etc.)';
 $_SESSION['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $_SESSION['l10n']['en']['Play']='Play';
@@ -160,7 +142,6 @@ $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['fc0f2f82c3a214a6c50adb3aea6fa1d3']='Prevent other persons from changing this file until you update it';
 $_SESSION['l10n']['en']['Previous image']='Previous image';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
-$_SESSION['l10n']['en']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Everybody, including anonymous surfers';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['37ad9546a387c8d0623a2d297a553d2b']='Recommended tools are listed for each extension on download.';
 $_SESSION['l10n']['en']['Release reservation']='Release reservation';
@@ -216,7 +197,6 @@ $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do n
 $_SESSION['l10n']['en']['What is new in this file?']='What is new in this file?';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['278d07f7dafd5749bb1bdd201beb6bf0']='While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.';
-$_SESSION['l10n']['en']['Who is allowed to access?']='Who is allowed to access?';
 $_SESSION['l10n']['en']['Winamp']='Winamp';
 $_SESSION['l10n']['en']['Wireshark']='Wireshark';
 $_SESSION['l10n']['en']['Yes, I want to delete this file']='Yes, I want to delete this file';

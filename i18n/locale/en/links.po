@@ -7,23 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 11:44+0100\n"
+"POT-Creation-Date: 2011-02-25 17:18+0100\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: links/check.php:56 links/check.php:67 links/check.php:161
-#: links/check.php:268 links/check.php:377 links/check.php:433
+#: links/check.php:56 links/check.php:67 links/check.php:160
+#: links/check.php:267 links/check.php:376 links/check.php:432
 #: links/click.php:89 links/delete.php:79 links/edit.php:188
-#: links/index.php:48 links/trackback.php:115
+#: links/index.php:48 links/trackback.php:114
 msgid "Links"
 msgstr "Links"
 
@@ -33,88 +33,88 @@ msgstr "Maintenance"
 
 #: links/check.php:64 links/click.php:97 links/delete.php:91
 #: links/edit.php:224 links/edit.php:244 links/index.php:58
-#: links/trackback.php:124 links/trackback.php:249
+#: links/trackback.php:123 links/trackback.php:246
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: links/check.php:74 links/check.php:168 links/check.php:275
-#: links/check.php:384
+#: links/check.php:74 links/check.php:167 links/check.php:274
+#: links/check.php:383
 #, php-format
 msgid "Analyzing table %s..."
 msgstr "Analyzing table %s..."
 
-#: links/check.php:137 links/check.php:227 links/check.php:354
+#: links/check.php:136 links/check.php:226 links/check.php:353
 msgid "No link to check."
 msgstr "No link to check."
 
-#: links/check.php:145 links/check.php:235 links/check.php:362
+#: links/check.php:144 links/check.php:234 links/check.php:361
 #, php-format
 msgid "%d links have been processed."
 msgstr "%d links have been processed."
 
-#: links/check.php:149
+#: links/check.php:148
 msgid "Broken links to review"
 msgstr "Broken links to review"
 
-#: links/check.php:154
+#: links/check.php:153
 msgid "No broken link has been found."
 msgstr "No broken link has been found."
 
-#: links/check.php:158 links/check.php:265 links/check.php:374
-#: links/check.php:430
+#: links/check.php:157 links/check.php:264 links/check.php:373
+#: links/check.php:429
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: links/check.php:239
+#: links/check.php:238
 msgid "Deleted referrals"
 msgstr "Deleted referrals"
 
-#: links/check.php:242
+#: links/check.php:241
 msgid "Following referrals have been deleted:"
 msgstr "Following referrals have been deleted:"
 
-#: links/check.php:251
+#: links/check.php:250
 msgid "Following referrals have been banned:"
 msgstr "Following referrals have been banned:"
 
-#: links/check.php:261
+#: links/check.php:260
 msgid "No broken referral has been found."
 msgstr "No broken referral has been found."
 
-#: links/check.php:366
+#: links/check.php:365
 #, php-format
 msgid "%d referrals have been normalized."
 msgstr "%d referrals have been normalized."
 
-#: links/check.php:370
+#: links/check.php:369
 msgid "All referrals are looking ok."
 msgstr "All referrals are looking ok."
 
-#: links/check.php:404
+#: links/check.php:403
 #, php-format
 msgid "%d records have been processed."
 msgstr "%d records have been processed."
 
-#: links/check.php:413
+#: links/check.php:412
 #, php-format
 msgid "Orphan: %s"
 msgstr "Orphan: %s"
 
-#: links/check.php:415
+#: links/check.php:414
 msgid "Too many successive errors. Aborted"
 msgstr "Too many successive errors. Aborted"
 
-#: links/check.php:426
+#: links/check.php:425
 #, php-format
 msgid "%d records have been processed"
 msgstr "%d records have been processed"
 
-#: links/check.php:439
+#: links/check.php:438
 msgid "Please select the action to perform."
 msgstr "Please select the action to perform."
 
-#: links/check.php:445
+#: links/check.php:444
 msgid ""
 "Check links through the Internet. If you click on the button above, the "
 "database will be scanned, and the server will attempt to open each link "
@@ -128,7 +128,7 @@ msgstr ""
 "troubleshoting. Note that the program will stop automatically if too many "
 "broken links are found."
 
-#: links/check.php:448
+#: links/check.php:447
 msgid ""
 "Check referrals through the Internet. If you click on the button above, "
 "referrals will be checked through the network. Note that the program will "
@@ -138,7 +138,7 @@ msgstr ""
 "referrals will be checked through the network. Note that the program will "
 "stop automatically if too many broken links are found."
 
-#: links/check.php:451
+#: links/check.php:450
 msgid ""
 "Normalize referrals. Referrals from search engines will be simplified as "
 "much as possible. Also, keywords are extracted for further use."
@@ -146,15 +146,15 @@ msgstr ""
 "Normalize referrals. Referrals from search engines will be simplified as "
 "much as possible. Also, keywords are extracted for further use."
 
-#: links/check.php:454
+#: links/check.php:453
 msgid "Look for orphan records"
 msgstr "Look for orphan records"
 
-#: links/check.php:457
+#: links/check.php:456
 msgid "Start"
 msgstr "Start"
 
-#: links/click.php:101 links/links.php:1129 links/links.php:1238
+#: links/click.php:101 links/links.php:1127 links/links.php:1236
 msgid "No link URL has been provided."
 msgstr "No link URL has been provided."
 
@@ -174,17 +174,17 @@ msgstr "The action has not been confirmed."
 msgid "Yes, I want to delete this link"
 msgstr "Yes, I want to delete this link"
 
-#: links/delete.php:121 links/edit.php:504
+#: links/delete.php:121 links/edit.php:505
 msgid "Cancel"
 msgstr "Cancel"
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
-#: links/layout_links.php:77
+#: links/delete.php:154 links/edit.php:553 links/layout_links.php:77
+#: links/layout_links_as_daily.php:95
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
 
-#: links/delete.php:158 links/edit.php:556 links/layout_links.php:63
+#: links/delete.php:158 links/edit.php:557 links/layout_links.php:63
 msgid "clicks"
 msgstr "clicks"
 
@@ -196,7 +196,7 @@ msgstr "Edit a link"
 msgid "Add a link"
 msgstr "Add a link"
 
-#: links/edit.php:287 links/links.php:1135 links/links.php:1244
+#: links/edit.php:287 links/links.php:1133 links/links.php:1242
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -204,7 +204,7 @@ msgstr "No anchor has been found."
 msgid "Please prove you are not a robot."
 msgstr "Please prove you are not a robot."
 
-#: links/edit.php:318 links/trackback.php:208
+#: links/edit.php:318 links/trackback.php:205
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 
@@ -233,12 +233,12 @@ msgstr "Submit another link"
 msgid "New link at %s"
 msgstr "New link at %s"
 
-#: links/edit.php:340
+#: links/edit.php:341
 #, php-format
 msgid "at %s"
 msgstr "at %s"
 
-#: links/edit.php:381
+#: links/edit.php:382
 msgid ""
 "This script will add this page to one of the sections listed below. If you "
 "would like to add a link to an existing page, browse the target page instead "
@@ -248,15 +248,15 @@ msgstr ""
 "would like to add a link to an existing page, browse the target page instead "
 "and use the adequate command from the menu."
 
-#: links/edit.php:383 links/edit.php:391
+#: links/edit.php:384 links/edit.php:392
 msgid "Section"
 msgstr "Section"
 
-#: links/edit.php:385 links/edit.php:393
+#: links/edit.php:386 links/edit.php:394
 msgid "Please carefully select a section for your link"
 msgstr "Please carefully select a section for your link"
 
-#: links/edit.php:416
+#: links/edit.php:417
 #, php-format
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
@@ -265,31 +265,31 @@ msgstr ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
 
-#: links/edit.php:416
+#: links/edit.php:417
 msgid "authenticate"
 msgstr "authenticate"
 
-#: links/edit.php:419
+#: links/edit.php:420
 msgid "Your name"
 msgstr "Your name"
 
-#: links/edit.php:421
+#: links/edit.php:422
 msgid "This optional field can be left blank if you wish."
 msgstr "This optional field can be left blank if you wish."
 
-#: links/edit.php:425
+#: links/edit.php:426
 msgid "Your address"
 msgstr "Your address"
 
-#: links/edit.php:427
+#: links/edit.php:428
 msgid "e-mail or web address; this field is optional"
 msgstr "e-mail or web address; this field is optional"
 
-#: links/edit.php:437
+#: links/edit.php:438
 msgid "Web address"
 msgstr "Web address"
 
-#: links/edit.php:446
+#: links/edit.php:447
 msgid ""
 "You can either type a plain url (http://) or use [article=&lt;id&gt;] "
 "notation"
@@ -297,70 +297,70 @@ msgstr ""
 "You can either type a plain url (http://) or use [article=&lt;id&gt;] "
 "notation"
 
-#: links/edit.php:450
+#: links/edit.php:451
 msgid "Title"
 msgstr "Title"
 
-#: links/edit.php:459 links/trackback.php:363
+#: links/edit.php:460 links/trackback.php:360
 msgid "Please provide a meaningful title."
 msgstr "Please provide a meaningful title."
 
-#: links/edit.php:463
+#: links/edit.php:464
 msgid "Hovering popup"
 msgstr "Hovering popup"
 
-#: links/edit.php:468
+#: links/edit.php:469
 msgid "This will appear near the link when the mouse is placed on top of it"
 msgstr "This will appear near the link when the mouse is placed on top of it"
 
-#: links/edit.php:472
+#: links/edit.php:473
 msgid "Target window"
 msgstr "Target window"
 
-#: links/edit.php:476
+#: links/edit.php:477
 msgid "Open a separate window for external links"
 msgstr "Open a separate window for external links"
 
-#: links/edit.php:480
+#: links/edit.php:481
 msgid "Stay in same window on click"
 msgstr "Stay in same window on click"
 
-#: links/edit.php:484
+#: links/edit.php:485
 msgid "Description"
 msgstr "Description"
 
-#: links/edit.php:502 links/trackback.php:341
+#: links/edit.php:503 links/trackback.php:338
 msgid "Submit"
 msgstr "Submit"
 
-#: links/edit.php:502 links/trackback.php:341
+#: links/edit.php:503 links/trackback.php:338
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: links/edit.php:509
+#: links/edit.php:510
 msgid "Do not change modification date of the main page."
 msgstr "Do not change modification date of the main page."
 
-#: links/edit.php:512
+#: links/edit.php:513
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: links/edit.php:528 links/trackback.php:356
+#: links/edit.php:529 links/trackback.php:353
 msgid "Please type a valid link."
 msgstr "Please type a valid link."
 
-#: links/edit.php:563
+#: links/edit.php:564
 #, php-format
 msgid ""
 "You can use following shortcuts to link to other pages of this server: %s"
 msgstr ""
 "You can use following shortcuts to link to other pages of this server: %s"
 
-#: links/edit.php:564
+#: links/edit.php:565
 msgid "Please set a meaningful title to be used instead of the link itself."
 msgstr "Please set a meaningful title to be used instead of the link itself."
 
-#: links/edit.php:565
+#: links/edit.php:566
 msgid ""
 "Also, take the time to describe the link. This field is fully indexed for "
 "searches."
@@ -368,20 +368,20 @@ msgstr ""
 "Also, take the time to describe the link. This field is fully indexed for "
 "searches."
 
-#: links/edit.php:566
+#: links/edit.php:567
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: links/edit.php:566
+#: links/edit.php:567
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: links/edit.php:566
+#: links/edit.php:567
 msgid "smileys"
 msgstr "smileys"
 
-#: links/edit.php:567 links/trackback.php:400
+#: links/edit.php:568 links/trackback.php:397
 msgid "Help"
 msgstr "Help"
 
@@ -408,16 +408,8 @@ msgstr "Popular"
 msgid "View the category"
 msgstr "View the category"
 
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr "Edit"
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr "Delete"
-
-#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
-#: links/layout_links.php:84
+#: links/layout_links.php:84 links/layout_links_as_daily.php:104
+#: links/layout_links_as_simple.php:54
 #, php-format
 msgid "in %s"
 msgstr "in %s"
@@ -429,6 +421,14 @@ msgstr "edit"
 #: links/layout_links.php:90
 msgid "delete"
 msgstr "delete"
+
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr "Edit"
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr "Delete"
 
 #: links/links.php:268
 msgid "Clicks"
@@ -448,20 +448,20 @@ msgstr ""
 "you will have below a global picture of external sites that are referenced "
 "through your site."
 
-#: links/links.php:1232
+#: links/links.php:1230
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
-#: links/trackback.php:119
+#: links/trackback.php:118
 #, php-format
 msgid "Reference: %s"
 msgstr "Reference: %s"
 
-#: links/trackback.php:244
+#: links/trackback.php:241
 msgid "No resource to track back."
 msgstr "No resource to track back."
 
-#: links/trackback.php:257
+#: links/trackback.php:254
 msgid ""
 "At any place of this site, use the following code to reference the target "
 "page:"
@@ -469,11 +469,11 @@ msgstr ""
 "At any place of this site, use the following code to reference the target "
 "page:"
 
-#: links/trackback.php:261
+#: links/trackback.php:258
 msgid "Internal reference"
 msgstr "Internal reference"
 
-#: links/trackback.php:275
+#: links/trackback.php:272
 msgid ""
 "We suggest you to cut and paste the following piece of text to reference "
 "this page:"
@@ -481,21 +481,21 @@ msgstr ""
 "We suggest you to cut and paste the following piece of text to reference "
 "this page:"
 
-#: links/trackback.php:279
+#: links/trackback.php:276
 msgid "Permanent address (permalink):"
 msgstr "Permanent address (permalink):"
 
-#: links/trackback.php:290
+#: links/trackback.php:287
 msgid "Other address:"
 msgid_plural "Other addresses:"
 msgstr[0] "Other address:"
 msgstr[1] "Other addresses:"
 
-#: links/trackback.php:294
+#: links/trackback.php:291
 msgid "External reference"
 msgstr "External reference"
 
-#: links/trackback.php:302
+#: links/trackback.php:299
 msgid ""
 "You can use the form below to manually trackback any of your pages to this "
 "site. Of course, use this capability only if your weblogging software is not "
@@ -505,31 +505,31 @@ msgstr ""
 "site. Of course, use this capability only if your weblogging software is not "
 "able to do it automatically."
 
-#: links/trackback.php:309
+#: links/trackback.php:306
 msgid "your_server/your_page"
 msgstr "your_server/your_page"
 
-#: links/trackback.php:310
+#: links/trackback.php:307
 msgid "Referencing address"
 msgstr "Referencing address"
 
-#: links/trackback.php:312
+#: links/trackback.php:309
 msgid "The remote address that is referencing content at this site"
 msgstr "The remote address that is referencing content at this site"
 
-#: links/trackback.php:316
+#: links/trackback.php:313
 msgid "Its title"
 msgstr "Its title"
 
-#: links/trackback.php:318
+#: links/trackback.php:315
 msgid "The title of your page"
 msgstr "The title of your page"
 
-#: links/trackback.php:322
+#: links/trackback.php:319
 msgid "Excerpt or description"
 msgstr "Excerpt or description"
 
-#: links/trackback.php:324
+#: links/trackback.php:321
 msgid ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
@@ -537,31 +537,31 @@ msgstr ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
 
-#: links/trackback.php:328
+#: links/trackback.php:325
 msgid "Blog name or section"
 msgstr "Blog name or section"
 
-#: links/trackback.php:330
+#: links/trackback.php:327
 msgid "To complement the excerpt"
 msgstr "To complement the excerpt"
 
-#: links/trackback.php:370
+#: links/trackback.php:367
 msgid "You must type an excerpt of the referencing page."
 msgstr "You must type an excerpt of the referencing page."
 
-#: links/trackback.php:377
+#: links/trackback.php:374
 msgid "You must name the originating blog."
 msgstr "You must name the originating blog."
 
-#: links/trackback.php:391
+#: links/trackback.php:388
 msgid "Trackback address:"
 msgstr "Trackback address:"
 
-#: links/trackback.php:395
+#: links/trackback.php:392
 msgid "Trackback"
 msgstr "Trackback"
 
-#: links/trackback.php:398
+#: links/trackback.php:395
 #, php-format
 msgid ""
 "This server supports the %s created by Ben Trott and Mena Trott. Please note "
@@ -572,11 +572,11 @@ msgstr ""
 "that any %s system attempts to trackback up to seven links from each "
 "published page."
 
-#: links/trackback.php:398
+#: links/trackback.php:395
 msgid "trackback specification"
 msgstr "trackback specification"
 
-#: links/trackback.php:399
+#: links/trackback.php:396
 msgid "You can use this form to manually trackback your pages to this site."
 msgstr "You can use this form to manually trackback your pages to this site."
 

@@ -19,7 +19,7 @@ images      images/*.php
 letters     letters/*.php
 links       links/*.php
 locations   locations/*.php
-overlays    overlays/*.php    overlays/forms/*.php    overlays/mutables/*.php    overlays/polls/*.php
+overlays    overlays/*.php    overlays/events/*.php    overlays/forms/*.php    overlays/mutables/*.php    overlays/polls/*.php
 scripts     scripts/*.php
 sections    sections/*.php
 servers     servers/*.php

@@ -140,8 +140,6 @@ class Feeds {
 	 * To troubleshoot feeders you can configure the debugging facility in the
 	 * configuration panel for feeds (parameter [code]debug_feeds[/code], at [script]feeds/configure.php[/script]).
 	 *
-	 * @see links/link.php
-	 *
 	 * @param string the URL to use to fetch news
 	 * @return either an array of items, or NULL on error
 	 *

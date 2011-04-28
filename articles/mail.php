@@ -39,7 +39,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // owners can proceed
 if(Articles::allow_message($item, $anchor))
@@ -63,6 +63,18 @@ if(isset($item['id']) && $item['title'])
 
 // page title
 $context['page_title'] = i18n::s('Notify participants');
+
+// recipients of a private page are all editors upwards
+$recipients = array();
+if(isset($item['active']) && ($item['active'] == 'N')) {
+	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+	$recipients = Members::list_editors_for_member($anchors, 0, 300, 'mail');
+
+// recipients for a public page are watchers of it and of parent section
+} elseif(is_object($anchor)) {
+	$anchors = array('article:'.$item['id'], $anchor->get_reference());
+	$recipients = Members::list_watchers_by_posts_for_anchor($anchors, 0, 300, 'mail');
+}
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -134,7 +146,7 @@ if(Surfer::is_crawler()) {
 	Mailer::close();
 
 // send message to all watchers
-} elseif((!$recipients =& Members::list_watchers_by_name_for_anchor('article:'.$item['id'], 0, 300, 'mail')) || !count($recipients)) {
+} elseif(!count($recipients)) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form
@@ -155,7 +167,7 @@ if(Surfer::is_crawler()) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'</p>');
+	$input = Surfer::get_editor('message', '<p>&nbsp;</p><p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>');
 	$fields[] = array($label, $input);
 
 	// build the form

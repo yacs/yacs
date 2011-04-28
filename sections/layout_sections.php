@@ -48,7 +48,7 @@ Class Layout_sections extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -91,28 +91,6 @@ Class Layout_sections extends Layout_interface {
 
 			// count related sub-elements
 			$related_count = 0;
-
-			// info on related sections
-			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
-				$related_count += $count;
-
-				// add sub-sections
-				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, YAHOO_LIST_SIZE, 'compact')) {
-					foreach($related as $link => $label) {
-						$sub_prefix = $sub_suffix = $sub_hover = '';
-						if(is_array($label)) {
-							$sub_prefix = $label[0];
-							$sub_suffix = $label[2];
-							if(@$label[5])
-								$sub_hover = $label[5];
-							$label = $label[1];
-						}
-						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', '', $sub_hover);
-					}
-				}
-
-			}
 
 			// info on related articles
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
@@ -187,6 +165,28 @@ Class Layout_sections extends Layout_interface {
 			// info on related comments
 			if($count = Comments::count_for_anchor('section:'.$item['id']))
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
+
+			// info on related sections
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+				$related_count += $count;
+
+				// add sub-sections
+				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, YAHOO_LIST_SIZE, 'compact')) {
+					foreach($related as $link => $label) {
+						$sub_prefix = $sub_suffix = $sub_hover = '';
+						if(is_array($label)) {
+							$sub_prefix = $label[0];
+							$sub_suffix = $label[2];
+							if(@$label[5])
+								$sub_hover = $label[5];
+							$label = $label[1];
+						}
+						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', '', $sub_hover);
+					}
+				}
+
+			}
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))

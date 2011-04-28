@@ -25,7 +25,6 @@
 body {
 	font-family: Georgia, Times, serif;
 	font-size: 13px;
-	line-height: 18px;
 }
 
 form { /* inline rendering for all browsers */
@@ -70,23 +69,23 @@ div.tabs ul { /* position tabs */
 }
 
 div.tabs ul li {
-      display:inline;
-      margin:0;
-      padding:0;
+      display: inline;
+      margin: 0;
+      padding: 0;
 }
 
 div.tabs li a { /* tab top left corner */
-      float:left;
-      margin:0;
-      padding:0 0 0 4px;
-      text-decoration:none;
+      float: left;
+      margin: 0;
+      padding: 0 0 0 4px;
+      text-decoration: none;
 }
 
 div.tabs li a span { /* tab top right corner */
-      float:left;
-      display:block;
-      padding:5px 12px 4px 6px;
-      color:#666;
+      float: left;
+      display: block;
+      padding: 5px 12px 4px 6px;
+      color: #666;
 }
 
 div.tabs li a:hover,
@@ -112,6 +111,12 @@ dl.navigation_box { /* one entire box */
 dl.navigation_box dt { /* box title */
 	margin: 0.5em 0 0.5em 0;
 	font-size: 1.2em;
+}
+
+dl.navigation_box img.box_title {
+	max-width: 25px;
+	max-height: 25px;
+	margin-right: 4px;
 }
 
 dl.navigation_box dt span { /* for a secondary background image */
@@ -198,14 +203,33 @@ p#crumbs a { /* one of the links to go up */
 p#page_menu { /* the main horizontal menu of commands */
 	margin: 0 0 8px 0;
 	font-weight: normal;
-	font-size: 0.8em;
 }
 
-p#page_menu a { /* a link in the menu */
+p#page_menu a,
+p#page_menu a:hover { /* a link in the menu */
+	margin: 0;
+	padding: 0px 0px 0px 7px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
+	text-decoration: none;
 	font-weight: normal;
 }
 
+p#page_menu a:hover { /* about to click */
+	color: red;
+}
+
+p#page_menu a.button,
+p#page_menu a.button span,
+p#page_menu a.button:hover,
+p#page_menu a.button:hover span { /* no specific background image for buttons */
+	background-color: #c0c0c0;
+	background-image: none;
+}
+
 p#page_menu a span { /* to complement background, if required */
+	margin: 0;
+	padding: 0px 7px 0px 0px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
 }
 
 p#page_menu a span.first { /* first command on left */
@@ -312,7 +336,8 @@ p.tags a, span.tags a { /* each tag can link to a category */
 
 @media screen { /* only on screen */
 
-	p.tags a, span.tags a {
+	p.tags a, span.tags a,
+	p.tags a:hover, span.tags a:hover {
 		background: transparent url("tools/tag_bg.gif") no-repeat left center;
 		border-right: 1px solid #c2c2c1;
 		padding: 2px 1px 2px 12px;
@@ -360,7 +385,7 @@ div.box { /* some content with a title */
 div.box h2 { /* box title */
 }
 
-h2.top { /* no top margin */
+h2.top, h3.top { /* no top margin */
 	margin-top: 0;
 }
 
@@ -368,6 +393,8 @@ div.box h2 span { /* for a complementary background image */
 }
 
 div.box div.content { /* actual content of the box */
+	overflow: hidden; /* clear floats, as in http://www.quirksmode.org/css/clearing.html */
+	width: 100%;
 }
 
 /* menu bars */
@@ -391,17 +418,18 @@ p.menu_bar a:hover { /* behaviour on hovering */
 	color: red;
 }
 
-p.menu_bar a span { /* secondary background image */
-	margin: 0;
-	padding: 0px 7px 0px 0px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
-}
-
 p.menu_bar a.button,
 p.menu_bar a.button span,
 p.menu_bar a.button:hover,
 p.menu_bar a.button:hover span { /* no specific background image for buttons */
+	background-color: #c0c0c0;
 	background-image: none;
+}
+
+p.menu_bar a span { /* secondary background image */
+	margin: 0;
+	padding: 0px 7px 0px 0px;
+	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
 }
 
 p.menu_bar a span.first { /* first command of the menu */
@@ -419,10 +447,22 @@ p.menu_bar a span.last { /* last command of the menu */
 
 /* navigation bar */
 
+.pager-current { /* where we are */
+	border: 1px solid #cccccc;
+	color: #000000;
+	margin: 0 3px;
+	padding: 0 3px;
+}
+
+.pager-item { /* navigation link */
+	margin: 0 3px;
+	padding: 0 3px;
+}
+
 table.neighbours { /* previous and next links */
 	clear: left;
 	border: none;
-	margin: 0;
+	margin: 0 auto;
 }
 
 table.neighbours tr td {
@@ -432,16 +472,19 @@ table.neighbours tr td {
 table.neighbours tr td.next { /* to the right */
 	border: none;
 	padding: 1em 0 1em 3em;
+	text-align: right;
 }
 
 table.neighbours tr td.option { /* label for this page */
 	border: none;
 	padding: 1em 2em 1em 2em;
+	text-align: center;
 }
 
 table.neighbours tr td.previous { /* to the left */
 	border: none;
 	padding: 1em 3em 1em 0;
+	text-align: left;
 }
 
 
@@ -462,7 +505,7 @@ table.neighbours tr td.previous { /* to the left */
 }
 
 
-/* vertical and horizontal layouts --it used to be named "form" instaed of "layout" */
+/* vertical and horizontal layouts --it used to be named "form" instead of "layout" */
 
 table.layout,
 table.form {
@@ -547,6 +590,7 @@ dl#contextual_menu ul.tree ul { /* indent all levels, except level 1 */
 }
 
 dl#contextual_menu ul.tree li { /* every branch of the tree */
+	border: none;
 	margin: 0;
 	padding-top: 0;
 	text-align: left;
@@ -613,6 +657,7 @@ code { /* ##..## or [code]..[/code] -- some script shell */
 }
 
 a.tiny,
+span.tiny a,
 span.tiny { /* [tiny]...[/tiny] -- smaller than .small*/
 	font-family: sans-serif;
 	font-size: 9px;
@@ -1088,6 +1133,7 @@ table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table bord
 table.grid tbody tr td,
 table.grid tbody tr.even td,
 table.grid tbody tr.odd td,
+table.grid tbody tr th,
 table.grid thead tr th,
 table.exhibit-tabularView-body tbody tr td,
 table.exhibit-tabularView-body tbody tr th { /* a cell in a grid */
@@ -2026,6 +2072,27 @@ div.recent div.right { /* the second newest item */
     text-align: left;
 }
 
+/**
+ * index layout: an index of things
+ *
+ * <ul class="index" id=="letterX">
+ *    <li>item one</li>
+ *		...
+ * </ul>
+ *
+ * @see articles/layout_articles_as_index.php
+ */
+
+ul.index {
+	margin: 0;
+	padding: 0 0 2em 0;
+}
+
+ul.index li {
+    float: left;
+    margin-left: 25px;
+    margin-top: 4px;
+}
 
 /**
  * jive layout: a table of items
@@ -2432,8 +2499,12 @@ div.icon img { /* main image of an article, or of some section -- $context[page_
 div.bottom { /* bottom -- the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
-	padding-top: 1em;
+	padding-top: 0;
    	width: 80%; /* same width as div#tabs_bar */
+}
+
+div.bottom p.menu_bar {
+	margin: 0.4em 0;
 }
 
 div.description { /* description -- the main part of a page, a section, a category */
@@ -2570,7 +2641,7 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 }
 
 /* direct edition link */
-.thumbnail_image, 
+.thumbnail_image,
 .left_image,
 .right_image,
 .center_image,
@@ -2585,7 +2656,7 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 
 .center_image .image_edit {
 	left : 45%;
-}  
+}
 
 .thumbnail_image:hover .image_edit,
 .left_image:hover .image_edit,

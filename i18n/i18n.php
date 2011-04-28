@@ -1210,7 +1210,7 @@ Class i18n {
 			$translated = str_replace('\000', "'.chr(0).'", addcslashes($translated, "\0\\'"));
 
 			// update cache file, if any
-			if($cache)
+			if($cache && ($hash != '_headers'))
 				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
 		}
 
@@ -1386,6 +1386,17 @@ Class i18n {
 		$parts = explode(chr(0), $text);
 		$text = $parts[$select];
 		return $text;
+	}
+
+	/**
+	 * reset localized strings in memory
+	 *
+	 */
+	function reset() {
+
+		if(isset($_SESSION['l10n_modules']))
+			unset($_SESSION['l10n_modules']);
+
 	}
 
 	/**

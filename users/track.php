@@ -93,9 +93,8 @@ if(!$item['id']) {
 
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags(Surfer::get_name()));
-				$message = sprintf(i18n::c('%s will receive notifications when you will create new public content at %s'), Surfer::get_name(), $context['site_name'])
-					.'<p>'.ucfirst(strip_tags(Surfer::get_name()))
-					.BR.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'</p>';
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new public content at %s'), Surfer::get_name(), $context['site_name']).'</p>'
+					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name())).'</a></p>';
 
 				// sent by the server
 				Mailer::post(NULL, $user['email'], $subject, $message);
@@ -104,7 +103,7 @@ if(!$item['id']) {
 			// feed-back to poster
 			$context['text'] .= '<p>'.sprintf(i18n::s('You have been connected to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		// we are tracking a page
 		} else {
@@ -115,7 +114,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.i18n::s('The page has been added to your watch list. You will receive electronic messages to warn you on each future update.')."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		}
 
@@ -127,7 +126,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.sprintf(i18n::s('You are not connected to %s anymore.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		// we are tracking a page
 		} else {
@@ -138,7 +137,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.i18n::s('The page has been removed from your watch list. You won\'t receive any message about it anymore.')."</p>\n";
 
-			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind')));
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		}
 
@@ -151,13 +150,13 @@ if(!$item['id']) {
 	// check the watch list
 	if(Surfer::get_id()) {
 		if(!strncmp($track, 'user:', 5))
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_followers', i18n::s('My followers'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_followers', i18n::s('My followers'), 'span');
 		else
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'span');
 	}
 
 	// follow-up commands
-	$context['text'] .= Skin::build_list($menu, 'assistant_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 }
 

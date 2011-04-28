@@ -174,10 +174,8 @@ class Issue extends Overlay {
 		$fields = array();
 
 		// capture of initial data
-		if(!isset($host['self_reference'])) {
-
-			if(!isset($this->attributes['type']))
-				$this->attributes['type'] = 'incident';
+		if(!isset($this->attributes['type'])) {
+			$this->attributes['type'] = 'incident';
 
 			$label = i18n::s('Workflow');
 			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
@@ -193,18 +191,17 @@ class Issue extends Overlay {
 	/**
 	 * build the history for this issue
 	 *
-	 * @param string anchor for the issue
 	 * @return string an unnumbered list of dates
 	 */
-	function get_history($anchor) {
+	function get_history() {
 		global $context;
 
 		// sanity check
-		if(!$anchor)
+		if(!is_object($this->anchor))
 			return NULL;
 
 		$query = "SELECT * FROM ".SQL::table_name('issues')." AS issues "
-			." WHERE (issues.anchor LIKE '".SQL::escape($anchor)."')";
+			." WHERE (issues.anchor LIKE '".SQL::escape($this->anchor->get_reference())."')";
 
 		// fetch the first row
 		if(!$row =& SQL::query_first($query))
@@ -803,7 +800,7 @@ class Issue extends Overlay {
 		$tracking = '';
 
 		// only associates and page owners can change the status
-		if(($variant == 'edit') && isset($host['self_reference']) && ($anchor = Anchors::get($host['self_reference'])) && $anchor->is_owned()) {
+		if(($variant == 'edit') && isset($this->anchor) && $this->anchor->is_owned()) {
 
 			// type
 			if(!isset($this->attributes['type']))
@@ -1029,9 +1026,7 @@ class Issue extends Overlay {
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
 
 		// the status and history
-		$history = '';
-		if(isset($host['self_reference']))
-			$history = self::get_history($host['self_reference']);
+		$history = self::get_history();
 		$rows[] = array(i18n::s('Status'), self::get_status_label($this->attributes['status']).$history);
 
 		// build a link to the owner page, if any
@@ -1096,21 +1091,25 @@ class Issue extends Overlay {
 	 *
 	 * @param string the action 'insert' or 'update' or 'delete'
 	 * @param array the hosting record
+	 * @param string reference of the anchor, if any -- mandatory on 'insert'
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($variant, $host) {
+	function remember($action, $host, $reference=NULL) {
 		global $context;
 
-//		if(!isset($host['self_reference']))
-//			throw new Exception('need a reference to move forward!');
+		// locate anchor on 'insert'
+		if($reference)
+			$this->anchor = Anchors::get($reference);
 
-		// if a comment has to be apended as well
-		$comments = array();
-
-		// save container title as well
-		$title = '';
-		if(isset($host['title']))
-			$title = $host['title'];
+		// remember data from the anchor
+		$this->attributes['anchor_reference'] = '';
+		$this->attributes['anchor_title'] = '';
+		$this->attributes['anchor_url'] = '';
+		if(is_callable(array($this->anchor, 'get_url'))) {
+			$this->attributes['anchor_reference'] = $this->anchor->get_reference();
+			$this->attributes['anchor_title'] = $this->anchor->get_title();
+			$this->attributes['anchor_url'] = $this->anchor->get_url();
+		}
 
 		// set default values for this editor
 		Surfer::check_default_editor($this->attributes);
@@ -1127,21 +1126,24 @@ class Issue extends Overlay {
 		if(!isset($this->attributes['close_date']) || ($this->attributes['close_date'] <= NULL_DATE))
 			$this->attributes['close_date'] = NULL_DATE;
 
+		// if a comment has to be apended as well
+		$comments = array();
+
 		// build the update query
-		switch($variant) {
+		switch($action) {
 
 		case 'delete':
-			$query = "DELETE FROM ".SQL::table_name('issues')." WHERE anchor LIKE '".$host['self_reference']."'";
+			$query = "DELETE FROM ".SQL::table_name('issues')." WHERE anchor LIKE '".$this->attributes['anchor_reference']."'";
 			break;
 
 		case 'insert':
 
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
-				."anchor='".SQL::escape(isset($host['self_reference']) ? $host['self_reference'] : '')."', \n"
-				."anchor_url='".SQL::escape(isset($host['self_url']) ? $host['self_url'] : '')."', \n"
+				."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
+				."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
 				."color='".SQL::escape($this->attributes['color'])."', \n"
 				."status='".SQL::escape($this->attributes['status'])."', \n"
-				."title='".SQL::escape($title)."', \n"
+				."title='".SQL::escape($this->attributes['anchor_title'])."', \n"
 				."type='".SQL::escape($this->attributes['type'])."', \n"
 				."create_name='".SQL::escape(isset($this->attributes['create_name']) ? $this->attributes['create_name'] : $this->attributes['edit_name'])."', \n"
 				."create_id=".SQL::escape(isset($this->attributes['create_id']) ? $this->attributes['create_id'] : $this->attributes['edit_id']).", \n"
@@ -1165,7 +1167,7 @@ class Issue extends Overlay {
 		case 'update':
 
 			// only associates and page owners can update the record
-			if(($anchor = Anchors::get($host['self_reference'])) && $anchor->is_owned()) {
+			if(is_callable(array($this->anchor, 'is_owned')) && $this->anchor->is_owned()) {
 
 				// detect type modification
 				if($this->attributes['type'] != $this->attributes['previous_type'])
@@ -1176,24 +1178,24 @@ class Issue extends Overlay {
 					$comments[] = sprintf(i18n::s('Color has been changed to "%s"'), $this->get_color_label($this->attributes['color']));
 
 				// change host owner, if any
-				if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($target = Anchors::get($host['self_reference'])) && ($user['id'] != $target->get_value('owner_id'))) {
+				if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != $this->anchor->get_value('owner_id'))) {
 					$fields = array();
 					$fields['owner_id'] = $user['id'];
-					$target->set_values($fields);
+					$this->anchor->set_values($fields);
 
-					Members::assign('user:'.$user['id'], $host['self_reference']);
-					Members::assign($host['self_reference'], 'user:'.$user['id']);
+					Members::assign('user:'.$user['id'], $this->anchor->get_reference());
+					Members::assign($this->anchor->get_reference(), 'user:'.$user['id']);
 
 					$comments[] = sprintf(i18n::s('Owner has been changed to %s'), Skin::build_link(Users::get_permalink($user), $user['full_name']));
 				}
 
 				// update the table of issues
 				$query = "UPDATE ".SQL::table_name('issues')." SET \n"
-					."anchor='".SQL::escape(isset($host['self_reference']) ? $host['self_reference'] : '')."', \n"
-					."anchor_url='".SQL::escape(isset($host['self_url']) ? $host['self_url'] : '')."', \n"
+					."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
+					."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
 					."color='".SQL::escape($this->attributes['color'])."', \n"
 					."status='".SQL::escape($this->attributes['status'])."', \n"
-					."title='".SQL::escape($title)."', \n"
+					."title='".SQL::escape($this->attributes['anchor_title'])."', \n"
 					."type='".SQL::escape($this->attributes['type'])."', \n"
 					."create_date='".SQL::escape(isset($this->attributes['create_date']) ? $this->attributes['create_date'] : $this->attributes['edit_date'])."', \n"
 					."qualification_date='".SQL::escape(isset($this->attributes['qualification_date']) ? $this->attributes['qualification_date'] : NULL_DATE)."', \n"
@@ -1265,7 +1267,7 @@ class Issue extends Overlay {
 					."edit_address='".SQL::escape($this->attributes['edit_address'])."', \n"
 					."edit_action='update', \n"
 					."edit_date='".SQL::escape($this->attributes['edit_date'] ? $this->attributes['edit_date'] : $this->attributes['edit_date'])."' \n"
-					." WHERE anchor LIKE '".SQL::escape($host['self_reference'])."'";
+					." WHERE anchor LIKE '".SQL::escape($this->attributes['anchor_reference'])."'";
 
 			}
 
@@ -1280,9 +1282,9 @@ class Issue extends Overlay {
 		if($comments) {
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
-			$fields['anchor'] = $host['self_reference'];
+			$fields['anchor'] = $this->attributes['anchor_reference'];
 			$fields['description'] = join(BR, $comments);
-			$fields['type'] = 'information';
+			$fields['type'] = 'notification';
 			Comments::post($fields);
 		}
 

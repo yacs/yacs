@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-12 11:44+0100\n"
+"POT-Creation-Date: 2011-04-07 21:55+0200\n"
 "PO-Revision-Date: 2010-05-27 10:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
@@ -118,7 +118,7 @@ msgstr "Edit a table"
 msgid "Add a table"
 msgstr "Add a table"
 
-#: tables/edit.php:102 tables/tables.php:971 tables/tables.php:977
+#: tables/edit.php:102 tables/tables.php:978 tables/tables.php:984
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -384,7 +384,7 @@ msgstr "Recent pages"
 msgid "details"
 msgstr "details"
 
-#: tables/layout_tables.php:110 tables/tables.php:306
+#: tables/layout_tables.php:110 tables/tables.php:309
 msgid "edit"
 msgstr "edit"
 
@@ -397,11 +397,11 @@ msgstr "delete"
 msgid "Error in table query %s"
 msgstr "Error in table query %s"
 
-#: tables/tables.php:965
+#: tables/tables.php:972
 msgid "Please add some SQL query."
 msgstr "Please add some SQL query."
 
-#: tables/tables.php:993
+#: tables/tables.php:1000
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 

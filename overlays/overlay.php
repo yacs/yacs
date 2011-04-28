@@ -1,11 +1,11 @@
 <?php
 /**
- * the overlay interface used by articles
+ * the overlay interface
  *
- * Overlays are a straightforward way to extend YACS content pages.
+ * Overlays are a straightforward way to extend web pages.
  * For example, articles can be transformed to recipes, or to other pages that has to include some structured data.
  *
- * Overlay data is saved along standard articles as a serialized snippet.
+ * Overlay data is saved along standard yacs objects (e.g., articles) as a serialized snippet.
  * The encoding and decoding of this field requires a specialized class.
  *
  * The overlay interface masks these details and offers convenient methods to create, access and save piggy-back data.
@@ -30,17 +30,17 @@
  * // save article and serialized overlay as well
  * $_POST['overlay'] = $overlay->save();
  * $_POST['overlay_id'] = $overlay->get_id();
- * Articles::post($_POST);
+ * $id = Articles::post($_POST);
  *
  * // save overlay state
- * $overlay->remember('insert', $item);
+ * $overlay->remember('insert', $item, 'article:'.$id);
  * [/php]
  *
  * As visible into [script]articles/view.php[/script], an overlay is handled
  * with following calls:
  * [php]
  * // extract overlay data from a record
- * $overlay = Overlay::load($item);
+ * $overlay = Overlay::load($item, 'article:'.$item['id']);
  *
  * // get text related to this instance
  * $text = $overlay->get_text('view');
@@ -53,7 +53,7 @@
  * as shown in [script]articles/delete.php[/script]
  * [php]
  * // extract overlay data from a record
- * $overlay = Overlay::load($item);
+ * $overlay = Overlay::load($item, 'article:'.$item['id']);
  *
  * // post-processing steps specific to the overlay
  * $overlay->remember('delete', $item);
@@ -201,16 +201,16 @@ class Overlay {
 			$parameters = ' parameters="'.$this->attributes['overlay_parameters'].'"';
 		else
 			$parameters = '';
-		$text =  ' <overlay'.$class.$parameters.'>'."\n";
+		$text =  "\t".'<overlay'.$class.$parameters.'>'."\n";
 		foreach($this->attributes as $label => $value) {
 			if($label == 'overlay_type')
 				continue;
 			if($label == 'overlay_parameters')
 				continue;
 			if(is_array($value)) {
-				$text .=  "\t".' <'.$label.'><array>'."\n";
+				$text .=  "\t\t".' <'.$label.'><array>'."\n";
 				foreach($value as $sub_value) {
-					$text .=  "\t\t".' <item>';
+					$text .=  "\t\t\t".' <item>';
 					if(is_array($sub_value)) {
 						$text .=  '<array>';
 						foreach($sub_value as $sub_sub_value)
@@ -220,11 +220,11 @@ class Overlay {
 						$text .=  encode_field($sub_value);
 					$text .=  '</item>'."\n";
 				}
-				$text .=  "\t".' </array></'.$label.'>'."\n";
+				$text .=  "\t\t".' </array></'.$label.'>'."\n";
 			} else
-				$text .=  "\t".' <'.$label.'>'.encode_field($value).'</'.$label.'>'."\n";
+				$text .=  "\t\t".' <'.$label.'>'.encode_field($value).'</'.$label.'>'."\n";
 		}
-		$text .=  ' </overlay>'."\n";
+		$text .=  "\t".'</overlay>'."\n";
 
 		return $text;
 	}
@@ -528,6 +528,21 @@ class Overlay {
 	}
 
 	/**
+	 * initialize this instance
+	 *
+	 * This function is called automatically when an instance is loaded in memory,
+	 * to allow for any complementary setup, such as:
+	 * - load parameters from an external file
+	 * - read data from some sensor
+	 * - build a cache of data useful to the overlay
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 */
+	function initialize() {
+	}
+
+	/**
 	 * restore an instance
 	 *
 	 * This function unserializes piggy-back data and uses it to populate an overlay instance.
@@ -537,26 +552,26 @@ class Overlay {
 	 * $item =& Articles::get($id);
 	 *
 	 * // extract overlay data from $item['overlay']
-	 * $overlay = Overlay::load($item);
+	 * $overlay = Overlay::load($item, 'article:'.$item['id']);
 	 * [/php]
 	 *
 	 * @param array the hosting array
-	 * @param string the attribute which contains overlay data
+	 * @param string reference of the containing page (e.g., 'article:123')
 	 * @return a restored instance, or NULL
 	 *
 	 * @see articles/delete.php
 	 * @see articles/edit.php
 	 * @see articles/view.php
 	 */
-	function load($host, $name='overlay') {
+	function load($host, $reference=NULL) {
 		global $context;
 
 		// no overlay yet
-		if(!isset($host[$name]) || !$host[$name])
+		if(!isset($host['overlay']) || !$host['overlay'])
 			return NULL;
 
 		// retrieve the content of the overlay
-		if(($attributes = Safe::unserialize($host[$name])) === FALSE)
+		if(($attributes = Safe::unserialize($host['overlay'])) === FALSE)
 			return NULL;
 
 		// restore unicode entities
@@ -577,6 +592,14 @@ class Overlay {
 		$overlay = Overlay::bind($attributes['overlay_type']);
 		if(is_object($overlay)) {
 			$overlay->attributes = $attributes;
+
+			// expose all of the anchor interface to the contained overlay
+			$overlay->anchor = Anchors::get($reference);
+
+			// allow for internal initialization of the overlay
+			$overlay->initialize();
+
+			// ready to use!
 			return $overlay;
 		}
 
@@ -627,9 +650,10 @@ class Overlay {
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
+	 * @param string reference of the anchor, if any -- mandatory on 'insert'
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($variant, $host) {
+	function remember($action, $host, $reference=NULL) {
 		return TRUE;
 	}
 
@@ -649,6 +673,59 @@ class Overlay {
 		// just serialize
 		return serialize($this->attributes);
 
+	}
+
+	/**
+	 * set and store some attributes
+	 *
+	 * Use this function to change some attributes of your overlay, and also
+	 * to serialize data into the original container (article, section, etc.)
+	 *
+	 * @param array of ($name => $value) pairs
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
+
+		// set attributes in memory
+		foreach($fields as $name => $value)
+			$this->attributes[$name] = $value;
+
+		// store this permanently
+		if(is_object($this->anchor)) {
+			$fields = array();
+			$fields['id'] = $this->attributes['id'];
+			$fields['overlay'] = $this->save();
+			$fields['overlay_id'] = $this->get_id();
+			return $this->anchor->set_values($fields);
+		}
+
+	}
+
+	/**
+	 * notify followers or not?
+	 *
+	 * This function is used in articles/publish.php to prevent notification of followers.
+	 *
+	 * @see articles/publish.php
+	 *
+	 * @return boolean FALSE by default, but can be changed in derived overlay
+	 */
+	function should_notify_followers() {
+		return FALSE;
+	}
+
+	/**
+	 * notify watchers or not?
+	 *
+	 * This function is used in various scripts to prevent notification of watchers.
+	 *
+	 * @see articles/edit.php
+	 * @see articles/publish.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay, such as events
+	 */
+	function should_notify_watchers() {
+		return TRUE;
 	}
 
 }

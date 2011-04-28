@@ -2,7 +2,6 @@
 /**
  * configure parameters for the skin
  *
- * @link http://matthewjamestaylor.com/blog/fixed-width-or-liquid-layout.htm The Holy Grail 3 column Liquid Layout or fixed width
  * @link http://www.smashingmagazine.com/2008/03/05/blog-headers-for-free-download/ Beautiful headers provided for free
  * @link http://exploding-boy.com/images/cssmenus2/menus.html tabs provided for free
  *
@@ -26,6 +25,19 @@ if(!isset($context['flexible_body_bg']))
 	$context['flexible_body_bg'] = '#ffffff';
 if(!isset($context['flexible_columns']))
 	$context['flexible_columns'] = '1_2_3';
+
+if(!isset($context['flexible_breadcrumbs_a_color']))
+	$context['flexible_breadcrumbs_a_color'] = '#666666';
+if(!isset($context['flexible_breadcrumbs_family']))
+	$context['flexible_breadcrumbs_family'] = 'inherit';
+if(!isset($context['flexible_breadcrumbs_h_color']))
+	$context['flexible_breadcrumbs_h_color'] = '#FF9834';
+if(!isset($context['flexible_breadcrumbs_padding']))
+	$context['flexible_breadcrumbs_padding'] = '20px 0';
+if(!isset($context['flexible_breadcrumbs_size']))
+	$context['flexible_breadcrumbs_size'] = '10px';
+if(!isset($context['flexible_breadcrumbs_weight']))
+	$context['flexible_breadcrumbs_weight'] = 'bold';
 
 if(!isset($context['flexible_details_color']))
 	$context['flexible_details_color'] = '#888888';
@@ -117,6 +129,26 @@ if(!isset($context['flexible_extra_weight']))
 	$context['flexible_extra_weight'] = 'normal';
 if(!isset($context['flexible_extra_width']))
 	$context['flexible_extra_width'] = '200px';
+
+if(!isset($context['flexible_footer_a_bg']))
+	$context['flexible_footer_a_bg'] = '';
+if(!isset($context['flexible_footer_a_color']))
+	$context['flexible_footer_a_color'] = '#336699';
+if(!isset($context['flexible_footer_a_decoration']))
+	$context['flexible_footer_a_decoration'] = 'underline';
+if(!isset($context['flexible_footer_a_family']))
+	$context['flexible_footer_a_family'] = 'inherit';
+if(!isset($context['flexible_footer_a_size']))
+	$context['flexible_footer_a_size'] = 'inherit';
+if(!isset($context['flexible_footer_a_weight']))
+	$context['flexible_footer_a_weight'] = 'normal';
+
+if(!isset($context['flexible_footer_h_bg']))
+	$context['flexible_footer_h_bg'] = '';
+if(!isset($context['flexible_footer_h_color']))
+	$context['flexible_footer_h_color'] = '#336699';
+if(!isset($context['flexible_footer_h_decoration']))
+	$context['flexible_footer_h_decoration'] = 'underline';
 
 if(!isset($context['flexible_footer_align']))
 	$context['flexible_footer_align'] = 'inherit';
@@ -648,11 +680,13 @@ elseif(!Surfer::is_associate()) {
 
 		$updater = '';
 		if($sample)
-			$updater = ' onchange="$(\''.$sample.'\').setStyle({ \''.$property.'\': this.value});"';
-		$text =	'<input type="text" name="'.$name.'_'.$property.'" value="'.$context[$name.'_'.$property].'" size="20"'.$updater.' />';
+			$updater = ' onchange="$(\''.$sample.'\').setStyle({ \''.$property.'\': this.value});"'
+				.' onkeypress="$(\''.$name.'_'.$property.'_t\').setStyle({\'display\': \'inline\'});"';
+		$text =	'<input type="text" name="'.$name.'_'.$property.'" value="'.$context[$name.'_'.$property].'" size="20"'.$updater.' />'
+			.' <a id="'.$name.'_'.$property.'_t" onclick="this.setStyle({\'display\': \'none\'});" style="margin-right: 4em; font-size: 12px; display: none;">'.i18n::s('Test').'</a>';
 
 		if($sample)
-			$text .= JS_PREFIX.'$(\''.$sample.'\').setStyle({\''.$property.'\': \''.$context[$name.'_'.$property].'\'});'.JS_SUFFIX;
+			$text .= JS_PREFIX.'Event.observe(window, \'load\', function() { $(\''.$sample.'\').setStyle({\''.$property.'\': \''.$context[$name.'_'.$property].'\'}); });'.JS_SUFFIX;
 
 		return $text;
 	}
@@ -747,12 +781,12 @@ elseif(!Surfer::is_associate()) {
 		$checked = '';
 	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'850px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="850px" value="850px" />'.BR.i18n::s('850px').'</div>';
-	if(isset($context['flexible_width']) && ($context['flexible_width'] == '640px'))
+	if(isset($context['flexible_width']) && ($context['flexible_width'] == '760px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'640px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
-		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="640px" value="640px" />'.BR.i18n::s('640px').'</div>';
+	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'760px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="760px" value="760px" />'.BR.i18n::s('760px').'</div>';
 	$input = Skin::layout_horizontally($cell1, $cell2, $cell3, $cell4);
 	$fields[] = array($label, $input);
 
@@ -806,6 +840,7 @@ elseif(!Surfer::is_associate()) {
 	//
 	// header parameters ////////////////////////////////////////////
 	//
+	$text = Skin::build_block(i18n::s('Header'), 'header1');
 
 	// minimum site parameters
 	if(!$context['site_name'])
@@ -814,7 +849,7 @@ elseif(!Surfer::is_associate()) {
 		$context['site_slogan'] = i18n::s('Site slogan');
 
 	// text sample
-	$text = '<div style="height:120px; width: 98%; border: 1px solid #ccc; padding: 0; margin: 0 0 1em 0; position:relative; overflow: hidden;"><div id="h_sample"><p id="ht_sample" style="position: absolute; top: 20px; left: 10px"><span id="hx_sample">'.$context['site_name'].'</span><img id="hi_sample" /></p><p id="hs_sample" style="position: absolute; top: 40px; left: 10px">'.$context['site_slogan'].'</p></div></div>';
+	$text .= '<div style="height:260px; width: 98%; border: 1px solid #ccc; padding: 0; margin: 0 0 1em 0; position:relative; overflow: scroll;"><div id="h_sample"><p id="ht_sample" style="position: absolute; top: 20px; left: 10px"><span id="hx_sample">'.$context['site_name'].'</span><img id="hi_sample" /></p><p id="hs_sample" style="position: absolute; top: 40px; left: 10px">'.$context['site_slogan'].'</p></div></div>';
 
 	// logo image
 	$text .= Skin::build_folded_box(i18n::s('Logo'), i18n::s('If you select an image, it will replace the display of the textual title.').BR.image_helper('flexible_header_t_logo', 'hi_sample', 'skins/flexible/logos', 'hx_sample')
@@ -845,7 +880,7 @@ elseif(!Surfer::is_associate()) {
 		.' '.select_helper('flexible_header_s_weight', array('normal', 'bold'), 'p#hs_sample', 'fontWeight');
 	$fields[] = array($label, $input);
 
-	// colors
+	// color
 	$fields[] = array(i18n::s('Color'), color_helper('flexible_header_s_color', 'hs_sample'));
 
 	// position
@@ -870,16 +905,13 @@ elseif(!Surfer::is_associate()) {
 	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
 	$fields = array();
 
-	// finalize this panel
-	$panels[] = array('h', i18n::s('Header'), 'h_panel', $text);
-
 	//
 	// tabs parameters ////////////////////////////////////////////
 	//
-	$text = '';
+	$text .= Skin::build_block(i18n::s('Tabs'), 'header1');
 
 	// visual sample
-	$text = '<div style="height:50px; width: 450px; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+	$text .= '<div style="height:50px; width: 450px; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
 		.'<div id="t_sample" class="tabs" style="position: static;"><ul id="tl_sample">'."\n"
 		.'	<li><a href="#" title="Link 1" class="regular"><span>Link 1</span></a></li>'."\n"
 		.'	<li><a href="#" title="Link 2" class="current"><span>Link 2</span></a></li>'."\n"
@@ -981,202 +1013,6 @@ elseif(!Surfer::is_associate()) {
 				$input .= $item;
 		}
 	}
-	// style 'none'
-// 	$context['page_header'] .= '<style type="text/css" media="screen">'."\n"
-// 		.'body div.tabs_none ul li a { /* a link */'."\n"
-// 		.'	font-family: sans-serif;'."\n"
-// 		.'	font-size: 10px;'."\n"
-// 		.'	font-weight: bold;'."\n"
-// 		.'	line-height: 12px;'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'	margin: 0 10px 4px;'."\n"
-// 		.'	padding-bottom: 0;'."\n"
-// 		.'	border-bottom: 4px solid transparent;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_none ul li a:hover,'."\n"
-// 		.'body div.tabs_none ul li a.current { /* an active link */'."\n"
-// 		.'	margin: 0 10px 4px;'."\n"
-// 		.'	padding-bottom: 0;'."\n"
-// 		.'	border-bottom: 4px solid #666;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_none ul li a:hover span,'."\n"
-// 		.'body div.tabs_none ul li a.current span { /* an active link */'."\n"
-// 		.'	color: '.$context['flexible_tabs_h_color'].';'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_none ul li a span { /* inside a link */'."\n"
-// 		.'	color: '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'}'."\n"
-// 		.'body div.tabs_none ul { /* one line below the list */'."\n"
-// 		.'	border-bottom: 1px solid #888;'."\n"
-// 		.'	color: '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'	margin: 0;'."\n"
-// 		.'	padding: 0 0 13px 10px;'."\n"
-// 		.'	height: 12px;'."\n"
-// 		.'}'."\n"
-// 		.'body div.tabs_none { /* div containing tabs */'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'</style>'."\n";
-
-	// prepare fake tabs
-// 	$tabs = '<div class="tabs tabs_none">'."\n"
-// 		.'<ul>'."\n"
-// 		.'	<li><a href="#" title="Link 1"><span>Link 1</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 2"><span>Link 2</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 3"><span>Link 3</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Longer Link Text"><span>Longer Link Text</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 5" class="current"><span>Link 5</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 6"><span>Link 6</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 7"><span>Link 7</span></a></li>'."\n"
-// 		.'	</ul>'."\n"
-// 		.'</div>'."\n";
-//
-// 	$checked = '';
-// 	if($context['flexible_tabs_bg_image'] == 'none')
-// 		$checked = ' checked="checked"';
-// 	$input .= '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="none"'.$checked.' /></td>'
-// 		.'<td class="east">'.$tabs.'</td></tr>'."\n";
-
-	// style 'contrasted'
-// 	$context['page_header'] .= '<style type="text/css" media="screen">'."\n"
-// 		.'body div.tabs_contrasted ul li a { /* a link */'."\n"
-// 		.'	font-family: sans-serif;'."\n"
-// 		.'	font-size: 10px;'."\n"
-// 		.'	font-weight: bold;'."\n"
-// 		.'	line-height: 12px;'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'	margin: 0 10px 4px;'."\n"
-// 		.'	padding-bottom: 0;'."\n"
-// 		.'	border-bottom: 4px solid transparent;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_contrasted ul li a span { /* inside a link */'."\n"
-// 		.'	color: '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_contrasted ul li a:hover,'."\n"
-// 		.'body div.tabs_contrasted ul li a.current { /* an active link */'."\n"
-// 		.'	margin: 0 10px 4px;'."\n"
-// 		.'	padding-bottom: 0;'."\n"
-// 		.'	border-bottom: 4px solid '.$context['flexible_tabs_h_color'].';'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_contrasted ul li a:hover span,'."\n"
-// 		.'body div.tabs_contrasted ul li a.current span { /* an active link */'."\n"
-// 		.'	color: '.$context['flexible_tabs_h_color'].';'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_contrasted ul { /* one line below the list */'."\n"
-// 		.'	border-bottom: 1px solid #888;'."\n"
-// 		.'	color: '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'	margin: 0;'."\n"
-// 		.'	padding: 0 0 13px 10px;'."\n"
-// 		.'	height: 12px;'."\n"
-// 		.'}'."\n"
-// 		.'body div.tabs_contrasted { /* div containing tabs */'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'</style>'."\n";
-
-	// prepare fake tabs
-// 	$tabs = '<div class="tabs tabs_contrasted">'."\n"
-// 		.'<ul>'."\n"
-// 		.'	<li><a href="#" title="Link 1"><span>Link 1</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 2"><span>Link 2</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 3"><span>Link 3</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Longer Link Text"><span>Longer Link Text</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 5" class="current"><span>Link 5</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 6"><span>Link 6</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 7"><span>Link 7</span></a></li>'."\n"
-// 		.'	</ul>'."\n"
-// 		.'</div>'."\n";
-//
-// 	$checked = '';
-// 	if($context['flexible_tabs_bg_image'] == 'contrasted')
-// 		$checked = ' checked="checked"';
-// 	$input .= '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="contrasted"'.$checked.' /></td>'
-// 		.'<td class="east">'.$tabs.'</td></tr>'."\n";
-
-	// style 'inverted'
-// 	$context['page_header'] .= '<style type="text/css" media="screen">'."\n"
-// 		.'body div.tabs_inverted ul li a { /* a link */'."\n"
-// 		.'	font-family: sans-serif;'."\n"
-// 		.'	font-size: 10px;'."\n"
-// 		.'	font-weight: bold;'."\n"
-// 		.'	line-height: 12px;'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'	margin: 0 10px 4px;'."\n"
-// 		.'	padding-bottom: 0;'."\n"
-// 		.'	border-bottom: 4px solid transparent;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_inverted ul li a span { /* inside a link */'."\n"
-// 		.'	color: '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_inverted ul li a.current { /* an active link */'."\n"
-// 		.'	margin: 0 10px 4px;'."\n"
-// 		.'	padding-bottom: 0;'."\n"
-// 		.'	border-bottom: 4px solid '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_inverted ul li a:hover { /* hovering the link */'."\n"
-// 		.'	border-color: '.$context['flexible_tabs_h_color'].';'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_inverted ul li a.current span,'."\n"
-// 		.'body div.tabs_inverted ul li a:hover span { /* hovering the link */'."\n"
-// 		.'	color: '.$context['flexible_tabs_h_color'].';'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'body div.tabs_inverted ul { /* one line below the list */'."\n"
-// 		.'	color: '.$context['flexible_tabs_a_color'].';'."\n"
-// 		.'	border-bottom: 1px solid #888;'."\n"
-// 		.'	margin: 0;'."\n"
-// 		.'	padding: 0 0 13px 10px;'."\n"
-// 		.'	height: 12px;'."\n"
-// 		.'}'."\n"
-// 		.'body div.tabs_inverted { /* div containing tabs */'."\n"
-// 		.'	background: transparent;'."\n"
-// 		.'	background-image: none;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'</style>'."\n";
-
-	// prepare fake tabs
-// 	$tabs = '<div class="tabs tabs_inverted">'."\n"
-// 		.'<ul>'."\n"
-// 		.'	<li><a href="#" title="Link 1"><span>Link 1</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 2"><span>Link 2</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 3"><span>Link 3</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Longer Link Text"><span>Longer Link Text</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 5" class="current"><span>Link 5</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 6"><span>Link 6</span></a></li>'."\n"
-// 		.'	<li><a href="#" title="Link 7"><span>Link 7</span></a></li>'."\n"
-// 		.'	</ul>'."\n"
-// 		.'</div>'."\n";
-//
-// 	$checked = '';
-// 	if($context['flexible_tabs_bg_image'] == 'inverted')
-// 		$checked = ' checked="checked"';
-// 	$input .= '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="inverted"'.$checked.' /></td>'
-// 		.'<td class="east">'.$tabs.'</td></tr>'."\n";
 
 	// nothing more in the table
 	$input .= '</table>';
@@ -1199,15 +1035,201 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	// finalize this panel
-	$panels[] = array('t', i18n::s('Tabs'), 't_panel', $text);
+	$panels[] = array('h', i18n::s('Header'), 'h_panel', $text);
 
 	//
 	// content panel ////////////////////////////////////////////
 	//
 	$text = '';
 
+	// disposition
+	//
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main', 'padding'));
+
+	// borders
+	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// breadcrumbs parameters ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Breadcrumbs'), 'header1');
+
+	// fake crumbs
+	$crumbs = array('<a href="#" class="regular">Link 1</a>', '<a href="#" class="current">Link 2</a>', '<a href="#" class="regular">Link 3</a>');
+
+	// visual sample
+	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+		.'<div id="c_sample" style="position: static;">'."\n"
+		.CRUMBS_PREFIX.join(CRUMBS_SEPARATOR, $crumbs).CRUMBS_SUFFIX."\n"
+		.'</div>'
+		.'</div>';
+
+	// font
+	$label = i18n::s('Font');
+	$input = select_helper('flexible_breadcrumbs_family', $font_families, 'div#c_sample', 'fontFamily')
+		.' '.select_helper('flexible_breadcrumbs_size', $font_sizes, 'div#c_sample', 'fontSize')
+		.' '.select_helper('flexible_breadcrumbs_weight', array('normal', 'bold'), 'div#c_sample', 'fontWeight');
+	$fields[] = array($label, $input);
+
+	// color of inactive link
+	$label = i18n::s('Link color');
+	$input = '<input class="color {hash:true,required:false}" name="flexible_breadcrumbs_a_color" size="10" value="'.encode_field($context['flexible_breadcrumbs_a_color']).'" maxlength="8" onchange="$$(\'div#c_sample a.regular\').each(function(link){link.setStyle({ \'color\': this.value})}.bind(this));" />';
+	$fields[] = array($label, $input);
+	$text .= JS_PREFIX."$$('div#c_sample a.regular').each(function(link){link.setStyle({'color': '".$context['flexible_breadcrumbs_a_color']."'})});".JS_SUFFIX;
+
+	// color of hovered link
+	$label = i18n::s('Hover color');
+	$input = '<input class="color {hash:true,required:false}" name="flexible_breadcrumbs_h_color" size="10" value="'.encode_field($context['flexible_breadcrumbs_h_color']).'" maxlength="8" onchange="$$(\'div#c_sample a.current\').each(function(link){link.setStyle({ \'color\': this.value})}.bind(this));" />';
+	$fields[] = array($label, $input);
+	$text .= JS_PREFIX."$$('div#c_sample a.current').each(function(link){link.setStyle({'color': '".$context['flexible_breadcrumbs_h_color']."'})});".JS_SUFFIX;
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
+	$fields = array();
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_breadcrumbs', 'padding', 'c_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// page title - h1 ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Page title'), 'header1');
+
 	// text sample
-	$text .= '<p id="p_sample"><span>'.i18n::s('Sample text').' '.DUMMY_TEXT.'</span></p>';
+	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+		.'<h1 id="h1_sample"><span>'.i18n::s('Sample title').'</span></h1>'
+		.'</div>';
+
+	// font
+	$label = i18n::s('Font');
+	$input = select_helper('flexible_main_h1_family', $font_families, 'h1#h1_sample', 'fontFamily')
+		.' '.select_helper('flexible_main_h1_size', $font_sizes, 'h1#h1_sample', 'fontSize')
+		.' '.select_helper('flexible_main_h1_weight', array('normal', 'bold'), 'h1#h1_sample', 'fontWeight');
+	$fields[] = array($label, $input);
+
+	// color
+	$fields[] = array(i18n::s('Color'), color_helper('flexible_main_h1_color', 'h1_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
+	$fields = array();
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main_h1', 'padding', 'h1_sample'));
+
+	// borders
+	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main_h1', 'h1_sample'));
+
+	// margin
+	$fields[] = array(i18n::s('Margin'), property_helper('flexible_main_h1', 'margin', 'h1_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// background
+	$text .= Skin::build_folded_box(i18n::s('Background'), background_helper('flexible_main_h1_bg', 'h1_sample', 'skins/flexible/boxes')
+		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
+	$fields = array();
+
+	// h2 ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Level 1 title'), 'header1');
+
+	// text sample
+	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+		.'<h2 id="h2_sample"><span>'.i18n::s('Sample title').'</span></h2>'
+		.'</div>';
+
+	// font
+	$label = i18n::s('Font');
+	$input = select_helper('flexible_main_h2_family', $font_families, 'h2#h2_sample', 'fontFamily')
+		.' '.select_helper('flexible_main_h2_size', $font_sizes, 'h2#h2_sample', 'fontSize')
+		.' '.select_helper('flexible_main_h2_weight', array('normal', 'bold'), 'h2#h2_sample', 'fontWeight');
+	$fields[] = array($label, $input);
+
+	// color
+	$fields[] = array(i18n::s('Color'), color_helper('flexible_main_h2_color', 'h2_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
+	$fields = array();
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main_h2', 'padding', 'h2_sample'));
+
+	// borders
+	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main_h2', 'h2_sample'));
+
+	// margin
+	$fields[] = array(i18n::s('Margin'), property_helper('flexible_main_h2', 'margin', 'h2_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// background
+	$text .= Skin::build_folded_box(i18n::s('Background'), background_helper('flexible_main_h2_bg', 'h2_sample', 'skins/flexible/boxes')
+		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
+	$fields = array();
+
+	// h3 ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Level 2 title'), 'header1');
+
+	// text sample
+	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+		.'<h3 id="h3_sample"><span>'.i18n::s('Sample title').'</span></h3>'
+		.'</div>';
+
+	// font
+	$label = i18n::s('Font');
+	$input = select_helper('flexible_main_h3_family', $font_families, 'h3#h3_sample', 'fontFamily')
+		.' '.select_helper('flexible_main_h3_size', $font_sizes, 'h3#h3_sample', 'fontSize')
+		.' '.select_helper('flexible_main_h3_weight', array('normal', 'bold'), 'h3#h3_sample', 'fontWeight');
+	$fields[] = array($label, $input);
+
+	// color
+	$fields[] = array(i18n::s('Color'), color_helper('flexible_main_h3_color', 'h3_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
+	$fields = array();
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main_h3', 'padding', 'h3_sample'));
+
+	// borders
+	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main_h3', 'h3_sample'));
+
+	// margin
+	$fields[] = array(i18n::s('Margin'), property_helper('flexible_main_h3', 'margin', 'h3_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Background'), background_helper('flexible_main_h3_bg', 'h3_sample', 'skins/flexible/boxes')
+		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
+	$fields = array();
+
+	// regular text ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Text'), 'header1');
+
+	// text sample
+	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+		.'<p id="p_sample"><span>'.i18n::s('Sample text').' '.DUMMY_TEXT.'</span></p>'
+		.'</div>';
 
 	// font
 	$label = i18n::s('Font');
@@ -1250,11 +1272,14 @@ elseif(!Surfer::is_associate()) {
 	$text .= Skin::build_folded_box(i18n::s('Links'), Skin::build_form($fields));
 	$fields = array();
 
-	// details
+	// details ////////////////////////////////////////////
 	//
+	$text .= Skin::build_block(i18n::s('Details'), 'header1');
 
 	// text sample
-	$sample = '<p class="details" id="d_sample">'.i18n::s('Sample text').' '.DUMMY_TEXT.'</p>';
+	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
+		.'<p class="details" id="d_sample">'.i18n::s('Sample text').' '.DUMMY_TEXT.'</p>'
+		.'</div>';
 
 	// font
 	$label = i18n::s('Font');
@@ -1269,124 +1294,7 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('Details'), $sample.Skin::build_form($fields));
-	$fields = array();
-
-	// Page title - h1
-	//
-
-	// text sample
-	$sample = '<h1 id="h1_sample"><span>'.i18n::s('Sample text').'</span></h1>';
-
-	// font
-	$label = i18n::s('Font');
-	$input = select_helper('flexible_main_h1_family', $font_families, 'h1#h1_sample', 'fontFamily')
-		.' '.select_helper('flexible_main_h1_size', $font_sizes, 'h1#h1_sample', 'fontSize')
-		.' '.select_helper('flexible_main_h1_weight', array('normal', 'bold'), 'h1#h1_sample', 'fontWeight');
-	$fields[] = array($label, $input);
-
-	// colors
-	$label = i18n::s('Color');
-	$input = '<input class="color {hash:true,required:false}" name="flexible_main_h1_color" size="8" value="'.encode_field($context['flexible_main_h1_color']).'" maxlength="12" onchange="$(\'h1_sample\').setStyle({\'color\': this.value})" />';
-	$fields[] = array($label, $input);
-
-	// padding
-	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main_h1', 'padding', 'h1_sample'));
-
-	// borders
-	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main_h1', 'h1_sample'));
-
-	// margin
-	$fields[] = array(i18n::s('Margin'), property_helper('flexible_main_h1', 'margin', 'h1_sample'));
-
-	// background
-	$fields[] = array(i18n::s('Background'), background_helper('flexible_main_h1_bg', 'h1_sample', 'skins/flexible/boxes')
-		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
-
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('Page title'), $sample.Skin::build_form($fields));
-	$fields = array();
-
-	// h2
-	//
-
-	// text sample
-	$sample = '<h1 id="h2_sample"><span>'.i18n::s('Sample text').'</span></h1>';
-
-	// font
-	$label = i18n::s('Font');
-	$input = select_helper('flexible_main_h2_family', $font_families, 'h2#h2_sample', 'fontFamily')
-		.' '.select_helper('flexible_main_h2_size', $font_sizes, 'h2#h2_sample', 'fontSize')
-		.' '.select_helper('flexible_main_h2_weight', array('normal', 'bold'), 'h2#h2_sample', 'fontWeight');
-	$fields[] = array($label, $input);
-
-	// colors
-	$label = i18n::s('Color');
-	$input = '<input class="color {hash:true,required:false}" name="flexible_main_h2_color" size="8" value="'.encode_field($context['flexible_main_h2_color']).'" maxlength="12" onchange="$(\'h2_sample\').setStyle({\'color\': this.value})" />';
-	$fields[] = array($label, $input);
-
-	// padding
-	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main_h2', 'padding', 'h2_sample'));
-
-	// borders
-	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main_h2', 'h2_sample'));
-
-	// margin
-	$fields[] = array(i18n::s('Margin'), property_helper('flexible_main_h2', 'margin', 'h2_sample'));
-
-	// background
-	$fields[] = array(i18n::s('Background'), background_helper('flexible_main_h2_bg', 'h2_sample', 'skins/flexible/boxes')
-		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
-
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('level 1 title'), $sample.Skin::build_form($fields));
-	$fields = array();
-
-	// h3
-	//
-
-	// text sample
-	$sample = '<h1 id="h3_sample"><span>'.i18n::s('Sample text').'</span></h1>';
-
-	// font
-	$label = i18n::s('Font');
-	$input = select_helper('flexible_main_h3_family', $font_families, 'h3#h3_sample', 'fontFamily')
-		.' '.select_helper('flexible_main_h3_size', $font_sizes, 'h3#h3_sample', 'fontSize')
-		.' '.select_helper('flexible_main_h3_weight', array('normal', 'bold'), 'h3#h3_sample', 'fontWeight');
-	$fields[] = array($label, $input);
-
-	// colors
-	$label = i18n::s('Color');
-	$input = '<input class="color {hash:true,required:false}" name="flexible_main_h3_color" size="8" value="'.encode_field($context['flexible_main_h3_color']).'" maxlength="12" onchange="$(\'h3_sample\').setStyle({\'color\': this.value})" />';	$fields[] = array($label, $input);
-
-	// padding
-	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main_h3', 'padding', 'h3_sample'));
-
-	// borders
-	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main_h3', 'h3_sample'));
-
-	// margin
-	$fields[] = array(i18n::s('Margin'), property_helper('flexible_main_h3', 'margin', 'h3_sample'));
-
-	// background
-	$fields[] = array(i18n::s('Background'), background_helper('flexible_main_h3_bg', 'h3_sample', 'skins/flexible/boxes')
-		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
-
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('level 2 title'), $sample.Skin::build_form($fields));
-	$fields = array();
-
-	// disposition
-	//
-
-	// padding
-	$fields[] = array(i18n::s('Padding'), property_helper('flexible_main', 'padding'));
-
-	// borders
-	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_main'));
-
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
 	$fields = array();
 
 	// bg for the main panel
@@ -1398,9 +1306,31 @@ elseif(!Surfer::is_associate()) {
 	//
 	// navigation boxes ////////////////////////////////////////////
 	//
+	$text = '';
+
+	// width
+	$fields[] = array(i18n::s('Width'), property_helper('flexible_side', 'width', 's_sample'));
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_side', 'padding', 's_sample'));
+
+	// borders
+	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_side', 's_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// panel background
+	$text .= Skin::build_folded_box(i18n::s('Panel background'), background_helper('flexible_side_bg', 's_sample', 'skins/flexible/panels')
+		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=panels', i18n::s('Add a file'), 'span'));
+
+	// box ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Navigation box'), 'header1');
 
 	// visual sample
-	$text = '<div id="s_sample" style="height:150px; width: 400px; border: 1px solid #ccc; padding: 15px; margin: 0 0 1em 0; overflow:hidden;">'
+	$text .= '<div id="s_sample" style="height:150px; width: 400px; border: 1px solid #ccc; padding: 15px; margin: 0 0 1em 0; overflow:hidden;">'
 		.'<dl class="navigation_box" id="sl_sample"><dt id="st_sample"><span>'.i18n::s('Sample box').'</span></dt>'
 		.'<dd id="sd_sample">'.DUMMY_TEXT.'</dd>'
 		.'</dl></div>';
@@ -1486,32 +1416,37 @@ elseif(!Surfer::is_associate()) {
 	$text .= Skin::build_folded_box(i18n::s('Box background'), background_helper('flexible_side_dl_bg', 'sl_sample', 'skins/flexible/boxes')
 		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
 
-	// panel background
-	$text .= Skin::build_folded_box(i18n::s('Panel background'), background_helper('flexible_side_bg', 's_sample', 'skins/flexible/panels')
-		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=panels', i18n::s('Add a file'), 'span'));
-
-	// width
-	$fields[] = array(i18n::s('Width'), property_helper('flexible_side', 'width', 's_sample'));
-
-	// padding
-	$fields[] = array(i18n::s('Padding'), property_helper('flexible_side', 'padding', 's_sample'));
-
-	// borders
-	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_side', 's_sample'));
-
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
-	$fields = array();
-
 	// finalize this panel
 	$panels[] = array('n', i18n::s('Navigation'), 'n_panel', $text);
 
 	//
 	// extra boxes ////////////////////////////////////////////
 	//
+	$text = '';
+
+	// width
+	$fields[] = array(i18n::s('Width'), property_helper('flexible_extra', 'width', 'e_sample'));
+
+	// padding
+	$fields[] = array(i18n::s('Padding'), property_helper('flexible_extra', 'padding', 'e_sample'));
+
+	// borders
+	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_extra', 'e_sample'));
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
+	$fields = array();
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Panel background'), background_helper('flexible_extra_bg', 'e_sample', 'skins/flexible/panels')
+		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=panels', i18n::s('Add a file'), 'span'));
+
+	// box ////////////////////////////////////////////
+	//
+	$text .= Skin::build_block(i18n::s('Extra box'), 'header1');
 
 	// visual sample
-	$text = '<div id="e_sample" style="height:150px; width: 400px; border: 1px solid #ccc; padding: 15px; margin: 0 0 1em 0; overflow:hidden;">'
+	$text .= '<div id="e_sample" style="height:150px; width: 400px; border: 1px solid #ccc; padding: 15px; margin: 0 0 1em 0; overflow:hidden;">'
 		.'<dl class="extra_box" id="el_sample"><dt id="et_sample"><span>'.i18n::s('Sample box').'</span></dt>'
 		.'<dd id="ed_sample">'.DUMMY_TEXT.'</dd>'
 		.'</dl></div>';
@@ -1597,23 +1532,6 @@ elseif(!Surfer::is_associate()) {
 	$text .= Skin::build_folded_box(i18n::s('Box background'), background_helper('flexible_extra_dl_bg', 'el_sample', 'skins/flexible/boxes')
 		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=boxes', i18n::s('Add a file'), 'span'));
 
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('Panel background'), background_helper('flexible_extra_bg', 'e_sample', 'skins/flexible/panels')
-		.'<br style="clear: left" />'.Skin::build_link('skins/flexible/upload.php?directory=panels', i18n::s('Add a file'), 'span'));
-
-	// width
-	$fields[] = array(i18n::s('Width'), property_helper('flexible_extra', 'width', 'e_sample'));
-
-	// padding
-	$fields[] = array(i18n::s('Padding'), property_helper('flexible_extra', 'padding', 'e_sample'));
-
-	// borders
-	$fields[] = array(i18n::s('Borders'), borders_helper('flexible_extra', 'e_sample'));
-
-	// put the set of fields in the page
-	$text .= Skin::build_folded_box(i18n::s('Disposition'), Skin::build_form($fields));
-	$fields = array();
-
 	// finalize this panel
 	$panels[] = array('e', i18n::s('Extras'), 'e_panel', $text);
 
@@ -1638,6 +1556,33 @@ elseif(!Surfer::is_associate()) {
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
+	$fields = array();
+
+	// font
+	$label = i18n::s('Font');
+	$input = select_helper('flexible_footer_a_family', $font_families, 'div#f_sample a', 'fontFamily')
+		.' '.select_helper('flexible_footer_a_size', $font_sizes, 'div#f_sample a', 'fontSize')
+		.' '.select_helper('flexible_footer_a_weight', array('normal', 'bold'), 'div#f_sample a', 'fontWeight');
+	$fields[] = array($label, $input);
+
+	// color of inactive link
+	$label = i18n::s('Link color');
+	$input = '<input class="color {hash:true,required:false}" name="flexible_footer_a_color" size="10" value="'.encode_field($context['flexible_footer_a_color']).'" maxlength="8" onchange="$$(\'div#f_sample a.regular\').each(function(link){link.setStyle({ \'color\': this.value})}.bind(this));" />'
+		.' <input class="color {hash:true,required:false}" name="flexible_footer_a_bg" size="8" value="'.encode_field($context['flexible_footer_a_bg']).'" maxlength="12" onchange="$$(\'div#f_sample a.regular\').each(function(link){link.setStyle({\'backgroundColor\': this.value})}.bind(this))" />'
+		.' '.select_helper('flexible_footer_a_decoration', $text_decorations, 'div#f_sample a.regular', 'textDecoration');
+	$fields[] = array($label, $input);
+	$text .= JS_PREFIX."$$('div#f_sample a.regular').each(function(link){link.setStyle({'backgroundColor': '".$context['flexible_footer_a_bg']."', 'color': '".$context['flexible_footer_a_color']."', 'textDecoration': '".$context['flexible_footer_a_decoration']."'})});".JS_SUFFIX;
+
+	// color of hovered link
+	$label = i18n::s('Hover color');
+	$input = '<input class="color {hash:true,required:false}" name="flexible_footer_h_color" size="10" value="'.encode_field($context['flexible_footer_h_color']).'" maxlength="8" onchange="$$(\'div#f_sample a.current\').each(function(link){link.setStyle({ \'color\': this.value})}.bind(this));" />'
+		.' <input class="color {hash:true,required:false}" name="flexible_footer_h_bg" size="8" value="'.encode_field($context['flexible_footer_h_bg']).'" maxlength="12" onchange="$$(\'div#f_sample a.current\').each(function(link){link.setStyle({\'backgroundColor\': this.value})}.bind(this))" />'
+		.' '.select_helper('flexible_footer_h_decoration', $text_decorations, 'div#f_sample a.current', 'textDecoration');
+	$fields[] = array($label, $input);
+	$text .= JS_PREFIX."$$('div#f_sample a.current').each(function(link){link.setStyle({'backgroundColor': '".$context['flexible_footer_h_bg']."', 'color': '".$context['flexible_footer_h_color']."', 'textDecoration': '".$context['flexible_footer_h_decoration']."'})});".JS_SUFFIX;
+
+	// put the set of fields in the page
+	$text .= Skin::build_folded_box(i18n::s('Links'), Skin::build_form($fields));
 	$fields = array();
 
 	// the background
@@ -1754,6 +1699,12 @@ elseif(!Surfer::is_associate()) {
 		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
 		.'global $context;'."\n"
 		.'$context[\'flexible_body_bg\']=\''.addcslashes($_REQUEST['flexible_body_bg'], "\\'")."';\n"
+		.'$context[\'flexible_breadcrumbs_a_color\']=\''.addcslashes($_REQUEST['flexible_breadcrumbs_a_color'], "\\'")."';\n"
+		.'$context[\'flexible_breadcrumbs_family\']=\''.addcslashes($_REQUEST['flexible_breadcrumbs_family'], "\\'")."';\n"
+		.'$context[\'flexible_breadcrumbs_h_color\']=\''.addcslashes($_REQUEST['flexible_breadcrumbs_h_color'], "\\'")."';\n"
+		.'$context[\'flexible_breadcrumbs_padding\']=\''.addcslashes($_REQUEST['flexible_breadcrumbs_padding'], "\\'")."';\n"
+		.'$context[\'flexible_breadcrumbs_size\']=\''.addcslashes($_REQUEST['flexible_breadcrumbs_size'], "\\'")."';\n"
+		.'$context[\'flexible_breadcrumbs_weight\']=\''.addcslashes($_REQUEST['flexible_breadcrumbs_weight'], "\\'")."';\n"
 		.'$context[\'flexible_columns\']=\''.addcslashes($_REQUEST['flexible_columns'], "\\'")."';\n"
 		.'$context[\'flexible_details_color\']=\''.addcslashes($_REQUEST['flexible_details_color'], "\\'")."';\n"
 		.'$context[\'flexible_details_family\']=\''.addcslashes($_REQUEST['flexible_details_family'], "\\'")."';\n"
@@ -1797,6 +1748,15 @@ elseif(!Surfer::is_associate()) {
 		.'$context[\'flexible_extra_top\']=\''.addcslashes($_REQUEST['flexible_extra_top'], "\\'")."';\n"
 		.'$context[\'flexible_extra_weight\']=\''.addcslashes($_REQUEST['flexible_extra_weight'], "\\'")."';\n"
 		.'$context[\'flexible_extra_width\']=\''.addcslashes($_REQUEST['flexible_extra_width'], "\\'")."';\n"
+		.'$context[\'flexible_footer_a_bg\']=\''.addcslashes($_REQUEST['flexible_footer_a_bg'], "\\'")."';\n"
+		.'$context[\'flexible_footer_a_color\']=\''.addcslashes($_REQUEST['flexible_footer_a_color'], "\\'")."';\n"
+		.'$context[\'flexible_footer_a_decoration\']=\''.addcslashes($_REQUEST['flexible_footer_a_decoration'], "\\'")."';\n"
+		.'$context[\'flexible_footer_a_family\']=\''.addcslashes($_REQUEST['flexible_footer_a_family'], "\\'")."';\n"
+		.'$context[\'flexible_footer_a_size\']=\''.addcslashes($_REQUEST['flexible_footer_a_size'], "\\'")."';\n"
+		.'$context[\'flexible_footer_a_weight\']=\''.addcslashes($_REQUEST['flexible_footer_a_weight'], "\\'")."';\n"
+		.'$context[\'flexible_footer_h_bg\']=\''.addcslashes($_REQUEST['flexible_footer_h_bg'], "\\'")."';\n"
+		.'$context[\'flexible_footer_h_color\']=\''.addcslashes($_REQUEST['flexible_footer_h_color'], "\\'")."';\n"
+		.'$context[\'flexible_footer_h_decoration\']=\''.addcslashes($_REQUEST['flexible_footer_h_decoration'], "\\'")."';\n"
 		.'$context[\'flexible_footer_align\']=\''.addcslashes($_REQUEST['flexible_footer_align'], "\\'")."';\n"
 		.'$context[\'flexible_footer_bg\']=\''.addcslashes($_REQUEST['flexible_footer_bg'], "\\'")."';\n"
 		.'$context[\'flexible_footer_bottom\']=\''.addcslashes($_REQUEST['flexible_footer_bottom'], "\\'")."';\n"
@@ -1984,7 +1944,8 @@ elseif(!Surfer::is_associate()) {
 		$needles[] = '!!width!!';
 		if($context['flexible_width'] == '960px')
 			$values[] = '/* fixed width */'."\n"
-				.'div#page {'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
 				.'	width: 960px;'."\n"
 				.'	text-align: left;'."\n"
 				.'	margin: 0 auto;'."\n"
@@ -1992,37 +1953,42 @@ elseif(!Surfer::is_associate()) {
 
 		elseif($context['flexible_width'] == '850px')
 			$values[] = '/* fixed width */'."\n"
-				.'div#page {'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
 				.'	width: 850px;'."\n"
 				.'	text-align: left;'."\n"
 				.'	margin: 0 auto;'."\n"
 				.'}'."\n";
 
-		elseif($context['flexible_width'] == '640px')
+		elseif($context['flexible_width'] == '760px')
 			$values[] = '/* fixed width */'."\n"
-				.'div#page {'."\n"
-				.'	width: 640px;'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
+				.'	width: 760px;'."\n"
 				.'	text-align: left;'."\n"
 				.'	margin: 0 auto;'."\n"
 				.'}'."\n";
 
 		else
 			$values[] = '/* fluid layout */'."\n"
-				.'div#page {'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
 				.'	width: 100%;'."\n"
 				.'	text-align:left;'."\n"
 				.'	margin:0;'."\n"
 				.'}'."\n";
 
-		// footer panel
+		// header panel
 		$needles[] = '!!header_panel!!';
-		$values[] = 'div#header_panel {'."\n"
+		$values[] = 'tr#header_panel td {'."\n"
  			.'	background: '.$context['flexible_header_bg'].';'."\n"
  			.'	border-bottom: '.$context['flexible_header_bottom'].';'."\n"
  			.'	border-left: '.$context['flexible_header_left'].';'."\n"
  			.'	border-right: '.$context['flexible_header_right'].';'."\n"
  			.'	border-top: '.$context['flexible_header_top'].';'."\n"
  			.'	height: '.$context['flexible_header_height'].';'."\n"
+			.'	margin: 0;'."\n"
+			.'	padding: 0;'."\n"
 			.'	position: relative;'."\n"
 			.'}'."\n\n"
 			.'p#header_title {'."\n"
@@ -2059,7 +2025,7 @@ elseif(!Surfer::is_associate()) {
 			$values[] = 'div.tabs { /* all tabs */'."\n"
 				.'	position: absolute;'."\n"
 				.'	left: 0;'."\n"
-				.'	bottom: 0;'."\n"
+				.'	top: '.minus_helper($context['flexible_header_height'], '23px').';'."\n"
 				.'	background: '.$context['flexible_tabs_bg'].';'."\n"
 				.'	border-bottom: '.$context['flexible_tabs_bottom'].';'."\n"
 				.'	border-left: '.$context['flexible_tabs_left'].';'."\n"
@@ -2089,6 +2055,32 @@ elseif(!Surfer::is_associate()) {
 		} else
 			$values[] = '';
 
+		// breadcrumbs
+		//
+		$needles[] = '!!breadcrumbs!!';
+		$values[] = 'p#crumbs { /* all breadcrumbs */'."\n"
+			.'	font-family: '.$context['flexible_breadcrumbs_family'].';'."\n"
+			.'	font-size: '.$context['flexible_breadcrumbs_size'].';'."\n"
+			.'	font-weight: '.$context['flexible_breadcrumbs_weight'].';'."\n"
+			.'	padding: '.$context['flexible_breadcrumbs_padding'].';'."\n"
+			.'	margin: 0 auto;'."\n"
+			.'	position: relative;'."\n"
+			.'}'."\n"
+			."\n"
+			.'p#crumbs a { /* link */'."\n"
+			.'	color: '.$context['flexible_breadcrumbs_a_color'].';'."\n"
+			.'	font-family: '.$context['flexible_breadcrumbs_family'].';'."\n"
+			.'	font-size: '.$context['flexible_breadcrumbs_size'].';'."\n"
+			.'	font-weight: '.$context['flexible_breadcrumbs_weight'].';'."\n"
+			.'}'."\n"
+			."\n"
+			.'p#crumbs a:hover { /* mouse is hovering */'."\n"
+			.'	color: '.$context['flexible_breadcrumbs_h_color'].';'."\n"
+			.'	font-family: '.$context['flexible_breadcrumbs_family'].';'."\n"
+			.'	font-size: '.$context['flexible_breadcrumbs_size'].';'."\n"
+			.'	font-weight: '.$context['flexible_breadcrumbs_weight'].';'."\n"
+			.'}';
+
 		// main panel
 		//
 		$needles[] = '!!main_panel!!';
@@ -2114,7 +2106,7 @@ elseif(!Surfer::is_associate()) {
 			.'	text-decoration: '.$context['flexible_main_h_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'div#main_panel {'."\n"
+			.'#main_panel {'."\n"
 			.'	background: '.($context['flexible_main_bg']?$context['flexible_main_bg']:'transparent').';'."\n"
 			.'	border-bottom: '.$context['flexible_main_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_main_left'].';'."\n"
@@ -2143,12 +2135,15 @@ elseif(!Surfer::is_associate()) {
 			.'	border-left: '.$context['flexible_main_h1_left'].';'."\n"
 			.'	border-right: '.$context['flexible_main_h1_right'].';'."\n"
 			.'	border-top: '.$context['flexible_main_h1_top'].';'."\n"
+			.'	margin: '.$context['flexible_main_h1_margin'].';'."\n"
+			.'	padding: '.$context['flexible_main_h1_padding'].';'."\n"
+			.'}'."\n"
+			."\n"
+			.'h1, h1 span, h1 span a {'."\n"
 			.'	color: '.$context['flexible_main_h1_color'].';'."\n"
 			.'	font-family: '.$context['flexible_main_h1_family'].';'."\n"
 			.'	font-size: '.$context['flexible_main_h1_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_main_h1_weight'].';'."\n"
-			.'	margin: '.$context['flexible_main_h1_margin'].';'."\n"
-			.'	padding: '.$context['flexible_main_h1_padding'].';'."\n"
 			.'}'."\n";
 
 		// h2
@@ -2160,12 +2155,15 @@ elseif(!Surfer::is_associate()) {
 			.'	border-left: '.$context['flexible_main_h2_left'].';'."\n"
 			.'	border-right: '.$context['flexible_main_h2_right'].';'."\n"
 			.'	border-top: '.$context['flexible_main_h2_top'].';'."\n"
+			.'	margin: '.$context['flexible_main_h2_margin'].';'."\n"
+			.'	padding: '.$context['flexible_main_h2_padding'].';'."\n"
+			.'}'."\n"
+			."\n"
+			.'h2, h2 span, h2 span a {'."\n"
 			.'	color: '.$context['flexible_main_h2_color'].';'."\n"
 			.'	font-family: '.$context['flexible_main_h2_family'].';'."\n"
 			.'	font-size: '.$context['flexible_main_h2_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_main_h2_weight'].';'."\n"
-			.'	margin: '.$context['flexible_main_h2_margin'].';'."\n"
-			.'	padding: '.$context['flexible_main_h2_padding'].';'."\n"
 			.'}'."\n";
 
 		// h3
@@ -2177,28 +2175,21 @@ elseif(!Surfer::is_associate()) {
 			.'	border-left: '.$context['flexible_main_h3_left'].';'."\n"
 			.'	border-right: '.$context['flexible_main_h3_right'].';'."\n"
 			.'	border-top: '.$context['flexible_main_h3_top'].';'."\n"
+			.'	margin: '.$context['flexible_main_h3_margin'].';'."\n"
+			.'	padding: '.$context['flexible_main_h3_padding'].';'."\n"
+			.'}'."\n"
+			."\n"
+			.'h3, h3 span, h3 span a {'."\n"
 			.'	color: '.$context['flexible_main_h3_color'].';'."\n"
 			.'	font-family: '.$context['flexible_main_h3_family'].';'."\n"
 			.'	font-size: '.$context['flexible_main_h3_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_main_h3_weight'].';'."\n"
-			.'	margin: '.$context['flexible_main_h3_margin'].';'."\n"
-			.'	padding: '.$context['flexible_main_h3_padding'].';'."\n"
 			.'}'."\n";
-
-		// maybe the extra and side panels are inverted
-		if(($context['flexible_columns'] == '3_2_1') || ($context['flexible_columns'] == '2_3_1')) {
-			$actual_side = 'extra';
-			$actual_extra = 'side';
-		} else {
-			$actual_side = 'side';
-			$actual_extra = 'extra';
-		}
-		$side_padding = box_helper($context['flexible_side_padding']);
-		$extra_padding = box_helper($context['flexible_extra_padding']);
 
 		// side panel
 		$needles[] = '!!side_panel!!';
-		$values[] = '#'.$actual_side.'_panel {'."\n"
+		$values[] = '#side_panel {'."\n"
+			.'	background: '.$context['flexible_side_bg'].';'."\n"
 			.'	border-bottom: '.$context['flexible_side_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_side_left'].';'."\n"
 			.'	border-right: '.$context['flexible_side_right'].';'."\n"
@@ -2207,11 +2198,11 @@ elseif(!Surfer::is_associate()) {
 			.'	font-family: '.$context['flexible_side_family'].';'."\n"
 			.'	font-size: '.$context['flexible_side_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_side_weight'].';'."\n"
-			.'	padding-bottom: '.$side_padding[3].';'."\n"
-			.'	padding-top: '.$side_padding[0].';'."\n"
+			.'	padding: '.$context['flexible_side_padding'].';'."\n"
+			.'	width: '.$context['flexible_side_width'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_side.'_panel a {'."\n"
+			.'#side_panel a {'."\n"
 			.'	background: '.($context['flexible_side_a_bg']?$context['flexible_side_a_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_side_a_color'].';'."\n"
 			.'	font-family: '.$context['flexible_side_a_family'].';'."\n"
@@ -2220,15 +2211,12 @@ elseif(!Surfer::is_associate()) {
 			.'	text-decoration: '.$context['flexible_side_a_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_side.'_panel a:hover {'."\n"
+			.'#side_panel a:hover {'."\n"
 			.'	background: '.($context['flexible_side_h_bg']?$context['flexible_side_h_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_side_h_color'].';'."\n"
 			.'	text-decoration: '.$context['flexible_side_h_decoration'].';'."\n"
 			.'}'."\n"
 			."\n";
-
-		$needles[] = '!!'.$actual_side.'_background!!';
-		$values[] = $context['flexible_side_bg'];
 
 		// navigation boxes in side panel
 		//
@@ -2260,7 +2248,8 @@ elseif(!Surfer::is_associate()) {
 
 		// extra panel
 		$needles[] = '!!extra_panel!!';
-		$values[] = '#'.$actual_extra.'_panel {'."\n"
+		$values[] = '#extra_panel {'."\n"
+			.'	background: '.$context['flexible_extra_bg'].';'."\n"
 			.'	border-bottom: '.$context['flexible_extra_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_extra_left'].';'."\n"
 			.'	border-right: '.$context['flexible_extra_right'].';'."\n"
@@ -2269,11 +2258,11 @@ elseif(!Surfer::is_associate()) {
 			.'	font-family: '.$context['flexible_extra_family'].';'."\n"
 			.'	font-size: '.$context['flexible_extra_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_extra_weight'].';'."\n"
-			.'	padding-bottom: '.$extra_padding[3].';'."\n"
-			.'	padding-top: '.$extra_padding[0].';'."\n"
+			.'	padding: '.$context['flexible_extra_padding'].';'."\n"
+			.'	width: '.$context['flexible_extra_width'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_extra.'_panel a {'."\n"
+			.'#extra_panel a {'."\n"
 			.'	background: '.($context['flexible_extra_a_bg']?$context['flexible_extra_a_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_extra_a_color'].';'."\n"
 			.'	font-family: '.$context['flexible_extra_a_family'].';'."\n"
@@ -2282,15 +2271,12 @@ elseif(!Surfer::is_associate()) {
 			.'	text-decoration: '.$context['flexible_extra_a_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_extra.'_panel a:hover {'."\n"
+			.'#extra_panel a:hover {'."\n"
 			.'	background: '.($context['flexible_extra_h_bg']?$context['flexible_extra_h_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_extra_h_color'].';'."\n"
 			.'	text-decoration: '.$context['flexible_extra_h_decoration'].';'."\n"
 			.'}'."\n"
 			."\n";
-
-		$needles[] = '!!'.$actual_extra.'_background!!';
-		$values[] = $context['flexible_extra_bg'];
 
 		// extra boxes in extra panel
 		//
@@ -2320,68 +2306,9 @@ elseif(!Surfer::is_associate()) {
 			.'	padding: '.$context['flexible_extra_dd_padding'].';'."\n"
 			.'}'."\n";
 
-		// combined width of size and extra panels
-		$needles[] = '!!combined_width!!';
-		$values[] = plus_helper($context['flexible_side_width'], $context['flexible_extra_width']);
-
-		// position the side panel
-		$needles[] = '!!'.$actual_side.'_width!!';
-		$values[] = $context['flexible_side_width'];
-		$needles[] = '!!'.$actual_side.'_inner_width!!';
-		$values[] = minus_helper(minus_helper($context['flexible_side_width'], $side_padding[1]), $side_padding[3]);
-		$needles[] = '!!'.$actual_side.'_left_padding!!';
-		$values[] = $side_padding[3];
-		$needles[] = '!!'.$actual_side.'_right_padding!!';
-		$values[] = $side_padding[1];
-		$needles[] = '!!side_left!!';
-		if($actual_side == 'side')
-			$values[] = minus_helper($context['flexible_side_width'], $side_padding[1]);
-		else
-			$values[] = minus_helper($context['flexible_extra_width'], $extra_padding[1]);
-
-		// position the extra panel
-		$needles[] = '!!'.$actual_extra.'_width!!';
-		$values[] = $context['flexible_extra_width'];
-		$needles[] = '!!'.$actual_extra.'_inner_width!!';
-		$values[] = minus_helper(minus_helper($context['flexible_extra_width'], $extra_padding[1]), $extra_padding[3]);
-		$needles[] = '!!'.$actual_extra.'_left_padding!!';
-		$values[] = $extra_padding[3];
-		$needles[] = '!!'.$actual_extra.'_right_padding!!';
-		$values[] = $extra_padding[1];
-		$needles[] = '!!extra_left!!';
-		if($actual_side == 'side')
-			$values[] = minus_helper(minus_helper(minus_helper(plus_helper(plus_helper($context['flexible_side_width'], $context['flexible_side_width']), $context['flexible_extra_width']), $side_padding[1]), $side_padding[3]), $extra_padding[1]);
-		else
-			$values[] = minus_helper(minus_helper(minus_helper(plus_helper(plus_helper($context['flexible_extra_width'], $context['flexible_extra_width']), $context['flexible_side_width']), $extra_padding[1]), $extra_padding[3]), $side_padding[1]);
-
-		// more positioning
-		$main_padding = box_helper($context['flexible_main_padding']);
-		$needles[] = '!!main_holly_margin!!';
-		if($actual_side == 'side') {
-			$values[] = '0 '
-				.plus_helper($context['flexible_extra_width'], $main_padding[1])
-				.' 0 '
-				.plus_helper($context['flexible_side_width'], $main_padding[3]);
-		} else {
-			$values[] = '0 '
-				.plus_helper($context['flexible_side_width'], $main_padding[1])
-				.' 0 '
-				.plus_helper($context['flexible_extra_width'], $main_padding[3]);
-		}
-		$needles[] = '!!main_blog_margin!!';
-		$values[] = '0 '
-			.$main_padding[1]
-			.' 0 '
-			.plus_helper(plus_helper($context['flexible_side_width'], $context['flexible_extra_width']), $main_padding[3]);
-		$needles[] = '!!combined_right_margin!!';
-		if($actual_side == 'side')
-			$values[] = plus_helper($side_padding[1], $side_padding[3]);
-		else
-			$values[] = plus_helper($extra_padding[1], $extra_padding[3]);
-
 		// footer panel
 		$needles[] = '!!footer_panel!!';
-		$values[] = 'div#footer_panel {'."\n"
+		$values[] = 'tr#footer_panel td {'."\n"
  			.'	text-align: '.$context['flexible_footer_align'].';'."\n"
  			.'	background: '.$context['flexible_footer_bg'].';'."\n"
  			.'	border-bottom: '.$context['flexible_footer_bottom'].';'."\n"
@@ -2393,7 +2320,23 @@ elseif(!Surfer::is_associate()) {
  			.'	font-size: '.$context['flexible_footer_size'].';'."\n"
  			.'	font-weight: '.$context['flexible_footer_weight'].';'."\n"
  			.'	height: '.$context['flexible_footer_height'].';'."\n"
+			.'	margin: 0;'."\n"
  			.'	padding: '.$context['flexible_footer_padding'].';'."\n"
+			.'}'."\n"
+			."\n"
+			.'#footer_panel a {'."\n"
+ 			.'	background: '.$context['flexible_footer_a_bg'].';'."\n"
+ 			.'	color: '.$context['flexible_footer_a_color'].';'."\n"
+ 			.'	font-family: '.$context['flexible_footer_a_family'].';'."\n"
+ 			.'	font-size: '.$context['flexible_footer_a_size'].';'."\n"
+ 			.'	font-weight: '.$context['flexible_footer_a_weight'].';'."\n"
+ 			.'	text-decoration: '.$context['flexible_footer_a_decoration'].';'."\n"
+			.'}'."\n"
+			."\n"
+			.'#footer_panel a:hover {'."\n"
+ 			.'	background: '.$context['flexible_footer_h_bg'].';'."\n"
+ 			.'	color: '.$context['flexible_footer_h_color'].';'."\n"
+ 			.'	text-decoration: '.$context['flexible_footer_h_decoration'].';'."\n"
 			.'}'."\n";
 
 		// do the transformation

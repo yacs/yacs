@@ -13,6 +13,7 @@
  * @author Bernard Paques
  * @tester Thierry Pinelli (ThierryP)
  * @tester Neige1963
+ * @tester Alain Lesage
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -65,7 +66,9 @@ Class SQL {
 	 * @return TRUE on success, FALSE on failure
 	 */
 	function count(&$result) {
-		if(is_callable('mysqli_num_rows'))
+		if(!$result)
+			return 0;
+		elseif(is_callable('mysqli_num_rows'))
 			return mysqli_num_rows($result);
 		else
 			return mysql_num_rows($result);
@@ -937,7 +940,7 @@ Class SQL {
 					$query .= ", ";
 				$query .= $index.' '.$definition;
 			}
-			$query .= " ) TYPE=MyISAM";
+			$query .= " )";
 
 		// else if the table exists
 		} else {

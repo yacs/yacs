@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-26 15:32+0100\n"
+"POT-Creation-Date: 2011-04-07 21:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,8 +30,8 @@ msgstr ""
 
 #: decisions/check.php:29 decisions/delete.php:74 decisions/edit.php:157
 #: decisions/edit.php:173 decisions/feed.php:101 decisions/index.php:51
-#: decisions/list.php:119 decisions/list.php:124 decisions/mail.php:110
-#: decisions/mail.php:131 decisions/view.php:94
+#: decisions/list.php:119 decisions/list.php:124 decisions/mail.php:104
+#: decisions/mail.php:125 decisions/view.php:94
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -71,12 +72,12 @@ msgid "Start"
 msgstr ""
 
 #: decisions/decisions.php:312 decisions/decisions.php:386
-#: decisions/edit.php:367 decisions/view.php:162
+#: decisions/edit.php:368 decisions/view.php:162
 msgid "Approved"
 msgstr ""
 
 #: decisions/decisions.php:318 decisions/decisions.php:392
-#: decisions/edit.php:364 decisions/view.php:159
+#: decisions/edit.php:365 decisions/view.php:159
 msgid "Rejected"
 msgstr ""
 
@@ -101,7 +102,7 @@ msgid "Approval"
 msgstr ""
 
 #: decisions/decisions.php:787 decisions/decisions.php:793
-#: decisions/edit.php:162 decisions/list.php:108 decisions/mail.php:115
+#: decisions/edit.php:162 decisions/list.php:108 decisions/mail.php:109
 msgid "No anchor has been found."
 msgstr ""
 
@@ -121,7 +122,7 @@ msgstr ""
 msgid "Yes, I want to delete this decision"
 msgstr ""
 
-#: decisions/delete.php:103 decisions/edit.php:398 decisions/mail.php:294
+#: decisions/delete.php:103 decisions/edit.php:399 decisions/mail.php:288
 msgid "Cancel"
 msgstr ""
 
@@ -135,7 +136,7 @@ msgstr ""
 msgid "edited by %s %s"
 msgstr ""
 
-#: decisions/edit.php:146 decisions/mail.php:265
+#: decisions/edit.php:146 decisions/mail.php:259
 #, php-format
 msgid "Decide: %s"
 msgstr ""
@@ -160,11 +161,11 @@ msgstr ""
 msgid "Persons that have been notified"
 msgstr ""
 
-#: decisions/edit.php:238 decisions/mail.php:244
+#: decisions/edit.php:238 decisions/mail.php:238
 msgid "What do you want to do now?"
 msgstr ""
 
-#: decisions/edit.php:240 decisions/list.php:103 decisions/mail.php:246
+#: decisions/edit.php:240 decisions/list.php:103 decisions/mail.php:240
 #: decisions/view.php:183
 msgid "Back to main page"
 msgstr ""
@@ -182,86 +183,86 @@ msgstr ""
 msgid "New decision: %s"
 msgstr ""
 
-#: decisions/edit.php:277
+#: decisions/edit.php:278
 msgid "Preview of your post:"
 msgstr ""
 
-#: decisions/edit.php:279
+#: decisions/edit.php:280
 msgid "Edit your post below"
 msgstr ""
 
-#: decisions/edit.php:294
+#: decisions/edit.php:295
 msgid "Page to review"
 msgstr ""
 
-#: decisions/edit.php:295
+#: decisions/edit.php:296
 msgid "Browse in a separate window"
 msgstr ""
 
-#: decisions/edit.php:302
+#: decisions/edit.php:303
 msgid "Posted by"
 msgstr ""
 
-#: decisions/edit.php:309
+#: decisions/edit.php:310
 msgid "Edited by"
 msgstr ""
 
-#: decisions/edit.php:323
+#: decisions/edit.php:324
 #, php-format
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
 msgstr ""
 
-#: decisions/edit.php:323
+#: decisions/edit.php:324
 msgid "authenticate"
 msgstr ""
 
-#: decisions/edit.php:326
+#: decisions/edit.php:327
 msgid "Your name"
 msgstr ""
 
-#: decisions/edit.php:328
+#: decisions/edit.php:329
 msgid "This optional field can be left blank if you wish"
 msgstr ""
 
-#: decisions/edit.php:332
+#: decisions/edit.php:333
 msgid "Your address"
 msgstr ""
 
-#: decisions/edit.php:334
+#: decisions/edit.php:335
 msgid "e-mail or web address; this field is optional"
 msgstr ""
 
-#: decisions/edit.php:342
+#: decisions/edit.php:343
 msgid "Your decision"
 msgstr ""
 
-#: decisions/edit.php:344
+#: decisions/edit.php:345
 msgid "Decision"
 msgstr ""
 
-#: decisions/edit.php:378
+#: decisions/edit.php:379
 msgid "Your motivation"
 msgstr ""
 
-#: decisions/edit.php:380
+#: decisions/edit.php:381
 msgid "Motivation"
 msgstr ""
 
-#: decisions/edit.php:395 decisions/mail.php:291
+#: decisions/edit.php:396 decisions/mail.php:285
 msgid "Submit"
 msgstr ""
 
-#: decisions/edit.php:395 decisions/mail.php:291
+#: decisions/edit.php:396 decisions/mail.php:285
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: decisions/edit.php:405
+#: decisions/edit.php:406
 msgid "Do not change modification date of the main page."
 msgstr ""
 
-#: decisions/edit.php:408
+#: decisions/edit.php:409
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
@@ -298,11 +299,6 @@ msgstr ""
 msgid "Recent pages"
 msgstr ""
 
-#: decisions/layout_decisions_as_feed.php:50
-#, php-format
-msgid "%s: %s"
-msgstr ""
-
 #: decisions/layout_decisions.php:62
 #, php-format
 msgid "Rejected %s"
@@ -331,6 +327,11 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
+#: decisions/layout_decisions_as_feed.php:50
+#, php-format
+msgid "%s: %s"
+msgstr ""
+
 #: decisions/list.php:163
 #, php-format
 msgid "%d decision"
@@ -338,83 +339,79 @@ msgid_plural "%d decisions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: decisions/mail.php:69
+#: decisions/mail.php:63
 msgid "You are personally invited to express your decision on following page."
 msgstr ""
 
-#: decisions/mail.php:105
+#: decisions/mail.php:99 decisions/mail.php:241 decisions/mail.php:252
 msgid "Ask for a decision"
 msgstr ""
 
-#: decisions/mail.php:120
+#: decisions/mail.php:114
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: decisions/mail.php:136
+#: decisions/mail.php:130
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: decisions/mail.php:140 decisions/mail.php:315
+#: decisions/mail.php:134 decisions/mail.php:309
 msgid "Please provide a recipient address."
 msgstr ""
 
-#: decisions/mail.php:178
+#: decisions/mail.php:172
 #, php-format
 msgid "Visit %s to get more interesting pages."
 msgstr ""
 
-#: decisions/mail.php:220
+#: decisions/mail.php:214
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: decisions/mail.php:234
+#: decisions/mail.php:228
 #, php-format
 msgid "Copy: %s"
 msgstr ""
 
-#: decisions/mail.php:235
+#: decisions/mail.php:229
 msgid "This is a copy of the message you have sent, for your own record."
 msgstr ""
 
-#: decisions/mail.php:239
+#: decisions/mail.php:233
 #, php-format
 msgid "Your message is being transmitted to %s"
 msgstr ""
 
-#: decisions/mail.php:247 decisions/mail.php:258
-msgid "Invite participants"
-msgstr ""
-
-#: decisions/mail.php:260
+#: decisions/mail.php:254
 msgid "Enter nick names, or email addresses, separated by commas."
 msgstr ""
 
-#: decisions/mail.php:264
+#: decisions/mail.php:258
 msgid "Message title"
 msgstr ""
 
-#: decisions/mail.php:275
+#: decisions/mail.php:269
 msgid "Message content"
 msgstr ""
 
-#: decisions/mail.php:276
+#: decisions/mail.php:270
 msgid "Please let me thank you for your involvement."
 msgstr ""
 
-#: decisions/mail.php:279
+#: decisions/mail.php:273
 msgid "Use only plain ASCII, no HTML."
 msgstr ""
 
-#: decisions/mail.php:300
+#: decisions/mail.php:294
 msgid "Send me a copy of this message."
 msgstr ""
 
-#: decisions/mail.php:322
+#: decisions/mail.php:316
 msgid "Please provide a meaningful title."
 msgstr ""
 
-#: decisions/mail.php:329
+#: decisions/mail.php:323
 msgid "Message content can not be empty."
 msgstr ""
 

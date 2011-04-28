@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-26 11:33+0100
-PO-Revision-Date: 2011-01-26 13:27+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: English
-';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['83e6e48752cf497b046199e45dd354ed']='A list of e-mail addresses allowed to post to this queue, or \'any_member\', \'any_subscriber\', or \'anyone\' (do not replicate associates addresses)';
@@ -83,10 +68,8 @@ $_SESSION['l10n']['en']['The POP3 password']='The POP3 password';
 $_SESSION['l10n']['en']['The POP3 user name']='The POP3 user name';
 $_SESSION['l10n']['en']['b7112832e54441549cb9b3531ff53657']='The boundary used to locate signatures (e.g., \'___\' for Yahoo mail)';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
-$_SESSION['l10n']['en']['c6d7dacb7306d1ae7dc2459ce581bd0a']='The page received by e-mail has been posted.
-Don\'t forget to read it online. Then click on the Publish command to make it publicly available.';
-$_SESSION['l10n']['en']['7a5f4f2978a3da651a7199d89a8cda14']='The page received by e-mail has been successfully published.
-Please review it now to ensure that it reflects your mind.';
+$_SESSION['l10n']['en']['c6d7dacb7306d1ae7dc2459ce581bd0a']='The page received by e-mail has been posted. Don\'t forget to read it online. Then click on the Publish command to make it publicly available.';
+$_SESSION['l10n']['en']['7a5f4f2978a3da651a7199d89a8cda14']='The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind.';
 $_SESSION['l10n']['en']['37e9184187437711aaa070624ba60528']='The section to post new pages (e.g., \'section:2343\')';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $_SESSION['l10n']['en']['946f1d0811c618fdbe17d8a92a15c312']='To get the full list of events, please download %s.';

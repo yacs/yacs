@@ -64,7 +64,7 @@ Class Layout_users_as_mail extends Layout_interface {
 				$my_checked = $checked;
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'user:'.$item['id']);
 
 			// column to select the row
 			$text .= '<input type="checkbox" name="selected_users[]" class="row_selector" value="'.encode_field($item['email']).'"'.$my_checked.' />';

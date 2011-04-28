@@ -2,8 +2,6 @@
 /**
  * view one section
  *
- * @todo index presentation of articles (agnes)
- *
  * The main panel has following elements:
  * - top icons, if any --set in sub-section
  * - the section itself, with details, introduction, and main text.
@@ -150,6 +148,7 @@ include_once '../links/links.php';				// related pages
 include_once '../overlays/overlay.php';
 include_once '../servers/servers.php';
 include_once '../versions/versions.php';		// back in history
+include_once '../sections/section.php';
 
 // look for the id
 $id = NULL;
@@ -216,7 +215,7 @@ $item =& Sections::get($id);
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // get the overlay for content of this section, if any
 $content_overlay = NULL;
@@ -261,7 +260,6 @@ else
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // clear the tab we are in
-$context['current_focus'] = array();
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 if(isset($item['id']))
@@ -349,10 +347,6 @@ if(!isset($item['id'])) {
 
 // display the section
 } else {
-
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'section:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Sections::get_permalink($item);
 
 	// behaviors can change page menu
 	if(is_object($behaviors))
@@ -444,7 +438,7 @@ if(!isset($item['id'])) {
 
 		// tags, if any
 		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags'], 'section:'.$item['id']);
+			$context['page_tags'] =& Skin::build_tags($item['tags']);
 
 		// one detail per line
 		$text = '<p class="details">';
@@ -511,21 +505,25 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
 		// section owner
-		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+		if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
 			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
 		// section editors and readers
-		if(Surfer::is_logged()) {
-			if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
-				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
+		if(is_object($anchor))
+			$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
+		else
+			$anchors = 'section:'.$item['id'];
+		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
-			if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
-				$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
-		}
+		if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('Readers: %s'), $items);
 
 		// page watchers
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], 0, 50, 'comma')))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Watchers'), Skin::build_list($items, 'comma'));
+		if($item['active'] == 'N')
+			$anchors = Sections::get_hidden_sections($item, $anchor);
+		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		// display details, if any
 		if(count($details))
@@ -717,16 +715,16 @@ if(!isset($item['id'])) {
 
 	}
 
-	// notify participants
-	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
-		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
-	}
-
 	// invite participants
 	if((Sections::is_owned($item, $anchor, TRUE) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
+	}
+
+	// notify participants
+	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// manage editors
@@ -749,7 +747,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'newlines'), 'share', 'share');
 
 	// 'Monitor' box
 	$lines = array();
@@ -773,7 +771,7 @@ if(!isset($item['id'])) {
 	// allow to leave the section
 	if(Sections::is_assigned($item['id']) && !Sections::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
 
 	// get news from rss
@@ -1207,10 +1205,14 @@ if(!isset($item['id'])) {
 				$order = 'edition';
 
 			// list pages under preparation
-			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
-				if(is_array($items))
-					$items = Skin::build_list($items, 'compact');
-				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+			$this_section = new section;
+			$this_section->load_by_content($item, $anchor);
+			if($this_section->is_assigned()) {
+				if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+					if(is_array($items))
+						$items = Skin::build_list($items, 'compact');
+					$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
+				}
 			}
 
 			// top menu
@@ -1592,9 +1594,7 @@ if(!isset($item['id'])) {
 			}
 
 			// the maximum number of sections per page
-			if(isset($item['sections_count']) && ($item['sections_count'] > 1))
-				$items_per_page = $item['sections_count'];
-			elseif(is_object($layout))
+			if(is_object($layout))
 				$items_per_page = $layout->items_per_page();
 			else
 				$items_per_page = SECTIONS_PER_PAGE;
@@ -1673,7 +1673,7 @@ if(!isset($item['id'])) {
 
 		// displayed as another box
 		if($items)
-			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, FALSE));
+			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, TRUE));
 
 	}
 
@@ -1803,6 +1803,12 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
 		}
 
+	}
+
+	// commands for associates
+	if(Surfer::is_associate()) {
+		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'export'), SECTIONS_DUPLICATE_IMG.i18n::s('Export this section'));
 	}
 
 }

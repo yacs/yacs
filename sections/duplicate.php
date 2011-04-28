@@ -40,7 +40,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -92,15 +92,15 @@ if(!isset($item['id'])) {
 	$item['title'] = sprintf(i18n::s('Copy of %s'), $item['title']);
 	$item['index_title'] = $item['title'];
 
-	// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
-	$overlay = Overlay::load($item);
-
 	// create a new page
 	if($item['id'] = Sections::post($item, FALSE)) {
 
+		// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+		$overlay = Overlay::load($item, 'section:'.$item['id']);
+
 		// post an overlay, with the new section id
 		if(is_object($overlay))
-			$overlay->remember('insert', $item);
+			$overlay->remember('insert', $item, 'section:'.$item['id']);
 
 		// duplicate all related items, images, etc.
 		Anchors::duplicate_related_to($original_anchor, 'section:'.$item['id']);

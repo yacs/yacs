@@ -575,10 +575,6 @@ Class Files {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-//		// strip extra text from enhanced ids '3-page-title' -> '3'
-//		if($position = strpos($id, '-'))
-//			$id = substr($id, 0, $position);
-
 		// cache previous answers
 		static $cache;
 		if(!is_array($cache))
@@ -1365,10 +1361,10 @@ Class Files {
 		else
 			$icon = $context['url_to_root'].Files::get_icon_url($item['file_name']);
 
-		// a clickable image to download the file
+		// a clickable image to access the file
 		if($icon) {
 			$icon = '<img src="'.$icon.'" />';
-			return Skin::build_link(Files::get_url($item['id'], Files::is_stream($item['file_name'])?'stream':'fetch', $item['file_name']), $icon, 'basic').BR;
+			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
 		}
 
 		// nothing special
@@ -2254,13 +2250,7 @@ Class Files {
 		$where = '('.$where.')';
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "

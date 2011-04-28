@@ -43,10 +43,33 @@ load_skin('query');
 // the title of the page
 $context['page_title'] = i18n::s('Help');
 
+// get a section for queries
+if(!$anchor =& Anchors::get('section:queries')) {
+	$fields = array();
+	$fields['nick_name'] = 'queries';
+	$fields['title'] =& i18n::c('Queries');
+	$fields['introduction'] =& i18n::c('Submitted to the webmaster by any surfers');
+	$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
+	$fields['locked'] = 'Y'; // no direct contributions
+	$fields['active_set'] = 'N'; // for associates only
+	$fields['home_panel'] = 'none'; // content is not pushed at the front page
+	$fields['index_map'] = 'N'; // listed only to associates
+
+	// reference the new section
+	if($fields['id'] = Sections::post($fields, FALSE))
+		$anchor =& Anchors::get('section:'.$fields['id']);
+}
+$_REQUEST['anchor'] = $anchor->get_reference();
+
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // post a new query
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -62,24 +85,6 @@ if(Surfer::is_crawler()) {
 
 	// this is the exact copy of what end users has typed
 	$item = $_REQUEST;
-
-	// get a section for queries
-	if(!$anchor =& Anchors::get('section:queries')) {
-		$fields = array();
-		$fields['nick_name'] = 'queries';
-		$fields['title'] =& i18n::c('Queries');
-		$fields['introduction'] =& i18n::c('Submitted to the webmaster by any surfers');
-		$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
-		$fields['locked'] = 'Y'; // no direct contributions
-		$fields['active_set'] = 'N'; // for associates only
-		$fields['home_panel'] = 'none'; // content is not pushed at the front page
-		$fields['index_map'] = 'N'; // listed only to associates
-
-		// reference the new section
-		if($fields['id'] = Sections::post($fields, FALSE))
-			$anchor =& Anchors::get('section:'.$fields['id']);
-	}
-	$_REQUEST['anchor'] = $anchor->get_reference();
 
 	// from form fields to record columns
 	if(!isset($_REQUEST['edit_id']))
@@ -114,6 +119,9 @@ if(Surfer::is_crawler()) {
 
 	// post-processing
 	} else {
+
+		// update anchors and forward notifications
+		$anchor->touch('article:create', $_REQUEST['id'], TRUE, TRUE);
 
 		// message to the query poster
 		$context['page_title'] = i18n::s('Your query has been registered');

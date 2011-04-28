@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 11:49+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Language: English
-';
 $_SESSION['l10n']['en']['%d category'.chr(0).'%d categories']='%d category'.chr(0).'%d categories';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
@@ -66,7 +51,7 @@ $_SESSION['l10n']['en']['4158dec895b46349386efea0e7ee92a9']='Contribute to the w
 $_SESSION['l10n']['en']['Contribution to "%s"']='Contribution to "%s"';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete this category']='Delete this category';
-$_SESSION['l10n']['en']['Deletion: %s']='Delete: %s';
+$_SESSION['l10n']['en']['Deletion: %s']='Deletion: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not list categories']='Do not list categories';
@@ -109,7 +94,6 @@ $_SESSION['l10n']['en']['Keywords update']='Keywords update';
 $_SESSION['l10n']['en']['Layout']='Layout';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['932f09e2a8f6216bed67e5409a6369b0']='Links can be added to the index page';
-$_SESSION['l10n']['en']['ecc7ab4a52b62f6e4deb6339dc119ec5']='List up to %s sections with the following layout:';
 $_SESSION['l10n']['en']['b50b92192131c5e24b75ab0be52428e8']='List up to %s sub-categories with the following layout:';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
@@ -141,8 +125,6 @@ $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Parent category']='Parent category';
-$_SESSION['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public, and this will be re-enforced anyway';
-$_SESSION['l10n']['en']['41dd8514175d79f308930ada3e52bf01']='Parent is private, and this will be re-enforced anyway';
 $_SESSION['l10n']['en']['Persons']='Persons';
 $_SESSION['l10n']['en']['9f4692b25599584f9f5ce45a2428bb91']='Please carefully select a parent category.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
@@ -154,7 +136,6 @@ $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
-$_SESSION['l10n']['en']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Everybody, including anonymous surfers';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['Rank']='Rank';
 $_SESSION['l10n']['en']['Rebuild title paths']='Rebuild title paths';
@@ -218,7 +199,6 @@ $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['6214aa6c778c69428ff7146f8e56867a']='Warning: No script exists for the customized layout %s';
 $_SESSION['l10n']['en']['Week of&nbsp;%s']='Week of&nbsp;%s';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
-$_SESSION['l10n']['en']['Who is allowed to access?']='Who is allowed to access?';
 $_SESSION['l10n']['en']['YACS can list most recent items']='YACS can list most recent items';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['Yahoo!']='Yahoo!';

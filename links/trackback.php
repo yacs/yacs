@@ -57,7 +57,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once 'links.php';
 
 // the source url
 $source = NULL;
@@ -130,8 +129,6 @@ if(Surfer::is_crawler()) {
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
 		Logger::remember('links/trackback.php', 'trackback request', $_REQUEST, 'debug');
 
-	include_once $context['path_to_root'].'links/link.php';
-
 	// do we have a valid target to track?
 	if(!$anchor || !is_object($anchor))
 		$response = array('faultCode' => 1, 'faultString' => 'Nothing to track');
@@ -141,7 +138,7 @@ if(Surfer::is_crawler()) {
 		$response = array('faultCode' => 1, 'faultString' => 'The source has already been registered');
 
 	// read the source file
-	elseif(($content = Link::fetch($source, '', '', 'links/trackback.php')) === FALSE)
+	elseif(($content = http::proceed($source, '', '', 'links/trackback.php')) === FALSE)
 		$response = array('faultCode' => 1, 'faultString' => 'Cannot read source address '.$source);
 
 	// we have to find a reference to the target here

@@ -64,6 +64,9 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 if(isset($item['nick_name']))
 	$context['page_title'] .= sprintf(i18n::s('Mail to %s'), $item['full_name']);
 
+// do not provide the form to capture the message
+$with_form = FALSE;
+
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -129,24 +132,43 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// enable yacs codes in messages
 	$text = Codes::beautify($_REQUEST['message']);
 
-	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	// nothing to do
+	if(!$subject || !$text) {
+		Logger::error('Please provide a subject and some text for your message.');
+		$with_form = TRUE;
 
-	// send the message
-	if(Mailer::post($from, $to, $subject, $message)) {
+	// do the post
+	} else {
 
-		// feed-back to the sender
-		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
+		// preserve tagging as much as possible
+		$message = Mailer::build_message($subject, $text);
 
-		// signal that a copy has been forwarded as well
-		if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
-			$context['text'] .= '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
+		// send the message
+		if(Mailer::post($from, $to, $subject, $message)) {
+
+			// feed-back to the sender
+			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
+
+			// signal that a copy has been forwarded as well
+			if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+				$context['text'] .= '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
+
+		}
+		Mailer::close();
+
+		// back to user profile
+		$menu = array();
+		$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Done'), 'button');
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 
 	}
-	Mailer::close();
+
+// the default case
+} else
+	$with_form = TRUE;
 
 // display the form
-} else {
+if($with_form) {
 
 	// name
 	if(isset($item['full_name']))
@@ -209,13 +231,6 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		.'	// title is mandatory'."\n"
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
-		.'	if(!container.message.value) {'."\n"
-		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"

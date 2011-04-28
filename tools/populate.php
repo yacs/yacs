@@ -2,7 +2,7 @@
 /**
  * populate the database with test data
  *
- * @todo 'retrspective_template' http://www.eu.socialtext.net/open/index.cgi?retrospective_template
+ * @todo 'retrospective_template' http://www.eu.socialtext.net/open/index.cgi?retrospective_template
  * @todo 'case_study' http://www.eu.socialtext.net/cases2/index.cgi?case_template
  *
  * This script helps to create a suitable environment for demonstration and for
@@ -27,7 +27,6 @@
  *
  * Sample calendar:
  * - 'events' - a sample calendar of planned events
- * - 'event_template' - for pages to be added to the event calendar
  *
  * Sample forums:
  * - 'forums' - top-level section for forums
@@ -59,7 +58,6 @@
  * - 'wiki_anonymous_page' - an article in 'wiki_anonymous'
  * - 'wiki_members' - a section that can be modified by authenticated persons
  * - 'wiki_members_page' - an article in 'wiki_anonymous'
- * - 'wiki_template' - to create a wiki page
  *
  * Following sections are created:
  * - 'files' - a sample library of files
@@ -452,35 +450,12 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = i18n::c('Every page in this section is featured in a nice-looking calendar.');
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['content_options'] = 'auto_publish'; // ease the job
-		$fields['content_overlay'] = 'day'; // calendar layout
+		$fields['content_overlay'] = 'event'; // calendar layout
 		$fields['articles_templates'] = 'event_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of events
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
-	// 'event_template' article
-	if(Articles::get('event_template'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'event_template').BR."\n";
-	elseif($anchor = Sections::lookup('templates')) {
-		$fields = array();
-		$fields['anchor'] = $anchor;
-		$fields['nick_name'] = 'event_template';
-		$fields['title'] = i18n::c('Event');
-		$fields['introduction'] = i18n::c('Use this page model to add a new event to the calendar');
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		include_once '../overlays/overlay.php';
-		$overlay = Overlay::bind('day');
-		$fields['overlay'] = $overlay->save();
-		$fields['overlay_id'] = $overlay->get_id();
-
-		if($fields['id'] = Articles::post($fields)) {
-			$overlay->remember('insert', $fields);
-			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
-		} else
 			$text .= Logger::error_pop().BR."\n";
 	}
 
@@ -498,6 +473,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Sample discussion places');
 		$fields['sections_layout'] = 'yabb';
 		$fields['articles_layout'] = 'none';
+		$fields['articles_templates'] = 'discussion_template';
 		$fields['locked'] = 'Y';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -516,8 +492,8 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Real-time collaboration');
 		$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
-		$fields['articles_layout'] = 'map'; // list threads appropriately
-		$fields['content_options'] = 'view_as_chat'; // change the rendering script for articles
+		$fields['content_overlay'] = 'event layout_as_list'; // list threads appropriately
+		$fields['articles_templates'] = 'chat_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -534,6 +510,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'support_chat';
 		$fields['title'] = i18n::c('Interactive support');
 		$fields['introduction'] = i18n::c('To seek for help from other members of the community');
+		$fields['options'] = 'edit_as_thread views_as_chat';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -551,7 +528,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('My yabb discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'yabb';
-		$fields['sections_layout'] = 'yabb';
+		$fields['articles_templates'] = 'discussion_template, chat_template';
 		$fields['content_options'] = 'auto_publish, with_extra_profile';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -567,8 +544,8 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'yabb_thread';
 		$fields['title'] = i18n::c('Sample yabb thread');
-		$fields['introduction'] = i18n::c('Sample article with its set of comments');
-		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##yabb## layout.');
+		$fields['introduction'] = i18n::c('This page demonstrates the rendering of the ##yabb## layout.');
+		$fields['options'] = 'edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -608,6 +585,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('My jive discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'jive'; // a threading layout
+		$fields['articles_templates'] = 'discussion_template, chat_template';
 		$fields['content_options'] = 'auto_publish'; // let surfers rate their readings
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -623,8 +601,8 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'jive_thread';
 		$fields['title'] = i18n::c('Sample jive thread');
-		$fields['introduction'] = i18n::c('Sample article with its set of comments');
-		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##jive## layout.');
+		$fields['introduction'] = i18n::c('This page demonstrates the rendering of the ##jive## layout.');
+		$fields['options'] = 'edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -728,6 +706,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Sample project web space');
 		$fields['options'] = 'view_as_tabs';
 		$fields['sections_layout'] = 'folded'; // show many articles in sections tab
+		$fields['articles_options'] = 'view_as_wiki comments_as_wall edit_as_simple'; // a set of wiki pages
 		if($id = Sections::post($fields)) {
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 
@@ -750,6 +729,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'project_public_page';
 		$fields['title'] = i18n::c('Project description');
 		$fields['introduction'] = i18n::c('This is a public page that describes the project.');
+		$fields['options'] = 'view_as_wiki comments_as_wall edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -767,7 +747,8 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Project private area');
 		$fields['active_set'] = 'N'; // for editors only
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
-		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
+		$fields['articles_templates'] = 'discussion_template, event_template';
+		$fields['content_options'] = 'with_extra_profile, comments_as_wall'; // put poster profile aside
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
 		if(Sections::post($fields))
@@ -785,6 +766,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'project_private_page';
 		$fields['title'] = i18n::c('Project contribution');
 		$fields['introduction'] = i18n::c('This is a private page that is part of project internal discussions.');
+		$fields['options'] = 'edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -901,7 +883,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Anonymous wiki');
 		$fields['introduction'] = i18n::c('Anyone can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
-		$fields['content_options'] = 'view_as_wiki anonymous_edit auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki anonymous_edit edit_as_simple auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -956,7 +938,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Restricted wiki');
 		$fields['introduction'] = i18n::c('Authenticated persons can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
-		$fields['content_options'] = 'view_as_wiki members_edit auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki members_edit edit_as_simple auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -972,23 +954,6 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'wiki_members_page';
 		$fields['title'] = i18n::c('Sample wiki page');
 		$fields['description'] = i18n::c("Use the command 'Edit this page' to add some text or to change this content.");
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
-		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
-	// 'wiki_template' article
-	if(Articles::get('wiki_template'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'wiki_template').BR."\n";
-	elseif($anchor = Sections::lookup('templates')) {
-		$fields = array();
-		$fields['anchor'] = $anchor;
-		$fields['nick_name'] = 'wiki_template';
-		$fields['title'] = i18n::c('Wiki page');
-		$fields['introduction'] = i18n::c('Use this page model to add a page that can be modified by any surfer');
-		$fields['options'] = 'view_as_wiki edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";

@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-26 11:33+0100
-PO-Revision-Date: 2011-01-26 13:22+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-SourceCharset: utf-8
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-Language: English
-';
 $_SESSION['l10n']['en']['%d result'.chr(0).'%d results']='%d result'.chr(0).'%d results';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
@@ -164,6 +149,7 @@ $_SESSION['l10n']['en']['New query: %s']='New query: %s';
 $_SESSION['l10n']['en']['News']='News';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['No']='No';
+$_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No page to display.']='No page to display.';
 $_SESSION['l10n']['en']['6601018830e1fe22681935a255feda03']='Normally we are not using upper case letters, and no spacing sign.';
 $_SESSION['l10n']['en']['OK']='OK';

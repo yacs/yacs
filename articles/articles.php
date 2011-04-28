@@ -101,6 +101,7 @@
  * @tester Mark
  * @tester Fernand Le Chien
  * @tester NickR
+ * @tester Denis Flouriot
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -587,6 +588,57 @@ Class Articles {
 	}
 
 	/**
+	 * build the field to capture article option
+	 *
+	 * @see articles/edit.php
+	 *
+	 * @param array the edited item
+	 * @return string text to be put in the form
+	 */
+	function build_options_input($item) {
+		global $context;
+
+		$text = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
+			.JS_PREFIX
+			.'function append_to_options(keyword) {'."\n"
+			.'	var target = $("options");'."\n"
+			.'	target.value = target.value + " " + keyword;'."\n"
+			.'}'."\n"
+			.JS_SUFFIX;
+		return $text;
+	}
+
+	/**
+	 * build the hint to help on article options
+	 *
+	 * @see articles/edit.php
+	 *
+	 * @return string text to be put in the form
+	 */
+	function build_options_hint() {
+		global $context;
+
+		$keywords = array();
+		$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
+		$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
+		$keywords[] = '<a onclick="append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+		$keywords[] = '<a onclick="append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments');
+		$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
+		$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_wiki\')" style="cursor: pointer;">view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
+		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
+		$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
+		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
+		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
+		$text = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+		return $text;
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -732,20 +784,20 @@ Class Articles {
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT articles.id"
+			$query = "(SELECT articles.id"
 				." FROM (".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('articles')." AS articles)"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -754,7 +806,13 @@ Class Articles {
 			$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE articles.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include articles owned by this surfer
+		$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE articles.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// count records
 		return SQL::query_count($query);
@@ -789,11 +847,8 @@ Class Articles {
 
 		// remember overlay deletion
 		include_once '../overlays/overlay.php';
-		if(isset($item['overlay']) && ($overlay = Overlay::load($item))) {
-			$item['self_reference'] = 'article:'.$item['id'];
-			$item['self_url'] = Articles::get_permalink($item);
+		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])))
 			$overlay->remember('delete', $item);
-		}
 
 		// job done
 		return TRUE;
@@ -990,10 +1045,10 @@ Class Articles {
 		// end of active filter
 		$where = '('.$where.')';
 
-		// list up to 200 sections
+		// limit the overall list of results
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$active
-			." LIMIT 200";
+			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
+			." LIMIT 5000";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
 			return $output;
@@ -1450,7 +1505,7 @@ Class Articles {
 	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
-		// id of requesting user
+		// ownership requires to be authenticated
 		if(!$user_id) {
 			if(!Surfer::get_id())
 				return FALSE;
@@ -1471,6 +1526,10 @@ Class Articles {
 
 		// surfer owns parent container
 		if($anchor->is_owned($user_id))
+			return TRUE;
+
+		// page has not been created yet, section is not private, and surfer is member --not subscriber
+		if(!$strict && !isset($item['id']) && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden())
 			return TRUE;
 
 		// page is not private, and surfer is editor --not subscriber-- of parent container
@@ -1725,59 +1784,6 @@ Class Articles {
 	}
 
 	/**
-	 * list these articles
-	 *
-	 * The first parameter can be either a string containing several ids or nick
-	 * names separated by commas, or it can be an array of ids or nick names.
-	 *
-	 * The second parameter can be either a string accepted by Articles::list_selected(),
-	 * or an instance of the Layout interface.
-	 *
-	 * @param mixed a list of ids or nick names
-	 * @param mixed the layout to apply
-	 * @return string to be inserted into the resulting page
-	 */
-	function &list_by_title_for_ids($ids, $layout='select') {
-		global $context;
-
-		// turn a string to an array
-		if(!is_array($ids))
-			$ids = preg_split('/,\s*/', (string)$ids);
-
-		// check every id
-		$items = array();
-		foreach($ids as $id) {
-
-			// we need some id
-			if(!$id)
-				continue;
-
-			// look by id or by nick name
-			if(is_numeric($id))
-				$items[] = "articles.id = ".SQL::escape($id);
-			else
-				$items[] = "articles.nick_name LIKE '".SQL::escape($id)."'";
-
-		}
-
-		// no valid id has been found
-		if(!count($items)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// the list of articles
-		$query = "SELECT articles.*"
-			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".join(' OR ', $items).")"
-			." ORDER BY articles.title";
-
-		// query and layout
-		$output =& Articles::list_selected(SQL::query($query), $layout);
-		return $output;
-	}
-
-	/**
 	 * list articles attached to one anchor
 	 *
 	 * The ordering method is provided by layout.
@@ -1993,6 +1999,56 @@ Class Articles {
 	}
 
 	/**
+	 * list these articles
+	 *
+	 * The first parameter can be either a string containing several ids or nick
+	 * names separated by commas, or it can be an array of ids or nick names.
+	 *
+	 * The second parameter can be either a string accepted by Articles::list_selected(),
+	 * or an instance of the Layout interface.
+	 *
+	 * @param mixed a list of ids or nick names
+	 * @param mixed the layout to apply
+	 * @return string to be inserted into the resulting page
+	 */
+	function &list_for_ids($ids, $layout='select') {
+		global $context;
+
+		// turn a string to an array
+		if(!is_array($ids))
+			$ids = preg_split('/[\s,]+/', (string)$ids);
+
+		// check every id
+		$queries = array();
+		foreach($ids as $id) {
+
+			// we need some id
+			if(!$id)
+				continue;
+
+			// look by id or by nick name
+			if(is_numeric($id))
+				$queries[] = "SELECT * FROM ".SQL::table_name('articles')." WHERE (id = ".SQL::escape($id).")";
+			else
+				$queries[] = "SELECT * FROM ".SQL::table_name('articles')." WHERE (nick_name LIKE '".SQL::escape($id)."')";
+
+		}
+
+		// no valid id has been found
+		if(!count($queries)) {
+			$output = NULL;
+			return $output;
+		}
+
+		// return pages in the order of argument received
+		$query = "(".join(') UNION (', $queries).")";
+
+		// query and layout
+		$output =& Articles::list_selected(SQL::query($query), $layout);
+		return $output;
+	}
+
+	/**
 	 * list named articles
 	 *
 	 * This function lists all articles with the same nick name.
@@ -2084,20 +2140,20 @@ Class Articles {
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT articles.*"
+			$query = "(SELECT articles.*"
 				." FROM (".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('articles')." AS articles)"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -2106,7 +2162,13 @@ Class Articles {
 			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE articles.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include articles owned by this surfer
+		$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE articles.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// finalize the query
 		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;
@@ -2216,8 +2278,20 @@ Class Articles {
 	 * @return string either 'article:&lt;id&gt;', or NULL
 	 */
 	function lookup($nick_name) {
+		global $context;
+
+		// the page already exists
 		if($item =& Articles::get($nick_name))
 			return 'article:'.$item['id'];
+
+		// attempt to create a default item
+		Articles::post_default($nick_name);
+
+		// do the check again
+		if($item =& Articles::get($nick_name))
+			return 'article:'.$item['id'];
+
+		// tough luck
 		return NULL;
 	}
 
@@ -2340,7 +2414,8 @@ Class Articles {
 		}
 
 		// always create a random handle for this article
-		$fields['handle'] = md5(mt_rand());
+		if(!isset($fields['handle']) || (strlen($fields['handle']) < 32))
+			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
 		// allow anonymous surfer to access this page during his session
@@ -2371,6 +2446,32 @@ Class Articles {
 
 		// return the id of the new item
 		return $fields['id'];
+	}
+
+	/**
+	 * create a default named page
+	 *
+	 * @param string the nick name of the item to create
+	 * @return string text to be displayed in the resulting page
+	 */
+	function post_default($nick_name) {
+		global $context;
+
+		// the page already exists
+		if($item =& Articles::get($nick_name))
+			return '';
+
+		// use the provided model for this item
+		if(is_readable($context['path_to_root'].'articles/defaults/'.$nick_name.'.php')) {
+			include_once $context['path_to_root'].'articles/defaults/'.$nick_name.'.php';
+
+			// do the job
+			if(is_callable(array($nick_name, 'initialize')))
+				return call_user_func(array($nick_name, 'initialize'));
+		}
+
+		// tough luck
+		return '';
 	}
 
 	/**
@@ -2554,68 +2655,85 @@ Class Articles {
 		// quey components
 		$query = array();
 
+		// change access rights
+		if(isset($fields['active_set'])) {
+
+			// anchor cannot be empty
+			if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+				Logger::error(i18n::s('No anchor has been found.'));
+				return FALSE;
+			}
+
+			// determine the actual right
+			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
+
+			// remember these in this record
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+
+			// cascade anchor access rights
+			Anchors::cascade('article:'.$fields['id'], $fields['active']);
+
+		}
+
 		// anchor this page to another place
 		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
 			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
 			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
 		}
-		if(isset($fields['prefix']) && Surfer::is_associate())
-			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
-		if(isset($fields['suffix']) && Surfer::is_associate())
-			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
 
-		if(isset($fields['nick_name']))
-			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
+		// other fields that can be modified individually
 		if(isset($fields['behaviors']))
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
-		if(isset($fields['rank']))
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
-		if(isset($fields['thumbnail_url']))
-			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['introduction']))
+			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
+		if(isset($fields['language']))
+			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['locked']))
 			$query[] = "locked='".SQL::escape($fields['locked'])."'";
 		if(isset($fields['meta']))
 			$query[] = "meta='".SQL::escape($fields['meta'])."'";
+		if(isset($fields['nick_name']))
+			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
 		if(isset($fields['options']))
 			$query[] = "options='".SQL::escape($fields['options'])."'";
-		if(isset($fields['trailer']))
-			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
-//		if(Surfer::is_empowered())
-//			$query[] = "active='".SQL::escape($fields['active'])."',";
-//		if(Surfer::is_empowered())
-//			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
-		if(isset($fields['owner_id']))
-			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
-		if(isset($fields['title']))
-			$query[] = "title='".SQL::escape($fields['title'])."'";
-		if(isset($fields['source']))
-			$query[] = "source='".SQL::escape($fields['source'])."'";
-		if(isset($fields['introduction']))
-			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
-		if(isset($fields['description']))
-			$query[] = "description='".SQL::escape($fields['description'])."'";
-		if(isset($fields['language']))
-			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['overlay']))
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['owner_id']))
+			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
 		if(isset($fields['publish_date'])) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
 			$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
-
+		if(isset($fields['prefix']))
+			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
+		if(isset($fields['rank']))
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['source']))
+			$query[] = "source='".SQL::escape($fields['source'])."'";
+		if(isset($fields['suffix']))
+			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
+		if(isset($fields['thumbnail_url']))
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
 		if(isset($fields['tags']))
 			$query[] = "tags='".SQL::escape($fields['tags'])."'";
+		if(isset($fields['title']))
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		if(isset($fields['trailer']))
+			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
 
 		// nothing to update
 		if(!count($query))
@@ -2675,7 +2793,7 @@ Class Articles {
 	 * @see services/search.php
 	 * @see categories/set_keyword.php
 	 *
-	 * @param the search string
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -2695,8 +2813,8 @@ Class Articles {
 	 *
 	 * @see search.php
 	 *
-	 * @param the id of the section to look in
-	 * @param the search string
+	 * @param int the id of the section to look in
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -2793,10 +2911,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words))
-			$match .=  " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($word['value'])."')";
+		$match = " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of articles
 		$query = "SELECT articles.*"
@@ -2855,8 +2970,8 @@ Class Articles {
 		$fields['publish_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['publish_name'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['rank'] 		= "INT UNSIGNED DEFAULT 10000 NOT NULL";
-		$fields['rating_sum']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['rating_count'] = "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['rating_sum']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['review_date']	= "DATETIME";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
@@ -3157,6 +3272,109 @@ Class Articles {
 		$output =& SQL::query_first($query);
 		return $output;
 	}
+
+	/**
+	 * encode an item to XML
+	 *
+	 * @param array attributes of the item to encode
+	 * @param object overlay instance of this item, if any
+	 * @return string the XML encoding of this item
+	 */
+	function to_xml($item, $overlay) {
+		global $context;
+
+		// article header
+		$text = '<article>'."\n";
+
+		// get unique handle of the anchor of this item
+		if(isset($item['anchor']) && !strncmp($item['anchor'], 'section:', 8) && ($handle = Sections::get_handle(substr($item['anchor'], 8)))) {
+
+			$text .= "\t".'<anchor_type>section</anchor_type>'."\n"
+				."\t".'<anchor_handle>'.$handle.'</anchor_handle>'."\n";
+
+		}
+
+		// fields to be exported
+		$labels = array('id',
+			'active',
+			'active_set',
+			'behaviors',
+			'create_address',
+			'create_date',
+			'create_id',
+			'create_name',
+			'description',
+			'edit_action',
+			'edit_address',
+			'edit_date',
+			'edit_id',
+			'edit_name',
+			'expiry_date',
+			'extra',
+			'handle',
+			'hits',
+			'icon_url',
+			'introduction',
+			'language',
+			'locked',
+			'meta',
+			'nick_name',
+			'options',
+			'owner_id',
+			'prefix',
+			'publish_address',
+			'publish_date',
+			'publish_id',
+			'publish_name',
+			'rank',
+			'rating_count',
+			'rating_sum',
+			'review_date',
+			'source',
+			'suffix',
+			'tags',
+			'thumbnail_url',
+			'title',
+			'trailer');
+
+		// process all fields
+		foreach($labels as $label) {
+
+			// export this field
+			if(isset($item[ $label ]) && $item[ $label ])
+				$text .= "\t".'<'.$label.'>'.encode_field($item[ $label ]).'</'.$label.'>'."\n";
+
+		}
+
+		// handle of item owner
+		if(isset($item['owner_id']) && ($user = Users::get($item['owner_id'])))
+			$text .= "\t".'<owner_nick_name>'.$user['nick_name'].'</owner_nick_name>'."\n";
+
+		// handle of item creator
+		if(isset($item['create_id']) && ($user = Users::get($item['create_id'])))
+			$text .= "\t".'<create_nick_name>'.$user['nick_name'].'</create_nick_name>'."\n";
+
+		// handle of last editor
+		if(isset($item['edit_id']) && ($user = Users::get($item['edit_id'])))
+			$text .= "\t".'<edit_nick_name>'.$user['nick_name'].'</edit_nick_name>'."\n";
+
+		// handle of publisher
+		if(isset($item['publish_id']) && ($user = Users::get($item['publish_id'])))
+			$text .= "\t".'<publish_nick_name>'.$user['nick_name'].'</publish_nick_name>'."\n";
+
+		// the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->export();
+
+
+		// article footer
+		$text .= '</article>'."\n";
+
+		// job done
+		return $text;
+
+	}
+
 
 	/**
 	 * unpublish an article

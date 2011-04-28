@@ -1,0 +1,172 @@
+<?php
+/**
+ * ask to participate to an event
+ *
+ * Accepted calls:
+ * - apply.php/article/&lt;id&gt;
+ * - apply.php?id=&lt;article:id&gt;
+ *
+ * @author Bernard Paques
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+// common definitions and initial processing
+include_once '../../shared/global.php';
+include_once '../../shared/enrolments.php';
+include_once '../../overlays/overlay.php';
+
+// look for the id --actually, a reference
+$id = NULL;
+if(isset($_REQUEST['id']))
+	$id = $_REQUEST['id'];
+elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
+	$id = $context['arguments'][0].':'.$context['arguments'][1];
+$id = strip_tags($id);
+
+// get the anchor
+$anchor =& Anchors::get($id);
+
+// get the related overlay, if any
+$overlay = NULL;
+if(is_object($anchor)) {
+	$fields = array();
+	$fields['id'] = $anchor->get_value('id');
+	$fields['overlay'] = $anchor->get_value('overlay');
+	$overlay = Overlay::load($fields, $anchor->get_reference());
+}
+
+// load the skin, maybe with a variant
+load_skin('articles', $anchor);
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// not found
+} elseif(!is_object($anchor)) {
+	include '../../error.php';
+
+// permission denied
+} elseif(!$anchor->is_viewable()) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// no overlay or no seat available
+} elseif(!is_object($overlay) || (!$offer = $overlay->get_value('seats', 1000))) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// an error occured
+} elseif(count($context['error']))
+	;
+
+// get a seat
+elseif(!enrolments::get_seat($anchor->get_reference(), $offer))
+	Logger::error(i18n::s('There is no seat left available for this event. We are sorry to not consider your application.'));
+
+// surfer is not known --ask for credentials
+elseif(!Surfer::get_id()) {
+	$link = $context['url_to_home'].$context['url_to_root'].'overlays/events/apply.php?id='.urlencode($anchor->get_reference());
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode($link));
+
+// proceed with the action
+} else {
+
+	// look for surfer id, if any
+	if(Surfer::get_id())
+		$where = "user_id = ".SQL::escape(Surfer::get_id());
+
+	// look for this e-mail address
+	elseif(isset($_REQUEST['surfer_address']) && $_REQUEST['surfer_address'])
+		$where = "user_email LIKE '".SQL::escape($_REQUEST['surfer_address'])."'";
+	else
+		$where = "user_email LIKE '".SQL::escape(Surfer::get_email_address())."'";
+
+	// if there is no enrolment record yet
+	$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$anchor->get_reference()."') AND ".$where;
+	if(!SQL::query_count($query)) {
+
+		// fields to save
+		$query = array();
+
+		// reference to the meeting page
+		$query[] = "anchor = '".$anchor->get_reference()."'";
+
+		// don't approve page owners, and accept simple confirmations as well
+		if($anchor->is_owned() || ($overlay->get_value('enrolment') == 'none'))
+			$query[] = "approved = 'Y'";
+
+		// save surfer id, if known
+		if(Surfer::get_id())
+			$query[] = "user_id = ".SQL::escape(Surfer::get_id());
+
+		// save some e-mail address
+		if(isset($_REQUEST['surfer_address']) && $_REQUEST['surfer_address'])
+			$query[] = "user_email = '".SQL::escape($_REQUEST['surfer_address'])."'";
+		else
+			$query[] = "user_email = '".SQL::escape(Surfer::get_email_address())."'";
+
+		// insert a new record
+		$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
+		SQL::query($query);
+
+		// notify page owner of this application, except if it is me
+		if(!$anchor->is_owned() && ($owner_id = $anchor->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email']) {
+
+			// mail message
+			$mail = array();
+
+			// mail subject
+			$mail['subject'] = sprintf(i18n::c('Application: %s'), strip_tags($anchor->get_title()));
+
+			// user has confirmed participation
+			if($overlay->get_value('enrolment') == 'none')
+				$action = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
+
+			// user is asking for an invitation
+			else
+				$action = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
+
+			// finalize the notification
+			$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
+			$link = $context['url_to_home'].$context['url_to_root'].'overlays/events/enroll.php?id='.urlencode($anchor->get_reference());
+			$mail['message'] =& Mailer::build_notification($action, $title, $link);
+
+			// threads messages
+			$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+
+			// send the message
+			Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+
+		}
+
+		// socialize self-applications
+		if($overlay->get_value('enrolment') == 'none') {
+			include_once $context['path_to_root'].'comments/comments.php';
+			$fields = array();
+			$fields['anchor'] = $anchor->get_reference();
+			$fields['description'] = sprintf(i18n::s('%s has confirmed his participation'), Surfer::get_name());
+			$fields['type'] = 'notification';
+			Comments::post($fields);
+		}
+	}
+
+	// add the page to the watch list
+	if(Surfer::get_id())
+		Members::assign($anchor->get_reference(), 'user:'.Surfer::get_id());
+
+	// redirect to the meeting page
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+
+}
+
+// page title
+if(is_object($anchor))
+	$context['page_title'] = $anchor->get_title();
+
+// render the skin
+render_skin();
+
+?>

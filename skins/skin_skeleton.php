@@ -82,12 +82,111 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * build the field to restrict access
+	 *
+	 * @see articles/edit.php
+	 *
+	 * @param array the item to be edited
+	 * @return string tags to be put in the form
+	 */
+	function build_active_set_input($item) {
+		global $context;
+
+		// maybe a public item
+		$text = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+
+		// maybe a restricted item
+		$text .= '<input type="radio" name="active_set" value="R"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+
+		// or a hidden item
+		$text .= '<input type="radio" name="active_set" value="N"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+			$text .= ' checked="checked"';
+		$text .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+
+		return $text;
+	}
+
+	/**
+	 * build the hint related to access restrictions
+	 *
+	 * @param object anchor of the edited item, if any
+	 * @return string tags to be put in the form
+	 */
+	function build_active_set_hint($anchor) {
+		global $context;
+
+		// combine this with inherited access right
+		if(is_object($anchor) && $anchor->is_hidden())
+			$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+		elseif(is_object($anchor) && !$anchor->is_public())
+			$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+		else
+			$hint = '';
+
+		return $hint;
+
+	}
+
+	/**
+	 * build an assistant-like bottom of the page
+	 *
+	 * @param mixed text to be put right after the horizontal separation
+	 * @param array a bar of commands to be put in a menu
+	 * @param mixed additional content put after the menu
+	 * @param string current value of tags
+	 * @return string text to be put in the rendered page
+	 */
+	function &build_assistant_bottom($prefix='', $menu=NULL, $suffix='', $tags=NULL) {
+		global $context;
+
+		// we return some text
+		$text = '';
+
+		// insert prefix
+		if(is_array($prefix))
+			$text .= '<div>'.implode(BR, $prefix).'</div>';
+		else
+			$text .= $prefix;
+
+		// insert the menu in the page
+		$text .= Skin::finalize_list($menu, 'menu_bar');
+
+		// insert suffix
+		if(is_array($suffix))
+			$text .= '<div>'.implode(BR, $suffix).'</div>';
+		else
+			$text .= $suffix;
+
+		// insert tags after options
+		if($tags !== NULL) {
+			$text .= '<p style="margin: 1em 0;">'.i18n::s('Tags')
+				.' '.'<input type="text" name="tags" id="tags" value="'.encode_field($tags).'" size="45" maxlength="255" accesskey="t" />'
+				.' <span class="tiny">'.i18n::s('Keywords separated by commas').'</span></p>'
+				.'<div id="tags_choices" class="autocomplete"></div>';
+		}
+
+		// make it a bottom block
+		$text = Skin::build_block($text, 'bottom');
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * decorate some text
 	 *
 	 * Useful for highlighting snippets of code or other types of text information
 	 *
 	 * Accepted variants:
 	 * - 'bottom' the last div in the content area
+	 * - 'caution' get reader attention
 	 * - 'center' some centered text
 	 * - 'code' a snippet of code
 	 * - 'decorated' to add on beauty
@@ -103,7 +202,6 @@ Class Skin_Skeleton {
 	 * - 'search' a form to search some text
 	 * - 'subtitle' a second-level title
 	 * - 'title' a first-level title
-	 * - 'warning' get reader attention
 	 * - default make a &lt;span class=...>
 	 *
 	 * Example to build a title:
@@ -564,6 +662,7 @@ Class Skin_Skeleton {
 	 * - 'standalone' - like full, but without the 'on ' prefix
 	 * - 'iso8601' - special format
 	 * - 'plain' - example 'Feb 26 2010 22:30:31 GMT'
+	 * - 'yyyy-mm-dd' - only day, month and year --no time information
 	 *
 	 * The date provided is considered to be GMT-based.
 	 * It is adjusted to the time zone of the surfer, if applicable.
@@ -672,9 +771,9 @@ Class Skin_Skeleton {
 		// format a date as an absolute string
 		if($variant == 'full') {
 			if($language == 'fr')
-				$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
+				$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
+				$output .= $months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
 
@@ -742,6 +841,12 @@ Class Skin_Skeleton {
 			$tzd = date('O', $actual_stamp);
 			$tzd = $tzd[0].str_pad((int)($tzd / 100), 2, "0", STR_PAD_LEFT).':'.str_pad((int)($tzd % 100), 2, "0", STR_PAD_LEFT);
 			$output = date('Y-m-d\TH:i:s', $actual_stamp).$tzd;
+			return $output;
+		}
+
+		// format a raw date
+		if($variant == 'yyyy-mm-dd') {
+			$output = date('Y-m-d', $actual_stamp);
 			return $output;
 		}
 
@@ -1260,8 +1365,6 @@ Class Skin_Skeleton {
 
 		} else
 			$text .= $image;
-			
-			
 
 		// make the title visible as a caption
 		if($title && $with_caption)
@@ -1270,15 +1373,12 @@ Class Skin_Skeleton {
 		// end of freedom
 		if($complement)
 			$text .= '</span>';
-			
+
 		//edit image direct access
-      $edit = '';
-      if((($variant=='center')||($variant=='right')||($variant=='left')||($variant=='thumbnail')||($complement=='large')) && $id) {
-         Skin::define_img('IMAGES_EDIT_IMG', 'images/edit.gif');
-         $edit_title = i18n::s('Update this image').' ['.$id.']';
-         $edit = '<span class="image_edit">'.Skin::build_link(Images::get_url($id,'edit'),IMAGES_EDIT_IMG,NULL,$edit_title).'</span>';
-         }
-      $text .= $edit;   	
+		if((($variant=='center')||($variant=='right')||($variant=='left')||($variant=='thumbnail')||($complement=='large')) && $id) {
+			Skin::define_img('IMAGES_EDIT_IMG', 'images/edit.gif');
+			$text .= '<span class="image_edit">'.Skin::build_link(Images::get_url($id,'edit'), IMAGES_EDIT_IMG, NULL, i18n::s('Update this image').' ['.$id.']').'</span>';
+		}
 
 		// end of wrapper
 		$text .= '</span>';
@@ -1505,7 +1605,7 @@ Class Skin_Skeleton {
 
 		// open in a separate window if asked explicitly or on file streaming
 		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
-			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
+			$attributes = ' onclick="window.open(this.href); window.location.reload(); return false;" onkeypress="window.open(this.href); window.location.reload(); return false;"';
 		else
 			$attributes = '';
 
@@ -1618,13 +1718,8 @@ Class Skin_Skeleton {
 
 		case 'button':
 
-			// always open external links in a separate window
-			if($external)
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
-
-			// stay in the same window
-			else
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$label.'</span></a>';
+			// always stay in the same window
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" '.$attributes.'><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1643,7 +1738,7 @@ Class Skin_Skeleton {
 			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// always open in a separate window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1679,7 +1774,7 @@ Class Skin_Skeleton {
 
 		case 'external':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); window.location.reload(); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
@@ -1882,6 +1977,7 @@ Class Skin_Skeleton {
 	 * - '2-columns' - two stacks of links
 	 * - 'assistant_bar' - the bar of commands at the bottom of a page
 	 * - 'comma' - a trivial 'xxx, yyy, zzz' list
+	 * - 'comma5' - the same but truncated after 5 items
 	 * - 'compact' - a <ul class="compact"> list
 	 * - 'crumbs' - a list of containers -- should be called once per page
 	 * - 'decorated' - to prefix each item with an icon
@@ -2644,9 +2740,9 @@ Class Skin_Skeleton {
 		if(!@count($tabs))
 			return $tabs_text;
 
-		// only one list
+		// only one tab to be displayed
 		if(count($tabs) == 1) {
-			$tabs_text .= '<div id="'.$tabs[0][2].'">'.$tabs[0][3].'</div>';
+			$tabs_text .= '<div id="'.$tabs[0][2].'" style="margin-top: 1em;">'.$tabs[0][3].'</div>';
 			return $tabs_text;
 		}
 
@@ -2710,12 +2806,12 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * build linked tags
 	 *
 	 * @param string the full list of tags
-	 * @param string reference to their anchor
 	 * @return string HTML tags to be put in the resulting page
 	 */
-	function &build_tags($tags, $reference) {
+	function &build_tags($tags) {
 		global $context;
 
 		$text = '';
@@ -3289,7 +3385,7 @@ Class Skin_Skeleton {
 						$text .= $label;
 				}
 
-				$text = Skin::build_block(MENU_PREFIX.$text.MENU_SUFFIX, 'bottom');
+				$text = Skin::build_block('<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</p>', 'bottom');
 				break;
 
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
@@ -3315,6 +3411,31 @@ Class Skin_Skeleton {
 					// between two items
 					if($line_count++)
 						$text .= ', ';
+
+					// drop the icon
+					if(is_array($label))
+						$label = $label[0];
+
+					$text .= $label;
+				}
+
+				break;
+
+			// separate items with commas
+			case 'comma5':
+
+				$line_count = 0;
+				foreach($list as $label) {
+
+					// between two items
+					if($line_count++)
+						$text .= ', ';
+
+					// limit ourselves to 5 items
+					if($line_count > 5) {
+						$text .= '...';
+						break;
+					}
 
 					// drop the icon
 					if(is_array($label))
@@ -3463,7 +3584,13 @@ Class Skin_Skeleton {
 					if(is_array($label))
 						$label = $label[0];
 
-					$text .= $label;
+					// mark first and last items
+					if($line_count == 1)
+						$text .= '<span class="first">'.$label.'</span>';
+					elseif($line_count == count($list))
+						$text .= '<span class="last">'.$label.'</span>';
+					else
+						$text .= $label;
 
 				}
 
@@ -3606,6 +3733,7 @@ Class Skin_Skeleton {
 				break;
 
 			// similar to compact
+			case 'newlines':
 			case 'tools':
 
 				if($list) {
@@ -3981,7 +4109,7 @@ Class Skin_Skeleton {
 
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))
-			define('USERS_LIST_SIZE', 20);
+			define('USERS_LIST_SIZE', 100);
 
 		// the maximum number of watched users per page
 		if(!defined('USERS_PER_PAGE'))
@@ -4179,6 +4307,20 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * load a skin, and initialize everything
+	 *
+	 */
+	function load() {
+
+		// set constants
+		Skin::initialize();
+
+		// set other constants, if any
+		Skin_skeleton::initialize();
+
+	}
+
+	/**
 	 * build a navigation bar for pages
 	 *
 	 * This is used to browse long lists of links.
@@ -4372,7 +4514,9 @@ Class Skin_Skeleton {
 		if(isset($data[0]) && $data[0])
 			$previous_url = $data[0];
 
-		if(isset($data[1]) && $data[1] && ($layout != 'manual')) {
+		if(!isset($data[1]))
+			$previous_label = $previous_hover = '';
+		elseif($data[1] && ($layout != 'manual')) {
 			$previous_label = Codes::strip($data[1]);
 			$previous_hover = i18n::s('Previous');
 		} else {
@@ -4384,7 +4528,9 @@ Class Skin_Skeleton {
 		if(isset($data[2]) && $data[2])
 			$next_url = $data[2];
 
-		if(isset($data[3]) && $data[3] && ($layout != 'manual')) {
+		if(!isset($data[3]))
+			$next_label = $next_hover = '';
+		elseif($data[3] && ($layout != 'manual')) {
 			$next_label = Codes::strip($data[3]);
 			$next_hover = i18n::s('Next');
 		} else {
@@ -4425,10 +4571,10 @@ Class Skin_Skeleton {
 
 		case 'slideshow':	// images/view.php
 
-			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&lt;&lt; ');
+			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&laquo; ');
 			$previous_label = PREVIOUS_PREFIX.$previous_label;
 
-			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &gt;&gt;');
+			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &raquo;');
 			$next_label = $next_label.NEXT_SUFFIX;
 
 			break;
@@ -4490,17 +4636,59 @@ Class Skin_Skeleton {
 	}
 
 	/**
-	 * load a skin, and initialize everything
+	 * to page within a page
 	 *
+	 * @see articles/view.php
+	 *
+	 * @param string URL to the first page
+	 * @param string prefix to paging URLs, without the end number
+	 * @param int current page, starting at 1
+	 * @param int total number of pages
+	 * @result array to be provided to Skin::neighbours()
 	 */
-	function load() {
+	function pager($home, $prefix, $page, $count) {
+		global $context;
 
-		// set constants
-		Skin::initialize();
+		// go back to previous page
+		$previous_url = '';
+		$previous_label = '';
+		if($page > 1) {
+			if($page == 2)
+				$previous_url = $home;
+			else
+				$previous_url = $prefix.($page - 1);
+			$previous_label = i18n::s('Previous page');
+		}
 
-		// set other constants, if any
-		Skin_skeleton::initialize();
+		// where we are
+		$option_label = array();
+		for($index = 1; $index <= $count; $index++) {
 
+			if($index == $page) {
+				$option_label[] = '<span class="pager-current">'.$index.'</span>';
+			} else {
+				if($index == 1)
+					$url = $home;
+				else
+					$url = $prefix.$index;
+				$option_label[] = Skin::build_link($url, $index, 'pager-item');
+			}
+
+		}
+		$option_label = join(' &nbsp; ', $option_label);
+
+		// go forward to next page
+		$next_url = '';
+		$next_label = '';
+		if($page < $count) {
+			$next_url = $prefix.($page + 1);
+			$next_label = i18n::s('Next page');
+		}
+
+		// the HTML code for this
+		$data = array($previous_url, $previous_label, $next_url, $next_label, NULL, $option_label);
+
+		return $data;
 	}
 
 	/**

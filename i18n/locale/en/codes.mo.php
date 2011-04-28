@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-26 15:26+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: English
-X-Poedit-Country: UNITED KINGDOM
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['A Rabbit Story']='A Rabbit Story';
 $_SESSION['l10n']['en']['A dynamic Freemind map']='A dynamic Freemind map';
@@ -169,6 +154,7 @@ $_SESSION['l10n']['en']['Popular']='Popular';
 $_SESSION['l10n']['en']['Pre-formatted']='Pre-formatted';
 $_SESSION['l10n']['en']['Present users']='Present users';
 $_SESSION['l10n']['en']['Previous page']='Previous page';
+$_SESSION['l10n']['en']['Proxy']='Proxy';
 $_SESSION['l10n']['en']['Question']='Question';
 $_SESSION['l10n']['en']['Question-title']='Question-title';
 $_SESSION['l10n']['en']['Quote']='Quote';

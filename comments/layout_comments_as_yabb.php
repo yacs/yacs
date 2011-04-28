@@ -80,61 +80,80 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			// author description
 			$author = '';
 
-			// avatar
-			if(isset($poster['avatar_url']) && $poster['avatar_url'])
-				$author .= '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />'.BR;
+			// except for automatic notifications
+			if($item['type'] != 'notification') {
 
-			// link to poster, if possible
-			$author .= Users::get_link($poster['full_name'], $poster['email'], $poster['id']);
+				// avatar
+				if(isset($poster['avatar_url']) && $poster['avatar_url'])
+					$author .= '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />'.BR;
 
-			$author .= '<span class="details">';
+				// link to poster, if possible
+				$author .= Users::get_link($poster['full_name'], $poster['email'], $poster['id']);
 
-			// show contact information
-			if(Surfer::may_contact() && ($presence = Users::build_presence($poster)))
-				$author .= BR.$presence;
+				$author .= '<span class="details">';
 
-			// from where
-			if(isset($poster['from_where']) && $poster['from_where'])
-				$author .= sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
+				// show contact information
+				if(Surfer::may_contact() && ($presence = Users::build_presence($poster)))
+					$author .= BR.$presence;
 
-			// guest/member/associate
-			$capability = '';
-			if(!isset($poster['capability']))
-				;
-			elseif($poster['capability'] == 'A')
-				$capability = i18n::s('Associate').', ';
-			elseif($poster['capability'] == 'M')
-				;
-			elseif($poster['capability'] == 'S')
-				$capability = i18n::s('Subscriber').', ';
+				// from where
+				if(isset($poster['from_where']) && $poster['from_where'])
+					$author .= sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
 
-			// + posts
-			if(isset($poster['posts']))
-				$author .= BR.$capability.sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
+				// guest/member/associate
+				$capability = '';
+				if(!isset($poster['capability']))
+					;
+				elseif($poster['capability'] == 'A')
+					$capability = i18n::s('Associate').', ';
+				elseif($poster['capability'] == 'M')
+					;
+				elseif($poster['capability'] == 'S')
+					$capability = i18n::s('Subscriber').', ';
 
-			// put everything in the author cell
-			$author .= '</span>';
+				// + posts
+				if(isset($poster['posts']))
+					$author .= BR.$capability.sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
+
+				// put everything in the author cell
+				$author .= '</span>';
+
+			}
 
 			// commands to handle this comment
 			$menu = array();
 
-			// the reply and quote commands are offered when new comments are allowed
-			if(Comments::allow_creation($anchor)) {
+			// an automatic notification
+			if($item['type'] == 'notification') {
 
-				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => COMMENTS_ADD_IMG.i18n::s('Reply') ));
+				// additional commands for associates and poster and editor
+				if($anchor->is_owned()) {
+					Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
+					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => COMMENTS_DELETE_IMG.i18n::s('Delete') ));
+				}
 
-				Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => COMMENTS_QUOTE_IMG.i18n::s('Quote') ));
-			}
+			// regular case
+			} else {
 
-			// additional commands for associates and poster and editor
-			if(Comments::allow_modification($anchor, $item)) {
-				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => COMMENTS_EDIT_IMG.i18n::s('Edit') ));
+				// the reply and quote commands are offered when new comments are allowed
+				if(Comments::allow_creation($anchor)) {
 
-				Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => COMMENTS_DELETE_IMG.i18n::s('Delete') ));
+					Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => COMMENTS_ADD_IMG.i18n::s('Reply') ));
+
+					Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
+					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => COMMENTS_QUOTE_IMG.i18n::s('Quote') ));
+				}
+
+				// additional commands for associates and poster and editor
+				if(Comments::allow_modification($anchor, $item)) {
+					Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
+					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => COMMENTS_EDIT_IMG.i18n::s('Edit') ));
+
+					Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
+					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => COMMENTS_DELETE_IMG.i18n::s('Delete') ));
+				}
+
 			}
 
 			// comment main text
@@ -173,8 +192,15 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			// clear on both sides
 			$text .= '<hr style="clear:both" />';
 
-			// the comment itself
-			$text .= ucfirst(trim(Codes::beautify($item['description'].Users::get_signature($item['create_id']))))."\n";
+			// display comment main text
+			$comment = $item['description'];
+
+			// display signature, but not for notifications
+			if($item['type'] != 'notification')
+				$comment .= Users::get_signature($item['create_id']);
+
+			// format and display
+			$text .= ucfirst(trim(Codes::beautify($comment)))."\n";
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
