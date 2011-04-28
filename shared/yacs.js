@@ -330,7 +330,7 @@ var Yacs = {
 
 			var objCentered = document.createElement("div");
 			$(objCentered).attr('id','modal_centered');
-//			objCentered.setStyle({ visibility: 'hidden' });
+//			objCentered.css({ visibility: 'hidden' });
 			$(objCentered).append(objContent);
 
 			Yacs.modalOverlay = document.createElement("div");
