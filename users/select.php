@@ -210,7 +210,7 @@ elseif(!$permitted) {
     .'		minLength: 1                                                  '."\n"
     .'  });                                                              '."\n"
     .'});  '."\n"
-    .JS_SUFFIX;
+		.JS_SUFFIX;
 
 	// the current list of category members
 	if(!strncmp($anchor->get_reference(), 'category:', 9) && ($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {

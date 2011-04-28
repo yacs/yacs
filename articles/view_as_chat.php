@@ -290,7 +290,7 @@ default:
 		.'		var newHeight = $("#thread_text_panel").clientHeight + 200;'."\n"
 		.'		options.height =  newHeight + "px";'."\n"
 		.'		options.maxHeight =  newHeight + "px";'."\n"
-		.'		$("#thread_text_panel").setStyle(options);'."\n"
+		.'		$("#thread_text_panel").css(options);'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	subscribe: function() {'."\n"

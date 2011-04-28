@@ -4795,7 +4795,7 @@ Class Skin_Skeleton {
 			.'	current = parseInt(handle.style.'.$object_parameter.') - scroller_'.$scroller_id.'_speed;'."\n"
 			.'	if(current < scroller_'.$scroller_id.'_stop)'."\n"
 			.'		current = scroller_'.$scroller_id.'_start;'."\n"
-			.'	handle.setStyle({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
+			.'	handle.css({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
