@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:00+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
@@ -54,7 +39,6 @@ $_SESSION['l10n']['fr']['Browse %s']='Naviguer %s';
 $_SESSION['l10n']['fr']['bfbcc298c988f6d70e9919fba19bda0d']='Par défaut, les fichiers sont rangés dans l\'espace web de votre serveur. Pour optimiser le transfert des grands fichiers, vous pouvez installer un ftp anonyme sur votre serveur, puis utiliser ce panneau de configuration pour en activer l\'usage.';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Change']='Changer';
-$_SESSION['l10n']['fr']['36a3d377dfebacd9d29b637d7ecefb82']='Vérifier la page de téléchargement pour ce fichier';
 $_SESSION['l10n']['fr']['Close']='Fermer';
 $_SESSION['l10n']['fr']['e7eace704dc70e1603783efa3807ecbd']='Communauté - Accès autorisé à toute personne identifiée';
 $_SESSION['l10n']['fr']['fe1a23cebe508106ea3fb5702287c729']='Communauté - Accès autorisé à toute personne identifiée';
@@ -64,7 +48,7 @@ $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this file']='Supprimer ce fichier';
-$_SESSION['l10n']['fr']['Deletion: %s']='Supprimer : %s';
+$_SESSION['l10n']['fr']['Deletion: %s']='Suppression : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Divx Player']='Divx Player';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';
@@ -145,8 +129,6 @@ $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['4a6bd811816f43d2d60e858ba1b41651']='Les autres personnes seront prévenues que vous travaillez sur ce fichier, jusqu\'à la mise à jour d\'une nouvelle version, ou l\'annulation de la réservation.';
-$_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
-$_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la référence P2P (ed2k, torrent, etc.)';
 $_SESSION['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $_SESSION['l10n']['fr']['Play']='Jouer';
@@ -160,7 +142,6 @@ $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoye
 $_SESSION['l10n']['fr']['fc0f2f82c3a214a6c50adb3aea6fa1d3']='Empêcher d\'autres personnes de modifier ce fichier pendant que vous le mettez à jour';
 $_SESSION['l10n']['fr']['Previous image']='Image précédente';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
-$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['37ad9546a387c8d0623a2d297a553d2b']='Les logiciels adaptés sont indiqués au moments du téléchargement.';
 $_SESSION['l10n']['fr']['Release reservation']='Annuler la réservation';
@@ -216,7 +197,6 @@ $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à
 $_SESSION['l10n']['fr']['What is new in this file?']='Quoi de neuf dans ce fichier ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['278d07f7dafd5749bb1bdd201beb6bf0']='Bien que nous ayons pris beaucoup de soins à empêcher l\'infection des fichiers publiés sur ce serveur, nous vous recommandons d\'employer et d\'activer sur votre ordinateur un logiciel anti-virus ad hoc pour obtenir une protection optimale.';
-$_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['Winamp']='Winamp';
 $_SESSION['l10n']['fr']['Wireshark']='Wireshark';
 $_SESSION['l10n']['fr']['Yes, I want to delete this file']='Oui, je veux réellement supprimer ce fichier';

@@ -126,6 +126,7 @@
  * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
+ * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
  *
  * @see codes/links.php
  *
@@ -294,7 +295,7 @@ Class Codes {
 	 * or if options have the keyword ##formatted##, no implicit formatting is performed.
 	 *
 	 * If the keyword [escape][hardcoded][/escape] appears at the first line of text,
-	 * or if options have the keyword ##hardcoded##, the only transformation is is new lines to breaks.
+	 * or if options have the keyword ##hardcoded##, the only transformation is new lines to breaks.
 	 *
 	 * If options feature the keyword ##compact##, then YACS codes that may
 	 * generate big objects are removed, such as [escape][table]...[/table][/escape]
@@ -481,7 +482,7 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+)/i', // YouTube link
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_]+)/i', // YouTube link
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
@@ -1034,6 +1035,7 @@ Class Codes {
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
 				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
 				'/\[link\](.*?)\[\/link\]/ise', 			// [link]url[/link]
+				'/\[proxy\](.*?)\[\/proxy\]/ise', 			// [proxy]url[/proxy]
 				'/\[button=([^\]]+?)\](.*?)\[\/button\]/ise',	// [button=label]url[/button]
 				'/\[button=([^\|]+?)\|([^\]]+?)]/ise',		// [button=label|url]
 				'/\[click=([^\|]+?)\|([^\]]+?)]/ise',		// [click=label|url]
@@ -1232,6 +1234,7 @@ Class Codes {
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
 				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
+				"proxy(encode_link('$1'))",											// [proxy]url[/proxy]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label]url[/button]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label|url]
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'click')",	// [click=label|url]
@@ -2726,7 +2729,7 @@ Class Codes {
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
 					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
+					$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 					// get text related to the overlay, if any
 					if(is_object($overlay))
@@ -2802,7 +2805,7 @@ Class Codes {
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
 					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
+					$overlay = Overlay::load($item, 'category:'.$item['id']);
 
 					// get text related to the overlay, if any
 					if(is_object($overlay))
@@ -3064,6 +3067,7 @@ Class Codes {
 			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
 			else 
 			   $output =& Skin::build_image($variant, $href, $title, $link);
+
 			return $output;
 
 		// embed a stack of images
@@ -3675,7 +3679,7 @@ Class Codes {
 					// load overlay, if any
 					if(isset($item['overlay']) && $item['overlay']) {
 						include_once '../overlays/overlay.php';
-						$overlay = Overlay::load($item);
+						$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 						// get text related to the overlay, if any
 						if(is_object($overlay))

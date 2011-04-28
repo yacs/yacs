@@ -249,11 +249,12 @@ Class Members {
 	 * count users linked to one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'category:12')
+	 * @param boolean TRUE to include current surfer, or FALSE to exclude him
 	 * @return int the resulting count
 	 *
 	 * @see categories/view.php
 	 */
-	function count_users_for_anchor($anchor) {
+	function count_users_for_anchor($anchor, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -272,6 +273,10 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where .= ")";
 
+		// exclude current surfer
+		if(!$with_me && ($id = Surfer::get_id()))
+			$where .= " AND (members.member NOT LIKE 'user:".$id."')";
+
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
 			." FROM ".SQL::table_name('members')." AS members"
@@ -283,14 +288,15 @@ Class Members {
 	}
 
 	/**
-	 * count users linked to one member
+	 * count editors of the provided reference
 	 *
 	 * @param string the selected member (e.g., 'category:12')
+	 * @param boolean TRUE to include current surfer, or FALSE to exclude him
 	 * @return int the resulting count
 	 *
 	 * @see sections/view_as_tabs.php
 	 */
-	function count_users_for_member($member) {
+	function count_users_for_member($member, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -308,6 +314,10 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where .= ')';
+
+		// exclude current surfer
+		if(!$with_me && ($id = Surfer::get_id()))
+			$where .= " AND (members.anchor NOT LIKE 'user:".$id."')";
 
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
@@ -865,7 +875,7 @@ Class Members {
 				." WHERE (users.id = ids.target)"
 				."	AND (users.capability IN ('S', 'M', 'A'))"
 				."	AND (".$where.")"
-				." GROUP BY users.id LIMIT ".$offset.','.$count;
+				." GROUP BY users.id ORDER BY users.login_date DESC LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {
@@ -1043,7 +1053,7 @@ Class Members {
 	}
 
 	/**
-	 * list users assigned to an anchor ordered by contributions
+	 * list users who are watching some reference
 	 *
 	 * @param the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1061,13 +1071,21 @@ Class Members {
 		if(!$variant)
 			$variant = $anchor;
 
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
 		// limit the scope of the request
-		$where = "users.active='Y'";
+		$where .= " AND (users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
-		$where = '('.$where.')';
+		$where .= ')';
 
 		// avoid this one
 		if($to_avoid)
@@ -1076,10 +1094,9 @@ Class Members {
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
-			."	AND ".$where
 			." GROUP BY users.id ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
@@ -1088,12 +1105,7 @@ Class Members {
 	}
 
 	/**
-	 * list users with some member
-	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
+	 * list users who are editors of some reference
 	 *
 	 * @param string reference to the associated item
 	 * @param int the offset from the start of the list; usually, 0 or 1

@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-26 15:26+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['A Rabbit Story']='Fable de La Fontaine';
 $_SESSION['l10n']['fr']['A dynamic Freemind map']='Une carte Freemind dynamique';
@@ -133,7 +118,7 @@ $_SESSION['l10n']['fr']['da6825ad5bbda2d7313669c2f5304614']='Liens (et raccourci
 $_SESSION['l10n']['fr']['List item']='Elément de liste';
 $_SESSION['l10n']['fr']['c48042b378c7e1a4d2cc72668bf53a1b']='Listes (à puces, numérotées...)';
 $_SESSION['l10n']['fr']['Live codes']='Codes dynamiques';
-$_SESSION['l10n']['fr']['Member clicks']='Clics provenant des membres';
+$_SESSION['l10n']['fr']['Member clicks']='Clics des membres';
 $_SESSION['l10n']['fr']['Miscellaneous codes']='Codes divers';
 $_SESSION['l10n']['fr']['056ceb8cc5e89e51dbb1dafe1a6bf49f']='Codes divers (graphiques...)';
 $_SESSION['l10n']['fr']['Net income']='Revenus net';
@@ -169,6 +154,7 @@ $_SESSION['l10n']['fr']['Popular']='Populaire';
 $_SESSION['l10n']['fr']['Pre-formatted']='Pré-formatté';
 $_SESSION['l10n']['fr']['Present users']='Personnes présentes';
 $_SESSION['l10n']['fr']['Previous page']='Page précédente';
+$_SESSION['l10n']['fr']['Proxy']='Proxy';
 $_SESSION['l10n']['fr']['Question']='Question';
 $_SESSION['l10n']['fr']['Question-title']='Question-titre';
 $_SESSION['l10n']['fr']['Quote']='Citer';

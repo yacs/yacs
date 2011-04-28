@@ -39,6 +39,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
+include_once '../overlays/overlay.php';
 include_once '../servers/servers.php'; // servers to be advertised
 
 // look for the id
@@ -51,6 +52,11 @@ $id = strip_tags($id);
 
 // get the item from the database
 $item =& Articles::get($id);
+
+// get the related overlay, if any
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -125,15 +131,21 @@ if(Surfer::is_crawler()) {
 	// post-processing tasks
 	else {
 
+		// allow the anchor to prevent notifications of watchers
+		if(is_object($overlay))
+			$with_watchers = $overlay->should_notify_watchers();
+		else
+			$with_watchers = TRUE;
+
 		// notify my followers, but not on private pages
 		$with_followers = (isset($_REQUEST['active']) && ($_REQUEST['active'] != 'N'));
 
-		// allow the anchor to prevent notifications to followers
-		if($with_followers && is_object($overlay) && is_callable(array($overlay, 'should_notify_followers')))
+		// allow the anchor to prevent notifications of followers
+		if($with_followers && is_object($overlay))
 			$with_followers = $overlay->should_notify_followers();
 
-		// advertise watchers (always), and followers (on public pages)
-		$anchor->touch('article:create', $item['id'], FALSE, TRUE, $with_followers);
+		// advertise watchers, and followers
+		$anchor->touch('article:create', $item['id'], FALSE, $with_watchers, $with_followers);
 
 		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";

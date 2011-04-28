@@ -109,7 +109,7 @@ if(Surfer::is_crawler()) {
 		foreach($sections as $id => $section) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($section);
+			$overlay = Overlay::load($section, 'section:'.$id);
 
 			// get parent anchor
 			$parent =& Anchors::get($section['anchor']);

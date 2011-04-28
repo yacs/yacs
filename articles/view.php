@@ -184,7 +184,7 @@ if(isset($item['owner_id']))
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -301,10 +301,6 @@ if(!isset($item['id'])) {
 // display the article
 } else {
 
-	// allow back-referencing from overlay
-	$item['self_reference'] = 'article:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Articles::get_permalink($item);
-
 	// behaviors can change page menu
 	if(is_object($behaviors))
 		$context['page_menu'] =& $behaviors->add_commands('articles/view.php', 'article:'.$item['id'], $context['page_menu']);
@@ -403,7 +399,7 @@ if(!isset($item['id'])) {
 
 		// tags, if any
 		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags'], 'article:'.$item['id']);
+			$context['page_tags'] =& Skin::build_tags($item['tags']);
 
 		// one detail per line
 		$text .= '<p class="details">';
@@ -461,15 +457,19 @@ if(!isset($item['id'])) {
 		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
 			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-		// page editors, for associates and section editors
-		if(Surfer::is_empowered() && Surfer::is_logged() && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
+		// page editors
+		$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 		// page watchers
-		if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 50, 'comma')))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Watchers'), Skin::build_list($items, 'comma'));
+		$anchors = array('article:'.$item['id']);
+		if(($item['active'] != 'N') || $anchor->is_assigned())
+			$anchors[] = $anchor->get_reference();
+		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
-		// no more details
+		// display details, if any
 		if(count($details))
 			$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
 
@@ -574,12 +574,6 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	}
 
-	// notify participants
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
-		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
-	}
-
 	// manage editors
  	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
@@ -622,7 +616,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'newlines'), 'share', 'share');
 
 	// 'Information channels' box
 	//
@@ -646,7 +640,7 @@ if(!isset($item['id'])) {
 	// allow to leave the page
 	if(Articles::is_assigned($item['id']) && !Articles::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
+		$lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'leave'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	}
 
 	// get news from rss
@@ -735,6 +729,54 @@ if(!isset($item['id'])) {
 	$context['components']['referrals'] =& Skin::build_referrals(Articles::get_permalink($item));
 
 	//
+	// the main part of the page
+	//
+	$context['page_description'] = '';
+
+	// filter description, if necessary
+	if(is_object($overlay))
+		$description = $overlay->get_text('description', $item);
+	else
+		$description = $item['description'];
+
+	// the beautified description, which is the actual page body
+	if($description) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$context['page_description'] .= Skin::build_block($label, 'title');
+
+		// provide only the requested page
+		$pages = preg_split('/\s*\[page\]\s*/is', $description);
+		$page = max(min($page, count($pages)), 1);
+		$description = $pages[ $page-1 ];
+
+		// several pages to manage
+		if(count($pages) > 1) {
+
+			$data = Skin::pager(Articles::get_permalink($item), Articles::get_url($item['id'], 'navigate', 'page'), $page, count($pages));
+
+			$neighbours = Skin::neighbours($data, 'slideshow');
+
+			// displayed at the top if not on first page
+			if($page > 1)
+				$context['page_description'] .= $neighbours;
+
+			// remove toc and toq codes
+			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+		}
+
+		// beautify the target page
+		$context['page_description'] .= Skin::build_block($description, 'description', '', $item['options']);
+
+		// if there are several pages, add navigation commands to browse them
+		if(count($pages) > 1)
+			$context['page_description'] .= $neighbours;
+
+	}
+
+	//
 	// use a specific script to render the page in replacement of the standard one
 	//
 
@@ -812,55 +854,20 @@ if(!isset($item['id'])) {
 				// signal DIGG
 				define('DIGG', TRUE);
 			}
-
-			// the introduction text, if any
-			if(is_object($overlay))
-				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-			else
-				$text .= Skin::build_block($item['introduction'], 'introduction');
-
-			// get text related to the overlay, if any
-			if(is_object($overlay))
-				$text .= $overlay->get_text('view', $item);
-
 		}
 
-		// filter description, if necessary
+		// the introduction text, if any
 		if(is_object($overlay))
-			$description = $overlay->get_text('description', $item);
+			$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
 		else
-			$description = $item['description'];
+			$text .= Skin::build_block($item['introduction'], 'introduction');
 
-		// the beautified description, which is the actual page body
-		if($description) {
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('view', $item);
 
-			// use adequate label
-			if(is_object($overlay) && ($label = $overlay->get_label('description')))
-				$text .= Skin::build_block($label, 'title');
-
-			// provide only the requested page
-			$pages = preg_split('/\s*\[page\]\s*/is', $description);
-			$page = max(min($page, count($pages)), 1);
-			$description = $pages[ $page-1 ];
-
-			// if there are several pages, remove toc and toq codes
-			if(count($pages) > 1)
-				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-			// beautify the target page
-			$text .= Skin::build_block($description, 'description', '', $item['options']);
-
-			// if there are several pages, add navigation commands to browse them
-			if(count($pages) > 1) {
-				$page_menu = array( '_' => i18n::s('Pages') );
-				$home = Articles::get_permalink($item);
-				$prefix = Articles::get_url($item['id'], 'navigate', 'page');
-				$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-				$text .= Skin::build_list($page_menu, 'menu_bar');
-			}
-
-		}
+		// the main part of the page
+		$text .= $context['page_description'];
 
 		// the owner profile, if any, at the end of the page
 		if(isset($owner['id']) && is_object($anchor))
@@ -945,29 +952,8 @@ if(!isset($item['id'])) {
 		// no layout yet
 		$layout = NULL;
 
-		// new comments are allowed
-		if(Comments::allow_creation($anchor, $item)) {
-
-			// we have a wall
-			if(Articles::has_option('comments_as_wall', $anchor, $item))
-				$comments_prefix = TRUE;
-
-			// editors and associates can always contribute to a thread
-			else
-				$comments_suffix = TRUE;
-		}
-
-//			// label for one comment
-//			if(is_object($anchor) && $anchor->is_viewable())
-//				$comment_label = $anchor->get_label('comments', 'count_one');
-//			else
-//				$comment_label = i18n::s('comment');
-
-//			// label for several comments
-//			if(is_object($anchor) && $anchor->is_viewable())
-//				$comments_label = $anchor->get_label('comments', 'count_many');
-//			else
-//				$comments_label = i18n::s('comments');
+		// we have a wall, or not
+		$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 		// label to create a comment
 		if(is_object($anchor) && $anchor->is_viewable())
@@ -979,7 +965,7 @@ if(!isset($item['id'])) {
 		$layout =& Comments::get_layout($anchor, $item);
 
 		// provide author information to layout
-		if(is_object($layout) && $item['create_id'])
+		if(is_object($layout) && isset($item['create_id']) && $item['create_id'])
 			$layout->set_variant('user:'.$item['create_id']);
 
 		// the maximum number of comments per page
@@ -997,7 +983,7 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 		// feed the wall
-		if(isset($comments_prefix))
+		if(Comments::allow_creation($anchor, $item) && $reverted)
 			$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 		// a navigation bar for these comments
@@ -1006,7 +992,7 @@ if(!isset($item['id'])) {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
 
 			// actually render the html
 			if(is_array($items))
@@ -1021,7 +1007,7 @@ if(!isset($item['id'])) {
 		}
 
 		// new comments are allowed
-		if(isset($comments_suffix)) {
+		if(Comments::allow_creation($anchor, $item) && !$reverted) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$box['bar'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment')));
 
@@ -1140,8 +1126,8 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 
-	// comment this page if anchor does not prevent it
-	if(Comments::allow_creation($anchor, $item)) {
+	// comment this page if anchor does not prevent it --anonymous surfers will have it in main area
+	if(Comments::allow_creation($anchor, $item) && Surfer::get_id()) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}

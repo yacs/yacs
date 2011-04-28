@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2010-06-28 11:13+0100
-Last-Translator: Bernard Paques
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['fr']['%d files have been updated.']='%d fichiers ont été mis à jour.';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['318bb71a30c3dcd1476ae87d0e98cfdc']='Un calendrier des activités à venir';
@@ -73,7 +58,6 @@ $_SESSION['l10n']['fr']['eeb1a5b1e84f84128d95eab10517665a']='Tirez et déplacez 
 $_SESSION['l10n']['fr']['Edit me']='A éditer';
 $_SESSION['l10n']['fr']['Enter a floating number']='Entrer un nombre décimal';
 $_SESSION['l10n']['fr']['Enter an integer']='Entrer un nombre entier';
-$_SESSION['l10n']['fr']['Event']='Evénement';
 $_SESSION['l10n']['fr']['Events']='Evénements';
 $_SESSION['l10n']['fr']['6bcc0edc066d340a8f1a614a6daf6c8b']='Chaque page de cette section est un événement à une date précise.';
 $_SESSION['l10n']['fr']['0897318ae815f0a670a0ed03f6de4ecf']='Chaque page de cette section est une discussion interactive qui permet le partage de fichiers.';
@@ -128,7 +112,6 @@ $_SESSION['l10n']['fr']['Real-time collaboration']='Collaboration en temps réel
 $_SESSION['l10n']['fr']['Reply #%d']='Réponse numéro %d';
 $_SESSION['l10n']['fr']['Restricted wiki']='Wiki restreint';
 $_SESSION['l10n']['fr']['Sample article']='Article de démonstration';
-$_SESSION['l10n']['fr']['dac90d5afad2277d5aa694046bfc7482']='Article de démonstration avec ses annotations de démonstration';
 $_SESSION['l10n']['fr']['Sample associate profile']='Exemple de profil d\'associé';
 $_SESSION['l10n']['fr']['Sample blogging place']='Section de blog de démonstration';
 $_SESSION['l10n']['fr']['8e6607f092de29e061c7ee3abd86f108']='Contenu de démonstration avec ses annotations';
@@ -190,8 +173,6 @@ $_SESSION['l10n']['fr']['9ce42343c4fe139d3e7ae4fd85e44a15']='pour démontrer la 
 $_SESSION['l10n']['fr']['00a511eb5dccc62b6b63c5c104d9a5d5']='Pour rechercher l\'aide des autres membres de la communauté';
 $_SESSION['l10n']['fr']['Tools']='Outils';
 $_SESSION['l10n']['fr']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Utiliser la commande \'Modifier cette page\' pour ajouter du texte ou pour modifier ce contenu.';
-$_SESSION['l10n']['fr']['d94aaf4fa30ddc7d9d1074f60c074ff3']='Utiliser cette page modèle pour ajouter un nouvel événement au calendrier';
-$_SESSION['l10n']['fr']['86e1bb0529b582dccf265b7e6656ad13']='Utilisez ce modèle pour ajouter une page qui peut être modifiée par tout surfeur';
 $_SESSION['l10n']['fr']['Useful Bytes: %d bytes']='Taille utile : %d octets';
 $_SESSION['l10n']['fr']['Users']='Utilisateurs';
 $_SESSION['l10n']['fr']['Video session by MeBeam: %s']='Session vidéo avec MeBeam : %s';
@@ -200,7 +181,6 @@ $_SESSION['l10n']['fr']['f97b1321e05c23df5a37e76329c16098']='Nous l\'utiliserons
 $_SESSION['l10n']['fr']['Web Reference: %s']='Adresse web : %s';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['f1ce5d9609440ef5da411f7524e7c4e5']='La requête est transmise au serveur immédiatement après un clic sur le bouton. Cependant, le traitement est si important que vous pourriez avoir à attendre plusieurs minutes avant d\'obtenir une réponse à l\'écran. Merci de votre patience.';
-$_SESSION['l10n']['fr']['Wiki page']='Page Wiki';
 $_SESSION['l10n']['fr']['Wikis']='Wikis';
 $_SESSION['l10n']['fr']['Working overlay']='Travail en cours';
 $_SESSION['l10n']['fr']['71c285946fed2c37d64e6d619d563254']='Oui, je veux compresser et assembler les fichiers Javascript';

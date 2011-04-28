@@ -217,6 +217,19 @@ Class Section extends Anchor {
 	}
 
 	/**
+	 * get the named url for this anchor
+	 *
+	 * If the anchor as been named, this function returns the related url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
+		return NULL;
+	}
+
+	/**
 	 * get next and previous items, if any
 	 *
 	 * @param string the item type (eg, 'article', 'image', 'file', etc.)
@@ -435,6 +448,19 @@ Class Section extends Anchor {
 	}
 
 	/**
+	 * get the short url for this anchor
+	 *
+	 * If the anchor has one, this function returns a minimal url.
+	 *
+	 * @return an url to view the anchor page, or NULL
+	 */
+	function get_short_url() {
+		if(isset($this->item['id']))
+			return 's~'.reduce_number($this->item['id']);;
+		return NULL;
+	}
+
+	/**
 	 * get some introductory text from a section
 	 *
 	 * This function is used to introduce comments, or any sub-item related to an anchor.
@@ -503,7 +529,7 @@ Class Section extends Anchor {
 		// use overlay data, if any
 		if(!$text) {
 			include_once $context['path_to_root'].'overlays/overlay.php';
-			$overlay = Overlay::load($this->item);
+			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
 			if(is_object($overlay))
 				$text .= $overlay->get_text('list', $this->item);
 		}
@@ -831,7 +857,6 @@ Class Section extends Anchor {
 			.'|with_extra_profile'	// only in blog
 			.'|with_files'			// no way to depart from this in sub-sections
 			.'|with_links'			// no way ...
-			.'|with_neighbours'
 			.'|with_prefix_profile' // only in discussion boards
 			.'|with_suffix_profile)/';	// only in authoring sections
 
@@ -989,32 +1014,6 @@ Class Section extends Anchor {
 	}
 
 	/**
-	 * get the named url for this anchor
-	 *
-	 * If the anchor as been named, this function returns the related url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_named_url() {
-		if(isset($this->item['nick_name']) && $this->item['nick_name'])
-			return normalize_shortcut($this->item['nick_name']);
-		return NULL;
-	}
-
-	/**
-	 * get the short url for this anchor
-	 *
-	 * If the anchor has one, this function returns a minimal url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_short_url() {
-		if(isset($this->item['id']))
-			return 's~'.reduce_number($this->item['id']);;
-		return NULL;
-	}
-
-	/**
 	 * restore a previous version of this section
 	 *
 	 * @param array set of attributes to restore
@@ -1110,38 +1109,8 @@ Class Section extends Anchor {
 
 			}
 
-			// we are in some interactive thread
-			if($this->is_interactive()) {
-
-				// default is to download the file
-				if(!$label)
-					$label = '[download='.$origin.']';
-
-				// this is the first contribution to the thread
-				include_once $context['path_to_root'].'comments/comments.php';
-				if(!$comment = Comments::get_newest_for_anchor('section:'.$this->item['id'])) {
-					$fields = array();
-					$fields['anchor'] = 'section:'.$this->item['id'];
-					$fields['description'] = $label;
-
-				// this is a continuated contribution from this authenticated surfer
-				} elseif(Surfer::get_id() && (isset($comment['create_id']) && (Surfer::get_id() == $comment['create_id']))) {
-					$comment['description'] .= BR.$label;
-					$fields = $comment;
-
-				// else process the contribution as a new comment
-				} else {
-					$fields = array();
-					$fields['anchor'] = 'section:'.$this->item['id'];
-					$fields['description'] = $label;
-
-				}
-
-				// actual creation in the database, but silently
-				Comments::post($fields);
-
 			// include flash videos in a regular page
-			} elseif($label)
+			if($label)
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
@@ -1284,8 +1253,8 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
-		// send alerts on new item, or on article modification, except for pages in special sections
-		if(preg_match('/(:create|article:update)$/i', $action) && isset($this->item['index_map']) && ($this->item['index_map'] == 'Y')) {
+		// send alerts on new item, or on article modification, or on section modification
+		if(preg_match('/(:create|article:update|section:update)$/i', $action)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
@@ -1319,7 +1288,7 @@ Class Section extends Anchor {
 
 			// an article has been updated
 			} elseif($action == 'article:update') {
-				if(($target = Articles::get($origin)) && $target['id'] && $to_watchers) {
+				if(($target = Articles::get($origin)) && $target['id']) {
 
 					// message components
 					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
@@ -1336,7 +1305,8 @@ Class Section extends Anchor {
 					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
 					// special case of article watchers
-					Users::alert_watchers('article:'.$target['id'], $mail);
+					if($to_watchers)
+						Users::alert_watchers('article:'.$target['id'], $mail);
 
 				}
 
@@ -1388,6 +1358,30 @@ Class Section extends Anchor {
 
 				}
 
+			// a section has been updated
+			} elseif($action == 'section:update') {
+				if(($target = Sections::get($origin)) && $target['id']) {
+
+					// message components
+					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
+					$title = ucfirst(strip_tags($target['title']));
+					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
+
+					// message subject
+					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);
+
+					// message to watchers
+					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+
+					// special case of section watchers
+					if($to_watchers)
+						Users::alert_watchers('section:'.$target['id'], $mail);
+
+				}
+
 			// something else has been added to the section
 			} else {
 
@@ -1406,8 +1400,51 @@ Class Section extends Anchor {
 
 			}
 
-			// regular case of section update
-			if($action != 'article:update') {
+			// alert only watchers of this section
+			if($action == 'article:update') {
+
+				// we will re-use the message sent to page watchers
+				if(isset($mail['message'])) {
+
+					// reference of this section only
+					$container = $this->get_reference();
+
+					// autorized users
+					$restricted = NULL;
+					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+						foreach($editors as $editor)
+							if(strpos($editor, 'user:') === 0)
+								$restricted[] = substr($editor, strlen('user:'));
+					}
+
+					// alert all watchers at once
+					if($to_watchers)
+						Users::alert_watchers($container, $mail, $restricted);
+
+				}
+
+			// alert only watchers of parent section
+			} elseif($action == 'section:update') {
+
+				// we will re-use the message sent to section watchers
+				if(isset($mail['message']) && ($container = $this->get_parent())) {
+
+					// autorized users
+					$restricted = NULL;
+					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+						foreach($editors as $editor)
+							if(strpos($editor, 'user:') === 0)
+								$restricted[] = substr($editor, strlen('user:'));
+					}
+
+					// alert all watchers at once
+					if($to_watchers)
+						Users::alert_watchers($container, $mail, $restricted);
+
+				}
+
+			// alert watchers of all sections upwards
+			} else {
 
 				// message to watchers
 				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
@@ -1448,7 +1485,7 @@ Class Section extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('section:update', $this->item['id'], TRUE);
+			$this->anchor->touch('section:touch', $this->item['id'], TRUE);
 
 	}
 

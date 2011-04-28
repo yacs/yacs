@@ -1409,7 +1409,6 @@ Class Categories {
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape($fields['rank'])."',"
-			."sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 5)."',"
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
@@ -1542,7 +1541,6 @@ Class Categories {
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape($fields['rank'])."',"
-			."sections_count='".SQL::escape($fields['sections_count'])."',"
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape($fields['thumbnail_url'])."',"
@@ -1730,7 +1728,7 @@ Class Categories {
 	 * - category is restricted (active='N'), but surfer is an associate
 	 * - an expiry date has not been defined, or is not yet passed
 	 *
-	 * @param the search string
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
@@ -1759,13 +1757,7 @@ Class Categories {
 			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// look in keywords as well
 		$match = "((keywords LIKE '".SQL::escape($pattern)."%') OR (".$match."))";
@@ -1839,7 +1831,6 @@ Class Categories {
 		$fields['path'] 			= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['prefix']			= "TEXT NOT NULL";
 		$fields['rank'] 			= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
-		$fields['sections_count']	= "INT UNSIGNED NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['suffix']			= "TEXT NOT NULL";
 		$fields['thumbnail_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";

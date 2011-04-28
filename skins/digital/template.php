@@ -59,125 +59,113 @@
 // stop hackers
 defined('YACS') or exit('Script must be included');
 
-// build the prefix only once
-if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
+// add language information, if known
+if(isset($context['page_language']))
+	$language = ' xml:lang="'.$context['page_language'].'" ';
+else
+	$language = '';
 
-	// add language information, if known
-	if(isset($context['page_language']))
-		$language = ' xml:lang="'.$context['page_language'].'" ';
-	else
-		$language = '';
+// start the page
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"
+	.'<html '.$language.' xmlns="http://www.w3.org/1999/xhtml">'."\n"
+	.'<head>'."\n";
 
-	// start the page
-	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"
-		.'<html '.$language.' xmlns="http://www.w3.org/1999/xhtml">'."\n"
-		.'<head>'."\n";
+// give the charset to the w3c validator...
+echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'; charset='.$context['charset'].'" />'."\n";
 
-	// give the charset to the w3c validator...
-	echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'; charset='.$context['charset'].'" />'."\n";
+// we have one style sheet for everything -- media="all" means it is not loaded by Netscape Navigator 4
+echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/digital.css" type="text/css" media="all" />'."\n";
 
-	// we have one style sheet for everything -- media="all" means it is not loaded by Netscape Navigator 4
-	echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/digital.css" type="text/css" media="all" />'."\n";
+// nice titles
+echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/nicetitle.css" type="text/css" media="all" />'."\n";
 
-	// nice titles
-	echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/nicetitle.css" type="text/css" media="all" />'."\n";
-
-	// implement the 'you are here' feature
-	if($focus = Page::top_focus()) {
-		echo "\t".'<style type="text/css" media="screen">'."\n"
-			."\t\t".'ul li#'.$focus.' a {'."\n"
-			."\t\t\t".'background-position: 0% -44px;'."\n"
-			."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
-			."\t\t".'}'."\n"
-			."\t\t".'ul li#'.$focus.' a span {'."\n"
-			."\t\t\t".'background-position: 100% -44px;'."\n"
-			."\t\t\t".'color: #039;'."\n"
-			."\t\t".'}'."\n"
-			."\t".'</style>'."\n";
-	}
-
-	// set icons for this site
-	if(!$context['site_icon']) {
-		echo "\t".'<link rel="shortcut icon" href="'.$context['url_to_root'].'skins/digital/squares.ico" type="image/x-icon" />'."\n";
-		echo "\t".'<link rel="icon" href="'.$context['url_to_root'].'skins/digital/squares.ico" type="image/x-icon" />'."\n";
-	}
-
-	// other head directives
-	echo $context['page_header'];
-
-	// end of the header
-	echo '</head>'."\n";
-
-	// start the body
-	Page::body();
-
-	// the default header panel
-	Page::header_panel();
-
-	// several columns in the middle
-	echo '<div id="wrapper">'."\n";
-
-	// the main panel
-	echo '<div id="main_panel">'."\n";
-
-	// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
-	if($context['skin_variant'] != 'home')
-		Page::bread_crumbs(2);
-
-	// display main content
-	Page::content();
-
-// prefix ends here
+// implement the 'you are here' feature
+if($focus = Page::top_focus()) {
+	echo "\t".'<style type="text/css" media="screen">'."\n"
+		."\t\t".'ul li#'.$focus.' a {'."\n"
+		."\t\t\t".'background-position: 0% -44px;'."\n"
+		."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
+		."\t\t".'}'."\n"
+		."\t\t".'ul li#'.$focus.' a span {'."\n"
+		."\t\t\t".'background-position: 100% -44px;'."\n"
+		."\t\t\t".'color: #039;'."\n"
+		."\t\t".'}'."\n"
+		."\t".'</style>'."\n";
 }
 
-// build the suffix only once
-if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
-
-	// ensure we have some content
-	echo '<br style="clear: left;" />&nbsp;'."\n";
-
-	// end of the main panel
-	echo '</div>'."\n";
-
-	// display complementary information, if any
-	Page::extra_panel();
-
-	// the footer panel
-	echo '<div id="footer_panel">';
-
-	// page footer --we have been validated
-	Page::footer('<a href="http://validator.w3.org/check?uri=referer"><img src="'.$context['url_to_root'].$context['skin'].'/images/buttons_xhtmlw3c.gif" alt="XHTML 1.0!" height="15" width="80" /></a><br />');
-
-	// end of the footer panel
-	echo '</div>'."\n";
-
-	// end of the wrapper
-	echo '</div>'."\n";
-
-	// navigation information
-	echo '<div id="side_panel">'."\n";
-
-	// display side content
-	Page::side();
-
-	// link to yacs if we are at the front page
-	if(($context['skin_variant'] == 'home') && is_callable(array('i18n', 's')))
-		echo Skin::build_box(NULL, '<p>'.sprintf(i18n::s('Powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'Yacs', 'external')).'</p>', 'extra');
-
-	// end of the side panel
-	echo '</div>'."\n";
-
-	// insert the dynamic footer, if any, including inline scripts
-	echo $context['page_footer'];
-
-	// nice titles
-	echo "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'skins/digital/nicetitle.js"></script>'."\n";
-
-	// end of the page
-	echo '</body>'."\n"
-		.'</html>';
-
-// suffix ends here
+// set icons for this site
+if(!$context['site_icon']) {
+	echo "\t".'<link rel="shortcut icon" href="'.$context['url_to_root'].'skins/digital/squares.ico" type="image/x-icon" />'."\n";
+	echo "\t".'<link rel="icon" href="'.$context['url_to_root'].'skins/digital/squares.ico" type="image/x-icon" />'."\n";
 }
+
+// other head directives
+echo $context['page_header'];
+
+// end of the header
+echo '</head>'."\n";
+
+// start the body
+Page::body();
+
+// the default header panel
+Page::header_panel();
+
+// several columns in the middle
+echo '<div id="wrapper">'."\n";
+
+// the main panel
+echo '<div id="main_panel">'."\n";
+
+// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
+if($context['skin_variant'] != 'home')
+	Page::bread_crumbs(2);
+
+// display main content
+Page::content();
+
+// ensure we have some content
+echo '<br style="clear: left;" />&nbsp;'."\n";
+
+// end of the main panel
+echo '</div>'."\n";
+
+// display complementary information, if any
+Page::extra_panel();
+
+// the footer panel
+echo '<div id="footer_panel">';
+
+// page footer --we have been validated
+Page::footer('<a href="http://validator.w3.org/check?uri=referer"><img src="'.$context['url_to_root'].$context['skin'].'/images/buttons_xhtmlw3c.gif" alt="XHTML 1.0!" height="15" width="80" /></a><br />');
+
+// end of the footer panel
+echo '</div>'."\n";
+
+// end of the wrapper
+echo '</div>'."\n";
+
+// navigation information
+echo '<div id="side_panel">'."\n";
+
+// display side content
+Page::side();
+
+// link to yacs if we are at the front page
+if(($context['skin_variant'] == 'home') && is_callable(array('i18n', 's')))
+	echo Skin::build_box(NULL, '<p>'.sprintf(i18n::s('Powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'Yacs', 'external')).'</p>', 'extra');
+
+// end of the side panel
+echo '</div>'."\n";
+
+// insert the dynamic footer, if any, including inline scripts
+echo $context['page_footer'];
+
+// nice titles
+echo "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'skins/digital/nicetitle.js"></script>'."\n";
+
+// end of the page
+echo '</body>'."\n"
+	.'</html>';
 
 ?>

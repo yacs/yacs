@@ -305,8 +305,8 @@ if(Surfer::is_crawler()) {
 		// follow-up
 		} else {
 
-			// touch the related anchor
-			$anchor->touch('link:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+			// touch the related anchor and alert watchers
+			$anchor->touch('link:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE);
 
 			// clear cache
 			Links::clear($_REQUEST);

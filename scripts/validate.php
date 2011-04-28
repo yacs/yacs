@@ -207,7 +207,6 @@ function send_body() {
 
 		// clear text some scripts could have added
 		$context['debug'] = '';
-		unset($context['embedded']);
 		$context['extra'] = '';
 		$context['navigation'] = '';
 		$context['suffix'] = '';

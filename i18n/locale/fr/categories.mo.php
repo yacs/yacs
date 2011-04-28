@@ -5,21 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-01-12 11:44+0100
-PO-Revision-Date: 2011-01-12 12:04+0100
-Last-Translator: Alexis Raimbault <rair@cybermedium.info>
-Language-Team: Agnès Rambaud, Bernard Paques
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Language: 
-Plural-Forms: nplurals=2; plural=(n != 1);
-X-Poedit-Language: French
-X-Poedit-Country: FRANCE
-X-Poedit-SourceCharset: utf-8
-';
 $_SESSION['l10n']['fr']['%d category'.chr(0).'%d categories']='%d catégorie'.chr(0).'%d catégories';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
@@ -109,7 +94,6 @@ $_SESSION['l10n']['fr']['Keywords update']='Mise à jour des mots clés';
 $_SESSION['l10n']['fr']['Layout']='Mise en page';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['932f09e2a8f6216bed67e5409a6369b0']='Des liens peuvent être ajoutés à la page d\'index';
-$_SESSION['l10n']['fr']['ecc7ab4a52b62f6e4deb6339dc119ec5']='Lister jusqu\'à %s sections avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['b50b92192131c5e24b75ab0be52428e8']='Lister jusqu\'à %s sous-catégories avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
@@ -141,8 +125,6 @@ $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Parent category']='Catégorie parente';
-$_SESSION['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas public, et cette contrainte sera héritée';
-$_SESSION['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['9f4692b25599584f9f5ce45a2428bb91']='Choisissez une catégorie parente.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
@@ -154,7 +136,6 @@ $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
-$_SESSION['l10n']['fr']['865d541aabc6047e6a6db3a2ea4feb32']='Public - Tout le monde, y compris les surfeurs anonymes';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['Rank']='Rang';
 $_SESSION['l10n']['fr']['Rebuild title paths']='Reconstruire les chemins de titrage';
@@ -218,7 +199,6 @@ $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['6214aa6c778c69428ff7146f8e56867a']='Attention : aucun script ne correspond à la mise en page %s';
 $_SESSION['l10n']['fr']['Week of&nbsp;%s']='Semaine du&nbsp;%s';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
-$_SESSION['l10n']['fr']['Who is allowed to access?']='Quelles sont les personnes autorisées ?';
 $_SESSION['l10n']['fr']['YACS can list most recent items']='YACS peut lister les éléments les plus récents';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['Yahoo!']='Yahoo!';

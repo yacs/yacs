@@ -37,7 +37,7 @@ if(!Surfer::is_crawler()) {
 
 	// tags, if any
 	if(isset($item['tags']))
-		$context['page_tags'] =& Skin::build_tags($item['tags'], 'article:'.$item['id']);
+		$context['page_tags'] =& Skin::build_tags($item['tags']);
 
 	// one detail per line
 	$text .= '<p class="details">';
@@ -204,20 +204,19 @@ if(defined('DIGG'))
 if(isset($owner['id']) && is_object($anchor))
 	$context['text'] .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
-// only at the first page
-if($page == 1) {
-
-	// the introduction text, if any
-	if(is_object($overlay))
-		$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-	elseif(isset($item['introduction']) && trim($item['introduction']))
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
-
-}
+// the introduction text, if any
+if(is_object($overlay))
+	$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+elseif(isset($item['introduction']) && trim($item['introduction']))
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 // special layout for digg
 if(defined('DIGG'))
 	$context['text'] .= '</div>';
+
+// get text related to the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('view', $item);
 
 // the owner profile, if any, at the end of the page
 if(isset($owner['id']) && is_object($anchor))
@@ -233,41 +232,9 @@ $panels = array();
 //
 $information = '';
 
-// get text related to the overlay, if any
-if(is_object($overlay))
-	$information .= $overlay->get_text('view', $item);
-
-// filter description, if necessary
-if(is_object($overlay))
-	$description = $overlay->get_text('description', $item);
-else
-	$description = $item['description'];
-
-// the beautified description, which is the actual page body
-if($description) {
-
-	// provide only the requested page
-	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	$page = max(min($page, count($pages)), 1);
-	$description = $pages[ $page-1 ];
-
-	// if there are several pages, remove toc and toq codes
-	if(count($pages) > 1)
-		$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-	// beautify the target page
-	$information .= Skin::build_block($description, 'description', '', $item['options']);
-
-	// if there are several pages, add navigation commands to browse them
-	if(count($pages) > 1) {
-		$page_menu = array( '_' => i18n::s('Pages') );
-		$home = Articles::get_permalink($item);
-		$prefix = Articles::get_url($item['id'], 'navigate', 'page');
-		$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-		$information .= Skin::build_list($page_menu, 'menu_bar');
-	}
-}
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$information .= $context['page_description'];
 
 // add trailer information from the overlay, if any
 if(is_object($overlay))
@@ -311,21 +278,8 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 // on-going conversation
 } else {
 
-	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item)) {
-
-		// we have a wall
-		if(Articles::has_option('comments_as_wall', $anchor, $item))
-			$comments_prefix = TRUE;
-
-		// we have a manual
-		elseif(is_object($anchor) && $anchor->has_layout('manual'))
-			$comments_prefix = TRUE;
-
-		// editors and associates can always contribute to a thread
-		else
-			$comments_suffix = TRUE;
-	}
+	// we have a wall, or not
+	$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 	// get a layout for these comments
 	$layout =& Comments::get_layout($anchor, $item);
@@ -349,7 +303,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(isset($comments_prefix))
+	if(Comments::allow_creation($anchor, $item) && $reverted)
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -358,7 +312,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// list comments by date
-		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
 
 		// actually render the html
 		if(is_array($items))
@@ -372,7 +326,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 
 
 		// new comments are allowed
-		if(isset($comments_suffix)) {
+		if(Comments::allow_creation($anchor, $item) && !$reverted) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
 		}
@@ -485,31 +439,60 @@ $users = '';
 $users_count = 0;
 
 // the list of related users if not at another follow-up page
-if(!$zoom_type || ($zoom_type == 'users')) {
+if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 
 	// build a complete box
 	$box = array('bar' => array(), 'text' => '');
 
-	// count the number of users
-	$ecount = Members::count_users_for_member('article:'.$item['id']);
-	$wcount = Members::count_users_for_anchor('article:'.$item['id']);
-	$users_count = max($ecount, $wcount);
+	// list participants
+	$rows = array();
+	Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
+	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 
-	// count watchers
-	if($wcount > 1)
-		$box['bar'] += array('_wcount' => sprintf(i18n::ns('%d watcher', '%d watchers', $wcount), $wcount));
+	// list editors of this page, and of parent sections
+	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
+		foreach($items as $user_id => $user_label) {
+			$owner = '';
+			if($user_id == $item['owner_id'])
+				$owner = CHECKED_IMG;
+			$editor = CHECKED_IMG;
+			$watcher = '';
+			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+		}
+	}
 
-	// spread the list over several pages
-	if($ecount > 1)
-		$box['bar'] += array('_ecount' => sprintf(i18n::ns('%d editor', '%d editors', $ecount), $ecount));
+	// watching horizon is limited to parent section at most
+	$anchors = array('article:'.$item['id']);
+	if(($item['active'] != 'N') || $anchor->is_assigned())
+		$anchors[] = $anchor->get_reference();
 
-	// navigation commands for users
-	$home = Articles::get_permalink($item);
-	$prefix = Articles::get_url($item['id'], 'navigate', 'users');
-	$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $ecount, USERS_LIST_SIZE, $zoom_index, FALSE, FALSE, '#_users'));
+	// watchers
+	if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 500, 'watch')) {
+		foreach($items as $user_id => $user_label) {
 
-	// add to the watch list -- $in_wath_list is set in sections/view.php
-	if(Surfer::get_id() && !$in_watch_list) {
+			// add the checkmark to existing row
+			if(isset($rows[$user_id]))
+				$rows[$user_id][1] = CHECKED_IMG;
+
+			// append a new row
+			else {
+				$owner = '';
+				if($user_id == $item['owner_id'])
+					$owner = CHECKED_IMG;
+				$editor = '';
+				$watcher = CHECKED_IMG;
+				$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+			}
+		}
+	}
+
+	// count
+	if($count = count($rows))
+		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $count), $count));
+
+	// add to the watch list -- $in_watch_list is set in sections/view.php
+	if(Surfer::get_id() && ($in_watch_list == 'N')) {
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'track') => TOOLS_WATCH_IMG.i18n::s('Watch this page'));
 	}
@@ -521,7 +504,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	}
 
 	// notify participants
-	if(($wcount > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(($count > 1) && Articles::allow_message($item, $anchor) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
 		$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	}
@@ -534,49 +517,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// leave this page, for editors
 	} elseif(Articles::is_assigned($item['id'])) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'sections/assign.gif');
-		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
-	}
-
-	// list editors
-	Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
-	$rows = array();
-	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-	if($items =& Members::list_editors_for_member('article:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch')) {
-		foreach($items as $user_id => $user_label) {
-			$owner = '';
-			if($user_id == $item['owner_id'])
-				$owner = CHECKED_IMG;
-			$editor = CHECKED_IMG;
-			$watcher = '';
-			if(Members::check('article:'.$item['id'], 'user:'.$user_id))
-				$watcher = CHECKED_IMG;
-			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
-		}
-	}
-
-	// watchers
-	if(count($rows) < USERS_LIST_SIZE) {
-		if($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], $offset, 2*USERS_LIST_SIZE, 'watch')) {
-			foreach($items as $user_id => $user_label) {
-
-				// add the checkmark to existing row
-				if(isset($rows[$user_id]))
-					$rows[$user_id][1] = CHECKED_IMG;
-
-				// append a new row
-				else {
-					$owner = '';
-					if($user_id == $item['owner_id'])
-						$owner = CHECKED_IMG;
-					$editor = '';
-					$watcher = CHECKED_IMG;
-					$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
-
-					if(count($rows) >= USERS_LIST_SIZE)
-						break;
-				}
-			}
-		}
+		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'leave') => ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	}
 
 	// headers
@@ -603,7 +544,10 @@ if($users) {
 	$panels[] = array('users', $label, 'users_panel', $users);
 }
 
-// let YACS do the hard job
+
+//
+// assemble all tabs
+//
 $context['text'] .= Skin::build_tabs($panels);
 
 // buttons to display previous and next pages, if any

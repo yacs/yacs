@@ -687,6 +687,10 @@ if(!file_exists('../parameters/control.include.php')) {
 			// collections
 			$commands[] = sprintf(i18n::s('%s - shared directories and files'), Skin::build_link('collections/', i18n::s('File collections'), 'basic'));
 
+			// import some content
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - exported from another server'), Skin::build_link('control/import.php', i18n::s('Import XML content'), 'basic'));
+
 			// upload some CSV
 			if(Surfer::is_associate())
 				$commands[] = sprintf(i18n::s('%s - update the database'), Skin::build_link('tables/import.php', i18n::s('Upload a .CSV file'), 'basic'));

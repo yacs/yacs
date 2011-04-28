@@ -213,13 +213,13 @@ $context['site_revisit_after'] = 2;
 $context['site_slogan'] = '';
 
 // components to put in the extra panel --see skins/configure.php
-$context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
+$context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours categories bookmarklets servers download referrals visited';
 
 // components to put in the main panel --see skins/configure.php
-$context['skins_main_components'] = 'title error text tags details bar';
+$context['skins_main_components'] = 'title bar error text tags details';
 
 // components to put in the side panel --see skins/configure.php
-$context['skins_navigation_components'] = 'menu user navigation';
+$context['skins_navigation_components'] = 'user menu contextual navigation';
 
 // minimize CPU used by rendering engine --see skins/configure.php
 $context['skins_with_details'] = 'N';
@@ -531,6 +531,10 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 function &encode_field($text) {
 	global $context;
 
+	// not a string
+	if(!is_string($text))
+		return $text;
+
 	// encode special chars
 	$text = htmlspecialchars($text);
 
@@ -665,7 +669,7 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 
 // use special skin for handhelds
 if(!Surfer::is_desktop())
-	$context['skin'] = 'skins/_mobile.php';
+	$context['skin'] = 'skins/_mobile';
 
 // start with a default skin
 elseif(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
@@ -682,52 +686,6 @@ if(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 // the layout for the home page is used at several places
 if(!isset($context['root_articles_layout']) || !$context['root_articles_layout'])
 	$context['root_articles_layout'] = 'daily';
-
-/**
- * integrate yacs start of page
- *
- * This function may be used to integrate the YACS rendering engine into another software.
- * Look at [script]tools/embed.php[/script] for an example of how to use this function.
- */
-function embed_yacs_prefix() {
-	global $context;
-
-	// limit the output to the prefix only
-	$context['embedded'] = 'prefix';
-
-	// load the skin
-	load_skin();
-
-	// render page header
-	render_skin();
-
-}
-
-/**
- * integrate yacs end of page
- *
- * This function may be used to integrate the YACS rendering engine into another software.
- * Look at [script]tools/embed.php[/script] for an example of how to use this function.
- */
-function embed_yacs_suffix() {
-	global $context;
-
-	// no content on HEAD request
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
-		return;
-
-	// limit the output to the suffix only
-	$context['embedded'] = 'suffix';
-
-	// reload a template for footer rendering
-	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))
-		include $context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php';
-
-	// else reuse the original template for footer rendering
-	elseif(is_readable($context['path_to_root'].$context['skin'].'/template.php'))
-		include $context['path_to_root'].$context['skin'].'/template.php';
-
-}
 
 /**
  * load a skin
@@ -929,86 +887,81 @@ function render_skin($with_last_modified=TRUE) {
 		$context['skin_variant'] = 'fake';
 	}
 
-	// don't do this on second rendering phase
-	if(!isset($context['embedded']) || ($context['embedded'] != 'suffix')) {
+	// navigation - navigation boxes
+	if(file_exists($context['path_to_root'].'parameters/switch.on')) {
 
-		// navigation - navigation boxes
-		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
+		// cache dynamic boxes for performance, and if the database can be accessed
+		$cache_id = 'shared/global.php#render_skin#navigation';
+		if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
 
-			// cache dynamic boxes for performance, and if the database can be accessed
-			$cache_id = 'shared/global.php#render_skin#navigation';
-			if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
+			// navigation boxes in cache
+			global $global_navigation_box_index;
+			if(!isset($global_navigation_box_index))
+				$global_navigation_box_index = 20;
+			else
+				$global_navigation_box_index += 20;
 
-				// navigation boxes in cache
-				global $global_navigation_box_index;
-				if(!isset($global_navigation_box_index))
-					$global_navigation_box_index = 20;
-				else
-					$global_navigation_box_index += 20;
+			// the maximum number of boxes is a global parameter
+			if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
+				$context['site_navigation_maximum'] = 7;
 
-				// the maximum number of boxes is a global parameter
-				if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
-					$context['site_navigation_maximum'] = 7;
+			// navigation boxes from the dedicated section
+			$anchor = Sections::lookup('navigation_boxes');
 
-				// navigation boxes from the dedicated section
-				$anchor = Sections::lookup('navigation_boxes');
+			if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
 
-				if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
+				// one box per article
+				foreach($rows as $title => $attributes)
+					$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
 
-					// one box per article
-					foreach($rows as $title => $attributes)
-						$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
-
-					// cap the total number of navigation boxes
-					$context['site_navigation_maximum'] -= count($rows);
-				}
-
-				// navigation boxes made from categories
-				if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
-
-					// one box per category
-					foreach($categories as $id => $attributes) {
-
-						// box title
-						$label = Skin::strip($attributes['title']);
-
-						// link to the category page from box title
-						if(is_callable(array('i18n', 's')))
-							$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
-
-						// list sub categories
-						$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
-
-						// list linked articles
-						include_once $context['path_to_root'].'links/links.php';
-						if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
-							if($items)
-								$items = array_merge($items, $articles);
-							else
-								$items = $articles;
-
-						// else list links
-						} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
-							if($items)
-								$items = array_merge($items, $links);
-							else
-								$items = $links;
-						}
-
-						// display what has to be displayed
-						if($items)
-							$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
-
-					}
-				}
-
-				// save on requests
-				Cache::put($cache_id, $text, 'various');
-
+				// cap the total number of navigation boxes
+				$context['site_navigation_maximum'] -= count($rows);
 			}
-			$context['navigation'] .= $text;
-		}
 
+			// navigation boxes made from categories
+			if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
+
+				// one box per category
+				foreach($categories as $id => $attributes) {
+
+					// box title
+					$label = Skin::strip($attributes['title']);
+
+					// link to the category page from box title
+					if(is_callable(array('i18n', 's')))
+						$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
+
+					// list sub categories
+					$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
+
+					// list linked articles
+					include_once $context['path_to_root'].'links/links.php';
+					if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+						if($items)
+							$items = array_merge($items, $articles);
+						else
+							$items = $articles;
+
+					// else list links
+					} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+						if($items)
+							$items = array_merge($items, $links);
+						else
+							$items = $links;
+					}
+
+					// display what has to be displayed
+					if($items)
+						$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
+
+				}
+			}
+
+			// save on requests
+			Cache::put($cache_id, $text, 'various');
+
+		}
+		$context['navigation'] .= $text;
 
 		// finalize page context
 		if(is_callable(array('Skin', 'finalize_context')))
@@ -1221,7 +1174,7 @@ function render_skin($with_last_modified=TRUE) {
 			.'		languages : "fr",'."\n"
 			.'		disk_cache : false,'."\n"
 			.'		relative_urls : false,'."\n"
-			.'		remove_script_host : true,'."\n"
+			.'		remove_script_host : false,'."\n"
 			.'		document_base_url : "'.$context['url_to_home'].$context['url_to_root'].'",'."\n"
 			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,searchreplace,paste,directionality,fullscreen,visualchars",'."\n"
 			.'		theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,formatselect,fontselect,fontsizeselect",'."\n"
@@ -1632,6 +1585,10 @@ function yacs_handler($content) {
  */
 function reduce_number($number) {
 
+	// safety test
+	if(!is_callable('bcscale'))
+		return $number;
+
 	// 62 digits
 	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
 
@@ -1657,6 +1614,10 @@ function reduce_number($number) {
  * @param int associated number
  */
 function restore_number($number) {
+
+	// safety test
+	if(!is_callable('bcscale'))
+		return $number;
 
 	// 62 digits
 	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
@@ -1834,6 +1795,18 @@ function normalize_shortcut($id, $with_prefix=FALSE) {
 
 	// job done
 	return $link;
+}
+
+/**
+ * proxy some URL through the yacs server
+ *
+ * @param string target URL, maybe from another server
+ * @return string proxied URL
+ */
+function proxy($url) {
+	global $context;
+
+	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
 }
 
 ?>

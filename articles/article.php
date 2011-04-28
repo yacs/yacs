@@ -30,7 +30,7 @@ Class Article extends Anchor {
 		// cache the overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item);
+			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 
 		// delegate the validation to the overlay
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
@@ -1075,10 +1075,13 @@ Class Article extends Anchor {
 				include_once $context['path_to_root'].'comments/comments.php';
 				if(($target = Comments::get($origin)) && $target['id']) {
 
-					// message components
-					$summary = sprintf(i18n::c('%s has posted a comment'), $surfer);
-					$title = Skin::strip($target['description'], 20, NULL, NULL);
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
+					// insert the full content of the comment, to provide the full information
+					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $this->item['title']).'</p>'
+						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
+
+					// offer to react to the comment
+					$title = i18n::s('Reply');
+					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
@@ -1139,9 +1142,9 @@ Class Article extends Anchor {
 		if(!$this->anchor)
 			$this->anchor =& Anchors::get($this->item['anchor']);
 
-		// propagate the touch upwards silently -- we only want to purge the cache
+		// propagate the touch upwards
 		if(is_object($this->anchor))
-			$this->anchor->touch('article:touch', $this->item['id'], TRUE);
+			$this->anchor->touch('article:update', $this->item['id'], TRUE, $to_watchers);
 
 	}
 

@@ -222,7 +222,7 @@ if(Surfer::is_crawler()) {
 
 	// attach some file
 	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
-		$_REQUEST['description'] .= $file;
+		$_REQUEST['description'] .= '<div>'.$file.'</div>';
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
@@ -448,11 +448,11 @@ if($with_form) {
 	$context['text'] .= '<p>';
 
 	// notify watchers
-	if(!isset($item['id']))
+	if($action != 'edit')
 		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
 
 	// notify people following me
-	if(!isset($item['id']) && Surfer::get_id() && !$anchor->is_hidden())
+	if(($action != 'edit') && Surfer::get_id() && !$anchor->is_hidden())
 		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
 
 	// associates and editors may decide to not stamp changes -- complex command

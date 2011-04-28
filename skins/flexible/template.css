@@ -48,150 +48,22 @@ p {
 
 /* Header styles */
 #header_panel {
-	clear:both;
-	float:left;
-	width:100%;
-	height: 200px;
 	overflow: hidden;
 }
 
-p.layoutstyle {
-	float:right;
-}
-
 !!header_panel!!
-
-/* 'widths' sub menu */
-#layoutdims {
-	clear:both;
-	border-top:4px solid #000;
-	margin:0;
-	padding:6px 15px !important;
-	text-align:right;
-}
-/* column container */
-.colmask {
-	position:relative;		/* This fixes the IE7 overflow hidden bug and stops the layout jumping out of place */
-	clear:both;
-	float:left;
-	width:100%;				/* width of whole page */
-	overflow:hidden;		/* This chops off any overhanging divs */
-	background: !!page_background!!;
-}
-
-/* holy grail 3 column settings */
-
-.holygrail {
-}
-
-.holygrail .colmid {
-	float:left;
-	width:200%;
-	margin-left: -!!extra_width!!; 	/* Width of right column */
-	position:relative;
-	right:100%;
-	background: transparent;    	/* Centre column background colour */
-}
-.holygrail .colleft {
-	float:left;
-	width:100%;
-	margin-left:-50%;
-	position:relative;
-	left: !!combined_width!!;         	/* Left column width + right column width */
-	background: !!side_background!!;    	/* Left column background colour */
-}
-.holygrail .col1wrap {
-	float:left;
-	width:50%;
-	position:relative;
-	right: !!side_width!!; 	/* Width of left column */
-}
-.holygrail #main_panel {
-	margin: !!main_holly_margin!!;     	/* Centre column side padding: (215px)
-							Left padding = left column width + centre column left padding width
-							Right padding = right column width + centre column right padding width */
-	position:relative;
-	left:200%;
-	overflow:hidden;
-}
-.holygrail #side_panel {
-	float:left;
-	float:right;			/* This overrides the float:left above */
-	width: !!side_inner_width!!;        	/* Width of left column content (left column width minus left and right padding) */
-	position:relative;
-	right: !!side_right_padding!!;         	/* Width of the left-had side padding on the left column */
-}
-.holygrail #extra_panel {
-	float:left;
-	float:right;			/* This overrides the float:left above */
-	width: !!extra_inner_width!!;        	/* Width of right column content (right column width minus left and right padding) */
-	margin-right: !!combined_right_margin!!;  	/* Width of right column right-hand padding + left column left and right padding */
-	position:relative;
-	left:50%;
-	background: !!extra_background!!;    	/* Right column background colour */
-}
-
-/* 3 column blog style settings */
-
-.blogstyle {
-	background: !!extra_background!!;    	/* Right column background colour */
-}
-
-.blogstyle .colmid {
-	float:left;
-	width:200%;
-	margin-left:-!!extra_width!!; 	/* Width of right column */
-	position:relative;
-	right:100%;
-	background: !!side_background!!;    	/* Centre column background colour */
-}
-.blogstyle .colleft {
-	float:left;
-	width:100%;
-	margin-left:-!!side_width!!; 	/* Width of centre column */
-	background:#fff;    	/* Left column background colour */
-}
-.blogstyle .col1wrap {
-	float:left;
-	width:50%;
-	padding-bottom:1em; 	/* Centre column bottom padding. Leave it out if it's zero */
-}
-.blogstyle #main_panel {
-	margin: !!main_blog_margin!!; /* 0 15px 0 415px;	/* Centre column side padding:
-							Left padding = left column width + centre column left padding width
-							Right padding = right column width + centre column right padding width */
-	position:relative;
-	left:100%;
-	overflow:hidden;
-}
-
-.blogstyle #side_panel {
-	float:right;
-	width: !!side_inner_width!!;        	/* Width of left column content (left column width minus left and right padding) */
-	position:relative;
-	left: !!side_left!! /* 185px;         	/* Width of the left-had side padding on the left column */
-}
-
-.blogstyle #extra_panel {
-	float:right;
-	width: !!extra_inner_width!!;        	/* Width of right column content (right column width minus left and right padding) */
-	position:relative;
-	left: !!extra_left!! /* 555px; */
-}
 
 /* special tabs */
 
 !!tabs!!
 
+/* breadcrumbs */
+
+!!breadcrumbs!!
+
 !!main_panel!!
 
 /* Footer styles */
-
-#footer {
-	clear:both;
-	float:left;
-	width:100%;
-}
 
 #footer_panel p {
 	padding:0;

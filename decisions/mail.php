@@ -41,12 +41,6 @@ $anchor = NULL;
 if($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
-// get the related overlay, if any
-$overlay = NULL;
-include_once '../overlays/overlay.php';
-if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
-
 // what kind of action?
 $action = '';
 if(isset($_REQUEST['action']))
@@ -244,7 +238,7 @@ if(Surfer::is_crawler()) {
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
 	$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array($context['script_url'] => i18n::s('Invite participants')));
+	$menu = array_merge($menu, array($context['script_url'] => i18n::s('Ask for a decision')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -255,7 +249,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// recipients
-	$label = i18n::s('Invite participants');
+	$label = i18n::s('Ask for a decision');
 	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);

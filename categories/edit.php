@@ -70,7 +70,7 @@ if(!isset($item['active']) && is_object($anchor))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']) && $item['overlay_id'])
 	$overlay = Overlay::bind($item['overlay_id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
@@ -78,8 +78,8 @@ elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 elseif(isset($_SESSION['variant']) && $_SESSION['variant']) {
 	$overlay = Overlay::bind($_SESSION['variant']);
 	unset($_SESSION['variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay('categories_overlay')))
-	$overlay = Overlay::bind($overlay_class);
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('categories_overlay');
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -218,7 +218,7 @@ if(Surfer::is_crawler()) {
 	}
 	// display the form on error
 	if((!$_REQUEST['id'] = Categories::post($_REQUEST))
-			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, $_REQUEST['id']))) {
+			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, 'category:'.$_REQUEST['id']))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -227,7 +227,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
 
 		// clear cache
 		Categories::clear($_REQUEST);
@@ -313,9 +313,7 @@ if($with_form) {
 
 	// layout for  related sections
 	$label = i18n::s('Layout');
-	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
-		$item['sections_count'] = SECTIONS_PER_PAGE;
-	$input = sprintf(i18n::s('List up to %s sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
+	$input = '';
 	$custom_layout = '';
 	if(!isset($item['sections_layout']) || !$item['sections_layout'])
 		$item['sections_layout'] = 'map';
@@ -634,34 +632,8 @@ if($with_form) {
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
 	$label = i18n::s('Access');
-
-	// maybe a public page
-	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
-	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
-
-	// maybe a restricted page
-	$input .= '<input type="radio" name="active_set" value="R"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
-
-	// or a hidden page
-	$input .= '<input type="radio" name="active_set" value="N"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
-
-	// combine this with inherited access right
-	if(is_object($anchor) && $anchor->is_hidden())
-		$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
-	elseif(is_object($anchor) && !$anchor->is_public())
-		$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
-	else
-		$hint = i18n::s('Who is allowed to access?');
-
-	// expand the form
+	$input = Skin::build_active_set_input($item);
+	$hint = Skin::build_active_set_hint($anchor);
 	$fields[] = array($label, $input, $hint);
 
 	// append fields

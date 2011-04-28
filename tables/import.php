@@ -137,7 +137,7 @@ elseif(!Surfer::is_associate()) {
 		}
 
 		// finalize the statement
-		$query .= "\n) TYPE=MyISAM";
+		$query .= "\n)";
 
 		// actual table creation
 		SQL::query($query);

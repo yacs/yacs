@@ -59,12 +59,20 @@ class Mailer {
 	 * @return array containing message parts ($type => $content)
 	 */
 	function &build_message($title, $text) {
+		global $context;
+
+		// change links from relative to absolute
+		$text = str_replace(' href="/', ' href="'.$context['url_to_home'].'/', $text);
+		$text = str_replace(' src="/', ' src="'.$context['url_to_home'].'/', $text);
 
 		// one element per type
 		$message = array();
 
 		// text/plain part has no tag anymore
-		$replacements = array("/<a href=\"(.*?)\">(.*?)<\/a>/i" => "\\2 \\1",
+		$replacements = array("/<a [^>]*?><img [^>]*?><\/a>/i" => '', // suppress clickable images
+			"/<a href=\"([^\"]+?)\"([^>]*?)>\\1<\/a>/i" => "\\1",	// un-twin clickable links
+			"/<a href=\"([^\"]+?)\" ([^>]*?)>(.*?)<\/a>/i" => "\\3 \\1", // label and link
+			"/<a href=\"([^\"]+?)\">(.*?)<\/a>/i" => "\\2 \\1", // label and link too
 			'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
 			'/&nbsp;/' => ' ');
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)))));
@@ -150,7 +158,7 @@ class Mailer {
 		global $context;
 
 		// nothing to show
-		if(!Surfer::get_id() || !isset($context['mailer_recipients']))
+		if(!isset($context['mailer_recipients']))
 			return '';
 
 		// return the bare list
@@ -548,6 +556,67 @@ class Mailer {
 	}
 
 	/**
+	 * encode message recipient
+	 *
+	 * @param string the original recipient mail address
+	 * @param string the original recipient name, if any
+	 * @return string the encoded recipient
+	 */
+	function encode_recipient($address, $name=NULL) {
+
+		// no space nor HTML tag in address
+		$address = preg_replace('/\s/', '', strip_tags($address));
+
+		// if a name is provided
+		if($name) {
+
+			// don't break the list of recipients
+			$name = str_replace(array(',', '"'), ' ', $name);
+
+			// at the moment we only accept ASCII names
+			$name = utf8::to_ascii($name);
+
+			// the full recipient
+			$recipient = '"'.$name.'" <'.$address.'>';
+
+		// else use the plain mail address
+		} else
+			$recipient = $address;
+
+		// done
+		return $recipient;
+	}
+
+	/**
+	 * encode message subject
+	 *
+	 * This function preserves the original subject line if it only has ASCII characters.
+	 * Else is encodes it using UTF-8.
+	 *
+	 * @param string the original subject
+	 * @return string the encoded subject
+	 */
+	function encode_subject($text) {
+
+		// no new line nor HTML tag in title
+		$text = preg_replace('/\s+/', ' ', strip_tags($text));
+
+		// encode if text is not pure ASCII - ' ' = 0x20 and 'z' = 0x7a
+		if(preg_match('/[^ -z]/', $text)) {
+
+			// make it utf-8
+			$text = utf8::from_unicode($text);
+
+			// encode it for the transfer --see RFC 2047
+			$text = '=?utf-8?B?'.base64_encode($text).'?=';
+
+		}
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * adapt content to legacy transmission pipes
 	 *
 	 * @param string the original string
@@ -674,6 +743,14 @@ class Mailer {
 	 * For this to work, e-mail services have to be explicitly activated in the
 	 * main configuration panel, at [script]control/configure.php[/script].
 	 *
+	 * You can refer to local images in HTML parts, and the function will automatically attach these
+	 * to the message, else mail clients would not display them correctly.
+	 *
+	 * The message actually sent has a complex structure, with several parts assembled together,
+	 * as [explained at altepeter.net|http://altepeter.net/tech/articles/html-emails].
+	 *
+	 * @link http://altepeter.net/tech/articles/html-emails
+	 *
 	 * Several recipients can be provided as a list of addresses separated by
 	 * commas. For bulk posts, recipients can be transmitted as an array of strings.
 	 * In all cases, this function sends one separate message per recipient.
@@ -686,7 +763,7 @@ class Mailer {
 	 *
 	 * Bracketed recipients, such as ##Foo Bar <foo@bar.com>##, are handled properly,
 	 * meaning ##foo@bar.com## is transmitted to the mailing function, while
-	 * the string ##To : Foo Bar <foo@bar.com>## is added to headers.
+	 * the string ##To: Foo Bar <foo@bar.com>## is added to headers.
 	 *
 	 * If an array of messages is provided to the function, it is turned to a multi-part
 	 * message, as in the following example:
@@ -698,8 +775,8 @@ class Mailer {
 	 * Mailer::post($from, $to, $subject, $message);
 	 * [/php]
 	 *
-	 * If you don't provide a charset, then UTF-8 is used. Also, it is recommended to
-	 * begin with the bare text, and to have the rich format part comming after, as in the example.
+	 * It is recommended to begin with the bare text, and to have the rich format part comming
+	 * after, as in the example. Also, if you don't provide a charset, then UTF-8 is used.
 	 *
 	 * Long lines of text/plain parts are wrapped according to
 	 * [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
@@ -712,10 +789,12 @@ class Mailer {
 	 *
 	 * [php]
 	 * $attachments = array();
-	 * $attachments[] = 'report.pdf';
-	 * $attachments[] = 'image.png';
+	 * $attachments[] = 'special/report.pdf';
+	 * $attachments[] = 'skins/my_skin/newsletters/image.png';
 	 * Mailer::post($from, $to, $subject, $message, $attachments);
 	 * [/php]
+	 *
+	 * Files are named from the installation directory of yacs, as visible in the examples.
 	 *
 	 * This function returns the number of successful posts,
 	 * and populates the error context, where applicable.
@@ -765,38 +844,36 @@ class Mailer {
 			return 0;
 		}
 
-		// no new line nor HTML tag in title
-		$subject = preg_replace('/\s+/', ' ', strip_tags($subject));
+		// the end of line string for mail messages
+		if(!defined('M_EOL'))
+			define('M_EOL', "\n");
 
-		// make it utf-8
-		$subject = utf8::from_unicode($subject);
-
-		// encode it for the transfer
-		$encoded_subject = '=?utf-8?B?'.base64_encode($subject).'?=';
+		// encode the subject line
+		$subject = Mailer::encode_subject($subject);
 
 		// make some text out of an array
 		if(is_array($headers))
-			$headers = implode("\n", $headers);
+			$headers = implode(M_EOL, $headers);
 
 		// From: header
 		if(!preg_match('/^From: /im', $headers))
-			$headers .= "\n".'From: '.$from;
+			$headers .= M_EOL.'From: '.$from;
 
 		// Reply-To: header
 		if(!preg_match('/^Reply-To: /im', $headers))
-			$headers .= "\n".'Reply-To: '.$from;
+			$headers .= M_EOL.'Reply-To: '.$from;
 
 		// Return-Path: header --to process errors
 		if(!preg_match('/^Return-Path: /im', $headers))
-			$headers .= "\n".'Return-Path: '.$from;
+			$headers .= M_EOL.'Return-Path: '.$from;
 
 		// Message-ID: header --helps to avoid spam filters
 		if(!preg_match('/^Message-ID: /im', $headers))
-			$headers .= "\n".'Message-ID: <'.time().'@'.$context['host_name'].'>';
+			$headers .= M_EOL.'Message-ID: <'.time().'@'.$context['host_name'].'>';
 
 		// MIME-Version: header
 		if(!preg_match('/^MIME-Version: /im', $headers))
-			$headers .= "\n".'MIME-Version: 1.0';
+			$headers .= M_EOL.'MIME-Version: 1.0';
 
 		// arrays are easier to manage
 		if(is_string($message)) {
@@ -809,8 +886,49 @@ class Mailer {
 			$message['text/plain; charset=utf-8'] = $copy;
 			unset($copy);
 		}
-		if(!$attachments)
+
+		// turn attachments to some array too
+		if(is_string($attachments))
+			$attachments = array( $attachments );
+		elseif(!is_array($attachments))
 			$attachments = array();
+
+		// we only consider objects from this server
+		$my_prefix = $context['url_to_home'].$context['url_to_root'];
+
+		// transcode objects that will be transmitted along the message (i.e., images)
+		foreach($message as $type => $part) {
+
+			// search throughout the full text
+			$head = 0;
+			while($head = strpos($part, ' src="', $head)) {
+				$head += strlen(' src="');
+
+				// a link has been found
+				if($tail = strpos($part, '"', $head+1)) {
+					$reference = substr($part, $head, $tail-$head);
+
+					// remember local links only
+					if(!strncmp($reference, $my_prefix, strlen($my_prefix))) {
+
+						// local name
+						$name = substr($reference, strlen($my_prefix));
+
+						// content-id to be used instead of the link
+						$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
+
+						// transcode the link in this part
+						$part = substr($part, 0, $head).'cid:'.$cid.substr($part, $tail);
+
+						// remember to put content in attachments of this message
+						$attachments[] = $name;
+					}
+				}
+			}
+
+			// remember the transcoded part
+			$message[ $type ] = $part;
+		}
 
 		// we need some boundary string
 		if((count($message) + count($attachments)) > 1)
@@ -837,7 +955,7 @@ class Mailer {
 				$lines = explode("\n", $part);
 				$part = '';
 				foreach($lines as $line)
-					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.CRLF, 0).CRLF;
+					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.M_EOL, 0).M_EOL;
 
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
@@ -845,7 +963,7 @@ class Mailer {
 
 			// encode the part for it transfer
 			if($content_encoding == 'base64')
-				$part = chunk_split(base64_encode($part));
+				$part = chunk_split(base64_encode($part), 76, M_EOL);
 
 			// only one part
 			if(count($message) == 1) {
@@ -855,78 +973,94 @@ class Mailer {
 			// one part among several
 			} else {
 
-				// the external type of assembled parts
+				// let user agent select among various alternatives
 				if(!$content_type)
 					$content_type = 'multipart/alternative; boundary="'.$boundary.'-internal"';
 
 				// introduction to assembled parts
 				if(!$body)
-					$body = 'This is a multi-part message in MIME format.'.CRLF;
+					$body = 'This is a multi-part message in MIME format.';
 
-				// this part only
-				$body .= CRLF.'--'.$boundary.'-internal'
-					.CRLF.'Content-Type: '.$type
-					.CRLF.'Content-Transfer-Encoding: '.$content_encoding
-					.CRLF.CRLF.$part."\n";
+				// this part only --second EOL is part of the boundary chain
+				$body .= M_EOL.M_EOL.'--'.$boundary.'-internal'
+					.M_EOL.'Content-Type: '.$type
+					.M_EOL.'Content-Transfer-Encoding: '.$content_encoding
+					.M_EOL.M_EOL.$part;
 
 			}
 		}
 
 		// finalize the body
 		if(count($message) > 1)
-			$body .= CRLF.'--'.$boundary.'-internal--';
+			$body .= M_EOL.M_EOL.'--'.$boundary.'-internal--';
 
 		// a mix of things
 		if(count($attachments)) {
 
-				// the current body becomes the first part of a larger message
-				if(!strncmp($content_type, 'multipart/', 10))
-					$content_encoding = '';
-				else
-					$content_encoding = CRLF.'Content-Transfer-Encoding: '.$content_encoding;
-
-				$body = 'This is a multi-part message in MIME format.'.CRLF
-					.CRLF.'--'.$boundary.'-external'
-					.CRLF.'Content-Type: '.$content_type
-					.$content_encoding
-					.CRLF.CRLF.$body."\n";
-
-				$content_type = 'multipart/mixed; boundary="'.$boundary.'-external"';
+			// encoding is irrelevant if there are multiple parts
+			if(!strncmp($content_type, 'multipart/', 10))
 				$content_encoding = '';
+			else
+				$content_encoding = M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
 
-				// process every file
-				foreach($attachments as $name) {
+			// identify the main part of the overall message
+			$content_start = 'mainpart';
 
-					// read file content
-					if(!$content = Safe::file_get_contents($name))
-						continue;
+			// the current body becomes the first part of a larger message
+			$body = 'This is a multi-part message in MIME format.'.M_EOL
+				.M_EOL.'--'.$boundary.'-external'
+				.M_EOL.'Content-Type: '.$content_type
+				.$content_encoding
+				.M_EOL.'Content-ID: <'.$content_start.'>'
+				.M_EOL.M_EOL.$body;
 
-					// append it to mail message
-					$basename = basename($name);
-					$type = Files::get_mime_type($basename);
+			// message parts should be considered as an aggregate whole --see RFC 2387
+			$content_type = 'multipart/related; type="multipart/alternative"; boundary="'.$boundary.'-external"';
+			$content_encoding = '';
 
-					$body .= CRLF.'--'.$boundary.'-external'
-						.CRLF.'Content-Type: '.$type.'; name="'.$basename.'"'
-						.CRLF.'Content-Transfer-Encoding: base64'
-						.CRLF.CRLF.chunk_split(base64_encode($content))."\n";
+			// process every file
+			foreach($attachments as $name) {
 
-				}
-				$body .= CRLF.'--'.$boundary.'-external--';
+				// read file content
+				if(!$content = Safe::file_get_contents($name))
+					continue;
+
+				// append it to mail message
+				$basename = utf8::to_ascii(basename($name));
+				$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
+				$type = Files::get_mime_type($name);
+
+				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
+					.M_EOL.'Content-Type: '.$type
+					.M_EOL.'Content-Description: '.$basename
+					.M_EOL.'Content-Disposition: inline; filename="'.$basename.'"'
+					.M_EOL.'Content-ID: <'.$cid.'>'
+					.M_EOL.'Content-Transfer-Encoding: base64'
+					.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+
+			}
+
+			// the closing boundary
+			$body .= M_EOL.M_EOL.'--'.$boundary.'-external--';
 
 		}
 
 
 		// Content-Type: header
 		if($content_type && !preg_match('/^Content-Type: /im', $headers))
-			$headers .= "\n".'Content-Type: '.$content_type;
+			$headers .= M_EOL.'Content-Type: '.$content_type;
 
 		// Content-Transfer-Encoding: header
 		if(!isset($boundary) && $content_encoding && !preg_match('/^Content-Transfer-Encoding: /im', $headers))
-			$headers .= "\n".'Content-Transfer-Encoding: '.$content_encoding;
+			$headers .= M_EOL.'Content-Transfer-Encoding: '.$content_encoding;
+
+		// Start: header
+		if(isset($boundary) && isset($content_start) && $content_start && !preg_match('/^Start: /im', $headers))
+			$headers .= M_EOL.'Start: '.$content_start;
 
 		// X-Mailer: header --helps to avoid spam filters
 		if(!preg_match('/^X-Mailer: /im', $headers))
-			$headers .= "\n".'X-Mailer: yacs';
+			$headers .= M_EOL.'X-Mailer: yacs';
 
 		// strip leading spaces and newlines
 		$headers = trim($headers);
@@ -957,7 +1091,7 @@ class Mailer {
 				$context['mailer_recipients'][] = $recipient;
 
 			// queue the message
-			Mailer::queue($recipient, $encoded_subject, $body, $headers);
+			Mailer::queue($recipient, $subject, $body, $headers);
 			$posts++;
 		}
 
@@ -1036,7 +1170,7 @@ class Mailer {
 
 			$all_headers = 'Subject: '.$subject."\n".'To: '.$decoded_recipient."\n".$headers;
 
-			Logger::remember('shared/mailer.php', 'sending a message to '.$decoded_recipient, htmlentities($all_headers)."\n\n".$message, 'debug');
+			Logger::remember('shared/mailer.php', 'sending a message to '.$decoded_recipient, $all_headers."\n\n".$message, 'debug');
 			Safe::file_put_contents('temporary/mailer.process.txt', $all_headers."\n\n".$message);
 		}
 

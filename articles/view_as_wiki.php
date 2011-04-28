@@ -17,10 +17,9 @@
 // loaded from articles/view.php
 defined('YACS') or exit('Script must be included');
 
-//
-// rewrite $context['page_details'] because information is split in tabs
-//
-$text = '';
+// links to previous and next pages, if any
+if(isset($neighbours) && $neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
 //
 // panels
@@ -51,10 +50,6 @@ if(Articles::allow_modification($item, $anchor)) {
 // insert anchor prefix
 if(is_object($anchor))
 	$article .= $anchor->get_prefix();
-
-// links to previous and next pages, if any
-if(isset($neighbours) && $neighbours)
-	$article .= Skin::neighbours($neighbours, 'manual');
 
 // article rating, if the anchor allows for it, and if no rating has already been registered
 if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_option('rate_as_digg', $anchor, $item)) {
@@ -106,37 +101,9 @@ if($page == 1) {
 if(is_object($overlay))
 	$article .= $overlay->get_text('view', $item);
 
-// filter description, if necessary
-if(is_object($overlay))
-	$description = $overlay->get_text('description', $item);
-else
-	$description = $item['description'];
-
-// the beautified description, which is the actual page body
-if($description) {
-
-	// provide only the requested page
-	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	$page = max(min($page, count($pages)), 1);
-	$description = $pages[ $page-1 ];
-
-	// if there are several pages, remove toc and toq codes
-	if(count($pages) > 1)
-		$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-	// beautify the target page
-	$article .= Skin::build_block($description, 'description', '', $item['options']);
-
-	// if there are several pages, add navigation commands to browse them
-	if(count($pages) > 1) {
-		$page_menu = array( '_' => i18n::s('Pages') );
-		$home = Articles::get_permalink($item);
-		$prefix = Articles::get_url($item['id'], 'navigate', 'page');
-		$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-		$article .= Skin::build_list($page_menu, 'menu_bar');
-	}
-}
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$article .= $context['page_description'];
 
 // special layout for digg
 if(defined('DIGG'))
@@ -262,17 +229,8 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 // on-going conversation
 } else {
 
-	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item)) {
-
-		// we have a wall
-		if(Articles::has_option('comments_as_wall', $anchor, $item))
-			$comments_prefix = TRUE;
-
-		// editors and associates can always contribute to a thread
-		else
-			$comments_suffix = TRUE;
-	}
+	// we have a wall, or not
+	$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 	// get a layout for these comments
 	$layout =& Comments::get_layout($anchor, $item);
@@ -296,7 +254,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(isset($comments_prefix))
+	if(Comments::allow_creation($anchor, $item) && $reverted)
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -305,7 +263,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// list comments by date
-		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
 
 		// actually render the html
 		if(is_array($items))
@@ -320,7 +278,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	}
 
 	// new comments are allowed
-	if(isset($comments_suffix)) {
+	if(Comments::allow_creation($anchor, $item) && !$reverted) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
 	}

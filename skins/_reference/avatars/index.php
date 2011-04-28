@@ -29,10 +29,6 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 // the title of the page
 $context['page_title'] = i18n::s('The library of profile pictures');
 
-// logged users may change their avatar
-if(Surfer::is_logged())
-	$context['page_menu'] += array( 'users/select_avatar.php' => i18n::s('Your picture') );
-
 // list available avatars, except on error
 if(!count($context['error'])) {
 

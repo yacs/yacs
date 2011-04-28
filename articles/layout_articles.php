@@ -50,7 +50,7 @@ Class Layout_articles extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);

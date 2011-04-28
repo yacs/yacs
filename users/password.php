@@ -7,7 +7,7 @@
  *
  * Users that have only a shadow user profile are invited to go to the origin server.
  *
- * To avoid replay attacks YACS generates a random string and asks end user to type it.
+ * To avoid replay attacks YACS generates a random string and asks anonymous users to type it.
  *
  * This page also helps to recover from lost password. Non-authenticated users
  * can provide their nick name, and a message is sent to the related e-mail
@@ -152,7 +152,7 @@ if(Surfer::is_crawler()) {
 
 	// restrictions: anyone can modify its own profile; associates can modify everything
 	if(($item['id'] != Surfer::get_id()) && !Surfer::is_associate()) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// passwords have to be confirmed

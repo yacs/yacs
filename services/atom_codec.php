@@ -153,8 +153,6 @@ Class Atom_Codec extends Codec {
 
 	function parse_end_element($parser, $element) {
 
-//		logger::debug('[/'.$element.']');
-
 		if($element == 'entry') {
 
 			// transcode to expected labels
@@ -180,8 +178,6 @@ Class Atom_Codec extends Codec {
 	}
 
 	function parse_start_element($parser, $element, $attributes) {
-
-//		logger::debug('['.$element.' '.$attributes.']', 'start');
 
 		$this->current_field = $element;
 		if($element == 'feed')

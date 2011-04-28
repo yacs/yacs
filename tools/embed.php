@@ -15,17 +15,20 @@ include_once '../shared/global.php';
 // load localized strings -- see i18n/i18n.php for more information on internationalization and localization in YACS
 i18n::bind('tools');
 
-// the path to this page
+// load the skin
+load_skin('tools');
+
+// path to this page
 $context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
 
-// let YACS start the page
-embed_yacs_prefix();
+// page title
+$context['page_title'] = i18n::s('Hello world');
 
-// no content on HEAD request
-if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'HEAD')) {
+// render the page
+render_skin();
 
-	// display page title
-	echo '<h1>'.i18n::s('Hello world').'</h1>';
+// render_skin() calls send_body(), which can execute any code and generate any outpu
+function send_body() {
 
 	// display page content
 	echo '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
@@ -34,8 +37,5 @@ if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 		.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
 
 }
-
-// let YACS end the page
-embed_yacs_suffix();
 
 ?>

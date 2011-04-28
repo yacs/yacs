@@ -393,7 +393,7 @@ Class Comments {
 		if(Surfer::may_upload())
 			$menu[] = '<span class="details">'.sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']).' <input type="hidden" name="file_type" value="upload" /><input type="file" name="upload" size="30" /></span>';
 
-		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'comments/edit.php" ><div style="margin: 1em 0;">';
+		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data"><div style="margin: 1em 0;">';
 
 		$text .= Surfer::get_editor('description', '', TRUE);
 
@@ -470,8 +470,9 @@ Class Comments {
 			}
 			return IDEA_IMG;
 
-		// answering a previous request
+		// manual or automatic notification
 		case 'information':
+		case 'notification':
 
 			// use skin declaration if any
 			if(!defined('INFORMATION_IMG')) {
@@ -569,15 +570,6 @@ Class Comments {
 			include_once '../comments/layout_comments_as_yabb.php';
 			$layout = new Layout_comments_as_yabb();
 
-		// a manual
-		} elseif((is_object($anchor) && $anchor->has_option('comments_as_manual'))) {
-			include_once '../comments/layout_comments_as_manual.php';
-			$layout = new Layout_comments_as_manual();
-
-		} elseif(isset($item['options']) && preg_match('/\bcomments_as_manual\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_manual.php';
-			$layout = new Layout_comments_as_manual();
-
 		// a wiki
 		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
 			include_once '../comments/layout_comments_as_wiki.php';
@@ -586,11 +578,6 @@ Class Comments {
 		} elseif(isset($item['options']) && preg_match('/\bview_as_wiki\b/', $item['options'])) {
 			include_once '../comments/layout_comments_as_wiki.php';
 			$layout = new Layout_comments_as_wiki();
-
-		// no anchor
-		} elseif(!is_object($anchor)) {
-			include_once '../comments/layout_comments.php';
-			$layout = new Layout_comments();
 
 		// layout is defined in anchor
 		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
@@ -1690,13 +1677,7 @@ Class Comments {
 		}
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(description) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of comments
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "

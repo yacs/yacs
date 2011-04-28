@@ -60,7 +60,7 @@ if(isset($item['anchor']))
 $overlay = NULL;
 include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // link to contribute
 if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
@@ -167,31 +167,6 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['message']))
 		$message .= strip_tags($_REQUEST['message']);
 
-	// add a tail to the sent message
-	if($message) {
-
-		// use surfer signature, if any
-		$signature = '';
-		if(($user =& Users::get(Surfer::get_id())) && $user['signature'])
-			$signature = $user['signature'];
-
-		// else use default signature
-		else
-			$signature = sprintf(i18n::s('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
-
-		// transform YACS code, if any
-		if(is_callable('Codes', 'render'))
-			$signature = Codes::render($signature);
-
-		// plain text only
-		$signature = trim(strip_tags($signature));
-
-		// append the signature
-		if($signature)
-			$message .= "\n\n-----\n".$signature;
-
-	}
-
 	// sender address
 	$from = Surfer::from();
 
@@ -216,11 +191,11 @@ if(Surfer::is_crawler()) {
 
 			// invitation to a private page should be limited to editors
 			if($item['active'] == 'N')
-				$users =& Members::list_users_by_posts_for_member($reference, 0, 50*USERS_LIST_SIZE, 'raw');
+				$users =& Members::list_editors_for_member($reference, 0, 50*USERS_LIST_SIZE, 'raw');
 
 			// else invitation should be extended to watchers
 			else
-				$users =& Members::list_users_by_posts_for_anchor($reference, 0, 50*USERS_LIST_SIZE, 'raw');
+				$users =& Members::list_watchers_by_posts_for_anchor($reference, 0, 50*USERS_LIST_SIZE, 'raw');
 
 			// list members
 			if(count($users)) {
@@ -278,15 +253,15 @@ if(Surfer::is_crawler()) {
 			// always add the item to the watch list
 			Members::assign('section:'.$item['id'], 'user:'.$user['id']);
 
-			// this person has no email address
-			if(!$user['email'])
+			// this person has no valid email address
+			if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
 				continue;
 
 			// use this email address
 			if($user['full_name'])
-				$recipient = '"'.$user['full_name'].'" <'.$user['email'].'>';
+				$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
 			else
-				$recipient = '"'.$user['nick_name'].'" <'.$user['email'].'>';
+				$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 		// skip this recipient
 		} else {
@@ -332,7 +307,7 @@ if(Surfer::is_crawler()) {
 
 		// splash
 		$login_url = $context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'invite'));
-		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, i18n::s('authenticate')))."</p>\n";
 
 		// the name, if any
 		$label = i18n::s('Your name');
@@ -362,32 +337,34 @@ if(Surfer::is_crawler()) {
 
 		// page can be accessed by many people
 		else
-			$input .= '<p><input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review content')
-				.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage content').'</p>';
+			$input .= '<p><input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review public content (watchers)')
+				.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage public and private content (editors)').'</p>';
 	}
 
 	// list also selectable groups of people
-	$items = array();
+	$rows = array();
 	$handle = $item['anchor'];
 	while($handle && ($parent = Anchors::get($handle))) {
 		$handle = $parent->get_parent();
 
 		// invitation to a private page should be limited to editors
-		if($anchor->is_hidden()) {
+		if($item['active'] == 'N') {
 
-			if($count = Members::count_users_for_member($parent->get_reference()))
-				$items[] = '<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'"> '.sprintf(i18n::s('Invite editors of %s'), $parent->get_title()).' ('.$count.')';
+			if($editors =& Members::list_editors_for_member($parent->get_reference(), 0, 7, 'comma5'))
+				$rows[] = array('<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'">',
+					sprintf(i18n::s('Invite editors of %s'), $parent->get_title()).BR.Skin::build_block($editors, 'tiny'));
 
 		// else invitation should be extended to watchers
 		} else {
 
-			if($count = Members::count_users_for_anchor($parent->get_reference()))
-				$items[] = '<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'"> '.sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()).' ('.$count.')';
+			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 7, 'comma5'))
+				$rows[] = array('<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'">',
+					sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()).BR.Skin::build_block($watchers, 'tiny'));
 
 		}
 	}
-	if($items)
-		$input .= '<p>'.implode(BR, $items).'</p>';
+	if($rows)
+		$input .= Skin::table(NULL, $rows, 'layout');
 
 	// add some names manually
 	$input .= i18n::s('Invite some individuals').BR.'<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
@@ -402,14 +379,9 @@ if(Surfer::is_crawler()) {
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
-	// message author
-	$author = Surfer::get_name();
-	if($author_id = Surfer::get_id())
-		$author .= "\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($author_id, 'view', Surfer::get_name());
-
 	// the message
 	$label = i18n::s('Message content');
-	$content = i18n::s('Please let me thank you for your involvement.')."\n\n".$author;
+	$content = i18n::s('Please let me thank you for your involvement.')."\n\n".Surfer::get_name();
 	$input = str_replace("\n", BR, $message_prefix)
 		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');
