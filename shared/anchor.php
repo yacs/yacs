@@ -1137,6 +1137,9 @@ class Anchor {
 	 *
 	 * To be overloaded into derivated class
 	 *
+	 * @see articles/article.php
+	 * @see sections/section.php
+	 *
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE

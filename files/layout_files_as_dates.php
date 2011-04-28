@@ -38,15 +38,15 @@ Class Layout_files_as_dates extends Layout_interface {
 			$prefix = $suffix = '';
 
 			// flag files that are dead, or created or updated very recently
-			if($item['create_date'] >= $context['fresh'])
+			if(($item['create_date'] >= $context['fresh']) && defined('NEW_FLAG'))
 				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $context['fresh'])
+			elseif(($item['edit_date'] >= $context['fresh']) && defined('UPDATED_FLAG'))
 				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private files
-			if($item['active'] == 'N')
+			if(($item['active'] == 'N') && defined('PRIVATE_FLAG'))
 				$prefix .= PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
+			elseif(($item['active'] == 'R') && defined('RESTRICTED_FLAG'))
 				$prefix .= RESTRICTED_FLAG;
 
 			// file title or file name
@@ -55,10 +55,10 @@ Class Layout_files_as_dates extends Layout_interface {
 				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
 
 			// with dates
-			$suffix .= ' '.Skin::build_date($item['edit_date']);
+			$suffix .= ' '.Skin::build_date($item['edit_date'], 'yyyy-mm-dd');
 
 			// list all components for this item
-			$items[$url] = array('', $label, $suffix, 'file', NULL);
+			$items[$url] = array('', $label, trim($suffix), 'file', NULL);
 
 		}
 

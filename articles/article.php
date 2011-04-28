@@ -1076,7 +1076,7 @@ Class Article extends Anchor {
 				if(($target = Comments::get($origin)) && $target['id']) {
 
 					// insert the full content of the comment, to provide the full information
-					$summary = '<p>'.sprintf(i18n::c('%s has posted a comment'), $surfer).'</p>'
+					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $this->item['title']).'</p>'
 						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
 
 					// offer to react to the comment
