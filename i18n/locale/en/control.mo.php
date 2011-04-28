@@ -516,7 +516,7 @@ $_SESSION['l10n']['en']['841032d165945524632244aa2847b9fd']='We recommend at lea
 $_SESSION['l10n']['en']['7a617fb54d24e0f40c6a6e22952148ad']='We respect your privacy! Any and all information collected at this site will be kept strictly confidential and will not be sold, reused, rented, loaned or otherwise disclosed. Any information you give to us will be held with the utmost care, and will not be used in ways that you have not consented to. Read on for more specific information.';
 $_SESSION['l10n']['en']['Web Logs']='Web Logs';
 $_SESSION['l10n']['en']['Web cache']='Web cache';
-$_SESSION['l10n']['en']['Web conference']='Web conference';
+$_SESSION['l10n']['en']['Web meeting']='Web meeting';
 $_SESSION['l10n']['en']['Web security']='Web security';
 $_SESSION['l10n']['en']['Web services']='Web services';
 $_SESSION['l10n']['en']['2eb6779753c4216050cf23b874775f7a']='Webmaster: [parameter=site_email]';

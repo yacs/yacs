@@ -1,11 +1,11 @@
 <?php
 /**
- * the overlay interface used by articles
+ * the overlay interface
  *
- * Overlays are a straightforward way to extend YACS content pages.
+ * Overlays are a straightforward way to extend web pages.
  * For example, articles can be transformed to recipes, or to other pages that has to include some structured data.
  *
- * Overlay data is saved along standard articles as a serialized snippet.
+ * Overlay data is saved along standard yacs objects (e.g., articles) as a serialized snippet.
  * The encoding and decoding of this field requires a specialized class.
  *
  * The overlay interface masks these details and offers convenient methods to create, access and save piggy-back data.
@@ -699,6 +699,33 @@ class Overlay {
 			return $this->anchor->set_values($fields);
 		}
 
+	}
+
+	/**
+	 * notify followers or not?
+	 *
+	 * This function is used in articles/publish.php to prevent notification of followers.
+	 *
+	 * @see articles/publish.php
+	 *
+	 * @return boolean FALSE by default, but can be changed in derived overlay
+	 */
+	function should_notify_followers() {
+		return FALSE;
+	}
+
+	/**
+	 * notify watchers or not?
+	 *
+	 * This function is used in various scripts to prevent notification of watchers.
+	 *
+	 * @see articles/edit.php
+	 * @see articles/publish.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay, such as events
+	 */
+	function should_notify_watchers() {
+		return TRUE;
 	}
 
 }

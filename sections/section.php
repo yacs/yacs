@@ -857,7 +857,6 @@ Class Section extends Anchor {
 			.'|with_extra_profile'	// only in blog
 			.'|with_files'			// no way to depart from this in sub-sections
 			.'|with_links'			// no way ...
-			.'|with_neighbours'
 			.'|with_prefix_profile' // only in discussion boards
 			.'|with_suffix_profile)/';	// only in authoring sections
 

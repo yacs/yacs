@@ -64,7 +64,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 				// show the family
 				$family = $item['family'];
-				$text .= '<h3 class="family">'.$family.'</h3>'."\n";
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n";
 
 			}
 

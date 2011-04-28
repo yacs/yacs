@@ -678,7 +678,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 		// displayed as another box
 		if($items)
-			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, FALSE));
+			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, TRUE));
 
 	}
 
@@ -916,7 +916,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	// leave this section, for editors
 	} elseif(Sections::is_assigned($item['id'])) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$box['bar'] += array(Users::get_url('section:'.$item['id'], 'select') => SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
+		$box['bar'] += array(Users::get_url('section:'.$item['id'], 'leave') => SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
 
 	// headers

@@ -21,6 +21,7 @@ $files = array();
 $files[] = 'articles/import.php';
 $files[] = 'files/files_hook.php';
 $files[] = 'overlays/generic_meeting.php';
+$files[] = 'overlays/meetings/hook.php';
 $files[] = 'sections/import.php';
 $files[] = 'users/share.php';
 
