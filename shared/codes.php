@@ -883,6 +883,8 @@ Class Codes {
 	 * render_skin();
 	 * [/php]
 	 *
+	 * @link http://pureform.wordpress.com/2008/01/04/matching-a-word-characters-outside-of-html-tags/
+	 *
 	 * @param string the input string
 	 * @return string the transformed string
 	 */
@@ -969,17 +971,17 @@ Class Codes {
 				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
 				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
 				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/\+\+(\S.*?\S)\+\+/is',				// ++...++
+				'/\+\+(\S.*?\S)\+\+(?!([^<]+)?>)/is',	// ++...++
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/ --(\S.*?\S)--/is',					// --...--
+				'/ --(\S.*?\S)--(?!([^<]+)?>)/is',		// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
 				'/\*\*(\S.*?\S)\*\*/is',				// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/ \/\/(\S.*?\w)\/\//is',				// //...//
+				'/ \/\/(\S.*?\w)\/\/(?!([^<]+)?>)/is',				// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/__(\S.*?\S)__/is',					// __...__
+				'/__(\S.*?\S)__(?!([^<]+)?>)/is',		// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
