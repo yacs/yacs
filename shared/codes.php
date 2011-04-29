@@ -3855,6 +3855,18 @@ Class Codes {
 	function &render_redirect($link) {
 		global $context;
 
+		// turn external links to clickable things
+		if(preg_match('/^(ftp:|http:|https:|www\.)/i', $link)) {
+			$output = '<p>'.Skin::build_link($link).'</p>';
+			return $output;
+		}
+
+		// only while viewing real pages
+		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'GET')) {
+			$output = '<p>'.Skin::build_link($link).'</p>';
+			return $output;
+		}
+
 		// check path to the file
 		while(TRUE) {
 
