@@ -181,7 +181,7 @@ $context['text'] .= JS_PREFIX
 	.'	}'."\n"
 	."\n"
 	.'// set the focus on first form field'."\n"
-	.'$("id").focus();'."\n"
+	.'$("#id").focus();'."\n"
 	.JS_SUFFIX."\n";
 
 // extend the process to the search engine

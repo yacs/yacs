@@ -381,7 +381,7 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("url").focus();'."\n"
+		.'$("#url").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// trackback link

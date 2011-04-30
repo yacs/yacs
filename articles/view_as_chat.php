@@ -211,7 +211,7 @@ default:
 
 	// the input panel is where logged surfers can post data
 	elseif(Surfer::is_logged()) {
-		$context['text'] .= '<form method="post" action="#" onsubmit="Comments.contribute($(\'contribution\').value);return false;" id="thread_input_panel">'."\n"
+		$context['text'] .= '<form method="post" action="#" onsubmit="Comments.contribute($(\'#contribution\').value);return false;" id="thread_input_panel">'."\n"
 			.'<textarea rows="2" name="contribution" id="contribution" ></textarea>';
 
 		// user commands
@@ -262,8 +262,8 @@ default:
 		.'			method: "post",'."\n"
 		.'			parameters: { "message" : request },'."\n"
 		.'			onSuccess: function(transport) {'."\n"
-		.'				$("contribution").value="";'."\n"
-		.'				$("contribution").focus();'."\n"
+		.'				$("#contribution").value="";'."\n"
+		.'				$("#contribution").focus();'."\n"
 		.'				setTimeout("Comments.subscribe()", 1000);'."\n"
 		.'			},'."\n"
 		.'			onFailure: function(transport) {'."\n"
@@ -280,17 +280,17 @@ default:
 		.'	},'."\n"
 		."\n"
 		.'	keypress: function(event) {'."\n"
-		.'		if(($("submitOnEnter").checked) && (event.keyCode == Event.KEY_RETURN)) {'."\n"
-		.'			Comments.contribute($(\'contribution\').value);'."\n"
+		.'		if(($("#submitOnEnter").checked) && (event.keyCode == Event.KEY_RETURN)) {'."\n"
+		.'			Comments.contribute($(\'#contribution\').value);'."\n"
 		.'		}'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	showMore: function() {'."\n"
 		.'		var options = {};'."\n"
-		.'		var newHeight = $("thread_text_panel").clientHeight + 200;'."\n"
+		.'		var newHeight = $("#thread_text_panel").clientHeight + 200;'."\n"
 		.'		options.height =  newHeight + "px";'."\n"
 		.'		options.maxHeight =  newHeight + "px";'."\n"
-		.'		$("thread_text_panel").setStyle(options);'."\n"
+		.'		$("#thread_text_panel").css(options);'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	subscribe: function() {'."\n"
@@ -306,8 +306,8 @@ default:
 		.'		var response = transport.responseText.evalJSON(true);'."\n"
 		.'		if(response["status"] != "started")'."\n"
 		.'			window.location.reload(true);'."\n"
-		.'		$("thread_text_panel").update("<div>" + response["items"] + "</div>");'."\n"
-		.'		$("thread_text_panel").scrollTop = $("thread_text_panel").scrollHeight;'."\n"
+		.'		$("#thread_text_panel").update("<div>" + response["items"] + "</div>");'."\n"
+		.'		$("#thread_text_panel").scrollTop = $("#thread_text_panel").scrollHeight;'."\n"
 		.'		if(typeof this.windowOriginalTitle != "string")'."\n"
 		.'			this.windowOriginalTitle = document.title;'."\n"
 		.'		document.title = "[" + response["name"] + "] " + this.windowOriginalTitle;'."\n"
@@ -331,10 +331,10 @@ default:
 	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
 		$context['page_footer'] .= "\n"
 			.'// ready to type something'."\n"
-			.'Event.observe(window, \'load\', function() { $(\'contribution\').focus(); Comments.subscribe(); });'."\n"
+			.'$(document).ready(function() { $(\'#contribution\').focus(); Comments.subscribe(); });'."\n"
 			."\n"
 			.'// send contribution on Enter'."\n"
-			.'Event.observe(\'contribution\', \'keypress\', Comments.keypress);'."\n";
+			.'$(\'#contribution\').keypress(Comments.keypress);'."\n";
 
 	// end of the AJAX part
 	$context['page_footer'] .= JS_SUFFIX;

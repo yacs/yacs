@@ -601,7 +601,7 @@ Class Articles {
 		$text = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
 			.JS_PREFIX
 			.'function append_to_options(keyword) {'."\n"
-			.'	var target = $("options");'."\n"
+			.'	var target = $("#options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
 			.JS_SUFFIX;

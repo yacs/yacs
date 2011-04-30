@@ -536,7 +536,7 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("link_url").focus();'."\n"
+		.'$("#link_url").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// clear session data now we have populated the form

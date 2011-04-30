@@ -65,7 +65,7 @@ function send_body() {
 
 		// set the focus on the button
 		echo JS_PREFIX
-			.'$("confirmed").focus();'."\n"
+			.'$("#confirmed").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 		// this may take some time

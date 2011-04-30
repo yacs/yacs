@@ -139,19 +139,19 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<input type="hidden" name="referer" value="'.encode_field($_SERVER['HTTP_REFERER']).'" />';
 
 	// give a five
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="$(\'main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
 
 	// give a four
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="4" onclick="$(\'main_form\').submit()" /> '.i18n::s('Good').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="4" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Good').' </div> ';
 
 	// give a three
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="3" onclick="$(\'main_form\').submit()" /> '.i18n::s('Average').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="3" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Average').' </div> ';
 
 	// give a two
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="2" onclick="$(\'main_form\').submit()" /> '.i18n::s('Poor').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="2" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Poor').' </div> ';
 
 	// give a one
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="$(\'main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
 
 	$context['text'] .= '<br style="clear: left;" />';
 

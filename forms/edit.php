@@ -246,7 +246,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form to edit an form
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'#content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// this form has several panels
 	$panels = array();
@@ -421,30 +421,30 @@ if($with_form) {
 		.'// detect changes in form'."\n"
 		.'func'.'tion detectChanges() {'."\n"
 		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	var nodes = $("form#main_form input");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	nodes = $("form#main_form textarea");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
+		.'	nodes = $("form#main_form select");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		.'}'."\n"
 		."\n"
 		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'$(document).ready( detectChanges);'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
+		.'$(document).ready( function() { $("#title").focus() });'."\n"
 		."\n"
 		.JS_SUFFIX."\n";
 
@@ -480,7 +480,7 @@ if($with_form) {
 	if(isset($item['content']) && $item['content']) {
 		$context['page_footer'] .= JS_PREFIX
 			.'// restore fields of the form'."\n"
-			.'Event.observe(window, "load", function() { Forms.fromJSON("form_panel", '.utf8::encode($item['content']).') });'."\n"
+			.'$(document).ready( function() { Forms.fromJSON("form_panel", '.utf8::encode($item['content']).') });'."\n"
 			.JS_SUFFIX."\n";
 	}
 

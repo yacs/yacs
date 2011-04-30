@@ -132,7 +132,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		// the script used for form handling at the browser
 		$text .= JS_PREFIX
 			.'// set the focus on first form field'."\n"
-			.'$("upload").focus();'."\n"
+			.'$("#upload").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 
