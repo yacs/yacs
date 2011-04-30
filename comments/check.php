@@ -106,7 +106,7 @@ if(!Surfer::is_associate()) {
 
 	// set the focus on the button
 	$context['text'] .= JS_PREFIX
-		.'$("action").focus();'."\n"
+		.'$("#action").focus();'."\n"
 		.JS_SUFFIX;
 
 }

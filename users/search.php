@@ -122,7 +122,7 @@ $context['text'] .= JS_PREFIX
 	.'	}'."\n"
 	."\n"
 	.'// set the focus on first form field'."\n"
-	.'$("search").focus();'."\n"
+	.'$("#search").focus();'."\n"
 	.JS_SUFFIX."\n";
 
 // nothing found yet

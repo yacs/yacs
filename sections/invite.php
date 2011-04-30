@@ -438,12 +438,17 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("names").focus() });'."\n"
+		.'$(document).ready( function() { $("#names").focus() });'."\n"
 		."\n"
 		."\n"
-		.'// enable autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("names", "names_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-		.JS_SUFFIX;
+  	.'// enable names autocompletion'."\n"
+    .'$(document).ready( function() {'."\n"
+    .'  $("#names").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
+    .JS_SUFFIX;
 
 	// help message
 	$help = '<p>'.i18n::s('Recipient addresses are used only once, to send your message, and are not stored afterwards.').'</p>';

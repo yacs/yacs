@@ -168,8 +168,8 @@ Class Skin_Skeleton {
 		if($tags !== NULL) {
 			$text .= '<p style="margin: 1em 0;">'.i18n::s('Tags')
 				.' '.'<input type="text" name="tags" id="tags" value="'.encode_field($tags).'" size="45" maxlength="255" accesskey="t" />'
-				.' <span class="tiny">'.i18n::s('Keywords separated by commas').'</span></p>'
-				.'<div id="tags_choices" class="autocomplete"></div>';
+				.' <span class="tiny">'.i18n::s('Keywords separated by commas').'</span></p>';
+// not needed anymore				.'<div id="tags_choices" class="autocomplete"></div>';
 		}
 
 		// make it a bottom block
@@ -364,8 +364,8 @@ Class Skin_Skeleton {
 					.'<p style="margin: 0; padding: 0;">'
 					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
 					.Skin::build_submit_button(i18n::s('Go')).BR
-					.'<input type="radio" name="s" id="s_content" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'search.php\'" checked="checked" style="margin: 3px 2px 1px 0; padding: 0" /><label for="s_content">'.Skin::build_link('sections/', i18n::s('Content'), 'basic').'</label>'
-					.BR.'<input type="radio" name="s" id="s_persons" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'users/search.php\'" style="margin: 2px 3px 1px 0; padding: 0" /><label for="s_persons">'.Skin::build_link('users/', i18n::s('Persons'), 'basic').'</label>'
+					.'<input type="radio" name="s" id="s_content" onchange="$(\'#search_box\').action=\''.$context['url_to_root'].'search.php\'" checked="checked" style="margin: 3px 2px 1px 0; padding: 0" /><label for="s_content">'.Skin::build_link('sections/', i18n::s('Content'), 'basic').'</label>'
+					.BR.'<input type="radio" name="s" id="s_persons" onchange="$(\'#search_box\').action=\''.$context['url_to_root'].'users/search.php\'" style="margin: 2px 3px 1px 0; padding: 0" /><label for="s_persons">'.Skin::build_link('users/', i18n::s('Persons'), 'basic').'</label>'
 					.'</p>'
 					.'</form>';
 
@@ -1425,7 +1425,7 @@ Class Skin_Skeleton {
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= JS_PREFIX
-					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
+					.'$(document).ready( function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%Y-%m-%d",'."\n"
 					.'	showsTime	:	false,'."\n"
@@ -1454,7 +1454,7 @@ Class Skin_Skeleton {
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= JS_PREFIX
-					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
+					.'$(document).ready( function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
 					.'	showsTime	:	true,'."\n"
@@ -2795,7 +2795,7 @@ Class Skin_Skeleton {
 		// finalize javascript loader
 		$js_text .= "\n".JS_PREFIX
 			.'// use the YACS AJAX library to manage tabs'."\n"
-			."Event.observe(window, 'load', function() { Yacs.tabs({"."\n"
+			."$(document).ready(function() { Yacs.tabs({"."\n"
 			."\t".implode(",\n\t", $js_lines)."}, {})\n"
 			."\t});"."\n"
 			.JS_SUFFIX."\n";
@@ -4720,7 +4720,7 @@ Class Skin_Skeleton {
 		// hide every news item, except the first one
 		$text .= '// hide every news item, except the first one'."\n";
 		for($index = 1; $index < count($matches[1]); $index++)
-			$text .= 'handle = $("'.$matches[1][$index].'");'."\n"
+			$text .= 'handle = $("#'.$matches[1][$index].'");'."\n"
 				.'handle.style.display="none";'."\n";
 
 		// one function per rotating step
@@ -4730,8 +4730,8 @@ Class Skin_Skeleton {
 
 			$text .= "\n".'// from item '.$from.' to item '.$to."\n"
 				.'function rotate_'.$from.'() {'."\n"
-				.'	new Effect.Fade($("'.$from.'"), {duration:.3, scaleContent:false});'."\n"
-				.'	new Effect.Appear($("'.$to.'"), {duration:.3, scaleContent:false, queue:\'end\'});'."\n"
+				.'	new Effect.Fade($("#'.$from.'"), {duration:.3, scaleContent:false});'."\n"
+				.'	new Effect.Appear($("#'.$to.'"), {duration:.3, scaleContent:false, queue:\'end\'});'."\n"
 				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
 				.'}'."\n";
 		}
@@ -4799,18 +4799,18 @@ Class Skin_Skeleton {
 			."\n"
 			.'// the actual scroller'."\n"
 			.'function scroll_scroller_'.$scroller_id.'() {'."\n"
-			.'	handle = $("scroller_'.$scroller_id.'");'."\n"
+			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"
 			.'	current = parseInt(handle.style.'.$object_parameter.') - scroller_'.$scroller_id.'_speed;'."\n"
 			.'	if(current < scroller_'.$scroller_id.'_stop)'."\n"
 			.'		current = scroller_'.$scroller_id.'_start;'."\n"
-			.'	handle.setStyle({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
+			.'	handle.css({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
 			.'document.observe("dom:loaded", function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
-			.'	handle = $("scroller_'.$scroller_id.'");'."\n"
+			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"
 			."\n"
 			.'	// start at the bottom of the outside container'."\n"
 			.'	scroller_'.$scroller_id.'_start = handle.parentNode.'.$container_limit.' - 20;'."\n"

@@ -778,7 +778,7 @@ if($with_form) {
 		.'	if(!Yacs.trim(container.title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
-		.'		$("title").focus();'."\n"
+		.'		$("#title").focus();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
 		.'	// extend validation --used in overlays'."\n"
@@ -801,28 +801,34 @@ if($with_form) {
 		.'// detect changes in form'."\n"
 		.'func'.'tion detectChanges() {'."\n"
 		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	var nodes = $("form#main_form input");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	nodes = $("form#main_form textarea");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
 		.'	}'."\n"
 		.'}'."\n"
 		."\n"
 		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'$(document).ready( detectChanges);'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
+		.'$(document).ready( function() { $("#title").focus() });'."\n"
 		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-		.JS_SUFFIX;
+
+  	.'// enable tags autocompletion'."\n"
+    .'$(document).ready( function() {'."\n"
+    .'  $("#tags").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
+    .JS_SUFFIX;
 
 	// branch to another script to display form fields, tabs, etc
 	//
@@ -1134,8 +1140,8 @@ if($with_form) {
 		$label = i18n::s('Rank');
 		$input = '<input type="text" name="rank" id="rank" size="10" value="'.encode_field($item['rank']).'" maxlength="255" />';
 		$hint = sprintf(i18n::s('For %s pages; regular pages are ranked at %s.'),
-			'<a href="#" onclick="$(\'rank\').value=10; return false;">'.i18n::s('sticky').'</a>',
-			'<a href="#" onclick="$(\'rank\').value=10000; return false;">'.i18n::s('10000').'</a>');
+			'<a href="#" onclick="$(\'#rank\').value=10; return false;">'.i18n::s('sticky').'</a>',
+			'<a href="#" onclick="$(\'#rank\').value=10000; return false;">'.i18n::s('10000').'</a>');
 		$fields[] = array($label, $input, $hint);
 	}
 

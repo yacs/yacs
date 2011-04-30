@@ -123,33 +123,33 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-		var store = handle.select('div.state')[0];
+		var store = $(handle + ' div.state:first');
 
-		var itemText = handle.select('textarea')[0].value;
-		var nodes = store.select('div.text');
+		var itemText = $(handle + ' textarea:first').value;
+		var nodes = $(store + ' div.text');
 		if(nodes.length) {
 			itemText = nodes[0].innerHTML;
-			handle.select('textarea')[0].value = itemText;
+			$(handle + ' textarea:first').value = itemText;
 		}
 
-		var itemType = handle.select('select')[0].value;
-		nodes = store.select('div.type');
+		var itemType = $(handle + ' select:first').value;
+		nodes = $(store + ' div.type');
 		if(nodes.length) {
 			itemType = nodes[0].innerHTML;
-			handle.select('select')[0].value = itemType;
+			$(handle + ' select:first').value = itemType;
 		}
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
+		var preview = $(handle + ' div.preview:first');
 		if(itemType == 'title')
-			new Element.update(preview, '<h2>' + itemText + '</h2>');
+			$(preview).html('<h2>' + itemText + '</h2>');
 		if(itemType == 'subtitle')
-			new Element.update(preview, '<h3>' + itemText + '</h3>');
+			$(preview).html('<h3>' + itemText + '</h3>');
 		if(itemType == 'raw')
-			new Element.update(preview, itemText);
+			$(preview).html(itemText);
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -159,22 +159,22 @@ var Forms = {
 		handle = $(handle);
 
 		// save in the store
-		var store = handle.select('div.state')[0];
-		var itemText = handle.select('div.properties')[0].select('textarea')[0].value;
-		var itemType = handle.select('div.properties')[0].select('select')[0].value;
-		new Element.update(store, '<div class="class">label</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>');
+		var store = $(handle + ' div.state:first');
+		var itemText = $(handle + ' div.properties:first textarea:first').value;
+		var itemType = $(handle + ' div.properties:first select:first').value;
+		$(store).html('<div class="class">label</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>');
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
+		var preview = $(handle + ' div.preview:first');
 		if(itemType == 'title')
-			new Element.update(preview, '<h2>' + itemText + '</h2>');
+			$(preview).html('<h2>' + itemText + '</h2>');
 		if(itemType == 'subtitle')
-			new Element.update(preview, '<h3>' + itemText + '</h3>');
+			$(preview).html('<h3>' + itemText + '</h3>');
 		if(itemType == 'raw')
-			new Element.update(preview, itemText);
+			$(preview).html(itemText);
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -243,35 +243,35 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-		var store = handle.select('div.state')[0];
+		var store = $(handle + ' div.state:first');
 
-// 		var itemText = handle.select('textarea')[0].value;
-// 		var nodes = store.select('div.text');
+// 		var itemText = $(handle + ' textarea:first').value;
+// 		var nodes = $(store + ' div.text');
 // 		if(nodes.length) {
 // 			itemText = nodes[0].innerHTML;
-// 			handle.select('textarea')[0].value = itemText;
+// 			$(handle + ' textarea:first').value = itemText;
 // 		}
 
-// 		var itemType = handle.select('select')[0].value;
-// 		nodes = store.select('div.type');
+// 		var itemType = $(handle + ' select:first').value;
+// 		nodes = $(store + ' div.type');
 // 		if(nodes.length) {
 // 			itemType = nodes[0].innerHTML;
-// 			handle.select('select')[0].value = itemType;
+// 			$(handle + ' select:first').value = itemType;
 // 		}
 
-		var itemName = handle.select('input.name')[0].value;
-		nodes = store.select('div.name');
+		var itemName = $(handle + ' input.name:first').value;
+		nodes = $(store + ' div.name');
 		if(nodes.length) {
 			itemName = nodes[0].innerHTML;
-			handle.select('select')[0].value = itemName;
+			$(handle + ' select:first').value = itemName;
 		}
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
-		new Element.update(preview, '<input type="file" disabled="disabled" />');
+		var preview = $(handle + ' div.preview:first');
+		$(preview).html('<input type="file" disabled="disabled" />');
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -281,18 +281,18 @@ var Forms = {
 		handle = $(handle);
 
 		// save in the store
-		var store = handle.select('div.state')[0];
-// 		var itemText = handle.select('div.properties')[0].select('textarea')[0].value;
-// 		var itemType = handle.select('div.properties')[0].select('select')[0].value;
-		var itemName = handle.select('input.name')[0].value;
-		new Element.update(store, '<div class="class">file</div>' + '<div class="name">' + itemName + '</div>');
+		var store = $(handle + ' div.state:first');
+// 		var itemText = $(handle + ' div.properties:first textarea:first').value;
+// 		var itemType = $(handle + ' div.properties:first select:first').value;
+		var itemName = $(handle + ' input.name:first').value;
+		$(store).html('<div class="class">file</div>' + '<div class="name">' + itemName + '</div>');
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
-		new Element.update(preview, '<input type="file" disabled="disabled" />');
+		var preview = $(handle + ' div.preview:first');
+		$(preview).html('<input type="file" disabled="disabled" />');
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -372,40 +372,40 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-		var store = handle.select('div.state')[0];
+		var store = $(handle + ' div.state:first');
 
-		var itemText = handle.select('textarea')[0].value;
-		var nodes = store.select('div.text');
+		var itemText = $(handle + ' textarea:first').value;
+		var nodes = $(store + ' div.text');
 		if(nodes.length) {
 			itemText = nodes[0].innerHTML;
-			handle.select('textarea')[0].value = itemText;
+			$(handle + ' textarea:first').value = itemText;
 		}
 
-		var itemType = handle.select('select')[0].value;
-		nodes = store.select('div.type');
+		var itemType = $(handle + ' select:first').value;
+		nodes = $(store + ' div.type');
 		if(nodes.length) {
 			itemType = nodes[0].innerHTML;
-			handle.select('select')[0].value = itemType;
+			$(handle + ' select:first').value = itemType;
 		}
 
-		var itemName = handle.select('input.name')[0].value;
-		nodes = store.select('div.name');
+		var itemName = $(handle + ' input.name:first').value;
+		nodes = $(store + ' div.name');
 		if(nodes.length) {
 			itemName = nodes[0].innerHTML;
-			handle.select('select')[0].value = itemName;
+			$(handle + ' select:first').value = itemName;
 		}
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
+		var preview = $(handle + ' div.preview:first');
 		if(itemType == 'check')
-			new Element.update(preview, '<input type="checkbox" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
+			$(preview).html('<input type="checkbox" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
 		if(itemType == 'radio')
-			new Element.update(preview, '<input type="radio" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
+			$(preview).html('<input type="radio" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
 		if(itemType == 'drop')
-			new Element.update(preview, '<select disabled="disabled"><option>' + Forms.getFirstOption( itemText ) + '</option></select>');
+			$(preview).html('<select disabled="disabled"><option>' + Forms.getFirstOption( itemText ) + '</option></select>');
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -415,23 +415,23 @@ var Forms = {
 		handle = $(handle);
 
 		// save in the store
-		var store = handle.select('div.state')[0];
-		var itemText = handle.select('div.properties')[0].select('textarea')[0].value;
-		var itemType = handle.select('div.properties')[0].select('select')[0].value;
-		var itemName = handle.select('input.name')[0].value;
-		new Element.update(store, '<div class="class">list</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>' + '<div class="name">' + itemName + '</div>');
+		var store = $(handle + ' div.state:first');
+		var itemText = $(handle + ' div.properties:first textarea:first').value;
+		var itemType = $(handle + ' div.properties:first select:first').value;
+		var itemName = $(handle + ' input.name:first').value;
+		$(store).html('<div class="class">list</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>' + '<div class="name">' + itemName + '</div>');
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
+		var preview = $(handle + ' div.preview:first');
 		if(itemType == 'radio')
-			new Element.update(preview, '<input type="radio" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
+			$(preview).html('<input type="radio" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
 		if(itemType == 'check')
-			new Element.update(preview, '<input type="checkbox" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
+			$(preview).html('<input type="checkbox" disabled="disabled"/>' + Forms.getFirstOption( itemText ));
 		if(itemType == 'drop')
-			new Element.update(preview, '<select disabled="disabled"><option>' + Forms.getFirstOption( itemText ) + '</option></select>');
+			$(preview).html('<select disabled="disabled"><option>' + Forms.getFirstOption( itemText ) + '</option></select>');
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -505,33 +505,33 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-		var store = handle.select('div.state')[0];
+		var store = $(handle + ' div.state:first');
 
-		var itemType = handle.select('select')[0].value;
-		var nodes = store.select('div.type');
+		var itemType = $(handle + ' select:first').value;
+		var nodes = $(store + ' div.type');
 		if(nodes.length) {
 			itemType = nodes[0].innerHTML;
-			handle.select('select')[0].value = itemType;
+			$(handle + ' select:first').value = itemType;
 		}
 
-		var itemName = handle.select('input.name')[0].value;
-		nodes = store.select('div.name');
+		var itemName = $(handle + ' input.name:first').value;
+		nodes = $(store + ' div.name');
 		if(nodes.length) {
 			itemName = nodes[0].innerHTML;
-			handle.select('select')[0].value = itemName;
+			$(handle + ' select:first').value = itemName;
 		}
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
+		var preview = $(handle + ' div.preview:first');
 		if(itemType == 'text')
-			new Element.update(preview, '<input type="text" value="' + Forms.i18n.text + '" disabled="disabled" />');
+			$(preview).html('<input type="text" value="' + Forms.i18n.text + '" disabled="disabled" />');
 		if(itemType == 'password')
-			new Element.update(preview, '<input type="text" value="' + Forms.i18n.password + '" disabled="disabled" />');
+			$(preview).html('<input type="text" value="' + Forms.i18n.password + '" disabled="disabled" />');
 		if(itemType == 'textarea')
-			new Element.update(preview, '<input type="text" value="' + Forms.i18n.textarea + '" disabled="disabled" />');
+			$(preview).html('<input type="text" value="' + Forms.i18n.textarea + '" disabled="disabled" />');
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -541,22 +541,22 @@ var Forms = {
 		handle = $(handle);
 
 		// save in the store
-		var store = handle.select('div.state')[0];
-		var itemType = handle.select('select')[0].value;
-		var itemName = handle.select('input.name')[0].value;
-		new Element.update(store, '<div class="class">text</div>' + '<div class="type">' + itemType + '</div>' + '<div class="name">' + itemName + '</div>');
+		var store = $(handle + ' div.state:first');
+		var itemType = $(handle + ' select:first').value;
+		var itemName = $(handle + ' input.name:first').value;
+		$(store).html('<div class="class">text</div>' + '<div class="type">' + itemType + '</div>' + '<div class="name">' + itemName + '</div>');
 
 		// also update the preview
-		var preview = handle.select('div.preview')[0];
+		var preview = $(handle + ' div.preview:first');
 		if(itemType == 'text')
-			new Element.update(preview, '<input type="text" value="' + Forms.i18n.text + '" disabled="disabled" />');
+			$(preview).html('<input type="text" value="' + Forms.i18n.text + '" disabled="disabled" />');
 		if(itemType == 'password')
-			new Element.update(preview, '<input type="text" value="' + Forms.i18n.password + '" disabled="disabled" />');
+			$(preview).html('<input type="text" value="' + Forms.i18n.password + '" disabled="disabled" />');
 		if(itemType == 'textarea')
-			new Element.update(preview, '<input type="text" value="' + Forms.i18n.textarea + '" disabled="disabled" />');
+			$(preview).html('<input type="text" value="' + Forms.i18n.textarea + '" disabled="disabled" />');
 
 		// close properties
-		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
 	},
 
 	/**
@@ -590,37 +590,37 @@ var Forms = {
 	 * @return a JSON string
 	 */
 	toJSON: function(handle) {
-		var nodes = $(handle).select('div.state');
+		var nodes = $(handle + ' div.state');
 		if(nodes.length < 1) { return '[]' };
 		var buffer = '';
 		for(index = 0; index < nodes.length; index++) {
-			var nodeClass = nodes[index].select('div.class')[0].innerHTML;
+			var nodeClass = $(nodes[index] + ' div.class:first').html();
 
 			if(index)
 				buffer += ",\n";
 
 			if(nodeClass == 'file') {
 				buffer += '{ "class": "file"'
-					+ ', "name": '+nodes[index].select('div.name')[0].innerHTML.toJSON()+' }';
+					+ ', "name": '+ $(nodes[index] + ' div.name:first').html().toJSON()+' }';
 			}
 
 			if(nodeClass == 'label') {
 				buffer += '{ "class": "label"'
-					+ ', "text": '+nodes[index].select('div.text')[0].innerHTML.toJSON()
-					+ ', "type": '+nodes[index].select('div.type')[0].innerHTML.toJSON()+' }';
+					+ ', "text": '+ $(nodes[index] + ' div.text:first').html().toJSON()
+					+ ', "type": '+ $(nodes[index] + ' div.type:first').html().toJSON()+' }';
 			}
 
 			if(nodeClass == 'list') {
 				buffer += '{ "class": "list"'
-					+ ', "text": '+nodes[index].select('div.text')[0].innerHTML.toJSON()
-					+ ', "type": '+nodes[index].select('div.type')[0].innerHTML.toJSON()
-					+ ', "name": '+nodes[index].select('div.name')[0].innerHTML.toJSON()+' }';
+					+ ', "text": '+ $(nodes[index] + ' div.text:first').html().toJSON()
+					+ ', "type": '+ $(nodes[index] + ' div.type:first').html().toJSON()
+					+ ', "name": '+ $(nodes[index] + ' div.name:first').html().toJSON()+' }';
 			}
 
 			if(nodeClass == 'text') {
 				buffer += '{ "class": "text"'
-					+ ', "type": '+nodes[index].select('div.type')[0].innerHTML.toJSON()
-					+ ', "name": '+nodes[index].select('div.name')[0].innerHTML.toJSON()+' }';
+					+ ', "type": '+ $(nodes[index] + ' div.type:first').html().toJSON()
+					+ ', "name": '+ $(nodes[index] + ' div.name:first').html().toJSON()+' }';
 			}
 
 		};
@@ -629,5 +629,5 @@ var Forms = {
 }
 
 // ready to receive new notifications
-Event.observe(window, 'load', Forms.onWindowLoad);
+$(document).ready(Forms.onWindowLoad);
 

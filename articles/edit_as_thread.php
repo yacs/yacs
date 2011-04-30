@@ -451,8 +451,8 @@ if($with_form) {
 			$label = i18n::s('Rank');
 			$input = '<input type="text" name="rank" id="rank" size="10" value="'.encode_field($item['rank']).'" maxlength="255" />';
 			$hint = sprintf(i18n::s('For %s pages; regular pages are ranked at %s.'),
-				'<a href="#" onclick="$(\'rank\').value=10; return false;">'.i18n::s('sticky').'</a>',
-				'<a href="#" onclick="$(\'rank\').value=10000; return false;">'.i18n::s('10000').'</a>');
+				'<a href="#" onclick="$(\'#rank\').value=10; return false;">'.i18n::s('sticky').'</a>',
+				'<a href="#" onclick="$(\'#rank\').value=10000; return false;">'.i18n::s('10000').'</a>');
 			$fields[] = array($label, $input, $hint);
 		}
 
