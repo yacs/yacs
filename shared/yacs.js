@@ -1405,38 +1405,30 @@ var Yacs = {
 		var toggled = $(handle).next('.accordion_content');
 		var processed = false;
 
-		// close all boxes in the accordion
- 		$('#.'+accordion).each( function(item) {
-
- 			var panel = $(item + ' .accordion_content:first-child');
-			if(panel.css("display") != 'none') {
-				$("#"+panel).slideUp({duration:.3, scaleContent:false});
-
-				// change the image (if there is an image)
-				var icon = $(item + ' a:first-child img:first-child');
-				if(icon && down_href) {
-					icon.src = down_href;
-				}
-
-				// clicked box has been closed
-				if(toggled == panel) {
-					processed = true;
-				}
-
+                // refold each opened gusset in selected accordion
+                $('.'+accordion).each(function(i,gusset) {
+                    // gusset == this
+                    var panel = $(gusset).children(".accordion_content");
+                    // detect unfolded panel
+                    if(panel.css("display") != 'none') {
+                        // slide up panel
+                        $(panel).slideUp({duration:.3, scaleContent:false});
+                        // change icon to unfold visual
+                        $(gusset).find('.handle').attr('src',down_href);
+                        // clicked box has been closed
+			if(toggled == panel) {
+                            processed = true;
 			}
+                    }
+                });
 
- 		} );
-
-		// only extend closed elements that have not been processed during this click
-		if((toggled.css("display") == 'none') && !processed) {
-			$("#"+toggled).slideDown({duration:.3, scaleContent:false});
-
-			// change the image (if there is an image)
-			var icon = $(handle + ' img:first-child');
-			if(icon && up_href) {
-				icon.src = up_href;
-			}
-		}
+                // only extend closed elements that have not been processed (closed) during this click
+                if((toggled.css("display") == 'none') && !processed) {
+                        // slide down panel
+			$(toggled).slideDown({duration:.3, scaleContent:false});
+                        // change the image to fold visual
+                        $(handle).find(".handle").attr('src',up_href);
+                }
 
 	},
 
