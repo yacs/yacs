@@ -1380,12 +1380,15 @@ var Yacs = {
 		$(current.handle).css("fontsize", currentSize);
 
 		// also resize poorly inherited items
-		allTags = $(current.handle).getElementsByTagName('div');
-		for(var index = 0; index < allTags.length; index++ ) { allTags[index].css("fontSize", currentSize); }
-		allTags = $(current.handle).getElementsByTagName('td');
-		for(index = 0; index < allTags.length; index++ ) { allTags[index].css("fontSize", currentSize); }
-		allTags = $(current.handle).getElementsByTagName('tr');
-		for(index = 0; index < allTags.length; index++ ) { allTags[index].css("fontSize", currentSize); }
+		$(current.handle + ' div').each(function () {
+		   $(this).css("fontSize", currentSize);
+    });
+		$(current.handle + ' td').each(function () {
+		   $(this).css("fontSize", currentSize);
+    });
+		$(current.handle + ' tr').each(function () {
+		   $(this).css("fontSize", currentSize);
+    });
 	},
 
 	/**
