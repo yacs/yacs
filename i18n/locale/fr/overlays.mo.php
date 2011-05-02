@@ -234,6 +234,7 @@ $_SESSION['l10n']['fr']['fc46838a2f9cf263521f8abdc7748636']='L\'enregistrement e
 $_SESSION['l10n']['fr']['Rejected']='Rejeté';
 $_SESSION['l10n']['fr']['Released']='Livré';
 $_SESSION['l10n']['fr']['6760e488df9acff8649cd606d6687b5a']='La résolution a eu lieu le %s';
+$_SESSION['l10n']['fr']['Resulting text']='Texte final';
 $_SESSION['l10n']['fr']['Scope']='Etendue';
 $_SESSION['l10n']['fr']['Seats']='Places';
 $_SESSION['l10n']['fr']['See ballot papers']='Voir les décisions';
