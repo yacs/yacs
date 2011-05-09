@@ -57,7 +57,12 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
-				$text .= '<tr><td class="family" colspan="3">'.$family.'&nbsp;</td></tr>'."\n";
+				// show the family
+				$text .= Skin::table_suffix()
+					.'<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
+					.Skin::table_prefix('yabb')
+					.Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
+
 			}
 
 			// reset everything
@@ -135,7 +140,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 			// get last post
 			$last_post = '--';
-			$article =& Articles::get_newest_for_anchor('section:'.$item['id'], TRUE);
+			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
 			if($article['id']) {
 
 				// flag articles updated recently

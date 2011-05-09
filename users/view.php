@@ -329,6 +329,9 @@ if(!isset($item['id'])) {
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 			$box['top'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add some space for your pages'));
+
+			// make it visible at page top
+			$context['page_menu'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add some space for your pages'));
 		}
 
 		// associates can assign editors and readers
@@ -395,6 +398,9 @@ if(!isset($item['id'])) {
 				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 				$url = 'articles/edit.php?anchor='.urlencode($reference);
 				$box['top'] += array($url => ARTICLES_ADD_IMG.i18n::s('Add a standalone page'));
+
+				// make it visible at page top
+				$context['page_menu'] += array($url => ARTICLES_ADD_IMG.i18n::s('Add a standalone page'));
 			}
 
 		}
@@ -810,6 +816,12 @@ if(!isset($item['id'])) {
 
 	}
 
+	// associates can transfer ownership
+	if(Surfer::is_associate()) {
+		Skin::define_img('USERS_TRANSFER_IMG', 'users/transfer.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'transfer'), USERS_TRANSFER_IMG.i18n::s('Transfer ownership'));
+	}
+
 	// user profile aside
 	$context['components']['profile'] = Skin::build_profile($item, 'extra');
 
@@ -839,7 +851,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'newlines'), 'share', 'share');
 
 	// 'Information channels' box
 	//

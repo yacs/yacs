@@ -40,7 +40,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
-				$text .= '<br clear="left" /><div class="floating_family">'.$family.'&nbsp;</div>'."\n";
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n";
 			}
 
 			// get the anchor

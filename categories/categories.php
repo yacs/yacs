@@ -1728,7 +1728,7 @@ Class Categories {
 	 * - category is restricted (active='N'), but surfer is an associate
 	 * - an expiry date has not been defined, or is not yet passed
 	 *
-	 * @param the search string
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
@@ -1757,13 +1757,7 @@ Class Categories {
 			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// look in keywords as well
 		$match = "((keywords LIKE '".SQL::escape($pattern)."%') OR (".$match."))";

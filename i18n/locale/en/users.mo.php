@@ -5,11 +5,15 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
+$_SESSION['l10n']['en']['%d articles have been updated']='%d articles have been updated';
+$_SESSION['l10n']['en']['6a3969354e1e229cfe04e2c45dccbc88']='%d editor assignments have been updated';
 $_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['en']['%d posts']='%d posts';
 $_SESSION['l10n']['en']['%d result'.chr(0).'%d results']='%d result'.chr(0).'%d results';
 $_SESSION['l10n']['en']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%d sections';
+$_SESSION['l10n']['en']['%d sections have been updated']='%d sections have been updated';
 $_SESSION['l10n']['en']['%d user'.chr(0).'%d users']='%d user'.chr(0).'%d users';
+$_SESSION['l10n']['en']['b5d570929fee516916509141f3fdceea']='%d watching assignments have been updated';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
@@ -94,6 +98,7 @@ $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['ed04cc084ae94b5055918b25c4b2aa6f']='Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.';
 $_SESSION['l10n']['en']['Change password']='Change password';
 $_SESSION['l10n']['en']['Change picture']='Change picture';
+$_SESSION['l10n']['en']['Changing ownership to %s']='Changing ownership to %s';
 $_SESSION['l10n']['en']['Click here to register']='Click here to register';
 $_SESSION['l10n']['en']['0d31f10bcbbf938368199591c71a14f8']='Click on one image below to make it your new picture.';
 $_SESSION['l10n']['en']['611a9403c4ccd1ee4659a721d45d59b3']='Click on the link above to follow someone.';
@@ -140,6 +145,7 @@ $_SESSION['l10n']['en']['Edit my profile']='Edit my profile';
 $_SESSION['l10n']['en']['Edit this profile']='Edit this profile';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editor: %s']='Editor: %s';
+$_SESSION['l10n']['en']['Editors']='Editors';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['f7921c934b2fc657cfe6ef95511b471d']='Every post is published (Wiki mode).';
 $_SESSION['l10n']['en']['Extension']='Extension';
@@ -383,6 +389,9 @@ $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change 
 $_SESSION['l10n']['en']['5ee5081b787778a1bf2dc50267afcdb8']='To add a person, type some letters to look for a name, then select one profile at a time.';
 $_SESSION['l10n']['en']['18eedbd621c48e8de9a3ec32a672c05d']='To be appended to your comments and mail messages. Separated with dashes from main text.';
 $_SESSION['l10n']['en']['d16733532bc1f048a8bfd6230b0876d3']='To prevent other surfers from contacting you, please visit your profile at the following address, and change preferences.';
+$_SESSION['l10n']['en']['dd269e53b9cb005bb7d75f3f50266c09']='To transfer ownership to another person, type some letters of the name you are looking for.';
+$_SESSION['l10n']['en']['Transfer ownership']='Transfer ownership';
+$_SESSION['l10n']['en']['Transfer ownership of %s']='Transfer ownership of %s';
 $_SESSION['l10n']['en']['Twitter']='Twitter';
 $_SESSION['l10n']['en']['Unknown LDAP option %s.']='Unknown LDAP option %s.';
 $_SESSION['l10n']['en']['Unknown authenticator type %s']='Unknown authenticator type %s';

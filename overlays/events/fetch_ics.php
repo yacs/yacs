@@ -77,7 +77,7 @@ else {
 	$text = 'BEGIN:VCALENDAR'.CRLF
 		.'VERSION:2.0'.CRLF
 		.'PRODID:YACS'.CRLF
-		.'METHOD:PUBLISH'.CRLF;
+		.'METHOD:PUBLISH'.CRLF; // required by Outlook
 
 	// organization, if any
 	if(isset($context['site_name']) && $context['site_name'])
@@ -109,13 +109,13 @@ else {
 		$text .= 'SUMMARY:'.Codes::beautify_title($value).CRLF;
 
 	// required by Outlook 2003
-	$text .= 'UID:'.$anchor->get_reference().CRLF;
+	$text .= 'UID:'.$anchor->get_reference().'-'.$context['host_name'].CRLF;
 
 	// date of creation
 	if($value = $anchor->get_value('create_date'))
 		$text .= 'CREATED:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
 
-	// date of last modification
+	// date of last modification --also required by Outlook
 	if($value = $anchor->get_value('edit_date'))
 		$text .= 'DTSTAMP:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
 

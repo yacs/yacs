@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-24 14:48+0100\n"
+"POT-Creation-Date: 2011-02-25 17:18+0100\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
@@ -435,10 +435,6 @@ msgstr[1] "%d images"
 msgid "Recent pages"
 msgstr "Recent pages"
 
-#: images/layout_images_as_hits.php:57
-msgid "hits"
-msgstr "hits"
-
 #: images/layout_images.php:86
 #, php-format
 msgid "In %s"
@@ -463,6 +459,10 @@ msgstr "Set as page thumbnail"
 #: images/layout_images.php:128 images/view.php:244
 msgid "Delete this image"
 msgstr "Delete this image"
+
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr "hits"
 
 #: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
 msgid "Use an image"

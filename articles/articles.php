@@ -101,6 +101,7 @@
  * @tester Mark
  * @tester Fernand Le Chien
  * @tester NickR
+ * @tester Denis Flouriot
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -783,20 +784,20 @@ Class Articles {
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT articles.id"
+			$query = "(SELECT articles.id"
 				." FROM (".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('articles')." AS articles)"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -805,7 +806,13 @@ Class Articles {
 			$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE articles.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include articles owned by this surfer
+		$query = "(SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE articles.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// count records
 		return SQL::query_count($query);
@@ -1038,10 +1045,10 @@ Class Articles {
 		// end of active filter
 		$where = '('.$where.')';
 
-		// list up to 200 sections
+		// limit the overall list of results
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$active
-			." LIMIT 200";
+			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
+			." LIMIT 5000";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
 			return $output;
@@ -1777,59 +1784,6 @@ Class Articles {
 	}
 
 	/**
-	 * list these articles
-	 *
-	 * The first parameter can be either a string containing several ids or nick
-	 * names separated by commas, or it can be an array of ids or nick names.
-	 *
-	 * The second parameter can be either a string accepted by Articles::list_selected(),
-	 * or an instance of the Layout interface.
-	 *
-	 * @param mixed a list of ids or nick names
-	 * @param mixed the layout to apply
-	 * @return string to be inserted into the resulting page
-	 */
-	function &list_by_title_for_ids($ids, $layout='select') {
-		global $context;
-
-		// turn a string to an array
-		if(!is_array($ids))
-			$ids = preg_split('/[\s,]+/', (string)$ids);
-
-		// check every id
-		$items = array();
-		foreach($ids as $id) {
-
-			// we need some id
-			if(!$id)
-				continue;
-
-			// look by id or by nick name
-			if(is_numeric($id))
-				$items[] = "articles.id = ".SQL::escape($id);
-			else
-				$items[] = "articles.nick_name LIKE '".SQL::escape($id)."'";
-
-		}
-
-		// no valid id has been found
-		if(!count($items)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// the list of articles
-		$query = "SELECT articles.*"
-			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".join(' OR ', $items).")"
-			." ORDER BY articles.title";
-
-		// query and layout
-		$output =& Articles::list_selected(SQL::query($query), $layout);
-		return $output;
-	}
-
-	/**
 	 * list articles attached to one anchor
 	 *
 	 * The ordering method is provided by layout.
@@ -2045,6 +1999,56 @@ Class Articles {
 	}
 
 	/**
+	 * list these articles
+	 *
+	 * The first parameter can be either a string containing several ids or nick
+	 * names separated by commas, or it can be an array of ids or nick names.
+	 *
+	 * The second parameter can be either a string accepted by Articles::list_selected(),
+	 * or an instance of the Layout interface.
+	 *
+	 * @param mixed a list of ids or nick names
+	 * @param mixed the layout to apply
+	 * @return string to be inserted into the resulting page
+	 */
+	function &list_for_ids($ids, $layout='select') {
+		global $context;
+
+		// turn a string to an array
+		if(!is_array($ids))
+			$ids = preg_split('/[\s,]+/', (string)$ids);
+
+		// check every id
+		$queries = array();
+		foreach($ids as $id) {
+
+			// we need some id
+			if(!$id)
+				continue;
+
+			// look by id or by nick name
+			if(is_numeric($id))
+				$queries[] = "SELECT * FROM ".SQL::table_name('articles')." WHERE (id = ".SQL::escape($id).")";
+			else
+				$queries[] = "SELECT * FROM ".SQL::table_name('articles')." WHERE (nick_name LIKE '".SQL::escape($id)."')";
+
+		}
+
+		// no valid id has been found
+		if(!count($queries)) {
+			$output = NULL;
+			return $output;
+		}
+
+		// return pages in the order of argument received
+		$query = "(".join(') UNION (', $queries).")";
+
+		// query and layout
+		$output =& Articles::list_selected(SQL::query($query), $layout);
+		return $output;
+	}
+
+	/**
 	 * list named articles
 	 *
 	 * This function lists all articles with the same nick name.
@@ -2136,20 +2140,20 @@ Class Articles {
 
 		// look for watched pages through sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		// use joined queries
 		} else {
-			$query = "SELECT articles.*"
+			$query = "(SELECT articles.*"
 				." FROM (".SQL::table_name('members')." AS members"
 				.", ".SQL::table_name('articles')." AS articles)"
 				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where;
+				."	AND ".$where.")";
 
 		}
 
@@ -2158,7 +2162,13 @@ Class Articles {
 			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE articles.id IN (".join(', ', $these_items).")"
 				."	AND ".$where.")"
-				." UNION (".$query.")";
+				." UNION ".$query;
+
+		// include articles owned by this surfer
+		$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE articles.owner_id = ".$user_id
+			."	AND ".$where.")"
+			." UNION ".$query;
 
 		// finalize the query
 		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;
@@ -2783,7 +2793,7 @@ Class Articles {
 	 * @see services/search.php
 	 * @see categories/set_keyword.php
 	 *
-	 * @param the search string
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -2803,8 +2813,8 @@ Class Articles {
 	 *
 	 * @see search.php
 	 *
-	 * @param the id of the section to look in
-	 * @param the search string
+	 * @param int the id of the section to look in
+	 * @param string the search string
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
@@ -2901,10 +2911,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words))
-			$match .=  " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($word['value'])."')";
+		$match = " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of articles
 		$query = "SELECT articles.*"

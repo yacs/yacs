@@ -44,7 +44,7 @@ include_once 'services/call.php'; // list RSS resources
 // prevent attacks
 $search = '';
 if(isset($_REQUEST['search']))
-	$search = preg_replace('/[\'"\{\}\[\]\(\)]/', ' ', strip_tags($_REQUEST['search']));
+	$search = preg_replace('/[\'"]/', ' ', strip_tags($_REQUEST['search']));
 
 // convert from unicode to utf8
 $search = utf8::from_unicode($search);
@@ -163,10 +163,14 @@ $no_result = TRUE;
 // provide results in separate panels
 $panels = array();
 
-// search in sections
-if($rows = Sections::search_in_section($section_id, $search)) {
-	$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-	$no_result = FALSE;
+// search in sections, but only on first page
+if(($page == 1)) {
+
+	if($rows = Sections::search_in_section($section_id, $search)) {
+		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
+		$no_result = FALSE;
+	}
+
 }
 
 // search in articles
