@@ -322,7 +322,7 @@ Class Utf8 {
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	function &to_ascii($utf, $options='') {
+	function &to_ascii($utf, $options=' =:/()<>"') {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
@@ -409,7 +409,7 @@ Class Utf8 {
 		$text = str_replace($utf_entities, $safe_entities, $utf);
 
 		// turn invalid chars to dashes (for proper indexation by Google)
-		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);
+		$text = preg_replace("/[^a-zA-Z_\d\.\-".preg_quote($options, '/')."]+/i", '-', $text);
 
 		// compact dashes
 		$text = preg_replace('/-+/', '-', $text);

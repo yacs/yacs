@@ -208,6 +208,7 @@ if(Surfer::is_crawler()) {
 			$fields['content_options'] = 'with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['locked'] = 'Y'; // for the owner only
+			$fields['options'] = 'articles_by_publication view_as_tabs'; // to list watchers of the news
 			$fields['rank'] = 1000;
 			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/news.gif';
 			$fields['title'] = i18n::c("What is new?");
@@ -228,7 +229,7 @@ if(Surfer::is_crawler()) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'yabb';
-			$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs';
+			$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
 			$fields['rank'] = 2000;
@@ -255,12 +256,13 @@ if(Surfer::is_crawler()) {
 				$fields['active_set'] = 'N';
 				$fields['anchor'] = 'section:'.$_REQUEST['id'];
 				$fields['articles_layout'] = 'yabb';
-				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs';
+				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
 				$fields['introduction'] = i18n::c('Reserved to project members');
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
+				$fields['options'] = 'view_as_tabs'; // to list editors and watchers explicitly
 				$fields['rank'] = 4000;
 				$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
-				$fields['title'] = i18n::c('Internal');
+				$fields['title'] = i18n::c('Private activities');
 				Sections::post($fields);
 			}
 		}
@@ -404,23 +406,17 @@ if($with_form) {
 		.'// detect changes in form'."\n"
 		.'func'.'tion detectChanges() {'."\n"
 		."\n"
-		.'	var nodes = $("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
+		.'	$("form#main_form input").each(function () {'."\n"
+		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
+		.'	});'."\n"
 		."\n"
-		.'	nodes = $("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
+		.'	$("form#main_form textarea").each(function () {;'."\n"
+		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
+		.'	});'."\n"
 		."\n"
-		.'	nodes = $("form#main_form select");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		$(node).change(function() { $("#preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
+		.'	$("form#main_form select").each(function () {;'."\n"
+		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
+		.'	});'."\n"
 		.'}'."\n"
 		."\n"
 		.'// observe changes in form'."\n"

@@ -2,8 +2,6 @@
 /**
  * view one section
  *
- * @todo index presentation of articles (agnes)
- *
  * The main panel has following elements:
  * - top icons, if any --set in sub-section
  * - the section itself, with details, introduction, and main text.
@@ -749,7 +747,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'newlines'), 'share', 'share');
 
 	// 'Monitor' box
 	$lines = array();
@@ -773,7 +771,7 @@ if(!isset($item['id'])) {
 	// allow to leave the section
 	if(Sections::is_assigned($item['id']) && !Sections::is_owned($item, $anchor, TRUE)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
 
 	// get news from rss
@@ -1675,7 +1673,7 @@ if(!isset($item['id'])) {
 
 		// displayed as another box
 		if($items)
-			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, FALSE));
+			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, TRUE));
 
 	}
 

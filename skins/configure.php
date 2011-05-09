@@ -379,7 +379,6 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'channels - '.i18n::s('Commands to stay informed, if any');
 	$keywords[] = 'twins - '.i18n::s('Pages with the same name, if any');
 	$keywords[] = 'neighbours - '.i18n::s('Next and previous, if any');
-	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
 	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
 	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
 	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
@@ -405,9 +404,10 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Navigation boxes are looking similar at all pages');
 	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
 	$keywords = array();
-	$keywords[] = 'menu - '.i18n::s('Site menu');
 	$keywords[] = 'user - '.i18n::s('User menu');
 	$keywords[] = 'extra - '.i18n::s('Include the extra panel, if your skin features a 2-column layout');
+	$keywords[] = 'menu - '.i18n::s('Site menu');
+	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
 	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
 	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";

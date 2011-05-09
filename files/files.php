@@ -2250,13 +2250,7 @@ Class Files {
 		$where = '('.$where.')';
 
 		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		$match = "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "

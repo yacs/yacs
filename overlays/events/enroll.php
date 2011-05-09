@@ -315,7 +315,7 @@ else {
 
 	// display the list of actual recipients
 	if($enrolled_names)
-		$context['text'] .= '<div style="margin-bottom: 2em">'.i18n::s('Following persons have been notified of their enrolment by e-mail').Skin::finalize_list($enrolled_names, 'compact').'</div>';
+		$context['text'] .= '<div style="margin-bottom: 2em">'.Skin::build_block(i18n::s('Following persons have been notified of their enrolment by e-mail').Skin::finalize_list($enrolled_names, 'compact'), 'note').'</div>';
 
 	// splash
 	switch($overlay->get_value('enrolment')) {

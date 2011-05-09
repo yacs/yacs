@@ -631,7 +631,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_by_title_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();
@@ -686,14 +686,31 @@ if($with_form) {
 
 		// page won't be published anyway
 		else
-			$more = ' disabled="disabled" checked="checked"';
+			$more = 'disabled="disabled" checked="checked"';
 
 		// the full radio button
 		$suffix[] = '<input type="checkbox" name="option_draft" value="Y" '.$more.'/> '.i18n::s('This is a draft document. Do not notify watchers nor followers.');
 
 	// notify watchers
-	} else
-		$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.');
+	} else {
+
+		// notify watchers, but not on draft pages
+		$with_watchers = (isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE));
+
+		// allow the anchor to prevent notifications of watchers
+		if($with_watchers && is_object($overlay))
+			$with_watchers = $overlay->should_notify_watchers();
+
+		// allow surfer to uncheck notifications
+		if($with_watchers)
+			$more = 'checked="checked"';
+
+		// no notifications anyway
+		else
+			$more = 'disabled="disabled"';
+
+		$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" '.$more.'/> '.i18n::s('Notify watchers.');
+	}
 
 	// do not remember changes on existing pages -- complex command
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())

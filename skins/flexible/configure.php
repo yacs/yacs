@@ -2,7 +2,6 @@
 /**
  * configure parameters for the skin
  *
- * @link http://matthewjamestaylor.com/blog/fixed-width-or-liquid-layout.htm The Holy Grail 3 column Liquid Layout or fixed width
  * @link http://www.smashingmagazine.com/2008/03/05/blog-headers-for-free-download/ Beautiful headers provided for free
  * @link http://exploding-boy.com/images/cssmenus2/menus.html tabs provided for free
  *
@@ -1945,7 +1944,8 @@ elseif(!Surfer::is_associate()) {
 		$needles[] = '!!width!!';
 		if($context['flexible_width'] == '960px')
 			$values[] = '/* fixed width */'."\n"
-				.'div#page {'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
 				.'	width: 960px;'."\n"
 				.'	text-align: left;'."\n"
 				.'	margin: 0 auto;'."\n"
@@ -1953,23 +1953,26 @@ elseif(!Surfer::is_associate()) {
 
 		elseif($context['flexible_width'] == '850px')
 			$values[] = '/* fixed width */'."\n"
-				.'div#page {'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
 				.'	width: 850px;'."\n"
 				.'	text-align: left;'."\n"
 				.'	margin: 0 auto;'."\n"
 				.'}'."\n";
 
-		elseif($context['flexible_width'] == '640px')
+		elseif($context['flexible_width'] == '760px')
 			$values[] = '/* fixed width */'."\n"
-				.'div#page {'."\n"
-				.'	width: 640px;'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
+				.'	width: 760px;'."\n"
 				.'	text-align: left;'."\n"
 				.'	margin: 0 auto;'."\n"
 				.'}'."\n";
 
 		else
 			$values[] = '/* fluid layout */'."\n"
-				.'div#page {'."\n"
+				.'#page {'."\n"
+				.'	background: '.$context['flexible_page_bg'].';'."\n"
 				.'	width: 100%;'."\n"
 				.'	text-align:left;'."\n"
 				.'	margin:0;'."\n"
@@ -1977,13 +1980,15 @@ elseif(!Surfer::is_associate()) {
 
 		// header panel
 		$needles[] = '!!header_panel!!';
-		$values[] = 'div#header_panel {'."\n"
+		$values[] = 'tr#header_panel td {'."\n"
  			.'	background: '.$context['flexible_header_bg'].';'."\n"
  			.'	border-bottom: '.$context['flexible_header_bottom'].';'."\n"
  			.'	border-left: '.$context['flexible_header_left'].';'."\n"
  			.'	border-right: '.$context['flexible_header_right'].';'."\n"
  			.'	border-top: '.$context['flexible_header_top'].';'."\n"
  			.'	height: '.$context['flexible_header_height'].';'."\n"
+			.'	margin: 0;'."\n"
+			.'	padding: 0;'."\n"
 			.'	position: relative;'."\n"
 			.'}'."\n\n"
 			.'p#header_title {'."\n"
@@ -2020,7 +2025,7 @@ elseif(!Surfer::is_associate()) {
 			$values[] = 'div.tabs { /* all tabs */'."\n"
 				.'	position: absolute;'."\n"
 				.'	left: 0;'."\n"
-				.'	bottom: 0;'."\n"
+				.'	top: '.minus_helper($context['flexible_header_height'], '23px').';'."\n"
 				.'	background: '.$context['flexible_tabs_bg'].';'."\n"
 				.'	border-bottom: '.$context['flexible_tabs_bottom'].';'."\n"
 				.'	border-left: '.$context['flexible_tabs_left'].';'."\n"
@@ -2101,7 +2106,7 @@ elseif(!Surfer::is_associate()) {
 			.'	text-decoration: '.$context['flexible_main_h_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'div#main_panel {'."\n"
+			.'#main_panel {'."\n"
 			.'	background: '.($context['flexible_main_bg']?$context['flexible_main_bg']:'transparent').';'."\n"
 			.'	border-bottom: '.$context['flexible_main_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_main_left'].';'."\n"
@@ -2181,20 +2186,10 @@ elseif(!Surfer::is_associate()) {
 			.'	font-weight: '.$context['flexible_main_h3_weight'].';'."\n"
 			.'}'."\n";
 
-		// maybe the extra and side panels are inverted
-		if(($context['flexible_columns'] == '3_2_1') || ($context['flexible_columns'] == '2_3_1')) {
-			$actual_side = 'extra';
-			$actual_extra = 'side';
-		} else {
-			$actual_side = 'side';
-			$actual_extra = 'extra';
-		}
-		$side_padding = box_helper($context['flexible_side_padding']);
-		$extra_padding = box_helper($context['flexible_extra_padding']);
-
 		// side panel
 		$needles[] = '!!side_panel!!';
-		$values[] = '#'.$actual_side.'_panel {'."\n"
+		$values[] = '#side_panel {'."\n"
+			.'	background: '.$context['flexible_side_bg'].';'."\n"
 			.'	border-bottom: '.$context['flexible_side_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_side_left'].';'."\n"
 			.'	border-right: '.$context['flexible_side_right'].';'."\n"
@@ -2203,11 +2198,11 @@ elseif(!Surfer::is_associate()) {
 			.'	font-family: '.$context['flexible_side_family'].';'."\n"
 			.'	font-size: '.$context['flexible_side_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_side_weight'].';'."\n"
-			.'	padding-bottom: '.$side_padding[3].';'."\n"
-			.'	padding-top: '.$side_padding[0].';'."\n"
+			.'	padding: '.$context['flexible_side_padding'].';'."\n"
+			.'	width: '.$context['flexible_side_width'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_side.'_panel a {'."\n"
+			.'#side_panel a {'."\n"
 			.'	background: '.($context['flexible_side_a_bg']?$context['flexible_side_a_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_side_a_color'].';'."\n"
 			.'	font-family: '.$context['flexible_side_a_family'].';'."\n"
@@ -2216,15 +2211,12 @@ elseif(!Surfer::is_associate()) {
 			.'	text-decoration: '.$context['flexible_side_a_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_side.'_panel a:hover {'."\n"
+			.'#side_panel a:hover {'."\n"
 			.'	background: '.($context['flexible_side_h_bg']?$context['flexible_side_h_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_side_h_color'].';'."\n"
 			.'	text-decoration: '.$context['flexible_side_h_decoration'].';'."\n"
 			.'}'."\n"
 			."\n";
-
-		$needles[] = '!!'.$actual_side.'_background!!';
-		$values[] = $context['flexible_side_bg'];
 
 		// navigation boxes in side panel
 		//
@@ -2256,7 +2248,8 @@ elseif(!Surfer::is_associate()) {
 
 		// extra panel
 		$needles[] = '!!extra_panel!!';
-		$values[] = '#'.$actual_extra.'_panel {'."\n"
+		$values[] = '#extra_panel {'."\n"
+			.'	background: '.$context['flexible_extra_bg'].';'."\n"
 			.'	border-bottom: '.$context['flexible_extra_bottom'].';'."\n"
 			.'	border-left: '.$context['flexible_extra_left'].';'."\n"
 			.'	border-right: '.$context['flexible_extra_right'].';'."\n"
@@ -2265,11 +2258,11 @@ elseif(!Surfer::is_associate()) {
 			.'	font-family: '.$context['flexible_extra_family'].';'."\n"
 			.'	font-size: '.$context['flexible_extra_size'].';'."\n"
 			.'	font-weight: '.$context['flexible_extra_weight'].';'."\n"
-			.'	padding-bottom: '.$extra_padding[3].';'."\n"
-			.'	padding-top: '.$extra_padding[0].';'."\n"
+			.'	padding: '.$context['flexible_extra_padding'].';'."\n"
+			.'	width: '.$context['flexible_extra_width'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_extra.'_panel a {'."\n"
+			.'#extra_panel a {'."\n"
 			.'	background: '.($context['flexible_extra_a_bg']?$context['flexible_extra_a_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_extra_a_color'].';'."\n"
 			.'	font-family: '.$context['flexible_extra_a_family'].';'."\n"
@@ -2278,15 +2271,12 @@ elseif(!Surfer::is_associate()) {
 			.'	text-decoration: '.$context['flexible_extra_a_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'#'.$actual_extra.'_panel a:hover {'."\n"
+			.'#extra_panel a:hover {'."\n"
 			.'	background: '.($context['flexible_extra_h_bg']?$context['flexible_extra_h_bg']:'transparent').';'."\n"
 			.'	color: '.$context['flexible_extra_h_color'].';'."\n"
 			.'	text-decoration: '.$context['flexible_extra_h_decoration'].';'."\n"
 			.'}'."\n"
 			."\n";
-
-		$needles[] = '!!'.$actual_extra.'_background!!';
-		$values[] = $context['flexible_extra_bg'];
 
 		// extra boxes in extra panel
 		//
@@ -2316,68 +2306,9 @@ elseif(!Surfer::is_associate()) {
 			.'	padding: '.$context['flexible_extra_dd_padding'].';'."\n"
 			.'}'."\n";
 
-		// combined width of size and extra panels
-		$needles[] = '!!combined_width!!';
-		$values[] = plus_helper($context['flexible_side_width'], $context['flexible_extra_width']);
-
-		// position the side panel
-		$needles[] = '!!'.$actual_side.'_width!!';
-		$values[] = $context['flexible_side_width'];
-		$needles[] = '!!'.$actual_side.'_inner_width!!';
-		$values[] = minus_helper(minus_helper($context['flexible_side_width'], $side_padding[1]), $side_padding[3]);
-		$needles[] = '!!'.$actual_side.'_left_padding!!';
-		$values[] = $side_padding[3];
-		$needles[] = '!!'.$actual_side.'_right_padding!!';
-		$values[] = $side_padding[1];
-		$needles[] = '!!side_left!!';
-		if($actual_side == 'side')
-			$values[] = minus_helper($context['flexible_side_width'], $side_padding[1]);
-		else
-			$values[] = minus_helper($context['flexible_extra_width'], $extra_padding[1]);
-
-		// position the extra panel
-		$needles[] = '!!'.$actual_extra.'_width!!';
-		$values[] = $context['flexible_extra_width'];
-		$needles[] = '!!'.$actual_extra.'_inner_width!!';
-		$values[] = minus_helper(minus_helper($context['flexible_extra_width'], $extra_padding[1]), $extra_padding[3]);
-		$needles[] = '!!'.$actual_extra.'_left_padding!!';
-		$values[] = $extra_padding[3];
-		$needles[] = '!!'.$actual_extra.'_right_padding!!';
-		$values[] = $extra_padding[1];
-		$needles[] = '!!extra_left!!';
-		if($actual_side == 'side')
-			$values[] = minus_helper(minus_helper(minus_helper(plus_helper(plus_helper($context['flexible_side_width'], $context['flexible_side_width']), $context['flexible_extra_width']), $side_padding[1]), $side_padding[3]), $extra_padding[1]);
-		else
-			$values[] = minus_helper(minus_helper(minus_helper(plus_helper(plus_helper($context['flexible_extra_width'], $context['flexible_extra_width']), $context['flexible_side_width']), $extra_padding[1]), $extra_padding[3]), $side_padding[1]);
-
-		// more positioning
-		$main_padding = box_helper($context['flexible_main_padding']);
-		$needles[] = '!!main_holly_margin!!';
-		if($actual_side == 'side') {
-			$values[] = '0 '
-				.plus_helper($context['flexible_extra_width'], $main_padding[1])
-				.' 0 '
-				.plus_helper($context['flexible_side_width'], $main_padding[3]);
-		} else {
-			$values[] = '0 '
-				.plus_helper($context['flexible_side_width'], $main_padding[1])
-				.' 0 '
-				.plus_helper($context['flexible_extra_width'], $main_padding[3]);
-		}
-		$needles[] = '!!main_blog_margin!!';
-		$values[] = '0 '
-			.$main_padding[1]
-			.' 0 '
-			.plus_helper(plus_helper($context['flexible_side_width'], $context['flexible_extra_width']), $main_padding[3]);
-		$needles[] = '!!combined_right_margin!!';
-		if($actual_side == 'side')
-			$values[] = plus_helper($side_padding[1], $side_padding[3]);
-		else
-			$values[] = plus_helper($extra_padding[1], $extra_padding[3]);
-
 		// footer panel
 		$needles[] = '!!footer_panel!!';
-		$values[] = 'div#footer_panel {'."\n"
+		$values[] = 'tr#footer_panel td {'."\n"
  			.'	text-align: '.$context['flexible_footer_align'].';'."\n"
  			.'	background: '.$context['flexible_footer_bg'].';'."\n"
  			.'	border-bottom: '.$context['flexible_footer_bottom'].';'."\n"
@@ -2389,22 +2320,23 @@ elseif(!Surfer::is_associate()) {
  			.'	font-size: '.$context['flexible_footer_size'].';'."\n"
  			.'	font-weight: '.$context['flexible_footer_weight'].';'."\n"
  			.'	height: '.$context['flexible_footer_height'].';'."\n"
+			.'	margin: 0;'."\n"
  			.'	padding: '.$context['flexible_footer_padding'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'div#footer_panel a {'."\n"
+			.'#footer_panel a {'."\n"
  			.'	background: '.$context['flexible_footer_a_bg'].';'."\n"
  			.'	color: '.$context['flexible_footer_a_color'].';'."\n"
- 			.'	decoration: '.$context['flexible_footer_a_decoration'].';'."\n"
  			.'	font-family: '.$context['flexible_footer_a_family'].';'."\n"
  			.'	font-size: '.$context['flexible_footer_a_size'].';'."\n"
  			.'	font-weight: '.$context['flexible_footer_a_weight'].';'."\n"
+ 			.'	text-decoration: '.$context['flexible_footer_a_decoration'].';'."\n"
 			.'}'."\n"
 			."\n"
-			.'div#footer_panel a:hover {'."\n"
+			.'#footer_panel a:hover {'."\n"
  			.'	background: '.$context['flexible_footer_h_bg'].';'."\n"
  			.'	color: '.$context['flexible_footer_h_color'].';'."\n"
- 			.'	decoration: '.$context['flexible_footer_h_decoration'].';'."\n"
+ 			.'	text-decoration: '.$context['flexible_footer_h_decoration'].';'."\n"
 			.'}'."\n";
 
 		// do the transformation

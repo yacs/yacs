@@ -379,7 +379,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)$/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -543,7 +543,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)$/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -1212,21 +1212,21 @@ if($with_form) {
 		.'//	return true;'."\n"
 		.'}'."\n"
 		."\n"
-                .'// if title is empty of equal to index_title'."\n"
-                .'if( $("#title").val()=="" || $("#title").val()==$("#index_title").val()) {'."\n"
+      .'// if title is empty of equal to index_title'."\n"
+      .'if( $("#title").val()=="" || $("#title").val()==$("#index_title").val()) {'."\n"
 		.'      // then synchronise index_title and title'."\n"
 		.'      $("#index_title").change(function() {'."\n"
-                .'              $("#title").val($("#index_title").val());'."\n"
-                .'      });'."\n"
-                .'}'."\n"
-                .'//stop updating title from index_title if edited by surfer'."\n"
-                .'$("#title").change( function() {'."\n"
-                .'      $("#index_title").unbind("change");'."\n"
-                .'});'."\n"
+      .'              $("#title").val($("#index_title").val());'."\n"
+      .'      });'."\n"
+      .'}'."\n"
+      .'//stop updating title from index_title if edited by surfer'."\n"
+      .'$("#title").change( function() {'."\n"
+      .'      $("#index_title").unbind("change");'."\n"
+      .'});'."\n"
 		.'// disable editor selection on change in form'."\n"
-                .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
-                .'      $("#preferred_editor").attr("disabled",true);'."\n"
-                .'});'."\n"
+      .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+      .'      $("#preferred_editor").attr("disabled",true);'."\n"
+      .'});'."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("#index_title").focus();'."\n"
 		."\n"

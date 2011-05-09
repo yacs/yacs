@@ -857,7 +857,6 @@ Class Section extends Anchor {
 			.'|with_extra_profile'	// only in blog
 			.'|with_files'			// no way to depart from this in sub-sections
 			.'|with_links'			// no way ...
-			.'|with_neighbours'
 			.'|with_prefix_profile' // only in discussion boards
 			.'|with_suffix_profile)/';	// only in authoring sections
 
@@ -1235,7 +1234,7 @@ Class Section extends Anchor {
 
 		// suppress a reference to a table that has been deleted
 		} elseif($action == 'table:delete') {
-			$query[] = "description = '".SQL::escape(Codes::delete_embeded($this->item['description'], 'table', $origin))."'";
+			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
 

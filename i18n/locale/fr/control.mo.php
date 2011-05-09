@@ -516,7 +516,7 @@ $_SESSION['l10n']['fr']['841032d165945524632244aa2847b9fd']='De préférence au 
 $_SESSION['l10n']['fr']['7a617fb54d24e0f40c6a6e22952148ad']='Nous respectons votre vie privée ! Sauf exception dûment documentée, les informations collectées sur ce site ne sont ni revendues, louées ou partagées. Nous prenons le plus grand soin des informations que vous nous confiez.';
 $_SESSION['l10n']['fr']['Web Logs']='Traces web';
 $_SESSION['l10n']['fr']['Web cache']='Cache du navigateur';
-$_SESSION['l10n']['fr']['Web conference']='Conférence web';
+$_SESSION['l10n']['fr']['Web meeting']='Réunion web';
 $_SESSION['l10n']['fr']['Web security']='Sécurité web';
 $_SESSION['l10n']['fr']['Web services']='Services web';
 $_SESSION['l10n']['fr']['2eb6779753c4216050cf23b874775f7a']='Webmestre : [parameter=site_email]';
