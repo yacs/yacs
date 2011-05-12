@@ -1404,7 +1404,7 @@ div.dropmarker { /* the horizontal line to track position during drag */
 	margin: 0 0 30px 20px;
 }
 
-div.sortable {
+.sortable {
 	position: relative;
 /*	border: 1px solid #ccc; */
 	margin: 0.3em 0 0 0;
@@ -1412,9 +1412,7 @@ div.sortable {
 	width: 500px;
 }
 
-.sortable_hover {
-	background-color: #edf6dd;
-}
+.sortable:hover {background-color: #edf6dd;}
 
 div#form_input_panel {
 	margin-top: 2em;

@@ -554,21 +554,22 @@ var Yacs = {
 	 * prepare for mouse hovering
 	 */
 	addOnDemandTools: function(handle, option) {
-		handle = $(handle);
+                handle = $("#" + handle);
 
 		var prefix = '';
 		if(handle.hasClass('sortable')) {
 			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
 		}
+                
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClass('mutable')) {
 			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+Yacs.identify(handle)+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-		var here = handle.prepend(suffix + prefix);
+		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';               
+                handle.prepend(suffix + prefix);
 
-		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
-		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
+		 handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
+		 handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
 
 		handle = null; // no memory leak
 	},
@@ -577,27 +578,20 @@ var Yacs = {
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft, ' + handle + ' span.onHoverRight');
-		nodes.each(function () { $(this).css('visibility', 'hidden'); });
-
-		nodes = null; // no memory leak
+		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+                    .css('visibility', 'hidden');
 	},
 
 	/**
 	 * mouse is coming on top of some element
 	 */
 	mouseOver: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft, ' + handle + ' span.onHoverRight');
-		nodes.each(function () { $(this).css('visibility', 'visible'); });
-
-		nodes = null; // no memory leak
+                $(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+                    .css('visibility', 'visible');
 	},
 
 	toggleProperties: function(handle) {
-		var nodes = $(handle + ' .properties');
-		nodes.each(function () { $(this).toggle('slide'); });
-
-		nodes = null; // no memory leak
+                $(handle).children('.properties').toggle('slide');
 	},
 
 	/**
