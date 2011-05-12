@@ -40,16 +40,21 @@ var Forms = {
 	append: function(id, text) {
 
 		// append the item at the bottom of the list
-		new Insertion.Bottom("form_panel", text);
+                $("#form_panel").append(text);
 
 		// some commands will appear on hovering
 		Yacs.addOnDemandTools(id);
 
 		// flash the new item
-		new Effect.Highlight(id);
+                $("#" + id).effect("highlight",{},3000);
 
 		// drag and drop is allowed to re-order the list
-		Sortable.create("form_panel", {tag:"div", only:"sortable", overclass: "sortable_hover", constraint:"vertical", handle:"drag_handle" });
+                $("#form_panel").sortable({
+                    items: '.sortable',
+                    axis:'y',
+                    handle: '.drag_handle'
+                });
+                            
 	},
 
 	/**
@@ -99,8 +104,8 @@ var Forms = {
 			+ '<option value="raw"' + options.option_raw + '>Some text</option>'
 			+ '</select></td></tr>'
 			+ '<tr class="odd"><td colspan="2">'
-			+ '<a href="#" onclick="Forms.saveLabel(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/ajax/accept.png" width="16" height=16" /></a>'
-			+ '<a href="#" onclick="Forms.restoreLabel(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/ajax/cancel.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.saveLabel(\'#field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/ajax/accept.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.restoreLabel(\'#field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/ajax/cancel.png" width="16" height=16" /></a>'
 			+ '</td></tr>'
 			+ '</table>'
 			+ '</div>'
@@ -123,58 +128,41 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-		var store = $(handle + ' div.state:first');
+                var store = handle.children('.state');
+                var properties = handle.children('.properties');
 
-		var itemText = $(handle + ' textarea:first').value;
-		var nodes = $(store + ' div.text');
-		if(nodes.length) {
-			itemText = nodes[0].innerHTML;
-			$(handle + ' textarea:first').value = itemText;
-		}
-
-		var itemType = $(handle + ' select:first').value;
-		nodes = $(store + ' div.type');
-		if(nodes.length) {
-			itemType = nodes[0].innerHTML;
-			$(handle + ' select:first').value = itemType;
-		}
-
-		// also update the preview
-		var preview = $(handle + ' div.preview:first');
-		if(itemType == 'title')
-			$(preview).html('<h2>' + itemText + '</h2>');
-		if(itemType == 'subtitle')
-			$(preview).html('<h3>' + itemText + '</h3>');
-		if(itemType == 'raw')
-			$(preview).html(itemText);
+                properties.find('textarea').val(store.children('.text').html());
+                properties.find('select').val(store.children('.type').html());
 
 		// close properties
-		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
+		properties.toggle('slide');
 	},
 
 	/**
 	 * the user has validated his update
 	 */
-	saveLabel: function(handle) {
+	saveLabel: function(handle) {                
 		handle = $(handle);
 
 		// save in the store
-		var store = $(handle + ' div.state:first');
-		var itemText = $(handle + ' div.properties:first textarea:first').value;
-		var itemType = $(handle + ' div.properties:first select:first').value;
-		$(store).html('<div class="class">label</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>');
-
+		var store = handle.children('.state');
+                var properties = handle.children('.properties');
+                
+                var itemText = properties.find('textarea').val();
+                var itemType = properties.find('select').val();
+		store.html('<div class="class">label</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>');
+                                
 		// also update the preview
-		var preview = $(handle + ' div.preview:first');
-		if(itemType == 'title')
-			$(preview).html('<h2>' + itemText + '</h2>');
+                var preview = handle.children('.preview');
+		if(itemType == 'title') 
+			preview.html('<h2>' + itemText + '</h2>');
 		if(itemType == 'subtitle')
-			$(preview).html('<h3>' + itemText + '</h3>');
+			preview.html('<h3>' + itemText + '</h3>');
 		if(itemType == 'raw')
-			$(preview).html(itemText);
+                        preview.html(itemText);
 
 		// close properties
-		new Effect.toggle($(handle + ' div.properties:first'), 'slide');
+                properties.toggle('slide');
 	},
 
 	/**
@@ -591,7 +579,7 @@ var Forms = {
 	 */
 	toJSON: function(handle) {
 		var nodes = $(handle + ' div.state');
-		if(nodes.length < 1) { return '[]' };
+		if(nodes.length < 1) {return '[]'};
 		var buffer = '';
 		for(index = 0; index < nodes.length; index++) {
 			var nodeClass = $(nodes[index] + ' div.class:first').html();
