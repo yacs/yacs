@@ -492,7 +492,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $count), $count));
 
 	// add to the watch list -- $in_watch_list is set in sections/view.php
-	if(Surfer::get_id() && ($in_watch_list == 'N')) {
+	if(Surfer::get_id() && !$in_watch_list) {
 		Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'track') => TOOLS_WATCH_IMG.i18n::s('Watch this page'));
 	}
