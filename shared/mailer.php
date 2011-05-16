@@ -650,6 +650,27 @@ class Mailer {
 	}
 
 	/**
+	 * get the default From: address
+	 *
+	 * This function should be invoked to originate all notifications and messages sent
+	 * by this server.
+	 *
+	 * @return string either the address of the current surfer, or the address of the web server itself
+	 */
+	function get_from_recipient() {
+		global $context;
+
+		// determine the From: address
+		if(isset($context['mail_from']) && $context['mail_from'])
+			$from = $context['mail_from'];
+		else
+			$from = $context['host_name'];
+
+		// done
+		return $from;
+	}
+
+	/**
 	 * send a short email message
 	 *
 	 * This is the function used by yacs to notify community members of various events.
@@ -679,14 +700,11 @@ class Mailer {
 			$from = NULL;
 
 		// ensure we have a sender
-		if(!$from) {
-			if(isset($context['mail_from']) && $context['mail_from'])
-				$from = $context['mail_from'];
-			else
-				$from = $context['site_name'];
+		if(!$from)
+			$from = Mailer::get_from_recipient();
 
 		// add site name to message title
-		} else
+		else
 			$subject .= ' ['.$context['site_name'].']';
 
 		// allow for HTML rendering
@@ -775,7 +793,7 @@ class Mailer {
 	 * Mailer::post($from, $to, $subject, $message);
 	 * [/php]
 	 *
-	 * It is recommended to begin with the bare text, and to have the rich format part comming
+	 * It is recommended to begin with the bare text, and to have the rich format part coming
 	 * after, as in the example. Also, if you don't provide a charset, then UTF-8 is used.
 	 *
 	 * Long lines of text/plain parts are wrapped according to
@@ -814,9 +832,9 @@ class Mailer {
 	function post($from, $to, $subject, $message, $attachments=NULL, $headers='') {
 		global $context;
 
-		// use surfer own address
+		// ensure that we have a sender
 		if(!$from)
-			$from = Surfer::from();
+			$from = Mailer::get_from_recipient();
 
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
