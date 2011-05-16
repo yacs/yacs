@@ -449,6 +449,162 @@ class Event extends Overlay {
 	}
 
 	/**
+	 * get event description as ICS format
+	 *
+	 * @param array profile of the person receiving the message
+	 * @param string either 'REQUEST' or 'CANCEL'
+	 * @return string content of the ICS
+	 *
+	 * @see articles/invite.php
+	 * @see overlays/events/fetch_ics.php
+	 */
+	function get_ics($user, $method='REQUEST') {
+		global $context;
+
+		// sanity check
+		if($method != 'CANCEL')
+			$method = 'REQUEST';
+
+		// begin calendar
+		$text = 'BEGIN:VCALENDAR'.CRLF
+			.'VERSION:2.0'.CRLF
+			.'PRODID:YACS'.CRLF
+			.'METHOD:'.$method.CRLF;
+
+		// yacs uses dates in UTC
+		$text .= 'BEGIN:VTIMEZONE'.CRLF
+			.'TZID:/GMT'.CRLF
+			.'BEGIN:DAYLIGHT'.CRLF
+			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20750407T030000Z;BYMONTH=3D4;BYDAY=3D-1SU'.CRLF
+			.'TZNAME:Universal Coordinated Time'.CRLF
+			.'TZOFFSETTO:+0000'.CRLF
+			.'TZOFFSETFROM:+0000'.CRLF
+			.'DTSTART:19910401T030000'.CRLF
+			.'END:DAYLIGHT'.CRLF
+			.'BEGIN:STANDARD'.CRLF
+			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20751031T010000Z;BYMONTH=3D10;BYDAY=3D-1SU'.CRLF
+			.'TZNAME:Universal Coordinated Time'.CRLF
+			.'TZOFFSETTO:+0000'.CRLF
+			.'TZOFFSETFROM:+0000'.CRLF
+			.'DTSTART:19911025T010000'.CRLF
+			.'END:STANDARD'.CRLF
+			.'END:VTIMEZONE'.CRLF;
+
+		// begin event
+		$text .= 'BEGIN:VEVENT'.CRLF;
+
+		// the organizer
+		$chairman = NULL;
+		if(isset($this->attributes['chairman']) && ($chairman =& Users::get($this->attributes['chairman'])))
+			;
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($chairman =& Users::get($owner)))
+			;
+
+		// refer to the organizer
+		if(isset($chairman['id'])) {
+
+			// get common name and e-mail address
+			$cn = str_replace(array("\n", "\r"), ' ', strip_tags($chairman['full_name']));
+			$email = 'null';
+			if(preg_match(VALID_RECIPIENT, $chairman['email']))
+				$email = $chairman['email'];
+
+			// the official organizer
+			$text .= 'ORGANIZER;CN="'.$cn.'":MAILTO:'.$email.CRLF;
+
+		}
+
+		// get common name and e-mail address
+		$cn = str_replace(array("\n", "\r"), ' ', strip_tags($user['full_name']));
+		$email = 'null';
+		if(preg_match(VALID_RECIPIENT, $user['email']))
+			$email = $user['email'];
+
+		// you are expected to participate
+		$text .= 'ATTENDEE;CN="'.$cn.'";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:'.$email.CRLF;
+
+		// the event spans limited time --duration is expressed in minutes
+		if(isset($this->attributes['duration']) && $this->attributes['duration']) {
+			$text .= 'DTSTART;TZID=/GMT:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).CRLF;
+			$text .= 'DTEND;TZID=/GMT:'.gmdate('Ymd\THis', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
+
+		// a full-day event
+		} else {
+			$text .= 'DTSTART;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
+			$text .= 'DTEND;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
+		}
+
+		// url to view the date
+		$text .= 'URL:'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().CRLF;;
+
+		// location is the yacs server
+		$text .= 'LOCATION:'.$context['site_name'].CRLF;
+
+		// build a valid title
+		if($value = $this->anchor->get_title())
+			$text .= 'SUMMARY:'.Codes::beautify_title($value).CRLF;
+
+		// description is partially automated
+		$text .= 'DESCRIPTION:';
+		if($value = $this->anchor->get_title())
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), str_replace(array("\n", "\r"), ' ', Codes::beautify_title($value))).'\n';
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).'\n';
+		if(isset($this->attributes['duration']) && $this->attributes['duration'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
+		$text .= sprintf(i18n::s('%s: %s'), i18n::s('Location'), $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url()).'\n';
+
+		// copy content of the introduction field, if any
+		if($value = $this->anchor->get_value('introduction'))
+			$text .= '\n'.str_replace(array("\n", "\r", ','), array('\n', ' ', '\,'), strip_tags($value));
+
+		// copy the induction message, if any
+		if(isset($this->attributes['induction_message']))
+			$text .= '\n'.str_replace(array("\n", "\r", ','), array('\n', ' ', '\,'), strip_tags( Codes::render($this->attributes['induction_message'])));
+
+		// end of the description field
+		$text .= CRLF;
+
+		// may be used for updates or for cancellation --required by Outlook 2003
+		$text .= 'UID:'.$this->anchor->get_reference().'-'.$context['host_name'].CRLF;
+
+		// maybe this one has been cancelled
+		if($method == 'CANCEL')
+			$text .= 'STATUS:CANCELLED'.CRLF;
+
+		// date of creation
+		if($value = $this->anchor->get_value('create_date'))
+			$text .= 'CREATED:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
+
+		// date of last modification --also required by Outlook
+		if($value = $this->anchor->get_value('edit_date'))
+			$text .= 'DTSTAMP:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
+
+		// more attributes
+		$text .= 'SEQUENCE:0'.CRLF
+			.'PRIORITY:5'.CRLF
+			.'TRANSP:OPAQUE'.CRLF  // block a slot in calendar
+			.'CLASS:PUBLIC'.CRLF;
+
+		// alarm to remind the meeting
+		if($method != 'CANCEL')
+			$text .= 'BEGIN:VALARM'.CRLF
+				.'TRIGGER:PT5M'.CRLF
+				.'ACTION:DISPLAY'.CRLF
+				.'DESCRIPTION:'.Codes::beautify_title($this->anchor->get_title()).CRLF
+				.'END:VALARM'.CRLF;
+
+		// close event
+		$text .= 'END:VEVENT'.CRLF;
+
+		// close calendar
+		$text .= 'END:VCALENDAR'.CRLF;
+
+		// done!
+		return $text;
+	}
+
+	/**
 	 * identify one instance
 	 *
 	 * This function returns a string that identify uniquely one overlay instance.
@@ -476,6 +632,87 @@ class Event extends Overlay {
 		global $context;
 
 		return '';
+	}
+
+	/**
+	 * get invitation attachments
+	 *
+	 * To be transmitted to invitation messages.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param array all attributes of the user receiving the invitation
+	 * @return mixed an array of file names, or NULL
+	 */
+	function get_invite_attachments($user) {
+		global $context;
+
+
+		// only if the person has been enrolled
+		include_once $context['path_to_root'].'shared/enrolments.php';
+		if((!$item = enrolments::get_record($this->anchor->get_reference(), $user['id'])) || ($item['approved'] != 'Y'))
+			return NULL;
+
+		// attach an invitation file
+		return array('meeting.ics' => $this->get_ics($user, 'REQUEST'));
+	}
+
+	/**
+	 * get invitation default message
+	 *
+	 * This is put in the invitation form.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @return string to be put in the web form
+	 */
+	function get_invite_default_message() {
+		global $context;
+
+		// to be displayed into the web form for this invitation
+		$text = '';
+
+		if($value = $this->anchor->get_title())
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'full')).BR;
+		if(isset($this->attributes['duration']) && $this->attributes['duration'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
+
+		// copy content of the introduction field, if any
+		if($value = $this->anchor->get_value('introduction'))
+			$text .= '<div>'.$value.'</div>';
+
+		// copy the induction message, if any
+		if(isset($this->attributes['induction_message']))
+			$text .= '<div>'.Codes::render($this->attributes['induction_message']).'</div>';
+
+		// done
+		return $text;
+	}
+
+	/**
+	 * allow for different role
+	 *
+	 * @return string to be put in web form
+	 */
+	function get_invite_roles() {
+		global $context;
+
+		switch($this->attributes['enrolment']) {
+		case 'manual':
+			return '';
+		case 'none':
+		default:
+			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and confirm their participation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			break;
+		case 'validate':
+			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and ask for an invitation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			break;
+		}
+
 	}
 
 	/**
@@ -1045,22 +1282,6 @@ class Event extends Overlay {
 	}
 
 	/**
-	 * is the event on-going?
-	 *
-	 * @return boolean TRUE if the meeting is on-going, FALSE otherwise
-	 */
-	function is_running() {
-		global $context;
-
-		// check our status
-		if(isset($this->attributes['status']) && ($this->attributes['status'] == 'started'))
-			return TRUE;
-
-		// probably no
-		return FALSE;
-	}
-
-	/**
 	 * has the surfer joined this event page?
 	 *
 	 * @return boolean TRUE or FALSE
@@ -1077,6 +1298,69 @@ class Event extends Overlay {
 			return TRUE;
 
 		// not joined
+		return FALSE;
+	}
+
+	/**
+	 * enroll one user
+	 *
+	 * This function ensure that an invited person has been enrolled to this event.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param int id of the enrolled person
+	 */
+	function invite($id) {
+		global $context;
+
+		// force enrolment only if required
+		if(!isset($_REQUEST['force_enrolment']) || ($_REQUEST['force_enrolment'] != 'Y'))
+			return;
+
+		// get matching profile
+		if(($user = Users::get($id)) && is_callable(array($this->anchor, 'get_reference'))) {
+
+			// if there is no enrolment record yet
+			$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".SQL::escape($this->anchor->get_reference())."') AND (user_id = ".SQL::escape($user['id']).")";
+			if(!SQL::query_count($query)) {
+
+				// fields to save
+				$query = array();
+
+				// reference to the meeting page
+				$query[] = "anchor = '".SQL::escape($this->anchor->get_reference())."'";
+
+				// direct enrolment
+				$query[] = "approved = 'Y'";
+
+				// save user id
+				$query[] = "user_id = ".SQL::escape($user['id']);
+
+				// save user e-mail address
+				$query[] = "user_email = '".SQL::escape($user['email'])."'";
+
+				// insert a new record
+				$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
+				SQL::query($query);
+
+			}
+		}
+
+	}
+
+	/**
+	 * is the event on-going?
+	 *
+	 * @return boolean TRUE if the meeting is on-going, FALSE otherwise
+	 */
+	function is_running() {
+		global $context;
+
+		// check our status
+		if(isset($this->attributes['status']) && ($this->attributes['status'] == 'started'))
+			return TRUE;
+
+		// probably no
 		return FALSE;
 	}
 

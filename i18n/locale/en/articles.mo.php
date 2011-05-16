@@ -133,7 +133,6 @@ $_SESSION['l10n']['en']['da6508b71f51c8a4aa3fffe798c7c921']='Indicate a date (YY
 $_SESSION['l10n']['en']['Information']='Information';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
-$_SESSION['l10n']['en']['Invitation: %s']='Invitation: %s';
 $_SESSION['l10n']['en']['Invite editors of %s']='Invite editors of %s';
 $_SESSION['l10n']['en']['Invite participants']='Invite participants';
 $_SESSION['l10n']['en']['Invite some individuals']='Invite some individuals';
@@ -154,6 +153,7 @@ $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Manage editors']='Manage editors';
 $_SESSION['l10n']['en']['Manage your watch list']='Manage your watch list';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
+$_SESSION['l10n']['en']['Meeting']='Meeting';
 $_SESSION['l10n']['en']['be2b5e247910fa0abc3137df3a3b2c67']='Mention your source, if any. Web link (http://...), internal reference ([user=tom]), or free text.';
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';

@@ -73,58 +73,12 @@ if(Surfer::is_crawler()) {
 // provide ics data
 else {
 
-	// begin calendar
-	$text = 'BEGIN:VCALENDAR'.CRLF
-		.'VERSION:2.0'.CRLF
-		.'PRODID:YACS'.CRLF
-		.'METHOD:PUBLISH'.CRLF; // required by Outlook
+	$user = null;
+	if(Surfer::get_id())
+		$user = Users::get(Surfer::get_id());
 
-	// organization, if any
-	if(isset($context['site_name']) && $context['site_name'])
-		$text .= 'X-WR-CALNAME:'.$context['site_name'].CRLF;
-
-	// begin event
-	$text .= 'BEGIN:VEVENT'.CRLF;
-
-	// the event spans limited time --duration is expressed in minutes
-	if(isset($overlay->attributes['duration']) && $overlay->attributes['duration']) {
-		$text .= 'DTSTART:'.gmdate('Ymd\THis\Z', SQL::strtotime($overlay->attributes['date_stamp'])).CRLF;
-		$text .= 'DTEND:'.gmdate('Ymd\THis\Z', SQL::strtotime($overlay->attributes['date_stamp'])+($overlay->attributes['duration']*60)).CRLF;
-
-	// a full-day event
-	} else {
-		$text .= 'DTSTART;VALUE=DATE:'.date('Ymd', SQL::strtotime($overlay->attributes['date_stamp'])).CRLF;
-		$text .= 'DTEND;VALUE=DATE:'.date('Ymd', SQL::strtotime($overlay->attributes['date_stamp'])+86400).CRLF;
-	}
-
-	// url to view the date
-	$text .= 'URL:'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().CRLF;;
-
-	// organization, if any
-	if($value = $anchor->get_value('introduction'))
-		$text .= 'DESCRIPTION:'.str_replace(array("\n", "\r"), ' ', strip_tags($value)).CRLF;
-
-	// build a valid title
-	if($value = $anchor->get_title())
-		$text .= 'SUMMARY:'.Codes::beautify_title($value).CRLF;
-
-	// required by Outlook 2003
-	$text .= 'UID:'.$anchor->get_reference().'-'.$context['host_name'].CRLF;
-
-	// date of creation
-	if($value = $anchor->get_value('create_date'))
-		$text .= 'CREATED:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
-
-	// date of last modification --also required by Outlook
-	if($value = $anchor->get_value('edit_date'))
-		$text .= 'DTSTAMP:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
-
-	// close event
-	$text .= 'SEQUENCE:0'.CRLF
-		.'END:VEVENT'.CRLF;
-
-	// close calendar
-	$text .= 'END:VCALENDAR'.CRLF;
+	// get the full text of the event invitation
+	$text = $overlay->get_ics($user);
 
 	// no encoding, no compression and no yacs handler...
 	if(!headers_sent()) {
