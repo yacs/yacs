@@ -35,14 +35,19 @@ class Enrolments {
 	 * get enrolment record
 	 *
 	 * @param string to designate the target anchor
+	 * @param int target user, or NULL for current surfer
 	 * @return array enrolment attributes, or NULL
 	 */
-	function get_record($reference) {
+	function get_record($reference, $id = NULL) {
 		global $context;
 
+		// which surfer?
+		if(!$id)
+			$id = Surfer::get_id();
+
 		// look for surfer id, if any
-		if(Surfer::get_id())
-			$where = "user_id LIKE '".SQL::escape(Surfer::get_id())."'";
+		if($id)
+			$where = "user_id LIKE '".SQL::escape($id)."'";
 
 		// look for this e-mail address
 		elseif(isset($_REQUEST['surfer_address']) && $_REQUEST['surfer_address'])
