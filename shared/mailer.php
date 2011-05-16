@@ -1019,11 +1019,19 @@ class Mailer {
 			$content_encoding = '';
 
 			// process every file
-			foreach($attachments as $name) {
+			foreach($attachments as $name => $content) {
 
-				// read file content
-				if(!$content = Safe::file_get_contents($name))
-					continue;
+				// read external file content
+				if(preg_match('/^[0-9]+$/', $name)) {
+
+					// only a file name has been provided
+					$name = $content;
+
+					// read file content from the file system
+					if(!$content = Safe::file_get_contents($name))
+						continue;
+
+				}
 
 				// append it to mail message
 				$basename = utf8::to_ascii(basename($name));

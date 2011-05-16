@@ -133,7 +133,6 @@ $_SESSION['l10n']['fr']['da6508b71f51c8a4aa3fffe798c7c921']='YACS fera apparaitr
 $_SESSION['l10n']['fr']['Information']='Information';
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
-$_SESSION['l10n']['fr']['Invitation: %s']='Invitation : %s';
 $_SESSION['l10n']['fr']['Invite editors of %s']='Inviter les éditeurs de %s';
 $_SESSION['l10n']['fr']['Invite participants']='Inviter des participants';
 $_SESSION['l10n']['fr']['Invite some individuals']='Inviter quelques personnes';
@@ -154,6 +153,7 @@ $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
+$_SESSION['l10n']['fr']['Meeting']='Réunion';
 $_SESSION['l10n']['fr']['be2b5e247910fa0abc3137df3a3b2c67']='Mentionnez vos sources s\'il y a lieu. Lien web (http://...), référence interne ([user=tom]), ou texte libre.';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide';
