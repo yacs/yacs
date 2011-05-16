@@ -1175,7 +1175,6 @@ Class Users {
 			$fields['with_newsletters'] = 'Y';
 			$fields['without_alerts'] = 'N';
 			$fields['without_confirmations'] = 'N';
-			$fields['without_confirmations'] = 'N';
 			$fields['authenticate_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['authenticate_failures'] = 0;
 
