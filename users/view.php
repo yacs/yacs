@@ -38,6 +38,11 @@
  *
  * @link http://wiki.foaf-project.org/Autodiscovery FOAF Autodiscovery
  *
+ * If the profile is not public, a meta attribute is added to prevent search engines from presenting
+ * cached versions of the page to end users.
+ *
+ * @link http://www.gsadeveloper.com/category/google-mini/page/2/
+ *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - this is the personal record of the authenticated surfer
@@ -220,6 +225,10 @@ if(!isset($item['id'])) {
 	//
 	// meta-information -- $context['page_header'], etc.
 	//
+
+	// prevent search engines to present cache versions of this page
+	if($item['active'] != 'Y')
+		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
 
 	// add canonical link
 	if(!$zoom_type)
