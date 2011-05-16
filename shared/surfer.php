@@ -994,19 +994,12 @@ Class Surfer {
 			if(!isset($_SESSION['surfer_capability']))
 				return FALSE;
 
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'A')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'M')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'S')
+			// surfer is either an associate, a member, or a subscriber
+			if(in_array($_SESSION['surfer_capability'], array('A', 'M', 'S')))
 				return TRUE;
 
 		}
+
 		return FALSE;
 	}
 
