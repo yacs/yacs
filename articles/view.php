@@ -62,6 +62,11 @@
  * - page author, who is the original creator
  * - page publisher, if any
  *
+ * If the item is not public, a meta attribute is added to prevent search engines from presenting
+ * cached versions of the page to end users.
+ *
+ * @link http://www.gsadeveloper.com/category/google-mini/page/2/
+ *
  * The displayed article is saved into the history of visited pages if the global parameter
  * [code]pages_without_history[/code] has not been set to 'Y'.
  *
@@ -347,6 +352,10 @@ if(!isset($item['id'])) {
 	// add meta information, if any
 	if(isset($item['meta']) && $item['meta'])
 		$context['page_header'] .= $item['meta'];
+
+	// prevent search engines to present cache versions of this page
+	if($item['active'] != 'Y')
+		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
 
 	// add canonical link
 	if(!$zoom_type)

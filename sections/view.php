@@ -43,6 +43,11 @@
  * - page description, which is a copy of the introduction, if any, or the default general description parameter
  * - page author, who is the original creator
  *
+ * If the item is not public, a meta attribute is added to prevent search engines from presenting
+ * cached versions of the page to end users.
+ *
+ * @link http://www.gsadeveloper.com/category/google-mini/page/2/
+ *
  * How to customize this page?
  *
  * Well, there is so much you can do:
@@ -397,6 +402,10 @@ if(!isset($item['id'])) {
 	// add meta information, if any
 	if(isset($item['meta']) && $item['meta'])
 		$context['page_header'] .= $item['meta'];
+
+	// prevent search engines to present cache versions of this page
+	if($item['active'] != 'Y')
+		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
 
 	// add canonical link
 	if(!$zoom_type)
