@@ -446,29 +446,6 @@ var Forms = {
                 properties.find('select').val(store.children('.type').html());
                 properties.find('.name').val(store.children('.name').html());
 
-		/*var itemType = $(handle + ' select:first').value;
-		var nodes = $(store + ' div.type');
-		if(nodes.length) {
-			itemType = nodes[0].innerHTML;
-			$(handle + ' select:first').value = itemType;
-		}
-
-		var itemName = $(handle + ' input.name:first').value;
-		nodes = $(store + ' div.name');
-		if(nodes.length) {
-			itemName = nodes[0].innerHTML;
-			$(handle + ' select:first').value = itemName;
-		}
-
-		// also update the preview
-		var preview = $(handle + ' div.preview:first');
-		if(itemType == 'text')
-			$(preview).html('<input type="text" value="' + Forms.i18n.text + '" disabled="disabled" />');
-		if(itemType == 'password')
-			$(preview).html('<input type="text" value="' + Forms.i18n.password + '" disabled="disabled" />');
-		if(itemType == 'textarea')
-			$(preview).html('<input type="text" value="' + Forms.i18n.textarea + '" disabled="disabled" />');*/
-
 		// close properties
 		properties.toggle('slide');
 	},
@@ -507,7 +484,8 @@ var Forms = {
 	 * @param a list of items to load
 	 */
 	fromJSON: function(handle, items) {
-		items.each(function(item) {
+		$.each(items, function() {
+                        var item = $(this);
 
 			if(item['class'] == 'file')
 				Forms.appendFileInput(item);
@@ -531,41 +509,45 @@ var Forms = {
 	 * @return a JSON string
 	 */
 	toJSON: function(handle) {
-		var nodes = $(handle + ' div.state');
+		var nodes = $(handle + ' .state');
 		if(nodes.length < 1) {return '[]'};
 		var buffer = '';
-		for(index = 0; index < nodes.length; index++) {
-			var nodeClass = $(nodes[index] + ' div.class:first').html();
+                var index = 0;
 
-			if(index)
+                nodes.each(function() {
+                    var node = $(this);
+                    var nodeClass = node.children('.class').text();
+
+                    if(index)
 				buffer += ",\n";
 
-			if(nodeClass == 'file') {
+                    if(nodeClass == 'file') {
 				buffer += '{ "class": "file"'
-					+ ', "name": '+ $(nodes[index] + ' div.name:first').html().toJSON()+' }';
-			}
+					+ ', "name": "'+ node.children('.name').text().toJSON()+'" }';
+                    }
 
-			if(nodeClass == 'label') {
+                    if(nodeClass == 'label') {
 				buffer += '{ "class": "label"'
-					+ ', "text": '+ $(nodes[index] + ' div.text:first').html().toJSON()
-					+ ', "type": '+ $(nodes[index] + ' div.type:first').html().toJSON()+' }';
-			}
+					+ ', "text": "'+ node.children('.text').text().toJSON()
+					+ '", "type": "'+ node.children('.type').text().toJSON()+'" }';
+                    }
 
-			if(nodeClass == 'list') {
+                    if(nodeClass == 'list') {
 				buffer += '{ "class": "list"'
-					+ ', "text": '+ $(nodes[index] + ' div.text:first').html().toJSON()
-					+ ', "type": '+ $(nodes[index] + ' div.type:first').html().toJSON()
-					+ ', "name": '+ $(nodes[index] + ' div.name:first').html().toJSON()+' }';
-			}
+					+ ', "text": "'+ node.children('.text').text().toJSON()
+					+ '", "type": "'+ node.children('.type').text().toJSON()
+					+ '", "name": "'+ node.children('.name').text().toJSON()+'" }';
+                    }
 
-			if(nodeClass == 'text') {
+                    if(nodeClass == 'text') {
 				buffer += '{ "class": "text"'
-					+ ', "type": '+ $(nodes[index] + ' div.type:first').html().toJSON()
-					+ ', "name": '+ $(nodes[index] + ' div.name:first').html().toJSON()+' }';
-			}
+					+ ', "type": "'+ node.children('.type').text().toJSON()
+					+ '", "name": "'+ node.children('.name').text().toJSON()+'" }';
+                    }
 
-		};
-		return '[' + buffer + ']';
+                    index += 1;
+                });
+                return '[' + buffer + ']';
 	}
 }
 
