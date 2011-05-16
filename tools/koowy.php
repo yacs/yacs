@@ -1,6 +1,6 @@
 <?php
 /**
- * share webcam sessions at mebeam
+ * share webcam sessions at koowy
  *
  *
  * @author Bernard Paques
@@ -21,7 +21,7 @@ $id = trim(strip_tags($id));
 
 // create a random id if none has been provided
 if(!is_string($id) || !$id)
-	$id = 'mebeam'.rand(10000, 99999);
+	$id = 'koowy'.rand(10000, 99999);
 
 // load localized strings
 i18n::bind('tools');
@@ -33,22 +33,22 @@ load_skin('tools');
 $context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
 
 // populate page attributes
-$context['page_title'] = sprintf(i18n::s('Video session by MeBeam: %s'), $id);
+$context['page_title'] = sprintf(i18n::s('Video session by koowy: %s'), $id);
 
-// insert the mebeam Flash agent
-$context['text'] .= '<object  width="512" height="350" id="mebeam_control" align="middle">'."\n"
+// insert the koowy Flash agent
+$context['text'] .= '<object  width="800" height="390" id="koowy_control" align="middle">'."\n"
 	.' <param name="allowScriptAccess" value="always" >'."\n"
-	.' <param name="movie" value="http://www.mebeam.com/hibeam.swf">'."\n"
+	.' <param name="movie" value="http://www.koowy.com/p2p/p2p.swf">'."\n"
 	.' <param name="quality" value="best" >'."\n"
 	.' <param name="scale" value="exactfit" >'."\n"
 	."\n"
 	.' <param name="salign" value="tl" >'."\n"
 	.' <param name="flashvars" value="room='.$id.'">'."\n"
-	.' <embed  flashvars="room='.$id.'" src="http://www.mebeam.com/hibeam.swf" quality="best" scale="exactfit" salign="tl"  width="512" height="460" name="mebeam_control"  align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" >'."\n"
+	.' <embed  flashvars="room='.$id.'" src="http://www.koowy.com/p2p/p2p.swf" quality="best" scale="exactfit" salign="tl"  width="800" height="390" name="koowy_control"  align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" >'."\n"
 	.'</object>';
 
 // a link to share the page
-$link = $context['url_to_home'].$context['url_to_root'].'tools/mebeam.php?id='.$id;
+$link = $context['url_to_home'].$context['url_to_root'].'tools/koowy.php?id='.$id;
 $context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Share: %s'), $link).'</div>';
 
 
