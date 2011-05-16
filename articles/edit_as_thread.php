@@ -63,7 +63,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 				// log page modification
-				$label = sprintf(i18n::c('Modification: %s'), strip_tags($_REQUEST['title']));
+				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
 				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
 				Logger::notify('articles/edit.php', $label, $description);
 

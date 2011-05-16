@@ -1264,7 +1264,7 @@ Class Section extends Anchor {
 			$mail = array();
 
 			// message subject
-			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
 			// nothing done yet
 			$summary = $title = $link = '';
@@ -1296,7 +1296,7 @@ Class Section extends Anchor {
 					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
 
 					// message subject
-					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
@@ -1368,7 +1368,7 @@ Class Section extends Anchor {
 					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
 
 					// message subject
-					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);
