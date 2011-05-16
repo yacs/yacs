@@ -246,7 +246,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form to edit an form
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'#content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'#content\').val(Forms.toJSON(\'#form_panel\')); return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// this form has several panels
 	$panels = array();
@@ -460,7 +460,7 @@ if($with_form) {
 	if(isset($item['content']) && $item['content']) {
 		$context['page_footer'] .= JS_PREFIX
 			.'// restore fields of the form'."\n"
-			.'$(document).ready( function() { Forms.fromJSON("form_panel", '.utf8::encode($item['content']).') });'."\n"
+			.'$(document).ready( function() { Forms.fromJSON("#form_panel", '.utf8::encode($item['content']).') });'."\n"
 			.JS_SUFFIX."\n";
 	}
 
