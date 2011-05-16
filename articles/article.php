@@ -1046,7 +1046,7 @@ Class Article extends Anchor {
 			$mail = array();
 
 			// mail subject
-			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
 			// nothing done yet
 			$summary = $title = $link = '';
