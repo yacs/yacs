@@ -819,7 +819,7 @@ Class Files {
 		if(isset($file_types[$extension]) && ($type = $file_types[$extension])) {
 
 			// people could forgot to save this to their hard drives
-			if(in_array($type, array('application/msword', 'application/vnd.ms-project', 'application/vnd.ms-powerpoint')))
+			if(in_array($type, array('application/vnd.ms-project')))
 				return 'application/octet-stream';
 
 			// use the regular type
@@ -869,7 +869,7 @@ Class Files {
 				'dll' => 'application/octet-stream',
 				'doc' => 'application/msword',
 				'docm' => 'application/msword',
-				'docx' => 'application/msword',
+				'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 				'dot' => 'application/msword',
 				'eml' => 'text/html',		// message/rfc822
 				'eps' => 'application/postscript',	// postscript
@@ -943,7 +943,7 @@ Class Files {
 				'pps' => 'application/vnd.ms-powerpoint',
 				'ppt' => 'application/vnd.ms-powerpoint',
 				'pptm' => 'application/vnd.ms-powerpoint',
-				'pptx' => 'application/vnd.ms-powerpoint',
+				'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 				'prc' => 'application/palmpilot',	// palm resource
 				'ps' => 'application/postscript',	// postscript
 				'psd' => 'image/photoshop', 		// photoshop
@@ -987,7 +987,7 @@ Class Files {
 				'xbm' => 'image/x-xbitmap',
 				'xls' => 'application/vnd.ms-excel',
 				'xlsm' => 'application/vnd.ms-excel',
-				'xlsx' => 'application/vnd.ms-excel',
+				'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 				'xml' => 'text/html',
 				'zip' => 'application/zip' );
 		}
