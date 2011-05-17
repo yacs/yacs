@@ -576,7 +576,12 @@ Class Surfer {
 
 		// a textarea that grow on focus
 		} elseif($spring) {
-			$text .= '<textarea name="'.$name.'" id="'.$name.'" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);"></textarea>';
+			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
+				.'<textarea name="'.$name.'" id="'.$name.'"'
+				.	' rows="1" cols="50"'
+				.	' style="width: 60%; color: #ccc"'
+				.	' onfocus="if(fuse'.$name.'){Element.update(this, \'\');Yacs.growPanel(this);Element.setStyle(this, {color: \'#444\'});fuse'.$name.'=0;}">'
+				.	i18n::s('Contribute to this page!').'</textarea>';
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
