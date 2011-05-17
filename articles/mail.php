@@ -62,7 +62,10 @@ if(isset($item['id']) && $item['title'])
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
-$context['page_title'] = i18n::s('Notify participants');
+if(isset($item['active']) && ($item['active'] == 'N'))
+	$context['page_title'] = i18n::s('Notify participants');
+else
+	$context['page_title'] = i18n::s('Notify watchers');
 
 // recipients of a private page are all editors upwards
 $recipients = array();
@@ -159,12 +162,26 @@ if(Surfer::is_crawler()) {
 
 	// the subject
 	$label = i18n::s('Message title');
-	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($item['title']).'" />';
+	if(is_object($overlay))
+		$title = $overlay->get_live_title($item);
+	else
+		$title = $item['title'];
+	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
+
+	// message content
+	$content = '';
+	if(is_callable(array($overlay, 'get_invite_default_message')))
+		$content = $overlay->get_invite_default_message();
+	if(!$content)
+		$content = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
+			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>'
+			.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
+			.'<p>'.Surfer::get_name().'</p>';
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>&nbsp;</p><p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>');
+	$input = Surfer::get_editor('message', $content);
 	$fields[] = array($label, $input);
 
 	// build the form

@@ -351,9 +351,11 @@ if(Surfer::is_crawler()) {
 
 	// the subject
 	$label = i18n::s('Message title');
-	$title = '';
-	if($name = Surfer::get_name())
-		$title = sprintf(i18n::s('%s: %s'), i18n::s('Meeting'), $item['title']);
+	if(is_object($overlay))
+		$title = $overlay->get_live_title($item);
+	else
+		$title = $item['title'];
+	$title = sprintf(i18n::s('%s: %s'), i18n::s('Meeting'), $title);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
