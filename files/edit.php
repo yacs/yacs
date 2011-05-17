@@ -645,7 +645,7 @@ if($with_form) {
 	$context['text'] .= '<p>';
 
 	// notify watchers --updating a file, or uploading a new file, should generate a notification
-	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
 
 	// notify people following me
 	if(Surfer::get_id() && !$anchor->is_hidden())
