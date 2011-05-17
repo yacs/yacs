@@ -664,9 +664,10 @@ class Event extends Overlay {
 	 *
 	 * @see articles/invite.php
 	 *
+	 * @param boolean TRUE if the meeting has been cancelled
 	 * @return string to be put in the web form
 	 */
-	function get_invite_default_message() {
+	function get_invite_default_message($cancelled=FALSE) {
 		global $context;
 
 		// to be displayed into the web form for this invitation
@@ -675,17 +676,26 @@ class Event extends Overlay {
 		if($value = $this->anchor->get_title())
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'full')).BR;
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
 		if(isset($this->attributes['duration']) && $this->attributes['duration'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
 
-		// copy content of the introduction field, if any
-		if($value = $this->anchor->get_value('introduction'))
-			$text .= '<div>'.$value.'</div>';
+		// meeting has been cancelled
+		if($cancelled)
+			$text .= '<div><p>'.i18n::c('Meeting has been cancelled.').'</p></div>';
 
-		// copy the induction message, if any
-		if(isset($this->attributes['induction_message']))
-			$text .= '<div>'.Codes::render($this->attributes['induction_message']).'</div>';
+		// regular message
+		else {
+
+			// copy content of the introduction field, if any
+			if($value = $this->anchor->get_value('introduction'))
+				$text .= '<div>'.$value.'</div>';
+
+			// copy the induction message, if any
+			if(isset($this->attributes['induction_message']))
+				$text .= '<div>'.Codes::render($this->attributes['induction_message']).'</div>';
+
+		}
 
 		// done
 		return $text;
@@ -1513,11 +1523,37 @@ class Event extends Overlay {
 
 		case 'delete':
 
+			// send a cancellation message to participants
+			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
+			$result = SQL::query($query);
+			while($item =& SQL::fetch($result)) {
+
+				// sanity check
+				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+					continue;
+
+				// message title
+				$subject = sprintf('%s: %s', i18n::c('Cancellation'), $host['title']);
+
+				// message to reader
+				$message = $this->get_invite_default_message(TRUE);
+
+				// allow for HTML rendering
+				$message = Mailer::build_message($subject, $message);
+
+				// get attachment from the overlay
+				$attachments = array('meeting.ics' => $this->get_ics(NULL, 'CANCEL'));
+
+				// post it
+				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+
+			}
+
 			// delete dates for this anchor
 			Dates::delete_for_anchor('article:'.$id);
 
 			// also delete related enrolment records
-			$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE id = ".$id;
+			$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".$reference."'";
 			SQL::query($query);
 			break;
 
