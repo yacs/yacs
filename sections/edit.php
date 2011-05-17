@@ -1178,7 +1178,7 @@ if($with_form) {
 	$suffix = array();
 
 	// notify watchers
-	$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers.');
+	$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers');
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())

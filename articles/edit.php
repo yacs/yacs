@@ -505,8 +505,13 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
+			// don't notify the creation of an event
+			$with_watchers = TRUE;
+			if(is_object($overlay))
+				$with_watchers = $overlay->should_notify_watchers();
+
 			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
@@ -709,7 +714,7 @@ if($with_form) {
 		else
 			$more = 'disabled="disabled"';
 
-		$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" '.$more.'/> '.i18n::s('Notify watchers.');
+		$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" '.$more.'/> '.i18n::s('Notify watchers');
 	}
 
 	// do not remember changes on existing pages -- complex command
