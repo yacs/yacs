@@ -515,9 +515,11 @@ class Event extends Overlay {
 		}
 
 		// get common name and e-mail address
-		$cn = str_replace(array("\n", "\r"), ' ', strip_tags($user['full_name']));
+		$cn = '';
+		if(isset($user['full_name']))
+			$cn = str_replace(array("\n", "\r"), ' ', strip_tags($user['full_name']));
 		$email = 'null';
-		if(preg_match(VALID_RECIPIENT, $user['email']))
+		if(isset($user['email']) && preg_match(VALID_RECIPIENT, $user['email']))
 			$email = $user['email'];
 
 		// you are expected to participate
@@ -552,15 +554,27 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).'\n';
 		if(isset($this->attributes['duration']) && $this->attributes['duration'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
-		$text .= sprintf(i18n::s('%s: %s'), i18n::s('Location'), $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url()).'\n';
 
-		// copy content of the introduction field, if any
-		if($value = $this->anchor->get_value('introduction'))
-			$text .= '\n'.str_replace(array("\n", "\r", ','), array('\n', ' ', '\,'), strip_tags($value));
+		// location
+		if($method != 'CANCEL')
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Location'), $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url()).'\n';
 
-		// copy the induction message, if any
-		if(isset($this->attributes['induction_message']))
-			$text .= '\n'.str_replace(array("\n", "\r", ','), array('\n', ' ', '\,'), strip_tags( Codes::render($this->attributes['induction_message'])));
+		// meeting has been cancelled
+		if($method == 'CANCEL') {
+			$text .= '\n\n'.i18n::c('Meeting has been cancelled.');
+
+		// regular meeting
+		} else {
+
+			// copy content of the introduction field, if any
+			if($value = $this->anchor->get_value('introduction'))
+				$text .= '\n'.str_replace(array("\n", "\r", ','), array('\n', ' ', '\,'), strip_tags($value));
+
+			// copy the induction message, if any
+			if(isset($this->attributes['induction_message']))
+				$text .= '\n'.str_replace(array("\n", "\r", ','), array('\n', ' ', '\,'), strip_tags( Codes::render($this->attributes['induction_message'])));
+
+		}
 
 		// end of the description field
 		$text .= CRLF;
@@ -589,7 +603,7 @@ class Event extends Overlay {
 		// alarm to remind the meeting
 		if($method != 'CANCEL')
 			$text .= 'BEGIN:VALARM'.CRLF
-				.'TRIGGER:PT5M'.CRLF
+				.'TRIGGER:-PT10M'.CRLF
 				.'ACTION:DISPLAY'.CRLF
 				.'DESCRIPTION:'.Codes::beautify_title($this->anchor->get_title()).CRLF
 				.'END:VALARM'.CRLF;
@@ -1228,10 +1242,8 @@ class Event extends Overlay {
 			$button = '';
 			if($this->attributes['status'] == 'stopped')
 				;
-			elseif(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'none'))
-				$button = ' '.Skin::build_link($this->get_url('fetch_ics'), i18n::s('Update my calendar'), 'button');
-			elseif(($this->attributes['status'] != 'created') && (enrolments::get_record($this->anchor->get_reference())))
-				$button = ' '.Skin::build_link($this->get_url('fetch_ics'), i18n::s('Update my calendar'), 'button');
+			elseif(enrolments::get_record($this->anchor->get_reference()))
+				$button = ' '.Skin::build_link($this->get_url('fetch_ics'), '<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" style="border: none; cursor: pointer;" title="'.i18n::s('Update my calendar').'" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="'.i18n::s('Update my calendar').'" />', 'basic');
 
 			$rows[] = array(i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'full').$button);
 		}
@@ -1952,7 +1964,7 @@ class Event extends Overlay {
 				.'function reload_until_event_starts() {'."\n"
 				.'	window.location.reload(true);'."\n"
 				.'}'."\n"
-				.'window.setInterval("reload_until_event_starts()",20000);'."\n"
+				.'window.setInterval("reload_until_event_starts()",40000);'."\n"
 				.JS_SUFFIX;
 
 		}
