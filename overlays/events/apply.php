@@ -74,6 +74,10 @@ elseif(!Surfer::get_id()) {
 // proceed with the action
 } else {
 
+	// add the page to the watch list
+	if(Surfer::get_id())
+		Members::assign($anchor->get_reference(), 'user:'.Surfer::get_id());
+
 	// look for surfer id, if any
 	if(Surfer::get_id())
 		$where = "user_id = ".SQL::escape(Surfer::get_id());
@@ -84,112 +88,116 @@ elseif(!Surfer::get_id()) {
 	else
 		$where = "user_email LIKE '".SQL::escape(Surfer::get_email_address())."'";
 
-	// if there is no enrolment record yet
+	// there is already some enrolment record --redirect to the meeting page
 	$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$anchor->get_reference()."') AND ".$where;
-	if(!SQL::query_count($query)) {
+	if(SQL::query_count($query))
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 
-		// fields to save
-		$query = array();
+	// fields to save
+	$query = array();
 
-		// reference to the meeting page
-		$query[] = "anchor = '".$anchor->get_reference()."'";
+	// reference to the meeting page
+	$query[] = "anchor = '".$anchor->get_reference()."'";
 
-		// don't approve page owners, and accept simple confirmations as well
-		if($anchor->is_owned() || ($overlay->get_value('enrolment') == 'none'))
-			$query[] = "approved = 'Y'";
+	// don't approve page owners, and accept simple confirmations as well
+	if($anchor->is_owned() || ($overlay->get_value('enrolment') == 'none')) {
+		$query[] = "approved = 'Y'";
 
-		// save surfer id, if known
-		if(Surfer::get_id())
-			$query[] = "user_id = ".SQL::escape(Surfer::get_id());
+		$context['text'] .= '<p>'.i18n::s('You have been enrolled to this meeting.').'</p>';
 
-		// save some e-mail address
-		if(isset($_REQUEST['surfer_address']) && $_REQUEST['surfer_address'])
-			$query[] = "user_email = '".SQL::escape($_REQUEST['surfer_address'])."'";
-		else
-			$query[] = "user_email = '".SQL::escape(Surfer::get_email_address())."'";
+	} else
+		$context['text'] .= '<p>'.i18n::s('Your invitation request has been recorded.').'</p>';
 
-		// insert a new record
-		$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
-		SQL::query($query);
+	// save surfer id, if known
+	if(Surfer::get_id())
+		$query[] = "user_id = ".SQL::escape(Surfer::get_id());
 
-		// confirm enrolment through e-mail, and calendar update
-		if($anchor->is_owned() || ($overlay->get_value('enrolment') == 'none')) {
-			if(($user = Users::get(Surfer::get_id())) && isset($user['email']) && preg_match(VALID_RECIPIENT, $user['email'])) {
+	// save some e-mail address
+	if(isset($_REQUEST['surfer_address']) && $_REQUEST['surfer_address'])
+		$query[] = "user_email = '".SQL::escape($_REQUEST['surfer_address'])."'";
+	else
+		$query[] = "user_email = '".SQL::escape(Surfer::get_email_address())."'";
 
-				// mail subject
-				$subject = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+	// insert a new record
+	$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
+	SQL::query($query);
 
-				// mail content
-				$message = $overlay->get_invite_default_message();
-
-				// allow for HTML rendering
-				$message = Mailer::build_message($subject, $message);
-
-				// get attachments from the overlay, if any
-				$attachments = $overlay->get_invite_attachments($user);
-
-				// threads messages
-				$headers = Mailer::set_thread($anchor->get_reference());
-
-				// send the message
-				Mailer::post(NULL, $user['email'], $subject, $message, $attachments, $headers);
-
-			}
-		}
-
-		// notify page owner of this application, except if it is me
-		if(!$anchor->is_owned() && ($owner_id = $anchor->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email']) {
-
-			// mail message
-			$mail = array();
+	// confirm enrolment through e-mail, and calendar update
+	if($anchor->is_owned() || ($overlay->get_value('enrolment') == 'none')) {
+		if(($user = Users::get(Surfer::get_id())) && isset($user['email']) && preg_match(VALID_RECIPIENT, $user['email'])) {
 
 			// mail subject
-			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+			$subject = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
 
-			// user has confirmed participation
-			if($overlay->get_value('enrolment') == 'none')
-				$action = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
+			// mail content
+			$message = $overlay->get_invite_default_message();
 
-			// user is asking for an invitation
-			else
-				$action = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
+			// allow for HTML rendering
+			$message = Mailer::build_message($subject, $message);
 
-			// finalize the notification
-			$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
-			$link = $context['url_to_home'].$context['url_to_root'].'overlays/events/enroll.php?id='.urlencode($anchor->get_reference());
-			$mail['message'] =& Mailer::build_notification($action, $title, $link);
+			// get attachments from the overlay, if any
+			$attachments = $overlay->get_invite_attachments($user);
 
 			// threads messages
-			$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+			$headers = Mailer::set_thread($anchor->get_reference());
 
 			// send the message
-			Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+			Mailer::post(NULL, $user['email'], $subject, $message, $attachments, $headers);
 
-		}
-
-		// socialize self-applications
-		if($overlay->get_value('enrolment') == 'none') {
-			include_once $context['path_to_root'].'comments/comments.php';
-			$fields = array();
-			$fields['anchor'] = $anchor->get_reference();
-			$fields['description'] = sprintf(i18n::s('%s has confirmed his participation'), Surfer::get_name());
-			$fields['type'] = 'notification';
-			Comments::post($fields);
+			$context['text'] .= '<p>'.sprintf(i18n::s('A confirmation message has been sent to you, at %s.'), $user['email']).'</p>';
 		}
 	}
 
-	// add the page to the watch list
-	if(Surfer::get_id())
-		Members::assign($anchor->get_reference(), 'user:'.Surfer::get_id());
+	// notify page owner of this application, except if it is me
+	if(!$anchor->is_owned() && ($owner_id = $anchor->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email']) {
 
-	// redirect to the meeting page
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+		// mail message
+		$mail = array();
+
+		// mail subject
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+
+		// user has confirmed participation
+		if($overlay->get_value('enrolment') == 'none')
+			$action = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
+
+		// user is asking for an invitation
+		else
+			$action = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
+
+		// finalize the notification
+		$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
+		$link = $context['url_to_home'].$context['url_to_root'].'overlays/events/enroll.php?id='.urlencode($anchor->get_reference());
+		$mail['message'] =& Mailer::build_notification($action, $title, $link);
+
+		// threads messages
+		$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+
+		// send the message
+		Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+
+	}
+
+	// socialize self-applications
+	if($overlay->get_value('enrolment') == 'none') {
+		include_once $context['path_to_root'].'comments/comments.php';
+		$fields = array();
+		$fields['anchor'] = $anchor->get_reference();
+		$fields['description'] = sprintf(i18n::s('%s has confirmed his participation'), Surfer::get_name());
+		$fields['type'] = 'notification';
+		Comments::post($fields);
+	}
+
+	// follow-up commands
+	$menu = array();
+	$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 
 }
 
 // page title
 if(is_object($anchor))
-	$context['page_title'] = $anchor->get_title();
+	$context['page_title'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
 
 // render the skin
 render_skin();
