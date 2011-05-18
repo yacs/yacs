@@ -73,12 +73,8 @@ if(Surfer::is_crawler()) {
 // provide ics data
 else {
 
-	$user = null;
-	if(Surfer::get_id())
-		$user = Users::get(Surfer::get_id());
-
 	// get the full text of the event invitation
-	$text = $overlay->get_ics($user);
+	$text = $overlay->get_ics('REQUEST');
 
 	// no encoding, no compression and no yacs handler...
 	if(!headers_sent()) {
