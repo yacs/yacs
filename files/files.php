@@ -883,6 +883,7 @@ Class Files {
 				'gz' => 'application/x-gzip',
 				'htm' => 'text/html',
 				'html' => 'text/html',
+				'ics' => 'text/calendar',
 				'jpe' => 'image/jpeg',
 				'jpeg' => 'image/jpeg',
 				'jpg' => 'image/jpeg',
