@@ -64,7 +64,7 @@ $with_form = FALSE;
 $context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Add some space for your pages');
+$context['page_title'] = i18n::s('Create a new web space');
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
