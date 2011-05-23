@@ -73,12 +73,15 @@ if(Surfer::is_crawler()) {
 // provide ics data
 else {
 
+	// put in the calendar, no more
+	$method = 'PUBLISH';
+
 	// get the full text of the event invitation
-	$text = $overlay->get_ics('REQUEST');
+	$text = $overlay->get_ics($method);
 
 	// no encoding, no compression and no yacs handler...
 	if(!headers_sent()) {
-		Safe::header('Content-Type: text/calendar');
+		Safe::header('Content-Type: text/calendar; method="'.$method.'"; charset="UTF-8"');
 		Safe::header('Content-Transfer-Encoding: binary');
 		Safe::header('Content-Length: '.strlen($text));
 	}

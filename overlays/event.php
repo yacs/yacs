@@ -70,6 +70,41 @@
 class Event extends Overlay {
 
 	/**
+	 * filter invitation message
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param string captured message
+	 * @return string to be actually sent
+	 */
+	function filter_invite_message($text) {
+		global $context;
+
+		switch($this->attributes['enrolment']) {
+
+		case 'manual': // call for review
+			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Review the meeting page'), 'button-in-email').'</div>';
+			break;
+
+		case 'none': // call for confirmation
+		default:
+			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then confirm my participation'), 'button-in-email').'</div>';
+			break;
+
+		case 'validate': // call for application
+			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then ask for an invitation'), 'button-in-email').'</div>';
+			break;
+
+		}
+
+		// how to update the calendar?
+		$text .= '<div><p>'.i18n::s('Use the file attached to update your calendar.').'</p></div>';
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * get an input field to capture meeting chairman
 	 *
 	 * @return string to be integrated into the editing form
@@ -451,13 +486,13 @@ class Event extends Overlay {
 	/**
 	 * get event description in ICS format
 	 *
-	 * @param string either 'REQUEST' or 'CANCEL'
+	 * @param string either 'PUBLISH', 'REQUEST', 'CANCEL', ...
 	 * @return string content of the ICS
 	 *
 	 * @see articles/invite.php
 	 * @see overlays/events/fetch_ics.php
 	 */
-	function get_ics($method='REQUEST') {
+	function get_ics($method='PUBLISH') {
 		global $context;
 
 		// begin calendar
@@ -465,9 +500,8 @@ class Event extends Overlay {
 			.'VERSION:2.0'.CRLF
 			.'PRODID:'.$context['host_name'].CRLF;
 
-		// cancellation or confirmation
-		if($method != 'REQUEST')
-			$text .= 'METHOD:'.$method.CRLF;
+		// method
+		$text .= 'METHOD:'.$method.CRLF;
 
 		// yacs uses dates in UTC
 		$text .= 'BEGIN:VTIMEZONE'.CRLF
@@ -514,7 +548,7 @@ class Event extends Overlay {
 		$text .= 'URL:'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().CRLF;;
 
 		// location is the yacs server
-		$text .= 'LOCATION:'.sprintf(i18n::s('Join at %s -- see information below'), $context['site_name']).CRLF;
+		$text .= 'LOCATION:'.$context['host_name'].CRLF;
 
 		// build a valid title
 		if($value = $this->anchor->get_title())
@@ -633,20 +667,15 @@ class Event extends Overlay {
 	 *
 	 * @see articles/invite.php
 	 *
-	 * @param array all attributes of the user receiving the invitation
+	 * @param string either 'PUBLISH' or 'CANCEL'
+
 	 * @return mixed an array of file names, or NULL
 	 */
-	function get_invite_attachments($user) {
+	function get_invite_attachments($method='PUBLISH') {
 		global $context;
 
-
-		// only if the person has been enrolled
-		include_once $context['path_to_root'].'shared/enrolments.php';
-		if((!$item = enrolments::get_record($this->anchor->get_reference(), $user['id'])) || ($item['approved'] != 'Y'))
-			return NULL;
-
 		// attach an invitation file
-		return array('meeting.ics' => $this->get_ics('REQUEST'));
+		return array('text/calendar; method="'.$method.'"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics($method));
 	}
 
 	/**
@@ -656,10 +685,10 @@ class Event extends Overlay {
 	 *
 	 * @see articles/invite.php
 	 *
-	 * @param boolean TRUE if the meeting has been cancelled
+	 * @param string 'PUBLISH' or 'CANCEL'
 	 * @return string to be put in the web form
 	 */
-	function get_invite_default_message($cancelled=FALSE) {
+	function get_invite_default_message($method='PUBLISH') {
 		global $context;
 
 		// to be displayed into the web form for this invitation
@@ -681,7 +710,7 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
 
 		// meeting has been cancelled
-		if($cancelled)
+		if($method == 'CANCEL')
 			$text .= '<div><p>'.i18n::c('Meeting has been cancelled.').'</p></div>';
 
 		// regular message
@@ -1531,16 +1560,16 @@ class Event extends Overlay {
 					continue;
 
 				// message title
-				$subject = sprintf('%s: %s', i18n::c('Cancellation'), $host['title']);
+				$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
 
 				// message to reader
-				$message = $this->get_invite_default_message(TRUE);
+				$message = $this->get_invite_default_message('CANCEL');
 
 				// allow for HTML rendering
 				$message = Mailer::build_message($subject, $message);
 
 				// get attachment from the overlay
-				$attachments = array('meeting.ics' => $this->get_ics('CANCEL'));
+				$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
 
 				// post it
 				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
@@ -1590,16 +1619,16 @@ class Event extends Overlay {
 					continue;
 
 				// message title
-				$subject = sprintf('%s: %s', i18n::c('Modification'), $host['title']);
+				$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
 
 				// message to reader
-				$message = $this->get_invite_default_message();
+				$message = $this->get_invite_default_message('PUBLISH');
 
 				// allow for HTML rendering
 				$message = Mailer::build_message($subject, $message);
 
 				// get attachment from the overlay
-				$attachments = array('meeting.ics' => $this->get_ics('REQUEST'));
+				$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
 
 				// post it
 				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);

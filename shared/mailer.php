@@ -957,7 +957,7 @@ class Mailer {
 			define('WRAPPING_LENGTH', 70);
 
 		// decode encoding settings
-		$content_encoding = '8bit';
+		$content_encoding = 'binary';
 		if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
 			$content_encoding = 'base64';
 
@@ -1051,18 +1051,36 @@ class Mailer {
 
 				}
 
-				// append it to mail message
-				$basename = utf8::to_ascii(basename($name));
-				$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
-				$type = Files::get_mime_type($name);
+				// file name is the file type
+				if(preg_match('/name="(.+)?"/', $name, $matches)) {
+					$type = $name;
+					$name = $matches[1];
 
+				} else
+					$type = Files::get_mime_type($name);
+
+				// set a name that avoids problems
+				$basename = utf8::to_ascii(basename($name));
+
+				// a unique id for for this file
+				$cid = sprintf('%u@%s', crc32($name.':'.$context['path_to_root']), $context['host_name']);
+
+				// headers for one file
 				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
 					.M_EOL.'Content-Type: '.$type
-					.M_EOL.'Content-Description: '.$basename
 					.M_EOL.'Content-Disposition: inline; filename="'.$basename.'"'
-					.M_EOL.'Content-ID: <'.$cid.'>'
-					.M_EOL.'Content-Transfer-Encoding: base64'
-					.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+					.M_EOL.'Content-ID: <'.$cid.'>';
+
+				// transfer textual entities as they are
+				if(!strncmp($type, 'text/', 5)) {
+					$body .= M_EOL.'Content-Transfer-Encoding: binary'
+						.M_EOL.M_EOL.$content;
+
+				// encode everything else
+				} else {
+					$body .= M_EOL.'Content-Transfer-Encoding: base64'
+						.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+				}
 
 			}
 
