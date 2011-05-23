@@ -226,7 +226,7 @@ if(Surfer::is_crawler()) {
 
 		else
 			$message = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
-				.'<p><a href="'.Articles::get_permalink($item).'">'.$item['title'].'<a></p>';
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>';
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $user['email']) !== FALSE) {
@@ -240,13 +240,17 @@ if(Surfer::is_crawler()) {
 		$message = str_replace($context['url_to_root'].Articles::get_permalink($item),
 			$context['url_to_root'].Users::get_login_url('visit', 'article:'.$item['id'], $user['id'], $item['handle']), $message);
 
+		// allow the overlay to filter message content
+		if(is_callable(array($overlay, 'filter_invite_message')))
+			$message = $overlay->filter_invite_message($message);
+
 		// allow for HTML rendering
 		$message = Mailer::build_message($subject, $message);
 
 		// get attachments from the overlay, if any
 		$attachments = NULL;
 		if(is_callable(array($overlay, 'get_invite_attachments')))
-			$attachments = $overlay->get_invite_attachments($user);
+			$attachments = $overlay->get_invite_attachments('PUBLISH');
 
 		// post it
 		if(Mailer::post(Surfer::from(), $recipient, $subject, $message, $attachments))

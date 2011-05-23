@@ -122,32 +122,6 @@ elseif(!Surfer::get_id()) {
 	$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
 	SQL::query($query);
 
-	// confirm enrolment through e-mail, and calendar update
-	if($anchor->is_owned() || ($overlay->get_value('enrolment') == 'none')) {
-		if(($user = Users::get(Surfer::get_id())) && isset($user['email']) && preg_match(VALID_RECIPIENT, $user['email'])) {
-
-			// mail subject
-			$subject = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
-
-			// mail content
-			$message = $overlay->get_invite_default_message();
-
-			// allow for HTML rendering
-			$message = Mailer::build_message($subject, $message);
-
-			// get attachments from the overlay, if any
-			$attachments = $overlay->get_invite_attachments($user);
-
-			// threads messages
-			$headers = Mailer::set_thread($anchor->get_reference());
-
-			// send the message
-			Mailer::post(NULL, $user['email'], $subject, $message, $attachments, $headers);
-
-			$context['text'] .= '<p>'.sprintf(i18n::s('A confirmation message has been sent to you, at %s.'), $user['email']).'</p>';
-		}
-	}
-
 	// notify page owner of this application, except if it is me
 	if(!$anchor->is_owned() && ($owner_id = $anchor->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email']) {
 
