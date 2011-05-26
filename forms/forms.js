@@ -4,6 +4,7 @@
  * This file extends prototype, etc., to enhance interactions with the end-user
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -535,7 +536,8 @@ var Forms = {
 
                     if(nodeClass == 'list') {
                                 var list_text = node.children('.text').text();
-                                list_text = $.quoteString(list_text);
+                                // quote newlines in text
+				list_text = $.quoteString(list_text);
 
                                 buffer += '{ "class": "list"'
 					+ ', "text": '+ list_text.toJSON()
