@@ -533,8 +533,11 @@ var Forms = {
                     }
 
                     if(nodeClass == 'list') {
-				buffer += '{ "class": "list"'
-					+ ', "text": "'+ node.children('.text').text().toJSON()
+                                var list_text = node.children('.text').text();
+                                list_text = $.quoteString(list_text);
+
+                                buffer += '{ "class": "list"'
+					+ ', "text": "'+ list_text.toJSON()
 					+ '", "type": "'+ node.children('.type').text().toJSON()
 					+ '", "name": "'+ node.children('.name').text().toJSON()+'" }';
                     }
