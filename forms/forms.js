@@ -537,8 +537,8 @@ var Forms = {
                                 list_text = $.quoteString(list_text);
 
                                 buffer += '{ "class": "list"'
-					+ ', "text": "'+ list_text.toJSON()
-					+ '", "type": "'+ node.children('.type').text().toJSON()
+					+ ', "text": '+ list_text.toJSON()
+					+ ', "type": "'+ node.children('.type').text().toJSON()
 					+ '", "name": "'+ node.children('.name').text().toJSON()+'" }';
                     }
 
