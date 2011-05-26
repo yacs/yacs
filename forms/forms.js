@@ -484,8 +484,9 @@ var Forms = {
 	 * @param a list of items to load
 	 */
 	fromJSON: function(handle, items) {
+
 		$.each(items, function() {
-                        var item = $(this);
+			var item = $(this)[0];
 
 			if(item['class'] == 'file')
 				Forms.appendFileInput(item);
