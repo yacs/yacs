@@ -1327,9 +1327,27 @@ Class Codes {
 			);
 		}
 
+
 		// include code extensions
 //		include_once $context['path_to_root'].'scripts/scripts.php';
 //		Scripts::load_scripts_at('codes/extensions');
+
+		// include other codes from plugins
+		$dir = $context['path_to_root'].'codes/extensions/';
+    if ($handle = opendir($dir)) {
+
+        while (false !== ($file = readdir($handle))) {
+          if ($file == '..')
+            continue;
+
+          if ($file == '.')
+            continue;
+
+          include_once($dir.$file);
+        }
+
+        closedir($handle);
+    }
 
 		// ensure we have enough time to execute
 		Safe::set_time_limit(30);
