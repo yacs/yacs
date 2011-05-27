@@ -3,9 +3,11 @@
  *
  * @link http://andykdocs.de/andykdocs/document/Migrating-from-the-Prototype-JavaScript-Framework-to-jQuery/Prototype-JS-to-jQuery-Migration-Cheat-Sheet-V1-April-2010.html
  *
- * This file extends prototype, etc., to enhance interactions with the end-user
+ * This file extends jquery, etc., to enhance interactions with the end-user
  *
  * @author Bernard Paques
+ * @author Christophe Battarel
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -885,29 +887,29 @@ var Yacs = {
 
 		// do the alignment
 		if(onLeft && down) {
-			$(panel).css({position: 'absolute', top: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', top: '100%', left: 0});
 
 		}
 		if(onLeft && !down) {
-			$(panel).css({position: 'absolute', bottom: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', bottom: '100%', left: 0});
 
 		}
 		if(!onLeft && down) {
-			$(panel).css({position: 'absolute', top: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', top: '100%', right: 0});
 		}
 		if(!onLeft && !down) {
-			$(panel).css({position: 'absolute', bottom: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', bottom: '100%', right: 0});
 		}
 
 		// display the panel if it is not visible
 		if($(panel).css("display") == 'none') {
 
-			$(panel).slideDown({duration:.3, scaleContent:false});
+			$(panel).slideDown({duration:0.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = $(handle + " span:first-child").next('img');
+			var icon = $(handle).children('img');
 			if(icon && up_href) {
-				icon.src = up_href;
+				icon.attr('src',up_href);
 			}
 
 		// collapse the panel if it is visible
@@ -916,9 +918,9 @@ var Yacs = {
 			$(panel).slideUp({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = $(handle + " span:first-child").next('img');
+			var icon = $(handle).children('img');
 			if(icon && down_href) {
-				icon.src = down_href;
+				icon.attr('src',down_href);
 			}
 
 		}
