@@ -42,6 +42,9 @@ class Scripts {
 
 		$start_time = get_micro_time();
 
+		// the resulting sequence
+		$sequence = array();
+
 		// make lists of nodes
 		if(is_array($old_stream))
 			$old_lines = $old_stream;
@@ -52,8 +55,12 @@ class Scripts {
 		else
 			$new_lines = explode("\n", $new_stream);
 
+		// don't count things too many times
+		$old_lines_count = count($old_lines);
+		$new_lines_count = count($new_lines);
+
 		// hash nodes
-		for($i = count($old_lines)-1; $i >= 0; $i--) {
+		for($i = $old_lines_count-1; $i >= 0; $i--) {
 			$old_lines[$i] = rtrim($old_lines[$i]);
 			$old_hash[$i] = md5(strtolower(trim($old_lines[$i])));
 		}
@@ -61,7 +68,7 @@ class Scripts {
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
-		for($j = count($new_lines)-1; $j >= 0; $j--) {
+		for($j = $new_lines_count-1; $j >= 0; $j--) {
 			$new_lines[$j] = rtrim($new_lines[$j]);
 			$new_hash[$j] = md5(strtolower(trim($new_lines[$j])));
 		}
@@ -69,56 +76,82 @@ class Scripts {
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
+		// skip the head of common nodes
+		$head = 0;
+		while(($head < $old_lines_count) && ($head < $new_lines_count)) {
+			if($old_hash[$head] == $new_hash[$head])
+				$head++;
+			else
+				break;
+		}
+
+		// skip the tail of common nodes
+		$tail = 0;
+		$oindex = $old_lines_count;
+		$nindex = $new_lines_count;
+		while((--$oindex > $head) && (--$nindex > $head)) {
+			if($old_hash[$oindex] == $new_hash[$nindex])
+				$tail++;
+			else
+				break;
+		}
+
 		// compute lengths
 		$lengths = array();
 		$lengths[0][0] = 0;
 		$lengths[0][1] = 0;
-		$i_count = min($maximum, count($old_lines));
-		$j_count = min($maximum, count($new_lines));
+		$i_count = min($maximum, $old_lines_count - $head - $tail);
+		$j_count = min($maximum, $new_lines_count - $head - $tail);
 		for($i = $i_count; $i >= 0; $i--) {
-			$lengths[$i][0] = 0;
-			$lengths[$i][1] = 0;
+			$lengths[$i+1][$j_count+1] = 0;
+			$lengths[$i+1][$j_count] = 0;
+			$lengths[$i][$j_count+1] = 0;
 			for($j = $j_count; $j >= 0; $j--) {
 
 				if(($i == $i_count) || ($j == $j_count))
 					$lengths[$i][$j] = 0;
 
-				elseif($old_hash[$i] == $new_hash[$j])
-					$lengths[$i][$j] = 1 + @$lengths[$i+1][$j+1];
+				elseif($old_hash[$i+$head] == $new_hash[$j+$head])
+					$lengths[$i][$j] = 1 + $lengths[$i+1][$j+1];
 
 				else
-					$lengths[$i][$j] = max(@$lengths[$i+1][$j], @$lengths[$i][$j+1]);
+					$lengths[$i][$j] = max($lengths[$i+1][$j], $lengths[$i][$j+1]);
 
 			}
 
-			// ensure enough execution time
-			Safe::set_time_limit(30);
-
 		}
+
+		// ensure enough execution time
+		Safe::set_time_limit(30);
 
 		// parse the resulting matrix
 		$i = $j = 0;
-		while(($i < count($old_lines)) && ($j < count($new_lines))) {
+		while(($i < $old_lines_count) && ($j < $new_lines_count)) {
 
-			// debug and control
-//			echo 'i='.$i.', j='.$j.' L[i,j]='.$lengths[$i][$j]."\n";
-
-			if($old_lines[$i] == $new_lines[$j]) {
+			// same nodes
+			if($old_hash[$i] == $new_hash[$j]) {
 				$sequence[] = array( '=', $old_lines[$i], $new_lines[$j]);
 				$i++;
 				$j++;
 
-			} elseif($lengths[$i+1][$j] >= $lengths[$i][$j+1]) {
+			// one node has been deleted
+			} elseif(isset($lengths[$i-$head+1][$j-$head]) && ($lengths[$i-$head+1][$j-$head] >= $lengths[$i-$head][$j-$head+1])) {
 				$sequence[] = array( '-', $old_lines[$i], '-');
 				$i++;
+
+			// one node has been inserted
 			} else {
 				$sequence[] = array( '+', '-', $new_lines[$j]);
 				$j++;
 			}
 		}
-		while($i < count($old_lines))
+
+		// other nodes that have been removed
+		while($i < $old_lines_count)
 			$sequence[] = array( '-', $old_lines[$i++], '-');
-		while($j < count($new_lines))
+
+		// nodes that have been appended
+		while($j < $new_lines_count)
 			$sequence[] = array( '+', '-', $new_lines[$j++]);
 
 		// return the whole diff sequence
@@ -735,11 +768,11 @@ class Scripts {
 			//comment out suppressed lines
 			if($tag == '-') {
 				if(strncmp($left, '<', 1))
-					$text .= '<del>'.$left.'</del> ';
+					$text .= ' <del>'.$left.'</del> ';
 
 			} elseif($tag == '+') {
 				if(strncmp($right, '<', 1))
-					$text .= '<ins>'.$right.'</ins> ';
+					$text .= ' <ins>'.$right.'</ins> ';
 				else
 					$text .= $right.' ';
 
@@ -751,7 +784,7 @@ class Scripts {
 		}
 
 		// recombine added words
-		$text = trim(str_replace(array('</del> <del>', '</ins> <ins>'), ' ', $text));
+		$text = trim(str_replace(array('</del>  <del>', '</ins>  <ins>'), ' ', $text));
 
 		// return the result of the whole comparison
 		return $text;
