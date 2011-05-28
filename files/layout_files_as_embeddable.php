@@ -50,6 +50,7 @@ Class Layout_files_as_embeddable extends Layout_interface {
 				$codes[] = '[embed='.$item['id'].']';
 
 			// link for direct download
+			$codes[] = '[file='.$item['id'].']';
 			$codes[] = '[download='.$item['id'].']';
 
 			// integrate codes
