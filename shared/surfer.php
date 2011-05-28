@@ -1424,6 +1424,43 @@ Class Surfer {
 			SQL::query($query, FALSE, $context['users_connection']);
 		}
 
+		// set a semi-permanent cookie for user identification
+		if(isset($fields['handle']) && $fields['handle'] && isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+
+			// time of authentication
+			$now = (string)time();
+
+			// token is made of: user id, time of login, gmt offset, salt --salt combines date of login with secret handle
+			$token = $fields['id'].'|'.$now.'|'.Surfer::get_gmt_offset().'|'.md5($now.'|'.$fields['handle']);
+
+			// attempt to set this cookie while answering the current request
+			Surfer::set_cookie('screening', $token);
+
+			// path to this instance			// we will do it again on next transaction, to take care of redirections, if any
+			$_SESSION['surfer_token'] = $token;
+
+		}
+
+	}
+
+	/**
+	 * set a permanent cookie
+	 *
+	 * @param string cookie name
+	 * @param string cookie value
+	 */
+	function set_cookie($name, $value) {
+		global $context;
+
+		// assign the cookie to this instance of yacs
+		Safe::setcookie($name, $value, time()+60*60*24*500, $context['url_to_root']);
+
+		// also set cookies used in leading index.php
+		if($home = getenv('YACS_HOME'))
+			Safe::setcookie($name, $value, time()+60*60*24*500, $home.'/');
+		if($context['url_to_root'] == '/yacs/')
+			Safe::setcookie($name, $value, time()+60*60*24*500, '/');
+
 	}
 
 	/**
@@ -1521,6 +1558,16 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 	Safe::ini_set('session.use_only_cookies', '1');
 	//Safe::ini_set('session.use_trans_sid', '0'); -- don't uncomment !!!
 	Safe::ini_set('url_rewriter.tags', '');
+}
+
+// set the permanent cookie on the transaction that folows the login, in case a redirection would have happened
+if(isset($_SESSION['surfer_token'])) {
+
+	// set it
+	Surfer::set_cookie('screening', $_SESSION['surfer_token']);
+
+	// don't do that again
+	unset($_SESSION['surfer_token']);
 }
 
 // retrieve session data, but not if run from the command line, and not from robot nor spider
