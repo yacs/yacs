@@ -38,6 +38,11 @@
  *
  * @link http://wiki.foaf-project.org/Autodiscovery FOAF Autodiscovery
  *
+ * If the profile is not public, a meta attribute is added to prevent search engines from presenting
+ * cached versions of the page to end users.
+ *
+ * @link http://www.gsadeveloper.com/category/google-mini/page/2/
+ *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - this is the personal record of the authenticated surfer
@@ -221,6 +226,10 @@ if(!isset($item['id'])) {
 	// meta-information -- $context['page_header'], etc.
 	//
 
+	// prevent search engines to present cache versions of this page
+	if($item['active'] != 'Y')
+		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
+
 	// add canonical link
 	if(!$zoom_type)
 		$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Users::get_permalink($item).'" />';
@@ -328,10 +337,10 @@ if(!isset($item['id'])) {
 		if(Surfer::is($item['id']) && Surfer::is_member() &&
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-			$box['top'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add some space for your pages'));
+			$box['top'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Create a new web space'));
 
 			// make it visible at page top
-			$context['page_menu'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Add some space for your pages'));
+			$context['page_menu'] += array('sections/new.php' => SECTIONS_ADD_IMG.i18n::s('Create a new web space'));
 		}
 
 		// associates can assign editors and readers
