@@ -153,6 +153,9 @@ class xml {
 	 * This function uses some PHP XML parser to validate the provided string.
 	 * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
 	 *
+	 * This function does not expand yacs codes anymore, because this could confuse end users,
+	 * and also because of potential side effects (eg, redirection to another page).
+	 *
 	 * The error context is populated, if required.
 	 *
 	 * @param string the string to check
@@ -181,9 +184,6 @@ class xml {
 		$input = trim($input);
 		if(!$input)
 			return TRUE;
-
-		// beautify YACS codes
-		$input = Codes::beautify($input);
 
 		// do not validate code nor snippet --do it in two steps to make it work
 		$input = preg_replace('/<code>(.+?)<\/code>/ise', "'<code>'.str_replace('<', '&lt;', '$1').'</code>'", $input);

@@ -1234,7 +1234,7 @@ div.toc_box a code { /* some code in a toc */
 
 div.toc_box div.panel { /* actual content of the table of content */
 	font-size: 0.8em;;
-	line-height: 1.2em;
+/*	line-height: 1.2em; */
 	padding: 9px;
 	margin-top: 0.5em;
 	margin-bottom: 1em;
@@ -2980,7 +2980,7 @@ div.toc_box div.panel { /* content of sliding panels */
 	opacity: 0.9;
 	background-color: #eeeeee;
 	padding: 1em;
-	width: 35em; /* beware of narrow layouts */
+	width: 50em; /* beware of narrow layouts */
 	border: 7px #cccccc solid;
 }
 

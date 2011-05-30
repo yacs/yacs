@@ -576,7 +576,12 @@ Class Surfer {
 
 		// a textarea that grow on focus
 		} elseif($spring) {
-			$text .= '<textarea name="'.$name.'" id="'.$name.'" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);"></textarea>';
+			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
+				.'<textarea name="'.$name.'" id="'.$name.'"'
+				.	' rows="1" cols="50"'
+				.	' style="width: 60%; color: #ccc"'
+				.	' onfocus="if(fuse'.$name.'){Element.update(this, \'\');Yacs.growPanel(this);Element.setStyle(this, {color: \'#444\'});fuse'.$name.'=0;}">'
+				.	i18n::s('Contribute to this page!').'</textarea>';
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
@@ -994,19 +999,12 @@ Class Surfer {
 			if(!isset($_SESSION['surfer_capability']))
 				return FALSE;
 
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'A')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'M')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'S')
+			// surfer is either an associate, a member, or a subscriber
+			if(in_array($_SESSION['surfer_capability'], array('A', 'M', 'S')))
 				return TRUE;
 
 		}
+
 		return FALSE;
 	}
 

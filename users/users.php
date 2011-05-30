@@ -1175,7 +1175,6 @@ Class Users {
 			$fields['with_newsletters'] = 'Y';
 			$fields['without_alerts'] = 'N';
 			$fields['without_confirmations'] = 'N';
-			$fields['without_confirmations'] = 'N';
 			$fields['authenticate_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['authenticate_failures'] = 0;
 
@@ -1245,6 +1244,58 @@ Class Users {
 	}
 
 	/**
+	 * get the id of one user knowing its name or mail address
+	 *
+	 * @param string the name looked for
+	 * @return array either the found profile, or NULL
+	 */
+	function lookup($name) {
+		global $context;
+
+		// the profile already exists
+		if($item =& Users::get($name))
+			return $item;
+
+		// guess a shadow profile
+		$user = array();
+
+		// we have a valid e-mail address
+		if(preg_match('/(\w+)@.*/', $name, $matches)) {
+			$user['email'] = $name;
+			$user['nick_name'] = $matches[1];
+			$user['full_name'] = $matches[1];
+
+		// just a name
+		} else
+			$user['nick_name'] = $name;
+
+		// add a random number of 4 digits to make nick name as unique as possible
+		$pool = '123456789';
+		$user['nick_name'] .= $pool[mt_rand(0, strlen($pool)-1)]
+			.$pool[mt_rand(0, strlen($pool)-1)]
+			.$pool[mt_rand(0, strlen($pool)-1)]
+			.$pool[mt_rand(0, strlen($pool)-1)];
+
+		// create a short password with only numbers, like a PIN code
+		$pool = '123456789';
+		$user['password'] = $pool[mt_rand(0, strlen($pool)-1)]
+			.$pool[mt_rand(0, strlen($pool)-1)]
+			.$pool[mt_rand(0, strlen($pool)-1)]
+			.$pool[mt_rand(0, strlen($pool)-1)];
+
+		// create this fake profile
+		if(!Users::post($user))
+			return NULL;
+
+		// do the check again
+		if($item =& Users::get($user['nick_name']))
+			return $item;
+
+		// tough luck
+		return NULL;
+	}
+
+	/**
 	 * post a new user profile
 	 *
 	 * @param array an array of fields
@@ -1297,6 +1348,10 @@ Class Users {
 		if(isset($fields['confirm']) && ($fields['confirm'] == $fields['password']))
 			$fields['password'] = md5($fields['password']);
 
+		// open community, accept subscribers and members
+		if(!isset($fields['capability']) || !in_array($fields['capability'], array('A', 'M', 'S', '?')))
+			$fields['capability'] = 'M';
+
 		// control user capability
 		if(!Surfer::is_associate()) {
 
@@ -1307,10 +1362,6 @@ Class Users {
 			// email addresses have to be validated
 			elseif(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 				$fields['capability'] = 'S';
-
-			// open community, accept subscribers and members
-			elseif(!isset($fields['capability']) || (($fields['capability'] != 'S') && ($fields['capability'] != 'M') && ($fields['capability'] != '?')))
-				$fields['capability'] = 'M';
 
 		}
 

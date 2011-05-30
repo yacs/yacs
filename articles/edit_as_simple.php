@@ -68,7 +68,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 				// log page modification
-				$label = sprintf(i18n::c('Modification: %s'), strip_tags($_REQUEST['title']));
+				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
 				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
 				Logger::notify('articles/edit.php', $label, $description);
 
@@ -101,8 +101,13 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
+			// don't notify the creation of an event
+			$with_watchers = TRUE;
+			if(is_object($overlay))
+				$with_watchers = $overlay->should_notify_watchers();
+
 			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
