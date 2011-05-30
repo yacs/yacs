@@ -47,18 +47,18 @@ var Yacs = {
 
 		for (i = 0; i < tblEl.rows.length; i++) {
 			rowEl = tblEl.rows[i];
-			rowEl.removeClass('odd');
+			$(rowEl).removeClass('odd');
 			if((i % 2) !== 0) {
-				rowEl.addClass('odd');
+				$(rowEl).addClass('odd');
 			}
 
 			// set style classes on each column
 			for (j = 2; j < tblEl.rows[i].cells.length; j++) {
 				cellEl = rowEl.cells[j];
-				cellEl.removeClass('sorted');
+				$(cellEl).removeClass('sorted');
 				// highlight the one that was sorted
 				if (j == col) {
-					cellEl.addClass('sorted');
+					$(cellEl).addClass('sorted');
 				}
 			}
 		}
@@ -70,11 +70,11 @@ var Yacs = {
 		// set style classes for each column
 		for (i = 0; i < rowEl.cells.length; i++) {
 			cellEl = rowEl.cells[i];
-			cellEl.removeClass('sorted');
+			$(cellEl).removeClass('sorted');
 
 			// highlight the header of the sorted column
 			if (i == col) {
-				cellEl.addClass('sorted');
+				$(cellEl).addClass('sorted');
 			}
 		}
 	},
@@ -1095,8 +1095,8 @@ var Yacs = {
 		handle.lastColumn = column;
 
 		// hide the table during operations
-		var oldDsply = handle.css("display");
-		handle.css("display","none");
+		var oldDsply = $(handle).css("display");
+		$(handle).css("display","none");
 
 		// use a selection sort algorithm
 		var tmpEl;
@@ -1146,7 +1146,7 @@ var Yacs = {
 		//	setRanks(handle, column, rev);
 
 		// show the table again
-		handle.css("display", "oldDsply");
+		$(handle).css("display", oldDsply);
 
 		return false;
 	},
@@ -1256,16 +1256,16 @@ var Yacs = {
 
 			} else {
 
-				// update the tab
-				$("#"+iterator).removeClass('tab-foreground');
-				$("#"+iterator).addClass('tab-background');
+			    // update the tab
+			    $("#"+iterator).removeClass('tab-foreground');
+			    $("#"+iterator).addClass('tab-background');
 
-				// update the panel
-				if($("#"+panel).css("display") != 'none') {
-					$("#"+panel).fadeOut(.1);
-				}
-        $("#"+panel).removeClass('panel-foreground');
-        $("#"+panel).addClass('panel-background');
+			    // update the panel
+			    if($("#"+panel).css("display") != 'none') {
+				    $("#"+panel).fadeOut(.1);
+			    }
+			$("#"+panel).removeClass('panel-foreground');
+			$("#"+panel).addClass('panel-background');
 			}
 		}
 
@@ -1278,7 +1278,7 @@ var Yacs = {
 
 		// update the tab
 		$("#"+newCurrent).removeClass('tab-background');
-    $("#"+newCurrent).addClass('tab-foreground');
+		$("#"+newCurrent).addClass('tab-foreground');
 
 		// update the panel
 		if($("#"+panel).css("display") == 'none') {
