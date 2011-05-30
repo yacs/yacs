@@ -3,9 +3,11 @@
  *
  * @link http://andykdocs.de/andykdocs/document/Migrating-from-the-Prototype-JavaScript-Framework-to-jQuery/Prototype-JS-to-jQuery-Migration-Cheat-Sheet-V1-April-2010.html
  *
- * This file extends prototype, etc., to enhance interactions with the end-user
+ * This file extends jquery, etc., to enhance interactions with the end-user
  *
  * @author Bernard Paques
+ * @author Christophe Battarel
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -45,18 +47,18 @@ var Yacs = {
 
 		for (i = 0; i < tblEl.rows.length; i++) {
 			rowEl = tblEl.rows[i];
-			rowEl.removeClass('odd');
+			$(rowEl).removeClass('odd');
 			if((i % 2) !== 0) {
-				rowEl.addClass('odd');
+				$(rowEl).addClass('odd');
 			}
 
 			// set style classes on each column
 			for (j = 2; j < tblEl.rows[i].cells.length; j++) {
 				cellEl = rowEl.cells[j];
-				cellEl.removeClass('sorted');
+				$(cellEl).removeClass('sorted');
 				// highlight the one that was sorted
 				if (j == col) {
-					cellEl.addClass('sorted');
+					$(cellEl).addClass('sorted');
 				}
 			}
 		}
@@ -68,11 +70,11 @@ var Yacs = {
 		// set style classes for each column
 		for (i = 0; i < rowEl.cells.length; i++) {
 			cellEl = rowEl.cells[i];
-			cellEl.removeClass('sorted');
+			$(cellEl).removeClass('sorted');
 
 			// highlight the header of the sorted column
 			if (i == col) {
-				cellEl.addClass('sorted');
+				$(cellEl).addClass('sorted');
 			}
 		}
 	},
@@ -554,21 +556,22 @@ var Yacs = {
 	 * prepare for mouse hovering
 	 */
 	addOnDemandTools: function(handle, option) {
-		handle = $(handle);
+                handle = $("#" + handle);
 
 		var prefix = '';
 		if(handle.hasClass('sortable')) {
 			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
 		}
+                
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClass('mutable')) {
 			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+Yacs.identify(handle)+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-		var here = handle.prepend(suffix + prefix);
+		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';               
+                handle.prepend(suffix + prefix);
 
-		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
-		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
+		 handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
+		 handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
 
 		handle = null; // no memory leak
 	},
@@ -577,27 +580,20 @@ var Yacs = {
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft, ' + handle + ' span.onHoverRight');
-		nodes.each(function () { $(this).css('visibility', 'hidden'); });
-
-		nodes = null; // no memory leak
+		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+                    .css('visibility', 'hidden');
 	},
 
 	/**
 	 * mouse is coming on top of some element
 	 */
 	mouseOver: function(handle) {
-		var nodes = $(handle + ' span.onHoverLeft, ' + handle + ' span.onHoverRight');
-		nodes.each(function () { $(this).css('visibility', 'visible'); });
-
-		nodes = null; // no memory leak
+                $(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+                    .css('visibility', 'visible');
 	},
 
 	toggleProperties: function(handle) {
-		var nodes = $(handle + ' .properties');
-		nodes.each(function () { $(this).toggle('slide'); });
-
-		nodes = null; // no memory leak
+                $(handle).children('.properties').toggle('slide');
 	},
 
 	/**
@@ -891,29 +887,29 @@ var Yacs = {
 
 		// do the alignment
 		if(onLeft && down) {
-			$(panel).css({position: 'absolute', top: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', top: '100%', left: 0});
 
 		}
 		if(onLeft && !down) {
-			$(panel).css({position: 'absolute', bottom: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', bottom: '100%', left: 0});
 
 		}
 		if(!onLeft && down) {
-			$(panel).css({position: 'absolute', top: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', top: '100%', right: 0});
 		}
 		if(!onLeft && !down) {
-			$(panel).css({position: 'absolute', bottom: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', bottom: '100%', right: 0});
 		}
 
 		// display the panel if it is not visible
 		if($(panel).css("display") == 'none') {
 
-			$(panel).slideDown({duration:.3, scaleContent:false});
+			$(panel).slideDown({duration:0.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = $(handle + " span:first-child").next('img');
+			var icon = $(handle).children('img');
 			if(icon && up_href) {
-				icon.src = up_href;
+				icon.attr('src',up_href);
 			}
 
 		// collapse the panel if it is visible
@@ -922,9 +918,9 @@ var Yacs = {
 			$(panel).slideUp({duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = $(handle + " span:first-child").next('img');
+			var icon = $(handle).children('img');
 			if(icon && down_href) {
-				icon.src = down_href;
+				icon.attr('src',down_href);
 			}
 
 		}
@@ -1099,8 +1095,8 @@ var Yacs = {
 		handle.lastColumn = column;
 
 		// hide the table during operations
-		var oldDsply = handle.css("display");
-		handle.css("display","none");
+		var oldDsply = $(handle).css("display");
+		$(handle).css("display","none");
 
 		// use a selection sort algorithm
 		var tmpEl;
@@ -1150,7 +1146,7 @@ var Yacs = {
 		//	setRanks(handle, column, rev);
 
 		// show the table again
-		handle.css("display", "oldDsply");
+		$(handle).css("display", oldDsply);
 
 		return false;
 	},
@@ -1260,16 +1256,16 @@ var Yacs = {
 
 			} else {
 
-				// update the tab
-				$("#"+iterator).removeClass('tab-foreground');
-				$("#"+iterator).addClass('tab-background');
+			    // update the tab
+			    $("#"+iterator).removeClass('tab-foreground');
+			    $("#"+iterator).addClass('tab-background');
 
-				// update the panel
-				if($("#"+panel).css("display") != 'none') {
-					$("#"+panel).fadeOut(.1);
-				}
-        $("#"+panel).removeClass('panel-foreground');
-        $("#"+panel).addClass('panel-background');
+			    // update the panel
+			    if($("#"+panel).css("display") != 'none') {
+				    $("#"+panel).fadeOut(.1);
+			    }
+			$("#"+panel).removeClass('panel-foreground');
+			$("#"+panel).addClass('panel-background');
 			}
 		}
 
@@ -1282,7 +1278,7 @@ var Yacs = {
 
 		// update the tab
 		$("#"+newCurrent).removeClass('tab-background');
-    $("#"+newCurrent).addClass('tab-foreground');
+		$("#"+newCurrent).addClass('tab-foreground');
 
 		// update the panel
 		if($("#"+panel).css("display") == 'none') {
