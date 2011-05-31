@@ -1,205 +1,25 @@
 <?php
 /**
- * create a new section or edit an existing one
+ * to test the option 'edit_as_simple'
  *
- * Accepted calls:
- * - edit.php
- * - edit.php/&lt;id&gt;
- * - edit.php?id=&lt;id&gt;
- * - edit.php?anchor=&lt;anchor&gt;
+ * This script allows only to change the description field, and overlay data.
  *
- * @author Bernard Paques
- * @author Vincent No&euml;l
- * @author GnapZ
- * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
- * @author Alexis Raimbault
- * @tester Agnes
- * @tester Marco Pici
- * @tester Ghjmora
- * @tester Aleko
- * @tester Manuel Lopez Gallego
- * @tester Jan Boen
+ * @author Jean-marc Schwartz 
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// common definitions and initial processing
-include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
-include_once '../images/images.php';
-include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
-include_once '../tables/tables.php';
-include_once '../versions/versions.php'; // roll-back
-
-// look for the id
-$id = NULL;
-if(isset($_REQUEST['id']))
-	$id = $_REQUEST['id'];
-elseif(isset($context['arguments'][0]))
-	$id = $context['arguments'][0];
-$id = strip_tags($id);
-
-// get the item from the database
-$item =& Sections::get($id);
-
-// get the related anchor, if any --use request first, because anchor can change
-$anchor = NULL;
-if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
-elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
-
-// reflect access rights from anchor
-if(!isset($item['active']) && is_object($anchor))
-	$item['active'] = $anchor->get_active();
-
-// get the related overlay, if any
-$overlay = NULL;
-if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item, 'section:'.$item['id']);
-elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
-	$overlay = Overlay::bind($_REQUEST['variant']);
-elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
-	$overlay = Overlay::bind($_SESSION['pasted_variant']);
-	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor))
-	$overlay = $anchor->get_overlay('section_overlay');
-
-// we are allowed to add a new section
-if(!isset($item['id']) && Sections::allow_creation(NULL, $anchor))
-	$permitted = TRUE;
-
-// we are allowed to modify an existing section
-elseif(isset($item['id']) && Sections::allow_modification($item, $anchor))
-	$permitted = TRUE;
-
-// the default is to disallow access
-else
-	$permitted = FALSE;
-
-// do not always show the edition form
-$with_form = FALSE;
-
-// load the skin, maybe with a variant
-load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
-
-// clear the tab we are in, if any
-if(is_object($anchor))
-	$context['current_focus'] = $anchor->get_focus();
-
-// path to this page
-if(is_object($anchor)&& $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
-
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
-
-// page title
-if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('Add a section');
-
-// validate input syntax only if required
-if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
-	if(isset($_REQUEST['introduction']))
-		xml::validate($_REQUEST['introduction']);
-	if(isset($_REQUEST['description']))
-		xml::validate($_REQUEST['description']);
-}
-
-// adjust dates from surfer time zone to UTC time zone
-if(isset($_REQUEST['activation_date']) && $_REQUEST['activation_date'])
-	$_REQUEST['activation_date'] = Surfer::to_GMT($_REQUEST['activation_date']);
-if(isset($_REQUEST['expiry_date']) && $_REQUEST['expiry_date'])
-	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
-
-// stop crawlers
-if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// access denied
-} elseif(!$permitted) {
-
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged()) {
-
-		if(isset($item['id']))
-			$link = Sections::get_url($item['id'], 'edit');
-		elseif(isset($_REQUEST['anchor']))
-			$link = 'sections/edit.php?anchor='.urlencode($_REQUEST['anchor']);
-		else
-			$link = 'sections/edit.php';
-
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode($link));
-	}
-
-	// permission denied to authenticated user
-	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// an error occured
-} elseif(count($context['error'])) {
-	$item = $_REQUEST;
-	$with_form = TRUE;
+// loaded from sections/view.php
+defined('YACS') or exit('Script must be included');
 
 // process uploaded data
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// protect from hackers
-	if(isset($_REQUEST['edit_name']))
-		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
-	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+	// set in sections/edit.php, but we don't use it here
+	unset($_REQUEST['options']);
 
-	// overlay may have changed
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
-
-		// associates are allowed to change overlay types -- see overlays/select.php
-		if(!Surfer::is_associate())
-			unset($_REQUEST['overlay_type']);
-
-		// overlay type has not changed
-		elseif(is_object($overlay) && ($overlay->get_type() == $_REQUEST['overlay_type']))
-			unset($_REQUEST['overlay_type']);
-	}
-
-	// new overlay type
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
-
-		// delete the previous version, if any
-		if(is_object($overlay))
-			$overlay->remember('delete', $_REQUEST);
-
-		// new version of page overlay
-		$overlay = Overlay::bind($_REQUEST['overlay_type']);
-	}
-
-	// when the page has been overlaid
-	if(is_object($overlay)) {
-
-		// update the overlay from form content
-		$overlay->parse_fields($_REQUEST);
-
-		// save content of the overlay in this item
-		$_REQUEST['overlay'] = $overlay->save();
-		$_REQUEST['overlay_id'] = $overlay->get_id();
-	}
-
-	// branch to another script to save data
-	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
-		include $matches[0].'.php';
-		return;
-	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
-		include 'edit_as_'.$deputy.'.php';
-		return;
-	
 	// update an existing page
-	} elseif(isset($_REQUEST['id'])) {
+	if(isset($_REQUEST['id'])) {
 
 		// remember the previous version
 		if($item['id'])
@@ -212,7 +32,7 @@ if(Surfer::is_crawler()) {
 			$action = 'update';
 
 		// stop on error
-		if(!Sections::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST, 'section:'.$_REQUEST['id']))) {
+		if(!Sections::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -223,49 +43,33 @@ if(Surfer::is_crawler()) {
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('section:'.$item['id'], $_REQUEST['active']);
 
-			// notify watchers of the updated section and of its parent
-			if($updated = Anchors::get('section:'.$item['id']))
-				$updated->touch('section:update', $item['id'],
+			// touch the related anchor
+			if(is_object($anchor))
+				$anchor->touch('section:update', $item['id'],
 					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
 					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
 					isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
-			// list persons that have been notified
-			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
-
-				$context['text'] .= $recipients;
-
-				// follow-up commands
-				$follow_up = i18n::s('What do you want to do now?');
-				$menu = array();
-				$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the section')));
-				if(preg_match('/\bwith_files\b/i', $_REQUEST['options']) && Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
-				$follow_up .= Skin::build_list($menu, 'menu_bar');
-				$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-				// log page modification
-				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('sections/edit.php', $label, $description);
 
 			// display the updated page
-			} else
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
-
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
 		}
 
 	// create a new section
-	} elseif(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = sections::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// successful post
 	} else {
 
+		// allow back-referencing from overlay
+		$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
+		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
+
 		// post an overlay, with the new section id --don't stop on error
 		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST, 'section:'.$_REQUEST['id']);
+			$overlay->remember('insert', $_REQUEST);
 
 		// touch the related anchor
 		if(is_object($anchor))
@@ -310,10 +114,8 @@ if(Surfer::is_crawler()) {
 			$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title());
 		else
 			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name());
-
-                $link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
-                $description .= "\n\n".$section->get_teaser('basic')
-			."\n\n".'<a href="'.$link.'">'.$link.'</a>';
+		$description .= "\n\n".$section->get_teaser('basic')
+			."\n\n".$context['url_to_home'].$context['url_to_root'].$section->get_url();
 		Logger::notify('sections/edit.php', $label, $description);
 
 	}
@@ -325,17 +127,8 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
 
-	// branch to another script to display form fields, tabs, etc
-	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
-		include $matches[0].'.php';
-		return;
-	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
-		include 'edit_as_'.$deputy.'.php';
-		return;
-	}
-
 	// the form to edit a section
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 	$fields = array();
 
 	//
@@ -384,6 +177,12 @@ if($with_form) {
 		$hint = '';
 	$fields[] = array($label, $input, $hint);
 
+	// tags
+	$label = i18n::s('Tags');
+	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
+	$hint = i18n::s('A comma-separated list of keywords');
+	$fields[] = array($label, $input, $hint);
+
 	// append regular fields
 	$text .= Skin::build_form($fields);
 	$fields = array();
@@ -397,7 +196,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)$/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -469,12 +268,8 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="articles_layout" value="directory"';
-	if($item['articles_layout'] == 'directory')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('directory - Break long lists in 26 smallest parts')
-		.BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
+	$input .= '/> '.i18n::s('compact - A compact list');
+	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
 	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />');
@@ -557,11 +352,13 @@ if($with_form) {
 
 	// layout for sub-sections - default is 'decorated'
 	$label = i18n::s('Layout');
-	$input = '';
+	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
+		$item['sections_count'] = SECTIONS_PER_PAGE;
+	$input = sprintf(i18n::s('List up to %s sub-sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)$/', $item['sections_layout'])) {
+	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -613,10 +410,6 @@ if($with_form) {
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="sections_layout" value="directory"';
-	if($item['sections_layout'] == 'directory')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('directory - Break long lists in 26 smallest parts')
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -798,10 +591,20 @@ if($with_form) {
 
 		// editors
 		$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 7, 'comma5')))
+		if(isset($item['id']) && ($items =& Members::list_editors_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('No editor has been assigned to this section.');
+		if(isset($item['id'])) {
+
+			// allow to involve more persons
+			$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'invite'), i18n::s('Invite participants'), 'button').'</span>';
+
+			// only real owner can manage editors
+			if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())
+				$input .= ' <span class="details">'.Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Manage editors'), 'button').'</span>';
+
+		}
 		$fields[] = array($label, $input);
 
 		// readers
@@ -816,8 +619,35 @@ if($with_form) {
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
 	$label = i18n::s('Access');
-	$input = Skin::build_active_set_input($item);
-	$hint = Skin::build_active_set_hint($anchor);
+
+	// maybe a public page
+	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+
+
+	// maybe a restricted page
+	$input .= '<input type="radio" name="active_set" value="R"';
+	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+
+	// or a hidden page
+	$input .= '<input type="radio" name="active_set" value="N"';
+	if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
+
+	// combine this with inherited access right
+	if(is_object($anchor) && $anchor->is_hidden())
+		$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
+	elseif(is_object($anchor) && !$anchor->is_public())
+		$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
+	else
+		$hint = i18n::s('Who is allowed to access?');
+
+	// expand the form
 	$fields[] = array($label, $input, $hint);
 
 	// locked: Yes / No
@@ -1079,6 +909,9 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Display profile of section owner');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
+	$local['label_fr'] = "les membres peuvent ajouter une section";
+	$local['label_en'] = "Members can add a section";			
+	$keywords[] = '<a onclick="javascript:append_to_options(\'with_sections\')" style="cursor: pointer;">with_sections</a> - '.i18n::l($local, 'label');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
@@ -1189,24 +1022,27 @@ if($with_form) {
 	// cancel button
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
-	elseif(is_object($anchor))
-		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
 
-	// several options to check
-	$suffix = array();
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// optional checkboxes
+	$context['text'] .= '<p>';
 
 	// notify watchers
-	$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers');
+	if(!isset($item['id']))
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+
+	// notify people following me
+	if(!isset($item['id']) && Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden())
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" checked="checked" /> '.i18n::s('Notify my followers.').BR;
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())
-		$suffix[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
+		$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
 
 	// validate page content
-	$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
-
-	// an assistant-like rendering at page bottom
-	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
+	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -1318,5 +1154,7 @@ if($with_form) {
 
 // render the skin
 render_skin();
+
+
 
 ?>
