@@ -1634,9 +1634,9 @@ if(!isset($item['id'])) {
 				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 			}
 
-			// list items by title
+			// list items by family then title
 			$offset = ($zoom_index - 1) * $items_per_page;
-			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
+			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 			// top menu
 			if($box['top_bar'])
