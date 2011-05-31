@@ -2174,6 +2174,7 @@ Class Sections {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
+	 * @param bool to add family in ordering criteria (before title)
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/edit.php
@@ -2184,7 +2185,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
+	function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full',$sort_family = FALSE) {
 		global $context;
 
 		// limit the query to one level
@@ -2235,7 +2236,7 @@ Class Sections {
 		$query = "SELECT sections.*"
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
+			." ORDER BY sections.rank,".(($sort_family)?' sections.family,':'')." sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// don't stop on error if we are building tabs
 		if(is_string($variant) && ($variant == '$tabs'))
