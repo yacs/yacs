@@ -1334,10 +1334,18 @@ Class Section extends Anchor {
 				include_once $context['path_to_root'].'comments/comments.php';
 				if(($target = Comments::get($origin)) && $target['id']) {
 
-					// message components
-					$summary = sprintf(i18n::c('%s has posted a comment'), $surfer);
-					$title = Skin::strip($target['description'], 20, NULL, NULL);
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
+					// title with link to the commented page
+					$page_title_link = '<a href="'.$context['url_to_home']
+					    .$context['url_to_root']
+					    .Sections::get_permalink($this->item)
+					    .'">'.$this->item['title'].'</a>';
+					// insert the full content of the comment, to provide the full information
+					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
+						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
+
+					// offer to react to the comment
+					$title = i18n::s('Reply');
+					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
