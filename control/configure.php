@@ -201,10 +201,7 @@ if(!defined('EOT'))
 	define('EOT', '>');
 
 // if no configuration file or if no database
-$connection = FALSE;
-if(isset($context['database_server']) && isset($context['database_user']) && isset($context['database_password']) && isset($context['database']))
-	$connection =& SQL::connect($context['database_server'], $context['database_user'], $context['database_password'], $context['database']);
-if(!file_exists('../parameters/control.include.php') || !$connection ) {
+if(!file_exists('../parameters/control.include.php') || !isset($context['connection']) || !$context['connection'] ) {
 
 	// consider the current surfer as an associate, but only on first installation
 	if(!Surfer::is_associate() && !file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
@@ -886,10 +883,8 @@ if(!Surfer::is_associate()) {
 	$content .= '?>'."\n";
 
 	// silently attempt to create the database if it does not exist
-	if($handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
-		$query = 'CREATE DATABASE IF NOT EXISTS '.SQL::escape($_REQUEST['database']);
-		SQL::query($query, TRUE);
-	}
+	$query = 'CREATE DATABASE IF NOT EXISTS '.SQL::escape($_REQUEST['database']);
+	SQL::query($query, TRUE);
 
 	// alert the end user if we are not able to connect to the database
 	if(!$handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
