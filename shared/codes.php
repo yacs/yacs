@@ -923,7 +923,9 @@ Class Codes {
 				'/\[snippet\](.*?)\[\/snippet\]/ise',	// [snippet]...[/snippet]
 				'/(\[page\].*)$/is',					// [page] (provide only the first one)
 				'/\[associate\](.*?)\[\/associate\]/ise', 	// [associate]...[/associate] (save some cycles if at the beginning)
+				'/\[hidden\](.*?)\[\/hidden\]/ise', 	// [hidden]...[/hidden] obsolete, replaced by [associate]...[/associate]
 				'/\[authenticated\](.*?)\[\/authenticated\]/ise', // [authenticated]...[/authenticated] (save some cycles if at the beginning)
+				'/\[restricted\](.*?)\[\/restricted\]/ise', 	// [restricted]...[/restricted] obsolete, replaced by [authenticated]...[/authenticated]
 				'/\[anonymous\](.*?)\[\/anonymous\]/ise', // [anonymous]...[/anonymous] (save some cycles if at the beginning)
 				'/\[redirect=([^\]]+?)\]/ise', 			// [redirect=<link>]
 				'/\[execute=([^\]]+?)\]/ise', 			// [execute=<name>]
@@ -1118,17 +1120,19 @@ Class Codes {
 		static $replace;
 		if(!isset($replace)) {
 			$replace = array(
-				'',																// delete HTML comments
+				'',																	// delete HTML comments
 				"Codes::render_escaped(Codes::fix_tags('$1'))",						// [escape]...[/escape]
 				"Codes::render_pre(Codes::fix_tags('$1'), 'php')",					// [php]...[/php]
 				"Codes::render_pre(Codes::fix_tags('$1'), 'snippet')",				// [snippet]...[/snippet]
 				'', 																// [page]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'hidden')",			// [associate]...[/associate]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'restricted')",		// [authenticated]...[/authenticated]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [associate]...[/associate]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [hidden]...[/hidden]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [authenticated]...[/authenticated]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [restricted]...[/restricted]
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
-				"Codes::render_redirect('\\1')",										// [redirect=<link>]
+				"Codes::render_redirect('\\1')",									// [redirect=<link>]
 				"Codes::render_execute('\\1')",										// [execute=<name>]
-				"Codes::render_parameter('\\1')",										// [parameter=<name>]
+				"Codes::render_parameter('\\1')",									// [parameter=<name>]
 				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
 				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
 				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
@@ -2341,7 +2345,7 @@ Class Codes {
 	 *
 	 * If variant = 'anonymous' and surfer is not logged, then display the block.
 	 * If the surfer is an associate, then display the text.
-	 * Else if the surfer is an authenticated member and variant = 'restricted', then display the text
+	 * Else if the surfer is an authenticated member and variant = 'authenticated', then display the text
 	 * Else return an empty string
 	 *
 	 * @param string the text
@@ -2362,7 +2366,7 @@ Class Codes {
 			return $text;
 
 		// this block is restricted to members
-		if(Surfer::is_member() && ($variant == 'restricted'))
+		if(Surfer::is_member() && ($variant == 'authenticated'))
 			return $text;
 
 		// tough luck
