@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 21:58+0200\n"
+"POT-Creation-Date: 2011-06-05 19:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,22 +19,22 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: control/backup.php:95 control/backup.php:110 control/chmod.php:27
-#: control/chmod.php:42 control/chmod.php:92 control/configure.php:222
-#: control/configure.php:233 control/configure.php:754
-#: control/configure.php:990 control/index.php:195 control/info.php:42
+#: control/chmod.php:42 control/chmod.php:92 control/configure.php:219
+#: control/configure.php:230 control/configure.php:751
+#: control/configure.php:985 control/index.php:195 control/info.php:42
 #: control/info.php:61 control/populate.php:105 control/populate.php:122
-#: control/populate.php:847 control/purge.php:65 control/purge.php:202
-#: control/purge.php:221 control/purge.php:241 control/purge.php:259
-#: control/purge.php:276 control/purge.php:295 control/purge.php:312
-#: control/purge.php:329 control/purge.php:363 control/purge.php:385
-#: control/purge.php:404 control/purge.php:423 control/scan.php:167
-#: control/scan.php:224 control/scan.php:449 control/scan.php:802
-#: control/setup.php:103 control/setup.php:280 control/switch.php:40
-#: control/switch.php:53 control/switch.php:83 control/switch.php:143
-#: control/test.php:88 control/virtual.php:55 control/virtual.php:95
-#: control/virtual.php:119 control/virtual.php:175 control/virtual.php:198
-#: control/virtual.php:223 control/htaccess/index.php:94
-#: control/htaccess/index.php:137
+#: control/populate.php:847 control/purge.php:67 control/purge.php:204
+#: control/purge.php:223 control/purge.php:243 control/purge.php:261
+#: control/purge.php:278 control/purge.php:297 control/purge.php:314
+#: control/purge.php:331 control/purge.php:365 control/purge.php:387
+#: control/purge.php:406 control/purge.php:425 control/purge.php:444
+#: control/scan.php:167 control/scan.php:224 control/scan.php:449
+#: control/scan.php:802 control/setup.php:103 control/setup.php:280
+#: control/switch.php:40 control/switch.php:53 control/switch.php:83
+#: control/switch.php:143 control/test.php:88 control/virtual.php:55
+#: control/virtual.php:95 control/virtual.php:119 control/virtual.php:175
+#: control/virtual.php:198 control/virtual.php:223
+#: control/htaccess/index.php:94 control/htaccess/index.php:137
 msgid "Control Panel"
 msgstr ""
 
@@ -43,9 +43,9 @@ msgstr ""
 msgid "Backup/Restore"
 msgstr ""
 
-#: control/backup.php:107 control/chmod.php:39 control/configure.php:230
+#: control/backup.php:107 control/chmod.php:39 control/configure.php:227
 #: control/import.php:33 control/info.php:58 control/populate.php:119
-#: control/purge.php:199 control/scan.php:221 control/setup.php:120
+#: control/purge.php:201 control/scan.php:221 control/setup.php:120
 #: control/switch.php:50 control/test.php:66 control/virtual.php:67
 #: control/htaccess/index.php:29
 msgid "You are not allowed to perform this operation."
@@ -77,8 +77,8 @@ msgstr ""
 msgid "Purging..."
 msgstr ""
 
-#: control/backup.php:463 control/purge.php:233 control/purge.php:287
-#: control/purge.php:355 control/purge.php:377
+#: control/backup.php:463 control/purge.php:235 control/purge.php:289
+#: control/purge.php:357 control/purge.php:379
 #, php-format
 msgid "%d items have been deleted"
 msgstr ""
@@ -127,7 +127,7 @@ msgstr ""
 msgid "No item has been found."
 msgstr ""
 
-#: control/backup.php:817 control/info.php:221 control/purge.php:430
+#: control/backup.php:817 control/info.php:221 control/purge.php:451
 msgid "Please select the action to perform."
 msgstr ""
 
@@ -166,7 +166,7 @@ msgid "Skip transient data and minimize size of backup file"
 msgstr ""
 
 #: control/backup.php:852 control/backup.php:917 control/backup.php:940
-#: control/backup.php:977 control/chmod.php:112 control/configure.php:971
+#: control/backup.php:977 control/chmod.php:112 control/configure.php:966
 #: control/populate.php:198 control/scan.php:788 control/scan.php:798
 #: control/scan.php:825 control/setup.php:270 control/setup.php:316
 msgid ""
@@ -209,8 +209,8 @@ msgstr ""
 msgid "Apply these SQL statements"
 msgstr ""
 
-#: control/backup.php:908 control/backup.php:934 control/configure.php:750
-#: control/populate.php:158 control/purge.php:470 control/virtual.php:143
+#: control/backup.php:908 control/backup.php:934 control/configure.php:747
+#: control/populate.php:158 control/purge.php:494 control/virtual.php:143
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -293,11 +293,11 @@ msgstr ""
 msgid "%d files have been updated."
 msgstr ""
 
-#: control/chmod.php:89 control/purge.php:218 control/purge.php:238
-#: control/purge.php:256 control/purge.php:273 control/purge.php:292
-#: control/purge.php:309 control/purge.php:326 control/purge.php:360
-#: control/purge.php:382 control/purge.php:401 control/purge.php:420
-#: control/scan.php:446 control/scan.php:778
+#: control/chmod.php:89 control/purge.php:220 control/purge.php:240
+#: control/purge.php:258 control/purge.php:275 control/purge.php:294
+#: control/purge.php:311 control/purge.php:328 control/purge.php:362
+#: control/purge.php:384 control/purge.php:403 control/purge.php:422
+#: control/purge.php:441 control/scan.php:446 control/scan.php:778
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
@@ -317,35 +317,35 @@ msgstr ""
 msgid "Yes, I do want to change permissions of running scripts"
 msgstr ""
 
-#: control/configure.php:217
+#: control/configure.php:214
 msgid ""
 "You are considered temporarily as an associate, with specific rights on this "
 "server. Please do not close your browser until the end of the configuration."
 msgstr ""
 
-#: control/configure.php:225 control/index.php:189
+#: control/configure.php:222 control/index.php:189
 #: control/htaccess/index.php:24 control/htaccess/basic/index.php:20
 #: control/htaccess/options/index.php:20 control/htaccess/indexes/index.php:20
 #, php-format
 msgid "%s: %s"
 msgstr ""
 
-#: control/configure.php:225 control/index.php:189
+#: control/configure.php:222 control/index.php:189
 #: control/htaccess/index.php:24 control/htaccess/basic/index.php:20
 #: control/htaccess/options/index.php:20 control/htaccess/indexes/index.php:20
 msgid "Configure"
 msgstr ""
 
-#: control/configure.php:225 control/index.php:229
+#: control/configure.php:222 control/index.php:229
 msgid "System parameters"
 msgstr ""
 
-#: control/configure.php:239 control/info.php:116
+#: control/configure.php:236 control/info.php:116
 #: control/htaccess/index.php:34
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: control/configure.php:253
+#: control/configure.php:250
 #, php-format
 msgid ""
 "Following parameters may be provided by your Internet Service Provider "
@@ -354,416 +354,416 @@ msgid ""
 "%s file for further information."
 msgstr ""
 
-#: control/configure.php:253
+#: control/configure.php:250
 msgid "readme.txt"
 msgstr ""
 
-#: control/configure.php:256
+#: control/configure.php:253
 msgid "Database server name"
 msgstr ""
 
-#: control/configure.php:263 control/configure.php:307
+#: control/configure.php:260 control/configure.php:304
 msgid "Login name"
 msgstr ""
 
-#: control/configure.php:270 control/configure.php:314
+#: control/configure.php:267 control/configure.php:311
 msgid "Login password"
 msgstr ""
 
-#: control/configure.php:277
+#: control/configure.php:274
 msgid "Database name"
 msgstr ""
 
-#: control/configure.php:284
+#: control/configure.php:281
 msgid "Prefix for table names"
 msgstr ""
 
-#: control/configure.php:297
+#: control/configure.php:294
 msgid ""
 "To share user information among several YACS servers configure below "
 "parameters specific to the table of users. Else keep fields empty."
 msgstr ""
 
-#: control/configure.php:300
+#: control/configure.php:297
 msgid "Database server that hosts user information"
 msgstr ""
 
-#: control/configure.php:321
+#: control/configure.php:318
 msgid "Name of database that contains user information"
 msgstr ""
 
-#: control/configure.php:328
+#: control/configure.php:325
 msgid "Prefix for the users table"
 msgstr ""
 
-#: control/configure.php:339
+#: control/configure.php:336
 msgid "Custom storage of user information"
 msgstr ""
 
-#: control/configure.php:347 control/configure.php:441
-#: control/configure.php:577
+#: control/configure.php:344 control/configure.php:438
+#: control/configure.php:574
 msgid ""
 "If you do not know what following parameters mean, please use default values "
 "for safety."
 msgstr ""
 
-#: control/configure.php:350
+#: control/configure.php:347
 msgid "Community language"
 msgstr ""
 
-#: control/configure.php:366
+#: control/configure.php:363
 msgid "Language detection"
 msgstr ""
 
-#: control/configure.php:370
+#: control/configure.php:367
 msgid ""
 "Attempt to adapt the interface to the language indicated by the browser."
 msgstr ""
 
-#: control/configure.php:374
+#: control/configure.php:371
 msgid "Stick to the preferred language selected above."
 msgstr ""
 
-#: control/configure.php:378
+#: control/configure.php:375
 msgid "Page compression"
 msgstr ""
 
-#: control/configure.php:382
+#: control/configure.php:379
 msgid ""
 "Do not try to compress transmitted data. The web engine already does it."
 msgstr ""
 
-#: control/configure.php:386
+#: control/configure.php:383
 msgid "Compress content (gzip) transmitted to user agents when possible."
 msgstr ""
 
-#: control/configure.php:390
+#: control/configure.php:387
 msgid "Rendering cache"
 msgstr ""
 
-#: control/configure.php:394
+#: control/configure.php:391
 msgid "Cache computed elements to speed up rendering."
 msgstr ""
 
-#: control/configure.php:398
+#: control/configure.php:395
 msgid "Compute all page elements."
 msgstr ""
 
-#: control/configure.php:402 control/index.php:265 control/index.php:715
+#: control/configure.php:399 control/index.php:265 control/index.php:715
 #: control/index.php:859
 msgid "Background processing"
 msgstr ""
 
-#: control/configure.php:406
+#: control/configure.php:403
 msgid "Add background processing at the end of page rendering."
 msgstr ""
 
-#: control/configure.php:410
+#: control/configure.php:407
 msgid "The server launches cron.php on its own"
 msgstr ""
 
-#: control/configure.php:410
+#: control/configure.php:407
 #, php-format
 msgid "see sample %s"
 msgstr ""
 
-#: control/configure.php:414
+#: control/configure.php:411
 msgid "Default masks"
 msgstr ""
 
-#: control/configure.php:415
+#: control/configure.php:412
 msgid "Mask for files"
 msgstr ""
 
-#: control/configure.php:416
+#: control/configure.php:413
 msgid "Mask for directories"
 msgstr ""
 
-#: control/configure.php:420
+#: control/configure.php:417
 msgid "Verbosity"
 msgstr ""
 
-#: control/configure.php:424
+#: control/configure.php:421
 msgid "Verbosity should be kept to a minimum (normal operation)."
 msgstr ""
 
-#: control/configure.php:428
+#: control/configure.php:425
 msgid "Provide as much information as possible (development server)."
 msgstr ""
 
-#: control/configure.php:444
+#: control/configure.php:441
 msgid "Server name"
 msgstr ""
 
-#: control/configure.php:449 control/configure.php:498
+#: control/configure.php:446 control/configure.php:495
 msgid "Accept all web requests."
 msgstr ""
 
-#: control/configure.php:453
+#: control/configure.php:450
 msgid "Redirect to this server name if another name is used in request."
 msgstr ""
 
-#: control/configure.php:457
+#: control/configure.php:454
 msgid "Path (URL) to root directory"
 msgstr ""
 
-#: control/configure.php:464
+#: control/configure.php:461
 msgid "URL generation"
 msgstr ""
 
-#: control/configure.php:468
+#: control/configure.php:465
 msgid "This system does not support the mapping of args in the URL."
 msgstr ""
 
-#: control/configure.php:472
+#: control/configure.php:469
 msgid "Help search engines to index more pages."
 msgstr ""
 
-#: control/configure.php:473 control/configure.php:478
-#: control/configure.php:503
+#: control/configure.php:470 control/configure.php:475
+#: control/configure.php:500
 msgid "test link"
 msgstr ""
 
-#: control/configure.php:477
+#: control/configure.php:474
 msgid ""
 "Rewriting rules have been activated (in <code>.htaccess</code>) to support "
 "pretty references."
 msgstr ""
 
-#: control/configure.php:482
+#: control/configure.php:479
 msgid "URL optimization"
 msgstr ""
 
-#: control/configure.php:486
+#: control/configure.php:483
 msgid "Put page titles in web addresses."
 msgstr ""
 
-#: control/configure.php:490
+#: control/configure.php:487
 msgid "Use nick names instead."
 msgstr ""
 
-#: control/configure.php:494
+#: control/configure.php:491
 msgid "Web security"
 msgstr ""
 
-#: control/configure.php:502
+#: control/configure.php:499
 msgid "Redirect all non-secured requests to https."
 msgstr ""
 
-#: control/configure.php:507
+#: control/configure.php:504
 msgid "Web cache"
 msgstr ""
 
-#: control/configure.php:511
+#: control/configure.php:508
 msgid ""
 "Set HTTP headers to enable private caching and to ask for every page "
 "revalidation."
 msgstr ""
 
-#: control/configure.php:515
+#: control/configure.php:512
 msgid "No cache management. Default settings of the PHP engine apply."
 msgstr ""
 
-#: control/configure.php:519
+#: control/configure.php:516
 msgid "Internet connectivity"
 msgstr ""
 
-#: control/configure.php:523
+#: control/configure.php:520
 msgid "Server is reachable from public web crawlers and news aggregators."
 msgstr ""
 
-#: control/configure.php:527
+#: control/configure.php:524
 msgid "Server is not connected to the Internet."
 msgstr ""
 
-#: control/configure.php:531
+#: control/configure.php:528
 msgid "Outbound requests"
 msgstr ""
 
-#: control/configure.php:535
+#: control/configure.php:532
 msgid ""
 "This server uses the web for syndication, for pings or for other activities."
 msgstr ""
 
-#: control/configure.php:539
+#: control/configure.php:536
 msgid "Prevent this server to connect to others."
 msgstr ""
 
-#: control/configure.php:547
+#: control/configure.php:544
 msgid "Proxy address or name"
 msgstr ""
 
-#: control/configure.php:554
+#: control/configure.php:551
 msgid "Proxy account"
 msgstr ""
 
-#: control/configure.php:561
+#: control/configure.php:558
 msgid "Proxy password"
 msgstr ""
 
-#: control/configure.php:568
+#: control/configure.php:565
 msgid "Proxy settings"
 msgstr ""
 
-#: control/configure.php:580
+#: control/configure.php:577
 msgid "Global switch"
 msgstr ""
 
-#: control/configure.php:584
+#: control/configure.php:581
 msgid "This system is not configured to send e-mail messages."
 msgstr ""
 
-#: control/configure.php:588
+#: control/configure.php:585
 msgid "Use following parameters to send messages and notifications."
 msgstr ""
 
-#: control/configure.php:592
+#: control/configure.php:589
 msgid "Architecture"
 msgstr ""
 
-#: control/configure.php:596
+#: control/configure.php:593
 msgid "Rely on PHP and system settings for the transmission of messages."
 msgstr ""
 
-#: control/configure.php:600
+#: control/configure.php:597
 msgid ""
 "Connect to the mail server described below, and authenticate with SMTP if "
 "necessary."
 msgstr ""
 
-#: control/configure.php:604
+#: control/configure.php:601
 msgid "Authenticate using POP3 before sending messages with SMTP."
 msgstr ""
 
-#: control/configure.php:608
+#: control/configure.php:605
 msgid "SMTP server"
 msgstr ""
 
-#: control/configure.php:615
+#: control/configure.php:612
 #, php-format
 msgid "For example: %s"
 msgstr ""
 
-#: control/configure.php:619
+#: control/configure.php:616
 msgid "Account name"
 msgstr ""
 
-#: control/configure.php:626
+#: control/configure.php:623
 msgid "Account password"
 msgstr ""
 
-#: control/configure.php:633
+#: control/configure.php:630
 msgid "Messages encoding"
 msgstr ""
 
-#: control/configure.php:637
+#: control/configure.php:634
 msgid ""
 "Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted."
 msgstr ""
 
-#: control/configure.php:641
+#: control/configure.php:638
 msgid "Do not encode messages."
 msgstr ""
 
-#: control/configure.php:645
+#: control/configure.php:642
 msgid "Source address for electronic mail (From:)"
 msgstr ""
 
-#: control/configure.php:649
+#: control/configure.php:646
 msgid ""
 "Normalized format, for example: \"John Ford\" &lt;john.ford@acme.com&gt;"
 msgstr ""
 
-#: control/configure.php:653
+#: control/configure.php:650
 msgid "Source address for notifications (From:)"
 msgstr ""
 
-#: control/configure.php:657
+#: control/configure.php:654
 msgid "Use the fixed source address configured above."
 msgstr ""
 
-#: control/configure.php:661
+#: control/configure.php:658
 msgid "Make notifications personal by using surfer address if known."
 msgstr ""
 
-#: control/configure.php:665
+#: control/configure.php:662
 msgid "Maximum of outbound messages per hour"
 msgstr ""
 
-#: control/configure.php:669
+#: control/configure.php:666
 msgid "Messages will not be queued if this is set to 0"
 msgstr ""
 
-#: control/configure.php:673
+#: control/configure.php:670
 msgid "Recipients of system events"
 msgstr ""
 
-#: control/configure.php:677
+#: control/configure.php:674
 msgid "To forward logged events to one or several recipients."
 msgstr ""
 
-#: control/configure.php:681
+#: control/configure.php:678
 msgid "Debug mail services"
 msgstr ""
 
-#: control/configure.php:685
+#: control/configure.php:682
 msgid ""
 "Copy messages in the file temporary/debug.txt. Use this option only for "
 "troubleshooting."
 msgstr ""
 
-#: control/configure.php:699
+#: control/configure.php:696
 #, php-format
 msgid "Check %s to manage and preview all available styles."
 msgstr ""
 
-#: control/configure.php:699
+#: control/configure.php:696
 msgid "the index page of skins"
 msgstr ""
 
-#: control/configure.php:734
+#: control/configure.php:731
 msgid "Database"
 msgstr ""
 
-#: control/configure.php:735 control/index.php:894
+#: control/configure.php:732 control/index.php:894
 msgid "System"
 msgstr ""
 
-#: control/configure.php:736
+#: control/configure.php:733
 msgid "Network"
 msgstr ""
 
-#: control/configure.php:737
+#: control/configure.php:734
 msgid "Mail"
 msgstr ""
 
-#: control/configure.php:738
+#: control/configure.php:735
 msgid "Skin"
 msgstr ""
 
-#: control/configure.php:750 control/import.php:349 control/populate.php:158
+#: control/configure.php:747 control/import.php:349 control/populate.php:158
 #: control/virtual.php:143
 msgid "Submit"
 msgstr ""
 
-#: control/configure.php:758 control/configure.php:777 control/index.php:242
+#: control/configure.php:755 control/configure.php:774 control/index.php:242
 msgid "Themes"
 msgstr ""
 
-#: control/configure.php:897
+#: control/configure.php:892
 msgid ""
 "ERROR: Unsuccessful connection to the database. Please check lines below and "
 "<a href=\"configure.php\">configure again</a>."
 msgstr ""
 
-#: control/configure.php:902 control/htaccess/index.php:72
+#: control/configure.php:897 control/htaccess/index.php:72
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: control/configure.php:905 control/switch.php:111
+#: control/configure.php:900 control/switch.php:111
 #: control/htaccess/index.php:75
 #, php-format
 msgid ""
@@ -771,41 +771,41 @@ msgid ""
 "by yourself in file %s."
 msgstr ""
 
-#: control/configure.php:910 control/htaccess/index.php:80
+#: control/configure.php:905 control/htaccess/index.php:80
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: control/configure.php:914 control/populate.php:205 control/scan.php:460
+#: control/configure.php:909 control/populate.php:205 control/scan.php:460
 #: control/setup.php:154
 msgid ""
 "Review provided information and go to the bottom of the page to move forward."
 msgstr ""
 
-#: control/configure.php:923 control/scan.php:756
+#: control/configure.php:918 control/scan.php:756
 #: control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: control/configure.php:930 control/index.php:279 control/switch.php:114
+#: control/configure.php:925 control/index.php:279 control/switch.php:114
 #: control/virtual.php:189
 msgid "Configuration"
 msgstr ""
 
-#: control/configure.php:967 control/index.php:145
+#: control/configure.php:962 control/index.php:145
 msgid "Look for software extensions"
 msgstr ""
 
-#: control/configure.php:978
+#: control/configure.php:973
 msgid "Next step"
 msgstr ""
 
-#: control/configure.php:988 control/htaccess/index.php:92
+#: control/configure.php:983 control/htaccess/index.php:92
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: control/configure.php:991 control/virtual.php:196 control/virtual.php:221
+#: control/configure.php:986 control/virtual.php:196 control/virtual.php:221
 #: control/htaccess/index.php:95
 msgid "Configure again"
 msgstr ""
@@ -1409,7 +1409,7 @@ msgstr ""
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr ""
 
-#: control/index.php:869 control/purge.php:68
+#: control/index.php:869 control/purge.php:70
 msgid "Purge"
 msgstr ""
 
@@ -2172,121 +2172,131 @@ msgstr ""
 msgid "Launch the Content Assistant again"
 msgstr ""
 
-#: control/purge.php:97 control/purge.php:138 control/purge.php:180
-#: control/purge.php:346
+#: control/purge.php:99 control/purge.php:140 control/purge.php:182
+#: control/purge.php:348
 #, php-format
 msgid "Deleting %s"
 msgstr ""
 
-#: control/purge.php:208
+#: control/purge.php:210
 msgid "Deleting agents data..."
 msgstr ""
 
-#: control/purge.php:221 control/purge.php:241 control/purge.php:259
-#: control/purge.php:276 control/purge.php:295 control/purge.php:312
-#: control/purge.php:329 control/purge.php:363 control/purge.php:385
-#: control/purge.php:404 control/purge.php:423
+#: control/purge.php:223 control/purge.php:243 control/purge.php:261
+#: control/purge.php:278 control/purge.php:297 control/purge.php:314
+#: control/purge.php:331 control/purge.php:365 control/purge.php:387
+#: control/purge.php:406 control/purge.php:425 control/purge.php:444
 msgid "Purge again"
 msgstr ""
 
-#: control/purge.php:227
+#: control/purge.php:229
 msgid "Deleting previous versions of scripts..."
 msgstr ""
 
-#: control/purge.php:247
+#: control/purge.php:249
 msgid "Deleting all cached items..."
 msgstr ""
 
-#: control/purge.php:265
+#: control/purge.php:267
 msgid "Deleting debug data..."
 msgstr ""
 
-#: control/purge.php:282
+#: control/purge.php:284
 msgid "Deleting links received from newsfeeds..."
 msgstr ""
 
-#: control/purge.php:301
+#: control/purge.php:303
 msgid "Deleting log data..."
 msgstr ""
 
-#: control/purge.php:318
+#: control/purge.php:320
 msgid "Recovering overhead space from the database..."
 msgstr ""
 
-#: control/purge.php:336
+#: control/purge.php:338
 msgid "Deleting the documentation pages..."
 msgstr ""
 
-#: control/purge.php:344
+#: control/purge.php:346
 msgid "Deleting the reference repository..."
 msgstr ""
 
-#: control/purge.php:370
+#: control/purge.php:372
 msgid "Deleting staging files..."
 msgstr ""
 
-#: control/purge.php:391
+#: control/purge.php:393
 msgid "Deleting referall data..."
 msgstr ""
 
-#: control/purge.php:410
+#: control/purge.php:412
 msgid "Deleting scripts data..."
 msgstr ""
 
-#: control/purge.php:436
+#: control/purge.php:431
+msgid "Deleting old versions..."
+msgstr ""
+
+#: control/purge.php:457
 msgid "Purge the server cache."
 msgstr ""
 
-#: control/purge.php:439
+#: control/purge.php:460
 msgid "Delete all files with the suffix .bak."
 msgstr ""
 
-#: control/purge.php:443
+#: control/purge.php:464
 msgid "Delete files staged during software update."
 msgstr ""
 
-#: control/purge.php:447
+#: control/purge.php:468
 msgid "Delete file temporary/debug.txt to purge debug data."
 msgstr ""
 
-#: control/purge.php:450
+#: control/purge.php:471
 msgid ""
 "Purge links received via newsfeeds. These will be recreated progressively "
 "during future feeding."
 msgstr ""
 
-#: control/purge.php:453
+#: control/purge.php:474
 #, php-format
 msgid ""
 "Delete all referrals from the database. These will be recreated "
 "progressively during future browsing. You may prefer to %s."
 msgstr ""
 
-#: control/purge.php:453
+#: control/purge.php:474
 msgid "check referrals"
 msgstr ""
 
-#: control/purge.php:456
+#: control/purge.php:477
 msgid ""
 "Purge script performance data from the database. These will be recreated "
 "progressively during future browsing."
 msgstr ""
 
-#: control/purge.php:460
+#: control/purge.php:481
 msgid "Delete file temporary/log.txt to purge events data."
 msgstr ""
 
-#: control/purge.php:463
+#: control/purge.php:484
 msgid "Recover overhead disk space from the database."
 msgstr ""
 
-#: control/purge.php:467
+#: control/purge.php:487
+msgid ""
+"Delete versioning information saved more than six months ago. Preserve "
+"recent versions."
+msgstr ""
+
+#: control/purge.php:491
 msgid ""
 "Delete the repository of reference scripts and related documentation. This "
 "can be rebuild from the scripts index page."
 msgstr ""
 
-#: control/purge.php:470
+#: control/purge.php:494
 msgid "Start"
 msgstr ""
 
