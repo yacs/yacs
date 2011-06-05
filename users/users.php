@@ -1246,7 +1246,7 @@ Class Users {
 	/**
 	 * get the id of one user knowing its name or mail address
 	 *
-	 * @param string the name looked for
+	 * @param string the name looked for, or a mail address, or a complex RFC 822 recipient address
 	 * @return array either the found profile, or NULL
 	 */
 	function lookup($name) {
@@ -1259,15 +1259,64 @@ Class Users {
 		// guess a shadow profile
 		$user = array();
 
-		// we have a valid e-mail address
-		if(preg_match('/(\w+)@.*/', $name, $matches)) {
-			$user['email'] = $name;
-			$user['nick_name'] = $matches[1];
-			$user['full_name'] = $matches[1];
+		// analyze a RFC 822 recipient address: foo@acme.com or "John Foo" <foo@acme.com>
+		$index_maximum = strlen($name);
+		$quoted = FALSE;
+		$head = $dot = $middle = $tail = 0;
+		for($index = 0; $index < $index_maximum; $index++) {
 
-		// just a name
-		} else
-			$user['nick_name'] = $name;
+			// start quoted string
+			if(!$quoted && ($name[$index] == '"'))
+				$quoted = TRUE;
+
+			// end of quoted string
+			elseif($quoted && ($name[$index] == '"'))
+				$quoted = FALSE;
+
+			// start of mail address
+			elseif(!$quoted && ($name[$index] == '<') && !$head)
+				$head = $index;
+
+			// dot between names
+			elseif(!$quoted && ($name[$index] == '.') && !$dot && !$middle)
+				$dot = $index;
+
+			// middle of mail address
+			elseif(!$quoted && ($name[$index] == '@') && !$middle)
+				$middle = $index;
+
+			// end of mail address
+			elseif(!$quoted && ($name[$index] == '>') && !$tail)
+				$tail = $index;
+
+		}
+
+		// we don't create a profile if there is no e-mail address
+		if(!$middle)
+			return NULL;
+
+		// complex case: "John Foo" <foo@acme.com>
+		if($head && ($tail > $head+1)) {
+			$user['email'] = substr($name, $head+1, $tail-$head-1);
+			$user['full_name'] = trim(substr($name, 0, $head), ' "');
+			if($dot > $head)
+				$user['nick_name'] = substr($name, $head+1, $dot-$head-1);
+			else
+				$user['nick_name'] = substr($name, $head+1, $middle-$head-1);
+
+		// just a recipient address: foo@acme.com
+		} else {
+			$user['email'] = $name;
+			$user['full_name'] = substr($name, 0, $middle);
+			if($dot)
+				$user['nick_name'] = substr($name, 0, $dot);
+			else
+				$user['nick_name'] = substr($name, 0, $middle);
+		}
+
+		// the e-mail address already exists
+		if($item =& Users::get($user['email']))
+			return $item;
 
 		// add a random number of 4 digits to make nick name as unique as possible
 		$pool = '123456789';
