@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 21:58+0200\n"
+"POT-Creation-Date: 2011-06-05 19:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -472,8 +472,8 @@ msgid "Generating script documentation, please wait..."
 msgstr ""
 
 #: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
-#: scripts/scripts.php:141 scripts/scripts.php:147 scripts/scripts.php:179
-#: scripts/scripts.php:186 scripts/scripts.php:640 scripts/scripts.php:646
+#: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
+#: scripts/scripts.php:219 scripts/scripts.php:673 scripts/scripts.php:679
 #: scripts/stage.php:174 scripts/stage.php:303 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
@@ -499,7 +499,7 @@ msgstr[1] ""
 msgid "No script has been executed"
 msgstr ""
 
-#: scripts/scripts.php:161
+#: scripts/scripts.php:194
 msgid "Delta"
 msgstr ""
 
