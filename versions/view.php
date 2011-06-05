@@ -144,7 +144,7 @@ if(!isset($item['id'])) {
 
 	// back to the anchor page
 	$links = array();
-	if((is_object($anchor) && $anchor->is_assigned()))
+	if((is_object($anchor) && (Surfer::is_associate() || $anchor->is_assigned())))
 		$links[] = Skin::build_link(Versions::get_url($anchor->get_reference(), 'list'), i18n::s('Versions'), 'button');
 	if($item['id'] && (Surfer::is_associate()
 		|| (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())))
