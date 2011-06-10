@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-07 23:11+0100\n"
-"PO-Revision-Date: 2011-01-25 00:24+0100\n"
+"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"PO-Revision-Date: 2011-05-17 23:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -199,54 +199,54 @@ msgstr "Dernière modification"
 msgid "Related items"
 msgstr "Eléments associés"
 
-#: shared/codes.php:1533
+#: shared/codes.php:1525
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d personne identifiée a suivi le lien : %s"
 msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
 
-#: shared/codes.php:1536
+#: shared/codes.php:1528
 msgid "No authenticated person has used this link yet"
 msgstr "Aucune personne authentifiée n'a suivi le lien pour l'instant"
 
-#: shared/codes.php:1557
+#: shared/codes.php:1549
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: shared/codes.php:1601
+#: shared/codes.php:1593
 msgid "Access collection"
 msgstr "Voir la collection"
 
-#: shared/codes.php:1662
+#: shared/codes.php:1654
 msgid "Filter"
 msgstr "Filtre"
 
-#: shared/codes.php:1785
+#: shared/codes.php:1777
 msgid "Play in a separate window"
 msgstr "Jouer dans une autre fenêtre"
 
-#: shared/codes.php:2009 shared/codes.php:2223
+#: shared/codes.php:2001 shared/codes.php:2263
 msgid "Browse this map with Freemind"
 msgstr "Charger cette carte dans Freemind"
 
-#: shared/codes.php:2151 shared/codes.php:2163
+#: shared/codes.php:2191 shared/codes.php:2203
 msgid "Full-size"
 msgstr "Pleine page"
 
-#: shared/codes.php:2357
+#: shared/codes.php:2397
 msgid "Your browser does not accept iframes"
 msgstr "Votre navigateur n'accepte pas les iframes"
 
-#: shared/codes.php:2841
+#: shared/codes.php:2881
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: shared/codes.php:2870
+#: shared/codes.php:2910
 msgid "View this decision"
 msgstr "Voir cette décision"
 
-#: shared/codes.php:4377
+#: shared/codes.php:4491
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
@@ -307,28 +307,28 @@ msgstr ""
 msgid "and %d other persons"
 msgstr "et %d autres personnes"
 
-#: shared/mailer.php:302 shared/mailer.php:823 shared/mailer.php:1122
-#: shared/mailer.php:1269
+#: shared/mailer.php:302 shared/mailer.php:841 shared/mailer.php:1166
+#: shared/mailer.php:1313
 msgid "E-mail has not been enabled on this system."
 msgstr "Le courrier électronique n'est pas mis en oeuvre sur ce serveur."
 
-#: shared/mailer.php:828
+#: shared/mailer.php:846
 msgid "Empty sender address"
 msgstr "Pas d'adresse d'émetteur"
 
-#: shared/mailer.php:833 shared/mailer.php:1127
+#: shared/mailer.php:851 shared/mailer.php:1171
 msgid "Empty recipient address"
 msgstr "Pas d'adresse de destination"
 
-#: shared/mailer.php:838 shared/mailer.php:1132
+#: shared/mailer.php:856 shared/mailer.php:1176
 msgid "No subject"
 msgstr "Pas de sujet"
 
-#: shared/mailer.php:843 shared/mailer.php:1137
+#: shared/mailer.php:861 shared/mailer.php:1181
 msgid "No message"
 msgstr "Le corps du message est vide"
 
-#: shared/mailer.php:1261 shared/mailer.php:1263
+#: shared/mailer.php:1305 shared/mailer.php:1307
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr "Erreur pendant l'expédition du message à %s"
@@ -459,32 +459,36 @@ msgstr "Mot de passe perdu"
 msgid "Prove who you are"
 msgstr "Prouver qui vous êtes"
 
-#: shared/surfer.php:599
+#: shared/surfer.php:584
+msgid "Contribute to this page!"
+msgstr "Contribuez à cette page !"
+
+#: shared/surfer.php:604
 msgid "You are allowed to post any XHTML."
 msgstr "Vous pouvez envoyer du XHTML."
 
-#: shared/surfer.php:601
+#: shared/surfer.php:606
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr "Les balises XHTML suivantes sont acceptées : %s"
 
-#: shared/surfer.php:688
+#: shared/surfer.php:693
 msgid "anonymous"
 msgstr "anonyme"
 
-#: shared/surfer.php:704
+#: shared/surfer.php:709
 msgid "My pages"
 msgstr "Mes pages"
 
-#: shared/surfer.php:708
+#: shared/surfer.php:713
 msgid "All pages"
 msgstr "Toutes les pages"
 
-#: shared/surfer.php:771
+#: shared/surfer.php:776
 msgid "Robot stopper"
 msgstr "Anti-robot"
 
-#: shared/surfer.php:772
+#: shared/surfer.php:777
 msgid "Type exactly the following 5 chars:"
 msgstr "Tapez exactement les 5 caractères suivants :"
 

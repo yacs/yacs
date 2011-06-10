@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 21:58+0200\n"
+"POT-Creation-Date: 2011-06-05 19:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
-#: tools/mebeam.php:33 tools/populate.php:113 tools/populate.php:135
+#: tools/koowy.php:33 tools/populate.php:113 tools/populate.php:135
 #: tools/transform.php:29 tools/upload_excel.php:20
 msgid "Tools"
 msgstr ""
@@ -291,12 +291,12 @@ msgid ""
 "you for your patience."
 msgstr ""
 
-#: tools/mebeam.php:36
+#: tools/koowy.php:36
 #, php-format
-msgid "Video session by MeBeam: %s"
+msgid "Video session by koowy: %s"
 msgstr ""
 
-#: tools/mebeam.php:52
+#: tools/koowy.php:52
 #, php-format
 msgid "Share: %s"
 msgstr ""

@@ -90,10 +90,10 @@ if(Surfer::is_crawler()) {
 	$checks = array();
 
 	// ensure we have a minimum version of PHP
-	if(version_compare(phpversion(),'4.3','<')) {
+	if(version_compare(phpversion(),'5.1','<')) {
 
 		// provide instructions
-		Logger::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 4.3. The server runs version %s.'), phpversion()));
+		Logger::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 5.1. The server runs version %s.'), phpversion()));
 
 		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
 
