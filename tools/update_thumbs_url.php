@@ -199,8 +199,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 
-    $context['text'] = '<p>'.i18n::s('This tools correct the urls of thumbnails
-        and icons of pages after having changed "url_to_root" in control panel').'</p>';
+    $context['text'] = '<p>'.i18n::s('This tools correct the urls of thumbnails and icons of pages after having changed "url_to_root" in control panel').'</p>';
 
    // the form to get the former URL to root and start the process
    $context['text'] .= '<form method="post" enctype="multipart/form-data" action="'
