@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-05-28 22:45+0200\n"
 "PO-Revision-Date: 2010-05-12 16:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -493,8 +493,8 @@ msgid "Generating script documentation, please wait..."
 msgstr "Generating script documentation, please wait..."
 
 #: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
-#: scripts/scripts.php:141 scripts/scripts.php:147 scripts/scripts.php:179
-#: scripts/scripts.php:186 scripts/scripts.php:640 scripts/scripts.php:646
+#: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
+#: scripts/scripts.php:219 scripts/scripts.php:673 scripts/scripts.php:679
 #: scripts/stage.php:174 scripts/stage.php:303 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
@@ -520,7 +520,7 @@ msgstr[1] "%d scripts have been executed"
 msgid "No script has been executed"
 msgstr "No script has been executed"
 
-#: scripts/scripts.php:161
+#: scripts/scripts.php:194
 msgid "Delta"
 msgstr "Delta"
 

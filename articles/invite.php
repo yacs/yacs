@@ -159,7 +159,7 @@ if(Surfer::is_crawler()) {
 	// recipient(s) address(es)
 	$to = '';
 	if(isset($_REQUEST['to']))
-		$to = strip_tags($_REQUEST['to']);
+		$to = $_REQUEST['to'];
 	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y')) {
 		if($to)
 			$to .= ', ';

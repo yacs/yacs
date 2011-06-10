@@ -171,7 +171,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$create_query = str_replace('\n', "\n", $create_query);
 
 		// build the table creation query
-		$sql = 'DROP TABLE IF EXISTS '.$table_name.";\n\n"
+		$sql = 'DROP TABLE IF EXISTS `'.$table_name."`;\n\n"
 			.$create_query.";\n\n";
 		if($compressed)
 			gzwrite($handle, $sql);
@@ -183,7 +183,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			continue;
 
 		// read all lines
-		$query = "SELECT * FROM $table_name";
+		$query = 'SELECT * FROM '.$table_name;
 		if(!$result =& SQL::query($query)) {
 			$context['text'] .= Logger::error_pop().BR."\n";
 			continue;
@@ -193,7 +193,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$field_list = '';
 		$index = 0;
 		while($field =& SQL::fetch_field($result)) {
-			$field_list .= $field->name.', ';
+			$field_list .= '`'.$field->name.'`, ';
 
 			$is_numeric = FALSE;
 			switch(strtolower($field->type)) {
@@ -261,7 +261,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		//parse out the table's data and generate the SQL INSERT statements in order to replicate the data itself...
 		while($row = SQL::fetch_row($result)) {
 
-			$sql = 'INSERT INTO '.$table_name.' ('.$field_list.') VALUES (';
+			$sql = 'INSERT INTO `'.$table_name.'` ('.$field_list.') VALUES (';
 
 			for($d=0; $d < count($row); $d++) {
 
