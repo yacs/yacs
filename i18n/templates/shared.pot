@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-13 12:10+0200\n"
+"POT-Creation-Date: 2011-06-10 23:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,54 +194,54 @@ msgstr ""
 msgid "Related items"
 msgstr ""
 
-#: shared/codes.php:1530
+#: shared/codes.php:1532
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/codes.php:1533
+#: shared/codes.php:1535
 msgid "No authenticated person has used this link yet"
 msgstr ""
 
-#: shared/codes.php:1554
+#: shared/codes.php:1556
 msgid "No item has been found."
 msgstr ""
 
-#: shared/codes.php:1598
+#: shared/codes.php:1600
 msgid "Access collection"
 msgstr ""
 
-#: shared/codes.php:1659
+#: shared/codes.php:1661
 msgid "Filter"
 msgstr ""
 
-#: shared/codes.php:1782
+#: shared/codes.php:1784
 msgid "Play in a separate window"
 msgstr ""
 
-#: shared/codes.php:2006 shared/codes.php:2220
+#: shared/codes.php:2008 shared/codes.php:2222
 msgid "Browse this map with Freemind"
 msgstr ""
 
-#: shared/codes.php:2148 shared/codes.php:2160
+#: shared/codes.php:2150 shared/codes.php:2162
 msgid "Full-size"
 msgstr ""
 
-#: shared/codes.php:2354
+#: shared/codes.php:2356
 msgid "Your browser does not accept iframes"
 msgstr ""
 
-#: shared/codes.php:2838
+#: shared/codes.php:2840
 msgid "View this comment"
 msgstr ""
 
-#: shared/codes.php:2867
+#: shared/codes.php:2869
 msgid "View this decision"
 msgstr ""
 
-#: shared/codes.php:4373
+#: shared/codes.php:4375
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"

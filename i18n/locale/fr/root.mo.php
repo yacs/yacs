@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-04-13 11:36+0200
-PO-Revision-Date: 2011-02-09 10:46+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-06-10 23:00+0200
+PO-Revision-Date: 2011-06-10 23:04+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -100,7 +100,7 @@ $_SESSION['l10n']['fr']['3a0e087384732c0b80e62d2b2098dee6']='Ne pas utiliser d\'
 $_SESSION['l10n']['fr']['ERROR']='ERREUR';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR: Impossible d\'écrire dans le fichier %s. Les paramètres n\'ont pas été sauvegardés.';
 $_SESSION['l10n']['fr']['7d7ea62f4e503771a9c13d6802bf67cf']='ERREUR : YACS ne peut pas créer le fichier parameters/switch.on pour activer le serveur.';
-$_SESSION['l10n']['fr']['efccd6e2613a9f368b12ee73c70c5067']='ERREUR : YACS requière la version 4.3 de PHP au minimum. Actuellement, le serveur exécute la version %s.';
+$_SESSION['l10n']['fr']['5314230a754f1821e18d7b25d95be106']='ERREUR : YACS requière la version 5.1 de PHP au minimum. Actuellement, le serveur exécute la version %s.';
 $_SESSION['l10n']['fr']['6700b538adb78116b33038d305a2e0a1']='ERREUR : YACS requière l\'extension PHP MySQL.';
 $_SESSION['l10n']['fr']['8e8f34af585e3692592dcfee1549e445']='ERREUR : YACS requière l\'extension PHP XML.';
 $_SESSION['l10n']['fr']['Extended search']='Recherche étendue';

@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-04-13 11:36+0200
-PO-Revision-Date: 2011-04-07 21:56+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-06-10 23:00+0200
+PO-Revision-Date: 2011-06-10 23:05+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8

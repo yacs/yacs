@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-04-13 11:36+0200
-PO-Revision-Date: 2011-04-07 21:57+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-06-10 23:00+0200
+PO-Revision-Date: 2011-06-10 23:07+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -181,7 +181,7 @@ $_SESSION['l10n']['fr']['3efa475535a405bddcd6869c96df5536']='Supprimer le fichie
 $_SESSION['l10n']['fr']['14c8caaf14b958b24a660726cdf697a7']='Effacer les fichiers et les images associés au contenu précédent de la base de données';
 $_SESSION['l10n']['fr']['5d550c63ac22681e216bff41ec398eab']='Supprimer les fichiers temporaires ajoutés pendant les mises à jour.';
 $_SESSION['l10n']['fr']['61559f5eeea195c38508efff60e63304']='Effacement des scripts de référence et de la documentation associée. Le référentiel peut être reconstruit depuis la page d\'index des scripts.';
-$_SESSION['l10n']['fr']['776953beed12a1cc83b5f2f0691ac604']='Supprimer les informations de modification de plus de six mois. Conserver les versions plus récentes.';
+$_SESSION['l10n']['fr']['776953beed12a1cc83b5f2f0691ac604']='Suppression des informations de version des pages sauvegardés depuis plus de six moins. Conserve les versions récentes.';
 $_SESSION['l10n']['fr']['Deleting %s']='Effacement de %s';
 $_SESSION['l10n']['fr']['Deleting agents data...']='Suppression des données concernant les agents et navigateurs...';
 $_SESSION['l10n']['fr']['Deleting all cached items...']='Suppression des éléments en cache...';

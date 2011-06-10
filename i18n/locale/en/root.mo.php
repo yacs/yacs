@@ -7,9 +7,9 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-04-13 11:36+0200
-PO-Revision-Date: 2011-02-09 10:41+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-06-10 23:00+0200
+PO-Revision-Date: 2011-06-10 23:04+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -100,7 +100,7 @@ $_SESSION['l10n']['en']['3a0e087384732c0b80e62d2b2098dee6']='Do not use the cove
 $_SESSION['l10n']['en']['ERROR']='ERROR';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['7d7ea62f4e503771a9c13d6802bf67cf']='ERROR: YACS cannot create the file parameters/switch.on to activate the server.';
-$_SESSION['l10n']['en']['efccd6e2613a9f368b12ee73c70c5067']='ERROR: YACS requires at least PHP version 4.3. The server runs version %s.';
+$_SESSION['l10n']['en']['5314230a754f1821e18d7b25d95be106']='ERROR: YACS requires at least PHP version 5.1. The server runs version %s.';
 $_SESSION['l10n']['en']['6700b538adb78116b33038d305a2e0a1']='ERROR: YACS requires the MySQL PHP extension.';
 $_SESSION['l10n']['en']['8e8f34af585e3692592dcfee1549e445']='ERROR: YACS requires the XML PHP extension.';
 $_SESSION['l10n']['en']['Extended search']='Extended search';

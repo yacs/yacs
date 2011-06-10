@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-04-13 11:36+0200
-PO-Revision-Date: 2011-04-13 11:40+0100
+POT-Creation-Date: 2011-06-10 23:00+0200
+PO-Revision-Date: 2011-06-10 23:09+0100
 Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -133,7 +133,7 @@ $_SESSION['l10n']['fr']['37fc18547975eff4ad31cae6f3cd84dd']='Les articles suivan
 $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suivants vont aussi être supprimés.';
 $_SESSION['l10n']['fr']['6ee252c696702812c3725d02d8e2db2e']='Si vous continuez, les éléments suivants seront aussi dupliqués dans la base de données.';
 $_SESSION['l10n']['fr']['249917e69d872d7544b88e2a45be217e']='Les liens suivants ont été analysés :';
-$_SESSION['l10n']['fr']['40caca4c87ecd266518fa9603bf57903']='Les liens suivants ont été évité :';
+$_SESSION['l10n']['fr']['40caca4c87ecd266518fa9603bf57903']='Les liens suivants ont été évités :';
 $_SESSION['l10n']['fr']['1c14dc437619a440504b3de15bae60fc']='Pour les pages %s ; par défaut égal à %s.';
 $_SESSION['l10n']['fr']['37a90ec0846cd10697f270988fd76178']='Forcer la publication des nouvelles pages';
 $_SESSION['l10n']['fr']['Forget it']='Aucun intérêt';
