@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-10 15:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -71,8 +70,8 @@ msgstr ""
 #: behaviors/index.php:55
 #, php-format
 msgid ""
-"For example, if you want to apply the behavior <code>foo</code>, go to the "
-"%s , and select a target section, or add a new one."
+"For example, if you want to apply the behavior <code>foo</code>, go to the %"
+"s , and select a target section, or add a new one."
 msgstr ""
 
 #: behaviors/index.php:55

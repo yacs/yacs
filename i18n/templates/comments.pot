@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-10 15:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -390,26 +389,11 @@ msgstr[1] ""
 msgid "Recent pages"
 msgstr ""
 
-#: comments/layout_comments.php:54
 #: comments/layout_comments_as_boxesandarrows.php:54
 #: comments/layout_comments_as_daily.php:86
 #: comments/layout_comments_as_jive.php:147
-#: comments/layout_comments_as_yabb.php:173
+#: comments/layout_comments_as_yabb.php:173 comments/layout_comments.php:54
 msgid "View this comment"
-msgstr ""
-
-#: comments/layout_comments.php:72
-#: comments/layout_comments_as_boxesandarrows.php:102
-#: comments/layout_comments_as_manual.php:82
-#: comments/layout_comments_as_wiki.php:82
-msgid "edit"
-msgstr ""
-
-#: comments/layout_comments.php:73
-#: comments/layout_comments_as_boxesandarrows.php:105
-#: comments/layout_comments_as_manual.php:83
-#: comments/layout_comments_as_wiki.php:83
-msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_boxesandarrows.php:82
@@ -426,6 +410,18 @@ msgstr ""
 
 #: comments/layout_comments_as_boxesandarrows.php:95
 msgid "quote"
+msgstr ""
+
+#: comments/layout_comments_as_boxesandarrows.php:102
+#: comments/layout_comments_as_manual.php:82
+#: comments/layout_comments_as_wiki.php:82 comments/layout_comments.php:72
+msgid "edit"
+msgstr ""
+
+#: comments/layout_comments_as_boxesandarrows.php:105
+#: comments/layout_comments_as_manual.php:83
+#: comments/layout_comments_as_wiki.php:83 comments/layout_comments.php:73
+msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_daily.php:104

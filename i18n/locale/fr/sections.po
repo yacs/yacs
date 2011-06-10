@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-22 23:57+0200\n"
-"PO-Revision-Date: 2011-05-23 23:44+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2011-06-10 15:19+0200\n"
+"PO-Revision-Date: 2011-06-10 15:21+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -66,8 +66,8 @@ msgstr "Maintenance"
 #: sections/print.php:63
 #: sections/select.php:53
 #: sections/select.php:63
-#: sections/view.php:345
 #: sections/view_as_freemind.php:71
+#: sections/view.php:345
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération."
 
@@ -127,7 +127,7 @@ msgstr "Commencer"
 #: sections/section.php:1267
 #: sections/section.php:1282
 #: sections/section.php:1299
-#: sections/section.php:1371
+#: sections/section.php:1379
 #: sections/view.php:518
 #: sections/view.php:526
 #: sections/view.php:535
@@ -182,8 +182,8 @@ msgstr "modifié par %s %s"
 #: sections/delete.php:174
 #: sections/duplicate.php:205
 #: sections/layout_sections_as_manage.php:175
-#: sections/view.php:549
 #: sections/view_as_tabs.php:113
+#: sections/view.php:549
 msgid "hits"
 msgstr "lectures"
 
@@ -240,8 +240,6 @@ msgstr "Que voulez-vous faire à présent ?"
 #: sections/duplicate.php:130
 #: sections/edit.php:233
 #: sections/edit.php:286
-#: sections/layout_sections.php:193
-#: sections/layout_sections.php:217
 #: sections/layout_sections_as_accordion.php:200
 #: sections/layout_sections_as_comma.php:86
 #: sections/layout_sections_as_compact.php:86
@@ -252,9 +250,11 @@ msgstr "Que voulez-vous faire à présent ?"
 #: sections/layout_sections_as_slashdot.php:92
 #: sections/layout_sections_as_slashdot.php:170
 #: sections/layout_sections_as_titles.php:61
-#: sections/layout_sections_as_yabb.php:78
+#: sections/layout_sections_as_yabb.php:84
 #: sections/layout_sections_as_yahoo.php:241
 #: sections/layout_sections_as_yahoo.php:260
+#: sections/layout_sections.php:193
+#: sections/layout_sections.php:217
 #: sections/manage.php:299
 #: sections/manage.php:321
 #: sections/manage.php:405
@@ -270,18 +270,18 @@ msgstr "Que voulez-vous faire à présent ?"
 #: sections/manage.php:937
 #: sections/manage.php:973
 #: sections/manage.php:1013
+#: sections/view_as_tabs.php:254
+#: sections/view_as_tabs.php:291
 #: sections/view.php:670
 #: sections/view.php:701
 #: sections/view.php:1068
 #: sections/view.php:1105
-#: sections/view_as_tabs.php:254
-#: sections/view_as_tabs.php:291
 msgid "View the section"
 msgstr "Voir la section"
 
 #: sections/duplicate.php:131
-#: sections/view.php:1776
 #: sections/view_as_tabs.php:1020
+#: sections/view.php:1776
 msgid "Edit this section"
 msgstr "Modifier cette section"
 
@@ -317,10 +317,10 @@ msgstr "Modifier : %s"
 
 #: sections/edit.php:104
 #: sections/index.php:184
-#: sections/view.php:1634
-#: sections/view.php:1743
 #: sections/view_as_tabs.php:632
 #: sections/view_as_tabs.php:987
+#: sections/view.php:1634
+#: sections/view.php:1743
 msgid "Add a section"
 msgstr "Ajouter une section"
 
@@ -332,17 +332,17 @@ msgstr "Personnes notifiées"
 #: sections/edit.php:235
 #: sections/edit.php:290
 #: sections/new.php:288
-#: sections/view.php:1397
-#: sections/view.php:1755
 #: sections/view_as_tabs.php:760
 #: sections/view_as_tabs.php:999
+#: sections/view.php:1397
+#: sections/view.php:1755
 msgid "Upload a file"
 msgstr "Ajouter un fichier"
 
 #: sections/edit.php:240
 #: sections/section.php:1267
 #: sections/section.php:1299
-#: sections/section.php:1371
+#: sections/section.php:1379
 msgid "Contribution"
 msgstr "Contribution"
 
@@ -355,17 +355,17 @@ msgstr "Merci de contrôler soigneusement la nouvelle page, et de corriger les e
 #: sections/edit.php:712
 #: sections/edit.php:917
 #: sections/new.php:286
-#: sections/view.php:1767
 #: sections/view_as_tabs.php:1011
+#: sections/view.php:1767
 msgid "Add an image"
 msgstr "Ajouter une image"
 
 #: sections/edit.php:292
 #: sections/new.php:290
-#: sections/view.php:1554
-#: sections/view.php:1761
 #: sections/view_as_tabs.php:809
 #: sections/view_as_tabs.php:1005
+#: sections/view.php:1554
+#: sections/view.php:1761
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
@@ -646,8 +646,8 @@ msgstr "Inséré vers le bas des pages associées."
 
 #: sections/edit.php:535
 #: sections/manage.php:1145
-#: sections/view.php:1023
 #: sections/view_as_tabs.php:220
+#: sections/view.php:1023
 msgid "Pages"
 msgstr "Articles"
 
@@ -756,8 +756,8 @@ msgstr "Ajouter un fichier"
 
 #: sections/edit.php:729
 #: sections/print.php:248
-#: sections/view.php:1406
 #: sections/view_as_tabs.php:769
+#: sections/view.php:1406
 msgid "Files"
 msgstr "Fichiers"
 
@@ -783,8 +783,8 @@ msgstr "Ressources"
 
 #: sections/edit.php:769
 #: sections/layout_sections_as_rights.php:177
-#: sections/view.php:518
 #: sections/view_as_tabs.php:923
+#: sections/view.php:518
 msgid "Owner"
 msgstr "Propriétaire"
 
@@ -1170,7 +1170,6 @@ msgid "Freemind"
 msgstr "Freemind"
 
 #: sections/freemind.php:167
-#: sections/layout_sections.php:123
 #: sections/layout_sections_as_accordion.php:123
 #: sections/layout_sections_as_folded.php:110
 #: sections/layout_sections_as_freemind.php:148
@@ -1180,9 +1179,10 @@ msgstr "Freemind"
 #: sections/layout_sections_as_simple.php:92
 #: sections/layout_sections_as_slashdot.php:158
 #: sections/layout_sections_as_yahoo.php:158
+#: sections/layout_sections.php:123
 #: sections/select.php:164
-#: sections/view.php:1371
 #: sections/view_as_tabs.php:734
+#: sections/view.php:1371
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -1190,7 +1190,6 @@ msgstr[0] "%d fichier"
 msgstr[1] "%d fichiers"
 
 #: sections/freemind.php:171
-#: sections/layout_sections.php:167
 #: sections/layout_sections_as_accordion.php:140
 #: sections/layout_sections_as_folded.php:127
 #: sections/layout_sections_as_freemind.php:152
@@ -1199,6 +1198,7 @@ msgstr[1] "%d fichiers"
 #: sections/layout_sections_as_select.php:141
 #: sections/layout_sections_as_slashdot.php:162
 #: sections/layout_sections_as_yahoo.php:202
+#: sections/layout_sections.php:167
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -1206,7 +1206,6 @@ msgstr[0] "%d commentaire"
 msgstr[1] "%d commentaires"
 
 #: sections/freemind.php:175
-#: sections/layout_sections.php:145
 #: sections/layout_sections_as_accordion.php:162
 #: sections/layout_sections_as_folded.php:149
 #: sections/layout_sections_as_freemind.php:156
@@ -1215,9 +1214,10 @@ msgstr[1] "%d commentaires"
 #: sections/layout_sections_as_select.php:137
 #: sections/layout_sections_as_simple.php:96
 #: sections/layout_sections_as_yahoo.php:180
+#: sections/layout_sections.php:145
 #: sections/select.php:168
-#: sections/view.php:1528
 #: sections/view_as_tabs.php:783
+#: sections/view.php:1528
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -1234,8 +1234,8 @@ msgstr "sections"
 
 #: sections/index.php:166
 #: sections/sections.php:1284
-#: sections/view.php:1685
 #: sections/view_as_tabs.php:681
+#: sections/view.php:1685
 msgid "Other sections"
 msgstr "Autres sections"
 
@@ -1325,8 +1325,8 @@ msgstr "Retour à la page principale"
 
 #: sections/invite.php:294
 #: sections/invite.php:331
-#: sections/view.php:730
 #: sections/view_as_tabs.php:902
+#: sections/view.php:730
 msgid "Invite participants"
 msgstr "Inviter des participants"
 
@@ -1416,7 +1416,6 @@ msgstr "Le corps du message ne peut pas être vide."
 msgid "Recipient addresses are used only once, to send your message, and are not stored afterwards."
 msgstr "Les adresses indiquées sont utilisées une seule fois, pour l'envoi des messages, et ne sont pas conservées par la suite."
 
-#: sections/layout_sections.php:97
 #: sections/layout_sections_as_accordion.php:101
 #: sections/layout_sections_as_folded.php:88
 #: sections/layout_sections_as_freemind.php:119
@@ -1426,17 +1425,17 @@ msgstr "Les adresses indiquées sont utilisées une seule fois, pour l'envoi des
 #: sections/layout_sections_as_simple.php:88
 #: sections/layout_sections_as_yahoo.php:103
 #: sections/layout_sections_as_yahoo.php:105
+#: sections/layout_sections.php:97
 #: sections/manage.php:1130
 #: sections/select.php:160
-#: sections/view.php:1180
 #: sections/view_as_tabs.php:358
+#: sections/view.php:1180
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: sections/layout_sections.php:171
 #: sections/layout_sections_as_accordion.php:180
 #: sections/layout_sections_as_folded.php:167
 #: sections/layout_sections_as_freemind.php:115
@@ -1445,37 +1444,25 @@ msgstr[1] "%d pages"
 #: sections/layout_sections_as_simple.php:84
 #: sections/layout_sections_as_yahoo.php:209
 #: sections/layout_sections_as_yahoo.php:211
+#: sections/layout_sections.php:171
 #: sections/manage.php:1239
 #: sections/select.php:156
-#: sections/view.php:1618
 #: sections/view_as_tabs.php:616
+#: sections/view.php:1618
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
 msgstr[0] "%d section"
 msgstr[1] "%d sections"
 
-#: sections/layout_sections.php:193
-#: sections/layout_sections_as_yahoo.php:241
-msgid "More"
-msgstr "Suite"
-
-#: sections/layout_sections.php:201
-#: sections/layout_sections_as_rights.php:138
-#: sections/layout_sections_as_simple.php:100
-#: sections/select.php:172
-#, php-format
-msgid "in %s"
-msgstr "dans %s"
-
 #: sections/layout_sections_as_accordion.php:196
 #: sections/layout_sections_as_folded.php:183
 #: sections/layout_sections_as_freemind.php:127
 #: sections/layout_sections_as_freemind.php:184
 #: sections/layout_sections_as_inline.php:152
+#: sections/view_as_tabs.php:278
 #: sections/view.php:692
 #: sections/view.php:1092
-#: sections/view_as_tabs.php:278
 msgid "More pages"
 msgstr "Autres pages"
 
@@ -1492,7 +1479,7 @@ msgid "Last active"
 msgstr "Dernière action"
 
 #: sections/layout_sections_as_jive.php:157
-#: sections/layout_sections_as_yabb.php:169
+#: sections/layout_sections_as_yabb.php:175
 #: sections/sections.php:483
 msgid "edited"
 msgstr "modifié"
@@ -1503,15 +1490,15 @@ msgid "%d threads"
 msgstr "%d discussions"
 
 #: sections/layout_sections_as_jive.php:189
-#: sections/view.php:1201
-#: sections/view.php:1727
 #: sections/view_as_tabs.php:379
 #: sections/view_as_tabs.php:971
+#: sections/view.php:1201
+#: sections/view.php:1727
 msgid "Add a page"
 msgstr "Ajouter une page"
 
 #: sections/layout_sections_as_jive.php:200
-#: sections/layout_sections_as_yabb.php:111
+#: sections/layout_sections_as_yabb.php:117
 #, php-format
 msgid "Moderator: %s"
 msgid_plural "Moderators: %s"
@@ -1519,7 +1506,7 @@ msgstr[0] "Modérateur : %s"
 msgstr[1] "Modérateurs : %s"
 
 #: sections/layout_sections_as_jive.php:204
-#: sections/layout_sections_as_yabb.php:115
+#: sections/layout_sections_as_yabb.php:121
 #, php-format
 msgid "Child board: %s"
 msgid_plural "Child boards: %s"
@@ -1566,6 +1553,14 @@ msgstr "Tous/aucun"
 msgid "View the page"
 msgstr "Voir la page"
 
+#: sections/layout_sections_as_rights.php:138
+#: sections/layout_sections_as_simple.php:100
+#: sections/layout_sections.php:201
+#: sections/select.php:172
+#, php-format
+msgid "in %s"
+msgstr "dans %s"
+
 #: sections/layout_sections_as_rights.php:177
 #: sections/view_as_tabs.php:923
 msgid "Watcher"
@@ -1588,32 +1583,37 @@ msgstr "Lire la suite"
 msgid "Discuss"
 msgstr "Commenter"
 
-#: sections/layout_sections_as_yabb.php:50
-#: sections/layout_sections_as_yabb.php:64
+#: sections/layout_sections_as_yabb.php:65
+#: sections/layout_sections_as_yabb.php:68
 msgid "Board"
 msgstr "Catégorie"
 
-#: sections/layout_sections_as_yabb.php:50
-#: sections/layout_sections_as_yabb.php:64
+#: sections/layout_sections_as_yabb.php:65
+#: sections/layout_sections_as_yabb.php:68
 msgid "Topics"
 msgstr "Sujets"
 
-#: sections/layout_sections_as_yabb.php:50
-#: sections/layout_sections_as_yabb.php:64
+#: sections/layout_sections_as_yabb.php:65
+#: sections/layout_sections_as_yabb.php:68
 msgid "Last post"
 msgstr "Dernier envoi"
 
-#: sections/layout_sections_as_yabb.php:172
-#: sections/section.php:1390
+#: sections/layout_sections_as_yabb.php:178
+#: sections/section.php:1398
 #, php-format
 msgid "%s by %s"
 msgstr "%s par %s"
 
+#: sections/layout_sections_as_yahoo.php:241
+#: sections/layout_sections.php:193
+msgid "More"
+msgstr "Suite"
+
 #: sections/lock.php:55
 #: sections/manage.php:1096
 #: sections/manage.php:1205
-#: sections/view.php:1793
 #: sections/view_as_tabs.php:1037
+#: sections/view.php:1793
 msgid "Lock"
 msgstr "Verrouiller"
 
@@ -1622,8 +1622,8 @@ msgid "Operation has failed."
 msgstr "L'opération a échoué."
 
 #: sections/mail.php:61
-#: sections/view.php:736
 #: sections/view_as_tabs.php:908
+#: sections/view.php:736
 msgid "Notify participants"
 msgstr "Notifier les participants"
 
@@ -1847,8 +1847,8 @@ msgstr "Brouillon"
 
 #: sections/manage.php:1099
 #: sections/manage.php:1208
-#: sections/view.php:1796
 #: sections/view_as_tabs.php:1040
+#: sections/view.php:1796
 msgid "Unlock"
 msgstr "Déverrouiller"
 
@@ -1983,15 +1983,15 @@ msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
 #: sections/new.php:361
 #: sections/print.php:82
-#: sections/view.php:462
 #: sections/view_as_tabs.php:47
+#: sections/view.php:462
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
 #: sections/new.php:365
 #: sections/print.php:86
-#: sections/view.php:466
 #: sections/view_as_tabs.php:51
+#: sections/view.php:466
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
@@ -2026,22 +2026,22 @@ msgid "Readers: %s"
 msgstr "Lecteurs : %s"
 
 #: sections/print.php:103
-#: sections/view.php:510
 #: sections/view_as_tabs.php:95
+#: sections/view.php:510
 #, php-format
 msgid "Section will be activated %s"
 msgstr "Cette section sera activé %s"
 
 #: sections/print.php:107
-#: sections/view.php:514
 #: sections/view_as_tabs.php:99
+#: sections/view.php:514
 #, php-format
 msgid "Section has expired %s"
 msgstr "Cette section a expiré %s"
 
 #: sections/print.php:316
-#: sections/view.php:1563
 #: sections/view_as_tabs.php:818
+#: sections/view.php:1563
 msgid "Links"
 msgstr "Liens"
 
@@ -2054,8 +2054,8 @@ msgid "Notes"
 msgstr "Annotations"
 
 #: sections/section.php:90
-#: sections/view.php:1421
 #: sections/view_as_tabs.php:469
+#: sections/view.php:1421
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -2182,10 +2182,10 @@ msgstr "Annoter cette page"
 
 #: sections/section.php:174
 #: sections/section.php:182
-#: sections/view.php:1497
-#: sections/view.php:1749
 #: sections/view_as_tabs.php:543
 #: sections/view_as_tabs.php:993
+#: sections/view.php:1497
+#: sections/view.php:1749
 msgid "Post a comment"
 msgstr "Ajouter un commentaire"
 
@@ -2251,7 +2251,7 @@ msgid "A page has been submitted by %s"
 msgstr "Une page a été envoyée par %s"
 
 #: sections/section.php:1294
-#: sections/section.php:1366
+#: sections/section.php:1374
 #, php-format
 msgid "Page has been modified by %s"
 msgstr "La page a été modifiée par %s"
@@ -2261,17 +2261,21 @@ msgstr "La page a été modifiée par %s"
 msgid "A file has been uploaded by %s"
 msgstr "Un fichier a été envoyé par %s"
 
-#: sections/section.php:1338
+#: sections/section.php:1343
 #, php-format
-msgid "%s has posted a comment"
-msgstr "%s a posté un commentaire"
+msgid "%s has contributed to %s"
+msgstr "%s a contribué à %s"
 
-#: sections/section.php:1352
+#: sections/section.php:1347
+msgid "Reply"
+msgstr "Répondre"
+
+#: sections/section.php:1360
 #, php-format
 msgid "A section has been created by %s"
 msgstr "Une section a été créée par %s"
 
-#: sections/section.php:1395
+#: sections/section.php:1403
 #, php-format
 msgid "%s in %s"
 msgstr "%s dans %s"
@@ -2287,11 +2291,11 @@ msgid "posted by %s %s"
 msgstr "posté par %s %s"
 
 #: sections/sections.php:703
-#: sections/sections.php:2437
-#: sections/sections.php:2746
-#: sections/sections.php:2901
-#: sections/sections.php:3037
-#: sections/sections.php:3041
+#: sections/sections.php:2438
+#: sections/sections.php:2747
+#: sections/sections.php:2902
+#: sections/sections.php:3038
+#: sections/sections.php:3042
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -2299,8 +2303,8 @@ msgstr "Identifiant inconnu."
 msgid "Top of the content tree"
 msgstr "Sommet de l'arbre de contenu"
 
-#: sections/sections.php:2547
-#: sections/sections.php:2752
+#: sections/sections.php:2548
+#: sections/sections.php:2753
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 
@@ -2330,87 +2334,219 @@ msgstr "propriétaire"
 msgid "unassign"
 msgstr "retirer"
 
-#: sections/view.php:475
 #: sections/view_as_tabs.php:60
+#: sections/view.php:475
 msgid "Is displayed at the parent section page among other extra boxes."
 msgstr "Apparaît sur la page de la section parente parmi les boîtes extra"
 
-#: sections/view.php:477
 #: sections/view_as_tabs.php:62
+#: sections/view.php:477
 msgid "Topmost articles are displayed at the parent section page in distinct extra boxes."
 msgstr "Les premiers articles sont affichés sur la page de la section parente, dans des boîtes extra différentes"
 
-#: sections/view.php:479
 #: sections/view_as_tabs.php:64
+#: sections/view.php:479
 msgid "Is displayed in the middle of the parent section page, among other gadget boxes."
 msgstr "Apparaît au milieu de la page de la section parente, parmi les boîtes gadget"
 
-#: sections/view.php:481
 #: sections/view_as_tabs.php:66
+#: sections/view.php:481
 msgid "First articles are displayed at the parent section page in distinct gadget boxes."
 msgstr "Les premiers articles sont affichés sur la page de la section parente, dans des boîtes gadget distinctes."
 
-#: sections/view.php:483
 #: sections/view_as_tabs.php:68
+#: sections/view.php:483
 msgid "Articles are listed at the parent section page, in the area reserved to flashy news."
 msgstr "Les articles sont listés sur la page de la section parente, dans la zone réservée aux nouvelles"
 
-#: sections/view.php:489
 #: sections/view_as_tabs.php:74
+#: sections/view.php:489
 msgid "Is not publicly listed at the Site Map. Is listed with special sections, but only to associates."
 msgstr "N'apparaît pas sur la carte du site, sauf pour les associés avec les autres sections spéciales"
 
-#: sections/view.php:497
 #: sections/view_as_tabs.php:82
+#: sections/view.php:497
 msgid "Is displayed at the front page, among other extra boxes."
 msgstr "Apparaît sur la page d'accueil,parmi les boîtes extra."
 
-#: sections/view.php:499
 #: sections/view_as_tabs.php:84
+#: sections/view.php:499
 msgid "First articles are displayed at the front page in distinct extra boxes."
 msgstr "Les premiers articles sont affichés sur la page d'accueil, dans les boîtes extra distinctes"
 
-#: sections/view.php:501
 #: sections/view_as_tabs.php:86
+#: sections/view.php:501
 msgid "Is displayed in the middle of the front page, among other gadget boxes."
 msgstr "Apparaît au milieu de la page d'accueil, parmi les boîtes gadget"
 
-#: sections/view.php:503
 #: sections/view_as_tabs.php:88
+#: sections/view.php:503
 msgid "First articles are displayed at the front page in distinct gadget boxes."
 msgstr "Les premiers articles sont affichés sur la page d'accueil, dans des boîtes gadget distinctes"
 
-#: sections/view.php:505
 #: sections/view_as_tabs.php:90
+#: sections/view.php:505
 msgid "Articles are listed at the front page, in the area reserved to recent news."
 msgstr "Les articles sont listé sur la page d'accueil, dans la zone réservée aux dernières nouvelles"
 
-#: sections/view.php:535
-msgid "Watchers"
-msgstr "Observateurs"
-
-#: sections/view.php:557
 #: sections/view_as_tabs.php:121
+#: sections/view.php:557
 msgid "page is locked."
 msgstr "la page est verrouillée."
 
-#: sections/view.php:567
 #: sections/view_as_tabs.php:131
+#: sections/view.php:567
 #, php-format
 msgid "Code to reference this page: %s"
 msgstr "Code pour référencer cette page : %s"
 
-#: sections/view.php:571
 #: sections/view_as_tabs.php:135
+#: sections/view.php:571
 #, php-format
 msgid "Name: %s"
 msgstr "Nom : %s"
 
-#: sections/view.php:574
 #: sections/view_as_tabs.php:138
+#: sections/view.php:574
 #, php-format
 msgid "Shortcut: %s"
 msgstr "Raccourci : %s"
+
+#: sections/view_as_tabs.php:333
+#: sections/view_as_tabs.php:597
+#: sections/view.php:1155
+#: sections/view.php:1271
+#: sections/view.php:1599
+#, php-format
+msgid "Warning: No script exists for the customized layout %s"
+msgstr "Attention : aucun script ne correspond à la mise en page %s"
+
+#: sections/view_as_tabs.php:398
+#: sections/view.php:1223
+msgid "Draft pages"
+msgstr "Pages en cours de préparation"
+
+#: sections/view_as_tabs.php:462
+#: sections/view.php:1349
+msgid "Hidden pages"
+msgstr "Pages masquées"
+
+#: sections/view_as_tabs.php:522
+#: sections/view.php:1476
+#, php-format
+msgid "%d comments"
+msgstr "%d commentaires"
+
+#: sections/view_as_tabs.php:543
+#: sections/view_as_tabs.php:993
+#: sections/view.php:1497
+#: sections/view.php:1749
+msgid "Express yourself, and say what you think."
+msgstr "Exprimez-vous, et partagez votre pensée."
+
+#: sections/view_as_tabs.php:704
+msgid "Information"
+msgstr "Informations"
+
+#: sections/view_as_tabs.php:824
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#: sections/view_as_tabs.php:891
+#, php-format
+msgid "%d participant"
+msgid_plural "%d participants"
+msgstr[0] "%d participant"
+msgstr[1] "%d participants"
+
+#: sections/view_as_tabs.php:896
+#: sections/view.php:772
+msgid "Watch this section"
+msgstr "Surveiller cette section"
+
+#: sections/view_as_tabs.php:914
+#: sections/view.php:742
+msgid "Manage editors"
+msgstr "Gérer les éditeurs"
+
+#: sections/view_as_tabs.php:919
+#: sections/view.php:783
+msgid "Leave this section"
+msgstr "Quitter cette section"
+
+#: sections/view_as_tabs.php:923
+msgid "Person"
+msgstr "Personne"
+
+#: sections/view_as_tabs.php:940
+msgid "Persons"
+msgstr "Personnes"
+
+#: sections/view_as_tabs.php:972
+#: sections/view_as_tabs.php:979
+#: sections/view.php:1728
+#: sections/view.php:1735
+msgid "Add new content to this section"
+msgstr "Ajouter du contenu à cette section"
+
+#: sections/view_as_tabs.php:979
+#: sections/view.php:1735
+msgid "Add a poll"
+msgstr "Ajouter un sondage"
+
+#: sections/view_as_tabs.php:999
+#: sections/view.php:1755
+msgid "Attach related files."
+msgstr "Attacher les fichiers en rapport avec cette page."
+
+#: sections/view_as_tabs.php:1005
+#: sections/view.php:1761
+msgid "Contribute to the web and link to relevant pages."
+msgstr "Participez à l'extension du web et indiquez les autres pages pertinentes."
+
+#: sections/view_as_tabs.php:1011
+#: sections/view.php:1767
+msgid "You can upload a camera shot, a drawing, or another image file."
+msgstr "Vous pouvez télécharger une photo, un dessin ou une image."
+
+#: sections/view_as_tabs.php:1021
+#: sections/view.php:1777
+msgid "Press [e] to edit"
+msgstr "Appuyer sur [e] pour modifier"
+
+#: sections/view_as_tabs.php:1031
+#: sections/view.php:1787
+msgid "Versions"
+msgstr "Versions"
+
+#: sections/view_as_tabs.php:1031
+#: sections/view.php:1787
+msgid "Restore a previous version if necessary"
+msgstr "Restaurer une version précédente si nécessaire"
+
+#: sections/view_as_tabs.php:1045
+#: sections/view.php:1801
+msgid "Delete this section"
+msgstr "Supprimer cette section"
+
+#: sections/view_as_tabs.php:1050
+#: sections/view.php:1806
+msgid "Manage content"
+msgstr "Gérer le contenu"
+
+#: sections/view_as_tabs.php:1050
+#: sections/view.php:1806
+msgid "Bulk operations"
+msgstr "Opérations de masse"
+
+#: sections/view_as_tabs.php:1055
+#: sections/view.php:1812
+msgid "Duplicate this section"
+msgstr "Dupliquer cette section"
+
+#: sections/view.php:535
+msgid "Watchers"
+msgstr "Observateurs"
 
 #: sections/view.php:630
 msgid "In the news"
@@ -2433,11 +2569,6 @@ msgstr "Partager sur Twitter"
 #: sections/view.php:723
 msgid "Share at LinkedIn"
 msgstr "Partager sur LinkedIn"
-
-#: sections/view.php:742
-#: sections/view_as_tabs.php:914
-msgid "Manage editors"
-msgstr "Gérer les éditeurs"
 
 #: sections/view.php:748
 msgid "Reference this page"
@@ -2463,19 +2594,9 @@ msgstr "Partager"
 msgid "Stop notifications"
 msgstr "Arrêter les notifications"
 
-#: sections/view.php:772
-#: sections/view_as_tabs.php:896
-msgid "Watch this section"
-msgstr "Surveiller cette section"
-
 #: sections/view.php:776
 msgid "Manage your watch list"
 msgstr "Gérer votre liste de surveillance"
-
-#: sections/view.php:783
-#: sections/view_as_tabs.php:919
-msgid "Leave this section"
-msgstr "Quitter cette section"
 
 #: sections/view.php:789
 msgid "Recent pages"
@@ -2525,352 +2646,168 @@ msgstr[1] "Vous pouvez mémoriser les liens suivants pour contribuer ici :"
 msgid "Bookmarklets to contribute"
 msgstr "Signets pour contribuer"
 
-#: sections/view.php:1155
-#: sections/view.php:1271
-#: sections/view.php:1599
-#: sections/view_as_tabs.php:333
-#: sections/view_as_tabs.php:597
-#, php-format
-msgid "Warning: No script exists for the customized layout %s"
-msgstr "Attention : aucun script ne correspond à la mise en page %s"
-
-#: sections/view.php:1223
-#: sections/view_as_tabs.php:398
-msgid "Draft pages"
-msgstr "Pages en cours de préparation"
-
-#: sections/view.php:1349
-#: sections/view_as_tabs.php:462
-msgid "Hidden pages"
-msgstr "Pages masquées"
-
-#: sections/view.php:1476
-#: sections/view_as_tabs.php:522
-#, php-format
-msgid "%d comments"
-msgstr "%d commentaires"
-
-#: sections/view.php:1497
-#: sections/view.php:1749
-#: sections/view_as_tabs.php:543
-#: sections/view_as_tabs.php:993
-msgid "Express yourself, and say what you think."
-msgstr "Exprimez-vous, et partagez votre pensée."
-
-#: sections/view.php:1728
-#: sections/view.php:1735
-#: sections/view_as_tabs.php:972
-#: sections/view_as_tabs.php:979
-msgid "Add new content to this section"
-msgstr "Ajouter du contenu à cette section"
-
-#: sections/view.php:1735
-#: sections/view_as_tabs.php:979
-msgid "Add a poll"
-msgstr "Ajouter un sondage"
-
-#: sections/view.php:1755
-#: sections/view_as_tabs.php:999
-msgid "Attach related files."
-msgstr "Attacher les fichiers en rapport avec cette page."
-
-#: sections/view.php:1761
-#: sections/view_as_tabs.php:1005
-msgid "Contribute to the web and link to relevant pages."
-msgstr "Participez à l'extension du web et indiquez les autres pages pertinentes."
-
-#: sections/view.php:1767
-#: sections/view_as_tabs.php:1011
-msgid "You can upload a camera shot, a drawing, or another image file."
-msgstr "Vous pouvez télécharger une photo, un dessin ou une image."
-
-#: sections/view.php:1777
-#: sections/view_as_tabs.php:1021
-msgid "Press [e] to edit"
-msgstr "Appuyer sur [e] pour modifier"
-
-#: sections/view.php:1787
-#: sections/view_as_tabs.php:1031
-msgid "Versions"
-msgstr "Versions"
-
-#: sections/view.php:1787
-#: sections/view_as_tabs.php:1031
-msgid "Restore a previous version if necessary"
-msgstr "Restaurer une version précédente si nécessaire"
-
-#: sections/view.php:1801
-#: sections/view_as_tabs.php:1045
-msgid "Delete this section"
-msgstr "Supprimer cette section"
-
-#: sections/view.php:1806
-#: sections/view_as_tabs.php:1050
-msgid "Manage content"
-msgstr "Gérer le contenu"
-
-#: sections/view.php:1806
-#: sections/view_as_tabs.php:1050
-msgid "Bulk operations"
-msgstr "Opérations de masse"
-
-#: sections/view.php:1812
-#: sections/view_as_tabs.php:1055
-msgid "Duplicate this section"
-msgstr "Dupliquer cette section"
-
 #: sections/view.php:1820
 msgid "Export this section"
 msgstr "Exporter cette section"
 
-#: sections/view_as_tabs.php:704
-msgid "Information"
-msgstr "Informations"
-
-#: sections/view_as_tabs.php:824
-msgid "Attachments"
-msgstr "Pièces jointes"
-
-#: sections/view_as_tabs.php:891
-#, php-format
-msgid "%d participant"
-msgid_plural "%d participants"
-msgstr[0] "%d participant"
-msgstr[1] "%d participants"
-
-#: sections/view_as_tabs.php:923
-msgid "Person"
-msgstr "Personne"
-
-#: sections/view_as_tabs.php:940
-msgid "Persons"
-msgstr "Personnes"
-
+#~ msgid "%s has posted a comment"
+#~ msgstr "%s a posté un commentaire"
 #~ msgid "Add some space for your pages"
 #~ msgstr "Ajouter un espace pour vos pages"
-
 #~ msgid "Modification: %s"
 #~ msgstr "Mise à jour : %s"
-
 #~ msgid "Internal"
 #~ msgstr "Interne"
-
 #~ msgid "Visit %s to get more interesting pages."
 #~ msgstr "Visitez %s pour lire d'autres pages intéressantes."
-
 #~ msgid "%d watcher"
-
 #~ msgid_plural "%d watchers"
 #~ msgstr[0] "%d observateur"
 #~ msgstr[1] "%d observateurs"
-
 #~ msgid "%d editor"
-
 #~ msgid_plural "%d editors"
 #~ msgstr[0] "%d éditeur"
 #~ msgstr[1] "%d éditeurs"
-
 #~ msgid "to manage content"
 #~ msgstr "à gérer le contenu"
-
 #~ msgid "Tags"
 #~ msgstr "Etiquettes"
-
 #~ msgid "Keywords separated by commas"
 #~ msgstr "Mots-clés séparés par des virgules"
-
 #~ msgid "A comma-separated list of keywords"
 #~ msgstr "Une liste de mots-clés, séparés par des virgules"
-
 #~ msgid "Parent is private, and this will be re-enforced anyway"
 #~ msgstr "Le parent est privé, et cette contrainte sera héritée"
-
 #~ msgid "Parent is not public, and this will be re-enforced anyway"
 #~ msgstr "Le parent n'est pas public, et cette contrainte sera héritée"
-
 #~ msgid "Who is allowed to access?"
 #~ msgstr "Quelles sont les personnes autorisées ?"
-
 #~ msgid "Notify my followers."
 #~ msgstr "Alerter mes abonnés."
-
 #~ msgid "List up to %s sub-sections with the following layout:"
 #~ msgstr "Lister jusqu'à %s sous-sections avec la mise en page suivante :"
-
 #~ msgid "Import section content"
 #~ msgstr "Importer du contenu"
-
 #~ msgid "Nothing has been received."
 #~ msgstr "Rien n'a été reçu."
-
 #~ msgid "Possible file attack."
 #~ msgstr "Possibilité d'une attaque sur le fichier."
-
 #~ msgid "Impossible to read %s."
 #~ msgstr "Impossible de lire %s."
-
 #~ msgid "Error while processing %s."
 #~ msgstr "Erreur pendant le traitement de %s."
-
 #~ msgid "Imported page"
 #~ msgstr "Page importée"
-
 #~ msgid "%d files have been extracted."
 #~ msgstr "%d fichiers ont été extraits."
-
 #~ msgid "Nothing has been extracted from %s."
 #~ msgstr "Rien n'a été extrait de %s."
-
 #~ msgid "Impossible to extract files."
 #~ msgstr "Impossible d'extraire les fichiers."
-
 #~ msgid "Congratulations, you have shared new content."
 #~ msgstr "Félicitations, votre contribution a bien été enregistrée."
-
 #~ msgid "Back to the section"
 #~ msgstr "Retour à la section"
-
 #~ msgid ""
 #~ "This script allows you to upload static web pages and to make dynamic "
 #~ "articles in the database."
 #~ msgstr ""
 #~ "Ce script vous permet d'importer des pages statiques dans la base de "
 #~ "données."
-
 #~ msgid "File"
 #~ msgstr "Fichier"
-
 #~ msgid "bytes"
 #~ msgstr "octets"
-
 #~ msgid "Select the file to upload"
 #~ msgstr "Choisissez le fichier à transmettre"
-
 #~ msgid "Prefix separator"
 #~ msgstr "Séparateur de préfixe"
-
 #~ msgid "All characters before this string will be removed"
 #~ msgstr "Tous les caractères avant cette chaîne seront supprimés"
-
 #~ msgid "Suffix separator"
 #~ msgstr "Séparateur de suffixe"
-
 #~ msgid "All characters after this string will be removed"
 #~ msgstr "Tous les caractères après cette chaîne seront supprimés"
-
 #~ msgid "Extend my personal web space"
 #~ msgstr "Etendre mon espace personnel"
-
 #~ msgid "Blogs"
 #~ msgstr "Blogs"
-
 #~ msgid "Content"
 #~ msgstr "Contenu"
-
 #~ msgid "A group space"
 #~ msgstr "Un groupe"
-
 #~ msgid "A blog to share my daily mood, opinions and ideas"
 #~ msgstr "Un blog pour partager mes sentiments, opinions, et idées"
 
 #, fuzzy
 #~ msgid "What's new?"
 #~ msgstr "Quoi de neuf ?"
-
 #~ msgid "Add a group or a blog"
 #~ msgstr "Ajouter un groupe ou un blog"
-
 #~ msgid "Please provide a recipient address."
 #~ msgstr "Merci d'indiquer une adresse de réception."
-
 #~ msgid "Send a message"
 #~ msgstr "Envoyer un message"
-
 #~ msgid "Prefix"
 #~ msgstr "Préfixe"
-
 #~ msgid "Suffix"
 #~ msgstr "Suffixe"
-
 #~ msgid "Upload an image to be displayed at page top"
 #~ msgstr "Envoyer une image à afficher en haut de page"
-
 #~ msgid "Media"
 #~ msgstr "Médias"
-
 #~ msgid "Short link: %s"
 #~ msgstr "Lien court : %s"
-
 #~ msgid "Discussions"
 #~ msgstr "Discussions"
-
 #~ msgid "Click on codes to place images in the page."
 #~ msgstr "Cliquer sur les codes pour placer les images dans la page."
-
 #~ msgid "Use codes to place images in the page."
 #~ msgstr "Utiliser les codes pour placer les images dans la page."
-
 #~ msgid "Page"
 #~ msgstr "Page"
-
 #~ msgid "Dates"
 #~ msgstr "Dates"
-
 #~ msgid ""
 #~ "folded - List sub-sections as folded boxes, with content (one box per "
 #~ "section)."
 #~ msgstr "folded - Construire une boîte pliée par section, avec le contenu."
-
 #~ msgid "Use the following layout:"
 #~ msgstr "Utiliser la mise en page suivante :"
-
 #~ msgid "Do not display articles."
 #~ msgstr "Ne pas afficher les articles"
-
 #~ msgid "Only associates and owners can add content"
 #~ msgstr "Seuls les associés et les propriétaires peuvent ajouter du contenu"
 
 #, fuzzy
 #~ msgid "Embedments"
 #~ msgstr "Commentaires"
-
 #~ msgid "decorated - A decorated list of most recent pages"
 #~ msgstr "decorated - Une liste décorée des articles les plus récents"
-
 #~ msgid "compact - In a compact list, like DMOZ."
 #~ msgstr "compact - Dans une liste compacte, comme DMOZ."
-
 #~ msgid "Following persons are entitled to manage content:"
 #~ msgstr "Les personnes suivantes gèrent le contenu :"
-
 #~ msgid "Following persons are watching this section:"
 #~ msgstr "Les personnes suivantes surveillent cette page :"
-
 #~ msgid "To be notified when new content is added"
 #~ msgstr "Pour être averti des nouveaux ajouts"
-
 #~ msgid "Edit this note"
 #~ msgstr "Modifier cette annotation"
-
 #~ msgid "End of the presentation"
 #~ msgstr "fin de la présentation"
-
 #~ msgid "Back to web browsing"
 #~ msgstr "Retourner à la navigation"
 
 #, fuzzy
 #~ msgid "About: %s"
 #~ msgstr "Annotation : %s"
-
 #~ msgid "and %d other persons"
 #~ msgstr "et %d autres personnes"
-
 #~ msgid "boxesandarrows - Click on titles to read articles"
 #~ msgstr "boxesandarrows - Cliquer sur les titres pour lire les articles"
-
 #~ msgid "Display content as a S5 slideshow"
 #~ msgstr "Afficher le contenu comme une présentation S5"
-
 #~ msgid ""
 #~ "This message has been generated automatically by %s since the new item "
 #~ "has been posted in a web space that is part of your watch list. If you "
@@ -2881,7 +2818,6 @@ msgstr "Personnes"
 #~ "dans un espace web qui fait partie de votre liste de surveillance. Pour "
 #~ "arrêter les alertes automatiques merci de visiter la section suivante, ou "
 #~ "l'une de ses sections parentes, puis cliquer sur le lien Oublier."
-
 #~ msgid ""
 #~ "This message has been generated automatically by %s since the new item "
 #~ "has been posted by a user that is part of your watch list. If you wish to "
@@ -2892,13 +2828,10 @@ msgstr "Personnes"
 #~ "par un utilisateur qui fait partie de votre liste de surveillance. Pour "
 #~ "arrêter les alertes automatiques merci de visiter le profil suivant et de "
 #~ "cliquer sur le lien Déconnecter."
-
 #~ msgid "Click on the following link to read the new comment"
 #~ msgstr "Cliquez sur le lien suivant pour lire le nouveau commentaire"
-
 #~ msgid "A new item has been added to the following section"
 #~ msgstr "Un nouvel élément a été ajouté à la section suivante"
-
 #~ msgid ""
 #~ "Content of this section has been designed as an interactive on-line "
 #~ "presentation. Navigate using the keyboard or a pointing device as usual. "
@@ -2910,344 +2843,245 @@ msgstr "Personnes"
 #~ "dispositif de pointage, comme d'habitude. La lettre C fait apparaître les "
 #~ "contrôles, et la lettre B bascule vers un écran noir ou revient en mode "
 #~ "normal. Basé sur la technologie %s ."
-
 #~ msgid "S5"
 #~ msgstr "S5"
-
 #~ msgid "Play %s"
 #~ msgstr "Jouer %s"
-
 #~ msgid "wiki - A set of editable and extensible pages"
 #~ msgstr "wiki - Des articles éditables et extensibles"
-
 #~ msgid "manual - A hierarchy of article titles"
 #~ msgstr "manual - Une hiérarchie de titres d'article"
-
 #~ msgid "You are sending a message to:"
 #~ msgstr "Vous écrivez à :"
-
 #~ msgid "Update: %s"
 #~ msgstr "Modifier : %s"
-
 #~ msgid "No owner profile has been found"
 #~ msgstr "Aucun propriétaire n'a été trouvé"
-
 #~ msgid "Visit %s to change sections assigned to one person"
 #~ msgstr "Allez sur %s pour modifier les sections assignées à une personne"
-
 #~ msgid "user profiles"
 #~ msgstr "les profils des usagers"
-
 #~ msgid "Related servers"
 #~ msgstr "Voir aussi"
-
-#~ msgid "%s has been commented by %s"
-#~ msgstr "%s a été commenté par %s"
-
 #~ msgid "All pages"
 #~ msgstr "Toutes les pages"
-
 #~ msgid ""
 #~ "I have created a web page and would like you to check it, at the "
 #~ "following address."
 #~ msgstr ""
 #~ "J'ai créé une page web et souhaiterais que vous la lisiez, à l'adresse "
 #~ "suivante."
-
 #~ msgid "Page bottom"
 #~ msgstr "Bas de la page"
-
 #~ msgid "This web space has been locked, and you cannot submit a new page."
 #~ msgstr ""
 #~ "Cet espace web a été verrouillé, et vous ne pouvez pas envoyer de "
 #~ "nouvelle page."
-
 #~ msgid "This page has been locked and you are not allowed to modify it."
 #~ msgstr "Cette page a été verrouillée, et vous ne pouvez pas la modifier."
-
 #~ msgid "Editors are allowed to delete pages"
 #~ msgstr "Les pages peuvent être supprimées par les éditeurs"
-
 #~ msgid "Icon"
 #~ msgstr "Icône"
-
 #~ msgid "Bullet"
 #~ msgstr "Puce"
-
 #~ msgid "Upload a small image to decorate lists of sections and pages."
 #~ msgstr "Téléverser une petite image pour la mise en page 'decorated'."
-
 #~ msgid "This is the right place to introduce yourself to new visitors."
 #~ msgstr "Présentez-vous ici aux nouveaux visiteurs."
-
 #~ msgid "Change icon"
 #~ msgstr "Changer l'icône"
-
 #~ msgid "Add icon"
 #~ msgstr "Ajouter une icône"
-
 #~ msgid "Use this page to select or to deselect some sections."
 #~ msgstr ""
 #~ "Utilisez cette page pour sélectionner ou pour déselectionner certaines "
 #~ "sections"
-
 #~ msgid "Deselect"
 #~ msgstr "Déselectionner"
-
 #~ msgid "Select another section:"
 #~ msgstr "Selectionner une autre section"
-
 #~ msgid ""
 #~ "Upload an image to be displayed at page top. This will also be the "
 #~ "default icon image for items attached to this page."
 #~ msgstr ""
 #~ "Téléverser une image à afficher en haut de page. Elle sera l'icône par "
 #~ "défaut pour les éléments contenus dans la page."
-
 #~ msgid ""
 #~ "YYYY-MM-DD HH:MM - Let the server hide sections on dead-lines - "
 #~ "automatically."
 #~ msgstr ""
 #~ "AAAA-MM-JJ HH:MM - Laissez le serveur cacher automatiquement certaines "
 #~ "sections à date d'échéance."
-
 #~ msgid "Access is restricted to authenticated members"
 #~ msgstr "Visibilité restreinte aux membres authentifiés"
-
 #~ msgid "Access is restricted to associates and editors"
 #~ msgstr "Visibilité restreinte aux associés et aux éditeurs"
-
 #~ msgid "Anyone may read this section"
 #~ msgstr "Tout le monde peut lire cette section"
-
 #~ msgid "Yes, I want to suppress this section"
 #~ msgstr "Oui, je veux supprimer cette section"
-
 #~ msgid "Update the content of this page"
 #~ msgstr "Modifier le contenu de cette page"
-
 #~ msgid "Visibility"
 #~ msgstr "Visibilité"
-
 #~ msgid "Access is restricted to me and associates"
 #~ msgstr "Accès restreint à moi-même et aux associés"
-
 #~ msgid "Forget"
 #~ msgstr "Oublier"
-
 #~ msgid "Watch"
 #~ msgstr "Surveiller"
-
 #~ msgid "Watch this page"
 #~ msgstr "Surveiller cette page"
-
 #~ msgid ""
 #~ "Upload an image file and integrate it into the page. Big images will be "
 #~ "rendered as clickable thumbnails."
 #~ msgstr ""
 #~ "Téléverser une image et l'intégrer dans la page. Les grandes images "
 #~ "seront transformées en vignettes cliquables."
-
 #~ msgid "Change page thumbnail"
 #~ msgstr "Changer la vignette de page"
-
 #~ msgid "Add page thumbnail"
 #~ msgstr "Ajouter une vignette de page"
-
 #~ msgid "Change page icon"
 #~ msgstr "Changer l'icône de page"
-
 #~ msgid "Add page icon"
 #~ msgstr "Ajouter une icône de page"
-
 #~ msgid ""
 #~ "The image that illustrates the page at parent level or at the Site map."
 #~ msgstr ""
 #~ "Téléverser une image pour illustrer cette page au niveau de son parent ou "
 #~ "de la carte du site."
-
 #~ msgid ""
 #~ "The image displayed at page top, and used as the default icon for related "
 #~ "items."
 #~ msgstr ""
 #~ "L'image affichée en haut de page, et utilisée comme icône par défaut pour "
 #~ "les éléments contenus dans la page."
-
 #~ msgid "The default image that illustrates every related item."
 #~ msgstr ""
 #~ "Téléverser une image pour illustrer chaque élément contenu dans cette "
 #~ "page."
-
 #~ msgid "Content tree"
 #~ msgstr "Gestion du contenu"
-
 #~ msgid "Locked"
 #~ msgstr "Verrouillé"
-
 #~ msgid "No - Contributions are accepted"
 #~ msgstr "Non - Les contributions sont acceptées"
-
 #~ msgid "Add a comment"
 #~ msgstr "Ajouter un commentaire"
-
 #~ msgid "Branch out to articles/view_as_foo_bar.php"
 #~ msgstr "Débrancher vers articles/view_as_foo_bar.php"
-
 #~ msgid "Personal pages"
 #~ msgstr "Pages personnelles"
-
 #~ msgid "A discussion board I will moderate"
 #~ msgstr "Une liste de discussion que je modèrerais"
-
 #~ msgid "Something different"
 #~ msgstr "Autre chose"
-
 #~ msgid "%d user"
-
 #~ msgid_plural "%d users"
 #~ msgstr[0] "%d utilisateur"
 #~ msgstr[1] "%d utilisateurs"
-
 #~ msgid "Parent section"
 #~ msgstr "Section parente"
-
 #~ msgid "-- Root level"
 #~ msgstr "-- Niveau de base"
-
 #~ msgid "Please carefully select a parent section."
 #~ msgstr "Choisissez une section de niveau supérieur"
-
 #~ msgid "History"
 #~ msgstr "Historique"
-
 #~ msgid "Previous versions of this page"
 #~ msgstr "Versions précédentes de cette page"
-
 #~ msgid "Comment: %s"
 #~ msgstr "Commentaire : %s"
-
 #~ msgid "listed as thumbnails, at the top of the main panel"
 #~ msgstr "afficher les vignettes associées, au début de la zone principale"
-
 #~ msgid "listed as thumbnails, at the bottom of the main panel"
 #~ msgstr "afficher les vignettes associées, à la fin de la zone principale"
-
 #~ msgid ""
 #~ "Article thumbnails are displayed at the bottom of the parent section page."
 #~ msgstr ""
 #~ "Les vignettes des articles sont affichées à la fin de la page de la "
 #~ "section parente"
-
 #~ msgid ""
 #~ "Article thumbnails are displayed at the top of the parent section page."
 #~ msgstr ""
 #~ "Les vignettes des articles sont affichées au début de la page de la "
 #~ "section parente"
-
 #~ msgid "Article thumbnails are displayed at the bottom of the front page."
 #~ msgstr ""
 #~ "Les vignettes des articles sont affichés à la fin de la page d'accueil"
-
 #~ msgid "Article thumbnails are displayed at the top of the front page."
 #~ msgstr ""
 #~ "Les vignettes des articles sont affichées au début de la page d'accueil"
-
 #~ msgid "Editors: %s"
 #~ msgstr "Editeurs : %s"
-
 #~ msgid "Only associates can access following sections."
 #~ msgstr "Seuls les associés peuvent accéder aux sections ci-dessous."
-
 #~ msgid "Referrals"
 #~ msgstr "Références externes"
-
 #~ msgid "Add an article"
 #~ msgstr "Ajouter un article"
-
 #~ msgid "Update rankings"
 #~ msgstr "Modifier les classements"
-
 #~ msgid "Start a new topic"
 #~ msgstr "Aborder un nouveau sujet"
-
 #~ msgid "Associate"
 #~ msgstr "Associer"
-
 #~ msgid "Unknown section %s"
 #~ msgstr "Section %s inconnue"
-
 #~ msgid "Scanning sections table..."
 #~ msgstr "Analyse de la table des sections..."
-
 #~ msgid "%d&nbsp;sections"
 #~ msgstr "%d&nbsp;sections"
-
 #~ msgid "%d hits"
 #~ msgstr "%d lectures"
-
 #~ msgid ""
 #~ "Warning: Sub-sections and related content will be definitely deleted as "
 #~ "well."
 #~ msgstr ""
 #~ "Attention : une ou plusieurs sous-sections, ainsi que leur contenu, vont "
 #~ "être définitivement détruits."
-
 #~ msgid "Search on keyword"
 #~ msgstr "Recherche par mot-clé"
-
 #~ msgid "Contact the webmaster"
 #~ msgstr "Contacter le webmestre"
-
 #~ msgid "Write a page"
 #~ msgstr "Ecrire une page"
-
 #~ msgid "Sections created by members"
 #~ msgstr "Sections créées par des membres"
-
 #~ msgid ""
 #~ "Please review this new web space carefully and fix possible errors "
 #~ "rapidly."
 #~ msgstr ""
 #~ "Merci de contrôler soigneusement ce nouvel espace, et de corriger les "
 #~ "erreurs s'il y a lieu."
-
 #~ msgid "Start the show"
 #~ msgstr "Commencer la présentation"
-
 #~ msgid "Site Map"
 #~ msgstr "Carte du site"
-
 #~ msgid "more pages"
 #~ msgstr "autres pages"
-
 #~ msgid "Do not hesitate to attach files related to this page."
 #~ msgstr "N'hésitez pas à attacher les fichiers associés à cette page."
-
 #~ msgid "More information"
 #~ msgstr "Plus d'informations"
 
 #, fuzzy
 #~ msgid "Read this page"
 #~ msgstr "Lire la page"
-
 #~ msgid "A section \"%s\" already exists."
 #~ msgstr "Une section \"%s\" existe déjà."
-
 #~ msgid "Covers"
 #~ msgstr "Couvertures"
-
 #~ msgid "The top page here is also displayed at the front page"
 #~ msgstr "Le premier article de cette section apparait sur la page d'accueil"
-
 #~ msgid "The default place to post new pages"
 #~ msgstr "La section par défaut pour ranger vos nouveaux articles"
-
 #~ msgid "Extra boxes"
 #~ msgstr "Boîtes extra"
-
 #~ msgid "Boxes displayed aside the front page"
 #~ msgstr "Boîtes affichées sur le côté de la page d'accueil"
-
 #~ msgid ""
 #~ "All [link=codes]codes/[/link] are available to format your boxes. Keep "
 #~ "the content as compact as possible because of the small size of any "
@@ -3258,89 +3092,62 @@ msgstr "Personnes"
 #~ "boîtes. Conservez le contenu aussi compact que possible pour limiter la "
 #~ "taille de chaque boîte. Publiez les pages pour les faire apparaître sur "
 #~ "la page d'accueil."
-
 #~ msgid "Gadget boxes"
 #~ msgstr "Boîtes gadget"
-
 #~ msgid "Used from everywhere"
 #~ msgstr "Référencées depuis les autres pages"
-
 #~ msgid "Navigation boxes"
 #~ msgstr "Boîtes de navigation"
-
 #~ msgid "Boxes displayed aside all pages"
 #~ msgstr "Boîtes affichées sur le côté de toutes les pages"
-
 #~ msgid "Processed queries"
 #~ msgstr "Requêtes traitées"
-
 #~ msgid "Saved for history"
 #~ msgstr "Historique"
-
 #~ msgid "For on-demand conversations and groups"
 #~ msgstr "Pour les conversations et les groupes privés"
-
 #~ msgid "Queries"
 #~ msgstr "Requêtes"
-
 #~ msgid "Submitted by any surfer"
 #~ msgstr "Envoyées par n'importe quel surfeur"
-
 #~ msgid "Add comments to provide support."
 #~ msgstr "Le traitement des requêtes s'effectue par ajout de commentaires."
-
 #~ msgid "Models to be duplicated"
 #~ msgstr "Modèles pour les nouvelles pages"
-
 #~ msgid "Where do you want to go now?"
 #~ msgstr "Où voulez-vous aller à présent ?"
-
 #~ msgid "Control Panel"
 #~ msgstr "Panneau de Contrôle"
-
 #~ msgid ""
 #~ "Following items are attached to this record and will be suppressed as "
 #~ "well."
 #~ msgstr ""
 #~ "Si vous continuez, les éléments suivants seront aussi détruits de la base "
 #~ "de données."
-
 #~ msgid "1 file"
-
 #~ msgid_plural "%d files"
 #~ msgstr[0] "1 fichier"
 #~ msgstr[1] "%d fichiers"
-
 #~ msgid "1 comment"
-
 #~ msgid_plural "%d comments"
 #~ msgstr[0] "1 commentaire"
 #~ msgstr[1] "%d commentaires"
-
 #~ msgid "1 link"
-
 #~ msgid_plural "%d links"
 #~ msgstr[0] "%d lien"
 #~ msgstr[1] "%d liens"
-
 #~ msgid "1 section"
-
 #~ msgid_plural "%d sections"
 #~ msgstr[0] "%d section"
 #~ msgstr[1] "%d sections"
-
 #~ msgid "1 page"
-
 #~ msgid_plural "%d pages"
 #~ msgstr[0] "%d page"
 #~ msgstr[1] "%d pages"
-
 #~ msgid "browse the section"
 #~ msgstr "lire la section"
-
 #~ msgid "Please select below the check to perform."
 #~ msgstr "Choisissez ci-dessous la vérification à effectuer."
-
 #~ msgid ""
 #~ "This instance of YACS runs in demonstration mode. For security reasons "
 #~ "mail messages cannot be actually sent in this mode."
@@ -3354,73 +3161,54 @@ msgstr "Personnes"
 #~ "the site front page features the site map, the section will be listed "
 #~ "there as well."
 #~ msgstr ""
-#~ "listée dans la zone principale, normalement, avec l'ordre d'apparition "
-#~ "%s . La valeur par défaut est 10000. Si la carte du site apparaît sur la "
+#~ "listée dans la zone principale, normalement, avec l'ordre d'apparition %"
+#~ "s . La valeur par défaut est 10000. Si la carte du site apparaît sur la "
 #~ "page d'accueil, la section y figurera également."
-
 #~ msgid "Recent pages should be:"
 #~ msgstr "Les pages récentes sont :"
-
 #~ msgid "listed in a gadget box in the main panel"
 #~ msgstr "listées dans une boîte gadget, dans la zone principale"
-
 #~ msgid "Congratulations, some web content has been imported."
 #~ msgstr "Félicitations, de nouvelles pages ont été créées."
-
 #~ msgid "Message title: %s"
 #~ msgstr "Titre du message : %s"
-
 #~ msgid "Message content: %s"
 #~ msgstr "Contenu du message : %s"
-
 #~ msgid "Message headers: %s"
 #~ msgstr "En-tête du message : %s"
-
 #~ msgid "Sections validation"
 #~ msgstr "Vérification des sections"
-
 #~ msgid "A section has been successfully added"
 #~ msgstr "Une section a été ajoutée avec succès"
-
 #~ msgid "This section contains other information of interest"
 #~ msgstr "Cette section contient d'autres informations"
-
 #~ msgid "Lock: %s"
 #~ msgstr "Verrouiller : %s"
-
 #~ msgid "Lock a section"
 #~ msgstr "Verrouiller une section"
-
 #~ msgid "Add default sections"
 #~ msgstr "Ajouter les sections par défaut"
-
 #~ msgid "Select sections for this anchor"
 #~ msgstr "Choix des sections pour cette ancre"
-
 #~ msgid "A section already exists for cover pages."
 #~ msgstr "Une section existe déjà pour les pages de couverture."
-
 #~ msgid "Enter your cover page here"
 #~ msgstr "Pour saisir l'article de couverture"
-
 #~ msgid ""
 #~ "The most recent published article in this section is used as the cover "
 #~ "page of the site."
 #~ msgstr ""
 #~ "L'article publié le plus récent de cette section est utilisé comme page "
 #~ "de couverture du site."
-
 #~ msgid ""
 #~ "A section already exists for extra boxes displayed at the front page."
 #~ msgstr ""
 #~ "Une section existe déjà pour les boîtes affichées dans la zone \"extra\" "
 #~ "sur la page d'accueil."
-
 #~ msgid "Describe here all boxes put in the extra panel at the front page."
 #~ msgstr ""
 #~ "Pour saisir les boîtes d'informaion affichées dans la zone \"extra\" sur "
 #~ "la page d'accueil"
-
 #~ msgid ""
 #~ "Put in this section specific articles used to build the extra boxes of "
 #~ "your site, those that will appear only on the front page of your site. "
@@ -3439,19 +3227,16 @@ msgstr "Personnes"
 #~ "effectivement les boîtes correspondantes. Les articles sont classés par "
 #~ "rang croissant. Vous pouvez utiliser le champ \"rang\" pour changer "
 #~ "l'ordre d'affichage des boîtes."
-
 #~ msgid ""
 #~ "A section already exists for gadget boxes displayed at the front page."
 #~ msgstr ""
 #~ "Une section existe déjà pour les boîtes \"gadget\" sur la page d'accueil."
-
 #~ msgid ""
 #~ "Describe here all boxes displayed as gadget boxes in the middle of the "
 #~ "front page"
 #~ msgstr ""
 #~ "Pour saisir les boîtes d'information affichées au milieu de la page "
 #~ "d'accueil"
-
 #~ msgid ""
 #~ "Put in this section specific articles used to build the gadget boxes of "
 #~ "your site, those that will appear only on the front page of your site. "
@@ -3470,25 +3255,18 @@ msgstr "Personnes"
 #~ "apparaître effectivement les boîtes correspondantes. Les articles sont "
 #~ "classés par rang croissant. Vous pouvez utiliser le champ \"rang\" pour "
 #~ "changer l'ordre d'affichage des boîtes."
-
 #~ msgid "A section already exists for global pages."
 #~ msgstr "Une section existe déjà pour les pages globales."
-
 #~ msgid "This section contains pages that are referenced globally."
 #~ msgstr "Cette section contient des pages nommées globales."
-
 #~ msgid "A section already exists for navigation boxes."
 #~ msgstr "Une section existe déjà pour les boîtes de navigation."
-
 #~ msgid "Describe all navigation boxes here"
 #~ msgstr "Pour saisir les boîtes de navigation"
-
 #~ msgid "A section already exists for processed queries."
 #~ msgstr "Une section existe déjà pour les requêtes traitées."
-
 #~ msgid "A section already exists for surfer queries."
 #~ msgstr "Une section existe déjà pour les requêtes des surfeurs."
-
 #~ msgid ""
 #~ "This section is aiming to capture feedback directly from surfers. It is "
 #~ "highly recommended to move pages below after their processing."
@@ -3496,82 +3274,56 @@ msgstr "Personnes"
 #~ "C'est dans cette section que sont rangées les requêtes envoyées par les "
 #~ "surfeurs. Il est fortement recommandé de déplacer les pages après leur "
 #~ "traitement."
-
 #~ msgid "A section already exists for templates."
 #~ msgstr "Une section existe déjà pour les pages modèles."
-
 #~ msgid "Put in this section special pages to be replicated elsewhere."
 #~ msgstr "Pour ranger les pages destinées à être répliquées ailleurs."
-
 #~ msgid "Go back to the site map"
 #~ msgstr "Retour à la carte du site"
-
 #~ msgid "Add additional content"
 #~ msgstr "Ajouter d'autres contenus"
-
 #~ msgid "Go back to user notes"
 #~ msgstr "Retourner aux notes utilisateur"
-
 #~ msgid "Go back to the main page"
 #~ msgstr "Retourner à la page principale"
-
 #~ msgid "Go back to the updated thread"
 #~ msgstr "Retourner au fil de discussion mis à jour"
-
 #~ msgid "Back to %s"
 #~ msgstr "Retour à %s"
-
 #~ msgid "Stay tuned"
 #~ msgstr "Plus d'informations"
-
 #~ msgid "Displayed in front of articles listed in this section"
 #~ msgstr "Affichée devant les listes des articles de cette section"
-
 #~ msgid "Special sections"
 #~ msgstr "Sections spéciales"
-
 #~ msgid "Reference"
 #~ msgstr "Référencer"
-
 #~ msgid "Print"
 #~ msgstr "Imprimer"
-
 #~ msgid "Podcasted files"
 #~ msgstr "Fichiers partagés"
-
 #~ msgid "Edit"
 #~ msgstr "Modifier"
-
 #~ msgid "Triggered by %s in %s"
 #~ msgstr "Effectuée par %s dans %s"
-
 #~ msgid "Triggered by %s"
 #~ msgstr "Effectuée par %s"
-
 #~ msgid "Operation has successfully completed"
 #~ msgstr "L'opération a réussi"
-
 #~ msgid "Go back to the origin section"
 #~ msgstr "Revenir à la section d'origine"
-
 #~ msgid "View the target section"
 #~ msgstr "Voir la section cible"
-
 #~ msgid "Bulk move"
 #~ msgstr "Déplacement de masse"
-
 #~ msgid "from"
 #~ msgstr "de"
-
 #~ msgid "to"
 #~ msgstr "vers"
-
 #~ msgid "No move has taken place."
 #~ msgstr "Aucune page n'a été déplacée."
-
 #~ msgid "Cancel and go back to the section page"
 #~ msgstr "Annuler et retourner à la page d'index"
-
 #~ msgid ""
 #~ "This script will attach pages of this section to another section. If you "
 #~ "would like to move the section itself, including its content, please %s "
@@ -3580,69 +3332,52 @@ msgstr "Personnes"
 #~ "Ce script va attacher les pages de cette section à une autre section. Si "
 #~ "vous voulez déplacer la section elle-même, y compris son contenu, merci "
 #~ "de %s et de sélectionner un autre point d'ancrage."
-
 #~ msgid ""
 #~ "You are about to move %d pages at once. Are you sure you want to do this?"
 #~ msgstr ""
 #~ "Vous êtes sur le point de déplacer %d pages. Etes-vous sûr de ce que vous "
 #~ "faites ?"
-
 #~ msgid "Yes, I want to move all pages to the following section"
 #~ msgstr "Oui, je veux déplacer toutes les pages de cette section"
-
 #~ msgid "View the updated section"
 #~ msgstr "Voir la section mise à jour"
-
 #~ msgid "Bulk publication"
 #~ msgstr "Publication en masse"
-
 #~ msgid ""
 #~ "You are about to publish all draft pages at once.  Are you sure you want "
 #~ "to do this?"
 #~ msgstr ""
 #~ "Vous êtes sur le point de publier toutes les pages brouillons. Etes-vous "
 #~ "sûr de ce que vous faites ?"
-
 #~ msgid "Yes, I want to publish all draft pages in this section"
 #~ msgstr "Oui, je veux publier toutes les pages de cette section"
-
 #~ msgid ""
 #~ "You are about to delete %d pages at once.  Are you sure you want to do "
 #~ "this?"
 #~ msgstr ""
 #~ "Vous êtes sur le point de supprimer %d pages. Etes-vous sûr de ce que "
 #~ "vous faites ?"
-
 #~ msgid "Yes, I want to suppress all pages in this section"
 #~ msgstr "Oui, je veux supprimer toutes les pages de cette section"
-
 #~ msgid "Duplicate this section and its content"
 #~ msgstr "Dupliquer cette section et son contenu"
-
 #~ msgid "Publish all draft pages"
 #~ msgstr "Publier toutes les pages en mode brouillon"
-
 #~ msgid "Move all pages to another section"
 #~ msgstr "Déplacer toutes les pages vers une autre section"
-
 #~ msgid "Purge all articles from this section"
 #~ msgstr "Purger cette section de tous les articles qu'elle contient"
-
 #~ msgid "A section already exists for channels."
 #~ msgstr "Une section existe déjà pour les chaînes interactives."
-
 #~ msgid ""
 #~ "Every page in this section supports interactive discussion and file "
 #~ "sharing."
 #~ msgstr ""
 #~ "Chaque page de section autorise les discussions et le partage de fichiers."
-
 #~ msgid "A sample section already exists for simple file downloads."
 #~ msgstr "Une section exemple existe déjà pour les téléchargements simples."
-
 #~ msgid "Sample download section"
 #~ msgstr "Section de démonstration pour le téléchargement"
-
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose. It is devoted to the download of files. [hidden]Compared to a "
@@ -3658,16 +3393,12 @@ msgstr "Personnes"
 #~ "l'attachement de fichiers.[/hidden] Si le nombre de fichiers à partager "
 #~ "augmente, vous pouvez trouver plus simple d'attacher les fichiers à des "
 #~ "articles séparés dans une ou plusieurs sections ordinaires."
-
 #~ msgid "A sample section already exists for blogging."
 #~ msgstr "Une section exemple existe déjà pour le blog."
-
 #~ msgid "My blog"
 #~ msgstr "Mon blog"
-
 #~ msgid "Sample blogging place"
 #~ msgstr "Section de blog de démonstration"
-
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose on available layouts. Feel free to change this text, to add some "
@@ -3682,43 +3413,30 @@ msgstr "Personnes"
 #~ "page ? Lorsque vous vous sentirez à l'aise avec la manipulation des "
 #~ "sections, vous effacerez celle-ci pour créer des dizaines d'autres "
 #~ "sections de votre cru."
-
 #~ msgid "A sample section already exists for sample jive discussion board."
 #~ msgstr "Une section exemple existe déjà pour les discussions jive."
-
 #~ msgid "My jive discussion board"
 #~ msgstr "Mes discussions jive"
-
 #~ msgid "Sample discussion board"
 #~ msgstr "Section de démonstration des discussions"
-
 #~ msgid "A sample section already exists for sample electronic manual."
 #~ msgstr "Une section exemple existe déjà pour le manuel électronique."
-
 #~ msgid "My manual"
 #~ msgstr "Mon manuel"
-
 #~ msgid "Sample electronic book"
 #~ msgstr "Livre électronique de démonstration"
-
 #~ msgid "A sample chapter already exists for electronic manual."
 #~ msgstr "Un chapitre exemple existe déjà pour le manuel électronique."
-
 #~ msgid "Chapter 1 - The very first chapter of my manual"
 #~ msgstr "Chapitre 1 - Le premier chapitre de mon manuel"
-
 #~ msgid "Post pages here to populate chapter 1"
 #~ msgstr "Ajouter des pages pour compléter le chapitre 1"
-
 #~ msgid "A sample section already exists for sample articles."
 #~ msgstr "Une section exemple existe déjà pour les articles exemples."
-
 #~ msgid "My Section"
 #~ msgstr "Ma section"
-
 #~ msgid "Sample plain section"
 #~ msgstr "Section de démonstration"
-
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose. Feel free to change this text, to add some images, to play with "
@@ -3732,122 +3450,85 @@ msgstr "Personnes"
 #~ "accessible par un lien sur le côté de cette page ? Lorsque vous vous "
 #~ "sentirez à l'aise avec la manipulation des sections, vous effacerez celle-"
 #~ "ci pour créer des dizaines d'autres sections de votre cru."
-
 #~ msgid "A sample wiki section already exists."
 #~ msgstr "Un wiki exemple existe déjà."
-
 #~ msgid "My wiki"
 #~ msgstr "Mon wiki"
-
 #~ msgid "Sample wiki"
 #~ msgstr "Section de démonstration des wikis"
-
 #~ msgid "A sample section already exists for sample yabb discussion board."
 #~ msgstr "Une section exemple existe déjà pour les discussions yabb."
-
 #~ msgid "My yabb discussion board"
 #~ msgstr "Mes discussions yabb"
-
 #~ msgid "Assigned sections"
 #~ msgstr "Responsabilités éditoriales"
-
 #~ msgid "Bulk"
 #~ msgstr "Masse"
-
 #~ msgid ""
 #~ "You may enhance every page of this section by adding one or more keywords:"
 #~ msgstr ""
 #~ "Vous pouvez améliorer chaque page de cette section en ajoutant un ou "
 #~ "plusieurs mots-clés"
-
 #~ msgid "Posts are not allowed."
 #~ msgstr "Les envois ne sont plus acceptés"
-
 #~ msgid "Section is locked"
 #~ msgstr "Cette section est verrouillée"
-
 #~ msgid "Here, use code %s"
 #~ msgstr "Ici, utilisez %s"
-
 #~ msgid "Elsewhere, bookmark the %s"
 #~ msgstr "Gardez dans vos signets le %s"
-
 #~ msgid "full link"
 #~ msgstr "lien complet"
-
 #~ msgid "recent pages"
 #~ msgstr "pages récentes"
-
 #~ msgid "Is listed with special sections, only to associates and editors."
 #~ msgstr ""
 #~ "Est listée parmi les sections spéciales, seulement pourles associés et "
 #~ "les éditeurs"
-
 #~ msgid "Articles posted here are displayed at the parent section page."
 #~ msgstr ""
 #~ "Les articles de cette section apparaissent sur la page de la section "
 #~ "parente."
-
 #~ msgid "Links may be attached directly to section index"
 #~ msgstr "Les liens peuvent être attachés directement à l'index de la section"
-
 #~ msgid "1&nbsp;file"
-
 #~ msgid_plural "%d&nbsp;files"
 #~ msgstr[0] "1&nbsp;fichier"
 #~ msgstr[1] "%d&nbsp;fichiers"
-
 #~ msgid "1&nbsp;comment"
-
 #~ msgid_plural "%d&nbsp;comments"
 #~ msgstr[0] "1&nbsp;commentaire"
 #~ msgstr[1] "%d&nbsp;commentaires"
-
 #~ msgid "1&nbsp;link"
-
 #~ msgid_plural "%d&nbsp;links"
 #~ msgstr[0] "1&nbsp;lien"
 #~ msgstr[1] "%d&nbsp;liens"
-
 #~ msgid "1&nbsp;section"
-
 #~ msgid_plural "%d&nbsp;sections"
 #~ msgstr[0] "1&nbsp;section"
 #~ msgstr[1] "%d&nbsp;sections"
-
 #~ msgid "1&nbsp;page"
-
 #~ msgid_plural "%d&nbsp;pages"
 #~ msgstr[0] "1&nbsp;page"
 #~ msgstr[1] "%d&nbsp;pages"
-
 #~ msgid "1&nbsp;article"
-
 #~ msgid_plural "%d&nbsp;articles"
 #~ msgstr[0] "1&nbsp;article"
 #~ msgstr[1] "%d&nbsp;articles"
-
 #~ msgid "%d&nbsp;comments"
 #~ msgstr "%d&nbsp;commentaires"
-
 #~ msgid "Here, use code [escape][section=%s][/escape]"
 #~ msgstr "Ici, utilisez [escape][section=%s][/escape]"
-
 #~ msgid "This section"
 #~ msgstr "Cette section"
-
 #~ msgid "Restrictions"
 #~ msgstr "Restrictions"
-
 #~ msgid "Related files"
 #~ msgstr "Fichiers attachés"
-
 #~ msgid "Related links"
 #~ msgstr "Voir aussi"
-
 #~ msgid "All sections"
 #~ msgstr "Toutes les sections"
-
 #~ msgid "recent articles"
 #~ msgstr "articles récents"
 
@@ -3862,62 +3543,44 @@ msgstr "Personnes"
 #, fuzzy
 #~ msgid "Please select below the kind of message you would like to send."
 #~ msgstr "Choisissez ci-dessous l'opération à effectuer."
-
 #~ msgid "Real-time collaborative places"
 #~ msgstr "Lieux de collaboration interactifs"
-
 #~ msgid "Post processing"
 #~ msgstr "Traitement de cet envoi"
-
 #~ msgid "Index title"
 #~ msgstr "Titre de l'index"
-
 #~ msgid "This one will override the regular title at the index page."
 #~ msgstr "Pour remplacer le titre normal sur la page d'index"
-
 #~ msgid "Trailer information"
 #~ msgstr "Information de bas de page"
-
 #~ msgid "Extra information"
 #~ msgstr "Information extra"
-
 #~ msgid ""
 #~ "To load view_as_foo_bar.php instead of the regular view.php for the "
 #~ "rendering of articles"
 #~ msgstr ""
 #~ "Pour charger view_as_foo_bar.php en lieu et place du script d'affichage "
 #~ "normal des articles"
-
 #~ msgid "Articles overlay"
 #~ msgstr "Overlay des articles"
-
 #~ msgid "Article templates"
 #~ msgstr "Pages modèles"
-
 #~ msgid "Visit %s to change sections assigned to subscribers"
 #~ msgstr "Allez sur %s pour leur donner des droits en lecture"
-
 #~ msgid "Sections overlay"
 #~ msgstr "Overlay des sections"
-
 #~ msgid "Advanced options"
 #~ msgstr "Options avancées"
-
 #~ msgid "Update a comment"
 #~ msgstr "Modifier un commentaire"
-
 #~ msgid "Create a section"
 #~ msgstr "Créer une nouvelle section"
-
 #~ msgid "Post a new reply"
 #~ msgstr "Ajouter une réponse"
-
 #~ msgid "Add a new note"
 #~ msgstr "Ajouter une annotation"
-
 #~ msgid "Create a poll"
 #~ msgstr "Créer un sondage"
-
 #~ msgid "Create a sub-section"
 #~ msgstr "Créer une sous-section"
 
@@ -3936,7 +3599,6 @@ msgstr "Personnes"
 #~ "page ? Lorsque vous vous sentirez à l'aise avec la manipulation des "
 #~ "sections, vous effacerez celle-ci pour créer des dizaines d'autres "
 #~ "sections de votre cru."
-
 #~ msgid ""
 #~ "This section has been created by the populate script  for experimentation "
 #~ "purpose on available layouts. Feel free to change this text, to add some "
@@ -3951,31 +3613,22 @@ msgstr "Personnes"
 #~ "page ? Lorsque vous vous sentirez à l'aise avec la manipulation des "
 #~ "sections, vous effacerez celle-ci pour créer des dizaines d'autres "
 #~ "sections de votre cru."
-
 #~ msgid "Create a new section"
 #~ msgstr "Créer une nouvelle section"
-
 #~ msgid "No mean to explode the provided archive."
 #~ msgstr "Impossible d'extraire les fichiers de l'archive."
-
 #~ msgid "last edition by %s %s"
 #~ msgstr "modifié par %s %s"
-
 #~ msgid "%d records have been processed. Done"
 #~ msgstr "%d enregistrements ont été traités. Traitement terminé"
-
 #~ msgid "Restricted to associates, editors and readers"
 #~ msgstr "Accès restreint aux associés, aux éditeurs et aux lecteurs"
-
 #~ msgid "Post a new image"
 #~ msgstr "Ajouter une image"
-
 #~ msgid "post a page"
 #~ msgstr "créer une page"
-
 #~ msgid "Post an image"
 #~ msgstr "Ajouter une image"
-
 #~ msgid "Visibility is restricted to associates, editors and readers."
 #~ msgstr "Visibilité restreinte aux associés, aux éditeurs et aux lecteurs"
 
@@ -3986,41 +3639,30 @@ msgstr "Personnes"
 #, fuzzy
 #~ msgid "Back to section index"
 #~ msgstr "Retour à la section"
-
 #~ msgid "Back to the original section"
 #~ msgstr "Retour à la section"
-
 #~ msgid "threads - Real-time chats"
 #~ msgstr "threads - Pour les discussions interactive"
-
 #~ msgid "Add a new comment"
 #~ msgstr "Ajouter un commentaire"
-
 #~ msgid "Send a new comment"
 #~ msgstr "Commenter cette page"
-
 #~ msgid "Discuss this page"
 #~ msgstr "Discuter cette page"
-
 #~ msgid "Articles stationary"
 #~ msgstr "Pages modèles pour les articles"
-
 #~ msgid "the stationary library"
 #~ msgstr "la librairie des pages-modèles"
-
 #~ msgid "Stationary for articles already exists."
 #~ msgstr "Une section existe déjà pour les pages-modèles."
-
 #~ msgid "%d&nbsp;pages"
 #~ msgstr "%d&nbsp;pages"
-
 #~ msgid "Post a new link"
 #~ msgstr "Envoyer un nouveau lien"
 
 #, fuzzy
 #~ msgid "Stationary for articles"
 #~ msgstr "overlay des articles"
-
 #~ msgid ""
 #~ "<p>Put in this section specific articles used to build the main index "
 #~ "page of your site. All [link=codes]codes/[/link] are available to format "
@@ -4042,16 +3684,12 @@ msgstr "Personnes"
 #~ "effectivement. Vous pouvez ajouter une icône à chaque article de "
 #~ "couverture, ou à cette section, pour l'afficher sur la page principale de "
 #~ "votre serveur.</p>"
-
 #~ msgid "A section already exists for navigation menus."
 #~ msgstr "Une section existe déjà pour les menus de navigation."
-
 #~ msgid "Menus"
 #~ msgstr "Menus"
-
 #~ msgid "Describe your main menu here"
 #~ msgstr "Pour décrire votre menu principal"
-
 #~ msgid ""
 #~ "<p>Put in this section specific articles used to build the main menu of "
 #~ "your site. Type your menu in the 'description' field, using [escape]"
@@ -4076,12 +3714,10 @@ msgstr "Personnes"
 #~ "indiquer la date d'édition dans le champ \"titre\" de votre article-menu. "
 #~ "Seul l'article publié de premier rang sera pris en compte à l'affichage.</"
 #~ "p>"
-
 #~ msgid "No section found for the id %s"
 #~ msgstr "Aucune section n'a l'identifiant %s"
-
 #~ msgid "View the main page of this section"
 #~ msgstr "Voir la page principale de cette section"
-
 #~ msgid "Attach a link"
 #~ msgstr "Attacher un lien"
+

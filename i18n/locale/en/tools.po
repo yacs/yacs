@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 16:11+0200\n"
-"PO-Revision-Date: 2011-05-16 16:19+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2011-06-10 15:25+0200\n"
+"PO-Revision-Date: 2011-06-10 15:26+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
@@ -31,7 +31,8 @@ msgstr ""
 #: tools/populate.php:113
 #: tools/populate.php:135
 #: tools/transform.php:29
-#: tools/upload_excel.php:20
+#: tools/update_thumbs_url.php:40
+#: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr "Tools"
 
@@ -277,6 +278,8 @@ msgstr "Finalize Javascript libraries"
 #: tools/jsmin.php:52
 #: tools/populate.php:121
 #: tools/populate.php:132
+#: tools/update_thumbs_url.php:48
+#: tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -991,6 +994,7 @@ msgid "You should use this script only for learning, for demonstration or for te
 msgstr "You should use this script only for learning, for demonstration or for testing purposes."
 
 #: tools/populate.php:1660
+#: tools/update_thumbs_url.php:229
 msgid "Start"
 msgstr "Start"
 
@@ -1009,67 +1013,95 @@ msgstr "extra"
 msgid "Themes"
 msgstr "Themes"
 
+#: tools/update_thumbs_url.php:43
+msgid "Updating thumbnails url"
+msgstr "Updating thumbnails url"
+
+#: tools/update_thumbs_url.php:77
+msgid "Analysing thumbnails for articles"
+msgstr "Analysing thumbnails for articles"
+
+#: tools/update_thumbs_url.php:94
+msgid "Analysing icons for articles"
+msgstr "Analysing icons for articles"
+
+#: tools/update_thumbs_url.php:111
+msgid "Analysing thumbnails for sections"
+msgstr "Analysing thumbnails for sections"
+
+#: tools/update_thumbs_url.php:128
+msgid "Analysing icons for sections"
+msgstr "Analysing icons for sections"
+
+#: tools/update_thumbs_url.php:145
+msgid "Analysing thumbnails for categories"
+msgstr "Analysing thumbnails for categories"
+
+#: tools/update_thumbs_url.php:162
+msgid "Analysing icons for categories"
+msgstr "Analysing icons for categories"
+
+#: tools/update_thumbs_url.php:179
+msgid "Analysing thumbnails for files"
+msgstr "Analysing thumbnails for files"
+
+#: tools/update_thumbs_url.php:202
+msgid "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
+msgstr "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
+
+#: tools/update_thumbs_url.php:212
+msgid "Please give former URL to root"
+msgstr "Please give former URL to root"
+
+#: tools/update_thumbs_url.php:214
+msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+msgstr "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+
+#: tools/update_thumbs_url.php:219
+msgid "This will be replaced by current URL"
+msgstr "This will be replaced by current URL"
+
 #~ msgid "Event"
 #~ msgstr "Event"
-
 #~ msgid "Use this page model to add a new event to the calendar"
 #~ msgstr "Use this page model to add a new event to the calendar"
-
 #~ msgid "Sample article with its set of comments"
 #~ msgstr "Sample article with its set of comments"
-
 #~ msgid "Wiki page"
 #~ msgstr "Wiki page"
-
 #~ msgid "Use this page model to add a page that can be modified by any surfer"
 #~ msgstr ""
 #~ "Use this page model to add a page that can be modified by any surfer"
-
 #~ msgid "Wiki"
 #~ msgstr "Wiki"
-
 #~ msgid "Sample page of the wiki"
 #~ msgstr "Sample page of the wiki"
-
 #~ msgid "Sample content with its set of extensions"
 #~ msgstr "Sample content with its set of extensions"
-
 #~ msgid "This page demonstrates the rendering of the ##wiki## layout."
 #~ msgstr "This page demonstrates the rendering of the ##wiki## layout."
-
 #~ msgid "Referrals"
 #~ msgstr "Referrals"
-
 #~ msgid "Your post has been recorded and we would like to thank you for it."
 #~ msgstr "Your post has been recorded and we would like to thank you for it."
-
 #~ msgid "Your name: %s"
 #~ msgstr "Your name: %s"
-
 #~ msgid "Your address: %s"
 #~ msgstr "Your address: %s"
-
 #~ msgid "Your post: %s"
 #~ msgstr "Your post: %s"
-
 #~ msgid "A page\"%s\" has been created."
 #~ msgstr "A page\"%s\" has been created."
-
 #~ msgid "Fat Index of [escape]"
 #~ msgstr "Fat Index of [escape]"
-
 #~ msgid "[/escape]"
 #~ msgstr "[/escape]"
-
 #~ msgid "events"
 #~ msgstr "events"
-
 #~ msgid "channels"
 #~ msgstr "channels"
-
 #~ msgid "A sample section already exists for simple file downloads."
 #~ msgstr "A sample section already exists for simple file downloads."
-
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose. It is devoted to the download of files. [hidden]Compared to a "
@@ -1084,13 +1116,10 @@ msgstr "Themes"
 #~ "enable files attachments.[/hidden] If you have more than some files to "
 #~ "download, you may prefer to attach files to separate articles in one or "
 #~ "several regular sections."
-
 #~ msgid "A sample section already exists for blogging."
 #~ msgstr "A sample section already exists for blogging."
-
 #~ msgid "My blog"
 #~ msgstr "My blog"
-
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose on available layouts. Feel free to change this text, to add some "
@@ -1103,19 +1132,14 @@ msgstr "Themes"
 #~ "images, to play with codes, etc. Have you checked the help link on the "
 #~ "side of this page? Once you will feel more comfortable with the handling "
 #~ "of sections, just delete this one and create tons of sections of your own."
-
 #~ msgid "A sample section already exists for sample jive discussion board."
 #~ msgstr "A sample section already exists for sample jive discussion board."
-
 #~ msgid "A sample section already exists for sample electronic manual."
 #~ msgstr "A sample section already exists for sample electronic manual."
-
 #~ msgid "A sample chapter already exists for electronic manual."
 #~ msgstr "A sample chapter already exists for electronic manual."
-
 #~ msgid "A sample section already exists for sample articles."
 #~ msgstr "A sample section already exists for sample articles."
-
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose. Feel free to change this text, to add some images, to play with "
@@ -1128,81 +1152,56 @@ msgstr "Themes"
 #~ "codes, etc. Have you checked the help link on the side of this page? Once "
 #~ "you will feel more comfortable with the handling of sections, just delete "
 #~ "this one and create tons of sections of your own."
-
 #~ msgid "A sample wiki section already exists."
 #~ msgstr "A sample wiki section already exists."
-
 #~ msgid "My wiki"
 #~ msgstr "My wiki"
-
 #~ msgid "A sample section already exists for sample yabb discussion board."
 #~ msgstr "A sample section already exists for sample yabb discussion board."
-
 #~ msgid "A category already exists for regular articles."
 #~ msgstr "A category already exists for regular articles."
-
 #~ msgid "A sub category already exists for regular articles."
 #~ msgstr "A sub category already exists for regular articles."
-
 #~ msgid "A page already exists for the coffee machine."
 #~ msgstr "A page already exists for the coffee machine."
-
 #~ msgid "A template already exists for %s."
 #~ msgstr "A template already exists for %s."
-
 #~ msgid "A sample extra box already exists."
 #~ msgstr "A sample extra box already exists."
-
 #~ msgid "A sample collections box already exists."
 #~ msgstr "A sample collections box already exists."
-
 #~ msgid "A sample page exists for the blog."
 #~ msgstr "A sample page exists for the blog."
-
 #~ msgid "A sample jive thread already exists."
 #~ msgstr "A sample jive thread already exists."
-
 #~ msgid "A sample page exists for the manual."
 #~ msgstr "A sample page exists for the manual."
-
 #~ msgid "A sample page exists for the wiki."
 #~ msgstr "A sample page exists for the wiki."
-
 #~ msgid "A sample yabb thread already exists."
 #~ msgstr "A sample yabb thread already exists."
-
 #~ msgid "A sample navigation box already exists."
 #~ msgstr "A sample navigation box already exists."
-
 #~ msgid "A page already exists for the support chat."
 #~ msgstr "A page already exists for the support chat."
-
 #~ msgid "wiki pages"
 #~ msgstr "wiki pages"
-
 #~ msgid "A comment has been posted to the sample article."
 #~ msgstr "A comment has been posted to the sample article."
-
 #~ msgid "Replies have been added to the sample jive thread."
 #~ msgstr "Replies have been added to the sample jive thread."
-
 #~ msgid "Comments have been added to the sample page in manual."
 #~ msgstr "Comments have been added to the sample page in manual."
-
 #~ msgid "Notes have been added to the sample wiki entry."
 #~ msgstr "Notes have been added to the sample wiki entry."
-
 #~ msgid "Comments have been added to the sample yabb thread."
 #~ msgstr "Comments have been added to the sample yabb thread."
-
 #~ msgid "the Hello World page"
 #~ msgstr "the Hello World page"
-
 #~ msgid "Hello Word, I am happy to be there!"
 #~ msgstr "Hello Word, I am happy to be there!"
-
 #~ msgid "Hello World"
 #~ msgstr "Hello World"
-
 #~ msgid "Hello World!"
 #~ msgstr "Hello World!"
+
