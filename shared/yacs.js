@@ -635,7 +635,7 @@ var Yacs = {
 		});
 
 		// prepare for a nice slideshow
-		var anchors = $('#a.image_show');
+		var anchors = $('.image_show');
 		for(index = 0; index < anchors.length; index++) {
 			var anchor = anchors[index];
 			anchor.onclick = Yacs.clickImage;
@@ -794,11 +794,11 @@ var Yacs = {
 			if((yDelta !== 0) && (xDelta !== 0) && $('#modal_image_panel')) {
 
 				// previous image -- <div id="modal_image_panel"><img ...
-				var previousImage = $('#modal_image_panel').down();
+				var previousImage = $('#modal_image_panel').children('img');
 
 				// current height and width
-				var currentHeight = $(previousImage).height();
-				var currentWidth = $(previousImage).width();
+				var currentHeight = previousImage.height();
+				var currentWidth = previousImage.width();
 
 				// compute scaling factors
 				var yScale = ((currentHeight + yDelta) / currentHeight) * 100;
@@ -810,15 +810,15 @@ var Yacs = {
 
 				// adjust the overall size
 				if(yDelta !== 0) {
-					$(previousImage).scale(yScale, {scaleX: false, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'vertical', percent: yScale, duration: 0.4, queue: 'end'});
 				}
 				if(xDelta !== 0) {
-					$(previousImage).scale(xScale, {scaleY: false, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'horizontal', percent: xScale, duration: 0.4, queue: 'end'});
 				}
 			}
 
 			// image title -- <a><span><img title="" ...
-			var imageTitle = $(anchor + ' img:first-child').attr('title');
+			var imageTitle = $(anchor).find('img').attr('title');
 
 			// image href
 			var imageReference = '<div id="modal_image_panel"><img src="'+$(anchor).attr('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';

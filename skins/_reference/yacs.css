@@ -1489,6 +1489,7 @@ div#modal_content div.boxButtons {
 div#modal_content h2.boxTitle {
 	margin-top: 0;
 	padding-top: 0;
+	text-align: center;
 }
 
 div#modal_image_panel {
