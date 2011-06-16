@@ -18,6 +18,7 @@ $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['5eceff9c59d2bdcf158b449fba7cbcac']='Passer en revue les requêtes, publier les articles envoyés, vérifier les anciennes pages';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['cd18fb0e02dd6f7b80bf22c3c8133841']='La connexion à la base de données a été perdue';
+$_SESSION['l10n']['fr']['Contribute to this page!']='Contribuez à cette page !';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Creation date']='Date de création';
 $_SESSION['l10n']['fr']['Dates']='Dates';

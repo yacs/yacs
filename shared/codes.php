@@ -152,8 +152,8 @@
  * - &#91;table]...[/table] - one simple table
  * - &#91;table=grid]...[/table] - add a grid
  * - &#91;table].[body].[/table] - a table with headers
- * - &#91;csv]...[/csv] - import some data from Excel
- * - &#91;csv=;]...[/csv] - import some data from Excel
+ * - &#91;csv]...[/csv] - import some data from a spreadsheet
+ * - &#91;csv=;]...[/csv] - import some data from a spreadsheet
  * - &#91;table.json] - format a table as json
  *
  * @see codes/tables.php
@@ -210,7 +210,6 @@
  * @see codes/widgets.php
  *
  * Miscellaneous codes, demonstrated in [link]codes/misc.php[/link]:
- * - &#91;chart]...[/chart] - draw a dynamic chart
  * - &#91;hint=&lt;help popup]...[/hint] - &lt;acronym tite="help popup">...&lt;/acronym>
  * - &#91;nl] - new line
  * - ----... - line break
@@ -229,6 +228,14 @@
  * - &#91;it] - country flag
  * - &#91;pt] - country flag
  * - &#91;us] - country flag
+ * - &#91;chart]...[/chart] - draw a dynamic chart
+ * - &#91;execute=script] - include another local script
+ * - &#91;redirect=link] - jump to another local page
+ * - &#91;parameter=name] - value of one attribute of the global context
+ * - &#91;escape]...[/escape]
+ * - &#91;anonymous]...[/anonymous] - for non-logged people only
+ * - &#91;authenticated]...[/authenticated] - for logged members only
+ * - &#91;associate]...[/associate] - for associates only
  *
  * @see codes/misc.php
  *
@@ -254,14 +261,8 @@
  * @link http://www.estvideo.com/dew/index/2005/02/16/370-player-flash-mp3-leger-comme-une-plume the dewplayer page
  *
  * Other codes:
- * - &#91;menu=label]url[/menu] -> one of the main menu command
- * - &#91;submenu=label]url[/submenu]	-> one of the second-level menu commands
- * - &#91;escape]...[/escape]
- * - &#91;anonymous]...[/anonymous] 	-> for non-logged people only
- * - &#91;restricted]...[/restricted]		-> for logged members only
- * - &#91;hidden]...[/hidden]		-> for associates only
- * - &#91;parameter=name]	-> value of one attribute of the global context
- *
+ * - &#91;menu=label]url[/menu] - one of the main menu command
+ * - &#91;submenu=label]url[/submenu] - one of the second-level menu commands
  *
  * This script attempts to fight bbCode code injections by filtering strings to be used
  * as [code]src[/code] or as [code]href[/code] attributes (Thank you Mordread).
@@ -795,25 +796,6 @@ Class Codes {
 	}
 
 	/**
-	 * get the value of one global parameter
-	 *
-	 * @param string name of the parameter
-	 * @param mixed default value, if any
-	 * @return the actual value of this parameter, else the default value, else ''
-	 */
-	function &get_parameter($name, $default='') {
-		global $context;
-
-		if(isset($context[$name])) {
-			$output =& $context[$name];
-			return $output;
-		}
-
-		$output = $default;
-		return $output;
-	}
-
-	/**
 	 * reset global variables used for rendering
 	 *
 	 * This function should be called between the processing of different articles in a loop
@@ -901,6 +883,8 @@ Class Codes {
 	 * render_skin();
 	 * [/php]
 	 *
+	 * @link http://pureform.wordpress.com/2008/01/04/matching-a-word-characters-outside-of-html-tags/
+	 *
 	 * @param string the input string
 	 * @return string the transformed string
 	 */
@@ -938,9 +922,13 @@ Class Codes {
 				'/\[php\](.*?)\[\/php\]/ise',			// [php]...[/php]
 				'/\[snippet\](.*?)\[\/snippet\]/ise',	// [snippet]...[/snippet]
 				'/(\[page\].*)$/is',					// [page] (provide only the first one)
-				'/\[hidden\](.*?)\[\/hidden\]/ise', 	// [hidden]...[/hidden] (save some cycles if at the beginning)
-				'/\[restricted\](.*?)\[\/restricted\]/ise', // [restricted]...[/restricted] (save some cycles if at the beginning)
+				'/\[associate\](.*?)\[\/associate\]/ise', 	// [associate]...[/associate] (save some cycles if at the beginning)
+				'/\[hidden\](.*?)\[\/hidden\]/ise', 	// [hidden]...[/hidden] obsolete, replaced by [associate]...[/associate]
+				'/\[authenticated\](.*?)\[\/authenticated\]/ise', // [authenticated]...[/authenticated] (save some cycles if at the beginning)
+				'/\[restricted\](.*?)\[\/restricted\]/ise', 	// [restricted]...[/restricted] obsolete, replaced by [authenticated]...[/authenticated]
 				'/\[anonymous\](.*?)\[\/anonymous\]/ise', // [anonymous]...[/anonymous] (save some cycles if at the beginning)
+				'/\[redirect=([^\]]+?)\]/ise', 			// [redirect=<link>]
+				'/\[execute=([^\]]+?)\]/ise', 			// [execute=<name>]
 				'/\[parameter=([^\]]+?)\]/ise', 		// [parameter=<name>]
 				'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise',		// [lang=xy]...[/lang]
 				'/\[csv=(.)\](.*?)\[\/csv\]/ise',		// [csv=;]...[/csv] (before [table])
@@ -985,17 +973,17 @@ Class Codes {
 				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
 				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
 				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/\+\+(\S.*?\S)\+\+/is',				// ++...++
+				'/\+\+(\S.*?\S)\+\+(?!([^<]+)?>)/is',	// ++...++
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/ --(\S.*?\S)--/is',					// --...--
+				'/ --(\S.*?\S)--(?!([^<]+)?>)/is',		// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
 				'/\*\*(\S.*?\S)\*\*/is',				// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/ \/\/(\S.*?\w)\/\//is',				// //...//
+				'/ \/\/(\S.*?\w)\/\/(?!([^<]+)?>)/is',				// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/__(\S.*?\S)__/is',					// __...__
+				'/__(\S.*?\S)__(?!([^<]+)?>)/is',		// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
@@ -1132,15 +1120,19 @@ Class Codes {
 		static $replace;
 		if(!isset($replace)) {
 			$replace = array(
-				'',																// delete HTML comments
+				'',																	// delete HTML comments
 				"Codes::render_escaped(Codes::fix_tags('$1'))",						// [escape]...[/escape]
 				"Codes::render_pre(Codes::fix_tags('$1'), 'php')",					// [php]...[/php]
 				"Codes::render_pre(Codes::fix_tags('$1'), 'snippet')",				// [snippet]...[/snippet]
 				'', 																// [page]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'hidden')",			// [hidden]...[/hidden]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'restricted')",		// [restricted]...[/restricted]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [associate]...[/associate]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [hidden]...[/hidden]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [authenticated]...[/authenticated]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [restricted]...[/restricted]
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
-				"Codes::get_parameter('\\1')",										// [parameter=<name>]
+				"Codes::render_redirect('\\1')",									// [redirect=<link>]
+				"Codes::render_execute('\\1')",										// [execute=<name>]
+				"Codes::render_parameter('\\1')",									// [parameter=<name>]
 				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
 				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
 				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
@@ -2117,6 +2109,54 @@ Class Codes {
 	}
 
 	/**
+	 * include some external PHP script
+	 *
+	 * @param string name of the script to include
+	 * @param mixed default value, if any
+	 * @return text generated during the inclusion
+	 */
+	function &render_execute($name) {
+		global $context;
+
+		// check path to the file
+		while(TRUE) {
+
+			// remove leading /
+			if($name[0] == '/') {
+				$name = substr($name, 1);
+				continue;
+			}
+
+			// avoid reference to current directory
+			if(!strncmp($name, './', 2)) {
+				$name = substr($name, 2);
+				continue;
+			}
+
+			// can't go outside this instance of yacs
+			if(!strncmp($name, '../', 3)) {
+				$name = substr($name, 3);
+				continue;
+			}
+
+			break;
+		}
+
+		// capture the output of the next script in memory
+		ob_start();
+
+		// load this file, somewhere below the installation directory
+		include $context['path_to_root'].$name;
+
+		// retrieve all text generated by the script
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		// display the text where the script was included
+		return $output;
+	}
+
+	/**
 	 * render an interactive Freemind map
 	 *
 	 * The id can be:
@@ -2323,7 +2363,7 @@ Class Codes {
 	 *
 	 * If variant = 'anonymous' and surfer is not logged, then display the block.
 	 * If the surfer is an associate, then display the text.
-	 * Else if the surfer is an authenticated member and variant = 'restricted', then display the text
+	 * Else if the surfer is an authenticated member and variant = 'authenticated', then display the text
 	 * Else return an empty string
 	 *
 	 * @param string the text
@@ -2344,7 +2384,7 @@ Class Codes {
 			return $text;
 
 		// this block is restricted to members
-		if(Surfer::is_member() && ($variant == 'restricted'))
+		if(Surfer::is_member() && ($variant == 'authenticated'))
 			return $text;
 
 		// tough luck
@@ -3083,7 +3123,7 @@ Class Codes {
 			if(Images::allow_modification($image['anchor'],$id))
 			   // build editable image
 			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
-			else 
+			else
 			   $output =& Skin::build_image($variant, $href, $title, $link);
 
 			return $output;
@@ -3401,6 +3441,28 @@ Class Codes {
 
 		}
 
+	}
+
+	/**
+	 * get the value of one global parameter
+	 *
+	 * Parameter is taken from the global $context array, and its name has to start with
+	 * prefix 'page_', for obvious security reasons.
+	 *
+	 * @param string name of the parameter
+	 * @param mixed default value, if any
+	 * @return the actual value of this parameter, else the default value, else ''
+	 */
+	function &render_parameter($name, $default='') {
+		global $context;
+
+		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
+			$output =& $context[$name];
+			return $output;
+		}
+
+		$output = $default;
+		return $output;
 	}
 
 	/**
@@ -3802,6 +3864,58 @@ Class Codes {
 
 		// job done
 		return $text;
+	}
+
+	/**
+	 * redirect dynamically from this page to any local web address
+	 *
+	 * This is typically useful to have a regular yacs page redirected to a specific PHP script.
+	 *
+	 * @param string target link
+	 * @return text generated during the inclusion
+	 */
+	function &render_redirect($link) {
+		global $context;
+
+		// turn external links to clickable things
+		if(preg_match('/^(ftp:|http:|https:|www\.)/i', $link)) {
+			$output = '<p>'.Skin::build_link($link).'</p>';
+			return $output;
+		}
+
+		// only while viewing real pages
+		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'GET')) {
+			$output = '<p>'.Skin::build_link($link).'</p>';
+			return $output;
+		}
+
+		// check path to the file
+		while(TRUE) {
+
+			// remove leading /
+			if($link[0] == '/') {
+				$link = substr($link, 1);
+				continue;
+			}
+
+			// avoid reference to current directory
+			if(!strncmp($link, './', 2)) {
+				$link = substr($link, 2);
+				continue;
+			}
+
+			// can't go outside this instance of yacs
+			if(!strncmp($link, '../', 3)) {
+				$link = substr($link, 3);
+				continue;
+			}
+
+			break;
+		}
+
+		// forward to the target page
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$link);
+
 	}
 
 	/**

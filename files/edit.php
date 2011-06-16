@@ -644,18 +644,17 @@ if($with_form) {
 	// optional checkboxes
 	$context['text'] .= '<p>';
 
-	// notify watchers
-	if(!isset($item['id']))
-		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+	// notify watchers --updating a file, or uploading a new file, should generate a notification
+	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
 
 	// notify people following me
-	if(!isset($item['id']) && Surfer::get_id() && !$anchor->is_hidden())
+	if(Surfer::get_id() && !$anchor->is_hidden())
 		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
 
 	// associates may decide to not stamp changes, but only for changes -- complex command
-	if(isset($item['id']) && Surfer::is_associate() && isset($anchor) && Surfer::has_all())
-	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
-		$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
+	if(Surfer::is_associate() && isset($anchor) && Surfer::has_all())
+		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
+			$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
 
 	// validate page content
 	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';

@@ -78,7 +78,7 @@
  *
  * [title]visitor authentication[/title]
  *
- * This script is aiming to support visitors contacted by e-mail.
+ * This script is aiming to authenticate visitors driven to a given page.
  *
  * At key resources, typically, a web page, web authors have the opportunity to
  * send e-mails to people invited to contribute to this page.
@@ -94,7 +94,7 @@
  * following array:
  * - the string 'visit'
  * - target anchor (e.g., 'article:123')
- * - e-mail address (e.g., 'tom@foo.bar', or 'Tom &lt;tom@foo.bar&gt;')
+ * - user identifier or name (e.g., '47', or 'tom@foo.bar', or 'Tom &lt;tom@foo.bar&gt;')
  * - salted secret (see below)
  *
  * The salted secret is computed as follows:
@@ -244,7 +244,7 @@ if(Surfer::is_crawler()) {
 		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
-		// visitor email address
+		// visitor id or email address
 		elseif(!isset($credentials[2]) || !$credentials[2])
 			Logger::error(i18n::s('Request is invalid.'));
 
@@ -259,13 +259,8 @@ if(Surfer::is_crawler()) {
 			$tokens = explode(' ', $credentials[2]);
 			$address = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
 
-			// if surfer has been authenticated, make him an editor of the target page, and update his watch list
-			if($id = Surfer::get_id()) {
-				Members::assign('user:'.$id, $anchor->get_reference());
-				Members::assign($anchor->get_reference(), 'user:'.$id);
-
-			// start a new session
-			} else {
+			// if surfer has not been authenticated yet
+			if(!Surfer::get_id()) {
 
 				// look for a surfer with this address
 				if(!$user = Users::get($address)) {
@@ -276,12 +271,6 @@ if(Surfer::is_crawler()) {
 
 				// save surfer profile in session context
 				Surfer::set($user, TRUE);
-
-				// ensure this user profile is also an editor of the visited page
-				if(isset($user['id'])) {
-					Members::assign('user:'.$user['id'], $anchor->get_reference());
-					Members::assign($anchor->get_reference(), 'user:'.$user['id']);
-				}
 
 			}
 
@@ -310,26 +299,6 @@ if(Surfer::is_crawler()) {
 
 		// save surfer profile in session context
 		Surfer::set($user);
-
-		// set a semi-permanent cookie for user identification
-		if(isset($user['handle']) && $user['handle'] && isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
-
-			// time of authentication
-			$now = (string)time();
-
-			// token is made of: user id, time of login, gmt offset, salt --salt combines date of login with secret handle
-			$token = $user['id'].'|'.$now.'|'.Surfer::get_gmt_offset().'|'.md5($now.'|'.$user['handle']);
-
-			// path to this instance
-			Safe::setcookie('screening', $token, time()+60*60*24*500, $context['url_to_root']);
-
-			// also set cookies used in leading index.php
-			if($home = getenv('YACS_HOME'))
-				Safe::setcookie('screening', $token, time()+60*60*24*500, $home.'/');
-			if($context['url_to_root'] == '/yacs/')
-				Safe::setcookie('screening', $token, time()+60*60*24*500, '/');
-
-		}
 
 		// redirect to previous page
 		if(isset($context['users_without_login_welcome']) && ($context['users_without_login_welcome'] == 'Y')) {

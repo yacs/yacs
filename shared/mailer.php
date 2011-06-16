@@ -650,6 +650,27 @@ class Mailer {
 	}
 
 	/**
+	 * get the default From: address
+	 *
+	 * This function should be invoked to originate all notifications and messages sent
+	 * by this server.
+	 *
+	 * @return string either the address of the current surfer, or the address of the web server itself
+	 */
+	function get_from_recipient() {
+		global $context;
+
+		// determine the From: address
+		if(isset($context['mail_from']) && $context['mail_from'])
+			$from = $context['mail_from'];
+		else
+			$from = $context['host_name'];
+
+		// done
+		return $from;
+	}
+
+	/**
 	 * send a short email message
 	 *
 	 * This is the function used by yacs to notify community members of various events.
@@ -679,14 +700,11 @@ class Mailer {
 			$from = NULL;
 
 		// ensure we have a sender
-		if(!$from) {
-			if(isset($context['mail_from']) && $context['mail_from'])
-				$from = $context['mail_from'];
-			else
-				$from = $context['site_name'];
+		if(!$from)
+			$from = Mailer::get_from_recipient();
 
 		// add site name to message title
-		} else
+		else
 			$subject .= ' ['.$context['site_name'].']';
 
 		// allow for HTML rendering
@@ -775,7 +793,7 @@ class Mailer {
 	 * Mailer::post($from, $to, $subject, $message);
 	 * [/php]
 	 *
-	 * It is recommended to begin with the bare text, and to have the rich format part comming
+	 * It is recommended to begin with the bare text, and to have the rich format part coming
 	 * after, as in the example. Also, if you don't provide a charset, then UTF-8 is used.
 	 *
 	 * Long lines of text/plain parts are wrapped according to
@@ -814,9 +832,9 @@ class Mailer {
 	function post($from, $to, $subject, $message, $attachments=NULL, $headers='') {
 		global $context;
 
-		// use surfer own address
+		// ensure that we have a sender
 		if(!$from)
-			$from = Surfer::from();
+			$from = Mailer::get_from_recipient();
 
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
@@ -939,7 +957,7 @@ class Mailer {
 			define('WRAPPING_LENGTH', 70);
 
 		// decode encoding settings
-		$content_encoding = '8bit';
+		$content_encoding = 'binary';
 		if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
 			$content_encoding = 'base64';
 
@@ -1019,24 +1037,50 @@ class Mailer {
 			$content_encoding = '';
 
 			// process every file
-			foreach($attachments as $name) {
+			foreach($attachments as $name => $content) {
 
-				// read file content
-				if(!$content = Safe::file_get_contents($name))
-					continue;
+				// read external file content
+				if(preg_match('/^[0-9]+$/', $name)) {
 
-				// append it to mail message
+					// only a file name has been provided
+					$name = $content;
+
+					// read file content from the file system
+					if(!$content = Safe::file_get_contents($name))
+						continue;
+
+				}
+
+				// file name is the file type
+				if(preg_match('/name="(.+)?"/', $name, $matches)) {
+					$type = $name;
+					$name = $matches[1];
+
+				} else
+					$type = Files::get_mime_type($name);
+
+				// set a name that avoids problems
 				$basename = utf8::to_ascii(basename($name));
-				$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
-				$type = Files::get_mime_type($name);
 
+				// a unique id for for this file
+				$cid = sprintf('%u@%s', crc32($name.':'.$context['path_to_root']), $context['host_name']);
+
+				// headers for one file
 				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
 					.M_EOL.'Content-Type: '.$type
-					.M_EOL.'Content-Description: '.$basename
 					.M_EOL.'Content-Disposition: inline; filename="'.$basename.'"'
-					.M_EOL.'Content-ID: <'.$cid.'>'
-					.M_EOL.'Content-Transfer-Encoding: base64'
-					.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+					.M_EOL.'Content-ID: <'.$cid.'>';
+
+				// transfer textual entities as they are
+				if(!strncmp($type, 'text/', 5)) {
+					$body .= M_EOL.'Content-Transfer-Encoding: binary'
+						.M_EOL.M_EOL.$content;
+
+				// encode everything else
+				} else {
+					$body .= M_EOL.'Content-Transfer-Encoding: base64'
+						.M_EOL.M_EOL.chunk_split(base64_encode($content), 76, M_EOL);
+				}
 
 			}
 

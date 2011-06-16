@@ -69,193 +69,46 @@ else {
 	// drop a participant
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'drop') && isset($_REQUEST['target']) && $_REQUEST['target']) {
 
+		// list enrolment for this meeting
+		$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE id = ".SQL::escape($_REQUEST['target']);
+		if(($result = SQL::query_first($query)) && ($user = Users::get($result['user_id']))) {
+
+			// confirm cancellation by e-mail
+			if($user['email'] && preg_match(VALID_RECIPIENT, $user['email'])) {
+
+				// use this email address
+				if($user['full_name'])
+					$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+				else
+					$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
+
+				// mail message
+				$mail = array();
+
+				// mail subject
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Cancellation'), strip_tags($anchor->get_title()));
+
+				// message confirmation
+				$mail['message'] = $overlay->get_invite_default_message('CANCEL');
+
+				// allow for HTML rendering
+				$mail['message'] = Mailer::build_message($mail['subject'], $mail['message']);
+
+				// get attachments from the overlay, if any
+				$mail['attachments'] = $overlay->get_invite_attachments('CANCEL');
+
+				// threads messages
+				$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+
+				// send the message
+				Mailer::post(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['attachments'], $mail['headers']);
+
+			}
+		}
+
+		// drop enrolment record
 		$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE id = ".SQL::escape($_REQUEST['target']);
 		SQL::query($query);
-
-	}
-
-	// enroll a full list
-	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'enroll') && isset($_REQUEST['assign_list']) && $_REQUEST['assign_list']) {
-
-		// enrolment to a private page should be limited to editors
-		if($anchor->is_hidden())
-			$users =& Members::list_users_by_posts_for_member($_REQUEST['assign_list'], 0, 50*USERS_LIST_SIZE, 'raw');
-
-		// else enrolment should be extended to watchers
-		else
-			$users =& Members::list_users_by_posts_for_anchor($_REQUEST['assign_list'], 0, 50*USERS_LIST_SIZE, 'raw');
-
-		// list members
-		if(count($users)) {
-
-			// enroll each member separately
-			foreach($users as $id => $user) {
-
-				// add the page to the watch list
-				Members::assign($anchor->get_reference(), 'user:'.$user['id']);
-
-				// ensure that the enrolled person can access private pages
-				if($anchor->is_hidden())
-					Members::assign('user:'.$user['id'], $anchor->get_reference());
-
-				// if there is no enrolment record yet
-				$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$anchor->get_reference()."') AND (user_id = ".SQL::escape($user['id']).")";
-				if(!SQL::query_count($query)) {
-
-					// fields to save
-					$query = array();
-
-					// reference to the meeting page
-					$query[] = "anchor = '".$anchor->get_reference()."'";
-
-					// direct enrolment
-					$query[] = "approved = 'Y'";
-
-					// save user id
-					$query[] = "user_id = ".SQL::escape($user['id']);
-
-					// save user e-mail address
-					$query[] = "user_email = '".SQL::escape($user['email'])."'";
-
-					// insert a new record
-					$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
-					SQL::query($query);
-
-					// confirm enrolment by e-mail
-					if($user['email'] && preg_match(VALID_RECIPIENT, $user['email'])) {
-
-						// use this email address
-						if($user['full_name'])
-							$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
-						else
-							$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
-
-						// mail message
-						$mail = array();
-
-						// mail subject
-						$mail['subject'] = sprintf(i18n::c('Invitation: %s'), strip_tags($anchor->get_title()));
-
-						// message confirmation
-						$action = sprintf(i18n::c('You have been enrolled by %s'), Surfer::get_name());
-						$title = strip_tags($anchor->get_title());
-						$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-						$mail['message'] =& Mailer::build_notification($action, $title, $link);
-
-						// threads messages
-						$mail['headers'] = Mailer::set_thread($anchor->get_reference());
-
-						// send the message
-						Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['headers']);
-
-						// report on this notification
-						$enrolled_names[] = htmlspecialchars($recipient);
-
-					}
-				}
-			}
-		}
-	}
-
-	// enroll a new person
-	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'enroll') && isset($_REQUEST['assigned_name']) && $_REQUEST['assigned_name']) {
-
-		// from an existing user profile
-		if($user = Users::get($_REQUEST['assigned_name'])) {
-
-			// add the page to the watch list
-			Members::assign($anchor->get_reference(), 'user:'.$user['id']);
-
-			// ensure that the enrolled person can access private pages
-			if($anchor->is_hidden())
-				Members::assign('user:'.$user['id'], $anchor->get_reference());
-
-			// if there is no enrolment record yet
-			$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$anchor->get_reference()."') AND (user_id = ".SQL::escape($user['id']).")";
-			if(!SQL::query_count($query)) {
-
-				// fields to save
-				$query = array();
-
-				// reference to the meeting page
-				$query[] = "anchor = '".$anchor->get_reference()."'";
-
-				// direct enrolment
-				$query[] = "approved = 'Y'";
-
-				// save user id
-				$query[] = "user_id = ".SQL::escape($user['id']);
-
-				// save user e-mail address
-				$query[] = "user_email = '".SQL::escape($user['email'])."'";
-
-				// insert a new record
-				$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
-				SQL::query($query);
-
-				// confirm enrolment by e-mail
-				if($user['email'] && preg_match(VALID_RECIPIENT, $user['email'])) {
-
-					// use this email address
-					if($user['full_name'])
-						$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
-					else
-						$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
-
-					// mail message
-					$mail = array();
-
-					// mail subject
-					$mail['subject'] = sprintf(i18n::c('Invitation: %s'), strip_tags($anchor->get_title()));
-
-					// message confirmation
-					$action = sprintf(i18n::c('You have been enrolled by %s'), Surfer::get_name());
-					$title = strip_tags($anchor->get_title());
-					$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-					$mail['message'] =& Mailer::build_notification($action, $title, $link);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread($anchor->get_reference());
-
-					// send the message
-					Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['headers']);
-
-					// report on this notification
-					$enrolled_names[] = htmlspecialchars($recipient);
-
-				}
-
-			}
-
-		// use provided mail address
-		} else {
-
-			// if there is no enrolment record yet
-			$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$anchor->get_reference()."') AND (user_email LIKE '".SQL::escape($_REQUEST['assigned_name'])."')";
-			if(!SQL::query_count($query)) {
-
-				// fields to save
-				$query = array();
-
-				// reference to the meeting page
-				$query[] = "anchor = '".$anchor->get_reference()."'";
-
-				// direct enrolment
-				$query[] = "approved = 'Y'";
-
-				// save user id
-				$query[] = "user_id = 0";
-
-				// save user e-mail address
-				$query[] = "user_email = '".SQL::escape($_REQUEST['assigned_name'])."'";
-
-				// insert a new record
-				$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
-				SQL::query($query);
-
-			}
-
-		}
 
 	}
 
@@ -290,19 +143,22 @@ else {
 				$mail = array();
 
 				// mail subject
-				$mail['subject'] = sprintf(i18n::c('Invitation: %s'), strip_tags($anchor->get_title()));
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
 
 				// message confirmation
-				$action = sprintf(i18n::c('You have been enrolled by %s'), Surfer::get_name());
-				$title = strip_tags($anchor->get_title());
-				$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-				$mail['message'] =& Mailer::build_notification($action, $title, $link);
+				$mail['message'] = $overlay->get_invite_default_message('PUBLISH');
+
+				// allow for HTML rendering
+				$mail['message'] = Mailer::build_message($mail['subject'], $mail['message']);
+
+				// get attachments from the overlay, if any
+				$mail['attachments'] = $overlay->get_invite_attachments('PUBLISH');
 
 				// threads messages
 				$mail['headers'] = Mailer::set_thread($anchor->get_reference());
 
 				// send the message
-				Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['headers']);
+				Mailer::post(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['attachments'], $mail['headers']);
 
 				// report on this notification
 				$enrolled_names[] = htmlspecialchars($recipient);
@@ -320,69 +176,16 @@ else {
 	// splash
 	switch($overlay->get_value('enrolment')) {
 	case 'manual':
-		$context['text'] .= '<p>'.i18n::s('Registration is managed by page owner. You have to enroll all participants manually, and they will be notified by e-mail about this event.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Registration is managed by page owner. You have to invite participants manually, and they will be notified by e-mail about this event.').'</p>';
 		break;
 	case 'none':
 	default:
-		$context['text'] .= '<p>'.i18n::s('Enrolment has been configured to accept any visitor. You may enroll manually some participants to draw their attention on this event.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Enrolment has been configured to accept any visitor. You may invite some participants to draw their attention on this event.').'</p>';
 		break;
 	case 'validate':
 		$context['text'] .= '<p>'.i18n::s('Visitors are entitled to ask for participation, and enrolment is confirmed by page owner. Check the list below to validate applications, and to confirm registrations by e-mail.').'</p>';
 		break;
 	}
-
-	// list also selectable groups of people
-	$items = array();
-	$handle = $anchor->get_parent();
-	while($handle && ($parent = Anchors::get($handle))) {
-		$handle = $parent->get_parent();
-
-		// the link to trigger the enrolment of this list
-		$link = $context['script_url'].'?id='.$anchor->get_reference().'&amp;assign_list='.$parent->get_reference().'&amp;action=enroll';
-
-		// enrolment to a private page should be limited to editors
-		if($anchor->is_hidden()) {
-
-			if($count = Members::count_users_for_member($parent->get_reference()))
-				$items[] = Skin::build_link($link, sprintf(i18n::s('Persons assigned to %s'), $parent->get_title()).' ('.$count.')', 'basic');
-
-		// else enrolment should be extended to watchers
-		} else {
-
-			if($count = Members::count_users_for_anchor($parent->get_reference()))
-				$items[] = Skin::build_link($link, sprintf(i18n::s('Persons watching %s'), $parent->get_title()).' ('.$count.')', 'basic');
-
-		}
-	}
-
-	if($items) {
-		$context['text'] .= '<div style="margin-bottom: 1em;">'.i18n::s('To add several persons at once, use following lists').Skin::finalize_list($items, 'compact').'</div>';
-	}
-
-	// way of working
-	$context['text'] .= '<p>'.i18n::s('To add a person, type some letters to look for a name, then select one profile at a time.').'</p>';
-
-	// the form to link additional users
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_completer.gif" alt="Working..." /></span>'
-		.'<input type="hidden" name="id" value="'.encode_field($anchor->get_reference()).'">'
-		.'<input type="hidden" name="action" value="enroll">'
-		.'</p></form>'."\n";
-
-	// enable autocompletion
-	$context['text'] .= JS_PREFIX
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#name").focus() });'."\n"
-		."\n"
-  	.'// enable name autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#name").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
 
 	// list enrolment for this meeting
 	$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".SQL::escape($anchor->get_reference())."'";
@@ -419,7 +222,7 @@ else {
 			// application has not been validated yet
 			if($item['approved'] != 'Y') {
 				$link = $context['script_url'].'?id='.$anchor->get_reference().'&amp;target='.$item['id'].'&amp;action=validate';
-				$line .= ' - <span class="details">'.Skin::build_link($link, i18n::s('validate'), 'basic').'</span>';
+				$line .= ' - '.Skin::build_link($link, i18n::s('validate'), 'basic');
 			}
 
 			// allow to kill some registration
@@ -442,6 +245,7 @@ else {
 	// follow-up commands
 	$menu = array();
 	$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
+	$menu[] = Skin::build_link($anchor->get_url('invite'), i18n::s('Invite participants'), 'span');
 	$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 
 }
