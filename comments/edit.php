@@ -449,7 +449,7 @@ if($with_form) {
 
 	// notify watchers
 	if($action != 'edit')
-		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers.').BR;
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
 
 	// notify people following me
 	if(($action != 'edit') && Surfer::get_id() && !$anchor->is_hidden())

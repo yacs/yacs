@@ -5,16 +5,20 @@
  * This script has a form to post a mail message related to an existing page.
  *
  * When a message is sent to invited people, these may, or not, be part of
- * the community.
+ * the community. For each unknown mail address added by the sender, a new user profile
+ * is created automatically and a notification is sent by e-mail to this recipient for further
+ * reference.
+ *
+ * Senders can get a copy of messages if they want.
+ *
+ * This script is able to interact with the page overlay, by calling various functions:
+ * - get_invite_attachments() - to complement the message (e.g., to join .ics file)
+ * - get_invite_default_message() - to adapt the message to page content
+ * - invite() - remember the id of some invitee (e.g., for event enrolment)
  *
  * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
  *
  * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the site front page.
- *
- * Senders can get a copy of messages if they want.
  *
  * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
  *
@@ -62,24 +66,12 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
-// link to contribute
-if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']); // to be expanded to credentials
-else
-	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-
-// message prefix
-$message_prefix = i18n::s('I would like to invite you to the following page.')
-	."\n\n".$link."\n\n";
-
 // owners can do what they want
-if(Articles::is_owned($item))
-	Surfer::empower();
-elseif(is_object($anchor) && $anchor->is_owned())
+if(Articles::is_owned($item, $anchor))
 	Surfer::empower();
 
 // associates and editors can do what they want
-if(Surfer::is_empowered())
+if(Articles::is_owned($item, $anchor))
 	$permitted = TRUE;
 
 // help to share public items
@@ -164,58 +156,30 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// message body
-	$message = $message_prefix;
-	if(isset($_REQUEST['message']))
-		$message .= strip_tags($_REQUEST['message']);
-
-	// sender address
-	$from = Surfer::from();
-
 	// recipient(s) address(es)
 	$to = '';
 	if(isset($_REQUEST['to']))
-		$to = strip_tags($_REQUEST['to']);
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && strpos($from, '@')) {
+		$to = $_REQUEST['to'];
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y')) {
 		if($to)
 			$to .= ', ';
-		$to .= $from;
+		$to .= Surfer::from();
 	}
 
 	// make an array of recipients
 	if(!is_array($to))
 		$to = Mailer::explode_recipients($to);
 
-	// append lists, if any
-	if(isset($_REQUEST['to_list'])) {
+	// add selected recipients
+	if(isset($_REQUEST['selected_users']) && @count($_REQUEST['selected_users'])) {
 
-		foreach($_REQUEST['to_list'] as $reference) {
+		foreach($_REQUEST['selected_users'] as $dummy => $id)
+			$to[] = $id;
 
-			// invitation to a private page should be limited to editors
-			if($item['active'] == 'N')
-				$users =& Members::list_editors_for_member($reference, 0, 50*USERS_LIST_SIZE, 'raw');
-
-			// else invitation should be extended to watchers
-			else
-				$users =& Members::list_watchers_by_posts_for_anchor($reference, 0, 50*USERS_LIST_SIZE, 'raw');
-
-			// list members
-			if(count($users)) {
-
-				// enroll each member separately
-				foreach($users as $id => $user) {
-
-					// this person has no email address
-					if(!$user['email'])
-						continue;
-
-					// extend the list of recipients
-					$to[] = $user['nick_name'];
-
-				}
-			}
-		}
 	}
+
+	// avoid duplicates
+	$to = array_unique($to);
 
 	// process every recipient
 	$actual_names = array();
@@ -224,60 +188,72 @@ if(Surfer::is_crawler()) {
 		// clean the provided string
 		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
-		// assume regular message
-		$actual_message = $message;
-
-		// we have a valid e-mail address
-		if(preg_match('/\w+@\w+\.\w+/', $recipient)) {
-
-			// add credentials in message
-			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
-
-				// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
-				$tokens = explode(' ', $recipient);
-				$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
-
-				// the secret link --see users/login.php
-				$link = Users::get_login_url('visit', 'article:'.$item['id'], $actual_recipient, $item['handle']);
-
-				// translate strings to allow for one-click authentication
-				$actual_message = str_replace(Articles::get_url($item['id']), $link, $message);
-			}
-
 		// look for a user with this nick name
-		} elseif(($user =& Users::get($recipient))) {
+		if(!$user =& Users::lookup($recipient)) {
 
-			// make this user an editor of the target section
-			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-				Members::assign('user:'.$user['id'], 'article:'.$item['id']);
-
-			// always add the item to the watch list
-			Members::assign('article:'.$item['id'], 'user:'.$user['id']);
-
-			// this person has no valid email address
-			if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
-				continue;
-
-			// use this email address
-			if($user['full_name'])
-				$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
-			else
-				$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
-
-		// skip this recipient
-		} else {
+			// skip this recipient
 			if($recipient)
 				Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
 			continue;
+
 		}
+
+		// make this user an editor of the target item
+		if(($item['active'] == 'N')
+			|| (Articles::is_owned($item, $anchor) && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')))
+			Members::assign('user:'.$user['id'], 'article:'.$item['id']);
+
+		// always add the item to the watch list
+		Members::assign('article:'.$item['id'], 'user:'.$user['id']);
+
+		// propagate the invitation to the overlay, if applicable
+		if(is_callable(array($overlay, 'invite')))
+			$overlay->invite($user['id']);
+
+		// this person has no valid email address
+		if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
+			continue;
+
+		// use this email address
+		if($user['full_name'])
+			$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+		else
+			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
+
+		// build the full message
+		if(isset($_REQUEST['message']))
+			$message = '<div>'.$_REQUEST['message'].'</div>';
+
+		else
+			$message = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>';
 
 		// change content for message poster
-		if(!strcmp($recipient, $from)) {
-			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n".htmlspecialchars_decode(join(', ', $actual_names))."\n".'-------'."\n\n".$actual_message;
+		if(strpos(Surfer::from(), $user['email']) !== FALSE) {
+			$message = '<p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><hr /><p>'.htmlspecialchars_decode(join(', ', $actual_names)).'</p><hr />'.$message;
 		}
 
+		// the secret link --see users/login.php
+		$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('visit', 'article:'.$item['id'], $user['id'], $item['handle']);
+
+		// provide a link that also authenticates surfers on click-through --see users/login.php
+		$message = str_replace($context['url_to_root'].Articles::get_permalink($item),
+			$context['url_to_root'].Users::get_login_url('visit', 'article:'.$item['id'], $user['id'], $item['handle']), $message);
+
+		// allow the overlay to filter message content
+		if(is_callable(array($overlay, 'filter_invite_message')))
+			$message = $overlay->filter_invite_message($message);
+
+		// allow for HTML rendering
+		$message = Mailer::build_message($subject, $message);
+
+		// get attachments from the overlay, if any
+		$attachments = NULL;
+		if(is_callable(array($overlay, 'get_invite_attachments')))
+			$attachments = $overlay->get_invite_attachments('PUBLISH');
+
 		// post it
-		if(Mailer::post($from, $recipient, $subject, $actual_message))
+		if(Mailer::post(Surfer::from(), $recipient, $subject, $message, $attachments))
 			$actual_names[] = htmlspecialchars($recipient);
 	}
 	Mailer::close();
@@ -331,19 +307,27 @@ if(Surfer::is_crawler()) {
 	// recipients
 	$label = i18n::s('Invite participants');
 	$input = '';
-	if(Surfer::is_empowered()) {
-		// share a private page
-		if($item['active'] == 'N')
-			$input .= '<input type="hidden" name="provide_credentials" value="Y" checked="checked" />';
+	if(Articles::is_owned($item, $anchor)) {
 
-		// page can be accessed by many people
-		else
+		// roles are defined as per invitation settings
+		if(is_callable(array($overlay, 'get_invite_roles')))
+			$input .= $overlay->get_invite_roles();
+
+		// standard roles for non private pages
+		elseif($item['active'] != 'N')
 			$input .= '<p><input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review public content (watchers)')
-				.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage public and private content (editors)').'</p>';
+				.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage public and private content (editors)').'</p><hr>';
 	}
 
+	// get a customized layout
+	include_once '../users/layout_users_as_mail.php';
+	$layout = new Layout_users_as_mail();
+
+	// avoid links to this page
+	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
+		$layout->set_variant('unchecked');
+
 	// list also selectable groups of people
-	$rows = array();
 	$handle = $item['anchor'];
 	while($handle && ($parent = Anchors::get($handle))) {
 		$handle = $parent->get_parent();
@@ -351,42 +335,48 @@ if(Surfer::is_crawler()) {
 		// invitation to a private page should be limited to editors
 		if($item['active'] == 'N') {
 
-			if($editors =& Members::list_editors_for_member($parent->get_reference(), 0, 7, 'comma5'))
-				$rows[] = array('<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'">',
-					sprintf(i18n::s('Invite editors of %s'), $parent->get_title()).BR.Skin::build_block($editors, 'tiny'));
+			if($editors =& Members::list_editors_for_member($parent->get_reference(), 0, 50, $layout))
+				$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
 
 		// else invitation should be extended to watchers
 		} else {
 
-			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 7, 'comma5'))
-				$rows[] = array('<input type="checkbox" name="to_list[]" value="'.$parent->get_reference().'">',
-					sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()).BR.Skin::build_block($watchers, 'tiny'));
+			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 50, $layout))
+				$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
 
 		}
 	}
-	if($rows)
-		$input .= Skin::table(NULL, $rows, 'layout');
 
 	// add some names manually
-	$input .= i18n::s('Invite some individuals').BR.'<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
-	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
-	$fields[] = array($label, $input, $hint);
+	$input .= Skin::build_box(i18n::s('Invite some individuals'), '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
+
+	// combine all these elements
+	$fields[] = array($label, $input);
 
 	// the subject
 	$label = i18n::s('Message title');
-	$title = '';
-	if($name = Surfer::get_name())
-		$title = sprintf(i18n::s('Invitation: %s'), $item['title']);
+	if(is_object($overlay))
+		$title = $overlay->get_live_title($item);
+	else
+		$title = $item['title'];
+	$title = sprintf(i18n::s('%s: %s'), i18n::s('Meeting'), $title);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
+	// default message content
+	$content = '';
+	if(is_callable(array($overlay, 'get_invite_default_message')))
+		$content = $overlay->get_invite_default_message();
+	if(!$content)
+		$content = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
+			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>'
+			.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
+			.'<p>'.Surfer::get_name().'</p>';
+
 	// the message
 	$label = i18n::s('Message content');
-	$content = i18n::s('Please let me thank you for your involvement.')."\n\n".Surfer::get_name();
-	$input = str_replace("\n", BR, $message_prefix)
-		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('message', $content);
+	$fields[] = array($label, $input);
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);

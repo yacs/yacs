@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 21:58+0200\n"
+"POT-Creation-Date: 2011-06-10 15:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -472,8 +471,8 @@ msgid "Generating script documentation, please wait..."
 msgstr ""
 
 #: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
-#: scripts/scripts.php:141 scripts/scripts.php:147 scripts/scripts.php:179
-#: scripts/scripts.php:186 scripts/scripts.php:640 scripts/scripts.php:646
+#: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
+#: scripts/scripts.php:219 scripts/scripts.php:673 scripts/scripts.php:679
 #: scripts/stage.php:174 scripts/stage.php:303 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
@@ -499,7 +498,7 @@ msgstr[1] ""
 msgid "No script has been executed"
 msgstr ""
 
-#: scripts/scripts.php:161
+#: scripts/scripts.php:194
 msgid "Delta"
 msgstr ""
 
@@ -682,6 +681,10 @@ msgstr ""
 msgid "update process"
 msgstr ""
 
+#: scripts/update_header.php:26
+msgid "This script will change running scripts at your server."
+msgstr ""
+
 #: scripts/update.php:79
 msgid ""
 "Scripts of your server are now updated from the staging store. Please do not "
@@ -772,10 +775,6 @@ msgstr ""
 #: scripts/update.php:335
 msgid ""
 "Yes, I have checked every item and want to update scripts on this server"
-msgstr ""
-
-#: scripts/update_header.php:26
-msgid "This script will change running scripts at your server."
 msgstr ""
 
 #: scripts/upload.php:105

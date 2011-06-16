@@ -80,7 +80,7 @@ Class Layout_users_as_watch extends Layout_interface {
 			// use the avatar, if any
 			$icon ='';
 			if(isset($item['avatar_url']) && $item['avatar_url'])
-				$icon = '<a href="'.$url.'"><img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field($hover).'" style="float: left; max-width: 25px; max-height: 25px; margin-right: 4px;" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field($hover).'" style="float: left; max-width: 25px; max-height: 25px; margin-right: 4px;" /></a>';
 
 			// list all components for this item --use basic link style to avoid prefix or suffix images, if any
 			$items[ $item['id'] ] = $icon.$label;

@@ -18,6 +18,7 @@ $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['5eceff9c59d2bdcf158b449fba7cbcac']='Check requests, publish submitted articles, review old pages';
 $_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['cd18fb0e02dd6f7b80bf22c3c8133841']='Connection to the database has been lost';
+$_SESSION['l10n']['en']['Contribute to this page!']='Contribute to this page!';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Creation date']='Creation date';
 $_SESSION['l10n']['en']['Dates']='Dates';

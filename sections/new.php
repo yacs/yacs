@@ -64,7 +64,7 @@ $with_form = FALSE;
 $context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Add some space for your pages');
+$context['page_title'] = i18n::s('Create a new web space');
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
@@ -256,7 +256,7 @@ if(Surfer::is_crawler()) {
 				$fields['active_set'] = 'N';
 				$fields['anchor'] = 'section:'.$_REQUEST['id'];
 				$fields['articles_layout'] = 'yabb';
-				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
+				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
 				$fields['options'] = 'view_as_tabs'; // to list editors and watchers explicitly

@@ -1264,7 +1264,7 @@ Class Section extends Anchor {
 			$mail = array();
 
 			// message subject
-			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
 			// nothing done yet
 			$summary = $title = $link = '';
@@ -1296,7 +1296,7 @@ Class Section extends Anchor {
 					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
 
 					// message subject
-					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
@@ -1334,10 +1334,18 @@ Class Section extends Anchor {
 				include_once $context['path_to_root'].'comments/comments.php';
 				if(($target = Comments::get($origin)) && $target['id']) {
 
-					// message components
-					$summary = sprintf(i18n::c('%s has posted a comment'), $surfer);
-					$title = Skin::strip($target['description'], 20, NULL, NULL);
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
+					// title with link to the commented page
+					$page_title_link = '<a href="'.$context['url_to_home']
+					    .$context['url_to_root']
+					    .Sections::get_permalink($this->item)
+					    .'">'.$this->item['title'].'</a>';
+					// insert the full content of the comment, to provide the full information
+					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
+						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
+
+					// offer to react to the comment
+					$title = i18n::s('Reply');
+					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
@@ -1368,7 +1376,7 @@ Class Section extends Anchor {
 					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
 
 					// message subject
-					$mail['subject'] = sprintf(i18n::c('Modification: %s'), ucfirst(strip_tags($target['title'])));
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);

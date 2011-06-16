@@ -848,7 +848,7 @@ Class Articles {
 		// remember overlay deletion
 		include_once '../overlays/overlay.php';
 		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])))
-			$overlay->remember('delete', $item);
+			$overlay->remember('delete', $item, 'article:'.$item['id']);
 
 		// job done
 		return TRUE;

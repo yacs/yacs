@@ -1723,6 +1723,23 @@ Class Skin_Skeleton {
 
 			break;
 
+		case 'button-in-email':
+
+			// build a standalone attractive button in an e-mail message
+			$text = '<table cellpadding=6 cellspacing=1>'
+				.'<tr>'
+				.	'<td bgcolor="#ffe86c" style="border: #ccc 1px solid; padding: 9px">'
+				.		'<p style="border: none; padding: 0cm; text-align:center">'
+				.			'<a href="'.$url.'"'.$href_title.' '.$attributes.' target="_blank">'
+				.				'<span style="color: #333333; font-weight: bold">'.$label.'</span>'
+				.			'</a>'
+				.		'</p>'
+				.	'</td>'
+				.'</tr>'
+				.'</table>';
+
+			break;
+
 		case 'category':
 
 			// a default title
