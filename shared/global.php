@@ -1198,6 +1198,10 @@ function render_skin($with_last_modified=TRUE) {
 
 	// javascript libraries files to declare in header of page
 	$context['page_header'] .= Js_Css::get_js_libraries('header');
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['header']))
+	    $context['page_header'] .= $context['javascript']['header'];
 	
 	// jquery-ui stylesheet
 	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
@@ -1230,15 +1234,20 @@ function render_skin($with_last_modified=TRUE) {
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
 // 		$context['page_header'] .= '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>'."\n";
 
-	// activate AJAX client library
-	if(file_exists($context['path_to_root'].'shared/yacs.js'))
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>'."\n";
 
 	// insert one tabulation before each header line
 	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
 
-	// javascript libraries files to declare in footer of page
-	$context['page_footer'] .= Js_Css::get_js_libraries('footer');
+	// javascript libraries files to declare in footer of page, plus YACS ajax library
+	$context['page_footer'] .= Js_Css::get_js_libraries('footer','shared/yacs.js');
+
+	// activate AJAX client library
+	//if(file_exists($context['path_to_root'].'shared/yacs.js'))
+	//	$context['page_footer'] .= Js_Css::build_js_declaration($context['url_to_root'].'shared/yacs.js');
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['footer']))
+	    $context['page_footer'] .= $context['javascript']['footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
