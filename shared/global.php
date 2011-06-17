@@ -65,7 +65,7 @@ if(!defined('FORBIDDEN_IN_URLS'))
 
 // pattern for valid email recipients
 if(!defined('VALID_RECIPIENT'))
-	define('VALID_RECIPIENT', '/^[*+!\.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
+	define('VALID_RECIPIENT', '/^[*+!\.&#$Â¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
 
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
@@ -1267,9 +1267,6 @@ function render_skin($with_last_modified=TRUE) {
 	if(file_exists($context['path_to_root'].'shared/yacs.js'))
 		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>'."\n";
 
-	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
-
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
 		$context['page_footer'] .= $context['site_trailer']."\n";
@@ -1278,8 +1275,8 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['calendar']) && (file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js'))) {
 
 		// load the skin
-		$context['page_header'] .= "\t".'<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";
-		$context['page_header'] .= "\t".'<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" />'."\n";
+		$context['page_header'] .= '<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";
+		$context['page_header'] .= '<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" />'."\n";
 
 		// use the compressed version if it's available
 		if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin'))
@@ -1304,15 +1301,21 @@ function render_skin($with_last_modified=TRUE) {
 	// activate google analytics, if configured
 	if(isset($context['google_analytics_account']) && $context['google_analytics_account']) {
 
-		$context['page_footer'] .= '<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>'."\n"
-			.JS_PREFIX
-			.'try {'."\n"
-			.'var pageTracker = _gat._getTracker('.$context['google_analytics_account'].');'."\n"
-			.'pageTracker._trackPageview();'."\n"
-			.'} catch(err) {}'."\n"
-			.JS_SUFFIX."\n";
-
+		$context['page_header'] .= '<script type="text/javascript">'."\n"
+		    ."\t".'var _gaq = _gaq || [];'."\n"
+		    ."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
+		    ."\t".'_gaq.push([\'_trackPageview\']);'."\n"
+		    ."\t\n"
+		    ."\t".'(function() {'."\n"
+		    ."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
+		    ."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
+		    ."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
+		    ."\t".'})();'."\n"
+		    .'</script>'."\n";
 	}
+
+	// insert one tabulation before each header line
+	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
 
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
