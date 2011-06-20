@@ -1046,7 +1046,7 @@ Class Article extends Anchor {
 			$mail = array();
 
 			// mail subject
-			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
 			// nothing done yet
 			$summary = $title = $link = '';
@@ -1075,8 +1075,13 @@ Class Article extends Anchor {
 				include_once $context['path_to_root'].'comments/comments.php';
 				if(($target = Comments::get($origin)) && $target['id']) {
 
+					// title with link to the commented page
+					$page_title_link = '<a href="'.$context['url_to_home']
+					    .$context['url_to_root']
+					    .Articles::get_permalink($this->item)
+					    .'">'.$this->item['title'].'</a>';
 					// insert the full content of the comment, to provide the full information
-					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $this->item['title']).'</p>'
+					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
 						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
 
 					// offer to react to the comment

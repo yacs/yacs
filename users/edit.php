@@ -863,12 +863,9 @@ if($with_form) {
 	 		.'$("#first_name").focus();'."\n"
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#tags").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// the help panel

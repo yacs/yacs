@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-06-10 15:19+0200\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -300,6 +300,11 @@ msgstr "Aucune décision n'a été prise"
 msgid "Recent pages"
 msgstr "Pages récentes"
 
+#: decisions/layout_decisions_as_feed.php:50
+#, php-format
+msgid "%s: %s"
+msgstr "%s : %s"
+
 #: decisions/layout_decisions.php:62
 #, php-format
 msgid "Rejected %s"
@@ -327,11 +332,6 @@ msgstr "modifier"
 #: decisions/layout_decisions.php:97
 msgid "delete"
 msgstr "supprimer"
-
-#: decisions/layout_decisions_as_feed.php:50
-#, php-format
-msgid "%s: %s"
-msgstr "%s : %s"
 
 #: decisions/list.php:163
 #, php-format

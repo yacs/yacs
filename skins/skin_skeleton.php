@@ -169,7 +169,6 @@ Class Skin_Skeleton {
 			$text .= '<p style="margin: 1em 0;">'.i18n::s('Tags')
 				.' '.'<input type="text" name="tags" id="tags" value="'.encode_field($tags).'" size="45" maxlength="255" accesskey="t" />'
 				.' <span class="tiny">'.i18n::s('Keywords separated by commas').'</span></p>';
-// not needed anymore				.'<div id="tags_choices" class="autocomplete"></div>';
 		}
 
 		// make it a bottom block
@@ -1720,6 +1719,23 @@ Class Skin_Skeleton {
 
 			// always stay in the same window
 			$text = '<a href="'.$url.'"'.$href_title.' class="button" '.$attributes.'><span>'.$label.'</span></a>';
+
+			break;
+
+		case 'button-in-email':
+
+			// build a standalone attractive button in an e-mail message
+			$text = '<table cellpadding=6 cellspacing=1>'
+				.'<tr>'
+				.	'<td bgcolor="#ffe86c" style="border: #ccc 1px solid; padding: 9px">'
+				.		'<p style="border: none; padding: 0cm; text-align:center">'
+				.			'<a href="'.$url.'"'.$href_title.' '.$attributes.' target="_blank">'
+				.				'<span style="color: #333333; font-weight: bold">'.$label.'</span>'
+				.			'</a>'
+				.		'</p>'
+				.	'</td>'
+				.'</tr>'
+				.'</table>';
 
 			break;
 

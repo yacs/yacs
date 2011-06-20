@@ -476,7 +476,7 @@ if(Surfer::is_crawler()) {
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 				// log page modification
-				$label = sprintf(i18n::c('Modification: %s'), strip_tags($_REQUEST['title']));
+				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
 				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
 				Logger::notify('articles/edit.php', $label, $description);
 
@@ -505,8 +505,13 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
+			// don't notify the creation of an event
+			$with_watchers = TRUE;
+			if(is_object($overlay))
+				$with_watchers = $overlay->should_notify_watchers();
+
 			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
@@ -709,7 +714,7 @@ if($with_form) {
 		else
 			$more = 'disabled="disabled"';
 
-		$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" '.$more.'/> '.i18n::s('Notify watchers.');
+		$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" '.$more.'/> '.i18n::s('Notify watchers');
 	}
 
 	// do not remember changes on existing pages -- complex command
@@ -806,16 +811,11 @@ if($with_form) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#title").focus() });'."\n"
 		."\n"
-
-  	.'// enable tags autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#tags").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
-
+		.'// enable tags autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});'."\n"
+		.JS_SUFFIX;
 	// branch to another script to display form fields, tabs, etc
 	//
 	$branching = '';

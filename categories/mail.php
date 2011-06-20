@@ -90,9 +90,6 @@ if(Surfer::is_crawler()) {
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// sender address
-	$from = Surfer::from();
-
 	// recipient(s) address(es)
 	$to = array();
 	foreach($_REQUEST['selected_users'] as $address)
@@ -110,7 +107,7 @@ if(Surfer::is_crawler()) {
 	$message = Mailer::build_message($subject, $text);
 
 	// send the message
-	if(Mailer::post($from, $to, $subject, $message)) {
+	if(Mailer::post(Surfer::from(), $to, $subject, $message)) {
 
 		// feed-back to the sender
 		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";

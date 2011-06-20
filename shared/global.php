@@ -65,7 +65,7 @@ if(!defined('FORBIDDEN_IN_URLS'))
 
 // pattern for valid email recipients
 if(!defined('VALID_RECIPIENT'))
-	define('VALID_RECIPIENT', '/^[*+!\.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
+	define('VALID_RECIPIENT', '/^[*+!\.&#$ï¿½\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
 
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
@@ -840,6 +840,9 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 function render_skin($with_last_modified=TRUE) {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
 
+	// tools for js and css declaration
+	include_once 'js_css.php';
+
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
 	if(isset($rendering_fuse))
@@ -1193,16 +1196,23 @@ function render_skin($with_last_modified=TRUE) {
 
 	}
 
-// jquery-ui stylesheet
-	$context['page_header'] .= "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
+	// javascript libraries files to declare in header of page
+	$context['page_header'] .= Js_Css::get_js_libraries('header');
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['header']))
+	    $context['page_header'] .= $context['javascript']['header'];
+	
+	// jquery-ui stylesheet
+	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
 	// load a bunch of included scripts in one step, including jquery --we are doing that in the header, because of $(document).ready( ... in $context['text']
-	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
+	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
 	
 	// jquery-json
-	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.json.min.js"></script>'."\n";
+	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.json.min.js"></script>'."\n";
 
-  // jquery-ui (at least for autocomplete)
-	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
+	// jquery-ui (at least for autocomplete)
+	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
@@ -1224,12 +1234,20 @@ function render_skin($with_last_modified=TRUE) {
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
 // 		$context['page_header'] .= '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>'."\n";
 
-	// activate AJAX client library
-	if(file_exists($context['path_to_root'].'shared/yacs.js'))
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>'."\n";
 
 	// insert one tabulation before each header line
 	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
+
+	// javascript libraries files to declare in footer of page, plus YACS ajax library
+	$context['page_footer'] .= Js_Css::get_js_libraries('footer','shared/yacs.js');
+
+	// activate AJAX client library
+	//if(file_exists($context['path_to_root'].'shared/yacs.js'))
+	//	$context['page_footer'] .= Js_Css::build_js_declaration($context['url_to_root'].'shared/yacs.js');
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['footer']))
+	    $context['page_footer'] .= $context['javascript']['footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])

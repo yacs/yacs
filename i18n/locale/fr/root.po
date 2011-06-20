@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 21:55+0200\n"
-"PO-Revision-Date: 2011-02-09 10:46+0100\n"
+"POT-Creation-Date: 2011-06-10 15:19+0200\n"
+"PO-Revision-Date: 2011-06-03 23:33+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -66,7 +66,7 @@ msgstr "Afficher l'article de couverture, sauf le titre, sur la page d'accueil"
 msgid "Do not use the cover article at the front page."
 msgstr "Ne pas utiliser d'article de couverture en page d'accueil"
 
-#: configure.php:173 search.php:171
+#: configure.php:173 search.php:170
 msgid "Sections"
 msgstr "Sections"
 
@@ -187,7 +187,7 @@ msgstr "la section dédiée aux boîtes gadgets"
 msgid "Do not show gadget boxes at the front page."
 msgstr "Ne pas afficher de boîte gadget sur la page d'accueil."
 
-#: configure.php:284 search.php:220
+#: configure.php:284 search.php:219
 msgid "Pages"
 msgstr "Pages"
 
@@ -259,8 +259,8 @@ msgstr ""
 #: configure.php:361
 #, php-format
 msgid ""
-"Do not list recent pages. The layout of the front page is solely based on a "
-"%s, on %s, plus %s."
+"Do not list recent pages. The layout of the front page is solely based on a %"
+"s, on %s, plus %s."
 msgstr ""
 "Ne pas afficher les pages récentes. La mise en page de la page d'accueil est "
 "constituée seulement de %s, de %s, et de %s."
@@ -386,11 +386,11 @@ msgstr "Panneau principal"
 msgid "Side panel"
 msgstr "Panneau de côté"
 
-#: configure.php:514 panel.php:80 query.php:261 search.php:136
+#: configure.php:514 panel.php:80 query.php:261 search.php:135
 msgid "Submit"
 msgstr "Envoyer"
 
-#: configure.php:514 panel.php:80 query.php:261 search.php:136
+#: configure.php:514 panel.php:80 query.php:261 search.php:135
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -509,7 +509,7 @@ msgstr ""
 msgid "the site front page"
 msgstr "la page d'accueil"
 
-#: error.php:137 go.php:163 query.php:163 search.php:109
+#: error.php:137 go.php:163 query.php:163 search.php:108
 msgid "Search"
 msgstr "Recherche"
 
@@ -591,7 +591,7 @@ msgstr "Rechercher"
 msgid "Nick name"
 msgstr "Surnom"
 
-#: go.php:174 search.php:148
+#: go.php:174 search.php:147
 msgid "Please type something to search for"
 msgstr "Indiquez quelque chose à chercher"
 
@@ -651,7 +651,7 @@ msgstr "Pages récentes"
 msgid "Recent files"
 msgstr "Fichiers récents"
 
-#: index.php:642 search.php:227
+#: index.php:642 search.php:226
 msgid "Files"
 msgstr "Fichiers"
 
@@ -719,7 +719,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Contenu de la page"
 
-#: query.php:44 query.php:324 search.php:357
+#: query.php:44 query.php:324 search.php:356
 msgid "Help"
 msgstr "Aide"
 
@@ -926,79 +926,79 @@ msgstr "les codes YACS"
 msgid "Mandatory fields are marked with a *"
 msgstr "Les champs obligatoires sont signalés par un *"
 
-#: search.php:107
+#: search.php:106
 #, php-format
 msgid "Search: %s"
 msgstr "Recherche : %s"
 
-#: search.php:116
+#: search.php:115
 msgid "You are searching for"
 msgstr "Vous cherchez"
 
-#: search.php:118
+#: search.php:117
 msgid "Type one or several words."
 msgstr "Indiquez un ou pusieurs mots."
 
-#: search.php:122
+#: search.php:121
 msgid "Search in"
 msgstr "Chercher dans"
 
-#: search.php:127
+#: search.php:126
 msgid "-- All sections"
 msgstr "-- Toutes les sections"
 
-#: search.php:128
+#: search.php:127
 msgid "Look in all or only one section."
 msgstr "Pour limiter la recherche à une seule section."
 
-#: search.php:184
+#: search.php:183
 msgid "Matching articles"
 msgstr "Pages trouvées"
 
-#: search.php:204
+#: search.php:203
 msgid "Results"
 msgstr "Résultats"
 
-#: search.php:206
+#: search.php:205
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d résultat"
 msgstr[1] "%d résultats"
 
-#: search.php:233
+#: search.php:232
 msgid "People"
 msgstr "Personnes"
 
-#: search.php:239
+#: search.php:238
 msgid "Categories"
 msgstr "Catégories"
 
-#: search.php:255
+#: search.php:254
 msgid "Search all of the Internet"
 msgstr "Chercher sur Internet"
 
-#: search.php:262
+#: search.php:261
 msgid "Google"
 msgstr "Google"
 
-#: search.php:266
+#: search.php:265
 msgid "Bing"
 msgstr "Bing"
 
-#: search.php:270
+#: search.php:269
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: search.php:274
+#: search.php:273
 msgid "Ask Jeeves"
 msgstr "Ask Jeeves"
 
-#: search.php:277
+#: search.php:276
 msgid "Extended search"
 msgstr "Recherche étendue"
 
-#: search.php:287
+#: search.php:286
 #, php-format
 msgid ""
 "<p>No page has been found. This will happen with very short words (less than "
@@ -1012,23 +1012,23 @@ msgstr ""
 "recherchés. Essayez d'employer des mots plus rectrictifs, et de supprimer "
 "les mots \"parasites\".</p>"
 
-#: search.php:294
+#: search.php:293
 msgid "At partner sites"
 msgstr "Sites partenaires"
 
-#: search.php:344
+#: search.php:343
 msgid "Remember this search"
 msgstr "Mémoriser cette recherche"
 
-#: search.php:348
+#: search.php:347
 msgid "Search in all sections"
 msgstr "Rechercher dans toutes les sections"
 
-#: search.php:352
+#: search.php:351
 msgid "Look for a named page"
 msgstr "Chercher une page nommée"
 
-#: search.php:357
+#: search.php:356
 msgid ""
 "This search engine only display pages that have all words in it. <p>Also, "
 "only exact matches will be listed. Therefore \"category\" and \"categories\" "
@@ -1040,15 +1040,15 @@ msgstr ""
 "recherchés. Par exemple \"section\" et \"sections\" donneront des résultats "
 "différents.</p>"
 
-#: search.php:362
+#: search.php:361
 msgid "Matching pages"
 msgstr "Pages trouvées"
 
-#: search.php:363
+#: search.php:362
 msgid "Monitor"
 msgstr "Surveiller"
 
-#: search.php:369
+#: search.php:368
 msgid "Recent searches"
 msgstr "Recherches récentes"
 
@@ -1059,9 +1059,9 @@ msgstr "Assistant d'installation"
 #: setup.php:96
 #, php-format
 msgid ""
-"ERROR: YACS requires at least PHP version 4.3. The server runs version %s."
+"ERROR: YACS requires at least PHP version 5.1. The server runs version %s."
 msgstr ""
-"ERREUR : YACS requière la version 4.3 de PHP au minimum. Actuellement, le "
+"ERREUR : YACS requière la version 5.1 de PHP au minimum. Actuellement, le "
 "serveur exécute la version %s."
 
 #: setup.php:98
@@ -1993,8 +1993,8 @@ msgstr ""
 #~ msgstr ""
 #~ "<p>Toutes les autres marques, logos, images montrées ou citées restent la "
 #~ "propriété de leurs propriétaires respectifs, y compris ceux partie "
-#~ "prenante dans les solutions et service décrites dans %2$s. Même quand "
-#~ "%1$s n'est pas propriétaire du contenu de ce site, nous nous réservons le "
+#~ "prenante dans les solutions et service décrites dans %2$s. Même quand %1"
+#~ "$s n'est pas propriétaire du contenu de ce site, nous nous réservons le "
 #~ "droit de modifier ou de retirer toute information à tout moment, sans "
 #~ "avertissement préalable. %1$s ne saurait être tenu pour principal "
 #~ "responsable des violations de droit de propriété, même si nous ferons "

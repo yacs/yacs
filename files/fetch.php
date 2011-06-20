@@ -11,7 +11,7 @@
  * File content is provided in pass-through mode most of the time, meaning this
  * script does not unveil the real web path to target file.
  *
- * This script is able to serve partial requests (e.g., from iPhone, iPod a,d iPad) if necessary
+ * This script is able to serve partial requests (e.g., from iPhone, iPod and iPad) if necessary
  *
  * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.1 Byte Ranges
  *

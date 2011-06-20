@@ -160,8 +160,11 @@ elseif(!$permitted) {
 
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags($follower->get_title()));
-				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name']).'</p>'
+				$body = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name']).'</p>'
 					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.ucfirst(strip_tags($follower->get_title())).'</a></p>';
+
+				// preserve tagging as much as possible
+				$message = Mailer::build_message($subject, $body);
 
 				// enable threading
 				$headers = Mailer::set_thread('', $anchor);
@@ -188,7 +191,7 @@ elseif(!$permitted) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_completer.gif" alt="Working..." /></span>'
+		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" />'
 		.'<input type="hidden" name="member" value="'.encode_field($anchor->get_reference()).'">'
 		.'<input type="hidden" name="action" value="set">'
 		.'</p></form>'."\n";
@@ -199,13 +202,10 @@ elseif(!$permitted) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
-  	.'// enable name autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#name").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
+		.'// enable name autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.' Yacs.autocomplete_names("#name",true);'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// the current list of category members

@@ -576,7 +576,12 @@ Class Surfer {
 
 		// a textarea that grow on focus
 		} elseif($spring) {
-			$text .= '<textarea name="'.$name.'" id="'.$name.'" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);"></textarea>';
+			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
+				.'<textarea name="'.$name.'" id="'.$name.'"'
+				.	' rows="1" cols="50"'
+				.	' style="width: 60%; color: #ccc"'
+				.	' onfocus="if(fuse'.$name.'){Element.update(this, \'\');Yacs.growPanel(this);Element.setStyle(this, {color: \'#444\'});fuse'.$name.'=0;}">'
+				.	i18n::s('Contribute to this page!').'</textarea>';
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
@@ -994,19 +999,12 @@ Class Surfer {
 			if(!isset($_SESSION['surfer_capability']))
 				return FALSE;
 
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'A')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'M')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'S')
+			// surfer is either an associate, a member, or a subscriber
+			if(in_array($_SESSION['surfer_capability'], array('A', 'M', 'S')))
 				return TRUE;
 
 		}
+
 		return FALSE;
 	}
 
@@ -1426,6 +1424,43 @@ Class Surfer {
 			SQL::query($query, FALSE, $context['users_connection']);
 		}
 
+		// set a semi-permanent cookie for user identification
+		if(isset($fields['handle']) && $fields['handle'] && isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+
+			// time of authentication
+			$now = (string)time();
+
+			// token is made of: user id, time of login, gmt offset, salt --salt combines date of login with secret handle
+			$token = $fields['id'].'|'.$now.'|'.Surfer::get_gmt_offset().'|'.md5($now.'|'.$fields['handle']);
+
+			// attempt to set this cookie while answering the current request
+			Surfer::set_cookie('screening', $token);
+
+			// path to this instance			// we will do it again on next transaction, to take care of redirections, if any
+			$_SESSION['surfer_token'] = $token;
+
+		}
+
+	}
+
+	/**
+	 * set a permanent cookie
+	 *
+	 * @param string cookie name
+	 * @param string cookie value
+	 */
+	function set_cookie($name, $value) {
+		global $context;
+
+		// assign the cookie to this instance of yacs
+		Safe::setcookie($name, $value, time()+60*60*24*500, $context['url_to_root']);
+
+		// also set cookies used in leading index.php
+		if($home = getenv('YACS_HOME'))
+			Safe::setcookie($name, $value, time()+60*60*24*500, $home.'/');
+		if($context['url_to_root'] == '/yacs/')
+			Safe::setcookie($name, $value, time()+60*60*24*500, '/');
+
 	}
 
 	/**
@@ -1523,6 +1558,16 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 	Safe::ini_set('session.use_only_cookies', '1');
 	//Safe::ini_set('session.use_trans_sid', '0'); -- don't uncomment !!!
 	Safe::ini_set('url_rewriter.tags', '');
+}
+
+// set the permanent cookie on the transaction that folows the login, in case a redirection would have happened
+if(isset($_SESSION['surfer_token'])) {
+
+	// set it
+	Surfer::set_cookie('screening', $_SESSION['surfer_token']);
+
+	// don't do that again
+	unset($_SESSION['surfer_token']);
 }
 
 // retrieve session data, but not if run from the command line, and not from robot nor spider

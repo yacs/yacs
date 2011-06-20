@@ -70,6 +70,41 @@
 class Event extends Overlay {
 
 	/**
+	 * filter invitation message
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param string captured message
+	 * @return string to be actually sent
+	 */
+	function filter_invite_message($text) {
+		global $context;
+
+		switch($this->attributes['enrolment']) {
+
+		case 'manual': // call for review
+			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Review the meeting page'), 'button-in-email').'</div>';
+			break;
+
+		case 'none': // call for confirmation
+		default:
+			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then confirm my participation'), 'button-in-email').'</div>';
+			break;
+
+		case 'validate': // call for application
+			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then ask for an invitation'), 'button-in-email').'</div>';
+			break;
+
+		}
+
+		// how to update the calendar?
+		$text .= '<div><p>'.i18n::s('Use the file attached to update your calendar.').'</p></div>';
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * get an input field to capture meeting chairman
 	 *
 	 * @return string to be integrated into the editing form
@@ -86,15 +121,12 @@ class Event extends Overlay {
 			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		// append the script used for autocompletion
--		$context['page_footer'] .= JS_PREFIX
-  	.'// enable chairman autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#chairman").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
+		$context['page_footer'] .= JS_PREFIX
+			.'// enable chairman autocompletion'."\n"
+			.'$(document).ready( function() {'."\n"
+			.' Yacs.autocomplete_names("#chairman",true);'."\n"
+			.'});  '."\n"
+			.JS_SUFFIX;
 		// done
 		return $input;
 	}
@@ -452,6 +484,153 @@ class Event extends Overlay {
 	}
 
 	/**
+	 * get event description in ICS format
+	 *
+	 * @param string either 'PUBLISH', 'REQUEST', 'CANCEL', ...
+	 * @return string content of the ICS
+	 *
+	 * @see articles/invite.php
+	 * @see overlays/events/fetch_ics.php
+	 */
+	function get_ics($method='PUBLISH') {
+		global $context;
+
+		// begin calendar
+		$text = 'BEGIN:VCALENDAR'.CRLF
+			.'VERSION:2.0'.CRLF
+			.'PRODID:'.$context['host_name'].CRLF;
+
+		// method
+		$text .= 'METHOD:'.$method.CRLF;
+
+		// yacs uses dates in UTC
+		$text .= 'BEGIN:VTIMEZONE'.CRLF
+			.'TZID:/GMT'.CRLF
+			.'BEGIN:DAYLIGHT'.CRLF
+			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20750407T030000Z;BYMONTH=3D4;BYDAY=3D-1SU'.CRLF
+			.'TZNAME:Universal Coordinated Time'.CRLF
+			.'TZOFFSETTO:+0000'.CRLF
+			.'TZOFFSETFROM:+0000'.CRLF
+			.'DTSTART:19910401T030000'.CRLF
+			.'END:DAYLIGHT'.CRLF
+			.'BEGIN:STANDARD'.CRLF
+			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20751031T010000Z;BYMONTH=3D10;BYDAY=3D-1SU'.CRLF
+			.'TZNAME:Universal Coordinated Time'.CRLF
+			.'TZOFFSETTO:+0000'.CRLF
+			.'TZOFFSETFROM:+0000'.CRLF
+			.'DTSTART:19911025T010000'.CRLF
+			.'END:STANDARD'.CRLF
+			.'END:VTIMEZONE'.CRLF;
+
+		// begin event
+		$text .= 'BEGIN:VEVENT'.CRLF;
+
+		// date of creation
+		if($value = $this->anchor->get_value('create_date'))
+			$text .= 'DTSTAMP:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
+
+		// date of last modification --also required by Outlook
+		if($value = $this->anchor->get_value('edit_date'))
+			$text .= 'LAST-MODIFICATION:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
+
+		// the event spans limited time --duration is expressed in minutes
+		if(isset($this->attributes['duration']) && $this->attributes['duration']) {
+			$text .= 'DTSTART;TZID=/GMT:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).CRLF;
+			$text .= 'DTEND;TZID=/GMT:'.gmdate('Ymd\THis', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
+
+		// a full-day event
+		} else {
+			$text .= 'DTSTART;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
+			$text .= 'DTEND;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
+		}
+
+		// url to view the date
+		$text .= 'URL:'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().CRLF;;
+
+		// location is the yacs server
+		$text .= 'LOCATION:'.$context['host_name'].CRLF;
+
+		// build a valid title
+		if($value = $this->anchor->get_title())
+			$text .= 'SUMMARY:'.Codes::beautify_title($value).CRLF;
+
+		// description is partially automated
+		$text .= 'DESCRIPTION:';
+		if($value = $this->anchor->get_title())
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), str_replace(array("\n", "\r"), ' ', Codes::beautify_title($value))).'\n';
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
+
+		// dates
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).'\n';
+		if(isset($this->attributes['duration']) && $this->attributes['duration'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
+
+		// location
+		if($method != 'CANCEL')
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Location'), $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url()).'\n';
+
+		// meeting has been cancelled
+		if($method == 'CANCEL') {
+			$text .= '\n\n'.i18n::c('Meeting has been cancelled.');
+
+		// regular meeting
+		} else {
+
+			// copy content of the introduction field, if any
+			if($value = $this->anchor->get_value('introduction'))
+				$text .= '\n'.strip_tags(str_replace(array('</', '/>', "\n", "\r", ','), array('\n</', '/>\n', '\n', ' ', '\,'), Codes::beautify($value)));
+
+			// copy the induction message, if any
+			if(isset($this->attributes['induction_message']))
+				$text .= '\n'.strip_tags(str_replace(array('</', '/>', "\n", "\r", ','), array('\n</', '/>\n', '\n', ' ', '\,'), Codes::render($this->attributes['induction_message'])));
+
+		}
+
+		// end of the description field
+		$text .= CRLF;
+
+		// may be used for updates or for cancellation --required by Outlook 2003
+		$text .= 'UID:'.crc32($this->anchor->get_reference().':'.$context['url_to_root']).'@'.$context['host_name'].CRLF;
+
+		// maybe this one has been cancelled
+		if($method == 'CANCEL')
+			$text .= 'STATUS:CANCELLED'.CRLF;
+
+		// sequence is incremented on each revision
+		include_once $context['path_to_root'].'versions/versions.php';
+		$versions = Versions::count_for_anchor($this->anchor->get_reference());
+		$text .= 'SEQUENCE:'.$versions.CRLF;
+
+		// more attributes
+		$text .= 'PRIORITY:5'.CRLF
+			.'TRANSP:OPAQUE'.CRLF  // block a slot in calendar
+			.'CLASS:PUBLIC'.CRLF;
+
+		// alarm to remind the meeting
+		if($method != 'CANCEL')
+			$text .= 'BEGIN:VALARM'.CRLF
+				.'TRIGGER:-PT15M'.CRLF
+				.'DESCRIPTION:Reminder'.CRLF
+				.'ACTION:DISPLAY'.CRLF
+				.'END:VALARM'.CRLF;
+
+		// close event
+		$text .= 'END:VEVENT'.CRLF;
+
+		// close calendar
+		$text .= 'END:VCALENDAR'.CRLF;
+
+		// done!
+		return $text;
+	}
+
+	/**
 	 * identify one instance
 	 *
 	 * This function returns a string that identify uniquely one overlay instance.
@@ -479,6 +658,100 @@ class Event extends Overlay {
 		global $context;
 
 		return '';
+	}
+
+	/**
+	 * get invitation attachments
+	 *
+	 * To be transmitted to invitation messages.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param string either 'PUBLISH' or 'CANCEL'
+
+	 * @return mixed an array of file names, or NULL
+	 */
+	function get_invite_attachments($method='PUBLISH') {
+		global $context;
+
+		// attach an invitation file
+		return array('text/calendar; method="'.$method.'"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics($method));
+	}
+
+	/**
+	 * get invitation default message
+	 *
+	 * This is put in the invitation form.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param string 'PUBLISH' or 'CANCEL'
+	 * @return string to be put in the web form
+	 */
+	function get_invite_default_message($method='PUBLISH') {
+		global $context;
+
+		// to be displayed into the web form for this invitation
+		$text = '';
+
+		if($value = $this->anchor->get_title())
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
+
+		// dates
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
+		if(isset($this->attributes['duration']) && $this->attributes['duration'])
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
+
+		// meeting has been cancelled
+		if($method == 'CANCEL')
+			$text .= '<div><p>'.i18n::c('Meeting has been cancelled.').'</p></div>';
+
+		// regular message
+		else {
+
+			// copy content of the introduction field, if any
+			if($value = $this->anchor->get_value('introduction'))
+				$text .= '<div>'.Codes::beautify($value).'</div>';
+
+			// copy the induction message, if any
+			if(isset($this->attributes['induction_message']))
+				$text .= '<div>'.Codes::render($this->attributes['induction_message']).'</div>';
+
+		}
+
+		// done
+		return $text;
+	}
+
+	/**
+	 * allow for different role
+	 *
+	 * @return string to be put in web form
+	 */
+	function get_invite_roles() {
+		global $context;
+
+		switch($this->attributes['enrolment']) {
+		case 'manual':
+			return '';
+		case 'none':
+		default:
+			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and confirm their participation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			break;
+		case 'validate':
+			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and ask for an invitation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			break;
+		}
+
 	}
 
 	/**
@@ -984,10 +1257,8 @@ class Event extends Overlay {
 			$button = '';
 			if($this->attributes['status'] == 'stopped')
 				;
-			elseif(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] == 'none'))
-				$button = ' '.Skin::build_link($this->get_url('fetch_ics'), i18n::s('Update my calendar'), 'button');
-			elseif(($this->attributes['status'] != 'created') && (enrolments::get_record($this->anchor->get_reference())))
-				$button = ' '.Skin::build_link($this->get_url('fetch_ics'), i18n::s('Update my calendar'), 'button');
+			elseif(enrolments::get_record($this->anchor->get_reference()))
+				$button = ' '.Skin::build_link($this->get_url('fetch_ics'), '<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" style="border: none; cursor: pointer;" title="'.i18n::s('Update my calendar').'" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="'.i18n::s('Update my calendar').'" />', 'basic');
 
 			$rows[] = array(i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'full').$button);
 		}
@@ -1048,22 +1319,6 @@ class Event extends Overlay {
 	}
 
 	/**
-	 * is the event on-going?
-	 *
-	 * @return boolean TRUE if the meeting is on-going, FALSE otherwise
-	 */
-	function is_running() {
-		global $context;
-
-		// check our status
-		if(isset($this->attributes['status']) && ($this->attributes['status'] == 'started'))
-			return TRUE;
-
-		// probably no
-		return FALSE;
-	}
-
-	/**
 	 * has the surfer joined this event page?
 	 *
 	 * @return boolean TRUE or FALSE
@@ -1080,6 +1335,69 @@ class Event extends Overlay {
 			return TRUE;
 
 		// not joined
+		return FALSE;
+	}
+
+	/**
+	 * enroll one user
+	 *
+	 * This function ensure that an invited person has been enrolled to this event.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param int id of the enrolled person
+	 */
+	function invite($id) {
+		global $context;
+
+		// force enrolment only if required
+		if(!isset($_REQUEST['force_enrolment']) || ($_REQUEST['force_enrolment'] != 'Y'))
+			return;
+
+		// get matching profile
+		if(($user = Users::get($id)) && is_callable(array($this->anchor, 'get_reference'))) {
+
+			// if there is no enrolment record yet
+			$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".SQL::escape($this->anchor->get_reference())."') AND (user_id = ".SQL::escape($user['id']).")";
+			if(!SQL::query_count($query)) {
+
+				// fields to save
+				$query = array();
+
+				// reference to the meeting page
+				$query[] = "anchor = '".SQL::escape($this->anchor->get_reference())."'";
+
+				// direct enrolment
+				$query[] = "approved = 'Y'";
+
+				// save user id
+				$query[] = "user_id = ".SQL::escape($user['id']);
+
+				// save user e-mail address
+				$query[] = "user_email = '".SQL::escape($user['email'])."'";
+
+				// insert a new record
+				$query = "INSERT INTO ".SQL::table_name('enrolments')." SET ".implode(', ', $query);
+				SQL::query($query);
+
+			}
+		}
+
+	}
+
+	/**
+	 * is the event on-going?
+	 *
+	 * @return boolean TRUE if the meeting is on-going, FALSE otherwise
+	 */
+	function is_running() {
+		global $context;
+
+		// check our status
+		if(isset($this->attributes['status']) && ($this->attributes['status'] == 'started'))
+			return TRUE;
+
+		// probably no
 		return FALSE;
 	}
 
@@ -1232,11 +1550,37 @@ class Event extends Overlay {
 
 		case 'delete':
 
+			// send a cancellation message to participants
+			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
+			$result = SQL::query($query);
+			while($item =& SQL::fetch($result)) {
+
+				// sanity check
+				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+					continue;
+
+				// message title
+				$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
+
+				// message to reader
+				$message = $this->get_invite_default_message('CANCEL');
+
+				// allow for HTML rendering
+				$message = Mailer::build_message($subject, $message);
+
+				// get attachment from the overlay
+				$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
+
+				// post it
+				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+
+			}
+
 			// delete dates for this anchor
 			Dates::delete_for_anchor('article:'.$id);
 
 			// also delete related enrolment records
-			$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE id = ".$id;
+			$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".$reference."'";
 			SQL::query($query);
 			break;
 
@@ -1264,6 +1608,32 @@ class Event extends Overlay {
 			break;
 
 		case 'update':
+
+			// send a confirmation message to participants
+			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
+			$result = SQL::query($query);
+			while($item =& SQL::fetch($result)) {
+
+				// sanity check
+				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+					continue;
+
+				// message title
+				$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
+
+				// message to reader
+				$message = $this->get_invite_default_message('PUBLISH');
+
+				// allow for HTML rendering
+				$message = Mailer::build_message($subject, $message);
+
+				// get attachment from the overlay
+				$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
+
+				// post it
+				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+
+			}
 
 			// bind one date to this record
 			if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp']) {
@@ -1632,10 +2002,32 @@ class Event extends Overlay {
 			$this->feed_back['status'][] = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
 				.i18n::s('Please wait until the meeting begins')
 				.JS_PREFIX
-				.'function reload_until_event_starts() {'."\n"
-				.'	window.location.reload(true);'."\n"
+				.'var Lobby = {'."\n"
+				."\n"
+				.'	url: "'.$context['url_to_home'].$context['url_to_root'].'services/check.php?id='.$this->anchor->get_reference().'",'."\n"
+				.'	timestamp: 0,'."\n"
+				."\n"
+				.'	subscribe: function() {'."\n"
+				.'		Lobby.subscribeAjax = new Ajax.Request(Lobby.url, {'."\n"
+				.'			method: "get",'."\n"
+				.'			parameters: { "timestamp" : this.timestamp },'."\n"
+				.'			requestHeaders: {Accept: "application/json"},'."\n"
+				.'			onSuccess: Lobby.updateOnSuccess'."\n"
+				.'		});'."\n"
+				.'	},'."\n"
+				."\n"
+				.'	updateOnSuccess: function(transport) {'."\n"
+				.'		var response = transport.responseText.evalJSON(true);'."\n"
+				.'		if(Lobby.timestamp == 0)'."\n"
+				.'			Lobby.timestamp = response["timestamp"];'."\n"
+				.'		else if(Lobby.timestamp != response["timestamp"])'."\n"
+				.'			window.location.reload(true);'."\n"
+				.'	}'."\n"
+				."\n"
 				.'}'."\n"
-				.'window.setInterval("reload_until_event_starts()",20000);'."\n"
+				."\n"
+				.'// wait for meeting start'."\n"
+				.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 30000);'."\n"
 				.JS_SUFFIX;
 
 		}

@@ -237,7 +237,7 @@ if(Surfer::is_crawler()) {
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 				// log page modification
-				$label = sprintf(i18n::c('Modification: %s'), strip_tags($_REQUEST['title']));
+				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
 				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
 				Logger::notify('sections/edit.php', $label, $description);
 
@@ -1177,7 +1177,7 @@ if($with_form) {
 	$suffix = array();
 
 	// notify watchers
-	$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers.');
+	$suffix[] = '<input type="checkbox" name="notify_watchers" value="Y" /> '.i18n::s('Notify watchers');
 
 	// do not stamp edition date -- complex command
 	if(isset($item['id']) && Surfer::has_all())
@@ -1212,32 +1212,29 @@ if($with_form) {
 		.'//	return true;'."\n"
 		.'}'."\n"
 		."\n"
-      .'// if title is empty of equal to index_title'."\n"
-      .'if( $("#title").val()=="" || $("#title").val()==$("#index_title").val()) {'."\n"
+		.'// if title is empty of equal to index_title'."\n"
+		.'if( $("#title").val()=="" || $("#title").val()==$("#index_title").val()) {'."\n"
 		.'      // then synchronise index_title and title'."\n"
 		.'      $("#index_title").change(function() {'."\n"
-      .'              $("#title").val($("#index_title").val());'."\n"
-      .'      });'."\n"
-      .'}'."\n"
-      .'//stop updating title from index_title if edited by surfer'."\n"
-      .'$("#title").change( function() {'."\n"
-      .'      $("#index_title").unbind("change");'."\n"
-      .'});'."\n"
+		.'              $("#title").val($("#index_title").val());'."\n"
+		.'      });'."\n"
+		.'}'."\n"
+		.'//stop updating title from index_title if edited by surfer'."\n"
+		.'$("#title").change( function() {'."\n"
+		.'      $("#index_title").unbind("change");'."\n"
+		.'});'."\n"
 		.'// disable editor selection on change in form'."\n"
-      .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
-      .'      $("#preferred_editor").attr("disabled",true);'."\n"
-      .'});'."\n"
+		.'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+		.'      $("#preferred_editor").attr("disabled",true);'."\n"
+		.'});'."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("#index_title").focus();'."\n"
 		."\n"
-  	.'// enable tags autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#tags").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
+		.'// enable tags autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});  '."\n"
+		.JS_SUFFIX;
 
 	// content of the help box
 	$help = '';

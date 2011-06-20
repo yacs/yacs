@@ -525,7 +525,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'bbb_template';
 		$fields['title'] = i18n::c('Web meeting');
 		$fields['introduction'] = i18n::c('To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
-		$fields['options'] = 'edit_as_simple view_as_tabs comments_as_wall';
+		$fields['options'] = 'edit_as_simple comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
@@ -598,7 +598,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'event_template';
 		$fields['title'] = i18n::c('Event page');
 		$fields['introduction'] = i18n::c('To arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.');
-		$fields['options'] = 'comments_as_wall view_as_tabs';
+		$fields['options'] = 'comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
@@ -620,7 +620,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'etherpad_template';
 		$fields['title'] = i18n::c('Real-time collaboration');
 		$fields['introduction'] = i18n::c('To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.');
-		$fields['options'] = 'comments_as_wall view_as_tabs edit_as_thread';
+		$fields['options'] = 'comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
@@ -641,7 +641,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'external_template';
 		$fields['title'] = i18n::c('External web meeting');
 		$fields['introduction'] = i18n::c('To arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address.');
-		$fields['options'] = 'comments_as_wall view_as_tabs edit_as_thread';
+		$fields['options'] = 'comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
@@ -783,7 +783,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'ustream_template';
 		$fields['title'] = i18n::c('USTREAM broadcast');
 		$fields['introduction'] = i18n::c('To drive your audience to a USTREAM show. At the given date and time participants are invited to join the channel.');
-		$fields['options'] = 'view_as_tabs comments_as_wall edit_as_thread';
+		$fields['options'] = 'comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
 

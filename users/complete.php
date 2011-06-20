@@ -7,12 +7,13 @@
  * users, and return an unordered list of keywords. If full name or e-mail
  * address has been set, it is provided as well.
  *
- * @link http://wiki.script.aculo.us/scriptaculous/show/Ajax.Autocompleter
+ * @link http://jqueryui.com/demos/autocomplete/
  *
  * Accept following invocations:
  * - complete.php
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -54,10 +55,12 @@ if(count($items)) {
 	$i = 0;
 
 	foreach($items as $label => $more) {
-    if ($i > 0)
-      $output .= ',';
-    $i++;
-		$output .= '"'.$label.'"';
+	    if ($i > 0)
+	      $output .= ',';
+	    $i++;
+
+	    $output .= '{"value":"'.$label.'","label":"'.$more.'"}';
+
 	}
 
 	$output .= ']';
