@@ -80,6 +80,83 @@ var Yacs = {
 	},
 
 	/**
+	 * implement multiple entries separated by comma
+	 * autocompletion mecanism from remote php source
+	 *
+	 * build on jquery-ui autocomplete plugin
+	 * @link http://jqueryui.com/demos/autocomplete/#multiple-remote
+	 *
+	 */
+	autocomplete_m: function(target,php_source) {
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+		$(target)
+		    // don't navigate away from the field on tab when selecting an item
+		    .bind( "keydown", function( event ) {
+			    if ( event.keyCode === $.ui.keyCode.TAB &&
+					    $( this ).data( "autocomplete" ).menu.active ) {
+				    event.preventDefault();
+			    }
+		    })
+		    .autocomplete({
+				source: function( request, response ) {
+					$.getJSON( php_source, {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function() {
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 2 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					return false;
+				}
+		    });
+	},
+
+	/**
+	 * autocomplete mecanism to select users
+	 *
+	 * @link http://jqueryui.com/demos/autocomplete/#custom-data
+	 * @see users/complete.php
+	 **/
+	autocomplete_names: function(target,unique) {
+	    // use the multiple entries autocomplete exept if unique user required
+	    if(unique) {
+		$(target).autocomplete({source:url_to_root + 'users/complete.php',minLength:2});
+	    } else
+		Yacs.autocomplete_m(target, url_to_root + 'users/complete.php');
+
+	    // override rendering of items in menu list to show full name and email
+	    $(target).data( "autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li></li>" )
+			.data( "item.autocomplete", item )
+			.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
+			.appendTo( ul );
+	    };
+	},
+
+	/**
 	 * remote procedure call based on JSON-RPC
 	 *
 	 */

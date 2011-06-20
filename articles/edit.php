@@ -811,16 +811,11 @@ if($with_form) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#title").focus() });'."\n"
 		."\n"
-
-  	.'// enable tags autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#tags").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
-
+		.'// enable tags autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});'."\n"
+		.JS_SUFFIX;
 	// branch to another script to display form fields, tabs, etc
 	//
 	$branching = '';

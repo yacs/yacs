@@ -333,15 +333,11 @@ if(Surfer::is_crawler()) {
 		.'$(document).ready( function() { $("#names").focus() });'."\n"
 		."\n"
 		."\n"
-  	.'// enable names autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#names").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
-
+		.'// enable names autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.' Yacs.autocomplete_names("#names");'."\n"
+		.'});  '."\n"
+		.JS_SUFFIX;
 }
 
 // render the skin

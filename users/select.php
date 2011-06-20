@@ -191,7 +191,7 @@ elseif(!$permitted) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_completer.gif" alt="Working..." /></span>'
+		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" />'
 		.'<input type="hidden" name="member" value="'.encode_field($anchor->get_reference()).'">'
 		.'<input type="hidden" name="action" value="set">'
 		.'</p></form>'."\n";
@@ -202,13 +202,10 @@ elseif(!$permitted) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
-  	.'// enable name autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#name").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
+		.'// enable name autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.' Yacs.autocomplete_names("#name",true);'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// the current list of category members

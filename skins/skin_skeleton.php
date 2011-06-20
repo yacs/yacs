@@ -169,7 +169,6 @@ Class Skin_Skeleton {
 			$text .= '<p style="margin: 1em 0;">'.i18n::s('Tags')
 				.' '.'<input type="text" name="tags" id="tags" value="'.encode_field($tags).'" size="45" maxlength="255" accesskey="t" />'
 				.' <span class="tiny">'.i18n::s('Keywords separated by commas').'</span></p>';
-// not needed anymore				.'<div id="tags_choices" class="autocomplete"></div>';
 		}
 
 		// make it a bottom block
