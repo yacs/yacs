@@ -121,15 +121,12 @@ class Event extends Overlay {
 			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		// append the script used for autocompletion
--		$context['page_footer'] .= JS_PREFIX
-  	.'// enable chairman autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#chairman").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
+		$context['page_footer'] .= JS_PREFIX
+			.'// enable chairman autocompletion'."\n"
+			.'$(document).ready( function() {'."\n"
+			.' Yacs.autocomplete_names("#chairman",true);'."\n"
+			.'});  '."\n"
+			.JS_SUFFIX;
 		// done
 		return $input;
 	}

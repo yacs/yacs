@@ -121,14 +121,11 @@ if(Surfer::is_crawler()) {
 		.'// set the focus on first form field'."\n"
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
-  	.'// enable name autocompletion'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#name").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'users/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
+		.'// enable name autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.' Yacs.autocomplete_names("#name",true);'."\n"
+		.'});  '."\n"
+		.JS_SUFFIX;
 
 	// back to the anchor page
 	$links = array();
