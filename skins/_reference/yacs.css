@@ -1961,6 +1961,10 @@ div.accordion_content {
 	margin-bottom: 0;
 }
 
+div.accordion_content div.introduction {
+	margin: 0 0 15px 0; /* no space at the top of the introduction text */
+}
+
 /**
  * daily layout: first box is shaped as follows:
  *
