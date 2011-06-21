@@ -163,7 +163,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// details
 			if(count($details))
-				$content .= '<p class="details">'.ucfirst(implode(' - ', $details)).'</p>';
+				$content .= '<p class="details" style="margin-top: 2em;">'.ucfirst(implode(' - ', $details)).'</p>';
 
 			// insert a complete box
 			$text .= Skin::build_box(Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')), $icon.$content, 'header1', 'article_'.$item['id']);
