@@ -203,7 +203,7 @@ if(Surfer::is_crawler()) {
 	} elseif(!isset($item['id'])) {
 
 		// touch the related anchor
-		$anchor->touch('decision:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+		$anchor->touch('decision:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
 
 		// clear cache
 		Decisions::clear($_REQUEST);
