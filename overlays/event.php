@@ -2060,46 +2060,44 @@ class Event extends Overlay {
 				$label .= ' ('.$count.')';
 			$this->feed_back['menu'][] = Skin::build_link($this->get_url('enroll'), $label, 'span');
 
-		// help ordinary user to enroll
-		} else {
+		}
 
-			// surfer has applied
-			if($enrolment = enrolments::get_record($this->anchor->get_reference())) {
+		// surfer has applied
+		if($enrolment = enrolments::get_record($this->anchor->get_reference())) {
 
-				// registration has been approved
-				if(isset($enrolment['approved']) && ($enrolment['approved'] == 'Y'))
-					$this->feed_back['status'][] = i18n::s('You have been enrolled');
+			// registration has been approved
+			if(isset($enrolment['approved']) && ($enrolment['approved'] == 'Y'))
+				$this->feed_back['status'][] = i18n::s('You have been enrolled');
 
-				// pending confirmation, and meeting has not started yet
-				elseif($this->attributes['status'] != 'started')
-					$this->feed_back['status'][] = i18n::s('You have asked for an invitation');
+			// pending confirmation, and meeting has not started yet
+			elseif($this->attributes['status'] != 'started')
+				$this->feed_back['status'][] = i18n::s('You have asked for an invitation');
 
-				// reload the page in case pending invitation would be validated after the start of the meeting
-				else
-					$this->feed_back['status'][] = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
-						.i18n::s('You have asked for an invitation')
-						.JS_PREFIX
-						.'function reload_until_enrolment() {'."\n"
-						.'	window.location.reload(true);'."\n"
-						.'}'."\n"
-						.'window.setInterval("reload_until_enrolment()",20000);'."\n"
-						.JS_SUFFIX;
+			// reload the page in case pending invitation would be validated after the start of the meeting
+			else
+				$this->feed_back['status'][] = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
+					.i18n::s('You have asked for an invitation')
+					.JS_PREFIX
+					.'function reload_until_enrolment() {'."\n"
+					.'	window.location.reload(true);'."\n"
+					.'}'."\n"
+					.'window.setInterval("reload_until_enrolment()",20000);'."\n"
+					.JS_SUFFIX;
 
-			// surfer should express his participation
-			} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'none')) {
+		// surfer should express his participation
+		} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'none')) {
 
-				// until meeting has started
-				if(Surfer::get_id() && in_array($this->attributes['status'], array('created', 'open', 'lobby')))
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('apply'), i18n::s('Confirm my participation'), 'button');
+			// until meeting has started
+			if(Surfer::get_id() && in_array($this->attributes['status'], array('created', 'open', 'lobby')))
+				$this->feed_back['menu'][] = Skin::build_link($this->get_url('apply'), i18n::s('Confirm my participation'), 'button');
 
-			// surfer should ask for an invitation
-			} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'validate')) {
+		// surfer should ask for an invitation
+		} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'validate')) {
 
-				// until meeting has stopped
-				if(Surfer::get_id() && in_array($this->attributes['status'], array('open', 'lobby', 'started')))
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('apply'), i18n::s('Ask for an invitation'), 'button');
+			// until meeting has stopped
+			if(Surfer::get_id() && in_array($this->attributes['status'], array('open', 'lobby', 'started')))
+				$this->feed_back['menu'][] = Skin::build_link($this->get_url('apply'), i18n::s('Ask for an invitation'), 'button');
 
-			}
 		}
 
 		// display event status to page owner, if any
