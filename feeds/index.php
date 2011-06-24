@@ -134,38 +134,42 @@ if(!$text =& Cache::get($cache_id)) {
 	if(trim($outbound))
 		$panels[] = array('outbound', i18n::s('Outbound feeds'), 'outbound_panel', $outbound);
 
-	// inbound feeds
+	// inbound feeds, but only to associates
 	//
-	$inbound = '';
+	if(Surfer::is_associate()) {
 
-	// list existing feeders
-	include_once $context['path_to_root'].'servers/servers.php';
-	if($items = Servers::list_for_feed(0, COMPACT_LIST_SIZE, 'full')) {
+		$inbound = '';
 
-		// link to the index of server profiles
-		$inbound .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
+		// list existing feeders
+		include_once $context['path_to_root'].'servers/servers.php';
+		if($items = Servers::list_for_feed(0, COMPACT_LIST_SIZE, 'full')) {
 
-		// list of profiles used as news feeders
-		$inbound .= Skin::build_list($items, 'decorated');
+			// link to the index of server profiles
+			$inbound .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
 
-	// no feeder defined
-	} else
-		$inbound .= sprintf(i18n::s('No feeder has been defined. If you need to integrate some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('add a server profile')));
+			// list of profiles used as news feeders
+			$inbound .= Skin::build_list($items, 'decorated');
 
-	// get news from remote feeders
-	include_once 'feeds.php';
-	$news = Feeds::get_remote_news();
-	if(is_array($news)) {
-		$inbound .= Skin::build_block(i18n::s('Most recent external news'), 'title');
+		// no feeder defined
+		} else
+			$inbound .= sprintf(i18n::s('No feeder has been defined. If you need to integrate some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('add a server profile')));
 
-		// list of profiles used as news feeders
-		$inbound .= Skin::build_list($news, 'compact');
+		// get news from remote feeders
+		include_once 'feeds.php';
+		$news = Feeds::get_remote_news();
+		if(is_array($news)) {
+			$inbound .= Skin::build_block(i18n::s('Most recent external news'), 'title');
+
+			// list of profiles used as news feeders
+			$inbound .= Skin::build_list($news, 'compact');
+
+		}
+
+		// display in a separate panel
+		if(trim($inbound))
+			$panels[] = array('inbound', i18n::s('Inbound feeds'), 'inbound_panel', $inbound);
 
 	}
-
-	// display in a separate panel
-	if(trim($inbound))
-		$panels[] = array('inbound', i18n::s('Inbound feeds'), 'inbound_panel', $inbound);
 
 	// assemble all tabs
 	//
