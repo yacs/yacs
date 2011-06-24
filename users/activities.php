@@ -2,14 +2,13 @@
 /**
  * the database abstraction for activities
  *
- * This script remembers user activities in the database.
+ * An activity relates one object of the database (designated by its reference) and one
+ * surfer (retrieved by its id or by its name). It is qualified by an 'action' attribute,
+ * which should be a verb (e.g., 'fetch') or a state transition (e.g., 'beginPresentation'),
+ * and a free-form attribute, 'data', that can be used to save some text or serialized variables.
  *
  * Typical actions recorded:
- * - 'add' - some content has been added to the anchor (new file, new comment, etc.)
- * - 'delete' - ?
- * - 'fetch' - file has been actually accessed
- * - 'edit' - ?
- * - 'view' - anchor has been actually browsed
+ * - 'file:123' - 'fetch' - for file download or streaming, in files/fetch.php
  *
  *
  * @author Bernard Paques
@@ -22,7 +21,7 @@ Class Activities {
 	 * count most recent activities
 	 *
 	 * @param string reference of the handled object (e.g., 'article:123')
-	 * @param string description of the action (e.g., 'post' or 'get' or 'delete')
+	 * @param string description of the action (e.g., 'post' or 'like')
 	 * @return int total count of profiles for this anchor and action
 	 */
 	function count_at($anchor, $action=NULL) {
@@ -37,12 +36,9 @@ Class Activities {
 		elseif($action)
 			$where .= " AND (action LIKE '".SQL::escape($action)."')";
 
-		// the list of users
-		$query = "SELECT users.id	FROM ".SQL::table_name('activities')." AS activities"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (activities.user_id = users.id)"
-			."	AND ".$where
-			." GROUP BY users.id";
+		// the list of activities
+		$query = "SELECT id	FROM ".SQL::table_name('activities')." AS activities"
+			." WHERE ".$where;
 
 		// count records
 		return SQL::query_count($query);
@@ -52,12 +48,12 @@ Class Activities {
 	 * list most recent activities
 	 *
 	 * @param string reference of the handled object (e.g., 'article:123')
-	 * @param string description of the action (e.g., 'post' or 'get' or 'delete')
+	 * @param string description of the action (e.g., 'post' or 'like')
 	 * @param int maximum number of activities to list
 	 * @param string layout of matching records
 	 * @return array list of matching user profiles
 	 */
-	function list_at($anchor, $action=NULL, $count=50, $variant='compact') {
+	function list_at($anchor, $action=NULL, $count=50, $variant='raw') {
 		global $context;
 
 		// limit the query to one anchor
@@ -69,16 +65,50 @@ Class Activities {
 		elseif($action)
 			$where .= " AND (action LIKE '".SQL::escape($action)."')";
 
-		// the list of users
-		$query = "SELECT users.*	FROM ".SQL::table_name('activities')." AS activities"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (activities.user_id = users.id)"
-			."	AND ".$where
-			." GROUP BY users.id ORDER BY activities.edit_date DESC LIMIT ".$count;
+		// the list of activities
+		$query = "SELECT * FROM ".SQL::table_name('activities')." AS activities"
+			." WHERE ".$where
+			." GROUP BY activities.action ORDER BY activities.edit_date DESC LIMIT ".$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output =& Activities::list_selected(SQL::query($query), $variant);
 		return $output;
+
+	}
+
+	/**
+	 * list selected activities
+	 *
+	 * @param resource result of database query
+	 * @param string 'compact', etc or object, i.e., an instance of Layout_Interface
+	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
+	 */
+	function &list_selected(&$result, $variant='raw') {
+		global $context;
+
+		// no result
+		if(!$result) {
+			$output = NULL;
+			return $output;
+		}
+
+		// special layouts
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
+			return $output;
+		}
+
+		// one of regular layouts
+		switch($variant) {
+
+		case 'raw':
+		default:
+			$items = array();
+			while($item =& SQL::fetch($result))
+				$items[] = $item;
+			return $items;
+
+		}
 
 	}
 
@@ -87,30 +117,21 @@ Class Activities {
 	 *
 	 * @param string reference of the handled object (e.g., 'article:123')
 	 * @param string description of the action (e.g., 'post' or 'get' or 'delete')
-	 * @param int id of the user involved
-	 * @param string date and time of the activity
+	 * @param string optional text to be saved along the activity
 	 * @return boolean TRUE on success, FALSE otherwise
 	 *
 	**/
-	function post($anchor, $action='get', $user_id=NULL, $date=NULL) {
+	function post($anchor, $action='get', $data='') {
 		global $context;
-
-		// sanity check
-		if(!$user_id)
-			$user_id = Surfer::get_id();
-		if(!$user_id)
-			return FALSE;
-
-		// stamp the activity
-		if(!$date)
-			$date = $context['now'];
 
 		// update the database; do not report on error
 		$query = "INSERT INTO ".SQL::table_name('activities')." SET"
 			." action='".SQL::escape($action)."',"
 			." anchor='".SQL::escape($anchor)."',"
-			." edit_date='".SQL::escape($date)."',"
-			." user_id=".SQL::escape($user_id);
+			." data='".SQL::escape($data)."',"
+			." edit_date='".SQL::escape($context['now'])."',"
+			." edit_id='".SQL::escape(Surfer::get_id())."',"
+			." edit_name='".SQL::escape(Surfer::get_name())."'";
 		SQL::query($query, TRUE);
 
 		// end of job
@@ -129,14 +150,15 @@ Class Activities {
 		$fields['anchor']		= "VARCHAR(255) DEFAULT '' NOT NULL"; // can also be a web URL
 		$fields['data'] 		= "TEXT";
 		$fields['edit_date']	= "DATETIME";
-		$fields['user_id']		= "MEDIUMINT NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX action']	= "(action)";
 		$indexes['INDEX anchor']	= "(anchor)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
-		$indexes['INDEX user_id'] 	= "(user_id)";
+		$indexes['INDEX edit_id'] 	= "(user_id)";
 
 		return SQL::setup_table('activities', $fields, $indexes);
 	}
