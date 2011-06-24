@@ -232,7 +232,7 @@ class BBB_Meeting extends Event {
 
 		// build a link to the owner page, if any
 		if(is_object($this->anchor) && ($user =& Users::get($this->anchor->get_value('owner_id'))))
-			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id']))."\n";
+			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name'])."\n";
 
 		// welcome message
 		$parameters[] = 'welcome='.urlencode($welcome);
