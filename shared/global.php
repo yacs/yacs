@@ -1223,6 +1223,12 @@ function render_skin($with_last_modified=TRUE) {
 	if(file_exists($context['path_to_root'].'shared/yacs.js'))
 		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>';
 
+	// provide a page reference to Javascript --e.g., for reporting activity from this page
+	if(isset($context['page_reference']) && $context['page_reference'])
+		$metas[] = JS_PREFIX
+			.'	Yacs.page_reference = "'.$context['page_reference'].'";'."\n"
+			.JS_SUFFIX;
+
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
