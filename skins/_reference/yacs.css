@@ -449,7 +449,6 @@ p.menu_bar a span.last { /* last command of the menu */
 
 .pager-current { /* where we are */
 	border: 1px solid #cccccc;
-	color: #000000;
 	margin: 0 3px;
 	padding: 0 3px;
 }
