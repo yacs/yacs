@@ -141,7 +141,7 @@ if(is_callable(array('i18n', 's')) && is_callable(array('Articles', 'get_url')))
 	echo ' - '.Skin::build_link(Articles::get_url('about'), i18n::s('about this site'), 'basic').' ';
 
 // privacy statement
-if(is_callable(array('i18n', 's')))
+if(is_callable(array('i18n', 's')) && is_callable(array('Articles', 'get_url')))
 	echo ' - '.Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic').' ';
 
 // a reference to YACS
