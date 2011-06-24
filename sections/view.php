@@ -514,26 +514,31 @@ if(!isset($item['id'])) {
 		if(Surfer::is_empowered() && Surfer::is_logged() && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
-		// section owner
-		if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
+		// provide more details to authenticated surfers
+		if(Surfer::is_logged()) {
 
-		// section editors and readers
-		if(is_object($anchor))
-			$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
-		else
-			$anchors = 'section:'.$item['id'];
-		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+			// section owner
+			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-		if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('Readers: %s'), $items);
+			// section editors and readers
+			if(is_object($anchor))
+				$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
+			else
+				$anchors = 'section:'.$item['id'];
+			if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
-		// page watchers
-		if($item['active'] == 'N')
-			$anchors = Sections::get_hidden_sections($item, $anchor);
-		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+			if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('Readers: %s'), $items);
+
+			// page watchers
+			if($item['active'] == 'N')
+				$anchors = Sections::get_hidden_sections($item, $anchor);
+			if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+
+		}
 
 		// display details, if any
 		if(count($details))
