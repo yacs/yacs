@@ -293,7 +293,7 @@ if($with_form) {
 
 	// review the page on another window
 	$label = i18n::s('Page to review');
-	$input = '<a href="'.$anchor->get_url().'" class="button" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"><span>'.i18n::s('Browse in a separate window').'</span></a>';
+	$input = '<a href="'.$context['url_to_root'].$anchor->get_url().'" class="button" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"><span>'.i18n::s('Browse in a separate window').'</span></a>';
 	$fields[] = array($label, $input);
 
 	// display info on current version
