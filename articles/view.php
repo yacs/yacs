@@ -463,21 +463,26 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 		}
 
-		// page owner
-		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
+		// provide more details to authenticated surfers
+		if(Surfer::is_logged()) {
 
-		// page editors
-		$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
-		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+			// page owner
+			if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-		// page watchers
-		$anchors = array('article:'.$item['id']);
-		if(($item['active'] != 'N') || $anchor->is_assigned())
-			$anchors[] = $anchor->get_reference();
-		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+			// page editors
+			$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+			if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+
+			// page watchers
+			$anchors = array('article:'.$item['id']);
+			if(($item['active'] != 'N') || $anchor->is_assigned())
+				$anchors[] = $anchor->get_reference();
+			if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+
+		}
 
 		// display details, if any
 		if(count($details))
