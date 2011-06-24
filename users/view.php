@@ -241,6 +241,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="FOAF" type="application/rdf+xml" />';
 
 	// set specific headers
+	$context['page_reference'] = 'user:'.$item['id'];
 	if(isset($item['introduction']) && $item['introduction'])
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])

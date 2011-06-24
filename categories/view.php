@@ -278,6 +278,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" />';
 
 	// set specific headers
+	$context['page_reference'] = 'category:'.$item['id'];
 	if(isset($item['introduction']) && $item['introduction'])
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
