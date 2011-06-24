@@ -212,6 +212,9 @@ class BBB_Meeting extends Event {
 		// participant password
 		$parameters[] = 'attendeePW='.urlencode($this->attendee_password);
 
+		// ensure that the bridge number fits in the dialing plan
+		$parameters[] = 'voiceBridge='.urlencode(substr('7'.$this->attributes['id'].'1234', 0, 5));
+
 		// message displayed within the BigBlueButton session
 		$welcome = '';
 
