@@ -1256,9 +1256,8 @@ Class Section extends Anchor {
 		// send alerts on new item, or on article modification, or on section modification
 		if(preg_match('/(:create|article:update|section:update)$/i', $action)) {
 
-			// poster name, if applicable
-			if(!$surfer = Surfer::get_name())
-				$surfer = i18n::c('(anonymous)');
+			// poster name
+			$surfer = Surfer::get_name();
 
 			// mail message
 			$mail = array();
@@ -1385,11 +1384,8 @@ Class Section extends Anchor {
 			// something else has been added to the section
 			} else {
 
-				// add poster name if applicable
-				if($surfer = Surfer::get_name())
-					$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
-				else
-					$summary = Anchors::get_action_label($action);
+				// add poster name
+				$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_name());
 
 				// message components
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));

@@ -1454,7 +1454,7 @@ class Event extends Overlay {
 		// track the beginning of event enrolment but only when users are asking for some invitation
 		if($this->attributes['enrolment'] == 'validate') {
 			include_once $context['path_to_root'].'comments/comments.php';
-			if(is_callable(array($this->anchor, 'get_reference')) && Surfer::get_name()) {
+			if(is_callable(array($this->anchor, 'get_reference'))) {
 				$fields = array();
 				$fields['anchor'] = $this->anchor->get_reference();
 				$fields['description'] = sprintf(i18n::s('%s has open enrolment to the event'), Surfer::get_name());
@@ -1852,7 +1852,7 @@ class Event extends Overlay {
 
 		// track the beginning of the meeting
 		include_once $context['path_to_root'].'comments/comments.php';
-		if(is_callable(array($this->anchor, 'get_reference')) && Surfer::get_name()) {
+		if(is_callable(array($this->anchor, 'get_reference'))) {
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
 			$fields['description'] = sprintf(i18n::s('%s has started the meeting'), Surfer::get_name());
@@ -1875,7 +1875,7 @@ class Event extends Overlay {
 
 		// track the end of the meeting
 		include_once $context['path_to_root'].'comments/comments.php';
-		if(is_callable(array($this->anchor, 'get_reference')) && Surfer::get_name()) {
+		if(is_callable(array($this->anchor, 'get_reference'))) {
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
 			$fields['description'] = sprintf(i18n::s('%s has stopped the meeting'), Surfer::get_name());
