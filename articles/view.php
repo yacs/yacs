@@ -389,7 +389,6 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml" />';
 
 	// set specific headers
-	$context['page_reference'] = 'article:'.$item['id'];
 	if(isset($item['introduction']) && $item['introduction'])
 		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
