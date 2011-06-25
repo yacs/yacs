@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,8 @@ msgstr ""
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
 #: tools/koowy.php:33 tools/populate.php:113 tools/populate.php:135
-#: tools/transform.php:29 tools/upload_excel.php:20
+#: tools/transform.php:29 tools/update_thumbs_url.php:40
+#: tools/update_thumbs_url.php:64 tools/upload_excel.php:20
 msgid "Tools"
 msgstr ""
 
@@ -85,36 +86,44 @@ msgstr ""
 msgid "Google"
 msgstr ""
 
-#: tools/ajax.php:50 tools/ajax.php:53 tools/ajax.php:56
+#: tools/ajax.php:50 tools/ajax.php:59
 msgid "Click on the button to trigger the popup window"
 msgstr ""
 
-#: tools/ajax.php:56 tools/embed.php:25 tools/hello.php:25
+#: tools/ajax.php:53
+msgid "Click on the button to call a remote function"
+msgstr ""
+
+#: tools/ajax.php:56
+msgid "Click on the button to remember some on-line activity"
+msgstr ""
+
+#: tools/ajax.php:59 tools/embed.php:25 tools/hello.php:25
 #: tools/populate.php:407 tools/populate.php:1599 tools/transform.php:32
 msgid "Hello world"
 msgstr ""
 
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Close"
 msgstr ""
 
-#: tools/ajax.php:59
+#: tools/ajax.php:62
 msgid "Hover me to access tools"
 msgstr ""
 
-#: tools/ajax.php:65
+#: tools/ajax.php:68
 msgid "Drag and drop following elements"
 msgstr ""
 
-#: tools/ajax.php:73
+#: tools/ajax.php:76
 msgid "Interactive filters"
 msgstr ""
 
-#: tools/ajax.php:75
+#: tools/ajax.php:78
 msgid "Enter an integer"
 msgstr ""
 
-#: tools/ajax.php:76
+#: tools/ajax.php:79
 msgid "Enter a floating number"
 msgstr ""
 
@@ -246,6 +255,7 @@ msgid "Finalize Javascript libraries"
 msgstr ""
 
 #: tools/jsmin.php:52 tools/populate.php:121 tools/populate.php:132
+#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -855,7 +865,7 @@ msgid ""
 "testing purposes."
 msgstr ""
 
-#: tools/populate.php:1660
+#: tools/populate.php:1660 tools/update_thumbs_url.php:229
 msgid "Start"
 msgstr ""
 
@@ -869,4 +879,54 @@ msgstr ""
 
 #: tools/transform.php:46 tools/transform.php:52
 msgid "Themes"
+msgstr ""
+
+#: tools/update_thumbs_url.php:43
+msgid "Updating thumbnails url"
+msgstr ""
+
+#: tools/update_thumbs_url.php:77
+msgid "Analysing thumbnails for articles"
+msgstr ""
+
+#: tools/update_thumbs_url.php:94
+msgid "Analysing icons for articles"
+msgstr ""
+
+#: tools/update_thumbs_url.php:111
+msgid "Analysing thumbnails for sections"
+msgstr ""
+
+#: tools/update_thumbs_url.php:128
+msgid "Analysing icons for sections"
+msgstr ""
+
+#: tools/update_thumbs_url.php:145
+msgid "Analysing thumbnails for categories"
+msgstr ""
+
+#: tools/update_thumbs_url.php:162
+msgid "Analysing icons for categories"
+msgstr ""
+
+#: tools/update_thumbs_url.php:179
+msgid "Analysing thumbnails for files"
+msgstr ""
+
+#: tools/update_thumbs_url.php:202
+msgid ""
+"This tools correct the urls of thumbnails and icons of pages after having "
+"changed \"url_to_root\" in control panel"
+msgstr ""
+
+#: tools/update_thumbs_url.php:212
+msgid "Please give former URL to root"
+msgstr ""
+
+#: tools/update_thumbs_url.php:214
+msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+msgstr ""
+
+#: tools/update_thumbs_url.php:219
+msgid "This will be replaced by current URL"
 msgstr ""

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 16:11+0200\n"
-"PO-Revision-Date: 2011-05-16 16:24+0100\n"
+"POT-Creation-Date: 2011-06-26 00:05+0200\n"
+"PO-Revision-Date: 2011-06-26 00:14+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -26,6 +26,8 @@ msgstr ""
 #: tools/populate.php:113
 #: tools/populate.php:135
 #: tools/transform.php:29
+#: tools/update_thumbs_url.php:40
+#: tools/update_thumbs_url.php:64
 #: tools/upload_excel.php:20
 msgid "Tools"
 msgstr "Outils"
@@ -100,12 +102,19 @@ msgid "Google"
 msgstr "Google"
 
 #: tools/ajax.php:50
-#: tools/ajax.php:53
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Click on the button to trigger the popup window"
 msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
 
+#: tools/ajax.php:53
+msgid "Click on the button to call a remote function"
+msgstr "Cliquez sur le bouton pour appeler une fonction distante"
+
 #: tools/ajax.php:56
+msgid "Click on the button to remember some on-line activity"
+msgstr "Cliquez sur le bouton pour mémoriser une activité en ligne"
+
+#: tools/ajax.php:59
 #: tools/embed.php:25
 #: tools/hello.php:25
 #: tools/populate.php:407
@@ -114,27 +123,27 @@ msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
 msgid "Hello world"
 msgstr "Bonjour le monde"
 
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Close"
 msgstr "Fermer"
 
-#: tools/ajax.php:59
+#: tools/ajax.php:62
 msgid "Hover me to access tools"
 msgstr "Survolez moi pour accèder aux outils"
 
-#: tools/ajax.php:65
+#: tools/ajax.php:68
 msgid "Drag and drop following elements"
 msgstr "Tirez et déplacez les éléments suivants"
 
-#: tools/ajax.php:73
+#: tools/ajax.php:76
 msgid "Interactive filters"
 msgstr "Filtres interactifs"
 
-#: tools/ajax.php:75
+#: tools/ajax.php:78
 msgid "Enter an integer"
 msgstr "Entrer un nombre entier"
 
-#: tools/ajax.php:76
+#: tools/ajax.php:79
 msgid "Enter a floating number"
 msgstr "Entrer un nombre décimal"
 
@@ -272,6 +281,8 @@ msgstr "Préparer les librairies Javascript"
 #: tools/jsmin.php:52
 #: tools/populate.php:121
 #: tools/populate.php:132
+#: tools/update_thumbs_url.php:48
+#: tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -986,6 +997,7 @@ msgid "You should use this script only for learning, for demonstration or for te
 msgstr "N'utilisez ce script que pour des besoins d'apprentissage, de démonstration ou de tests."
 
 #: tools/populate.php:1660
+#: tools/update_thumbs_url.php:229
 msgid "Start"
 msgstr "Commencer"
 
@@ -1003,6 +1015,54 @@ msgstr "extra"
 #: tools/transform.php:52
 msgid "Themes"
 msgstr "Thèmes"
+
+#: tools/update_thumbs_url.php:43
+msgid "Updating thumbnails url"
+msgstr "Mise à jour des liens vers les vignettes"
+
+#: tools/update_thumbs_url.php:77
+msgid "Analysing thumbnails for articles"
+msgstr "Analyse des vignettes pour les articles"
+
+#: tools/update_thumbs_url.php:94
+msgid "Analysing icons for articles"
+msgstr "Analyse des icônes pour les articles"
+
+#: tools/update_thumbs_url.php:111
+msgid "Analysing thumbnails for sections"
+msgstr "Analyse des vignettes pour les sections"
+
+#: tools/update_thumbs_url.php:128
+msgid "Analysing icons for sections"
+msgstr "Analyse des icônes pour les sections"
+
+#: tools/update_thumbs_url.php:145
+msgid "Analysing thumbnails for categories"
+msgstr "Analyse des vignettes pour les catégories"
+
+#: tools/update_thumbs_url.php:162
+msgid "Analysing icons for categories"
+msgstr "Analyse des icônes pour les catégories"
+
+#: tools/update_thumbs_url.php:179
+msgid "Analysing thumbnails for files"
+msgstr "Analyse des vignettes pour les fichiers"
+
+#: tools/update_thumbs_url.php:202
+msgid "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
+msgstr "Cet outil corrige les liens utilisés pour les vignettes et pour les icônes de page après le changement du paramètre \"url_to_root\" dans le panneau de contrôle"
+
+#: tools/update_thumbs_url.php:212
+msgid "Please give former URL to root"
+msgstr "Merci d'indiquer l'URL précédente vers la racine du site"
+
+#: tools/update_thumbs_url.php:214
+msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+msgstr "exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
+
+#: tools/update_thumbs_url.php:219
+msgid "This will be replaced by current URL"
+msgstr "Cette chaîne sera remplacée par l'URL en cours"
 
 #~ msgid "Event"
 #~ msgstr "Evénement"

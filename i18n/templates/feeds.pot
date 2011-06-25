@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: feeds/configure.php:71 feeds/index.php:185 feeds/flash/configure.php:56
+#: feeds/configure.php:71 feeds/index.php:189 feeds/flash/configure.php:56
 msgid "Configure"
 msgstr ""
 
@@ -87,12 +87,12 @@ msgstr ""
 msgid "The suggested amount of time before fetching a feed again"
 msgstr ""
 
-#: feeds/configure.php:151 feeds/index.php:146
+#: feeds/configure.php:151 feeds/index.php:148
 #, php-format
 msgid "To extend the list of feeders add adequate %s."
 msgstr ""
 
-#: feeds/configure.php:151 feeds/index.php:146
+#: feeds/configure.php:151 feeds/index.php:148
 msgid "server profiles"
 msgstr ""
 
@@ -373,29 +373,29 @@ msgstr ""
 msgid "Outbound feeds"
 msgstr ""
 
-#: feeds/index.php:153
+#: feeds/index.php:155
 #, php-format
 msgid ""
 "No feeder has been defined. If you need to integrate some external RSS %s."
 msgstr ""
 
-#: feeds/index.php:153
+#: feeds/index.php:155
 msgid "add a server profile"
 msgstr ""
 
-#: feeds/index.php:159
+#: feeds/index.php:161
 msgid "Most recent external news"
 msgstr ""
 
-#: feeds/index.php:168
+#: feeds/index.php:170
 msgid "Inbound feeds"
 msgstr ""
 
-#: feeds/index.php:202
+#: feeds/index.php:206
 msgid "Pick a feed"
 msgstr ""
 
-#: feeds/index.php:207
+#: feeds/index.php:211
 msgid "Aggregate this site"
 msgstr ""
 

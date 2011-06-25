@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 16:11+0200\n"
-"PO-Revision-Date: 2011-05-16 16:19+0100\n"
+"POT-Creation-Date: 2011-06-26 00:05+0200\n"
+"PO-Revision-Date: 2011-06-26 00:08+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
@@ -31,6 +31,8 @@ msgstr ""
 #: tools/populate.php:113
 #: tools/populate.php:135
 #: tools/transform.php:29
+#: tools/update_thumbs_url.php:40
+#: tools/update_thumbs_url.php:64
 #: tools/upload_excel.php:20
 msgid "Tools"
 msgstr "Tools"
@@ -105,12 +107,19 @@ msgid "Google"
 msgstr "Google"
 
 #: tools/ajax.php:50
-#: tools/ajax.php:53
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Click on the button to trigger the popup window"
 msgstr "Click on the button to trigger the popup window"
 
+#: tools/ajax.php:53
+msgid "Click on the button to call a remote function"
+msgstr "Click on the button to call a remote function"
+
 #: tools/ajax.php:56
+msgid "Click on the button to remember some on-line activity"
+msgstr "Click on the button to remember some on-line activity"
+
+#: tools/ajax.php:59
 #: tools/embed.php:25
 #: tools/hello.php:25
 #: tools/populate.php:407
@@ -119,27 +128,27 @@ msgstr "Click on the button to trigger the popup window"
 msgid "Hello world"
 msgstr "Hello world"
 
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Close"
 msgstr "Close"
 
-#: tools/ajax.php:59
+#: tools/ajax.php:62
 msgid "Hover me to access tools"
 msgstr "Hover me to access tools"
 
-#: tools/ajax.php:65
+#: tools/ajax.php:68
 msgid "Drag and drop following elements"
 msgstr "Drag and drop following elements"
 
-#: tools/ajax.php:73
+#: tools/ajax.php:76
 msgid "Interactive filters"
 msgstr "Interactive filters"
 
-#: tools/ajax.php:75
+#: tools/ajax.php:78
 msgid "Enter an integer"
 msgstr "Enter an integer"
 
-#: tools/ajax.php:76
+#: tools/ajax.php:79
 msgid "Enter a floating number"
 msgstr "Enter a floating number"
 
@@ -277,6 +286,8 @@ msgstr "Finalize Javascript libraries"
 #: tools/jsmin.php:52
 #: tools/populate.php:121
 #: tools/populate.php:132
+#: tools/update_thumbs_url.php:48
+#: tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -991,6 +1002,7 @@ msgid "You should use this script only for learning, for demonstration or for te
 msgstr "You should use this script only for learning, for demonstration or for testing purposes."
 
 #: tools/populate.php:1660
+#: tools/update_thumbs_url.php:229
 msgid "Start"
 msgstr "Start"
 
@@ -1008,6 +1020,54 @@ msgstr "extra"
 #: tools/transform.php:52
 msgid "Themes"
 msgstr "Themes"
+
+#: tools/update_thumbs_url.php:43
+msgid "Updating thumbnails url"
+msgstr "Updating thumbnails url"
+
+#: tools/update_thumbs_url.php:77
+msgid "Analysing thumbnails for articles"
+msgstr "Analysing thumbnails for articles"
+
+#: tools/update_thumbs_url.php:94
+msgid "Analysing icons for articles"
+msgstr "Analysing icons for articles"
+
+#: tools/update_thumbs_url.php:111
+msgid "Analysing thumbnails for sections"
+msgstr "Analysing thumbnails for sections"
+
+#: tools/update_thumbs_url.php:128
+msgid "Analysing icons for sections"
+msgstr "Analysing icons for sections"
+
+#: tools/update_thumbs_url.php:145
+msgid "Analysing thumbnails for categories"
+msgstr "Analysing thumbnails for categories"
+
+#: tools/update_thumbs_url.php:162
+msgid "Analysing icons for categories"
+msgstr "Analysing icons for categories"
+
+#: tools/update_thumbs_url.php:179
+msgid "Analysing thumbnails for files"
+msgstr "Analysing thumbnails for files"
+
+#: tools/update_thumbs_url.php:202
+msgid "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
+msgstr "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
+
+#: tools/update_thumbs_url.php:212
+msgid "Please give former URL to root"
+msgstr "Please give former URL to root"
+
+#: tools/update_thumbs_url.php:214
+msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+msgstr "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+
+#: tools/update_thumbs_url.php:219
+msgid "This will be replaced by current URL"
+msgstr "This will be replaced by current URL"
 
 #~ msgid "Event"
 #~ msgstr "Event"

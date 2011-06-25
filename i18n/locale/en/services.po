@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-06-26 00:05+0200\n"
 "PO-Revision-Date: 2010-04-08 22:38+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -45,8 +45,8 @@ msgstr "Unknown postid %s at %s"
 #: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
 #: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
 #: services/blog.php:1462 services/blog.php:1647 services/check.php:57
-#: services/check.php:62 services/configure.php:71 services/proxy.php:17
-#: services/proxy.php:22
+#: services/check.php:62 services/configure.php:71 services/proxy.php:21
+#: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -124,12 +124,12 @@ msgstr ""
 "Go to the %s and check debug mode for <code>call</code> has been set, if you "
 "want to record HTTP requests and responses."
 
-#: services/blog_test.php:531 services/rpc_echo_hook_test.php:86
+#: services/blog_test.php:531 services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 msgid "configuration panel for services"
 msgstr "configuration panel for services"
 
-#: services/blog_test.php:532 services/rpc_echo_hook_test.php:87
+#: services/blog_test.php:532 services/rpc_echo_hook_test.php:100
 #: services/xml_rpc_drupal.login_hook_test.php:88
 msgid "Help"
 msgstr "Help"
@@ -428,7 +428,7 @@ msgstr "Web service test"
 msgid "Message"
 msgstr "Message"
 
-#: services/rpc_echo_hook_test.php:86
+#: services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 #, php-format
 msgid ""

@@ -22,6 +22,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
+ * @author Alexis Raimbault
  * @tester Anatoly
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -43,27 +44,33 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			return $output;
 		}
 
-		// layout in a table
-		$text = Skin::table_prefix('yabb');
-
-		// headers
-		$text .= Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
+		// output as a string
+		$text = '';
 
 		// build a list of sections
 		$family = '';
+		$first = TRUE;
 		while($item =& SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
+				// close last table only if a section has been already listed
+				if(!$first) {
+				    $text .= Skin::table_suffix();
+				}
 				// show the family
-				$text .= Skin::table_suffix()
-					.'<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
 					.Skin::table_prefix('yabb')
 					.Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
-
+			} elseif($first) {
+			    $text .= Skin::table_prefix('yabb');
+			    $text .= Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
 			}
+
+			// done with this case
+			$first = FALSE;
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
