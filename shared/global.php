@@ -1224,9 +1224,9 @@ function render_skin($with_last_modified=TRUE) {
 		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>';
 
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
-	if(isset($context['page_reference']) && $context['page_reference'])
+	if(isset($context['current_item']) && $context['current_item'])
 		$metas[] = JS_PREFIX
-			.'	Yacs.page_reference = "'.$context['page_reference'].'";'."\n"
+			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
 			.JS_SUFFIX;
 
 	// insert headers (and maybe, include more javascript files)
