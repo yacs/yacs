@@ -123,7 +123,7 @@ echo '</td></tr></table>'."\n";
 echo '<div id="footer_panel">'."\n";
 
 // surfer name and execution time, if known
-if(is_callable(array('Surfer', 'get_name')) && Surfer::get_name() && is_callable(array('i18n', 's'))) {
+if(is_callable(array('Surfer', 'get_name')) && is_callable(array('i18n', 's'))) {
 	$execution_time = round(get_micro_time() - $context['start_time'], 2);
 	echo sprintf(i18n::s('Page prepared in %.2f seconds for %s'), $execution_time, ucwords(Surfer::get_name())).' ';
 }
@@ -141,7 +141,7 @@ if(is_callable(array('i18n', 's')) && is_callable(array('Articles', 'get_url')))
 	echo ' - '.Skin::build_link(Articles::get_url('about'), i18n::s('about this site'), 'basic').' ';
 
 // privacy statement
-if(is_callable(array('i18n', 's')))
+if(is_callable(array('i18n', 's')) && is_callable(array('Articles', 'get_url')))
 	echo ' - '.Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic').' ';
 
 // a reference to YACS

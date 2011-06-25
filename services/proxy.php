@@ -4,6 +4,10 @@
  *
  * This script addresses issue related to cross-domain scripting
  *
+ * @todo insert standard HTTP headers to signal proxying to callee
+ * @todo transcode cookie domains
+ * @todo transcode host http header
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

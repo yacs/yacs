@@ -60,9 +60,6 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	// process rows, if any
 	if(is_array($rows)) {
 
-		// limit to ten items
-		@array_splice($rows, 10);
-
 		// for each item
 		foreach($rows as $url => $attributes) {
 			list($time, $title, $author, $section, $image, $introduction, $description, $trackback) = $attributes;

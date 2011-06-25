@@ -8,6 +8,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Guillaume Perez
  * @tester Dobliu
  * @tester Christian Loubechine
@@ -1038,9 +1039,8 @@ Class Article extends Anchor {
 		// send alert only on new stuff, and if the page has been published
 		if(preg_match('/:create$/i', $action) && isset($this->item['publish_date']) &&  ($this->item['publish_date'] > NULL_DATE)) {
 
-			// poster name, if applicable
-			if(!$surfer = Surfer::get_name())
-				$surfer = i18n::c('(anonymous)');
+			// poster name
+			$surfer = Surfer::get_name();
 
 			// mail message
 			$mail = array();
@@ -1080,6 +1080,7 @@ Class Article extends Anchor {
 					    .$context['url_to_root']
 					    .Articles::get_permalink($this->item)
 					    .'">'.$this->item['title'].'</a>';
+
 					// insert the full content of the comment, to provide the full information
 					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
 						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
@@ -1097,10 +1098,7 @@ Class Article extends Anchor {
 			} else {
 
 				// add poster name if applicable
-				if($surfer = Surfer::get_name())
-					$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
-				else
-					$summary = Anchors::get_action_label($action);
+				$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_name());
 
 				// message components
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));

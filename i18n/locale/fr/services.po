@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 15:19+0200\n"
+"POT-Creation-Date: 2011-06-26 00:05+0200\n"
 "PO-Revision-Date: 2010-04-08 22:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -40,8 +40,8 @@ msgstr "Identifiant postid %s inconnu à l'adresse %s"
 #: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
 #: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
 #: services/blog.php:1462 services/blog.php:1647 services/check.php:57
-#: services/check.php:62 services/configure.php:71 services/proxy.php:17
-#: services/proxy.php:22
+#: services/check.php:62 services/configure.php:71 services/proxy.php:21
+#: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -120,12 +120,12 @@ msgstr ""
 "<code>call</code> a été sélectionné si vous souhaitez enregistrer les "
 "requêtes et réponses HTTP."
 
-#: services/blog_test.php:531 services/rpc_echo_hook_test.php:86
+#: services/blog_test.php:531 services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 msgid "configuration panel for services"
 msgstr "le panneau de configuration des services"
 
-#: services/blog_test.php:532 services/rpc_echo_hook_test.php:87
+#: services/blog_test.php:532 services/rpc_echo_hook_test.php:100
 #: services/xml_rpc_drupal.login_hook_test.php:88
 msgid "Help"
 msgstr "Aide"
@@ -426,7 +426,7 @@ msgstr "Test de service web"
 msgid "Message"
 msgstr "Message"
 
-#: services/rpc_echo_hook_test.php:86
+#: services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 #, php-format
 msgid ""
