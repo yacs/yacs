@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: forms/delete.php:47 forms/view.php:583
+#: forms/delete.php:47 forms/view.php:581
 msgid "Delete"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Yes, I want to suppress this form"
 msgstr ""
 
-#: forms/delete.php:80 forms/edit.php:390 forms/view.php:555
+#: forms/delete.php:80 forms/edit.php:390 forms/view.php:553
 msgid "Cancel"
 msgstr ""
 
@@ -126,11 +126,11 @@ msgstr ""
 msgid "Sent by %s"
 msgstr ""
 
-#: forms/edit.php:262 forms/view.php:479
+#: forms/edit.php:262 forms/view.php:477
 msgid "Title"
 msgstr ""
 
-#: forms/edit.php:267 forms/edit.php:412 forms/view.php:481
+#: forms/edit.php:267 forms/edit.php:412 forms/view.php:479
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -211,11 +211,11 @@ msgstr ""
 msgid "Processing"
 msgstr ""
 
-#: forms/edit.php:386 forms/view.php:554
+#: forms/edit.php:386 forms/view.php:552
 msgid "Submit"
 msgstr ""
 
-#: forms/edit.php:386 forms/view.php:554
+#: forms/edit.php:386 forms/view.php:552
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -356,7 +356,7 @@ msgstr ""
 msgid "authenticate"
 msgstr ""
 
-#: forms/view.php:442 forms/view.php:461 forms/view.php:478
+#: forms/view.php:442 forms/view.php:460 forms/view.php:476
 msgid "Your name"
 msgstr ""
 
@@ -364,7 +364,7 @@ msgstr ""
 msgid "Let us a chance to know who you are"
 msgstr ""
 
-#: forms/view.php:448 forms/view.php:467
+#: forms/view.php:448 forms/view.php:465
 msgid "Your e-mail address"
 msgstr ""
 
@@ -372,6 +372,6 @@ msgstr ""
 msgid "Put your e-mail address to receive feed-back"
 msgstr ""
 
-#: forms/view.php:582
+#: forms/view.php:580
 msgid "Edit"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: overlays/bbb_meeting.php:87 overlays/bbb_meeting.php:232
+#: overlays/bbb_meeting.php:87 overlays/bbb_meeting.php:235
 #: overlays/chat_meeting.php:96 overlays/dimdim_meeting.php:44
 #: overlays/dimdim_meeting.php:245 overlays/etherpad_meeting.php:53
 #: overlays/event.php:564 overlays/event.php:566 overlays/event.php:702
@@ -43,42 +43,42 @@ msgid "Maximum number of participants."
 msgstr ""
 
 #: overlays/bbb_meeting.php:154 overlays/chat_meeting.php:133
-#: overlays/dimdim_meeting.php:139 overlays/etherpad_meeting.php:127
+#: overlays/dimdim_meeting.php:139 overlays/etherpad_meeting.php:126
 #: overlays/external_meeting.php:118 overlays/livestream_meeting.php:130
 #: overlays/skype_meeting.php:145 overlays/ustream_meeting.php:150
 msgid "Edit this meeting"
 msgstr ""
 
 #: overlays/bbb_meeting.php:159 overlays/chat_meeting.php:138
-#: overlays/dimdim_meeting.php:144 overlays/etherpad_meeting.php:132
+#: overlays/dimdim_meeting.php:144 overlays/etherpad_meeting.php:131
 #: overlays/external_meeting.php:123 overlays/livestream_meeting.php:135
 #: overlays/skype_meeting.php:150 overlays/ustream_meeting.php:155
 msgid "Add a meeting"
 msgstr ""
 
 #: overlays/bbb_meeting.php:168 overlays/chat_meeting.php:147
-#: overlays/dimdim_meeting.php:153 overlays/etherpad_meeting.php:141
+#: overlays/dimdim_meeting.php:153 overlays/etherpad_meeting.php:140
 #: overlays/external_meeting.php:132 overlays/livestream_meeting.php:144
 #: overlays/skype_meeting.php:159 overlays/ustream_meeting.php:164
 msgid "Edit a meeting"
 msgstr ""
 
 #: overlays/bbb_meeting.php:171 overlays/chat_meeting.php:150
-#: overlays/dimdim_meeting.php:156 overlays/etherpad_meeting.php:144
+#: overlays/dimdim_meeting.php:156 overlays/etherpad_meeting.php:143
 #: overlays/external_meeting.php:135 overlays/livestream_meeting.php:147
 #: overlays/skype_meeting.php:162 overlays/ustream_meeting.php:167
 msgid "Delete a meeting"
 msgstr ""
 
 #: overlays/bbb_meeting.php:174 overlays/chat_meeting.php:153
-#: overlays/dimdim_meeting.php:159 overlays/etherpad_meeting.php:147
+#: overlays/dimdim_meeting.php:159 overlays/etherpad_meeting.php:146
 #: overlays/external_meeting.php:138 overlays/livestream_meeting.php:150
 #: overlays/skype_meeting.php:165 overlays/ustream_meeting.php:170
 msgid "New meeting"
 msgstr ""
 
-#: overlays/bbb_meeting.php:220 overlays/bbb_meeting.php:224
-#: overlays/bbb_meeting.php:228 overlays/bbb_meeting.php:232
+#: overlays/bbb_meeting.php:223 overlays/bbb_meeting.php:227
+#: overlays/bbb_meeting.php:231 overlays/bbb_meeting.php:235
 #: overlays/dimdim_meeting.php:233 overlays/dimdim_meeting.php:237
 #: overlays/dimdim_meeting.php:241 overlays/dimdim_meeting.php:245
 #: overlays/event.php:560 overlays/event.php:564 overlays/event.php:566
@@ -91,58 +91,58 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: overlays/bbb_meeting.php:220 overlays/dimdim_meeting.php:233
+#: overlays/bbb_meeting.php:223 overlays/dimdim_meeting.php:233
 msgid "Title"
 msgstr ""
 
-#: overlays/bbb_meeting.php:224 overlays/dimdim_meeting.php:237
+#: overlays/bbb_meeting.php:227 overlays/dimdim_meeting.php:237
 #: overlays/event.php:435 overlays/event.php:570 overlays/event.php:708
 #: overlays/event.php:1263
 msgid "Date"
 msgstr ""
 
-#: overlays/bbb_meeting.php:228 overlays/dimdim_meeting.php:241
+#: overlays/bbb_meeting.php:231 overlays/dimdim_meeting.php:241
 #: overlays/event.php:457 overlays/event.php:572 overlays/event.php:710
 #: overlays/event.php:1268
 msgid "Duration"
 msgstr ""
 
-#: overlays/bbb_meeting.php:228 overlays/dimdim_meeting.php:241
+#: overlays/bbb_meeting.php:231 overlays/dimdim_meeting.php:241
 #: overlays/event.php:467 overlays/event.php:572 overlays/event.php:710
 #: overlays/event.php:1268
 msgid "minutes"
 msgstr ""
 
-#: overlays/bbb_meeting.php:280 overlays/chat_meeting.php:198
-#: overlays/etherpad_meeting.php:233 overlays/external_meeting.php:197
+#: overlays/bbb_meeting.php:283 overlays/chat_meeting.php:198
+#: overlays/etherpad_meeting.php:231 overlays/external_meeting.php:197
 #: overlays/livestream_meeting.php:246 overlays/skype_meeting.php:192
 #: overlays/ustream_meeting.php:230
 msgid "Meeting is under preparation"
 msgstr ""
 
-#: overlays/bbb_meeting.php:283 overlays/chat_meeting.php:201
-#: overlays/etherpad_meeting.php:236 overlays/event.php:921
+#: overlays/bbb_meeting.php:286 overlays/chat_meeting.php:201
+#: overlays/etherpad_meeting.php:234 overlays/event.php:921
 #: overlays/external_meeting.php:200 overlays/livestream_meeting.php:249
 #: overlays/skype_meeting.php:195 overlays/ustream_meeting.php:233
 msgid "Enrolment is open"
 msgstr ""
 
-#: overlays/bbb_meeting.php:286 overlays/chat_meeting.php:204
-#: overlays/etherpad_meeting.php:239 overlays/external_meeting.php:203
+#: overlays/bbb_meeting.php:289 overlays/chat_meeting.php:204
+#: overlays/etherpad_meeting.php:237 overlays/external_meeting.php:203
 #: overlays/livestream_meeting.php:252 overlays/skype_meeting.php:198
 #: overlays/ustream_meeting.php:236
 msgid "Meeting has not started yet"
 msgstr ""
 
-#: overlays/bbb_meeting.php:289 overlays/chat_meeting.php:207
-#: overlays/etherpad_meeting.php:242 overlays/external_meeting.php:206
+#: overlays/bbb_meeting.php:292 overlays/chat_meeting.php:207
+#: overlays/etherpad_meeting.php:240 overlays/external_meeting.php:206
 #: overlays/livestream_meeting.php:255 overlays/skype_meeting.php:201
 #: overlays/ustream_meeting.php:239
 msgid "Meeting has started"
 msgstr ""
 
-#: overlays/bbb_meeting.php:292 overlays/chat_meeting.php:210
-#: overlays/etherpad_meeting.php:245 overlays/event.php:1195
+#: overlays/bbb_meeting.php:295 overlays/chat_meeting.php:210
+#: overlays/etherpad_meeting.php:243 overlays/event.php:1195
 #: overlays/external_meeting.php:209 overlays/livestream_meeting.php:258
 #: overlays/skype_meeting.php:204 overlays/ustream_meeting.php:242
 msgid "Meeting is over"
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: overlays/etherpad_meeting.php:270
+#: overlays/etherpad_meeting.php:268
 msgid "Resulting text"
 msgstr ""
 
@@ -416,27 +416,27 @@ msgstr ""
 msgid "Manage enrolment"
 msgstr ""
 
-#: overlays/event.php:2071
+#: overlays/event.php:2070
 msgid "You have been enrolled"
 msgstr ""
 
-#: overlays/event.php:2075 overlays/event.php:2080
+#: overlays/event.php:2074 overlays/event.php:2079
 msgid "You have asked for an invitation"
 msgstr ""
 
-#: overlays/event.php:2093
+#: overlays/event.php:2092
 msgid "Confirm my participation"
 msgstr ""
 
-#: overlays/event.php:2100
+#: overlays/event.php:2099
 msgid "Ask for an invitation"
 msgstr ""
 
-#: overlays/event.php:2135 overlays/event.php:2146 overlays/event.php:2153
+#: overlays/event.php:2133 overlays/event.php:2144 overlays/event.php:2151
 msgid "Join the meeting"
 msgstr ""
 
-#: overlays/event.php:2139
+#: overlays/event.php:2137
 msgid "Stop the meeting"
 msgstr ""
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-03 23:29+0200\n"
+"POT-Creation-Date: 2011-06-13 11:49+0200\n"
 "PO-Revision-Date: 2011-06-03 23:33+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -15,109 +15,58 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Language: French\n"
 
-#: control/backup.php:95
-#: control/backup.php:110
-#: control/chmod.php:27
-#: control/chmod.php:42
-#: control/chmod.php:92
-#: control/configure.php:219
-#: control/configure.php:230
-#: control/configure.php:751
-#: control/configure.php:985
-#: control/index.php:195
-#: control/info.php:42
-#: control/info.php:61
-#: control/populate.php:105
-#: control/populate.php:122
-#: control/populate.php:847
-#: control/purge.php:67
-#: control/purge.php:204
-#: control/purge.php:223
-#: control/purge.php:243
-#: control/purge.php:261
-#: control/purge.php:278
-#: control/purge.php:297
-#: control/purge.php:314
-#: control/purge.php:331
-#: control/purge.php:365
-#: control/purge.php:387
-#: control/purge.php:406
-#: control/purge.php:425
-#: control/purge.php:444
-#: control/scan.php:167
-#: control/scan.php:224
-#: control/scan.php:449
-#: control/scan.php:802
-#: control/setup.php:103
-#: control/setup.php:280
-#: control/switch.php:40
-#: control/switch.php:53
-#: control/switch.php:83
-#: control/switch.php:143
-#: control/test.php:88
-#: control/virtual.php:55
-#: control/virtual.php:95
-#: control/virtual.php:119
-#: control/virtual.php:175
-#: control/virtual.php:198
-#: control/virtual.php:223
-#: control/htaccess/index.php:94
-#: control/htaccess/index.php:137
+#: control/backup.php:95 control/backup.php:110 control/chmod.php:27
+#: control/chmod.php:42 control/chmod.php:92 control/configure.php:219
+#: control/configure.php:230 control/configure.php:751
+#: control/configure.php:985 control/index.php:195 control/info.php:42
+#: control/info.php:61 control/populate.php:105 control/populate.php:122
+#: control/populate.php:847 control/purge.php:67 control/purge.php:204
+#: control/purge.php:223 control/purge.php:243 control/purge.php:261
+#: control/purge.php:278 control/purge.php:297 control/purge.php:314
+#: control/purge.php:331 control/purge.php:365 control/purge.php:387
+#: control/purge.php:406 control/purge.php:425 control/purge.php:444
+#: control/scan.php:167 control/scan.php:224 control/scan.php:449
+#: control/scan.php:802 control/setup.php:103 control/setup.php:280
+#: control/switch.php:40 control/switch.php:53 control/switch.php:83
+#: control/switch.php:143 control/test.php:88 control/virtual.php:55
+#: control/virtual.php:95 control/virtual.php:119 control/virtual.php:175
+#: control/virtual.php:198 control/virtual.php:223
+#: control/htaccess/index.php:94 control/htaccess/index.php:137
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: control/backup.php:98
-#: control/backup.php:365
-#: control/backup.php:473
-#: control/backup.php:577
-#: control/index.php:865
+#: control/backup.php:98 control/backup.php:365 control/backup.php:473
+#: control/backup.php:577 control/index.php:865
 msgid "Backup/Restore"
 msgstr "Sauvegarde/Restauration"
 
-#: control/backup.php:107
-#: control/chmod.php:39
-#: control/configure.php:227
-#: control/import.php:33
-#: control/info.php:58
-#: control/populate.php:119
-#: control/purge.php:201
-#: control/scan.php:221
-#: control/setup.php:120
-#: control/switch.php:50
-#: control/test.php:66
-#: control/virtual.php:67
+#: control/backup.php:107 control/chmod.php:39 control/configure.php:227
+#: control/import.php:33 control/info.php:58 control/populate.php:119
+#: control/purge.php:201 control/scan.php:221 control/setup.php:120
+#: control/switch.php:50 control/test.php:66 control/virtual.php:67
 #: control/htaccess/index.php:29
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: control/backup.php:342
-#: control/backup.php:377
-#: control/backup.php:485
+#: control/backup.php:342 control/backup.php:377 control/backup.php:485
 msgid "Updating the database..."
 msgstr "Modification de la base de données..."
 
-#: control/backup.php:358
-#: control/backup.php:399
-#: control/backup.php:573
+#: control/backup.php:358 control/backup.php:399 control/backup.php:573
 #, php-format
 msgid "%d SQL statements have been processed in %.2f seconds."
 msgstr "%d commandes SQL ont été traitées en %.2f secondes."
 
-#: control/backup.php:364
-#: control/backup.php:472
-#: control/backup.php:576
+#: control/backup.php:364 control/backup.php:472 control/backup.php:576
 msgid "Reindex tables and optimize data storage"
 msgstr "Réindexer les tables et optimiser la base de données"
 
-#: control/backup.php:381
-#: control/backup.php:385
-#: control/import.php:40
+#: control/backup.php:381 control/backup.php:385 control/import.php:40
 #: control/import.php:51
 msgid "Nothing has been received."
 msgstr "Rien n'a été reçu."
 
-#: control/backup.php:392
-#: control/import.php:55
+#: control/backup.php:392 control/import.php:55
 msgid "Possible file attack."
 msgstr "Possibilité d'une attaque sur le fichier."
 
@@ -125,17 +74,13 @@ msgstr "Possibilité d'une attaque sur le fichier."
 msgid "Purging..."
 msgstr "Purge ..."
 
-#: control/backup.php:463
-#: control/purge.php:235
-#: control/purge.php:289
-#: control/purge.php:357
-#: control/purge.php:379
+#: control/backup.php:463 control/purge.php:235 control/purge.php:289
+#: control/purge.php:357 control/purge.php:379
 #, php-format
 msgid "%d items have been deleted"
 msgstr "%d éléments ont été supprimés"
 
-#: control/backup.php:489
-#: control/backup.php:493
+#: control/backup.php:489 control/backup.php:493
 msgid "No statement has been uploaded."
 msgstr "Aucune commande n'a été transmise."
 
@@ -144,21 +89,16 @@ msgstr "Aucune commande n'a été transmise."
 msgid "%d records have been processed"
 msgstr "%d enregistrements ont été traités"
 
-#: control/backup.php:589
-#: control/backup.php:756
-#: control/chmod.php:49
+#: control/backup.php:589 control/backup.php:756 control/chmod.php:49
 msgid "Listing files..."
 msgstr "Liste des fichiers ..."
 
-#: control/backup.php:598
-#: control/backup.php:765
+#: control/backup.php:598 control/backup.php:765
 #, php-format
 msgid "%d files have been found."
 msgstr "%d fichiers ont été trouvés."
 
-#: control/backup.php:601
-#: control/backup.php:670
-#: control/backup.php:723
+#: control/backup.php:601 control/backup.php:670 control/backup.php:723
 #: control/backup.php:768
 msgid "On-going archive preparation..."
 msgstr "Préparation de l'archive ..."
@@ -180,15 +120,11 @@ msgstr "%d images ont été trouvées."
 msgid "No image have been found."
 msgstr "Aucune image n'a été trouvée."
 
-#: control/backup.php:811
-#: control/scan.php:239
-#: control/scan.php:471
+#: control/backup.php:811 control/scan.php:239 control/scan.php:471
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: control/backup.php:817
-#: control/info.php:221
-#: control/purge.php:451
+#: control/backup.php:817 control/info.php:221 control/purge.php:451
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
@@ -197,13 +133,21 @@ msgid "Backup database content"
 msgstr "Sauvegarde de la base de données"
 
 #: control/backup.php:823
-msgid "This script will generate SQL statements necessary to rebuild your database from scratch. Please file it at your computer for backup purpose."
-msgstr "Ce script va générer les commandes SQL permettant de reconstruire la base de données. Sauvez le résultat dans un fichier sur votre machine."
+msgid ""
+"This script will generate SQL statements necessary to rebuild your database "
+"from scratch. Please file it at your computer for backup purpose."
+msgstr ""
+"Ce script va générer les commandes SQL permettant de reconstruire la base de "
+"données. Sauvez le résultat dans un fichier sur votre machine."
 
 #: control/backup.php:826
 #, php-format
-msgid "Since the full content of your database will be downloaded, you would like to %s it before proceeding."
-msgstr "Puisque toutes les données vont être transférées vous pourriez  %s la base de données avant la sauvegarde."
+msgid ""
+"Since the full content of your database will be downloaded, you would like "
+"to %s it before proceeding."
+msgstr ""
+"Puisque toutes les données vont être transférées vous pourriez  %s la base "
+"de données avant la sauvegarde."
 
 #: control/backup.php:826
 msgid "purge"
@@ -222,36 +166,40 @@ msgstr "Prendre en compte seulement les tables avec le préfixe %s"
 msgid "Skip transient data and minimize size of backup file"
 msgstr "Eviter les données temporaires et minimiser le fichier de sauvegarde"
 
-#: control/backup.php:852
-#: control/backup.php:917
-#: control/backup.php:940
-#: control/backup.php:977
-#: control/chmod.php:112
-#: control/configure.php:966
-#: control/populate.php:198
-#: control/scan.php:788
-#: control/scan.php:798
-#: control/scan.php:825
-#: control/setup.php:270
-#: control/setup.php:316
-msgid "When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience."
-msgstr "La requête est transmise au serveur immédiatement après un clic sur le bouton. Cependant, le traitement est si important que vous pourriez avoir à attendre plusieurs minutes avant d'obtenir une réponse à l'écran. Merci de votre patience."
+#: control/backup.php:852 control/backup.php:917 control/backup.php:940
+#: control/backup.php:977 control/chmod.php:112 control/configure.php:966
+#: control/populate.php:198 control/scan.php:788 control/scan.php:798
+#: control/scan.php:825 control/setup.php:270 control/setup.php:316
+msgid ""
+"When you will click on the button the server will be immediately requested "
+"to proceed. However, because of the so many things to do on the back-end, "
+"you may have to wait for minutes before getting a response displayed. Thank "
+"you for your patience."
+msgstr ""
+"La requête est transmise au serveur immédiatement après un clic sur le "
+"bouton. Cependant, le traitement est si important que vous pourriez avoir à "
+"attendre plusieurs minutes avant d'obtenir une réponse à l'écran. Merci de "
+"votre patience."
 
 #: control/backup.php:855
 msgid "Restore database content"
 msgstr "Restauration de la base de données"
 
 #: control/backup.php:858
-msgid "Use this script to upload and process a set of SQL statements. WARNING!!! If you upload a backup file existing data will be destroyed prior the restauration."
-msgstr "Utilisez ce script pour envoyer et traiter un fichier de sauvegarde. ATTENTION !!! Toutes les données existantes seront supprimées avant la restauration."
+msgid ""
+"Use this script to upload and process a set of SQL statements. WARNING!!! If "
+"you upload a backup file existing data will be destroyed prior the "
+"restauration."
+msgstr ""
+"Utilisez ce script pour envoyer et traiter un fichier de sauvegarde. "
+"ATTENTION !!! Toutes les données existantes seront supprimées avant la "
+"restauration."
 
-#: control/backup.php:865
-#: control/import.php:342
+#: control/backup.php:865 control/import.php:342
 msgid "Select the file to upload"
 msgstr "Fichier à transmettre"
 
-#: control/backup.php:866
-#: control/import.php:341
+#: control/backup.php:866 control/import.php:341
 msgid "bytes"
 msgstr "octets"
 
@@ -265,31 +213,34 @@ msgstr "ou utiliser le fichier suivant du répertoire %s :"
 msgid "Restore %s"
 msgstr "Restaurer %s"
 
-#: control/backup.php:908
-#: control/backup.php:934
+#: control/backup.php:908 control/backup.php:934
 msgid "Apply these SQL statements"
 msgstr "Exécuter les commandes SQL"
 
-#: control/backup.php:908
-#: control/backup.php:934
-#: control/configure.php:747
-#: control/populate.php:158
-#: control/purge.php:494
-#: control/virtual.php:143
+#: control/backup.php:908 control/backup.php:934 control/configure.php:747
+#: control/populate.php:158 control/purge.php:494 control/virtual.php:143
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
 #: control/backup.php:911
 msgid "Delete files and images related to previous database content"
-msgstr "Effacer les fichiers et les images associés au contenu précédent de la base de données"
+msgstr ""
+"Effacer les fichiers et les images associés au contenu précédent de la base "
+"de données"
 
 #: control/backup.php:920
 msgid "Update database content"
 msgstr "Modification de la base de données"
 
 #: control/backup.php:923
-msgid "Type one or several SQL statements below to change the content of the database. WARNING!!! Be sure to understand the conceptual data model before proceeding, else you would corrupt database content."
-msgstr "Indiquez ci-dessous une ou plusieurs commandes SQL destinées à changer le contenu de la base. ATTENTION !!! Veuillez respecter le modèle conceptuel de données avant d'aller plus loin, sous peine de corruption des tables."
+msgid ""
+"Type one or several SQL statements below to change the content of the "
+"database. WARNING!!! Be sure to understand the conceptual data model before "
+"proceeding, else you would corrupt database content."
+msgstr ""
+"Indiquez ci-dessous une ou plusieurs commandes SQL destinées à changer le "
+"contenu de la base. ATTENTION !!! Veuillez respecter le modèle conceptuel de "
+"données avant d'aller plus loin, sous peine de corruption des tables."
 
 #: control/backup.php:930
 msgid "UPDATE commands separated by ;"
@@ -300,8 +251,13 @@ msgid "Backup data"
 msgstr "Sauvegarde des données"
 
 #: control/backup.php:946
-msgid "Use this script to download archives of all files, images, parameters or current skin. Please file them at your computer for backup purpose."
-msgstr "Utilisez ce script pour archiver les fichiers, les images, les paramètres ou le style courant. Rangez les fichiers obtenus comme sauvegarde, en cas de besoin."
+msgid ""
+"Use this script to download archives of all files, images, parameters or "
+"current skin. Please file them at your computer for backup purpose."
+msgstr ""
+"Utilisez ce script pour archiver les fichiers, les images, les paramètres ou "
+"le style courant. Rangez les fichiers obtenus comme sauvegarde, en cas de "
+"besoin."
 
 #: control/backup.php:952
 msgid "Yes, I want to download files"
@@ -353,21 +309,11 @@ msgstr "Modification des permissions de fichier ..."
 msgid "%d files have been updated."
 msgstr "%d fichiers ont été mis à jour."
 
-#: control/chmod.php:89
-#: control/purge.php:220
-#: control/purge.php:240
-#: control/purge.php:258
-#: control/purge.php:275
-#: control/purge.php:294
-#: control/purge.php:311
-#: control/purge.php:328
-#: control/purge.php:362
-#: control/purge.php:384
-#: control/purge.php:403
-#: control/purge.php:422
-#: control/purge.php:441
-#: control/scan.php:446
-#: control/scan.php:778
+#: control/chmod.php:89 control/purge.php:220 control/purge.php:240
+#: control/purge.php:258 control/purge.php:275 control/purge.php:294
+#: control/purge.php:311 control/purge.php:328 control/purge.php:362
+#: control/purge.php:384 control/purge.php:403 control/purge.php:422
+#: control/purge.php:441 control/scan.php:446 control/scan.php:778
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -379,51 +325,61 @@ msgstr "chmod %s a été appliquée aux scripts"
 
 #: control/chmod.php:103
 #, php-format
-msgid "You are about to chmod(%d) all running scripts of this server. Are you sure?"
-msgstr "Vous êtes sur le point d'appliquer chmod(%d) aux scripts opérationnels de ce serveur. Etes-vous sûr ?"
+msgid ""
+"You are about to chmod(%d) all running scripts of this server. Are you sure?"
+msgstr ""
+"Vous êtes sur le point d'appliquer chmod(%d) aux scripts opérationnels de ce "
+"serveur. Etes-vous sûr ?"
 
 #: control/chmod.php:107
 msgid "Yes, I do want to change permissions of running scripts"
 msgstr "Oui, je veux changer les permissions des scripts opérationnels"
 
 #: control/configure.php:214
-msgid "You are considered temporarily as an associate, with specific rights on this server. Please do not close your browser until the end of the configuration."
-msgstr "Vous avez temporairement le statut d'associé, avec tous les droits sur ce serveur. Merci de ne pas fermer la fenêtre de votre navigateur avant la fin de la configuration."
+msgid ""
+"You are considered temporarily as an associate, with specific rights on this "
+"server. Please do not close your browser until the end of the configuration."
+msgstr ""
+"Vous avez temporairement le statut d'associé, avec tous les droits sur ce "
+"serveur. Merci de ne pas fermer la fenêtre de votre navigateur avant la fin "
+"de la configuration."
 
-#: control/configure.php:222
-#: control/index.php:189
-#: control/htaccess/index.php:24
-#: control/htaccess/basic/index.php:20
-#: control/htaccess/options/index.php:20
-#: control/htaccess/indexes/index.php:20
+#: control/configure.php:222 control/index.php:189
+#: control/htaccess/index.php:24 control/htaccess/basic/index.php:20
+#: control/htaccess/options/index.php:20 control/htaccess/indexes/index.php:20
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: control/configure.php:222
-#: control/index.php:189
-#: control/htaccess/index.php:24
-#: control/htaccess/basic/index.php:20
-#: control/htaccess/options/index.php:20
-#: control/htaccess/indexes/index.php:20
+#: control/configure.php:222 control/index.php:189
+#: control/htaccess/index.php:24 control/htaccess/basic/index.php:20
+#: control/htaccess/options/index.php:20 control/htaccess/indexes/index.php:20
 msgid "Configure"
 msgstr "Configurer"
 
-#: control/configure.php:222
-#: control/index.php:229
+#: control/configure.php:222 control/index.php:229
 msgid "System parameters"
 msgstr "Paramètres système"
 
-#: control/configure.php:236
-#: control/info.php:116
+#: control/configure.php:236 control/info.php:116
 #: control/htaccess/index.php:34
 msgid "You are not allowed to perform this operation in demonstration mode."
-msgstr "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
+msgstr ""
+"Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
 #: control/configure.php:250
 #, php-format
-msgid "Following parameters may be provided by your Internet Service Provider (ISP), or by some database manager. If you manage your own server, the database should have been created before moving forward. You may check the %s file for further information."
-msgstr "Les paramètres suivants peuvent être fournis par l'hébergeur de votre serveur, ou par quelque administrateur de base de données. Si vous gérez votre propre serveur, la base de données doit être créée avant de poursuivre le script d'installation. Vous trouverez plus d'informations à ce sujet dans le fichier %s."
+msgid ""
+"Following parameters may be provided by your Internet Service Provider "
+"(ISP), or by some database manager. If you manage your own server, the "
+"database should have been created before moving forward. You may check the "
+"%s file for further information."
+msgstr ""
+"Les paramètres suivants peuvent être fournis par l'hébergeur de votre "
+"serveur, ou par quelque administrateur de base de données. Si vous gérez "
+"votre propre serveur, la base de données doit être créée avant de poursuivre "
+"le script d'installation. Vous trouverez plus d'informations à ce sujet dans "
+"le fichier %s."
 
 #: control/configure.php:250
 msgid "readme.txt"
@@ -433,13 +389,11 @@ msgstr "readme.txt"
 msgid "Database server name"
 msgstr "Nom du serveur de données"
 
-#: control/configure.php:260
-#: control/configure.php:304
+#: control/configure.php:260 control/configure.php:304
 msgid "Login name"
 msgstr "Nom du compte"
 
-#: control/configure.php:267
-#: control/configure.php:311
+#: control/configure.php:267 control/configure.php:311
 msgid "Login password"
 msgstr "Mot de passe d'authentification"
 
@@ -452,8 +406,12 @@ msgid "Prefix for table names"
 msgstr "Préfixe des noms de table"
 
 #: control/configure.php:294
-msgid "To share user information among several YACS servers configure below parameters specific to the table of users. Else keep fields empty."
-msgstr "Pour partager les comptes utilisateurs entre plusieurs serveurs, indiquez ci-dessous où trouver la table des utilisateurs. Sinon, gardez les champs vides."
+msgid ""
+"To share user information among several YACS servers configure below "
+"parameters specific to the table of users. Else keep fields empty."
+msgstr ""
+"Pour partager les comptes utilisateurs entre plusieurs serveurs, indiquez ci-"
+"dessous où trouver la table des utilisateurs. Sinon, gardez les champs vides."
 
 #: control/configure.php:297
 msgid "Database server that hosts user information"
@@ -471,11 +429,14 @@ msgstr "Préfixe de la table des utilisateurs"
 msgid "Custom storage of user information"
 msgstr "Rangement particulier pour les profils d'utilisateur"
 
-#: control/configure.php:344
-#: control/configure.php:438
+#: control/configure.php:344 control/configure.php:438
 #: control/configure.php:574
-msgid "If you do not know what following parameters mean, please use default values for safety."
-msgstr "Si vous ne savez pas à quoi correspondent les paramètres suivants, vous devriez garder les valeurs par défaut."
+msgid ""
+"If you do not know what following parameters mean, please use default values "
+"for safety."
+msgstr ""
+"Si vous ne savez pas à quoi correspondent les paramètres suivants, vous "
+"devriez garder les valeurs par défaut."
 
 #: control/configure.php:347
 msgid "Community language"
@@ -486,7 +447,8 @@ msgid "Language detection"
 msgstr "Détection du langage"
 
 #: control/configure.php:367
-msgid "Attempt to adapt the interface to the language indicated by the browser."
+msgid ""
+"Attempt to adapt the interface to the language indicated by the browser."
 msgstr "Essayer de s'adapter à la langue indiquée par le navigateur."
 
 #: control/configure.php:371
@@ -498,7 +460,8 @@ msgid "Page compression"
 msgstr "Compression des pages"
 
 #: control/configure.php:379
-msgid "Do not try to compress transmitted data. The web engine already does it."
+msgid ""
+"Do not try to compress transmitted data. The web engine already does it."
 msgstr "Ne pas compresser les pages web. Le moteur web le fait par ailleurs."
 
 #: control/configure.php:383
@@ -517,16 +480,15 @@ msgstr "Cacher les éléments calculés pour accélérer le rendu des pages."
 msgid "Compute all page elements."
 msgstr "Recalculer tous les éléments de pages."
 
-#: control/configure.php:399
-#: control/index.php:265
-#: control/index.php:715
+#: control/configure.php:399 control/index.php:265 control/index.php:715
 #: control/index.php:859
 msgid "Background processing"
 msgstr "Traitements d'arrière-plan"
 
 #: control/configure.php:403
 msgid "Add background processing at the end of page rendering."
-msgstr "Insérer les traitements d'arrière-plan à la fin du calcul de rendu des pages."
+msgstr ""
+"Insérer les traitements d'arrière-plan à la fin du calcul de rendu des pages."
 
 #: control/configure.php:407
 msgid "The server launches cron.php on its own"
@@ -565,14 +527,15 @@ msgstr "Fournir autant d'information que possible (serveur de développement)."
 msgid "Server name"
 msgstr "Nom du serveur"
 
-#: control/configure.php:446
-#: control/configure.php:495
+#: control/configure.php:446 control/configure.php:495
 msgid "Accept all web requests."
 msgstr "Accepter toutes les requêtes."
 
 #: control/configure.php:450
 msgid "Redirect to this server name if another name is used in request."
-msgstr "Rediriger vers ce nom de serveur si un autre nom est mentionné dans la requête."
+msgstr ""
+"Rediriger vers ce nom de serveur si un autre nom est mentionné dans la "
+"requête."
 
 #: control/configure.php:454
 msgid "Path (URL) to root directory"
@@ -584,21 +547,25 @@ msgstr "Génération des liens"
 
 #: control/configure.php:465
 msgid "This system does not support the mapping of args in the URL."
-msgstr "Ce système ne supporte pas l'insertion des paramètres dans le chemin d'accès."
+msgstr ""
+"Ce système ne supporte pas l'insertion des paramètres dans le chemin d'accès."
 
 #: control/configure.php:469
 msgid "Help search engines to index more pages."
 msgstr "Faciliter l'indexation des pages par les moteurs de recherche."
 
-#: control/configure.php:470
-#: control/configure.php:475
+#: control/configure.php:470 control/configure.php:475
 #: control/configure.php:500
 msgid "test link"
 msgstr "lien de test"
 
 #: control/configure.php:474
-msgid "Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references."
-msgstr "Les règles de réécriture sont activées (dans <code>.htaccess</code>) pour favoriser les jolis liens."
+msgid ""
+"Rewriting rules have been activated (in <code>.htaccess</code>) to support "
+"pretty references."
+msgstr ""
+"Les règles de réécriture sont activées (dans <code>.htaccess</code>) pour "
+"favoriser les jolis liens."
 
 #: control/configure.php:479
 msgid "URL optimization"
@@ -625,8 +592,12 @@ msgid "Web cache"
 msgstr "Cache du navigateur"
 
 #: control/configure.php:508
-msgid "Set HTTP headers to enable private caching and to ask for every page revalidation."
-msgstr "Activer le cache côté navigateur et demander la revalidation systématique des pages."
+msgid ""
+"Set HTTP headers to enable private caching and to ask for every page "
+"revalidation."
+msgstr ""
+"Activer le cache côté navigateur et demander la revalidation systématique "
+"des pages."
 
 #: control/configure.php:512
 msgid "No cache management. Default settings of the PHP engine apply."
@@ -638,7 +609,9 @@ msgstr "Connectivité Internet"
 
 #: control/configure.php:520
 msgid "Server is reachable from public web crawlers and news aggregators."
-msgstr "Les moteurs de recherche et les aggrégateurs d'information peuvent atteindre le serveur."
+msgstr ""
+"Les moteurs de recherche et les aggrégateurs d'information peuvent atteindre "
+"le serveur."
 
 #: control/configure.php:524
 msgid "Server is not connected to the Internet."
@@ -649,7 +622,8 @@ msgid "Outbound requests"
 msgstr "Requêtes sortantes"
 
 #: control/configure.php:532
-msgid "This server uses the web for syndication, for pings or for other activities."
+msgid ""
+"This server uses the web for syndication, for pings or for other activities."
 msgstr "Ce serveur utilise le web, par exemple pour lire les nouvelles RSS."
 
 #: control/configure.php:536
@@ -682,7 +656,9 @@ msgstr "Ce système n'est pas configuré pour l'envoi de messages électroniques
 
 #: control/configure.php:585
 msgid "Use following parameters to send messages and notifications."
-msgstr "Utiliser les paramètres ci-dessous pour l'envoi des messages et des notifications."
+msgstr ""
+"Utiliser les paramètres ci-dessous pour l'envoi des messages et des "
+"notifications."
 
 #: control/configure.php:589
 msgid "Architecture"
@@ -690,15 +666,22 @@ msgstr "Architecture"
 
 #: control/configure.php:593
 msgid "Rely on PHP and system settings for the transmission of messages."
-msgstr "Utiliser les services de messagerie fournis par PHP et installés pour l'ensemble du serveur."
+msgstr ""
+"Utiliser les services de messagerie fournis par PHP et installés pour "
+"l'ensemble du serveur."
 
 #: control/configure.php:597
-msgid "Connect to the mail server described below, and authenticate with SMTP if necessary."
-msgstr "Se connecter au serveur de messagerie indiqué ci-dessous, et s'authentifier par SMTP si besoin."
+msgid ""
+"Connect to the mail server described below, and authenticate with SMTP if "
+"necessary."
+msgstr ""
+"Se connecter au serveur de messagerie indiqué ci-dessous, et s'authentifier "
+"par SMTP si besoin."
 
 #: control/configure.php:601
 msgid "Authenticate using POP3 before sending messages with SMTP."
-msgstr "S'authentifier par un accès POP3 avant d'envoyer les messages par SMTP."
+msgstr ""
+"S'authentifier par un accès POP3 avant d'envoyer les messages par SMTP."
 
 #: control/configure.php:605
 msgid "SMTP server"
@@ -722,8 +705,11 @@ msgid "Messages encoding"
 msgstr "Encodage des messages"
 
 #: control/configure.php:634
-msgid "Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted."
-msgstr "Utiliser l'encodage base64 pour transmettre seulement des caractères ASCII sur 7 bits."
+msgid ""
+"Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted."
+msgstr ""
+"Utiliser l'encodage base64 pour transmettre seulement des caractères ASCII "
+"sur 7 bits."
 
 #: control/configure.php:638
 msgid "Do not encode messages."
@@ -734,8 +720,11 @@ msgid "Source address for electronic mail (From:)"
 msgstr "Expéditeur des messages (From :)"
 
 #: control/configure.php:646
-msgid "Normalized format, for example: \"John Ford\" &lt;john.ford@acme.com&gt;"
-msgstr "Format normalisé, par exemple : \"Jean Dupont\" &lt;jean.dupont@entreprise.fr&gt;"
+msgid ""
+"Normalized format, for example: \"John Ford\" &lt;john.ford@acme.com&gt;"
+msgstr ""
+"Format normalisé, par exemple : \"Jean Dupont\" &lt;jean.dupont@entreprise."
+"fr&gt;"
 
 #: control/configure.php:650
 msgid "Source address for notifications (From:)"
@@ -747,7 +736,9 @@ msgstr "Utiliser l'adresse d'expédition fixe indiquée ci-dessus."
 
 #: control/configure.php:658
 msgid "Make notifications personal by using surfer address if known."
-msgstr "Personnaliser les notifications en utilisant l'adresse du surfeur si elle est connue."
+msgstr ""
+"Personnaliser les notifications en utilisant l'adresse du surfeur si elle "
+"est connue."
 
 #: control/configure.php:662
 msgid "Maximum of outbound messages per hour"
@@ -763,15 +754,21 @@ msgstr "Destinataires des événements système"
 
 #: control/configure.php:674
 msgid "To forward logged events to one or several recipients."
-msgstr "Pour faire suivre les événements enregistrés à un ou à plusieurs destinataires."
+msgstr ""
+"Pour faire suivre les événements enregistrés à un ou à plusieurs "
+"destinataires."
 
 #: control/configure.php:678
 msgid "Debug mail services"
 msgstr "Mode de mise au point"
 
 #: control/configure.php:682
-msgid "Copy messages in the file temporary/debug.txt. Use this option only for troubleshooting."
-msgstr "Copier dans temporary/debug.txt les messages expédiés. A réserver aux phases de mise au point."
+msgid ""
+"Copy messages in the file temporary/debug.txt. Use this option only for "
+"troubleshooting."
+msgstr ""
+"Copier dans temporary/debug.txt les messages expédiés. A réserver aux phases "
+"de mise au point."
 
 #: control/configure.php:696
 #, php-format
@@ -786,8 +783,7 @@ msgstr "la page d'index des styles"
 msgid "Database"
 msgstr "Base de données"
 
-#: control/configure.php:732
-#: control/index.php:894
+#: control/configure.php:732 control/index.php:894
 msgid "System"
 msgstr "Système"
 
@@ -803,65 +799,67 @@ msgstr "Courrier"
 msgid "Skin"
 msgstr "Style"
 
-#: control/configure.php:747
-#: control/import.php:349
-#: control/populate.php:158
+#: control/configure.php:747 control/import.php:349 control/populate.php:158
 #: control/virtual.php:143
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: control/configure.php:755
-#: control/configure.php:774
-#: control/index.php:242
+#: control/configure.php:755 control/configure.php:774 control/index.php:242
 msgid "Themes"
 msgstr "Thèmes"
 
 #: control/configure.php:892
-msgid "ERROR: Unsuccessful connection to the database. Please check lines below and <a href=\"configure.php\">configure again</a>."
-msgstr "ERREUR : Impossible de se connecter à la base de données. Merci de vérifier les lignes ci-dessous, puis de <a href=\"configure.php\">configurer de nouveau</a>."
+msgid ""
+"ERROR: Unsuccessful connection to the database. Please check lines below and "
+"<a href=\"configure.php\">configure again</a>."
+msgstr ""
+"ERREUR : Impossible de se connecter à la base de données. Merci de vérifier "
+"les lignes ci-dessous, puis de <a href=\"configure.php\">configurer de "
+"nouveau</a>."
 
-#: control/configure.php:897
-#: control/htaccess/index.php:72
+#: control/configure.php:897 control/htaccess/index.php:72
 #, php-format
-msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
-msgstr "ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas été sauvegardée."
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas "
+"été sauvegardée."
 
-#: control/configure.php:900
-#: control/switch.php:111
+#: control/configure.php:900 control/switch.php:111
 #: control/htaccess/index.php:75
 #, php-format
-msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
-msgstr "Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :"
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"Pour changer la configuration, merci de copier et de coller les lignes "
+"suivantes dans le fichier %s :"
 
-#: control/configure.php:905
-#: control/htaccess/index.php:80
+#: control/configure.php:905 control/htaccess/index.php:80
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
 
-#: control/configure.php:909
-#: control/populate.php:205
-#: control/scan.php:460
+#: control/configure.php:909 control/populate.php:205 control/scan.php:460
 #: control/setup.php:154
-msgid "Review provided information and go to the bottom of the page to move forward."
-msgstr "Vérifiez l'information jusqu'en bas de page pour aller à l'étape suivante."
+msgid ""
+"Review provided information and go to the bottom of the page to move forward."
+msgstr ""
+"Vérifiez l'information jusqu'en bas de page pour aller à l'étape suivante."
 
-#: control/configure.php:918
-#: control/scan.php:756
+#: control/configure.php:918 control/scan.php:756
 #: control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-#: control/configure.php:925
-#: control/index.php:279
-#: control/switch.php:114
+#: control/configure.php:925 control/index.php:279 control/switch.php:114
 #: control/virtual.php:189
 msgid "Configuration"
 msgstr "Configuration"
 
-#: control/configure.php:962
-#: control/index.php:145
+#: control/configure.php:962 control/index.php:145
 msgid "Look for software extensions"
 msgstr "Recherche des extensions"
 
@@ -869,28 +867,21 @@ msgstr "Recherche des extensions"
 msgid "Next step"
 msgstr "Etape suivante"
 
-#: control/configure.php:983
-#: control/htaccess/index.php:92
+#: control/configure.php:983 control/htaccess/index.php:92
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: control/configure.php:986
-#: control/virtual.php:196
-#: control/virtual.php:221
+#: control/configure.php:986 control/virtual.php:196 control/virtual.php:221
 #: control/htaccess/index.php:95
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
-#: control/import.php:24
-#: control/index.php:692
+#: control/import.php:24 control/index.php:692
 msgid "Import XML content"
 msgstr "Importer du contenu XML"
 
-#: control/import.php:59
-#: control/scan.php:185
-#: control/htaccess/index.php:42
-#: control/htaccess/index.php:49
-#: control/htaccess/index.php:57
+#: control/import.php:59 control/scan.php:185 control/htaccess/index.php:42
+#: control/htaccess/index.php:49 control/htaccess/index.php:57
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible de lire %s."
@@ -903,14 +894,17 @@ msgstr "Les éléments suivants ont été traités :"
 msgid "File"
 msgstr "Fichier"
 
-#: control/index.php:90
-#: control/index.php:183
+#: control/index.php:90 control/index.php:183
 msgid "Please configure your server"
 msgstr "Merci de configurer votre serveur"
 
 #: control/index.php:93
-msgid "No configuration file has been found. If you are installing a brand new server, follow the link below to create one."
-msgstr "Aucun fichier de configuration n'a été trouvé. Si vous êtes en train d'installer un nouveau serveur, suivez le lien ci-dessous."
+msgid ""
+"No configuration file has been found. If you are installing a brand new "
+"server, follow the link below to create one."
+msgstr ""
+"Aucun fichier de configuration n'a été trouvé. Si vous êtes en train "
+"d'installer un nouveau serveur, suivez le lien ci-dessous."
 
 #: control/index.php:96
 msgid "Jump to the installation page"
@@ -918,10 +912,10 @@ msgstr "Aller à la page d'installation"
 
 #: control/index.php:99
 msgid "Else follow the link below to load the configuration form."
-msgstr "Sinon, suivez le lien ci-dessous pour charger le formulaire de configuration."
+msgstr ""
+"Sinon, suivez le lien ci-dessous pour charger le formulaire de configuration."
 
-#: control/index.php:102
-#: control/index.php:115
+#: control/index.php:102 control/index.php:115
 msgid "Jump to the configuration page"
 msgstr "Aller à la page de configuration"
 
@@ -929,10 +923,14 @@ msgstr "Aller à la page de configuration"
 msgid "No access to the database server"
 msgstr "Pas d'accès au serveur de données"
 
-#: control/index.php:112
-#: control/index.php:130
-msgid "Impossible to access the database mentioned in your configuration file. Please create a database, or follow the link to change the configuration file."
-msgstr "Impossible de se connecter à la base de données. Créez une base de données, ou suivez le lien ci-dessous pour modifier les paramètres de configuration."
+#: control/index.php:112 control/index.php:130
+msgid ""
+"Impossible to access the database mentioned in your configuration file. "
+"Please create a database, or follow the link to change the configuration "
+"file."
+msgstr ""
+"Impossible de se connecter à la base de données. Créez une base de données, "
+"ou suivez le lien ci-dessous pour modifier les paramètres de configuration."
 
 #: control/index.php:127
 msgid "Please create a database"
@@ -940,26 +938,34 @@ msgstr "Merci de créer une base de données"
 
 #: control/index.php:133
 msgid "Go to the configuration page to change database parameters"
-msgstr "Aller à la page de configuration pour modifier le nom de la base de données"
+msgstr ""
+"Aller à la page de configuration pour modifier le nom de la base de données"
 
 #: control/index.php:139
 msgid "Please configure software extensions"
 msgstr "Merci de configurer les extensions."
 
 #: control/index.php:142
-msgid "No configuration file for extensions has been found. If you are installing a brand new server, follow the link to create one."
-msgstr "Aucun fichier de configuration des extensions n'a été trouvé. Si vous êtes en train d'installer un nouveau serveur, suivez le lien ci-dessous."
+msgid ""
+"No configuration file for extensions has been found. If you are installing a "
+"brand new server, follow the link to create one."
+msgstr ""
+"Aucun fichier de configuration des extensions n'a été trouvé. Si vous êtes "
+"en train d'installer un nouveau serveur, suivez le lien ci-dessous."
 
 #: control/index.php:151
 msgid "Please create tables"
 msgstr "Merci de créer la structure des données"
 
 #: control/index.php:154
-msgid "The database is currently empty. Please follow the link to create tables of the database."
-msgstr "La base de données n'a pas été initialisée. Suivez le lien ci-dessous pour créer les tables nécessaires."
+msgid ""
+"The database is currently empty. Please follow the link to create tables of "
+"the database."
+msgstr ""
+"La base de données n'a pas été initialisée. Suivez le lien ci-dessous pour "
+"créer les tables nécessaires."
 
-#: control/index.php:157
-#: control/scan.php:793
+#: control/index.php:157 control/scan.php:793
 msgid "Create tables in the database"
 msgstr "Créer les tables de la base de données"
 
@@ -968,54 +974,68 @@ msgid "Please populate tables"
 msgstr "Merci d'initialiser la base de données"
 
 #: control/index.php:174
-msgid "The user table is currently empty. Please follow the link to populate the database."
-msgstr "La table des utilisateurs est vide. Suivez le lien ci-dessous pour créer les enregistrements de départ de la base de données."
+msgid ""
+"The user table is currently empty. Please follow the link to populate the "
+"database."
+msgstr ""
+"La table des utilisateurs est vide. Suivez le lien ci-dessous pour créer les "
+"enregistrements de départ de la base de données."
 
 #: control/index.php:177
 msgid "Jump to the populate page"
 msgstr "Créer les données de base"
 
 #: control/index.php:186
-msgid "A configuration file is missing. If you are installing a brand new server, follow the link to create one."
-msgstr "Un fichier de configuration est absent. Si vous êtes en train d'installer un nouveau serveur, suivez le lien ci-dessous."
+msgid ""
+"A configuration file is missing. If you are installing a brand new server, "
+"follow the link to create one."
+msgstr ""
+"Un fichier de configuration est absent. Si vous êtes en train d'installer un "
+"nouveau serveur, suivez le lien ci-dessous."
 
-#: control/index.php:189
-#: control/index.php:239
+#: control/index.php:189 control/index.php:239
 msgid "Page factory"
 msgstr "Fabrication des pages"
 
-#: control/index.php:201
-#: control/switch.php:129
-#: control/switch.php:155
-msgid "The server is currently switched off. All users are redirected to the closed page."
-msgstr "Le serveur est actuellement fermé. Les surfeurs sont redirigés vers la page de clôture."
+#: control/index.php:201 control/switch.php:129 control/switch.php:155
+msgid ""
+"The server is currently switched off. All users are redirected to the closed "
+"page."
+msgstr ""
+"Le serveur est actuellement fermé. Les surfeurs sont redirigés vers la page "
+"de clôture."
 
 #: control/index.php:205
 msgid "Switch the server on again"
 msgstr "Ouvrir le serveur"
 
 #: control/index.php:213
-msgid "The server is running in demonstration mode, and restrictions apply, even to associates."
-msgstr "Le serveur est en mode de démonstration, et même les associés ont quelques limitations."
+msgid ""
+"The server is running in demonstration mode, and restrictions apply, even to "
+"associates."
+msgstr ""
+"Le serveur est en mode de démonstration, et même les associés ont quelques "
+"limitations."
 
 #: control/index.php:223
 msgid "Click on following links to review or change parameters of this server."
-msgstr "Utilisez les liens suivants pour contrôler ou modifier les paramètres de ce site."
+msgstr ""
+"Utilisez les liens suivants pour contrôler ou modifier les paramètres de ce "
+"site."
 
 #: control/index.php:229
 #, php-format
 msgid "%s - configure database, security and other essential parameters"
-msgstr "%s - configuration de la base de données et d'autres paramètres essentiels"
+msgstr ""
+"%s - configuration de la base de données et d'autres paramètres essentiels"
 
 #: control/index.php:233
 #, php-format
 msgid "%s - build a customized configuration file"
 msgstr "%s - construire un fichier adapté à votre serveur"
 
-#: control/index.php:233
-#: control/htaccess/index.php:24
-#: control/htaccess/basic/index.php:20
-#: control/htaccess/options/index.php:20
+#: control/index.php:233 control/htaccess/index.php:24
+#: control/htaccess/basic/index.php:20 control/htaccess/options/index.php:20
 #: control/htaccess/indexes/index.php:20
 msgid "Apache .htaccess"
 msgstr "Apache .htaccess"
@@ -1025,8 +1045,7 @@ msgstr "Apache .htaccess"
 msgid "%s - define permissions given to people"
 msgstr "%s - définir les permissions des utilisateurs"
 
-#: control/index.php:235
-#: control/index.php:910
+#: control/index.php:235 control/index.php:910
 msgid "People"
 msgstr "Personnes"
 
@@ -1063,9 +1082,7 @@ msgstr "Flash"
 msgid "%s - enhance information provided through RSS"
 msgstr "%s - enrichir l'information transmise par RSS"
 
-#: control/index.php:247
-#: control/index.php:699
-#: control/populate.php:663
+#: control/index.php:247 control/index.php:699 control/populate.php:663
 #: control/populate.php:666
 msgid "Information channels"
 msgstr "Fils d'information"
@@ -1075,15 +1092,16 @@ msgstr "Fils d'information"
 msgid "%s - to share and stream existing directories and files"
 msgstr "%s - pour partager des répertoires existants"
 
-#: control/index.php:250
-#: control/index.php:688
+#: control/index.php:250 control/index.php:688
 msgid "File collections"
 msgstr "Collections de fichiers"
 
 #: control/index.php:253
 #, php-format
-msgid "%s - to extend accepted types and to make uploaded files available from FTP"
-msgstr "%s - pour ajouter des extensions et rendre les fichiers accessibles par FTP"
+msgid ""
+"%s - to extend accepted types and to make uploaded files available from FTP"
+msgstr ""
+"%s - pour ajouter des extensions et rendre les fichiers accessibles par FTP"
 
 #: control/index.php:253
 msgid "Files"
@@ -1094,8 +1112,7 @@ msgstr "Fichiers"
 msgid "%s - change the template used for newsletters"
 msgstr "%s - modifier le modèle utilisé pour préparer les nouvelles lettres"
 
-#: control/index.php:256
-#: control/index.php:651
+#: control/index.php:256 control/index.php:651
 msgid "Newsletters"
 msgstr "Lettres d'information"
 
@@ -1104,8 +1121,7 @@ msgstr "Lettres d'information"
 msgid "%s - change parameters for back-end services"
 msgstr "%s - modifier le comportement des services web"
 
-#: control/index.php:259
-#: control/index.php:702
+#: control/index.php:259 control/index.php:702
 msgid "Web services"
 msgstr "Services web"
 
@@ -1126,15 +1142,21 @@ msgstr "%s - traitement des messages et des fichiers reçus"
 #: control/index.php:268
 #, php-format
 msgid "%s - change the reference server used for software updates"
-msgstr "%s - définir le serveur de référence utilisé pour les mises à jour de logiciel"
+msgstr ""
+"%s - définir le serveur de référence utilisé pour les mises à jour de "
+"logiciel"
 
 #: control/index.php:268
 msgid "Server software"
 msgstr "Logiciel serveur"
 
 #: control/index.php:285
-msgid "The following table reports on current content of this server. Click on any link to get more details."
-msgstr "La table suivante est un résumé du contenu de la base de données. Cliquez sur un lien pour avoir plus de détails."
+msgid ""
+"The following table reports on current content of this server. Click on any "
+"link to get more details."
+msgstr ""
+"La table suivante est un résumé du contenu de la base de données. Cliquez "
+"sur un lien pour avoir plus de détails."
 
 #: control/index.php:289
 msgid "Table"
@@ -1152,30 +1174,14 @@ msgstr "Premier enregistrement"
 msgid "Last record"
 msgstr "Dernier enregistrement"
 
-#: control/index.php:301
-#: control/index.php:312
-#: control/index.php:323
-#: control/index.php:334
-#: control/index.php:345
-#: control/index.php:356
-#: control/index.php:367
-#: control/index.php:381
-#: control/index.php:392
-#: control/index.php:407
-#: control/index.php:418
-#: control/index.php:429
-#: control/index.php:440
-#: control/index.php:451
-#: control/index.php:462
-#: control/index.php:473
-#: control/index.php:485
-#: control/index.php:497
-#: control/index.php:508
-#: control/index.php:519
-#: control/index.php:530
-#: control/index.php:541
-#: control/index.php:552
-#: control/index.php:563
+#: control/index.php:301 control/index.php:312 control/index.php:323
+#: control/index.php:334 control/index.php:345 control/index.php:356
+#: control/index.php:367 control/index.php:381 control/index.php:392
+#: control/index.php:407 control/index.php:418 control/index.php:429
+#: control/index.php:440 control/index.php:451 control/index.php:462
+#: control/index.php:473 control/index.php:485 control/index.php:497
+#: control/index.php:508 control/index.php:519 control/index.php:530
+#: control/index.php:541 control/index.php:552 control/index.php:563
 #: control/index.php:574
 msgid "unknown or empty table"
 msgstr "table inexistante ou vide"
@@ -1232,8 +1238,11 @@ msgstr "%s - envoyer des résumés et des annonces par courrier électronique"
 
 #: control/index.php:657
 #, php-format
-msgid "%s - select a section and type some text, then add images, files and links"
-msgstr "%s - selectionnez une section et tapez un peu de texte, puis ajoutez des images, des fichiers et des liens"
+msgid ""
+"%s - select a section and type some text, then add images, files and links"
+msgstr ""
+"%s - selectionnez une section et tapez un peu de texte, puis ajoutez des "
+"images, des fichiers et des liens"
 
 #: control/index.php:657
 msgid "Add a page"
@@ -1242,7 +1251,9 @@ msgstr "Ajouter une page"
 #: control/index.php:658
 #, php-format
 msgid "%s - fill pre-defined fields, then add images, files and links"
-msgstr "%s - remplissez les champs prédéfinis, puis ajoutez des images, des fichiers ou des liens"
+msgstr ""
+"%s - remplissez les champs prédéfinis, puis ajoutez des images, des fichiers "
+"ou des liens"
 
 #: control/index.php:658
 msgid "Use a form"
@@ -1253,8 +1264,7 @@ msgstr "Utiliser un formulaire"
 msgid "%s - create blogs, wikis, forums, and more"
 msgstr "%s - crée des blogs, des wikis, des forums, et bien d'autres choses"
 
-#: control/index.php:664
-#: control/populate.php:108
+#: control/index.php:664 control/populate.php:108
 msgid "Content Assistant"
 msgstr "Assistant de contenu"
 
@@ -1263,9 +1273,7 @@ msgstr "Assistant de contenu"
 msgid "%s - you may enhance %s of some sections"
 msgstr "%s - vous pouvez ajouter les %s pour certaines sections"
 
-#: control/index.php:669
-#: control/index.php:908
-#: control/populate.php:706
+#: control/index.php:669 control/index.php:908 control/populate.php:706
 msgid "Site map"
 msgstr "Carte du site"
 
@@ -1291,8 +1299,7 @@ msgstr "Overlays"
 msgid "%s, including: %s, %s, %s and %s"
 msgstr "%s, y compris %s, %s, %s et %s"
 
-#: control/index.php:681
-#: control/populate.php:322
+#: control/index.php:681 control/populate.php:322
 msgid "Global pages"
 msgstr "Pages globales"
 
@@ -1300,18 +1307,15 @@ msgstr "Pages globales"
 msgid "the cover page"
 msgstr "la page de couverture"
 
-#: control/index.php:683
-#: control/populate.php:701
+#: control/index.php:683 control/populate.php:701
 msgid "Menu"
 msgstr "Menu"
 
-#: control/index.php:684
-#: control/populate.php:487
+#: control/index.php:684 control/populate.php:487
 msgid "About this site"
 msgstr "A propos de ce site"
 
-#: control/index.php:685
-#: control/populate.php:722
+#: control/index.php:685 control/populate.php:722
 msgid "Privacy statement"
 msgstr "Protection de la vie privée"
 
@@ -1385,8 +1389,14 @@ msgid "Blogging tools"
 msgstr "Outils de blog"
 
 #: control/index.php:725
-msgid "To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site."
-msgstr "Pour installer les bookmarklets suivants, cliquer-droit au-dessus des liens et les ajouter à vos signets ou favoris. Ils seront ainsi disponibles à tout moment pour référencer une page trouvée sur Internet sur ce serveur."
+msgid ""
+"To install following bookmarklets, right-click over them and add them to "
+"your bookmarks or favorites. Then recall them at any time while browsing the "
+"Internet, to add content to this site."
+msgstr ""
+"Pour installer les bookmarklets suivants, cliquer-droit au-dessus des liens "
+"et les ajouter à vos signets ou favoris. Ils seront ainsi disponibles à tout "
+"moment pour référencer une page trouvée sur Internet sur ce serveur."
 
 #: control/index.php:736
 #, php-format
@@ -1400,25 +1410,43 @@ msgstr "Enregistrer le signet à %s"
 
 #: control/index.php:753
 #, php-format
-msgid "If your browser supports side panels and javascript, click on the following link to %s."
-msgstr "Si votre navigateur supporte les panneaux de côté et javascript, vous pouvez cliquer sur le lien qui suit pour %s."
+msgid ""
+"If your browser supports side panels and javascript, click on the following "
+"link to %s."
+msgstr ""
+"Si votre navigateur supporte les panneaux de côté et javascript, vous pouvez "
+"cliquer sur le lien qui suit pour %s."
 
 #: control/index.php:753
 msgid "add a blogging panel"
 msgstr "ajouter un panneau de blog"
 
 #: control/index.php:762
-msgid "The panel has been added. You may have to ask your browser to make it visible (Ctrl-B for Firefox)."
-msgstr "Le panneau a été ajouté. Vous pouvez avoir à le faire afficher (Ctrl-B pour Firefox)."
+msgid ""
+"The panel has been added. You may have to ask your browser to make it "
+"visible (Ctrl-B for Firefox)."
+msgstr ""
+"Le panneau a été ajouté. Vous pouvez avoir à le faire afficher (Ctrl-B pour "
+"Firefox)."
 
 #: control/index.php:769
-msgid "Your browser does not support side panels. Have you considered to upgrade to Mozilla Firefox?"
-msgstr "Votre navigateur ne supporte pas les panneaux latéraux. Voulez-vous évoluer vers Mozilla Firefox ?"
+msgid ""
+"Your browser does not support side panels. Have you considered to upgrade to "
+"Mozilla Firefox?"
+msgstr ""
+"Votre navigateur ne supporte pas les panneaux latéraux. Voulez-vous évoluer "
+"vers Mozilla Firefox ?"
 
 #: control/index.php:778
 #, php-format
-msgid "If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards."
-msgstr "Si vous utilisez Internet Explorer sous Windows, cliquez sur le lien suivant pour %s accessible sur bouton droit. Acceptez les modifications de la base de registres, puis redémarrer le navigateur."
+msgid ""
+"If you are running Internet Explorer under Windows, click on the following "
+"link to %s triggered on right-click. Accept registry updates, and restart "
+"the browser afterwards."
+msgstr ""
+"Si vous utilisez Internet Explorer sous Windows, cliquez sur le lien suivant "
+"pour %s accessible sur bouton droit. Acceptez les modifications de la base "
+"de registres, puis redémarrer le navigateur."
 
 #: control/index.php:778
 msgid "add a contextual bookmarklet"
@@ -1442,8 +1470,7 @@ msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heure"
 
-#: control/index.php:841
-#: control/info.php:107
+#: control/index.php:841 control/info.php:107
 msgid "Memory"
 msgstr "Mémoire"
 
@@ -1461,8 +1488,7 @@ msgstr "Test"
 msgid "%s - phpinfo() and more"
 msgstr "%s - phpinfo() et autres"
 
-#: control/index.php:858
-#: control/info.php:45
+#: control/index.php:858 control/info.php:45
 msgid "Run-time information"
 msgstr "Environnement d'exécution"
 
@@ -1478,11 +1504,11 @@ msgstr "%s - l'outil de sécurité indispensable"
 
 #: control/index.php:867
 #, php-format
-msgid "%s - check the database structure; also optimize data tables and update index"
+msgid ""
+"%s - check the database structure; also optimize data tables and update index"
 msgstr "%s - vérifie et optimise la structure de la base de données"
 
-#: control/index.php:867
-#: control/setup.php:106
+#: control/index.php:867 control/setup.php:106
 msgid "Database maintenance"
 msgstr "Maintenance de la base de données"
 
@@ -1491,8 +1517,7 @@ msgstr "Maintenance de la base de données"
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr "%s - vider le cache ou supprimer l'inutile"
 
-#: control/index.php:869
-#: control/purge.php:70
+#: control/index.php:869 control/purge.php:70
 msgid "Purge"
 msgstr "Purge"
 
@@ -1524,8 +1549,7 @@ msgstr "%s - gestionnaire du serveur"
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr "%s - plugins et autres éléments intégrés dans Yacs"
 
-#: control/index.php:880
-#: control/populate.php:825
+#: control/index.php:880 control/populate.php:825
 msgid "Extensions"
 msgstr "Extensions"
 
@@ -1551,14 +1575,11 @@ msgstr "Outils"
 msgid "System management"
 msgstr "Gestion du serveur"
 
-#: control/index.php:909
-#: control/populate.php:477
-#: control/populate.php:707
+#: control/index.php:909 control/populate.php:477 control/populate.php:707
 msgid "Categories"
 msgstr "Catégories"
 
-#: control/index.php:916
-#: control/populate.php:708
+#: control/index.php:916 control/populate.php:708
 msgid "Help"
 msgstr "Aide"
 
@@ -1574,8 +1595,7 @@ msgstr "Modules"
 msgid "phpinfo()"
 msgstr "phpinfo()"
 
-#: control/info.php:51
-#: control/info.php:225
+#: control/info.php:51 control/info.php:225
 msgid "SQL"
 msgstr "SQL"
 
@@ -1609,7 +1629,9 @@ msgstr "YACS enregistre les informations au format UTF8."
 
 #: control/info.php:146
 msgid "YACS saves data Unicode entities encoded in ASCII character set."
-msgstr "YACS enregistre les informations, y compris les entités Unicode, au format ASCII."
+msgstr ""
+"YACS enregistre les informations, y compris les entités Unicode, au format "
+"ASCII."
 
 #: control/info.php:159
 msgid "SQL status"
@@ -1625,7 +1647,8 @@ msgstr "Jeux de caractères acceptés"
 
 #: control/info.php:193
 msgid "Please activate the GD module, else YACS can not resize images."
-msgstr "Merci d'activer le module GD, sinon YACS ne peut pas retailler les images."
+msgstr ""
+"Merci d'activer le module GD, sinon YACS ne peut pas retailler les images."
 
 #: control/info.php:200
 msgid "GIF support is enabled"
@@ -1676,12 +1699,22 @@ msgid "Images"
 msgstr "Images"
 
 #: control/populate.php:129
-msgid "Please indicate below the name and password you will use to authenticate to this server."
-msgstr "Merci d'indiquer ci-dessous les nom et mot de passe que vous utiliserez pour vous authentifier."
+msgid ""
+"Please indicate below the name and password you will use to authenticate to "
+"this server."
+msgstr ""
+"Merci d'indiquer ci-dessous les nom et mot de passe que vous utiliserez pour "
+"vous authentifier."
 
 #: control/populate.php:130
-msgid "DO NOT FORGET THIS LOGIN!! There is no default administrative login created when YACS is installed, so if you lose your login, you will have to purge the database and trigger the setup script again."
-msgstr "N'OUBLIEZ PAS CETTE INFORMATION !! Il n'y a pas de compte par défaut dans l'installation de YACS, donc si vous perdez votre mot de passe, vous devrez purger la base de données et recommencer l'installation."
+msgid ""
+"DO NOT FORGET THIS LOGIN!! There is no default administrative login created "
+"when YACS is installed, so if you lose your login, you will have to purge "
+"the database and trigger the setup script again."
+msgstr ""
+"N'OUBLIEZ PAS CETTE INFORMATION !! Il n'y a pas de compte par défaut dans "
+"l'installation de YACS, donc si vous perdez votre mot de passe, vous devrez "
+"purger la base de données et recommencer l'installation."
 
 #: control/populate.php:137
 msgid "Nick name"
@@ -1696,7 +1729,9 @@ msgid "Password"
 msgstr "Mot de passe"
 
 #: control/populate.php:145
-msgid "We recommend at least 4 letters, two digits, and a punctuation sign - in any order"
+msgid ""
+"We recommend at least 4 letters, two digits, and a punctuation sign - in any "
+"order"
 msgstr "De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation"
 
 #: control/populate.php:149
@@ -1732,22 +1767,15 @@ msgstr "Couvertures"
 msgid "The top page here is also displayed at the front page"
 msgstr "La première page de cette section apparait sur la page d'accueil"
 
-#: control/populate.php:268
-#: control/populate.php:281
-#: control/populate.php:297
-#: control/populate.php:313
-#: control/populate.php:329
-#: control/populate.php:345
-#: control/populate.php:364
-#: control/populate.php:384
-#: control/populate.php:401
+#: control/populate.php:268 control/populate.php:281 control/populate.php:297
+#: control/populate.php:313 control/populate.php:329 control/populate.php:345
+#: control/populate.php:364 control/populate.php:384 control/populate.php:401
 #: control/populate.php:419
 #, php-format
 msgid "A section \"%s\" has been created."
 msgstr "Une section \"%s\" a été créée."
 
-#: control/populate.php:277
-#: control/populate.php:821
+#: control/populate.php:277 control/populate.php:821
 msgid "Pages"
 msgstr "Pages"
 
@@ -1763,11 +1791,16 @@ msgstr "Boîtes extra"
 msgid "Boxes displayed aside the front page"
 msgstr "Boîtes affichées sur le côté de la page d'accueil"
 
-#: control/populate.php:292
-#: control/populate.php:308
-#: control/populate.php:340
-msgid "All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody."
-msgstr "Les [link=codes]codes/[/link] sont disponibles pour formatter les boîtes. Conservez le contenu aussi compact que possible pour limiter la taille de chaque boîte. Publiez les pages pour les faire apparaître à tous les surfeurs."
+#: control/populate.php:292 control/populate.php:308 control/populate.php:340
+msgid ""
+"All [link=codes]codes/[/link] are available to format boxes. Keep the "
+"content as compact as possible because of the small size of any single box. "
+"When ready, publish pages to actually show boxes to everybody."
+msgstr ""
+"Les [link=codes]codes/[/link] sont disponibles pour formatter les boîtes. "
+"Conservez le contenu aussi compact que possible pour limiter la taille de "
+"chaque boîte. Publiez les pages pour les faire apparaître à tous les "
+"surfeurs."
 
 #: control/populate.php:306
 msgid "Gadget boxes"
@@ -1821,9 +1854,7 @@ msgstr "Pour les pages isolées"
 msgid "Threads"
 msgstr "Discussions"
 
-#: control/populate.php:426
-#: control/populate.php:474
-#: control/populate.php:818
+#: control/populate.php:426 control/populate.php:474 control/populate.php:818
 msgid "No item has been added"
 msgstr "Aucun élément n'a été ajouté"
 
@@ -1831,8 +1862,7 @@ msgstr "Aucun élément n'a été ajouté"
 msgid "Sections"
 msgstr "Sections"
 
-#: control/populate.php:435
-#: control/populate.php:437
+#: control/populate.php:435 control/populate.php:437
 msgid "featured"
 msgstr "une"
 
@@ -1845,18 +1875,19 @@ msgid "Pages to display at the front page"
 msgstr "Pages à afficher en page d'accueil"
 
 #: control/populate.php:440
-msgid "Pages attached to this category are featured at the front page in a compact list aside."
-msgstr "Les pages de cette catégorie apparaissent sur la page d'accueil, dans une liste compacte sur le côté."
+msgid ""
+"Pages attached to this category are featured at the front page in a compact "
+"list aside."
+msgstr ""
+"Les pages de cette catégorie apparaissent sur la page d'accueil, dans une "
+"liste compacte sur le côté."
 
-#: control/populate.php:445
-#: control/populate.php:457
-#: control/populate.php:469
+#: control/populate.php:445 control/populate.php:457 control/populate.php:469
 #, php-format
 msgid "A category \"%s\" has been created."
 msgstr "Une catégorie \"%s\" a été créée."
 
-#: control/populate.php:449
-#: control/populate.php:451
+#: control/populate.php:449 control/populate.php:451
 msgid "monthly"
 msgstr "mensuel"
 
@@ -1864,8 +1895,7 @@ msgstr "mensuel"
 msgid "Publications by month"
 msgstr "Publications mois par mois"
 
-#: control/populate.php:461
-#: control/populate.php:463
+#: control/populate.php:461 control/populate.php:463
 msgid "weekly"
 msgstr "hebdomadaire"
 
@@ -1878,8 +1908,12 @@ msgid "What is [parameter=site_name] about?"
 msgstr "De quoi s'agit-il sur [parameter=site_name] ?"
 
 #: control/populate.php:490
-msgid "Welcome to this server! Here are attributes transmitted in the header of each page:"
-msgstr "Bienvenue sur ce serveur ! Voici les informations transmises dans l'en-tête de chaque page :"
+msgid ""
+"Welcome to this server! Here are attributes transmitted in the header of "
+"each page:"
+msgstr ""
+"Bienvenue sur ce serveur ! Voici les informations transmises dans l'en-tête "
+"de chaque page :"
 
 #: control/populate.php:492
 msgid "Site name"
@@ -1906,76 +1940,151 @@ msgid "Owner"
 msgstr "Propriétaire"
 
 #: control/populate.php:499
-msgid "This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you."
-msgstr "Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], et [link=MySQL]http://\"www.mysql.com/[/link] - un site rapide, facile d'utilisation, qui vous permet de consulter, de lire et de télécharger l'information qui vous intéresse."
+msgid ""
+"This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]"
+"http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a "
+"fast, easy-to-use site that lets you access, review, and download "
+"information that matters for you."
+msgstr ""
+"Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], [link=PHP]"
+"http://www.php.net/[/link], et [link=MySQL]http://\"www.mysql.com/[/link] - "
+"un site rapide, facile d'utilisation, qui vous permet de consulter, de lire "
+"et de télécharger l'information qui vous intéresse."
 
 #: control/populate.php:500
 msgid "Contact"
 msgstr "Contact"
 
 #: control/populate.php:501
-msgid "The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query."
-msgstr "Le plus simple pour nous contacter est d'utiliser le formulaire de requête. Il s'agit d'un outil pratique pour vous comme pour nous, parce que votre requête, ainsi que les les réponses associées, sont regroupées en une seule page accessible depuis votre navigateur. De plus, vous pouvez être alerté par courrier électronique de chaque étape de traitement de votre requête."
+msgid ""
+"The preferred mean to join us is to use the general-purpose query form. This "
+"is a convenient tool for you and for us, because your request and related "
+"answers will be listed at a single place accessible from your web browser. "
+"Moreover, you will be informed by e-mail of any progressing step to your "
+"query."
+msgstr ""
+"Le plus simple pour nous contacter est d'utiliser le formulaire de requête. "
+"Il s'agit d'un outil pratique pour vous comme pour nous, parce que votre "
+"requête, ainsi que les les réponses associées, sont regroupées en une seule "
+"page accessible depuis votre navigateur. De plus, vous pouvez être alerté "
+"par courrier électronique de chaque étape de traitement de votre requête."
 
 #: control/populate.php:502
 msgid "Query: [link=Use the on-line form]query.php[/link]"
 msgstr "Requête : [link=Utiliser le formulaire en ligne]query.php[/link]"
 
 #: control/populate.php:503
-msgid "If you have something vitally important to tell us, send a message at the following address."
-msgstr "Si vous avez quelque chose d'extrêmement important à partager avec nous, envoyez un message à l'adresse suivante."
+msgid ""
+"If you have something vitally important to tell us, send a message at the "
+"following address."
+msgstr ""
+"Si vous avez quelque chose d'extrêmement important à partager avec nous, "
+"envoyez un message à l'adresse suivante."
 
 #: control/populate.php:504
 msgid "Webmaster: [parameter=site_email]"
 msgstr "Webmestre : [parameter=site_email]"
 
 #: control/populate.php:505
-msgid "Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can't really help you with."
-msgstr "L'afflux de messages que nous recevons est tel que nous ne pouvons pas vous garantir une réponse. Et bien évidemment, nous préférons répondre en priorité aux messages proches de nos centres d'expertise."
+msgid ""
+"Due to the large amount of e-mail that we get, we can NOT guarantee a "
+"response! This is especially true if your e-mail concerns issues we can't "
+"really help you with."
+msgstr ""
+"L'afflux de messages que nous recevons est tel que nous ne pouvons pas vous "
+"garantir une réponse. Et bien évidemment, nous préférons répondre en "
+"priorité aux messages proches de nos centres d'expertise."
 
 #: control/populate.php:506
 msgid "How you can help"
 msgstr "Comment pouvez-vous contribuer ?"
 
 #: control/populate.php:507
-msgid "We are proud of this server, but it certainly isn't perfect. We're always looking for ways to improve the site. So, if you've got any great ideas, then please let us know about them. Or, if you know of some important information that isn't listed here, email the author and tell them you want it listed on this site! It'll help make this server a better site for the whole community - and that's who we're here to serve."
-msgstr "Nous sommes fiers de ce site, malgré ses imperfections. Nous essayons d'être à l'écoute de toute suggestion constructive qui permettrait de l'améliorer. N'hésitez donc pas à partager vos bonnes idées avec nous. Ou si vous pensez qu'il manque quelque élément d'information, faites-nous le savoir ! Chaque amélioration bénéficie à l'ensemble de la communauté - vous, moi, tous les gens intéressés."
+msgid ""
+"We are proud of this server, but it certainly isn't perfect. We're always "
+"looking for ways to improve the site. So, if you've got any great ideas, "
+"then please let us know about them. Or, if you know of some important "
+"information that isn't listed here, email the author and tell them you want "
+"it listed on this site! It'll help make this server a better site for the "
+"whole community - and that's who we're here to serve."
+msgstr ""
+"Nous sommes fiers de ce site, malgré ses imperfections. Nous essayons d'être "
+"à l'écoute de toute suggestion constructive qui permettrait de l'améliorer. "
+"N'hésitez donc pas à partager vos bonnes idées avec nous. Ou si vous pensez "
+"qu'il manque quelque élément d'information, faites-nous le savoir ! Chaque "
+"amélioration bénéficie à l'ensemble de la communauté - vous, moi, tous les "
+"gens intéressés."
 
 #: control/populate.php:508
 msgid "Legal Stuff"
 msgstr "Informations légales"
 
 #: control/populate.php:509
-msgid "Be nice to other people, don't spam them, and don't do anything bad with any information you might get from this site."
-msgstr "Soyez gentils avec les autres, ne leur envoyez pas de courrier éléctronique non-sollicité, et ne faites pas d'usage frauduleux des informations collectés sur ce site."
+msgid ""
+"Be nice to other people, don't spam them, and don't do anything bad with any "
+"information you might get from this site."
+msgstr ""
+"Soyez gentils avec les autres, ne leur envoyez pas de courrier éléctronique "
+"non-sollicité, et ne faites pas d'usage frauduleux des informations "
+"collectés sur ce site."
 
 #: control/populate.php:510
-msgid "All content, including but not limited to user reviews, application listings and information contained therein, is owned by [parameter=site_owner] and may not be copied without permission. However, the above content my be freely modified and/or removed by the person or persons responsible for submitting it."
-msgstr "L'ensemble du contenu, y compris les apports ou commentaires des membres de la communauté, ou tout autre type d'information publiée, est la propriété de [parameter=site_owner] et ne peut être reproduit sans permission. Toutefois, ces informations peuvent être modifiées ou supprimées librement par leurs créateurs."
+msgid ""
+"All content, including but not limited to user reviews, application listings "
+"and information contained therein, is owned by [parameter=site_owner] and "
+"may not be copied without permission. However, the above content my be "
+"freely modified and/or removed by the person or persons responsible for "
+"submitting it."
+msgstr ""
+"L'ensemble du contenu, y compris les apports ou commentaires des membres de "
+"la communauté, ou tout autre type d'information publiée, est la propriété de "
+"[parameter=site_owner] et ne peut être reproduit sans permission. Toutefois, "
+"ces informations peuvent être modifiées ou supprimées librement par leurs "
+"créateurs."
 
 #: control/populate.php:511
-msgid "[parameter=site_owner] is not responsible for the content of information submitted to the site. [parameter=site_owner] is not responsible for any content contained on other sites that may link to or be linked to [parameter=site_name]. As such, the existence of a link to another site on [parameter=site_name] does not express endorsement by [parameter=site_owner] of said site or its contents."
-msgstr "[parameter=site_owner] ne peut être tenu pour responsable des informations publiées sur ce site. [parameter=site_owner] n'est pas responsable non plus responsable des liens que d'autres sites pourraient lier au contenu de [parameter=site_name]. En tant que tel, l'existence d'un lien de [parameter=site_name] vers un autre site n'implique aucune forme d'approbation ou d'encouragement par [parameter=site_owner] du site cible."
+msgid ""
+"[parameter=site_owner] is not responsible for the content of information "
+"submitted to the site. [parameter=site_owner] is not responsible for any "
+"content contained on other sites that may link to or be linked to "
+"[parameter=site_name]. As such, the existence of a link to another site on "
+"[parameter=site_name] does not express endorsement by [parameter=site_owner] "
+"of said site or its contents."
+msgstr ""
+"[parameter=site_owner] ne peut être tenu pour responsable des informations "
+"publiées sur ce site. [parameter=site_owner] n'est pas responsable non plus "
+"responsable des liens que d'autres sites pourraient lier au contenu de "
+"[parameter=site_name]. En tant que tel, l'existence d'un lien de "
+"[parameter=site_name] vers un autre site n'implique aucune forme "
+"d'approbation ou d'encouragement par [parameter=site_owner] du site cible."
 
 #: control/populate.php:512
-msgid "All other trademarks, icons, and logos, shown or mentioned, are the property of their respective owners, including those associated with any solutions listed in [parameter=site_name]. Although [parameter=site_owner] does not own and is not responsible for all of the content on the site, we reserve the right to edit or remove any content at any time in any way we deem necessary, without any notification whatselver to the owner(s) of that content, to keep it better in line with our stated and/or unstated policies. [parameter=site_owner] is not responsible for any copyright laws violated by the applications listed herein, although we will do everything we can do resolve any disputes that may arise in this area."
-msgstr "Les marques ou images montrées ou mentionnées restent la propriété de leurs propriétaires respectifs, y compris ceux associés aux solutions listées sur [parameter=site_name]. [parameter=site_owner] se réserve le droit de corriger ou supprimer tout contenu à chaque fois que cela sera nécessaire, sans devoir notifier l'auteur initial de l'information concernée. [parameter=site_owner] ne saurait être tenu pour responsable des violations de droit d'auteur initié par des membres de la communauté, même si tout sera mis en oeuvre pour résoudre les problèmes éventuels."
+msgid ""
+"All other trademarks, icons, and logos, shown or mentioned, are the property "
+"of their respective owners, including those associated with any solutions "
+"listed in [parameter=site_name]. Although [parameter=site_owner] does not "
+"own and is not responsible for all of the content on the site, we reserve "
+"the right to edit or remove any content at any time in any way we deem "
+"necessary, without any notification whatselver to the owner(s) of that "
+"content, to keep it better in line with our stated and/or unstated policies. "
+"[parameter=site_owner] is not responsible for any copyright laws violated by "
+"the applications listed herein, although we will do everything we can do "
+"resolve any disputes that may arise in this area."
+msgstr ""
+"Les marques ou images montrées ou mentionnées restent la propriété de leurs "
+"propriétaires respectifs, y compris ceux associés aux solutions listées sur "
+"[parameter=site_name]. [parameter=site_owner] se réserve le droit de "
+"corriger ou supprimer tout contenu à chaque fois que cela sera nécessaire, "
+"sans devoir notifier l'auteur initial de l'information concernée. "
+"[parameter=site_owner] ne saurait être tenu pour responsable des violations "
+"de droit d'auteur initié par des membres de la communauté, même si tout sera "
+"mis en oeuvre pour résoudre les problèmes éventuels."
 
-#: control/populate.php:516
-#: control/populate.php:538
-#: control/populate.php:559
-#: control/populate.php:573
-#: control/populate.php:589
-#: control/populate.php:611
-#: control/populate.php:632
-#: control/populate.php:653
-#: control/populate.php:670
-#: control/populate.php:691
-#: control/populate.php:712
-#: control/populate.php:741
-#: control/populate.php:757
-#: control/populate.php:774
-#: control/populate.php:795
+#: control/populate.php:516 control/populate.php:538 control/populate.php:559
+#: control/populate.php:573 control/populate.php:589 control/populate.php:611
+#: control/populate.php:632 control/populate.php:653 control/populate.php:670
+#: control/populate.php:691 control/populate.php:712 control/populate.php:741
+#: control/populate.php:757 control/populate.php:774 control/populate.php:795
 #: control/populate.php:811
 #, php-format
 msgid "A page \"%s\" has been created."
@@ -1986,16 +2095,26 @@ msgid "Web meeting"
 msgstr "Réunion web"
 
 #: control/populate.php:527
-msgid "To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat."
-msgstr "Pour préparer une réunion virtuelle à base de document ou d'écran partagé. Ceci requière un serveur BigBlueButton ; les webcams et les interactions textuelles sont disponibles."
+msgid ""
+"To arrange an interactive virtual meeting based on document or desktop "
+"sharing. This relies on a BigBlueButton server, and supports webcams and "
+"interactive chat."
+msgstr ""
+"Pour préparer une réunion virtuelle à base de document ou d'écran partagé. "
+"Ceci requière un serveur BigBlueButton ; les webcams et les interactions "
+"textuelles sont disponibles."
 
 #: control/populate.php:548
 msgid "Interactive chat"
 msgstr "Discussion interactive"
 
 #: control/populate.php:549
-msgid "To arrange an interactive textual discussion. This is turned to a permanent transcript at the end of the meeting."
-msgstr "Pour préparer une discussion textuelle, qui sera transformée en transcript permanent à l'issue de la réunion."
+msgid ""
+"To arrange an interactive textual discussion. This is turned to a permanent "
+"transcript at the end of the meeting."
+msgstr ""
+"Pour préparer une discussion textuelle, qui sera transformée en transcript "
+"permanent à l'issue de la réunion."
 
 #: control/populate.php:569
 msgid "Welcome!"
@@ -2006,32 +2125,48 @@ msgid "Discussion page"
 msgstr "Page de discussion"
 
 #: control/populate.php:584
-msgid "To ask a question, or to suggest a new idea. Start a thread of discussion."
-msgstr "Pour poser une question, ou pour suggérer une nouvelle idée. Démarrez la discussion!"
+msgid ""
+"To ask a question, or to suggest a new idea. Start a thread of discussion."
+msgstr ""
+"Pour poser une question, ou pour suggérer une nouvelle idée. Démarrez la "
+"discussion!"
 
 #: control/populate.php:599
 msgid "Event page"
 msgstr "Evénement"
 
 #: control/populate.php:600
-msgid "To arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line."
-msgstr "Pour préparer un événement en indiquant la date, l'heure, et le lieu. Gérez les inscriptions, et guidez les participants de façon électronique."
+msgid ""
+"To arrange an event at the given date and time. Manage enrolment, and "
+"provide meeting instructions on-line."
+msgstr ""
+"Pour préparer un événement en indiquant la date, l'heure, et le lieu. Gérez "
+"les inscriptions, et guidez les participants de façon électronique."
 
 #: control/populate.php:621
 msgid "Real-time collaboration"
 msgstr "Collaboration en temps réel"
 
 #: control/populate.php:622
-msgid "To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute."
-msgstr "Pour permettre à plusieurs personnes de travailler en même temps sur le même texte. A l'heure dite, les participants sont invités à rejoindre l'adresse indiquée et à contribuer."
+msgid ""
+"To allow multiple contributors to work at the same document. At the given "
+"date and time participants are invited to join and to contribute."
+msgstr ""
+"Pour permettre à plusieurs personnes de travailler en même temps sur le même "
+"texte. A l'heure dite, les participants sont invités à rejoindre l'adresse "
+"indiquée et à contribuer."
 
 #: control/populate.php:642
 msgid "External web meeting"
 msgstr "Réunion web externe"
 
 #: control/populate.php:643
-msgid "To arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address."
-msgstr "Pour préparer une réunion en dehors de votre serveur. A l'heure dite, les participants sont invités à rejoindre l'adresse web indiquée."
+msgid ""
+"To arrange an on-line meeting supported externally. At the given date and "
+"time participants are invited to join the provided web address."
+msgstr ""
+"Pour préparer une réunion en dehors de votre serveur. A l'heure dite, les "
+"participants sont invités à rejoindre l'adresse web indiquée."
 
 #: control/populate.php:665
 msgid "Recent pages"
@@ -2042,68 +2177,174 @@ msgid "Livestream broadcast"
 msgstr "Emission Livestream"
 
 #: control/populate.php:681
-msgid "To drive your audience to a Livestream channel. At the given date and time participants are invited to join the show."
-msgstr "Pour regarder une web TV Livestream. A l'heure dite, les participants sont invités à assister au show."
+msgid ""
+"To drive your audience to a Livestream channel. At the given date and time "
+"participants are invited to join the show."
+msgstr ""
+"Pour regarder une web TV Livestream. A l'heure dite, les participants sont "
+"invités à assister au show."
 
 #: control/populate.php:704
 msgid "Home"
 msgstr "Accueil"
 
 #: control/populate.php:724
-msgid "We respect your privacy! Any and all information collected at this site will be kept strictly confidential and will not be sold, reused, rented, loaned or otherwise disclosed. Any information you give to us will be held with the utmost care, and will not be used in ways that you have not consented to. Read on for more specific information."
-msgstr "Nous respectons votre vie privée ! Sauf exception dûment documentée, les informations collectées sur ce site ne sont ni revendues, louées ou partagées. Nous prenons le plus grand soin des informations que vous nous confiez."
+msgid ""
+"We respect your privacy! Any and all information collected at this site will "
+"be kept strictly confidential and will not be sold, reused, rented, loaned "
+"or otherwise disclosed. Any information you give to us will be held with the "
+"utmost care, and will not be used in ways that you have not consented to. "
+"Read on for more specific information."
+msgstr ""
+"Nous respectons votre vie privée ! Sauf exception dûment documentée, les "
+"informations collectées sur ce site ne sont ni revendues, louées ou "
+"partagées. Nous prenons le plus grand soin des informations que vous nous "
+"confiez."
 
 #: control/populate.php:725
 msgid "User Information"
 msgstr "Informations sur les utilisateurs"
 
 #: control/populate.php:726
-msgid "In order to make certain parts of this server work, some sections of the site require you to give us your e-mail address and/or other types of personal information (or may do so in the future). We do not sell, rent, loan, trade, or lease any personal information collected at our site, including survey forms or email lists. In other words, your information is safe with us."
-msgstr "Pour mieux faire fonctionner ce site nous vous demandons de nous confier votre adresse de courrier électronique ou d'autres informations personnelles. Nous ne divulguons pas ces informations sous quelque forme que ce soit. En résumé, vous pouvez nous faire confiance."
+msgid ""
+"In order to make certain parts of this server work, some sections of the "
+"site require you to give us your e-mail address and/or other types of "
+"personal information (or may do so in the future). We do not sell, rent, "
+"loan, trade, or lease any personal information collected at our site, "
+"including survey forms or email lists. In other words, your information is "
+"safe with us."
+msgstr ""
+"Pour mieux faire fonctionner ce site nous vous demandons de nous confier "
+"votre adresse de courrier électronique ou d'autres informations "
+"personnelles. Nous ne divulguons pas ces informations sous quelque forme que "
+"ce soit. En résumé, vous pouvez nous faire confiance."
 
 #: control/populate.php:727
 msgid "Mailings"
 msgstr "Courriers électroniques"
 
 #: control/populate.php:728
-msgid "In some cases we will use your email address internally, both for identification purposes and to email you updates related to your pages. Your explicit approval is required to mail you our periodic newsletter. At any time you can easily configure your account to enable or to disable such mailings. We <i>may</i>, in certain cases, send you email updates you haven't specifically requested to receive; if and when we do this, we won't do it without a good reason (and this certainly won't serve as our excuse to spam you.)"
-msgstr "Dans certains cas nous utilisons les adresses électroniques pour l'identification de nos membres, ou pour vous envoyer des mises à jour par courrier. Nous envoyons périodiquement des lettres d'information, mais seulement à ceux qui nous l'ont demandé. A tout instant vous pouvez changer cette option sur votre profil d'utilisateur. Il est possible que nous vous envoyons un courrier non-sollicité, mais si nous le faisons, ce sera toujours pour un motif valable, et jamais avec une excuse pour vous spammer."
+msgid ""
+"In some cases we will use your email address internally, both for "
+"identification purposes and to email you updates related to your pages. Your "
+"explicit approval is required to mail you our periodic newsletter. At any "
+"time you can easily configure your account to enable or to disable such "
+"mailings. We <i>may</i>, in certain cases, send you email updates you "
+"haven't specifically requested to receive; if and when we do this, we won't "
+"do it without a good reason (and this certainly won't serve as our excuse to "
+"spam you.)"
+msgstr ""
+"Dans certains cas nous utilisons les adresses électroniques pour "
+"l'identification de nos membres, ou pour vous envoyer des mises à jour par "
+"courrier. Nous envoyons périodiquement des lettres d'information, mais "
+"seulement à ceux qui nous l'ont demandé. A tout instant vous pouvez changer "
+"cette option sur votre profil d'utilisateur. Il est possible que nous vous "
+"envoyons un courrier non-sollicité, mais si nous le faisons, ce sera "
+"toujours pour un motif valable, et jamais avec une excuse pour vous spammer."
 
 #: control/populate.php:729
 msgid "Web Logs"
 msgstr "Traces web"
 
 #: control/populate.php:730
-msgid "We occasionally analyzes our website logs to constantly improve the value of the content available on our website. Our website logs are not personally identifiable, and we make no attempt to link them with the individuals that actually browse the site."
-msgstr "Nous analysons occasionnellement les archives de consultation pour améliorer la valeur du contenu disponible sur notre site. Ces analyses sont toujours statistiques et non-nominatives, et nous ne tentons pas de les corréler aux individus qui ont navigué sur le site."
+msgid ""
+"We occasionally analyzes our website logs to constantly improve the value of "
+"the content available on our website. Our website logs are not personally "
+"identifiable, and we make no attempt to link them with the individuals that "
+"actually browse the site."
+msgstr ""
+"Nous analysons occasionnellement les archives de consultation pour améliorer "
+"la valeur du contenu disponible sur notre site. Ces analyses sont toujours "
+"statistiques et non-nominatives, et nous ne tentons pas de les corréler aux "
+"individus qui ont navigué sur le site."
 
 #: control/populate.php:731
 msgid "Cookies"
 msgstr "Cookies"
 
 #: control/populate.php:732
-msgid "Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that's as far as we go. We won't use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn't otherwise have access to, or do any other naughty things with your cookies. If you don't agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server)."
-msgstr "Ce site utilise les cookies comme mécanisme standard de gestion de session. Nous n'utilisons pas les cookies pour suivre les sessions de navigation individuelles, ni pour faire d'autres choses indélicates. Si vous n'êtes pas d'accord avec cette politique, merci de configurer votre navigateur pour ne pas accepter les cookies de ce site. Une partie significative de ce site vous restera accessible, même si vous perdrez la faculté de vous authentifier et de contribuer."
+msgid ""
+"Although some Internet users think cookies are a serious privacy issue, as "
+"web designers we think that they come in darned handy. This site uses "
+"cookies for basic account identification purposes, but that's as far as we "
+"go. We won't use any information from cookies to track your browsing "
+"sessions, attempt to extract personal information from them that we wouldn't "
+"otherwise have access to, or do any other naughty things with your cookies. "
+"If you don't agree with our use of cookies, you can configure most web "
+"browsers not to accept them. Even without a cookie, a significant part of "
+"this server will still be accessible to you (although you will lose the "
+"ability to do anything that requires you to be logged into the server)."
+msgstr ""
+"Ce site utilise les cookies comme mécanisme standard de gestion de session. "
+"Nous n'utilisons pas les cookies pour suivre les sessions de navigation "
+"individuelles, ni pour faire d'autres choses indélicates. Si vous n'êtes pas "
+"d'accord avec cette politique, merci de configurer votre navigateur pour ne "
+"pas accepter les cookies de ce site. Une partie significative de ce site "
+"vous restera accessible, même si vous perdrez la faculté de vous "
+"authentifier et de contribuer."
 
 #: control/populate.php:733
 msgid "Passwords"
 msgstr "Mots de passe"
 
 #: control/populate.php:734
-msgid "This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don't have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can't even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can't get it back for you. We've provided a method to reset your password if this happens, but as with any other password, it's best not to forget in the first place."
-msgstr "Certaines parties de ce site sont protégées par un mot de passe d'authentification. Les mots de passe sont chiffrés dans la base de données, et nous ne pouvons pas les déchiffrer. Ce chiffrement peut être cassé, mais ceci requière beaucoup d'effort et de temps de calcul, et nous considérons donc que vos mots de passe sont en sécurité sur ce site. L'inconvénient, c'est que si vous oubliez votre mot de passe nous ne pourrons pas vous aiserà le retrouver. Une procédure est disponible pour obtenir un nouveau mot de passe, mais il est toujours mieux de prendre ses précautions pour ne pas faire d'oubli."
+msgid ""
+"This server requires you to define and enter passwords to access certain "
+"areas of the site. In case this conjures up images of crackers breaking into "
+"our databases and getting your passwords, you don't have to worry about it. "
+"Passwords are stored in an encrypted format, so that <i>we</i> can't even "
+"look at them. This encryption <i>is</i> breakable, but it takes a lot of "
+"effort and computing time (days or weeks to crack a single password) so for "
+"all intents and purposes, your passwords are safe here. The downside to "
+"this, of course, is that if you lose or forget your password we can't get it "
+"back for you. We've provided a method to reset your password if this "
+"happens, but as with any other password, it's best not to forget in the "
+"first place."
+msgstr ""
+"Certaines parties de ce site sont protégées par un mot de passe "
+"d'authentification. Les mots de passe sont chiffrés dans la base de données, "
+"et nous ne pouvons pas les déchiffrer. Ce chiffrement peut être cassé, mais "
+"ceci requière beaucoup d'effort et de temps de calcul, et nous considérons "
+"donc que vos mots de passe sont en sécurité sur ce site. L'inconvénient, "
+"c'est que si vous oubliez votre mot de passe nous ne pourrons pas vous "
+"aiserà le retrouver. Une procédure est disponible pour obtenir un nouveau "
+"mot de passe, mais il est toujours mieux de prendre ses précautions pour ne "
+"pas faire d'oubli."
 
 #: control/populate.php:735
 msgid "Posted material"
 msgstr "Informations partagées"
 
 #: control/populate.php:736
-msgid "Posted material is, of course, not private; several persons can look at them. But this is as good a time as any to point out that we own and retain control of whatever records you enter into the system. This means that we reserve the right to view and modify your articles, files, links, comments, etc. and we exercise this right. Most of the time we do this to fix trivial things; for example, if you post a page into an incorrect section, made a really obvious typo, or put in something really inappropriate, then we might modify it. But in any case, you should be aware that this could happen. FYI, <i>we</i> get to decide what's inappropriate, but you should all know your netiquette by now, right?  :-)"
-msgstr "Les informations partagées, par définition, ne peuvent pas rester secrètes. Plusieurs personnes peuvent toujours les consulter. En particulier, les associés exercent leur droit de contrôle pour relire et modifier toutes les pages et fichiers publiés par les membres de la communauté. La plupart du temps il s'agit de corriger une faute de frappe, ou de déplacer une page d'une section à une autre. Quelquefois un associé ou un éditeur peut aller jusqu'à supprimer un élément d'information sans justification particulière."
+msgid ""
+"Posted material is, of course, not private; several persons can look at "
+"them. But this is as good a time as any to point out that we own and retain "
+"control of whatever records you enter into the system. This means that we "
+"reserve the right to view and modify your articles, files, links, comments, "
+"etc. and we exercise this right. Most of the time we do this to fix trivial "
+"things; for example, if you post a page into an incorrect section, made a "
+"really obvious typo, or put in something really inappropriate, then we might "
+"modify it. But in any case, you should be aware that this could happen. FYI, "
+"<i>we</i> get to decide what's inappropriate, but you should all know your "
+"netiquette by now, right?  :-)"
+msgstr ""
+"Les informations partagées, par définition, ne peuvent pas rester secrètes. "
+"Plusieurs personnes peuvent toujours les consulter. En particulier, les "
+"associés exercent leur droit de contrôle pour relire et modifier toutes les "
+"pages et fichiers publiés par les membres de la communauté. La plupart du "
+"temps il s'agit de corriger une faute de frappe, ou de déplacer une page "
+"d'une section à une autre. Quelquefois un associé ou un éditeur peut aller "
+"jusqu'à supprimer un élément d'information sans justification particulière."
 
 #: control/populate.php:737
-msgid "If you have any questions or comments about our privacy policy, or would like more information about a particular category, please [article=about, get in touch] with us."
-msgstr "Si vous avez des questions ou des commentaires sur nos règles de protection de la vie privée, ou bien si vous souhaitez des complèments d'information, merci de [article=about, nous contacter]."
+msgid ""
+"If you have any questions or comments about our privacy policy, or would "
+"like more information about a particular category, please [article=about, "
+"get in touch] with us."
+msgstr ""
+"Si vous avez des questions ou des commentaires sur nos règles de protection "
+"de la vie privée, ou bien si vous souhaitez des complèments d'information, "
+"merci de [article=about, nous contacter]."
 
 #: control/populate.php:751
 msgid "Simple page"
@@ -2126,27 +2367,31 @@ msgid "USTREAM broadcast"
 msgstr "Emission USTREAM"
 
 #: control/populate.php:785
-msgid "To drive your audience to a USTREAM show. At the given date and time participants are invited to join the channel."
-msgstr "Pour regarder une émission USTREAM. A l'heure dite, les participants sont invités à assister au show."
+msgid ""
+"To drive your audience to a USTREAM show. At the given date and time "
+"participants are invited to join the channel."
+msgstr ""
+"Pour regarder une émission USTREAM. A l'heure dite, les participants sont "
+"invités à assister au show."
 
 #: control/populate.php:805
 msgid "Wiki page"
 msgstr "Page wiki"
 
 #: control/populate.php:806
-msgid "To allow contributions from several persons. Create an initial page and invite participants to follow-up."
-msgstr "Pour consolider les apports de plusieurs personnes. Créez une page initiale et invitez des participants à contribuer."
+msgid ""
+"To allow contributions from several persons. Create an initial page and "
+"invite participants to follow-up."
+msgstr ""
+"Pour consolider les apports de plusieurs personnes. Créez une page initiale "
+"et invitez des participants à contribuer."
 
 #: control/populate.php:834
 msgid "Configure the page factory"
 msgstr "Configurer la fabrication des pages"
 
-#: control/populate.php:841
-#: control/virtual.php:92
-#: control/virtual.php:115
-#: control/virtual.php:171
-#: control/virtual.php:194
-#: control/virtual.php:219
+#: control/populate.php:841 control/virtual.php:92 control/virtual.php:115
+#: control/virtual.php:171 control/virtual.php:194 control/virtual.php:219
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
@@ -2158,9 +2403,7 @@ msgstr "Visiter la Carte du Site mise à jour"
 msgid "Launch the Content Assistant again"
 msgstr "Relancer l'Assistant de Contenu"
 
-#: control/purge.php:99
-#: control/purge.php:140
-#: control/purge.php:182
+#: control/purge.php:99 control/purge.php:140 control/purge.php:182
 #: control/purge.php:348
 #, php-format
 msgid "Deleting %s"
@@ -2170,18 +2413,10 @@ msgstr "Effacement de %s"
 msgid "Deleting agents data..."
 msgstr "Suppression des données concernant les agents et navigateurs..."
 
-#: control/purge.php:223
-#: control/purge.php:243
-#: control/purge.php:261
-#: control/purge.php:278
-#: control/purge.php:297
-#: control/purge.php:314
-#: control/purge.php:331
-#: control/purge.php:365
-#: control/purge.php:387
-#: control/purge.php:406
-#: control/purge.php:425
-#: control/purge.php:444
+#: control/purge.php:223 control/purge.php:243 control/purge.php:261
+#: control/purge.php:278 control/purge.php:297 control/purge.php:314
+#: control/purge.php:331 control/purge.php:365 control/purge.php:387
+#: control/purge.php:406 control/purge.php:425 control/purge.php:444
 msgid "Purge again"
 msgstr "Purger de nouveau"
 
@@ -2247,47 +2482,71 @@ msgstr "Supprimer les fichiers temporaires ajoutés pendant les mises à jour."
 
 #: control/purge.php:468
 msgid "Delete file temporary/debug.txt to purge debug data."
-msgstr "Supprimer le fichier temporary/debug.txt pour purger les informations de mise au point."
+msgstr ""
+"Supprimer le fichier temporary/debug.txt pour purger les informations de "
+"mise au point."
 
 #: control/purge.php:471
-msgid "Purge links received via newsfeeds. These will be recreated progressively during future feeding."
-msgstr "Purge des liens reçus par les fils d'information. Ils seront recréés au fur et à mesure des prochaines mises à jour."
+msgid ""
+"Purge links received via newsfeeds. These will be recreated progressively "
+"during future feeding."
+msgstr ""
+"Purge des liens reçus par les fils d'information. Ils seront recréés au fur "
+"et à mesure des prochaines mises à jour."
 
 #: control/purge.php:474
 #, php-format
-msgid "Delete all referrals from the database. These will be recreated progressively during future browsing. You may prefer to %s."
-msgstr "Effacement de toutes les références extérieures (referrals). Elles seront recréées au fur et à mesure des prochaines visites sur le site. Une alternative est de %s."
+msgid ""
+"Delete all referrals from the database. These will be recreated "
+"progressively during future browsing. You may prefer to %s."
+msgstr ""
+"Effacement de toutes les références extérieures (referrals). Elles seront "
+"recréées au fur et à mesure des prochaines visites sur le site. Une "
+"alternative est de %s."
 
 #: control/purge.php:474
 msgid "check referrals"
 msgstr "vérifier les liens"
 
 #: control/purge.php:477
-msgid "Purge script performance data from the database. These will be recreated progressively during future browsing."
-msgstr "Purge des données concernant les performances d'exécution des scripts. Elles seront recréées au fur et à mesure des prochaines visites sur le site."
+msgid ""
+"Purge script performance data from the database. These will be recreated "
+"progressively during future browsing."
+msgstr ""
+"Purge des données concernant les performances d'exécution des scripts. Elles "
+"seront recréées au fur et à mesure des prochaines visites sur le site."
 
 #: control/purge.php:481
 msgid "Delete file temporary/log.txt to purge events data."
-msgstr "Supprimer le fichier temporary/log.txt pour purger les informations relatives aux évènements."
+msgstr ""
+"Supprimer le fichier temporary/log.txt pour purger les informations "
+"relatives aux évènements."
 
 #: control/purge.php:484
 msgid "Recover overhead disk space from the database."
 msgstr "Récupérer l'espace disque inutilisé dans la base de données."
 
 #: control/purge.php:487
-msgid "Delete versioning information saved more than six months ago. Preserve recent versions."
-msgstr "Supprimer les informations de modification de plus de six mois. Conserver les versions plus récentes."
+msgid ""
+"Delete versioning information saved more than six months ago. Preserve "
+"recent versions."
+msgstr ""
+"Supprimer les informations de modification de plus de six mois. Conserver "
+"les versions plus récentes."
 
 #: control/purge.php:491
-msgid "Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page."
-msgstr "Effacement des scripts de référence et de la documentation associée. Le référentiel peut être reconstruit depuis la page d'index des scripts."
+msgid ""
+"Delete the repository of reference scripts and related documentation. This "
+"can be rebuild from the scripts index page."
+msgstr ""
+"Effacement des scripts de référence et de la documentation associée. Le "
+"référentiel peut être reconstruit depuis la page d'index des scripts."
 
 #: control/purge.php:494
 msgid "Start"
 msgstr "Démarrer"
 
-#: control/scan.php:170
-#: control/scan.php:814
+#: control/scan.php:170 control/scan.php:814
 msgid "Scan scripts for software extensions"
 msgstr "Recherche et configuration des prises d'extension"
 
@@ -2296,19 +2555,16 @@ msgstr "Recherche et configuration des prises d'extension"
 msgid "Hook %s has been included"
 msgstr "L'extension %s a été incluse"
 
-#: control/scan.php:235
-#: control/scan.php:467
+#: control/scan.php:235 control/scan.php:467
 #, php-format
 msgid "%d directories have been scanned."
 msgstr "%d répertoires ont été analysés"
 
-#: control/scan.php:251
-#: control/scan.php:495
+#: control/scan.php:251 control/scan.php:495
 msgid "Bad hook:"
 msgstr "Extension invalide :"
 
-#: control/scan.php:260
-#: control/scan.php:504
+#: control/scan.php:260 control/scan.php:504
 msgid "Script does not exist:"
 msgstr "Le script n'existe pas :"
 
@@ -2316,35 +2572,28 @@ msgstr "Le script n'existe pas :"
 msgid "*** undefined label"
 msgstr "*** pas de libellé"
 
-#: control/scan.php:294
-#: control/scan.php:322
+#: control/scan.php:294 control/scan.php:322
 #, php-format
 msgid "identifier: %s"
 msgstr "identifiant : %s"
 
-#: control/scan.php:297
-#: control/scan.php:325
-#: control/scan.php:384
+#: control/scan.php:297 control/scan.php:325 control/scan.php:384
 #, php-format
 msgid "script: %s"
 msgstr "script : %s"
 
-#: control/scan.php:300
-#: control/scan.php:331
-#: control/scan.php:359
+#: control/scan.php:300 control/scan.php:331 control/scan.php:359
 #: control/scan.php:390
 #, php-format
 msgid "source: %s"
 msgstr "Source : %s"
 
-#: control/scan.php:328
-#: control/scan.php:387
+#: control/scan.php:328 control/scan.php:387
 #, php-format
 msgid "function: %s"
 msgstr "fonction : %s"
 
-#: control/scan.php:353
-#: control/scan.php:381
+#: control/scan.php:353 control/scan.php:381
 #, php-format
 msgid "service: %s"
 msgstr "service : %s"
@@ -2354,15 +2603,16 @@ msgstr "service : %s"
 msgid "link: %s"
 msgstr "lien : %s"
 
-#: control/scan.php:401
-#: control/scan.php:632
+#: control/scan.php:401 control/scan.php:632
 #, php-format
 msgid "Bad hook type %s to %s for %s"
 msgstr "Extension de type inconnu %s vers %s pour %s."
 
 #: control/scan.php:407
 msgid "Review hooks in the following list and uncheck unwanted extensions."
-msgstr "Vérifier les extensions dans la liste ci-dessous et décochez celles que vous ne souhaitez pas installer."
+msgstr ""
+"Vérifier les extensions dans la liste ci-dessous et décochez celles que vous "
+"ne souhaitez pas installer."
 
 #: control/scan.php:413
 msgid "Linking hooks"
@@ -2385,8 +2635,12 @@ msgid "Yes, I want to (re)build the set of hooks"
 msgstr "Oui, je veux (re)construire le fichier des prises d'extension"
 
 #: control/scan.php:456
-msgid "Following hooks have been detected and integrated into the file parameters/hooks.include.php"
-msgstr "Les extensions suivantes ont été détectées et intégrées dans le fichier parameters/hooks.include.php."
+msgid ""
+"Following hooks have been detected and integrated into the file parameters/"
+"hooks.include.php"
+msgstr ""
+"Les extensions suivantes ont été détectées et intégrées dans le fichier "
+"parameters/hooks.include.php."
 
 #: control/scan.php:531
 #, php-format
@@ -2398,8 +2652,7 @@ msgstr "Désactivation de l'extension %s"
 msgid "Linking hook %s for %s"
 msgstr "Liaison de l'extension %s pour %s"
 
-#: control/scan.php:568
-#: control/scan.php:701
+#: control/scan.php:568 control/scan.php:701
 #, php-format
 msgid "Including hook %s for %s"
 msgstr "Inclusion de l'extension %s pour %s"
@@ -2414,9 +2667,7 @@ msgstr "Extension d'appel pour %s"
 msgid "Serving hook %s for %s"
 msgstr "Extension de service %s pour %s"
 
-#: control/scan.php:751
-#: control/scan.php:769
-#: control/switch.php:108
+#: control/scan.php:751 control/scan.php:769 control/switch.php:108
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible d'écrire dans %s"
@@ -2429,13 +2680,15 @@ msgstr "Les extensions ont été compilées dans parameters/hooks.include.php"
 msgid "Hooks have been listed in parameters/hooks.xml"
 msgstr "Les extensions ont été listées dans parameters/hooks.xml"
 
-#: control/scan.php:783
+#: control/scan.php:783 control/scan.php:802
 msgid "Update the database schema"
 msgstr "Mise à jour de la base de données"
 
 #: control/scan.php:810
 msgid "This script will scan your php scripts to install software hooks."
-msgstr "Ce script va analyser vos scripts php pour installer les extensions logicielles."
+msgstr ""
+"Ce script va analyser vos scripts php pour installer les extensions "
+"logicielles."
 
 #: control/scan.php:830
 #, php-format
@@ -2446,19 +2699,18 @@ msgstr "Contenu de %s"
 msgid "You have associate privilege"
 msgstr "Vous êtes authentifié comme associé"
 
-#: control/setup.php:144
-#: control/switch.php:124
+#: control/setup.php:144 control/switch.php:124
 msgid "The server has been switched off."
 msgstr "Le serveur a été arrêté."
 
-#: control/setup.php:261
-#: control/switch.php:70
+#: control/setup.php:261 control/switch.php:70
 msgid "The server has been switched on."
 msgstr "Le serveur a été remis en route"
 
 #: control/setup.php:266
 msgid "Run one-time scripts and go to the Control Panel"
-msgstr "Lancer les scripts à exécution unique puis retourner au Panneau de contrôle"
+msgstr ""
+"Lancer les scripts à exécution unique puis retourner au Panneau de contrôle"
 
 #: control/setup.php:275
 msgid "Initialize the database"
@@ -2469,8 +2721,12 @@ msgid "The database has been optimised"
 msgstr "La base de données a été optimisée"
 
 #: control/setup.php:295
-msgid "This script will check the structure of the database and optimize data storage:"
-msgstr "Ce script va analyser la structure de la base de données et optimiser le stockage des informations :"
+msgid ""
+"This script will check the structure of the database and optimize data "
+"storage:"
+msgstr ""
+"Ce script va analyser la structure de la base de données et optimiser le "
+"stockage des informations :"
 
 #: control/setup.php:297
 msgid "Missing tables will be created, if necessary."
@@ -2497,25 +2753,39 @@ msgid "Main Switch"
 msgstr "Interrupteur principal"
 
 #: control/switch.php:64
-msgid "The server has been successfully switched on. Pages are provided normally to surfers."
-msgstr "Le serveur a été ouvert avec succès. Les surfeurs ont à présent accès à toutes les pages normalement."
+msgid ""
+"The server has been successfully switched on. Pages are provided normally to "
+"surfers."
+msgstr ""
+"Le serveur a été ouvert avec succès. Les surfeurs ont à présent accès à "
+"toutes les pages normalement."
 
-#: control/switch.php:75
-#: control/switch.php:170
-msgid "The server is currently switched on. Pages are provided normally to surfers."
-msgstr "Le serveur est ouvert. Les surfeurs ont accès à toutes les pages normalement."
+#: control/switch.php:75 control/switch.php:170
+msgid ""
+"The server is currently switched on. Pages are provided normally to surfers."
+msgstr ""
+"Le serveur est ouvert. Les surfeurs ont accès à toutes les pages normalement."
 
 #: control/switch.php:79
-msgid "The server has NOT been switched on successfully. Please rename the file parameters/switch.off to parameters/switch.on."
-msgstr "Le serveur est TOUJOURS fermé. Merci de renommer le fichier parameters/switch.off en parameters/switch.on."
+msgid ""
+"The server has NOT been switched on successfully. Please rename the file "
+"parameters/switch.off to parameters/switch.on."
+msgstr ""
+"Le serveur est TOUJOURS fermé. Merci de renommer le fichier parameters/"
+"switch.off en parameters/switch.on."
 
 #: control/switch.php:121
-msgid "The server has been switched OFF. Switch it back on as soon as possible."
+msgid ""
+"The server has been switched OFF. Switch it back on as soon as possible."
 msgstr "Le serveur a été fermé. Rouvrez-le dès que possible."
 
 #: control/switch.php:133
-msgid "Impossible to rename the file parameters/switch.on to parameters/switch.off. Do it yourself manually if you like."
-msgstr "Impossible de renommer le fichier parameters/switch.on en parameters/switch.off. Faites le vous-même manuellement pour arrêter le serveur."
+msgid ""
+"Impossible to rename the file parameters/switch.on to parameters/switch.off. "
+"Do it yourself manually if you like."
+msgstr ""
+"Impossible de renommer le fichier parameters/switch.on en parameters/switch."
+"off. Faites le vous-même manuellement pour arrêter le serveur."
 
 #: control/switch.php:140
 msgid "Switch on"
@@ -2543,10 +2813,10 @@ msgstr "Option : rediriger les requêtes vers l'adresse"
 
 #: control/switch.php:186
 msgid "Option: contact information, such as an email address"
-msgstr "Option : information de contact, telle une adresse de courrier électronique"
+msgstr ""
+"Option : information de contact, telle une adresse de courrier électronique"
 
-#: control/test.php:84
-#: control/test.php:91
+#: control/test.php:84 control/test.php:91
 msgid "The test page"
 msgstr "La page de test"
 
@@ -2564,8 +2834,12 @@ msgstr "Un test de POST réflexif"
 
 #: control/test.php:116
 #, php-format
-msgid "Session variables are stored correctly if the counter increments on page reload: %s"
-msgstr "Les variables de session sont sauvées correctement si le compteur s'incrémente à chaque rechargement de cette page : %s"
+msgid ""
+"Session variables are stored correctly if the counter increments on page "
+"reload: %s"
+msgstr ""
+"Les variables de session sont sauvées correctement si le compteur "
+"s'incrémente à chaque rechargement de cette page : %s"
 
 #: control/test.php:120
 msgid "Submitted request:"
@@ -2583,8 +2857,7 @@ msgstr "Cookies envoyés par le navigateur :"
 msgid "Session data:"
 msgstr "Données de session :"
 
-#: control/test.php:156
-#: control/test.php:158
+#: control/test.php:156 control/test.php:158
 #, php-format
 msgid "YACS version %s"
 msgstr "YACS version %s"
@@ -2601,8 +2874,7 @@ msgstr "Attributs du serveur :"
 msgid "Browser GMT offset:"
 msgstr "Votre zone de temps :"
 
-#: control/test.php:200
-#: control/test.php:205
+#: control/test.php:200 control/test.php:205
 msgid "hour(s)"
 msgstr "heure(s)"
 
@@ -2616,7 +2888,8 @@ msgstr "utilisateur/groupe de ce script :"
 
 #: control/test.php:257
 msgid "Impossible to retrieve user/group of this script."
-msgstr "Impossible de retrouver les informations utilisateur/groupe de ce script."
+msgstr ""
+"Impossible de retrouver les informations utilisateur/groupe de ce script."
 
 #: control/test.php:286
 msgid "user/group of this process:"
@@ -2624,15 +2897,14 @@ msgstr "utilisateur/groupe de ce process :"
 
 #: control/test.php:289
 msgid "Impossible to retrieve user/group of this process."
-msgstr "Impossible de retrouver les informations utilisateur/groupe de ce process."
+msgstr ""
+"Impossible de retrouver les informations utilisateur/groupe de ce process."
 
 #: control/virtual.php:58
 msgid "Virtual hosts"
 msgstr "Serveurs virtuels"
 
-#: control/virtual.php:75
-#: control/virtual.php:131
-#: control/virtual.php:154
+#: control/virtual.php:75 control/virtual.php:131 control/virtual.php:154
 #: control/virtual.php:185
 msgid "No configuration file has been found for this virtual host."
 msgstr "Aucun fichier de configuration n'a été trouvé pour ce serveur virtuel."
@@ -2651,26 +2923,27 @@ msgstr "Le fichier de configuration du serveur virtuel %s a été supprimé."
 msgid "%s has been deleted"
 msgstr "%s a été supprimé"
 
-#: control/virtual.php:94
-#: control/virtual.php:118
-#: control/virtual.php:174
-#: control/virtual.php:197
-#: control/virtual.php:222
+#: control/virtual.php:94 control/virtual.php:118 control/virtual.php:174
+#: control/virtual.php:197 control/virtual.php:222
 msgid "Manage virtual hosts"
 msgstr "Gérer les serveurs virtuels"
 
 #: control/virtual.php:108
 #, php-format
-msgid "The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary."
-msgstr "Le fichier %s est peut-être invalide. Vérifier son contenu manuellement, et restaurer la copie de sauvegarde, avec l'extension .bak, si besoin."
+msgid ""
+"The target file %s may have been corrupted. Please check file content "
+"manually, and revert to the backup file, with the extension .bak, if "
+"necessary."
+msgstr ""
+"Le fichier %s est peut-être invalide. Vérifier son contenu manuellement, et "
+"restaurer la copie de sauvegarde, avec l'extension .bak, si besoin."
 
 #: control/virtual.php:112
 #, php-format
 msgid "The target file %s has been successfully updated."
 msgstr "Le fichier %s a été mis à jour."
 
-#: control/virtual.php:117
-#: control/virtual.php:173
+#: control/virtual.php:117 control/virtual.php:173
 msgid "View the configuration file"
 msgstr "Voir la configuration"
 
@@ -2697,11 +2970,15 @@ msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
 #: control/htaccess/index.php:105
-msgid "Click on following links to assess actual capabilities of this server. In case of error, just come back to this page and move to next test."
-msgstr "Cliquer sur les liens suivants pour évaluer les possibilités de votre serveur. En cas d'erreur, revenir manuellement sur cette page et passer au test suivant."
+msgid ""
+"Click on following links to assess actual capabilities of this server. In "
+"case of error, just come back to this page and move to next test."
+msgstr ""
+"Cliquer sur les liens suivants pour évaluer les possibilités de votre "
+"serveur. En cas d'erreur, revenir manuellement sur cette page et passer au "
+"test suivant."
 
-#: control/htaccess/index.php:116
-#: control/htaccess/index.php:121
+#: control/htaccess/index.php:116 control/htaccess/index.php:121
 #: control/htaccess/index.php:126
 msgid "OK"
 msgstr "OK"
@@ -2719,8 +2996,12 @@ msgid "Indexes (expiration cache)"
 msgstr "Indexes (cache par expiration)"
 
 #: control/htaccess/index.php:132
-msgid "Once all links have been tested, click on the build button to actually update the .htaccess file."
-msgstr "Après avoir testé tous les liens, cliquer sur le bouton ci-dessous pour actualiser le fichier .htaccess."
+msgid ""
+"Once all links have been tested, click on the build button to actually "
+"update the .htaccess file."
+msgstr ""
+"Après avoir testé tous les liens, cliquer sur le bouton ci-dessous pour "
+"actualiser le fichier .htaccess."
 
 #: control/htaccess/index.php:136
 msgid "Build the .htaccess file"
@@ -2733,10 +3014,11 @@ msgstr "La compression dynamique des pages est disponible."
 #: control/htaccess/basic/index.php:26
 #, php-format
 msgid "Activate the following Apache module to allow dynamic compression: %s"
-msgstr "Activer le module Apache suivant pour bénéficier de la compression dynamique : %s"
+msgstr ""
+"Activer le module Apache suivant pour bénéficier de la compression "
+"dynamique : %s"
 
-#: control/htaccess/basic/index.php:30
-#: control/htaccess/options/index.php:36
+#: control/htaccess/basic/index.php:30 control/htaccess/options/index.php:36
 #: control/htaccess/indexes/index.php:36
 msgid "Done"
 msgstr "Terminé"
@@ -2748,14 +3030,15 @@ msgstr "La ré-écriture des liens est disponible."
 #: control/htaccess/options/index.php:26
 #, php-format
 msgid "Activate the following Apache module to allow URL rewriting: %s"
-msgstr "Activer le module Apache suivant pour bénéficier de la ré-écriture des liens : %s"
+msgstr ""
+"Activer le module Apache suivant pour bénéficier de la ré-écriture des "
+"liens : %s"
 
 #: control/htaccess/options/index.php:30
 msgid "Directory browsing will be prevented globally."
 msgstr "Le parcours des répertoires sera interdit globalement."
 
-#: control/htaccess/options/index.php:33
-#: control/htaccess/indexes/index.php:33
+#: control/htaccess/options/index.php:33 control/htaccess/indexes/index.php:33
 #, php-format
 msgid "Please ensure that Apache has been configured with %s."
 msgstr "Vérifier que Apache a été configuré avec %s."
@@ -2767,7 +3050,8 @@ msgstr "Le cache par expiration est disponible."
 #: control/htaccess/indexes/index.php:26
 #, php-format
 msgid "Activate the following Apache module to allow cache by expiration: %s"
-msgstr "Activer le module Apache suivant pour bénéficier du cache par expiration : %s"
+msgstr ""
+"Activer le module Apache suivant pour bénéficier du cache par expiration : %s"
 
 #: control/htaccess/indexes/index.php:30
 msgid "The default handler will be set to index.php."

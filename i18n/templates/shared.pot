@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 19:08+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,12 +265,12 @@ msgstr ""
 msgid "System parameters"
 msgstr ""
 
-#: shared/mailer.php:110
+#: shared/mailer.php:109
 #, php-format
 msgid "%s by %s"
 msgstr ""
 
-#: shared/mailer.php:127
+#: shared/mailer.php:123
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since the new item has "
@@ -279,7 +279,7 @@ msgid ""
 "profile."
 msgstr ""
 
-#: shared/mailer.php:132
+#: shared/mailer.php:128
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since you are following "
@@ -287,33 +287,33 @@ msgid ""
 "alerts please visit the user profile below and click on Stop notifications."
 msgstr ""
 
-#: shared/mailer.php:177
+#: shared/mailer.php:173
 #, php-format
 msgid "and %d other persons"
 msgstr ""
 
-#: shared/mailer.php:302 shared/mailer.php:841 shared/mailer.php:1166
-#: shared/mailer.php:1313
+#: shared/mailer.php:298 shared/mailer.php:837 shared/mailer.php:1162
+#: shared/mailer.php:1309
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: shared/mailer.php:846
+#: shared/mailer.php:842
 msgid "Empty sender address"
 msgstr ""
 
-#: shared/mailer.php:851 shared/mailer.php:1171
+#: shared/mailer.php:847 shared/mailer.php:1167
 msgid "Empty recipient address"
 msgstr ""
 
-#: shared/mailer.php:856 shared/mailer.php:1176
+#: shared/mailer.php:852 shared/mailer.php:1172
 msgid "No subject"
 msgstr ""
 
-#: shared/mailer.php:861 shared/mailer.php:1181
+#: shared/mailer.php:857 shared/mailer.php:1177
 msgid "No message"
 msgstr ""
 
-#: shared/mailer.php:1305 shared/mailer.php:1307
+#: shared/mailer.php:1301 shared/mailer.php:1303
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr ""
@@ -442,36 +442,36 @@ msgstr ""
 msgid "Prove who you are"
 msgstr ""
 
-#: shared/surfer.php:584
+#: shared/surfer.php:581
 msgid "Contribute to this page!"
 msgstr ""
 
-#: shared/surfer.php:604
+#: shared/surfer.php:601
 msgid "You are allowed to post any XHTML."
 msgstr ""
 
-#: shared/surfer.php:606
+#: shared/surfer.php:603
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr ""
 
-#: shared/surfer.php:693
+#: shared/surfer.php:692
 msgid "anonymous"
 msgstr ""
 
-#: shared/surfer.php:709
+#: shared/surfer.php:715
 msgid "My pages"
 msgstr ""
 
-#: shared/surfer.php:713
+#: shared/surfer.php:719
 msgid "All pages"
 msgstr ""
 
-#: shared/surfer.php:776
+#: shared/surfer.php:782
 msgid "Robot stopper"
 msgstr ""
 
-#: shared/surfer.php:777
+#: shared/surfer.php:783
 msgid "Type exactly the following 5 chars:"
 msgstr ""
 
