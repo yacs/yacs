@@ -22,7 +22,9 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 $files = array();
 $files[] = 'skins/_reference/files/calendar_icon.gif';
 $files[] = 'skins/_reference/files/java_icon.gif';
+$files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/boxesandarrows/boxesandarrows.css';
+$files[] = 'skins/shared/yacs.js';
 
 // process every file
 $count = 0;

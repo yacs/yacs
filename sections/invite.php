@@ -373,9 +373,7 @@ if(Surfer::is_crawler()) {
 
 	// the subject
 	$label = i18n::s('Message title');
-	$title = '';
-	if($name = Surfer::get_name())
-		$title = sprintf(i18n::s('Invitation: %s'), $item['title']);
+	$title = sprintf(i18n::s('Invitation: %s'), $item['title']);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 

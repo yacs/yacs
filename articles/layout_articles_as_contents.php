@@ -85,15 +85,6 @@ Class Layout_articles_as_contents extends Layout_interface {
 					$author .= ' ('.$item['edit_name'].')';
 			}
 
-			// some introductory text for this article --this is not related to the description field
-			$article = new Article();
-			$article->load_by_content($item);
-			$introduction = $article->get_teaser('teaser');
-
-			// warns on restricted access
-			if($item['active'] != 'Y')
-				$introduction = '['.i18n::c('Restricted to members').'] '.$introduction;
-
 			// the article content
 			$description = '';
 
@@ -132,7 +123,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 			$extensions[] = '<trackback:ping>'.encode_link($context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor='.urlencode('article:'.$item['id']))."</trackback:ping>"; // no trackback:about;
 
 			// list all components for this item
-			$items[$url] = array($time, $title, $author, $section, $icon, $introduction, $description, $extensions);
+			$items[$url] = array($time, $title, $author, $section, $icon, NULL, $description, $extensions);
 
 		}
 

@@ -29,9 +29,11 @@ class RPC_Echo {
 
 	function serve($parameters) {
 
+		// look for a message
+		if(empty($parameters['message']))
+			return array('code' => -32602, 'message' => 'Invalid param "message"');
+
 		// extend the 'message' parameter
-		if(!isset($parameters['message']))
-			$parameters['message'] = '';
 		$parameters['message'] = ltrim($parameters['message'].' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
 
 		// return everything
