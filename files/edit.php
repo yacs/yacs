@@ -653,12 +653,17 @@ if($with_form) {
 	// optional checkboxes
 	$context['text'] .= '<p>';
 
-	// notify watchers --updating a file, or uploading a new file, should generate a notification
-	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+	// do not process notifications for draft articles
+	if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
 
-	// notify people following me
-	if(Surfer::get_id() && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
+		// notify watchers --updating a file, or uploading a new file, should generate a notification
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+
+		// notify people following me
+		if(Surfer::get_id() && !$anchor->is_hidden())
+			$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
+
+	}
 
 	// associates may decide to not stamp changes, but only for changes -- complex command
 	if(Surfer::is_associate() && isset($anchor) && Surfer::has_all())
