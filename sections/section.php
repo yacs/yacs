@@ -2,8 +2,6 @@
 /**
  * the implementation of anchor for sections
  *
- * @todo process image:set_as_thumbnail in touch() like in articles/article.php
- *
  * This class implements the Anchor interface for sections.
  *
  * @see shared/anchor.php

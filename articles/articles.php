@@ -2,9 +2,6 @@
 /**
  * the database abstraction layer for articles
  *
- * @todo add a field to count words in a post
- * @todo add new monitoring layout http://www.socialtext.com/products/tour/recentchanges
- * @todo add a read-only ticket for protected pages
  * @todo place in bin on deletion
  *
  * The several versions of article content are now saved for history, and may be restored at any time.

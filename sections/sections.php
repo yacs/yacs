@@ -2,8 +2,6 @@
 /**
  * the database abstraction layer for sections
  *
- * @todo ensure that locked sections cannot receive images
- *
  * [title]How do sections differ from categories?[/title]
  *
  * Sections are the top-level containers of articles.
