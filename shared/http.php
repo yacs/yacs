@@ -207,11 +207,11 @@ class http {
 		$host = rtrim($host, '_');
 
 		if(is_array($headers))
-			$headers = implode("\015\012", $headers)."\015\012";
+			$headers = implode(CRLF, $headers).CRLF;
 
 		// set target host
 		if(strpos($headers, 'Host: ') === FALSE)
-			$headers .= 'Host: '.$host."\015\012";
+			$headers .= 'Host: '.$host.CRLF;
 
 		// ask fsockopen to open a TLS/SSL connection
 		if($items['scheme'] == 'https')
@@ -219,7 +219,7 @@ class http {
 
 		// set user agent
 		if(strpos($headers, 'User-Agent: ') === FALSE)
-			$headers .= 'User-Agent: yacs'."\015\012";
+			$headers .= 'User-Agent: yacs'.CRLF;
 
 		// no port, assume the standard
 		if(isset($items['port']) && $items['port'])
@@ -252,21 +252,21 @@ class http {
 
 		// remember encoding in meta-data
 		if($data && (strpos($headers, 'Content-Type: ') === FALSE))
-			$headers .= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8\015\012";
+			$headers .= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8".CRLF;
 
 		// remember content length in meta-data
 		if($data && (strpos($headers, 'Content-Length: ') === FALSE))
-			$headers .= "Content-Length: ".strlen($data)."\015\012";
+			$headers .= "Content-Length: ".strlen($data).CRLF;
 
 		// set request date, RFC822 format
 		if(strpos($headers, 'Date: ') === FALSE)
-			$headers .= 'Date: '.gmdate('D, d M Y H:i:s T')."\015\012";
+			$headers .= 'Date: '.gmdate('D, d M Y H:i:s T').CRLF;
 
 		// append cookies, if any
 		if(is_array($cookie))
-			$headers .= 'Cookie: '.join('; ', $cookie)."\015\012";
+			$headers .= 'Cookie: '.join('; ', $cookie).CRLF;
 		elseif($cookie)
-			$headers .= 'Cookie: '.$cookie."\015\012";
+			$headers .= 'Cookie: '.$cookie.CRLF;
 
 		// pool of connections
 		static $handles;
@@ -302,17 +302,17 @@ class http {
 			$request = 'POST';
 		else
 			$request = 'GET';
-		$request .= ' '.$path." HTTP/1.1\015\012";
+		$request .= ' '.$path." HTTP/1.1".CRLF;
 
 		// use the connection pool
-		$request .= "Connection: keep-alive\015\012";
+		$request .= "Connection: keep-alive".CRLF;
 
 		// enable compression
 //		if(is_callable('gzinflate'))
-//			$request .= "Accept-Encoding: gzip\015\012";
+//			$request .= "Accept-Encoding: gzip".CRLF;
 
 		// finalize the request
-		$request .= $headers."\015\012".$data;
+		$request .= $headers.CRLF.$data;
 		if($debug)
 			Logger::remember($debug, 'http request', $request, 'debug');
 

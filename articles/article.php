@@ -641,7 +641,7 @@ Class Article extends Anchor {
 		preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $text);
 
 		// separate headers from body, if any
-		$items = explode("\015\012\015\012", $text, 2);
+		$items = explode(CRLF.CRLF, $text, 2);
 		$headers = $items[0];
 		if(isset($items[1]))
 			$body = "\n\n".$items[1];

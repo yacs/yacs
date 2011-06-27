@@ -83,11 +83,11 @@ Class Link {
 			$path .= '?'.$items['query'];
 
 		// send an HTTP request
-		fputs($handle, 'HEAD '.$path." HTTP/1.0\015\012"
-			.'Host: '.$host."\015\012"
-			."User-Agent: YACS (www.yacs.fr)\015\012"
-			."Connection: close\015\012"
-			."\015\012");
+		fputs($handle, 'HEAD '.$path." HTTP/1.0".CRLF
+			.'Host: '.$host.CRLF
+			."User-Agent: YACS (www.yacs.fr)".CRLF
+			."Connection: close".CRLF
+			.CRLF);
 
 		// we are interested into the header only
 		$response = '';
@@ -97,7 +97,7 @@ Class Link {
 			$chunk = fread($handle, 1500);
 
 			// split on headers boundary
-			$here = strpos($chunk, "\015\012\015\012");
+			$here = strpos($chunk, CRLF.CRLF);
 			if($here !== FALSE) {
 				$chunk = substr($chunk, 0, $here);
 				$response .= $chunk;
@@ -110,7 +110,7 @@ Class Link {
 		fclose($handle);
 
 		// split headers into lines
-		$lines = explode("\015\012", $response);
+		$lines = explode(CRLF, $response);
 
 		// ensure we have a valid HTTP status line
 		if(!preg_match('/^HTTP\/[0-9\.]+ 20\d /', $lines[0])) {
