@@ -400,7 +400,7 @@ Class rss_Codec extends Codec {
 	function export_request($service, $parameters = NULL) {
 
 		// do the job
-		return rss_Codec::encode($values);
+		return rss_Codec::encode($parameters);
 	}
 
 	/**
