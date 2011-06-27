@@ -273,6 +273,7 @@ $_SESSION['l10n']['fr']['Overlay']='Overlay';
 $_SESSION['l10n']['fr']['Owner']='Propriétaire';
 $_SESSION['l10n']['fr']['Owner of %s']='Propriétaire de %s';
 $_SESSION['l10n']['fr']['Page has been modified by %s']='La page a été modifiée par %s';
+$_SESSION['l10n']['fr']['Page has been published by %s']='La page a été publiée par %s';
 $_SESSION['l10n']['fr']['Pages']='Articles';
 $_SESSION['l10n']['fr']['9395d63e2f35e55bb88eb5c03c766146']='Les articles ne sont pas contrôlés avant publication';
 $_SESSION['l10n']['fr']['Person']='Personne';
