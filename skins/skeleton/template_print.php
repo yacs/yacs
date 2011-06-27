@@ -19,7 +19,7 @@ defined('YACS') or exit('Script must be included');
 		.small, .tiny, .toc_box { font-size: smaller; }
 	</style>
 <?php // other components of the head
-echo $context['page_header'];
+Page::meta();
 ?>
 </head>
 <body onLoad='javascript:print();'>

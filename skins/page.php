@@ -545,6 +545,21 @@
 	}
 
 	/**
+	 * generate content of the &lt;head&gt; tag
+	 */
+	function meta() {
+		global $context;
+
+		// other head directives
+		echo $context['page_header'];
+
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
+
+	}
+
+	/**
 	 * build a header panel with background
 	 *
 	 * This function builds a nice header panel that may include following elements:

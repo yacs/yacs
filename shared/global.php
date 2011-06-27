@@ -1319,6 +1319,10 @@ function render_skin($with_last_modified=TRUE) {
 			echo ' - '.$context['site_name'];
 		echo '</title>';
 
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
+
 		echo "</head>\n<body>\n";
 
 		// display the title

@@ -27,8 +27,18 @@ $context['page_title'] = i18n::s('Hello world');
 // render the page
 render_skin();
 
-// render_skin() calls send_body(), which can execute any code and generate any output
+// most skin templates call send_meta() to echo customized tags in the <head> tag
+function send_meta() {
+	global $context;
+
+	// you can generate something directly, or include any other script able to echo meta tags
+	echo "\t".'<meta name="embedded" content="by tools/embed.php" />'."\n";
+
+}
+
+// most skin templates call send_body(), which can execute any code and generate any output
 function send_body() {
+	global $context;
 
 	// load another script that will generate some text
 	include 'echo.php';
