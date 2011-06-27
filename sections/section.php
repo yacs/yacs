@@ -1327,6 +1327,30 @@ Class Section extends Anchor {
 
 				}
 
+			// an article has been published
+			} elseif($action == 'article:publish') {
+				if(($target = Articles::get($origin)) && $target['id']) {
+
+					// message components
+					$summary = sprintf(i18n::c('Page has been published by %s'), $surfer);
+					$title = ucfirst(strip_tags($target['title']));
+					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+
+					// message subject
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
+
+					// threads messages
+					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
+
+					// message to watchers
+					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+
+					// special case of article watchers
+					if($to_watchers)
+						Users::alert_watchers('article:'.$target['id'], $mail);
+
+				}
+
 			// an article has been updated
 			} elseif($action == 'article:update') {
 				if(($target = Articles::get($origin)) && $target['id']) {
