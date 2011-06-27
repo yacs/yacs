@@ -2,19 +2,17 @@
 /**
  * the database abstraction layer for comments
  *
- * @todo add a field to count words in a post
+ * Comments can be used either to attach short notes to content, or to support discussion threading.
  *
- * Comments are not intended to create complex threading systems.
- * They are more or less to be used as sticky notes aside published pages.
- *
- * At the moment YACS supports following comment types:
+ * Yacs supports following comment types:
  * - attention - it's worth the reading
+ * - dislike - thumbs down - I dislike it
  * - done - job has been completed
  * - idea - to submit a new suggestion
- * - information - answering a previous request
+ * - information - my two cents
  * - question - please help
- * - thumbs down - I dislike it
- * - thumbs up - I enjoy this
+ * - like - thumbs up, I enjoy this
+ * - notification - a special type used on automatic comment creation (e.g., from overlays)
  * - warning - you should take care
  *
  * @author Bernard Paques

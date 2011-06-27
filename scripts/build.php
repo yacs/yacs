@@ -2,9 +2,6 @@
 /**
  * build the reference store for this server
  *
- * @todo add sample configuration scripts
- * @todo produce a .sql file to create database
- *
  * This script behaves as follows:
  * - the script aborts if the user is not an associate
  * - else if this is not a POST, a confirmation form is displayed

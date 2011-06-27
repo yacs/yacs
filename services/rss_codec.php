@@ -2,8 +2,6 @@
 /**
  * rss 2.0 encoder and decoder
  *
- * @todo decode using preg_match(), to fix parsing overflow?
- *
  * We are not providing the &lt;author&gt; field anymore because of the risk to expose e-mail addresses to spammers.
  *
  * @link http://blogs.law.harvard.edu/tech/rss RSS 2.0 Specification
@@ -130,8 +128,6 @@ Class rss_Codec extends Codec {
 					$this->current_item[$this->current_field] = $text;
 			}
 
-//			echo '.'.$this->current_item[$this->current_field].BR;
-
 		// we are describing a textinput
 		} elseif($this->elements_stack[0] == 'textinput') {
 			if(isset($this->current_name_space) && $this->current_name_space) {
@@ -163,9 +159,10 @@ Class rss_Codec extends Codec {
 	}
 
 
+	/**
+	 * parse closing tag
+	 */
 	function parse_end_element($parser, $element) {
-
-//		echo '[/'.$element.']'.BR;
 
 		if($element == 'item') {
 			$this->items[] = $this->current_item;
@@ -178,9 +175,10 @@ Class rss_Codec extends Codec {
 		$this->current_name_space = false;
 	}
 
+	/**
+	 * parse opening tag
+	 */
 	function parse_start_element($parser, $element, $attributes) {
-
-//		echo '['.$element.']'.BR;
 
 		// check for a name_space, and split if found
 		$name_space = false;
@@ -233,7 +231,7 @@ Class rss_Codec extends Codec {
 	}
 
 	/**
-	 * encode some PHP value into XML
+	 * encode PHP data into RSS
 	 *
 	 * Accept following values:
 	 * - $values['channel']['title'] is a string
@@ -350,14 +348,11 @@ Class rss_Codec extends Codec {
 
 				// use unicode entities, and escape & chars that are not part of an entity
 				if($description)
-//					$text .= '		<body xmlns="http://www.w3.org/1999/xhtml">'.preg_replace('/&(?!(amp|#\d+);)/i', '&amp;', utf8::transcode($description))."</body>\n";
 					$text .= '		<content:encoded><![CDATA[ '.str_replace(']]>', ']]]]><![CDATA[>', $description)." ]]></content:encoded>\n";
 
 				// do not express mail addresses, but only creator name, which is between ()
-				if(preg_match('/\((.*?)\)/', $author, $matches)) {
-//					$text .= '		<author>'.rss_codec::clean($author)."</author>\n";
+				if(preg_match('/\((.*?)\)/', $author, $matches))
 					$text .= '		<dc:creator>'.rss_codec::clean($matches[1])."</dc:creator>\n";
-				}
 
 				// do not put any attribute, it would kill FeedReader
 				if($section)

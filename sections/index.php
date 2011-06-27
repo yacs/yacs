@@ -2,8 +2,6 @@
 /**
  * the index page for sections
  *
- * @todo allow for a freemind version
- *
  * At any YACS system, each and every page is anchored to one (yes, only one) section.
  * You can view sections as the top-level containers of information published at your site.
  *
