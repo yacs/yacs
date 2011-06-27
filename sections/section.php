@@ -1255,7 +1255,8 @@ Class Section extends Anchor {
 		}
 
 		// send alerts on new item, or on article modification, or on section modification
-		if(preg_match('/(:create|article:update|section:update)$/i', $action)) {
+		if(preg_match('/:create$/i', $action)
+			|| !strncmp($action, 'article:', strlen('article:')) || !strncmp($action, 'section:', strlen('section:'))) {
 
 			// poster name
 			$surfer = Surfer::get_name();
@@ -1269,8 +1270,48 @@ Class Section extends Anchor {
 			// nothing done yet
 			$summary = $title = $link = '';
 
+			// a comment has been added to a page in this section
+			if($action == 'article:comment') {
+				if(($target = Articles::get($origin)) && $target['id']) {
+
+					// mail subject
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
+
+					// look for the last comment
+					if($comment = Comments::get_newest_for_anchor('article:'.$origin)) {
+
+						// last contributor
+						$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
+
+						// last contribution
+						$contribution = $comment['description'];
+
+						// display signature, but not for notifications
+						if($comment['type'] != 'notification')
+							$contribution .= Users::get_signature($comment['create_id']);
+
+						// title with link to the commented page
+						$page_title_link = '<a href="'.$context['url_to_home']
+							.$context['url_to_root']
+							.Articles::get_permalink($target)
+							.'">'.$target['title'].'</a>';
+
+						// insert the full content of the comment, to provide the full information
+						$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
+							.'<div style="margin: 1em 0;">'.Codes::beautify($contribution).'</div>';
+
+						// offer to react to the comment
+						$title = i18n::s('Reply');
+						$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($comment['id'], 'reply');
+
+						// threads messages
+						$mail['headers'] = Mailer::set_thread('comment:'.$comment['id'], 'article:'.$target['id']);
+
+					}
+				}
+
 			// an article has been added to the section
-			if($action == 'article:create') {
+			} else if($action == 'article:create') {
 				if(($target = Articles::get($origin)) && $target['id']) {
 
 					// message components
@@ -1405,31 +1446,26 @@ Class Section extends Anchor {
 
 			}
 
-			// alert only watchers of this section
-			if($action == 'article:update') {
+			// scope of notifications is the originating page, and its parent section
+			if(!strncmp($action, 'article:', strlen('article:'))) {
 
-				// we will re-use the message sent to page watchers
-				if(isset($mail['message'])) {
+				// message to watchers
+				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
-					// reference of this section only
-					$container = $this->get_reference();
-
-					// autorized users
-					$restricted = NULL;
-					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
-						foreach($editors as $editor)
-							if(strpos($editor, 'user:') === 0)
-								$restricted[] = substr($editor, strlen('user:'));
-					}
-
-					// alert all watchers at once
-					if($to_watchers)
-						Users::alert_watchers($container, $mail, $restricted);
-
+				// autorized users
+				$restricted = NULL;
+				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+					foreach($editors as $editor)
+						if(strpos($editor, 'user:') === 0)
+							$restricted[] = substr($editor, strlen('user:'));
 				}
 
-			// alert only watchers of parent section
-			} elseif($action == 'section:update') {
+				// alert watchers of this section
+				if($to_watchers)
+					Users::alert_watchers($this->get_reference(), $mail, $restricted);
+
+			// scope of notification is this ection, and its parent section
+			} elseif(!strncmp($action, 'section:', strlen('section:'))) {
 
 				// we will re-use the message sent to section watchers
 				if(isset($mail['message']) && ($container = $this->get_parent())) {
