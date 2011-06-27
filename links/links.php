@@ -1066,16 +1066,16 @@ Class Links {
 			.'&url='.urlencode($source)
 			.'&excerpt='.urlencode($excerpt)
 			.'&blog_name='.urlencode($blog_name);
-		$headers = 'Content-Type: application/x-www-form-urlencoded'."\015\012"
-			.'Content-Length: '.strlen($data)."\015\012";
+		$headers = 'Content-Type: application/x-www-form-urlencoded'.CRLF
+			.'Content-Length: '.strlen($data).CRLF;
 
 		// actual trackback, through HTTP POST
-		$request = "POST ".$path." HTTP/1.0\015\012"
-			.'Host: '.$host."\015\012"
-			."User-Agent: YACS (www.yacs.fr)\015\012"
-			."Connection: close\015\012"
+		$request = "POST ".$path." HTTP/1.0".CRLF
+			.'Host: '.$host.CRLF
+			."User-Agent: YACS (www.yacs.fr)".CRLF
+			."Connection: close".CRLF
 			.$headers
-			."\015\012"
+			.CRLF
 			.$data;
 
 		// save the request if debug mode

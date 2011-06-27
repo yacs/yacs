@@ -44,7 +44,7 @@ if(is_callable('session_cache_limiter'))
 if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 	session_start();
 
-// used in many technical specifications
+// used to end lines in many technical specifications
 if(!defined('CRLF'))
 	define('CRLF', "\x0D\x0A");
 
