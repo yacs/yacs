@@ -1156,8 +1156,18 @@ Class Article extends Anchor {
 			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards
-		if(is_object($this->anchor))
-			$this->anchor->touch('article:update', $this->item['id'], TRUE, $to_watchers);
+		if(is_object($this->anchor)) {
+
+			// notify the full contribution to section watcher
+			if($action == 'comment:create')
+				$action = 'article:comment';
+
+			// default case
+			else
+				$action = 'article:update';
+
+			$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
+		}
 
 	}
 
