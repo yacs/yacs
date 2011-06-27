@@ -185,6 +185,7 @@ $_SESSION['l10n']['fr']['No recipient has been found.']='Aucun destinataire n\'a
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
 $_SESSION['l10n']['fr']['No vote']='Aucun vote';
 $_SESSION['l10n']['fr']['eade49618563da311f01c557b52f763a']='Personne n\'a été assigné à cette page.';
+$_SESSION['l10n']['fr']['Notify my followers']='Alerter mes abonnés';
 $_SESSION['l10n']['fr']['Notify participants']='Notifier les participants';
 $_SESSION['l10n']['fr']['Notify watchers']='Alerter les observateurs';
 $_SESSION['l10n']['fr']['Number']='Numéro';
