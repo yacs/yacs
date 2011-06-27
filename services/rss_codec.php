@@ -269,6 +269,7 @@ Class rss_Codec extends Codec {
 				.'	xmlns:atom="http://www.w3.org/2005/Atom" '."\n"
 				.'	xmlns:content="http://purl.org/rss/1.0/modules/content/" '."\n"
 				.'	xmlns:dc="http://purl.org/dc/elements/1.1/" '."\n"
+				.'	xmlns:georss="http://www.georss.org/georss" '."\n"
 				.'	xmlns:icbm="http://postneo.com/icbm" '."\n"
 				.'	xmlns:slash="http://purl.org/rss/1.0/modules/slash/" '."\n"
 				.'	xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/" '."\n"
@@ -307,6 +308,7 @@ Class rss_Codec extends Codec {
 			list($latitude, $longitude) = preg_split('/[ ,\t]+/', $context['site_position']);
 			$text .= '	<icbm:latitude>'.rss_codec::clean($latitude).'</icbm:latitude>'."\n";
 			$text .= '	<icbm:longitude>'.rss_codec::clean($longitude).'</icbm:longitude>'."\n";
+			$text .= '	<georss:point>'.str_replace(',', ' ', $context['site_position']).'</georss:point>'."\n";
 		}
 
 		$text .= '	<lastBuildDate>'.gmdate('D, d M Y H:i:s').' GMT</lastBuildDate>'."\n"
