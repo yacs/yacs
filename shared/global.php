@@ -1234,9 +1234,6 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
 
-	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
-
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
 		$context['page_footer'] .= $context['site_trailer']."\n";
@@ -1285,7 +1282,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
+	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
