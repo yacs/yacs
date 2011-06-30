@@ -16,11 +16,11 @@ Class Js_Css {
      *
      * @param string relative path to local script file
      * @param string place in page to load the script, "footer" or "header"
-     * @return <type> 
+     * @return <type>
      */
     function add_external_js($path,$target='footer') {
 	global $context;
-	
+
 	if(!file_exists($context['path_to_root'].$path))
 	    return;
 
@@ -43,11 +43,11 @@ Class Js_Css {
 
     /**
      * build html declaration to a js file
-     * 
+     *
      * @todo select XHTML or HTML5 format
-     * 
+     *
      * @param string path to the file
-     * @return string 
+     * @return string
      */
     function build_js_declaration($path) {
 
@@ -73,10 +73,12 @@ Class Js_Css {
 	$html = '';
 
 	// cache this across requests
-	$cache_id = 'shared/js_css.php#lib_'.$folder;
-	if($html =& Cache::get($cache_id))
-	    return $html;
-	
+	if($context['with_debug']=='N') {
+	    $cache_id = 'shared/js_css.php#lib_'.$folder;
+	    if($html =& Cache::get($cache_id,true))
+		return $html;
+	}
+
 	// path to search for js file, default is "include/browser"
 	$path = 'included/browser/'.(($folder)?$folder.'/':'');
 
@@ -94,11 +96,11 @@ Class Js_Css {
 	    Safe::closedir($dir);
 
 	}
-	
+
 	if($js_libs) {
 	    // files can be renamed with a letters prefix to sort loading from browsers
 	    natsort($js_libs);
-	    // build declaration	    
+	    // build declaration
 	    foreach ($js_libs as $js) {
 		$html .= Js_Css::build_js_declaration($context['url_to_root'].$path.$js);
 	    }
