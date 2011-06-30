@@ -83,7 +83,10 @@ Class Js_Css {
 	$path = 'included/browser/'.(($folder)?$folder.'/':'');
 
 	// scan for js files in folder
-	$js_libs = Js_css::scan_dir_for_js($path);
+	$js_libs = array();
+	foreach(Safe::glob($context['path_to_root'].$path.'*.js') as $file) {
+	   $js_libs[]= basename($file);
+	}
 
 	if($js_libs) {
 	    // files can be renamed with a letter prefix to sort loading from browsers
@@ -109,31 +112,5 @@ Class Js_Css {
 	return $html;
     }
 
-    /**
-     * find javascript files in a given directory
-     *
-     * @param string path to directory
-     * @return array of file's basename
-     */
-    function scan_dir_for_js($path) {
-
-	$js_libs = null;
-
-	if($dir = Safe::opendir($path)) {
-
-	    $js_libs = array();
-	    while(($item = Safe::readdir($dir)) !== FALSE) {
-		    if(($item[0] == '.') || is_dir($context['path_to_root'].$path.'/'.$item))
-			    continue;
-		    if(!preg_match('/^.*\.js$/i', $item))
-			    continue;
-		    $js_libs[] = $item;
-	    }
-	    Safe::closedir($dir);
-
-	}
-
-	return $js_libs;
-    }
 }
 ?>
