@@ -2,8 +2,6 @@
 /**
  * Static functions used to load JavaScript libraries and Cascading Style Sheet
  *
- * will optimize the use of external scripts (automatic minifying and merging)
- *
  * @author  Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -72,35 +70,26 @@ Class Js_Css {
 	// we provide html tags links to scripts files
 	$html = '';
 
-	// cache this across requests
+	// in production mode, provide link without scanning if compressed lib is present
 	if($context['with_debug']=='N') {
-	    $cache_id = 'shared/js_css.php#lib_'.$folder;
-	    if($html =& Cache::get($cache_id,true))
+	    $path = 'included/browser/library_'.$folder.'.min.js';
+	    if(file_exists($context['path_to_root'].$path)) {
+		$html = Js_Css::build_js_declaration($context['url_to_root'].$path);
 		return $html;
+	    }
 	}
 
 	// path to search for js file, default is "include/browser"
 	$path = 'included/browser/'.(($folder)?$folder.'/':'');
 
 	// scan for js files in folder
-	if($dir = Safe::opendir($path)) {
-
-	    $js_libs = array();
-	    while(($item = Safe::readdir($dir)) !== FALSE) {
-		    if(($item[0] == '.') || is_dir($context['path_to_root'].$path.'/'.$item))
-			    continue;
-		    if(!preg_match('/^.*\.js$/i', $item))
-			    continue;
-		    $js_libs[] = $item;
-	    }
-	    Safe::closedir($dir);
-
-	}
+	$js_libs = Js_css::scan_dir_for_js($path);
 
 	if($js_libs) {
-	    // files can be renamed with a letters prefix to sort loading from browsers
+	    // files can be renamed with a letter prefix to sort loading from browsers
 	    natsort($js_libs);
-	    // build declaration
+
+	    // build declarations file by file
 	    foreach ($js_libs as $js) {
 		$html .= Js_Css::build_js_declaration($context['url_to_root'].$path.$js);
 	    }
@@ -117,9 +106,34 @@ Class Js_Css {
 
 	}
 
-	// cache for 1 month
-	Cache::put($cache_id, $html, 'stable',2592000);
 	return $html;
+    }
+
+    /**
+     * find javascript files in a given directory
+     *
+     * @param string path to directory
+     * @return array of file's basename
+     */
+    function scan_dir_for_js($path) {
+
+	$js_libs = null;
+
+	if($dir = Safe::opendir($path)) {
+
+	    $js_libs = array();
+	    while(($item = Safe::readdir($dir)) !== FALSE) {
+		    if(($item[0] == '.') || is_dir($context['path_to_root'].$path.'/'.$item))
+			    continue;
+		    if(!preg_match('/^.*\.js$/i', $item))
+			    continue;
+		    $js_libs[] = $item;
+	    }
+	    Safe::closedir($dir);
+
+	}
+
+	return $js_libs;
     }
 }
 ?>
