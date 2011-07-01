@@ -525,18 +525,12 @@ if($with_form) {
 	$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
 	$fields[] = array($label, $input);
 
-	// the change
-	$label = i18n::s('Version');
-	$input = '<textarea name="version" rows="3" cols="50"></textarea>';
-	$hint = i18n::s('What is new in this file?');
-	$fields[] = array($label, $input, $hint);
-
-	// the history
-	if(isset($item['description'])) {
-		$label = i18n::s('History');
-		$input = Skin::build_block($item['description'], 'description');
-		$fields[] = array($label, $input);
-	}
+	// history of changes
+	$label = i18n::s('History');
+	$input = '<span class="details">'.i18n::s('What is new in this file?').'</span>'.BR.'<textarea name="version" rows="3" cols="50"></textarea>';
+	if(isset($item['description']))
+		$input .= Skin::build_block($item['description'], 'description');
+	$fields[] = array($label, $input);
 
 	// build the form
 	$text .= Skin::build_form($fields);
