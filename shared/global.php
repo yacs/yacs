@@ -568,7 +568,7 @@ function &encode_field($text) {
 function &encode_link($link) {
 
 	// suppress invalid chars, if any
-	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $link), ' _');
+	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', str_replace(' ', '%20', $link)), ' _');
 
 	// transform & to &amp;
 	$output = str_replace('&', '&amp;', $output);
