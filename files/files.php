@@ -743,6 +743,7 @@ Class Files {
 				'shtml' => $files_icons_url.'html_icon.gif',
 				'snd' => $files_icons_url.'sound_icon.png', 		// audio/basic
 				'sql' => $files_icons_url.'text_icon.gif',
+				'srt' => $files_icons_url.'text_icon.gif',			// video/subtitle
 				'stc' => $files_icons_url.'ooo_calc_icon.png',		// open document spreadsheet template
 				'std' => $files_icons_url.'ooo_draw_icon.png',		// open document drawing template
 				'sti' => $files_icons_url.'ooo_impress_icon.png',	// open document presentation template
@@ -963,6 +964,7 @@ Class Files {
 				'shtml' => 'text/html',
 				'snd' => 'audio/basic',
 				'sql' => 'text/plain',
+				'srt' => 'video/subtitle',
 				'stc' => 'application/vnd.sun.xml.calc.template',		// open document spreadsheet template
 				'std' => 'application/vnd.sun.xml.draw.template',		// open document drawing template
 				'sti' => 'application/vnd.sun.xml.impress.template',	// open document presentation template
