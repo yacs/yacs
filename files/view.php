@@ -487,9 +487,9 @@ if(!isset($item['id'])) {
 	$description = '';
 
 	// the list of people who have fetched this file, for owners and associates
-	if(Files::allow_modification($anchor, $item) && ($users = Activities::list_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
+	if(Files::allow_modification($anchor, $item) && ($users = Activities::list_users_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
 
-		$count = Activities::count_at('file:'.$item['id'], 'fetch');
+		$count = Activities::count_users_at('file:'.$item['id'], 'fetch');
 		if($count > 30)
 			$more = ' ...';
 		else
