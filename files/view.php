@@ -176,10 +176,6 @@ if(!isset($item['id'])) {
 	// add canonical link
 	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Files::get_permalink($item).'" />';
 
-	// the file icon, if any
-	if(isset($item['icon_url']) && $item['icon_url'])
-		$context['page_image'] = $item['icon_url'];
-
 	// do not mention details to crawlers
 	if(!Surfer::is_crawler()) {
 
@@ -351,8 +347,11 @@ if(!isset($item['id'])) {
 	// offer video streaming, where applicable
 	if(Files::is_video_stream($item['file_name'])) {
 
-		// explain what streaming is about
-		$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
+		// embed the player for streamed video files
+		if(!$description = Codes::render_embed($item['id']))
+
+			// explain what streaming is about
+			$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
 		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
@@ -819,9 +818,15 @@ if(!isset($item['id'])) {
 	// hovering the link
 	$title = i18n::s('Get a copy of this file');
 
+	// a clickable thumbnail to download the file
+	if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+		$icon = '<img src="'.$item['thumbnail_url'].'" alt="'.$title.'" />';
+	else
+		$icon = '<img src="'.Files::get_icon_url($item['file_name']).'" alt="'.$title.'" />';
+
 	// file is available to download
 	Skin::define_img('DOWNLOAD_IMG', 'files/download.gif');
-	$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_download">'.DOWNLOAD_IMG.' '.sprintf(i18n::s('Download %s'), str_replace('_', ' ', $item['file_name'])).'</a>';
+	$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_download">'.$icon.' '.sprintf(i18n::s('Download %s'), str_replace('_', ' ', $item['file_name'])).'</a>';
 
 	// use a definition list to enable customization of the download box
 	$context['text'] .= '<dl class="download">'
