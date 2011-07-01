@@ -1214,6 +1214,56 @@ Class Files {
 	}
 
 	/**
+	 * scan a file for viruses
+	 *
+	 * This function connects to ClamAV daemon, if possible, to scan the referred file.
+	 *
+	 * @param string absolute path of the file to scan
+	 * @return string 'Y' if the file has been infected, '?' if clamav is not available, or 'N' if no virus has been found
+	 */
+	function has_virus($file) {
+		global $context;
+
+		// we can't connect to clamav daemon
+		$server = 'localhost';
+		if(!$handle = Safe::fsockopen($server, 3310, $errno, $errstr, 1)) {
+			if($context['with_debug'] == 'Y')
+				Logger::remember('files/files.php', 'Unable to connect to CLAMAV daemon', '', 'debug');
+			return 'N';
+		}
+
+		// ensure enough execution time
+		Safe::set_time_limit(30);
+
+		// scan uploaded file
+		$request = 'SCAN '.$file_upload;
+		fputs($handle, $request.CRLF);
+		if($context['with_debug'] == 'Y')
+			Logger::remember('files/files.php', 'CLAMAV ->', $request, 'debug');
+
+		// expecting an OK
+		if(($reply = fgets($handle)) === FALSE) {
+			Logger::remember('files/files.php', 'No reply to SCAN command at '.$server);
+			fclose($handle);
+			return '?';
+		}
+//		if($context['with_debug'] == 'Y')
+			Logger::remember('files/files.php', 'CLAMAV <-', $reply, 'debug');
+
+		// file has been infected!
+		if(!stripos($reply, ': ok')) {
+			Logger::remember('files/files.php', 'Infected upload by '.Surfer::get_name());
+			fclose($handle);
+			return 'Y';
+		}
+
+		// everything is ok
+		fclose($handle);
+		return 'N';
+
+	}
+
+	/**
 	 * set the hits counter - errors are not reported, if any
 	 *
 	 * @param the id of the file to update

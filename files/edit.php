@@ -208,46 +208,61 @@ if(Surfer::is_crawler()) {
 		// remember file size
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
-		// attach some file
-		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
-			$_REQUEST['file_name'] = $file_name;
+		// scan the uploaded file for virus
+		$result = Files::has_virus($_FILES['upload']['tmp_name']);
 
-			// actually, a new file
-			$action = 'file:create';
+		// this file has been infected!
+		if($result == 'Y')
+			Logger::error(i18n::s('This file has been infected by a virus and has been rejected!'));
 
-			// always remember file uploads, for traceability
-			if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
-				$_REQUEST['version'] = '';
-			else
-				$_REQUEST['version'] = ' - '.$_REQUEST['version'];
+		// continue the processing
+		else {
 
-			$_REQUEST['version'] = $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+			// no virus has been found in this file
+			if($result == 'N')
+				$context['text'] .= '<p>'.i18n::s('No virus has been found in this file.').'</p>';
 
-		}
+			// move the file to the right place
+			if($file_name = Files::upload($_FILES['upload'], $file_path)) {
+				$_REQUEST['file_name'] = $file_name;
 
-		// maybe this file has already been uploaded for this anchor
-		if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
+				// actually, a new file
+				$action = 'file:create';
 
-			// if yes, switch to the matching record (and forget the record fetched previously, if any)
-			$_REQUEST['id'] = $match['id'];
-			$item = $match;
-		}
+				// always remember file uploads, for traceability
+				if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
+					$_REQUEST['version'] = '';
+				else
+					$_REQUEST['version'] = ' - '.$_REQUEST['version'];
 
-		// silently delete the previous file if the name has changed
-		if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
-			Safe::unlink($file_path.'/'.$item['file_name']);
+				$_REQUEST['version'] = $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
 
-		// if the file is an image, create a thumbnail for it
-		if(($image_information = Safe::GetImageSize($file_path.'/'.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
+				// maybe this file has already been uploaded for this anchor
+				if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
 
-			// derive a thumbnail image
-			$thumbnail_name = 'thumbs/'.$file_name;
-			include_once $context['path_to_root'].'images/image.php';
-			Image::shrink($context['path_to_root'].$file_path.'/'.$file_name, $context['path_to_root'].$file_path.'/'.$thumbnail_name, FALSE, TRUE);
+					// if yes, switch to the matching record (and forget the record fetched previously, if any)
+					$_REQUEST['id'] = $match['id'];
+					$item = $match;
+				}
 
-			// remember the address of the thumbnail
-			$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
+				// silently delete the previous file if the name has changed
+				if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
+					Safe::unlink($file_path.'/'.$item['file_name']);
 
+				// if the file is an image, create a thumbnail for it
+				if(($image_information = Safe::GetImageSize($file_path.'/'.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
+
+					// derive a thumbnail image
+					$thumbnail_name = 'thumbs/'.$file_name;
+					include_once $context['path_to_root'].'images/image.php';
+					Image::shrink($context['path_to_root'].$file_path.'/'.$file_name, $context['path_to_root'].$file_path.'/'.$thumbnail_name, FALSE, TRUE);
+
+					// remember the address of the thumbnail
+					$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
+
+				}
+
+			}
 		}
 
 		// we have a real file, not a reference
@@ -297,8 +312,6 @@ if(Surfer::is_crawler()) {
 	// make the file name searchable on initial post
 	if(!isset($_REQUEST['id']) && isset($_REQUEST['file_name']))
 		$_REQUEST['keywords'] .= ' '.str_replace(array('%20', '_', '.', '-'), ' ', $_REQUEST['file_name']);
-
-	// hook to index binary files
 
 	// an error has already been encoutered
 	if(count($context['error'])) {
