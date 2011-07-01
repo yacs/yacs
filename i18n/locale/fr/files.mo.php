@@ -191,7 +191,6 @@ $_SESSION['l10n']['fr']['Upload another file']='Ajouter un autre fichier';
 $_SESSION['l10n']['fr']['Use FTP']='Utiliser FTP';
 $_SESSION['l10n']['fr']['d1ec6c64d705f2700ae41fb5a3f440dc']='Codes pour référencer ce fichier : %s';
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
-$_SESSION['l10n']['fr']['Version']='Version';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View file details']='Voir les détails du fichier';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';

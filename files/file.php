@@ -259,23 +259,15 @@ Class File extends Anchor {
 
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
-			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
+			// make it the main image for this file
+			include_once $context['path_to_root'].'images/images.php';
+			if(($image = Images::get($origin)) && ($url = Images::get_icon_href($image)))
+				$query[] = "icon_url = '".SQL::escape($url)."'";
 
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
-			}
-
-			// also use it as thumnail if none has been defined yet
-			if(!isset($this->item['thumbnail_url']) || !trim($this->item['thumbnail_url'])) {
-				include_once $context['path_to_root'].'images/images.php';
-				if(($image = Images::get($origin)) && ($url = Images::get_thumbnail_href($image)))
-					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-			}
+			// also use it as thumnail
+			if(($image = Images::get($origin)) && ($url = Images::get_thumbnail_href($image)))
+				$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 
 			// refresh stamp only if file update occurs within 6 hours after last edition
 			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
