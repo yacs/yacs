@@ -1231,14 +1231,14 @@ Class Files {
 		if(!$handle = Safe::fsockopen($server, 3310, $errno, $errstr, 1)) {
 			if($context['with_debug'] == 'Y')
 				Logger::remember('files/files.php', 'Unable to connect to CLAMAV daemon', '', 'debug');
-			return 'N';
+			return '?';
 		}
 
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
 		// scan uploaded file
-		$request = 'SCAN '.$file_upload;
+		$request = 'SCAN '.$file;
 		fputs($handle, $request.CRLF);
 		if($context['with_debug'] == 'Y')
 			Logger::remember('files/files.php', 'CLAMAV ->', $request, 'debug');
@@ -2655,8 +2655,28 @@ Class Files {
 			if(!Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
 				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
-			// this will be filtered by umask anyway
+			// continue the processing
 			else {
+
+				// check viruses
+				$result = Files::has_virus($context['path_to_root'].$file_path.'/'.$file_name);
+
+				// no virus has been found in this file
+				if($result == 'N')
+					$context['text'] .= Skin::build_block(i18n::s('No virus has been found in this file.'), 'note');
+
+				// this file has been infected!
+				if($result == 'Y') {
+
+					// delete this file immediately
+					Safe::unlink($file_path.'/'.$file_name);
+
+					Logger::error(i18n::s('This file has been infected by a virus and has been rejected!'));
+					return FALSE;
+
+				}
+
+				// this will be filtered by umask anyway
 				Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
 
 				// invoke post-processing function
