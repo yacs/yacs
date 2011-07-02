@@ -340,7 +340,7 @@ if(!isset($item['id'])) {
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl>'."\n";
+			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
 
@@ -360,7 +360,7 @@ if(!isset($item['id'])) {
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl>'."\n";
+			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
 
@@ -374,7 +374,7 @@ if(!isset($item['id'])) {
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
-			.'</dl>'."\n";
+			.'</dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
 
@@ -391,7 +391,7 @@ if(!isset($item['id'])) {
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl>'."\n";
+			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
 
@@ -411,7 +411,7 @@ if(!isset($item['id'])) {
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl>'."\n";
+			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
 
@@ -819,9 +819,9 @@ if(!isset($item['id'])) {
 	$title = i18n::s('Get a copy of this file');
 
 	// a clickable thumbnail to download the file
-	if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-		$icon = '<img src="'.$item['thumbnail_url'].'" alt="'.$title.'" />';
-	else
+//	if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+//		$icon = '<img src="'.$item['thumbnail_url'].'" alt="'.$title.'" />';
+//	else
 		$icon = '<img src="'.Files::get_icon_url($item['file_name']).'" alt="'.$title.'" />';
 
 	// file is available to download
