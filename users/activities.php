@@ -65,7 +65,7 @@ Class Activities {
 
 		// the list of activities
 		$query = "SELECT DISTINCT edit_id	FROM ".SQL::table_name('activities')." AS activities"
-			." WHERE ".$where." AND edit_id > 0";
+			." WHERE ".$where." AND (edit_id > 0)";
 
 		// count records
 		return SQL::query_count($query);
@@ -165,7 +165,7 @@ Class Activities {
 			.", ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			." AND (users.id = activities.edit_id)"
-			." GROUP BY activities.action ORDER BY activities.edit_date DESC LIMIT ".$count;
+			." GROUP BY users.id ORDER BY activities.edit_date DESC LIMIT ".$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -219,7 +219,7 @@ Class Activities {
 		$indexes['INDEX action']	= "(action)";
 		$indexes['INDEX anchor']	= "(anchor)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
-		$indexes['INDEX edit_id'] 	= "(user_id)";
+		$indexes['INDEX edit_id'] 	= "(edit_id)";
 
 		return SQL::setup_table('activities', $fields, $indexes);
 	}
