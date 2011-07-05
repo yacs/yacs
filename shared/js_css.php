@@ -29,7 +29,14 @@ Class Js_Css {
 	$context['javascript'][$target] .= $html;
 	}
 
-	function add_inline_js($script_text,$target='footer') {
+	function add_inline_js($script,$target='footer') {
+		global $context;
+
+		// create target if not exist
+		if(!isset($context['javascript'][$target]))
+			$context['javascript'][$target] = '';
+
+		$context['javascript'][$target] .= $script;
 
 	}
 
