@@ -468,39 +468,46 @@ if($with_form) {
 
 	// content options
 	$label = i18n::s('Options');
-	$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : 'auto_publish').'" maxlength="255" accesskey="o" />'
-		.JS_PREFIX
-		.'function append_to_content_options(keyword) {'."\n"
-		.'	var target = $("#content_options");'."\n"
-		.'	target.value = target.value + " " + keyword;'."\n"
-		.'}'."\n"
-		.JS_SUFFIX."\n";
+	$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : 'auto_publish').'" maxlength="255" accesskey="o" />';
 	$keywords = array();
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'auto_publish\')" style="cursor: pointer;">auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to change content');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to change content');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Disallow post of new comments');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Disallow post of new links');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_neighbours\')" style="cursor: pointer;">with_neighbours</a> - '.i18n::s('Add links to previous and next pages in the same section');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_wiki\')" style="cursor: pointer;">view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
+	$keywords[] = '<a>auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
+	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to change content');
+	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to change content');
+	$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+	$keywords[] = '<a>no_comments</a> - '.i18n::s('Disallow post of new comments');
+	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
+	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+	$keywords[] = '<a>no_links</a> - '.i18n::s('Disallow post of new links');
+	$keywords[] = '<a>with_neighbours</a> - '.i18n::s('Add links to previous and next pages in the same section');
+	$keywords[] = '<a>view_as_chat</a> - '.i18n::s('Real-time collaboration');
+	$keywords[] = '<a>view_as_tabs</a> - '.i18n::s('Tabbed panels');
+	$keywords[] = '<a>view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
 	$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
-		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_details\')" style="cursor: pointer;">with_details</a> - '.i18n::s('Show page details to all surfers');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'without_rating\')" style="cursor: pointer;">without_rating</a> - '.i18n::s('Surfers are not allowed to rate pages in this section');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'rate_as_digg\')" style="cursor: pointer;">rate_as_digg</a> - '.i18n::s('Ask explicitly for more votes');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_export_tools\')" style="cursor: pointer;">with_export_tools</a> - '.i18n::s('Add conversion tools to PDF, MS-Word');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_prefix_profile\')" style="cursor: pointer;">with_prefix_profile</a> - '.i18n::s('Introduce the poster before main text');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_suffix_profile\')" style="cursor: pointer;">with_suffix_profile</a> - '.i18n::s('Append some poster details at the bottom of the page');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Append some poster details aside the page (adequate to most weblogs)');
-	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+		$keywords[] = '<a>with_details</a> - '.i18n::s('Show page details to all surfers');
+	$keywords[] = '<a>without_rating</a> - '.i18n::s('Surfers are not allowed to rate pages in this section');
+	$keywords[] = '<a>rate_as_digg</a> - '.i18n::s('Ask explicitly for more votes');
+	$keywords[] = '<a>with_export_tools</a> - '.i18n::s('Add conversion tools to PDF, MS-Word');
+	$keywords[] = '<a>with_prefix_profile</a> - '.i18n::s('Introduce the poster before main text');
+	$keywords[] = '<a>with_suffix_profile</a> - '.i18n::s('Append some poster details at the bottom of the page');
+	$keywords[] = '<a>with_extra_profile</a> - '.i18n::s('Append some poster details aside the page (adequate to most weblogs)');
+	$hint = i18n::s('You may combine several keywords:').'<span id="content_options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 	$fields[] = array($label, $input, $hint);
+
+	$javascript = 	JS_PREFIX
+				.'function append_to_content_options(keyword) {'."\n"
+				.'	var target = $("#content_options");'."\n"
+				.'	target.val(target.val() + " " + keyword);'."\n"
+				.'}'."\n"
+				.'$(document).ready(function() {'."\n"
+				.'	$("#content_options_list a").bind("click",function(){'."\n"
+				.'		append_to_content_options($(this).text());'."\n"
+				.'	}).css("cursor","pointer");'."\n"
+				.'});'.JS_SUFFIX;
+	include_once $context['path_to_root'].'shared/js_css.php';
+	Js_Css::add_inline_js($javascript);
 
 	// content overlay
 	if(Surfer::is_associate()) {
@@ -1041,36 +1048,44 @@ if($with_form) {
 
 	// rendering options
 	$label = i18n::s('Rendering');
-	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-		.JS_PREFIX
-		.'function append_to_options(keyword) {'."\n"
-		.'	var target = $("#options");'."\n"
-		.'	target.value = target.value + " " + keyword;'."\n"
-		.'}'."\n"
-		.JS_SUFFIX."\n";
+	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
+
 	$keywords = array();
-	$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_publication\')" style="cursor: pointer;">articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_rating\')" style="cursor: pointer;">articles_by_rating</a> - '.i18n::s('Sort pages by rating');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_title\')" style="cursor: pointer;">articles_by_reverse_title</a> - '.i18n::s('Sort pages by reverse order of titles');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_rank\')" style="cursor: pointer;">articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_deep_news\')" style="cursor: pointer;">with_deep_news</a> - '.i18n::s('List recent pages from sub-sections');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Display profile of section owner');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+	$keywords[] = '<a>articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
+	$keywords[] = '<a>articles_by_rating</a> - '.i18n::s('Sort pages by rating');
+	$keywords[] = '<a>articles_by_title</a> - '.i18n::s('Sort pages by title');
+	$keywords[] = '<a>articles_by_reverse_title</a> - '.i18n::s('Sort pages by reverse order of titles');
+	$keywords[] = '<a>articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank');
+	$keywords[] = '<a>with_deep_news</a> - '.i18n::s('List recent pages from sub-sections');
+	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
+	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
+	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+	$keywords[] = '<a>with_extra_profile</a> - '.i18n::s('Display profile of section owner');
+	$keywords[] = '<a>with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
+	$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+	$keywords[] = '<a>view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'no_contextual_menu\')" style="cursor: pointer;">no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
-	$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
-	$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
-	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+	$keywords[] = '<a>no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
+	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
+	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
+	$hint = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 	$fields[] = array($label, $input, $hint);
+
+	$javascript = 	JS_PREFIX
+					.'function append_to_options(keyword) {'."\n"
+					.'	var target = $("#options");'."\n"
+					.'	target.val(target.val() + " " + keyword);'."\n"
+					.'}'."\n"
+					.'$(document).ready(function() {'."\n"
+					.'	$("#options_list a").bind("click",function(){'."\n"
+					.'		append_to_options($(this).text());'."\n"
+					.'	}).css("cursor","pointer");'."\n"
+					.'});'.JS_SUFFIX;
+	include_once $context['path_to_root'].'shared/js_css.php';
+	Js_Css::add_inline_js($javascript);
 
 	// language of this page
 	$label = i18n::s('Language');
