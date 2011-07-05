@@ -2,6 +2,7 @@
 	reflection.js for jQuery v1.1
 	(c) 2006-2011 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
+	Alexis Raimbault : add class rheightxx detection
 */
 
 (function($) {
@@ -18,7 +19,14 @@ $.fn.extend({
 			if (/^img$/i.test(img.tagName)) {
 				function doReflect() {
 					var imageWidth = img.width, imageHeight = img.height, reflection, reflectionHeight, wrapper, context, gradient;
-					reflectionHeight = Math.floor((options.height > 1) ? Math.min(imageHeight, options.height) : imageHeight * options.height);
+
+					var classes = $(img).attr("class").split(' ');
+					$.each(classes,function(index, value) {
+						if(value.indexOf("rheight") == 0)
+							reflectionHeight = value.substring(7);
+						});
+					if(!reflectionHeight)
+						reflectionHeight = Math.floor((options.height > 1) ? Math.min(imageHeight, options.height) : imageHeight * options.height);
 
 					reflection = $("<canvas />")[0];
 					if (reflection.getContext) {
