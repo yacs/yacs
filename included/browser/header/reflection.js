@@ -19,11 +19,10 @@ $.fn.extend({
 			if (/^img$/i.test(img.tagName)) {
 				function doReflect() {
 					var imageWidth = img.width, imageHeight = img.height, reflection, reflectionHeight, wrapper, context, gradient;
-
 					var classes = $(img).attr("class").split(' ');
 					$.each(classes,function(index, value) {
 						if(value.indexOf("rheight") == 0)
-							reflectionHeight = value.substring(7);
+							reflectionHeight = parseInt(value.substring(7));
 						});
 					if(!reflectionHeight)
 						reflectionHeight = Math.floor((options.height > 1) ? Math.min(imageHeight, options.height) : imageHeight * options.height);
