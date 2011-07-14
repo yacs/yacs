@@ -1197,17 +1197,17 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// javascript libraries files to declare in header of page
-	$context['page_header'] .= Js_Css::get_js_libraries('header');
+	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
 	    $context['page_header'] .= $context['javascript']['header'];
-	
+
 	// jquery-ui stylesheet
 	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
 	// load a bunch of included scripts in one step, including jquery --we are doing that in the header, because of $(document).ready( ... in $context['text']
 	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
-	
+
 	// jquery-json
 	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.json.min.js"></script>'."\n";
 
@@ -1239,7 +1239,7 @@ function render_skin($with_last_modified=TRUE) {
 	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
 
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
-	$context['page_footer'] .= Js_Css::get_js_libraries('footer','shared/yacs.js');
+	$context['page_footer'] .= Js_Css::get_js_libraries('js_endpage','shared/yacs.js');
 
 	// activate AJAX client library
 	//if(file_exists($context['path_to_root'].'shared/yacs.js'))
