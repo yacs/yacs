@@ -72,7 +72,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	// process all js files in included/browser/header
 	$count = 0;
 	$minified = '';
-	foreach(Safe::glob($context['path_to_root'].'included/browser/header/*.js') as $name) {
+	foreach(Safe::glob($context['path_to_root'].'included/browser/js_header/*.js') as $name) {
 
 		if(in_array(basename($name), $to_avoid))
 			continue;
@@ -95,7 +95,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// do the same with included/browser/footer, including shared/yacs.js
 	$minified ='';
-	foreach(Safe::glob($context['path_to_root'].'included/browser/footer/*.js') as $name) {
+	foreach(Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js') as $name) {
 
 		if(in_array(basename($name), $to_avoid))
 			continue;
@@ -121,7 +121,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	    $count++;
 	}
 	// save the library to call in page footer
-	Safe::file_put_contents($context['path_to_root'].'included/browser/library_footer.min.js', $minified);
+	Safe::file_put_contents($context['path_to_root'].'included/browser/library_endpage.min.js', $minified);
 
 	// do the same in included/calendar
 	foreach(Safe::glob($context['path_to_root'].'included/jscalendar/*.js') as $name) {
@@ -152,7 +152,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	$context['text'] .= "</p>\n";
 
 	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_header.min.js'), i18n::s('bytes')).'</p>';
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_footer.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_footer.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_endpage.min.js'), i18n::s('bytes')).'</p>';
 
 	// display the execution time
 	$time = round(get_micro_time() - $context['start_time'], 2);
