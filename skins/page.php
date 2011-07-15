@@ -506,7 +506,7 @@
 		$details = array();
 
 		// execution time and surfer name, for logged user only (not for indexing robots!)
-		if(is_callable(array('Surfer', 'get_name')) && Surfer::get_name() && is_callable(array('i18n', 's'))) {
+		if(is_callable(array('Surfer', 'get_name')) && is_callable(array('i18n', 's'))) {
 			$execution_time = round(get_micro_time() - $context['start_time'], 2);
 			$details[] = sprintf(i18n::s('page prepared in %.2f seconds for %s'), $execution_time, ucwords(Surfer::get_name()));
 		}
