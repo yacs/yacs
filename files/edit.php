@@ -205,12 +205,24 @@ if(Surfer::is_crawler()) {
 		// where to put this file
 		$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
 
+		// remember file size
+		$_REQUEST['file_size'] = $_FILES['upload']['size'];
+
 		// attach some file
 		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
 			$_REQUEST['file_name'] = $file_name;
 
 			// actually, a new file
 			$action = 'file:create';
+
+			// always remember file uploads, for traceability
+			if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
+				$_REQUEST['version'] = '';
+			else
+				$_REQUEST['version'] = ' - '.$_REQUEST['version'];
+
+			$_REQUEST['version'] = $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+
 		}
 
 		// maybe this file has already been uploaded for this anchor
@@ -220,9 +232,6 @@ if(Surfer::is_crawler()) {
 			$_REQUEST['id'] = $match['id'];
 			$item = $match;
 		}
-
-		// remember file size
-		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
 		// silently delete the previous file if the name has changed
 		if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))

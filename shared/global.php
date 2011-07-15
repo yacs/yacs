@@ -18,6 +18,7 @@
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Alain Lesage (Lasares)
+ * @author Alexis Raimbault
  * @tester Olivier
  * @tester Arioch
  * @tester Fernand Le Chien
@@ -66,7 +67,6 @@ if(!defined('FORBIDDEN_IN_URLS'))
 // pattern for valid email recipients
 if(!defined('VALID_RECIPIENT'))
 	define('VALID_RECIPIENT', '/^[*+!\.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
-
 
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
@@ -1080,12 +1080,11 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 		return;
 
-	// we support Dublin Core too
-	$context['page_header'] .= '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />'."\n";
+	// more meta information
+	$metas = array();
 
-	// normalize customized components of the head
-	if(isset($context['site_head']))
-		$context['page_header'] .= $context['site_head']."\n";
+	// we support Dublin Core too
+	$metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
 
 	// page title
 	$page_title = ucfirst(strip_tags($context['page_title']));
@@ -1097,79 +1096,83 @@ function render_skin($with_last_modified=TRUE) {
 	}
 	$context['page_header'] .= "</title>\n";
 	if($page_title)
-		$context['page_header'] .= '<meta name="DC.title" content="'.encode_field($page_title).'" />'."\n";
+		$metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';
 
 	// set icons for this site
 	if($context['site_icon']) {
-		$context['page_header'] .= '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />'."\n"
-			.'<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />'."\n";
+		$metas[] = '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
+		$metas[] = '<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
 	}
 
 	// a meta-link to our help page
-	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />'."\n";
+	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
 
 	// page description
-	if(isset($context['page_description']) && $context['page_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n"
-			.'<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n";
-	elseif(isset($context['site_description']) && $context['site_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n"
-			.'<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n";
+	if(isset($context['page_description']) && $context['page_description']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
+	} elseif(isset($context['site_description']) && $context['site_description']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+	}
 
 	// page copyright
 	if(isset($context['site_copyright']) && $context['site_copyright'])
-		$context['page_header'] .= '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />'."\n";
+		$metas[] = '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />';
 
 	// page author
-	if(isset($context['page_author']) && $context['page_author'])
-		$context['page_header'] .= '<meta name="author" content="'.encode_field($context['page_author']).'" />'."\n"
-			.'<meta name="DC.author" content="'.encode_field($context['page_author']).'" />'."\n";
+	if(isset($context['page_author']) && $context['page_author']) {
+		$metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
+		$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
+	}
 
 	// page publisher
-	if(isset($context['page_publisher']) && $context['page_publisher'])
-		$context['page_header'] .= '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />'."\n"
-			.'<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />'."\n";
+	if(isset($context['page_publisher']) && $context['page_publisher']) {
+		$metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
+		$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
+	}
 
 	// page keywords
-	if(isset($context['site_keywords']) && $context['site_keywords'])
-		$context['page_header'] .= '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />'."\n"
-			.'<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />'."\n";
+	if(isset($context['site_keywords']) && $context['site_keywords']) {
+		$metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
+		$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
+	}
 
 	// page date
 	if($context['page_date'])
-		$context['page_header'] .= '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />'."\n";
+		$metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
 
 	// page language
 	if($context['page_language'])
-		$context['page_header'] .= '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />'."\n";
+		$metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';
 
 	// revisit-after
 	if(!isset($context['site_revisit_after']))
 		;
 	elseif($context['site_revisit_after'] == 1)
-		$context['page_header'] .= '<meta name="revisit-after" content="1 day" />'."\n";
+		$metas[] = '<meta name="revisit-after" content="1 day" />';
 	elseif($context['site_revisit_after'])
-		$context['page_header'] .= '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />'."\n";
+		$metas[] = '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />';
 
 	// no Microsoft irruption in our pages
-	$context['page_header'] .= '<meta name="MSSmartTagsPreventParsing" content="TRUE" />'."\n";
+	$metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" />';
 
 	// suppress awful hovering toolbar on images in IE
-	$context['page_header'] .= '<meta http-equiv="imagetoolbar" content="no" />'."\n";
+	$metas[] = '<meta http-equiv="imagetoolbar" content="no" />';
 
 	// lead robots
-	$context['page_header'] .= '<meta name="robots" content="index,follow" />'."\n";
+	$metas[] = '<meta name="robots" content="index,follow" />';
 
 	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
-	$context['page_header'] .= JS_PREFIX
+	$metas[] = JS_PREFIX
 		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
-		.JS_SUFFIX."\n";
+		.JS_SUFFIX;
 
 	// activate tinyMCE, if available -- before prototype and scriptaculous
 	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
+		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
 			.JS_PREFIX
 			.'	tinyMCE.init({'."\n"
 			.'		mode : "textareas",'."\n"
@@ -1193,58 +1196,63 @@ function render_skin($with_last_modified=TRUE) {
 			.'		template_external_list_url : "example_template_list.js",'."\n"
 			.'		use_native_selects : true,'."\n"
 			.'		debug : false	});'."\n"
-			.JS_SUFFIX."\n";
+			.JS_SUFFIX;
 
 	}
 
 	// javascript libraries files to declare in header of page
-	$context['page_header'] .= Js_Css::get_js_libraries('header');
+	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
 	    $context['page_header'] .= $context['javascript']['header'];
-	
+
 	// jquery-ui stylesheet
 	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
 	// load a bunch of included scripts in one step, including jquery --we are doing that in the header, because of $(document).ready( ... in $context['text']
-	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
-	
+	// $context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
+
 	// jquery-json
 	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.json.min.js"></script>'."\n";
 
 	// jquery-ui (at least for autocomplete)
-	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
+	// $context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>';
 
 	// activate SIMILE timeline, if available
 	if(isset($context['javascript']['timeline']))
-		$context['page_header'] .= '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>';
 
 	// activate SIMILE timeplot, if available
 	if(isset($context['javascript']['timeplot']))
-		$context['page_header'] .= '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>';
 
 	// activate SIMILE exhibit, if available
 	if(isset($context['javascript']['exhibit']))
-		$context['page_header'] .= '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>';
 
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
-// 		$context['page_header'] .= '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>'."\n";
+// 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
 
+	// provide a page reference to Javascript --e.g., for reporting activity from this page
+	if(isset($context['current_item']) && $context['current_item'])
+		$metas[] = JS_PREFIX
+			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
+			.JS_SUFFIX;
+
+	// insert headers (and maybe, include more javascript files)
+	if(isset($context['site_head']))
+		$metas[] = $context['site_head'];
 
 	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
+	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
-	$context['page_footer'] .= Js_Css::get_js_libraries('footer','shared/yacs.js');
-
-	// activate AJAX client library
-	//if(file_exists($context['path_to_root'].'shared/yacs.js'))
-	//	$context['page_footer'] .= Js_Css::build_js_declaration($context['url_to_root'].'shared/yacs.js');
+	$context['page_footer'] .= Js_Css::get_js_libraries('js_endpage','shared/yacs.js');
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
@@ -1285,16 +1293,16 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['google_analytics_account']) && $context['google_analytics_account']) {
 
 		$context['page_header'] .= '<script type="text/javascript">'."\n"
-		    ."\t".'var _gaq = _gaq || [];'."\n"
-		    ."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
-		    ."\t".'_gaq.push([\'_trackPageview\']);'."\n"
-		    ."\t\n"
-		    ."\t".'(function() {'."\n"
-		    ."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
-		    ."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
-		    ."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
-		    ."\t".'})();'."\n"
-		    .'</script>'."\n";
+			."\t".'var _gaq = _gaq || [];'."\n"
+			."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
+			."\t".'_gaq.push([\'_trackPageview\']);'."\n"
+			."\t\n"
+			."\t".'(function() {'."\n"
+			."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
+			."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
+			."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
+			."\t".'})();'."\n"
+			.'</script>'."\n";
 	}
 
 	// insert one tabulation before each header line

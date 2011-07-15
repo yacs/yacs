@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 15:32+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,8 +42,8 @@ msgstr ""
 #: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
 #: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
 #: services/blog.php:1462 services/blog.php:1647 services/check.php:57
-#: services/check.php:62 services/configure.php:71 services/proxy.php:17
-#: services/proxy.php:22
+#: services/check.php:62 services/configure.php:71 services/proxy.php:21
+#: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -118,12 +119,12 @@ msgid ""
 "want to record HTTP requests and responses."
 msgstr ""
 
-#: services/blog_test.php:531 services/rpc_echo_hook_test.php:86
+#: services/blog_test.php:531 services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 msgid "configuration panel for services"
 msgstr ""
 
-#: services/blog_test.php:532 services/rpc_echo_hook_test.php:87
+#: services/blog_test.php:532 services/rpc_echo_hook_test.php:100
 #: services/xml_rpc_drupal.login_hook_test.php:88
 msgid "Help"
 msgstr ""
@@ -402,7 +403,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: services/rpc_echo_hook_test.php:86
+#: services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 #, php-format
 msgid ""

@@ -61,20 +61,33 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$data = $result[1];
 	}
 
-	// display call result
+	// bad call processing
 	if(!$status)
 		$context['text'] .= 'status: '.$data;
-	elseif(!empty($data['error']))
-		$context['text'] .= 'error: '.$data['error'];
-	elseif(is_array($data)) {
+
+	// we have an error
+	elseif(!empty($data['error'])) {
+		if(is_array($data['error'])) {
+			$context['text'] .= '<p>error:</p><ul class="compact">';
+			foreach($data['error'] as $name => $value) {
+				if($value)
+					$context['text'] .= "<li>".$name.': '.$value."</li>\n";
+			}
+			$context['text'] .= "</ul>\n";
+		} elseif($data['error'])
+			$context['text'] .= '<p>error: '.$data['error']."</p>\n";
+
+	// display result
+	} elseif(is_array($data)) {
 		foreach($data as $name => $value) {
 			if(is_array($value)) {
-				$context['text'] .= "<p>".$name.':</p><ul>';
+				$context['text'] .= "<p>".$name.':</p><ul class="compact">';
 				foreach($value as $name => $value) {
-					$context['text'] .= "<li>".$name.': '.$value."</li>\n";
+					if($value)
+						$context['text'] .= "<li>".$name.': '.$value."</li>\n";
 				}
 				$context['text'] .= "</ul>\n";
-			} else
+			} elseif($value)
 				$context['text'] .= "<p>".$name.': '.$value."</p>\n";
 		}
 	} else

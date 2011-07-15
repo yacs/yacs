@@ -174,18 +174,18 @@ var Yacs = {
 			success: function(response) {
 				if(typeof callBack == 'function') {
 					if(response.error) {
-						callBack(FALSE);
+						callBack(response.error);
 					} else if(response.result) {
 						callBack(response.result);
 					} else {
-						callBack(FALSE);
+						callBack(1);
 					}
 				}
 				response = null; // no memory leak
 			},
 			error: function(transport) {
 				if(typeof callBack == 'function') {
-					callBack(FALSE);
+					callBack(0);
 				}
 			}
 		});

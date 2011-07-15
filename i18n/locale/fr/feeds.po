@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 15:19+0200\n"
+"POT-Creation-Date: 2011-06-21 23:19+0200\n"
 "PO-Revision-Date: 2010-03-30 18:35+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -26,7 +26,7 @@ msgstr "Panneau de contrôle"
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: feeds/configure.php:71 feeds/index.php:185 feeds/flash/configure.php:56
+#: feeds/configure.php:71 feeds/index.php:189 feeds/flash/configure.php:56
 msgid "Configure"
 msgstr "Configuration"
 
@@ -87,12 +87,12 @@ msgstr "Durée de validité"
 msgid "The suggested amount of time before fetching a feed again"
 msgstr "L'attente conseillée entre deux requêtes successives"
 
-#: feeds/configure.php:151 feeds/index.php:146
+#: feeds/configure.php:151 feeds/index.php:148
 #, php-format
 msgid "To extend the list of feeders add adequate %s."
 msgstr "Pour étendre la liste des sources de nouvelles créer des %s adaptés."
 
-#: feeds/configure.php:151 feeds/index.php:146
+#: feeds/configure.php:151 feeds/index.php:148
 msgid "server profiles"
 msgstr "profils de serveur"
 
@@ -302,8 +302,8 @@ msgstr "commentaires récents"
 #, php-format
 msgid "YACS enables automatic downloads and %s through a feed dedicated to %s."
 msgstr ""
-"YACS permet le téléchargement automatique et le %s avec ce fil consacré aux %"
-"s."
+"YACS permet le téléchargement automatique et le %s avec ce fil consacré aux "
+"%s."
 
 #: feeds/index.php:100
 msgid "http://en.wikipedia.org/wiki/Podcasting"
@@ -394,29 +394,29 @@ msgstr "Informations locales"
 msgid "Outbound feeds"
 msgstr "Connecteurs de sortie"
 
-#: feeds/index.php:153
+#: feeds/index.php:155
 #, php-format
 msgid ""
 "No feeder has been defined. If you need to integrate some external RSS %s."
 msgstr "Aucun connecteur n'a été défini. Pour intégrer un fil RSS externe %s."
 
-#: feeds/index.php:153
+#: feeds/index.php:155
 msgid "add a server profile"
 msgstr "ajouter un profil de serveur"
 
-#: feeds/index.php:159
+#: feeds/index.php:161
 msgid "Most recent external news"
 msgstr "Informations extérieures récentes"
 
-#: feeds/index.php:168
+#: feeds/index.php:170
 msgid "Inbound feeds"
 msgstr "Connecteurs d'entrée"
 
-#: feeds/index.php:202
+#: feeds/index.php:206
 msgid "Pick a feed"
 msgstr "Choisissez une source"
 
-#: feeds/index.php:207
+#: feeds/index.php:211
 msgid "Aggregate this site"
 msgstr "Agrégez les nouvelles"
 

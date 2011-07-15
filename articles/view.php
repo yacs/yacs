@@ -462,21 +462,26 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 		}
 
-		// page owner
-		if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
+		// provide more details to authenticated surfers
+		if(Surfer::is_logged()) {
 
-		// page editors
-		$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
-		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+			// page owner
+			if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-		// page watchers
-		$anchors = array('article:'.$item['id']);
-		if(($item['active'] != 'N') || $anchor->is_assigned())
-			$anchors[] = $anchor->get_reference();
-		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+			// page editors
+			$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
+			if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+
+			// page watchers
+			$anchors = array('article:'.$item['id']);
+			if(($item['active'] != 'N') || $anchor->is_assigned())
+				$anchors[] = $anchor->get_reference();
+			if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+
+		}
 
 		// display details, if any
 		if(count($details))
@@ -567,10 +572,10 @@ if(!isset($item['id'])) {
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
-		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Post to Facebook'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
-		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item)), PAGERS_TWITTER_IMG.i18n::s('Tweet about this'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_LINKEDIN_IMG', 'pagers/linkedin.gif');
 		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode($anchor->get_title()), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));

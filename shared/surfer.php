@@ -430,11 +430,8 @@ Class Surfer {
 	 */
 	function from() {
 
-		$text = '';
-
 		// use surfer full name if possible
-		if($name = Surfer::get_name())
-			$text .= '"'.str_replace('"', '', $name).'" ';
+		$text = '"'.str_replace('"', '', Surfer::get_name()).'" ';
 
 		// add the email address
 		if($address = Surfer::get_email_address())
@@ -667,8 +664,13 @@ Class Surfer {
 	/**
 	 * get the name of the current surfer, if known
 	 *
+	 * If the surfer has been authenticated, then its name is provided.
+	 *
+	 * In all other cases the address of the workstation is appended to the name.
+	 * The label can be either retrieved from a cookie, or it's 'anonymous'.
+	 *
 	 * @param string default name
-	 * @return string user short name, or NULL
+	 * @return string the name to qualify this surfer
 	 */
 	function get_name($default = '') {
 		global $context;
@@ -679,18 +681,22 @@ Class Surfer {
 
 		// use cookie
 		if(isset($_COOKIE['surfer_name']) && trim($_COOKIE['surfer_name']))
-			return $_COOKIE['surfer_name'];
+			$name = $_COOKIE['surfer_name'];
 
 		// we have some default string to use
-		if($default)
-			return $default;
-
-		// use network address
-		if(isset($_SERVER['REMOTE_ADDR']) && trim($_SERVER['REMOTE_ADDR']))
-			return $_SERVER['REMOTE_ADDR'];
+		elseif($default)
+			$name =  $default;
 
 		// really anonymous!
-		return i18n::s('anonymous');
+		else
+			$name = i18n::s('anonymous');
+
+		// append network address
+		if(isset($_SERVER['REMOTE_ADDR']) && trim($_SERVER['REMOTE_ADDR']))
+			$name .= '@'.$_SERVER['REMOTE_ADDR'];
+
+		// return this name
+		return $name;
 	}
 
 	/**

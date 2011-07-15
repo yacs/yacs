@@ -129,6 +129,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Fw_crocodile
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Elrik
@@ -513,26 +514,31 @@ if(!isset($item['id'])) {
 		if(Surfer::is_empowered() && Surfer::is_logged() && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
-		// section owner
-		if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
+		// provide more details to authenticated surfers
+		if(Surfer::is_logged()) {
 
-		// section editors and readers
-		if(is_object($anchor))
-			$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
-		else
-			$anchors = 'section:'.$item['id'];
-		if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
+			// section owner
+			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-		if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('Readers: %s'), $items);
+			// section editors and readers
+			if(is_object($anchor))
+				$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
+			else
+				$anchors = 'section:'.$item['id'];
+			if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
-		// page watchers
-		if($item['active'] == 'N')
-			$anchors = Sections::get_hidden_sections($item, $anchor);
-		if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
-			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+			if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('Readers: %s'), $items);
+
+			// page watchers
+			if($item['active'] == 'N')
+				$anchors = Sections::get_hidden_sections($item, $anchor);
+			if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
+
+		}
 
 		// display details, if any
 		if(count($details))
@@ -714,10 +720,10 @@ if(!isset($item['id'])) {
 	// facebook, twitter, linkedin
 	if(($item['active'] == 'Y') && ((!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')))) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
-		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Post to Facebook'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
-		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
+		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item)), PAGERS_TWITTER_IMG.i18n::s('Tweet this'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_LINKEDIN_IMG', 'pagers/linkedin.gif');
 		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode(is_object($anchor)?$anchor->get_title():$context['site_name']), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
