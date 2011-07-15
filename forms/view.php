@@ -457,10 +457,8 @@ if($with_form) {
 	} else {
 
 		// the name, if any
-		if($value = Surfer::get_name()) {
-			$label = i18n::s('Your name');
-			$fields[] = array($label, $value);
-		}
+		$label = i18n::s('Your name');
+		$fields[] = array($label, Surfer::get_name());
 
 		// the address, if any
 		if($value = Surfer::get_email_address()) {

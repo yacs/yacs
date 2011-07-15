@@ -350,8 +350,8 @@ Class rss_Codec extends Codec {
 
 				// use unicode entities, and escape & chars that are not part of an entity
 				if($description)
-					$text .= '		<body xmlns="http://www.w3.org/1999/xhtml">'.preg_replace('/&(?!(amp|#\d+);)/i', '&amp;', utf8::transcode($description))."</body>\n";
-//					$text .= '		<content:encoded><![CDATA[ '.$description." ]]></content:encoded>\n";
+//					$text .= '		<body xmlns="http://www.w3.org/1999/xhtml">'.preg_replace('/&(?!(amp|#\d+);)/i', '&amp;', utf8::transcode($description))."</body>\n";
+					$text .= '		<content:encoded><![CDATA[ '.str_replace(']]>', ']]]]><![CDATA[>', $description)." ]]></content:encoded>\n";
 
 				// do not express mail addresses, but only creator name, which is between ()
 				if(preg_match('/\((.*?)\)/', $author, $matches)) {

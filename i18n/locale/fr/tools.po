@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 15:25+0200\n"
-"PO-Revision-Date: 2011-06-10 15:32+0100\n"
-"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
+"POT-Creation-Date: 2011-06-26 00:05+0200\n"
+"PO-Revision-Date: 2011-06-26 00:14+0100\n"
+"Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
@@ -28,6 +28,7 @@ msgstr ""
 #: tools/transform.php:29
 #: tools/update_thumbs_url.php:40
 #: tools/update_thumbs_url.php:64
+#: tools/upload_excel.php:20
 msgid "Tools"
 msgstr "Outils"
 
@@ -101,12 +102,19 @@ msgid "Google"
 msgstr "Google"
 
 #: tools/ajax.php:50
-#: tools/ajax.php:53
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Click on the button to trigger the popup window"
 msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
 
+#: tools/ajax.php:53
+msgid "Click on the button to call a remote function"
+msgstr "Cliquez sur le bouton pour appeler une fonction distante"
+
 #: tools/ajax.php:56
+msgid "Click on the button to remember some on-line activity"
+msgstr "Cliquez sur le bouton pour mémoriser une activité en ligne"
+
+#: tools/ajax.php:59
 #: tools/embed.php:25
 #: tools/hello.php:25
 #: tools/populate.php:407
@@ -115,27 +123,27 @@ msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
 msgid "Hello world"
 msgstr "Bonjour le monde"
 
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Close"
 msgstr "Fermer"
 
-#: tools/ajax.php:59
+#: tools/ajax.php:62
 msgid "Hover me to access tools"
 msgstr "Survolez moi pour accèder aux outils"
 
-#: tools/ajax.php:65
+#: tools/ajax.php:68
 msgid "Drag and drop following elements"
 msgstr "Tirez et déplacez les éléments suivants"
 
-#: tools/ajax.php:73
+#: tools/ajax.php:76
 msgid "Interactive filters"
 msgstr "Filtres interactifs"
 
-#: tools/ajax.php:75
+#: tools/ajax.php:78
 msgid "Enter an integer"
 msgstr "Entrer un nombre entier"
 
-#: tools/ajax.php:76
+#: tools/ajax.php:79
 msgid "Enter a floating number"
 msgstr "Entrer un nombre décimal"
 
@@ -1010,95 +1018,115 @@ msgstr "Thèmes"
 
 #: tools/update_thumbs_url.php:43
 msgid "Updating thumbnails url"
-msgstr "Mise à jour de l'url des vignettes"
+msgstr "Mise à jour des liens vers les vignettes"
 
 #: tools/update_thumbs_url.php:77
 msgid "Analysing thumbnails for articles"
-msgstr "Analyse des vignettes des articles"
+msgstr "Analyse des vignettes pour les articles"
 
 #: tools/update_thumbs_url.php:94
 msgid "Analysing icons for articles"
-msgstr "Analyse des icônes des articles"
+msgstr "Analyse des icônes pour les articles"
 
 #: tools/update_thumbs_url.php:111
 msgid "Analysing thumbnails for sections"
-msgstr "Analyse des vignettes des sections"
+msgstr "Analyse des vignettes pour les sections"
 
 #: tools/update_thumbs_url.php:128
 msgid "Analysing icons for sections"
-msgstr "Analyse des icônes des sections"
+msgstr "Analyse des icônes pour les sections"
 
 #: tools/update_thumbs_url.php:145
 msgid "Analysing thumbnails for categories"
-msgstr "Analyse des vignettes des catégories"
+msgstr "Analyse des vignettes pour les catégories"
 
 #: tools/update_thumbs_url.php:162
 msgid "Analysing icons for categories"
-msgstr "Analyse des icônes des catégories"
+msgstr "Analyse des icônes pour les catégories"
 
 #: tools/update_thumbs_url.php:179
 msgid "Analysing thumbnails for files"
-msgstr "Analyse des vignettes des fichiers"
+msgstr "Analyse des vignettes pour les fichiers"
 
 #: tools/update_thumbs_url.php:202
 msgid "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
-msgstr "Cet outil corrige les urls des vignettes et icônes de pages après avoir changer dans le panneau de contrôle le \"chemin d'accès à la raçine\"."
+msgstr "Cet outil corrige les liens utilisés pour les vignettes et pour les icônes de page après le changement du paramètre \"url_to_root\" dans le panneau de contrôle"
 
 #: tools/update_thumbs_url.php:212
 msgid "Please give former URL to root"
-msgstr "Donnez l'ancien chemin à la raçine"
+msgstr "Merci d'indiquer l'URL précédente vers la racine du site"
 
 #: tools/update_thumbs_url.php:214
 msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
-msgstr "par exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
+msgstr "exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
 
 #: tools/update_thumbs_url.php:219
 msgid "This will be replaced by current URL"
-msgstr "Ceci sera remplacé par l'actuel \"chemin vers la raçine\""
+msgstr "Cette chaîne sera remplacée par l'URL en cours"
 
 #~ msgid "Event"
 #~ msgstr "Evénement"
+
 #~ msgid "Use this page model to add a new event to the calendar"
 #~ msgstr ""
 #~ "Utiliser cette page modèle pour ajouter un nouvel événement au calendrier"
+
 #~ msgid "Sample article with its set of comments"
 #~ msgstr "Article de démonstration avec ses annotations de démonstration"
+
 #~ msgid "Wiki page"
 #~ msgstr "Page Wiki"
+
 #~ msgid "Use this page model to add a page that can be modified by any surfer"
 #~ msgstr ""
 #~ "Utilisez ce modèle pour ajouter une page qui peut être modifiée par tout "
 #~ "surfeur"
+
 #~ msgid "Wiki"
 #~ msgstr "Wiki"
+
 #~ msgid "Sample page of the wiki"
 #~ msgstr "Page exemple du wiki de démonstration"
+
 #~ msgid "Sample content with its set of extensions"
 #~ msgstr "Contenu de démonstration avec ses extensions"
+
 #~ msgid "This page demonstrates the rendering of the ##wiki## layout."
 #~ msgstr "Cette page montre le rendu de la mise en page ##wiki##."
+
 #~ msgid "Referrals"
 #~ msgstr "Références"
+
 #~ msgid "Your post has been recorded and we would like to thank you for it."
 #~ msgstr "Votre envoi a été enregistré et nous vous en remercions."
+
 #~ msgid "Your name: %s"
 #~ msgstr "Votre nom : %s"
+
 #~ msgid "Your address: %s"
 #~ msgstr "Votre adresse : %s"
+
 #~ msgid "Your post: %s"
 #~ msgstr "Votre envoi : %s"
+
 #~ msgid "A page\"%s\" has been created."
 #~ msgstr "Une page \"%s\" a été créée."
+
 #~ msgid "Fat Index of [escape]"
 #~ msgstr "Indice d'inefficacité de [escape]"
+
 #~ msgid "[/escape]"
 #~ msgstr "[/escape]"
+
 #~ msgid "events"
 #~ msgstr "événements"
+
 #~ msgid "channels"
 #~ msgstr "chaînes"
+
 #~ msgid "A sample section already exists for simple file downloads."
 #~ msgstr "Une section exemple existe déjà pour le partage de fichiers."
+
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose. It is devoted to the download of files. [hidden]Compared to a "
@@ -1114,10 +1142,13 @@ msgstr "Ceci sera remplacé par l'actuel \"chemin vers la raçine\""
 #~ "l'attachement de fichiers.[/hidden] Si le nombre de fichiers à partager "
 #~ "augmente, vous pouvez trouver plus simple d'attacher les fichiers à des "
 #~ "articles séparés dans une ou plusieurs sections ordinaires."
+
 #~ msgid "A sample section already exists for blogging."
 #~ msgstr "Une section exemple existe déjà pour le blog."
+
 #~ msgid "My blog"
 #~ msgstr "Mon blog"
+
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose on available layouts. Feel free to change this text, to add some "
@@ -1132,14 +1163,19 @@ msgstr "Ceci sera remplacé par l'actuel \"chemin vers la raçine\""
 #~ "page ? Lorsque vous vous sentirez à l'aise avec la manipulation des "
 #~ "sections, vous effacerez celle-ci pour créer des dizaines d'autres "
 #~ "sections de votre cru."
+
 #~ msgid "A sample section already exists for sample jive discussion board."
 #~ msgstr "Une section exemple existe déjà pour les discussions jive."
+
 #~ msgid "A sample section already exists for sample electronic manual."
 #~ msgstr "Une section exemple existe déjà pour le manuel électronique."
+
 #~ msgid "A sample chapter already exists for electronic manual."
 #~ msgstr "Un chapitre exemple existe déjà pour le manuel électronique."
+
 #~ msgid "A sample section already exists for sample articles."
 #~ msgstr "Une section exemple existe déjà pour les articles exemples."
+
 #~ msgid ""
 #~ "This section has been created by the populate script for experimentation "
 #~ "purpose. Feel free to change this text, to add some images, to play with "
@@ -1153,51 +1189,72 @@ msgstr "Ceci sera remplacé par l'actuel \"chemin vers la raçine\""
 #~ "accessible par un lien sur le côté de cette page ? Lorsque vous vous "
 #~ "sentirez à l'aise avec la manipulation des sections, vous effacerez celle-"
 #~ "ci pour créer des dizaines d'autres sections de votre cru."
+
 #~ msgid "A sample wiki section already exists."
 #~ msgstr "Un wiki exemple existe déjà."
+
 #~ msgid "My wiki"
 #~ msgstr "Mon wiki"
+
 #~ msgid "A sample section already exists for sample yabb discussion board."
 #~ msgstr "Une section exemple existe déjà pour les discussions yabb."
+
 #~ msgid "A category already exists for regular articles."
 #~ msgstr "Une catégorie standard existe déjà."
+
 #~ msgid "A sub category already exists for regular articles."
 #~ msgstr "Une sous-catégorie standard existe déjà."
+
 #~ msgid "A page already exists for the coffee machine."
 #~ msgstr "Une page existe déjà pour la machine à café."
+
 #~ msgid "A template already exists for %s."
 #~ msgstr "Un modèle existe déjà pour %s."
+
 #~ msgid "A sample extra box already exists."
 #~ msgstr "Une boîte extra de démonstration existe déjà."
+
 #~ msgid "A sample collections box already exists."
 #~ msgstr "Une boîte collection de démonstration existe déjà."
+
 #~ msgid "A sample page exists for the blog."
 #~ msgstr "Une page exemple existe déjà dans le blog."
+
 #~ msgid "A sample jive thread already exists."
 #~ msgstr "Un fil de discussion jive de démonstration existe déjà."
+
 #~ msgid "A sample page exists for the manual."
 #~ msgstr "Une page exemple existe déjà dans le manuel."
+
 #~ msgid "A sample page exists for the wiki."
 #~ msgstr "Une page exemple existe déjà dans le wiki."
+
 #~ msgid "A sample yabb thread already exists."
 #~ msgstr "Un fil de discussion yabb de démonstration existe déjà."
+
 #~ msgid "A sample navigation box already exists."
 #~ msgstr "Une boite de navigation de démonstration existe déjà."
+
 #~ msgid "A page already exists for the support chat."
 #~ msgstr "Une page existe déjà pour le fil de support interactif."
+
 #~ msgid "wiki pages"
 #~ msgstr "Pages wiki"
+
 #~ msgid "A comment has been posted to the sample article."
 #~ msgstr "Un commentaire a été posté sur la page de démonstration."
+
 #~ msgid "Replies have been added to the sample jive thread."
 #~ msgstr ""
 #~ "Des réponses ont été ajoutées au fil de discussion jive de démonstration."
+
 #~ msgid "Comments have been added to the sample page in manual."
 #~ msgstr "Des commentaires ont été ajoutés à une page du manuel."
+
 #~ msgid "Notes have been added to the sample wiki entry."
 #~ msgstr "Des notes ont été ajoutées au wiki de démonstration."
+
 #~ msgid "Comments have been added to the sample yabb thread."
 #~ msgstr ""
 #~ "Des commentaires ont été ajoutés au fil de discussion yabb de "
 #~ "démonstration."
-

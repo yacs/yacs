@@ -105,12 +105,8 @@ class Mailer {
 		global $context;
 
 		// decode action
-		if(strpos($action, ':create')) {
-			if($surfer = Surfer::get_name())
-				$action = sprintf(i18n::c('%s by %s'), ucfirst(Anchors::get_action_label($action)), $surfer);
-			else
-				$action = ucfirst(Anchors::get_action_label($action));
-		}
+		if(strpos($action, ':create'))
+			$action = sprintf(i18n::c('%s by %s'), ucfirst(Anchors::get_action_label($action)), Surfer::get_name());
 
 		// clean title
 		$title = strip_tags($title);

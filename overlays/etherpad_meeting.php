@@ -95,8 +95,7 @@ class Etherpad_Meeting extends Event {
 		$url = 'http://'.$this->get_hostname().'/'.$this->attributes['meeting_id'];
 
 		// re-use surfer name in collaboration session
-		if($name = Surfer::get_name())
-			$url .= '?displayName='.urlencode($name);
+		$url .= '?displayName='.urlencode(Surfer::get_name());
 
 		return $url;
 	}
@@ -212,8 +211,7 @@ class Etherpad_Meeting extends Event {
 		$url = 'http://'.$this->get_hostname().'/ep/pad/create?padId='.urlencode($this->attributes['meeting_id']);
 
 		// re-use surfer name in collaboration session
-		if($name = Surfer::get_name())
-			$url .= '&displayName='.urlencode($name);
+		$url .= '&displayName='.urlencode(Surfer::get_name());
 
 		return $url;
 	}

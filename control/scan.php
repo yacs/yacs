@@ -799,7 +799,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// or back to the control panel
 	} else {
-		$menu = array('control/' => i18n::s('Control Panel'));
+		$menu = array('control/' => i18n::s('Control Panel'), 'control/setup.php' => i18n::s('Update the database schema'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	}
 
