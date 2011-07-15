@@ -152,9 +152,9 @@ Class Layout_articles_as_accordion extends Layout_interface {
 
 			// insert introduction, if any
 			if(is_object($overlay))
-				$box['text'] .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+				$box['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
 			elseif(trim($item['introduction']))
-				$box['text'] .= Codes::beautify_introduction($item['introduction']);
+				$box['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 			// no introduction, display article full content
 			else {

@@ -212,6 +212,9 @@ class BBB_Meeting extends Event {
 		// participant password
 		$parameters[] = 'attendeePW='.urlencode($this->attendee_password);
 
+		// ensure that the bridge number fits in the dialing plan
+		$parameters[] = 'voiceBridge='.urlencode(substr('7'.$this->attributes['id'].'1234', 0, 5));
+
 		// message displayed within the BigBlueButton session
 		$welcome = '';
 
@@ -229,7 +232,7 @@ class BBB_Meeting extends Event {
 
 		// build a link to the owner page, if any
 		if(is_object($this->anchor) && ($user =& Users::get($this->anchor->get_value('owner_id'))))
-			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id']))."\n";
+			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name'])."\n";
 
 		// welcome message
 		$parameters[] = 'welcome='.urlencode($welcome);

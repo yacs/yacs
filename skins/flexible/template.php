@@ -70,7 +70,7 @@ echo '</head>'."\n";
 Page::body();
 
 // table#page defines page width - fixes or liquid layout
-echo '<table id="page">'."\n";
+echo '<table id="page" class="layout">'."\n";
 
 // the header panel comes before everything
 echo '<tr id="header_panel"><td colspan="3"><div style="position: relative;">'."\n";

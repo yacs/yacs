@@ -22,6 +22,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
+ * @author Alexis Raimbault
  * @tester Anatoly
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -57,7 +58,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 				// close last table only if a section has been already listed
 				if(!$first) {
-				    $text .= Skin::table_suffix(); 				 
+				    $text .= Skin::table_suffix();
 				}
 				// show the family
 				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n"

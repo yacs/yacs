@@ -33,13 +33,18 @@ Class JSON_RPC_Codec extends Codec {
 
 		// a structured request
 		$request = array();
+		$request['jsonrpc'] = '2.0';
 		$request['method'] = $service;
 		$request['params'] = $parameters;
-		if(empty($parameters['id']))
-			$request['id'] = NULL;
+
+		// ask for a response by default
+		if(!isset($parameters['id']))
+			$request['id'] = rand(100, 999);
+
+		// else provide the id passed in parameters (can be NULL for notifications)
 		else {
 			$request['id'] = $parameters['id'];
-			unset($request['parameters']['id']);
+			unset($request['params']['id']);
 		}
 
 		// encode it and deliver the outcome
@@ -103,8 +108,37 @@ Class JSON_RPC_Codec extends Codec {
 	 * @return an array of which the first value indicates call success or failure
 	 */
 	function import_response($data, $headers=NULL, $parameters=NULL) {
-		if($decoded = Safe::json_decode($data))
+		if($decoded = Safe::json_decode($data)) {
+
+			// remove JSON-RPC signature
+			if(isset($decoded['version']))
+				unset($decoded['version']);
+			if(isset($decoded['jsonrpc']))
+				unset($decoded['jsonrpc']);
+
+			// error is reported
+			if(!empty($decoded['error'])) {
+
+				// ensure no result is provided
+				if(isset($decoded['result']))
+					unset($decoded['result']);
+
+			// regular case
+			} else {
+
+				// ensure no error is reported
+				if(isset($decoded['error']))
+					unset($decoded['error']);
+
+				// no id in parameters, so strip it off from response
+				if(empty($parameters['id']) && isset($decoded['id']))
+					unset($decoded['id']);
+
+			}
+
+			// job done
 			return array(TRUE, $decoded);
+		}
 		return array(FALSE, 'No way to decode the response');
 	}
 

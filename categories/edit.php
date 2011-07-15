@@ -778,24 +778,32 @@ if($with_form) {
 
 	// rendering options
 	$label = i18n::s('Rendering');
-	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-		.JS_PREFIX
-		.'function append_to_options(keyword) {'."\n"
-		.'	var target = $("#options");'."\n"
-		.'	target.value = target.value + " " + keyword;'."\n"
-		.'}'."\n"
-		.JS_SUFFIX;
+	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
+
 	$keywords = array();
-	$keywords[] = '<a onclick="append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
-	$keywords[] = '<a onclick="append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
-	$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-	$keywords[] = '<a onclick="append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
-	$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-	$keywords[] = '<a onclick="append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread');
+	$keywords[] = '<a>articles_by_title</a> - '.i18n::s('Sort pages by title');
+	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
+	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
+	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+	$keywords[] = '<a>with_comments</a> - '.i18n::s('The index page itself is a thread');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+	$hint = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 	$fields[] = array($label, $input, $hint);
+
+	$javascript = 	JS_PREFIX
+					.'function append_to_options(keyword) {'."\n"
+					.'	var target = $("#options");'."\n"
+					.'	target.val(target.val() + " " + keyword);'."\n"
+					.'}'."\n"
+					.'$(document).ready(function() {'."\n"
+					.'	$("#options_list a").bind("click",function(){'."\n"
+					.'		append_to_options($(this).text());'."\n"
+					.'	}).css("cursor","pointer");'."\n"
+					.'});'.JS_SUFFIX;
+	include_once $context['path_to_root'].'shared/js_css.php';
+	Js_Css::add_inline_js($javascript);
 
 	// associates can change the overlay --complex interface
 	if(Surfer::is_associate() && Surfer::has_all()) {

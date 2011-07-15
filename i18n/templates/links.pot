@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 15:32+0200\n"
+"POT-Creation-Date: 2011-06-26 00:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -165,8 +166,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: links/delete.php:154 links/edit.php:553 links/layout_links_as_daily.php:95
-#: links/layout_links.php:77
+#: links/delete.php:154 links/edit.php:553 links/layout_links.php:77
+#: links/layout_links_as_daily.php:95
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -385,16 +386,8 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr ""
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr ""
-
-#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
-#: links/layout_links.php:84
+#: links/layout_links.php:84 links/layout_links_as_daily.php:104
+#: links/layout_links_as_simple.php:54
 #, php-format
 msgid "in %s"
 msgstr ""
@@ -405,6 +398,14 @@ msgstr ""
 
 #: links/layout_links.php:90
 msgid "delete"
+msgstr ""
+
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr ""
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
 msgstr ""
 
 #: links/links.php:268
