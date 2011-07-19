@@ -1209,14 +1209,6 @@ function render_skin($with_last_modified=TRUE) {
 
 	// jquery-ui stylesheet
 	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
-	// load a bunch of included scripts in one step, including jquery --we are doing that in the header, because of $(document).ready( ... in $context['text']
-	// $context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
-
-	// jquery-json
-	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.json.min.js"></script>'."\n";
-
-	// jquery-ui (at least for autocomplete)
-	// $context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
@@ -1240,9 +1232,9 @@ function render_skin($with_last_modified=TRUE) {
 
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	if(isset($context['current_item']) && $context['current_item'])
-		$metas[] = JS_PREFIX
+		Js_Css::add_inline_js(JS_PREFIX
 			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
-			.JS_SUFFIX;
+			.JS_SUFFIX);
 
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
@@ -1256,7 +1248,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
-	    $context['page_footer'] .= $context['javascript']['footer'];
+		$context['page_footer'] .= $context['javascript']['footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
