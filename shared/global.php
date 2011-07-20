@@ -1208,7 +1208,7 @@ function render_skin($with_last_modified=TRUE) {
 	    $context['page_header'] .= $context['javascript']['header'];
 
 	// jquery-ui stylesheet
-	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
+	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />'."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
