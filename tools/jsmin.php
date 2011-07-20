@@ -151,8 +151,8 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		$context['text'] .= sprintf(i18n::s('%d files have been minified.'), $count)."\n";
 	$context['text'] .= "</p>\n";
 
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_header.min.js'), i18n::s('bytes')).'</p>';
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_endpage.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_header.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_endpage.min.js'), i18n::s('bytes')).'</p>';
 
 	// display the execution time
 	$time = round(get_micro_time() - $context['start_time'], 2);
