@@ -8,7 +8,7 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
- 
+
  // common libraries
 include_once '../shared/global.php';
 
@@ -32,7 +32,7 @@ if(Surfer::is_associate())
 // the default is to disallow access
 else
 	$permitted = FALSE;
-	
+
 // load the skin
 load_skin('tools');
 
@@ -76,13 +76,13 @@ if(Surfer::is_crawler()) {
             //  I ANALYSE THUMBNAILS IN ARTICLES TABLE
             $text .= Skin::build_block(i18n::s('Analysing thumbnails for articles'),'title');
 
-            // query to update 
+            // query to update
             $query = "UPDATE ".SQL::table_name('articles')." SET ";
             $query .= "thumbnail_url= REPLACE(thumbnail_url,'"
                 .$former_url."','".$context['url_to_root']."images/')";
 
             // proceed
-            $result = SQL::query($query);            
+            $result = SQL::query($query);
 
             // nb of lines
             if($result)
@@ -93,7 +93,7 @@ if(Surfer::is_crawler()) {
              //  II ANALYSE ICONS IN ARTICLES TABLE
             $text .= Skin::build_block(i18n::s('Analysing icons for articles'),'title');
 
-            // query to update 
+            // query to update
             $query = "UPDATE ".SQL::table_name('articles')." SET ";
             $query .= "icon_url= REPLACE(icon_url,'"
                 .$former_url."','".$context['url_to_root']."images/')";
@@ -110,7 +110,7 @@ if(Surfer::is_crawler()) {
             //  III ANALYSE THUMBNAILS IN SECTIONS TABLE
             $text .= Skin::build_block(i18n::s('Analysing thumbnails for sections'),'title');
 
-            // query to update  
+            // query to update
             $query = "UPDATE ".SQL::table_name('sections')." SET ";
             $query .= "thumbnail_url= REPLACE(thumbnail_url,'"
                 .$former_url."','".$context['url_to_root']."images/')";
@@ -127,7 +127,7 @@ if(Surfer::is_crawler()) {
             //  IV ANALYSE ICONS IN SECTIONS TABLE
             $text .= Skin::build_block(i18n::s('Analysing icons for sections'),'title');
 
-            // query to update 
+            // query to update
             $query = "UPDATE ".SQL::table_name('sections')." SET ";
             $query .= "icon_url= REPLACE(icon_url,'"
                 .$former_url."','".$context['url_to_root']."images/')";
@@ -144,7 +144,7 @@ if(Surfer::is_crawler()) {
             //  V ANALYSE THUMBNAILS IN CATEGORIES TABLE
             $text .= Skin::build_block(i18n::s('Analysing thumbnails for categories'),'title');
 
-            // query to update 
+            // query to update
             $query = "UPDATE ".SQL::table_name('categories')." SET ";
             $query .= "thumbnail_url= REPLACE(thumbnail_url,'"
                 .$former_url."','".$context['url_to_root']."images/')";
@@ -174,11 +174,11 @@ if(Surfer::is_crawler()) {
                 $text .= '<p>'.$result.' line(s) updated</p>';
             else
                 $text .= '<p>No line updated</p>';
-            
+
             //  VII ANALYSE THUMBNAILS IN FILES TABLE
             $text .= Skin::build_block(i18n::s('Analysing thumbnails for files'),'title');
 
-            // query to update 
+            // query to update
             $query = "UPDATE ".SQL::table_name('files')." SET ";
             $query .= "thumbnail_url= REPLACE(thumbnail_url,'"
                 .$former_url."','".$context['url_to_root']."images/')";
@@ -195,12 +195,11 @@ if(Surfer::is_crawler()) {
             // END : report
             $context['text'] = $text;
         }
-	
+
 } else {
 
 
-    $context['text'] = '<p>'.i18n::s('This tools correct the urls of thumbnails
-        and icons of pages after having changed "url_to_root" in control panel').'</p>';
+    $context['text'] = '<p>'.i18n::s('This tools correct the urls of thumbnails and icons of pages after having changed "url_to_root" in control panel').'</p>';
 
    // the form to get the former URL to root and start the process
    $context['text'] .= '<form method="post" enctype="multipart/form-data" action="'
@@ -214,7 +213,7 @@ if(Surfer::is_crawler()) {
    $input = '<input type="text" name="former_url" size="50" value="" />';
    $hint = i18n::s('eg "/yacs/" or "/" or "/my_repo/yacs/"');
    $fields[] = array($label, $input, $hint);
-   
+
 
    // the current URL
    $label = i18n::s('This will be replaced by current URL');
@@ -231,9 +230,9 @@ if(Surfer::is_crawler()) {
 
    // end of the form
    $context['text'] .= '</div></form>';
-}		
-	
+}
+
 // render the skin
 render_skin();
 
-?>	
+?>
