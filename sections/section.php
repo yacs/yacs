@@ -1475,7 +1475,7 @@ Class Section extends Anchor {
 
 				// autorized users
 				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_reference()))) {
 					foreach($editors as $editor)
 						if(strpos($editor, 'user:') === 0)
 							$restricted[] = substr($editor, strlen('user:'));
@@ -1485,7 +1485,7 @@ Class Section extends Anchor {
 				if($to_watchers)
 					Users::alert_watchers($this->get_reference(), $mail, $restricted);
 
-			// scope of notification is this ection, and its parent section
+			// scope of notification is this section, and its parent section
 			} elseif(!strncmp($action, 'section:', strlen('section:'))) {
 
 				// we will re-use the message sent to section watchers
