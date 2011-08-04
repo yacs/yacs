@@ -818,10 +818,9 @@ Class Section extends Anchor {
 		if(!$leaf && preg_match('/\b'.$option.'\b/i', $this->item['options']))
 			return TRUE;
 
-		// options that are not cascaded to sub-sections -- e.g. extra boxes aside a forum
+		// options that are not cascaded to sub-sections, because there is no way to revert from this setting
 		$screened = '/(articles_by_publication' 	// no way to revert from this
 			.'|articles_by_title'
-			.'|auto_publish'		// e.g. extra boxes aside a forum...
 			.'|comments_as_wall'
 			.'|files_by_title'
 			.'|links_by_title'
