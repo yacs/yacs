@@ -1104,10 +1104,10 @@ function render_skin($with_last_modified=TRUE) {
 	// a meta-link to our help page
 	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
 
-	// page description
-	if(isset($context['page_description']) && $context['page_description']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
+	// page meta description
+	if(isset($context['page_meta']) && $context['page_meta']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
 	} elseif(isset($context['site_description']) && $context['site_description']) {
 		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
 		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
