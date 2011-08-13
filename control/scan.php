@@ -780,7 +780,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// if the server has been switched off, update the database schema
 	if(file_exists('../parameters/switch.off')) {
 		$context['text'] .= Skin::build_block('<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
-			.Skin::build_submit_button(i18n::s('Update the database schema'))."\n"
+			.Skin::build_submit_button(i18n::s('Database maintenance'))."\n"
 			.'<input type="hidden" name="action" value="build" />'."\n"
 			.'</p></form>', 'bottom');
 
@@ -799,7 +799,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// or back to the control panel
 	} else {
-		$menu = array('control/' => i18n::s('Control Panel'), 'control/setup.php' => i18n::s('Update the database schema'));
+		$menu = array('control/' => i18n::s('Control Panel'), 'control/setup.php' => i18n::s('Database maintenance'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	}
 
