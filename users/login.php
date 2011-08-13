@@ -224,8 +224,8 @@ if(Surfer::is_crawler()) {
 				$context['page_image'] = $user['avatar_url'];
 
 			// splash message
-			$context['text'] .= '<p>'.i18n::s('Welcome!').'</p>'
-				.'<p>'.i18n::s('You have been successfully authenticated.').'</p>';
+			$context['page_title'] = i18n::s('Welcome!');
+			$context['text'] .= '<p>'.i18n::s('You have been successfully authenticated.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
