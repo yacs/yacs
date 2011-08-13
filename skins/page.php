@@ -381,6 +381,10 @@
 	function echo_title() {
 		global $context;
 
+		// main page title has already been given
+		if(defined('without_page_title'))
+			return;
+
 		// from $context
 		if(isset($context['page_title']) && $context['page_title'])
 			echo Skin::build_block($context['page_title'], 'page_title');
