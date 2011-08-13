@@ -926,7 +926,7 @@ class Mailer {
 					if(!strncmp($reference, $my_prefix, strlen($my_prefix))) {
 
 						// local name
-						$name = substr($reference, strlen($my_prefix));
+						$name = urldecode(substr($reference, strlen($my_prefix)));
 
 						// content-id to be used instead of the link
 						$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
@@ -1059,7 +1059,7 @@ class Mailer {
 				$basename = utf8::to_ascii(basename($name));
 
 				// a unique id for for this file
-				$cid = sprintf('%u@%s', crc32($name.':'.$context['path_to_root']), $context['host_name']);
+				$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
 
 				// headers for one file
 				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
