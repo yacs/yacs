@@ -494,7 +494,6 @@ $context['l10n']['en']['URL rewriting is available.']='URL rewriting is availabl
 $context['l10n']['en']['USTREAM broadcast']='USTREAM broadcast';
 $context['l10n']['en']['Update database content']='Update database content';
 $context['l10n']['en']['Update file permissions']='Update file permissions';
-$context['l10n']['en']['Update the database schema']='Update the database schema';
 $context['l10n']['en']['Updating file permissions...']='Updating file permissions...';
 $context['l10n']['en']['Updating the database...']='Updating the database...';
 $context['l10n']['en']['Upload a .CSV file']='Upload a .CSV file';

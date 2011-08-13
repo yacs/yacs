@@ -494,7 +494,6 @@ $context['l10n']['fr']['URL rewriting is available.']='La ré-écriture des lien
 $context['l10n']['fr']['USTREAM broadcast']='Emission USTREAM';
 $context['l10n']['fr']['Update database content']='Modification de la base de données';
 $context['l10n']['fr']['Update file permissions']='Mise à jour des permissions';
-$context['l10n']['fr']['Update the database schema']='Mise à jour de la base de données';
 $context['l10n']['fr']['Updating file permissions...']='Modification des permissions de fichier ...';
 $context['l10n']['fr']['Updating the database...']='Modification de la base de données...';
 $context['l10n']['fr']['Upload a .CSV file']='Téléverser un fichier .CSV';
