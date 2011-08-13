@@ -737,7 +737,7 @@ if(!isset($item['id'])) {
 	}
 
 	// notify participants
-	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+	if((Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
 	}
