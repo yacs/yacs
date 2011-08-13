@@ -113,7 +113,7 @@ if(!Surfer::is_associate()) {
 
 	// create table with the appropriate structure
 	$query = "CREATE TABLE `".SQL::table_name('stat_sections')."` (\n"
-		."anchor TEXT DEFAULT '',\n"
+		."parent_id TEXT DEFAULT '',\n"
 		."edit_date TEXT DEFAULT '',\n"
 		."section_id TEXT DEFAULT '',\n"
 		."section_label TEXT DEFAULT '',\n"
@@ -126,7 +126,7 @@ if(!Surfer::is_associate()) {
 	SQL::query($query);
 
 	// one record for each second-level section
-	$query = "SELECT anchor, edit_date, id AS section_id, title AS section_label FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
+	$query = "SELECT SUBSTRING_INDEX(anchor, ':', -1) as parent_id, edit_date, id AS section_id, title AS section_label FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
 		."(SELECT CONCAT('section:', id) FROM ".SQL::table_name('sections')." WHERE (anchor < 's')))";
 
 	if($sections =& SQL::query($query)) {
@@ -203,7 +203,7 @@ if(!Surfer::is_associate()) {
 			$query = "INSERT INTO ".SQL::table_name('stat_sections').' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
-			if(!($records%100))
+			if(!($records%70))
 				echo BR;
 		}
 
@@ -221,7 +221,7 @@ if(!Surfer::is_associate()) {
 
 	// create table with the appropriate structure
 	$query = "CREATE TABLE `".SQL::table_name('stat_sections_'.$current_year)."` (\n"
-		."anchor TEXT DEFAULT '',\n"
+		."parent_id TEXT DEFAULT '',\n"
 		."edit_date TEXT DEFAULT '',\n"
 		."section_id TEXT DEFAULT '',\n"
 		."section_label TEXT DEFAULT '',\n"
@@ -234,7 +234,7 @@ if(!Surfer::is_associate()) {
 	SQL::query($query);
 
 	// one record for each second-level section
-	$query = "SELECT anchor, edit_date, id AS section_id, title AS section_label FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
+	$query = "SELECT SUBSTRING_INDEX(anchor, ':', -1) as parent_id, edit_date, id AS section_id, title AS section_label FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
 		."(SELECT CONCAT('section:', id) FROM ".SQL::table_name('sections')." WHERE (anchor < 's')))";
 
 	if($sections =& SQL::query($query)) {
@@ -324,7 +324,7 @@ if(!Surfer::is_associate()) {
 			$query = "INSERT INTO ".SQL::table_name('stat_sections_'.$current_year).' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
-			if(!($records%100))
+			if(!($records%70))
 				echo BR;
 		}
 
@@ -409,7 +409,7 @@ if(!Surfer::is_associate()) {
 			$query = "INSERT INTO ".SQL::table_name('stat_users').' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
-			if(!($records%100))
+			if(!($records%70))
 				echo BR;
 		}
 
@@ -494,7 +494,7 @@ if(!Surfer::is_associate()) {
 			$query = "INSERT INTO ".SQL::table_name('stat_users_'.$current_year).' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
-			if(!($records%100))
+			if(!($records%70))
 				echo BR;
 		}
 
