@@ -278,6 +278,7 @@
  * @tester Fw_crocodile
  * @tester Christian Piercot
  * @tester Christian Loubechine
+ * @tester Daniel Dupuis
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -3441,7 +3442,7 @@ Class Codes {
 	 * get the value of one global parameter
 	 *
 	 * Parameter is taken from the global $context array, and its name has to start with
-	 * prefix 'page_', for obvious security reasons.
+	 * prefix 'page_', or 'site_', for obvious security reasons.
 	 *
 	 * @param string name of the parameter
 	 * @param mixed default value, if any
@@ -3451,6 +3452,11 @@ Class Codes {
 		global $context;
 
 		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
+			$output =& $context[$name];
+			return $output;
+		}
+
+		if(!strncmp($name, 'site_', 5) && isset($context[$name])) {
 			$output =& $context[$name];
 			return $output;
 		}
