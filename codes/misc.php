@@ -239,11 +239,11 @@ $context['text'] .= '[title]'.i18n::s('Redirect to a local address').' [escape][
 	.Skin::table_suffix();
 
 // [parameter=page_details]
-$context['text'] .= '[title]'.i18n::s('Display some parameter').' [escape][parameter=page_details][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Display some parameter').' [escape][parameter=site_name][/escape][/title]'
 	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][parameter=page_details][/escape]</td>'
-	.'<td>[parameter=page_details]</td></tr>'
+	.'<tr><td class="sample">[escape][parameter=site_name][/escape]</td>'
+	.'<td>[parameter=site_name]</td></tr>'
 	.Skin::table_suffix();
 
 // [escape]...[/escape]
