@@ -9,7 +9,8 @@
  * Associates can use this script to assign users to sections and to articles.
  *
  * Accept following invocations:
- * - select.php?member=article:12
+ * - select.php?anchor=article:12 to list watchers
+ * - select.php?member=article:12 to list and manage editors
  *
  * @author Bernard Paques
  * @reference
@@ -94,8 +95,16 @@ elseif(!$permitted) {
 		}
 	}
 
-	// the current list of category members
-	if(($users =& Members::list_users_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	// authorized users
+	$restricted = NULL;
+	if($anchor->is_hidden() && ($editors =& Members::list_anchors_for_member($anchors))) {
+		foreach($editors as $editor)
+			if(strpos($editor, 'user:') === 0)
+				$restricted[] = substr($editor, strlen('user:'));
+	}
+
+	// the current list of watchers
+	if(($users =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted)) && count($users)) {
 
 		// browse the list
 		foreach($users as $id => $user) {
