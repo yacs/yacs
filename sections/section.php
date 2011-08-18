@@ -1473,7 +1473,7 @@ Class Section extends Anchor {
 				// message to watchers
 				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
-				// autorized users
+				// users assigned to this section only
 				$restricted = NULL;
 				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_reference()))) {
 					foreach($editors as $editor)
@@ -1485,13 +1485,13 @@ Class Section extends Anchor {
 				if($to_watchers)
 					Users::alert_watchers($this->get_reference(), $mail, $restricted);
 
-			// scope of notification is this section, and its parent section
+			// scope of notification is the originating section, and its parent section
 			} elseif(!strncmp($action, 'section:', strlen('section:'))) {
 
 				// we will re-use the message sent to section watchers
 				if(isset($mail['message']) && ($container = $this->get_parent())) {
 
-					// autorized users
+					// users assigned only to parent section
 					$restricted = NULL;
 					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
 						foreach($editors as $editor)
