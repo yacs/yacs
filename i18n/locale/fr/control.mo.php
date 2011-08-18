@@ -553,7 +553,7 @@ $context['l10n']['fr']['You must confirm the password.']='Vous devez confirmer l
 $context['l10n']['fr']['You must provide a nick name.']='Vous devez indiquer un surnom.';
 $context['l10n']['fr']['You must provide a password.']='Vous devez taper un mot de passe.';
 $context['l10n']['fr']['0027f5f427188982a777f1237437f415']='Votre navigateur ne supporte pas les panneaux latéraux. Voulez-vous évoluer vers Mozilla Firefox ?';
-$context['l10n']['fr']['6e8ead1e22883d9f1336165b4fd14eae']='[parameter=site_owner] ne peut être tenu pour responsable des informations publiées sur ce site. [parameter=site_owner] n\'est pas responsable non plus responsable des liens que d\'autres sites pourraient lier au contenu de [parameter=site_name]. En tant que tel, l\'existence d\'un lien de [parameter=site_name] vers un autre site n\'implique aucune forme d\'approbation ou d\'encouragement par [parameter=site_owner] du site cible.';
+$context['l10n']['fr']['6e8ead1e22883d9f1336165b4fd14eae']='[parameter=site_owner] ne peut être tenu pour responsable des informations publiées sur ce site. [parameter=site_owner] n\'est pas non plus responsable des liens que d\'autres sites pourraient lier au contenu de [parameter=site_name]. En tant que tel, l\'existence d\'un lien de [parameter=site_name] vers un autre site n\'implique aucune forme d\'approbation ou d\'encouragement par [parameter=site_owner] du site cible.';
 $context['l10n']['fr']['add a blogging panel']='ajouter un panneau de blog';
 $context['l10n']['fr']['add a contextual bookmarklet']='ajouter un bookmarklet contextuel';
 $context['l10n']['fr']['authenticate']='authentifier';
