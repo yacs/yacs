@@ -208,7 +208,7 @@ if(Surfer::is_crawler()) {
 		// remember file size
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
-		// attach some file
+		// move the file to the right place
 		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
 			$_REQUEST['file_name'] = $file_name;
 
@@ -223,31 +223,30 @@ if(Surfer::is_crawler()) {
 
 			$_REQUEST['version'] = $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
 
-		}
+			// maybe this file has already been uploaded for this anchor
+			if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
 
-		// maybe this file has already been uploaded for this anchor
-		if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
+				// if yes, switch to the matching record (and forget the record fetched previously, if any)
+				$_REQUEST['id'] = $match['id'];
+				$item = $match;
+			}
 
-			// if yes, switch to the matching record (and forget the record fetched previously, if any)
-			$_REQUEST['id'] = $match['id'];
-			$item = $match;
-		}
+			// silently delete the previous file if the name has changed
+			if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
+				Safe::unlink($file_path.'/'.$item['file_name']);
 
-		// silently delete the previous file if the name has changed
-		if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
-			Safe::unlink($file_path.'/'.$item['file_name']);
+			// if the file is an image, create a thumbnail for it
+			if(($image_information = Safe::GetImageSize($file_path.'/'.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
 
-		// if the file is an image, create a thumbnail for it
-		if(($image_information = Safe::GetImageSize($file_path.'/'.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
+				// derive a thumbnail image
+				$thumbnail_name = 'thumbs/'.$file_name;
+				include_once $context['path_to_root'].'images/image.php';
+				Image::shrink($context['path_to_root'].$file_path.'/'.$file_name, $context['path_to_root'].$file_path.'/'.$thumbnail_name, FALSE, TRUE);
 
-			// derive a thumbnail image
-			$thumbnail_name = 'thumbs/'.$file_name;
-			include_once $context['path_to_root'].'images/image.php';
-			Image::shrink($context['path_to_root'].$file_path.'/'.$file_name, $context['path_to_root'].$file_path.'/'.$thumbnail_name, FALSE, TRUE);
+				// remember the address of the thumbnail
+				$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
 
-			// remember the address of the thumbnail
-			$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
-
+			}
 		}
 
 		// we have a real file, not a reference
@@ -297,8 +296,6 @@ if(Surfer::is_crawler()) {
 	// make the file name searchable on initial post
 	if(!isset($_REQUEST['id']) && isset($_REQUEST['file_name']))
 		$_REQUEST['keywords'] .= ' '.str_replace(array('%20', '_', '.', '-'), ' ', $_REQUEST['file_name']);
-
-	// hook to index binary files
 
 	// an error has already been encoutered
 	if(count($context['error'])) {
@@ -512,18 +509,12 @@ if($with_form) {
 	$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
 	$fields[] = array($label, $input);
 
-	// the change
-	$label = i18n::s('Version');
-	$input = '<textarea name="version" rows="3" cols="50"></textarea>';
-	$hint = i18n::s('What is new in this file?');
-	$fields[] = array($label, $input, $hint);
-
-	// the history
-	if(isset($item['description'])) {
-		$label = i18n::s('History');
-		$input = Skin::build_block($item['description'], 'description');
-		$fields[] = array($label, $input);
-	}
+	// history of changes
+	$label = i18n::s('History');
+	$input = '<span class="details">'.i18n::s('What is new in this file?').'</span>'.BR.'<textarea name="version" rows="3" cols="50"></textarea>';
+	if(isset($item['description']))
+		$input .= Skin::build_block($item['description'], 'description');
+	$fields[] = array($label, $input);
 
 	// build the form
 	$text .= Skin::build_form($fields);
@@ -653,12 +644,17 @@ if($with_form) {
 	// optional checkboxes
 	$context['text'] .= '<p>';
 
-	// notify watchers --updating a file, or uploading a new file, should generate a notification
-	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+	// do not process notifications for draft articles
+	if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
 
-	// notify people following me
-	if(Surfer::get_id() && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
+		// notify watchers --updating a file, or uploading a new file, should generate a notification
+		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+
+		// notify people following me
+		if(Surfer::get_id() && !$anchor->is_hidden())
+			$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
+
+	}
 
 	// associates may decide to not stamp changes, but only for changes -- complex command
 	if(Surfer::is_associate() && isset($anchor) && Surfer::has_all())

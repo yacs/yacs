@@ -92,7 +92,7 @@ if(Surfer::is_crawler()) {
 	if(isset($item['edit_date']) && $item['edit_date'])
 		$context['page_date'] = $item['edit_date'];
 	if(isset($item['introduction']) && $item['introduction'])
-		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
+		$context['page_meta'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['publish_name']) && $item['publish_name'])
 		$context['page_publisher'] = $item['publish_name'];
 
