@@ -124,21 +124,17 @@ include_once 'phpdoc.php';
 $item = PhpDoc::get('index');
 if($item) {
 
-	$items = array();
-
 	// the list of things to do
-	$items[] = Skin::build_link(Scripts::get_url('todo'), i18n::s('To do'), 'basic');
+	$context['page_tools'][] = Skin::build_link(Scripts::get_url('todo'), i18n::s('To do'), 'basic');
 
 	// the list of testers
-	$items[] = Skin::build_link(Scripts::get_url('testers'), i18n::s('Testers'), 'basic');
+	$context['page_tools'][] = Skin::build_link(Scripts::get_url('testers'), i18n::s('Testers'), 'basic');
 
 	// the list of authors
-	$items[] = Skin::build_link(Scripts::get_url('authors'), i18n::s('Authors'), 'basic');
+	$context['page_tools'][] = Skin::build_link(Scripts::get_url('authors'), i18n::s('Authors'), 'basic');
 
 	// the list of licenses
-	$items[] = Skin::build_link(Scripts::get_url('licenses'), i18n::s('Licenses'), 'basic');
-
-	$context['components']['tools'] = Skin::build_box(i18n::s('See also'), Skin::finalize_list($items, 'newlines'), 'extra');
+	$context['page_tools'][] = Skin::build_link(Scripts::get_url('licenses'), i18n::s('Licenses'), 'basic');
 
 	// splash message
 	$text = '<p>'.i18n::s('Click on any link below to access the documentation extracted from each script (phpDoc).')."</p>\n";

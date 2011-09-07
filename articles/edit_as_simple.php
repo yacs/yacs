@@ -350,6 +350,17 @@ if($with_form) {
 		if($box)
 			$text .= Skin::build_box(i18n::s('Files'), $box, 'folded');
 
+		// tables
+		$box = '';
+		if(Tables::allow_creation($anchor, $item)) {
+			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Tables'), $box, 'folded');
+
 	}
 
 	// display in a separate panel

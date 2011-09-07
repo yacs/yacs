@@ -33,9 +33,10 @@ $panels = array();
 $article = '';
 
 // put page title there
-if($context['page_title'])
+if($context['page_title']) {
 	$article .= Skin::build_block($context['page_title'], 'page_title');
-$context['page_title'] = '';
+	define('without_page_title', TRUE);
+}
 
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {

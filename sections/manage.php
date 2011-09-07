@@ -576,10 +576,17 @@ if(Surfer::is_crawler()) {
 				$article['anchor'] = $_REQUEST['duplicate_to'];
 
 				// actual duplication
-				if($new_id = Articles::post($article)) {
+				if($article['id'] = Articles::post($article)) {
+
+					// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+					$overlay = Overlay::load($article, 'article:'.$article['id']);
+
+					// post an overlay, with the new article id
+					if(is_object($overlay))
+						$overlay->remember('insert', $article);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('article:'.$old_id, 'article:'.$new_id);
+					Anchors::duplicate_related_to('article:'.$old_id, 'article:'.$article['id']);
 
 					// stats
 					$count++;
@@ -632,10 +639,17 @@ if(Surfer::is_crawler()) {
 				$section['anchor'] = $_REQUEST['duplicate_to'];
 
 				// actual duplication
-				if($new_id = Sections::post($section, FALSE)) {
+				if($section['id'] = Sections::post($section, FALSE)) {
+
+					// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+					$overlay = Overlay::load($section, 'section:'.$section['id']);
+
+					// post an overlay, with the new section id
+					if(is_object($overlay))
+						$overlay->remember('insert', $section);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$new_id);
+					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$section['id']);
 
 					// stats
 					$count++;

@@ -2,8 +2,6 @@
 /**
  * provide news in the RSS 2.0 format
  *
- * @todo add geocoded information http://developer.yahoo.com/weather/
- *
  * This script lists newest published articles, providing following information:
  * - title - title of the article
  * - link - absolute url to fetch the article

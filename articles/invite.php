@@ -316,7 +316,8 @@ if(Surfer::is_crawler()) {
 		// standard roles for non private pages
 		elseif($item['active'] != 'N')
 			$input .= '<p><input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review public content (watchers)')
-				.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage public and private content (editors)').'</p><hr>';
+				.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage public and private content (editors)').'</p>'
+				.'<hr/>';
 	}
 
 	// get a customized layout
@@ -359,7 +360,7 @@ if(Surfer::is_crawler()) {
 		$title = $overlay->get_live_title($item);
 	else
 		$title = $item['title'];
-	$title = sprintf(i18n::s('%s: %s'), i18n::s('Meeting'), $title);
+	$title = sprintf(i18n::s('%s: %s'), i18n::s('Invitation'), $title);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
@@ -437,7 +438,7 @@ if(Surfer::is_crawler()) {
 		.JS_SUFFIX;
 
 	// help message
-	$help = '<p>'.i18n::s('Recipient addresses are used only once, to send your message, and are not stored afterwards.').'</p>';
+	$help = '<p>'.i18n::s('New e-mail addresses are converted to new user profiles. Because of this, you should not use e-mail addresses that have multiple recipients.').'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
