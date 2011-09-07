@@ -743,6 +743,7 @@ Class Files {
 				'shtml' => $files_icons_url.'html_icon.gif',
 				'snd' => $files_icons_url.'sound_icon.png', 		// audio/basic
 				'sql' => $files_icons_url.'text_icon.gif',
+				'srt' => $files_icons_url.'text_icon.gif',			// video/subtitle
 				'stc' => $files_icons_url.'ooo_calc_icon.png',		// open document spreadsheet template
 				'std' => $files_icons_url.'ooo_draw_icon.png',		// open document drawing template
 				'sti' => $files_icons_url.'ooo_impress_icon.png',	// open document presentation template
@@ -963,6 +964,7 @@ Class Files {
 				'shtml' => 'text/html',
 				'snd' => 'audio/basic',
 				'sql' => 'text/plain',
+				'srt' => 'video/subtitle',
 				'stc' => 'application/vnd.sun.xml.calc.template',		// open document spreadsheet template
 				'std' => 'application/vnd.sun.xml.draw.template',		// open document drawing template
 				'sti' => 'application/vnd.sun.xml.impress.template',	// open document presentation template
@@ -1211,6 +1213,56 @@ Class Files {
 
 		// normalize the link
 		return normalize_url(array('files', 'file'), $action, $id, $name);
+	}
+
+	/**
+	 * scan a file for viruses
+	 *
+	 * This function connects to ClamAV daemon, if possible, to scan the referred file.
+	 *
+	 * @param string absolute path of the file to scan
+	 * @return string 'Y' if the file has been infected, '?' if clamav is not available, or 'N' if no virus has been found
+	 */
+	function has_virus($file) {
+		global $context;
+
+		// we can't connect to clamav daemon
+		$server = 'localhost';
+		if(!$handle = Safe::fsockopen($server, 3310, $errno, $errstr, 1)) {
+			if($context['with_debug'] == 'Y')
+				Logger::remember('files/files.php', 'Unable to connect to CLAMAV daemon', '', 'debug');
+			return '?';
+		}
+
+		// ensure enough execution time
+		Safe::set_time_limit(30);
+
+		// scan uploaded file
+		$request = 'SCAN '.$file;
+		fputs($handle, $request.CRLF);
+		if($context['with_debug'] == 'Y')
+			Logger::remember('files/files.php', 'CLAMAV ->', $request, 'debug');
+
+		// expecting an OK
+		if(($reply = fgets($handle)) === FALSE) {
+			Logger::remember('files/files.php', 'No reply to SCAN command at '.$server);
+			fclose($handle);
+			return '?';
+		}
+//		if($context['with_debug'] == 'Y')
+			Logger::remember('files/files.php', 'CLAMAV <-', $reply, 'debug');
+
+		// file has been infected!
+		if(!stripos($reply, ': ok')) {
+			Logger::remember('files/files.php', 'Infected upload by '.Surfer::get_name());
+			fclose($handle);
+			return 'Y';
+		}
+
+		// everything is ok
+		fclose($handle);
+		return 'N';
+
 	}
 
 	/**
@@ -2603,8 +2655,28 @@ Class Files {
 			if(!Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
 				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
-			// this will be filtered by umask anyway
+			// continue the processing
 			else {
+
+				// check viruses
+				$result = Files::has_virus($context['path_to_root'].$file_path.'/'.$file_name);
+
+				// no virus has been found in this file
+				if($result == 'N')
+					$context['text'] .= Skin::build_block(i18n::s('No virus has been found in this file.'), 'note');
+
+				// this file has been infected!
+				if($result == 'Y') {
+
+					// delete this file immediately
+					Safe::unlink($file_path.'/'.$file_name);
+
+					Logger::error(i18n::s('This file has been infected by a virus and has been rejected!'));
+					return FALSE;
+
+				}
+
+				// this will be filtered by umask anyway
 				Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
 
 				// invoke post-processing function

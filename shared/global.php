@@ -44,7 +44,7 @@ if(is_callable('session_cache_limiter'))
 if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 	session_start();
 
-// used in many technical specifications
+// used to end lines in many technical specifications
 if(!defined('CRLF'))
 	define('CRLF', "\x0D\x0A");
 
@@ -568,7 +568,7 @@ function &encode_field($text) {
 function &encode_link($link) {
 
 	// suppress invalid chars, if any
-	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $link), ' _');
+	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', str_replace(' ', '%20', $link)), ' _');
 
 	// transform & to &amp;
 	$output = str_replace('&', '&amp;', $output);
@@ -1107,10 +1107,10 @@ function render_skin($with_last_modified=TRUE) {
 	// a meta-link to our help page
 	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
 
-	// page description
-	if(isset($context['page_description']) && $context['page_description']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
+	// page meta description
+	if(isset($context['page_meta']) && $context['page_meta']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
 	} elseif(isset($context['site_description']) && $context['site_description']) {
 		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
 		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
@@ -1240,9 +1240,6 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
 
-	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
-
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
 	$context['page_footer'] .= Js_Css::get_js_libraries('js_endpage','shared/yacs.js');
 
@@ -1298,7 +1295,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
+	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
@@ -1331,6 +1328,10 @@ function render_skin($with_last_modified=TRUE) {
 		if($context['site_name'] && isset($context['skin_variant']) && ($context['skin_variant'] != 'home'))
 			echo ' - '.$context['site_name'];
 		echo '</title>';
+
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
 
 		echo "</head>\n<body>\n";
 

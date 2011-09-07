@@ -4,6 +4,8 @@
  *
  * This is a special layout used to build a RSS feed of new pages, with full content.
  *
+ * @link http://georss.org/Main_Page GeoRSS
+ *
  * @see articles/articles.php
  * @see articles/feed.php
  *
@@ -36,6 +38,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'locations/locations.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
@@ -105,6 +108,10 @@ Class Layout_articles_as_contents extends Layout_interface {
 
 			// other rss fields
 			$extensions = array();
+
+			// the geolocation for this page, if any
+			if($location = Locations::locate_anchor('article:'.$item['id']))
+				$extensions[] = '<georss:point>'.str_replace(',', ' ', $location).'</georss:point>';
 
 			// url for comments
 			$extensions[] = '<comments>'.encode_link($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments')).'</comments>';

@@ -84,7 +84,7 @@ class DimDim_Meeting extends Event {
 		$url = 'https://my.dimdim.com/api/conf/join_meeting';
 
 		// provide authentication token
-		$headers = 'X-Dimdim-Auth-Token: '.$this->attributes['token']."\015\012";
+		$headers = 'X-Dimdim-Auth-Token: '.$this->attributes['token'].CRLF;
 
 		// parameters to create a meeting
 		$parameters = array();
@@ -208,7 +208,7 @@ class DimDim_Meeting extends Event {
 				$url = 'https://my.dimdim.com/api/conf/start_meeting';
 
 				// provide authentication token
-				$headers = 'X-Dimdim-Auth-Token: '.$this->attributes['token']."\015\012";
+				$headers = 'X-Dimdim-Auth-Token: '.$this->attributes['token'].CRLF;
 
 				// parameters to create a meeting
 				$parameters = array();

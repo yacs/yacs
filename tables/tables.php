@@ -2,9 +2,7 @@
 /**
  * the database abstraction layer for tables
  *
- * @todo filter and sort http://www.eldenmalm.com/tableFilterNSort.jsp
- *
- * Tables are mySQL queries saved into the database, used to build dynamic tables on-the-fly.
+ * Tables are MySQL queries saved into the database, used to build dynamic tables on-the-fly.
  * A nice feature to extend yacs with little effort.
  * Also a very powerful tool to be used in conjonction with overlays that update the database directly.
  *

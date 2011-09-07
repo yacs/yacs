@@ -116,6 +116,8 @@ if(Surfer::is_crawler()) {
 	$to = array();
 	foreach($_REQUEST['selected_users'] as $address)
 		$to[] = $address;
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+		$to[] = Surfer::from();
 
 	// message subject
 	$subject = '';
@@ -125,25 +127,42 @@ if(Surfer::is_crawler()) {
 	// enable yacs codes in messages
 	$text = Codes::beautify($_REQUEST['message']);
 
-	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	// avoid duplicates
+	$to = array_unique($to);
 
-	// send the message
-	if(Mailer::post(Surfer::from(), $to, $subject, $message)) {
+	// process every recipient
+	$actual_names = array();
+	foreach($to as $recipient) {
 
-		// feed-back to the sender
-		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
-		foreach($to as $address)
-			$context['text'] .= '<li>'.encode_field($address).'</li>'."\n";
-		$context['text'] .= '</ul>'."\n";
+		// preserve tagging as much as possible
+		$message = Mailer::build_message($subject, $text);
 
-		// back to the section page
-		$menu = array();
-		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Done'), 'button');
-		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+		// change content for message poster
+		if(strpos(Surfer::from(), $recipient) !== FALSE) {
+			$message = '<p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><hr /><p>'.htmlspecialchars_decode(join(', ', $actual_names)).'</p><hr />'.$message;
+		}
+
+		// post message for this recipient
+		if(Mailer::post(Surfer::from(), $recipient, $subject, $message))
+			$actual_names[] = htmlspecialchars($recipient);
 
 	}
 	Mailer::close();
+
+	// display the list of actual recipients
+	if($actual_names)
+		$context['text'] .= '<div>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</div>';
+	else
+		$context['text'] .= '<p>'.i18n::s('No message has been sent').'</p>';
+
+	// follow-up commands
+	$follow_up = i18n::s('What do you want to do now?');
+	$menu = array();
+	$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Back to main page'), 'button');
+	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), i18n::s('Notify participants'));
+	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), i18n::s('Invite participants'));
+	$follow_up .= Skin::finalize_list($menu, 'menu_bar');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // send message to all watchers
 } elseif(!count($recipients)) {
@@ -201,6 +220,9 @@ if(Surfer::is_crawler()) {
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// get a copy of the sent message
+	$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

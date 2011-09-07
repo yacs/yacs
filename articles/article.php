@@ -641,7 +641,7 @@ Class Article extends Anchor {
 		preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $text);
 
 		// separate headers from body, if any
-		$items = explode("\015\012\015\012", $text, 2);
+		$items = explode(CRLF.CRLF, $text, 2);
 		$headers = $items[0];
 		if(isset($items[1]))
 			$body = "\n\n".$items[1];
@@ -1036,8 +1036,18 @@ Class Article extends Anchor {
 		if(isset($this->item['anchor']) && $this->item['anchor'])
 			$anchor =& Anchors::get($this->item['anchor']);
 
-		// send alert only on new stuff, and if the page has been published
-		if(preg_match('/:create$/i', $action) && isset($this->item['publish_date']) &&  ($this->item['publish_date'] > NULL_DATE)) {
+		// do not signal the change to watchers if the page is on draft mode
+		if(!isset($this->item['publish_date']) ||  ($this->item['publish_date'] <= NULL_DATE)) {
+			$to_watchers = FALSE;
+			$to_followers = FALSE;
+		}
+
+		// do not forward this to followers if the page is private
+		if($this->item['active'] == 'N')
+			$to_followers = FALSE;
+
+		// send alert only on new stuff
+		if(preg_match('/:create$/i', $action)) {
 
 			// poster name
 			$surfer = Surfer::get_name();
@@ -1094,7 +1104,7 @@ Class Article extends Anchor {
 
 				}
 
-			// something else has been added to the section
+			// something else has been added to the page
 			} else {
 
 				// add poster name if applicable
@@ -1121,7 +1131,7 @@ Class Article extends Anchor {
 				Users::alert_watchers('article:'.$this->item['id'], $mail);
 
 			// alert connexions, except on private pages
-			if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
+			if(Surfer::get_id() && $to_followers) {
 
 				// message to connexions
 				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
@@ -1146,8 +1156,18 @@ Class Article extends Anchor {
 			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards
-		if(is_object($this->anchor))
-			$this->anchor->touch('article:update', $this->item['id'], TRUE, $to_watchers);
+		if(is_object($this->anchor)) {
+
+			// notify the full contribution to section watcher
+			if($action == 'comment:create')
+				$action = 'article:comment';
+
+			// default case
+			else
+				$action = 'article:update';
+
+			$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
+		}
 
 	}
 

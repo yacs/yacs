@@ -108,7 +108,7 @@ if(!$context['site_icon']) {
 }
 
 // other head directives
-echo $context['page_header'];
+Page::meta();
 
 // end of the header
 echo '</head>'."\n";
