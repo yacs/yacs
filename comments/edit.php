@@ -447,13 +447,18 @@ if($with_form) {
 	// optional checkboxes
 	$context['text'] .= '<p>';
 
-	// notify watchers
-	if($action != 'edit')
-		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+	// do not process notifications for draft articles
+	if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
 
-	// notify people following me
-	if(($action != 'edit') && Surfer::get_id() && !$anchor->is_hidden())
-		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers.').BR;
+		// notify watchers
+		if($action != 'edit')
+			$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+
+		// notify people following me
+		if(($action != 'edit') && Surfer::get_id() && !$anchor->is_hidden())
+			$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
+
+	}
 
 	// associates and editors may decide to not stamp changes -- complex command
 	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())

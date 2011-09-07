@@ -431,7 +431,24 @@ Class Images {
 			return FALSE;
 
 		// web address of the image
-		return $context['url_to_root'].$target;
+		return $context['url_to_root'].encode_link($target);
+	}
+
+	/**
+	 * get the newest image for a given anchor
+	 *
+	 * @param string the anchor
+	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
+	 */
+	function &get_newest_for_anchor($anchor) {
+		global $context;
+
+		// select among available items
+		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
+			." WHERE images.anchor LIKE '".SQL::escape($anchor)."' ORDER BY images.edit_date DESC LIMIT 0, 1";
+
+		$output =& SQL::query_first($query);
+		return $output;
 	}
 
 	/**

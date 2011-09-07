@@ -278,6 +278,7 @@
  * @tester Fw_crocodile
  * @tester Christian Piercot
  * @tester Christian Loubechine
+ * @tester Daniel Dupuis
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -483,7 +484,7 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_]+)/i', // YouTube link
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)/i', // YouTube link
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
@@ -1833,13 +1834,26 @@ Class Codes {
 				$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
 			$flashvars .= 'width='.$width.'&height='.$height;
 
+			// if there is a static image for this video, use it
+			if(isset($item['icon_url']) && $item['icon_url'])
+				$flashvars .= '&startimage='.urlencode($item['icon_url']);
+
+			// if there is a subtitle file for this video, use it
+			if(isset($item['file_name']) && ($srt = 'files/'.str_replace(':', '/', $item['anchor']).'/'.str_replace('.'.$extension, '.srt', $item['file_name'])) && file_exists($context['path_to_root'].$srt))
+				$flashvars .= '&srt=1&srturl='.urlencode($context['url_to_home'].$context['url_to_root'].$srt);
+
+			// if there is a logo file in the skin, use it
+			Skin::define_img_href('FLV_IMG_HREF', 'codes/flvplayer_logo.png', '');
+			if(FLV_IMG_HREF)
+				$flashvars .= '&top1='.urlencode(FLV_IMG_HREF.'|10|10');
+
 			// rely on Flash
 			if(Surfer::has_flash()) {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
@@ -1849,8 +1863,7 @@ Class Codes {
  			} else {
 
 				// <video> is HTML5, <object> is legacy
- 				$output = '<video width="'.$width.'" height="'.$height.'" autoplay="" controls="">'."\n"
-					.'	<source src="'.$url.'" />'."\n"
+ 				$output = '<video width="'.$width.'" height="'.$height.'" autoplay="" controls="" src="'.$url.'" >'."\n"
 					.'	<object width="'.$width.'" height="'.$height.'" data="'.$url.'" type="'.Files::get_mime_type($item['file_name']).'">'."\n"
 					.'		<param value="'.$url.'" name="movie" />'."\n"
 					.'		<param value="true" name="allowFullScreen" />'."\n"
@@ -2631,7 +2644,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'Event.observe(window, "load", function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' } }, function(s) { if(s.text) { $("newsfeed_'.$count.'").update(s.text.toString()); } else { $("newsfeed_'.$count.'").update(""); } } ) } );'."\n"
+			.'Event.observe(window, "load", function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\', id: 1 } }, function(s) { if(s.text) { $("newsfeed_'.$count.'").update(s.text.toString()); } else { $("newsfeed_'.$count.'").update(""); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;
@@ -3429,7 +3442,7 @@ Class Codes {
 	 * get the value of one global parameter
 	 *
 	 * Parameter is taken from the global $context array, and its name has to start with
-	 * prefix 'page_', for obvious security reasons.
+	 * prefix 'page_', or 'site_', for obvious security reasons.
 	 *
 	 * @param string name of the parameter
 	 * @param mixed default value, if any
@@ -3439,6 +3452,11 @@ Class Codes {
 		global $context;
 
 		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
+			$output =& $context[$name];
+			return $output;
+		}
+
+		if(!strncmp($name, 'site_', 5) && isset($context[$name])) {
 			$output =& $context[$name];
 			return $output;
 		}

@@ -2,9 +2,6 @@
 /**
  * the database abstraction layer for articles
  *
- * @todo add a field to count words in a post
- * @todo add new monitoring layout http://www.socialtext.com/products/tour/recentchanges
- * @todo add a read-only ticket for protected pages
  * @todo place in bin on deletion
  *
  * The several versions of article content are now saved for history, and may be restored at any time.
@@ -502,11 +499,11 @@ Class Articles {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// wiki mode for all of the server
+		// owners can publish their content through all of the server
 		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
 			return TRUE;
 
-		// wiki mode for this section
+		// owners can publish their content in this section
 		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('auto_publish'))
 			return TRUE;
 
@@ -514,7 +511,7 @@ Class Articles {
 		if(is_object($anchor) && $anchor->is_owned())
 			return TRUE;
 
-		// allow editors to manage content, except on private sections
+		// allow editors to manage content, but not on private sections
 		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 

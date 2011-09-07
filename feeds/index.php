@@ -2,8 +2,6 @@
 /**
  * use feeds to exchange news with other web servers
  *
- * @todo add other web subscriptions http://feeds.atwonline.com/AtwDailyNews
- *
  * Configuring feeding channels between servers is the very first mean to expand a YACS community.
  *
  * The patterns that are supported at the moment are quite straightforward, as usual:
