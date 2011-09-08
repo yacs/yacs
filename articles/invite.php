@@ -349,7 +349,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// add some names manually
-	$input .= Skin::build_box(i18n::s('Invite some individuals'), '<textarea name="to" id="names" rows="3" cols="50"></textarea>_<div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
+	$input .= Skin::build_box(i18n::s('Invite some individuals'), '<textarea name="to" id="names" rows="3" cols="50"></textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
 
 	// combine all these elements
 	$fields[] = array($label, $input);
