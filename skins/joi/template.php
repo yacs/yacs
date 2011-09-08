@@ -67,7 +67,7 @@ echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'
 echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/joi/joi.css" type="text/css" media="all" />'."\n";
 
 // other head directives
-echo $context['page_header'];
+Page::meta();
 
 // end of the header
 echo '</head>'."\n";

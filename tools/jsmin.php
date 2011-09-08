@@ -91,7 +91,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		}
 	}
 	// save the library to call in page header
-	Safe::file_put_contents($context['path_to_root'].'included/browser/library_header.min.js', $minified);
+	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_header.min.js', $minified);
 
 	// do the same with included/browser/footer, including shared/yacs.js
 	$minified ='';
@@ -121,7 +121,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	    $count++;
 	}
 	// save the library to call in page footer
-	Safe::file_put_contents($context['path_to_root'].'included/browser/library_endpage.min.js', $minified);
+	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_endpage.min.js', $minified);
 
 	// do the same in included/calendar
 	foreach(Safe::glob($context['path_to_root'].'included/jscalendar/*.js') as $name) {
@@ -151,8 +151,8 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		$context['text'] .= sprintf(i18n::s('%d files have been minified.'), $count)."\n";
 	$context['text'] .= "</p>\n";
 
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_header.min.js'), i18n::s('bytes')).'</p>';
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_endpage.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_header.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_endpage.min.js'), i18n::s('bytes')).'</p>';
 
 	// display the execution time
 	$time = round(get_micro_time() - $context['start_time'], 2);

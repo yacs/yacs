@@ -61,7 +61,7 @@ if($focus = Page::top_focus()) {
 		."\t".'</style>'."\n";
 }
 // other head directives
-echo $context['page_header'];
+Page::meta();
 
 // end of the header
 echo '</head>'."\n";

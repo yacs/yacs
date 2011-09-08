@@ -17,8 +17,6 @@ include_once 'event.php';
  *
  * There is no Join button, since the event page is also the place where the chat is taking place.
  *
- * @todo how to control that participants are really enrolled in the chat?
- *
  * This overlay uses following parameters:
  * - chairman
  * - number of seats

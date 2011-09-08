@@ -576,6 +576,28 @@ Class Locations {
 	}
 
 	/**
+	 * locate some reference
+	 *
+	 * @param string the anchor (e.g., 'article:123')
+	 * @return string longitude and latitude of the anchor, else NULL
+	 *
+	 * @see articles/layout_articles_as_contents.php
+	 * @see articles/layout_articles_as_feed.php
+	 */
+	function locate_anchor($anchor) {
+		global $context;
+
+		// the request
+		$query = "SELECT CONCAT(location.latitude, ', ', location.longitude) as geolocation FROM ".SQL::table_name('locations')." AS location"
+			." WHERE (location.anchor LIKE '".SQL::escape($anchor)."') "
+			." ORDER BY location.edit_date DESC, location.geo_place_name LIMIT 0, 1";
+
+		// the location, if any
+		$output =& SQL::query_scalar($query);
+		return $output;
+	}
+
+	/**
 	 * map at Google
 	 *
 	 * @link http://www.nabble.com/problem-loading-googlemaps-into-jquery-UI-tabs-td15962881s27240.html

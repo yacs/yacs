@@ -132,20 +132,23 @@ if(Surfer::is_crawler()) {
 	else {
 
 		// allow the anchor to prevent notifications of watchers
-		if(is_object($overlay))
-			$with_watchers = $overlay->should_notify_watchers();
-		else
-			$with_watchers = TRUE;
+		if(is_object($overlay) && !$overlay->should_notify_watchers())
+			$_REQUEST['notify_watchers'] == 'N';
 
-		// notify my followers, but not on private pages
-		$with_followers = (isset($_REQUEST['active']) && ($_REQUEST['active'] != 'N'));
+		// never notify followers on private pages
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			$_REQUEST['notify_followers'] == 'N';
 
 		// allow the anchor to prevent notifications of followers
-		if($with_followers && is_object($overlay))
-			$with_followers = $overlay->should_notify_followers();
+		elseif(is_object($overlay) && !$overlay->should_notify_followers())
+			$_REQUEST['notify_followers'] == 'N';
 
-		// advertise watchers, and followers
-		$anchor->touch('article:create', $item['id'], FALSE, $with_watchers, $with_followers);
+		// touch the section
+		if(is_object($anchor)) {
+			$anchor->touch('article:publish', $item['id'], FALSE,
+				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+		}
 
 		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
@@ -313,6 +316,13 @@ if($with_form) {
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 	$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// notify watchers --updating a file, or uploading a new file, should generate a notification
+	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+
+	// notify people following me
+	if(Surfer::get_id() && !$anchor->is_hidden())
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
 
 	// article id and confirmation
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
