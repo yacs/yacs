@@ -91,8 +91,8 @@ Class i18n {
 			return;
 
 		// initialization
-		if(!isset($_SESSION['l10n_modules']))
-			$_SESSION['l10n_modules'] = array();
+		if(!isset($context['l10n_modules']))
+			$context['l10n_modules'] = array();
 
 		// ensure all cached modules are accurate on development machine
 		if($context['with_debug'] == 'Y') {
@@ -101,11 +101,11 @@ Class i18n {
 		}
 
 		// this module has already been loaded
-		if(isset($_SESSION['l10n_modules'][$module]))
+		if(isset($context['l10n_modules'][$module]))
 			return;
 
 		// avoid further loading
-		$_SESSION['l10n_modules'][$module] = TRUE;
+		$context['l10n_modules'][$module] = TRUE;
 
 		// load strings according to surfer localization
 		i18n::load($context['language'], $module);
@@ -138,11 +138,11 @@ Class i18n {
 			$locale = 'en';
 
 		// cache is empty
-		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
+		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]))
 			return $text;
 
 		// provide the localized string
-		$text =& i18n::lookup($_SESSION['l10n'][$locale], $text);
+		$text =& i18n::lookup($context['l10n'][$locale], $text);
 		return $text;
 	}
 
@@ -1075,7 +1075,7 @@ Class i18n {
 	 * The function also attempts to create a cached PHP version of the file
 	 * if one does not exists, to speed up subsequent calls.
 	 *
-	 * Loaded strings are all placed into the global array $_SESSION['l10n'] for later use.
+	 * Loaded strings are all placed into the global array $context['l10n'] for later use.
 	 *
 	 * The function does not actually use the gettext PHP extension because of potential weak implementations.
 	 * Instead, it parses directly binary content of the .mo file.
@@ -1097,10 +1097,10 @@ Class i18n {
 		$path = 'i18n/locale/'.$language.'/'.$module.'.mo';
 
 		// translations have a global scope
-		if(!isset($_SESSION['l10n']))
-			$_SESSION['l10n'] = array();
-		if(!isset($_SESSION['l10n'][$language]))
-			$_SESSION['l10n'][$language] = array();
+		if(!isset($context['l10n']))
+			$context['l10n'] = array();
+		if(!isset($context['l10n'][$language]))
+			$context['l10n'][$language] = array();
 
 		// load PHP version, if it exists, and if it is fresher than the original
 		$hash = $context['path_to_root'].$path.'.php';
@@ -1201,7 +1201,7 @@ Class i18n {
 
 			// save in memory
 			$hash =& i18n::hash($original);
-			$_SESSION['l10n'][$language][$hash] = $translated;
+			$context['l10n'][$language][$hash] = $translated;
 
 			// escape original string
 			$hash = str_replace('\000', "'.chr(0).'", addcslashes($hash, "\0\\'"));
@@ -1211,24 +1211,24 @@ Class i18n {
 
 			// update cache file, if any
 			if($cache && ($hash != '_headers'))
-				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
+				$cache_content .= '$context[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
 		}
 
 		// clean out
 		fclose($handle);
 
 		// look for plural string
-		if(preg_match('/plural-forms: ([^\n]*)\n/i', $_SESSION['l10n'][$language]['_headers'], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
+		if(preg_match('/plural-forms: ([^\n]*)\n/i', $context['l10n'][$language]['_headers'], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
 			$plural = $matches[1];
 		else
 			$plural = 'nplurals=2; plural=(n != 1)';
 
 		// save it in cache as well
-		$_SESSION['l10n'][$language]['_plural'] = $plural;
+		$context['l10n'][$language]['_plural'] = $plural;
 
 		// finalize cache file, if any
 		if($cache) {
-			$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\'_plural\']=\''.addcslashes($plural, "\\'")."';\n".'?>';
+			$cache_content .= '$context[\'l10n\'][\''.$language.'\'][\'_plural\']=\''.addcslashes($plural, "\\'")."';\n".'?>';
 			fwrite($cache, $cache_content);
 			fclose($cache);
 		}
@@ -1298,7 +1298,7 @@ Class i18n {
 		$text =& i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
-		if(!isset($_SESSION['l10n']) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
+		if(!isset($context['l10n']) || !is_array($context['l10n'][$locale]) || !array_key_exists($text, $context['l10n'][$locale]) || !array_key_exists('_plural', $context['l10n'][$locale])) {
 			if($count != 1)
 				return $plural;
 			else
@@ -1306,7 +1306,7 @@ Class i18n {
 		}
 
 		// use cached plural definition
-		$plural = $_SESSION['l10n'][$locale]['_plural'];
+		$plural = $context['l10n'][$locale]['_plural'];
 
 		// make a PHP statement out of it
 		$plural = str_replace('nplurals','$total', $plural);
@@ -1321,7 +1321,7 @@ Class i18n {
 			$select = $total - 1;
 
 		// get translated strings
-		$text = $_SESSION['l10n'][$locale][$text];
+		$text = $context['l10n'][$locale][$text];
 
 		// explode and select correct part
 		$parts = explode(chr(0), $text);
@@ -1357,7 +1357,7 @@ Class i18n {
 		$text =& i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
-		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
+		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]) || !array_key_exists($text, $context['l10n'][$locale]) || !array_key_exists('_plural', $context['l10n'][$locale])) {
 			if($count != 1)
 				return $plural;
 			else
@@ -1365,7 +1365,7 @@ Class i18n {
 		}
 
 		// use cached plural definition
-		$plural = $_SESSION['l10n'][$locale]['_plural'];
+		$plural = $context['l10n'][$locale]['_plural'];
 
 		// make a PHP statement out of it
 		$plural = str_replace('nplurals','$total', $plural);
@@ -1380,7 +1380,7 @@ Class i18n {
 			$select = $total - 1;
 
 		// get translated strings
-		$text = $_SESSION['l10n'][$locale][$text];
+		$text = $context['l10n'][$locale][$text];
 
 		// explode and select correct part
 		$parts = explode(chr(0), $text);
@@ -1394,8 +1394,8 @@ Class i18n {
 	 */
 	function reset() {
 
-		if(isset($_SESSION['l10n_modules']))
-			unset($_SESSION['l10n_modules']);
+		if(isset($context['l10n_modules']))
+			unset($context['l10n_modules']);
 
 	}
 
@@ -1421,11 +1421,11 @@ Class i18n {
 			$locale = 'en';
 
 		// cache is empty
-		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
+		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]))
 			return $text;
 
 		// provide the localized string
-		$text =& i18n::lookup($_SESSION['l10n'][$locale], $text);
+		$text =& i18n::lookup($context['l10n'][$locale], $text);
 		return $text;
 	}
 

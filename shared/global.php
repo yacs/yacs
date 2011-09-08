@@ -44,7 +44,7 @@ if(is_callable('session_cache_limiter'))
 if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 	session_start();
 
-// used in many technical specifications
+// used to end lines in many technical specifications
 if(!defined('CRLF'))
 	define('CRLF', "\x0D\x0A");
 
@@ -568,7 +568,7 @@ function &encode_field($text) {
 function &encode_link($link) {
 
 	// suppress invalid chars, if any
-	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $link), ' _');
+	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', str_replace(' ', '%20', $link)), ' _');
 
 	// transform & to &amp;
 	$output = str_replace('&', '&amp;', $output);
@@ -1107,10 +1107,10 @@ function render_skin($with_last_modified=TRUE) {
 	// a meta-link to our help page
 	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
 
-	// page description
-	if(isset($context['page_description']) && $context['page_description']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />';
+	// page meta description
+	if(isset($context['page_meta']) && $context['page_meta']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
 	} elseif(isset($context['site_description']) && $context['site_description']) {
 		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
 		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
@@ -1208,15 +1208,7 @@ function render_skin($with_last_modified=TRUE) {
 	    $context['page_header'] .= $context['javascript']['header'];
 
 	// jquery-ui stylesheet
-	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.2.custom.css" type="text/css" media="all" />'."\n";
-	// load a bunch of included scripts in one step, including jquery --we are doing that in the header, because of $(document).ready( ... in $context['text']
-	// $context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.min.js"></script>'."\n";
-
-	// jquery-json
-	//$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery.json.min.js"></script>'."\n";
-
-	// jquery-ui (at least for autocomplete)
-	// $context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/jquery-ui.min.js"></script>'."\n";
+	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />'."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
@@ -1240,23 +1232,20 @@ function render_skin($with_last_modified=TRUE) {
 
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	if(isset($context['current_item']) && $context['current_item'])
-		$metas[] = JS_PREFIX
+		Js_Css::add_inline_js(JS_PREFIX
 			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
-			.JS_SUFFIX;
+			.JS_SUFFIX);
 
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
-
-	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
 	$context['page_footer'] .= Js_Css::get_js_libraries('js_endpage','shared/yacs.js');
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
-	    $context['page_footer'] .= $context['javascript']['footer'];
+		$context['page_footer'] .= $context['javascript']['footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
@@ -1306,7 +1295,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
+	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
@@ -1339,6 +1328,10 @@ function render_skin($with_last_modified=TRUE) {
 		if($context['site_name'] && isset($context['skin_variant']) && ($context['skin_variant'] != 'home'))
 			echo ' - '.$context['site_name'];
 		echo '</title>';
+
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
 
 		echo "</head>\n<body>\n";
 

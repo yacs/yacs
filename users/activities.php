@@ -45,6 +45,33 @@ Class Activities {
 	}
 
 	/**
+	 * count users doing the same thing
+	 *
+	 * @param string reference of the handled object (e.g., 'article:123')
+	 * @param string description of the action (e.g., 'post' or 'like')
+	 * @return int total count of profiles for this anchor and action
+	 */
+	function count_users_at($anchor, $action=NULL) {
+		global $context;
+
+		// limit the query to one anchor
+		$where = "(anchor LIKE '".SQL::escape($anchor)."')";
+
+		// for some actions only
+		if(is_array($action))
+			$where .= " AND (action IN ('".implode("', '", $action)."'))";
+		elseif($action)
+			$where .= " AND (action LIKE '".SQL::escape($action)."')";
+
+		// the list of activities
+		$query = "SELECT DISTINCT edit_id	FROM ".SQL::table_name('activities')." AS activities"
+			." WHERE ".$where." AND (edit_id > 0)";
+
+		// count records
+		return SQL::query_count($query);
+	}
+
+	/**
 	 * list most recent activities
 	 *
 	 * @param string reference of the handled object (e.g., 'article:123')
@@ -113,6 +140,40 @@ Class Activities {
 	}
 
 	/**
+	 * list users related to some activities
+	 *
+	 * @param string reference of the handled object (e.g., 'article:123')
+	 * @param string description of the action (e.g., 'post' or 'like')
+	 * @param int maximum number of users to list
+	 * @param string layout of matching records
+	 * @return array list of matching user profiles
+	 */
+	function list_users_at($anchor, $action=NULL, $count=50, $variant='raw') {
+		global $context;
+
+		// limit the query to one anchor
+		$where = "(anchor LIKE '".SQL::escape($anchor)."')";
+
+		// for some actions only
+		if(is_array($action))
+			$where .= " AND (action IN ('".implode("', '", $action)."'))";
+		elseif($action)
+			$where .= " AND (action LIKE '".SQL::escape($action)."')";
+
+		// the list of activities
+		$query = "SELECT users.* FROM ".SQL::table_name('activities')." AS activities"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE ".$where
+			." AND (users.id = activities.edit_id)"
+			." GROUP BY users.id ORDER BY activities.edit_date DESC LIMIT ".$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+
+	}
+
+	/**
 	 * store a new activity
 	 *
 	 * @param string reference of the handled object (e.g., 'article:123')
@@ -158,7 +219,7 @@ Class Activities {
 		$indexes['INDEX action']	= "(action)";
 		$indexes['INDEX anchor']	= "(anchor)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
-		$indexes['INDEX edit_id'] 	= "(user_id)";
+		$indexes['INDEX edit_id'] 	= "(edit_id)";
 
 		return SQL::setup_table('activities', $fields, $indexes);
 	}

@@ -381,6 +381,10 @@
 	function echo_title() {
 		global $context;
 
+		// main page title has already been given
+		if(defined('without_page_title'))
+			return;
+
 		// from $context
 		if(isset($context['page_title']) && $context['page_title'])
 			echo Skin::build_block($context['page_title'], 'page_title');
@@ -542,6 +546,21 @@
 
 		// end of the last paragraph
 		echo '</p>'."\n";
+	}
+
+	/**
+	 * generate content of the &lt;head&gt; tag
+	 */
+	function meta() {
+		global $context;
+
+		// other head directives
+		echo $context['page_header'];
+
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
+
 	}
 
 	/**

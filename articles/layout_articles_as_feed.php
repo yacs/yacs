@@ -4,7 +4,7 @@
  *
  * This is a special layout used to build a newsfeed.
  *
- * @todo insert page tags as item categories
+ * @link http://georss.org/Main_Page GeoRSS
  *
  * @see articles/articles.php
  * @see feeds/feeds.php
@@ -38,6 +38,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'locations/locations.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
@@ -104,6 +105,10 @@ Class Layout_articles_as_feed extends Layout_interface {
 
 			// other rss fields
 			$extensions = array();
+
+			// the geolocation for this page, if any
+			if($location = Locations::locate_anchor('article:'.$item['id']))
+				$extensions[] = '<georss:point>'.str_replace(',', ' ', $location).'</georss:point>';
 
 			// url for comments
 			if(is_object($anchor))

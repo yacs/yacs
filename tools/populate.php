@@ -2,9 +2,6 @@
 /**
  * populate the database with test data
  *
- * @todo 'retrospective_template' http://www.eu.socialtext.net/open/index.cgi?retrospective_template
- * @todo 'case_study' http://www.eu.socialtext.net/cases2/index.cgi?case_template
- *
  * This script helps to create a suitable environment for demonstration and for
  * non-regression tests.
  *

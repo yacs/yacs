@@ -2,8 +2,6 @@
 /**
  * the index page for comments
  *
- * @todo explicit thread dates, like in http://www.sitepoint.com/forums/
- *
  * For a comprehensive description of comments, you should check the database abstraction script
  * at [script]comments/comments.php[/script].
  *
