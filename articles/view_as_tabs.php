@@ -27,6 +27,8 @@
 // loaded from articles/view.php
 defined('YACS') or exit('Script must be included');
 
+include_once '../images/images.php';			// attached images
+
 //
 // rewrite $context['page_details'] because information is split in tabs
 //
