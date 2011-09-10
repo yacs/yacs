@@ -439,7 +439,7 @@ if($with_form) {
 	// bottom commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
-	$menu[] = '<a href="#" onclick="$(\'#preview_flag\').setAttribute(\'value\', \'Y\'); $(\'#submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
+	$menu[] = '<a href="#" onclick="$(\'#preview_flag\').attr(\'value\', \'Y\'); $(\'#submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
 	if(is_object($anchor))
 		$menu[] = Skin::build_link($anchor->get_url('comments'), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
