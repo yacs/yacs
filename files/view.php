@@ -495,7 +495,7 @@ if(!isset($item['id'])) {
 		else
 			$more = '';
 
-		$description .= '<p>'.sprintf(i18n::ns('%d person has asked for this file: %s', '%d persons have asked for this file: %s', $count), $count, $users)."</p>\n";
+		$description .= '<p>'.Skin::build_number($item['hits'], i18n::ns('download', 'downloads', $item['hits'])).sprintf(i18n::ns(', including %d authenticated person: %s', ', including %d authenticated persons: %s', $count), $count, $users)."</p>\n";
 
 
 	}
