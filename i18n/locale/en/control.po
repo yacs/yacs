@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-13 11:49+0200\n"
+"POT-Creation-Date: 2011-08-12 21:43+0200\n"
 "PO-Revision-Date: 2011-06-03 23:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -1485,7 +1485,8 @@ msgid ""
 msgstr ""
 "%s - check the database structure; also optimize data tables and update index"
 
-#: control/index.php:867 control/setup.php:106
+#: control/index.php:867 control/scan.php:783 control/scan.php:802
+#: control/setup.php:106
 msgid "Database maintenance"
 msgstr "Database maintenance"
 
@@ -2659,10 +2660,6 @@ msgstr "Hooks have been compiled in parameters/hooks.include.php"
 msgid "Hooks have been listed in parameters/hooks.xml"
 msgstr "Hooks have been listed in parameters/hooks.xml"
 
-#: control/scan.php:783 control/scan.php:802
-msgid "Update the database schema"
-msgstr "Update the database schema"
-
 #: control/scan.php:810
 msgid "This script will scan your php scripts to install software hooks."
 msgstr "This script will scan your php scripts to install software hooks."
@@ -3025,6 +3022,9 @@ msgstr "Activate the following Apache module to allow cache by expiration: %s"
 #: control/htaccess/indexes/index.php:30
 msgid "The default handler will be set to index.php."
 msgstr "The default handler will be set to index.php."
+
+#~ msgid "Update the database schema"
+#~ msgstr "Update the database schema"
 
 #~ msgid "Web conference"
 #~ msgstr "Web conference"

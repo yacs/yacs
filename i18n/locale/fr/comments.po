@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-17 23:22+0200\n"
-"PO-Revision-Date: 2011-05-17 23:24+0100\n"
+"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"PO-Revision-Date: 2011-06-27 16:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -15,46 +15,26 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Language: French\n"
 
-#: comments/check.php:21
-#: comments/edit.php:166
-#: comments/feed.php:73
-#: comments/list.php:98
-#: comments/list.php:105
-#: comments/post.php:178
+#: comments/check.php:21 comments/edit.php:166 comments/feed.php:73
+#: comments/list.php:98 comments/list.php:105 comments/post.php:178
 msgid "Comments"
 msgstr "Commentaires"
 
-#: comments/check.php:24
-#: comments/index.php:97
+#: comments/check.php:24 comments/index.php:95
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: comments/check.php:29
-#: comments/delete.php:72
-#: comments/delete.php:81
-#: comments/edit.php:182
-#: comments/edit.php:198
-#: comments/feed.php:89
-#: comments/index.php:53
-#: comments/list.php:121
-#: comments/list.php:126
-#: comments/post.php:186
-#: comments/promote.php:77
-#: comments/promote.php:92
-#: comments/thread.php:55
-#: comments/thread.php:65
-#: comments/thread.php:70
-#: comments/thread.php:75
-#: comments/view.php:96
+#: comments/check.php:29 comments/delete.php:72 comments/delete.php:81
+#: comments/edit.php:182 comments/edit.php:198 comments/feed.php:89
+#: comments/index.php:51 comments/list.php:121 comments/list.php:126
+#: comments/post.php:186 comments/promote.php:77 comments/promote.php:92
+#: comments/thread.php:55 comments/thread.php:65 comments/thread.php:70
+#: comments/thread.php:75 comments/view.php:96
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: comments/check.php:32
-#: comments/check.php:86
-#: comments/delete.php:61
-#: comments/index.php:43
-#: comments/promote.php:66
-#: comments/view.php:75
+#: comments/check.php:32 comments/check.php:86 comments/delete.php:61
+#: comments/index.php:41 comments/promote.php:66 comments/view.php:75
 msgid "Threads"
 msgstr "Discussions"
 
@@ -63,8 +43,7 @@ msgstr "Discussions"
 msgid "Analyzing table %s..."
 msgstr "Analyse de la table %s ..."
 
-#: comments/check.php:58
-#: comments/check.php:79
+#: comments/check.php:58 comments/check.php:79
 #, php-format
 msgid "%d records have been processed"
 msgstr "%d enregistrements ont été traités"
@@ -95,79 +74,67 @@ msgstr "Détecter les enregistrements orphelins"
 msgid "Start"
 msgstr "Commencer"
 
-#: comments/comments.php:391
-#: comments/edit.php:441
+#: comments/comments.php:389 comments/edit.php:441
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: comments/comments.php:391
-#: comments/edit.php:441
+#: comments/comments.php:389 comments/edit.php:441
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: comments/comments.php:394
+#: comments/comments.php:392
 #, php-format
 msgid "You may attach a file of up to %sbytes"
 msgstr "Vous pouvez envoyer un fichier de moins de %soctets"
 
-#: comments/comments.php:691
-#: comments/comments.php:791
-#: comments/comments.php:848
+#: comments/comments.php:689 comments/comments.php:789
+#: comments/comments.php:846
 msgid "A suggestion"
 msgstr "Une suggestion"
 
-#: comments/comments.php:697
-#: comments/comments.php:797
-#: comments/comments.php:850
+#: comments/comments.php:695 comments/comments.php:795
+#: comments/comments.php:848
 msgid "A question"
 msgstr "Une question"
 
-#: comments/comments.php:703
-#: comments/comments.php:812
-#: comments/comments.php:852
+#: comments/comments.php:701 comments/comments.php:810
+#: comments/comments.php:850
 msgid "Warning!"
 msgstr "Attention !"
 
-#: comments/comments.php:709
-#: comments/comments.php:803
-#: comments/comments.php:854
+#: comments/comments.php:707 comments/comments.php:801
+#: comments/comments.php:852
 msgid "I like..."
 msgstr "J'aime..."
 
-#: comments/comments.php:715
-#: comments/comments.php:830
-#: comments/comments.php:856
+#: comments/comments.php:713 comments/comments.php:828
+#: comments/comments.php:854
 msgid "I don't like..."
 msgstr "Je n'aime pas..."
 
-#: comments/comments.php:721
-#: comments/comments.php:824
-#: comments/comments.php:859
+#: comments/comments.php:719 comments/comments.php:822
+#: comments/comments.php:857
 msgid "My two cents"
 msgstr "Une contribution personnelle"
 
-#: comments/comments.php:785
+#: comments/comments.php:783
 msgid "Attention"
 msgstr "Important"
 
-#: comments/comments.php:818
+#: comments/comments.php:816
 msgid "Job has been completed"
 msgstr "C'est fait"
 
-#: comments/comments.php:1464
-#: comments/index.php:82
+#: comments/comments.php:1462 comments/index.php:80
 msgid "No comment has been transmitted."
 msgstr "Aucun commentaire n'a été transmis."
 
-#: comments/comments.php:1470
-#: comments/comments.php:1476
-#: comments/edit.php:187
-#: comments/list.php:110
-#: comments/thread.php:60
+#: comments/comments.php:1468 comments/comments.php:1474 comments/edit.php:187
+#: comments/list.php:110 comments/thread.php:60
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: comments/comments.php:1493
+#: comments/comments.php:1491
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -175,8 +142,7 @@ msgstr "Identifiant inconnu."
 msgid "Delete a comment"
 msgstr "Effacer un commentaire"
 
-#: comments/delete.php:101
-#: comments/promote.php:133
+#: comments/delete.php:101 comments/promote.php:133
 msgid "The action has not been confirmed."
 msgstr "L'action n'a pas été confirmée."
 
@@ -184,22 +150,17 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to delete this comment"
 msgstr "Oui, je veux supprimer ce commentaire"
 
-#: comments/delete.php:114
-#: comments/edit.php:444
+#: comments/delete.php:114 comments/edit.php:444
 msgid "Cancel"
 msgstr "Annuler"
 
-#: comments/delete.php:136
-#: comments/promote.php:161
-#: comments/view.php:158
+#: comments/delete.php:136 comments/promote.php:161 comments/view.php:158
 #, php-format
 msgid "by %s %s"
 msgstr "par %s %s"
 
-#: comments/delete.php:140
-#: comments/layout_comments_as_jive.php:174
-#: comments/layout_comments_as_yabb.php:207
-#: comments/promote.php:165
+#: comments/delete.php:140 comments/layout_comments_as_jive.php:174
+#: comments/layout_comments_as_yabb.php:207 comments/promote.php:165
 #: comments/view.php:164
 #, php-format
 msgid "edited by %s %s"
@@ -252,8 +213,7 @@ msgstr "Aperçu de votre envoi :"
 msgid "Edit your post below"
 msgstr "Modifiez votre texte ci-dessous"
 
-#: comments/edit.php:339
-#: comments/edit.php:341
+#: comments/edit.php:339 comments/edit.php:341
 #, php-format
 msgid "%s:"
 msgstr "%s :"
@@ -268,8 +228,13 @@ msgstr "Modifié par"
 
 #: comments/edit.php:380
 #, php-format
-msgid "If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields."
-msgstr "Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous."
+msgid ""
+"If you have previously registered to this site, please %s. Then the server "
+"will automatically put your name and address in following fields."
+msgstr ""
+"Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur "
+"pourra alors positionner votre nom et votre adresse automatiquement dans les "
+"champs ci-dessous."
 
 #: comments/edit.php:380
 msgid "authenticate"
@@ -289,7 +254,8 @@ msgstr "Votre adresse"
 
 #: comments/edit.php:391
 msgid "e-mail or web address; this field is optional"
-msgstr "Adresse de courrier électronique ou de serveur Internet. Champ optionnel"
+msgstr ""
+"Adresse de courrier électronique ou de serveur Internet. Champ optionnel"
 
 #: comments/edit.php:402
 msgid "Your intent"
@@ -319,74 +285,88 @@ msgstr "Appuyer sur [p] pour l'aperçu"
 msgid "Preview"
 msgstr "Aperçu"
 
-#: comments/edit.php:452
+#: comments/edit.php:455
 msgid "Notify watchers"
 msgstr "Alerter les observateurs"
 
-#: comments/edit.php:456
-msgid "Notify my followers."
-msgstr "Alerter mes abonnés."
+#: comments/edit.php:459
+msgid "Notify my followers"
+msgstr "Alerter mes abonnés"
 
-#: comments/edit.php:460
+#: comments/edit.php:465
 msgid "Do not change modification date of the main page."
 msgstr "Ne pas changer la date de modification de la page principale."
 
-#: comments/edit.php:463
+#: comments/edit.php:468
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: comments/edit.php:490
+#: comments/edit.php:495
 msgid "Please type a valid comment"
 msgstr "Merci de taper un commentaire valide"
 
-#: comments/edit.php:543
-#: comments/layout_comments_as_boxesandarrows.php:75
+#: comments/edit.php:548 comments/layout_comments_as_boxesandarrows.php:75
 #, php-format
 msgid "posted by %s %s"
 msgstr "posté par %s %s"
 
-#: comments/edit.php:548
-msgid "You can cut and paste some text from the field below to shape your post."
-msgstr "Vous pouvez copier et coller du texte à partir du champ ci-dessous pour construire votre envoi."
-
 #: comments/edit.php:553
-msgid "Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don't make us do it."
-msgstr "Les commentaires passionnés sont les bienvenus. Attention toutefois de ne pas trop s'écarter du sujet principal et de rester courtois. Nous supprimerons sans hésiter tout commentaire mal placé ou blessant. Merci de ne pas nous contraindre à de telles extrémités."
+msgid ""
+"You can cut and paste some text from the field below to shape your post."
+msgstr ""
+"Vous pouvez copier et coller du texte à partir du champ ci-dessous pour "
+"construire votre envoi."
 
-#: comments/edit.php:555
-msgid "Since you are posting anonymously, most HTML tags and web addresses are removed."
-msgstr "Vous postez anonymement ; toutes les balises HTLM et les adresses web seront supprimées."
+#: comments/edit.php:558
+msgid ""
+"Hearty discussion and unpopular viewpoints are welcome, but please keep "
+"comments on-category and civil. Flaming, trolling, and smarmy comments are "
+"discouraged and may be deleted. In fact, we reserve the right to delete any "
+"post for any reason. Don't make us do it."
+msgstr ""
+"Les commentaires passionnés sont les bienvenus. Attention toutefois de ne "
+"pas trop s'écarter du sujet principal et de rester courtois. Nous "
+"supprimerons sans hésiter tout commentaire mal placé ou blessant. Merci de "
+"ne pas nous contraindre à de telles extrémités."
 
-#: comments/edit.php:557
+#: comments/edit.php:560
+msgid ""
+"Since you are posting anonymously, most HTML tags and web addresses are "
+"removed."
+msgstr ""
+"Vous postez anonymement ; toutes les balises HTLM et les adresses web seront "
+"supprimées."
+
+#: comments/edit.php:562
 msgid "Most HTML tags are removed."
 msgstr "La plupart des balises HTML sont retirées."
 
-#: comments/edit.php:560
+#: comments/edit.php:565
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: comments/edit.php:560
+#: comments/edit.php:565
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: comments/edit.php:560
+#: comments/edit.php:565
 msgid "smileys"
 msgstr "emoticons"
 
-#: comments/edit.php:567
+#: comments/edit.php:572
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: comments/edit.php:571
+#: comments/edit.php:576
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: comments/edit.php:575
+#: comments/edit.php:580
 msgid "Textarea"
 msgstr "Textarea"
 
-#: comments/edit.php:579
+#: comments/edit.php:584
 msgid "Help"
 msgstr "Aide"
 
@@ -408,14 +388,14 @@ msgstr "Commentaires à %s"
 msgid "Each article also has its own newsfeed."
 msgstr "Ce serveur propose également un fil de nouvelles pour chaque article."
 
-#: comments/index.php:48
+#: comments/index.php:46
 #, php-format
 msgid "%d thread"
 msgid_plural "%d threads"
 msgstr[0] "%d discussion"
 msgstr[1] "%d discussions"
 
-#: comments/index.php:105
+#: comments/index.php:103
 msgid "Recent pages"
 msgstr "Pages récentes"
 
@@ -459,16 +439,14 @@ msgstr "citer"
 
 #: comments/layout_comments_as_daily.php:104
 #: comments/layout_comments_as_jive.php:117
-#: comments/layout_comments_as_yabb.php:142
-#: comments/view.php:190
+#: comments/layout_comments_as_yabb.php:142 comments/view.php:190
 #: comments/view.php:220
 msgid "Reply"
 msgstr "Répondre"
 
 #: comments/layout_comments_as_daily.php:105
 #: comments/layout_comments_as_jive.php:120
-#: comments/layout_comments_as_yabb.php:145
-#: comments/view.php:193
+#: comments/layout_comments_as_yabb.php:145 comments/view.php:193
 #: comments/view.php:223
 msgid "Quote"
 msgstr "Citer"
@@ -476,18 +454,15 @@ msgstr "Citer"
 #: comments/layout_comments_as_daily.php:110
 #: comments/layout_comments_as_jive.php:127
 #: comments/layout_comments_as_thread.php:84
-#: comments/layout_comments_as_yabb.php:151
-#: comments/view.php:184
-#: comments/view.php:214
-#: comments/view.php:227
+#: comments/layout_comments_as_yabb.php:151 comments/view.php:184
+#: comments/view.php:214 comments/view.php:227
 msgid "Edit"
 msgstr "Modifier"
 
 #: comments/layout_comments_as_daily.php:111
 #: comments/layout_comments_as_jive.php:130
 #: comments/layout_comments_as_yabb.php:132
-#: comments/layout_comments_as_yabb.php:154
-#: comments/view.php:236
+#: comments/layout_comments_as_yabb.php:154 comments/view.php:236
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -548,8 +523,7 @@ msgstr "Zoomer sur cette annotation"
 msgid "Page bottom"
 msgstr "Bas de page"
 
-#: comments/list.php:233
-#: comments/list.php:235
+#: comments/list.php:233 comments/list.php:235
 msgid "Done"
 msgstr "Terminé"
 
@@ -558,8 +532,12 @@ msgid "Comment service"
 msgstr "Envoi de commentaire"
 
 #: comments/post.php:309
-msgid "This script supports Comment API and Post-It updates through HTTP POST requests."
-msgstr "Ce script autorise les apports de type Comment API ou Post-It par requêtes HTTP POST."
+msgid ""
+"This script supports Comment API and Post-It updates through HTTP POST "
+"requests."
+msgstr ""
+"Ce script autorise les apports de type Comment API ou Post-It par requêtes "
+"HTTP POST."
 
 #: comments/promote.php:72
 msgid "Promote a comment"
@@ -594,8 +572,7 @@ msgstr "Ce commentaire a inspiré :"
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: comments/view.php:214
-#: comments/view.php:227
+#: comments/view.php:214 comments/view.php:227
 msgid "Press [e] to edit"
 msgstr "Appuyer sur [e] pour modifier"
 
@@ -720,13 +697,11 @@ msgstr "Promouvoir"
 #~ msgstr "Nouveau commentaire"
 
 #~ msgid "1&nbsp;thread"
-
 #~ msgid_plural "%d&nbsp;threads"
 #~ msgstr[0] "1&nbsp;discussion"
 #~ msgstr[1] "%d&nbsp;discussions"
 
 #~ msgid "1&nbsp;post"
-
 #~ msgid_plural "%d&nbsp;posts"
 #~ msgstr[0] "1&nbsp;envoi"
 #~ msgstr[1] "%d&nbsp;envois"
