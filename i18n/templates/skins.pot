@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2011-08-12 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -827,7 +827,7 @@ msgstr ""
 msgid "For more information on skins, visit %s"
 msgstr ""
 
-#: skins/derive.php:300 skins/page.php:532 skins/upload.php:213
+#: skins/derive.php:300 skins/page.php:536 skins/upload.php:213
 #: skins/boxesandarrows/template.php:149 skins/digital/template.php:156
 #: skins/skeleton/template.php:163
 msgid "http://www.yacs.fr/"
@@ -1153,7 +1153,7 @@ msgstr ""
 msgid "Skip to main content"
 msgstr ""
 
-#: skins/page.php:87 skins/page.php:685
+#: skins/page.php:87 skins/page.php:704
 msgid "Home"
 msgstr ""
 
@@ -1162,45 +1162,45 @@ msgstr ""
 msgid "Tags: %s"
 msgstr ""
 
-#: skins/page.php:400
+#: skins/page.php:404
 msgid "Tools"
 msgstr ""
 
-#: skins/page.php:424
+#: skins/page.php:428
 msgid "User login"
 msgstr ""
 
-#: skins/page.php:440
+#: skins/page.php:444
 msgid "Visited"
 msgstr ""
 
-#: skins/page.php:511
+#: skins/page.php:515
 #, php-format
 msgid "page prepared in %.2f seconds for %s"
 msgstr ""
 
-#: skins/page.php:520 skins/boxesandarrows/template.php:137
+#: skins/page.php:524 skins/boxesandarrows/template.php:137
 msgid "login"
 msgstr ""
 
-#: skins/page.php:524 skins/boxesandarrows/template.php:141
+#: skins/page.php:528 skins/boxesandarrows/template.php:141
 msgid "about this site"
 msgstr ""
 
-#: skins/page.php:528 skins/boxesandarrows/template.php:145
+#: skins/page.php:532 skins/boxesandarrows/template.php:145
 msgid "privacy statement"
 msgstr ""
 
-#: skins/page.php:532
+#: skins/page.php:536
 #, php-format
 msgid "powered by %s"
 msgstr ""
 
-#: skins/page.php:536
+#: skins/page.php:540
 msgid "information channels"
 msgstr ""
 
-#: skins/page.php:602 skins/joi/template.php:86
+#: skins/page.php:621 skins/joi/template.php:86
 #: skins/skeleton/template.php:124
 msgid "Front page"
 msgstr ""

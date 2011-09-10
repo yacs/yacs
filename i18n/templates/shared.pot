@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2011-08-12 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -222,34 +222,34 @@ msgstr ""
 msgid "Play in a separate window"
 msgstr ""
 
-#: shared/codes.php:2001 shared/codes.php:2263
+#: shared/codes.php:2013 shared/codes.php:2275
 msgid "Browse this map with Freemind"
 msgstr ""
 
-#: shared/codes.php:2191 shared/codes.php:2203
+#: shared/codes.php:2203 shared/codes.php:2215
 msgid "Full-size"
 msgstr ""
 
-#: shared/codes.php:2397
+#: shared/codes.php:2409
 msgid "Your browser does not accept iframes"
 msgstr ""
 
-#: shared/codes.php:2881
+#: shared/codes.php:2893
 msgid "View this comment"
 msgstr ""
 
-#: shared/codes.php:2910
+#: shared/codes.php:2922
 msgid "View this decision"
 msgstr ""
 
-#: shared/codes.php:4491
+#: shared/codes.php:4503
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/global.php:932
+#: shared/global.php:933
 msgid "View the category"
 msgstr ""
 

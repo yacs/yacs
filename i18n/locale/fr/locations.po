@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-06-27 22:10+0200\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -107,7 +107,7 @@ msgstr "Modifier un emplacement"
 msgid "Add a location"
 msgstr "Ajouter un emplacement"
 
-#: locations/edit.php:116 locations/locations.php:776
+#: locations/edit.php:116 locations/locations.php:798
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -299,22 +299,22 @@ msgstr "Supprimer"
 msgid "in %s"
 msgstr "dans %s"
 
-#: locations/locations.php:628 locations/view.php:100
+#: locations/locations.php:650 locations/view.php:100
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: locations/locations.php:723 locations/map_on_google.php:66
+#: locations/locations.php:745 locations/map_on_google.php:66
 msgid ""
 "Use the configuration panel for web services to enter your Google API key."
 msgstr ""
 "Utiliser le panneau de configuration des services web pour entrer votre clé "
 "d'API Google."
 
-#: locations/locations.php:770
+#: locations/locations.php:792
 msgid "Please add a geo_place_name for this location"
 msgstr "Merci d'indiquer un titre pour cet emplacement"
 
-#: locations/locations.php:792
+#: locations/locations.php:814
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

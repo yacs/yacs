@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-06-27 22:10+0200\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -112,7 +112,7 @@ msgstr "Edit a location"
 msgid "Add a location"
 msgstr "Add a location"
 
-#: locations/edit.php:116 locations/locations.php:776
+#: locations/edit.php:116 locations/locations.php:798
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -302,21 +302,21 @@ msgstr "Delete"
 msgid "in %s"
 msgstr "in %s"
 
-#: locations/locations.php:628 locations/view.php:100
+#: locations/locations.php:650 locations/view.php:100
 msgid "Loading..."
 msgstr "Loading..."
 
-#: locations/locations.php:723 locations/map_on_google.php:66
+#: locations/locations.php:745 locations/map_on_google.php:66
 msgid ""
 "Use the configuration panel for web services to enter your Google API key."
 msgstr ""
 "Use the configuration panel for web services to enter your Google API key."
 
-#: locations/locations.php:770
+#: locations/locations.php:792
 msgid "Please add a geo_place_name for this location"
 msgstr "Please add a geo_place_name for this location"
 
-#: locations/locations.php:792
+#: locations/locations.php:814
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
