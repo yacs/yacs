@@ -346,7 +346,7 @@ if(isset($_SERVER['SCRIPT_URI']) && isset($_SERVER['QUERY_STRING']))
 elseif(isset($_SERVER['SCRIPT_URI']))
 	$context['self_url'] = $_SERVER['SCRIPT_URI'];
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
-	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
+	$context['self_url'] = $context['url_to_home'].rawurldecode($_SERVER['REQUEST_URI']);
 
 // redirect to given host name, if required to do so
 if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
