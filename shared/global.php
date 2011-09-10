@@ -1241,7 +1241,7 @@ function render_skin($with_last_modified=TRUE) {
 		$metas[] = $context['site_head'];
 
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
-	$context['page_footer'] .= Js_Css::get_js_libraries('js_endpage','shared/yacs.js');
+	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
