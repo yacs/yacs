@@ -1232,9 +1232,9 @@ function render_skin($with_last_modified=TRUE) {
 
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	if(isset($context['current_item']) && $context['current_item'])
-		Js_Css::add_inline_js(JS_PREFIX
+		$context['page_footer'] .= JS_PREFIX
 			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
-			.JS_SUFFIX);
+			.JS_SUFFIX;
 
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
