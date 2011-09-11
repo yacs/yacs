@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2011-08-12 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Add a table"
 msgstr ""
 
-#: tables/edit.php:102 tables/tables.php:978 tables/tables.php:984
+#: tables/edit.php:102 tables/tables.php:976 tables/tables.php:982
 msgid "No anchor has been found."
 msgstr ""
 
@@ -374,7 +374,7 @@ msgstr ""
 msgid "details"
 msgstr ""
 
-#: tables/layout_tables.php:110 tables/tables.php:309
+#: tables/layout_tables.php:110 tables/tables.php:307
 msgid "edit"
 msgstr ""
 
@@ -382,16 +382,16 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: tables/tables.php:79
+#: tables/tables.php:77
 #, php-format
 msgid "Error in table query %s"
 msgstr ""
 
-#: tables/tables.php:972
+#: tables/tables.php:970
 msgid "Please add some SQL query."
 msgstr ""
 
-#: tables/tables.php:1000
+#: tables/tables.php:998
 msgid "No item has the provided id."
 msgstr ""
 

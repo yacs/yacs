@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-28 22:45+0200\n"
+"POT-Creation-Date: 2011-06-27 22:10+0200\n"
 "PO-Revision-Date: 2010-05-12 16:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -20,8 +20,8 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: scripts/browse.php:62 scripts/build.php:86 scripts/build.php:101
-#: scripts/build.php:425 scripts/check.php:32 scripts/check.php:51
+#: scripts/browse.php:62 scripts/build.php:83 scripts/build.php:98
+#: scripts/build.php:422 scripts/check.php:32 scripts/check.php:51
 #: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
 #: scripts/configure.php:167 scripts/fetch.php:62 scripts/index.php:99
 #: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:74
@@ -63,17 +63,17 @@ msgstr "View the documentation page"
 msgid "Fetch the script file"
 msgstr "Fetch the script file"
 
-#: scripts/build.php:89 scripts/index.php:187
+#: scripts/build.php:86 scripts/index.php:183
 msgid "Build the software"
 msgstr "Build the software"
 
-#: scripts/build.php:98 scripts/check.php:44 scripts/compare.php:51
+#: scripts/build.php:95 scripts/check.php:44 scripts/compare.php:51
 #: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:125
 #: scripts/update.php:60 scripts/upload.php:42 scripts/validate.php:49
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: scripts/build.php:108
+#: scripts/build.php:105
 msgid ""
 "This script will scan current php scripts and build the related reference "
 "store that other servers may use to update their software."
@@ -81,19 +81,19 @@ msgstr ""
 "This script will scan current php scripts and build the related reference "
 "store that other servers may use to update their software."
 
-#: scripts/build.php:114
+#: scripts/build.php:111
 msgid "Version string (optional)"
 msgstr "Version string (optional)"
 
-#: scripts/build.php:117
+#: scripts/build.php:114
 msgid "Yes, I want to (re)build the reference store"
 msgstr "Yes, I want to (re)build the reference store"
 
-#: scripts/build.php:120
+#: scripts/build.php:117
 msgid "Enable remote servers to update from this reference store."
 msgstr "Enable remote servers to update from this reference store."
 
-#: scripts/build.php:131 scripts/update.php:212 scripts/validate.php:72
+#: scripts/build.php:128 scripts/update.php:212 scripts/validate.php:72
 #: scripts/validate.php:206
 msgid ""
 "When you will click on the button the server will be immediately requested "
@@ -106,82 +106,82 @@ msgstr ""
 "you may have to wait for minutes before getting a response displayed. Thank "
 "you for your patience."
 
-#: scripts/build.php:135
+#: scripts/build.php:132
 #, php-format
 msgid "Current content of %s"
 msgstr "Current content of %s"
 
-#: scripts/build.php:140 scripts/configure.php:121 scripts/update.php:73
+#: scripts/build.php:137 scripts/configure.php:121 scripts/update.php:73
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
 
-#: scripts/build.php:146
+#: scripts/build.php:143
 msgid ""
 "Please go to the end of this page to check results of the building process."
 msgstr ""
 "Please go to the end of this page to check results of the building process."
 
-#: scripts/build.php:149
+#: scripts/build.php:146
 msgid "Suppressing the footprints file to disable remote updates..."
 msgstr "Suppressing the footprints file to disable remote updates..."
 
-#: scripts/build.php:153 scripts/build.php:233 scripts/validate.php:81
+#: scripts/build.php:150 scripts/build.php:230 scripts/validate.php:81
 msgid "Listing files..."
 msgstr "Listing files..."
 
-#: scripts/build.php:158 scripts/validate.php:86
+#: scripts/build.php:155 scripts/validate.php:86
 #, php-format
 msgid "%d scripts have been found."
 msgstr "%d scripts have been found."
 
-#: scripts/build.php:162
+#: scripts/build.php:159
 msgid "Copying files..."
 msgstr "Copying files..."
 
-#: scripts/build.php:181
+#: scripts/build.php:178
 #, php-format
 msgid "%s is not a reference script"
 msgstr "%s is not a reference script"
 
-#: scripts/build.php:193 scripts/update.php:148
+#: scripts/build.php:190 scripts/update.php:148
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible to create path %s."
 
-#: scripts/build.php:197
+#: scripts/build.php:194
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible to copy file %s."
 
-#: scripts/build.php:219
+#: scripts/build.php:216
 #, php-format
 msgid "%d reference scripts have been copied."
 msgstr "%d reference scripts have been copied."
 
-#: scripts/build.php:223
+#: scripts/build.php:220
 msgid "Purging the documentation pages..."
 msgstr "Purging the documentation pages..."
 
-#: scripts/build.php:238
+#: scripts/build.php:235
 #, php-format
 msgid "%d files have been found."
 msgstr "%d files have been found."
 
-#: scripts/build.php:242
+#: scripts/build.php:239
 msgid "Building documentation pages..."
 msgstr "Building documentation pages..."
 
-#: scripts/build.php:265
+#: scripts/build.php:262
 #, php-format
 msgid "*** %s has no documentation block"
 msgstr "*** %s has no documentation block"
 
-#: scripts/build.php:284
+#: scripts/build.php:281
 #, php-format
 msgid "%d scripts have been parsed."
 msgstr "%d scripts have been parsed."
 
-#: scripts/build.php:337
+#: scripts/build.php:334
 #, php-format
 msgid ""
 "The file %s has not been generated and the reference store can only be used "
@@ -190,31 +190,31 @@ msgstr ""
 "The file %s has not been generated and the reference store can only be used "
 "for test purpose."
 
-#: scripts/build.php:341 scripts/stage.php:236 scripts/stage.php:313
+#: scripts/build.php:338 scripts/stage.php:236 scripts/stage.php:313
 #: scripts/update.php:140 scripts/update.php:165
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible to write to %s."
 
-#: scripts/build.php:345
+#: scripts/build.php:342
 #, php-format
 msgid "Meta data have been saved in %s"
 msgstr "Meta data have been saved in %s"
 
-#: scripts/build.php:356
+#: scripts/build.php:353
 msgid "On-going archive preparation..."
 msgstr "On-going archive preparation..."
 
-#: scripts/build.php:422 scripts/run_once.php:200 scripts/validate.php:198
+#: scripts/build.php:419 scripts/run_once.php:200 scripts/validate.php:198
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: scripts/build.php:429
+#: scripts/build.php:426
 msgid "The reference store has been rebuilt"
 msgstr "The reference store has been rebuilt"
 
-#: scripts/check.php:35 scripts/index.php:181
+#: scripts/check.php:35 scripts/index.php:177
 msgid "Check software integrity"
 msgstr "Check software integrity"
 
@@ -297,11 +297,11 @@ msgstr "Control Panel"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: scripts/configure.php:43 scripts/index.php:178
+#: scripts/configure.php:43 scripts/index.php:174
 msgid "Configure"
 msgstr "Configure"
 
-#: scripts/configure.php:65 scripts/index.php:115 scripts/index.php:156
+#: scripts/configure.php:65 scripts/index.php:115 scripts/index.php:152
 #: scripts/stage.php:61
 msgid "www.yacs.fr"
 msgstr "www.yacs.fr"
@@ -400,31 +400,27 @@ msgstr "Incremental upgrades"
 msgid "Last update took place on %s"
 msgstr "Last update took place on %s"
 
-#: scripts/index.php:118 scripts/index.php:175 scripts/update.php:51
+#: scripts/index.php:118 scripts/index.php:171 scripts/update.php:51
 msgid "Update the software"
 msgstr "Update the software"
 
-#: scripts/index.php:130
+#: scripts/index.php:128
 msgid "To do"
 msgstr "To do"
 
-#: scripts/index.php:133
+#: scripts/index.php:131
 msgid "Testers"
 msgstr "Testers"
 
-#: scripts/index.php:136
+#: scripts/index.php:134
 msgid "Authors"
 msgstr "Authors"
 
-#: scripts/index.php:139
+#: scripts/index.php:137
 msgid "Licenses"
 msgstr "Licenses"
 
-#: scripts/index.php:141
-msgid "See also"
-msgstr "See also"
-
-#: scripts/index.php:144
+#: scripts/index.php:140
 msgid ""
 "Click on any link below to access the documentation extracted from each "
 "script (phpDoc)."
@@ -432,23 +428,23 @@ msgstr ""
 "Click on any link below to access the documentation extracted from each "
 "script (phpDoc)."
 
-#: scripts/index.php:152
+#: scripts/index.php:148
 msgid "The complete documentation is available at the following server:"
 msgstr "The complete documentation is available at the following server:"
 
-#: scripts/index.php:162
+#: scripts/index.php:158
 msgid "On-line Documentation"
 msgstr "On-line Documentation"
 
-#: scripts/index.php:168 scripts/upload.php:33
+#: scripts/index.php:164 scripts/upload.php:33
 msgid "Apply a patch"
 msgstr "Apply a patch"
 
-#: scripts/index.php:172
+#: scripts/index.php:168
 msgid "Run once"
 msgstr "Run once"
 
-#: scripts/index.php:184 scripts/validate.php:32
+#: scripts/index.php:180 scripts/validate.php:32
 msgid "Validate PHP syntax"
 msgstr "Validate PHP syntax"
 
@@ -941,6 +937,9 @@ msgstr "Script does not exist"
 #: scripts/view.php:94
 msgid "Browse the source of this script"
 msgstr "Browse the source of this script"
+
+#~ msgid "See also"
+#~ msgstr "See also"
 
 #~ msgid "Compress reference PHP scripts."
 #~ msgstr "Compress reference PHP scripts."
