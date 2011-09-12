@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2011-08-12 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1400,7 +1400,8 @@ msgid ""
 "%s - check the database structure; also optimize data tables and update index"
 msgstr ""
 
-#: control/index.php:867 control/setup.php:106
+#: control/index.php:867 control/scan.php:783 control/scan.php:802
+#: control/setup.php:106
 msgid "Database maintenance"
 msgstr ""
 
@@ -2428,10 +2429,6 @@ msgstr ""
 
 #: control/scan.php:771
 msgid "Hooks have been listed in parameters/hooks.xml"
-msgstr ""
-
-#: control/scan.php:783 control/scan.php:802
-msgid "Update the database schema"
 msgstr ""
 
 #: control/scan.php:810
