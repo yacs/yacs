@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-07-01 22:53+0200\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -126,7 +126,7 @@ msgstr "Mettre une image à jour"
 msgid "Add an image"
 msgstr "Ajouter une image"
 
-#: images/edit.php:170 images/images.php:686 images/images.php:692
+#: images/edit.php:170 images/images.php:703 images/images.php:709
 #: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
 #: images/upload.php:105
 msgid "No anchor has been found."
@@ -412,11 +412,11 @@ msgstr "Impossible de créer le chemin %s."
 msgid "Impossible to copy file %s."
 msgstr "Impossible de copier le fichier %s."
 
-#: images/images.php:708
+#: images/images.php:725
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: images/images.php:760
+#: images/images.php:777
 msgid "No image has been uploaded."
 msgstr "Aucune image n'a été téléchargée"
 
