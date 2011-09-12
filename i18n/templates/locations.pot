@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2011-08-12 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Add a location"
 msgstr ""
 
-#: locations/edit.php:116 locations/locations.php:776
+#: locations/edit.php:116 locations/locations.php:798
 msgid "No anchor has been found."
 msgstr ""
 
@@ -297,20 +297,20 @@ msgstr ""
 msgid "in %s"
 msgstr ""
 
-#: locations/locations.php:628 locations/view.php:100
+#: locations/locations.php:650 locations/view.php:100
 msgid "Loading..."
 msgstr ""
 
-#: locations/locations.php:723 locations/map_on_google.php:66
+#: locations/locations.php:745 locations/map_on_google.php:66
 msgid ""
 "Use the configuration panel for web services to enter your Google API key."
 msgstr ""
 
-#: locations/locations.php:770
+#: locations/locations.php:792
 msgid "Please add a geo_place_name for this location"
 msgstr ""
 
-#: locations/locations.php:792
+#: locations/locations.php:814
 msgid "No item has the provided id."
 msgstr ""
 
