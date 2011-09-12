@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2011-08-12 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Add an image"
 msgstr ""
 
-#: images/edit.php:170 images/images.php:686 images/images.php:692
+#: images/edit.php:170 images/images.php:703 images/images.php:709
 #: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
 #: images/upload.php:105
 msgid "No anchor has been found."
@@ -399,11 +399,11 @@ msgstr ""
 msgid "Impossible to copy file %s."
 msgstr ""
 
-#: images/images.php:708
+#: images/images.php:725
 msgid "No item has the provided id."
 msgstr ""
 
-#: images/images.php:760
+#: images/images.php:777
 msgid "No image has been uploaded."
 msgstr ""
 

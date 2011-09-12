@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-24 00:34+0200\n"
+"POT-Creation-Date: 2011-07-01 22:53+0200\n"
 "PO-Revision-Date: 2011-05-17 23:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -225,34 +225,34 @@ msgstr "Filter"
 msgid "Play in a separate window"
 msgstr "Play in a separate window"
 
-#: shared/codes.php:2001 shared/codes.php:2263
+#: shared/codes.php:2013 shared/codes.php:2275
 msgid "Browse this map with Freemind"
 msgstr "Browse this map with Freemind"
 
-#: shared/codes.php:2191 shared/codes.php:2203
+#: shared/codes.php:2203 shared/codes.php:2215
 msgid "Full-size"
 msgstr "Full-size"
 
-#: shared/codes.php:2397
+#: shared/codes.php:2409
 msgid "Your browser does not accept iframes"
 msgstr "Your browser does not accept iframes"
 
-#: shared/codes.php:2881
+#: shared/codes.php:2893
 msgid "View this comment"
 msgstr "View this comment"
 
-#: shared/codes.php:2910
+#: shared/codes.php:2922
 msgid "View this decision"
 msgstr "View this decision"
 
-#: shared/codes.php:4491
+#: shared/codes.php:4503
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] "%d active now"
 msgstr[1] "%d active now"
 
-#: shared/global.php:932
+#: shared/global.php:933
 msgid "View the category"
 msgstr "View the category"
 

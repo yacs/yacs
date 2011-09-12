@@ -143,6 +143,11 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// nothing has been transmitted, and because of this, no anchor has been found
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && !is_object($anchor)) {
+	Safe::header('Status: 400 Bad Request', TRUE, 400);
+	Logger::error(i18n::s('No file has been transmitted.'));
+
 // an anchor is mandatory
 } elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
