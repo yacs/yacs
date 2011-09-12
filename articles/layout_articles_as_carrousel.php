@@ -158,8 +158,9 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			$count++;
 
 		// load the right file
-		$text = '<div id="articles_as_carrousel_'.$count.'"></div>'."\n"
-			.JS_PREFIX
+		$text = '<div id="articles_as_carrousel_'.$count.'"></div>'."\n";
+		$context['page_footer'] .=
+			JS_PREFIX
 			.'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
 			.'"articles_as_carrousel_'.$count.'",'."\n"		// div id
 			.'"100%",'."\n"			// width
