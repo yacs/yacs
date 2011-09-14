@@ -708,7 +708,7 @@
 				$context['root_sections_count_at_home'] = 5;
 
 			// query the database to get dynamic tabs
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'tabs')))
+			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
 				$site_bar = array_merge($site_bar, $items);
 
 			// suffix tabs, if any
