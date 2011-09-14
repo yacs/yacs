@@ -55,6 +55,7 @@ if($page > 1) {
 	echo $context['text'];
 	return;
 }
+include_once $context['path_to_root'].'skins/page.php';
 include_once $context['path_to_root'].'skins/_mobile/template.php';
 
 ?>
