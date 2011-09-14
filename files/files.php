@@ -2710,6 +2710,22 @@ Class Files {
 						// remember the address of the thumbnail
 						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
 
+					// if this is a PDF that can be converted by Image Magick, then compute a thumbnail for the file
+					} else if(preg_match('/\.pdf$/i', $file_name) && is_callable(array('Imagick', 'writeImage')) && ($handle=new Imagick($file_path.$file_name))) {
+
+						// derive a thumbnail image
+						$thumbnail_name = 'thumbs/'.$file_name.'.png';
+
+						// consider only the first page
+						$handle->setIteratorIndex(0);
+
+						$handle->setCompression(Imagick::COMPRESSION_LZW);
+						$handle->setCompressionQuality(90);
+						$handle->writeImage($file_path.$thumbnail_name);
+
+						// remember the address of the thumbnail
+						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
+
 					}
 
 					// create the record in the database, and remember this post in comment
