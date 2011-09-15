@@ -192,11 +192,11 @@ Class PDF extends FPDF {
 
 				case 'img':
 					// only accept JPG and PNG
-					if(preg_match('/src="(.*\.(jpg|jpeg|png))"/i', $attributes, $matches)) {
+					if(preg_match('/src="([a-zA-Z0-9\/:_-]*\.(jpg|jpeg|png))"/i', $attributes, $matches)) {
 						$image = $matches[1];
 
 						// map on a file
-						$image = preg_replace('/^'.preg_quote($context['url_to_root'], '/').'/', $context['path_to_root'], $image);
+						$image = preg_replace('/^'.preg_quote($context['url_to_home'].$context['url_to_root'], '/').'/', $context['path_to_root'], $image);
 
 						// include the image only if the file exists
 						if($attributes = Safe::GetImageSize($image)) {
