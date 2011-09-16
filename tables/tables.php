@@ -93,7 +93,7 @@ Class Tables {
 				$label = preg_replace('/\s/', ' ', $table['title']);
 
 				// encode to ASCII
-				$label = utf8::to_ascii($label);
+				$label = utf8::to_ascii($label, ' =:/()<>"[]');
 
 				$text .= '"'.$label.'"';
 				$text .= "\n";
@@ -107,7 +107,7 @@ Class Tables {
 				$label = trim(preg_replace('/\s/', ' ', ucfirst($field->name)));
 
 				// encode
-				$label = utf8::to_ascii($label);
+				$label = utf8::to_ascii($label, ' =:/()<>[]');
 
 				$text .= '"'.$label.'"';
 			}
@@ -132,7 +132,7 @@ Class Tables {
 					$label = trim(preg_replace('/\s+/', ' ', $value));
 
 					// encode
-					$label = utf8::to_ascii($label);
+					$label = utf8::to_ascii($label, ' =:/()<>"[]');
 
 					// escape quotes to preserve them in the data
 					$label = str_replace('"', '""', $label);
@@ -195,7 +195,7 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = utf8::to_ascii($value);
+					$datum[ $labels[$name] ] = utf8::to_ascii($value, ' =:/()<>[]');
 
 				}
 
