@@ -1702,7 +1702,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = strtolower(utf8::to_ascii(trim($name), '=:/()<>"[]'));
+		$name = strtolower(utf8::to_ascii(trim($name), '=:()<>"[]'));
 
 	// do not fool rewriting, just in case alternate name would be put in title
 	if(isset($name))
