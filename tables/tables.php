@@ -195,7 +195,7 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = utf8::to_ascii($value, ' =:/()<>[]');
+					$datum[ $labels[$name] ] = utf8::to_ascii($value, ' =:/()<>[]"');
 
 				}
 
