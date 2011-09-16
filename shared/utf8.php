@@ -320,6 +320,7 @@ Class Utf8 {
 	 * @see files/fetch.php
 	 * @see files/fetch_all.php
 	 * @see images/edit.php
+	 * @see shared/global.php
 	 * @see tables/fetch_as_csv.php
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
@@ -416,7 +417,7 @@ Class Utf8 {
 		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);
 
 		// compact dashes
-		$text = preg_replace('/-+/', '-', $text);
+		$text = str_replace(array('-----', '----', '---', '--'), '-', $text);
 
 		// done
 		return $text;

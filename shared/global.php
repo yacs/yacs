@@ -346,7 +346,7 @@ if(isset($_SERVER['SCRIPT_URI']) && isset($_SERVER['QUERY_STRING']))
 elseif(isset($_SERVER['SCRIPT_URI']))
 	$context['self_url'] = $_SERVER['SCRIPT_URI'];
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
-	$context['self_url'] = $context['url_to_home'].rawurldecode($_SERVER['REQUEST_URI']);
+	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
 
 // redirect to given host name, if required to do so
 if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
@@ -1731,13 +1731,13 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = str_replace(array(' ', '..', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name))));
+		$name = strtolower(utf8::to_ascii(trim($name), '=:/()<>"[]'));
 
 	// do not fool rewriting, just in case alternate name would be put in title
 	if(isset($name))
 		$name = preg_replace('/([a-z_]+)-([0-9]+)$/', '', $name);
 
-	// remove dashes
+	// remove dashes at both ends
 	if(isset($name))
 		$name = trim($name, '-');
 
