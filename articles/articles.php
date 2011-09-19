@@ -595,13 +595,7 @@ Class Articles {
 	function build_options_input($item) {
 		global $context;
 
-		$text = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-			.JS_PREFIX
-			.'function append_to_options(keyword) {'."\n"
-			.'	var target = $("options");'."\n"
-			.'	target.value = target.value + " " + keyword;'."\n"
-			.'}'."\n"
-			.JS_SUFFIX;
+		$text = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
 		return $text;
 	}
 
@@ -616,22 +610,34 @@ Class Articles {
 		global $context;
 
 		$keywords = array();
-		$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
-		$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
-		$keywords[] = '<a onclick="append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
-		$keywords[] = '<a onclick="append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments');
-		$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-		$keywords[] = '<a onclick="append_to_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
-		$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-		$keywords[] = '<a onclick="append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links');
-		$keywords[] = '<a onclick="append_to_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
-		$keywords[] = '<a onclick="append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
-		$keywords[] = '<a onclick="append_to_options(\'view_as_wiki\')" style="cursor: pointer;">view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
+		$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
+		$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
+		$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+		$keywords[] = '<a>no_comments</a> - '.i18n::s('Prevent the addition of comments');
+		$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
+		$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+		$keywords[] = '<a>no_links</a> - '.i18n::s('Prevent the addition of related links');
+		$keywords[] = '<a>view_as_chat</a> - '.i18n::s('Real-time collaboration');
+		$keywords[] = '<a>view_as_tabs</a> - '.i18n::s('Tabbed panels');
+		$keywords[] = '<a>view_as_wiki</a> - '.i18n::s('Discussion is separate from content');
 		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
 		$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-		$text = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+		$text = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
+
+		$context['page_footer'] = 	JS_PREFIX
+						.'function append_to_options(keyword) {'."\n"
+						.'	var target = $("#options");'."\n"
+						.'	target.val(target.val() + " " + keyword);'."\n"
+						.'}'."\n"
+						.'$(document).ready(function() {'."\n"
+						.'	$("#options_list a").bind("click",function(){'."\n"
+						.'		append_to_options($(this).text());'."\n"
+						.'	}).css("cursor","pointer");'."\n"
+						.'});'.JS_SUFFIX;
+
 		return $text;
 	}
 

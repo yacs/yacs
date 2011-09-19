@@ -349,7 +349,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// add some names manually
-	$input .= Skin::build_box(i18n::s('Invite some individuals'), '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
+	$input .= Skin::build_box(i18n::s('Invite some individuals'), '<textarea name="to" id="names" rows="3" cols="50"></textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
 
 	// combine all these elements
 	$fields[] = array($label, $input);
@@ -430,11 +430,13 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("names").focus() });'."\n"
+		.'$(document).ready( function() { $("#names").focus() });'."\n"
 		."\n"
 		."\n"
-		.'// enable autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("names", "names_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+		.'// enable names autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_names("#names");'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// help message

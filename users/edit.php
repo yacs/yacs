@@ -486,8 +486,13 @@ if($with_form) {
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
 		.'// enable autocompletion for user names'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
-		.JS_SUFFIX;
+    .'$(document).ready( function() {'."\n"
+    .'  $("#vcard_agent").autocomplete({                     '."\n"
+    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
+    .'		minLength: 1                                                  '."\n"
+    .'  });                                                              '."\n"
+    .'});  '."\n"
+    .JS_SUFFIX;
 
 	// instant messaging
 	//
@@ -844,41 +849,23 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// detect changes in form'."\n"
-		.'func'.'tion detectChanges() {'."\n"
-		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		.'}'."\n"
-		."\n"
-		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'// disable editor selection on change in form'."\n"
+                .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+                .'      $("#preferred_editor").attr("disabled",true);'."\n"
+                .'});'."\n"
 		."\n";
 	if(isset($item['full_name']) && $item['full_name'])
 		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("full_name").focus();'."\n"
+	 		.'$("#full_name").focus();'."\n"
 	 		."\n";
 	else
 		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("first_name").focus();'."\n"
+	 		.'$("#first_name").focus();'."\n"
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// the help panel

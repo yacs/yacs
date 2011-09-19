@@ -338,7 +338,7 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// general help on this form

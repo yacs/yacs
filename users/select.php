@@ -200,7 +200,7 @@ elseif(!$permitted) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_completer.gif" alt="Working..." /></span>'
+		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" />'
 		.'<input type="hidden" name="member" value="'.encode_field($anchor->get_reference()).'">'
 		.'<input type="hidden" name="action" value="set">'
 		.'</p></form>'."\n";
@@ -209,10 +209,12 @@ elseif(!$permitted) {
 	$context['text'] .= JS_PREFIX
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("name").focus() });'."\n"
+		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("name", "name_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: ",", afterUpdateElement: function(text, li) { $("ajax_spinner").style.display = "inline"; $("main_form").submit() }, indicator: "ajax_spinner" }); });'."\n"
+		.'// enable name autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.' Yacs.autocomplete_names("#name",true);'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// the current list of category members

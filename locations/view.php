@@ -141,7 +141,7 @@ if(!isset($item['id'])) {
 				.'	  customIcons["user"] = iconRed;'."\n"
 				."\n"
 				.'	if (GBrowserIsCompatible()) {'."\n"
-				.'	  var map = new GMap2($("map"));'."\n"
+				.'	  var map = new GMap2($("#map"));'."\n"
 				.'	  map.addControl(new GSmallMapControl());'."\n"
 				.'	  map.addControl(new GMapTypeControl());'."\n"
 				."\n"

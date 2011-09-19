@@ -488,8 +488,8 @@ Class Codes {
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
-				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
+				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, Ä¬ or Õ -- no space ahead */
+				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, Ä¬ or Õ -- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
@@ -1956,8 +1956,8 @@ Class Codes {
 				.'}'."\n"
 				."\n"
 				.'// observe page major events'."\n"
-				.'Event.observe(window, "load", onLoad);'."\n"
-				.'Event.observe(window, "resize", onResize);'."\n"
+				.'$(document).ready( onLoad);'."\n"
+				.'$(window).resize(onResize);'."\n"
 				.JS_SUFFIX;
 
 			// job done
@@ -2644,7 +2644,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'Event.observe(window, "load", function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\', id: 1 } }, function(s) { if(s.text) { $("newsfeed_'.$count.'").update(s.text.toString()); } else { $("newsfeed_'.$count.'").update(""); } } ) } );'."\n"
+			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' , id: 1 } }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").update(s.text.toString()); } else { $("#newsfeed_'.$count.'").update(""); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;

@@ -233,7 +233,7 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("date").focus();'."\n"
+		.'$("#date").focus();'."\n"
 		.JS_SUFFIX;
 
 	// general help on this form
