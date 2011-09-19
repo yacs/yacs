@@ -452,7 +452,7 @@ if($id) {
 	// the script used for form handling at the browser
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// this may take several minutes

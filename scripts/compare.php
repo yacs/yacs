@@ -89,7 +89,7 @@ if(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("original").focus();'."\n"
+		.'$("#original").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 // the original script has to be there

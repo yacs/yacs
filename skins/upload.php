@@ -166,7 +166,7 @@ if($id) {
 	// the script used for form handling at the browser
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("focus").focus();'."\n"
+		.'$("#focus").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// use an available archive

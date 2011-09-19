@@ -120,13 +120,13 @@ class Event extends Overlay {
 		$input = '<input type="text" name="chairman" id="chairman" value ="'.encode_field($value).'" size="25" maxlength="32" />'
 			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
-
 		// append the script used for autocompletion
-		$input .= JS_PREFIX
-			.'// enable autocompletion for user names'."\n"
-			.'Event.observe(window, "load", function() { new Ajax.Autocompleter("chairman", "chairman_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
+		$context['page_footer'] .= JS_PREFIX
+			.'// enable chairman autocompletion'."\n"
+			.'$(document).ready( function() {'."\n"
+			.' Yacs.autocomplete_names("#chairman",true);'."\n"
+			.'});  '."\n"
 			.JS_SUFFIX;
-
 		// done
 		return $input;
 	}
