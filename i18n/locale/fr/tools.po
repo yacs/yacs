@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2011-09-20 16:14+0200\n"
 "PO-Revision-Date: 2011-06-26 00:14+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
 #: tools/koowy.php:33 tools/populate.php:110 tools/populate.php:132
 #: tools/transform.php:29 tools/update_thumbs_url.php:40
-#: tools/update_thumbs_url.php:64 tools/upload_excel.php:20
+#: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr "Outils"
 
@@ -896,7 +896,7 @@ msgstr ""
 "N'utilisez ce script que pour des besoins d'apprentissage, de démonstration "
 "ou de tests."
 
-#: tools/populate.php:1657 tools/update_thumbs_url.php:229
+#: tools/populate.php:1657 tools/update_thumbs_url.php:228
 msgid "Start"
 msgstr "Commencer"
 
@@ -961,7 +961,7 @@ msgstr "Merci d'indiquer l'URL précédente vers la racine du site"
 msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
 msgstr "exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
 
-#: tools/update_thumbs_url.php:219
+#: tools/update_thumbs_url.php:218
 msgid "This will be replaced by current URL"
 msgstr "Cette chaîne sera remplacée par l'URL en cours"
 

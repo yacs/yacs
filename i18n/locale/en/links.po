@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-09-20 16:14+0200\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -178,8 +178,8 @@ msgstr "Yes, I want to delete this link"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: links/delete.php:154 links/edit.php:553 links/layout_links.php:77
-#: links/layout_links_as_daily.php:95
+#: links/delete.php:154 links/edit.php:553 links/layout_links_as_daily.php:95
+#: links/layout_links.php:77
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
@@ -408,8 +408,16 @@ msgstr "Popular"
 msgid "View the category"
 msgstr "View the category"
 
-#: links/layout_links.php:84 links/layout_links_as_daily.php:104
-#: links/layout_links_as_simple.php:54
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr "Edit"
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr "Delete"
+
+#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
+#: links/layout_links.php:84
 #, php-format
 msgid "in %s"
 msgstr "in %s"
@@ -421,14 +429,6 @@ msgstr "edit"
 #: links/layout_links.php:90
 msgid "delete"
 msgstr "delete"
-
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr "Edit"
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr "Delete"
 
 #: links/links.php:268
 msgid "Clicks"
