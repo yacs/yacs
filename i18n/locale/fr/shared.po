@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-01 22:53+0200\n"
+"POT-Creation-Date: 2011-09-20 16:14+0200\n"
 "PO-Revision-Date: 2011-05-17 23:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -199,54 +199,54 @@ msgstr "Dernière modification"
 msgid "Related items"
 msgstr "Eléments associés"
 
-#: shared/codes.php:1525
+#: shared/codes.php:1526
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d personne identifiée a suivi le lien : %s"
 msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
 
-#: shared/codes.php:1528
+#: shared/codes.php:1529
 msgid "No authenticated person has used this link yet"
 msgstr "Aucune personne authentifiée n'a suivi le lien pour l'instant"
 
-#: shared/codes.php:1549
+#: shared/codes.php:1550
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: shared/codes.php:1593
+#: shared/codes.php:1594
 msgid "Access collection"
 msgstr "Voir la collection"
 
-#: shared/codes.php:1654
+#: shared/codes.php:1655
 msgid "Filter"
 msgstr "Filtre"
 
-#: shared/codes.php:1777
+#: shared/codes.php:1778
 msgid "Play in a separate window"
 msgstr "Jouer dans une autre fenêtre"
 
-#: shared/codes.php:2013 shared/codes.php:2275
+#: shared/codes.php:2014 shared/codes.php:2276
 msgid "Browse this map with Freemind"
 msgstr "Charger cette carte dans Freemind"
 
-#: shared/codes.php:2203 shared/codes.php:2215
+#: shared/codes.php:2204 shared/codes.php:2216
 msgid "Full-size"
 msgstr "Pleine page"
 
-#: shared/codes.php:2409
+#: shared/codes.php:2410
 msgid "Your browser does not accept iframes"
 msgstr "Votre navigateur n'accepte pas les iframes"
 
-#: shared/codes.php:2893
+#: shared/codes.php:2894
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: shared/codes.php:2922
+#: shared/codes.php:2923
 msgid "View this decision"
 msgstr "Voir cette décision"
 
-#: shared/codes.php:4503
+#: shared/codes.php:4509
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
@@ -349,7 +349,7 @@ msgstr "hebdomadaire"
 msgid "monthly"
 msgstr "mensuel"
 
-#: shared/pdf.php:324
+#: shared/pdf.php:325
 msgid "PDF export created by YACS"
 msgstr "Export PDF créé par YACS"
 

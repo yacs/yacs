@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 22:59+0200\n"
+"POT-Creation-Date: 2011-09-20 16:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,8 +41,8 @@ msgstr ""
 #: users/index.php:92 users/leave.php:51 users/login.php:156 users/mail.php:73
 #: users/mail.php:92 users/mail.php:103 users/notifications.php:185
 #: users/password.php:69 users/password.php:74 users/password.php:156
-#: users/print.php:65 users/print.php:80 users/select.php:69
-#: users/select_avatar.php:76 users/select_avatar.php:89 users/track.php:60
+#: users/print.php:65 users/print.php:80 users/select_avatar.php:76
+#: users/select_avatar.php:89 users/select.php:70 users/track.php:60
 #: users/track.php:65 users/transfer.php:46 users/validate.php:51
 #: users/view.php:208 users/visit.php:59
 msgid "You are not allowed to perform this operation."
@@ -70,8 +70,8 @@ msgstr ""
 #: users/edit.php:132 users/element.php:95 users/feed.php:75
 #: users/fetch_vcard.php:76 users/index.php:78 users/leave.php:42
 #: users/login.php:403 users/mail.php:61 users/password.php:54
-#: users/review.php:33 users/review.php:68 users/select.php:60
-#: users/select_avatar.php:67 users/track.php:46 users/transfer.php:37
+#: users/review.php:33 users/review.php:68 users/select_avatar.php:67
+#: users/select.php:61 users/track.php:46 users/transfer.php:37
 #: users/user.php:212 users/validate.php:43 users/view.php:180
 msgid "People"
 msgstr ""
@@ -1015,7 +1015,7 @@ msgid "Mandatory fields are marked with a *"
 msgstr ""
 
 #: users/edit.php:909 users/login.php:546 users/search.php:180
-#: users/select.php:383 users/select.php:392
+#: users/select.php:392 users/select.php:401
 msgid "Help"
 msgstr ""
 
@@ -1114,33 +1114,6 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: users/layout_users.php:102 users/layout_users_as_password.php:78
-#: users/view.php:299
-#, php-format
-msgid "registered %s"
-msgstr ""
-
-#: users/layout_users.php:110 users/layout_users_as_password.php:82
-#: users/view.php:295
-#, php-format
-msgid "last login %s"
-msgstr ""
-
-#: users/layout_users.php:112 users/layout_users_as_password.php:84
-msgid "no login"
-msgstr ""
-
-#: users/layout_users.php:119 users/layout_users_as_password.php:88
-#, php-format
-msgid "last post %s"
-msgstr ""
-
-#: users/layout_users.php:124 users/layout_users_as_password.php:92
-#: users/print.php:93 users/view.php:291
-#, php-format
-msgid "%d posts"
-msgstr ""
-
 #: users/layout_users_as_compact.php:88
 #, php-format
 msgid "and %d other person"
@@ -1156,6 +1129,33 @@ msgstr ""
 msgid "Select all/none"
 msgstr ""
 
+#: users/layout_users_as_password.php:78 users/layout_users.php:102
+#: users/view.php:299
+#, php-format
+msgid "registered %s"
+msgstr ""
+
+#: users/layout_users_as_password.php:82 users/layout_users.php:110
+#: users/view.php:295
+#, php-format
+msgid "last login %s"
+msgstr ""
+
+#: users/layout_users_as_password.php:84 users/layout_users.php:112
+msgid "no login"
+msgstr ""
+
+#: users/layout_users_as_password.php:88 users/layout_users.php:119
+#, php-format
+msgid "last post %s"
+msgstr ""
+
+#: users/layout_users_as_password.php:92 users/layout_users.php:124
+#: users/print.php:93 users/view.php:291
+#, php-format
+msgid "%d posts"
+msgstr ""
+
 #: users/layout_users_as_password.php:101
 msgid "Authenticate with this profile"
 msgstr ""
@@ -1165,7 +1165,7 @@ msgid "View profile"
 msgstr ""
 
 #: users/leave.php:46 users/login.php:166 users/login.php:245
-#: users/select.php:64 users/visit.php:64
+#: users/select.php:65 users/visit.php:64
 msgid "No anchor has been found."
 msgstr ""
 
@@ -1189,8 +1189,8 @@ msgid ""
 msgstr ""
 
 #: users/leave.php:77 users/mail.php:161 users/password.php:184
-#: users/select.php:126 users/select.php:374 users/select.php:559
-#: users/select_avatar.php:203 users/track.php:83 users/transfer.php:84
+#: users/select_avatar.php:203 users/select.php:135 users/select.php:383
+#: users/select.php:568 users/track.php:83 users/transfer.php:84
 msgid "Done"
 msgstr ""
 
@@ -1625,86 +1625,6 @@ msgid ""
 "exact matches will be listed."
 msgstr ""
 
-#: users/select.php:75
-#, php-format
-msgid "Watchers of %s"
-msgstr ""
-
-#: users/select.php:136 users/select.php:403
-msgid "Persons that I am following"
-msgstr ""
-
-#: users/select.php:138 users/select.php:250 users/select.php:405
-#: users/select.php:453
-#, php-format
-msgid "Persons followed by %s"
-msgstr ""
-
-#: users/select.php:140 users/select.php:407
-#, php-format
-msgid "Members of %s"
-msgstr ""
-
-#: users/select.php:142
-msgid "Manage editors"
-msgstr ""
-
-#: users/select.php:162 users/track.php:95
-#, php-format
-msgid "%s is following you"
-msgstr ""
-
-#: users/select.php:163
-#, php-format
-msgid "%s will receive notifications when you will create new content at %s"
-msgstr ""
-
-#: users/select.php:190
-msgid ""
-"To add a person, type some letters to look for a name, then select one "
-"profile at a time."
-msgstr ""
-
-#: users/select.php:213 users/select.php:287 users/select.php:360
-#: users/select.php:422 users/select.php:484 users/select.php:545
-#, php-format
-msgid "Persons assigned to %s"
-msgstr ""
-
-#: users/select.php:230 users/select.php:267 users/select.php:304
-#: users/select.php:346 users/select.php:439 users/select.php:470
-#: users/select.php:501 users/select.php:537
-msgid "owner"
-msgstr ""
-
-#: users/select.php:235 users/select.php:272 users/select.php:309
-#: users/select.php:351
-msgid "unassign"
-msgstr ""
-
-#: users/select.php:366 users/select.php:551
-msgid "Following editors inherit from assignments at parent containers"
-msgstr ""
-
-#: users/select.php:380
-#, php-format
-msgid ""
-"%s if you have to assign new persons and to notify them in a single "
-"operation."
-msgstr ""
-
-#: users/select.php:380
-msgid "Invite participants"
-msgstr ""
-
-#: users/select.php:389
-msgid "Each new person will be notified that you are following him."
-msgstr ""
-
-#: users/select.php:409
-msgid "Editors"
-msgstr ""
-
 #: users/select_avatar.php:71
 #, php-format
 msgid "Select a picture for %s"
@@ -1763,6 +1683,86 @@ msgstr ""
 
 #: users/select_avatar.php:196
 msgid "Use a gravatar"
+msgstr ""
+
+#: users/select.php:76
+#, php-format
+msgid "Watchers of %s"
+msgstr ""
+
+#: users/select.php:145 users/select.php:412
+msgid "Persons that I am following"
+msgstr ""
+
+#: users/select.php:147 users/select.php:259 users/select.php:414
+#: users/select.php:462
+#, php-format
+msgid "Persons followed by %s"
+msgstr ""
+
+#: users/select.php:149 users/select.php:416
+#, php-format
+msgid "Members of %s"
+msgstr ""
+
+#: users/select.php:151
+msgid "Manage editors"
+msgstr ""
+
+#: users/select.php:171 users/track.php:95
+#, php-format
+msgid "%s is following you"
+msgstr ""
+
+#: users/select.php:172
+#, php-format
+msgid "%s will receive notifications when you will create new content at %s"
+msgstr ""
+
+#: users/select.php:199
+msgid ""
+"To add a person, type some letters to look for a name, then select one "
+"profile at a time."
+msgstr ""
+
+#: users/select.php:222 users/select.php:296 users/select.php:369
+#: users/select.php:431 users/select.php:493 users/select.php:554
+#, php-format
+msgid "Persons assigned to %s"
+msgstr ""
+
+#: users/select.php:239 users/select.php:276 users/select.php:313
+#: users/select.php:355 users/select.php:448 users/select.php:479
+#: users/select.php:510 users/select.php:546
+msgid "owner"
+msgstr ""
+
+#: users/select.php:244 users/select.php:281 users/select.php:318
+#: users/select.php:360
+msgid "unassign"
+msgstr ""
+
+#: users/select.php:375 users/select.php:560
+msgid "Following editors inherit from assignments at parent containers"
+msgstr ""
+
+#: users/select.php:389
+#, php-format
+msgid ""
+"%s if you have to assign new persons and to notify them in a single "
+"operation."
+msgstr ""
+
+#: users/select.php:389
+msgid "Invite participants"
+msgstr ""
+
+#: users/select.php:398
+msgid "Each new person will be notified that you are following him."
+msgstr ""
+
+#: users/select.php:418
+msgid "Editors"
 msgstr ""
 
 #: users/track.php:51

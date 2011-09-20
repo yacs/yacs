@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2011-09-20 16:14+0200\n"
 "PO-Revision-Date: 2011-06-27 16:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -399,27 +399,12 @@ msgstr[1] "%d discussions"
 msgid "Recent pages"
 msgstr "Pages récentes"
 
-#: comments/layout_comments.php:54
 #: comments/layout_comments_as_boxesandarrows.php:54
 #: comments/layout_comments_as_daily.php:86
 #: comments/layout_comments_as_jive.php:147
-#: comments/layout_comments_as_yabb.php:173
+#: comments/layout_comments_as_yabb.php:173 comments/layout_comments.php:54
 msgid "View this comment"
 msgstr "Voir ce commentaire"
-
-#: comments/layout_comments.php:72
-#: comments/layout_comments_as_boxesandarrows.php:102
-#: comments/layout_comments_as_manual.php:82
-#: comments/layout_comments_as_wiki.php:82
-msgid "edit"
-msgstr "modifier"
-
-#: comments/layout_comments.php:73
-#: comments/layout_comments_as_boxesandarrows.php:105
-#: comments/layout_comments_as_manual.php:83
-#: comments/layout_comments_as_wiki.php:83
-msgid "delete"
-msgstr "supprimer"
 
 #: comments/layout_comments_as_boxesandarrows.php:82
 #: comments/layout_comments_as_daily.php:97
@@ -436,6 +421,18 @@ msgstr "répondre"
 #: comments/layout_comments_as_boxesandarrows.php:95
 msgid "quote"
 msgstr "citer"
+
+#: comments/layout_comments_as_boxesandarrows.php:102
+#: comments/layout_comments_as_manual.php:82
+#: comments/layout_comments_as_wiki.php:82 comments/layout_comments.php:72
+msgid "edit"
+msgstr "modifier"
+
+#: comments/layout_comments_as_boxesandarrows.php:105
+#: comments/layout_comments_as_manual.php:83
+#: comments/layout_comments_as_wiki.php:83 comments/layout_comments.php:73
+msgid "delete"
+msgstr "supprimer"
 
 #: comments/layout_comments_as_daily.php:104
 #: comments/layout_comments_as_jive.php:117
