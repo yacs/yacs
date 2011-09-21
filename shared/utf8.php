@@ -269,10 +269,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $iso_entity => $unicode_entity) {
-				$iso_entities[] = $iso_entity;
-				$unicode_entities[] = $unicode_entity;
-			}
+			$iso_entities = array_keys($codes);
+			$unicode_entities = array_values($codes);
 		}
 
 		// here are the tables
@@ -325,7 +323,7 @@ Class Utf8 {
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	function &to_ascii($utf, $options='') {
+	function &to_ascii($utf, $options=' =:/()<>"') {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
@@ -404,17 +402,15 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $utf_entity => $safe_entity) {
-				$utf_entities[] = $utf_entity;
-				$safe_entities[] = $safe_entity;
-			}
+			$utf_entities = array_keys($codes);
+			$safe_entities = array_values($codes);
 		}
 
 		// transcode iso 8859 chars to safer ascii entities
 		$text = str_replace($utf_entities, $safe_entities, $utf);
 
 		// turn invalid chars to dashes (for proper indexation by Google)
-		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);
+		$text = preg_replace("/[^a-zA-Z_\d\.\-".preg_quote($options, '/')."]+/i", '-', $text);
 
 		// compact dashes
 		$text = str_replace(array('-----', '----', '---', '--'), '-', $text);
@@ -903,10 +899,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $unicode_entity => $html_entity) {
-				$unicode_entities[] = $unicode_entity;
-				$html_entities[] = $html_entity;
-			}
+			$unicode_entities = array_keys($codes);
+			$html_entities = array_values($codes);
 		}
 
 		// transcode HTML entities to Unicode
