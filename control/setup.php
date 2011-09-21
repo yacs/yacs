@@ -154,10 +154,8 @@ function send_body() {
 			echo '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</a></p>\n";
 
 		// ensure utf8 character set for this database
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "ALTER DATABASE `".$context['database']."`  DEFAULT CHARACTER SET utf8";
-			SQL::query($query);
-		}
+		$query = "ALTER DATABASE `".$context['database']."`  DEFAULT CHARACTER SET utf8";
+		SQL::query($query);
 
 		// create tables for users
 		echo Users::setup();
