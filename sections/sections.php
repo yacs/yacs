@@ -650,22 +650,10 @@ Class Sections {
 					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// look for watched sections with sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "(SELECT sections.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.id = ids.target)"
-				."	AND ".$where.")";
-
-		// use joined queries
-		} else {
-			$query = "(SELECT sections.id FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
-				."	AND (members.anchor LIKE 'section:%')"
-				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where.")";
-
-		}
+		$query = "(SELECT sections.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (sections.id = ids.target)"
+			."	AND ".$where.")";
 
 		// include sections assigned to this surfer
 		if($these_items = Surfer::assigned_sections($user_id))
@@ -2122,22 +2110,10 @@ Class Sections {
 					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
 		// look for watched sections with sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "(SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.id = ids.target)"
-				."	AND ".$where.")";
-
-		// use joined queries
-		} else {
-			$query = "(SELECT sections.* FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('sections')." AS sections"
-				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
-				."	AND (members.anchor LIKE 'section:%')"
-				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where.")";
-
-		}
+		$query = "(SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'section:%')) AS ids"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (sections.id = ids.target)"
+			."	AND ".$where.")";
 
 		// include sections assigned to this surfer
 		if($these_items = Surfer::assigned_sections($user_id))

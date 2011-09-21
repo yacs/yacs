@@ -786,23 +786,10 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// look for watched pages through sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
-				.", ".SQL::table_name('articles')." AS articles"
-				." WHERE (articles.id = ids.target)"
-				."	AND ".$where.")";
-
-		// use joined queries
-		} else {
-			$query = "(SELECT articles.id"
-				." FROM (".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('articles')." AS articles)"
-				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
-				."	AND (members.anchor LIKE 'article:%')"
-				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where.")";
-
-		}
+		$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.id = ids.target)"
+			."	AND ".$where.")";
 
 		// include articles assigned to this surfer
 		if($these_items = Surfer::assigned_articles($user_id))
@@ -2142,23 +2129,10 @@ Class Articles {
 		$order = Articles::_get_order($order);
 
 		// look for watched pages through sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
-				.", ".SQL::table_name('articles')." AS articles"
-				." WHERE (articles.id = ids.target)"
-				."	AND ".$where.")";
-
-		// use joined queries
-		} else {
-			$query = "(SELECT articles.*"
-				." FROM (".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('articles')." AS articles)"
-				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
-				."	AND (members.anchor LIKE 'article:%')"
-				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where.")";
-
-		}
+		$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.id = ids.target)"
+			."	AND ".$where.")";
 
 		// include articles assigned to this surfer
 		if($these_items = Surfer::assigned_articles($user_id))
