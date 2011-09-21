@@ -2719,8 +2719,10 @@ Class Files {
 						// consider only the first page
 						$handle->setIteratorIndex(0);
 
-						$handle->setCompression(Imagick::COMPRESSION_LZW);
-						$handle->setCompressionQuality(90);
+						$handle->setImageCompression(Imagick::COMPRESSION_LZW);
+						$handle->setImageCompressionQuality(90);
+						$handle->stripImage(90);
+						$handle->thumbnailImage(100, NULL);
 						$handle->writeImage($file_path.$thumbnail_name);
 
 						// remember the address of the thumbnail
