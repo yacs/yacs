@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 23:00+0200\n"
+"POT-Creation-Date: 2011-09-21 10:03+0200\n"
 "PO-Revision-Date: 2011-04-13 12:10+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
@@ -84,14 +84,14 @@ msgid "Start"
 msgstr "Start"
 
 #: sections/delete.php:84 sections/duplicate.php:59 sections/print.php:95
-#: sections/section.php:1313 sections/view.php:525 sections/view.php:530
+#: sections/section.php:1312 sections/view.php:525 sections/view.php:530
 #: sections/view.php:538
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
 #: sections/delete.php:84 sections/manage.php:347 sections/manage.php:374
-#: sections/manage.php:1108 sections/manage.php:1217
+#: sections/manage.php:1122 sections/manage.php:1231
 msgid "Delete"
 msgstr "Delete"
 
@@ -113,8 +113,8 @@ msgid "Yes, I want to delete this section"
 msgstr "Yes, I want to delete this section"
 
 #: sections/delete.php:139 sections/duplicate.php:171 sections/edit.php:1208
-#: sections/invite.php:431 sections/mail.php:170 sections/manage.php:1121
-#: sections/manage.php:1230
+#: sections/invite.php:431 sections/mail.php:170 sections/manage.php:1135
+#: sections/manage.php:1244
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -136,11 +136,11 @@ msgstr ""
 "Following items are attached to this record and will be deleted as well."
 
 #: sections/duplicate.php:59 sections/manage.php:496 sections/manage.php:525
-#: sections/manage.php:1102
+#: sections/manage.php:1116
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: sections/duplicate.php:92 sections/manage.php:573 sections/manage.php:629
+#: sections/duplicate.php:92 sections/manage.php:573 sections/manage.php:636
 #, php-format
 msgid "Copy of %s"
 msgstr "Copy of %s"
@@ -155,10 +155,10 @@ msgstr "The section has been duplicated."
 
 #: sections/duplicate.php:128 sections/edit.php:274 sections/invite.php:316
 #: sections/manage.php:297 sections/manage.php:319 sections/manage.php:403
-#: sections/manage.php:426 sections/manage.php:466 sections/manage.php:594
-#: sections/manage.php:650 sections/manage.php:690 sections/manage.php:730
-#: sections/manage.php:827 sections/manage.php:855 sections/manage.php:891
-#: sections/manage.php:935 sections/manage.php:971 sections/manage.php:1011
+#: sections/manage.php:426 sections/manage.php:466 sections/manage.php:601
+#: sections/manage.php:664 sections/manage.php:704 sections/manage.php:744
+#: sections/manage.php:841 sections/manage.php:869 sections/manage.php:905
+#: sections/manage.php:949 sections/manage.php:985 sections/manage.php:1025
 #: sections/new.php:225
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
@@ -179,10 +179,10 @@ msgstr "What do you want to do now?"
 #: sections/layout_sections_as_yahoo.php:264 sections/layout_sections.php:193
 #: sections/layout_sections.php:217 sections/manage.php:299
 #: sections/manage.php:321 sections/manage.php:405 sections/manage.php:428
-#: sections/manage.php:468 sections/manage.php:596 sections/manage.php:652
-#: sections/manage.php:692 sections/manage.php:732 sections/manage.php:829
-#: sections/manage.php:857 sections/manage.php:893 sections/manage.php:937
-#: sections/manage.php:973 sections/manage.php:1013
+#: sections/manage.php:468 sections/manage.php:603 sections/manage.php:666
+#: sections/manage.php:706 sections/manage.php:746 sections/manage.php:843
+#: sections/manage.php:871 sections/manage.php:907 sections/manage.php:951
+#: sections/manage.php:987 sections/manage.php:1027
 #: sections/view_as_tabs.php:254 sections/view_as_tabs.php:291
 #: sections/view.php:673 sections/view.php:704 sections/view.php:1071
 #: sections/view.php:1108
@@ -514,7 +514,7 @@ msgstr "Footer"
 msgid "To be inserted at the bottom of related pages."
 msgstr "To be inserted at the bottom of related pages."
 
-#: sections/edit.php:531 sections/manage.php:1145
+#: sections/edit.php:531 sections/manage.php:1159
 #: sections/view_as_tabs.php:220 sections/view.php:1026
 msgid "Pages"
 msgstr "Pages"
@@ -1402,7 +1402,7 @@ msgstr ""
 #: sections/layout_sections_as_simple.php:84
 #: sections/layout_sections_as_yahoo.php:103
 #: sections/layout_sections_as_yahoo.php:105 sections/layout_sections.php:97
-#: sections/manage.php:1239 sections/select.php:156
+#: sections/manage.php:1253 sections/select.php:156
 #: sections/view_as_tabs.php:618 sections/view.php:1623
 #, php-format
 msgid "%d section"
@@ -1419,7 +1419,7 @@ msgstr[1] "%d sections"
 #: sections/layout_sections_as_simple.php:88
 #: sections/layout_sections_as_yahoo.php:128
 #: sections/layout_sections_as_yahoo.php:130 sections/layout_sections.php:119
-#: sections/manage.php:1130 sections/select.php:160
+#: sections/manage.php:1144 sections/select.php:160
 #: sections/view_as_tabs.php:358 sections/view.php:1183
 #, php-format
 msgid "%d page"
@@ -1557,7 +1557,7 @@ msgstr "Topics"
 msgid "Last post"
 msgstr "Last post"
 
-#: sections/layout_sections_as_yabb.php:167 sections/section.php:1396
+#: sections/layout_sections_as_yabb.php:167 sections/section.php:1395
 #, php-format
 msgid "%s by %s"
 msgstr "%s by %s"
@@ -1566,7 +1566,7 @@ msgstr "%s by %s"
 msgid "More"
 msgstr "More"
 
-#: sections/lock.php:55 sections/manage.php:1096 sections/manage.php:1205
+#: sections/lock.php:55 sections/manage.php:1110 sections/manage.php:1219
 #: sections/view_as_tabs.php:1059 sections/view.php:1798
 msgid "Lock"
 msgstr "Lock"
@@ -1627,25 +1627,25 @@ msgstr "Manage"
 msgid "Associate pages below to"
 msgstr "Associate pages below to"
 
-#: sections/manage.php:237 sections/manage.php:265 sections/manage.php:1087
-#: sections/manage.php:1202
+#: sections/manage.php:237 sections/manage.php:265 sections/manage.php:1101
+#: sections/manage.php:1216
 msgid "Categorize"
 msgstr "Categorize"
 
 #: sections/manage.php:245 sections/manage.php:328 sections/manage.php:355
 #: sections/manage.php:435 sections/manage.php:475 sections/manage.php:504
-#: sections/manage.php:659 sections/manage.php:699 sections/manage.php:768
-#: sections/manage.php:797 sections/manage.php:864 sections/manage.php:900
-#: sections/manage.php:980 sections/manage.php:1075
+#: sections/manage.php:673 sections/manage.php:713 sections/manage.php:782
+#: sections/manage.php:811 sections/manage.php:878 sections/manage.php:914
+#: sections/manage.php:994 sections/manage.php:1089
 msgid "No page has been selected."
 msgstr "No page has been selected."
 
 #: sections/manage.php:273 sections/manage.php:382 sections/manage.php:533
-#: sections/manage.php:739 sections/manage.php:1020 sections/manage.php:1190
+#: sections/manage.php:753 sections/manage.php:1034 sections/manage.php:1204
 msgid "No section has been selected."
 msgstr "No section has been selected."
 
-#: sections/manage.php:280 sections/manage.php:540 sections/manage.php:804
+#: sections/manage.php:280 sections/manage.php:540 sections/manage.php:818
 msgid "Bad request."
 msgstr "Bad request."
 
@@ -1657,10 +1657,10 @@ msgstr[0] "%d page has been associated with %s."
 msgstr[1] "%d pages have been associated with %s."
 
 #: sections/manage.php:300 sections/manage.php:322 sections/manage.php:406
-#: sections/manage.php:429 sections/manage.php:469 sections/manage.php:597
-#: sections/manage.php:653 sections/manage.php:693 sections/manage.php:733
-#: sections/manage.php:830 sections/manage.php:858 sections/manage.php:894
-#: sections/manage.php:938 sections/manage.php:974 sections/manage.php:1014
+#: sections/manage.php:429 sections/manage.php:469 sections/manage.php:604
+#: sections/manage.php:667 sections/manage.php:707 sections/manage.php:747
+#: sections/manage.php:844 sections/manage.php:872 sections/manage.php:908
+#: sections/manage.php:952 sections/manage.php:988 sections/manage.php:1028
 msgid "Manage it"
 msgstr "Manage it"
 
@@ -1686,58 +1686,58 @@ msgstr[1] "%d pages have been changed to draft mode."
 msgid "Duplicate following pages in"
 msgstr "Duplicate following pages in"
 
-#: sections/manage.php:591 sections/manage.php:647
+#: sections/manage.php:598 sections/manage.php:661
 #, php-format
 msgid "%d page has been duplicated."
 msgid_plural "%d pages have been duplicated."
 msgstr[0] "%d page has been duplicated."
 msgstr[1] "%d pages have been duplicated."
 
-#: sections/manage.php:687 sections/manage.php:727
+#: sections/manage.php:701 sections/manage.php:741
 #, php-format
 msgid "%d page has been locked."
 msgid_plural "%d pages have been locked."
 msgstr[0] "%d page has been locked."
 msgstr[1] "%d pages have been locked."
 
-#: sections/manage.php:753 sections/manage.php:782
+#: sections/manage.php:767 sections/manage.php:796
 msgid "Move following pages to"
 msgstr "Move following pages to"
 
-#: sections/manage.php:760 sections/manage.php:789 sections/manage.php:1105
-#: sections/manage.php:1214
+#: sections/manage.php:774 sections/manage.php:803 sections/manage.php:1119
+#: sections/manage.php:1228
 msgid "Move"
 msgstr "Move"
 
-#: sections/manage.php:823 sections/manage.php:851
+#: sections/manage.php:837 sections/manage.php:865
 #, php-format
 msgid "%d page has been moved to %s."
 msgid_plural "%d pages have been moved to %s."
 msgstr[0] "%d page has been moved to %s."
 msgstr[1] "%d pages have been moved to %s."
 
-#: sections/manage.php:888
+#: sections/manage.php:902
 #, php-format
 msgid "%d page has been published."
 msgid_plural "%d pages have been published."
 msgstr[0] "%d page has been published."
 msgstr[1] "%d pages have been published."
 
-#: sections/manage.php:932
+#: sections/manage.php:946
 #, php-format
 msgid "%d page has been updated."
 msgid_plural "%d pages have been updated."
 msgstr[0] "%d page has been updated."
 msgstr[1] "%d pages have been updated."
 
-#: sections/manage.php:968 sections/manage.php:1008
+#: sections/manage.php:982 sections/manage.php:1022
 #, php-format
 msgid "%d page has been unlocked."
 msgid_plural "%d pages have been unlocked."
 msgstr[0] "%d page has been unlocked."
 msgstr[1] "%d pages have been unlocked."
 
-#: sections/manage.php:1055 sections/manage.php:1170
+#: sections/manage.php:1069 sections/manage.php:1184
 msgid ""
 "Select items you want to manage, and click some button at the bottom of the "
 "page."
@@ -1745,36 +1745,36 @@ msgstr ""
 "Select items you want to manage, and click some button at the bottom of the "
 "page."
 
-#: sections/manage.php:1084 sections/manage.php:1199
+#: sections/manage.php:1098 sections/manage.php:1213
 msgid "Action"
 msgstr "Action"
 
-#: sections/manage.php:1090
+#: sections/manage.php:1104
 msgid "Publish"
 msgstr "Publish"
 
-#: sections/manage.php:1093
+#: sections/manage.php:1107
 msgid "Draft"
 msgstr "Draft"
 
-#: sections/manage.php:1099 sections/manage.php:1208
+#: sections/manage.php:1113 sections/manage.php:1222
 #: sections/view_as_tabs.php:1062 sections/view.php:1801
 msgid "Unlock"
 msgstr "Unlock"
 
-#: sections/manage.php:1111 sections/manage.php:1220
+#: sections/manage.php:1125 sections/manage.php:1234
 msgid "Order"
 msgstr "Order"
 
-#: sections/manage.php:1114 sections/manage.php:1223
+#: sections/manage.php:1128 sections/manage.php:1237
 msgid "Go"
 msgstr "Go"
 
-#: sections/manage.php:1254
+#: sections/manage.php:1268
 msgid "Sections"
 msgstr "Sections"
 
-#: sections/manage.php:1261
+#: sections/manage.php:1275
 msgid "This section has no content to manage."
 msgstr "This section has no content to manage."
 
@@ -2084,41 +2084,41 @@ msgstr "Image %d of %d"
 msgid "Location %d of %d"
 msgstr "Location %d of %d"
 
-#: sections/section.php:1292
+#: sections/section.php:1291
 msgid "(anonymous)"
 msgstr "(anonymous)"
 
-#: sections/section.php:1298 sections/section.php:1330
+#: sections/section.php:1297 sections/section.php:1329
 #, php-format
 msgid "Modification: %s"
 msgstr "Modification: %s"
 
-#: sections/section.php:1308
+#: sections/section.php:1307
 #, php-format
 msgid "A page has been submitted by %s"
 msgstr "A page has been submitted by %s"
 
-#: sections/section.php:1325
+#: sections/section.php:1324
 #, php-format
 msgid "Page has been modified by %s"
 msgstr "Page has been modified by %s"
 
-#: sections/section.php:1354
+#: sections/section.php:1353
 #, php-format
 msgid "A file has been uploaded by %s"
 msgstr "A file has been uploaded by %s"
 
-#: sections/section.php:1368
+#: sections/section.php:1367
 #, php-format
 msgid "%s has posted a comment"
 msgstr "%s has posted a comment"
 
-#: sections/section.php:1382
+#: sections/section.php:1381
 #, php-format
 msgid "A section has been created by %s"
 msgstr "A section has been created by %s"
 
-#: sections/section.php:1401
+#: sections/section.php:1400
 #, php-format
 msgid "%s in %s"
 msgstr "%s in %s"

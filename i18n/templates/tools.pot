@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 23:10+0200\n"
+"POT-Creation-Date: 2011-09-21 10:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +20,8 @@ msgstr ""
 #: tools/ajax.php:20 tools/embed.php:19 tools/fat_index.php:78
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
 #: tools/mebeam.php:33 tools/populate.php:115 tools/populate.php:137
-#: tools/transform.php:29
+#: tools/transform.php:29 tools/update_thumbs_url.php:40
+#: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr ""
 
@@ -245,6 +247,7 @@ msgid "Finalize Javascript libraries"
 msgstr ""
 
 #: tools/jsmin.php:52 tools/populate.php:123 tools/populate.php:134
+#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -874,7 +877,7 @@ msgid ""
 "testing purposes."
 msgstr ""
 
-#: tools/populate.php:1695
+#: tools/populate.php:1695 tools/update_thumbs_url.php:229
 msgid "Start"
 msgstr ""
 
@@ -888,4 +891,54 @@ msgstr ""
 
 #: tools/transform.php:46 tools/transform.php:52
 msgid "Themes"
+msgstr ""
+
+#: tools/update_thumbs_url.php:43
+msgid "Updating thumbnails url"
+msgstr ""
+
+#: tools/update_thumbs_url.php:77
+msgid "Analysing thumbnails for articles"
+msgstr ""
+
+#: tools/update_thumbs_url.php:94
+msgid "Analysing icons for articles"
+msgstr ""
+
+#: tools/update_thumbs_url.php:111
+msgid "Analysing thumbnails for sections"
+msgstr ""
+
+#: tools/update_thumbs_url.php:128
+msgid "Analysing icons for sections"
+msgstr ""
+
+#: tools/update_thumbs_url.php:145
+msgid "Analysing thumbnails for categories"
+msgstr ""
+
+#: tools/update_thumbs_url.php:162
+msgid "Analysing icons for categories"
+msgstr ""
+
+#: tools/update_thumbs_url.php:179
+msgid "Analysing thumbnails for files"
+msgstr ""
+
+#: tools/update_thumbs_url.php:202
+msgid ""
+"This tools correct the urls of thumbnails and icons of pages after having "
+"changed \"url_to_root\" in control panel"
+msgstr ""
+
+#: tools/update_thumbs_url.php:213
+msgid "Please give former URL to root"
+msgstr ""
+
+#: tools/update_thumbs_url.php:215
+msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
+msgstr ""
+
+#: tools/update_thumbs_url.php:219
+msgid "This will be replaced by current URL"
 msgstr ""

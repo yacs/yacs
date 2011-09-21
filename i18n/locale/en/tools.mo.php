@@ -7,14 +7,14 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2011-04-13 11:36+0200
-PO-Revision-Date: 2010-06-28 11:08+0100
-Last-Translator: Bernard Paques
+POT-Creation-Date: 2011-09-21 10:03+0200
+PO-Revision-Date: 2011-09-21 10:04+0100
+Last-Translator: Alexis Raimbault <rair@cybermedium.info>
 Language-Team: Bernard Paques
+Language: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Language: 
 Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: English
 X-Poedit-Country: UNITED KINGDOM
@@ -37,6 +37,13 @@ $_SESSION['l10n']['en']['Alert box']='Alert box';
 $_SESSION['l10n']['en']['Alert notification']='Alert notification';
 $_SESSION['l10n']['en']['Alice']='Alice';
 $_SESSION['l10n']['en']['b8b07936b356f7906cdd5ef6b01e7821']='An account already exists for "%s".';
+$_SESSION['l10n']['en']['Analysing icons for articles']='Analysing icons for articles';
+$_SESSION['l10n']['en']['Analysing icons for categories']='Analysing icons for categories';
+$_SESSION['l10n']['en']['Analysing icons for sections']='Analysing icons for sections';
+$_SESSION['l10n']['en']['182a614f672d0cd3ef20ea326160ed98']='Analysing thumbnails for articles';
+$_SESSION['l10n']['en']['6ad238ea479956d368ed89b0520bfd7f']='Analysing thumbnails for categories';
+$_SESSION['l10n']['en']['Analysing thumbnails for files']='Analysing thumbnails for files';
+$_SESSION['l10n']['en']['4545e687c235fd9ad50095a62d75c541']='Analysing thumbnails for sections';
 $_SESSION['l10n']['en']['Anonymous wiki']='Anonymous wiki';
 $_SESSION['l10n']['en']['717d50c64a625363713751145cf1f7ca']='Anyone can update pages in this section';
 $_SESSION['l10n']['en']['Assembling javascript files...']='Assembling javascript files...';
@@ -115,6 +122,7 @@ $_SESSION['l10n']['en']['Page editor']='Page editor';
 $_SESSION['l10n']['en']['Page owner']='Page owner';
 $_SESSION['l10n']['en']['Page reader']='Page reader';
 $_SESSION['l10n']['en']['Pages']='Pages';
+$_SESSION['l10n']['en']['Please give former URL to root']='Please give former URL to root';
 $_SESSION['l10n']['en']['3f075990c51c31f2eaec0ec034f83131']='Please include all elements we could need';
 $_SESSION['l10n']['en']['c5c719de6fb3f96ed08644a66784d873']='Post pages here to populate chapter 1';
 $_SESSION['l10n']['en']['Project']='Project';
@@ -186,9 +194,12 @@ $_SESSION['l10n']['en']['4a026ed4f6e4d92bdb76a1a696d9edd3']='This page has %d re
 $_SESSION['l10n']['en']['93367d2113574e84fd7ad73d762080f9']='This script adds various sample records, including sections, categories, articles, comments and tables, to the database.';
 $_SESSION['l10n']['en']['7eb9b5b621c8704d27281b0fa06bdecc']='This script can be used only by an authenticated user of this server.';
 $_SESSION['l10n']['en']['22d066ce7e26cfbbe0f1465ed632b136']='This script strips tags and white space to evaluate the amount of useful bytes. Then it computes the fat index as follows:';
+$_SESSION['l10n']['en']['f4eac99440b2b6363682e86a4e46a4db']='This tools correct the urls of thumbnails and icons of pages after having changed "url_to_root" in control panel';
+$_SESSION['l10n']['en']['701b48537415d120c222064d13632bc2']='This will be replaced by current URL';
 $_SESSION['l10n']['en']['9ce42343c4fe139d3e7ae4fd85e44a15']='To demonstrate access right management';
 $_SESSION['l10n']['en']['00a511eb5dccc62b6b63c5c104d9a5d5']='To seek for help from other members of the community';
 $_SESSION['l10n']['en']['Tools']='Tools';
+$_SESSION['l10n']['en']['Updating thumbnails url']='Updating thumbnails url';
 $_SESSION['l10n']['en']['d6c2ddb53c8c045388dd3ab3cbd6c499']='Use the command \'Edit this page\' to add some text or to change this content.';
 $_SESSION['l10n']['en']['d94aaf4fa30ddc7d9d1074f60c074ff3']='Use this page model to add a new event to the calendar';
 $_SESSION['l10n']['en']['86e1bb0529b582dccf265b7e6656ad13']='Use this page model to add a page that can be modified by any surfer';
@@ -212,6 +223,7 @@ $_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['Your message']='Your message';
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['bytes']='bytes';
+$_SESSION['l10n']['en']['9c49bfc1438a44cd96a6052323be18dc']='eg "/yacs/" or "/" or "/my_repo/yacs/"';
 $_SESSION['l10n']['en']['error while fetching %s']='error while fetching %s';
 $_SESSION['l10n']['en']['extra']='extra';
 $_SESSION['l10n']['en']['locked']='locked';

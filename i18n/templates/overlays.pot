@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-10 23:10+0200\n"
+"POT-Creation-Date: 2011-09-21 10:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -197,8 +198,8 @@ msgstr ""
 #: overlays/index.php:214
 #, php-format
 msgid ""
-"For example, if you want to apply the overlay <code>foo</code>, go to the %"
-"s, and select a target section, or add one."
+"For example, if you want to apply the overlay <code>foo</code>, go to the "
+"%s, and select a target section, or add one."
 msgstr ""
 
 #: overlays/index.php:214
