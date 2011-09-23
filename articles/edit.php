@@ -598,7 +598,7 @@ if(Surfer::is_crawler()) {
 	}
 
 // we have to duplicate some template page
-} elseif(!isset($item['id']) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
 
 	// ensure we are not duplicating outside regular templates
 	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
@@ -636,7 +636,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();
