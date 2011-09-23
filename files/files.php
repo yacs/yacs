@@ -2711,10 +2711,11 @@ Class Files {
 						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
 
 					// if this is a PDF that can be converted by Image Magick, then compute a thumbnail for the file
-					} else if(preg_match('/\.pdf$/i', $file_name) && is_callable(array('Imagick', 'writeImage')) && ($handle=new Imagick($file_path.$file_name))) {
+					} else if(preg_match('/\.pdf$/i', $file_name) && class_exists('Imagick') && ($handle=new Imagick($context['path_to_root'].$file_path.$file_name))) {
 
 						// derive a thumbnail image
 						$thumbnail_name = 'thumbs/'.$file_name.'.png';
+						Safe::mkdir($context['path_to_root'].$file_path.'thumbs');
 
 						// consider only the first page
 						$handle->setIteratorIndex(0);
@@ -2723,7 +2724,7 @@ Class Files {
 						$handle->setImageCompressionQuality(90);
 						$handle->stripImage(90);
 						$handle->thumbnailImage(100, NULL);
-						$handle->writeImage($file_path.$thumbnail_name);
+						$handle->writeImage($context['path_to_root'].$file_path.$thumbnail_name);
 
 						// remember the address of the thumbnail
 						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
