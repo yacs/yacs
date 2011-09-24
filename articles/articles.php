@@ -2291,6 +2291,9 @@ Class Articles {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// anchor cannot be empty
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
@@ -2508,6 +2511,9 @@ Class Articles {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// anchor cannot be empty
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
@@ -2707,8 +2713,10 @@ Class Articles {
 			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
 		if(isset($fields['tags']))
 			$query[] = "tags='".SQL::escape($fields['tags'])."'";
-		if(isset($fields['title']))
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
 			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
 		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
 

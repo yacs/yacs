@@ -2523,6 +2523,9 @@ Class Sections {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// protect from hackers
 		if(isset($fields['icon_url']))
 			$fields['icon_url'] =& encode_link($fields['icon_url']);
@@ -2727,6 +2730,9 @@ Class Sections {
 			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
+
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
@@ -2954,8 +2960,10 @@ Class Sections {
 			$query[] = "tags='".SQL::escape($fields['tags'])."'";
 		if(isset($fields['thumbnail_url']))
 			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
-		if(isset($fields['title']))
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
 			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
 		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
 
