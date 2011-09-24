@@ -259,6 +259,9 @@ Class Forms {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// anchor cannot be empty
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));

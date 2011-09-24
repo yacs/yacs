@@ -1294,6 +1294,9 @@ Class Categories {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// protect from hackers
 		if(isset($fields['icon_url']))
 			$fields['icon_url'] =& encode_link($fields['icon_url']);
@@ -1446,6 +1449,9 @@ Class Categories {
 		// title cannot be empty
 		if(!$fields['title'])
 			return i18n::s('No title has been provided.');
+
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
