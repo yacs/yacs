@@ -20,6 +20,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'forms/forms.js';
 $files[] = 'skins/_reference/yacs.css';
 
 // process every file
