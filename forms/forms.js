@@ -41,21 +41,21 @@ var Forms = {
 	append: function(id, text) {
 
 		// append the item at the bottom of the list
-                $("#form_panel").append(text);
+        $("#form_panel").append(text);
 
 		// some commands will appear on hovering
 		Yacs.addOnDemandTools(id);
 
 		// flash the new item
-                $("#" + id).effect("highlight",{},3000);
+    	$("#" + id).effect("highlight",{},3000);
 
 		// drag and drop is allowed to re-order the list
-                $("#form_panel").sortable({
-                    items: '.sortable',
-                    axis:'y',
-                    handle: '.drag_handle'
+        $("#form_panel").sortable({
+            items: '.sortable',
+            axis:'y',
+            handle: '.drag_handle'
                 });
-                            
+
 	},
 
 	/**
@@ -142,28 +142,28 @@ var Forms = {
 	/**
 	 * the user has validated his update
 	 */
-	saveLabel: function(handle) {                
+	saveLabel: function(handle) {
 		handle = $(handle);
 
 		// save in the store
 		var store = handle.children('.state');
-                var properties = handle.children('.properties');
-                
-                var itemText = properties.find('textarea').val();
-                var itemType = properties.find('select').val();
+        var properties = handle.children('.properties');
+
+        var itemText = properties.find('textarea').val();
+        var itemType = properties.find('select').val();
 		store.html('<div class="class">label</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>');
-                                
+
 		// also update the preview
-                var preview = handle.children('.preview');
-		if(itemType == 'title') 
+        var preview = handle.children('.preview');
+		if(itemType == 'title')
 			preview.html('<h2>' + itemText + '</h2>');
 		if(itemType == 'subtitle')
 			preview.html('<h3>' + itemText + '</h3>');
 		if(itemType == 'raw')
-                        preview.html(itemText);
+			preview.html(itemText);
 
 		// close properties
-                properties.toggle('slide');
+        properties.toggle('slide');
 	},
 
 	/**
@@ -225,13 +225,13 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-                var store = handle.children('.state');
-                var properties = handle.children('.properties');
+    	var store = handle.children('.state');
+        var properties = handle.children('.properties');
 
-                properties.find('.name').val(store.children('.name').html());
+        properties.find('.name').val(store.children('.name').html());
 
 		// close properties
-                properties.toggle('slide');
+        properties.toggle('slide');
 	},
 
 	/**
@@ -242,9 +242,9 @@ var Forms = {
 
 		// save in the store
 		var store = handle.children('.state');
-                var properties = handle.children('.properties');
+        var properties = handle.children('.properties');
 
-                var itemName = properties.find('.name').val();
+        var itemName = properties.find('.name').val();
 		store.html('<div class="class">file</div>' + '<div class="name">' + itemName + '</div>');
 
 		// also update the preview
@@ -513,47 +513,49 @@ var Forms = {
 	toJSON: function(handle) {
 		var nodes = $(handle + ' .state');
 		if(nodes.length < 1) {return '[]'};
+
 		var buffer = '';
-                var index = 0;
+		var index = 0;
 
-                nodes.each(function() {
-                    var node = $(this);
-                    var nodeClass = node.children('.class').text();
+		nodes.each(function() {
+			var node = $(this);
 
-                    if(index)
+			var nodeClass = node.children('.class').text();
+
+			if(index)
 				buffer += ",\n";
 
-                    if(nodeClass == 'file') {
-				buffer += '{ "class": "file"'
-					+ ', "name": "'+ node.children('.name').text().toJSON()+'" }';
-                    }
+			if(nodeClass == 'file')
+				buffer += '{ "class": "file"' + ', "name": "'+ node.children('.name').text() +'" }';
 
-                    if(nodeClass == 'label') {
+			if(nodeClass == 'label') {
 				buffer += '{ "class": "label"'
-					+ ', "text": "'+ node.children('.text').text().toJSON()
-					+ '", "type": "'+ node.children('.type').text().toJSON()+'" }';
-                    }
+					+ ', "text": "'+ node.children('.text').text()
+					+ '", "type": "'+ node.children('.type').text() + '" }';
+			}
 
-                    if(nodeClass == 'list') {
-                                var list_text = node.children('.text').text();
-                                // quote newlines in text
+			if(nodeClass == 'list') {
+				var list_text = node.children('.text').text();
+
+				// quote newlines in text
 				list_text = $.quoteString(list_text);
 
-                                buffer += '{ "class": "list"'
-					+ ', "text": '+ list_text.toJSON()
-					+ ', "type": "'+ node.children('.type').text().toJSON()
-					+ '", "name": "'+ node.children('.name').text().toJSON()+'" }';
-                    }
+				buffer += '{ "class": "list"'
+					+ ', "text": '+ list_text
+					+ ', "type": "'+ node.children('.type').text()
+					+ '", "name": "'+ node.children('.name').text() +'" }';
+			}
 
-                    if(nodeClass == 'text') {
+			if(nodeClass == 'text') {
 				buffer += '{ "class": "text"'
-					+ ', "type": "'+ node.children('.type').text().toJSON()
-					+ '", "name": "'+ node.children('.name').text().toJSON()+'" }';
-                    }
+					+ ', "type": "'+ node.children('.type').text()
+					+ '", "name": "'+ node.children('.name').text() +'" }';
+			}
 
-                    index += 1;
-                });
-                return '[' + buffer + ']';
+			index += 1;
+		});
+
+		return '[' + buffer + ']';
 	}
 }
 
