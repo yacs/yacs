@@ -430,6 +430,9 @@ Class Skin_Skeleton {
 	function &build_box($title, $content, $variant='header1', $id='', $url='', $popup='') {
 		global $context;
 
+		// accept line breaks in box titles
+		$title = str_replace("\n", BR, $title);
+
 		// append a link to the title, if any
 		if($url)
 			$title =& Skin::build_box_title($title, $url, $popup);
