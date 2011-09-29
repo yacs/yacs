@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Olivier Plathey
+ * @reference
+ */
 $type = 'Core';
 $name = 'Courier-Bold';
 $up = -100;

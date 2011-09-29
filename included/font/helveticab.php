@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Olivier Plathey
+ * @reference
+ */
 $type = 'Core';
 $name = 'Helvetica-Bold';
 $up = -100;
