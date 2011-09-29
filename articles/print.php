@@ -121,9 +121,9 @@ if(Surfer::is_crawler()) {
 	// list files by date (default) or by title (option files_by_title)
 	$items = array();
 	if(Articles::has_option('files_by_title', $anchor, $item))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 
 	// actually list items
 	if(count($items))
