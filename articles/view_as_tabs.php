@@ -371,9 +371,9 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 
 	// list files by date (default) or by title (option files_by_title)
 	if(Articles::has_option('files_by_title', $anchor, $item))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
 	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
 
 	// actually render the html
 	if(is_array($items))
