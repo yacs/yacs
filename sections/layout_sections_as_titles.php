@@ -29,6 +29,14 @@ Class Layout_sections_as_titles extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
+		// maximum number of items
+		if(isset($this->layout_variant) && ($this->layout_variant > 3))
+			$maximum_items = $this->layout_variant;
+		elseif(defined('YAHOO_LIST_SIZE'))
+			$maximum_items = YAHOO_LIST_SIZE;
+		else
+			$maximum_items = 7;
+
 		// clear flows
 		$text .= '<br style="clear: left" />';
 
@@ -49,19 +57,196 @@ Class Layout_sections_as_titles extends Layout_interface {
 			// the url to view this item
 			$url =& Sections::get_permalink($item);
 
+			// initialize variables
+			$prefix = $label = $suffix = $icon = '';
+
+			// signal restricted and private sections
+			if($item['active'] == 'N')
+				$prefix .= PRIVATE_FLAG;
+			elseif($item['active'] == 'R')
+				$prefix .= RESTRICTED_FLAG;
+
+			// flag sections that are draft, dead, or created or updated very recently
+			if($item['activation_date'] >= $context['now'])
+				$prefix .= DRAFT_FLAG;
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+				$prefix .= EXPIRED_FLAG;
+			elseif($item['create_date'] >= $context['fresh'])
+				$suffix .= NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$suffix .= UPDATED_FLAG;
+
+			// display introduction field on hovering
+			$hover = '';
+			if($item['introduction'])
+				$hover = strip_tags(Codes::beautify_introduction($item['introduction']));
+
+			// details and content
+			$details = array();
+			$content = array();
+
+			// count related sub-elements
+			$related_count = 0;
+
+			// info on related articles
+			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
+				if($count > $maximum_items)
+					$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
+				elseif(Surfer::is_empowered())
+					$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
+				$related_count += $count;
+
+				// get the overlay for content of this section, if any
+				$content_overlay = NULL;
+				if(isset($item['content_overlay']))
+					$content_overlay = Overlay::bind($item['content_overlay']);
+
+				// no room to list articles
+				if(count($content) >= $maximum_items)
+					;
+
+				// delegate rendering to the overlay, where applicable
+				elseif(is_object($content_overlay) && is_callable(array($content_overlay, 'render_list_for_anchor'))) {
+
+					if($related = $content_overlay->render_list_for_anchor('section:'.$item['id'], $maximum_items - count($content))) {
+						foreach($related as $sub_url => $label) {
+							$sub_prefix = $sub_suffix = $sub_hover = '';
+							if(is_array($label)) {
+								$sub_prefix = $label[0];
+								$sub_suffix = $label[2];
+								if(@$label[5])
+									$sub_hover = $label[5];
+								$label = $label[1];
+							}
+							$content[] = $sub_prefix.$label.$sub_suffix;
+						}
+					}
+
+				// regular rendering of related articles
+				} else {
+					if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+						$order = $matches[1];
+					else
+						$order = 'edition';
+					if($related =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, $maximum_items - count($content), 'compact')) {
+						foreach($related as $sub_url => $label) {
+							$sub_prefix = $sub_suffix = $sub_hover = '';
+							if(is_array($label)) {
+								$sub_prefix = $label[0];
+								$sub_suffix = $label[2];
+								if(@$label[5])
+									$sub_hover = $label[5];
+								$label = $label[1];
+							}
+							$content[] = $sub_prefix.$label.$sub_suffix;
+						}
+					}
+				}
+			}
+
+			// info on related files
+			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE)) {
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
+				$related_count += $count;
+
+				// add related files if necessary
+				if((count($content) < $maximum_items) && ($related = Files::list_by_date_for_anchor('section:'.$item['id'], 0, $maximum_items - count($content), 'compact'))) {
+					foreach($related as $sub_url => $label) {
+						$sub_prefix = $sub_suffix = $sub_hover = '';
+						if(is_array($label)) {
+							$sub_prefix = $label[0];
+							$sub_suffix = $label[2];
+							if(@$label[5])
+								$sub_hover = $label[5];
+							$label = $label[1];
+						}
+						$content[] = $sub_prefix.$label.$sub_suffix;
+					}
+				}
+
+			}
+
+			// info on related links
+			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE)) {
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
+				$related_count += $count;
+
+				// add related links if necessary
+				if((count($content) < $maximum_items) && ($related = Links::list_by_date_for_anchor('section:'.$item['id'], 0, $maximum_items - count($content), 'compact'))) {
+					foreach($related as $sub_url => $label) {
+						$sub_prefix = $sub_suffix = $sub_hover = '';
+						if(is_array($label)) {
+							$sub_prefix = $label[0];
+							$sub_suffix = $label[2];
+							if(@$label[5])
+								$sub_hover = $label[5];
+							$label = $label[1];
+						}
+						$content[] = $sub_prefix.$label.$sub_suffix;
+					}
+				}
+
+			}
+
+			// info on related comments
+			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE)) {
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
+				$related_count += $count;
+			}
+
+			// info on related sections
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+				if($count > $maximum_items)
+					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+				elseif(Surfer::is_empowered())
+					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+				$related_count += $count;
+
+				// add sub-sections
+				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, $maximum_items, 'compact')) {
+					foreach($related as $sub_url => $label) {
+						$sub_prefix = $sub_suffix = $sub_hover = '';
+						if(is_array($label)) {
+							$sub_prefix = $label[0];
+							$sub_suffix = $label[2];
+							if(@$label[5])
+								$sub_hover = $label[5];
+							$label = $label[1];
+						}
+						$content[] = $sub_prefix.$label.$sub_suffix;
+					}
+				}
+
+			}
+
+			// give me more
+			if(count($content) && ($related_count > $maximum_items))
+				$content[] = i18n::s('More').MORE_IMG;
+
+			// layout details
+			if(count($content)) {
+				if($hover)
+					$hover .= BR;
+				$hover .= '- '.implode(BR.'- ', $content);
+			}
+
+			// add a link to the main page
+			if(!hover)
+				$hover = i18n::s('View the section');
+
 			// use the title to label the link
 			$title = Skin::strip($item['title'], 50);
 
-			// the hovering title
-			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))
-				$hover = strip_tags(Codes::beautify_introduction($item['introduction']));
-
-			// add a link to the main page
-			else
-				$hover = i18n::s('View the section');
-
 			// title is a link to the target section
-			$title =& Skin::build_link($url, $title, 'basic', $hover);
+			$title =& Skin::build_link($url, $title, 'basic', i18n::s('View the section'));
+
+			// new or updated flag
+			if($suffix)
+				$details[] = $suffix;
+
+			// append details
+			if(count($details))
+				$title .= BR.'<span class="details">'.implode(', ', $details).'</span>';
 
 			// look for an image
 			$icon = '';
@@ -83,17 +268,14 @@ Class Layout_sections_as_titles extends Layout_interface {
 					$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($hover).'" '.$options.' />';
+				$icon = '<img src="'.$icon.'" alt="" title="" '.$options.' />';
 
 			// use default icon if nothing to display
 			} else
 				$icon = MAP_IMG;
 
-			// use the image as a link to the target page
-			$icon =& Skin::build_link($url, $icon, 'basic', $hover);
-
 			// add a floating box
-			$text .= Skin::build_box($title, $icon, 'floating');
+			$text .= Skin::build_box($prefix.$title, '<a href="'.$context['url_to_root'].$url.'" class="tip">'.$icon.'<span class="tip_content">'.$hover.'</span></a>', 'floating');
 
 		}
 
