@@ -167,7 +167,7 @@ var Yacs = {
 
 		// start an ajax transaction
 		$.ajax( {
-      url: url_to_root + 'services/json_rpc.php',
+			url: url_to_root + 'services/json_rpc.php',
 			type: 'post',
 			data: parameters,
 			dataType: "json",
@@ -631,8 +631,14 @@ var Yacs = {
 
 	/**
 	 * prepare for mouse hovering
+	 *
+	 * @param mixed id of the object to equip, or a reference to it
+	 *
+	 * @see forms/forms.js
+	 * @see tools/ajax.php
 	 */
-	addOnDemandTools: function(handle, option) {
+	addOnDemandTools: function(handle) {
+
 		if(typeof handle != "object")
 	        handle = $("#" + handle);
 
@@ -643,16 +649,14 @@ var Yacs = {
 
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClass('mutable')) {
-			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+Yacs.identify(handle)+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
+			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+ Yacs.identify(handle) +'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
+		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle) +'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
 
 		handle.prepend(suffix + prefix);
 
 		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
 		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
-
-		handle = null; // no memory leak
 	},
 
 	/**
@@ -710,7 +714,7 @@ var Yacs = {
 
 		// on-demand headers
 		$('.onDemandTools').each(function() {
-			Yacs.addOnDemandTools(this, { });
+			Yacs.addOnDemandTools($(this));
 		});
 
 		// prepare for a nice slideshow
@@ -1577,22 +1581,15 @@ var Yacs = {
 		// the spinning image
 		$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
-		// basic options
-		var options = {
-			asynchronous: true,
-			method: 'get',
-			evalScripts: true
-			};
-
-		// don't use hash from prototype, it would kill our call
-		if(args) {
-			for(key in args) {
-				options[key] = args[key];
-			}
-		}
-
 		// go go go
-		var updater = new Ajax.Updater(panel, address, options);
+		$.ajax({
+			url: address,
+			dataType: 'html',
+			timeout: 3000,
+			success: function(data) {
+			  $(panel).html(data);
+			}
+		});
 
 	},
 
@@ -1646,16 +1643,27 @@ var Yacs = {
 
 	},
 
+	/**
+	 * determine id of an element
+	 *
+	 * @param object the element to consider
+	 * @return string
+	 */
 	identify: function(handle) {
-    var i = 0;
-    if(handle.attr('id')) return handle.attr('id');
-    do {
-        i++;
-        var id = 'anonymous_' + i;
-    } while(document.getElementById(id) != null);
-    handle.attr('id', id);
-    return id;
-  }
+
+		// use the 'id' attribute, if known
+		if(handle.attr('id'))
+			return handle.attr('id');
+
+		// provide an anonymous id
+		var i = 0;
+		do {
+			i++;
+			var id = 'anonymous_' + i;
+		} while(document.getElementById(id) != null);
+		handle.attr('id', id);
+		return id;
+	}
 
 };
 

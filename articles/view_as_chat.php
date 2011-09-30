@@ -279,7 +279,6 @@ default:
 		.'	},'."\n"
 		."\n"
 		.'	keypress: function(event) {'."\n"
-		.'		console.log("!"+event.which);'."\n"
 		.'		if(($("#submitOnEnter").is(":checked")) && (event.which == 13)) {'."\n"
 		.'			Comments.contribute($(\'#contribution\').val());'."\n"
 		.'		}'."\n"
