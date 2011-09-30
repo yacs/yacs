@@ -41,20 +41,20 @@ var Forms = {
 	append: function(id, text) {
 
 		// append the item at the bottom of the list
-        $("#form_panel").append(text);
+		$("#form_panel").append(text);
 
 		// some commands will appear on hovering
 		Yacs.addOnDemandTools(id);
 
 		// flash the new item
-    	$("#" + id).effect("highlight",{},3000);
+		$("#" + id).effect("highlight",{},3000);
 
 		// drag and drop is allowed to re-order the list
-        $("#form_panel").sortable({
-            items: '.sortable',
-            axis:'y',
-            handle: '.drag_handle'
-                });
+		$("#form_panel").sortable({
+			items: '.sortable',
+			axis:'y',
+			handle: '.drag_handle'
+			});
 
 	},
 
@@ -129,11 +129,11 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-                var store = handle.children('.state');
-                var properties = handle.children('.properties');
+		var store = handle.children('.state');
+		var properties = handle.children('.properties');
 
-                properties.find('textarea').val(store.children('.text').html());
-                properties.find('select').val(store.children('.type').html());
+		properties.find('textarea').val(store.children('.text').html());
+		properties.find('select').val(store.children('.type').html());
 
 		// close properties
 		properties.toggle('slide');
@@ -147,14 +147,14 @@ var Forms = {
 
 		// save in the store
 		var store = handle.children('.state');
-        var properties = handle.children('.properties');
+		var properties = handle.children('.properties');
 
-        var itemText = properties.find('textarea').val();
-        var itemType = properties.find('select').val();
+		var itemText = properties.find('textarea').val();
+		var itemType = properties.find('select').val();
 		store.html('<div class="class">label</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>');
 
 		// also update the preview
-        var preview = handle.children('.preview');
+		var preview = handle.children('.preview');
 		if(itemType == 'title')
 			preview.html('<h2>' + itemText + '</h2>');
 		if(itemType == 'subtitle')
@@ -163,7 +163,7 @@ var Forms = {
 			preview.html(itemText);
 
 		// close properties
-        properties.toggle('slide');
+		properties.toggle('slide');
 	},
 
 	/**
@@ -225,13 +225,13 @@ var Forms = {
 		handle = $(handle);
 
 		// restore from the store
-    	var store = handle.children('.state');
-        var properties = handle.children('.properties');
+		var store = handle.children('.state');
+		var properties = handle.children('.properties');
 
-        properties.find('.name').val(store.children('.name').html());
+		properties.find('.name').val(store.children('.name').html());
 
 		// close properties
-        properties.toggle('slide');
+		properties.toggle('slide');
 	},
 
 	/**
@@ -242,9 +242,9 @@ var Forms = {
 
 		// save in the store
 		var store = handle.children('.state');
-        var properties = handle.children('.properties');
+		var properties = handle.children('.properties');
 
-        var itemName = properties.find('.name').val();
+		var itemName = properties.find('.name').val();
 		store.html('<div class="class">file</div>' + '<div class="name">' + itemName + '</div>');
 
 		// also update the preview
@@ -332,11 +332,11 @@ var Forms = {
 
 		// restore from the store
 		var store = handle.children('.state');
-                var properties = handle.children('.properties');
+		var properties = handle.children('.properties');
 
-                properties.find('textarea').val(store.children('.text').html());
-                properties.find('select').val(store.children('.type').html());
-                properties.find('.name').val(store.children('.name').html());
+		properties.find('textarea').val(store.children('.text').html());
+		properties.find('select').val(store.children('.type').html());
+		properties.find('.name').val(store.children('.name').html());
 
 		// close properties
 		properties.toggle('slide');
@@ -350,10 +350,10 @@ var Forms = {
 
 		// save in the store
 		var store = handle.children('.state');
-                var properties = handle.children('.properties');
+		var properties = handle.children('.properties');
 
 		var itemText = properties.find('textarea').val();
-                var itemType = properties.find('select').val();
+		var itemType = properties.find('select').val();
 		var itemName = properties.find('.name').val();
 		store.html('<div class="class">list</div>' + '<div class="text">' + itemText + '</div>' + '<div class="type">' + itemType + '</div>' + '<div class="name">' + itemName + '</div>');
 
@@ -442,10 +442,10 @@ var Forms = {
 
 		// restore from the store
 		var store = handle.children('.state');
-                var properties = handle.children('.properties');
+		var properties = handle.children('.properties');
 
-                properties.find('select').val(store.children('.type').html());
-                properties.find('.name').val(store.children('.name').html());
+		properties.find('select').val(store.children('.type').html());
+		properties.find('.name').val(store.children('.name').html());
 
 		// close properties
 		properties.toggle('slide');
@@ -459,7 +459,7 @@ var Forms = {
 
 		// save in the store
 		var store = handle.children('.state');
-                var properties = handle.children('.properties');
+		var properties = handle.children('.properties');
 
 		var itemType = properties.find('select').val();
 		var itemName = properties.find('.name').val();
