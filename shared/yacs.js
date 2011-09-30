@@ -633,22 +633,24 @@ var Yacs = {
 	 * prepare for mouse hovering
 	 */
 	addOnDemandTools: function(handle, option) {
-                handle = $("#" + handle);
+		if(typeof handle != "object")
+	        handle = $("#" + handle);
 
 		var prefix = '';
 		if(handle.hasClass('sortable')) {
 			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
 		}
-                
+
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClass('mutable')) {
 			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+Yacs.identify(handle)+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';               
-                handle.prepend(suffix + prefix);
+		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle)+'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
 
-		 handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
-		 handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
+		handle.prepend(suffix + prefix);
+
+		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
+		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
 
 		handle = null; // no memory leak
 	},
@@ -658,19 +660,19 @@ var Yacs = {
 	 */
 	mouseOut: function(handle) {
 		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
-                    .css('visibility', 'hidden');
+			.css('visibility', 'hidden');
 	},
 
 	/**
 	 * mouse is coming on top of some element
 	 */
 	mouseOver: function(handle) {
-                $(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
-                    .css('visibility', 'visible');
+		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+			.css('visibility', 'visible');
 	},
 
 	toggleProperties: function(handle) {
-                $(handle).children('.properties').toggle('slide');
+        $(handle).children('.properties').toggle('slide');
 	},
 
 	/**
@@ -842,13 +844,13 @@ var Yacs = {
 		loader.onload=function(){
 
 			// adjust image size to viewport dimensions
-			var scale = 1.0;      
+			var scale = 1.0;
 			if((loader.width > 1) && (loader.width + 30 > $(window).width())) {
 				scale = ($(window).width() - 30) / loader.width;
 				loader.height*= scale;
 				loader.width *= scale;
-			}                                 
-			
+			}
+
 			if((loader.height > 1) && (loader.height + 110 > $(window).height())) { // take title and buttons into account
 				scale = ($(window).height() - 110) / loader.height;
 				loader.height*= scale;
@@ -1113,20 +1115,21 @@ var Yacs = {
 
 	},
 
-	subscribeSuccess: function(transport) {
+	subscribeSuccess: function(response) {
 
 		// dispatch received notification
-		var response = transport.responseText.evalJSON(true);
-		switch(response.type) {
-		case 'alert':
-			Yacs.handleAlertNotification(response);
-			break;
-		case 'browse':
-			Yacs.handleBrowseNotification(response);
-			break;
-		case 'hello':
-			Yacs.handleHelloNotification(response);
-			break;
+		if(response) {
+			switch(response.type) {
+			case 'alert':
+				Yacs.handleAlertNotification(response);
+				break;
+			case 'browse':
+				Yacs.handleBrowseNotification(response);
+				break;
+			case 'hello':
+				Yacs.handleHelloNotification(response);
+				break;
+			}
 		}
 
 		// minimum time between two successive notifications
@@ -1610,9 +1613,9 @@ var Yacs = {
 
 		// center the box
 		var yShift, xShift;
-		yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));           
-		xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));                         
-                                                      
+		yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
+		xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
+
 		// update box position
 		if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
 			$('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
@@ -1642,7 +1645,7 @@ var Yacs = {
 		}
 
 	},
-	
+
 	identify: function(handle) {
     var i = 0;
     if(handle.attr('id')) return handle.attr('id');
