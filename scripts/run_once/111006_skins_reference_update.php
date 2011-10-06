@@ -21,7 +21,13 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 $files = array();
 $files[] = 'forms/forms.js';
+$files[] = 'skins/_mobile/iui/iuix.js';
+$files[] = 'skins/_reference/pagers/delicious.gif';
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/flexible/footers/s-kubrickfooter-b.jpg';
+$files[] = 'skins/flexible/headers/kubrickheader.jpg';
+$files[] = 'skins/flexible/headers/p-whiteblack-x.jpg';
+$files[] = 'skins/flexible/pages/y-kubrickbgwide-y.jpg';
 
 // process every file
 $count = 0;
