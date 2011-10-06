@@ -5,7 +5,7 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$context['l10n']['en']['%d files have been updated.']='%d files have been updated.';
+$context['l10n']['en']['%d files have been minified.']='%d files have been minified.';
 $context['l10n']['en']['%s: %s']='%s: %s';
 $context['l10n']['en']['318bb71a30c3dcd1476ae87d0e98cfdc']='A calendar of planned activities';
 $context['l10n']['en']['ee4c4307567fad8ef9e100aa3236eff8']='A category "%s" has been created.';
@@ -31,7 +31,6 @@ $context['l10n']['en']['Analysing thumbnails for files']='Analysing thumbnails f
 $context['l10n']['en']['4545e687c235fd9ad50095a62d75c541']='Analysing thumbnails for sections';
 $context['l10n']['en']['Anonymous wiki']='Anonymous wiki';
 $context['l10n']['en']['717d50c64a625363713751145cf1f7ca']='Anyone can update pages in this section';
-$context['l10n']['en']['Assembling javascript files...']='Assembling javascript files...';
 $context['l10n']['en']['b7e6262eb0a58061fdf756e5d5b12b4a']='Authenticated persons can update pages in this section';
 $context['l10n']['en']['Blog']='Blog';
 $context['l10n']['en']['Bob']='Bob';

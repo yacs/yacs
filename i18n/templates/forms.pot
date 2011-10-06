@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 22:59+0200\n"
+"POT-Creation-Date: 2011-10-06 21:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,39 +219,39 @@ msgstr ""
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: forms/edit.php:453
+#: forms/edit.php:433
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
 "the description field."
 msgstr ""
 
-#: forms/edit.php:454
+#: forms/edit.php:434
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: forms/edit.php:454
+#: forms/edit.php:434
 msgid "YACS codes"
 msgstr ""
 
-#: forms/edit.php:454
+#: forms/edit.php:434
 msgid "smileys"
 msgstr ""
 
-#: forms/edit.php:461
+#: forms/edit.php:441
 msgid "TinyMCE"
 msgstr ""
 
-#: forms/edit.php:465
+#: forms/edit.php:445
 msgid "FCKEditor"
 msgstr ""
 
-#: forms/edit.php:469
+#: forms/edit.php:449
 msgid "Textarea"
 msgstr ""
 
-#: forms/edit.php:473
+#: forms/edit.php:453
 msgid "Help"
 msgstr ""
 
@@ -259,11 +259,11 @@ msgstr ""
 msgid "No title has been provided."
 msgstr ""
 
-#: forms/forms.php:264 forms/view.php:91
+#: forms/forms.php:267 forms/view.php:91
 msgid "No anchor has been found."
 msgstr ""
 
-#: forms/forms.php:280
+#: forms/forms.php:283
 msgid "No item has the provided id."
 msgstr ""
 
