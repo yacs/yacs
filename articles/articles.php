@@ -111,7 +111,7 @@ Class Articles {
 	 * @param boolean TRUE is these are coming from several sections, FALSE, otherwise
 	 * @return string to be put in SQL statements
 	 */
-	function _get_order($order, $multiple_anchor=TRUE) {
+	public static function _get_order($order, $multiple_anchor=TRUE) {
 
 		switch($order) {
 		case 'draft':
@@ -214,7 +214,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_access($item, $anchor) {
+	public static function allow_access($item, $anchor) {
 		global $context;
 
 		// surfer is an associate
@@ -265,7 +265,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($item, $anchor=NULL) {
+	public static function allow_creation($item, $anchor=NULL) {
 		global $context;
 
 		// articles are prevented in item, through layout
@@ -352,7 +352,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_deletion($item, $anchor) {
+	public static function allow_deletion($item, $anchor) {
 		global $context;
 
 		// sanity check
@@ -427,7 +427,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($item, $anchor) {
+	public static function allow_modification($item, $anchor) {
 		global $context;
 
 		// sanity check
@@ -484,7 +484,7 @@ Class Articles {
 	 * @param array a set of item attributes, aka, the target article
 	 * @return TRUE or FALSE
 	 */
-	function allow_publication($anchor, $item) {
+	public static function allow_publication($anchor, $item) {
 		global $context;
 
 		// sanity check
@@ -526,7 +526,7 @@ Class Articles {
 	 * @param array the article to be documented
 	 * @return array strings detailed labels
 	 */
-	function &build_dates($anchor, $item) {
+	public static function &build_dates($anchor, $item) {
 		global $context;
 
 		// we return an array of strings
@@ -592,7 +592,7 @@ Class Articles {
 	 * @param array the edited item
 	 * @return string text to be put in the form
 	 */
-	function build_options_input($item) {
+	public static function build_options_input($item) {
 		global $context;
 
 		$text = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
@@ -606,7 +606,7 @@ Class Articles {
 	 *
 	 * @return string text to be put in the form
 	 */
-	function build_options_hint() {
+	public static function build_options_hint() {
 		global $context;
 
 		$keywords = array();
@@ -646,7 +646,7 @@ Class Articles {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'sections', 'categories', 'users');
@@ -676,7 +676,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function count_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// sanity check
@@ -750,7 +750,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	function count_for_user($user_id) {
+	public static function count_for_user($user_id) {
 		global $context;
 
 		// sanity check
@@ -817,7 +817,7 @@ Class Articles {
 	 * @see articles/delete.php
 	 * @see services/blog.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the record
@@ -852,7 +852,7 @@ Class Articles {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
@@ -882,7 +882,7 @@ Class Articles {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -947,7 +947,7 @@ Class Articles {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function &get($id, $mutable=FALSE) {
 		$output = Articles::get_attributes($id, '*', $mutable);
 		return $output;
 	}
@@ -960,7 +960,7 @@ Class Articles {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_attributes($id, $attributes, $mutable=FALSE) {
+	public static function &get_attributes($id, $attributes, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -1010,7 +1010,7 @@ Class Articles {
 	 * @param string the target overlay identifier
 	 * @return array of page ids that match the provided identifier, else NULL
 	 */
-	function get_ids_for_overlay($overlay_id) {
+	public static function get_ids_for_overlay($overlay_id) {
 		global $context;
 
 		// display active items
@@ -1073,7 +1073,7 @@ Class Articles {
 	 *
 	 * @see index.php
 	 */
-	function &get_newest_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function &get_newest_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// select among active and restricted items
@@ -1144,7 +1144,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	function get_next_url(&$item, $anchor, $order='edition') {
+	public static function get_next_url(&$item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1215,7 +1215,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	function &get_permalink($item) {
+	public static function &get_permalink($item) {
 		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}
@@ -1232,7 +1232,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	function get_previous_url(&$item, $anchor, $order='edition') {
+	public static function get_previous_url(&$item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1303,7 +1303,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the short link
 	 */
-	function &get_short_url($item) {
+	public static function &get_short_url($item) {
 		$output = 'a~'.reduce_number($item['id']);
 		return $output;
 	}
@@ -1342,7 +1342,7 @@ Class Articles {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
 		global $context;
 
 		// use alternate name instead of regular name, if one is provided
@@ -1387,7 +1387,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return TRUE or FALSE
 	 */
-	 function has_option($option, $anchor=NULL, $item=NULL) {
+	 public static function has_option($option, $anchor=NULL, $item=NULL) {
 		global $context;
 
 		// sanity check
@@ -1411,7 +1411,7 @@ Class Articles {
 	 *
 	 * @param the id of the article to update
 	 */
-	function increment_hits($id) {
+	public static function increment_hits($id) {
 		global $context;
 
 		// id cannot be empty
@@ -1434,7 +1434,7 @@ Class Articles {
 	 * @param int optional id to impersonate
 	 * @return TRUE or FALSE
 	 */
-	function is_assigned($id, $surfer_id=NULL) {
+	public static function is_assigned($id, $surfer_id=NULL) {
 		global $context;
 
 		// no impersonation
@@ -1461,7 +1461,7 @@ Class Articles {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
+	 public static function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
@@ -1492,7 +1492,7 @@ Class Articles {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
+	 public static function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
 		// ownership requires to be authenticated
@@ -1537,7 +1537,7 @@ Class Articles {
 	 * @param int optional id to impersonate
 	 * @return TRUE or FALSE
 	 */
-	function is_watched($id, $surfer_id=NULL) {
+	public static function is_watched($id, $surfer_id=NULL) {
 		global $context;
 
 		// no impersonation
@@ -1567,7 +1567,7 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
+	public static function &list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// define items order
@@ -1600,7 +1600,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	function &list_assigned_by_date_for_anchor($anchor=NULL, $surfer_id, $offset=0, $count=20, $variant='decorated', $shared_page=FALSE, $live=TRUE) {
+	public static function &list_assigned_by_date_for_anchor($anchor=NULL, $surfer_id, $offset=0, $count=20, $variant='decorated', $shared_page=FALSE, $live=TRUE) {
 		global $context;
 
 		// display active items
@@ -1687,7 +1687,7 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
+	public static function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// select among active items
@@ -1794,7 +1794,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
+	public static function &list_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
 		// define items order
@@ -1840,7 +1840,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
+	public static function &list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
 		// select among active items
@@ -1937,7 +1937,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	function &list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
+	public static function &list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
 		global $context;
 
 		// sanity check
@@ -2001,7 +2001,7 @@ Class Articles {
 	 * @param mixed the layout to apply
 	 * @return string to be inserted into the resulting page
 	 */
-	function &list_for_ids($ids, $layout='select') {
+	public static function &list_for_ids($ids, $layout='select') {
 		global $context;
 
 		// turn a string to an array
@@ -2054,7 +2054,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_name($name, $exception=NULL, $layout='compact') {
+	public static function &list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
 		// gather constraints
@@ -2091,7 +2091,7 @@ Class Articles {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
+	public static function &list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// sanity check
@@ -2173,7 +2173,7 @@ Class Articles {
 	 * @see skins/skin_skeleton.php
 	 * @see index.php
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -2227,7 +2227,7 @@ Class Articles {
 	 * @param string the previous locking state
 	 * @return TRUE on success toggle, FALSE otherwise
 	 */
-	function lock($id, $status='Y') {
+	public static function lock($id, $status='Y') {
 		global $context;
 
 		// id cannot be empty
@@ -2254,7 +2254,7 @@ Class Articles {
 	 * @param string the nick name looked for
 	 * @return string either 'article:&lt;id&gt;', or NULL
 	 */
-	function lookup($nick_name) {
+	public static function lookup($nick_name) {
 		global $context;
 
 		// the page already exists
@@ -2282,7 +2282,7 @@ Class Articles {
 	 *
 	 * @see articles/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -2434,7 +2434,7 @@ Class Articles {
 	 * @param string the nick name of the item to create
 	 * @return string text to be displayed in the resulting page
 	 */
-	function post_default($nick_name) {
+	public static function post_default($nick_name) {
 		global $context;
 
 		// the page already exists
@@ -2462,7 +2462,7 @@ Class Articles {
 	 * @param int the maximum number of pages to keep in the database
 	 * @return void
 	 */
-	function purge_for_anchor($anchor, $limit=1000) {
+	public static function purge_for_anchor($anchor, $limit=1000) {
 		global $context;
 
 		// lists oldest entries beyond the limit
@@ -2496,7 +2496,7 @@ Class Articles {
 	 * @see articles/edit.php
 	 * @see services/blog.php
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -2623,7 +2623,7 @@ Class Articles {
 	 * @param array an array of fields
 	 * @return TRUE on success, or FALSE on error
 	**/
-	function put_attributes(&$fields) {
+	public static function put_attributes(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -2756,7 +2756,7 @@ Class Articles {
 	 * @param int the id of the article to rate
 	 * @param int the rate
 	 */
-	function rate($id, $rating) {
+	public static function rate($id, $rating) {
 		global $context;
 
 		// id cannot be empty
@@ -2784,7 +2784,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+	public static function &search($pattern, $offset=0, $count=50, $layout='decorated') {
 		global $context;
 
 		$output =& Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -2805,7 +2805,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
+	public static function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
 		global $context;
 
 		// sanity check
@@ -2914,7 +2914,7 @@ Class Articles {
 	/**
 	 * create tables for articles
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -3021,7 +3021,7 @@ Class Articles {
 	 * @see articles/publish.php
 	 * @see sections/manage.php
 	**/
-	function stamp($id, $publication=NULL, $expiry=NULL, $publisher=NULL) {
+	public static function stamp($id, $publication=NULL, $expiry=NULL, $publisher=NULL) {
 		global $context;
 
 		// id cannot be empty
@@ -3138,7 +3138,7 @@ Class Articles {
 	 *
 	 * @see articles/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among active items
@@ -3202,7 +3202,7 @@ Class Articles {
 	 *
 	 * @see sections/view.php
 	 */
-	function &stat_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function &stat_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// sanity check
@@ -3265,7 +3265,7 @@ Class Articles {
 	 * @param object overlay instance of this item, if any
 	 * @return string the XML encoding of this item
 	 */
-	function to_xml($item, $overlay) {
+	public static function to_xml($item, $overlay) {
 		global $context;
 
 		// article header
@@ -3370,7 +3370,7 @@ Class Articles {
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 * @see articles/unpublish.php
 	**/
-	function unpublish($id) {
+	public static function unpublish($id) {
 		global $context;
 
 		// id cannot be empty

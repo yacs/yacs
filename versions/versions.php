@@ -65,7 +65,7 @@ Class Versions {
 	 * @param array list of attributes to check
 	 * @return boolean TRUE if the arrays are different, FALSE otherwise
 	 */
-	function are_different($previous, $current, $names=NULL) {
+	public static function are_different($previous, $current, $names=NULL) {
 
 		// sanity check
 		if(!is_array($names) || !$names)
@@ -98,7 +98,7 @@ Class Versions {
 	 * @see articles/view.php
 	 * @see sections/view.php
 	 */
-	function count_for_anchor($anchor) {
+	public static function count_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -125,7 +125,7 @@ Class Versions {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all records attached to this anchor
@@ -142,7 +142,7 @@ Class Versions {
 	 * @param int the id of the version
 	 * @return the resulting $item array, with at least keys: 'id', 'anchor', 'content', etc.
 	 */
-	function &get($id) {
+	public static public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -179,7 +179,7 @@ Class Versions {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// list versions -- the id has to be an anchor (e.g., 'article:15')
@@ -210,7 +210,7 @@ Class Versions {
 	 *
 	 * @see versions/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// the list of versions
@@ -232,7 +232,7 @@ Class Versions {
 	 *
 	 * @see versions/list.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -258,7 +258,7 @@ Class Versions {
 	 * @return NULL on error, else an ordered array with $key => ($prefix, $label, $suffix, $type, $icon)
 	 *
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -303,7 +303,7 @@ Class Versions {
 	 * @param int the id of the version to restore
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function restore($id) {
+	public static function restore($id) {
 		global $context;
 
 		// sanity check
@@ -358,7 +358,7 @@ Class Versions {
 	 *
 	 * @see versions/edit.php
 	**/
-	function save($fields, $anchor) {
+	public static function save($fields, $anchor) {
 		global $context;
 
 		// anchor cannot be empty
@@ -408,7 +408,7 @@ Class Versions {
 	/**
 	 * create tables for versions
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -434,7 +434,7 @@ Class Versions {
 	 * @param the selected anchor (e.g., 'section:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check

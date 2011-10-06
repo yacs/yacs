@@ -255,7 +255,7 @@ Class Sections {
 	 * @param object an instance of the Anchor interface, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_access($item, $anchor) {
+	public static function allow_access($item, $anchor) {
 		global $context;
 
 		// surfer is an associate
@@ -306,7 +306,7 @@ Class Sections {
 	 * @param object parent container of the target section, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($item, $anchor=NULL) {
+	public static function allow_creation($item, $anchor=NULL) {
 		global $context;
 
 		// sections are prevented in this item through layout
@@ -369,7 +369,7 @@ Class Sections {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_message($item, $anchor=NULL) {
+	public static function allow_message($item, $anchor=NULL) {
 		global $context;
 
 		// subscribers can never sned a message
@@ -410,7 +410,7 @@ Class Sections {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($item, $anchor=NULL) {
+	public static function allow_modification($item, $anchor=NULL) {
 		global $context;
 
 		// sanity check
@@ -460,7 +460,7 @@ Class Sections {
 	 * @param array the section to be documented
 	 * @return array strings detailed labels
 	 */
-	function &build_dates($anchor, $item) {
+	public static function &build_dates($anchor, $item) {
 		global $context;
 
 		// we return an array of strings
@@ -509,7 +509,7 @@ Class Sections {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('categories', 'sections', 'users');
@@ -540,7 +540,7 @@ Class Sections {
 	 * @param string the selected anchor (e.g., 'section:12')
 	 * @return int resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor) {
+	public static function count_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -597,7 +597,7 @@ Class Sections {
 	 * @return integer starting at zero
 	 *
 	 */
-	function count_for_owner($id = NULL) {
+	public static function count_for_owner($id = NULL) {
 		global $context;
 
 		// default to current surfer
@@ -624,7 +624,7 @@ Class Sections {
 	 *
 	 * @see users/view.php
 	 */
-	function count_for_user($user_id) {
+	public static function count_for_user($user_id) {
 		global $context;
 
 		// sanity check
@@ -680,7 +680,7 @@ Class Sections {
 	 *
 	 * @see sections/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the row
@@ -710,7 +710,7 @@ Class Sections {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
@@ -740,7 +740,7 @@ Class Sections {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -803,7 +803,7 @@ Class Sections {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function &get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -876,7 +876,7 @@ Class Sections {
 	 * @see index.php
 	 * @see sections/view.php
 	 */
-	function &get_anchors_for_anchor($anchor=NULL, $variant='main') {
+	public static function &get_anchors_for_anchor($anchor=NULL, $variant='main') {
 		global $context;
 
 		$criteria = array();
@@ -979,7 +979,7 @@ Class Sections {
 	 *
 	 * @see sections/feed.php
 	 */
-	function &get_children_of_anchor($anchor=NULL, $variant='main') {
+	public static function &get_children_of_anchor($anchor=NULL, $variant='main') {
 		global $context;
 
 		$criteria = array();
@@ -1060,7 +1060,7 @@ Class Sections {
 	 *
 	 * @see files/edit.php
 	 */
-	function get_default() {
+	public static function get_default() {
 		global $context;
 
 		// look for a 'default' section
@@ -1111,7 +1111,7 @@ Class Sections {
 	 * @param int or string the id or nick name of the section
 	 * @return the associated handle, or NULL if no record matches the input parameter
 	 */
-	function &get_handle($id) {
+	public static function &get_handle($id) {
 		global $context;
 
 		// sanity check
@@ -1157,7 +1157,7 @@ Class Sections {
 	 * @param object parents of this section, if any
 	 * @return array references of hidden sections
 	 */
-	function get_hidden_sections($item, $anchor) {
+	public static function get_hidden_sections($item, $anchor) {
 
 		// this section, at least
 		$anchors = array( 'section:'.$item['id'] );
@@ -1184,7 +1184,7 @@ Class Sections {
 	 * @param string name of the layout to load
 	 * @return object
 	 */
-	function &get_layout($variant='full') {
+	public static function &get_layout($variant='full') {
 		global $context;
 
 		// special layouts
@@ -1247,7 +1247,7 @@ Class Sections {
 	 * @see panel.php
 	 * @see skins/upload.php
 	 */
-	function get_options($default=NULL, $to_avoid=NULL) {
+	public static function get_options($default=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// all options
@@ -1306,7 +1306,7 @@ Class Sections {
 	 *
 	 */
 
-	function get_options_for_anchor($anchor, $spaces, $default, $to_avoid) {
+	public static function get_options_for_anchor($anchor, $spaces, $default, $to_avoid) {
 		global $context;
 
 		// add to text
@@ -1377,7 +1377,7 @@ Class Sections {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	function &get_permalink($item) {
+	public static function &get_permalink($item) {
 		$output = Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}
@@ -1399,7 +1399,7 @@ Class Sections {
 	 * @see panel.php
 	 * @see skins/upload.php
 	 */
-	function &get_radio_buttons($current=NULL, $me=NULL) {
+	public static function &get_radio_buttons($current=NULL, $me=NULL) {
 		global $context;
 
 		// we put radio buttons in a string
@@ -1609,13 +1609,13 @@ Class Sections {
 	 * @param array page attributes
 	 * @return string the short url
 	 */
-	function &get_short_url($item) {
+	public static function &get_short_url($item) {
 		$output = 's~'.reduce_number($item['id']);
 		return $output;
 	}
 
 
-	function &get_tree() {
+	public static function &get_tree() {
 		global $context;
 
 		// do this only once!
@@ -1677,7 +1677,7 @@ Class Sections {
 		return $sections_tree;
 	}
 
-	function get_tree_level(&$tree, $handles, $handle, $level=0) {
+	public static function get_tree_level(&$tree, $handles, $handle, $level=0) {
 
 		// process all sections at this level
 		$items = $handles[$handle];
@@ -1715,7 +1715,7 @@ Class Sections {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
 		global $context;
 
 		// use nick name instead of regular name, if one is provided
@@ -1778,7 +1778,7 @@ Class Sections {
 	 * @param array page attributes
 	 * @return TRUE or FALSE
 	 */
-	 function has_option($option, $anchor=NULL, $item=NULL) {
+	 public static function has_option($option, $anchor=NULL, $item=NULL) {
 		global $context;
 
 		// sanity check
@@ -1807,7 +1807,7 @@ Class Sections {
 	 *
 	 * @see sections/view.php
 	 */
-	function increment_hits($id) {
+	public static function increment_hits($id) {
 		global $context;
 
 		// id cannot be empty
@@ -1831,7 +1831,7 @@ Class Sections {
 	 * @param int optional id to impersonate
 	 * @return TRUE or FALSE
 	 */
-	function is_assigned($id, $surfer_id=NULL) {
+	public static function is_assigned($id, $surfer_id=NULL) {
 		global $context;
 
 		// no impersonation
@@ -1858,7 +1858,7 @@ Class Sections {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL, $strict=FALSE) {
+	 public static function is_editable($anchor=NULL, $item=NULL, $user_id=NULL, $strict=FALSE) {
 		global $context;
 
 		// id of requesting user
@@ -1892,7 +1892,7 @@ Class Sections {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
+	 public static function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
@@ -1933,7 +1933,7 @@ Class Sections {
 	 * @param int optional id to impersonate
 	 * @return TRUE or FALSE
 	 */
-	function is_watched($id, $surfer_id=NULL) {
+	public static function is_watched($id, $surfer_id=NULL) {
 		global $context;
 
 		// no impersonation
@@ -1966,7 +1966,7 @@ Class Sections {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_assigned_by_title($surfer_id, $offset=0, $count=20, $variant='full') {
+	public static function &list_assigned_by_title($surfer_id, $offset=0, $count=20, $variant='full') {
 		global $context;
 
 		// obviously we need some assigned sections
@@ -2015,7 +2015,7 @@ Class Sections {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else the outcome of the layout
 	 */
-	function &list_for_id($id, $variant='compact') {
+	public static function &list_for_id($id, $variant='compact') {
 		global $context;
 
 		// select among active items
@@ -2057,7 +2057,7 @@ Class Sections {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_name($name, $exception=NULL, $variant='compact') {
+	public static function &list_for_name($name, $exception=NULL, $variant='compact') {
 		global $context;
 
 		// gather constraints
@@ -2088,7 +2088,7 @@ Class Sections {
 	 *
 	 * @see shared/codes.php
 	 */
-	function &list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
+	public static function &list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -2159,7 +2159,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full',$sort_family = FALSE) {
+	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full',$sort_family = FALSE) {
 		global $context;
 
 		// limit the query to one level
@@ -2243,7 +2243,7 @@ Class Sections {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return array an ordered array with $url => ($prefix, $label, $suffix, $icon), else NULL on error
 	 */
-	function &list_for_anchor($anchor, $variant='raw') {
+	public static function &list_for_anchor($anchor, $variant='raw') {
 		global $context;
 
 		// limit the scope to one section
@@ -2314,7 +2314,7 @@ Class Sections {
 	 * @see sections/index.php
 	 * @see sections/view.php
 	 */
-	function &list_inactive_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
+	public static function &list_inactive_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
 		global $context;
 
 		// only for associates and editors
@@ -2374,7 +2374,7 @@ Class Sections {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	function &list_selected(&$result, $variant='full') {
+	public static function &list_selected(&$result, $variant='full') {
 		global $context;
 
 		// no result
@@ -2404,7 +2404,7 @@ Class Sections {
 	 * @param string the previous locking state
 	 * @return TRUE on success toggle, FALSE otherwise
 	 */
-	function lock($id, $status='Y') {
+	public static function lock($id, $status='Y') {
 		global $context;
 
 		// id cannot be empty
@@ -2452,7 +2452,7 @@ Class Sections {
 	 * @see links/index.php
 	 * @see links/links.php
 	 */
-	function lookup($nick_name) {
+	public static function lookup($nick_name) {
 		global $context;
 
 		// the section already exists
@@ -2477,7 +2477,7 @@ Class Sections {
 	 * @param mixed int or array($id => $attributes)
 	 * @return boolean TRUE if match, FALSE otherwise
 	 */
-	function match($id, $items) {
+	public static function match($id, $items) {
 		global $context;
 
 		return FALSE;
@@ -2514,7 +2514,7 @@ Class Sections {
 	 * @see links/links.php
 	 * @see query.php
 	**/
-	function post(&$fields, $watch=TRUE) {
+	public static function post(&$fields, $watch=TRUE) {
 		global $context;
 
 		// title cannot be empty
@@ -2688,7 +2688,7 @@ Class Sections {
 	 * @param string the nick name of the item to create
 	 * @return string text to be displayed in the resulting page
 	 */
-	function post_default($nick_name) {
+	public static function post_default($nick_name) {
 		global $context;
 
 		// the section already exists
@@ -2716,7 +2716,7 @@ Class Sections {
 	 *
 	 * @see sections/edit.php
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -2874,7 +2874,7 @@ Class Sections {
 	 * @param array an array of fields
 	 * @return TRUE on success, or FALSE on error
 	**/
-	function put_attributes(&$fields) {
+	public static function put_attributes(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -3012,7 +3012,7 @@ Class Sections {
 	 * @see services/blog.php
 	 * @see skins/import.php
 	**/
-	function put_template($id, $template, $directory=NULL) {
+	public static function put_template($id, $template, $directory=NULL) {
 		global $context;
 
 		// id cannot be empty
@@ -3064,7 +3064,7 @@ Class Sections {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+	public static function &search($pattern, $offset=0, $count=50, $layout='decorated') {
 		global $context;
 
 		$output =& Sections::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -3085,7 +3085,7 @@ Class Sections {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
+	public static function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
 		global $context;
 
 		// sanity check
@@ -3185,7 +3185,7 @@ Class Sections {
 	 *
 	 * @see control/populate.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -3287,7 +3287,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	function &stat_for_anchor($anchor = '') {
+	public static function &stat_for_anchor($anchor = '') {
 		global $context;
 
 		// limit the query to one level
@@ -3340,7 +3340,7 @@ Class Sections {
 	 * @param object overlay instance of this item, if any
 	 * @return string the XML encoding of this item
 	 */
-	function to_xml($item, $overlay) {
+	public static function to_xml($item, $overlay) {
 		global $context;
 
 		// section header

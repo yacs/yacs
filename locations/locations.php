@@ -29,7 +29,7 @@ Class Locations {
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -156,7 +156,7 @@ Class Locations {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('locations', 'users');
@@ -182,7 +182,7 @@ Class Locations {
 	 *
 	 * @see locations/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -205,7 +205,7 @@ Class Locations {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -225,7 +225,7 @@ Class Locations {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -282,7 +282,7 @@ Class Locations {
 	 * @see locations/view.php
 	 * @see shared/codes.php
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -316,7 +316,7 @@ Class Locations {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// check the target action
@@ -351,7 +351,7 @@ Class Locations {
 	 *
 	 * @see locations/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -375,7 +375,7 @@ Class Locations {
 	 * @see articles/edit.php
 	 * @see users/edit.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -401,7 +401,7 @@ Class Locations {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// limit the scope of the request
@@ -428,7 +428,7 @@ Class Locations {
 	 *
 	 * @see locations/view.php
 	 */
-	function &list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
+	public static function &list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
 		global $context;
 
 		// select records by distance to the target point, with a limit to 5,000 km
@@ -461,7 +461,7 @@ Class Locations {
 	 *
 	 * @see locations/view.php
 	 */
-	function &list_by_distance_for_anchor($anchor, $offset=0, $count=20, $variant='compact') {
+	public static function &list_by_distance_for_anchor($anchor, $offset=0, $count=20, $variant='compact') {
 		global $context;
 
 		// look for a location for this anchor
@@ -504,7 +504,7 @@ Class Locations {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -562,7 +562,7 @@ Class Locations {
 	 *
 	 * @see locations/map_on_google.php
 	 */
-	function &list_users_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_users_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -584,7 +584,7 @@ Class Locations {
 	 * @see articles/layout_articles_as_contents.php
 	 * @see articles/layout_articles_as_feed.php
 	 */
-	function locate_anchor($anchor) {
+	public static function locate_anchor($anchor) {
 		global $context;
 
 		// the request
@@ -608,7 +608,7 @@ Class Locations {
 	 * @param string object height
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	function &map_on_google($items, $scale=null, $width=null, $height=null) {
+	public static function &map_on_google($items, $scale=null, $width=null, $height=null) {
 		global $context;
 
 		// default values if not defined in skin
@@ -728,7 +728,7 @@ Class Locations {
 	 *
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	function &map_on_google_header($verbose = FALSE) {
+	public static function &map_on_google_header($verbose = FALSE) {
 		global $context;
 
 		// we return some text
@@ -784,7 +784,7 @@ Class Locations {
 	 *
 	 * @see locations/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no geo_place_name
@@ -874,7 +874,7 @@ Class Locations {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -911,7 +911,7 @@ Class Locations {
 	 *
 	 * @see locations/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items
@@ -928,7 +928,7 @@ Class Locations {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items

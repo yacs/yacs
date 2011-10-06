@@ -28,7 +28,7 @@ Class Tables {
 	 * @param array a set of item attributes, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL) {
 		global $context;
 
 		// tables are prevented in item
@@ -61,7 +61,7 @@ Class Tables {
 	 * @param string the variant to provide - default is 'simple'
 	 * @return a displayable string
 	 */
-	function build($id, $variant='simple') {
+	public static function build($id, $variant='simple') {
 		global $context;
 
 		// split parameters
@@ -620,7 +620,7 @@ Class Tables {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('tables');
@@ -646,7 +646,7 @@ Class Tables {
 	 *
 	 * @see tables/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -672,7 +672,7 @@ Class Tables {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -692,7 +692,7 @@ Class Tables {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -750,7 +750,7 @@ Class Tables {
 	 * @param int the id of the table
 	 * @return the resulting $row array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -799,7 +799,7 @@ Class Tables {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// check the target action
@@ -836,7 +836,7 @@ Class Tables {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see tables/tables.php#list_selected for $variant description
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -864,7 +864,7 @@ Class Tables {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the request
@@ -892,7 +892,7 @@ Class Tables {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see tables/tables.php#list_selected for $variant description
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// limit the scope of the request
@@ -916,7 +916,7 @@ Class Tables {
 	 * @variant string 'compact' or nothing
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -962,7 +962,7 @@ Class Tables {
 	 * @see tables/edit.php
 	 * @see tables/populate.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no query
@@ -1053,7 +1053,7 @@ Class Tables {
 	/**
 	 * create or alter tables for tables
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1088,7 +1088,7 @@ Class Tables {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items
@@ -1105,7 +1105,7 @@ Class Tables {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items

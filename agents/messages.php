@@ -146,7 +146,7 @@ class Messages {
 	 * @param string the encoded method
 	 * @return the transformed string
 	 */
-	function decode($text, $method) {
+	public static function decode($text, $method) {
 
 		// quoted-printable
 		if(preg_match('/quoted-printable/i', $method)) {
@@ -190,7 +190,7 @@ class Messages {
 	 * @param string some raw text
 	 * @return an array of decoded headers ('name' => $name, 'value' => $value)
 	 */
-	function parse_headers($text) {
+	public static function parse_headers($text) {
 
 		if(!$text)
 			return array();
@@ -307,7 +307,7 @@ class Messages {
 	 * @see files/files.php
 	 * @see images/images.php
 	 */
-	function process_entity($entity, $user, $anchor, $target=NULL) {
+	public static function process_entity($entity, $user, $anchor, $target=NULL) {
 		global $context;
 
 		// sanity check
@@ -450,7 +450,7 @@ class Messages {
 	 *
 	 * @param string message raw content
 	 */
-	function process_message($entity) {
+	public static function process_message($entity) {
 		global $context;
 
 		// sanity check
@@ -606,7 +606,7 @@ class Messages {
 	 * @param array of mailbox attributes ($server, $account, $password)
 	 * @return the number of processed messages
 	 */
-	function process_queue($queue) {
+	public static function process_queue($queue) {
 		global $context;
 
 
@@ -871,7 +871,7 @@ class Messages {
 	 * @param string reference of the object to be extended, if any
 	 * @return string reference to the created object, or NULL
 	 */
-	function submit_file($entity_headers, $content, $user, $anchor, $target=NULL) {
+	public static function submit_file($entity_headers, $content, $user, $anchor, $target=NULL) {
 		global $context;
 
 		// retrieve queue parameters
@@ -1005,7 +1005,7 @@ class Messages {
 	 * @param string reference of the object to be extended, if any
 	 * @return string reference to the created object, or NULL
 	 */
-	function submit_image($entity_headers, $content, $user, $anchor, $target=NULL) {
+	public static function submit_image($entity_headers, $content, $user, $anchor, $target=NULL) {
 		global $context;
 
 		// retrieve queue parameters
@@ -1184,7 +1184,7 @@ class Messages {
 	 * @param string reference of the object to be extended, if any
 	 * @return string reference to the created or updated object, or NULL
 	 */
-	function submit_page($entity_headers, $text, $user, $anchor=NULL, $target=NULL) {
+	public static function submit_page($entity_headers, $text, $user, $anchor=NULL, $target=NULL) {
 		global $context;
 
 		// retrieve queue parameters
@@ -1425,7 +1425,7 @@ class Messages {
 	 *
 	 * @return a string to be displayed in resulting page, if any
 	 */
-	function tick_hook() {
+	public static function tick_hook() {
 		global $context;
 
 		// useless if we don't have a valid database connection

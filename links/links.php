@@ -23,7 +23,7 @@ Class Links {
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -153,7 +153,7 @@ Class Links {
 	 *
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_trackback() {
+	public static function allow_trackback() {
 		global $context;
 
 		// site is visible from the Internet
@@ -173,7 +173,7 @@ Class Links {
 	 * @param int maximum number of chars
 	 * @return string a cleaned label
 	 */
-	function clean($title='', $reference='', $size=100) {
+	public static function clean($title='', $reference='', $size=100) {
 		global $context;
 
 		// use provided title
@@ -203,7 +203,7 @@ Class Links {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'links', 'sections', 'users');
@@ -227,7 +227,7 @@ Class Links {
 	 * @param string the external url that is targeted
 	 *
 	 */
-	function click($url) {
+	public static function click($url) {
 		global $context;
 
 		// we record only GET requests
@@ -300,7 +300,7 @@ Class Links {
 	 * @param boolean TRUE if this can be optionnally avoided
 	 * @return the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $optional=FALSE) {
+	public static function count_for_anchor($anchor, $optional=FALSE) {
 		global $context;
 
 		// sanity check
@@ -327,7 +327,7 @@ Class Links {
 	 *
 	 * @see links/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -350,7 +350,7 @@ Class Links {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -370,7 +370,7 @@ Class Links {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -414,7 +414,7 @@ Class Links {
 	 * @see links/delete.php
 	 * @see links/edit.php
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -470,7 +470,7 @@ Class Links {
 	 * @see links/trackback.php
 	 * @see services/ping.php
 	 */
-	function have($url, $anchor=NULL, $attributes=NULL) {
+	public static function have($url, $anchor=NULL, $attributes=NULL) {
 		global $context;
 
 		// does this (link, anchor) tupple exists?
@@ -522,7 +522,7 @@ Class Links {
 	 * @see links/check.php
 	 * @see links/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -572,7 +572,7 @@ Class Links {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the list of links
@@ -600,7 +600,7 @@ Class Links {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
 		global $context;
 
 		// the list of links
@@ -635,7 +635,7 @@ Class Links {
 	 *
 	 * @see index.php
 	 */
-	function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// the list of links
@@ -663,7 +663,7 @@ Class Links {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// the list of links
@@ -701,7 +701,7 @@ Class Links {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
+	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
 		global $context;
 
 		// the list of links
@@ -725,7 +725,7 @@ Class Links {
 	 *
 	 * @see feeds/feeds.php
 	 */
-	function &list_news($offset=0, $count=10, $variant='dates') {
+	public static function &list_news($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// the list of links
@@ -749,7 +749,7 @@ Class Links {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -846,7 +846,7 @@ Class Links {
 	 * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
 	 * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
 	 */
-	function ping($text, $anchor) {
+	public static function ping($text, $anchor) {
 		global $context;
 
 		// render all codes
@@ -955,7 +955,7 @@ Class Links {
 	 *
 	 * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
 	 */
-	function ping_as_pingback($text, $source, $target) {
+	public static function ping_as_pingback($text, $source, $target) {
 		global $context;
 
 		// extract all <link... /> tags
@@ -1001,7 +1001,7 @@ Class Links {
 	 *
 	 * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
 	 */
-	function ping_as_trackback($text, $source, $target, $title='', $excerpt='', $blog_name='') {
+	public static function ping_as_trackback($text, $source, $target, $title='', $excerpt='', $blog_name='') {
 		global $context;
 
 		// extract all rdf blocks
@@ -1116,7 +1116,7 @@ Class Links {
 	 * @see links/trackback.php
 	 * @see services/ping.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// suppress invalid chars, if any
@@ -1179,7 +1179,7 @@ Class Links {
 	 * @see feeds/configure.php
 	 * @see feeds/feeds.php
 	 */
-	function purge_old_news($limit=1000) {
+	public static function purge_old_news($limit=1000) {
 		global $context;
 
 		// lists oldest entries beyond the limit
@@ -1222,7 +1222,7 @@ Class Links {
 	 * @param array an array of fields
 	 * @return boolean TRUE on success, FALSE on error
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -1293,7 +1293,7 @@ Class Links {
 	 *
 	 * @see search.php
 	 */
-	function &search($pattern, $offset=0, $count=50, $variant='search') {
+	public static function &search($pattern, $offset=0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -1320,7 +1320,7 @@ Class Links {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1363,7 +1363,7 @@ Class Links {
 	 *
 	 * @see links/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -1408,7 +1408,7 @@ Class Links {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -1434,7 +1434,7 @@ Class Links {
 	 * @see links/edit.php
 	 * @see shared/codes.php
 	 */
-	function transform_reference($text) {
+	public static function transform_reference($text) {
 		global $context;
 
 		// translate this reference to an internal link

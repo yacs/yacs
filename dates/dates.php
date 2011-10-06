@@ -16,7 +16,7 @@ Class Dates {
 	/**
 	 * start a calendar for one month
 	 */
-	function &build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
+	public static function &build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
 		global $context;
 
 		// cache labels for days
@@ -67,7 +67,7 @@ Class Dates {
 	/**
 	 * end of one month
 	 */
-	function &build_month_suffix($year, $month, $day) {
+	public static function &build_month_suffix($year, $month, $day) {
 		global $context;
 
 		$text = '';
@@ -107,7 +107,7 @@ Class Dates {
 		return $text;
 	}
 
-	function &build_day($day, $content, $panel_id, $compact) {
+	public static function &build_day($day, $content, $panel_id, $compact) {
 		global $context;
 
 		// content of each day
@@ -145,7 +145,7 @@ Class Dates {
 	 * @parameter int forced month, in case no dates are provided
 	 * @return a string to be put in the web page
 	 */
-	function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
+	public static function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
 		global $context;
 
 		// we return some text
@@ -306,7 +306,7 @@ Class Dates {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'dates');
@@ -330,7 +330,7 @@ Class Dates {
 	 * @param string the selected anchor (e.g., 'article:12')
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor) {
+	public static function count_for_anchor($anchor) {
 		global $context;
 
 		// select among active items
@@ -391,7 +391,7 @@ Class Dates {
 	 *
 	 * @see dates/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -415,7 +415,7 @@ Class Dates {
 	 * @see overlays/day.php
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -433,7 +433,7 @@ Class Dates {
 	 * @see dates/edit.php
 	 * @see dates/view.php
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -456,7 +456,7 @@ Class Dates {
 	 * @param string the anchor
 	 * @return the resulting $item array, with at least keys: 'id', 'date_stamp', etc.
 	 */
-	function &get_for_anchor($anchor) {
+	public static function &get_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -478,7 +478,7 @@ Class Dates {
 	 * @parameter the target language, if any
 	 * @return a string to be used in web page
 	 */
-	function get_month_label($month, $language=NULL) {
+	public static function get_month_label($month, $language=NULL) {
 		global $context;
 
 		// the default is to use surfer language
@@ -542,7 +542,7 @@ Class Dates {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// get a one-year calendar -- id is the target year (e.g., '1999')
@@ -618,7 +618,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -639,7 +639,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -665,7 +665,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	public static function &list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
 		// select among active items
@@ -727,7 +727,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_day($year, $month, $day, $variant='links') {
+	public static function &list_for_day($year, $month, $day, $variant='links') {
 		global $context;
 
 		// select among active items
@@ -805,7 +805,7 @@ Class Dates {
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_month($year, $month, $variant='links', $anchor=NULL) {
+	public static function &list_for_month($year, $month, $variant='links', $anchor=NULL) {
 		global $context;
 
 		// check the year
@@ -835,7 +835,7 @@ Class Dates {
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
+	public static function &list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
 		global $context;
 
 		// default is current month
@@ -906,7 +906,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	function &list_future($offset=0, $count=100, $variant='family') {
+	public static function &list_future($offset=0, $count=100, $variant='family') {
 		$output =& Dates::list_future_for_anchor(NULL, $offset, $count, $variant, TRUE);
 		return $output;
 	}
@@ -921,7 +921,7 @@ Class Dates {
 	 * @param boolean trackback to first day of current month
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
+	public static function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
 		global $context;
 
 		// select among active items
@@ -993,7 +993,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	public static function &list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
 		// select among active items
@@ -1059,7 +1059,7 @@ Class Dates {
 	 * @param string 'full', etc or object, i.e., an instance of the layout interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1117,7 +1117,7 @@ Class Dates {
 	 *
 	 * @see dates/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no date
@@ -1196,7 +1196,7 @@ Class Dates {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1229,7 +1229,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items
@@ -1246,7 +1246,7 @@ Class Dates {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// select among active items
@@ -1306,7 +1306,7 @@ Class Dates {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_past_for_anchor($anchor) {
+	public static function &stat_past_for_anchor($anchor) {
 		global $context;
 
 		// select among active items

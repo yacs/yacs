@@ -27,7 +27,7 @@ Class Images {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -177,7 +177,7 @@ Class Images {
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($anchor, $item) {
+	public static function allow_modification($anchor, $item) {
 		global $context;
 
 		// associates can do what they want
@@ -233,7 +233,7 @@ Class Images {
 	 * @param int the id of the image to delete
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the row
@@ -270,7 +270,7 @@ Class Images {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
@@ -296,7 +296,7 @@ Class Images {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -375,7 +375,7 @@ Class Images {
 	 * @param int the id of the image
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -399,7 +399,7 @@ Class Images {
 	 * @param string the image name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get_by_anchor_and_name($anchor, $name) {
+	public static function &get_by_anchor_and_name($anchor, $name) {
 		global $context;
 
 		// select among available items
@@ -416,7 +416,7 @@ Class Images {
 	 * @param array the image description (i.e., Images::get($id))
 	 * @return string the target href, or FALSE if there is an error
 	 */
-	function get_icon_href($item) {
+	public static function get_icon_href($item) {
 		global $context;
 
 		// sanity check
@@ -440,7 +440,7 @@ Class Images {
 	 * @param string the anchor
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get_newest_for_anchor($anchor) {
+	public static function &get_newest_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -457,7 +457,7 @@ Class Images {
 	 * @param array the image description (i.e., Images::get($id))
 	 * @return string the thumbnail href, or FALSE on error
 	 */
-	function get_thumbnail_href($item) {
+	public static function get_thumbnail_href($item) {
 		global $context;
 
 		// sanity check
@@ -492,7 +492,7 @@ Class Images {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// check the target action
@@ -526,7 +526,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -555,7 +555,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -589,7 +589,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// limit the scope of the request
@@ -610,7 +610,7 @@ Class Images {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_size($offset=0, $count=10, $variant='full') {
+	public static function &list_by_size($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -633,7 +633,7 @@ Class Images {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -695,7 +695,7 @@ Class Images {
 	 * @param array an array of fields
 	 * @return the id of the image, or FALSE on error
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no anchor reference
@@ -788,7 +788,7 @@ Class Images {
 	/**
 	 * create or alter tables for images
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -824,7 +824,7 @@ Class Images {
 	 *
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items
@@ -842,7 +842,7 @@ Class Images {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items

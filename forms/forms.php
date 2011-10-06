@@ -14,7 +14,7 @@ Class Forms {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('forms');
@@ -36,7 +36,7 @@ Class Forms {
 	 *
 	 * @see forms/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -64,7 +64,7 @@ Class Forms {
 	 * @param int the id of the form, or its nick name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -106,7 +106,7 @@ Class Forms {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// check the target action
@@ -127,7 +127,7 @@ Class Forms {
 	 *
 	 * @see forms/index.php
 	 */
-	function &list_by_title($offset=0, $count=10, $variant='full') {
+	public static function &list_by_title($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// select among active and restricted items
@@ -163,7 +163,7 @@ Class Forms {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_name($name, $exception=NULL, $layout='compact') {
+	public static function &list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
 		// gather constraints
@@ -194,7 +194,7 @@ Class Forms {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -250,7 +250,7 @@ Class Forms {
 	 *
 	 * @see forms/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -347,7 +347,7 @@ Class Forms {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -381,7 +381,7 @@ Class Forms {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among active and restricted items

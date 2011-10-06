@@ -83,7 +83,7 @@ Class i18n {
 	 *
 	 * @param string module name
 	 */
-	function bind($module) {
+	public static function bind($module) {
 		global $context;
 
 		// sanity check
@@ -124,7 +124,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string
 	 */
-	function &c($text) {
+	public static function &c($text) {
 		global $context;
 
 		// sanity check
@@ -155,7 +155,7 @@ Class i18n {
 	 * @param string the target language
 	 * @return string the provided text, if surfer language matches the target language, else ''
 	 */
-	function &filter($text, $language) {
+	public static function &filter($text, $language) {
 		global $context;
 
 		// sanity check
@@ -177,7 +177,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	function &get_countries() {
+	public static function &get_countries() {
 
 		// initialize the table only once
 		static $codes;
@@ -449,7 +449,7 @@ Class i18n {
 	 * @param string alternate name and id for the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	function &get_countries_select($current=NULL, $id='country') {
+	public static function &get_countries_select($current=NULL, $id='country') {
 		global $context;
 
 		// all options
@@ -492,7 +492,7 @@ Class i18n {
 	 * @param string the country code
 	 * @return string the related label, or NULL if the code is unknown
 	 */
-	function get_country_label($code='') {
+	public static function get_country_label($code='') {
 		global $context;
 
 		// sanity check
@@ -518,7 +518,7 @@ Class i18n {
 	 * @param string the language code
 	 * @return string the related label, or NULL if the code is unknown
 	 */
-	function get_language_label($code='') {
+	public static function get_language_label($code='') {
 		global $context;
 
 		// sanity check
@@ -545,7 +545,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	function &get_languages() {
+	public static function &get_languages() {
 
 		// initialize the table only once
 		static $codes;
@@ -711,7 +711,7 @@ Class i18n {
 	 * @param string alternate name and id of the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	function &get_languages_select($current=NULL, $id='language') {
+	public static function &get_languages_select($current=NULL, $id='language') {
 		global $context;
 
 		// use surfer language by default
@@ -765,7 +765,7 @@ Class i18n {
 	 * @param string type of the expected template
 	 * @return string text of the template
 	 */
-	function &get_template($id) {
+	public static function &get_template($id) {
 
 		// depending of the expected template
 		switch($id) {
@@ -788,7 +788,7 @@ Class i18n {
 	 *
 	 * @return array of ($shift => $label)
 	 */
-	function &get_time_zones() {
+	public static function &get_time_zones() {
 
 		// initialize the table only once
 		static $codes;
@@ -884,7 +884,7 @@ Class i18n {
 	 * @param string original string
 	 * @return string hashed string
 	 */
-	function &hash($text) {
+	public static function &hash($text) {
 
 		if(strlen($text) < 32)
 			$output = $text;
@@ -900,7 +900,7 @@ Class i18n {
 	 * This function analyzes data provided by the browser to automate surfer localization.
 	 *
 	 */
-	function initialize() {
+	public static function initialize() {
 		global $context;
 
 		// user language is explicit
@@ -1000,7 +1000,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	function &l($strings, $name, $forced='') {
+	public static function &l($strings, $name, $forced='') {
 		global $context;
 
 		// sanity check
@@ -1040,7 +1040,7 @@ Class i18n {
 	 * @param string the label identifying string
 	 * @return string the localized string, if any
 	 */
-	function &lookup($strings, $name) {
+	public static function &lookup($strings, $name) {
 		global $context;
 
 		// match on hashed name
@@ -1086,7 +1086,7 @@ Class i18n {
 	 * @param string target module
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function load($language, $module) {
+	public static function load($language, $module) {
 		global $context;
 
 		// sanity check
@@ -1242,7 +1242,7 @@ Class i18n {
 	 *
 	 * @return array of ($locale => $label)
 	 */
-	function &list_locales() {
+	public static function &list_locales() {
 		global $context, $locales;
 
 		// list of locales
@@ -1280,7 +1280,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	function &nc($singular, $plural, $count) {
+	public static function &nc($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1339,7 +1339,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	function &ns($singular, $plural, $count) {
+	public static function &ns($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1392,7 +1392,7 @@ Class i18n {
 	 * reset localized strings in memory
 	 *
 	 */
-	function reset() {
+	public static function reset() {
 
 		if(isset($context['l10n_modules']))
 			unset($context['l10n_modules']);
@@ -1407,7 +1407,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string, if any
 	 */
-	function &s($text) {
+	public static function &s($text) {
 		global $context;
 
 		// sanity check
@@ -1437,7 +1437,7 @@ Class i18n {
 	 * @param string the label identifying string
 	 * @return string the localized string, if any
 	 */
-	function &server($name) {
+	public static function &server($name) {
 		global $context, $local;
 
 		$text =& i18n::l($local, $name, $context['preferred_language']);
@@ -1463,7 +1463,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	function &user($name, $forced='') {
+	public static function &user($name, $forced='') {
 		global $local;
 
 		$text =& i18n::l($local, $name, $forced);

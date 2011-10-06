@@ -563,7 +563,7 @@ class Overlay {
 	 * @see articles/edit.php
 	 * @see articles/view.php
 	 */
-	function load($host, $reference=NULL) {
+	public static function load($host, $reference=NULL) {
 		global $context;
 
 		// no overlay yet
