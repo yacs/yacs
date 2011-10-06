@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 16:11+0200\n"
+"POT-Creation-Date: 2011-09-30 10:08+0200\n"
 "PO-Revision-Date: 2010-11-12 18:26+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,12 +16,12 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: categories/categories.php:430 categories/categories.php:625
-#: categories/categories.php:936 categories/categories.php:1607
+#: categories/categories.php:936 categories/categories.php:1613
 msgid "weekly"
 msgstr "hebdomadaire"
 
 #: categories/categories.php:431 categories/categories.php:626
-#: categories/categories.php:937 categories/categories.php:1632
+#: categories/categories.php:937 categories/categories.php:1638
 msgid "monthly"
 msgstr "mensuel"
 
@@ -33,32 +33,32 @@ msgstr "-- Niveau de base"
 msgid "featured"
 msgstr "une"
 
-#: categories/categories.php:1293 categories/categories.php:1448
+#: categories/categories.php:1293 categories/categories.php:1451
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 
-#: categories/categories.php:1444
+#: categories/categories.php:1447
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: categories/categories.php:1614
+#: categories/categories.php:1620
 #, php-format
 msgid "Week of&nbsp;%s"
 msgstr "Semaine du&nbsp;%s"
 
-#: categories/categories.php:1614
+#: categories/categories.php:1620
 msgid "m/d/y"
 msgstr "d/m/y"
 
-#: categories/categories.php:1663 categories/set_keyword.php:30
+#: categories/categories.php:1669 categories/set_keyword.php:30
 msgid "Keywords"
 msgstr "Mots-clés"
 
-#: categories/categories.php:1664 categories/set_keyword.php:31
+#: categories/categories.php:1670 categories/set_keyword.php:31
 msgid "Classified pages"
 msgstr "Page classées"
 
-#: categories/categories.php:1665 categories/set_keyword.php:32
+#: categories/categories.php:1671 categories/set_keyword.php:32
 msgid ""
 "This category is a specialized glossary of terms, made out of tags added to "
 "pages, and out of search requests."
@@ -212,7 +212,7 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to delete this category"
 msgstr "Oui, je veux supprimer cette catégorie"
 
-#: categories/delete.php:115 categories/edit.php:873 categories/mail.php:164
+#: categories/delete.php:115 categories/edit.php:879 categories/mail.php:164
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -275,7 +275,7 @@ msgstr "Ajouter un lien"
 msgid "Title"
 msgstr "Titre"
 
-#: categories/edit.php:285 categories/edit.php:906 categories/mail.php:182
+#: categories/edit.php:285 categories/edit.php:912 categories/mail.php:182
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
@@ -616,112 +616,112 @@ msgstr "Pour associer un motif de recherche à cette catégorie"
 msgid "Rendering"
 msgstr "Rendu"
 
-#: categories/edit.php:789
+#: categories/edit.php:784
 msgid "Sort pages by title"
 msgstr "Trier les pages par titre"
 
-#: categories/edit.php:790
+#: categories/edit.php:785
 msgid "Files can be added to the index page"
 msgstr "Des fichiers peuvent être ajoutés à la page d'index"
 
-#: categories/edit.php:791
+#: categories/edit.php:786
 msgid "Sort files by title (and not by date)"
 msgstr "Trier les fichiers par titre (et non par date)"
 
-#: categories/edit.php:792
+#: categories/edit.php:787
 msgid "Links can be added to the index page"
 msgstr "Des liens peuvent être ajoutés à la page d'index"
 
-#: categories/edit.php:793
+#: categories/edit.php:788
 msgid "Sort links by title (and not by date)"
 msgstr "Trier les liens par titre (et non par date)"
 
-#: categories/edit.php:794
+#: categories/edit.php:789
 msgid "The index page itself is a thread"
 msgstr "La page d'index elle-même est une discussion"
 
-#: categories/edit.php:795
+#: categories/edit.php:790
 msgid "Apply a specific theme (in skins/foo_bar)"
 msgstr "Appliquer un thème spécifique (dans skins/foo_bar)"
 
-#: categories/edit.php:796
+#: categories/edit.php:791
 msgid "To load template_foo_bar.php instead of the regular template"
 msgstr "Pour charger template_foo_bar.php à la place du modèle normal"
 
-#: categories/edit.php:797
+#: categories/edit.php:792
 msgid "You may combine several keywords:"
 msgstr "Vous pouvez combiner plusieurs mots-clés :"
 
-#: categories/edit.php:809
+#: categories/edit.php:815
 msgid "Change the overlay"
 msgstr "Changer d'overlay"
 
-#: categories/edit.php:812 categories/edit.php:816
+#: categories/edit.php:818 categories/edit.php:822
 msgid "none"
 msgstr "aucun"
 
-#: categories/edit.php:813
+#: categories/edit.php:819
 msgid "If you change the overlay you may loose some data."
 msgstr "Vous pouvez perdre des informations si vous changez l'overlay."
 
-#: categories/edit.php:815
+#: categories/edit.php:821
 msgid "No overlay has been selected yet."
 msgstr "Aucun overlay n'a été sélectionné."
 
-#: categories/edit.php:853
+#: categories/edit.php:859
 msgid "More options"
 msgstr "Plus d'options"
 
-#: categories/edit.php:858
+#: categories/edit.php:864
 msgid "Options"
 msgstr "Options"
 
-#: categories/edit.php:869
+#: categories/edit.php:875
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: categories/edit.php:869 categories/mail.php:160
+#: categories/edit.php:875 categories/mail.php:160
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: categories/edit.php:883
+#: categories/edit.php:889
 msgid "Do not change modification date."
 msgstr "Ne pas changer la date de modification."
 
-#: categories/edit.php:886
+#: categories/edit.php:892
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: categories/edit.php:948
+#: categories/edit.php:934
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: categories/edit.php:948
+#: categories/edit.php:934
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: categories/edit.php:948
+#: categories/edit.php:934
 msgid "smileys"
 msgstr "emoticons"
 
-#: categories/edit.php:951
+#: categories/edit.php:937
 msgid "Mandatory fields are marked with a *"
 msgstr "* signale les champs obligatoires"
 
-#: categories/edit.php:958
+#: categories/edit.php:944
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: categories/edit.php:962
+#: categories/edit.php:948
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: categories/edit.php:966
+#: categories/edit.php:952
 msgid "Textarea"
 msgstr "Textarea"
 
-#: categories/edit.php:970
+#: categories/edit.php:956
 msgid "Help"
 msgstr "Aide"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 22:59+0200\n"
+"POT-Creation-Date: 2011-10-06 21:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
-#: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
+#: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:35
 #: tools/koowy.php:33 tools/populate.php:110 tools/populate.php:132
 #: tools/transform.php:29 tools/update_thumbs_url.php:40
-#: tools/update_thumbs_url.php:64 tools/upload_excel.php:20
+#: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr ""
 
@@ -250,50 +250,46 @@ msgstr ""
 msgid "Please include all elements we could need"
 msgstr ""
 
-#: tools/jsmin.php:43
+#: tools/jsmin.php:38
 msgid "Finalize Javascript libraries"
 msgstr ""
 
-#: tools/jsmin.php:52 tools/populate.php:118 tools/populate.php:129
+#: tools/jsmin.php:47 tools/populate.php:118 tools/populate.php:129
 #: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: tools/jsmin.php:55 tools/populate.php:1639
+#: tools/jsmin.php:50 tools/populate.php:1639
 msgid "Control Panel"
 msgstr ""
 
-#: tools/jsmin.php:70
+#: tools/jsmin.php:65
 msgid "Compressing Javascript files..."
 msgstr ""
 
-#: tools/jsmin.php:132
+#: tools/jsmin.php:151
 #, php-format
-msgid "%d files have been updated."
+msgid "%d files have been minified."
 msgstr ""
 
-#: tools/jsmin.php:136
-msgid "Assembling javascript files..."
-msgstr ""
-
-#: tools/jsmin.php:201
+#: tools/jsmin.php:154 tools/jsmin.php:155
 msgid "bytes"
 msgstr ""
 
-#: tools/jsmin.php:205
+#: tools/jsmin.php:159
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: tools/jsmin.php:211
+#: tools/jsmin.php:165
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr ""
 
-#: tools/jsmin.php:215
+#: tools/jsmin.php:169
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr ""
 
-#: tools/jsmin.php:220
+#: tools/jsmin.php:174
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -865,7 +861,7 @@ msgid ""
 "testing purposes."
 msgstr ""
 
-#: tools/populate.php:1657 tools/update_thumbs_url.php:229
+#: tools/populate.php:1657 tools/update_thumbs_url.php:228
 msgid "Start"
 msgstr ""
 
@@ -927,6 +923,6 @@ msgstr ""
 msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
 msgstr ""
 
-#: tools/update_thumbs_url.php:219
+#: tools/update_thumbs_url.php:218
 msgid "This will be replaced by current URL"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2011-09-22 08:19+0200\n"
 "PO-Revision-Date: 2011-06-27 16:15+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -308,18 +308,18 @@ msgstr "Ensure this post is valid XHTML."
 msgid "Please type a valid comment"
 msgstr "Please type a valid comment"
 
-#: comments/edit.php:548 comments/layout_comments_as_boxesandarrows.php:75
+#: comments/edit.php:528 comments/layout_comments_as_boxesandarrows.php:75
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: comments/edit.php:553
+#: comments/edit.php:533
 msgid ""
 "You can cut and paste some text from the field below to shape your post."
 msgstr ""
 "You can cut and paste some text from the field below to shape your post."
 
-#: comments/edit.php:558
+#: comments/edit.php:538
 msgid ""
 "Hearty discussion and unpopular viewpoints are welcome, but please keep "
 "comments on-category and civil. Flaming, trolling, and smarmy comments are "
@@ -331,7 +331,7 @@ msgstr ""
 "discouraged and may be deleted. In fact, we reserve the right to delete any "
 "post for any reason. Don't make us do it."
 
-#: comments/edit.php:560
+#: comments/edit.php:540
 msgid ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
@@ -339,36 +339,36 @@ msgstr ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
 
-#: comments/edit.php:562
+#: comments/edit.php:542
 msgid "Most HTML tags are removed."
 msgstr "Most HTML tags are removed."
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 msgid "smileys"
 msgstr "smileys"
 
-#: comments/edit.php:572
+#: comments/edit.php:552
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: comments/edit.php:576
+#: comments/edit.php:556
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: comments/edit.php:580
+#: comments/edit.php:560
 msgid "Textarea"
 msgstr "Textarea"
 
-#: comments/edit.php:584
+#: comments/edit.php:564
 msgid "Help"
 msgstr "Help"
 
