@@ -18,7 +18,7 @@ class Referrals {
 	 *
 	 * @see agents/referrals_hook.php
 	 */
-	function check_request() {
+	public static function check_request() {
 		global $context;
 
 		// don't bother with HEAD requests
@@ -114,7 +114,7 @@ class Referrals {
 	 *
 	 * @see links/check.php
 	 */
-	function delete($referer) {
+	public static function delete($referer) {
 		global $context;
 
 		$query = "DELETE FROM ".SQL::table_name('referrals')." WHERE referer LIKE '".SQL::escape($referer)."'";
@@ -129,7 +129,7 @@ class Referrals {
 	 *
 	 * @see links/check.php
 	 */
-	function list_by_dates($offset=0, $count=10) {
+	public static function list_by_dates($offset=0, $count=10) {
 		global $context;
 
 		// the list of referrals
@@ -150,7 +150,7 @@ class Referrals {
 	 *
 	 * @see agents/index.php
 	 */
-	function list_by_domain($offset=0, $count=10) {
+	public static function list_by_domain($offset=0, $count=10) {
 		global $context;
 
 		// the list of domains
@@ -205,7 +205,7 @@ class Referrals {
 	 * @see users/index.php
 	 * @see users/view.php
 	 */
-	function list_by_hits_for_url($url, $offset=0, $count=10) {
+	public static function list_by_hits_for_url($url, $offset=0, $count=10) {
 		global $context;
 
 		// the front page is a special case
@@ -248,7 +248,7 @@ class Referrals {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 */
-	function list_by_hits($offset=0, $count=10) {
+	public static function list_by_hits($offset=0, $count=10) {
 		global $context;
 
 		// the list of referrals
@@ -273,7 +273,7 @@ class Referrals {
 	 *
 	 * @see agents/index.php
 	 */
-	function list_by_keywords($offset=0, $count=10) {
+	public static function list_by_keywords($offset=0, $count=10) {
 		global $context;
 
 		// the list of domains
@@ -292,7 +292,7 @@ class Referrals {
 	 * @param string the raw reference
 	 * @return an array( normalized string, search keywords )
 	 */
-	function normalize($link) {
+	public static function normalize($link) {
 		global $context;
 
 		// get the query string, if any
@@ -394,7 +394,7 @@ class Referrals {
 	 *
 	 * @see agents/referrals_hook.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -425,7 +425,7 @@ class Referrals {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items

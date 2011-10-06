@@ -36,7 +36,7 @@ Class Comments {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -172,7 +172,7 @@ Class Comments {
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($anchor, $item) {
+	public static function allow_modification($anchor, $item) {
 		global $context;
 
 		// associates can do what they want
@@ -204,7 +204,7 @@ Class Comments {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'comments', 'sections', 'users');
@@ -229,7 +229,7 @@ Class Comments {
 	 * @param boolean TRUE if this can be optionnally avoided
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $optional=FALSE) {
+	public static function count_for_anchor($anchor, $optional=FALSE) {
 		global $context;
 
 		// sanity check
@@ -256,7 +256,7 @@ Class Comments {
 	 *
 	 * @see comments/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -284,7 +284,7 @@ Class Comments {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -304,7 +304,7 @@ Class Comments {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -359,7 +359,7 @@ Class Comments {
 	 * @see comments/edit.php
 	 * @see comments/view.php
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -383,7 +383,7 @@ Class Comments {
 	* @param string the place to come back when complete
 	* @return string the HTML tags to put in the page
 	*/
-	function get_form($anchor, $follow_up='comments') {
+	public static function get_form($anchor, $follow_up='comments') {
 		global $context;
 
 		$menu = array(Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'));
@@ -416,7 +416,7 @@ Class Comments {
 	 * @see comments/layout_comments_as_yabb.php
 	 * @see skins/skin_skeleton.php
 	 */
-	function get_img($type) {
+	public static function get_img($type) {
 		global $context;
 		switch($type) {
 
@@ -556,7 +556,7 @@ Class Comments {
 	 * @param array atributes for the current item
 	 * @return object an instance of a Layout interface
 	 */
-	function &get_layout($anchor, $item=NULL) {
+	public static function &get_layout($anchor, $item=NULL) {
 		global $context;
 
 		// a wall
@@ -612,7 +612,7 @@ Class Comments {
 	 *
 	 * @see comments/thread.php
 	 */
-	function &get_newest_for_anchor($anchor) {
+	public static function &get_newest_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -642,7 +642,7 @@ Class Comments {
 	 * @see articles/article.php
 	 * @see users/user.php
 	 */
-	function get_next_url($item, $anchor, $order='date') {
+	public static function get_next_url($item, $anchor, $order='date') {
 		global $context;
 
 		// sanity check
@@ -679,7 +679,7 @@ Class Comments {
 	 *
 	 * @see comments/edit.php
 	 */
-	function get_options($type) {
+	public static function get_options($type) {
 		global $context;
 
 		// a suggestion
@@ -734,7 +734,7 @@ Class Comments {
 	 * @see articles/article.php
 	 * @see users/user.php
 	 */
-	function get_previous_url($item, $anchor, $order='date') {
+	public static function get_previous_url($item, $anchor, $order='date') {
 		global $context;
 
 		// sanity check
@@ -770,7 +770,7 @@ Class Comments {
 	 *
 	 * @see comments/edit.php
 	 */
-	function get_radio_buttons($name, $type) {
+	public static function get_radio_buttons($name, $type) {
 		global $context;
 
 		// a 2-column layout
@@ -839,7 +839,7 @@ Class Comments {
 	 * @param the type ('suggestion', etc.')
 	 * @return a suitable title
 	 */
-	function get_title($type) {
+	public static function get_title($type) {
 		global $context;
 		switch($type) {
 		case 'suggestion':
@@ -888,7 +888,7 @@ Class Comments {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// add a comment -- the id has to be an anchor (e.g., 'article:15')
@@ -994,7 +994,7 @@ Class Comments {
 	 *
 	 * @see comments/feed.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='date') {
+	public static function &list_by_date($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// if not associate, restrict to comments at public published not expired pages
@@ -1045,7 +1045,7 @@ Class Comments {
 	 * @see comments/feed.php
 	 * @see sections/view.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
 		global $context;
 
 		// the wall or a forum
@@ -1078,7 +1078,7 @@ Class Comments {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// the list of comments
@@ -1104,7 +1104,7 @@ Class Comments {
 	 *
 	 * @see comments/thread.php
 	 */
-	function &list_by_thread_for_anchor($anchor, $offset=0, $count=20, $variant='thread') {
+	public static function &list_by_thread_for_anchor($anchor, $offset=0, $count=20, $variant='thread') {
 		global $context;
 
 		// the list of comments
@@ -1125,7 +1125,7 @@ Class Comments {
 	 *
 	 * @see comments/view.php
 	 */
-	function &list_next($id, $variant='date') {
+	public static function &list_next($id, $variant='date') {
 		global $context;
 
 		// the list of comments
@@ -1148,7 +1148,7 @@ Class Comments {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1208,7 +1208,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	function &list_threads_by_count($offset=0, $count=10, $variant='date') {
+	public static function &list_threads_by_count($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// a dynamic where clause
@@ -1252,7 +1252,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	function &list_threads_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
+	public static function &list_threads_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// select among active items
@@ -1330,7 +1330,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	function &list_threads_by_date($offset=0, $count=10, $variant='date') {
+	public static function &list_threads_by_date($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// a dynamic where clause
@@ -1374,7 +1374,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	function &list_threads_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
+	public static function &list_threads_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// select among active items
@@ -1454,7 +1454,7 @@ Class Comments {
 	 * @see comments/edit.php
 	 * @see comments/post.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no comment
@@ -1565,7 +1565,7 @@ Class Comments {
 	 * @see articles/view_as_chat.php
 	 * @see comments/thread.php
 	 */
-	function &pull($anchor, $stamp, $count=100) {
+	public static function &pull($anchor, $stamp, $count=100) {
 		global $context;
 
 		$timer = 1;
@@ -1623,7 +1623,7 @@ Class Comments {
 	 *
 	 * @see comments/thread.php
 	 */
-	function purge_for_anchor($anchor, $limit=2000) {
+	public static function purge_for_anchor($anchor, $limit=2000) {
 		global $context;
 
 		// lists oldest entries beyond the limit
@@ -1665,7 +1665,7 @@ Class Comments {
 	 * @see search.php
 	 * @see services/search.php
 	 */
-	function &search($pattern, $offset=0, $count=30, $variant='search') {
+	public static function &search($pattern, $offset=0, $count=30, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -1692,7 +1692,7 @@ Class Comments {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1736,7 +1736,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// if not associate, restrict to comments at public published not expired pages
@@ -1780,7 +1780,7 @@ Class Comments {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -1803,7 +1803,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	function &stat_threads() {
+	public static function &stat_threads() {
 		global $context;
 
 		// a dynamic where clause

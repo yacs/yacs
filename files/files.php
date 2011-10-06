@@ -59,7 +59,7 @@ Class Files {
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -208,7 +208,7 @@ Class Files {
 	 * @param array a set of item attributes, aka, the target comment
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($anchor, $item) {
+	public static function allow_modification($anchor, $item) {
 		global $context;
 
 		// sanit check
@@ -261,7 +261,7 @@ Class Files {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_deletion($item, $anchor) {
+	public static function allow_deletion($item, $anchor) {
 		global $context;
 
 		// sanity check
@@ -318,7 +318,7 @@ Class Files {
 	 * @param array user attributes, if any
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function assign($id, $user=NULL) {
+	public static function assign($id, $user=NULL) {
 		global $context;
 
 		// sanity check
@@ -360,7 +360,7 @@ Class Files {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'files', 'sections', 'users');
@@ -386,7 +386,7 @@ Class Files {
 	 * @param array list of ids to avoid, if any
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $optional=FALSE, $avoid=NULL) {
+	public static function count_for_anchor($anchor, $optional=FALSE, $avoid=NULL) {
 		global $context;
 
 		// sanity check
@@ -423,7 +423,7 @@ Class Files {
 	 * @param int the id of the file to delete
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the row
@@ -460,7 +460,7 @@ Class Files {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
@@ -486,7 +486,7 @@ Class Files {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -562,7 +562,7 @@ Class Files {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $row array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function &get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -604,7 +604,7 @@ Class Files {
 	 * @param string the file name
 	 * @return the resulting $row array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_by_anchor_and_name($anchor, $name) {
+	public static function &get_by_anchor_and_name($anchor, $name) {
 		global $context;
 
 		// select among available items
@@ -621,7 +621,7 @@ Class Files {
 	 * @param string the file name
 	 * @return an anchor to the viewing script
 	 */
-	function get_icon_url($name) {
+	public static function get_icon_url($name) {
 
 		// initialize tables only once
 		static $files_icons;
@@ -805,7 +805,7 @@ Class Files {
 	 * @param boolean force download
 	 * @return a string describing the MIME type
 	 */
-	function get_mime_type($name, $download=FALSE) {
+	public static function get_mime_type($name, $download=FALSE) {
 		global $context;
 
 		// get the list of supported extensions
@@ -844,7 +844,7 @@ Class Files {
 	 *
 	 * @return array describing supported MIME types ($extension1 => $mime_type1, $extension2 => $mime_type2, ...)
 	 */
-	function &get_mime_types() {
+	public static function &get_mime_types() {
 
 		// initialize tables only once
 		static $file_types;
@@ -1008,7 +1008,7 @@ Class Files {
 	 *
 	 * @return the resulting $item array, with at least keys: 'id', 'file_name', etc.
 	 */
-	function &get_newest() {
+	public static function &get_newest() {
 		global $context;
 
 		// restrict to files attached to published and not expired pages
@@ -1047,7 +1047,7 @@ Class Files {
 	 *
 	 * @see articles/article.php
 	 */
-	function get_next_url($item, $anchor, $order='date') {
+	public static function get_next_url($item, $anchor, $order='date') {
 		global $context;
 
 		// sanity check
@@ -1092,7 +1092,7 @@ Class Files {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	function &get_permalink($item) {
+	public static function &get_permalink($item) {
 		$output = Files::get_url($item['id'], 'view', $item['file_name']);
 		return $output;
 	}
@@ -1109,7 +1109,7 @@ Class Files {
 	 *
 	 * @see articles/article.php
 	 */
-	function get_previous_url($item, $anchor, $order='date') {
+	public static function get_previous_url($item, $anchor, $order='date') {
 		global $context;
 
 		// sanity check
@@ -1166,7 +1166,7 @@ Class Files {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// get files in rss -- the id has to be an anchor (e.g., 'article:15')
@@ -1223,7 +1223,7 @@ Class Files {
 	 * @param string absolute path of the file to scan
 	 * @return string 'Y' if the file has been infected, '?' if clamav is not available, or 'N' if no virus has been found
 	 */
-	function has_virus($file) {
+	public static function has_virus($file) {
 		global $context;
 
 		// we can't connect to clamav daemon
@@ -1270,7 +1270,7 @@ Class Files {
 	 *
 	 * @param the id of the file to update
 	 */
-	function increment_hits($id) {
+	public static function increment_hits($id) {
 		global $context;
 
 		// sanity check
@@ -1291,7 +1291,7 @@ Class Files {
 	 * @param int height of video player
 	 * @return string tags to be put in the HTML flow, or an empty string
 	 */
-	function interact($item, $width=320, $height=240, $flashvars='', $with_icon=TRUE) {
+	public static function interact($item, $width=320, $height=240, $flashvars='', $with_icon=TRUE) {
 		global $context;
 
 		static $counter;
@@ -1430,7 +1430,7 @@ Class Files {
 
 	}
 
-	function is_audio_stream($name) {
+	public static function is_audio_stream($name) {
 		return preg_match('/\.(aif|aiff|au|mka|mp2|mp3|ra|snd|wav|wma)$/i', $name);
 	}
 
@@ -1449,7 +1449,7 @@ Class Files {
 	 * @see files/edit.php
 	 * @see files/view.php
 	 */
-	function is_authorized($name) {
+	public static function is_authorized($name) {
 		global $context;
 
 		// create the pattern only once
@@ -1494,7 +1494,7 @@ Class Files {
 	 * @return TRUE or FALSE
 	 *
 	 */
-	function is_embeddable($name) {
+	public static function is_embeddable($name) {
 		return preg_match('/\.(flv|gan|mov|m4v|mp4|swf)$/i', $name);
 	}
 
@@ -1505,7 +1505,7 @@ Class Files {
 	 * @return TRUE or FALSE
 	 *
 	 */
-	function is_stream($name) {
+	public static function is_stream($name) {
 		return Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(gan|mm|swf)$/i', $name);
 	}
 
@@ -1523,7 +1523,7 @@ Class Files {
 	 * @return TRUE or FALSE
 	 *
 	 */
-	function is_video_stream($name) {
+	public static function is_video_stream($name) {
 		return preg_match('/\.(3gp|flv|m4v|mov|mp4)$/i', $name);
 	}
 
@@ -1552,7 +1552,7 @@ Class Files {
 	 * @see files/feed.php
 	 * @see files/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// if not associate, restrict to files attached to published and not expired pages
@@ -1622,7 +1622,7 @@ Class Files {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -1713,7 +1713,7 @@ Class Files {
 	 *
 	 * @see users/view.php
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
 		global $context;
 
 		// limit the scope of the request
@@ -1752,7 +1752,7 @@ Class Files {
 	 * @see index.php
 	 * @see files/index.php
 	 */
-	function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// if not associate, restrict to files attached to published not expired pages
@@ -1799,7 +1799,7 @@ Class Files {
 	 *
 	 * @see users/view.php
 	 */
-	function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// limit the scope of the request
@@ -1831,7 +1831,7 @@ Class Files {
 	 *
 	 * @see files/review.php
 	 */
-	function &list_by_oldest_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_oldest_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -1860,7 +1860,7 @@ Class Files {
 	 *
 	 * @see files/review.php
 	 */
-	function &list_by_size($offset=0, $count=10, $variant='full') {
+	public static function &list_by_size($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// if not associate, restrict to files attached to published not expired pages
@@ -1921,7 +1921,7 @@ Class Files {
 	 * @see sections/print.php
 	 * @see sections/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor', $avoid=NULL) {
+	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -2005,7 +2005,7 @@ Class Files {
 	 * @see articles/edit.php
 	 * @see sections/edit.php
 	 */
-	function &list_embeddable_for_anchor($anchor, $offset=0, $count=20, $variant='embeddable') {
+	public static function &list_embeddable_for_anchor($anchor, $offset=0, $count=20, $variant='embeddable') {
 		global $context;
 
 		// limit the scope of the request
@@ -2041,7 +2041,7 @@ Class Files {
 	 * @see skins/skin_skeleton.php
 	 * @see files/fetch_all.php
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -2097,7 +2097,7 @@ Class Files {
 	 * @param string the list variant, if any - default is 'hits'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_unused($offset=0, $count=10, $variant='full') {
+	public static function &list_unused($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// if not associate, restrict to files attached to published not expired pages
@@ -2138,7 +2138,7 @@ Class Files {
 	 * @see files/author.php
 	 * @see files/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no anchor reference
@@ -2290,7 +2290,7 @@ Class Files {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search($pattern, $offset=0, $count=50, $variant='search') {
+	public static function &search($pattern, $offset=0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -2323,7 +2323,7 @@ Class Files {
 	/**
 	 * create tables for files
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -2384,7 +2384,7 @@ Class Files {
 	 *
 	 * @see files/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// limit the scope of the request
@@ -2410,7 +2410,7 @@ Class Files {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -2440,7 +2440,7 @@ Class Files {
 	 * @param string file location
 	 * @return string transformation result, or FALSE
 	 */
-	function transform_gan_to_simile($file_path) {
+	public static function transform_gan_to_simile($file_path) {
 		global $context;
 
 		// load the file
@@ -2580,7 +2580,7 @@ Class Files {
 	 * @param mixed reference to the target anchor, of a function to parse every file individually
 	 * @return mixed actual file name if everything went fine, FALSE if an error has occured
 	 */
-	function upload($input, $file_path, $target=NULL) {
+	public static function upload($input, $file_path, $target=NULL) {
 		global $context, $_FILES, $_REQUEST;
 
 		// do we have a file?

@@ -24,7 +24,7 @@ Class Activities {
 	 * @param string description of the action (e.g., 'post' or 'like')
 	 * @return int total count of profiles for this anchor and action
 	 */
-	function count_at($anchor, $action=NULL) {
+	public static function count_at($anchor, $action=NULL) {
 		global $context;
 
 		// limit the query to one anchor
@@ -51,7 +51,7 @@ Class Activities {
 	 * @param string description of the action (e.g., 'post' or 'like')
 	 * @return int total count of profiles for this anchor and action
 	 */
-	function count_users_at($anchor, $action=NULL) {
+	public static function count_users_at($anchor, $action=NULL) {
 		global $context;
 
 		// limit the query to one anchor
@@ -80,7 +80,7 @@ Class Activities {
 	 * @param string layout of matching records
 	 * @return array list of matching user profiles
 	 */
-	function list_at($anchor, $action=NULL, $count=50, $variant='raw') {
+	public static function list_at($anchor, $action=NULL, $count=50, $variant='raw') {
 		global $context;
 
 		// limit the query to one anchor
@@ -110,7 +110,7 @@ Class Activities {
 	 * @param string 'compact', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_selected(&$result, $variant='raw') {
+	public static function &list_selected(&$result, $variant='raw') {
 		global $context;
 
 		// no result
@@ -148,7 +148,7 @@ Class Activities {
 	 * @param string layout of matching records
 	 * @return array list of matching user profiles
 	 */
-	function list_users_at($anchor, $action=NULL, $count=50, $variant='raw') {
+	public static function list_users_at($anchor, $action=NULL, $count=50, $variant='raw') {
 		global $context;
 
 		// limit the query to one anchor
@@ -182,7 +182,7 @@ Class Activities {
 	 * @return boolean TRUE on success, FALSE otherwise
 	 *
 	**/
-	function post($anchor, $action='get', $data='') {
+	public static function post($anchor, $action='get', $data='') {
 		global $context;
 
 		// update the database; do not report on error
@@ -202,7 +202,7 @@ Class Activities {
 	/**
 	 * create table for activities
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -231,7 +231,7 @@ Class Activities {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items

@@ -29,7 +29,7 @@ Class Decisions {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('decisions');
@@ -55,7 +55,7 @@ Class Decisions {
 	 *
 	 * @see decisions/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -80,7 +80,7 @@ Class Decisions {
 	 * @see overlays/vote.php
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -100,7 +100,7 @@ Class Decisions {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
@@ -155,7 +155,7 @@ Class Decisions {
 	 * @see decisions/edit.php
 	 * @see decisions/view.php
 	 */
-	function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
@@ -178,7 +178,7 @@ Class Decisions {
 	 * @param string the anchor of the vote
 	 * @return either NULL, or the link of the ballot
 	 */
-	function get_ballot($anchor) {
+	public static function get_ballot($anchor) {
 		global $context;
 
 		// sanity check
@@ -209,7 +209,7 @@ Class Decisions {
 	 * @return a suitable HTML element
 	 *
 	 */
-	function get_img($type) {
+	public static function get_img($type) {
 		global $context;
 
 		switch($type) {
@@ -260,7 +260,7 @@ Class Decisions {
 	 * @see articles/article.php
 	 * @see users/user.php
 	 */
-	function get_next_url($item, $anchor, $order='date') {
+	public static function get_next_url($item, $anchor, $order='date') {
 		global $context;
 
 		// sanity check
@@ -302,7 +302,7 @@ Class Decisions {
 	 *
 	 * @see decisions/edit.php
 	 */
-	function get_options($type) {
+	public static function get_options($type) {
 		global $context;
 
 		// approval
@@ -333,7 +333,7 @@ Class Decisions {
 	 * @see articles/article.php
 	 * @see users/user.php
 	 */
-	function get_previous_url($item, $anchor, $order='date') {
+	public static function get_previous_url($item, $anchor, $order='date') {
 		global $context;
 
 		// sanity check
@@ -374,7 +374,7 @@ Class Decisions {
 	 *
 	 * @see decisions/edit.php
 	 */
-	function get_radio_buttons($name, $type) {
+	public static function get_radio_buttons($name, $type) {
 		global $context;
 
 		$content = '';
@@ -400,7 +400,7 @@ Class Decisions {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($total_count, $yes_count, $no_count) array
 	 */
-	function get_results_for_anchor($anchor) {
+	public static function get_results_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -441,7 +441,7 @@ Class Decisions {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return string some text to summarize decisions
 	 */
-	function &get_results_label_for_anchor($anchor) {
+	public static function &get_results_label_for_anchor($anchor) {
 		global $context;
 
 		// no text yet
@@ -474,7 +474,7 @@ Class Decisions {
 	 * @param the type ('suggestion', etc.')
 	 * @return a suitable title
 	 */
-	function get_title($type) {
+	public static function get_title($type) {
 		global $context;
 		switch($type) {
 		case 'no':
@@ -501,7 +501,7 @@ Class Decisions {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// add a decision -- the id has to be an anchor (e.g., 'article:15')
@@ -586,7 +586,7 @@ Class Decisions {
 	 *
 	 * @see decisions/feed.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='date') {
+	public static function &list_by_date($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// if not associate, restrict to decisions at public published not expired pages
@@ -634,7 +634,7 @@ Class Decisions {
 	 * @see articles/view.php
 	 * @see decisions/feed.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the list of decisions
@@ -661,7 +661,7 @@ Class Decisions {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// the list of decisions
@@ -683,7 +683,7 @@ Class Decisions {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -743,7 +743,7 @@ Class Decisions {
 	 *
 	 * @see decisions/index.php
 	 */
-	function &list_threads_by_date($offset=0, $count=10, $variant='date') {
+	public static function &list_threads_by_date($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// a dynamic where clause
@@ -779,7 +779,7 @@ Class Decisions {
 	 *
 	 * @see decisions/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no anchor reference
@@ -884,7 +884,7 @@ Class Decisions {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	function &search($pattern, $offset=0, $count=30, $variant='search') {
+	public static function &search($pattern, $offset=0, $count=30, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -911,7 +911,7 @@ Class Decisions {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -953,7 +953,7 @@ Class Decisions {
 	 *
 	 * @see decisions/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// if not associate, restrict to decisions at public published not expired pages
@@ -984,7 +984,7 @@ Class Decisions {
 	 * @see articles/delete.php
 	 * @see articles/view.php
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function &stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -1007,7 +1007,7 @@ Class Decisions {
 	 *
 	 * @see decisions/index.php
 	 */
-	function &stat_threads() {
+	public static function &stat_threads() {
 		global $context;
 
 		// if not associate, restrict to decisions at public published not expired pages
