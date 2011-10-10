@@ -148,7 +148,8 @@ if(!Surfer::is_crawler()) {
 			$text .= BR.sprintf(i18n::s('Name: %s'), $link);
 
 		// short link
-		$text .= BR.sprintf(i18n::s('Shortcut: %s'), $context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item));
+		if($context['with_friendly_urls'] == 'R')
+			$text .= BR.sprintf(i18n::s('Shortcut: %s'), $context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item));
 	}
 
 	// no more details
