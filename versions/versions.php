@@ -142,7 +142,7 @@ Class Versions {
 	 * @param int the id of the version
 	 * @return the resulting $item array, with at least keys: 'id', 'anchor', 'content', etc.
 	 */
-	public static public static function &get($id) {
+	public static function &get($id) {
 		global $context;
 
 		// sanity check
