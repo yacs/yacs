@@ -163,6 +163,21 @@ class Day extends Event {
 	}
 
 	/**
+	 * display a live title
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_live_title($host=NULL) {
+
+		$text = $host['title'];
+		return $text;
+
+	}
+
+	/**
 	 * get an input field to capture meeting web address
 	 *
 	 * @return string to be integrated into the editing form
