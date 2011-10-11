@@ -841,6 +841,9 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 function render_skin($with_last_modified=TRUE) {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
 
+	// tools for js and css declaration
+	include_once 'js_css.php';
+
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
 	if(isset($rendering_fuse))
@@ -1197,8 +1200,15 @@ function render_skin($with_last_modified=TRUE) {
 
 	}
 
-	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of Event.observe(window, "load", ... in $context['text']
-	$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>';
+	// javascript libraries files to declare in header of page
+	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['header']))
+	    $context['page_header'] .= $context['javascript']['header'];
+
+	// jquery-ui stylesheet
+	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />'."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
@@ -1220,19 +1230,22 @@ function render_skin($with_last_modified=TRUE) {
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
 // 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
 
-	// activate AJAX client library
-	if(file_exists($context['path_to_root'].'shared/yacs.js'))
-		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>';
-
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	if(isset($context['current_item']) && $context['current_item'])
-		$metas[] = JS_PREFIX
+		$context['page_footer'] .= JS_PREFIX
 			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
 			.JS_SUFFIX;
 
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
+
+	// javascript libraries files to declare in footer of page, plus YACS ajax library
+	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['footer']))
+		$context['page_footer'] .= $context['javascript']['footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
@@ -1269,16 +1282,16 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['google_analytics_account']) && $context['google_analytics_account']) {
 
 		$context['page_header'] .= '<script type="text/javascript">'."\n"
-		    ."\t".'var _gaq = _gaq || [];'."\n"
-		    ."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
-		    ."\t".'_gaq.push([\'_trackPageview\']);'."\n"
-		    ."\t\n"
-		    ."\t".'(function() {'."\n"
-		    ."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
-		    ."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
-		    ."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
-		    ."\t".'})();'."\n"
-		    .'</script>'."\n";
+			."\t".'var _gaq = _gaq || [];'."\n"
+			."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
+			."\t".'_gaq.push([\'_trackPageview\']);'."\n"
+			."\t\n"
+			."\t".'(function() {'."\n"
+			."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
+			."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
+			."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
+			."\t".'})();'."\n"
+			.'</script>'."\n";
 	}
 
 	// insert one tabulation before each header line

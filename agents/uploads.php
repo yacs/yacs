@@ -42,7 +42,7 @@ class Uploads {
 	 * @param string the directory to look at
 	 * @return an array of directory entries, or NULL
 	 */
-	function list_files($path) {
+	public static function list_files($path) {
 		global $context;
 
 		// we are looking for files
@@ -87,7 +87,7 @@ class Uploads {
 	 * @param string entry content
 	 * @param time stamp
 	 */
-	function process_handx_entry($text, $stamp=NULL) {
+	public static function process_handx_entry($text, $stamp=NULL) {
 		global $context;
 
 		// parse article content
@@ -171,7 +171,7 @@ class Uploads {
 	 *
 	 * @param string the file to process
 	 */
-	function process_handx_weblog($file) {
+	public static function process_handx_weblog($file) {
 		global $context;
 
 		// load parameters for uploads
@@ -255,7 +255,7 @@ class Uploads {
 	 * @return a string to be displayed in resulting page, if any
 	 *
 	 */
-	function tick_hook() {
+	public static function tick_hook() {
 		global $context;
 
 		// useless if we don't have a valid database connection

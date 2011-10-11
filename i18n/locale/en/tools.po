@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-20 16:14+0200\n"
-"PO-Revision-Date: 2011-06-26 00:08+0100\n"
+"POT-Creation-Date: 2011-09-22 08:19+0200\n"
+"PO-Revision-Date: 2011-09-23 17:56+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
@@ -20,15 +20,26 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
-#: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:40
-#: tools/koowy.php:33 tools/populate.php:110 tools/populate.php:132
-#: tools/transform.php:29 tools/update_thumbs_url.php:40
+#: tools/ajax.php:20
+#: tools/embed.php:22
+#: tools/fat_index.php:75
+#: tools/form.php:22
+#: tools/hello.php:22
+#: tools/index.php:18
+#: tools/jsmin.php:35
+#: tools/koowy.php:33
+#: tools/populate.php:110
+#: tools/populate.php:132
+#: tools/transform.php:29
+#: tools/update_thumbs_url.php:40
 #: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr "Tools"
 
-#: tools/ajax.php:23 tools/ajax.php:29 tools/ajax.php:34 tools/ajax.php:37
+#: tools/ajax.php:23
+#: tools/ajax.php:29
+#: tools/ajax.php:34
+#: tools/ajax.php:37
 #: tools/ajax.php:53
 msgid "AJAX demonstration"
 msgstr "AJAX demonstration"
@@ -41,7 +52,9 @@ msgstr "Working overlay"
 msgid "Click on the button, then click on the overlay to hide it"
 msgstr "Click on the button, then click on the overlay to hide it"
 
-#: tools/ajax.php:31 tools/ajax.php:34 tools/ajax.php:37
+#: tools/ajax.php:31
+#: tools/ajax.php:34
+#: tools/ajax.php:37
 msgid "OK"
 msgstr "OK"
 
@@ -69,15 +82,18 @@ msgstr "Confirmation box"
 msgid "Click on the button to make your choice"
 msgstr "Click on the button to make your choice"
 
-#: tools/ajax.php:40 tools/ajax.php:42
+#: tools/ajax.php:40
+#: tools/ajax.php:42
 msgid "Alert notification"
 msgstr "Alert notification"
 
-#: tools/ajax.php:43 tools/ajax.php:45
+#: tools/ajax.php:43
+#: tools/ajax.php:45
 msgid "Browse notification"
 msgstr "Browse notification"
 
-#: tools/ajax.php:46 tools/ajax.php:47
+#: tools/ajax.php:46
+#: tools/ajax.php:47
 msgid "Hello notification"
 msgstr "Hello notification"
 
@@ -89,7 +105,8 @@ msgstr "Click on buttons to process notifications"
 msgid "Google"
 msgstr "Google"
 
-#: tools/ajax.php:50 tools/ajax.php:59
+#: tools/ajax.php:50
+#: tools/ajax.php:59
 msgid "Click on the button to trigger the popup window"
 msgstr "Click on the button to trigger the popup window"
 
@@ -101,8 +118,12 @@ msgstr "Click on the button to call a remote function"
 msgid "Click on the button to remember some on-line activity"
 msgstr "Click on the button to remember some on-line activity"
 
-#: tools/ajax.php:59 tools/embed.php:25 tools/hello.php:25
-#: tools/populate.php:404 tools/populate.php:1596 tools/transform.php:32
+#: tools/ajax.php:59
+#: tools/embed.php:25
+#: tools/hello.php:25
+#: tools/populate.php:404
+#: tools/populate.php:1596
+#: tools/transform.php:32
 msgid "Hello world"
 msgstr "Hello world"
 
@@ -140,12 +161,8 @@ msgid "Fat Index"
 msgstr "Fat Index"
 
 #: tools/fat_index.php:82
-msgid ""
-"This script strips tags and white space to evaluate the amount of useful "
-"bytes. Then it computes the fat index as follows:"
-msgstr ""
-"This script strips tags and white space to evaluate the amount of useful "
-"bytes. Then it computes the fat index as follows:"
+msgid "This script strips tags and white space to evaluate the amount of useful bytes. Then it computes the fat index as follows:"
+msgstr "This script strips tags and white space to evaluate the amount of useful bytes. Then it computes the fat index as follows:"
 
 #: tools/fat_index.php:83
 msgid "FAT Index = 10 log( Raw Bytes / Useful Bytes )"
@@ -159,7 +176,8 @@ msgstr "This script can be used only by an authenticated user of this server."
 msgid "Computation results"
 msgstr "Computation results"
 
-#: tools/fat_index.php:102 tools/fat_index.php:161
+#: tools/fat_index.php:102
+#: tools/fat_index.php:161
 #, php-format
 msgid "Web Reference: %s"
 msgstr "Web Reference: %s"
@@ -206,7 +224,8 @@ msgstr "or"
 msgid "Raw Input: %s"
 msgstr "Raw Input: %s"
 
-#: tools/fat_index.php:173 tools/form.php:70
+#: tools/fat_index.php:173
+#: tools/form.php:70
 msgid "Submit"
 msgstr "Submit"
 
@@ -222,16 +241,20 @@ msgstr "Form"
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 
-#: tools/form.php:34 tools/form.php:37 tools/form.php:40
+#: tools/form.php:34
+#: tools/form.php:37
+#: tools/form.php:40
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: tools/form.php:34 tools/form.php:49
+#: tools/form.php:34
+#: tools/form.php:49
 msgid "Your name"
 msgstr "Your name"
 
-#: tools/form.php:37 tools/form.php:55
+#: tools/form.php:37
+#: tools/form.php:55
 msgid "Your e-mail address"
 msgstr "Your e-mail address"
 
@@ -255,60 +278,53 @@ msgstr "Your message"
 msgid "Please include all elements we could need"
 msgstr "Please include all elements we could need"
 
-#: tools/jsmin.php:43
+#: tools/jsmin.php:38
 msgid "Finalize Javascript libraries"
 msgstr "Finalize Javascript libraries"
 
-#: tools/jsmin.php:52 tools/populate.php:118 tools/populate.php:129
-#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
+#: tools/jsmin.php:47
+#: tools/populate.php:118
+#: tools/populate.php:129
+#: tools/update_thumbs_url.php:48
+#: tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: tools/jsmin.php:55 tools/populate.php:1639
+#: tools/jsmin.php:50
+#: tools/populate.php:1639
 msgid "Control Panel"
 msgstr "Control Panel"
 
-#: tools/jsmin.php:70
+#: tools/jsmin.php:65
 msgid "Compressing Javascript files..."
 msgstr "Compressing Javascript files..."
 
-#: tools/jsmin.php:132
+#: tools/jsmin.php:151
 #, php-format
-msgid "%d files have been updated."
-msgstr "%d files have been updated."
+msgid "%d files have been minified."
+msgstr "%d files have been minified."
 
-#: tools/jsmin.php:136
-msgid "Assembling javascript files..."
-msgstr "Assembling javascript files..."
-
-#: tools/jsmin.php:201
+#: tools/jsmin.php:154
+#: tools/jsmin.php:155
 msgid "bytes"
 msgstr "bytes"
 
-#: tools/jsmin.php:205
+#: tools/jsmin.php:159
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: tools/jsmin.php:211
+#: tools/jsmin.php:165
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr "You are about to compress and assemble Javascript files. Are you sure?"
 
-#: tools/jsmin.php:215
+#: tools/jsmin.php:169
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr "Yes, I do want to compress and assemble Javascript files"
 
-#: tools/jsmin.php:220
-msgid ""
-"When you will click on the button the server will be immediately requested "
-"to proceed. However, because of the so many things to do on the back-end, "
-"you may have to wait for minutes before getting a response displayed. Thank "
-"you for your patience."
-msgstr ""
-"When you will click on the button the server will be immediately requested "
-"to proceed. However, because of the so many things to do on the back-end, "
-"you may have to wait for minutes before getting a response displayed. Thank "
-"you for your patience."
+#: tools/jsmin.php:174
+msgid "When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience."
+msgstr "When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience."
 
 #: tools/koowy.php:36
 #, php-format
@@ -328,15 +344,25 @@ msgstr "Content Assistant"
 msgid "Users"
 msgstr "Users"
 
-#: tools/populate.php:144 tools/populate.php:145 tools/populate.php:148
+#: tools/populate.php:144
+#: tools/populate.php:145
+#: tools/populate.php:148
 #: tools/populate.php:337
 msgid "Alice"
 msgstr "Alice"
 
-#: tools/populate.php:145 tools/populate.php:161 tools/populate.php:178
-#: tools/populate.php:194 tools/populate.php:210 tools/populate.php:226
-#: tools/populate.php:242 tools/populate.php:258 tools/populate.php:274
-#: tools/populate.php:290 tools/populate.php:306 tools/populate.php:322
+#: tools/populate.php:145
+#: tools/populate.php:161
+#: tools/populate.php:178
+#: tools/populate.php:194
+#: tools/populate.php:210
+#: tools/populate.php:226
+#: tools/populate.php:242
+#: tools/populate.php:258
+#: tools/populate.php:274
+#: tools/populate.php:290
+#: tools/populate.php:306
+#: tools/populate.php:322
 #, php-format
 msgid "An account already exists for \"%s\"."
 msgstr "An account already exists for \"%s\"."
@@ -345,16 +371,27 @@ msgstr "An account already exists for \"%s\"."
 msgid "Sample associate profile"
 msgstr "Sample associate profile"
 
-#: tools/populate.php:154 tools/populate.php:171 tools/populate.php:187
-#: tools/populate.php:203 tools/populate.php:219 tools/populate.php:235
-#: tools/populate.php:251 tools/populate.php:267 tools/populate.php:283
-#: tools/populate.php:299 tools/populate.php:315 tools/populate.php:331
+#: tools/populate.php:154
+#: tools/populate.php:171
+#: tools/populate.php:187
+#: tools/populate.php:203
+#: tools/populate.php:219
+#: tools/populate.php:235
+#: tools/populate.php:251
+#: tools/populate.php:267
+#: tools/populate.php:283
+#: tools/populate.php:299
+#: tools/populate.php:315
+#: tools/populate.php:331
 #, php-format
 msgid "A user profile \"%s\" has been created, with the password \"%s\"."
 msgstr "A user profile \"%s\" has been created, with the password \"%s\"."
 
-#: tools/populate.php:160 tools/populate.php:161 tools/populate.php:165
-#: tools/populate.php:337 tools/populate.php:711
+#: tools/populate.php:160
+#: tools/populate.php:161
+#: tools/populate.php:165
+#: tools/populate.php:337
+#: tools/populate.php:711
 msgid "Bob"
 msgstr "Bob"
 
@@ -362,16 +399,22 @@ msgstr "Bob"
 msgid "Sponge Bob"
 msgstr "Sponge Bob"
 
-#: tools/populate.php:168 tools/populate.php:184
+#: tools/populate.php:168
+#: tools/populate.php:184
 msgid "Sample person profile"
 msgstr "Sample person profile"
 
-#: tools/populate.php:177 tools/populate.php:178 tools/populate.php:181
-#: tools/populate.php:337 tools/populate.php:713
+#: tools/populate.php:177
+#: tools/populate.php:178
+#: tools/populate.php:181
+#: tools/populate.php:337
+#: tools/populate.php:713
 msgid "Carol"
 msgstr "Carol"
 
-#: tools/populate.php:193 tools/populate.php:194 tools/populate.php:197
+#: tools/populate.php:193
+#: tools/populate.php:194
+#: tools/populate.php:197
 msgid "Sophie"
 msgstr "Sophie"
 
@@ -415,14 +458,30 @@ msgstr "Page reader"
 msgid "Front page"
 msgstr "Front page"
 
-#: tools/populate.php:345 tools/populate.php:363 tools/populate.php:381
-#: tools/populate.php:399 tools/populate.php:420 tools/populate.php:503
-#: tools/populate.php:538 tools/populate.php:595 tools/populate.php:655
-#: tools/populate.php:722 tools/populate.php:759 tools/populate.php:815
-#: tools/populate.php:892 tools/populate.php:947 tools/populate.php:1039
-#: tools/populate.php:1096 tools/populate.php:1154 tools/populate.php:1211
-#: tools/populate.php:1269 tools/populate.php:1291 tools/populate.php:1326
-#: tools/populate.php:1362 tools/populate.php:1399 tools/populate.php:1435
+#: tools/populate.php:345
+#: tools/populate.php:363
+#: tools/populate.php:381
+#: tools/populate.php:399
+#: tools/populate.php:420
+#: tools/populate.php:503
+#: tools/populate.php:538
+#: tools/populate.php:595
+#: tools/populate.php:655
+#: tools/populate.php:722
+#: tools/populate.php:759
+#: tools/populate.php:815
+#: tools/populate.php:892
+#: tools/populate.php:947
+#: tools/populate.php:1039
+#: tools/populate.php:1096
+#: tools/populate.php:1154
+#: tools/populate.php:1211
+#: tools/populate.php:1269
+#: tools/populate.php:1291
+#: tools/populate.php:1326
+#: tools/populate.php:1362
+#: tools/populate.php:1399
+#: tools/populate.php:1435
 #: tools/populate.php:1558
 #, php-format
 msgid "A page \"%s\" already exists."
@@ -435,21 +494,35 @@ msgstr "Hello again"
 #: tools/populate.php:352
 msgid ""
 "This is a sample extra box.\n"
-"Visit the [link=extra section]sections/view.php?id=extra_boxes[/link] to "
-"review all extra boxes."
+"Visit the [link=extra section]sections/view.php?id=extra_boxes[/link] to review all extra boxes."
 msgstr ""
 "This is a sample extra box.\n"
-"Visit the [link=extra section]sections/view.php?id=extra_boxes[/link] to "
-"review all extra boxes."
+"Visit the [link=extra section]sections/view.php?id=extra_boxes[/link] to review all extra boxes."
 
-#: tools/populate.php:356 tools/populate.php:374 tools/populate.php:392
-#: tools/populate.php:409 tools/populate.php:430 tools/populate.php:513
-#: tools/populate.php:548 tools/populate.php:605 tools/populate.php:665
-#: tools/populate.php:732 tools/populate.php:769 tools/populate.php:825
-#: tools/populate.php:901 tools/populate.php:956 tools/populate.php:1054
-#: tools/populate.php:1111 tools/populate.php:1169 tools/populate.php:1226
-#: tools/populate.php:1284 tools/populate.php:1306 tools/populate.php:1342
-#: tools/populate.php:1379 tools/populate.php:1415 tools/populate.php:1452
+#: tools/populate.php:356
+#: tools/populate.php:374
+#: tools/populate.php:392
+#: tools/populate.php:409
+#: tools/populate.php:430
+#: tools/populate.php:513
+#: tools/populate.php:548
+#: tools/populate.php:605
+#: tools/populate.php:665
+#: tools/populate.php:732
+#: tools/populate.php:769
+#: tools/populate.php:825
+#: tools/populate.php:901
+#: tools/populate.php:956
+#: tools/populate.php:1054
+#: tools/populate.php:1111
+#: tools/populate.php:1169
+#: tools/populate.php:1226
+#: tools/populate.php:1284
+#: tools/populate.php:1306
+#: tools/populate.php:1342
+#: tools/populate.php:1379
+#: tools/populate.php:1415
+#: tools/populate.php:1452
 #: tools/populate.php:1583
 #, php-format
 msgid "A page \"%s\" has been created."
@@ -466,12 +539,10 @@ msgstr "Collections"
 #: tools/populate.php:406
 msgid ""
 "This is a sample navigation box.\n"
-"Visit the [link=navigation section]sections/view.php?id=navigation_boxes[/"
-"link] to review all navigation boxes."
+"Visit the [link=navigation section]sections/view.php?id=navigation_boxes[/link] to review all navigation boxes."
 msgstr ""
 "This is a sample navigation box.\n"
-"Visit the [link=navigation section]sections/view.php?id=navigation_boxes[/"
-"link] to review all navigation boxes."
+"Visit the [link=navigation section]sections/view.php?id=navigation_boxes[/link] to review all navigation boxes."
 
 #: tools/populate.php:416
 msgid "Global pages"
@@ -489,13 +560,27 @@ msgstr "Take a break, and discuss important things"
 msgid "Calendar"
 msgstr "Calendar"
 
-#: tools/populate.php:441 tools/populate.php:465 tools/populate.php:483
-#: tools/populate.php:520 tools/populate.php:577 tools/populate.php:638
-#: tools/populate.php:698 tools/populate.php:739 tools/populate.php:780
-#: tools/populate.php:798 tools/populate.php:858 tools/populate.php:875
-#: tools/populate.php:930 tools/populate.php:967 tools/populate.php:1004
-#: tools/populate.php:1061 tools/populate.php:1118 tools/populate.php:1176
-#: tools/populate.php:1233 tools/populate.php:1476 tools/populate.php:1492
+#: tools/populate.php:441
+#: tools/populate.php:465
+#: tools/populate.php:483
+#: tools/populate.php:520
+#: tools/populate.php:577
+#: tools/populate.php:638
+#: tools/populate.php:698
+#: tools/populate.php:739
+#: tools/populate.php:780
+#: tools/populate.php:798
+#: tools/populate.php:858
+#: tools/populate.php:875
+#: tools/populate.php:930
+#: tools/populate.php:967
+#: tools/populate.php:1004
+#: tools/populate.php:1061
+#: tools/populate.php:1118
+#: tools/populate.php:1176
+#: tools/populate.php:1233
+#: tools/populate.php:1476
+#: tools/populate.php:1492
 #: tools/populate.php:1508
 #, php-format
 msgid "A section \"%s\" already exists."
@@ -513,19 +598,34 @@ msgstr "A calendar of planned activities"
 msgid "Every page in this section is featured in a nice-looking calendar."
 msgstr "Every page in this section is featured in a nice-looking calendar."
 
-#: tools/populate.php:454 tools/populate.php:476 tools/populate.php:496
-#: tools/populate.php:531 tools/populate.php:588 tools/populate.php:648
-#: tools/populate.php:708 tools/populate.php:752 tools/populate.php:791
-#: tools/populate.php:808 tools/populate.php:868 tools/populate.php:885
-#: tools/populate.php:940 tools/populate.php:984 tools/populate.php:1019
-#: tools/populate.php:1076 tools/populate.php:1134 tools/populate.php:1191
-#: tools/populate.php:1249 tools/populate.php:1485 tools/populate.php:1501
+#: tools/populate.php:454
+#: tools/populate.php:476
+#: tools/populate.php:496
+#: tools/populate.php:531
+#: tools/populate.php:588
+#: tools/populate.php:648
+#: tools/populate.php:708
+#: tools/populate.php:752
+#: tools/populate.php:791
+#: tools/populate.php:808
+#: tools/populate.php:868
+#: tools/populate.php:885
+#: tools/populate.php:940
+#: tools/populate.php:984
+#: tools/populate.php:1019
+#: tools/populate.php:1076
+#: tools/populate.php:1134
+#: tools/populate.php:1191
+#: tools/populate.php:1249
+#: tools/populate.php:1485
+#: tools/populate.php:1501
 #: tools/populate.php:1516
 #, php-format
 msgid "A section \"%s\" has been created."
 msgstr "A section \"%s\" has been created."
 
-#: tools/populate.php:461 tools/populate.php:469
+#: tools/populate.php:461
+#: tools/populate.php:469
 msgid "Forums"
 msgstr "Forums"
 
@@ -542,10 +642,8 @@ msgid "Real-time collaboration"
 msgstr "Real-time collaboration"
 
 #: tools/populate.php:490
-msgid ""
-"Every page in this section supports interactive discussion and file sharing."
-msgstr ""
-"Every page in this section supports interactive discussion and file sharing."
+msgid "Every page in this section supports interactive discussion and file sharing."
+msgstr "Every page in this section supports interactive discussion and file sharing."
 
 #: tools/populate.php:508
 msgid "Interactive support"
@@ -559,7 +657,8 @@ msgstr "To seek for help from other members of the community"
 msgid "My yabb discussion board"
 msgstr "My yabb discussion board"
 
-#: tools/populate.php:526 tools/populate.php:583
+#: tools/populate.php:526
+#: tools/populate.php:583
 msgid "Sample discussion board"
 msgstr "Sample discussion board"
 
@@ -571,13 +670,18 @@ msgstr "Sample yabb thread"
 msgid "This page demonstrates the rendering of the ##yabb## layout."
 msgstr "This page demonstrates the rendering of the ##yabb## layout."
 
-#: tools/populate.php:562 tools/populate.php:679
+#: tools/populate.php:562
+#: tools/populate.php:679
 #, php-format
 msgid "Comment #%d"
 msgstr "Comment #%d"
 
-#: tools/populate.php:571 tools/populate.php:628 tools/populate.php:688
-#: tools/populate.php:848 tools/populate.php:924 tools/populate.php:1599
+#: tools/populate.php:571
+#: tools/populate.php:628
+#: tools/populate.php:688
+#: tools/populate.php:848
+#: tools/populate.php:924
+#: tools/populate.php:1599
 #, php-format
 msgid "Comments have been added to \"%s\"."
 msgstr "Comments have been added to \"%s\"."
@@ -599,7 +703,8 @@ msgstr "This page demonstrates the rendering of the ##jive## layout."
 msgid "Reply #%d"
 msgstr "Reply #%d"
 
-#: tools/populate.php:634 tools/populate.php:642
+#: tools/populate.php:634
+#: tools/populate.php:642
 msgid "Blog"
 msgstr "Blog"
 
@@ -611,7 +716,8 @@ msgstr "Sample blogging place"
 msgid "Sample page of the blog"
 msgstr "Sample page of the blog"
 
-#: tools/populate.php:661 tools/populate.php:821
+#: tools/populate.php:661
+#: tools/populate.php:821
 msgid "Sample content with its set of notes"
 msgstr "Sample content with its set of notes"
 
@@ -619,7 +725,8 @@ msgstr "Sample content with its set of notes"
 msgid "This page demonstrates the rendering of the ##daily## layout."
 msgstr "This page demonstrates the rendering of the ##daily## layout."
 
-#: tools/populate.php:694 tools/populate.php:702
+#: tools/populate.php:694
+#: tools/populate.php:702
 msgid "Project"
 msgstr "Project"
 
@@ -684,7 +791,8 @@ msgstr "This page demonstrates the rendering of the ##manual## layout."
 msgid "Note #%d"
 msgstr "Note #%d"
 
-#: tools/populate.php:854 tools/populate.php:862
+#: tools/populate.php:854
+#: tools/populate.php:862
 msgid "Wikis"
 msgstr "Wikis"
 
@@ -696,15 +804,15 @@ msgstr "Anonymous wiki"
 msgid "Anyone can update pages in this section"
 msgstr "Anyone can update pages in this section"
 
-#: tools/populate.php:897 tools/populate.php:952
+#: tools/populate.php:897
+#: tools/populate.php:952
 msgid "Sample wiki page"
 msgstr "Sample wiki page"
 
-#: tools/populate.php:898 tools/populate.php:953
-msgid ""
-"Use the command 'Edit this page' to add some text or to change this content."
-msgstr ""
-"Use the command 'Edit this page' to add some text or to change this content."
+#: tools/populate.php:898
+#: tools/populate.php:953
+msgid "Use the command 'Edit this page' to add some text or to change this content."
+msgstr "Use the command 'Edit this page' to add some text or to change this content."
 
 #: tools/populate.php:915
 #, php-format
@@ -735,19 +843,30 @@ msgstr "Test section"
 msgid "To demonstrate access right management"
 msgstr "To demonstrate access right management"
 
-#: tools/populate.php:1009 tools/populate.php:1066 tools/populate.php:1124
-#: tools/populate.php:1181 tools/populate.php:1239
+#: tools/populate.php:1009
+#: tools/populate.php:1066
+#: tools/populate.php:1124
+#: tools/populate.php:1181
+#: tools/populate.php:1239
 msgid "Test sub-section"
 msgstr "Test sub-section"
 
-#: tools/populate.php:1044 tools/populate.php:1101 tools/populate.php:1159
-#: tools/populate.php:1216 tools/populate.php:1274 tools/populate.php:1296
-#: tools/populate.php:1332 tools/populate.php:1369 tools/populate.php:1405
+#: tools/populate.php:1044
+#: tools/populate.php:1101
+#: tools/populate.php:1159
+#: tools/populate.php:1216
+#: tools/populate.php:1274
+#: tools/populate.php:1296
+#: tools/populate.php:1332
+#: tools/populate.php:1369
+#: tools/populate.php:1405
 #: tools/populate.php:1442
 msgid "Test page"
 msgstr "Test page"
 
-#: tools/populate.php:1124 tools/populate.php:1239 tools/populate.php:1369
+#: tools/populate.php:1124
+#: tools/populate.php:1239
+#: tools/populate.php:1369
 #: tools/populate.php:1442
 msgid "locked"
 msgstr "locked"
@@ -784,7 +903,8 @@ msgstr "Sample plain section"
 msgid "Categories"
 msgstr "Categories"
 
-#: tools/populate.php:1527 tools/populate.php:1540
+#: tools/populate.php:1527
+#: tools/populate.php:1540
 #, php-format
 msgid "Category \"%s\" already exists."
 msgstr "Category \"%s\" already exists."
@@ -797,21 +917,13 @@ msgstr "My category"
 msgid "Sample plain category"
 msgstr "Sample plain category"
 
-#: tools/populate.php:1533 tools/populate.php:1547
-msgid ""
-"This category has been created for experimentation purpose. Feel free to "
-"change this text, to add some images, to play with codes, etc. Have you "
-"checked the help link on the side of this page? Once you will feel more "
-"comfortable with the handling of categories, just delete this one and create "
-"other categories of your own."
-msgstr ""
-"This category has been created for experimentation purpose. Feel free to "
-"change this text, to add some images, to play with codes, etc. Have you "
-"checked the help link on the side of this page? Once you will feel more "
-"comfortable with the handling of categories, just delete this one and create "
-"other categories of your own."
+#: tools/populate.php:1533
+#: tools/populate.php:1547
+msgid "This category has been created for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own."
+msgstr "This category has been created for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own."
 
-#: tools/populate.php:1535 tools/populate.php:1549
+#: tools/populate.php:1535
+#: tools/populate.php:1549
 #, php-format
 msgid "A category \"%s\" has been created."
 msgstr "A category \"%s\" has been created."
@@ -878,34 +990,30 @@ msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
 #: tools/populate.php:1649
-msgid ""
-"This script adds various sample records, including sections, categories, "
-"articles, comments and tables, to the database."
-msgstr ""
-"This script adds various sample records, including sections, categories, "
-"articles, comments and tables, to the database."
+msgid "This script adds various sample records, including sections, categories, articles, comments and tables, to the database."
+msgstr "This script adds various sample records, including sections, categories, articles, comments and tables, to the database."
 
 #: tools/populate.php:1650
-msgid ""
-"You should use this script only for learning, for demonstration or for "
-"testing purposes."
-msgstr ""
-"You should use this script only for learning, for demonstration or for "
-"testing purposes."
+msgid "You should use this script only for learning, for demonstration or for testing purposes."
+msgstr "You should use this script only for learning, for demonstration or for testing purposes."
 
-#: tools/populate.php:1657 tools/update_thumbs_url.php:228
+#: tools/populate.php:1657
+#: tools/update_thumbs_url.php:228
 msgid "Start"
 msgstr "Start"
 
-#: tools/transform.php:35 tools/transform.php:36
+#: tools/transform.php:35
+#: tools/transform.php:36
 msgid "navigation"
 msgstr "navigation"
 
-#: tools/transform.php:39 tools/transform.php:40
+#: tools/transform.php:39
+#: tools/transform.php:40
 msgid "extra"
 msgstr "extra"
 
-#: tools/transform.php:46 tools/transform.php:52
+#: tools/transform.php:46
+#: tools/transform.php:52
 msgid "Themes"
 msgstr "Themes"
 
@@ -942,12 +1050,8 @@ msgid "Analysing thumbnails for files"
 msgstr "Analysing thumbnails for files"
 
 #: tools/update_thumbs_url.php:202
-msgid ""
-"This tools correct the urls of thumbnails and icons of pages after having "
-"changed \"url_to_root\" in control panel"
-msgstr ""
-"This tools correct the urls of thumbnails and icons of pages after having "
-"changed \"url_to_root\" in control panel"
+msgid "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
+msgstr "This tools correct the urls of thumbnails and icons of pages after having changed \"url_to_root\" in control panel"
 
 #: tools/update_thumbs_url.php:212
 msgid "Please give former URL to root"
@@ -960,6 +1064,9 @@ msgstr "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
 #: tools/update_thumbs_url.php:218
 msgid "This will be replaced by current URL"
 msgstr "This will be replaced by current URL"
+
+#~ msgid "Assembling javascript files..."
+#~ msgstr "Assembling javascript files..."
 
 #~ msgid "Event"
 #~ msgstr "Event"

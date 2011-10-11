@@ -752,29 +752,12 @@ Class Members {
 			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
 				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// the list of categories
-			$query = "SELECT categories.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
-				.", ".SQL::table_name('categories')." AS categories"
-				." WHERE (categories.id = ids.target)"
-				."	AND ".$where
-				." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// the list of categories
-			$query = "SELECT categories.*	FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('categories')." AS categories"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
-				."	AND (members.anchor LIKE 'category:%')"
-				."	AND (categories.id = SUBSTRING(members.anchor, 10))"
-				."	AND (".$where.")"
-				." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
-
-		}
+		// the list of categories
+		$query = "SELECT categories.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
+			.", ".SQL::table_name('categories')." AS categories"
+			." WHERE (categories.id = ids.target)"
+			."	AND ".$where
+			." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Categories::list_selected(SQL::query($query), $variant);
@@ -866,31 +849,13 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// the list of users
-			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE (users.id = ids.target)"
-				."	AND (users.capability IN ('S', 'M', 'A'))"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY users.login_date DESC LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// the list of users
-			$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE ".$where_m
-				."	AND (members.anchor LIKE 'user:%')"
-				."	AND (users.id = SUBSTRING(members.anchor, 6))"
-				."	AND (users.capability IN ('S', 'M', 'A'))"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY members.edit_date LIMIT ".$offset.','.$count;
-
-		}
+		// the list of users
+		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE (users.id = ids.target)"
+			."	AND (users.capability IN ('S', 'M', 'A'))"
+			."	AND (".$where.")"
+			." GROUP BY users.id ORDER BY users.login_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -978,31 +943,13 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// the list of users
-			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE (users.id = ids.target)"
-				."	AND (users.capability = 'S')"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// the list of users
-			$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
-				."	AND (members.anchor LIKE 'user:%')"
-				."	AND (users.id = SUBSTRING(members.anchor, 6))"
-				."	AND (users.capability = 'S')"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
-
-		}
+		// the list of users
+		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE (users.id = ids.target)"
+			."	AND (users.capability = 'S')"
+			."	AND (".$where.")"
+			." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);

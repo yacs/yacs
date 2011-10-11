@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-20 16:20+0200\n"
+"POT-Creation-Date: 2011-10-06 21:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: control/purge.php:331 control/purge.php:365 control/purge.php:387
 #: control/purge.php:406 control/purge.php:425 control/purge.php:444
 #: control/scan.php:167 control/scan.php:224 control/scan.php:449
-#: control/scan.php:802 control/setup.php:103 control/setup.php:280
+#: control/scan.php:802 control/setup.php:103 control/setup.php:278
 #: control/switch.php:40 control/switch.php:53 control/switch.php:83
 #: control/switch.php:143 control/test.php:88 control/virtual.php:55
 #: control/virtual.php:95 control/virtual.php:119 control/virtual.php:175
@@ -168,7 +168,7 @@ msgstr ""
 #: control/backup.php:852 control/backup.php:917 control/backup.php:940
 #: control/backup.php:977 control/chmod.php:112 control/configure.php:966
 #: control/populate.php:198 control/scan.php:788 control/scan.php:798
-#: control/scan.php:825 control/setup.php:270 control/setup.php:316
+#: control/scan.php:825 control/setup.php:268 control/setup.php:314
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -2448,45 +2448,45 @@ msgstr ""
 msgid "The server has been switched off."
 msgstr ""
 
-#: control/setup.php:261 control/switch.php:70
+#: control/setup.php:259 control/switch.php:70
 msgid "The server has been switched on."
 msgstr ""
 
-#: control/setup.php:266
+#: control/setup.php:264
 msgid "Run one-time scripts and go to the Control Panel"
 msgstr ""
 
-#: control/setup.php:275
+#: control/setup.php:273
 msgid "Initialize the database"
 msgstr ""
 
-#: control/setup.php:288
+#: control/setup.php:286
 msgid "The database has been optimised"
 msgstr ""
 
-#: control/setup.php:295
+#: control/setup.php:293
 msgid ""
 "This script will check the structure of the database and optimize data "
 "storage:"
 msgstr ""
 
-#: control/setup.php:297
+#: control/setup.php:295
 msgid "Missing tables will be created, if necessary."
 msgstr ""
 
-#: control/setup.php:298
+#: control/setup.php:296
 msgid "Some columns may be created or converted if their type has evolved."
 msgstr ""
 
-#: control/setup.php:299
+#: control/setup.php:297
 msgid "All indexes will be (re)built."
 msgstr ""
 
-#: control/setup.php:300
+#: control/setup.php:298
 msgid "Data files will be optimized as well."
 msgstr ""
 
-#: control/setup.php:305
+#: control/setup.php:303
 msgid "Ensure the database structure is accurate"
 msgstr ""
 

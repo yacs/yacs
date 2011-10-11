@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-20 16:14+0200\n"
+"POT-Creation-Date: 2011-09-22 08:19+0200\n"
 "PO-Revision-Date: 2011-05-17 23:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -253,7 +253,7 @@ msgid_plural "%d active now"
 msgstr[0] "%d actif maintenant"
 msgstr[1] "%d actifs maintenant"
 
-#: shared/global.php:933
+#: shared/global.php:936
 msgid "View the category"
 msgstr "Voir la catégorie"
 
@@ -333,11 +333,11 @@ msgstr "Le corps du message est vide"
 msgid "Error while sending the message to %s"
 msgstr "Erreur pendant l'expédition du message à %s"
 
-#: shared/members.php:78 shared/members.php:411 shared/members.php:1305
+#: shared/members.php:78 shared/members.php:411 shared/members.php:1252
 msgid "An anchor is required for this operation."
 msgstr "Une ancre est requise pour cette opération."
 
-#: shared/members.php:82 shared/members.php:415 shared/members.php:1309
+#: shared/members.php:82 shared/members.php:415 shared/members.php:1256
 msgid "A member is required for this operation."
 msgstr "Un membre est requis pour cette opération."
 
@@ -363,36 +363,36 @@ msgstr "Renvoi vers %s"
 msgid "Impossible to connect to %s."
 msgstr "Impossible de se connecter à %s."
 
-#: shared/sql.php:558 shared/zipfile.php:197
+#: shared/sql.php:556 shared/zipfile.php:197
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible de lire %s."
 
-#: shared/sql.php:731 shared/sql.php:733
+#: shared/sql.php:729 shared/sql.php:731
 msgid "Connection to the database has been lost"
 msgstr "La connexion à la base de données a été perdue"
 
-#: shared/sql.php:997
+#: shared/sql.php:995
 msgid "The table"
 msgstr "La table"
 
-#: shared/sql.php:1001
+#: shared/sql.php:999
 msgid "has been created"
 msgstr "a été créée"
 
-#: shared/sql.php:1003
+#: shared/sql.php:1001
 msgid "has been updated"
 msgstr "a été mise à jour"
 
-#: shared/sql.php:1018
+#: shared/sql.php:1014
 msgid "and analyzed"
 msgstr "et analysée"
 
-#: shared/sql.php:1029
+#: shared/sql.php:1025
 msgid "and optimized"
 msgstr "et optimisée"
 
-#: shared/sql.php:1038
+#: shared/sql.php:1034
 #, php-format
 msgid "ERROR for the table %s"
 msgstr "ERREUR sur la table %s"

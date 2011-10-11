@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-24 00:34+0200\n"
+"POT-Creation-Date: 2011-09-30 10:08+0200\n"
 "PO-Revision-Date: 2011-03-11 22:53+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -221,7 +221,7 @@ msgstr "Enregistrer"
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: forms/edit.php:453
+#: forms/edit.php:433
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
@@ -231,32 +231,32 @@ msgstr ""
 "formatage implicite insérez le code <code>[formatted]</code> au tout début "
 "du champ de description."
 
-#: forms/edit.php:454
+#: forms/edit.php:434
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: forms/edit.php:454
+#: forms/edit.php:434
 msgid "YACS codes"
 msgstr "les codes YACS"
 
-#: forms/edit.php:454
+#: forms/edit.php:434
 msgid "smileys"
 msgstr "les emoticons"
 
-#: forms/edit.php:461
+#: forms/edit.php:441
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: forms/edit.php:465
+#: forms/edit.php:445
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: forms/edit.php:469
+#: forms/edit.php:449
 msgid "Textarea"
 msgstr "Textarea"
 
-#: forms/edit.php:473
+#: forms/edit.php:453
 msgid "Help"
 msgstr "Aide"
 
@@ -264,11 +264,11 @@ msgstr "Aide"
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 
-#: forms/forms.php:264 forms/view.php:91
+#: forms/forms.php:267 forms/view.php:91
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: forms/forms.php:280
+#: forms/forms.php:283
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

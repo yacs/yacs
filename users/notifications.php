@@ -141,7 +141,7 @@ Class Notifications {
 	 *
 	 * @see users/heartbit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// delete obsoleted notifications
@@ -173,7 +173,7 @@ Class Notifications {
 	 *
 	 * @see users/heartbit.php
 	 */
-	function &pull() {
+	public static function &pull() {
 		global $context;
 
 		// return by reference
@@ -268,7 +268,7 @@ Class Notifications {
 	/**
 	 * create table for notifications
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -292,7 +292,7 @@ Class Notifications {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// only consider recent presence records

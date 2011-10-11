@@ -5,7 +5,7 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$context['l10n']['fr']['%d files have been updated.']='%d fichiers ont été mis à jour.';
+$context['l10n']['fr']['%d files have been minified.']='%d fichiers ont été compressés.';
 $context['l10n']['fr']['%s: %s']='%s : %s';
 $context['l10n']['fr']['318bb71a30c3dcd1476ae87d0e98cfdc']='Un calendrier des activités à venir';
 $context['l10n']['fr']['ee4c4307567fad8ef9e100aa3236eff8']='La catégorie "%s" a été créée.';
@@ -31,7 +31,6 @@ $context['l10n']['fr']['Analysing thumbnails for files']='Analyse des vignettes 
 $context['l10n']['fr']['4545e687c235fd9ad50095a62d75c541']='Analyse des vignettes pour les sections';
 $context['l10n']['fr']['Anonymous wiki']='Wiki anonyme';
 $context['l10n']['fr']['717d50c64a625363713751145cf1f7ca']='Tout surfer peut modifier le contenu de cette section';
-$context['l10n']['fr']['Assembling javascript files...']='Assemblage des fichiers Javascripts ...';
 $context['l10n']['fr']['b7e6262eb0a58061fdf756e5d5b12b4a']='Les personnes authentifiées peuvent modifier les pages de cette section';
 $context['l10n']['fr']['Blog']='Blog';
 $context['l10n']['fr']['Bob']='Bob';

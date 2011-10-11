@@ -1404,7 +1404,7 @@ div.dropmarker { /* the horizontal line to track position during drag */
 	margin: 0 0 30px 20px;
 }
 
-div.sortable {
+.sortable {
 	position: relative;
 /*	border: 1px solid #ccc; */
 	margin: 0.3em 0 0 0;
@@ -1412,9 +1412,7 @@ div.sortable {
 	width: 500px;
 }
 
-.sortable_hover {
-	background-color: #edf6dd;
-}
+.sortable:hover {background-color: #edf6dd;}
 
 div#form_input_panel {
 	margin-top: 2em;
@@ -1491,6 +1489,7 @@ div#modal_content div.boxButtons {
 div#modal_content h2.boxTitle {
 	margin-top: 0;
 	padding-top: 0;
+	text-align: center;
 }
 
 div#modal_image_panel {
@@ -2439,6 +2438,32 @@ div.floating_family { /* break between boxes */
 	margin-bottom: 1px;
 	padding: 9px 1em 6px 1em;
 	z-index: 10;
+}
+
+a.tip:hover {
+    cursor: help;
+    position: relative;
+}
+
+a.tip span.tip_content { /* mask tips until they are activated */
+    display: none;
+}
+
+a.tip:hover span.tip_content { /* unveil a tip */
+	color: #888;
+	font-size: 0.8em;
+	background-color: #fff;
+    border: 1px solid #C0C0C0;
+    display: block;
+    left: 0;
+    margin: 10px;
+    padding: 5px 20px 5px 5px;
+    position: absolute;
+    text-align: left;
+    text-decoration: none;
+    top: 10px;
+    width: 250px;
+    z-index: 100;
 }
 
 /**

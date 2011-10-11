@@ -13,15 +13,10 @@
  *
  * @see included/jsmin.php
  *
- * To give you some performance figures:
- * - 237426 bytes for prototype + scriptaculous combined files
- * - become 176343 bytes after jsmin processing (26% reduction)
- * - which become 43523 bytes after gzip compression (overall 82% reduction)
- * - without the jsmin extra step, gzip compression produces 56316 bytes (76% reduction)
- *
  * To run this script, the surfer has to be an associate, or no switch file exists.
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -69,40 +64,64 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	// list running scripts
 	$context['text'] .= '<p>'.i18n::s('Compressing Javascript files...').BR."\n";
 
-	// script to not compress
+	// script to not compress (provide name1.ext, name2.ext...)
 	$to_avoid = array(
-
-		// this is us!
-		'library.js',
-
-		// already compressed
-		'swfobject.js'
 
 		);
 
-	// process all js files in included/browser
+	// process all js files in included/browser/header
 	$count = 0;
-	foreach(Safe::glob($context['path_to_root'].'included/browser/*.js') as $name) {
+	$minified = '';
+	foreach(Safe::glob($context['path_to_root'].'included/browser/js_header/*.js') as $name) {
 
 		if(in_array(basename($name), $to_avoid))
 			continue;
 
-		$context['text'] .= 'included/browser/'.basename($name).' -> .js.jsmin'.BR."\n";
+		$context['text'] .= 'included/browser/header/'.basename($name).BR."\n";
 
 		// we do have some content
 		if($text = Safe::file_get_contents($name)) {
 
 			// actual compression
-			$text = JSMin::minify($text);
-
-			// save updated content
-			Safe::file_put_contents($name.'.jsmin', $text);
+			$minified .= JSMin::minify($text);
 
 			// one file has been compressed
 			$count++;
 
 		}
 	}
+	// save the library to call in page header
+	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_header.min.js', $minified);
+
+	// do the same with included/browser/footer, including shared/yacs.js
+	$minified ='';
+	foreach(Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js') as $name) {
+
+		if(in_array(basename($name), $to_avoid))
+			continue;
+
+		$context['text'] .= 'included/browser/footer/'.basename($name).BR."\n";
+
+		// we do have some content
+		if($text = Safe::file_get_contents($name)) {
+
+			// actual compression
+			$minified .= JSMin::minify($text);
+
+			// one file has been compressed
+			$count++;
+
+		}
+	}
+	// include shared/yacs.js library
+	if(file_exists($context['path_to_root'].'shared/yacs.js')) {
+	    $context['text'] .= 'shared/yacs.js'.BR."\n";
+	    $text = Safe::file_get_contents($context['path_to_root'].'shared/yacs.js');
+	    $minified .= JSMin::minify($text);
+	    $count++;
+	}
+	// save the library to call in page footer
+	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_endpage.min.js', $minified);
 
 	// do the same in included/calendar
 	foreach(Safe::glob($context['path_to_root'].'included/jscalendar/*.js') as $name) {
@@ -129,76 +148,11 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// report to surfer
 	if($count)
-		$context['text'] .= sprintf(i18n::s('%d files have been updated.'), $count)."\n";
+		$context['text'] .= sprintf(i18n::s('%d files have been minified.'), $count)."\n";
 	$context['text'] .= "</p>\n";
 
-	// assemble the static library
-	$context['text'] .= '<p>'.i18n::s('Assembling javascript files...').BR."\n";
-
-	// content of included/browser/library.js
-	$text = '';
-
-	// load prototype.js
-	if(file_exists($context['path_to_root'].'included/browser/prototype.js'.'.jsmin'))
-		$name = $context['path_to_root'].'included/browser/prototype.js'.'.jsmin';
-	else
-		$name = $context['path_to_root'].'included/browser/prototype.js';
-	$context['text'] .= 'included/browser/'.basename($name).BR."\n";
-	$text .= Safe::file_get_contents($name)."\n";
-
-	// effects
-	if($context['with_debug'] == 'Y')
-		Logger::remember('included/browser/build.php', 'effects.js', '', 'debug');
-
-	// load effects.js
-	if(file_exists($context['path_to_root'].'included/browser/effects.js'.'.jsmin'))
-		$name = $context['path_to_root'].'included/browser/effects.js'.'.jsmin';
-	else
-		$name = $context['path_to_root'].'included/browser/effects.js';
-	$context['text'] .= 'included/browser/'.basename($name).BR."\n";
-	$text .= Safe::file_get_contents($name)."\n";
-
-	// script to not load afterwards
-	$to_avoid = array(
-
-		// the target file
-		'library.js',
-
-		// already loaded
-		'effects.js', 'prototype.js',
-
-		// not used at the moment
-		'builder.js', 'scriptaculous.js', 'slider.js', 'sound.js', 'unittest.js'
-
-		);
-
-	// read all compressed files
-	if($names = Safe::glob($context['path_to_root'].'included/browser/*.js.jsmin'))
-		foreach($names as $name) {
-			$name = str_replace('.js.jsmin', '.js', $name);
-			if(in_array(basename($name), $to_avoid))
-				continue;
-
-			// use the compressed version
-			$context['text'] .= 'included/browser/'.basename($name).'.jsmin'.BR."\n";
-			$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.basename($name).'.jsmin')."\n";
-			$to_avoid[] = basename($name);
-		}
-
-	// read all js files
-	if($names = Safe::glob($context['path_to_root'].'included/browser/*.js'))
-		foreach($names as $name) {
-			if(in_array(basename($name), $to_avoid))
-				continue;
-
-			// use the regular version
-			$context['text'] .= 'included/browser/'.basename($name).BR."\n";
-			$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.basename($name))."\n";
-		}
-
-	// save the library file
-	Safe::file_put_contents($context['path_to_root'].'included/browser/library.js', $text);
-	$context['text'] .= sprintf('%s has %d %s', 'included/browser/library.js', Safe::filesize($context['path_to_root'].'included/browser/library.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_js_header.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_js_endpage.min.js'), i18n::s('bytes')).'</p>';
 
 	// display the execution time
 	$time = round(get_micro_time() - $context['start_time'], 2);

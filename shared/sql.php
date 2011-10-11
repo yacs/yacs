@@ -448,10 +448,8 @@ Class SQL {
 			return FALSE;
 
 		// ensure we are talking utf8 to the database server
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "SET NAMES 'utf8'";
-			SQL::query($query);
-		}
+		$query = "SET NAMES 'utf8'";
+		SQL::query($query);
 
 		// detect utf8 database, if any
 		if(!isset($_SESSION['database_is_utf8'])) {
@@ -1003,11 +1001,9 @@ Class SQL {
 				$text .= ' '.i18n::s('has been updated');
 
 			// ensure utf8 character set for this table
-			if(version_compare(SQL::version(), '4.1.0', '>=')) {
-				$query = "ALTER TABLE ".SQL::table_name($table)."  DEFAULT CHARACTER SET utf8";
-				if(SQL::query($query) !== FALSE)
-					$text .= ' (utf8)';
-			}
+			$query = "ALTER TABLE ".SQL::table_name($table)."  DEFAULT CHARACTER SET utf8";
+			if(SQL::query($query) !== FALSE)
+				$text .= ' (utf8)';
 
 			// silently analyze table
 			$query = "ANALYZE TABLE ".SQL::table_name($table);

@@ -131,10 +131,10 @@ if(empty($raw_data)) {
 }
 
 // copy request id in response, if any
-if(empty($parameters['params']['id']))
+if(empty($parameters['id']))
 	$response['id'] = NULL;
 else
-	$response['id'] = $parameters['params']['id'];
+	$response['id'] = $parameters['id'];
 
 // do not reply if the sender has sent a notification, and if there is no error
 if(($response['id'] == NULL) && ($response['error'] == NULL))
