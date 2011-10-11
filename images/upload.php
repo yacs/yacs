@@ -11,6 +11,7 @@
  * @author Bernard Paques
  * @author Christophe Battarel
  * @tester Alexis Raimbault
+ * @tester Daniel Dupuis
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -193,6 +194,7 @@ if(Surfer::is_crawler()) {
 		if($handle = Safe::opendir($file_path)) {
 
 			// list all nodes
+			$nodes = array();
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
 				// special directory names
@@ -224,12 +226,17 @@ if(Surfer::is_crawler()) {
 					}
 
 					// ensure that the image is in anchor description field
-					if(isset($item['id']))
-						$anchor->touch('image:create', $item['id']);
+					$nodes[ $node ] = $item['id'];
 
 				}
 			}
 			Safe::closedir($handle);
+
+			// embed uploaded images in alphabetical order
+			ksort($nodes);
+			foreach($nodes as $name => $id)
+				$anchor->touch('image:create', $id);
+
 		}
 
 		// clear floating thumbnails
@@ -301,7 +308,7 @@ if($with_form) {
 	// the script used for form handling at the browser
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("upload").focus();'."\n"
+		.'$("#upload").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// this may take several minutes

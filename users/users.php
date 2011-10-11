@@ -160,7 +160,7 @@ Class Users {
 	 *
 	 * @return array one user record matching credentials, or NULL
 	 */
-	function authenticate() {
+	public static function authenticate() {
 		global $context;
 
 		// surfer is already logged
@@ -197,7 +197,7 @@ Class Users {
 	 * @param array user record
 	 * @return string HTML tags
 	 */
-	function build_presence($item) {
+	public static function build_presence($item) {
 		$contacts = array();
 
 		// twitter
@@ -241,7 +241,7 @@ Class Users {
 	 * @param mixed attributes to change
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function change_all($attributes) {
+	public static function change_all($attributes) {
 		global $context;
 
 		// prepare change statement
@@ -269,7 +269,7 @@ Class Users {
 	 * @param string secret salted string
 	 * @return boolen TRUE if credentials are ok, FALSE otherwise
 	 */
-	function check_credentials($credentials, $salt) {
+	public static function check_credentials($credentials, $salt) {
 		global $context;
 
 		// not enough args
@@ -293,7 +293,7 @@ Class Users {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('users', 'categories');
@@ -315,7 +315,7 @@ Class Users {
 	 *
 	 * @see users/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the record
@@ -363,7 +363,7 @@ Class Users {
 	 * @see users/user.php
 	 * @see users/view.php
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function &get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -432,7 +432,7 @@ Class Users {
 	 * @param int or string the id or nick name of the user
 	 * @return the associated handle, or NULL if no record matches the input parameter
 	 */
-	function &get_handle($id) {
+	public static function &get_handle($id) {
 		global $context;
 
 		// sanity check

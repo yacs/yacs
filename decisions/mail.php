@@ -330,13 +330,14 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("names").focus() });'."\n"
+		.'$(document).ready( function() { $("#names").focus() });'."\n"
 		."\n"
 		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("names", "names_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+		.'// enable names autocompletion'."\n"
+		.'$(document).ready( function() {'."\n"
+		.' Yacs.autocomplete_names("#names");'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
-
 }
 
 // render the skin

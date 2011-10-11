@@ -25,7 +25,7 @@ class Feeds {
 	 * @param string some date
 	 * @return int a valid time stamp, or -1
 	 */
-	function decode_date($date) {
+	public static function decode_date($date) {
 		global $context;
 
 		// match wc3dtf
@@ -71,7 +71,7 @@ class Feeds {
 	 * @param string submitted text
 	 * @return string filtered text
 	 */
-	function encode_text($text) {
+	public static function encode_text($text) {
 
 		// remove blank blocks
 		$text = preg_replace(array('@<comment[^>]*?>.*?</comment>@siu',
@@ -98,7 +98,7 @@ class Feeds {
 	 * @param 'feed' to get a regular feed, or 'contents' to get everything
 	 * @return an array of array($time, $title, $author, $section, $image, $description)
 	 */
-	function get_local_news($count=20, $variant='feed') {
+	public static function get_local_news($count=20, $variant='feed') {
 		global $context;
 
 		// list the newest published articles
@@ -119,7 +119,7 @@ class Feeds {
 	 *
 	 * @see feeds/index.php
 	 */
-	function get_remote_news($count=20, $variant='compact') {
+	public static function get_remote_news($count=20, $variant='compact') {
 		global $context;
 
 		// number of items to display
@@ -146,7 +146,7 @@ class Feeds {
 	 * @see feeds/feeds.php
 	 * @see servers/test.php
 	 */
-	function get_remote_news_from($feed_url) {
+	public static function get_remote_news_from($feed_url) {
 		global $context;
 
 		// ensure we are using adequate feeding parameters
@@ -210,7 +210,7 @@ class Feeds {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id='rss') {
+	public static function get_url($id='rss') {
 		global $context;
 
 		// use rewriting engine to achieve pretty references
@@ -272,7 +272,7 @@ class Feeds {
 	 * @see control/scan.php
 	 * @see feeds/configure.php
 	 */
-	function tick_hook($forced=FALSE) {
+	public static function tick_hook($forced=FALSE) {
 		global $context;
 
 		// load librairies only once

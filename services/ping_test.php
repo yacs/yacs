@@ -90,7 +90,7 @@ $context['text'] .= '</div></form>';
 // the script used for form handling at the browser
 $context['text'] .= JS_PREFIX
 	.'// set the focus on first form field'."\n"
-	.'$("target").focus();'."\n"
+	.'$("#target").focus();'."\n"
 	.JS_SUFFIX."\n";
 
 // test pingback.ping

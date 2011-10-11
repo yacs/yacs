@@ -7,6 +7,7 @@
  */
 $context['l10n']['fr']['%d approval'.chr(0).'%d approvals']='%d approbation'.chr(0).'%d approbations';
 $context['l10n']['fr']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
+$context['l10n']['fr']['%d minutes']='%d minutes';
 $context['l10n']['fr']['98474a5bd04c0bd2280e59b1e05eb961']='%d page a été traitée.'.chr(0).'%d pages ont été traitées.';
 $context['l10n']['fr']['%d reject'.chr(0).'%d rejects']='%d rejet'.chr(0).'%d rejets';
 $context['l10n']['fr']['%d vote'.chr(0).'%d votes']='%d vote'.chr(0).'%d votes';
@@ -314,15 +315,18 @@ $context['l10n']['fr']['7b788a7306ddeb706b4bd083a706a82d']='Vous devez attendre 
 $context['l10n']['fr']['03f4ec8b939b65c4961805f376336a6e']='Vous allez changer certains attributs d\'overlay nommé.';
 $context['l10n']['fr']['58d6276cbb4ea29ab501f381177e72a5']='Votre demande d\'invitation a été enregistrée.';
 $context['l10n']['fr']['abnormal resources are required']='des ressources exceptionnelles sont nécessaires';
+$context['l10n']['fr']['all day']='la journée';
 $context['l10n']['fr']['drop']='annuler';
 $context['l10n']['fr']['minutes']='minutes';
 $context['l10n']['fr']['now']='maintenant';
+$context['l10n']['fr']['one hour']='une heure';
 $context['l10n']['fr']['site map']='carte du site';
 $context['l10n']['fr']['stop everything else']='arréter tout le reste';
 $context['l10n']['fr']['the meeting page']='la page de la réunion';
 $context['l10n']['fr']['21ea1da51e9a469dc57edcc83b49f904']='à être notifié de leur inscription';
 $context['l10n']['fr']['102fb5ab236fc7011e490533ccebc4ea']='à consulter cet événement, et à demander une invitation';
 $context['l10n']['fr']['5b41fb5ce0a32490469d7f672e95cb3b']='à consulter cet événement, et à confirmer leur participation';
+$context['l10n']['fr']['two hours']='deux heures';
 $context['l10n']['fr']['under control']='sous contrôle';
 $context['l10n']['fr']['validate']='inscrire';
 $context['l10n']['fr']['with %s']='avec %s';

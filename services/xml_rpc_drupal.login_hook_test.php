@@ -49,7 +49,7 @@ $context['text'] .= '</div></form>';
 
 // set the focus at the first field
 $context['text'] .= JS_PREFIX
-	.'$("target").focus();'."\n"
+	.'$("#target").focus();'."\n"
 	.JS_SUFFIX."\n";
 
 // process provided parameters

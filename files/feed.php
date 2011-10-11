@@ -153,9 +153,9 @@ if(!$permitted) {
 
 		// list newest files
 		if(is_object($anchor))
-			$values['items'] = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 50, 'feed');
+			$values['items'] = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 300, 'feed');
 		else
-			$values['items'] = Files::list_by_date(0, 50, 'feed');
+			$values['items'] = Files::list_by_date(0, 300, 'feed');
 
 		// make a text
 		include_once '../services/codec.php';

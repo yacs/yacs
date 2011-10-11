@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-20 16:20+0200\n"
+"POT-Creation-Date: 2011-10-06 21:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -304,17 +304,17 @@ msgstr ""
 msgid "Please type a valid comment"
 msgstr ""
 
-#: comments/edit.php:548 comments/layout_comments_as_boxesandarrows.php:75
+#: comments/edit.php:528 comments/layout_comments_as_boxesandarrows.php:75
 #, php-format
 msgid "posted by %s %s"
 msgstr ""
 
-#: comments/edit.php:553
+#: comments/edit.php:533
 msgid ""
 "You can cut and paste some text from the field below to shape your post."
 msgstr ""
 
-#: comments/edit.php:558
+#: comments/edit.php:538
 msgid ""
 "Hearty discussion and unpopular viewpoints are welcome, but please keep "
 "comments on-category and civil. Flaming, trolling, and smarmy comments are "
@@ -322,42 +322,42 @@ msgid ""
 "post for any reason. Don't make us do it."
 msgstr ""
 
-#: comments/edit.php:560
+#: comments/edit.php:540
 msgid ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
 msgstr ""
 
-#: comments/edit.php:562
+#: comments/edit.php:542
 msgid "Most HTML tags are removed."
 msgstr ""
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 msgid "YACS codes"
 msgstr ""
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 msgid "smileys"
 msgstr ""
 
-#: comments/edit.php:572
+#: comments/edit.php:552
 msgid "TinyMCE"
 msgstr ""
 
-#: comments/edit.php:576
+#: comments/edit.php:556
 msgid "FCKEditor"
 msgstr ""
 
-#: comments/edit.php:580
+#: comments/edit.php:560
 msgid "Textarea"
 msgstr ""
 
-#: comments/edit.php:584
+#: comments/edit.php:564
 msgid "Help"
 msgstr ""
 
@@ -390,11 +390,26 @@ msgstr[1] ""
 msgid "Recent pages"
 msgstr ""
 
+#: comments/layout_comments.php:54
 #: comments/layout_comments_as_boxesandarrows.php:54
 #: comments/layout_comments_as_daily.php:86
 #: comments/layout_comments_as_jive.php:147
-#: comments/layout_comments_as_yabb.php:173 comments/layout_comments.php:54
+#: comments/layout_comments_as_yabb.php:173
 msgid "View this comment"
+msgstr ""
+
+#: comments/layout_comments.php:72
+#: comments/layout_comments_as_boxesandarrows.php:102
+#: comments/layout_comments_as_manual.php:82
+#: comments/layout_comments_as_wiki.php:82
+msgid "edit"
+msgstr ""
+
+#: comments/layout_comments.php:73
+#: comments/layout_comments_as_boxesandarrows.php:105
+#: comments/layout_comments_as_manual.php:83
+#: comments/layout_comments_as_wiki.php:83
+msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_boxesandarrows.php:82
@@ -411,18 +426,6 @@ msgstr ""
 
 #: comments/layout_comments_as_boxesandarrows.php:95
 msgid "quote"
-msgstr ""
-
-#: comments/layout_comments_as_boxesandarrows.php:102
-#: comments/layout_comments_as_manual.php:82
-#: comments/layout_comments_as_wiki.php:82 comments/layout_comments.php:72
-msgid "edit"
-msgstr ""
-
-#: comments/layout_comments_as_boxesandarrows.php:105
-#: comments/layout_comments_as_manual.php:83
-#: comments/layout_comments_as_wiki.php:83 comments/layout_comments.php:73
-msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_daily.php:104

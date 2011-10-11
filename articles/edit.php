@@ -598,7 +598,7 @@ if(Surfer::is_crawler()) {
 	}
 
 // we have to duplicate some template page
-} elseif(!isset($item['id']) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
 
 	// ensure we are not duplicating outside regular templates
 	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
@@ -636,7 +636,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();
@@ -783,7 +783,7 @@ if($with_form) {
 		.'	if(!Yacs.trim(container.title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
-		.'		$("title").focus();'."\n"
+		.'		$("#title").focus();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
 		.'	// extend validation --used in overlays'."\n"
@@ -803,32 +803,19 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// detect changes in form'."\n"
-		.'func'.'tion detectChanges() {'."\n"
-		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		.'}'."\n"
-		."\n"
-		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'// disable editor selection on change in form'."\n"
+                .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+                .'      $("#preferred_editor").attr("disabled",true);'."\n"
+                .'});'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
+		.'$(document).ready( function() { $("#title").focus() });'."\n"
 		."\n"
 		.'// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+		.'$(document).ready( function() {'."\n"
+		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});'."\n"
 		.JS_SUFFIX;
-
 	// branch to another script to display form fields, tabs, etc
 	//
 	$branching = '';
@@ -1139,8 +1126,8 @@ if($with_form) {
 		$label = i18n::s('Rank');
 		$input = '<input type="text" name="rank" id="rank" size="10" value="'.encode_field($item['rank']).'" maxlength="255" />';
 		$hint = sprintf(i18n::s('For %s pages; regular pages are ranked at %s.'),
-			'<a href="#" onclick="$(\'rank\').value=10; return false;">'.i18n::s('sticky').'</a>',
-			'<a href="#" onclick="$(\'rank\').value=10000; return false;">'.i18n::s('10000').'</a>');
+			'<a href="#" onclick="$(\'#rank\').val(10); return false;">'.i18n::s('sticky').'</a>',
+			'<a href="#" onclick="$(\'#rank\').val(10000); return false;">'.i18n::s('10000').'</a>');
 		$fields[] = array($label, $input, $hint);
 	}
 

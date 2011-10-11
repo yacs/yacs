@@ -14,7 +14,7 @@ class Profiles {
 	 *
 	 * @return void
 	 */
-	function check_request() {
+	public static function check_request() {
 		global $context;
 
 		// ensure we know where we are
@@ -69,7 +69,7 @@ class Profiles {
 	 * @param int the offset from the start of the list; usually, 0 or 1 - default is 0
 	 * @param int the number of items to display - default is 10
 	 */
-	function list_by_hits($offset=0, $count=10) {
+	public static function list_by_hits($offset=0, $count=10) {
 		global $context;
 
 		// the list of profiles
@@ -86,7 +86,7 @@ class Profiles {
 	 * create tables for profiles
 	 *
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -112,7 +112,7 @@ class Profiles {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// select among available items

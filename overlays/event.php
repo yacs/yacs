@@ -120,13 +120,13 @@ class Event extends Overlay {
 		$input = '<input type="text" name="chairman" id="chairman" value ="'.encode_field($value).'" size="25" maxlength="32" />'
 			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
-
 		// append the script used for autocompletion
-		$input .= JS_PREFIX
-			.'// enable autocompletion for user names'."\n"
-			.'Event.observe(window, "load", function() { new Ajax.Autocompleter("chairman", "chairman_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
+		$context['page_footer'] .= JS_PREFIX
+			.'// enable chairman autocompletion'."\n"
+			.'$(document).ready( function() {'."\n"
+			.' Yacs.autocomplete_names("#chairman",true);'."\n"
+			.'});  '."\n"
 			.JS_SUFFIX;
-
 		// done
 		return $input;
 	}
@@ -456,15 +456,15 @@ class Event extends Overlay {
 		// duration
 		$label = i18n::s('Duration');
 		$input = '<select name="duration">';
-		if(!isset($this->attributes['duration']) || ($this->attributes['duration'] < 15) || ($this->attributes['duration'] > 120))
+		if(!isset($this->attributes['duration']) || ($this->attributes['duration'] < 15) || ($this->attributes['duration'] > 1440))
 			$this->attributes['duration'] = 60;
-		$input .= '<option'.(($this->attributes['duration'] == 15)?' selected="selected"':'').'>15</option>';
-		$input .= '<option'.(($this->attributes['duration'] == 30)?' selected="selected"':'').'>30</option>';
-		$input .= '<option'.(($this->attributes['duration'] == 45)?' selected="selected"':'').'>45</option>';
-		$input .= '<option'.(($this->attributes['duration'] == 60)?' selected="selected"':'').'>60</option>';
-		$input .= '<option'.(($this->attributes['duration'] == 90)?' selected="selected"':'').'>90</option>';
-		$input .= '<option'.(($this->attributes['duration'] == 120)?' selected="selected"':'').'>120</option>';
-		$input .= '</select> '.i18n::s('minutes');
+		$input .= '<option value="15"'.(($this->attributes['duration'] == 15)?' selected="selected"':'').'>'.sprintf(i18n::s('%d minutes'), 15).'</option>';
+		$input .= '<option value="30"'.(($this->attributes['duration'] == 30)?' selected="selected"':'').'>'.sprintf(i18n::s('%d minutes'), 30).'</option>';
+		$input .= '<option value="45"'.(($this->attributes['duration'] == 45)?' selected="selected"':'').'>'.sprintf(i18n::s('%d minutes'), 45).'</option>';
+		$input .= '<option value="60"'.(($this->attributes['duration'] == 60)?' selected="selected"':'').'>'.i18n::s('one hour').'</option>';
+		$input .= '<option value="120"'.(($this->attributes['duration'] == 120)?' selected="selected"':'').'>'.i18n::s('two hours').'</option>';
+		$input .= '<option value="1440"'.(($this->attributes['duration'] == 1440)?' selected="selected"':'').'>'.i18n::s('all day').'</option>';
+		$input .= '</select>';
 		$fields[] = array($label, $input);
 
 		return $fields;
@@ -534,7 +534,7 @@ class Event extends Overlay {
 			$text .= 'LAST-MODIFICATION:'.gmdate('Ymd\THis\Z', SQL::strtotime($value)).CRLF;
 
 		// the event spans limited time --duration is expressed in minutes
-		if(isset($this->attributes['duration']) && $this->attributes['duration']) {
+		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440)) {
 			$text .= 'DTSTART;TZID=/GMT:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).CRLF;
 			$text .= 'DTEND;TZID=/GMT:'.gmdate('Ymd\THis', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
 
@@ -568,7 +568,7 @@ class Event extends Overlay {
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).'\n';
-		if(isset($this->attributes['duration']) && $this->attributes['duration'])
+		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
 
 		// location
@@ -706,7 +706,7 @@ class Event extends Overlay {
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
-		if(isset($this->attributes['duration']) && $this->attributes['duration'])
+		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
 
 		// meeting has been cancelled
@@ -1264,8 +1264,20 @@ class Event extends Overlay {
 		}
 
 		// meeting duration
-		if(isset($this->attributes['duration']) && $this->attributes['duration'])
-			$rows[] = array(i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes'));
+		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440)) {
+			switch($this->attributes['duration']) {
+			case 60:
+				$duration = i18n::s('one hour');
+				break;
+			case 120:
+				$duration = i18n::s('two hours');
+				break;
+			default:
+				$duration = sprintf(i18n::s('%d minutes'), $this->attributes['duration']);
+				break;
+			}
+			$rows[] = array(i18n::s('Duration'), $duration);
+		}
 
 		// build a link to the owner page, if any
 		if(isset($this->attributes['chairman']) && $this->attributes['chairman']) {

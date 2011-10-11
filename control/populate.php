@@ -191,7 +191,7 @@ if(!$permitted) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("nick_name").focus();'."\n"
+		.'$("#nick_name").focus();'."\n"
 		.JS_SUFFIX;
 
 	// this may take some time

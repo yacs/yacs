@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-20 16:14+0200\n"
+"POT-Creation-Date: 2011-09-22 08:19+0200\n"
 "PO-Revision-Date: 2011-06-27 16:15+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -308,18 +308,18 @@ msgstr "Ensure this post is valid XHTML."
 msgid "Please type a valid comment"
 msgstr "Please type a valid comment"
 
-#: comments/edit.php:548 comments/layout_comments_as_boxesandarrows.php:75
+#: comments/edit.php:528 comments/layout_comments_as_boxesandarrows.php:75
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: comments/edit.php:553
+#: comments/edit.php:533
 msgid ""
 "You can cut and paste some text from the field below to shape your post."
 msgstr ""
 "You can cut and paste some text from the field below to shape your post."
 
-#: comments/edit.php:558
+#: comments/edit.php:538
 msgid ""
 "Hearty discussion and unpopular viewpoints are welcome, but please keep "
 "comments on-category and civil. Flaming, trolling, and smarmy comments are "
@@ -331,7 +331,7 @@ msgstr ""
 "discouraged and may be deleted. In fact, we reserve the right to delete any "
 "post for any reason. Don't make us do it."
 
-#: comments/edit.php:560
+#: comments/edit.php:540
 msgid ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
@@ -339,36 +339,36 @@ msgstr ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
 
-#: comments/edit.php:562
+#: comments/edit.php:542
 msgid "Most HTML tags are removed."
 msgstr "Most HTML tags are removed."
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: comments/edit.php:565
+#: comments/edit.php:545
 msgid "smileys"
 msgstr "smileys"
 
-#: comments/edit.php:572
+#: comments/edit.php:552
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: comments/edit.php:576
+#: comments/edit.php:556
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: comments/edit.php:580
+#: comments/edit.php:560
 msgid "Textarea"
 msgstr "Textarea"
 
-#: comments/edit.php:584
+#: comments/edit.php:564
 msgid "Help"
 msgstr "Help"
 
@@ -401,12 +401,27 @@ msgstr[1] "%d threads"
 msgid "Recent pages"
 msgstr "Recent pages"
 
+#: comments/layout_comments.php:54
 #: comments/layout_comments_as_boxesandarrows.php:54
 #: comments/layout_comments_as_daily.php:86
 #: comments/layout_comments_as_jive.php:147
-#: comments/layout_comments_as_yabb.php:173 comments/layout_comments.php:54
+#: comments/layout_comments_as_yabb.php:173
 msgid "View this comment"
 msgstr "View this comment"
+
+#: comments/layout_comments.php:72
+#: comments/layout_comments_as_boxesandarrows.php:102
+#: comments/layout_comments_as_manual.php:82
+#: comments/layout_comments_as_wiki.php:82
+msgid "edit"
+msgstr "edit"
+
+#: comments/layout_comments.php:73
+#: comments/layout_comments_as_boxesandarrows.php:105
+#: comments/layout_comments_as_manual.php:83
+#: comments/layout_comments_as_wiki.php:83
+msgid "delete"
+msgstr "delete"
 
 #: comments/layout_comments_as_boxesandarrows.php:82
 #: comments/layout_comments_as_daily.php:97
@@ -423,18 +438,6 @@ msgstr "reply"
 #: comments/layout_comments_as_boxesandarrows.php:95
 msgid "quote"
 msgstr "quote"
-
-#: comments/layout_comments_as_boxesandarrows.php:102
-#: comments/layout_comments_as_manual.php:82
-#: comments/layout_comments_as_wiki.php:82 comments/layout_comments.php:72
-msgid "edit"
-msgstr "edit"
-
-#: comments/layout_comments_as_boxesandarrows.php:105
-#: comments/layout_comments_as_manual.php:83
-#: comments/layout_comments_as_wiki.php:83 comments/layout_comments.php:73
-msgid "delete"
-msgstr "delete"
 
 #: comments/layout_comments_as_daily.php:104
 #: comments/layout_comments_as_jive.php:117
