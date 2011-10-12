@@ -40,10 +40,10 @@ if(!Surfer::is_associate()) {
 	// scan files
 	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('files')), 'subtitle');
 
-	// scan up to 10000 items
+	// limit the number of scans items
 	$count = 0;
 	$query = "SELECT id, anchor, title FROM ".SQL::table_name('files')."
-		ORDER BY anchor LIMIT 0, 10000";
+		ORDER BY anchor LIMIT 0, 500000";
 	if(!($result =& SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
