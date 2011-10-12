@@ -1084,7 +1084,7 @@ function render_skin($with_last_modified=TRUE) {
 	$metas = array();
 
 	// we support Dublin Core too
-	$metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
+	$metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" '.EOT;
 
 	// page title
 	$page_title = ucfirst(strip_tags($context['page_title']));
@@ -1096,72 +1096,72 @@ function render_skin($with_last_modified=TRUE) {
 	}
 	$context['page_header'] .= "</title>\n";
 	if($page_title)
-		$metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';
+		$metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" '.EOT;
 
 	// set icons for this site
 	if($context['site_icon']) {
-		$metas[] = '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
-		$metas[] = '<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
+		$metas[] = '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" '.EOT;
+		$metas[] = '<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" '.EOT;
 	}
 
 	// a meta-link to our help page
-	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
+	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" '.EOT;
 
 	// page meta description
 	if(isset($context['page_meta']) && $context['page_meta']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" '.EOT;
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" '.EOT;
 	} elseif(isset($context['site_description']) && $context['site_description']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" '.EOT;
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" '.EOT;
 	}
 
 	// page copyright
 	if(isset($context['site_copyright']) && $context['site_copyright'])
-		$metas[] = '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />';
+		$metas[] = '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" '.EOT;
 
 	// page author
 	if(isset($context['page_author']) && $context['page_author']) {
-		$metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
-		$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
+		$metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" '.EOT;
+		$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" '.EOT;
 	}
 
 	// page publisher
 	if(isset($context['page_publisher']) && $context['page_publisher']) {
-		$metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
-		$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
+		$metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" '.EOT;
+		$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" '.EOT;
 	}
 
 	// page keywords
 	if(isset($context['site_keywords']) && $context['site_keywords']) {
-		$metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
-		$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
+		$metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" '.EOT;
+		$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" '.EOT;
 	}
 
 	// page date
 	if($context['page_date'])
-		$metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
+		$metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" '.EOT;
 
 	// page language
 	if($context['page_language'])
-		$metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';
+		$metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" '.EOT;
 
 	// revisit-after
 	if(!isset($context['site_revisit_after']))
 		;
 	elseif($context['site_revisit_after'] == 1)
-		$metas[] = '<meta name="revisit-after" content="1 day" />';
+		$metas[] = '<meta name="revisit-after" content="1 day" '.EOT;
 	elseif($context['site_revisit_after'])
-		$metas[] = '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />';
+		$metas[] = '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" '.EOT;
 
 	// no Microsoft irruption in our pages
-	$metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" />';
+	$metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" '.EOT;
 
 	// suppress awful hovering toolbar on images in IE
-	$metas[] = '<meta http-equiv="imagetoolbar" content="no" />';
+	$metas[] = '<meta http-equiv="imagetoolbar" content="no" '.EOT;
 
 	// lead robots
-	$metas[] = '<meta name="robots" content="index,follow" />';
+	$metas[] = '<meta name="robots" content="index,follow" '.EOT;
 
 	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
 	$metas[] = JS_PREFIX
@@ -1208,7 +1208,7 @@ function render_skin($with_last_modified=TRUE) {
 	    $context['page_header'] .= $context['javascript']['header'];
 
 	// jquery-ui stylesheet
-	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />'."\n";
+	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" media="all" '.EOT."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
@@ -1255,8 +1255,8 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['calendar']) && (file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js'))) {
 
 		// load the skin
-		$context['page_header'] .= '<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";
-		$context['page_header'] .= '<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" />'."\n";
+		$context['page_header'] .= '<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" '.EOT."\n";
+		$context['page_header'] .= '<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" '.EOT."\n";
 
 		// use the compressed version if it's available
 		if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin'))
