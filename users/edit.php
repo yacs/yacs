@@ -3,7 +3,6 @@
  * create a new user or edit an existing one
  *
  * @todo on subscriptor application, post a query page when there is no messaging facility (gnapz)
- * @todo derive this to users/subscribe.php
  *
  * This page can be used by anonymous surfers that would like to register, by logged
  * users that are updating their profile, or by associates that declare new users
