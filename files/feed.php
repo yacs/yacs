@@ -2,7 +2,6 @@
 /**
  * list new files in the RSS 2.0 format
  *
- * @todo derive this to links as well (pat)
  * @todo support Media RSS from yahoo http://search.yahoo.com/mrss
  *
  * This script gives the list of the newest published files,
