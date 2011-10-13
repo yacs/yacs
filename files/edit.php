@@ -214,7 +214,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
 		// move the file to the right place
-		if($file_name = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
+		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
 			$_REQUEST['file_name'] = $file_name;
 
 			// actually, a new file
