@@ -210,8 +210,8 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
-		// load the full library
-		$script = 'included/browser/library.js';
+		// allow to load Flash objects
+		$script = 'included/browser/js_endpage/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -237,12 +237,15 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_endpage/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
@@ -265,12 +268,15 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_endpage/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
@@ -292,6 +298,9 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_endpage/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
@@ -299,7 +308,6 @@ if(!$item['id']) {
 			.'<title>'.$context['page_title'].'</title>'."\n";
 
 		// load the full library
-		$script = 'included/browser/library.js';
 		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
 
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
