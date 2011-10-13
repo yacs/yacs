@@ -3,7 +3,7 @@
  * finalize javascript libraries
  *
  * This script reads all javascript files from selected directories, compresses content,
- * and generates one single library per directory, named library.js
+ * and generates compacted .js files.
  *
  * It processes files from following directories:
  * - included/browser
@@ -125,9 +125,6 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// do the same in included/calendar
 	foreach(Safe::glob($context['path_to_root'].'included/jscalendar/*.js') as $name) {
-
-		if(!strcmp(basename($name), 'library.js'))
-			continue;
 
 		$context['text'] .= 'included/calendar/'.basename($name).' -> .js.jsmin'.BR."\n";
 
