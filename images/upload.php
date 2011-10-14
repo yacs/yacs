@@ -125,7 +125,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
 		// where to put this file
-		$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
+		$file_path = Files::get_path($_REQUEST['anchor'], 'images');
 
 		// explode a .zip file
 		if(preg_match('/\.zip$/i', $_FILES['upload']['name'])) {

@@ -434,12 +434,12 @@ Class Files {
 		}
 
 		// actual deletion of the file
-		list($anchor_type, $anchor_id) = explode(':', $item['anchor'], 2);
-		Safe::unlink($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['file_name']);
-		Safe::unlink($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs/'.$item['file_name']);
-		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs');
-		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id);
-		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type);
+		$file_path = $context['path_to_root'].Files::get_path($item['anchor']);
+		Safe::unlink($file_path.'/'.$item['file_name']);
+		Safe::unlink($file_path.'/thumbs/'.$item['file_name']);
+		Safe::rmdir($file_path.'/thumbs');
+		Safe::rmdir($file_path);
+		Safe::rmdir(dirname($file_path));
 
 		// delete related items
 		Anchors::delete_related_to('file:'.$id);
@@ -475,6 +475,58 @@ Class Files {
 	}
 
 	/**
+	 * compute a thumbnail image for a file
+	 *
+	 * This function builds a preview image where possible, and returns its URL to caller, or NULL.
+	 * That result can be saved directly as attribute ##thumbnail_url## or associated file record.
+	 *
+	 * @param string path to the file, including trailing slash (e.g., 'files/article/123/')
+	 * @param string file name (e.g., 'document.pdf')
+	 * @return string web address of the thumbnail that has been built, or NULL
+	 *
+	 * @see files/edit.php
+	 */
+	public static function derive_thumbnail($file_path, $file_name) {
+		global $context;
+
+		// if the file is an image, create a thumbnail for it
+		if(($image_information = Safe::GetImageSize($file_path.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
+
+			// derive a thumbnail image
+			$thumbnail_name = 'thumbs/'.$file_name;
+			include_once $context['path_to_root'].'images/image.php';
+			Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.$thumbnail_name, FALSE, TRUE);
+
+			// remember the address of the thumbnail
+			return $context['url_to_root'].$file_path.$thumbnail_name;
+
+		// if this is a PDF that can be converted by Image Magick, then compute a thumbnail for the file
+		} else if(preg_match('/\.pdf$/i', $file_name) && class_exists('Imagick') && ($handle=new Imagick($context['path_to_root'].$file_path.$file_name))) {
+
+			// derive a thumbnail image
+			$thumbnail_name = 'thumbs/'.$file_name.'.png';
+			Safe::mkdir($context['path_to_root'].$file_path.'thumbs');
+
+			// consider only the first page
+			$handle->setIteratorIndex(0);
+
+			$handle->setImageCompression(Imagick::COMPRESSION_LZW);
+			$handle->setImageCompressionQuality(90);
+			$handle->stripImage(90);
+			$handle->thumbnailImage(100, NULL);
+			$handle->writeImage($context['path_to_root'].$file_path.$thumbnail_name);
+
+			// remember the address of the thumbnail
+			return $context['url_to_root'].$file_path.$thumbnail_name;
+
+		}
+
+		// no thumbnail
+		return NULL;
+
+	}
+
+	/**
 	 * duplicate all files for a given anchor
 	 *
 	 * This function duplicates records in the database, and changes anchors
@@ -495,24 +547,24 @@ Class Files {
 		if(($result =& SQL::query($query)) && SQL::count($result)) {
 
 			// create target folders
-			$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_to);
-			if(!Safe::make_path($file_path))
-				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path));
-			$file_path = $context['path_to_root'].$file_path.'/';
+			$file_to = Files::get_path($anchor_to);
+			if(!Safe::make_path($file_to))
+				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_to));
+			$file_to = $context['path_to_root'].$file_to.'/';
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
+			$file_from = Files::get_path($anchor_from);
 			while($item =& SQL::fetch($result)) {
 
 				// sanity check
-				if(!file_exists($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name']))
+				if(!file_exists($context['path_to_root'].$file_from.'/'.$item['file_name']))
 					continue;
 
 				// duplicate file
-				if(!copy($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name'],
-					$file_path.$item['file_name'])) {
+				if(!copy($context['path_to_root'].$file_from.'/'.$item['file_name'], $file_to.$item['file_name'])) {
 					Logger::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['file_name']));
 					continue;
 				}
@@ -1084,6 +1136,21 @@ Class Files {
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
 		return Files::get_permalink($item);
+	}
+
+	/**
+	 * get the location for files attached to a given reference
+	 *
+	 * @param string the reference (e.g., 'article:123')
+	 * @param string the name space (e.g., 'files' or 'images')
+	 * @return string path to files (e.g., 'files/article/123')
+	 *
+	 * @see files/edit.php
+	 */
+	public static function get_path($reference, $space='files') {
+		global $context;
+
+		return $space.'/'.$context['virtual_path'].str_replace(':', '/', $reference);
 	}
 
 	/**
@@ -2575,10 +2642,17 @@ Class Files {
 	/**
 	 * process uploaded file
 	 *
+	 * This function processes files from the temporary directory, and put them at their definitive
+	 * place.
+	 *
+	 *
+	 * It returns FALSE if there is a disk error, or if some virus has been detected, or if
+	 * the operation fails for some other reason (e.g., file size).
+	 *
 	 * @param array usually, $_FILES['upload']
 	 * @param string target location for the file
 	 * @param mixed reference to the target anchor, of a function to parse every file individually
-	 * @return mixed actual file name if everything went fine, FALSE if an error has occured
+	 * @return mixed actual file name or embedding string if everything went fine, FALSE if an error has occured
 	 */
 	public static function upload($input, $file_path, $target=NULL) {
 		global $context, $_FILES, $_REQUEST;
@@ -2697,38 +2771,6 @@ Class Files {
 						$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
 						$fields['file_href'] = '';
 						$fields['anchor'] = $target;
-					}
-
-					// if the file is an image, create a thumbnail for it
-					if(($image_information = Safe::GetImageSize($file_path.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
-
-						// derive a thumbnail image
-						$thumbnail_name = 'thumbs/'.$file_name;
-						include_once $context['path_to_root'].'images/image.php';
-						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.$thumbnail_name, FALSE, TRUE);
-
-						// remember the address of the thumbnail
-						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
-
-					// if this is a PDF that can be converted by Image Magick, then compute a thumbnail for the file
-					} else if(preg_match('/\.pdf$/i', $file_name) && class_exists('Imagick') && ($handle=new Imagick($context['path_to_root'].$file_path.$file_name))) {
-
-						// derive a thumbnail image
-						$thumbnail_name = 'thumbs/'.$file_name.'.png';
-						Safe::mkdir($context['path_to_root'].$file_path.'thumbs');
-
-						// consider only the first page
-						$handle->setIteratorIndex(0);
-
-						$handle->setImageCompression(Imagick::COMPRESSION_LZW);
-						$handle->setImageCompressionQuality(90);
-						$handle->stripImage(90);
-						$handle->thumbnailImage(100, NULL);
-						$handle->writeImage($context['path_to_root'].$file_path.$thumbnail_name);
-
-						// remember the address of the thumbnail
-						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
-
 					}
 
 					// create the record in the database, and remember this post in comment

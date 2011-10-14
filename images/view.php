@@ -166,7 +166,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// build the path to the image file
-	$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'];
+	$url = $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name'];
 	$img = '<img src="'.$url.'" alt="'.$item['image_name'].'" />';
 
 	// add an url, if any
@@ -252,7 +252,7 @@ if(!isset($item['id'])) {
 	// thumbnail, in an extra box
 	//
 	if(Surfer::is_associate() && $item['thumbnail_name'] && ($item['thumbnail_name'] != $item['image_name'])) {
-		$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['thumbnail_name'];
+		$url = $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['thumbnail_name'];
 		$context['components']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'boxes');
 	}
 

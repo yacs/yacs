@@ -165,7 +165,7 @@ if(!$item['id']) {
 		$file_name = utf8::to_ascii($item['file_name']);
 
 		// where the file is
-		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+		$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 		// redirect to the actual file
 		$target_href = $context['url_to_home'].$context['url_to_root'].$path;

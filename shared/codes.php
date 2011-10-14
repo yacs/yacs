@@ -1881,7 +1881,7 @@ Class Codes {
 		case 'gan':
 
 			// where the file is
-			$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+			$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			// we actually use a transformed version of the file
 			$cache_id = Cache::hash($path).'.xml';
@@ -1977,7 +1977,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];
@@ -2233,7 +2233,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];

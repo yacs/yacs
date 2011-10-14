@@ -1382,7 +1382,7 @@ else {
 		else {
 
 			// get a safe path
-			$file_path = 'files/'.$context['virtual_path'].'section/'.$item['id'];
+			$file_path = Files::get_path('section:'.$item['id']);
 
 			// get a safe file name
 			$file_name = utf8::to_ascii(basename($content['name']));

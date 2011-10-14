@@ -91,8 +91,13 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// attach some file
-		if(isset($_FILES['upload']))
-			Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']);
+		if(isset($_FILES['upload'])) {
+
+			$path = Files::get_path('article:'.$_REQUEST['id']);
+
+			Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']);
+
+		}
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())

@@ -201,7 +201,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
 		// where to put this file
-		$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
+		$file_path = Files::get_path($_REQUEST['anchor'], 'images');
 
 		// attach some file
 		if($file_name = Files::upload($_FILES['upload'], $file_path, array('Image', 'upload')))
@@ -367,7 +367,7 @@ if($with_form) {
 	// display info on current version
 	if(isset($item['id']) && $item['id']) {
 		$details = array();
-		
+
 		// thumbnail image, if any
 		if(isset($item['thumbnail_name']))
          $details[] = skin::build_image('inline',Images::get_thumbnail_href($item),'',images::get_icon_href($item));
