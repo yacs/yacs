@@ -20,7 +20,10 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'included/browser/library_js_endpage.min.js';
+$files[] = 'included/browser/library_js_header.min.js';
 $files[] = 'forms/forms.js';
+$files[] = 'shared/yacs.js';
 $files[] = 'skins/_mobile/iui/iuix.js';
 $files[] = 'skins/_reference/pagers/delicious.gif';
 $files[] = 'skins/_reference/yacs.css';

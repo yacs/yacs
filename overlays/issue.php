@@ -916,13 +916,10 @@ class Issue extends Overlay {
 				$value = '';
 			$tracking .= '<div class="bottom">'.i18n::s('Owner')
 				.' <input type="text" name="owner" id="owner" value ="'.encode_field($value).'" size="25" maxlength="32" />'
-				.'<div id="owner_choice" class="autocomplete"></div>'
 				.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 			$context['page_footer'] .= JS_PREFIX
 				.'// enable owner autocompletion'."\n"
-				.'$(document).ready( function() {'."\n"
-				.' Yacs.autocomplete_names("#owner",true);'."\n"
-				.'});  '."\n"
+				.'$(document).ready( function() { Yacs.autocomplete_names("owner",true); });  '."\n"
 				.JS_SUFFIX;
 		}
 

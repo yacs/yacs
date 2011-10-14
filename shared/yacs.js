@@ -95,10 +95,10 @@ var Yacs = {
 			return split( term ).pop();
 		}
 
-		$(target)
+		$('#'+target)
 		    // don't navigate away from the field on tab when selecting an item
 		    .bind( "keydown", function( event ) {
-			    if ( event.keyCode === $.ui.keyCode.TAB &&
+			    if( event.keyCode === $.ui.keyCode.TAB &&
 					    $( this ).data( "autocomplete" ).menu.active ) {
 				    event.preventDefault();
 			    }
@@ -138,21 +138,31 @@ var Yacs = {
 	 * autocomplete mecanism to select users
 	 *
 	 * @link http://jqueryui.com/demos/autocomplete/#custom-data
+	 *
+	 * @param string id of the target element (without '#')
+	 * @param boolean true if only one name should be captured, false if this is a list of names
+	 * @param string web service to call (default: '/users/complete.php')
+	 *
 	 * @see users/complete.php
 	 **/
-	autocomplete_names: function(target,unique) {
+	autocomplete_names: function(target,unique,source_url) {
+
+		if(!source_url) {
+			source_url = url_to_root + 'users/complete.php';
+		}
+
 	    // use the multiple entries autocomplete exept if unique user required
 	    if(unique) {
-		$(target).autocomplete({source:url_to_root + 'users/complete.php',minLength:2});
+			$('#'+target).autocomplete({source:source_url,minLength:2});
 	    } else
-		Yacs.autocomplete_m(target, url_to_root + 'users/complete.php');
+			Yacs.autocomplete_m(target, source_url);
 
 	    // override rendering of items in menu list to show full name and email
-	    $(target).data( "autocomplete" )._renderItem = function( ul, item ) {
-		return $( "<li></li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
-			.appendTo( ul );
+	    $('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( "<li></li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
+				.appendTo( ul );
 	    };
 	},
 
@@ -1579,7 +1589,7 @@ var Yacs = {
 	update: function(panel, address, args) {
 
 		// the spinning image
-		$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
+		$('#'+panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 		// go go go
 		$.ajax({
@@ -1587,7 +1597,7 @@ var Yacs = {
 			dataType: 'html',
 			timeout: 3000,
 			success: function(data) {
-			  $(panel).html(data);
+			  $('#'+panel).html(data);
 			}
 		});
 

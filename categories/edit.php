@@ -792,16 +792,17 @@ if($with_form) {
 	$hint = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 	$fields[] = array($label, $input, $hint);
 
-	$context['page_footer'] = 	JS_PREFIX
-					.'function append_to_options(keyword) {'."\n"
-					.'	var target = $("#options");'."\n"
-					.'	target.val(target.val() + " " + keyword);'."\n"
-					.'}'."\n"
-					.'$(document).ready(function() {'."\n"
-					.'	$("#options_list a").bind("click",function(){'."\n"
-					.'		append_to_options($(this).text());'."\n"
-					.'	}).css("cursor","pointer");'."\n"
-					.'});'.JS_SUFFIX;
+	$context['page_footer'] .= JS_PREFIX
+		.'function append_to_options(keyword) {'."\n"
+		.'	var target = $("#options");'."\n"
+		.'	target.val(target.val() + " " + keyword);'."\n"
+		.'}'."\n"
+		.'$(document).ready(function() {'."\n"
+		.'	$("#options_list a").bind("click",function(){'."\n"
+		.'		append_to_options($(this).text());'."\n"
+		.'	}).css("cursor","pointer");'."\n"
+		.'});'
+		.JS_SUFFIX;
 
 	// associates can change the overlay --complex interface
 	if(Surfer::is_associate() && Surfer::has_all()) {
