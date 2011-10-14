@@ -266,7 +266,7 @@ if(!isset($item['id'])) {
 	if(!isset($item['file_href']) || !$item['file_href']) {
 
 		// where the file is
-		$path = $context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
+		$path = $context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
 
 		//load some file parser if one is available
 		$analyzer = NULL;
@@ -406,7 +406,7 @@ if(!isset($item['id'])) {
 		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// where the file is
-//		$path = $context['url_to_home'].$context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
+//		$path = $context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'

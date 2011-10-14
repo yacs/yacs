@@ -86,7 +86,8 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// attach some file
-		if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']))
+		$file_path = Files::get_path('article:'.$_REQUEST['id']);
+		if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, 'article:'.$_REQUEST['id']))
 			$_REQUEST['first_comment'] .= '<div>'.$file.'</div>';
 
 		// capture first comment too

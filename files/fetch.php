@@ -196,7 +196,7 @@ if(!isset($item['id']) || !$item['id']) {
 		Logger::error('Unexpected Content-Type');
 
 	// not allowed to write
-	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
+	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
 		Safe::header('500 Internal Server Error');
 		Logger::error('Not allowed to write to local file');
 
@@ -324,7 +324,7 @@ if(!isset($item['id']) || !$item['id']) {
 		$file_name = utf8::to_ascii($item['file_name']);
 
 		// where the file is located
-		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+		$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 		// file attributes
 		$attributes = array();

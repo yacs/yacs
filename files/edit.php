@@ -207,13 +207,11 @@ if(Surfer::is_crawler()) {
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
-		// where to put this file
-		$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
-
 		// remember file size
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
 		// move the file to the right place
+		$file_path = Files::get_path($_REQUEST['anchor']);
 		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
 			$_REQUEST['file_name'] = $file_name;
 

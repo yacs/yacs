@@ -128,7 +128,7 @@ if(!isset($item['id'])) {
 		$items = Files::list_by_date_for_anchor($type.':'.$id, 0, 20, 'raw');
 
 	// archive each file
-	$file_path = $context['path_to_root'].'/files/'.$context['virtual_path'].$type.'/'.$id.'/';
+	$file_path = $context['path_to_root'].Files::get_path($type.':'.$id);
 	foreach($items as $id => $attributes) {
 
 		// read file content
