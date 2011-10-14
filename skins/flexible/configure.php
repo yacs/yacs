@@ -436,7 +436,8 @@ if(!isset($context['flexible_width']))
 
 // some constants
 
-define('DUMMY_TEXT', 'Lorem <a href="#" class="regular">ipsum dolor sit</a> amet, <a href="#" class="current">consectetur adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+if(!defined('DUMMY_TEXT'))
+	define('DUMMY_TEXT', 'Lorem <a href="#" class="regular">ipsum dolor sit</a> amet, <a href="#" class="current">consectetur adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 	.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
 	.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
