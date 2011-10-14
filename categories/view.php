@@ -219,8 +219,8 @@ if(!isset($item['id'])) {
 	// remember surfer visit
 	Surfer::is_visiting(Categories::get_permalink($item), Codes::beautify_title($item['title']), 'category:'.$item['id'], $item['active']);
 
-	// increment silently the hits counter if not associate, nor creator -- editors are taken into account
-	if(Surfer::is_associate())
+	// increment silently the hits counter if not robot, nor associate, nor creator, nor at follow-up page
+	if(Surfer::is_crawler() || Surfer::is_associate())
 		;
 	elseif(Surfer::get_id() && isset($item['create_id']) && (Surfer::get_id() == $item['create_id']))
 		;

@@ -307,7 +307,8 @@ if(!isset($item['id']) || !$item['id']) {
 } elseif($item['id'] && $item['anchor']) {
 
 	// increment the count of downloads
-	Files::increment_hits($item['id']);
+	if(!Surfer::is_crawler())
+		Files::increment_hits($item['id']);
 
 	// record surfer activity
 	Activities::post('file:'.$item['id'], 'fetch');
