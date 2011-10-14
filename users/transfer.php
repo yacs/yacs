@@ -104,9 +104,7 @@ elseif(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assig
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
 		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("name",true); });  '."\n"
 		.JS_SUFFIX;
 
 	// back to the anchor page

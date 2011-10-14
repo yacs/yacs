@@ -813,7 +813,7 @@ if($with_form) {
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});'."\n"
 		.JS_SUFFIX;
 	// branch to another script to display form fields, tabs, etc

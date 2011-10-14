@@ -7,8 +7,6 @@
  * categories, and return an unordered list of keywords. If an introduction
  * has been set for the keyword, it is provided as well.
  *
- * @link http://wiki.script.aculo.us/scriptaculous/show/Ajax.Autocompleter
- *
  * Accept following invocations:
  * - complete.php
  *

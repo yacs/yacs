@@ -496,16 +496,17 @@ if($with_form) {
 	$hint = i18n::s('You may combine several keywords:').'<span id="content_options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 	$fields[] = array($label, $input, $hint);
 
-	$context['page_footer'] = 	JS_PREFIX
-				.'function append_to_content_options(keyword) {'."\n"
-				.'	var target = $("#content_options");'."\n"
-				.'	target.val(target.val() + " " + keyword);'."\n"
-				.'}'."\n"
-				.'$(document).ready(function() {'."\n"
-				.'	$("#content_options_list a").bind("click",function(){'."\n"
-				.'		append_to_content_options($(this).text());'."\n"
-				.'	}).css("cursor","pointer");'."\n"
-				.'});'.JS_SUFFIX;
+	$context['page_footer'] .= JS_PREFIX
+		.'function append_to_content_options(keyword) {'."\n"
+		.'	var target = $("#content_options");'."\n"
+		.'	target.val(target.val() + " " + keyword);'."\n"
+		.'}'."\n"
+		.'$(document).ready(function() {'."\n"
+		.'	$("#content_options_list a").bind("click",function(){'."\n"
+		.'		append_to_content_options($(this).text());'."\n"
+		.'	}).css("cursor","pointer");'."\n"
+		.'});'
+		.JS_SUFFIX;
 
 	// content overlay
 	if(Surfer::is_associate()) {
@@ -1072,16 +1073,17 @@ if($with_form) {
 	$hint = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 	$fields[] = array($label, $input, $hint);
 
-	$context['page_footer'] = 	JS_PREFIX
-					.'function append_to_options(keyword) {'."\n"
-					.'	var target = $("#options");'."\n"
-					.'	target.val(target.val() + " " + keyword);'."\n"
-					.'}'."\n"
-					.'$(document).ready(function() {'."\n"
-					.'	$("#options_list a").bind("click",function(){'."\n"
-					.'		append_to_options($(this).text());'."\n"
-					.'	}).css("cursor","pointer");'."\n"
-					.'});'.JS_SUFFIX;
+	$context['page_footer'] .= JS_PREFIX
+		.'function append_to_options(keyword) {'."\n"
+		.'	var target = $("#options");'."\n"
+		.'	target.val(target.val() + " " + keyword);'."\n"
+		.'}'."\n"
+		.'$(document).ready(function() {'."\n"
+		.'	$("#options_list a").bind("click",function(){'."\n"
+		.'		append_to_options($(this).text());'."\n"
+		.'	}).css("cursor","pointer");'."\n"
+		.'});'
+		.JS_SUFFIX;
 
 	// language of this page
 	$label = i18n::s('Language');
@@ -1243,7 +1245,7 @@ if($with_form) {
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});  '."\n"
 		.JS_SUFFIX;
 

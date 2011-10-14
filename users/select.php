@@ -212,9 +212,7 @@ elseif(!$permitted) {
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
 		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("name",true); });  '."\n"
 		.JS_SUFFIX;
 
 	// the current list of category members

@@ -473,8 +473,7 @@ if($with_form) {
 
 	// agent
 	$label = i18n::s('Alternate contact');
-	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />'
-		.'<div id="vcard_agent_choice" class="autocomplete"></div>';
+	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />';
 	$hint = i18n::s('Another person who can act on your behalf');
 	$fields[] = array($label, $input, $hint);
 
@@ -485,13 +484,8 @@ if($with_form) {
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
 		.'// enable autocompletion for user names'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#vcard_agent").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
+		.'$(document).ready( function() { Yacs.autocomplete_names("vcard_agent",true); });  '."\n"
+		.JS_SUFFIX;
 
 	// instant messaging
 	//
@@ -863,7 +857,7 @@ if($with_form) {
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
 		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});  '."\n"
 		.JS_SUFFIX;
 
