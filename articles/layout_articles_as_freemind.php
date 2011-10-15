@@ -62,7 +62,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))

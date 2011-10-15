@@ -50,7 +50,7 @@ Class Layout_categories_as_directory extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))

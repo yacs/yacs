@@ -87,7 +87,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title as a link to the page
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);

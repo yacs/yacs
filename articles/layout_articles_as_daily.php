@@ -72,7 +72,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// what's the date today?
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))

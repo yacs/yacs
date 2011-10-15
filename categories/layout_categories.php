@@ -40,7 +40,7 @@ Class Layout_categories extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to read the full category
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';

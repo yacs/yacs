@@ -45,7 +45,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$title = $abstract = $author = '';

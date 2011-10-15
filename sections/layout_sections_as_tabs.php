@@ -154,7 +154,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 							$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 						// navigation commands for articles
-						$home =& Sections::get_permalink($item);
+						$home = Sections::get_permalink($item);
 						$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 						$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, 1);
 
@@ -270,7 +270,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 						$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 					// navigation commands for sections
-					$home =& Sections::get_permalink($item);
+					$home = Sections::get_permalink($item);
 					$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
 					$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, 1);
 

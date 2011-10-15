@@ -69,7 +69,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $label = $suffix = $icon = '';

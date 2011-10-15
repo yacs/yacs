@@ -2742,7 +2742,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2771,7 +2771,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'article');
@@ -2818,7 +2818,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2847,7 +2847,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'category');
@@ -3298,7 +3298,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Sections::get_permalink($item);
+				$url = Sections::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -3746,7 +3746,7 @@ Class Codes {
  			foreach($items as $id => $item) {
 
 				// make a link to the target page
-				$link =& Articles::get_permalink($item);
+				$link = Articles::get_permalink($item);
 				if(!$label)
 					$label = Skin::strip($item['title']);
 				$text =& Skin::build_link($link, $label, 'article');

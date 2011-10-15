@@ -563,7 +563,7 @@ Class Users {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	function &get_permalink($item) {
+	function get_permalink($item) {
 		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
 		return $output;
 	}

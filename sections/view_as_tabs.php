@@ -219,7 +219,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		// if there are several pages, add navigation commands to browse them
 		if(count($pages) > 1) {
 			$page_menu = array( '_' => i18n::s('Pages') );
-			$home =& Sections::get_permalink($item);
+			$home = Sections::get_permalink($item);
 			$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
 			$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
@@ -359,7 +359,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 						$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 					// navigation commands for articles
-					$home =& Sections::get_permalink($item);
+					$home = Sections::get_permalink($item);
 					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 					$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
 

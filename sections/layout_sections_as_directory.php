@@ -49,7 +49,7 @@ Class Layout_sections_as_directory extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))

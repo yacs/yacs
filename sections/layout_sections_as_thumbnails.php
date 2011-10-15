@@ -45,7 +45,7 @@ Class Layout_sections_as_thumbnails extends Layout_interface {
 				$title = '';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the skin to shape it
 			$text .= Skin::build_image('thumbnail', $item['thumbnail_url'], $title, $url);
