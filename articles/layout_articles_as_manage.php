@@ -65,7 +65,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// column to select the row
 			$cells[] = '<input type="checkbox" name="selected_articles[]" id="article_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';

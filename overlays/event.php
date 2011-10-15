@@ -1735,7 +1735,7 @@ class Event extends Overlay {
 
 			// navigation commands for dates
 			if($section = Sections::get(str_replace('section:', '', $anchor))) {
-				$home =& Sections::get_permalink($section);
+				$home = Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 			}
@@ -1768,7 +1768,7 @@ class Event extends Overlay {
 
 				// navigation commands for dates
 				$section = Sections::get($anchor);
-				$home =& Sections::get_permalink($section);
+				$home = Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 

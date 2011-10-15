@@ -64,7 +64,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$summary = $update = $owner = $editor = $watcher = '';

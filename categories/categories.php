@@ -681,7 +681,7 @@ Class Categories {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	public static function &get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Categories::get_url($item['id'], 'view', $item['title']);
 		return $output;
 	}

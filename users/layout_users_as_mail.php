@@ -83,7 +83,7 @@ Class Layout_users_as_mail extends Layout_interface {
 				$text .= RESTRICTED_FLAG;
 
 			// the url to view this item
-			$url =& Users::get_permalink($item);
+			$url = Users::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))

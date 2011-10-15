@@ -41,7 +41,7 @@ Class Layout_sections_as_menu extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = '';

@@ -48,7 +48,7 @@ Class Layout_dates extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a valid label
 			$label = Codes::beautify_title($item['title']);

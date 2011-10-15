@@ -68,7 +68,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// permalink
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -104,7 +104,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			if($article['id']) {
 
 				// permalink
-				$url =& Articles::get_permalink($article);
+				$url = Articles::get_permalink($article);
 
 				// get the anchor
 				$anchor =& Anchors::get($article['anchor']);

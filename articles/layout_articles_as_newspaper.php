@@ -58,7 +58,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// next item
 			$item_count += 1;
@@ -132,7 +132,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -229,7 +229,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -326,7 +326,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);

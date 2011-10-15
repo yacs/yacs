@@ -467,7 +467,7 @@ if(!isset($item['id'])) {
 			$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 		// navigation commands for sections
-		$home =& Categories::get_permalink($item);
+		$home = Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'sections');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
@@ -533,7 +533,7 @@ if(!isset($item['id'])) {
 			$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 		// navigation commands for articles
-		$home =& Categories::get_permalink($item);
+		$home = Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'articles');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $count, ARTICLES_PER_PAGE, $zoom_index));
@@ -632,7 +632,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($items, 'rows');
 
 			// navigation commands for comments
-			$home =& Categories::get_permalink($item);
+			$home = Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'comments');
 			if($zoom_type == 'comments') {
 				$box['bar'] = array_merge($box['bar'],
@@ -681,7 +681,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($items, 'decorated');
 
 			// navigation commands for links
-			$home =& Categories::get_permalink($item);
+			$home = Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'links');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
@@ -757,7 +757,7 @@ if(!isset($item['id'])) {
 			$items = Categories::list_by_date_for_anchor('category:'.$item['id'], $offset, $items_per_page, $layout);
 
 		// navigation commands for categories
-		$home =& Categories::get_permalink($item);
+		$home = Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'categories');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $zoom_index));
@@ -830,7 +830,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d user', '%d users', $count), $count));
 
 		// navigation commands for users
-		$home =& Categories::get_permalink($item);
+		$home = Categories::get_permalink($item);
 		$prefix = Categories::get_url($item['id'], 'navigate', 'users');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $count, USERS_LIST_SIZE, $zoom_index));

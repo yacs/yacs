@@ -1038,7 +1038,7 @@ if(!isset($item['id'])) {
 			// if there are several pages, add navigation commands to browse them
 			if(count($pages) > 1) {
 				$page_menu = array( '_' => i18n::s('Pages') );
-				$home =& Sections::get_permalink($item);
+				$home = Sections::get_permalink($item);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 				$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
@@ -1197,7 +1197,7 @@ if(!isset($item['id'])) {
 						$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 					// navigation commands for articles
-					$home =& Sections::get_permalink($item);
+					$home = Sections::get_permalink($item);
 					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 					$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
 
@@ -1401,7 +1401,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= $items;
 
 			// navigation commands for files
-			$home =& Sections::get_permalink($item);
+			$home = Sections::get_permalink($item);
 			$prefix = Sections::get_url($item['id'], 'navigate', 'files');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
@@ -1558,7 +1558,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= $items;
 
 			// navigation commands for links
-			$home =& Sections::get_permalink($item);
+			$home = Sections::get_permalink($item);
 			$prefix = Sections::get_url($item['id'], 'navigate', 'links');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
@@ -1635,7 +1635,7 @@ if(!isset($item['id'])) {
 					$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 				// navigation commands for sections
-				$home =& Sections::get_permalink($item);
+				$home = Sections::get_permalink($item);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
 				$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
 

@@ -1216,7 +1216,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	public static function &get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}

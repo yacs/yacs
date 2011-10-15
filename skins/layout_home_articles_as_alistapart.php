@@ -74,7 +74,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))
@@ -166,7 +166,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$anchor =& Anchors::get($item['anchor']);
 
 		// the url to view this item
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// reset the rendering engine between items
 		Codes::initialize($url);
