@@ -820,9 +820,9 @@ if(!isset($item['id'])) {
 
 	// a clickable thumbnail to download the file
 //	if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-//		$icon = '<img src="'.$item['thumbnail_url'].'" alt="'.$title.'" />';
+//		$icon = '<img src="'.$item['thumbnail_url'].'" alt="" />';
 //	else
-		$icon = '<img src="'.Files::get_icon_url($item['file_name']).'" alt="'.$title.'" />';
+		$icon = '<img src="'.Files::get_icon_url($item['file_name']).'" alt="" />';
 
 	// file is available to download
 	Skin::define_img('DOWNLOAD_IMG', 'files/download.gif');

@@ -167,7 +167,7 @@ if(!isset($item['id'])) {
 
 	// build the path to the image file
 	$url = $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name'];
-	$img = '<img src="'.$url.'" alt="'.$item['image_name'].'" />';
+	$img = '<img src="'.$url.'" alt="" title="'.$item['image_name'].'" />';
 
 	// add an url, if any
 	if($item['link_url']) {

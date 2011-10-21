@@ -84,7 +84,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			elseif(is_callable(array($anchor, 'get_bullet_url')))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
