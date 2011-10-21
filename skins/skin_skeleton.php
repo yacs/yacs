@@ -2118,7 +2118,7 @@ Class Skin_Skeleton {
 				$label = '<span class="box_header">'.$label.'</span>';
 
 			// ease the handling of css, but only for links
-			if(($variant == 'tabs') || ($variant == 'menu_bar') || (($type == 'basic') && ($variant == 'page_menu'))) {
+			if(($variant == 'tabs') || ($variant == 'menu_bar') || ($variant == 'page_menu')) {
 				if(count($list) == 0)
 					$label = '<span class="first">'.$label.'</span>';
 				elseif(count($list)+1 == count($items))
@@ -4826,7 +4826,7 @@ Class Skin_Skeleton {
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
-			.'document.observe("dom:loaded", function() {'."\n"
+			.'$(document).ready(function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
 			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"

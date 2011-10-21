@@ -252,7 +252,7 @@ if($with_form) {
 			.'				if (!point) {'."\n"
 			.'					alert("'.i18n::s('This address has not been found').'");'."\n"
 			.'				} else {'."\n"
-			.'					$(\'#geo_position\').value = point.y.toString() + ", " + point.x.toString();'."\n"
+			.'					$(\'#geo_position\').val( point.y.toString() + ", " + point.x.toString() );'."\n"
 			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"

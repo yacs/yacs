@@ -3,7 +3,7 @@
  * help to complete tags
  *
  * This script is the back-end part in a AJAX architecture. It processes
- * data received in the parameter 'q', look in the database for matching
+ * data received in the parameter 'term', look in the database for matching
  * categories, and return an unordered list of keywords. If an introduction
  * has been set for the keyword, it is provided as well.
  *
@@ -51,11 +51,10 @@ $items = Categories::list_keywords($_REQUEST['term']);
 if(count($items)) {
 	$output .= '[';
 	$i = 0;
-
 	foreach($items as $label => $more) {
-    if ($i > 0)
-      $output .= ',';
-    $i++;
+		if ($i > 0)
+		  $output .= ',';
+		$i++;
 		$output .= '"'.$label.'"';
 	}
 
