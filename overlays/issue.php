@@ -832,14 +832,14 @@ class Issue extends Overlay {
 				$label = i18n::s('Patch has been submitted on %s');
 			else
 				$label = i18n::s('Page has been created on %s');
-			$tracking .= '<div class="bottom" style="margin-bottom: 1em;">'.sprintf($label, Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'#create_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
+			$tracking .= '<div class="bottom" style="margin-bottom: 1em;">'.sprintf($label, Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'#create_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
 
 			$tracking .= NEXT_STEP;
 
 			// qualification_date
 			if(isset($this->attributes['qualification_date']))
 				$this->attributes['qualification_date'] = Surfer::from_GMT($this->attributes['qualification_date']);
-			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#qualification_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#qualification_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:problem'))
 				$checked = 'checked="checked"';
@@ -856,7 +856,7 @@ class Issue extends Overlay {
 
 				if(isset($this->attributes['analysis_date']))
 					$this->attributes['analysis_date'] = Surfer::from_GMT($this->attributes['analysis_date']);
-				$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#analysis_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+				$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#analysis_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 				$checked = '';
 				if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
 					$checked = 'checked="checked"';
@@ -881,7 +881,7 @@ class Issue extends Overlay {
 				$label = i18n::s('Assignment has been finalized on %s');
 			else
 				$label = i18n::s('Resolution has been finalized on %s');
-			$tracking .= '<div style="margin-top: 1em">'.sprintf($label, Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#resolution_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf($label, Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#resolution_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:solution'))
 				$checked = 'checked="checked"';
@@ -896,7 +896,7 @@ class Issue extends Overlay {
 			// close_date
 			if(isset($this->attributes['close_date']))
 				$this->attributes['close_date'] = Surfer::from_GMT($this->attributes['close_date']);
-			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Case has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#close_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Case has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#close_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'completed:solution'))
 				$checked = 'checked="checked"';
