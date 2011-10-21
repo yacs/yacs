@@ -157,13 +157,13 @@ var Yacs = {
 	    } else
 			Yacs.autocomplete_m(target, source_url);
 
-	    // override rendering of items in menu list to show full name and email
-	    $('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
-			return $( "<li></li>" )
-				.data( "item.autocomplete", item )
-				.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
-				.appendTo( ul );
-	    };
+			// override rendering of items in menu list to show full name and email
+			$('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
+					.appendTo( ul );
+			};
 	},
 
 	/**
