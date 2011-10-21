@@ -103,7 +103,7 @@ elseif(!isset($item['id'])) {
 
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
-	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="" style="avatar" />').'</p>'."\n";
 else
 	$context['text'] .= '<p>'.i18n::s('No picture has been set for this profile.').'</p>';
 

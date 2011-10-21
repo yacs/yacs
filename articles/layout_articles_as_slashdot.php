@@ -66,7 +66,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('More')).'" /></a>';
 
 			// flag sticky pages
 			if($item['rank'] < 10000)

@@ -85,7 +85,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 
 				// avatar
 				if(isset($poster['avatar_url']) && $poster['avatar_url'])
-					$author .= '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />'.BR;
+					$author .= '<img src="'.$poster['avatar_url'].'" alt="" title="avatar" class="avatar" />'.BR;
 
 				// link to poster, if possible
 				$author .= Users::get_link($poster['full_name'], $poster['email'], $poster['id']);

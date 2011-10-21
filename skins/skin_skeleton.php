@@ -57,7 +57,7 @@ Class Skin_Skeleton {
 			$style = '';
 
 			if(ACCORDION_CLOSE_IMG_HREF)
-				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
+				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
 
 			// close following boxes
 			$fused[ $id ] = TRUE;
@@ -68,7 +68,7 @@ Class Skin_Skeleton {
 			$style = ' style="display: none"';
 
 			if(ACCORDION_OPEN_IMG_HREF)
-				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
+				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
 
 		}
 
@@ -1053,7 +1053,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_EXTEND_IMG_HREF)
-			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js -- div.folder_body div is required for slide effect to work
 		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
@@ -1310,19 +1310,14 @@ Class Skin_Skeleton {
 			$with_caption = TRUE;
 
 		// document the image
-		if($title) {
-			$alt = $title;
+		if($title)
 			$hover = $title;
-		} else {
-			$alt = basename($href);
+		else
 			$hover = '';
-		}
 
 		// remove YACS codes from alternate label and hovering title
-		if(is_callable(array('Codes', 'strip'))) {
-			$alt =& Codes::strip($alt);
+		if(is_callable(array('Codes', 'strip')))
 			$hover =& Codes::strip($hover);
-		}
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
@@ -1348,7 +1343,7 @@ Class Skin_Skeleton {
 			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
 
 		// the image itself
-		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
+		$image = '<span><img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))
@@ -2365,9 +2360,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 			}
 
 			// several items
@@ -2406,9 +2401,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 			}
 
 			// date of post
@@ -2442,7 +2437,7 @@ Class Skin_Skeleton {
 
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
+				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
 			else if(Surfer::is_empowered()) {
 				Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 				$details[] =& Skin::build_link(Users::get_url($user['id'], 'select_avatar'), IMAGES_ADD_IMG.i18n::s('Add picture'), 'basic');
@@ -2626,7 +2621,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		if($onLeft === FALSE)
 			$onLeft = ', false';
@@ -2957,7 +2952,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// title is optional
 		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
@@ -3137,7 +3132,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_PACK_IMG_HREF)
-			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
 		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
@@ -3270,7 +3265,7 @@ Class Skin_Skeleton {
 	 * @param string to be displayed in textual browsers
 	 * @param string options to be integrated into the img tag, if any
 	 */
-	function define_img($name, $file, $default='', $alternate='*', $options='') {
+	function define_img($name, $file, $default='', $alternate='', $options='') {
 		global $context;
 
 		// sanity check

@@ -88,7 +88,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			elseif(is_callable(array($anchor, 'get_bullet_url')))
 				$icon = $anchor->get_bullet_url();
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// rating
 			if($item['rating_count'])
