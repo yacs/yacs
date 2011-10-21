@@ -422,15 +422,12 @@ Class Images {
 		if(!isset($item['anchor']) || !isset($item['image_name']))
 			return FALSE;
 
-		// target name
-		$target = Files::get_path($item['anchor'], 'images').'/'.$item['image_name'];
-
 		// file does not exist
-		if(!file_exists($context['path_to_root'].$target))
+		if(!file_exists($context['path_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name']))
 			return FALSE;
 
 		// web address of the image
-		return $context['url_to_root'].encode_link($target);
+		return $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.rawurlencode($item['image_name']);
 	}
 
 	/**
@@ -463,15 +460,12 @@ Class Images {
 		if(!isset($item['anchor']) || !isset($item['thumbnail_name']))
 			return FALSE;
 
-		// target file name
-		$target = Files::get_path($item['anchor'], 'images').'/'.$item['thumbnail_name'];
-
 		// file does not exist
-		if(!file_exists($context['path_to_root'].$target))
+		if(!file_exists($context['path_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['thumbnail_name']))
 			return FALSE;
 
 		// returns href
-		return $context['url_to_root'].$target;
+		return $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.str_replace('thumbs%2F', 'thumbs/', rawurlencode($item['thumbnail_name']));
 
 	}
 
