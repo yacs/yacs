@@ -47,7 +47,7 @@ Class SQL {
 
 		// regular connection --mask warning that popups in safe mode
 		if(is_callable('mysqli_connect'))
-			$handle = mysqli_connect($host, $user, $password, $database);
+			$handle = @mysqli_connect($host, $user, $password, $database);
 		elseif(is_callable('mysql_connect')) {
 			if(($handle = mysql_connect($host, $user, $password)) && !mysql_select_db($database, $handle))
 				$handle = FALSE;
