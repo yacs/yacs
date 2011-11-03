@@ -235,7 +235,6 @@ if(!Surfer::is_associate()) {
 
 			// list articles anchored to these sections
 			$query = "SELECT id, active FROM ".SQL::table_name('articles')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
-			logger::debug($query, 'looking for articles');
 			if($result =& SQL::query($query)) {
 
 				// count articles there
