@@ -306,6 +306,11 @@ Class Utf8 {
 	 * $text = utf8::to_ascii($text, ' ');
 	 * [/php]
 	 *
+	 * You can use following constants depending on application:
+	 * - FILENAME_SAFE_ALPHABET
+	 * - PRINTABLE_SAFE_ALPHABET
+	 * - URL_SAFE_ALPHABET
+	 *
 	 * @param string a complex string using HTML entities
 	 * @param string optional characters to accept
 	 * @return a US-ASCII string
@@ -323,7 +328,7 @@ Class Utf8 {
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	function &to_ascii($utf, $options=' =:/()<>"') {
+	function &to_ascii($utf, $options=FILENAME_SAFE_ALPHABET) {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
