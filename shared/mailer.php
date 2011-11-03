@@ -570,7 +570,7 @@ class Mailer {
 			$name = str_replace(array(',', '"'), ' ', $name);
 
 			// at the moment we only accept ASCII names
-			$name = utf8::to_ascii($name);
+			$name = utf8::to_ascii($name, PRINTABLE_SAFE_ALPHABET);
 
 			// the full recipient
 			$recipient = '"'.$name.'" <'.$address.'>';
