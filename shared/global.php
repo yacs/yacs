@@ -180,7 +180,7 @@ $context['page_date'] = '';
 // page details (complementary information about the page)
 $context['page_details'] = '';
 
-// additional content for the page footer --cache restriction
+// additional content for the page footer
 $context['page_footer'] = '';
 
 // additional meta-information to be put in page header
@@ -1181,7 +1181,7 @@ function render_skin($with_last_modified=TRUE) {
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
 		.JS_SUFFIX;
 
-	// activate tinyMCE, if available -- before prototype and scriptaculous
+	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
 		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
