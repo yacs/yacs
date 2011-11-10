@@ -1477,13 +1477,13 @@ var Yacs = {
 		// also resize poorly inherited items
 		$(current.handle + ' div').each(function () {
 		   $(this).css("fontSize", currentSize);
-    });
+		});
 		$(current.handle + ' td').each(function () {
 		   $(this).css("fontSize", currentSize);
-    });
+		});
 		$(current.handle + ' tr').each(function () {
 		   $(this).css("fontSize", currentSize);
-    });
+    	});
 	},
 
 	/**
@@ -1606,8 +1606,7 @@ var Yacs = {
 			timeout: 3000,
 			success: function(data) {
 			  $('#'+panel).html(data);
-			}}, args)
-		});
+			}}, args));
 
 	},
 
