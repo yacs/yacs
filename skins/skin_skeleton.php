@@ -4744,8 +4744,8 @@ Class Skin_Skeleton {
 
 			$text .= "\n".'// from item '.$from.' to item '.$to."\n"
 				.'function rotate_'.$from.'() {'."\n"
-				.'	new Effect.Fade($("#'.$from.'"), {duration:.3, scaleContent:false});'."\n"
-				.'	new Effect.Appear($("#'.$to.'"), {duration:.3, scaleContent:false, queue:\'end\'});'."\n"
+				.'	$("#'.$from.'").fadeOut();'."\n"
+				.'	$("#'.$to.'").fadeIn();'."\n"
 				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
 				.'}'."\n";
 		}
@@ -4824,7 +4824,7 @@ Class Skin_Skeleton {
 			.'$(document).ready(function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
-			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"
+			.'	handle = document.getElementById("scroller_'.$scroller_id.'");'."\n"
 			."\n"
 			.'	// start at the bottom of the outside container'."\n"
 			.'	scroller_'.$scroller_id.'_start = handle.parentNode.'.$container_limit.' - 20;'."\n"
