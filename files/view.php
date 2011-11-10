@@ -778,40 +778,6 @@ if(!isset($item['id'])) {
 		break;
 	}
 
-	// estimated download time
-	if($item['file_size'] > 0) {
-		$description .= '<p style="clear: left;">'.i18n::s('Estimated download time:').' ';
-
-		// download time at 512k
-		if($item['file_size'] > 3072000) {
-			$minutes = round($item['file_size'] * 8 / (0.8*512000*60), 0);
-			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '512 kbps').', ';
-		} else {
-			$seconds = max(round($item['file_size'] * 8 / (0.8*512000), 0), 2);
-			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '512 kbps').', ';
-		}
-
-		// download time at 56k
-		if($item['file_size'] > 336000) {
-			$minutes = round($item['file_size'] * 8 / (0.8*56000*60), 0);
-			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '56 kbps').', ';
-		} else {
-			$seconds = max(round($item['file_size'] * 8 / (0.8*56000), 0), 2);
-			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '56 kbps').', ';
-		}
-
-		// download time at 28.8k
-		if($item['file_size'] > 172800) {
-			$minutes = round($item['file_size'] * 8 / (0.8*28800*60), 0);
-			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '28.8 kbps');
-		} else {
-			$seconds = max(round($item['file_size'] * 8 / (0.8*28800), 0), 2);
-			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '28.8 kbps');
-		}
-
-		$description .= "</p>\n";
-	}
-
 	// the download link
 	$link = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
