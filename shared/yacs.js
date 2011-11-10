@@ -86,8 +86,12 @@ var Yacs = {
 	 * build on jquery-ui autocomplete plugin
 	 * @link http://jqueryui.com/demos/autocomplete/#multiple-remote
 	 *
+	 * @param string id of the target element (without '#')
+	 * @param string web service to call (default: '/users/complete.php')
+	 * @param function called back on completion, with new value as parameter
+	 *
 	 */
-	autocomplete_m: function(target,php_source) {
+	autocomplete_m: function(target, source_url, callback) {
 		function split( val ) {
 			return val.split( /,\s*/ );
 		}
@@ -105,7 +109,7 @@ var Yacs = {
 		    })
 		    .autocomplete({
 				source: function( request, response ) {
-					$.getJSON( php_source, {
+					$.getJSON( source_url, {
 						term: extractLast( request.term )
 					}, response );
 				},
@@ -129,23 +133,26 @@ var Yacs = {
 					// add placeholder to get the comma-and-space at the end
 					terms.push( "" );
 					this.value = terms.join( ", " );
+					if(callback)
+						callback(ui.item.value);
 					return false;
 				}
 		    });
 	},
 
 	/**
-	 * autocomplete mecanism to select users
+	 * autocomplete a field by querying an AJAX source
 	 *
 	 * @link http://jqueryui.com/demos/autocomplete/#custom-data
 	 *
 	 * @param string id of the target element (without '#')
-	 * @param boolean true if only one name should be captured, false if this is a list of names
+	 * @param boolean true if only one value should be set, false if this is a comma-separated list of values
 	 * @param string web service to call (default: '/users/complete.php')
+	 * @param function called back on completion, with new value as parameter
 	 *
 	 * @see users/complete.php
 	 **/
-	autocomplete_names: function(target,unique,source_url) {
+	autocomplete_names: function(target, unique, source_url, callback) {
 
 		if(!source_url) {
 			source_url = url_to_root + 'users/complete.php';
@@ -153,17 +160,21 @@ var Yacs = {
 
 	    // use the multiple entries autocomplete exept if unique user required
 	    if(unique) {
-			$('#'+target).autocomplete({source:source_url,minLength:2});
+	    	if(callback) {
+				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) { callback(ui.item.value); return false; }});
+	    	} else {
+				$('#'+target).autocomplete({source:source_url,minLength:2});
+			}
 	    } else
-			Yacs.autocomplete_m(target, source_url);
+			Yacs.autocomplete_m(target, source_url, callback);
 
-			// override rendering of items in menu list to show full name and email
-			$('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
-				return $( "<li></li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
-					.appendTo( ul );
-			};
+		// override rendering of items in menu list to show full name and email
+		$('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( "<li></li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
+				.appendTo( ul );
+		};
 	},
 
 	/**
@@ -1275,8 +1286,8 @@ var Yacs = {
 	 * or, alternatively, just call Skin::build_tabs() from within you PHP code
 	 * to have everything done automatically.
 	 *
-	 * @param tabs A list of tabs related to panels and URLs
-	 * @param args This corresponds to the Ajax options supported in prototype.js
+	 * @param tabs a list of tabs related to panels and URLs
+	 * @param args additional ajax settings given to $.ajax()
 	 *
 	 * @see users/view.php
 	 * @see skins/skin_skeleton.php
@@ -1305,31 +1316,25 @@ var Yacs = {
 			}
 		}
 
-		// move to the right tab
-//		new PeriodicalExecuter(function(pe) {
+		// where are we?
+		if(window.location.hash.length > 1) {
+			var hash = document.location.hash.substr(1,document.location.hash.length);
 
-			// where are we?
-			if(window.location.hash.length > 1) {
-				var hash = document.location.hash.substr(1,document.location.hash.length);
+			// are we already there?
+			if(Yacs.tabs_current == hash)
+				return;
 
-				// are we already there?
-				if(Yacs.tabs_current == hash)
-					return;
-
-				// change to this tab
-				for(id in tabs) {
-					if(id == hash) {
-						Yacs.tabsDisplay(id);
-						break;
-					}
+			// change to this tab
+			for(id in tabs) {
+				if(id == hash) {
+					Yacs.tabsDisplay(id);
+					break;
 				}
-
-				// wait until next change of hash
-				Yacs.tabs_current = hash;
 			}
 
-//		}, 0.5);
-
+			// wait until next change of hash
+			Yacs.tabs_current = hash;
+		}
 
 	},
 
@@ -1580,10 +1585,13 @@ var Yacs = {
 	 * update content asynchronously
 	 *
 	 * This function displays a nice spinning image while loading the page.
+	 * Args can be a hash of parameters as specified for jQuery ajax settings.
+	 *
+	 * @link http://api.jquery.com/jQuery.ajax/
 	 *
 	 * @param string id of the target CSS container
 	 * @param string web address to fetch new snippet
-	 * @param mixed additional parameters to transmit to Ajax
+	 * @param mixed additional parameters to ajax call
 	 *
 	 */
 	update: function(panel, address, args) {
@@ -1592,13 +1600,13 @@ var Yacs = {
 		$('#'+panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 		// go go go
-		$.ajax({
+		$.ajax($.extend({
 			url: address,
 			dataType: 'html',
 			timeout: 3000,
 			success: function(data) {
 			  $('#'+panel).html(data);
-			}
+			}}, args)
 		});
 
 	},
