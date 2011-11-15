@@ -113,7 +113,7 @@ Class XML_RPC_Codec extends Codec {
 
 		// a string --also fix possible errors in HTML image references
 		if($type == 'string')
-			return '<string>'.htmlspecialchars(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
+			return '<string>'.utf8::to_xml(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter)).'</string>';
 
 		// a boolean
 		if($parameter === true || $parameter === false)
@@ -152,7 +152,7 @@ Class XML_RPC_Codec extends Codec {
 
 		// encode strings
 		if(is_string($parameter) && ($parameter = trim($parameter)) && (substr($parameter, 0, 1) != '<'))
-			return '<string>'.htmlspecialchars(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
+			return '<string>'.utf8::to_xml(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter)).'</string>';
 
 		// do not encode possibly encoded strings
 		return $parameter;
@@ -259,7 +259,8 @@ Class XML_RPC_Codec extends Codec {
 	function export_response($values=NULL, $service=NULL) {
 
 		// request header
-		$xml = '<methodResponse>'."\n";
+		$xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+			.'<methodResponse>'."\n";
 
 		// encode the response
 		if(is_array($values) && isset($values['faultCode']) && $values['faultCode'])

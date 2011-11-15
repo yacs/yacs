@@ -21,7 +21,7 @@
  *
  * Actually, all three of those API's build on each other.
  * Blogger is the most basic. MetaWeblog "embraces and extends" it. The
- * Movable Type API does the same to MetaWeblog.
+ * Movable Type API is the most advanced, and should be your preferred choice in most situation.
  *
  *
  * [title]Error codes[/title]
@@ -48,8 +48,7 @@
  *
  * [title]The Movable Type API[/title]
  *
- * @link http://msdn2.microsoft.com/en-us/library/bb259697.aspx MetaWeblog API Reference, according to Microsoft
- * @link http://blog.ustc.edu.cn/mts/docs/mtmanual_programmatic.html
+ * @link http://infinite-sushi.com/2005/12/programmatic-interfaces-the-movabletype-xmlrpc-api/
  *
  *
  * [subtitle]mt.getRecentPostTitles[/subtitle]
@@ -58,7 +57,7 @@
  *
  * Syntax: mt.getRecentPostTitles(blogid, username, password, numberOfPosts) returns struct
  *
- * Following components of the struct are correctly processed:
+ * Following components of the struct are provided:
  * - dateCreated - ISO 8601
  * - userid
  * - postid
@@ -72,9 +71,9 @@
  * Syntax: mt.getCategoryList(blogid, username, password) returns struct
  *
  * In YACS categories are shared at the system level, therefore the blogid parameter is not used.
- * Returns up to 30 YACS categories.
+ * Returns up to 50 YACS categories.
  *
- * Returns following components:
+ * Returns following attributes for each category:
  * - categoryId - id of the category
  * - categoryName - the name of the category
  *
@@ -157,7 +156,16 @@
  * - source (a sub-component of the 'description' field) - set the page source, usually, an originating URL
  * - introduction (a sub-component of the 'description' field) - set the page introduction
  * - description - set the actual page content
- * - category - link this page to listed categories
+ * - mt_excerpt - the introduction field
+ * - mt_keywords - actually, tags
+ * - mt_text_more - additional entry text, put in the trailer field
+ *
+ * Following attributes are ignored:
+ * - dateCreated - ISO.8601
+ * - mt_allow_comments - 0 or 1 - actually, lock or unlock the page
+ * - mt_allow_pings - 0 or 1
+ * - mt_convert_breaks - 0 or 1
+ * - mt_tb_ping_urls
  *
  * If the publish field is set to TRUE, the publication mechanism of YACS applies.
  *
@@ -196,15 +204,20 @@
  * - title - page title
  * - link - the web address to get the original page
  * - permaLink - the web address to get the original page
- * - description - the actual page content - with 'introduction' and 'source' sub components
+ * - description - the actual page content
  * - author - mail address of the page creator
  * - comments - the web address to comment the page
  * - dateCreated - date of last edition (ISO 8601)
  * - userid - id of last editor
  * - postid - page id
+ * - mt_excerpt - page introduction
+ * - mt_keywords - page tags
  *
- * Six Apart extensions:
- * String mt_excerpt, String mt_text_more, int mt_allow_comments, int mt_allow_pings, String mt_convert_breaks, String mt_keywords;
+ * Following extensions are not supported:
+ * - mt_text_more
+ * - mt_allow_comments
+ * - mt_allow_pings
+ * - mt_convert_breaks
  *
  * [subtitle]metaWeblog.getRecentPosts[/subtitle]
  *
@@ -219,11 +232,20 @@
  * - title - page title
  * - link - the web address to get the original page
  * - permaLink - the web address to get the original page
- * - description - the actual page content - with 'introduction' and 'source' sub components
+ * - description - the actual page content
  * - author - mail address of the page creator
  * - comments - the web address to comment the page
  * - pubDate - publication date, if any
- * - category - list of related categories, if any
+ * - categories - list of related categories, if any
+ * - mt_excerpt - page introduction
+ * - mt_keywords - page tags
+ *
+ * Following extensions are not supported:
+ * - mt_text_more
+ * - mt_allow_comments
+ * - mt_allow_pings
+ * - mt_convert_breaks
+ *
  *
  * Returns up to 30 posts from the target blog.
  *
@@ -266,12 +288,21 @@
  *
  * Syntax: metaWeblog.newPost(blogid, username, password, struct, publish) returns string
  *
- * Following components of the struct are processed:
+ * Following attributes of the struct are processed:
  * - title - set the page title
  * - source (a sub-component of the 'description' field) - set the page source, usually, an originating URL
  * - introduction (a sub-component of the 'description' field) - set the page introduction
  * - description - set the actual page content
- * - categories - link this page to listed categories
+ * - mt_excerpt - the introduction field
+ * - mt_keywords - actually, tags
+ * - mt_text_more - additional entry text, put in the trailer field
+ *
+ * Following attributes are ignored:
+ * - dateCreated - ISO.8601
+ * - mt_allow_comments - 0 or 1 - actually, lock or unlock the page
+ * - mt_allow_pings - 0 or 1
+ * - mt_convert_breaks - 0 or 1
+ * - mt_tb_ping_urls
  *
  * If the publish field is set to TRUE, the publication mechanism of YACS applies.
  *
@@ -410,8 +441,6 @@
  * - introduction - set the page introduction
  *
  * If the publish field is set to TRUE, the publication mechanism of YACS is correctly used.
- *
- * @link http://www.blogger.com/developers/api/1_docs/xmlrpc_newPost.html blogger.newPost, from Blogger API 1.0
  *
  *
  * [subtitle]blogger.setTemplate[/subtitle]
@@ -853,11 +882,11 @@ else {
 			if($item['id'])
 				$response = array(
 					'userid' => (string)$item['id'],
-					'nickname' => $item['nick_name'],
-					'firstname' => $item['nick_name'],
-					'lastname' => $item['full_name'],
-					'email' => $item['email'],
-					'url' => ''.$context['url_to_home']
+					'nickname' => $codec->encode($item['nick_name'], 'string'),
+					'firstname' => $codec->encode($item['nick_name'], 'string'),
+					'lastname' => $codec->encode($item['full_name'], 'string'),
+					'email' => $codec->encode($item['email'], 'string'),
+					'url' => $codec->encode($context['url_to_home'], 'string')
 				);
 			else
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::s('Unknown user name'));
@@ -892,7 +921,7 @@ else {
 					if($section =& Anchors::get('section:'.$assigned_id)) {
 						$response[] = array(
 							'isAdmin' => '<boolean>1</boolean>',
-							'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
+							'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
 							'blogid' => '<string>'.(string)$assigned_id.'</string>',
 							'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 						);
@@ -906,7 +935,7 @@ else {
 				if($section =& Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
-						'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
+						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
 						'blogid' => '<string>'.(string)$default_id.'</string>',
 						'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 					);
@@ -1098,8 +1127,21 @@ else {
 				$article = new Article();
 				$fields = $article->parse($content['description'], $item);
 
+				// change title
 				if($content['title'])
 					$fields['title'] = $content['title'];
+
+				// excerpt has been provided
+				if(isset($content['mt_excerpt']))
+					$fields['introduction'] = $content['mt_excerpt'];
+
+				// page has been tagged
+				if(isset($content['mt_keywords']))
+					$fields['tags'] = $content['mt_keywords'];
+
+				// extended content
+				if(isset($content['mt_text_more']))
+					$fields['trailer'] = $content['mt_text_more'];
 
 				// publish if in wiki mode, or if section is configured for auto-publishing,
 				// or if the surfer asks for it and add sufficient rights
@@ -1143,8 +1185,6 @@ else {
 					$keywords = '';
 					if(isset($fields['tags']))
 						$keywords = $fields['tags'];
-					if(isset($content['mt_keywords']))
-						$keywords .= ', '.$content['mt_keywords'];
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
@@ -1249,16 +1289,17 @@ else {
 			else {
 				$response = array(
 					'title' =>	$codec->encode($item['title'], 'string'),
-					'link' =>  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
-					'permaLink' =>	$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
-					'description' => $codec->encode('<introduction>'.$item['introduction']."</introduction>\n"
-							.'<source>'.$item['source']."</source>\n"
-							.$item['description'], 'string'),
+					'link' =>  $codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string'),
+					'permaLink' =>	$codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string'),
+					'description' => $codec->encode($item['description'], 'string'),
 					'author' => $codec->encode($item['create_address']),
-					'comments' =>  $context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid),
+					'comments' =>  $codec->encode($context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid), 'string'),
 					'dateCreated' => $codec->encode($item['edit_date'], 'date'),
 					'userid' => (string)$item['edit_id'],
-					'postid' => (string)$postid
+					'postid' => (string)$postid,
+					'mt_excerpt' => $codec->encode($item['introduction'], 'string'),
+					'mt_keywords' => $codec->encode($item['tags'], 'string'),
+					'mt_text_more' => $codec->encode($item['trailer'], 'string')
 					);
 			}
 		}
@@ -1312,25 +1353,22 @@ else {
 					$entry['userid'] = (string)$item['edit_id'];
 					$entry['postid'] = (string)$id;
 					$entry['title'] = $codec->encode($item['title'], 'string');
-					$entry['link'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-					$entry['permaLink'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-					$entry['description'] = '';
-					if(isset($item['introduction']))
-						$entry['description'] .= '<introduction>'.$item['introduction']."</introduction>\n";
-					if(isset($item['source']))
-						$entry['description'] .= '<source>'.$item['source']."</source>\n";
-					if(isset($item['description']))
-						$entry['description'] .= $item['description'];
-					$entry['description'] = $codec->encode($item['description'], 'string'); // various optimizations
+					$entry['link'] = $codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string');
+					$entry['permaLink'] = $codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string');
+					$entry['description'] = $codec->encode($item['description'], 'string');
 					$entry['author'] = $codec->encode($item['create_address']);
-					$entry['comments'] = $context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$id);
+					$entry['comments'] = $codec->encode($context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$id), 'string');
 					if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 						$entry['pubDate'] = $codec->encode($item['publish_date'], 'date');
 
 					// attached categories
 					$categories =& Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw');
 					foreach($categories as $id => $attributes)
-						$entry['categories'][] = strip_tags($attributes['title']);
+						$entry['categories'][] = $codec->encode(strip_tags($attributes['title']), 'string');
+
+					$entry['mt_excerpt'] = $codec->encode($item['introduction'], 'string');
+					$entry['mt_keywords'] = $codec->encode($item['tags'], 'string');
+					$entry['mt_text_more'] = $codec->encode($item['trailer'], 'string');
 
 					// append to the list
 					$response[] = $entry;
@@ -1415,9 +1453,9 @@ else {
 				// provide some file information in response
 				else {
 					$response = array(
-						'file' => $context['path_to_root'].$file_path.'/'.$file_name,
-						'url' => $context['url_to_home'].$context['url_to_root'].$file_path.'/'.$file_name,
-						'type' => Files::get_mime_type($file_name)
+						'file' => $codec->encode($context['path_to_root'].$file_path.'/'.$file_name, 'string'),
+						'url' => $codec->encode($context['url_to_home'].$context['url_to_root'].$file_path.'/'.$file_name, 'string'),
+						'type' => $codec->encode(Files::get_mime_type($file_name), 'string')
 					);
 
 					// clear cache
@@ -1483,14 +1521,17 @@ else {
 			$fields['create_address'] = $user['email'];
 			$fields['create_date'] = $stamp;
 
+			// excerpt has been provided
+			if(isset($content['mt_excerpt']))
+				$fields['introduction'] = $content['mt_excerpt'];
+
 			// article has been explicitly tagged (XML-RPC spec)
-			if(isset($content['category'])) {
-				if(!isset($fields['tags']))
-					$fields['tags'] = '';
-				if($fields['tags'])
-					$fields['tags'] .= ', ';
-				$fields['tags'] .= $content['category'];
-			}
+			if(isset($content['mt_keywords']))
+				$fields['tags'] = $content['mt_keywords'];
+
+			// extended content
+			if(isset($content['mt_text_more']))
+				$fields['trailer'] = $content['mt_text_more'];
 
 			// publish if in wiki mode, or if section is configured for auto-publishing,
 			// or if the surfer asks for it and add sufficient rights
@@ -1603,7 +1644,7 @@ else {
 		else {
 			$response = array();
 
-			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 7, 'raw');
+			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 50, 'raw');
 			if(is_array($items)) {
 
 				// one entry per category
