@@ -201,7 +201,7 @@ if(!Surfer::is_logged()) {
 	if(!headers_sent()) {
 		$file_name = $context['site_name'].'.events.rss.xml';
 		$file_name =& utf8::to_ascii($file_name);
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

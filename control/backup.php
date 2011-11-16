@@ -308,7 +308,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	if($compressed) {
 
 		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.$statements.'.gz"');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'.gz"');
 
 		// send gzip file
 		Safe::header('Content-Type: application/x-gzip');
@@ -320,7 +320,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	} else {
 
 		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.$statements.'"');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'"');
 
 		// send sql statements as-is
 		Safe::header('Content-Type: application/octet-stream');
