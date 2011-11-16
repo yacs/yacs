@@ -2675,7 +2675,7 @@ Class Files {
 			$file_name = substr($input['name'], 0, $position);
 			$file_extension = strtolower(substr($input['name'], $position+1));
 		}
-		$input['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
+		$input['name'] = $file_name;
 		if($file_extension)
 			$input['name'] .= '.'.$file_extension;
 

@@ -55,8 +55,8 @@ if(!headers_sent()) {
 
 // suggest a download
 if(!headers_sent()) {
-	$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 5).'.ics');
-	Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+	$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.ics');
+	Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
@@ -64,7 +64,7 @@ http::expire(1800);
 
 // strong validator
 $etag = '"'.md5($text).'"';
-	
+
 // manage web cache
 if(http::validate(NULL, $etag))
 	return;

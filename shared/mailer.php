@@ -1064,7 +1064,7 @@ class Mailer {
 				// headers for one file
 				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
 					.M_EOL.'Content-Type: '.$type
-					.M_EOL.'Content-Disposition: inline; filename="'.$basename.'"'
+					.M_EOL.'Content-Disposition: inline; filename="'.str_replace('"', '', $basename).'"'
 					.M_EOL.'Content-ID: <'.$cid.'>';
 
 				// transfer textual entities as they are

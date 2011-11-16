@@ -150,8 +150,8 @@ if(!isset($item['id'])) {
 		Safe::header('Content-Type: application/octet-stream');
 
 		// suggest a name for the saved file
-		$file_name = str_replace('_', ' ', utf8::to_ascii($item['title']).'.zip');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii($item['title']).'.zip';
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 
 		// file size
 		Safe::header('Content-Length: '.strlen($archive));

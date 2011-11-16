@@ -180,7 +180,7 @@ if(!$permitted) {
 			$file_name = utf8::to_ascii($context['site_name'].'.files.'.str_replace(':', '.', $anchor->get_reference()).'.xml');
 		else
 			$file_name = utf8::to_ascii($context['site_name'].'.files.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

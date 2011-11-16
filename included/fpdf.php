@@ -1006,7 +1006,7 @@ function Output($name='', $dest='')
 			{
 				// We send to a browser
 				header('Content-Type: application/pdf');
-				header('Content-Disposition: inline; filename="'.$name.'"');
+				header('Content-Disposition: inline; filename="'.str_replace('"', '', $name).'"');
 				header('Cache-Control: private, max-age=0, must-revalidate');
 				header('Pragma: public');
 			}
@@ -1016,7 +1016,7 @@ function Output($name='', $dest='')
 			// Download file
 			$this->_checkoutput();
 			header('Content-Type: application/x-download');
-			header('Content-Disposition: attachment; filename="'.$name.'"');
+			header('Content-Disposition: attachment; filename="'.str_replace('"', '', $name).'"');
 			header('Cache-Control: private, max-age=0, must-revalidate');
 			header('Pragma: public');
 			echo $this->buffer;
