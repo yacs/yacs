@@ -139,7 +139,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
 				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
-				$details[] = Skin::build_link($url.'#files', FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#files', FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 			}
 
 			// info on related links
@@ -151,12 +151,12 @@ Class Layout_articles_as_jive extends Layout_interface {
 			// the command to reply
 			if(Comments::allow_creation($anchor, $item)) {
 				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic');
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'span');
 			}
 
 			// count replies
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// describe attachments
 			$content .= Skin::finalize_list($details, 'menu_bar');
