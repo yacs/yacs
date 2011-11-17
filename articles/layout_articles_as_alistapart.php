@@ -119,13 +119,13 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// build the list of future articles
 		if(@count($future))
-			$this->menu[] = Skin::build_sliding_box(i18n::s('Pages under preparation'), Skin::build_list($future, 'compact'), NULL, TRUE);
+			$this->menu[] = Skin::build_sliding_box(i18n::s('Pages under preparation'), Skin::build_list($future, 'compact'), NULL, TRUE, FALSE);
 
 		// build the list of other articles
 		if(@count($others))
-			$this->menu[] = Skin::build_sliding_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'), NULL, TRUE);
+			$this->menu[] = Skin::build_sliding_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'), NULL, TRUE, FALSE);
 
-		// talk about it
+		// allow to manage previous and future pages
 		if(@count($this->menu))
 			$text .= Skin::build_box((strlen($text) > 1024) ? i18n::s('Follow-up') : '', Skin::finalize_list($this->menu, 'menu_bar'));
 

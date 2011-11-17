@@ -399,14 +399,14 @@ div.box div.content { /* actual content of the box */
 
 /* menu bars */
 
-p.menu_bar { /* an horizontal menu of commands */
+div.menu_bar { /* an horizontal menu of commands */
 	margin: 1em 0 1em 0;
 	padding: 3px 0 3px 0;
 	font-weight: normal;
 }
 
-p.menu_bar a,
-p.menu_bar a:hover { /* one command */
+div.menu_bar a,
+div.menu_bar a:hover { /* one command */
 	margin: 0;
 	padding: 0px 0px 0px 7px;
 	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
@@ -414,33 +414,40 @@ p.menu_bar a:hover { /* one command */
 	font-weight: normal;
 }
 
-p.menu_bar a:hover { /* behaviour on hovering */
+div.menu_bar a:hover { /* behaviour on hovering */
 	color: red;
 }
 
-p.menu_bar a.button,
-p.menu_bar a.button span,
-p.menu_bar a.button:hover,
-p.menu_bar a.button:hover span { /* no specific background image for buttons */
+div.menu_bar a.button,
+div.menu_bar a.button span,
+div.menu_bar a.button:hover,
+div.menu_bar a.button:hover span { /* no specific background image for buttons */
 	background-color: #c0c0c0;
 	background-image: none;
 }
 
-p.menu_bar a span { /* secondary background image */
+div.menu_bar a span { /* secondary background image */
 	margin: 0;
 	padding: 0px 7px 0px 0px;
 	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
 }
 
-p.menu_bar a span.first { /* first command of the menu */
+div.menu_bar a span.first { /* first command of the menu */
 }
 
-p.menu_bar a span.last { /* last command of the menu */
+div.menu_bar a span.last { /* last command of the menu */
+}
+
+div.menu_bar a span a,
+div.menu_bar a span a:hover,
+div.menu_bar a span a span,
+div.menu_bar a span a:hover span { /* don't put background image on sub links (e.g., drop menus) */
+	background: none;
 }
 
 @media print { /* do not print menu bars */
 
-	p.menu_bar { display: none; }
+	div.menu_bar { display: none; }
 
 }
 
@@ -750,7 +757,7 @@ a img {
 }
 
 a.button,
-p.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
+div.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
 	border-color: #dcdcdc #696969 #696969 #dcdcdc;
 	border-style: solid;
 	border-width: 2px;

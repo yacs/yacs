@@ -3584,7 +3584,7 @@ Class Skin_Skeleton {
 				$text = ' '.INLINE_MENU_PREFIX.$text.INLINE_MENU_SUFFIX.' ';
 				break;
 
-			// use css selector: p.menu_bar, or customize constants in skin.php -- icons are dropped, if any
+			// use css selector: div.menu_bar, or customize constants in skin.php -- icons are dropped, if any
 			case 'menu_bar':
 
 				$line_count = 0;
@@ -3612,7 +3612,7 @@ Class Skin_Skeleton {
 
 				}
 
-				$text = '<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</p>\n";
+				$text = '<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
 				break;
 
 			// some news, that can be statically displayed, scrolled or rotated

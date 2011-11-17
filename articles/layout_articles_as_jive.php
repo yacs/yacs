@@ -159,7 +159,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 			// describe attachments
-			$content .= Skin::finalize_list($details, 'menu');
+			$content .= Skin::finalize_list($details, 'menu_bar');
 
 			// end the row
 			$text .= $content.'</td></tr>';
