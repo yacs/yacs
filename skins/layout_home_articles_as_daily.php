@@ -202,7 +202,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'span');
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+			if($count)
 				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 
 			// info on related comments
