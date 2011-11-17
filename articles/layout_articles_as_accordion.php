@@ -142,10 +142,6 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			// a link to the page
 			$elements[] = Skin::build_link(Articles::get_permalink($item), i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
 
-			// display all tags
-			if($item['tags'])
-				$elements[] = '<span class="details">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
-
 			// complement title
 			if(count($details))
 				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
@@ -171,6 +167,10 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			// make a full list
 			if(count($elements))
 				$box['text'] .= Skin::finalize_list($elements, 'compact');
+
+			// display all tags
+			if($item['tags'])
+				$box['text'] .= ' <p class="tags" style="margin-bottom: 0">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 			// if we have an icon for this page, use it
 			if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {

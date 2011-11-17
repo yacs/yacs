@@ -167,7 +167,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// list section and categories in the suffix
 			if(@count($anchors))
-				$suffix .= '<p class="details">'.implode(' ', $anchors).'</p>';
+				$suffix .= '<p class="tags">'.implode(' ', $anchors).'</p>';
 
 			// the creator of this article
 			$starter = '';
