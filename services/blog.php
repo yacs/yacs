@@ -491,7 +491,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog request', rawurldecode($raw_data), 'debug');
+	Logger::remember('services/blog.php', 'blog request', $raw_data, 'debug');
 
 // load the adequate codec
 include_once 'codec.php';
@@ -500,8 +500,8 @@ $codec = new xml_rpc_Codec();
 
 // regular decoding
 if(isset($raw_data) && $raw_data) {
-	// parse xml parameters -- use rawurldecode() instead urldecode(), else you will loose + signs
-	$result = $codec->import_request(rawurldecode($raw_data));
+	// parse xml parameter
+	$result = $codec->import_request($raw_data);
 	$status = @$result[0];
 	$parameters = @$result[1];
 
@@ -1453,8 +1453,8 @@ else {
 				// provide some file information in response
 				else {
 					$response = array(
-						'file' => $codec->encode($context['path_to_root'].$file_path.'/'.$file_name, 'string'),
-						'url' => $codec->encode($context['url_to_home'].$context['url_to_root'].$file_path.'/'.$file_name, 'string'),
+//						'file' => $codec->encode($context['path_to_root'].$file_path.'/'.$file_name, 'string'),
+						'url' => $codec->encode($context['url_to_home'].$context['url_to_root'].$file_path.'/'.rawurlencode($file_name), 'string'),
 						'type' => $codec->encode(Files::get_mime_type($file_name), 'string')
 					);
 

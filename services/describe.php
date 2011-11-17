@@ -7,7 +7,7 @@
  *
  * @link http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html RSD 1.0 specification
  *
- * This script helps to locate the blogging interface from any section, and from the front page. 
+ * This script helps to locate the blogging interface from any section, and from the front page.
  * To trigger the auto-discovery feature, visit the target section, and enter its web address
  * into your blogging tool.
  *
@@ -62,8 +62,8 @@ $text .= '	<homePageLink>'.$context['url_to_home'].$context['url_to_root'].$link
 
 // available blogging api
 $text .= '	<apis>'."\n"
-	.'		<api name="Movable Type" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
-	.'		<api name="MetaWeblog" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MetaWeblog" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MovableType" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
 	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
 	.'	</apis>'."\n";
 
@@ -75,7 +75,7 @@ $text .= '</service>'."\n".'</rsd>'."\n";
 //
 
 // handle the output correctly
-render_raw('text/xml; charset='.$context['charset']);
+render_raw('application/rsd+xml; charset='.$context['charset']);
 
 // suggest a name on download
 if(!headers_sent()) {
