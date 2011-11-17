@@ -1073,6 +1073,8 @@ Class Article extends Anchor {
 
 					// message components
 					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
+					if($description = trim($item['description']))
+						$summary .= '<p> </p><div>'.$description.'</div>';
 					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
 
 					// threads messages
