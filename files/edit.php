@@ -280,7 +280,7 @@ if(Surfer::is_crawler()) {
 		Surfer::check_default_editor($_REQUEST);
 
 		// shape the new element
-		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id'], TRUE), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
+		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id']), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
 			.'<dd>'.$_REQUEST['version'].'</dd>';
 
 		// keep it for history
