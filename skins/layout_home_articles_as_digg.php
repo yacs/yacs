@@ -157,11 +157,11 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id']))
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
+			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
 				$link = Comments::get_url('article:'.$item['id'], 'list');
 				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 			}
@@ -171,7 +171,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id']))
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
