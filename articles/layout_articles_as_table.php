@@ -127,7 +127,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// describe attachments
 			if(count($details))
-				$abstract .= '<p class="details">'.join(', ', $details).'</p>';
+				$abstract .= '<p style="margin: 3px 0;">'.join(', ', $details).'</p>';
 
 			// anchors
 			$anchors = array();

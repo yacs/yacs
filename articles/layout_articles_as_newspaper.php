@@ -171,7 +171,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 		// the introduction
-		$text .= '<p style="margin-top: 0;">';
+		$text .= '<div style="margin-top: 3px 0;">';
 
 		// the introductory text
 		if(is_object($overlay))
@@ -183,7 +183,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70, $url);
 
 		// end of the introduction
-		$text .= '</p>'."\n";
+		$text .= '</div>'."\n";
 
 		// insert overlay data, if any
 		if(is_object($overlay))
@@ -272,7 +272,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 		// the introduction
-		$text .= '<p style="margin-top: 0;">';
+		$text .= '<div style="margin: 3px 0;">';
 
 		// the introductory text
 		if(is_object($overlay))
@@ -284,7 +284,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
 
 		// end of the introduction
-		$text .= '</p>'."\n";
+		$text .= '</div>'."\n";
 
 		// insert overlay data, if any
 		if(is_object($overlay))

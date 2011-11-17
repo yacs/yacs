@@ -112,7 +112,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 			else
 				$introduction .= $item['introduction'];
 			if($introduction)
-				$suffix .= ' '.Codes::beautify_introduction($introduction);
+				$suffix .= ' - '.Codes::beautify_introduction($introduction);
 
 			// append details to the suffix
 			if(count($details))
