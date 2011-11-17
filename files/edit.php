@@ -273,6 +273,9 @@ if(Surfer::is_crawler()) {
 		else
 			$_REQUEST['description'] = $item['description'];
 
+		// remove active links that were used previously
+		$_REQUEST['description'] = preg_replace('/on(click|keypress)=".?"/', '', $_REQUEST['description']);
+
 		// ensure we know the surfer
 		Surfer::check_default_editor($_REQUEST);
 
