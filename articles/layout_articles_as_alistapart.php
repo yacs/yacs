@@ -105,9 +105,9 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				if($item_count == 1) {
 					$text .= $this->layout_newest($item);
 
-				// display all tags
-				if($item['tags'])
-					$context['page_tags'] = Skin::build_tags($item['tags']);
+					// display all tags
+					if($item['tags'])
+						$context['page_tags'] = Skin::build_tags($item['tags']);
 
 				// layout recent articles
 				} else
@@ -254,14 +254,21 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		if(Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))
 			Surfer::empower();
 
-		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
+		// create a box
+		$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 		// count the number of files in this article
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
-			if($count > 20)
-				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
+
+			// the command to post a new file, if allowed
+			if(Files::allow_creation($anchor, $item, 'article')) {
+				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
+				$box['top_bar'] += array( $link => i18n::s('Upload a file') );
+			}
+
+			// menu bar before the list
+			if(is_array($box['top_bar']))
+				$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
 
 			// list files by date (default) or by title (option files_by_title)
 			if(Articles::has_option('files_by_title', $anchor, $item))
@@ -271,18 +278,17 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
 
+			if($count > 20)
+				$box['bottom_bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
+
 			// navigation commands for files
 			$prefix = Articles::get_url($item['id'], 'navigate', 'files');
-			$box['bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
+			$box['bottom_bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
 
-			// the command to post a new file, if allowed
-			if(Files::allow_creation($anchor, $item, 'article')) {
-				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$box['bar'] += array( $link => i18n::s('Upload a file') );
-			}
+			// menu bar after the list
+			if(is_array($box['bottom_bar']))
+				$box['text'] .= Skin::build_list($box['bottom_bar'], 'menu_bar');
 
-			if(is_array($box['bar']))
-				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 		}
 
 		// actually render the html for this box
