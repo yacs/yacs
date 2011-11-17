@@ -221,9 +221,9 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			if(Links::allow_trackback())
 				$menu[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'span');
 
-			// a menu bar, but flushed to the right
+			// a menu bar
 			if(count($menu))
-				$box['content'] .= '<p class="menu_bar right" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</p>\n";
+				$box['content'] .= '<div class="menu_bar" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</div>\n";
 
 			$text .= Skin::build_box($box['title'], $box['content'], 'header1', 'article_'.$item['id']);
 			$box['content'] = '';

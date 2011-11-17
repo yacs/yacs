@@ -975,7 +975,7 @@ var Yacs = {
 
 		// align to the parent container
 		var container = $(handle).parent();
-		$(container).css('position', 'relative');
+		$(container).css({position: 'relative', zIndex: 100});
 
 		// the panel to slide
 		var panel = $(handle).next('.panel');
@@ -1008,7 +1008,7 @@ var Yacs = {
 		// display the panel if it is not visible
 		if($(panel).css("display") == 'none') {
 
-			$(panel).slideDown({duration:0.3, scaleContent:false});
+			$(panel).css({position: 'relative', zIndex: 200}).slideDown({duration:0.3, scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = $(handle).children('img');
