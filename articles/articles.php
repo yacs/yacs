@@ -561,7 +561,7 @@ Class Articles {
 			if($item['publish_name'])
 				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
 			else
-				$details[] = Skin::build_date($item['publish_date'], 'publishing');
+				$details[] = Skin::build_date($item['publish_date']);
 
 		}
 

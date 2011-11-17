@@ -660,7 +660,7 @@ Class Skin_Skeleton {
 	 * - 'no_hour' - adapts to time scale, but don't mention hours
 	 * - 'full' - display the full date
 	 * - 'month' - only month and year
-	 * - 'publishing' - with a draft icon in the future, else equivalent to 'no_hour'
+	 * - 'publishing' - allows for smart skinning
 	 * - 'standalone' - like full, but without the 'on ' prefix
 	 * - 'iso8601' - special format
 	 * - 'plain' - example 'Feb 26 2010 22:30:31 GMT'
@@ -783,9 +783,13 @@ Class Skin_Skeleton {
 		if(($variant == 'publishing') && (strcmp($stamp, $context['now']) > 0))
 			$output .= DRAFT_FLAG;
 
-		// don't display publishing hour
-		if($variant == 'publishing')
-			$variant = 'no_hour';
+		// allow for smart skinning -- http://www.wplover.com/1449/easier-date-display-technique-with-css-3/
+		if($variant == 'publishing') {
+			$output .= '<span class="day">'.$items['mday'].'</span>'
+				.'<span class="month">'.$months[$items['mon']].'</span>'
+				.'<span class="year">'.$items['year'].'</span>';
+			return $output;
+		}
 
 		// the same, but without prefix
 		if($variant == 'standalone') {

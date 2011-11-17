@@ -187,7 +187,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date'], 'publishing').' - </span>';
+		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).' - </span>';
 
 		// the introductory text
 		if($item['introduction']) {
@@ -284,7 +284,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date'], 'publishing').'</span>';
+		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).'</span>';
 
 		// the introductory text
 		if($item['introduction'])
@@ -371,7 +371,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$suffix .= '<span class="details"> -&nbsp;'.$author.Skin::build_date($item['publish_date'], 'publishing');
+		$suffix .= '<span class="details"> -&nbsp;'.$author.Skin::build_date($item['publish_date']);
 
 		// count comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))

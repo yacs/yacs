@@ -58,12 +58,16 @@ Class Layout_articles_as_daily extends Layout_interface {
 			return $text;
 
 		// build a list of articles
-		$box['content'] = '';
-		$box['title'] = '';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
+
+			// three components per box
+			$box = array();
+			$box['date'] = '';
+			$box['title'] = '';
+			$box['content'] = '';
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -74,34 +78,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// permalink
 			$url = Articles::get_permalink($item);
 
-			// what's the date today?
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$current_date = substr($item['publish_date'], 0, 10);
-			else
-				$current_date = DRAFT_FLAG.i18n::s('not published');
-
-			// very first box
-			if(!isset($previous_date)) {
-				$text .= '<div class="newest">'."\n";
-				$in_north = TRUE;
-				$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'publishing')."</p>\n";
-				$previous_date = $current_date;
-			}
-
-			// not the same publication date
-			if($previous_date != $current_date) {
-				if($in_north)
-					$text .= '</div>'.BR.BR."\n";
-				$in_north = FALSE;
-				if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-					$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'publishing')."</p>\n";
-				$previous_date = $current_date;
-			}
-
-			// always flag articles to be published
-			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE))
-				$text .= '<p class="date">'.$current_date."</p>\n";
-
 			// make a live title
 			if(is_object($overlay))
 				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
@@ -110,6 +86,10 @@ Class Layout_articles_as_daily extends Layout_interface {
 
 			// make a clickable title
 			$box['title'] = Skin::build_link($url, $box['title'], 'basic');
+
+			// what's the date today?
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+				$box['date'] .= Skin::build_date($item['publish_date'], 'publishing');
 
 			// the icon to put aside - never use anchor images
 			if($item['icon_url'])
@@ -132,18 +112,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$details[] = RESTRICTED_FLAG;
 
-			// list categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
-				foreach($items as $id => $attributes) {
-
-					// add background color to distinguish this category against others
-					if(isset($attributes['background_color']) && $attributes['background_color'])
-						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
-
-					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
-				}
-			}
-
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
@@ -151,6 +119,20 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// show details
 			if(count($details))
 				$box['content'] .= '<p class="details">'.implode(' ~ ', $details).'</p>'."\n";
+
+			// list categories by title, if any
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
+				$tags = array();
+				foreach($items as $id => $attributes) {
+
+					// add background color to distinguish this category against others
+					if(isset($attributes['background_color']) && $attributes['background_color'])
+						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
+					$tags[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
+				}
+				$box['content'] .= '<p class="tags">'.implode(' ', $tags).'</p>';
+			}
 
 			// the introduction text, if any
 			if(is_object($overlay))
@@ -210,14 +192,14 @@ Class Layout_articles_as_daily extends Layout_interface {
 			if(count($menu))
 				$box['content'] .= '<p class="menu_bar right" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</p>\n";
 
-			$text .= Skin::build_box($box['title'], $box['content'], 'header1', 'article_'.$item['id']);
-			$box['content'] = '';
-			$box['title'] = '';
-		}
+			// build a simple box for this post
+			$text .= '<div class="post">'
+				.'<div class="date">'.$box['date'].'</div>'
+				.'<h2><span>'.$box['title'].'</span></h2>'
+				.'<div class="content">'.$box['content'].'</div>'
+				.'</div>';
 
-		// close the on-going box
-		if($in_north)
-			$text .= '</div>'."\n";
+		}
 
 		// end of processing
 		SQL::free($result);
