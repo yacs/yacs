@@ -194,7 +194,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$details[] = $author.Skin::build_date($item['publish_date'], 'publishing');
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id']))
@@ -291,7 +291,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$details[] = $author.Skin::build_date($item['publish_date'], 'publishing');
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id']))
@@ -371,7 +371,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$details[] = $author.Skin::build_date($item['publish_date'], 'publishing');
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id']))

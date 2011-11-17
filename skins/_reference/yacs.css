@@ -1967,28 +1967,28 @@ div.accordion_content div.introduction {
  * daily layout: first box is shaped as follows:
  *
  * <div class="newest">
- * <p class="date">date of post</p>
  * <div class="box">
+ *  <div class="date">date of post</div>
  *	<h2><span>box title</span></h2>
  *  <div class="content">
  * 		<a><img class="left_image">page thumbnail</img></a>
  *		<p class="details">box details</p>
  *		box content
- *		<p class="menu_bar right">box menu</p>
+ *		<div class="menu_bar right">box menu</div>
  *  </div>
  * </div>
  * </div>
  *
  * other boxes have the same layout, except the most external div:
  *
- * <p class="date">date of post</p>
  * <div class="box">
+ *  <div class="date">date of post</div>
  *	<h2><span>box title</span></h2>
  *  <div class="content">
  * 		<a><img class="left_image">page thumbnail</img></a>
  *		<p class="details">box details</p>
  *		box content
- *		<p class="menu_bar right">box menu</p>
+ *		<div class="menu_bar right">box menu</div>
  *  </div>
  * </div>
  *
@@ -2010,14 +2010,64 @@ div#newest p.date { /* space above date to be partly delegated to the containing
 	margin-top: 0.5em;
 }
 
-p.date { /* date of a post, above its title */
-	color: #888;
-	font-size: .8em;
-	margin-top: 1.5em;
-	margin-bottom: 0;
-	padding-bottom: 4px;
-	border-bottom: 1px solid #ddd;
-	text-align: right;
+div.post {
+	position: relative;
+	margin: 1em 0 2em 60px; /* left margin to display post date */
+	border-top: 1px solid #999;
+}
+
+div.post h2 {
+	border: none;
+	margin: 0;
+	padding-top: 3px;
+}
+
+div.post h2,
+div.post h2 span,
+div.post h2 a,
+div.post h2 a:hover,
+div.post h2 a span {
+	font-size: 24px;
+	line-height: normal;
+	text-decoration: none;
+}
+
+/* you can also rotate some date elements, as explained at http://www.wplover.com/1449/easier-date-display-technique-with-css-3/ */
+
+div.date { /* date of a post */
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	font-family: Georgia, serif;
+	font-size: 20px;
+	line-height: normal;
+	color: #999;
+	margin: 0 auto;
+	position: absolute;
+	left: -60px;
+	top: -1px; /* because of the border */
+	border-top: 1px solid #999;
+}
+
+div.date .day { /* day of the post */
+	font-size: 30px;
+	position: absolute;
+	left: 0;
+	top: 13px;
+}
+
+div.date .month { /* month of the post */
+	font-size: 16px;
+	position: absolute;
+	left: 0;
+	top: 3px;
+}
+
+div.date .year { /* year of the post */
+	font-size: 12px;
+	position: absolute;
+	left: 3px;
+	top: 43px;
 }
 
 /**

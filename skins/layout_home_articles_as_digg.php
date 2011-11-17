@@ -110,7 +110,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date'], 'publishing');
+			$details[] = Skin::build_date($item['publish_date']);
 
 			// rating
 			$rating_label = '';
