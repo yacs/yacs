@@ -157,7 +157,13 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 
 			// layout details
 			if(count($details))
-				$suffix .= BR.'<span class="small">'.YAHOO_ITEM_PREFIX.implode(YAHOO_ITEM_SUFFIX.YAHOO_ITEM_PREFIX, $details).YAHOO_ITEM_SUFFIX."</span>\n";
+				foreach($details as $line) {
+					$suffix .= '<div>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
+			}
+
+			// display all tags
+			if($item['tags'])
+				$suffix .= '<p class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 			// put the actual icon in the left column
 			if(isset($item['thumbnail_url']))

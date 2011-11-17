@@ -166,6 +166,10 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		// pack in a block
 		$text = '<h2>'.Skin::build_link($url, $icon.$title, 'basic').'</h2>';
 
+		// display all tags
+		if($item['tags'])
+			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+
 		// the introduction
 		$text .= '<p style="margin-top: 0;">';
 
@@ -262,6 +266,10 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// pack in a block
 		$text = '<h3>'.Skin::build_link($url, $icon.$title, 'basic').'</h3>';
+
+		// display all tags
+		if($item['tags'])
+			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 		// the introduction
 		$text .= '<p style="margin-top: 0;">';
@@ -392,6 +400,10 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// append a menu
 		$suffix .= Skin::finalize_list($details, 'menu');
+
+		// display all tags
+		if($item['tags'])
+			$suffix .= ' <p class="tags" style="margin-top: 3px;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 		// insert an array of links
 		return array($prefix, $title, $suffix);

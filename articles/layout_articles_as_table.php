@@ -142,7 +142,7 @@ Class Layout_articles_as_table extends Layout_interface {
 				}
 			}
 			if(@count($anchors))
-				$abstract .= BR.'<span class="details">'.sprintf(i18n::s('Categories: %s'), implode(', ', $anchors)).'</span>';
+				$abstract .= '<p class="tags" style="margin: 3px 0">'.implode(' ', $anchors).'</p>';
 
 			// poster name
 			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {
