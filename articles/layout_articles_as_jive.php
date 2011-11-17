@@ -104,7 +104,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// add details to the title
 			if(count($details))
-				$text .= '<p class="details">'.join(', ', $details).'</p>';
+				$text .= '<p class="details" style="margin: 3px 0">'.join(', ', $details).'</p>';
 
 			// display all tags
 			if($item['tags'])

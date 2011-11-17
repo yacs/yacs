@@ -408,6 +408,8 @@ Class Skin_Skeleton {
 	 * - 'folded' for a folded box with content
 	 * - 'gadget' for additional content in the main part of the page
 	 * - 'header1' with a level 1 title
+	 * - 'header1 even'
+	 * - 'header1 odd'
 	 * - 'header2' with a level 2 title
 	 * - 'header3' with a level 3 title
 	 * - 'navigation' for additional navigational information on page side
@@ -458,6 +460,8 @@ Class Skin_Skeleton {
 			break;
 
 		case 'header1':
+		case 'header1 even':
+		case 'header1 odd':
 		case 'header2':
 		case 'header3':
 			$output =& Skin::build_header_box($title, $content, $id, $variant);
@@ -1230,8 +1234,16 @@ Class Skin_Skeleton {
 			$id = ' id="header_box_'.++$box_index.'" ';
 		}
 
+		// allow for stacked boxes
+		if(strpos($variant, 'even'))
+			$class = ' even';
+		elseif(strpos($variant, 'odd'))
+			$class = ' odd';
+		else
+			$class = '';
+
 		// external div boundary
-		$text = '<div class="box"'.$id.'>'."\n";
+		$text = '<div class="box'.$class.'"'.$id.'>'."\n";
 
 		// map the level to a given tag
 		if($variant == 'header3')
@@ -2113,6 +2125,7 @@ Class Skin_Skeleton {
 			if(($variant == 'crumbs') || ($variant == 'tabs'))
 				$label = strip_tags($label, '<img>');
 
+			// ensure we have a box header for columns
 			if(($variant == 'column_1') || ($variant == 'column_2'))
 				$label = '<span class="box_header">'.$label.'</span>';
 
@@ -3403,18 +3416,28 @@ Class Skin_Skeleton {
 						$text .= $label;
 				}
 
-				$text = Skin::build_block('<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</p>', 'bottom');
+				$text = Skin::build_block('<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</div>', 'bottom');
 				break;
 
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
 			case 'column_1':
 			case 'column_2':
 
+				if($variant == 'column_1')
+					$class = 'even';
+				else
+					$class = 'odd';
+
 				foreach($list as $item) {
 					list($label, $icon) = $item;
 					if($icon)
-						$text .= '<dt>'.$icon.'</dt>';
-					$text .= '<dd>'.$label.'</dd>'."\n";
+						$text .= '<dt class="'.$class.'">'.$icon.'</dt>';
+					$text .= '<dd class="'.$class.'">'.$label.'</dd>'."\n";
+
+					if($class == 'even')
+						$class = 'odd';
+					else
+						$class = 'even';
 				}
 
 				$text = '<dl class="'.$variant.'">'."\n".$text.'</dl>'."\n";

@@ -41,6 +41,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
+		$class = 'even';
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay
@@ -163,10 +164,18 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// details
 			if(count($details))
-				$content .= '<p class="details" style="margin-top: 2em;">'.ucfirst(implode(' - ', $details)).'</p>';
+				$content .= '<div><span class="details">'.ucfirst(implode(' - ', $details)).'</span></div>';
 
 			// insert a complete box
-			$text .= Skin::build_box(Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')), $icon.$content, 'header1', 'article_'.$item['id']);
+			$text .= Skin::build_box(Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')),
+				$icon.$content,
+				'header1 '.$class, 'article_'.$item['id']);
+
+			// stack boxes
+			if($class == 'even')
+				$class = 'odd';
+			else
+				$class = 'even';
 
 		}
 
