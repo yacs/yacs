@@ -1185,42 +1185,6 @@ if(!isset($item['id'])) {
 			else
 				$items_per_page = ARTICLES_PER_PAGE;
 
-			// create a box
-			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
-
-			// no navigation bar with alistapart
-			if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
-
-				// count the number of articles in this section
-				if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-					if($count > 20)
-						$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
-
-					// navigation commands for articles
-					$home = Sections::get_permalink($item);
-					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
-					$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
-
-					// help to navigate across multiple pages
-					if($count > $items_per_page)
-						$box['bottom_bar'] = $box['top_bar'];
-
-				}
-
-				// the command to post a new page
-				if(Articles::allow_creation($item, $anchor)) {
-
-					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
-					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-					if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
-						;
-					else
-						$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
-					$box['top_bar'] += array( $url => $label );
-
-				}
-			}
-
 			// sort and list articles
 			$offset = ($zoom_index - 1) * $items_per_page;
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -1229,6 +1193,22 @@ if(!isset($item['id'])) {
 				$order = $layout->items_order();
 			else
 				$order = 'edition';
+
+			// create a box
+			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
+
+			// the command to post a new page
+			if(Articles::allow_creation($item, $anchor)) {
+
+				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
+				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+					;
+				else
+					$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
+				$box['top_bar'] += array( $url => $label );
+
+			}
 
 			// list pages under preparation
 			$this_section = new section;
@@ -1255,6 +1235,23 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
+
+			// no navigation bar with alistapart
+			if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
+
+				// count the number of articles in this section
+				if($count = Articles::count_for_anchor('section:'.$item['id'])) {
+					if($count > 20)
+						$box['bottom_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
+
+					// navigation commands for articles
+					$home = Sections::get_permalink($item);
+					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
+					$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
+
+				}
+
+			}
 
 			// bottom menu
 			if($box['bottom_bar'])
@@ -1628,23 +1625,6 @@ if(!isset($item['id'])) {
 			// build a complete box
 			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
-			// count the number of subsections
-			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-
-				if($count > 20)
-					$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
-
-				// navigation commands for sections
-				$home = Sections::get_permalink($item);
-				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
-				$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
-
-				// help to navigate across multiple pages
-				if($count > $items_per_page)
-					$box['bottom_bar'] = $box['top_bar'];
-
-			}
-
 			// the command to add a new section
 			if(Sections::allow_creation($item, $anchor)) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
@@ -1666,6 +1646,19 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
+
+			// count the number of subsections
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+
+				if($count > 20)
+					$box['bottom_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
+
+				// navigation commands for sections
+				$home = Sections::get_permalink($item);
+				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
+				$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
+
+			}
 
 			// bottom menu
 			if($box['bottom_bar'])
