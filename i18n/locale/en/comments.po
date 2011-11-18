@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 08:19+0200\n"
+"POT-Creation-Date: 2011-11-17 23:00+0100\n"
 "PO-Revision-Date: 2011-06-27 16:15+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -79,11 +79,11 @@ msgstr "Look for orphan records"
 msgid "Start"
 msgstr "Start"
 
-#: comments/comments.php:389 comments/edit.php:441
+#: comments/comments.php:389 comments/edit.php:442
 msgid "Submit"
 msgstr "Submit"
 
-#: comments/comments.php:389 comments/edit.php:441
+#: comments/comments.php:389 comments/edit.php:442
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
@@ -155,7 +155,7 @@ msgstr "The action has not been confirmed."
 msgid "Yes, I want to delete this comment"
 msgstr "Yes, I want to delete this comment"
 
-#: comments/delete.php:114 comments/edit.php:444
+#: comments/delete.php:114 comments/edit.php:445
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -184,54 +184,54 @@ msgstr "Post a comment"
 msgid "Please prove you are not a robot."
 msgstr "Please prove you are not a robot."
 
-#: comments/edit.php:253
+#: comments/edit.php:254
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 
-#: comments/edit.php:259
+#: comments/edit.php:260
 msgid "Persons that have been notified"
 msgstr "Persons that have been notified"
 
-#: comments/edit.php:262
+#: comments/edit.php:263
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: comments/edit.php:275
+#: comments/edit.php:276
 #, php-format
 msgid "Comment by %s"
 msgstr "Comment by %s"
 
-#: comments/edit.php:277
+#: comments/edit.php:278
 msgid "Anonymous comment"
 msgstr "Anonymous comment"
 
-#: comments/edit.php:280
+#: comments/edit.php:281
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: comments/edit.php:321
+#: comments/edit.php:322
 msgid "Preview of your post:"
 msgstr "Preview of your post:"
 
-#: comments/edit.php:324
+#: comments/edit.php:325
 msgid "Edit your post below"
 msgstr "Edit your post below"
 
-#: comments/edit.php:339 comments/edit.php:341
+#: comments/edit.php:340 comments/edit.php:342
 #, php-format
 msgid "%s:"
 msgstr "%s:"
 
-#: comments/edit.php:358
+#: comments/edit.php:359
 msgid "Posted by"
 msgstr "Posted by"
 
-#: comments/edit.php:366
+#: comments/edit.php:367
 msgid "Edited by"
 msgstr "Edited by"
 
-#: comments/edit.php:380
+#: comments/edit.php:381
 #, php-format
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
@@ -240,86 +240,86 @@ msgstr ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
 
-#: comments/edit.php:380
+#: comments/edit.php:381
 msgid "authenticate"
 msgstr "authenticate"
 
-#: comments/edit.php:383
+#: comments/edit.php:384
 msgid "Your name"
 msgstr "Your name"
 
-#: comments/edit.php:385
+#: comments/edit.php:386
 msgid "This optional field can be left blank if you wish."
 msgstr "This optional field can be left blank if you wish."
 
-#: comments/edit.php:389
+#: comments/edit.php:390
 msgid "Your address"
 msgstr "Your address"
 
-#: comments/edit.php:391
+#: comments/edit.php:392
 msgid "e-mail or web address; this field is optional"
 msgstr "e-mail or web address; this field is optional"
 
-#: comments/edit.php:402
+#: comments/edit.php:403
 msgid "Your intent"
 msgstr "Your intent"
 
-#: comments/edit.php:410
+#: comments/edit.php:411
 msgid "Please carefully select a type adequate for your comment."
 msgstr "Please carefully select a type adequate for your comment."
 
-#: comments/edit.php:415
+#: comments/edit.php:416
 msgid "Your contribution"
 msgstr "Your contribution"
 
-#: comments/edit.php:425
+#: comments/edit.php:426
 msgid "Upload a file"
 msgstr "Upload a file"
 
-#: comments/edit.php:430
+#: comments/edit.php:431
 msgid "bytes"
 msgstr "bytes"
 
-#: comments/edit.php:442
+#: comments/edit.php:443
 msgid "Press [p] for preview"
 msgstr "Press [p] for preview"
 
-#: comments/edit.php:442
+#: comments/edit.php:443
 msgid "Preview"
 msgstr "Preview"
 
-#: comments/edit.php:455
+#: comments/edit.php:456
 msgid "Notify watchers"
 msgstr "Notify watchers"
 
-#: comments/edit.php:459
+#: comments/edit.php:460
 msgid "Notify my followers"
 msgstr "Notify my followers"
 
-#: comments/edit.php:465
+#: comments/edit.php:466
 msgid "Do not change modification date of the main page."
 msgstr "Do not change modification date of the main page."
 
-#: comments/edit.php:468
+#: comments/edit.php:469
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: comments/edit.php:495
+#: comments/edit.php:496
 msgid "Please type a valid comment"
 msgstr "Please type a valid comment"
 
-#: comments/edit.php:528 comments/layout_comments_as_boxesandarrows.php:75
+#: comments/edit.php:529 comments/layout_comments_as_boxesandarrows.php:75
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: comments/edit.php:533
+#: comments/edit.php:534
 msgid ""
 "You can cut and paste some text from the field below to shape your post."
 msgstr ""
 "You can cut and paste some text from the field below to shape your post."
 
-#: comments/edit.php:538
+#: comments/edit.php:539
 msgid ""
 "Hearty discussion and unpopular viewpoints are welcome, but please keep "
 "comments on-category and civil. Flaming, trolling, and smarmy comments are "
@@ -331,7 +331,7 @@ msgstr ""
 "discouraged and may be deleted. In fact, we reserve the right to delete any "
 "post for any reason. Don't make us do it."
 
-#: comments/edit.php:540
+#: comments/edit.php:541
 msgid ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
@@ -339,36 +339,36 @@ msgstr ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
 
-#: comments/edit.php:542
+#: comments/edit.php:543
 msgid "Most HTML tags are removed."
 msgstr "Most HTML tags are removed."
 
-#: comments/edit.php:545
+#: comments/edit.php:546
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: comments/edit.php:545
+#: comments/edit.php:546
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: comments/edit.php:545
+#: comments/edit.php:546
 msgid "smileys"
 msgstr "smileys"
 
-#: comments/edit.php:552
+#: comments/edit.php:553
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: comments/edit.php:556
+#: comments/edit.php:557
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: comments/edit.php:560
+#: comments/edit.php:561
 msgid "Textarea"
 msgstr "Textarea"
 
-#: comments/edit.php:564
+#: comments/edit.php:565
 msgid "Help"
 msgstr "Help"
 

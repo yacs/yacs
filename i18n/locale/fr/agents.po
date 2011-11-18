@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-11-17 23:00+0100\n"
 "PO-Revision-Date: 2011-01-25 00:07+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -379,11 +379,11 @@ msgstr "Recherches"
 msgid "Item sent by e-mail"
 msgstr "Elément envoyé par courrier électronique"
 
-#: agents/messages.php:1140
+#: agents/messages.php:1139
 msgid "Size"
 msgstr "Taille"
 
-#: agents/messages.php:1380
+#: agents/messages.php:1379
 msgid ""
 "The page received by e-mail has been successfully published. Please review "
 "it now to ensure that it reflects your mind."
@@ -391,7 +391,7 @@ msgstr ""
 "La page reçue par courrier électronique a été publiée avec succès. Merci de "
 "la passer en revue maintenant."
 
-#: agents/messages.php:1382
+#: agents/messages.php:1381
 msgid ""
 "The page received by e-mail has been posted. Don't forget to read it online. "
 "Then click on the Publish command to make it publicly available."
@@ -399,21 +399,21 @@ msgstr ""
 "La page reçue par courrier électronique a été enregistrée. Vous pouvez la "
 "consulter en ligne, puis la publier pour la rendre accessible."
 
-#: agents/messages.php:1387
+#: agents/messages.php:1386
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
-#: agents/messages.php:1399
+#: agents/messages.php:1398
 #, php-format
 msgid "New submission: %s"
 msgstr "Nouvel envoi : %s"
 
-#: agents/messages.php:1401
+#: agents/messages.php:1400
 #, php-format
 msgid "Sent by %s in %s"
 msgstr "Envoyé par %s dans %s"
 
-#: agents/messages.php:1403
+#: agents/messages.php:1402
 #, php-format
 msgid "Sent by %s"
 msgstr "Envoyé par %s"

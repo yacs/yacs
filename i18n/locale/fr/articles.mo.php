@@ -53,7 +53,6 @@ $context['l10n']['fr']['Back to the page']='Retour à la page';
 $context['l10n']['fr']['Branch out to %s']='Débrancher vers %s';
 $context['l10n']['fr']['By %s']='Par %s';
 $context['l10n']['fr']['Cancel']='Annuler';
-$context['l10n']['fr']['Categories: %s']='Catégories : %s';
 $context['l10n']['fr']['Change']='Changer';
 $context['l10n']['fr']['Change the overlay']='Changer d\'overlay';
 $context['l10n']['fr']['363ac331c63e9412effb8211819d652f']='Changer la date de publication au %s';

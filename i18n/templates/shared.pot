@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-06 21:50+0200\n"
+"POT-Creation-Date: 2011-11-17 23:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,61 +195,61 @@ msgstr ""
 msgid "Related items"
 msgstr ""
 
-#: shared/codes.php:1526
+#: shared/codes.php:1524
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/codes.php:1529
+#: shared/codes.php:1527
 msgid "No authenticated person has used this link yet"
 msgstr ""
 
-#: shared/codes.php:1550
+#: shared/codes.php:1548
 msgid "No item has been found."
 msgstr ""
 
-#: shared/codes.php:1594
+#: shared/codes.php:1592
 msgid "Access collection"
 msgstr ""
 
-#: shared/codes.php:1655
+#: shared/codes.php:1653
 msgid "Filter"
 msgstr ""
 
-#: shared/codes.php:1778
+#: shared/codes.php:1776
 msgid "Play in a separate window"
 msgstr ""
 
-#: shared/codes.php:2014 shared/codes.php:2276
+#: shared/codes.php:2012 shared/codes.php:2274
 msgid "Browse this map with Freemind"
 msgstr ""
 
-#: shared/codes.php:2204 shared/codes.php:2216
+#: shared/codes.php:2202 shared/codes.php:2214
 msgid "Full-size"
 msgstr ""
 
-#: shared/codes.php:2410
+#: shared/codes.php:2408
 msgid "Your browser does not accept iframes"
 msgstr ""
 
-#: shared/codes.php:2894
+#: shared/codes.php:2892
 msgid "View this comment"
 msgstr ""
 
-#: shared/codes.php:2923
+#: shared/codes.php:2921
 msgid "View this decision"
 msgstr ""
 
-#: shared/codes.php:4509
+#: shared/codes.php:4507
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/global.php:936
+#: shared/global.php:948
 msgid "View the category"
 msgstr ""
 
@@ -334,11 +334,11 @@ msgstr ""
 msgid "monthly"
 msgstr ""
 
-#: shared/pdf.php:325
+#: shared/pdf.php:328
 msgid "PDF export created by YACS"
 msgstr ""
 
-#: shared/safe.php:907
+#: shared/safe.php:915
 #, php-format
 msgid "Redirecting to %s"
 msgstr ""
