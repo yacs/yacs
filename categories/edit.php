@@ -364,7 +364,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').checked=1" />')
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />')
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -428,7 +428,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />');
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -460,7 +460,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="users_layout" value="custom" id="custom_users_layout"';
 	if($item['users_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="users_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_users_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="users_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_users_layout\').attr(\'checked\', \'checked\')" />');
 	$input .= BR.'<input type="radio" name="users_layout" value="none"';
 	if($item['users_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -512,7 +512,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
 	if($item['categories_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_categories_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_categories_layout\').attr(\'checked\', \'checked\')" />');
 	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
 	if($item['categories_layout'] == 'none')
 		$input .= ' checked="checked"';
