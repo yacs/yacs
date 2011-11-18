@@ -387,20 +387,20 @@ if($with_form) {
 	$input .= '<input type="radio" name="articles_layout" value="decorated"';
 	if($item['articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images');
-	$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
+	$input .= '/> '.i18n::s('decorated - A list decorated with images')
+		.BR.'<input type="radio" name="articles_layout" value="digg"';
 	if($item['articles_layout'] == 'digg')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('digg - To order pages by rating');
-	$input .= BR.'<input type="radio" name="articles_layout" value="slashdot"';
+	$input .= '/> '.i18n::s('digg - To order pages by rating')
+		.BR.'<input type="radio" name="articles_layout" value="slashdot"';
 	if($item['articles_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('slashdot - List most recent pages equally');
-	$input .= BR.'<input type="radio" name="articles_layout" value="map"';
+	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
+		.BR.'<input type="radio" name="articles_layout" value="map"';
 	if($item['articles_layout'] == 'map')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!');
-	$input .= BR.'<input type="radio" name="articles_layout" value="accordion"';
+	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
+		.BR.'<input type="radio" name="articles_layout" value="accordion"';
 	if($item['articles_layout'] == 'accordion')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
@@ -415,47 +415,51 @@ if($with_form) {
 		.BR.'<input type="radio" name="articles_layout" value="table"';
 	if($item['articles_layout'] == 'table')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('table - A table of recent pages');
-	$input .= BR.'<input type="radio" name="articles_layout" value="daily"';
+	$input .= '/> '.i18n::s('table - A table of recent pages')
+		.BR.'<input type="radio" name="articles_layout" value="daily"';
 	if($item['articles_layout'] == 'daily')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)');
-	$input .= BR.'<input type="radio" name="articles_layout" value="newspaper"';
+	$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)')
+		.BR.'<input type="radio" name="articles_layout" value="newspaper"';
 	if($item['articles_layout'] == 'newspaper')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('newspaper - Highlight four most recent pages');
-	$input .= BR.'<input type="radio" name="articles_layout" value="hardboiled"';
+	$input .= '/> '.i18n::s('newspaper - Highlight four most recent pages')
+		.BR.'<input type="radio" name="articles_layout" value="hardboiled"';
 	if($item['articles_layout'] == 'hardboiled')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('hardboiled - Highlight two most recent pages');
-	$input .= BR.'<input type="radio" name="articles_layout" value="jive"';
+	$input .= '/> '.i18n::s('hardboiled - Highlight two most recent pages')
+		.BR.'<input type="radio" name="articles_layout" value="jive"';
 	if($item['articles_layout'] == 'jive')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - Display most of articles content');
-	$input .= BR.'<input type="radio" name="articles_layout" value="yabb"';
+	$input .= '/> '.i18n::s('jive - Display most of articles content')
+		.BR.'<input type="radio" name="articles_layout" value="yabb"';
 	if($item['articles_layout'] == 'yabb')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion board');
-	$input .= BR.'<input type="radio" name="articles_layout" value="alistapart"';
+	$input .= '/> '.i18n::s('yabb - A discussion board')
+		.BR.'<input type="radio" name="articles_layout" value="alistapart"';
 	if($item['articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page');
-	$input .= BR.'<input type="radio" name="articles_layout" value="tagged"';
+	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page')
+		.BR.'<input type="radio" name="articles_layout" value="tagged"';
 	if($item['articles_layout'] == 'tagged')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('tagged - Titles and tags');
-	$input .= BR.'<input type="radio" name="articles_layout" value="simile"';
+	$input .= '/> '.i18n::s('tagged - Titles and tags')
+		.BR.'<input type="radio" name="articles_layout" value="tabs"';
+	if($item['articles_layout'] == 'tabs')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('tabs - One tab per page, with content')
+		.BR.'<input type="radio" name="articles_layout" value="simile"';
 	if($item['articles_layout'] == 'simile')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('simile - Dots and titles in a timeline');
-	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
+	$input .= '/> '.i18n::s('simile - Dots and titles in a timeline')
+		.BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('compact - A compact list')
 		.BR.'<input type="radio" name="articles_layout" value="directory"';
 	if($item['articles_layout'] == 'directory')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('directory - Break long lists in 26 smallest parts')
+	$input .= '/> '.i18n::s('directory - An alphabetical index of items')
 		.BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
@@ -597,6 +601,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'folded')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
+		.BR.'<input type="radio" name="sections_layout" value="tabs"';
+	if($item['sections_layout'] == 'tabs')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('tabs - One tab per section, with content')
 		.BR.'<input type="radio" name="sections_layout" value="compact"';
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
@@ -604,7 +612,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="directory"';
 	if($item['sections_layout'] == 'directory')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('directory - Break long lists in 26 smallest parts')
+	$input .= '/> '.i18n::s('directory - An alphabetical index of items')
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
