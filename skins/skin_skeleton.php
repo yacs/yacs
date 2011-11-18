@@ -2790,7 +2790,7 @@ Class Skin_Skeleton {
 			else
 				$tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			$tabs_text .= '><a href="#">'.$tab[1].'</a></li>'."\n";
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'"';
