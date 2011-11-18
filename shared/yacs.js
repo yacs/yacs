@@ -1372,7 +1372,6 @@ var Yacs = {
 		panel = Yacs.tabs_list[newCurrent][0];
 
 		// remember our state
-		window.location.hash = id;
 		Yacs.tabs_current = id;
 
 		// update the tab
