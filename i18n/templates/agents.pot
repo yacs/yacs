@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-06 21:50+0200\n"
+"POT-Creation-Date: 2011-11-17 23:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -353,37 +353,37 @@ msgstr ""
 msgid "Item sent by e-mail"
 msgstr ""
 
-#: agents/messages.php:1140
+#: agents/messages.php:1139
 msgid "Size"
 msgstr ""
 
-#: agents/messages.php:1380
+#: agents/messages.php:1379
 msgid ""
 "The page received by e-mail has been successfully published. Please review "
 "it now to ensure that it reflects your mind."
 msgstr ""
 
-#: agents/messages.php:1382
+#: agents/messages.php:1381
 msgid ""
 "The page received by e-mail has been posted. Don't forget to read it online. "
 "Then click on the Publish command to make it publicly available."
 msgstr ""
 
-#: agents/messages.php:1387
+#: agents/messages.php:1386
 msgid "Thank you for your contribution"
 msgstr ""
 
-#: agents/messages.php:1399
+#: agents/messages.php:1398
 #, php-format
 msgid "New submission: %s"
 msgstr ""
 
-#: agents/messages.php:1401
+#: agents/messages.php:1400
 #, php-format
 msgid "Sent by %s in %s"
 msgstr ""
 
-#: agents/messages.php:1403
+#: agents/messages.php:1402
 #, php-format
 msgid "Sent by %s"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-06 21:50+0200\n"
+"POT-Creation-Date: 2011-11-17 23:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: codes/basic.php:52 codes/blocks.php:41 codes/index.php:23
+#: codes/basic.php:52 codes/blocks.php:41 codes/index.php:21
 #: codes/links.php:81 codes/lists.php:33 codes/live.php:52 codes/misc.php:54
 #: codes/tables.php:30 codes/titles.php:42 codes/widgets.php:38
 msgid "Help index"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "In-line formatting codes"
 msgstr ""
 
-#: codes/basic.php:60 codes/blocks.php:49 codes/index.php:30
+#: codes/basic.php:60 codes/blocks.php:49 codes/index.php:28
 #: codes/links.php:89 codes/lists.php:41 codes/live.php:60 codes/misc.php:62
 #: codes/tables.php:38 codes/titles.php:50 codes/widgets.php:46
 #, php-format
@@ -517,47 +517,47 @@ msgstr ""
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: codes/index.php:26
+#: codes/index.php:24
 msgid "Introduction to formatting codes"
 msgstr ""
 
-#: codes/index.php:34
+#: codes/index.php:32
 msgid "In-line formatting codes (bold, underlined, ...)"
 msgstr ""
 
-#: codes/index.php:35
+#: codes/index.php:33
 msgid "Links (and shortcuts, buttons, ...)"
 msgstr ""
 
-#: codes/index.php:36
+#: codes/index.php:34
 msgid "Lists (with bullets, numbered, ...)"
 msgstr ""
 
-#: codes/index.php:37
+#: codes/index.php:35
 msgid "Blocks (indentation, script, quote, ...)"
 msgstr ""
 
-#: codes/index.php:38
+#: codes/index.php:36
 msgid "Tables (with headers, with grids, use CSV data, ...)"
 msgstr ""
 
-#: codes/index.php:39
+#: codes/index.php:37
 msgid "Titles and questions (and table of content)"
 msgstr ""
 
-#: codes/index.php:40
+#: codes/index.php:38
 msgid "Dynamic queries (updates, content, ...)"
 msgstr ""
 
-#: codes/index.php:41
+#: codes/index.php:39
 msgid "Widgets (twitter, calendar, ...)"
 msgstr ""
 
-#: codes/index.php:42
+#: codes/index.php:40
 msgid "Miscellaneous codes (charts, ...)"
 msgstr ""
 
-#: codes/index.php:46
+#: codes/index.php:44
 msgid ""
 "Codes allow you to specify formatting rules for your text, even if you are "
 "not allowed to use HTML in your posts. BB codes, or UBB codes, originated "
@@ -565,7 +565,7 @@ msgid ""
 "of it."
 msgstr ""
 
-#: codes/index.php:47
+#: codes/index.php:45
 msgid ""
 "With codes you use \"tags\" to add formatting to your text. Every  tag is "
 "enclosed in [ and ]. If you want to mark some region in your text, you need "
@@ -574,18 +574,18 @@ msgid ""
 "to close it, you will not get the desired formatting."
 msgstr ""
 
-#: codes/index.php:48
+#: codes/index.php:46
 msgid ""
 "Follow the links below to get more information on codes implemented on this "
 "server."
 msgstr ""
 
-#: codes/index.php:50
+#: codes/index.php:48
 #, php-format
 msgid "You can also browse links above in complement to the %s."
 msgstr ""
 
-#: codes/index.php:50
+#: codes/index.php:48
 msgid "Theme test"
 msgstr ""
 

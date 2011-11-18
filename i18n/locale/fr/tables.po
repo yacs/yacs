@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2011-11-17 23:00+0100\n"
 "PO-Revision-Date: 2010-05-27 10:24+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -113,7 +113,7 @@ msgstr "Modifier une table"
 msgid "Add a table"
 msgstr "Ajouter une table"
 
-#: tables/edit.php:102 tables/tables.php:976 tables/tables.php:982
+#: tables/edit.php:102 tables/tables.php:982 tables/tables.php:988
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -376,7 +376,7 @@ msgstr "Pages récentes"
 msgid "details"
 msgstr "détails"
 
-#: tables/layout_tables.php:110 tables/tables.php:307
+#: tables/layout_tables.php:110 tables/tables.php:313
 msgid "edit"
 msgstr "modifier"
 
@@ -389,11 +389,11 @@ msgstr "supprimer"
 msgid "Error in table query %s"
 msgstr "Erreur dans la requête de la table %s"
 
-#: tables/tables.php:970
+#: tables/tables.php:976
 msgid "Please add some SQL query."
 msgstr "Merci d'indiquer une requête SQL valide"
 
-#: tables/tables.php:998
+#: tables/tables.php:1004
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
