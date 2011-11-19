@@ -653,7 +653,7 @@ Class Locations {
 		// create this map
 		$text .= JS_PREFIX
 			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
-			.'	var map = new GMap2($("#'.$handle.'"));'."\n"
+			.'	var map = new GMap2($("#'.$handle.'")[0]);'."\n"
 			.'	map.addControl(new GSmallMapControl());'."\n"
 			.'	map.addControl(new GMapTypeControl());'."\n";
 
