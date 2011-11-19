@@ -668,7 +668,7 @@ Class Locations {
 
 		// center point
 		$latitude_middle = $latitudes / max(1, $index);
-		$longitude_middle = $longitudes / max(1, $index);
+		$longitude_middle = $longitudes / max(1, $index);      
 		$text .= '	map.setCenter(new GLatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")), '.$scale.');'."\n";
 
 		// add all markers
@@ -767,8 +767,8 @@ Class Locations {
 			.'	iconRed.shadowSize = new GSize(22, 20);'."\n"
 			.'	iconRed.iconAnchor = new GPoint(6, 20);'."\n"
 			.'	iconRed.infoWindowAnchor = new GPoint(5, 1);'."\n"
-			.'}'."\n"
-			.JS_SUFFIX."\n";
+			.'}'
+			.JS_SUFFIX;
 
 		// done
 		return $text;
