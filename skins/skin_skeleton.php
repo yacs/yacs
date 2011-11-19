@@ -4826,7 +4826,7 @@ Class Skin_Skeleton {
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
-			.'$(document).ready("dom:loaded", function() {'."\n"
+			.'$(document).ready(function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
 			.'	handle = $("#scroller_'.$scroller_id.'")[0];'."\n"
