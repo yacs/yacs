@@ -4739,7 +4739,7 @@ Class Skin_Skeleton {
 		// hide every news item, except the first one
 		$text .= '// hide every news item, except the first one'."\n";
 		for($index = 1; $index < count($matches[1]); $index++)
-			$text .= 'handle = $("#'.$matches[1][$index].'");'."\n"
+			$text .= 'handle = $("#'.$matches[1][$index].'")[0];'."\n"
 				.'handle.style.display="none";'."\n";
 
 		// one function per rotating step
@@ -4749,8 +4749,8 @@ Class Skin_Skeleton {
 
 			$text .= "\n".'// from item '.$from.' to item '.$to."\n"
 				.'function rotate_'.$from.'() {'."\n"
-				.'	new Effect.Fade($("#'.$from.'"), {duration:.3, scaleContent:false});'."\n"
-				.'	new Effect.Appear($("#'.$to.'"), {duration:.3, scaleContent:false, queue:\'end\'});'."\n"
+				.'	$("#'.$from.'").fadeOut();'."\n"
+				.'	$("#'.$to.'").fadeIn();'."\n"
 				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
 				.'}'."\n";
 		}
@@ -4818,7 +4818,7 @@ Class Skin_Skeleton {
 			."\n"
 			.'// the actual scroller'."\n"
 			.'function scroll_scroller_'.$scroller_id.'() {'."\n"
-			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"
+			.'	handle = $("#scroller_'.$scroller_id.'")[0];'."\n"
 			.'	current = parseInt(handle.style.'.$object_parameter.') - scroller_'.$scroller_id.'_speed;'."\n"
 			.'	if(current < scroller_'.$scroller_id.'_stop)'."\n"
 			.'		current = scroller_'.$scroller_id.'_start;'."\n"
@@ -4826,10 +4826,10 @@ Class Skin_Skeleton {
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
-			.'document.observe("dom:loaded", function() {'."\n"
+			.'$(document).ready("dom:loaded", function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
-			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"
+			.'	handle = $("#scroller_'.$scroller_id.'")[0];'."\n"
 			."\n"
 			.'	// start at the bottom of the outside container'."\n"
 			.'	scroller_'.$scroller_id.'_start = handle.parentNode.'.$container_limit.' - 20;'."\n"
