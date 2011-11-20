@@ -646,7 +646,7 @@ Class Locations {
 		}
 
 		// a place holder for the dynamic map
-		$text .= '<div id="'.$handle.'" style="border: 1px solid #979797; background-color: #e5e3df; width: '.$width.'; height: '.$height.'; margin-right: auto; margin-top: 2em; margin-bottom: 2em">'."\n"
+		$text .= '<div id="'.$handle.'" style="border: 1px solid #979797; background-color: #e5e3df; width: '.$width.'; height: '.$height.';">'."\n"
 			.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
 			.'</div>'."\n";
 
