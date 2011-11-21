@@ -10,7 +10,7 @@
  * @link http://jqueryui.com/demos/autocomplete/
  *
  * Accept following invocations:
- * - complete.php
+ * - complete.php?term=abc
  *
  * @author Bernard Paques
  * @author Alexis Raimbault
