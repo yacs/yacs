@@ -21,7 +21,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../shared/surfer.php';
 
 // load the skin
 load_skin('overlays');

@@ -8,7 +8,7 @@
  * has been set for the keyword, it is provided as well.
  *
  * Accept following invocations:
- * - complete.php
+ * - complete.php?term=abc
  *
  * @author Bernard Paques
  * @reference
