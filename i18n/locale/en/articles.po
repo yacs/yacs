@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-17 23:36+0100\n"
+"POT-Creation-Date: 2011-11-18 09:58+0100\n"
 "PO-Revision-Date: 2011-08-12 22:54+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -62,7 +62,7 @@ msgstr "Location %d of %d"
 #: articles/layout_articles_as_slashdot.php:170
 #: articles/layout_articles_as_spray.php:90
 #: articles/layout_articles_as_table.php:64
-#: articles/layout_articles_as_tabs.php:89
+#: articles/layout_articles_as_tabs.php:215
 #: articles/layout_articles_as_timeline.php:136
 #: articles/layout_articles_as_titles.php:56
 #: articles/layout_articles_as_yabb.php:114
@@ -369,7 +369,8 @@ msgstr "Add an image"
 #: articles/edit_as_simple.php:288 articles/edit_as_thread.php:59
 #: articles/edit_as_thread.php:167 articles/edit_as_thread.php:289
 #: articles/layout_articles_as_alistapart.php:266
-#: articles/layout_articles_as_alistapart.php:328 articles/view.php:946
+#: articles/layout_articles_as_alistapart.php:328
+#: articles/layout_articles_as_tabs.php:114 articles/view.php:946
 #: articles/view.php:1169 articles/view_as_chat.php:226
 #: articles/view_as_chat.php:460 articles/view_as_tabs.php:388
 #: articles/view_as_tabs.php:580 articles/view_as_wiki.php:146
@@ -713,7 +714,8 @@ msgstr "Add a file"
 #: articles/edit_as_thread.php:359 articles/fetch_as_msword.php:135
 #: articles/fetch_as_pdf.php:137
 #: articles/layout_articles_as_alistapart.php:296
-#: articles/layout_articles_as_daily.php:162 articles/print.php:130
+#: articles/layout_articles_as_daily.php:162
+#: articles/layout_articles_as_tabs.php:134 articles/print.php:130
 #: articles/view.php:966 articles/view_as_chat.php:481
 #: articles/view_as_tabs.php:395 articles/view_as_wiki.php:153
 msgid "Files"
@@ -959,7 +961,8 @@ msgid "bytes"
 msgstr "bytes"
 
 #: articles/fetch_as_msword.php:147 articles/fetch_as_pdf.php:148
-#: articles/print.php:142 articles/view.php:981
+#: articles/layout_articles_as_tabs.php:140 articles/print.php:142
+#: articles/view.php:981
 msgid "Comments"
 msgstr "Comments"
 
@@ -1166,6 +1169,7 @@ msgstr "by %s"
 #: articles/layout_articles_as_slashdot.php:137
 #: articles/layout_articles_as_spray.php:121
 #: articles/layout_articles_as_table.php:113
+#: articles/layout_articles_as_tabs.php:96
 #: articles/layout_articles_as_tagged.php:102
 #: articles/layout_articles_as_timeline.php:91
 #: articles/layout_articles_as_yahoo.php:90 articles/view.php:928
@@ -1229,6 +1233,7 @@ msgstr[1] "%d links"
 #: articles/layout_articles_as_slashdot.php:142
 #: articles/layout_articles_as_spray.php:133
 #: articles/layout_articles_as_table.php:125
+#: articles/layout_articles_as_tabs.php:182
 #: articles/layout_articles_as_timeline.php:95
 #: articles/layout_articles_as_yahoo.php:102 articles/view.php:1023
 #: articles/view_as_tabs.php:315 articles/view_as_wiki.php:264
@@ -1294,7 +1299,10 @@ msgid "Rate this page"
 msgstr "Rate this page"
 
 #: articles/layout_articles_as_alistapart.php:304
-#: articles/layout_articles_as_jive.php:154 articles/view.php:993
+#: articles/layout_articles_as_jive.php:154
+#: articles/layout_articles_as_tabs.php:152
+#: articles/layout_articles_as_tabs.php:202
+#: articles/layout_articles_as_tabs.php:206 articles/view.php:993
 #: articles/view.php:1043 articles/view.php:1047 articles/view.php:1163
 #: articles/view_as_tabs.php:334 articles/view_as_tabs.php:574
 #: articles/view_as_wiki.php:284 articles/view_as_wiki.php:317
@@ -1450,7 +1458,15 @@ msgstr "Poster"
 msgid "Details"
 msgstr "Details"
 
-#: articles/layout_articles_as_tabs.php:91 articles/view.php:1188
+#: articles/layout_articles_as_tabs.php:125 articles/view.php:957
+msgid "Zip 20 first files"
+msgstr "Zip 20 first files"
+
+#: articles/layout_articles_as_tabs.php:127 articles/view.php:959
+msgid "Zip all files"
+msgstr "Zip all files"
+
+#: articles/layout_articles_as_tabs.php:217 articles/view.php:1188
 #: articles/view_as_chat.php:390 articles/view_as_tabs.php:599
 #: articles/view_as_wiki.php:45 articles/view_as_wiki.php:342
 msgid "Edit this page"
@@ -1883,14 +1899,6 @@ msgstr "Navigation"
 #: articles/view.php:747
 msgid "Assign categories"
 msgstr "Assign categories"
-
-#: articles/view.php:957
-msgid "Zip 20 first files"
-msgstr "Zip 20 first files"
-
-#: articles/view.php:959
-msgid "Zip all files"
-msgstr "Zip all files"
 
 #: articles/view.php:1163 articles/view_as_tabs.php:574
 #: articles/view_as_wiki.php:317

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-17 23:36+0100\n"
-"PO-Revision-Date: 2011-11-17 23:40+0100\n"
+"PO-Revision-Date: 2011-11-18 09:57+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -484,7 +484,7 @@ msgstr "tagged - Titres et étiquettes"
 
 #: sections/edit.php:450
 msgid "tabs - One tab per page, with content"
-msgstr "Tabs - Un onglet par page, avec son contenu"
+msgstr "tabs - Un onglet par page, avec son contenu"
 
 #: sections/edit.php:454
 msgid "simile - Dots and titles in a timeline"
