@@ -914,10 +914,10 @@ var Yacs = {
 
 				// adjust the overall size
 				if(yDelta !== 0) {
-				    previousImage.effect("scale", {direction: 'vertical', percent: yScale, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'vertical', percent: yScale, duration: 400, queue: 'end'});
 				}
 				if(xDelta !== 0) {
-				    previousImage.effect("scale", {direction: 'horizontal', percent: xScale, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'horizontal', percent: xScale, duration: 400, queue: 'end'});
 				}
 			}
 
@@ -1008,7 +1008,7 @@ var Yacs = {
 		// display the panel if it is not visible
 		if($(panel).css("display") == 'none') {
 
-			$(panel).css({position: 'relative', zIndex: 200}).slideDown({duration:0.3, scaleContent:false});
+			$(panel).css({position: 'relative', zIndex: 200}).slideDown({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = $(handle).children('img');
@@ -1019,7 +1019,7 @@ var Yacs = {
 		// collapse the panel if it is visible
 		} else {
 
-			$(panel).slideUp({duration:.3, scaleContent:false});
+			$(panel).slideUp({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = $(handle).children('img');
@@ -1506,22 +1506,22 @@ var Yacs = {
                     // detect unfolded panel
                     if(panel.css("display") != 'none') {
                         // slide up panel
-                        $(panel).slideUp({duration:.3, scaleContent:false});
+                        $(panel).slideUp({duration: 'slow', scaleContent:false});
                         // change icon to unfold visual
-                        $(gusset).find('.handle').attr('src',down_href);
+                        $(gusset).find('.handle').attr('src', down_href);
                         // clicked box has been closed
-			if(toggled == panel) {
+						if(toggled == panel) {
                             processed = true;
-			}
+						}
                     }
                 });
 
                 // only extend closed elements that have not been processed (closed) during this click
                 if((toggled.css("display") == 'none') && !processed) {
                         // slide down panel
-			$(toggled).slideDown({duration:.3, scaleContent:false});
+						$(toggled).slideDown({duration: 'slow', scaleContent:false});
                         // change the image to fold visual
-                        $(handle).find(".handle").attr('src',up_href);
+                        $(handle).find(".handle").attr('src', up_href);
                 }
 
 	},
@@ -1541,23 +1541,24 @@ var Yacs = {
 		// display the panel if it is not visible
 		if(panel.css("display") == 'none') {
 
-			$(panel).slideDown({duration:.3, scaleContent:false});
+			$(panel).slideDown({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
- 			var icon = $(handle +' img:first-child');
+ 			var icon = $(handle).children('img').first();
  			if(icon && up_href) {
- 				icon.src = up_href;
+ 				icon.attr('src', up_href);
  			}
 
 		// collapse the panel if it is visible
 		} else {
 
-			$(panel).slideUp({duration:.3, scaleContent:false});
+			$(panel).slideUp({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = $(handle +' img:first-child');
+ 			var icon = $(handle).children('img').first();
+
 			if(icon && down_href) {
-				icon.src = down_href;
+				icon.attr('src', down_href);
 			}
 
 		}
