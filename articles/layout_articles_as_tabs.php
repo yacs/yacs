@@ -135,7 +135,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 
 			// list of comments
 			if(is_object($anchor) && $anchor->is_viewable())
-				$title_label = ucfirst($anchor->get_label('comments', 'count_many'));
+				$title_label = ucfirst($anchor->get_label('list_title', 'comments'));
 			else
 				$title_label = i18n::s('Comments');
 
@@ -147,7 +147,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 
 			// label to create a comment
 			if(is_object($anchor) && $anchor->is_viewable())
-				$add_label = $anchor->get_label('comments', 'new_command');
+				$add_label = $anchor->get_label('new_command', 'comments');
 			else
 				$add_label = i18n::s('Post a comment');
 
@@ -213,7 +213,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 				// view or modify this section
 				$menu = array();
 				$box['bar'] += array(Articles::get_permalink($item) => i18n::s('View the page'));
-				if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+				if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 					$label = i18n::s('Edit this page');
 				$box['bar'] += array(Articles::get_url($item['id'], 'edit') => $label);
 

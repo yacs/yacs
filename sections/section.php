@@ -44,9 +44,9 @@ Class Section extends Anchor {
 	/**
 	 * get the url to display the icon for this anchor
 	 *
-	 * @return an anchor to the icon image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the icon image
 	 */
 	function get_icon_url() {
 		if(isset($this->item['icon_url']))
@@ -59,12 +59,12 @@ Class Section extends Anchor {
 	 /**
 	  * provide a custom label
 	  *
-	  * @param string the module that is invoking the anchor (e.g., 'comments')
 	  * @param string the target label (e.g., 'edit_title', 'item_name', 'item_names')
+	  * @param string the module that is invoking the anchor (e.g., 'comments')
 	  * @param string an optional title, if any
 	  * @return string the foreseen label
 	  */
-	 function get_label($variant, $id, $title='') {
+	 function get_label($id, $variant, $title='') {
 		global $context;
 
 		// sanity check
@@ -89,20 +89,12 @@ Class Section extends Anchor {
 				return i18n::s('Comments');
 
 			// many comments
-			case 'count_many':
+			case 'list_title':
 				if($this->has_layout('jive'))
-					return i18n::s('replies');
+					return i18n::s('Replies');
 				if($this->has_layout('manual'))
-					return i18n::s('notes');
-				return i18n::s('comments');
-
-			// one comment
-			case 'count_one':
-				if($this->has_layout('jive'))
-					return i18n::s('reply');
-				if($this->has_layout('manual'))
-					return i18n::s('note');
-				return i18n::s('comment');
+					return i18n::s('Notes');
+				return i18n::s('Comments');
 
 			// command to delete a comment
 			case 'delete_command':
@@ -231,11 +223,11 @@ Class Section extends Anchor {
 	/**
 	 * get next and previous items, if any
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the item type (eg, 'article', 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_neighbours($type, &$item) {
 		global $context;
@@ -408,9 +400,9 @@ Class Section extends Anchor {
 	 *
 	 * This function uses the cache to save on database requests.
 	 *
-	 * @return an array of $url => $label
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an array of $url => $label
 	 */
 	function get_path_bar() {
 		global $context;
@@ -436,9 +428,9 @@ Class Section extends Anchor {
 	/**
 	 * get the reference for this anchor
 	 *
-	 * @return 'section:&lt;id&gt;', or NULL
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return 'section:&lt;id&gt;', or NULL
 	 */
 	function get_reference() {
 		if(isset($this->item['id']))
@@ -476,10 +468,10 @@ Class Section extends Anchor {
 	 * - 'quote' - transform YACS codes, then strip most HTML tags
 	 * - 'teaser' - limit the number of words, tranform YACS codes, and link to permalink
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string an optional variant
 	 * @return NULL, of some text
-	 *
-	 * @see shared/anchor.php
 	 */
 	function &get_teaser($variant = 'basic') {
 		global $context;
@@ -675,9 +667,9 @@ Class Section extends Anchor {
 	 * NOT display section thumbnails throughout the server. In this case, he/she
 	 * has just to suppress the thumbnail URL in each section and that's it.
 	 *
-	 * @return an anchor to the thumbnail image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the thumbnail image
 	 */
 	function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']))
@@ -688,10 +680,10 @@ Class Section extends Anchor {
 	/**
 	 * get the url to display the main page for this anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an anchor to the viewing script
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
 
@@ -748,12 +740,12 @@ Class Section extends Anchor {
 	 * displays an avatar for the user
 	 *
 	 *
+	 * @see articles/view.php
+	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
 	 * @param string more information
 	 * @return a string to be returned to the browser
-	 *
-	 * @see articles/view.php
 	 */
 	function get_user_profile($user, $variant='prefix', $more='') {
 		global $context;
@@ -964,9 +956,9 @@ Class Section extends Anchor {
 	 * This function is used to enable additional processing steps on public pages only.
 	 * For example, only public pages are pinged on publication.
 	 *
-	 * @return TRUE or FALSE
-	 *
 	 * @see articles/publish.php
+	 *
+	 * @return TRUE or FALSE
 	 */
 	 function is_public() {
 		global $context;
@@ -1002,10 +994,10 @@ Class Section extends Anchor {
 	/**
 	 * load the related item
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
-	 *
-	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item =& Sections::get($id, $mutable);
@@ -1014,10 +1006,10 @@ Class Section extends Anchor {
 	/**
 	 * restore a previous version of this section
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		global $context;
@@ -1032,10 +1024,10 @@ Class Section extends Anchor {
 	/**
 	 * change some attributes of an anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param array of (name, value)
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see shared/anchor.php
 	 */
 	function set_values($fields) {
 
@@ -1050,14 +1042,14 @@ Class Section extends Anchor {
 	/**
 	 * remember the last action for this section
 	 *
+	 * @see articles/article.php
+	 * @see shared/anchor.php
+	 *
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
 	 * @param boolean TRUE to notify section watchers, default is FALSE
 	 * @param boolean TRUE to notify poster followers, default is FALSE
-	 *
-	 * @see articles/article.php
-	 * @see shared/anchor.php
 	 */
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
@@ -1554,9 +1546,9 @@ Class Section extends Anchor {
 	/**
 	 * transcode some references
 	 *
-	 * @param array of pairs of strings to be used in preg_replace()
-	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 		global $context;

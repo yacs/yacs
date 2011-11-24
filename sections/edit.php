@@ -173,7 +173,7 @@ if(Surfer::is_crawler()) {
 
 		// delete the previous version, if any
 		if(is_object($overlay))
-			$overlay->remember('delete', $_REQUEST);
+			$overlay->remember('delete', $_REQUEST, 'section:'.$_REQUEST['id']);
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -706,6 +706,12 @@ if($with_form) {
 	// display in a separate panel
 	if($text)
 		$panels[] = array('index', i18n::s('Index page'), 'index_panel', $text);
+
+	//
+	// append tabs from the overlay, if any
+	//
+	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('edit', $item)))
+ 		$panels = array_merge($panels, $more_tabs);
 
 	//
 	// resources tab

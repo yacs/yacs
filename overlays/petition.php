@@ -185,24 +185,26 @@ class Petition extends Overlay {
 		// the target label
 		switch($name) {
 
+		case 'edit_command':
+			return i18n::s('Edit this petition');
+
+		// command to add an item
+		case 'new_command':
+			return i18n::s('Add a petition');
+
 		// page title
 		case 'page_title':
 
 			switch($action) {
 
 			case 'edit':
-				return i18n::s('Edit petition record');
+				return i18n::s('Edit a petition');
 
 			case 'delete':
-				return i18n::s('Delete petition record');
+				return i18n::s('Delete a petition');
 
 			case 'new':
-				return i18n::s('New petition');
-
-			case 'view':
-			default:
-				// use the article title as the page title
-				return NULL;
+				return i18n::s('Add a petition');
 
 			}
 		}
@@ -278,7 +280,6 @@ class Petition extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 		global $context;
@@ -290,31 +291,30 @@ class Petition extends Overlay {
 		// adjust date from surfer time zone to UTC time zone
 		if(isset($fields['end_date']) && $fields['end_date'])
 			$this->attributes['end_date'] = Surfer::to_GMT($fields['end_date']);
-
-		return $this->attributes;
 	}
 
 	/**
 	 * remember an action once it's done
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($variant, $host) {
+	function remember($action, $host, $reference) {
 		global $context;
 
 		// remember the id of the master record
 		$id = $host['id'];
 
 		// build the update query
-		switch($variant) {
+		switch($action) {
 
 		case 'delete':
 			include_once $context['path_to_root'].'decisions/decisions.php';
-			Decisions::delete_for_anchor('article:'.$this->attributes['id']);
+			Decisions::delete_for_anchor($reference);
 			break;
 
 		case 'insert':

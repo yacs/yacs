@@ -180,24 +180,27 @@ class Vote extends Overlay {
 		case 'description':
 			return i18n::s('Vote description');
 
+		// command to edit an item
+		case 'edit_command':
+			return i18n::s('Edit this vote');
+
+		// command to add an item
+		case 'new_command':
+			return i18n::s('Add a vote');
+
 		// page title
 		case 'page_title':
 
 			switch($action) {
 
 			case 'edit':
-				return i18n::s('Edit vote record');
+				return i18n::s('Edit a vote');
 
 			case 'delete':
-				return i18n::s('Delete vote record');
+				return i18n::s('Delete a vote');
 
 			case 'new':
-				return i18n::s('New vote');
-
-			case 'view':
-			default:
-				// use the article title as the page title
-				return NULL;
+				return i18n::s('Add a vote');
 
 			}
 		}
@@ -367,7 +370,6 @@ class Vote extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 		global $context;
@@ -385,28 +387,26 @@ class Vote extends Overlay {
 		// adjust date from surfer time zone to UTC time zone
 		if(isset($fields['end_date']) && $fields['end_date'])
 			$this->attributes['end_date'] = Surfer::to_GMT($fields['end_date']);
-
-		return $this->attributes;
 	}
 
 	/**
 	 * remember an action once it's done
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
-	 * @param string reference of the anchor, if any -- mandatory on 'insert'
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($action, $host, $reference=NULL) {
+	function remember($action, $host, $reference) {
 		global $context;
 
 		// remember the id of the master record
 		$id = $host['id'];
 
 		// build the update query
-		switch($variant) {
+		switch($action) {
 
 		case 'delete':
 			include_once $context['path_to_root'].'decisions/decisions.php';

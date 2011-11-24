@@ -62,7 +62,7 @@ else
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('comments', 'delete_title');
+	$context['page_title'] = $anchor->get_label('delete_title', 'comments');
 else
 	$context['page_title'] = i18n::s('Delete a comment');
 
@@ -106,7 +106,7 @@ else {
 	// commands
 	$menu = array();
 	if(is_object($anchor))
-		$label = $anchor->get_label('comments', 'delete_command');
+		$label = $anchor->get_label('delete_confirmation', 'comments');
 	else
 		$label = i18n::s('Yes, I want to delete this comment');
 	$menu[] = Skin::build_submit_button($label, NULL, NULL, 'confirmed');
