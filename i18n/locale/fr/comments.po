@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-17 23:00+0100\n"
+"POT-Creation-Date: 2011-11-22 18:12+0100\n"
 "PO-Revision-Date: 2011-06-27 16:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-Language: French\n"
 
 #: comments/check.php:21 comments/edit.php:166 comments/feed.php:73
-#: comments/list.php:98 comments/list.php:105 comments/post.php:178
+#: comments/list.php:98 comments/list.php:104 comments/post.php:178
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -26,7 +26,7 @@ msgstr "Maintenance"
 
 #: comments/check.php:29 comments/delete.php:72 comments/delete.php:81
 #: comments/edit.php:182 comments/edit.php:198 comments/feed.php:89
-#: comments/index.php:51 comments/list.php:121 comments/list.php:126
+#: comments/index.php:51 comments/list.php:120 comments/list.php:125
 #: comments/post.php:186 comments/promote.php:77 comments/promote.php:92
 #: comments/thread.php:55 comments/thread.php:65 comments/thread.php:70
 #: comments/thread.php:75 comments/view.php:96
@@ -130,7 +130,7 @@ msgid "No comment has been transmitted."
 msgstr "Aucun commentaire n'a été transmis."
 
 #: comments/comments.php:1468 comments/comments.php:1474 comments/edit.php:187
-#: comments/list.php:110 comments/thread.php:60
+#: comments/list.php:109 comments/thread.php:60
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -519,11 +519,11 @@ msgstr "inspiré par %s"
 msgid "Zoom on this note"
 msgstr "Zoomer sur cette annotation"
 
-#: comments/list.php:210
+#: comments/list.php:207
 msgid "Page bottom"
 msgstr "Bas de page"
 
-#: comments/list.php:233 comments/list.php:235
+#: comments/list.php:230 comments/list.php:232
 msgid "Done"
 msgstr "Terminé"
 
