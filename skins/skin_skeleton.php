@@ -1411,7 +1411,7 @@ Class Skin_Skeleton {
 	 * @param string the field name and id
 	 * @param string value to display to the surfer
 	 * @param string input type
-	 * @param string any text to be inserted in the input tag
+	 * @param string some javascript code to be put in onchange="..." attribute
 	 * @return the HTML to display
 	 *
 	 */
@@ -1475,6 +1475,48 @@ Class Skin_Skeleton {
 					.'	button		:	 "'.$name.'_trigger",'."\n"
 					.'	align		:	 "CC",'."\n"
 					.'	singleClick :	 true'."\n"
+					.'}); });'."\n"
+					.JS_SUFFIX."\n";
+
+				// load the jscalendar library
+				$context['javascript']['calendar'] = TRUE;
+			}
+
+			return $text;
+
+		case 'day_month_year':
+
+			// do not display 0s on screen
+			if($value <= '0000-00-00 00:00:00')
+				$value = '';
+
+			// date stamps are handled in regular text fields
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%d/%m/%Y \',showsTime:false,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
+
+			// load the jscalendar library
+			$context['javascript']['calendar'] = TRUE;
+
+			return $text;
+
+		case 'month_year':
+
+			// do not display 0s on screen
+			if($value <= '0000-00-00')
+				$value = '';
+
+			// date stamps are handled in regular text fields
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />'
+			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
+			;
+
+			// these are enhanced with jsCalendar, if present
+			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
+				$text .= JS_PREFIX
+					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
+					.'	inputField	:	"'.$name.'",'."\n"
+					.'	displayArea :	"'.$name.'",'."\n"
+					.'	ifFormat	:	"%b-%Y"'."\n"
 					.'}); });'."\n"
 					.JS_SUFFIX."\n";
 
