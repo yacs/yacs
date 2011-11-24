@@ -668,7 +668,7 @@
 	/**
 	 * show site tabs
 	 *
-	 * Tabs are derivated by top-level sections of the server.
+	 * Tabs are derived by top-level sections of the server.
 	 *
 	 * Prefix and suffix tabs can be provided as links packaged in arrays of ( $url => array($label_prefix, $label, $label_suffix, $link_class) )
 	 *
