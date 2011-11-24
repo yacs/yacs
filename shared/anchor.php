@@ -156,9 +156,9 @@ class Anchor {
 	/**
 	 * get date of last modification
 	 *
-	 * @return array the attribute 'timestamp' contains time of last update
-	 *
 	 * @see services/check.php
+	 *
+	 * @return array the attribute 'timestamp' contains time of last update
 	 */
 	function &check() {
 
@@ -300,7 +300,7 @@ class Anchor {
 	 *	 $context['text'] .= '<img src="'.$icon.'" alt="" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
@@ -311,12 +311,12 @@ class Anchor {
 	 /**
 	  * provide a custom label
 	  *
-	  * @param string the module that is invoking the anchor (e.g., 'comment')
 	  * @param string the target label (e.g., 'edit_title', 'item_name', 'item_names')
+	  * @param string the module that is invoking the anchor (e.g., 'comment')
 	  * @param string an optional title, if any
 	  * @return string the foreseen label
 	  */
-	 function get_label($variant, $id, $title='') {
+	 function get_label($id, $variant, $title='') {
 
 		// sanity check
 		if(!$this->item)
@@ -330,7 +330,7 @@ class Anchor {
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
-				return $this->anchor->get_label($variant, $id, $title);
+				return $this->anchor->get_label($id, $variant, $title);
 
 		}
 
@@ -343,7 +343,7 @@ class Anchor {
 	 *
 	 * If the anchor as been named, this function returns the related url.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return an url to view the anchor page, or NULL
 	 */
@@ -365,11 +365,11 @@ class Anchor {
 	 * }
 	 * [/php]
 	 *
+	 * @see skins/skin_skeleton.php
+	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array (previous_url, previous_label, next_url, next_label, option_url, option_label)
-	 *
-	 * @see skins/skin_skeleton.php
 	 */
 	function get_neighbours($type, $item) {
 		return array('', '', '', '', '', NULL);
@@ -404,7 +404,7 @@ class Anchor {
 	/**
 	 * get the reference of the container of this anchor
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
@@ -426,7 +426,7 @@ class Anchor {
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return an array of $url => $label
 	 */
@@ -494,7 +494,7 @@ class Anchor {
 	 * $context['text'] .= $anchor->get_prefix('thread');
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string an indication to the anchor of the expected result
 	 * @return a string
@@ -524,7 +524,7 @@ class Anchor {
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
@@ -537,7 +537,7 @@ class Anchor {
 	 *
 	 * If the anchor has one, this function returns a minimal url.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return an url to view the anchor page, or NULL
 	 */
@@ -556,7 +556,7 @@ class Anchor {
 	 * $context['text'] .= $anchor->get_suffix('thread');
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string an indication to the anchor of the expected result
 	 * @return a string
@@ -607,7 +607,7 @@ class Anchor {
 	/**
 	 * get available templates
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the type of content to be created e.g., 'article', etc.
 	 * @return array a list of models to consider, or NULL
@@ -628,7 +628,7 @@ class Anchor {
 	 * NOT display anchor thumbnails throughout the server. In this case, he/she
 	 * has just to suppress the thumbnail URL in each anchor and that's it.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a valid url to be used in an &lt;img&gt; tag
 	 */
@@ -648,7 +648,7 @@ class Anchor {
 	 * $context['page_title'] = $anchor->get_title();
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class if title has a different name
+	 * To be overloaded into derived class if title has a different name
 	 *
 	 * @return a string
 	 */
@@ -680,7 +680,7 @@ class Anchor {
 	 * $context['text'] .= '<a href="'.$anchor->get_url().'">'.i18n::s('Back').'</a>';
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an url to view the anchor page
@@ -712,7 +712,7 @@ class Anchor {
 	/**
 	 * check if an anchor implements a given layout
 	 *
-	 * To be overloaded into derivated class, if necessary
+	 * To be overloaded into derived class, if necessary
 	 *
 	 * @param string the layout we are looking for
 	 * @return TRUE or FALSE, or the value of the matching option if any
@@ -775,7 +775,7 @@ class Anchor {
 	 * all articles, but also all attached files and images of these articles,
 	 * will feature the skin 'boxes'.
 	 *
-	 * To be overloaded into derivated class, if necessary
+	 * To be overloaded into derived class, if necessary
 	 *
 	 * @param string the option we are looking for
 	 * @param boolean TRUE if coming from content leaf, FALSE if coming from content branch
@@ -855,7 +855,7 @@ class Anchor {
 	 *
 	 * An anonymous surfer is considered as an editor if he has provided the secret handle.
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
 	 * @param boolean TRUE to climb the list of containers up to the top
@@ -912,7 +912,7 @@ class Anchor {
 	/**
 	 * determine if only selected persons can access this anchor
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @return TRUE or FALSE
 	 */
@@ -933,7 +933,7 @@ class Anchor {
 	/**
 	 * check that the surfer owns an anchor
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if attribute has a different name than 'owner_id'.
 	 *
 	 * @param int optional reference to some user profile
 	 * @param boolean FALSE to not cascade the check to parent containers
@@ -957,7 +957,7 @@ class Anchor {
 		if(!$cascade)
 			return FALSE;
 
-		// associates can always do it, except in strict mode
+		// associates can always do it, except if not cascading
 		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
 			return TRUE;
 
@@ -984,7 +984,7 @@ class Anchor {
 	 * This function is used to enable additional processing steps on public pages only.
 	 * For example, only public pages are pinged on publication.
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @return TRUE or FALSE
 	 */
@@ -1023,7 +1023,7 @@ class Anchor {
 	 *
 	 * This function is used to control the authority delegation from the anchor.
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
@@ -1077,7 +1077,7 @@ class Anchor {
 	/**
 	 * load the related item
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
@@ -1089,10 +1089,10 @@ class Anchor {
 	/**
 	 * restore a previous version of this anchor
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		return FALSE;
@@ -1135,7 +1135,7 @@ class Anchor {
 	 *
 	 * It is assumed that the surfer (i.e., Surfer::get_name()) is the author of the modification.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @see articles/article.php
 	 * @see sections/section.php
@@ -1153,11 +1153,11 @@ class Anchor {
 	/**
 	 * transcode some references
 	 *
-	 * To be overloaded into derivated class
-	 *
-	 * @param array of pairs of strings to be used in preg_replace()
+	 * To be overloaded into derived class
 	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 	}
