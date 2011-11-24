@@ -1202,7 +1202,7 @@ if(!isset($item['id'])) {
 
 				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'article')))
 					;
 				else
 					$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
@@ -1430,7 +1430,7 @@ if(!isset($item['id'])) {
 
 		// title label
 		if($section =& Anchors::get('section:'.$item['id']))
-			$title_label = $section->get_label('comments', 'title');
+			$title_label = $section->get_label('list_title', 'comments');
 		else
 			$title_label = i18n::s('Comments');
 
@@ -1731,7 +1731,7 @@ if(!isset($item['id'])) {
 
 		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-		if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+		if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
 			;
 		else
 			$label = i18n::s('Add a page');
@@ -1782,7 +1782,7 @@ if(!isset($item['id'])) {
 
 		// modify this section
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
-		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'sections')))
 			$label = i18n::s('Edit this section');
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), SECTIONS_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 

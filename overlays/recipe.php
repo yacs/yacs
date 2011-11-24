@@ -73,11 +73,19 @@ class Recipe extends Overlay {
 		case 'description':
 			return i18n::s('Preparation steps');
 
+		// command to edit an item
+		case 'edit_command':
+			return i18n::s('Edit this recipe');
+
 		// help panel
 		case 'help':
 			if(($action == 'new') || ($action == 'edit'))
 				return '<p>'.i18n::s('We are trying to standardize recipes for 4 people.').'</p>';
 			return NULL;
+
+		// command to add an item
+		case 'new_command':
+			return i18n::s('Add a recipe');
 
 		// page title
 		case 'page_title':
@@ -92,11 +100,6 @@ class Recipe extends Overlay {
 
 			case 'new':
 				return i18n::s('Add a recipe');
-
-			case 'view':
-			default:
-				// use the article title as the page title
-				return NULL;
 
 			}
 		}
@@ -141,15 +144,12 @@ class Recipe extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 		$this->attributes['people'] = isset($fields['people']) ? $fields['people'] : '';
 		$this->attributes['preparation_time'] = isset($fields['preparation_time']) ? $fields['preparation_time'] : '';
 		$this->attributes['cooking_time'] = isset($fields['cooking_time']) ? $fields['cooking_time'] : '';
 		$this->attributes['ingredients'] = isset($fields['ingredients']) ? $fields['ingredients'] : '';
-
-		return $this->attributes;
 	}
 
 }

@@ -175,7 +175,7 @@ if(Surfer::is_crawler()) {
 
 	// display the form on error
 	if(($error = Categories::put($_REQUEST))
-			|| (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
+			|| (is_object($overlay) && !$overlay->remember('update', $_REQUEST, 'category:'.$_REQUEST['id']))) {
 		Logger::error($error);
 		$item = $_REQUEST;
 		$with_form = TRUE;

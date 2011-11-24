@@ -144,7 +144,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-					if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+					if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
 						;
 					else
 						$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
@@ -296,7 +296,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				// view or modify this section
 				$menu = array();
 				$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the sub-section'), 'span');
-				if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+				if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'sections')))
 					$label = i18n::s('Edit this sub-section');
 				$menu[] = Skin::build_link(Sections::get_url($item['id'], 'edit'), $label, 'span');
 				$text .= Skin::finalize_list($menu, 'menu_bar');

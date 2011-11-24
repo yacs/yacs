@@ -263,11 +263,11 @@ if(Surfer::is_crawler()) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		if($anchor->has_layout('alistapart'))
-			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('permalink_command', 'comments')));
 		else
-			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('permalink_command', 'comments')));
 		if(Surfer::is_logged())
-			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
+			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('edit_command', 'comments')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

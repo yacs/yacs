@@ -198,7 +198,7 @@ if(Surfer::is_crawler()) {
 
 		// actual update
 		if(Users::put($_REQUEST)
-			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST))) {
+			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST, 'user:'.$_REQUEST['id']))) {
 
 			// 'users/edit.php#put' hook
 			if(is_callable(array('Hooks', 'include_scripts')))
