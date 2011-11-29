@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2011-11-29 21:56+0100\n"
 "PO-Revision-Date: 2011-06-03 23:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -66,7 +66,7 @@ msgstr "Display the main part of the cover article, but not the title."
 msgid "Do not use the cover article at the front page."
 msgstr "Do not use the cover article at the front page."
 
-#: configure.php:171 search.php:170
+#: configure.php:171 search.php:173
 msgid "Sections"
 msgstr "Sections"
 
@@ -186,7 +186,7 @@ msgstr "the section dedicated to gadget boxes"
 msgid "Do not show gadget boxes at the front page."
 msgstr "Do not show gadget boxes at the front page."
 
-#: configure.php:282 search.php:219
+#: configure.php:282 search.php:222
 msgid "Pages"
 msgstr "Pages"
 
@@ -385,11 +385,11 @@ msgstr "Main panel"
 msgid "Side panel"
 msgstr "Side panel"
 
-#: configure.php:512 panel.php:80 query.php:261 search.php:135
+#: configure.php:512 panel.php:80 query.php:261 search.php:138
 msgid "Submit"
 msgstr "Submit"
 
-#: configure.php:512 panel.php:80 query.php:261 search.php:135
+#: configure.php:512 panel.php:80 query.php:261 search.php:138
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
@@ -447,51 +447,51 @@ msgstr "Where do you want to go now?"
 msgid "Configure again"
 msgstr "Configure again"
 
-#: error.php:75
+#: error.php:71
 msgid "You are not authorized to access this page (401)"
 msgstr "You are not authorized to access this page (401)"
 
-#: error.php:78 error.php:102
+#: error.php:74 error.php:98
 #, php-format
 msgid "We're sorry. You are not authorized to view %s"
 msgstr "We're sorry. You are not authorized to view %s"
 
-#: error.php:82
+#: error.php:78
 #, php-format
 msgid "Unauthorized (401) at %s"
 msgstr "Unauthorized (401) at %s"
 
-#: error.php:99
+#: error.php:95
 msgid "Access to this page is forbidden (403)"
 msgstr "Access to this page is forbidden (403)"
 
-#: error.php:106
+#: error.php:102
 #, php-format
 msgid "Forbidden (403) at %s"
 msgstr "Forbidden (403) at %s"
 
-#: error.php:124
+#: error.php:120
 msgid "Page not found (404)"
 msgstr "Page not found (404)"
 
-#: error.php:127
+#: error.php:123
 #, php-format
 msgid "We're sorry. The page you requested doesn't exist on this server %s"
 msgstr "We're sorry. The page you requested doesn't exist on this server %s"
 
-#: error.php:130
+#: error.php:126
 msgid "Check the address"
 msgstr "Check the address"
 
-#: error.php:130
+#: error.php:126
 msgid "Normally we are not using upper case letters, and no spacing sign."
 msgstr "Normally we are not using upper case letters, and no spacing sign."
 
-#: error.php:133
+#: error.php:129
 msgid "Update your bookmark"
 msgstr "Update your bookmark"
 
-#: error.php:134
+#: error.php:130
 #, php-format
 msgid ""
 "It is likely that we have changed the content of this site without warning "
@@ -500,28 +500,28 @@ msgstr ""
 "It is likely that we have changed the content of this site without warning "
 "you. Thank you for browsing %s and to refresh your bookmark."
 
-#: error.php:134
+#: error.php:130
 msgid "the site front page"
 msgstr "the site front page"
 
-#: error.php:137 go.php:163 query.php:163 search.php:108
+#: error.php:133 go.php:163 query.php:163 search.php:111
 msgid "Search"
 msgstr "Search"
 
-#: error.php:138
+#: error.php:134
 #, php-format
 msgid "Type one or several words in %s."
 msgstr "Type one or several words in %s."
 
-#: error.php:138
+#: error.php:134
 msgid "the searching form"
 msgstr "the searching form"
 
-#: error.php:141
+#: error.php:137
 msgid "Browse index pages"
 msgstr "Browse index pages"
 
-#: error.php:142
+#: error.php:138
 #, php-format
 msgid ""
 "Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the "
@@ -532,23 +532,23 @@ msgstr ""
 "freshest pages and the most read pages on this site. This can be an "
 "efficient way for you to reach the information you are looking after."
 
-#: error.php:142
+#: error.php:138
 msgid "pages"
 msgstr "pages"
 
-#: error.php:142
+#: error.php:138
 msgid "files"
 msgstr "files"
 
-#: error.php:142
+#: error.php:138
 msgid "comments"
 msgstr "comments"
 
-#: error.php:142
+#: error.php:138
 msgid "people"
 msgstr "people"
 
-#: error.php:150
+#: error.php:146
 #, php-format
 msgid "Page not found (404) at %s"
 msgstr "Page not found (404) at %s"
@@ -586,7 +586,7 @@ msgstr "Look for"
 msgid "Nick name"
 msgstr "Nick name"
 
-#: go.php:174 search.php:147
+#: go.php:174 search.php:150
 msgid "Please type something to search for"
 msgstr "Please type something to search for"
 
@@ -645,7 +645,7 @@ msgstr "Recent Pages"
 msgid "Recent files"
 msgstr "Recent files"
 
-#: index.php:642 search.php:226
+#: index.php:642 search.php:229
 msgid "Files"
 msgstr "Files"
 
@@ -713,7 +713,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Page content"
 
-#: query.php:44 query.php:324 search.php:356
+#: query.php:44 query.php:324 search.php:359
 msgid "Help"
 msgstr "Help"
 
@@ -919,79 +919,79 @@ msgstr "YACS codes"
 msgid "Mandatory fields are marked with a *"
 msgstr "Mandatory fields are marked with a *"
 
-#: search.php:106
+#: search.php:109
 #, php-format
 msgid "Search: %s"
 msgstr "Search: %s"
 
-#: search.php:115
+#: search.php:118
 msgid "You are searching for"
 msgstr "You are searching for"
 
-#: search.php:117
+#: search.php:120
 msgid "Type one or several words."
 msgstr "Type one or several words."
 
-#: search.php:121
+#: search.php:124
 msgid "Search in"
 msgstr "Search in"
 
-#: search.php:126
+#: search.php:129
 msgid "-- All sections"
 msgstr "-- All sections"
 
-#: search.php:127
+#: search.php:130
 msgid "Look in all or only one section."
 msgstr "Look in all or only one section."
 
-#: search.php:183
+#: search.php:186
 msgid "Matching articles"
 msgstr "Matching articles"
 
-#: search.php:203
+#: search.php:206
 msgid "Results"
 msgstr "Results"
 
-#: search.php:205
+#: search.php:208
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d result"
 msgstr[1] "%d results"
 
-#: search.php:232
+#: search.php:235
 msgid "People"
 msgstr "People"
 
-#: search.php:238
+#: search.php:241
 msgid "Categories"
 msgstr "Categories"
 
-#: search.php:254
+#: search.php:257
 msgid "Search all of the Internet"
 msgstr "Search all of the Internet"
 
-#: search.php:261
+#: search.php:264
 msgid "Google"
 msgstr "Google"
 
-#: search.php:265
+#: search.php:268
 msgid "Bing"
 msgstr "Bing"
 
-#: search.php:269
+#: search.php:272
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: search.php:273
+#: search.php:276
 msgid "Ask Jeeves"
 msgstr "Ask Jeeves"
 
-#: search.php:276
+#: search.php:279
 msgid "Extended search"
 msgstr "Extended search"
 
-#: search.php:286
+#: search.php:289
 #, php-format
 msgid ""
 "<p>No page has been found. This will happen with very short words (less than "
@@ -1004,23 +1004,23 @@ msgstr ""
 "than half of pages contain the searched words. Try to use most restrictive "
 "words and to suppress \"noise\" words.</p>"
 
-#: search.php:293
+#: search.php:296
 msgid "At partner sites"
 msgstr "At partner sites"
 
-#: search.php:343
+#: search.php:346
 msgid "Remember this search"
 msgstr "Remember this search"
 
-#: search.php:347
+#: search.php:350
 msgid "Search in all sections"
 msgstr "Search in all sections"
 
-#: search.php:351
+#: search.php:354
 msgid "Look for a named page"
 msgstr "Look for a named page"
 
-#: search.php:356
+#: search.php:359
 msgid ""
 "This search engine only display pages that have all words in it. <p>Also, "
 "only exact matches will be listed. Therefore \"category\" and \"categories\" "
@@ -1032,15 +1032,15 @@ msgstr ""
 "won't give the same results. Note that \"red\" and \"reds\" may also give "
 "different results.</p>"
 
-#: search.php:361
+#: search.php:364
 msgid "Matching pages"
 msgstr "Matching pages"
 
-#: search.php:362
+#: search.php:365
 msgid "Monitor"
 msgstr "Monitor"
 
-#: search.php:368
+#: search.php:371
 msgid "Recent searches"
 msgstr "Recent searches"
 

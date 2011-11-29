@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-24 23:10+0100\n"
+"POT-Creation-Date: 2011-11-29 21:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,12 +72,12 @@ msgid "Start"
 msgstr ""
 
 #: decisions/decisions.php:312 decisions/decisions.php:386
-#: decisions/edit.php:368 decisions/view.php:162
+#: decisions/edit.php:364 decisions/view.php:162
 msgid "Approved"
 msgstr ""
 
 #: decisions/decisions.php:318 decisions/decisions.php:392
-#: decisions/edit.php:365 decisions/view.php:159
+#: decisions/edit.php:361 decisions/view.php:159
 msgid "Rejected"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Yes, I want to delete this decision"
 msgstr ""
 
-#: decisions/delete.php:103 decisions/edit.php:399 decisions/mail.php:288
+#: decisions/delete.php:103 decisions/edit.php:395 decisions/mail.php:288
 msgid "Cancel"
 msgstr ""
 
@@ -145,124 +145,124 @@ msgstr ""
 msgid "This page has been locked."
 msgstr ""
 
-#: decisions/edit.php:215
+#: decisions/edit.php:211
 msgid "Thank you for your contribution"
 msgstr ""
 
-#: decisions/edit.php:224
+#: decisions/edit.php:220
 msgid "This has been rejected"
 msgstr ""
 
-#: decisions/edit.php:227
+#: decisions/edit.php:223
 msgid "Your approval has been recorded"
 msgstr ""
 
-#: decisions/edit.php:235
+#: decisions/edit.php:231
 msgid "Persons that have been notified"
 msgstr ""
 
-#: decisions/edit.php:238 decisions/mail.php:238
+#: decisions/edit.php:234 decisions/mail.php:238
 msgid "What do you want to do now?"
 msgstr ""
 
-#: decisions/edit.php:240 decisions/list.php:103 decisions/mail.php:240
+#: decisions/edit.php:236 decisions/list.php:103 decisions/mail.php:240
 #: decisions/view.php:183
 msgid "Back to main page"
 msgstr ""
 
-#: decisions/edit.php:241
+#: decisions/edit.php:237
 msgid "View this decision"
 msgstr ""
 
-#: decisions/edit.php:242
+#: decisions/edit.php:238
 msgid "Edit the decision"
 msgstr ""
 
-#: decisions/edit.php:248
+#: decisions/edit.php:244
 #, php-format
 msgid "New decision: %s"
 msgstr ""
 
-#: decisions/edit.php:278
+#: decisions/edit.php:274
 msgid "Preview of your post:"
 msgstr ""
 
-#: decisions/edit.php:280
+#: decisions/edit.php:276
 msgid "Edit your post below"
 msgstr ""
 
-#: decisions/edit.php:295
+#: decisions/edit.php:291
 msgid "Page to review"
 msgstr ""
 
-#: decisions/edit.php:296
+#: decisions/edit.php:292
 msgid "Browse in a separate window"
 msgstr ""
 
-#: decisions/edit.php:303
+#: decisions/edit.php:299
 msgid "Posted by"
 msgstr ""
 
-#: decisions/edit.php:310
+#: decisions/edit.php:306
 msgid "Edited by"
 msgstr ""
 
-#: decisions/edit.php:324
+#: decisions/edit.php:320
 #, php-format
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
 msgstr ""
 
-#: decisions/edit.php:324
+#: decisions/edit.php:320
 msgid "authenticate"
 msgstr ""
 
-#: decisions/edit.php:327
+#: decisions/edit.php:323
 msgid "Your name"
 msgstr ""
 
-#: decisions/edit.php:329
+#: decisions/edit.php:325
 msgid "This optional field can be left blank if you wish"
 msgstr ""
 
-#: decisions/edit.php:333
+#: decisions/edit.php:329
 msgid "Your address"
 msgstr ""
 
-#: decisions/edit.php:335
+#: decisions/edit.php:331
 msgid "e-mail or web address; this field is optional"
 msgstr ""
 
-#: decisions/edit.php:343
+#: decisions/edit.php:339
 msgid "Your decision"
 msgstr ""
 
-#: decisions/edit.php:345
+#: decisions/edit.php:341
 msgid "Decision"
 msgstr ""
 
-#: decisions/edit.php:379
+#: decisions/edit.php:375
 msgid "Your motivation"
 msgstr ""
 
-#: decisions/edit.php:381
+#: decisions/edit.php:377
 msgid "Motivation"
 msgstr ""
 
-#: decisions/edit.php:396 decisions/mail.php:285
+#: decisions/edit.php:392 decisions/mail.php:285
 msgid "Submit"
 msgstr ""
 
-#: decisions/edit.php:396 decisions/mail.php:285
+#: decisions/edit.php:392 decisions/mail.php:285
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: decisions/edit.php:406
+#: decisions/edit.php:402
 msgid "Do not change modification date of the main page."
 msgstr ""
 
-#: decisions/edit.php:409
+#: decisions/edit.php:405
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
