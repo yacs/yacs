@@ -2,6 +2,9 @@
 /**
  * search among pages
  *
+ * @todo combine search results into one list
+ * @todo trigger two search requests: one limited to the parent container of the page/section you are coming from, and a global one
+ *
  * This script calls for a search pattern, then actually searches the database.
  *
  * The request can be limited to only one section. In this case, sub-sections are searched as well.

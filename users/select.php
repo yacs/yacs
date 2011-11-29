@@ -2,6 +2,8 @@
 /**
  * assign users to any object
  *
+ * @todo flag banned users in the list of editors
+ *
  * This script displays assigned users to an anchor, and list users that could be assigned as well.
  *
  * This is the main tool used by associates to assign editors to pages they are managing.
