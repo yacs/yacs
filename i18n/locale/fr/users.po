@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-17 23:00+0100\n"
+"POT-Creation-Date: 2011-11-29 21:56+0100\n"
 "PO-Revision-Date: 2011-08-13 22:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -38,7 +38,7 @@ msgstr "La requête est invalide."
 #: users/index.php:90 users/leave.php:51 users/login.php:156 users/mail.php:73
 #: users/mail.php:92 users/mail.php:103 users/notifications.php:185
 #: users/password.php:69 users/password.php:74 users/password.php:156
-#: users/print.php:65 users/print.php:80 users/select.php:70
+#: users/print.php:65 users/print.php:80 users/select.php:72
 #: users/select_avatar.php:76 users/select_avatar.php:89 users/track.php:60
 #: users/track.php:65 users/transfer.php:46 users/validate.php:51
 #: users/view.php:208 users/visit.php:59
@@ -67,7 +67,7 @@ msgstr "Configurer"
 #: users/edit.php:131 users/element.php:95 users/feed.php:75
 #: users/fetch_vcard.php:76 users/index.php:76 users/leave.php:42
 #: users/login.php:403 users/mail.php:61 users/password.php:54
-#: users/review.php:33 users/review.php:68 users/select.php:61
+#: users/review.php:33 users/review.php:68 users/select.php:63
 #: users/select_avatar.php:67 users/track.php:46 users/transfer.php:37
 #: users/user.php:212 users/validate.php:43 users/view.php:180
 msgid "People"
@@ -1060,7 +1060,7 @@ msgid "Mandatory fields are marked with a *"
 msgstr "* signale les champs obligatoires"
 
 #: users/edit.php:889 users/login.php:546 users/search.php:180
-#: users/select.php:392 users/select.php:401
+#: users/select.php:394 users/select.php:403
 msgid "Help"
 msgstr "Aide"
 
@@ -1210,7 +1210,7 @@ msgid "View profile"
 msgstr "Voir le profil"
 
 #: users/leave.php:46 users/login.php:166 users/login.php:245
-#: users/select.php:65 users/visit.php:64
+#: users/select.php:67 users/visit.php:64
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -1236,7 +1236,7 @@ msgstr ""
 "sur %s."
 
 #: users/leave.php:77 users/mail.php:161 users/password.php:184
-#: users/select.php:135 users/select.php:383 users/select.php:568
+#: users/select.php:137 users/select.php:385 users/select.php:570
 #: users/select_avatar.php:203 users/track.php:83 users/transfer.php:84
 msgid "Done"
 msgstr "Terminé"
@@ -1719,41 +1719,41 @@ msgstr ""
 "Ce moteur affiche seulement les pages contenant tous les mots indiqués. De "
 "plus, la comparaison doit être exacte."
 
-#: users/select.php:76
+#: users/select.php:78
 #, php-format
 msgid "Watchers of %s"
 msgstr "Observateurs de %s"
 
-#: users/select.php:145 users/select.php:412
+#: users/select.php:147 users/select.php:414
 msgid "Persons that I am following"
 msgstr "Personnes auxquelles je suis abonné"
 
-#: users/select.php:147 users/select.php:259 users/select.php:414
-#: users/select.php:462
+#: users/select.php:149 users/select.php:261 users/select.php:416
+#: users/select.php:464
 #, php-format
 msgid "Persons followed by %s"
 msgstr "Abonnements de %s"
 
-#: users/select.php:149 users/select.php:416
+#: users/select.php:151 users/select.php:418
 #, php-format
 msgid "Members of %s"
 msgstr "Membres de %s"
 
-#: users/select.php:151
+#: users/select.php:153
 msgid "Manage editors"
 msgstr "Gérer les éditeurs"
 
-#: users/select.php:171 users/track.php:95
+#: users/select.php:173 users/track.php:95
 #, php-format
 msgid "%s is following you"
 msgstr "%s vous a choisi comme contact"
 
-#: users/select.php:172
+#: users/select.php:174
 #, php-format
 msgid "%s will receive notifications when you will create new content at %s"
 msgstr "%s sera notifié de chaque contribution que vous ferez sur %s"
 
-#: users/select.php:199
+#: users/select.php:201
 msgid ""
 "To add a person, type some letters to look for a name, then select one "
 "profile at a time."
@@ -1761,28 +1761,28 @@ msgstr ""
 "Tapez quelques lettres du nom recherché, puis sélectionner une personne à la "
 "fois."
 
-#: users/select.php:222 users/select.php:296 users/select.php:369
-#: users/select.php:431 users/select.php:493 users/select.php:554
+#: users/select.php:224 users/select.php:298 users/select.php:371
+#: users/select.php:433 users/select.php:495 users/select.php:556
 #, php-format
 msgid "Persons assigned to %s"
 msgstr "Personnes assignées à %s"
 
-#: users/select.php:239 users/select.php:276 users/select.php:313
-#: users/select.php:355 users/select.php:448 users/select.php:479
-#: users/select.php:510 users/select.php:546
+#: users/select.php:241 users/select.php:278 users/select.php:315
+#: users/select.php:357 users/select.php:450 users/select.php:481
+#: users/select.php:512 users/select.php:548
 msgid "owner"
 msgstr "propriétaire"
 
-#: users/select.php:244 users/select.php:281 users/select.php:318
-#: users/select.php:360
+#: users/select.php:246 users/select.php:283 users/select.php:320
+#: users/select.php:362
 msgid "unassign"
 msgstr "retirer"
 
-#: users/select.php:375 users/select.php:560
+#: users/select.php:377 users/select.php:562
 msgid "Following editors inherit from assignments at parent containers"
 msgstr "Les éditeurs suivants héritent de droits sur un conteneur parent"
 
-#: users/select.php:389
+#: users/select.php:391
 #, php-format
 msgid ""
 "%s if you have to assign new persons and to notify them in a single "
@@ -1791,15 +1791,15 @@ msgstr ""
 "%s si vous devez assigner des personnes et les notifier en une seule "
 "opération."
 
-#: users/select.php:389
+#: users/select.php:391
 msgid "Invite participants"
 msgstr "Inviter des participants"
 
-#: users/select.php:398
+#: users/select.php:400
 msgid "Each new person will be notified that you are following him."
 msgstr "Chaque personne ajoutée sera notifiée que vous lui êtes abonné."
 
-#: users/select.php:418
+#: users/select.php:420
 msgid "Editors"
 msgstr "Editeurs"
 
