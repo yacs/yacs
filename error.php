@@ -20,10 +20,6 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// no need for access to the database
-if(!defined('NO_MODEL_PRELOAD'))
-	define('NO_MODEL_PRELOAD', TRUE);
-
 // common definitions and initial processing
 include_once 'shared/global.php';
 
