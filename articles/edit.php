@@ -348,10 +348,6 @@ if(Surfer::is_crawler()) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
-	// only authenticated surfers are allowed to post links
-	if(!Surfer::is_logged() && isset($_REQUEST['description']))
-		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
-
 	// set options
 	if(!isset($_REQUEST['options']))
 		$_REQUEST['options'] = '';
