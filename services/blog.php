@@ -688,6 +688,13 @@ else {
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
+					// categorize this page
+					if(isset($content['categories']) && is_array($content['categories'])) {
+						foreach($content['categories'] as $label) {
+							if($category = Categories::get_by_title($label))
+								Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+						}
+					}
 				}
 			}
 		}
@@ -1073,6 +1080,14 @@ else {
 				$keywords = trim($keywords, ', ');
 				Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
+				// categorize this page
+				if(isset($content['categories']) && is_array($content['categories'])) {
+					foreach($content['categories'] as $label) {
+						if($category = Categories::get_by_title($label))
+							Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+					}
+				}
+
 			}
 		}
 		break;
@@ -1217,6 +1232,14 @@ else {
 						$keywords = $fields['tags'];
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+
+					// categorize this page
+					if(isset($content['categories']) && is_array($content['categories'])) {
+						foreach($content['categories'] as $label) {
+							if($category = Categories::get_by_title($label))
+								Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+						}
+					}
 
 				}
 			}
@@ -1613,7 +1636,7 @@ else {
 
 				}
 
-				// list the article in categories
+				// add tags to this page
 				$keywords = '';
 				if(isset($fields['tags']))
 					$keywords = $fields['tags'];
@@ -1622,6 +1645,13 @@ else {
 				$keywords = trim($keywords, ', ');
 				Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
+				// categorize this page
+				if(isset($content['categories']) && is_array($content['categories'])) {
+					foreach($content['categories'] as $label) {
+						if($category = Categories::get_by_title($label))
+							Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+					}
+				}
 			}
 		}
 		break;
