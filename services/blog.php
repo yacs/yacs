@@ -462,6 +462,10 @@
  * @link http://www.blogger.com/developers/api/1_docs/xmlrpc_setTemplate.html blogger.setTemplate from Blogger API 1.0
  *
  *
+ * Accepted calls:
+ * - blog.php provide the list of sections for this surfer
+ * - blog.php?id=123 section with id 123 is the main blogging area
+ * - blog.php/123 section with id 123 is the main blogging area
  *
  * @author Bernard Paques
  * @tester Marcelo L. L. Cabral
@@ -478,6 +482,14 @@ include_once '../articles/article.php';
 include_once '../links/links.php';
 include_once '../sections/section.php';
 include_once '../versions/versions.php';
+
+// look for the main id
+$main_id = NULL;
+if(isset($_REQUEST['id']))
+	$main_id = $_REQUEST['id'];
+elseif(isset($context['arguments'][0]))
+	$main_id = $context['arguments'][0];
+$main_id = strip_tags($main_id);
 
 // at the moment, do not send utf-8 to w.bloggar -- keep unicode entities as-is
 if(preg_match('/w\.bloggar/', $_SERVER['HTTP_USER_AGENT']))
@@ -912,26 +924,45 @@ else {
 		else {
 			$response = array();
 
-			// prefix to ensure proper ordering
-			$index = 1;
+			// we are looking in one current section only
+			if($main_id) {
 
-			// list assigned sections, if any
-			if(($assigned = Surfer::assigned_sections($user['id'], 9)) && count($assigned)) {
-				foreach($assigned as $assigned_id) {
-					if($section =& Anchors::get('section:'.$assigned_id)) {
+				// there are sub-sections there
+				if(($children = Sections::list_by_title_for_anchor('section:'.$main_id, 0, 25, 'raw')) && count($assigned)) {
+					foreach($children as $assigned_id => $section) {
 						$response[] = array(
 							'isAdmin' => '<boolean>1</boolean>',
-							'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
+							'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($section), 'string').'</string>',
 							'blogid' => '<string>'.(string)$assigned_id.'</string>',
-							'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
+							'blogName' => $codec->encode(strip_tags($section['title']), 'string')
 						);
-						$index++;
 					}
+				}
+
+				// this section itself
+				if(!$response && ($section= Sections::get($main_id))) {
+					$response[] = array(
+						'isAdmin' => '<boolean>1</boolean>',
+						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($section), 'string').'</string>',
+						'blogid' => '<string>'.(string)$main_id.'</string>',
+						'blogName' => $codec->encode(strip_tags($section['title']), 'string')
+					);
+				}
+
+			// list sections for this user, if any
+			} elseif(($assigned = Sections::list_by_date_for_user($user['id'], 0, 9, 'raw')) && count($assigned)) {
+				foreach($assigned as $assigned_id => $section) {
+					$response[] = array(
+						'isAdmin' => '<boolean>1</boolean>',
+						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($section), 'string').'</string>',
+						'blogid' => '<string>'.(string)$assigned_id.'</string>',
+						'blogName' => $codec->encode(strip_tags($section['title']), 'string')
+					);
 				}
 			}
 
 			// provide default section
-			if($default_id = Sections::get_default()) {
+			if(!$response && ($default_id = Sections::get_default())) {
 				if($section =& Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
@@ -939,7 +970,6 @@ else {
 						'blogid' => '<string>'.(string)$default_id.'</string>',
 						'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 					);
-					$index++;
 				}
 			}
 
