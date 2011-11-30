@@ -16,6 +16,11 @@
  * The BlogID used from the front page is the identification number of the default section,
  * which is the section named 'default', if any, or the first public section of the site map.
  *
+ * Accepted calls:
+ * - describe.php provide the list of sections for this surfer
+ * - describe.php?anchor=123 section with id 123 is the main blogging area
+ * - describe.php/123 section with id 123 is the main blogging area
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -26,8 +31,8 @@ include_once '../shared/global.php';
 
 // look for the id
 $id = NULL;
-if(isset($_REQUEST['id']))
-	$id = $_REQUEST['id'];
+if(isset($_REQUEST['anchor']))
+	$id = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 $id = strip_tags($id);
@@ -60,11 +65,16 @@ else
 	$link = '';
 $text .= '	<homePageLink>'.$context['url_to_home'].$context['url_to_root'].$link.'</homePageLink>'."\n";
 
+// restrict the scope of the API
+$scope = '';
+if($id)
+	$scope = '?id='.urlencode($id);
+
 // available blogging api
 $text .= '	<apis>'."\n"
-	.'		<api name="MetaWeblog" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
-	.'		<api name="MovableType" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
-	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MetaWeblog" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MovableType" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
 	.'	</apis>'."\n";
 
 // the postamble
