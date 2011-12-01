@@ -201,36 +201,36 @@ Class Users {
 		$contacts = array();
 
 		// twitter
-		if(isset($item['twitter_address']) && $item['twitter_address'])
-			$contacts[] = Skin::build_presence($item['twitter_address'], 'twitter');
+		if(isset($item['twitter_address']) && ($id = trim($item['twitter_address'])))
+			$contacts[] = Skin::build_presence($id, 'twitter');
 
 		// jabber
-		if(isset($item['jabber_address']) && $item['jabber_address'])
-			$contacts[] = Skin::build_presence($item['jabber_address'], 'jabber');
+		if(isset($item['jabber_address']) && ($id = trim($item['jabber_address'])))
+			$contacts[] = Skin::build_presence($id, 'jabber');
 
 		// skype
-		if(isset($item['skype_address']) && $item['skype_address'])
-			$contacts[] = Skin::build_presence($item['skype_address'], 'skype');
+		if(isset($item['skype_address']) && ($id = trim($item['skype_address'])))
+			$contacts[] = Skin::build_presence($id, 'skype');
 
 		// yahoo
-		if(isset($item['yahoo_address']) && $item['yahoo_address'])
-			$contacts[] = Skin::build_presence($item['yahoo_address'], 'yahoo');
+		if(isset($item['yahoo_address']) && ($id = trim($item['yahoo_address'])))
+			$contacts[] = Skin::build_presence($id, 'yahoo');
 
 		// msn
-		if(isset($item['msn_address']) && $item['msn_address'])
-			$contacts[] = Skin::build_presence($item['msn_address'], 'msn');
+		if(isset($item['msn_address']) && ($id = trim($item['msn_address'])))
+			$contacts[] = Skin::build_presence($id, 'msn');
 
 		// aim
-		if(isset($item['aim_address']) && $item['aim_address'])
-			$contacts[] = Skin::build_presence($item['aim_address'], 'aim');
+		if(isset($item['aim_address']) && ($id = trim($item['aim_address'])))
+			$contacts[] = Skin::build_presence($id, 'aim');
 
 		// irc
-		if(isset($item['irc_address']) && $item['irc_address'])
-			$contacts[] = Skin::build_presence($item['irc_address'], 'irc');
+		if(isset($item['irc_address']) && ($id = trim($item['irc_address'])))
+			$contacts[] = Skin::build_presence($id, 'irc');
 
 		// icq
-		if(isset($item['icq_address']) && $item['icq_address'])
-			$contacts[] = Skin::build_presence($item['icq_address'], 'icq');
+		if(isset($item['icq_address']) && ($id = trim($item['icq_address'])))
+			$contacts[] = Skin::build_presence($id, 'icq');
 
 		return join(' ', $contacts);
 	}

@@ -845,14 +845,14 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$anchors = 'section:'.$item['id'];
 	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
 		foreach($items as $user_id => $user_label) {
-			$owner = '';
+			$owner_state = '';
 			if($user_id == $item['owner_id'])
-				$owner = CHECKED_IMG;
-			$editor = CHECKED_IMG;
-			$watcher = '';
+				$owner_state = CHECKED_IMG;
+			$editor_state = CHECKED_IMG;
+			$watcher_state = '';
 			if(Members::check($anchors, 'user:'.$user_id))
-				$watcher = CHECKED_IMG;
-			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+				$watcher_state = CHECKED_IMG;
+			$rows[$user_id] = array($user_label, $watcher_state, $editor_state, $owner_state);
 		}
 	}
 

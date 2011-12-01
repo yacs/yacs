@@ -184,7 +184,7 @@ $item =& Articles::get($id);
 // get owner profile, if any
 $owner = array();
 if(isset($item['owner_id']))
-	$owner =& Users::get($item['owner_id']);
+	$owner = Users::get($item['owner_id']);
 
 // get the related overlay, if any
 $overlay = NULL;
