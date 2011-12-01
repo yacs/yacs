@@ -9,6 +9,7 @@
  * @link http://www.joemaller.com script to protect e-mail addresses from spam
  *
  * @author Bernard Paques
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -2380,6 +2381,7 @@ Class Skin_Skeleton {
 	/**
 	 * build a user profile
 	 *
+	 * @todo bug on display of extra box for new user? see chloe athlan user profile
 	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
@@ -4803,7 +4805,7 @@ Class Skin_Skeleton {
 		// hide every news item, except the first one
 		$text .= '// hide every news item, except the first one'."\n";
 		for($index = 1; $index < count($matches[1]); $index++)
-			$text .= 'handle = $("#'.$matches[1][$index].'");'."\n"
+			$text .= 'handle = $("#'.$matches[1][$index].'")[0];'."\n"
 				.'handle.style.display="none";'."\n";
 
 		// one function per rotating step
@@ -4882,11 +4884,11 @@ Class Skin_Skeleton {
 			."\n"
 			.'// the actual scroller'."\n"
 			.'function scroll_scroller_'.$scroller_id.'() {'."\n"
-			.'	handle = $("#scroller_'.$scroller_id.'");'."\n"
+			.'	handle = $("#scroller_'.$scroller_id.'")[0];'."\n"
 			.'	current = parseInt(handle.style.'.$object_parameter.') - scroller_'.$scroller_id.'_speed;'."\n"
 			.'	if(current < scroller_'.$scroller_id.'_stop)'."\n"
 			.'		current = scroller_'.$scroller_id.'_start;'."\n"
-			.'	handle.css({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
+			.'	$(handle).css({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
