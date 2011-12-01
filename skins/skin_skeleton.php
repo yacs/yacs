@@ -2314,7 +2314,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see users/layout_users.php
 	 */
-	function &build_presence($text, $variant) {
+	function build_presence($text, $variant) {
 		global $context;
 
 		switch($variant) {
@@ -2381,8 +2381,6 @@ Class Skin_Skeleton {
 	/**
 	 * build a user profile
 	 *
-	 * @todo bug on display of extra box for new user? see chloe athlan user profile
-	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
 	 * @param string more information
@@ -2390,7 +2388,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see sections/section.php
 	 */
-	function &build_profile(&$user, $variant='prefix', $more='') {
+	function build_profile(&$user, $variant='prefix', $more='') {
 		global $context;
 
 		// we return some text
