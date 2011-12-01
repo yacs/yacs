@@ -646,14 +646,14 @@ Class Locations {
 		}
 
 		// a place holder for the dynamic map
-		$text .= '<div id="'.$handle.'" style="border: 1px solid #979797; background-color: #e5e3df; width: '.$width.'; height: '.$height.'; margin-right: auto; margin-top: 2em; margin-bottom: 2em">'."\n"
+		$text .= '<div id="'.$handle.'" style="border: 1px solid #979797; background-color: #e5e3df; width: '.$width.'; height: '.$height.';">'."\n"
 			.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
 			.'</div>'."\n";
 
 		// create this map
 		$text .= JS_PREFIX
 			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
-			.'	var map = new GMap2($("#'.$handle.'"));'."\n"
+			.'	var map = new GMap2($("#'.$handle.'")[0]);'."\n"
 			.'	map.addControl(new GSmallMapControl());'."\n"
 			.'	map.addControl(new GMapTypeControl());'."\n";
 
@@ -668,7 +668,7 @@ Class Locations {
 
 		// center point
 		$latitude_middle = $latitudes / max(1, $index);
-		$longitude_middle = $longitudes / max(1, $index);
+		$longitude_middle = $longitudes / max(1, $index);      
 		$text .= '	map.setCenter(new GLatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")), '.$scale.');'."\n";
 
 		// add all markers
@@ -767,8 +767,8 @@ Class Locations {
 			.'	iconRed.shadowSize = new GSize(22, 20);'."\n"
 			.'	iconRed.iconAnchor = new GPoint(6, 20);'."\n"
 			.'	iconRed.infoWindowAnchor = new GPoint(5, 1);'."\n"
-			.'}'."\n"
-			.JS_SUFFIX."\n";
+			.'}'
+			.JS_SUFFIX;
 
 		// done
 		return $text;
