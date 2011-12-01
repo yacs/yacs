@@ -124,7 +124,7 @@ Class Dates {
 		if($compact) {
 			$id = 'day_content_'.$day_content_index++;
 
-			$text = '<a href="#" onclick="$(\'#'.$panel_id.'\').html($(\'#'.$id.'\').html()); $(\'#'.$panel_id.'\').effect(\'highlight\'); return false;">'.$day.'</a>'
+			$text = '<a href="#" onclick="$(\'#'.$panel_id.'\').update($(\'#'.$id.'\').innerHTML); $(\''.$panel_id.'\').effect("highlight", {}, 3000); return false;">'.$day.'</a>'
 				.'<div id="'.$id.'" style="display: none">'.$content.'</div>';
 
 		} else
