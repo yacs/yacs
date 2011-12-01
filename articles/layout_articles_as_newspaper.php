@@ -58,7 +58,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// next item
 			$item_count += 1;
@@ -132,7 +132,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -166,8 +166,12 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		// pack in a block
 		$text = '<h2>'.Skin::build_link($url, $icon.$title, 'basic').'</h2>';
 
+		// display all tags
+		if($item['tags'])
+			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+
 		// the introduction
-		$text .= '<p style="margin-top: 0;">';
+		$text .= '<div style="margin-top: 3px 0;">';
 
 		// the introductory text
 		if(is_object($overlay))
@@ -179,7 +183,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70, $url);
 
 		// end of the introduction
-		$text .= '</p>'."\n";
+		$text .= '</div>'."\n";
 
 		// insert overlay data, if any
 		if(is_object($overlay))
@@ -194,15 +198,15 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$details[] = $author.Skin::build_date($item['publish_date'], 'publishing');
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
-		if($count = Files::count_for_anchor('article:'.$item['id']))
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
-		if($count = Comments::count_for_anchor('article:'.$item['id']))
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
@@ -210,7 +214,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
-		if($count = Links::count_for_anchor('article:'.$item['id']))
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
@@ -229,7 +233,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -263,8 +267,12 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		// pack in a block
 		$text = '<h3>'.Skin::build_link($url, $icon.$title, 'basic').'</h3>';
 
+		// display all tags
+		if($item['tags'])
+			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+
 		// the introduction
-		$text .= '<p style="margin-top: 0;">';
+		$text .= '<div style="margin: 3px 0;">';
 
 		// the introductory text
 		if(is_object($overlay))
@@ -276,7 +284,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
 
 		// end of the introduction
-		$text .= '</p>'."\n";
+		$text .= '</div>'."\n";
 
 		// insert overlay data, if any
 		if(is_object($overlay))
@@ -291,15 +299,15 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$details[] = $author.Skin::build_date($item['publish_date'], 'publishing');
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
-		if($count = Files::count_for_anchor('article:'.$item['id']))
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
-		if($count = Comments::count_for_anchor('article:'.$item['id']))
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
@@ -307,7 +315,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
-		if($count = Links::count_for_anchor('article:'.$item['id']))
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
@@ -326,7 +334,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -371,15 +379,15 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$details[] = $author.Skin::build_date($item['publish_date'], 'publishing');
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
-		if($count = Files::count_for_anchor('article:'.$item['id']))
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
-		if($count = Comments::count_for_anchor('article:'.$item['id']))
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
@@ -387,11 +395,15 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
-		if($count = Links::count_for_anchor('article:'.$item['id']))
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
 		$suffix .= Skin::finalize_list($details, 'menu');
+
+		// display all tags
+		if($item['tags'])
+			$suffix .= ' <p class="tags" style="margin-top: 3px;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 		// insert an array of links
 		return array($prefix, $title, $suffix);

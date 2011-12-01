@@ -456,12 +456,12 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
 	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
 		foreach($items as $user_id => $user_label) {
-			$owner = '';
+			$owner_state = '';
 			if($user_id == $item['owner_id'])
-				$owner = CHECKED_IMG;
-			$editor = CHECKED_IMG;
-			$watcher = '';
-			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+				$owner_state = CHECKED_IMG;
+			$editor_state = CHECKED_IMG;
+			$watcher_state = '';
+			$rows[$user_id] = array($user_label, $watcher_state, $editor_state, $owner_state);
 		}
 	}
 
@@ -595,7 +595,7 @@ if(Images::allow_creation($anchor, $item)) {
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 }

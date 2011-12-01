@@ -237,7 +237,7 @@ if($id && !isset($item['id'])) {
 			$file_name = utf8::to_ascii($context['site_name'].' - '.$title.'.mm');
 		else
 			$file_name = utf8::to_ascii($context['site_name'].'.mm');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

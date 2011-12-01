@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-06 21:50+0200\n"
+"POT-Creation-Date: 2011-11-29 21:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -183,11 +183,11 @@ msgstr ""
 msgid "See also"
 msgstr ""
 
-#: categories/complete.php:35
+#: categories/complete.php:33
 msgid "Complete tags"
 msgstr ""
 
-#: categories/complete.php:40
+#: categories/complete.php:38
 msgid "Request is invalid."
 msgstr ""
 
@@ -213,7 +213,7 @@ msgstr ""
 msgid "Yes, I want to delete this category"
 msgstr ""
 
-#: categories/delete.php:115 categories/edit.php:879 categories/mail.php:164
+#: categories/delete.php:115 categories/edit.php:880 categories/mail.php:164
 msgid "Cancel"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: categories/edit.php:285 categories/edit.php:912 categories/mail.php:182
+#: categories/edit.php:285 categories/edit.php:913 categories/mail.php:182
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -644,76 +644,76 @@ msgstr ""
 msgid "You may combine several keywords:"
 msgstr ""
 
-#: categories/edit.php:815
+#: categories/edit.php:816
 msgid "Change the overlay"
 msgstr ""
 
-#: categories/edit.php:818 categories/edit.php:822
+#: categories/edit.php:819 categories/edit.php:823
 msgid "none"
 msgstr ""
 
-#: categories/edit.php:819
+#: categories/edit.php:820
 msgid "If you change the overlay you may loose some data."
 msgstr ""
 
-#: categories/edit.php:821
+#: categories/edit.php:822
 msgid "No overlay has been selected yet."
 msgstr ""
 
-#: categories/edit.php:859
+#: categories/edit.php:860
 msgid "More options"
 msgstr ""
 
-#: categories/edit.php:864
+#: categories/edit.php:865
 msgid "Options"
 msgstr ""
 
-#: categories/edit.php:875
+#: categories/edit.php:876
 msgid "Submit"
 msgstr ""
 
-#: categories/edit.php:875 categories/mail.php:160
+#: categories/edit.php:876 categories/mail.php:160
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: categories/edit.php:889
+#: categories/edit.php:890
 msgid "Do not change modification date."
 msgstr ""
 
-#: categories/edit.php:892
+#: categories/edit.php:893
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: categories/edit.php:934
+#: categories/edit.php:935
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: categories/edit.php:934
+#: categories/edit.php:935
 msgid "YACS codes"
 msgstr ""
 
-#: categories/edit.php:934
+#: categories/edit.php:935
 msgid "smileys"
 msgstr ""
 
-#: categories/edit.php:937
+#: categories/edit.php:938
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
-#: categories/edit.php:944
+#: categories/edit.php:945
 msgid "TinyMCE"
 msgstr ""
 
-#: categories/edit.php:948
+#: categories/edit.php:949
 msgid "FCKEditor"
 msgstr ""
 
-#: categories/edit.php:952
+#: categories/edit.php:953
 msgid "Textarea"
 msgstr ""
 
-#: categories/edit.php:956
+#: categories/edit.php:957
 msgid "Help"
 msgstr ""
 

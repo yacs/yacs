@@ -2,6 +2,8 @@
 /**
  * assign users to any object
  *
+ * @todo flag banned users in the list of editors
+ *
  * This script displays assigned users to an anchor, and list users that could be assigned as well.
  *
  * This is the main tool used by associates to assign editors to pages they are managing.
@@ -212,9 +214,7 @@ elseif(!$permitted) {
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
 		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("name",true); });  '."\n"
 		.JS_SUFFIX;
 
 	// the current list of category members

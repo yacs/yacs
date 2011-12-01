@@ -219,7 +219,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		// if there are several pages, add navigation commands to browse them
 		if(count($pages) > 1) {
 			$page_menu = array( '_' => i18n::s('Pages') );
-			$home =& Sections::get_permalink($item);
+			$home = Sections::get_permalink($item);
 			$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
 			$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
@@ -347,42 +347,6 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			else
 				$items_per_page = ARTICLES_PER_PAGE;
 
-			// create a box
-			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
-
-			// no navigation bar with alistapart
-			if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
-
-				// count the number of articles in this section
-				if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-					if($count > 20)
-						$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
-
-					// navigation commands for articles
-					$home =& Sections::get_permalink($item);
-					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
-					$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
-
-					// help to navigate across multiple pages
-					if($count > $items_per_page)
-						$box['bottom_bar'] = $box['top_bar'];
-
-				}
-
-				// the command to post a new page
-				if(Articles::allow_creation($item, $anchor)) {
-
-					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
-					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-					if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
-						;
-					else
-						$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
-					$box['top_bar'] += array( $url => $label );
-
-				}
-			}
-
 			// sort and list articles
 			$offset = ($zoom_index - 1) * $items_per_page;
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -391,6 +355,22 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				$order = $layout->items_order();
 			else
 				$order = 'edition';
+
+			// create a box
+			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
+
+			// the command to post a new page
+			if(Articles::allow_creation($item, $anchor)) {
+
+				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
+				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
+					;
+				else
+					$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
+				$box['top_bar'] += array( $url => $label );
+
+			}
 
 			// list pages under preparation
 			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
@@ -413,6 +393,23 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
+
+			// no navigation bar with alistapart
+			if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
+
+				// count the number of articles in this section
+				if($count = Articles::count_for_anchor('section:'.$item['id'])) {
+					if($count > 20)
+						$box['bottom_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
+
+					// navigation commands for articles
+					$home = Sections::get_permalink($item);
+					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
+					$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
+
+				}
+
+			}
 
 			// bottom menu
 			if($box['bottom_bar'])
@@ -465,7 +462,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 	// title label
 	if(is_object($anchor) && $anchor->is_viewable())
-		$title_label = $anchor->get_label('comments', 'title');
+		$title_label = $anchor->get_label('list_title', 'comments');
 	else
 		$title_label = i18n::s('Comments');
 
@@ -610,23 +607,6 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			// build a complete box
 			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
-			// count the number of subsections
-			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-
-				if($count > 20)
-					$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
-
-				// navigation commands for sections
-				$home =& Sections::get_permalink($item);
-				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
-				$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
-
-				// help to navigate across multiple pages
-				if($count > $items_per_page)
-					$box['bottom_bar'] = $box['top_bar'];
-
-			}
-
 			// the command to add a new section
 			if(Sections::allow_creation($item, $anchor)) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
@@ -648,6 +628,19 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
+
+			// count the number of subsections
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+
+				if($count > 20)
+					$box['bottom_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
+
+				// navigation commands for sections
+				$home =& Sections::get_permalink($item);
+				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
+				$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
+
+			}
 
 			// bottom menu
 			if($box['bottom_bar'])
@@ -852,14 +845,14 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 		$anchors = 'section:'.$item['id'];
 	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
 		foreach($items as $user_id => $user_label) {
-			$owner = '';
+			$owner_state = '';
 			if($user_id == $item['owner_id'])
-				$owner = CHECKED_IMG;
-			$editor = CHECKED_IMG;
-			$watcher = '';
+				$owner_state = CHECKED_IMG;
+			$editor_state = CHECKED_IMG;
+			$watcher_state = '';
 			if(Members::check($anchors, 'user:'.$user_id))
-				$watcher = CHECKED_IMG;
-			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+				$watcher_state = CHECKED_IMG;
+			$rows[$user_id] = array($user_label, $watcher_state, $editor_state, $owner_state);
 		}
 	}
 
@@ -966,7 +959,7 @@ if(Articles::allow_creation($item, $anchor)) {
 
 	Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 	$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-	if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+	if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
 		;
 	else
 		$label = i18n::s('Add a page');
@@ -1017,7 +1010,7 @@ if(Sections::allow_modification($item, $anchor)) {
 
 	// modify this page
 	Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'sections')))
 		$label = i18n::s('Edit this section');
 	$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), SECTIONS_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 

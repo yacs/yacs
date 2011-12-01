@@ -668,7 +668,7 @@ Class Locations {
 
 		// center point
 		$latitude_middle = $latitudes / max(1, $index);
-		$longitude_middle = $longitudes / max(1, $index);      
+		$longitude_middle = $longitudes / max(1, $index);
 		$text .= '	map.setCenter(new GLatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")), '.$scale.');'."\n";
 
 		// add all markers
@@ -691,7 +691,7 @@ Class Locations {
 
 				// insert thumbnail, if any
 				if($icon = $anchor->get_thumbnail_url())
-					$description = '<a href="'.$context['url_to_root'].$anchor->get_url().'"><img src="'.$icon.'" alt="'.encode_field($anchor->get_title()).'" style="float: left; margin-right: 1em; border: none;" /></a>'.$description;
+					$description = '<a href="'.$context['url_to_root'].$anchor->get_url().'"><img src="'.$icon.'" alt="" title="'.encode_field($anchor->get_title()).'" style="float: left; margin-right: 1em; border: none;" /></a>'.$description;
 
 				// a link to the anchor page
 				$description .= BR."\n".Skin::build_link($anchor->get_url(), $anchor->get_title());

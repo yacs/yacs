@@ -130,7 +130,7 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 					$title = Codes::beautify_title($item['title']);
 
 				// the url to view this item
-				$url =& Sections::get_permalink($item);
+				$url = Sections::get_permalink($item);
 
 				// add to the list
 				$content .= '	<photo>'."\n"

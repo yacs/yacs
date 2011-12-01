@@ -184,7 +184,7 @@ $item =& Articles::get($id);
 // get owner profile, if any
 $owner = array();
 if(isset($item['owner_id']))
-	$owner =& Users::get($item['owner_id']);
+	$owner = Users::get($item['owner_id']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -313,8 +313,8 @@ if(!isset($item['id'])) {
 	// remember surfer visit
 	Surfer::is_visiting(Articles::get_permalink($item), Codes::beautify_title($item['title']), 'article:'.$item['id'], $item['active']);
 
-	// increment silently the hits counter if not associate, nor creator, nor at follow-up page -- editors are taken into account
-	if(Surfer::is_associate())
+	// increment silently the hits counter if not robot, nor associate, nor owner, nor at follow-up page
+	if(Surfer::is_crawler() || Surfer::is_associate())
 		;
 	elseif(isset($item['owner_id']) && Surfer::is($item['owner_id']))
 		;
@@ -976,7 +976,7 @@ if(!isset($item['id'])) {
 
 		// title label
 		if(is_object($anchor) && $anchor->is_viewable())
-			$title_label = ucfirst($anchor->get_label('comments', 'count_many'));
+			$title_label = ucfirst($anchor->get_label('list_title', 'comments'));
 		else
 			$title_label = i18n::s('Comments');
 
@@ -988,7 +988,7 @@ if(!isset($item['id'])) {
 
 		// label to create a comment
 		if(is_object($anchor) && $anchor->is_viewable())
-			$add_label = $anchor->get_label('comments', 'new_command');
+			$add_label = $anchor->get_label('new_command', 'comments');
 		else
 			$add_label = i18n::s('Post a comment');
 
@@ -1184,7 +1184,7 @@ if(!isset($item['id'])) {
 	// modify this page
 	if(Articles::allow_modification($item, $anchor)) {
 		Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 			$label = i18n::s('Edit this page');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 	}

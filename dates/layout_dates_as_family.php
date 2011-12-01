@@ -52,7 +52,7 @@ Class Layout_dates_as_family extends Layout_interface {
 			}
 
 			// url to view the anchor page
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';

@@ -206,7 +206,7 @@ if(isset($item['id']) && isset($item['title']))
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command')))
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'articles')))
 	$context['page_title'] = i18n::s('Add a page');
 
 // save data in session, if any, to pass through login step or through section selection step
@@ -348,10 +348,6 @@ if(Surfer::is_crawler()) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
-	// only authenticated surfers are allowed to post links
-	if(!Surfer::is_logged() && isset($_REQUEST['description']))
-		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
-
 	// set options
 	if(!isset($_REQUEST['options']))
 		$_REQUEST['options'] = '';
@@ -377,7 +373,7 @@ if(Surfer::is_crawler()) {
 
 		// delete the previous version, if any
 		if(is_object($overlay) && isset($_REQUEST['id']))
-			$overlay->remember('delete', $_REQUEST);
+			$overlay->remember('delete', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -630,7 +626,7 @@ if(Surfer::is_crawler()) {
 	unset($item['nick_name']);
 
 	// also duplicate the provided overlay, if any
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, NULL);
 
 	// let the surfer do the rest
 	$with_form = TRUE;
@@ -813,7 +809,7 @@ if($with_form) {
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});'."\n"
 		.JS_SUFFIX;
 	// branch to another script to display form fields, tabs, etc

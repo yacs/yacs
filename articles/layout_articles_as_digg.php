@@ -64,7 +64,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// make a live title
 			if(is_object($overlay))
@@ -88,7 +88,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			elseif(is_callable(array($anchor, 'get_bullet_url')))
 				$icon = $anchor->get_bullet_url();
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// rating
 			if($item['rating_count'])
@@ -158,7 +158,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// the publish date
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$details[] = Skin::build_date($item['publish_date'], 'publishing');
+				$details[] = Skin::build_date($item['publish_date']);
 
 			// read the article
 			$details[] = Skin::build_link($url, i18n::s('View the page'), 'basic');

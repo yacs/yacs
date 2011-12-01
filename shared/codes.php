@@ -485,8 +485,7 @@ Class Codes {
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
 				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)/i', // YouTube link
-				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
-				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
+				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
 				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, Ĭ or ՠ-- no space ahead */
 				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, Ĭ or ՠ-- no space ahead */
@@ -502,7 +501,6 @@ Class Codes {
 				"</h3>",
 				"</h4>",
 				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
-				"Skin::build_link('$1://$2', '$1://$2')",
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
 				"<ul><li>$2</li></ul>",
@@ -1881,7 +1879,7 @@ Class Codes {
 		case 'gan':
 
 			// where the file is
-			$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+			$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			// we actually use a transformed version of the file
 			$cache_id = Cache::hash($path).'.xml';
@@ -1977,7 +1975,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];
@@ -2233,7 +2231,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];
@@ -2644,7 +2642,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").update(s.text.toString()); } else { $("#newsfeed_'.$count.'").update(""); } } ) } );'."\n"
+			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html(""); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;
@@ -2742,7 +2740,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2771,7 +2769,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'article');
@@ -2818,7 +2816,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2847,7 +2845,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'category');
@@ -3298,7 +3296,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Sections::get_permalink($item);
+				$url = Sections::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -3746,7 +3744,7 @@ Class Codes {
  			foreach($items as $id => $item) {
 
 				// make a link to the target page
-				$link =& Articles::get_permalink($item);
+				$link = Articles::get_permalink($item);
 				if(!$label)
 					$label = Skin::strip($item['title']);
 				$text =& Skin::build_link($link, $label, 'article');

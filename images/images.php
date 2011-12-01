@@ -244,12 +244,12 @@ Class Images {
 		}
 
 		// delete the image files silently
-		list($anchor_type, $anchor_id) = explode(':', $item['anchor'], 2);
-		Safe::unlink($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['image_name']);
-		Safe::unlink($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['thumbnail_name']);
-		Safe::rmdir($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs');
-		Safe::rmdir($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id);
-		Safe::rmdir($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type);
+		$file_path = $context['path_to_root'].Files::get_path($item['anchor'], 'images');
+		Safe::unlink($file_path.'/'.$item['image_name']);
+		Safe::unlink($file_path.'/'.$item['thumbnail_name']);
+		Safe::rmdir($file_path.'/thumbs');
+		Safe::rmdir($file_path);
+		Safe::rmdir(dirname($file_path));
 
 		// delete related items
 		Anchors::delete_related_to('image:'.$id);
@@ -305,38 +305,37 @@ Class Images {
 		if(($result =& SQL::query($query)) && SQL::count($result)) {
 
 			// create target folders
-			$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_to);
-			if(!Safe::make_path($file_path.'/thumbs'))
-				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path.'/thumbs'));
+			$file_to = $context['path_to_root'].Files::get_path($item['anchor'], 'images');
+			if(!Safe::make_path($file_to.'/thumbs'))
+				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_to.'/thumbs'));
 
-			$file_path = $context['path_to_root'].$file_path.'/';
+			$file_to = $context['path_to_root'].$file_to.'/';
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
+			$file_from = $context['path_to_root'].Files::get_path($anchor_from, 'images');
 			while($item =& SQL::fetch($result)) {
 
 				// sanity check
-				if(!file_exists($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name']))
+				if(!file_exists($context['path_to_root'].$file_from.'/'.$item['image_name']))
 					continue;
 
 				// duplicate image file
-				if(!copy($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name'],
-					$file_path.$item['image_name'])) {
+				if(!copy($context['path_to_root'].$file_from.'/'.$item['image_name'], $file_to.$item['image_name'])) {
 					Logger::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['image_name']));
 					continue;
 				}
 
 				// this will be filtered by umask anyway
-				Safe::chmod($file_path.$item['image_name'], $context['file_mask']);
+				Safe::chmod($file_to.$item['image_name'], $context['file_mask']);
 
 				// copy the thumbnail as well
-				Safe::copy($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['thumbnail_name'],
-					$file_path.$item['thumbnail_name']);
+				Safe::copy($context['path_to_root'].$file_from.'/'.$item['thumbnail_name'], $file_to.$item['thumbnail_name']);
 
 				// this will be filtered by umask anyway
-				Safe::chmod($file_path.$item['thumbnail_name'], $context['file_mask']);
+				Safe::chmod($file_to.$item['thumbnail_name'], $context['file_mask']);
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -423,15 +422,12 @@ Class Images {
 		if(!isset($item['anchor']) || !isset($item['image_name']))
 			return FALSE;
 
-		// target name
-		$target = 'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'];
-
 		// file does not exist
-		if(!file_exists($context['path_to_root'].$target))
+		if(!file_exists($context['path_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name']))
 			return FALSE;
 
 		// web address of the image
-		return $context['url_to_root'].encode_link($target);
+		return $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.rawurlencode($item['image_name']);
 	}
 
 	/**
@@ -464,15 +460,12 @@ Class Images {
 		if(!isset($item['anchor']) || !isset($item['thumbnail_name']))
 			return FALSE;
 
-		// target file name
-		$target = 'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['thumbnail_name'];
-
 		// file does not exist
-		if(!file_exists($context['path_to_root'].$target))
+		if(!file_exists($context['path_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['thumbnail_name']))
 			return FALSE;
 
 		// returns href
-		return $context['url_to_root'].$target;
+		return $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.str_replace('thumbs%2F', 'thumbs/', rawurlencode($item['thumbnail_name']));
 
 	}
 

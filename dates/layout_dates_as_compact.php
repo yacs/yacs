@@ -32,7 +32,7 @@ Class Layout_dates_as_compact extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// the url to use
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';

@@ -1083,8 +1083,7 @@ class Messages {
 		}
 
 		// create target folders
-		list($anchor_type, $anchor_id) = explode(':', $anchor, 2);
-		$file_path = 'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id;
+		$file_path = Files::get_path($anchor, 'images');
 		if(!Safe::make_path($file_path)) {
 			Logger::remember('agents/messages.php', 'Impossible to create '.$file_path);
 			return NULL;

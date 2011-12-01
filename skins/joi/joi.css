@@ -531,7 +531,6 @@ table.calendar td.spot {
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .highlight1 { /* to locate words looked for, following a search request */

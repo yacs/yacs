@@ -71,9 +71,9 @@ Class Article extends Anchor {
 	/**
 	 * get the url to display the icon for this anchor
 	 *
-	 * @return an anchor to the icon image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the icon image
 	 */
 	function get_icon_url() {
 		if(isset($this->item['icon_url']) && $this->item['icon_url'])
@@ -97,11 +97,11 @@ Class Article extends Anchor {
 	/**
 	 * get next and previous items, if any
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_neighbours($type, $item) {
 		global $context;
@@ -235,9 +235,9 @@ Class Article extends Anchor {
 	 *
 	 * For articles, the path bar is made of one stem for the section, then one stem for the article itself.
 	 *
-	 * @return an array of $url => $label, or NULL
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an array of $url => $label, or NULL
 	 */
 	function get_path_bar() {
 		global $context;
@@ -275,9 +275,9 @@ Class Article extends Anchor {
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
-	 * @return 'article:&lt;id&gt;', or NULL on error
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return 'article:&lt;id&gt;', or NULL on error
 	 */
 	function get_reference() {
 		if(isset($this->item['id']))
@@ -315,10 +315,10 @@ Class Article extends Anchor {
 	 * - 'quote' - strip most HTML tags
 	 * - 'teaser' - limit the number of words, tranform YACS codes, and link to permalink
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string an optional variant, including
 	 * @return NULL, of some text
-	 *
-	 * @see shared/anchor.php
 	 */
 	function &get_teaser($variant = 'basic') {
 		global $context;
@@ -445,9 +445,9 @@ Class Article extends Anchor {
 	/**
 	 * get the url to display the thumbnail for this anchor
 	 *
-	 * @return an anchor to the thumbnail image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the thumbnail image
 	 */
 	function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']))
@@ -458,10 +458,10 @@ Class Article extends Anchor {
 	/**
 	 * get the url to display the main page for this anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an anchor to the viewing script, or NULL on error
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
 
@@ -590,10 +590,10 @@ Class Article extends Anchor {
 	/**
 	 * load the related item
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
-	 *
-	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Articles::get($id, $mutable);
@@ -619,13 +619,13 @@ Class Article extends Anchor {
 	 * $fields = $article->parse($content['description'], $item);
 	 * [/php]
 	 *
-	 * @param string the input text
-	 * @param array previous attributes for the page
-	 * @return an array of updated attributes
-	 *
 	 * @see agents/messages.php
 	 $ @see agents/uploads.php
 	 * @see services/blog.php
+	 *
+	 * @param string the input text
+	 * @param array previous attributes for the page
+	 * @return an array of updated attributes
 	 */
 	function parse($text, $item = NULL) {
 		global $context;
@@ -738,10 +738,10 @@ Class Article extends Anchor {
 	/**
 	 * restore a previous version of this article
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		global $context;
@@ -756,10 +756,10 @@ Class Article extends Anchor {
 	/**
 	 * change some attributes of an anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param array of (name, value)
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see shared/anchor.php
 	 */
 	function set_values($fields) {
 
@@ -785,15 +785,15 @@ Class Article extends Anchor {
 	 * a message is sent to the article creator, if different from the current surfer
 	 * and a message is sent to watchers as well.
 	 *
+	 * @see articles/article.php
+	 * @see articles/edit.php
+	 * @see shared/anchor.php
+	 *
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
 	 * @param boolean TRUE to notify section watchers, default is FALSE
 	 * @param boolean TRUE to notify poster followers, default is FALSE
-	 *
-	 * @see articles/article.php
-	 * @see articles/edit.php
-	 * @see shared/anchor.php
 	 */
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
@@ -1073,6 +1073,8 @@ Class Article extends Anchor {
 
 					// message components
 					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
+					if($description = trim($item['description']))
+						$summary .= '<p> </p><div>'.$description.'</div>';
 					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
 
 					// threads messages
@@ -1174,9 +1176,9 @@ Class Article extends Anchor {
 	/**
 	 * transcode some references
 	 *
-	 * @param array of pairs of strings to be used in preg_replace()
-	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 		global $context;

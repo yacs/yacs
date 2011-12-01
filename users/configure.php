@@ -5,7 +5,6 @@
  * @todo capture a list of e-mail to be notified when a new person registers (prepare for baby-sitting)
  * @todo allow for automatic lock of pages after some idle time
  * @todo add a parameter to limit total uploads by one user (UncleJam) -- give a positive number of bytes, and stop accepting files at zero
- * @todo add a parameter users_editor_tags for authorized tags for editors (ThierryP)
  * @todo add a set of predefined javascript links for pre-defined profiles
  *
  * This script will let you modify following parameters:

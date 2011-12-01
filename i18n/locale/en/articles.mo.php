@@ -53,7 +53,6 @@ $context['l10n']['en']['Back to the page']='Back to the page';
 $context['l10n']['en']['Branch out to %s']='Branch out to %s';
 $context['l10n']['en']['By %s']='By %s';
 $context['l10n']['en']['Cancel']='Cancel';
-$context['l10n']['en']['Categories: %s']='Categories: %s';
 $context['l10n']['en']['Change']='Change';
 $context['l10n']['en']['Change the overlay']='Change the overlay';
 $context['l10n']['en']['363ac331c63e9412effb8211819d652f']='Change the publication date to %s';

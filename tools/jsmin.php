@@ -3,7 +3,7 @@
  * finalize javascript libraries
  *
  * This script reads all javascript files from selected directories, compresses content,
- * and generates one single library per directory, named library.js
+ * and generates compacted .js files.
  *
  * It processes files from following directories:
  * - included/browser
@@ -124,25 +124,24 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_endpage.min.js', $minified);
 
 	// do the same in included/calendar
-	foreach(Safe::glob($context['path_to_root'].'included/jscalendar/*.js') as $name) {
+	if($names = Safe::glob($context['path_to_root'].'included/jscalendar/*.js')) {
+		foreach($names as $name) {
 
-		if(!strcmp(basename($name), 'library.js'))
-			continue;
+			$context['text'] .= 'included/calendar/'.basename($name).' -> .js.jsmin'.BR."\n";
 
-		$context['text'] .= 'included/calendar/'.basename($name).' -> .js.jsmin'.BR."\n";
+			// we do have some content
+			if($text = Safe::file_get_contents($name)) {
 
-		// we do have some content
-		if($text = Safe::file_get_contents($name)) {
+				// actual compression
+				$text = JSMin::minify($text);
 
-			// actual compression
-			$text = JSMin::minify($text);
+				// save updated content
+				Safe::file_put_contents($name.'.jsmin', $text);
 
-			// save updated content
-			Safe::file_put_contents($name.'.jsmin', $text);
+				// one file has been compressed
+				$count++;
 
-			// one file has been compressed
-			$count++;
-
+			}
 		}
 	}
 

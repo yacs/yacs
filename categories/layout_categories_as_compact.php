@@ -34,7 +34,7 @@ Class Layout_categories_as_compact extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to view the comment
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// use the title to label the link
 			$label = ucfirst(Skin::strip($item['title'], 20));

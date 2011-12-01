@@ -63,7 +63,7 @@ if($description) {
 	// if there are several pages, add navigation commands to browse them
 	if(count($pages) > 1) {
 		$page_menu = array( '_' => i18n::s('Pages') );
-		$home =& Sections::get_permalink($item);
+		$home = Sections::get_permalink($item);
 		$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
 		$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 

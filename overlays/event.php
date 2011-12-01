@@ -118,14 +118,11 @@ class Event extends Overlay {
 		else
 			$value = '';
 		$input = '<input type="text" name="chairman" id="chairman" value ="'.encode_field($value).'" size="25" maxlength="32" />'
-			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		// append the script used for autocompletion
 		$context['page_footer'] .= JS_PREFIX
 			.'// enable chairman autocompletion'."\n"
-			.'$(document).ready( function() {'."\n"
-			.' Yacs.autocomplete_names("#chairman",true);'."\n"
-			.'});  '."\n"
+			.'$(document).ready( function() { Yacs.autocomplete_names("chairman",true); });  '."\n"
 			.JS_SUFFIX;
 		// done
 		return $input;
@@ -772,40 +769,23 @@ class Event extends Overlay {
 	function get_label($name, $action='view') {
 		global $context;
 
-		// the target label
-		switch($name) {
+		switch($name.':'.$action) {
 
-		// edit command
-		case 'edit_command':
+		case 'edit_command:articles':
 			return i18n::s('Edit this event');
-			break;
 
-		// new command
-		case 'new_command':
+		case 'new_command:articles':
 			return i18n::s('Add an event');
-			break;
 
-		// page title
-		case 'page_title':
+		case 'page_title:edit':
+			return i18n::s('Edit an event');
 
-			switch($action) {
+		case 'page_title:delete':
+			return i18n::s('Delete an event');
 
-			case 'edit':
-				return i18n::s('Edit an event');
+		case 'page_title:new':
+			return i18n::s('Add an event');
 
-			case 'delete':
-				return i18n::s('Delete an event');
-
-			case 'new':
-				return i18n::s('New event');
-
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
 		}
 
 		// no match
@@ -1500,7 +1480,6 @@ class Event extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 
@@ -1532,20 +1511,19 @@ class Event extends Overlay {
 		// process event specific attributes
 		$this->parse_event_fields($fields);
 
-		return $this->attributes;
 	}
 
 	/**
 	 * remember an action once it's done
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
-	 * @param string reference of the anchor, if any -- mandatory on 'insert'
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($action, $host, $reference=NULL) {
+	function remember($action, $host, $reference) {
 		global $context;
 
 		// remember the id of the master record
@@ -1738,7 +1716,7 @@ class Event extends Overlay {
 
 			// navigation commands for dates
 			if($section = Sections::get(str_replace('section:', '', $anchor))) {
-				$home =& Sections::get_permalink($section);
+				$home = Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 			}
@@ -1771,7 +1749,7 @@ class Event extends Overlay {
 
 				// navigation commands for dates
 				$section = Sections::get($anchor);
-				$home =& Sections::get_permalink($section);
+				$home = Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 
@@ -2020,20 +1998,13 @@ class Event extends Overlay {
 				.'	timestamp: 0,'."\n"
 				."\n"
 				.'	subscribe: function() {'."\n"
-				.'		Lobby.subscribeAjax = new Ajax.Request(Lobby.url, {'."\n"
-				.'			method: "get",'."\n"
-				.'			parameters: { "timestamp" : this.timestamp },'."\n"
-				.'			requestHeaders: {Accept: "application/json"},'."\n"
-				.'			onSuccess: Lobby.updateOnSuccess'."\n"
-				.'		});'."\n"
-				.'	},'."\n"
-				."\n"
-				.'	updateOnSuccess: function(transport) {'."\n"
-				.'		var response = transport.responseText.evalJSON(true);'."\n"
-				.'		if(Lobby.timestamp == 0)'."\n"
-				.'			Lobby.timestamp = response["timestamp"];'."\n"
-				.'		else if(Lobby.timestamp != response["timestamp"])'."\n"
-				.'			window.location.reload(true);'."\n"
+				.'		$.get(Lobby.url, { "timestamp" : this.timestamp },'."\n"
+				.'		function(response) {'."\n"
+				.'			if(Lobby.timestamp == 0)'."\n"
+				.'				Lobby.timestamp = response["timestamp"];'."\n"
+				.'			else if(Lobby.timestamp != response["timestamp"])'."\n"
+				.'				window.location.reload(true);'."\n"
+				.'		}, "json");'."\n"
 				.'	}'."\n"
 				."\n"
 				.'}'."\n"

@@ -69,7 +69,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $label = $suffix = $icon = '';
@@ -242,11 +242,8 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// layout details
 			if(count($content)) {
-				$even = TRUE;
-				foreach($content as $line) {
-					$suffix .= '<div class="'.(($even)?'even':'odd').'">'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
-					$even = !$even;
-				}
+				foreach($content as $line)
+					$suffix .= '<div>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
 			}
 
 			// use the title to label the link

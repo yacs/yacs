@@ -45,7 +45,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$title = $abstract = $author = '';
@@ -127,7 +127,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// describe attachments
 			if(count($details))
-				$abstract .= '<p class="details">'.join(', ', $details).'</p>';
+				$abstract .= '<p style="margin: 3px 0;">'.join(', ', $details).'</p>';
 
 			// anchors
 			$anchors = array();
@@ -142,7 +142,7 @@ Class Layout_articles_as_table extends Layout_interface {
 				}
 			}
 			if(@count($anchors))
-				$abstract .= BR.'<span class="details">'.sprintf(i18n::s('Categories: %s'), implode(', ', $anchors)).'</span>';
+				$abstract .= '<p class="tags" style="margin: 3px 0">'.implode(' ', $anchors).'</p>';
 
 			// poster name
 			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {

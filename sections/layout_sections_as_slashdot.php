@@ -68,7 +68,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// permalink
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -104,7 +104,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			if($article['id']) {
 
 				// permalink
-				$url =& Articles::get_permalink($article);
+				$url = Articles::get_permalink($article);
 
 				// get the anchor
 				$anchor =& Anchors::get($article['anchor']);
@@ -132,7 +132,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 				if(!$icon && is_callable(array($anchor, 'get_bullet_url')))
 					$icon = $anchor->get_bullet_url();
 				if($icon)
-					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 				// the introductory text
 				if($article['introduction'])

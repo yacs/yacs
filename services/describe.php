@@ -7,7 +7,7 @@
  *
  * @link http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html RSD 1.0 specification
  *
- * This script helps to locate the blogging interface from any section, and from the front page. 
+ * This script helps to locate the blogging interface from any section, and from the front page.
  * To trigger the auto-discovery feature, visit the target section, and enter its web address
  * into your blogging tool.
  *
@@ -15,6 +15,11 @@
  *
  * The BlogID used from the front page is the identification number of the default section,
  * which is the section named 'default', if any, or the first public section of the site map.
+ *
+ * Accepted calls:
+ * - describe.php provide the list of sections for this surfer
+ * - describe.php?anchor=123 section with id 123 is the main blogging area
+ * - describe.php/123 section with id 123 is the main blogging area
  *
  * @author Bernard Paques
  * @reference
@@ -26,8 +31,8 @@ include_once '../shared/global.php';
 
 // look for the id
 $id = NULL;
-if(isset($_REQUEST['id']))
-	$id = $_REQUEST['id'];
+if(isset($_REQUEST['anchor']))
+	$id = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 $id = strip_tags($id);
@@ -60,11 +65,16 @@ else
 	$link = '';
 $text .= '	<homePageLink>'.$context['url_to_home'].$context['url_to_root'].$link.'</homePageLink>'."\n";
 
+// restrict the scope of the API
+$scope = '';
+if($id)
+	$scope = '?id='.urlencode($id);
+
 // available blogging api
 $text .= '	<apis>'."\n"
-	.'		<api name="Movable Type" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
-	.'		<api name="MetaWeblog" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
-	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MetaWeblog" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MovableType" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
 	.'	</apis>'."\n";
 
 // the postamble
@@ -75,12 +85,12 @@ $text .= '</service>'."\n".'</rsd>'."\n";
 //
 
 // handle the output correctly
-render_raw('text/xml; charset='.$context['charset']);
+render_raw('application/rsd+xml; charset='.$context['charset']);
 
 // suggest a name on download
 if(!headers_sent()) {
 	$file_name = utf8::to_ascii($context['site_name'].'.rsd.xml');
-	Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
@@ -88,7 +98,7 @@ http::expire(1800);
 
 // strong validator
 $etag = '"'.md5($text).'"';
-	
+
 // manage web cache
 if(http::validate(NULL, $etag))
 	return;

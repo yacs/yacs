@@ -65,7 +65,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// next item
 			$item_count += 1;
@@ -142,7 +142,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -187,7 +187,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date'], 'publishing').' - </span>';
+		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).' - </span>';
 
 		// the introductory text
 		if($item['introduction']) {
@@ -207,12 +207,12 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$menu = array( $url => i18n::s('View the page') );
 
 		// info on related files
-		if($count = Files::count_for_anchor('article:'.$item['id']))
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 			$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
-		if($count = Comments::count_for_anchor('article:'.$item['id']))
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 			$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
@@ -220,7 +220,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 		// info on related links
-		if($count = Links::count_for_anchor('article:'.$item['id']))
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
@@ -284,7 +284,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date'], 'publishing').'</span>';
+		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).'</span>';
 
 		// the introductory text
 		if($item['introduction'])
@@ -307,13 +307,13 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$text .= BR.Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related comments
-		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
 			$link = Comments::get_url('article:'.$item['id'], 'list');
 			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 		}
 
 		// info on related links
-		if($count = Links::count_for_anchor('article:'.$item['id']))
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$text .= ' - '.Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// end of details
@@ -371,10 +371,10 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$suffix .= '<span class="details"> -&nbsp;'.$author.Skin::build_date($item['publish_date'], 'publishing');
+		$suffix .= '<span class="details"> -&nbsp;'.$author.Skin::build_date($item['publish_date']);
 
 		// count comments
-		if($count = Comments::count_for_anchor('article:'.$item['id']))
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 			$suffix .= ' -&nbsp;'.sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 		// end of details

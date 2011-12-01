@@ -54,7 +54,7 @@ Class Layout_sections extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -205,7 +205,7 @@ Class Layout_sections extends Layout_interface {
 
 				// one line per related item
 				if(count($content))
-					$suffix .= '<p class="details">'.Skin::build_list($content, 'compact')."</p>\n";
+					$suffix .= '<div class="details">'.Skin::build_list($content, 'compact')."</div>\n";
 
 			}
 

@@ -9,6 +9,7 @@
  * @link http://www.joemaller.com script to protect e-mail addresses from spam
  *
  * @author Bernard Paques
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -57,7 +58,7 @@ Class Skin_Skeleton {
 			$style = '';
 
 			if(ACCORDION_CLOSE_IMG_HREF)
-				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
+				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
 
 			// close following boxes
 			$fused[ $id ] = TRUE;
@@ -68,7 +69,7 @@ Class Skin_Skeleton {
 			$style = ' style="display: none"';
 
 			if(ACCORDION_OPEN_IMG_HREF)
-				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
+				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
 
 		}
 
@@ -408,6 +409,8 @@ Class Skin_Skeleton {
 	 * - 'folded' for a folded box with content
 	 * - 'gadget' for additional content in the main part of the page
 	 * - 'header1' with a level 1 title
+	 * - 'header1 even'
+	 * - 'header1 odd'
 	 * - 'header2' with a level 2 title
 	 * - 'header3' with a level 3 title
 	 * - 'navigation' for additional navigational information on page side
@@ -458,6 +461,8 @@ Class Skin_Skeleton {
 			break;
 
 		case 'header1':
+		case 'header1 even':
+		case 'header1 odd':
 		case 'header2':
 		case 'header3':
 			$output =& Skin::build_header_box($title, $content, $id, $variant);
@@ -660,7 +665,7 @@ Class Skin_Skeleton {
 	 * - 'no_hour' - adapts to time scale, but don't mention hours
 	 * - 'full' - display the full date
 	 * - 'month' - only month and year
-	 * - 'publishing' - with a draft icon in the future, else equivalent to 'no_hour'
+	 * - 'publishing' - allows for smart skinning
 	 * - 'standalone' - like full, but without the 'on ' prefix
 	 * - 'iso8601' - special format
 	 * - 'plain' - example 'Feb 26 2010 22:30:31 GMT'
@@ -783,9 +788,13 @@ Class Skin_Skeleton {
 		if(($variant == 'publishing') && (strcmp($stamp, $context['now']) > 0))
 			$output .= DRAFT_FLAG;
 
-		// don't display publishing hour
-		if($variant == 'publishing')
-			$variant = 'no_hour';
+		// allow for smart skinning -- http://www.wplover.com/1449/easier-date-display-technique-with-css-3/
+		if($variant == 'publishing') {
+			$output .= '<span class="day">'.$items['mday'].'</span>'
+				.'<span class="month">'.$months[$items['mon']].'</span>'
+				.'<span class="year">'.$items['year'].'</span>';
+			return $output;
+		}
 
 		// the same, but without prefix
 		if($variant == 'standalone') {
@@ -1053,7 +1062,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_EXTEND_IMG_HREF)
-			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js -- div.folder_body div is required for slide effect to work
 		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
@@ -1226,8 +1235,16 @@ Class Skin_Skeleton {
 			$id = ' id="header_box_'.++$box_index.'" ';
 		}
 
+		// allow for stacked boxes
+		if(strpos($variant, 'even'))
+			$class = ' even';
+		elseif(strpos($variant, 'odd'))
+			$class = ' odd';
+		else
+			$class = '';
+
 		// external div boundary
-		$text = '<div class="box"'.$id.'>'."\n";
+		$text = '<div class="box'.$class.'"'.$id.'>'."\n";
 
 		// map the level to a given tag
 		if($variant == 'header3')
@@ -1310,19 +1327,14 @@ Class Skin_Skeleton {
 			$with_caption = TRUE;
 
 		// document the image
-		if($title) {
-			$alt = $title;
+		if($title)
 			$hover = $title;
-		} else {
-			$alt = basename($href);
+		else
 			$hover = '';
-		}
 
 		// remove YACS codes from alternate label and hovering title
-		if(is_callable(array('Codes', 'strip'))) {
-			$alt =& Codes::strip($alt);
+		if(is_callable(array('Codes', 'strip')))
 			$hover =& Codes::strip($hover);
-		}
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
@@ -1348,7 +1360,7 @@ Class Skin_Skeleton {
 			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
 
 		// the image itself
-		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
+		$image = '<span><img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))
@@ -1400,7 +1412,7 @@ Class Skin_Skeleton {
 	 * @param string the field name and id
 	 * @param string value to display to the surfer
 	 * @param string input type
-	 * @param string any text to be inserted in the input tag
+	 * @param string some javascript code to be put in onchange="..." attribute
 	 * @return the HTML to display
 	 *
 	 */
@@ -1464,6 +1476,48 @@ Class Skin_Skeleton {
 					.'	button		:	 "'.$name.'_trigger",'."\n"
 					.'	align		:	 "CC",'."\n"
 					.'	singleClick :	 true'."\n"
+					.'}); });'."\n"
+					.JS_SUFFIX."\n";
+
+				// load the jscalendar library
+				$context['javascript']['calendar'] = TRUE;
+			}
+
+			return $text;
+
+		case 'day_month_year':
+
+			// do not display 0s on screen
+			if($value <= '0000-00-00 00:00:00')
+				$value = '';
+
+			// date stamps are handled in regular text fields
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%d/%m/%Y \',showsTime:false,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
+
+			// load the jscalendar library
+			$context['javascript']['calendar'] = TRUE;
+
+			return $text;
+
+		case 'month_year':
+
+			// do not display 0s on screen
+			if($value <= '0000-00-00')
+				$value = '';
+
+			// date stamps are handled in regular text fields
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />'
+			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
+			;
+
+			// these are enhanced with jsCalendar, if present
+			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
+				$text .= JS_PREFIX
+					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
+					.'	inputField	:	"'.$name.'",'."\n"
+					.'	displayArea :	"'.$name.'",'."\n"
+					.'	ifFormat	:	"%b-%Y"'."\n"
 					.'}); });'."\n"
 					.JS_SUFFIX."\n";
 
@@ -2114,11 +2168,12 @@ Class Skin_Skeleton {
 			if(($variant == 'crumbs') || ($variant == 'tabs'))
 				$label = strip_tags($label, '<img>');
 
+			// ensure we have a box header for columns
 			if(($variant == 'column_1') || ($variant == 'column_2'))
 				$label = '<span class="box_header">'.$label.'</span>';
 
 			// ease the handling of css, but only for links
-			if(($variant == 'tabs') || ($variant == 'menu_bar') || (($type == 'basic') && ($variant == 'page_menu'))) {
+			if(($variant == 'tabs') || ($variant == 'menu_bar') || ($variant == 'page_menu')) {
 				if(count($list) == 0)
 					$label = '<span class="first">'.$label.'</span>';
 				elseif(count($list)+1 == count($items))
@@ -2259,7 +2314,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see users/layout_users.php
 	 */
-	function &build_presence($text, $variant) {
+	function build_presence($text, $variant) {
 		global $context;
 
 		switch($variant) {
@@ -2326,7 +2381,6 @@ Class Skin_Skeleton {
 	/**
 	 * build a user profile
 	 *
-	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
 	 * @param string more information
@@ -2334,7 +2388,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see sections/section.php
 	 */
-	function &build_profile(&$user, $variant='prefix', $more='') {
+	function build_profile(&$user, $variant='prefix', $more='') {
 		global $context;
 
 		// we return some text
@@ -2365,9 +2419,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 			}
 
 			// several items
@@ -2406,9 +2460,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 			}
 
 			// date of post
@@ -2442,7 +2496,7 @@ Class Skin_Skeleton {
 
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
+				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
 			else if(Surfer::is_empowered()) {
 				Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 				$details[] =& Skin::build_link(Users::get_url($user['id'], 'select_avatar'), IMAGES_ADD_IMG.i18n::s('Add picture'), 'basic');
@@ -2626,7 +2680,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		if($onLeft === FALSE)
 			$onLeft = ', false';
@@ -2778,7 +2832,7 @@ Class Skin_Skeleton {
 			else
 				$tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			$tabs_text .= '><a href="#">'.$tab[1].'</a></li>'."\n";
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'"';
@@ -2957,7 +3011,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// title is optional
 		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
@@ -3137,7 +3191,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_PACK_IMG_HREF)
-			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
 		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
@@ -3270,7 +3324,7 @@ Class Skin_Skeleton {
 	 * @param string to be displayed in textual browsers
 	 * @param string options to be integrated into the img tag, if any
 	 */
-	function define_img($name, $file, $default='', $alternate='*', $options='') {
+	function define_img($name, $file, $default='', $alternate='', $options='') {
 		global $context;
 
 		// sanity check
@@ -3404,18 +3458,28 @@ Class Skin_Skeleton {
 						$text .= $label;
 				}
 
-				$text = Skin::build_block('<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</p>', 'bottom');
+				$text = Skin::build_block('<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</div>', 'bottom');
 				break;
 
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
 			case 'column_1':
 			case 'column_2':
 
+				if($variant == 'column_1')
+					$class = 'even';
+				else
+					$class = 'odd';
+
 				foreach($list as $item) {
 					list($label, $icon) = $item;
 					if($icon)
-						$text .= '<dt>'.$icon.'</dt>';
-					$text .= '<dd>'.$label.'</dd>'."\n";
+						$text .= '<dt class="'.$class.'">'.$icon.'</dt>';
+					$text .= '<dd class="'.$class.'">'.$label.'</dd>'."\n";
+
+					if($class == 'even')
+						$class = 'odd';
+					else
+						$class = 'even';
 				}
 
 				$text = '<dl class="'.$variant.'">'."\n".$text.'</dl>'."\n";
@@ -3585,7 +3649,7 @@ Class Skin_Skeleton {
 				$text = ' '.INLINE_MENU_PREFIX.$text.INLINE_MENU_SUFFIX.' ';
 				break;
 
-			// use css selector: p.menu_bar, or customize constants in skin.php -- icons are dropped, if any
+			// use css selector: div.menu_bar, or customize constants in skin.php -- icons are dropped, if any
 			case 'menu_bar':
 
 				$line_count = 0;
@@ -3613,7 +3677,7 @@ Class Skin_Skeleton {
 
 				}
 
-				$text = '<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</p>\n";
+				$text = '<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
 				break;
 
 			// some news, that can be statically displayed, scrolled or rotated
@@ -4829,7 +4893,7 @@ Class Skin_Skeleton {
 			.'$(document).ready(function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
-			.'	handle = $("#scroller_'.$scroller_id.'")[0];'."\n"
+			.'	handle = document.getElementById("scroller_'.$scroller_id.'");'."\n"
 			."\n"
 			.'	// start at the bottom of the outside container'."\n"
 			.'	scroller_'.$scroller_id.'_start = handle.parentNode.'.$container_limit.' - 20;'."\n"

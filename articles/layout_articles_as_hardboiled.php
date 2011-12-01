@@ -62,7 +62,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// one box per article
 			$prefix = $suffix = $icon = '';
@@ -269,7 +269,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// the url to view this item
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// use the title to label the link
 		if(is_object($overlay))

@@ -266,7 +266,7 @@ if(!isset($item['id'])) {
 	if(!isset($item['file_href']) || !$item['file_href']) {
 
 		// where the file is
-		$path = $context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
+		$path = $context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
 
 		//load some file parser if one is available
 		$analyzer = NULL;
@@ -406,7 +406,7 @@ if(!isset($item['id'])) {
 		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// where the file is
-//		$path = $context['url_to_home'].$context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
+//		$path = $context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -778,40 +778,6 @@ if(!isset($item['id'])) {
 		break;
 	}
 
-	// estimated download time
-	if($item['file_size'] > 0) {
-		$description .= '<p style="clear: left;">'.i18n::s('Estimated download time:').' ';
-
-		// download time at 512k
-		if($item['file_size'] > 3072000) {
-			$minutes = round($item['file_size'] * 8 / (0.8*512000*60), 0);
-			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '512 kbps').', ';
-		} else {
-			$seconds = max(round($item['file_size'] * 8 / (0.8*512000), 0), 2);
-			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '512 kbps').', ';
-		}
-
-		// download time at 56k
-		if($item['file_size'] > 336000) {
-			$minutes = round($item['file_size'] * 8 / (0.8*56000*60), 0);
-			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '56 kbps').', ';
-		} else {
-			$seconds = max(round($item['file_size'] * 8 / (0.8*56000), 0), 2);
-			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '56 kbps').', ';
-		}
-
-		// download time at 28.8k
-		if($item['file_size'] > 172800) {
-			$minutes = round($item['file_size'] * 8 / (0.8*28800*60), 0);
-			$description .= sprintf(i18n::ns('%d minute at %s', '%d minutes at %s', $minutes), $minutes, '28.8 kbps');
-		} else {
-			$seconds = max(round($item['file_size'] * 8 / (0.8*28800), 0), 2);
-			$description .= sprintf(i18n::ns('%d second at %s', '%d seconds at %s', $seconds), $seconds, '28.8 kbps');
-		}
-
-		$description .= "</p>\n";
-	}
-
 	// the download link
 	$link = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
@@ -820,9 +786,9 @@ if(!isset($item['id'])) {
 
 	// a clickable thumbnail to download the file
 //	if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-//		$icon = '<img src="'.$item['thumbnail_url'].'" alt="'.$title.'" />';
+//		$icon = '<img src="'.$item['thumbnail_url'].'" alt="" />';
 //	else
-		$icon = '<img src="'.Files::get_icon_url($item['file_name']).'" alt="'.$title.'" />';
+		$icon = '<img src="'.Files::get_icon_url($item['file_name']).'" alt="" />';
 
 	// file is available to download
 	Skin::define_img('DOWNLOAD_IMG', 'files/download.gif');

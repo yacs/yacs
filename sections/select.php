@@ -115,7 +115,7 @@ if(Surfer::is_crawler()) {
 			$parent =& Anchors::get($section['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($section);
+			$url = Sections::get_permalink($section);
 
 			// use the title to label the link
 			if(is_object($overlay))

@@ -93,7 +93,10 @@ Class Tables {
 				$label = preg_replace('/\s/', ' ', $table['title']);
 
 				// encode to ASCII
-				$label = utf8::to_ascii($label, ' =:/()<>"[]');
+				$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
+
+				// escape quotes to preserve them in the data
+				$label = str_replace('"', '""', $label);
 
 				$text .= '"'.$label.'"';
 				$text .= "\n";
@@ -107,7 +110,10 @@ Class Tables {
 				$label = trim(preg_replace('/\s/', ' ', ucfirst($field->name)));
 
 				// encode
-				$label = utf8::to_ascii($label, ' =:/()<>[]');
+				$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
+
+				// escape quotes to preserve them in the data
+				$label = str_replace('"', '""', $label);
 
 				$text .= '"'.$label.'"';
 			}
@@ -132,14 +138,14 @@ Class Tables {
 					$label = trim(preg_replace('/\s+/', ' ', $value));
 
 					// encode
-					$label = utf8::to_ascii($label, ' =:/()<>"[]');
+					$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 					// escape quotes to preserve them in the data
 					$label = str_replace('"', '""', $label);
 
 					// make a link if this is a reference
-					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$label = $context['url_to_home'].$label;
+					if(($index == 1) && ($table['with_zoom'] == 'Y'))
+						$label = $context['url_to_home'].$context['url_to_root'].$label;
 
 					// quote data
 					$text .= '"'.$label.'"';
@@ -195,12 +201,12 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = utf8::to_ascii($value, ' =:/()<>[]"');
+					$datum[ $labels[$name] ] = utf8::to_ascii($value, PRINTABLE_SAFE_ALPHABET);
 
 				}
 
 				if($label && !in_array($labels, 'label'))
-					$datum['label'] = utf8::to_ascii($label);
+					$datum['label'] = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 				// add a tip, if any
 				$data['items'][] = $datum;
@@ -294,7 +300,7 @@ Class Tables {
 		case 'inline':
 		case 'sortable':
 
-			// a tabke with a grid
+			// a table with a grid
 			$text .= Skin::table_prefix('grid');
 
 			// the title, with a menu to download the table into Excel
@@ -559,7 +565,7 @@ Class Tables {
 
 					// make a link if this is a reference
 					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$label = $context['url_to_home'].$label;
+						$label = $context['url_to_home'].$context['url_to_root'].$label;
 
 					// quote data
 					if(preg_match('/[^a-zA-Z0-9\-_]/', $label))

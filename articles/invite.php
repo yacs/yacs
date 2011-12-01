@@ -434,9 +434,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		."\n"
 		.'// enable names autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_names("#names");'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("names"); });  '."\n"
 		.JS_SUFFIX;
 
 	// help message

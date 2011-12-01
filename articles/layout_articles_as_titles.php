@@ -39,7 +39,7 @@ Class Layout_articles_as_titles extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))

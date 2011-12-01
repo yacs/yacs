@@ -18,7 +18,7 @@ Class File extends Anchor {
 	 *
 	 * This function retrieve the id of the top anchor.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a string
 	 */

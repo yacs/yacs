@@ -561,7 +561,7 @@ Class Articles {
 			if($item['publish_name'])
 				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
 			else
-				$details[] = Skin::build_date($item['publish_date'], 'publishing');
+				$details[] = Skin::build_date($item['publish_date']);
 
 		}
 
@@ -627,16 +627,17 @@ Class Articles {
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 		$text = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 
-		$context['page_footer'] .= 	JS_PREFIX
-						.'function append_to_options(keyword) {'."\n"
-						.'	var target = $("#options");'."\n"
-						.'	target.val(target.val() + " " + keyword);'."\n"
-						.'}'."\n"
-						.'$(document).ready(function() {'."\n"
-						.'	$("#options_list a").bind("click",function(){'."\n"
-						.'		append_to_options($(this).text());'."\n"
-						.'	}).css("cursor","pointer");'."\n"
-						.'});'.JS_SUFFIX;
+		$context['page_footer'] .= JS_PREFIX
+			.'function append_to_options(keyword) {'."\n"
+			.'	var target = $("#options");'."\n"
+			.'	target.val(target.val() + " " + keyword);'."\n"
+			.'}'."\n"
+			.'$(document).ready(function() {'."\n"
+			.'	$("#options_list a").bind("click",function(){'."\n"
+			.'		append_to_options($(this).text());'."\n"
+			.'	}).css("cursor","pointer");'."\n"
+			.'});'
+			.JS_SUFFIX;
 
 		return $text;
 	}
@@ -1215,7 +1216,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	public static function &get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}

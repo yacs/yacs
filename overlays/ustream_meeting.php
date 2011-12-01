@@ -142,40 +142,23 @@ class ustream_Meeting extends Event {
 	function get_label($name, $action='view') {
 		global $context;
 
-		// the target label
-		switch($name) {
+		switch($name.':'.$action) {
 
-		// edit command
-		case 'edit_command':
-			return i18n::s('Edit this meeting');
-			break;
+		case 'edit_command:articles':
+			return i18n::s('Edit this event');
 
-		// new command
-		case 'new_command':
-			return i18n::s('Add a meeting');
-			break;
+		case 'new_command:articles':
+			return i18n::s('Add an event');
 
-		// page title
-		case 'page_title':
+		case 'page_title:edit':
+			return i18n::s('Edit an event');
 
-			switch($action) {
+		case 'page_title:delete':
+			return i18n::s('Delete an event');
 
-			case 'edit':
-				return i18n::s('Edit a meeting');
+		case 'page_title:new':
+			return i18n::s('Add an event');
 
-			case 'delete':
-				return i18n::s('Delete a meeting');
-
-			case 'new':
-				return i18n::s('New meeting');
-
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
 		}
 
 		// no match

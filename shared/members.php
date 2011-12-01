@@ -1302,7 +1302,7 @@ Class Members {
 	 *
 	 * @param string the suppressed reference
 	 */
-	function unlink_for_reference($reference=NULL) {
+	function unlink_for_reference($reference) {
 		global $context;
 
 		// delete all uses of this reference

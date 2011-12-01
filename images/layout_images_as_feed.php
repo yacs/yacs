@@ -78,7 +78,7 @@ Class Layout_images_as_feed extends Layout_interface {
 
 			// url for enclosure
 			$type = Files::get_mime_type($item['image_name']);
-			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'].'"'
+			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name'].'"'
 				.' length="'.$item['image_size'].'"'
 				.' type="'.$type.'" />';
 
