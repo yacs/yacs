@@ -1408,6 +1408,8 @@ Class Skin_Skeleton {
 	 * Type can have one of following values:
 	 * - 'date' - to enter a date
 	 * - 'date_time' - to enter a date and time at once
+	 * - 'day_month_year' - to remember date, month and year, in that order
+	 * - 'month_year' - to remember only month and year, but not date in month, nor time
 	 *
 	 * @param string the field name and id
 	 * @param string value to display to the surfer
@@ -1514,7 +1516,7 @@ Class Skin_Skeleton {
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= JS_PREFIX
-					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
+					.'$(function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	displayArea :	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%b-%Y"'."\n"
