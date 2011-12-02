@@ -161,9 +161,9 @@ var Yacs = {
 	    // use the multiple entries autocomplete exept if unique user required
 	    if(unique) {
 	    	if(callback) {
-				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) { callback(ui.item.value); return false; }});
+				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) { $('#'+target).val(ui.item.value); callback(ui.item.value); }});
 	    	} else {
-				$('#'+target).autocomplete({source:source_url,minLength:2});
+				$('#'+target).autocomplete({source:source_url, minLength:2});
 			}
 	    } else
 			Yacs.autocomplete_m(target, source_url, callback);
