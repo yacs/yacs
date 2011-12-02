@@ -8,8 +8,8 @@
  * Of course, only associates can proceed.
  *
  * Accepted calls:
- * - own.php/&lt;id&gt;
- * - own.php?id=&lt;id&gt;
+ * - transfer.php/&lt;id&gt;
+ * - transfer.php?id=&lt;id&gt;
  *
  * @author Bernard Paques
  * @reference
