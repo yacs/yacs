@@ -21,6 +21,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 $files = array();
 $files[] = 'included/browser/library_js_endpage.min.js';
+$files[] = 'readme.txt';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/boxesandarrows/boxesandarrows.css';
