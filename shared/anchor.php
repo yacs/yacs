@@ -334,6 +334,10 @@ class Anchor {
 
 		}
 
+		// use default title
+		if($title)
+			return $title;
+
 		// no match
 		return 'Impossible to translate '.$id.' for module '.$variant;
 	}
