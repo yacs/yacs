@@ -106,7 +106,7 @@ else {
 	// commands
 	$menu = array();
 	if(is_object($anchor))
-		$label = $anchor->get_label('delete_confirmation', 'comments');
+		$label = $anchor->get_label('delete_confirmation', 'comments', i18n::s('Yes, I want to delete this comment'));
 	else
 		$label = i18n::s('Yes, I want to delete this comment');
 	$menu[] = Skin::build_submit_button($label, NULL, NULL, 'confirmed');

@@ -137,7 +137,7 @@ if(Surfer::is_crawler()) {
 
 	// the submit button
 	if(is_object($anchor))
-		$label = $anchor->get_label('promote_confirmation', 'comments');
+		$label = $anchor->get_label('promote_confirmation', 'comments', i18n::s('Yes, I want to promote this comment to an article'));
 	else
 		$label = i18n::s('Yes, I want to promote this comment to an article');
 

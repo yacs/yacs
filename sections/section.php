@@ -199,9 +199,13 @@ Class Section extends Anchor {
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
-				return $this->anchor->get_label($variant, $id);
+				return $this->anchor->get_label($variant, $id, $title);
 
 		}
+
+		// use default title
+		if($title)
+			return $title;
 
 		// no match
 		return 'Impossible to translate '.$id.' for module '.$variant;
