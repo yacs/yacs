@@ -1415,6 +1415,7 @@ var Yacs = {
 
 		// do not propagate event
 		e.stopPropagation();
+		return false;
 	},
 
 	/**
