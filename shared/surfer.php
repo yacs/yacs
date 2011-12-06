@@ -577,7 +577,7 @@ Class Surfer {
 				.'<textarea name="'.$name.'" id="'.$name.'"'
 				.	' rows="1" cols="50"'
 				.	' style="width: 60%; color: #ccc"'
-				.	' onfocus="if(fuse'.$name.'){this.html(\'\');Yacs.growPanel(this);this.css({color: \'#444\'});fuse'.$name.'=0;}">'
+				.	' onfocus="if(fuse'.$name.'){$(this).html(\'\').css({color: \'#444\'});Yacs.growPanel(this);fuse'.$name.'=0;}">'
 				.	i18n::s('Contribute to this page!').'</textarea>';
 
 		// default to plain editor -- BR after the Textarea is mandatory
