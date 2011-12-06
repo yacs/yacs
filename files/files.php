@@ -1488,7 +1488,7 @@ Class Files {
 
 		// a clickable image to access the file
 		if($icon) {
-			$icon = '<img src="'.$icon.'" />';
+			$icon = '<img src="'.$icon.'" alt="" />';
 			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
 		}
 
