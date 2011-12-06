@@ -220,10 +220,13 @@ if(Surfer::is_crawler()) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
+	// remove default string, if any
+	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
+
 	// attach some file
 	$file_path = Files::get_path($anchor->get_reference());
-	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path))
-		$_REQUEST['description'] .= '<div>'.$file.'</div>';
+	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference()))
+		$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.$file.'</div>';
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
