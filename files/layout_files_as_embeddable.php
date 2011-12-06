@@ -106,7 +106,7 @@ Class Layout_files_as_embeddable extends Layout_interface {
 
 			// or reinforce file type
 			else
-				$icon = Files::get_icon_url($item['file_name']);
+				$icon = $context['url_to_root'].Files::get_icon_url($item['file_name']);
 
 			// list all components for this item
 			$items[$url] = array($prefix, '_', $suffix, 'file', $icon);

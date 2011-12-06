@@ -157,7 +157,7 @@ Class Layout_files extends Layout_interface {
 
 			// or reinforce file type
 			else
-				$icon = Files::get_icon_url($item['file_name']);
+				$icon = $context['url_to_root'].Files::get_icon_url($item['file_name']);
 
 			// show a reference to the file for members
 			$hover = i18n::s('Get the file');
