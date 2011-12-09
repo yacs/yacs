@@ -816,7 +816,7 @@ class Mailer {
 	 * @param string sender address
 	 * @param mixed recipient address(es)
 	 * @param string subject
-	 * @param string actual message
+	 * @param mixed actual message, either a string, or an array of message parts
 	 * @param array attachments, if any
 	 * @param mixed additional headers, if any
 	 * @return the number of actual posts, or 0
