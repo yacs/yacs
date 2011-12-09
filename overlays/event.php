@@ -1404,13 +1404,6 @@ class Event extends Overlay {
 		if(!is_callable(array($this->anchor, 'get_reference')))
 			return;
 
-		// ony for authenticated users
-		if(!Surfer::get_id())
-			return;
-
-		// add this page to the watching list of this surfer
-		Members::assign($this->anchor->get_reference(), 'user:'.Surfer::get_id());
-
 		// create a comment only on first join
 		if(!isset($_SESSION['event_'.$this->anchor->get_reference()])) {
 
@@ -1423,12 +1416,19 @@ class Event extends Overlay {
 			Comments::post($fields);
 		}
 
+		// remember that you joined the event
+		$_SESSION['event_'.$this->anchor->get_reference()] = TRUE;
+
+		// additional steps only for authenticated users
+		if(!Surfer::get_id())
+			return;
+
+		// add this page to the watching list of this surfer
+		Members::assign($this->anchor->get_reference(), 'user:'.Surfer::get_id());
+
 		// update enrolment
 		include_once $context['path_to_root'].'shared/enrolments.php';
 		enrolments::confirm($this->anchor->get_reference());
-
-		// remember that you joined the event
-		$_SESSION['event_'.$this->anchor->get_reference()] = TRUE;
 
 	}
 
