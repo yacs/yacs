@@ -210,7 +210,7 @@ if(Surfer::is_crawler()) {
 			$fields['locked'] = 'Y'; // for the owner only
 			$fields['options'] = 'articles_by_publication view_as_tabs'; // to list watchers of the news
 			$fields['rank'] = 1000;
-			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/news.gif';
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/news.gif';
 			$fields['title'] = i18n::c("What is new?");
 			if($id = Sections::post($fields)) {
 
@@ -233,7 +233,7 @@ if(Surfer::is_crawler()) {
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
 			$fields['rank'] = 2000;
-			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 			$fields['title'] = i18n::c('Activities');
 			Sections::post($fields);
 
@@ -246,7 +246,7 @@ if(Surfer::is_crawler()) {
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Information pages');
 			$fields['rank'] = 3000;
-			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/information.gif';
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/information.gif';
 			$fields['title'] = i18n::c('Documentation');
 			Sections::post($fields);
 
@@ -261,7 +261,7 @@ if(Surfer::is_crawler()) {
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
 				$fields['options'] = 'view_as_tabs'; // to list editors and watchers explicitly
 				$fields['rank'] = 4000;
-				$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+				$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 				$fields['title'] = i18n::c('Private activities');
 				Sections::post($fields);
 			}
