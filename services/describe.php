@@ -72,8 +72,8 @@ if($id)
 
 // available blogging api
 $text .= '	<apis>'."\n"
-	.'		<api name="MetaWeblog" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
-	.'		<api name="MovableType" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MovableType" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MetaWeblog" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
 	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php'.$scope.'" blogID="'.encode_field($id).'" />'."\n"
 	.'	</apis>'."\n";
 
