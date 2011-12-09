@@ -132,13 +132,18 @@ class Overlay {
 	 * $overlay = Overlay::bind('day without_past_dates');
 	 * [/php]
 	 *
+	 * This function calls the member function initialize() to allow for additional
+	 * generic initialization steps, if required. Example: loading of an external configuration
+	 * file.
+	 *
 	 * @see articles/edit.php
+	 * @see overlays/day.php
 	 * @see sections/edit.php
 	 *
 	 * @param string overlay type
 	 * @return a brand new instance
 	 */
-	function bind($type) {
+	final public static function bind($type) {
 		global $context;
 
 		// sanity check
@@ -580,8 +585,8 @@ class Overlay {
 	 * - read data from some sensor
 	 * - build a cache of data useful to the overlay
 	 *
-	 * Warning: this is a low-level function that is called before the initialization of
-	 * $this->anchor so you can't rely on this variable here.
+	 * Warning: this is a low-level function that is called before the settings of
+	 * $this->attributes and of $this->anchor so you can't rely on these variables here.
 	 *
 	 * To be overloaded into derived class
 	 *
@@ -610,7 +615,7 @@ class Overlay {
 	 * @param string reference of the containing page (e.g., 'article:123')
 	 * @return a restored instance, or NULL
 	 */
-	public static function load($host, $reference) {
+	final public static function load($host, $reference) {
 		global $context;
 
 		// no overlay yet
