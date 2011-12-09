@@ -80,6 +80,9 @@ class DimDim_Meeting extends Event {
 	function get_join_url() {
 		global $context;
 
+		// almost random passwords
+		$this->initialize_passwords();
+
 		// link to create a meeting
 		$url = 'https://my.dimdim.com/api/conf/join_meeting';
 
@@ -163,6 +166,9 @@ class DimDim_Meeting extends Event {
 	 */
 	function get_start_url() {
 		global $context;
+
+		// almost random passwords
+		$this->initialize_passwords();
 
 		// link to authenticate
 		$url = 'https://my.dimdim.com/api/auth/login';
@@ -257,19 +263,17 @@ class DimDim_Meeting extends Event {
 	}
 
 	/**
-	 * initialize this instance
+	 * initialize passwords for this instance
 	 *
-	 * @see overlays/overlay.php
 	 */
-	function initialize() {
+	private function initialize_passwords() {
 		global $context;
 
 		// build moderator and attendees passwords
-		if(isset($this->attributes['id'])) {
-			$buffer = $this->attributes['id'];
-			$this->moderator_password = dechex(crc32($buffer.'moderator'));
-			$this->attendee_password = dechex(crc32($buffer.'attendee'));
-		}
+		$buffer = $this->attributes['id'];
+		$this->moderator_password = dechex(crc32($buffer.'moderator'));
+		$this->attendee_password = dechex(crc32($buffer.'attendee'));
+
 	}
 
 	/**
