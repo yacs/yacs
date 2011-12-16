@@ -29,7 +29,7 @@ Class Layout_files_as_compact extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// play freemind maps and flash files in separate windows
 			if(preg_match('/\.(mm|swf)$/i', $item['file_name']))

@@ -46,11 +46,11 @@ if(!Surfer::is_associate()) {
 		." ORDER BY anchor LIMIT 0, 20000";
 
 	// parse the whole list
-	if($result =& SQL::query($query)) {
+	if($result = SQL::query($query)) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;

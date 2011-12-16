@@ -50,7 +50,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 		// build a list of sections
 		$family = '';
 		$first = TRUE;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {

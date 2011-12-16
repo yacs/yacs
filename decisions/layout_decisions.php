@@ -38,7 +38,7 @@ Class Layout_decisions extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'decisions/decisions.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = '';

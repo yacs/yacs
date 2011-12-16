@@ -42,7 +42,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 
 		// process all items in the list
 		$family = '';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {

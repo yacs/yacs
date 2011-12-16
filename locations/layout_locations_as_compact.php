@@ -31,7 +31,7 @@ Class Layout_locations_as_compact extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the location
 			$url = Locations::get_url($item['id']);

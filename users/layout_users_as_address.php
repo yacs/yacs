@@ -31,7 +31,7 @@ Class Layout_users_as_address extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// we need some address
 			if(!$item['email'])

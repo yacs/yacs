@@ -29,7 +29,7 @@ Class Layout_files_as_feed extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this file
 			if($item['anchor'])

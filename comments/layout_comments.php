@@ -39,7 +39,7 @@ Class Layout_comments extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);

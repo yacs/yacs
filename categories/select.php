@@ -165,9 +165,9 @@ if(Surfer::is_crawler()) {
 				." FROM ".SQL::table_name('categories')." AS categories "
 				." WHERE (".$where.") AND (categories.anchor='category:".$category_id."')"
 				." ORDER BY categories.title";
-			$result =& SQL::query($query);
+			$result = SQL::query($query);
 			$sub_categories = array();
-			while($result && ($option =& SQL::fetch($result)))
+			while($result && ($option = SQL::fetch($result)))
 				$sub_categories['category:'.$option['id']] = $option['title'];
 
 			if(count($sub_categories)) {

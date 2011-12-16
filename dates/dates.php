@@ -446,7 +446,7 @@ Class Dates {
 		$query = "SELECT * FROM ".SQL::table_name('dates')." as dates "
 			." WHERE (dates.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -467,7 +467,7 @@ Class Dates {
 		$query = "SELECT * FROM ".SQL::table_name('dates')." as dates "
 			." WHERE (dates.anchor LIKE '".SQL::escape($anchor)."')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1236,7 +1236,7 @@ Class Dates {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('dates')." as dates";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1296,7 +1296,7 @@ Class Dates {
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.anchor = '".SQL::escape($anchor)."') AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1356,7 +1356,7 @@ Class Dates {
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.date_stamp < '".SQL::escape($match)."') AND	(articles.anchor = '".SQL::escape($anchor)."') AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

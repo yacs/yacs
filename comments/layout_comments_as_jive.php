@@ -51,7 +51,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 		// build a list of comments
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);

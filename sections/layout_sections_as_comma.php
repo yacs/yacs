@@ -44,7 +44,7 @@ Class Layout_sections_as_comma extends Layout_interface {
 		// process all items in the list
 		$count = 0;
 		$items = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);

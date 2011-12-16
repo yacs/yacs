@@ -32,7 +32,7 @@ Class Layout_comments_as_compact extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the comment
 			$url = Comments::get_url($item['id']);

@@ -196,7 +196,7 @@ Class Notifications {
 			." LIMIT 1";
 
 		// kill the request if there is nothing to return
-		if((!$record =& SQL::query_first($query)) || !isset($record['data'])) {
+		if((!$record = SQL::query_first($query)) || !isset($record['data'])) {
 			http::no_content();
 			die('Retry');
 		}
@@ -303,7 +303,7 @@ Class Notifications {
 			." FROM ".SQL::table_name('notifications')." AS notifications"
 			." WHERE (notifications.edit_date >= '".SQL::escape($threshold)."')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

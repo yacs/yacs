@@ -310,13 +310,13 @@ Class Comments {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('comments')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -372,7 +372,7 @@ Class Comments {
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -642,7 +642,7 @@ Class Comments {
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
 			." ORDER BY comments.create_date DESC LIMIT 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -681,7 +681,7 @@ Class Comments {
 		$query = "SELECT id FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return NULL;
 
 		// return url of the first item of the list
@@ -772,11 +772,11 @@ Class Comments {
 		$query = "SELECT id FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$item =& SQL::query_first($query))
+		if(!$previous = SQL::query_first($query))
 			return NULL;
 
 		// return url of the first item of the list
-		return Comments::get_url($item['id']);
+		return Comments::get_url($previous['id']);
 	}
 
 	/**
@@ -1604,7 +1604,7 @@ Class Comments {
 			." LIMIT 1";
 
 		// we may timeout ourself, to be safe with network resources
-		while((!$stat =& SQL::query_first($query)) || (isset($stat['edit_date']) && ($stat['edit_date'] <= $stamp))) {
+		while((!$stat = SQL::query_first($query)) || (isset($stat['edit_date']) && ($stat['edit_date'] <= $stamp))) {
 
 			// kill the request to avoid repeated transmissions when nothing has changed
 			if(--$timer < 1) {
@@ -1649,7 +1649,7 @@ Class Comments {
 			." ORDER BY comments.edit_date DESC LIMIT ".$limit.', 100';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -1658,7 +1658,7 @@ Class Comments {
 
 		// build an array of links
 		$ids = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$ids[] = "(id = ".SQL::escape($item['id']).")";
 
 		// delete the record in the database
@@ -1771,7 +1771,7 @@ Class Comments {
 			$query = "SELECT COUNT(*) as count, MIN(comments.create_date) as oldest_date, MAX(comments.create_date) as newest_date FROM ".SQL::table_name('comments')." AS comments ";
 
 		// select among available items
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1809,7 +1809,7 @@ Class Comments {
 			." FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

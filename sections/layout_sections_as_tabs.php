@@ -38,7 +38,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);

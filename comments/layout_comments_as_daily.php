@@ -57,7 +57,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$count = $this->offset;
 		else
 			$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);

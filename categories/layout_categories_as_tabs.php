@@ -32,7 +32,7 @@ Class Layout_categories_as_tabs extends Layout_interface {
 		$href_title = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to view this item
 			$url = Categories::get_permalink($item);

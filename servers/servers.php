@@ -115,7 +115,7 @@ Class Servers {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -196,7 +196,7 @@ Class Servers {
 		$query = 'SELECT * FROM '.SQL::table_name('servers')
 			." WHERE (main_url LIKE '$url') OR (feed_url LIKE '$url')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -418,7 +418,7 @@ Class Servers {
 
 		case 'feed':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// stamp of last feed
 				$stamp = NULL_DATE;
@@ -433,7 +433,7 @@ Class Servers {
 
 		case 'ping':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				$url = Servers::get_url($item['id']);
 
 				// prepare for ping
@@ -444,7 +444,7 @@ Class Servers {
 
 		case 'search':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				$url = Servers::get_url($item['id']);
 
 				// prepare for search
@@ -822,7 +822,7 @@ Class Servers {
 			.' FROM '.SQL::table_name('servers').' AS servers'
 			.' WHERE ('.$where.')';
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

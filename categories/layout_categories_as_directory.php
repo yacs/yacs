@@ -41,7 +41,7 @@ Class Layout_categories_as_directory extends Layout_interface {
 		// build a list of categories
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'category:'.$item['id']);

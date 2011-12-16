@@ -32,7 +32,7 @@ Class Layout_images_as_hits extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the image
 			$url = Images::get_url($item['id']);

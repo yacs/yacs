@@ -276,11 +276,11 @@ Class Images {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// delete silently all matching images
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Images::delete($row['id']);
 	}
 
@@ -302,7 +302,7 @@ Class Images {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('images')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// create target folders
 			$file_to = $context['path_to_root'].Files::get_path($item['anchor'], 'images');
@@ -316,7 +316,7 @@ Class Images {
 
 			// process all matching records one at a time
 			$file_from = $context['path_to_root'].Files::get_path($anchor_from, 'images');
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
 				if(!file_exists($context['path_to_root'].$file_from.'/'.$item['image_name']))
@@ -387,7 +387,7 @@ Class Images {
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
 			." WHERE (images.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -405,7 +405,7 @@ Class Images {
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."' AND images.image_name='".SQL::escape($name)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -443,7 +443,7 @@ Class Images {
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."' ORDER BY images.edit_date DESC LIMIT 0, 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -825,7 +825,7 @@ Class Images {
 			.", SUM(image_size) as total_size"
 			." FROM ".SQL::table_name('images')." AS images";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -844,7 +844,7 @@ Class Images {
 			." FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

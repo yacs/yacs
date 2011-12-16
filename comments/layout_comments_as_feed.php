@@ -33,7 +33,7 @@ Class Layout_comments_as_feed extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this comment
 			$anchor = NULL;

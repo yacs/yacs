@@ -161,7 +161,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// the string to re-create table structure
 		$query = "SHOW CREATE TABLE ".$table_name;
-		if((!$result =& SQL::query_first($query)) || !isset($result['Create Table']))
+		if((!$result = SQL::query_first($query)) || !isset($result['Create Table']))
 			continue;
 
 		// strip constraints and keep only engine definition
@@ -184,7 +184,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// read all lines
 		$query = 'SELECT * FROM '.$table_name;
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$context['text'] .= Logger::error_pop().BR."\n";
 			continue;
 		}
@@ -192,7 +192,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		//parse the field info first
 		$field_list = '';
 		$index = 0;
-		while($field =& SQL::fetch_field($result)) {
+		while($field = SQL::fetch_field($result)) {
 			$field_list .= '`'.$field->name.'`, ';
 
 			$is_numeric = FALSE;

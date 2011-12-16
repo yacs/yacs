@@ -97,7 +97,7 @@ Class Visits {
 
 		// process all items in the list
 		$output = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// identify the visited page
 			if(!$anchor =& Anchors::get($item['anchor']))
@@ -296,7 +296,7 @@ Class Visits {
 			." FROM ".SQL::table_name('visits')." AS visits"
 			." WHERE (visits.edit_date >= '".SQL::escape($threshold)."')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -331,7 +331,7 @@ Class Visits {
 			."	AND (visits.edit_date >= '".SQL::escape($threshold)."')"
 			."	AND (".$where.")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

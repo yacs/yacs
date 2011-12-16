@@ -32,7 +32,7 @@ Class Layout_forms extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);

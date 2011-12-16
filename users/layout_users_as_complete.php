@@ -30,7 +30,7 @@ Class Layout_users_as_complete extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// unique identifier
 			$key = $item['nick_name'];

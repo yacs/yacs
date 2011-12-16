@@ -347,10 +347,10 @@ Class Members {
 
 		// look for records attached to this anchor
 		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE anchor LIKE '".SQL::escape($reference_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
@@ -368,12 +368,12 @@ Class Members {
 
 		// look for records attached to this member
 		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE member LIKE '".SQL::escape($reference_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			list($reference_type, $reference_id) = explode(':', $reference_to);
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
@@ -452,7 +452,7 @@ Class Members {
 		$query = "SELECT anchor FROM ".SQL::table_name('members')
 			." WHERE ".$where
 			." ORDER BY anchor LIMIT ".$offset.','.$count;
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $anchors;
 
 		// empty list
@@ -460,7 +460,7 @@ Class Members {
 			return $anchors;
 
 		// build an array of ids
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			$anchors[] = $row['anchor'];
 
 		// ensure each anchor is represented only once
@@ -1074,7 +1074,7 @@ Class Members {
 			." WHERE (member LIKE '".SQL::escape($member)."')"
 			."	AND (anchor like 'user:%')"
 			." GROUP BY anchor ORDER BY anchor LIMIT ".$offset.','.$count;
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $output;
 
 		// empty list
@@ -1083,7 +1083,7 @@ Class Members {
 
 		// build an array of ids
 		$ids = array();
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// avoid this one
 			if($to_avoid && ($row['anchor'] == $to_avoid))

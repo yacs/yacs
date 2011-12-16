@@ -404,7 +404,7 @@ Class Users {
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE ".join(' OR ', $query)
 			." LIMIT 1";
-		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 
 		// ensure we have a full name
 		if((!isset($output['full_name']) || !$output['full_name']) && isset($output['nick_name']))
@@ -460,7 +460,7 @@ Class Users {
 			." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_scalar($query, FALSE, $context['users_connection']);
+		$output = SQL::query_scalar($query, FALSE, $context['users_connection']);
 
 		// save in cache
 		$cache[$id] = $output;
@@ -1129,7 +1129,7 @@ Class Users {
 		// search a user profile locally
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."' OR users.full_name LIKE '".SQL::escape($name)."'";
-		if(isset($context['users_connection']) && ($item =& SQL::query_first($query, FALSE, $context['users_connection']))) {
+		if(isset($context['users_connection']) && ($item = SQL::query_first($query, FALSE, $context['users_connection']))) {
 
 			// the user has been explicitly locked
 			if($item['capability'] == '?')
@@ -2010,7 +2010,7 @@ Class Users {
 			." FROM ".SQL::table_name('users')." AS users"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 		return $output;
 	}
 
@@ -2046,7 +2046,7 @@ Class Users {
 			." FROM ".SQL::table_name('users')." AS users"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 		return $output;
 	}
 
@@ -2070,7 +2070,7 @@ Class Users {
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET capability='M'"
 			." WHERE (id = ".$id.") AND (capability != 'A')";
-		$result =& SQL::query($query, FALSE, $context['users_connection']);
+		$result = SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users
 		Cache::clear(array('users', 'user:'.$id, 'categories'));
