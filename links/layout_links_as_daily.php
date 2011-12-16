@@ -35,7 +35,7 @@ Class Layout_links_as_daily extends Layout_interface {
 		$box = array();
 		$box['content'] = '';
 		$previous_date = NULL;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// not the same date
 			$current_date = substr($item['edit_date'], 0, 10);

@@ -43,7 +43,7 @@ Class Layout_links extends Layout_interface {
 			$this->layout_variant = 'no_anchor';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);

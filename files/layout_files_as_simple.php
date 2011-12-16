@@ -35,7 +35,7 @@ Class Layout_files_as_simple extends Layout_interface {
 			$this->layout_variant = 'full';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);

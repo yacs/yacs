@@ -55,7 +55,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 			$cells = array();
 
 			// get the related overlay, if any

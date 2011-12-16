@@ -103,10 +103,10 @@ Class Surfer {
 			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 		// submit a silent query because at setup tables don't exist
-		if(($result =& SQL::query($query, TRUE))) {
+		if(($result = SQL::query($query, TRUE))) {
 
 			// build the list
-			while($row =& SQL::fetch($result))
+			while($row = SQL::fetch($result))
 				$cache[ $id ][] = $row['id'];
 
 		}
@@ -169,10 +169,10 @@ Class Surfer {
 				." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 			// submit a silent query because at setup tables don't exist
-			if(($result =& SQL::query($query, TRUE))) {
+			if(($result = SQL::query($query, TRUE))) {
 
 				// build the list
-				while($row =& SQL::fetch($result))
+				while($row = SQL::fetch($result))
 					$cache[ $id ][] = $row['id'];
 
 			}
@@ -188,10 +188,10 @@ Class Surfer {
 
 				// submit a silent query because at setup tables don't exist
 				$level = array();
-				if(($result =& SQL::query($query, TRUE))) {
+				if(($result = SQL::query($query, TRUE))) {
 
 					// build the list
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -205,11 +205,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -223,11 +223,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -241,11 +241,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -259,11 +259,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}

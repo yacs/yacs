@@ -31,7 +31,7 @@ Class Layout_dates_as_links extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to use
 			$url = Articles::get_permalink($item);

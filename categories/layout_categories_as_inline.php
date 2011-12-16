@@ -33,7 +33,7 @@ Class Layout_categories_as_inline extends Layout_interface {
 		$text = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// one box per category
 			$box['title'] = '';

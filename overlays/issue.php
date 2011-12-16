@@ -204,7 +204,7 @@ class Issue extends Overlay {
 			." WHERE (issues.anchor LIKE '".SQL::escape($this->anchor->get_reference())."')";
 
 		// fetch the first row
-		if(!$row =& SQL::query_first($query))
+		if(!$row = SQL::query_first($query))
 			return NULL;
 
 		// text returned

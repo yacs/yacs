@@ -32,7 +32,7 @@ Class Layout_categories_as_cloud extends Layout_interface {
 		$total = 0;
 		$minimum = 10000;
 		$maximum = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// this will be sorted alphabetically
 			$items[ $item['title'] ] = array( 'importance' => (int)$item['importance'], 'href' => Categories::get_permalink($item) );

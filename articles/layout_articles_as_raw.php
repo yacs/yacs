@@ -29,7 +29,7 @@ Class Layout_articles_as_raw extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// include all available attributes for this item
 			$items[ $item['id'] ] = $item;

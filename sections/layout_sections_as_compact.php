@@ -44,7 +44,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);

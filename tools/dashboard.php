@@ -165,10 +165,10 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT SUBSTRING_INDEX(anchor, ':', -1) as parent_id, edit_date, id AS section_id, title AS section_label, active FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
 		."(SELECT CONCAT('section:', id) FROM ".SQL::table_name('sections')." WHERE (anchor < 's')))";
 
-	if($sections =& SQL::query($query)) {
+	if($sections = SQL::query($query)) {
 
 		$records = 0;
-		while($item =& SQL::fetch($sections)) {
+		while($item = SQL::fetch($sections)) {
 
 			echo '.';
 
@@ -192,9 +192,9 @@ if(!Surfer::is_associate()) {
 
 				$query = "SELECT id, active FROM ".SQL::table_name('sections')." WHERE anchor IN ('".implode("', '", $row)."')";
 				$row = array();
-				if($result =& SQL::query($query)) {
+				if($result = SQL::query($query)) {
 
-					while($sitem =& SQL::fetch($result)) {
+					while($sitem = SQL::fetch($result)) {
 						$row[] = 'section:'.$sitem['id'];
 						$anchors[] = 'section:'.$sitem['id'];
 						if($sitem['active'] == 'N')
@@ -235,13 +235,13 @@ if(!Surfer::is_associate()) {
 
 			// list articles anchored to these sections
 			$query = "SELECT id, active FROM ".SQL::table_name('articles')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
 				// count articles there
 				$fields[] = "`articles`=".SQL::count($result);
 				$total += SQL::count($result);
 
-				while($aitem =& SQL::fetch($result)) {
+				while($aitem = SQL::fetch($result)) {
 					$anchors[] = 'article:'.$aitem['id'];
 					if($aitem['active'] == 'N')
 						$anchors_private[] = 'article:'.$aitem['id'];
@@ -258,42 +258,42 @@ if(!Surfer::is_associate()) {
 
 			// count comments attached either to sections or to articles
 			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`comments`=".$count;
 				$total += $count;
 			}
 
 			// count comments edited this year
 			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields_y[] = "`comments`=".$count;
 				$total_y += $count;
 			}
 
 			// count comments attached to private anchors
 			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors_private)."'))";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`comments_private`=".$count;
 				$total_private += $count;
 			}
 
 			// count private comments edited this year
 			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors_private)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields_y[] = "`comments_private`=".$count;
 				$total_private_y += $count;
 			}
 
 			// count files attached either to sections or to articles
 			$query = "SELECT id FROM ".SQL::table_name('files')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`files`=".$count;
 				$total += $count;
 			}
 
 			// count files edited this year
 			$query = "SELECT id FROM ".SQL::table_name('files')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields_y[] = "`files`=".$count;
 				$total_y += $count;
 			}
@@ -314,28 +314,28 @@ if(!Surfer::is_associate()) {
 
 			// count links attached either to sections or to articles
 			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`links`=".$count;
 				$total += $count;
 			}
 
 			// count links edited this year
 			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields_y[] = "`links`=".$count;
 				$total_y += $count;
 			}
 
 			// count links attached to private anchors
 			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors_private)."'))";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`links_private`=".$count;
 				$total_private += $count;
 			}
 
 			// count private links edited this year
 			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors_private)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_count($query)) {
+			if($count = SQL::query_count($query)) {
 				$fields_y[] = "`links_private`=".$count;
 				$total_private_y += $count;
 			}
@@ -389,10 +389,10 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT id AS user_id, CONCAT(full_name, ' (', nick_name, ')') AS user_label FROM ".SQL::table_name('users')
 		." ORDER BY posts DESC LIMIT 0, 250";
 
-	if(($users =& SQL::query($query))) {
+	if(($users = SQL::query($query))) {
 
 		$records = 0;
-		while($item =& SQL::fetch($users)) {
+		while($item = SQL::fetch($users)) {
 
 			echo '.';
 			$total = 0;
@@ -403,35 +403,35 @@ if(!Surfer::is_associate()) {
 
 			// count articles posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('articles')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`articles`=".$count;
 				$total += $count;
 			}
 
 			// count comments posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('comments')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`comments`=".$count;
 				$total += $count;
 			}
 
 			// count files posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('files')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`files`=".$count;
 				$total += $count;
 			}
 
 			// count links posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('links')." WHERE edit_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`links`=".$count;
 				$total += $count;
 			}
 
 			// count sections posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('sections')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`sections`=".$count;
 				$total += $count;
 			}
@@ -475,10 +475,10 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT id AS user_id, CONCAT(full_name, ' (', nick_name, ')') AS user_label FROM ".SQL::table_name('users')
 		." ORDER BY posts DESC LIMIT 0, 250";
 
-	if(($users =& SQL::query($query))) {
+	if(($users = SQL::query($query))) {
 
 		$records = 0;
-		while($item =& SQL::fetch($users)) {
+		while($item = SQL::fetch($users)) {
 
 			echo '.';
 			$total = 0;
@@ -489,35 +489,35 @@ if(!Surfer::is_associate()) {
 
 			// count articles posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('articles')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`articles`=".$count;
 				$total += $count;
 			}
 
 			// count comments posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('comments')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`comments`=".$count;
 				$total += $count;
 			}
 
 			// count files posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('files')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`files`=".$count;
 				$total += $count;
 			}
 
 			// count links posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('links')." WHERE (edit_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`links`=".$count;
 				$total += $count;
 			}
 
 			// count sections posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('sections')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`sections`=".$count;
 				$total += $count;
 			}
@@ -563,11 +563,11 @@ if(!Surfer::is_associate()) {
 		."ORDER BY total DESC \n"
 		."LIMIT 0, 100";
 
-	if(($result =& SQL::query($query))) {
+	if(($result = SQL::query($query))) {
 
 		// one record per user
 		$records = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			$fields = array();
 			foreach($item as $name => $value)
@@ -617,11 +617,11 @@ if(!Surfer::is_associate()) {
 		."ORDER BY total DESC \n"
 		."LIMIT 0, 100";
 
-	if(($result =& SQL::query($query))) {
+	if(($result = SQL::query($query))) {
 
 		// one record per user
 		$records = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			$fields = array();
 			foreach($item as $name => $value)

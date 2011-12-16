@@ -249,7 +249,7 @@ Class Links {
 		// if this url is known
 		$query = "SELECT * FROM ".SQL::table_name('links')." AS links"
 			." WHERE links.link_url LIKE '".SQL::escape($url)."'";
-		if($item =& SQL::query_first($query)) {
+		if($item = SQL::query_first($query)) {
 
 			// increment the number of clicks
 			$query = "UPDATE ".SQL::table_name('links')." SET hits=hits+1 WHERE id = ".SQL::escape($item['id']);
@@ -376,10 +376,10 @@ Class Links {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('links')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -435,7 +435,7 @@ Class Links {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1188,7 +1188,7 @@ Class Links {
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$limit.', 10000';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return 0;
 
 		// empty list
@@ -1197,7 +1197,7 @@ Class Links {
 
 		// build an array of links
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// delete the record in the database
 			$query = "DELETE FROM ".SQL::table_name('links')." WHERE id = ".SQL::escape($item['id']);
@@ -1383,7 +1383,7 @@ Class Links {
 		$query = "SELECT COUNT(links.link_url) as count, MIN(links.edit_date) as oldest_date, MAX(links.edit_date) as newest_date"
 			." FROM ".SQL::table_name('links')." AS links ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1416,7 +1416,7 @@ Class Links {
 			." FROM ".SQL::table_name('links')." AS links"
 			." WHERE links.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

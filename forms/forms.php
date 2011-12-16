@@ -85,7 +85,7 @@ Class Forms {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -396,7 +396,7 @@ Class Forms {
 			.' FROM '.SQL::table_name('forms').' AS forms'
 			.' WHERE ('.$where.')';
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

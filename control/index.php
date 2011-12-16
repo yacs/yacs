@@ -161,7 +161,7 @@ if(!file_exists('../parameters/control.include.php')) {
 		// the user table is empty
 		$query = "SELECT count(*) FROM ".SQL::table_name('users');
 		$count = 0;
-		if($result =& SQL::query($query, TRUE, $context['users_connection'])) {
+		if($result = SQL::query($query, TRUE, $context['users_connection'])) {
 			$row = SQL::fetch_row($result);
 			$count = $row[0];
 		}
@@ -578,7 +578,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// total size of the database
 			$query = "SHOW TABLE STATUS";
-			if(!$result =& SQL::query($query)) {
+			if(!$result = SQL::query($query)) {
 				$context['text'] .= Logger::error_pop().BR."\n";
 			} else {
 
@@ -589,7 +589,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$data_size = 0;
 				$index_size = 0;
 				$unused_size = 0;
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 					$total_tables += 1;
 					$total_records += $row['Rows'];
 					$total_size += $row['Data_length'] + $row['Index_length'] + $row['Data_free'];

@@ -25,7 +25,7 @@ Class SQL {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	function check() {
+	public static function check() {
 
 		return (is_callable('mysqli_connect') || is_callable('mysql_connect'));
 
@@ -40,7 +40,7 @@ Class SQL {
 	 * @param string database to use
 	 * @return a valid resource, or FALSE on failure
 	 */
-	function &connect($host, $user, $password, $database) {
+	public static function connect($host, $user, $password, $database) {
 
 		// no resource yet
 		$handle = FALSE;
@@ -65,7 +65,7 @@ Class SQL {
 	 * @param resource
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function count(&$result) {
+	public static function count(&$result) {
 		if(!$result)
 			return 0;
 		elseif(is_callable('mysqli_num_rows'))
@@ -81,7 +81,7 @@ Class SQL {
 	 * @param resource connection to the database server, if any
 	 * @return int number of tables, or FALSE on failure
 	 */
-	function count_tables($name=NULL, $connection=NULL) {
+	public static function count_tables($name=NULL, $connection=NULL) {
 		global $context;
 
 		// sanity check
@@ -120,7 +120,7 @@ Class SQL {
 	 * @param resource connection to be considered, if any
 	 * @return the resource returned by the database server, or the number of affected rows, or FALSE on error
 	 */
-	function &debug($query, $silent=FALSE, $connection=NULL) {
+	public static function debug($query, $silent=FALSE, $connection=NULL) {
 		global $context;
 
 		// allow for reference
@@ -131,7 +131,7 @@ Class SQL {
 
 			// statement cannot be explained
 			$query2 = 'EXPLAIN '.$query;
-			if(!$result =& SQL::query($query2, TRUE, $connection)) {
+			if(!$result = SQL::query($query2, TRUE, $connection)) {
 				Logger::remember('shared/sql.php', 'SQL::explain', SQL::error()."\n\n".$query, 'debug');
 				return $result;
 			}
@@ -139,7 +139,7 @@ Class SQL {
 			// turns results to text
 			$at_first_line = TRUE;
 			$header = $text = '';
-			while($attributes =& SQL::fetch($result)) {
+			while($attributes = SQL::fetch($result)) {
 				foreach($attributes as $name => $value) {
 					if($at_first_line)
 						$header .= $name."\t";
@@ -165,7 +165,7 @@ Class SQL {
 		}
 
 		// actually do the job
-		$output =& SQL::query($query, $silent, $connection);
+		$output = SQL::query($query, $silent, $connection);
 		return $output;
 
 	}
@@ -176,7 +176,7 @@ Class SQL {
 	 * @param resource connection to the database server, if any
 	 * @return int code of last error, or 0
 	 */
-	function errno($connection=NULL) {
+	public static function errno($connection=NULL) {
 		global $context;
 
 		// use the default connection
@@ -201,7 +201,7 @@ Class SQL {
 	 * @param resource connection to the database server, if any
 	 * @return string or NULL
 	 */
-	function error($connection=NULL) {
+	public static function error($connection=NULL) {
 		global $context;
 
 		// use the default connection
@@ -226,7 +226,7 @@ Class SQL {
 	 * @param string to be escaped
 	 * @return string safe version
 	 */
-	function &escape($text) {
+	public static function escape($text) {
 		global $context;
 
 		// do not quote numbers
@@ -259,7 +259,7 @@ Class SQL {
 	 * @param resource set of rows
 	 * @return array related to next row, or FALSE if there is no more row
 	 */
-	function &fetch(&$result) {
+	public static function fetch(&$result) {
 		if(is_bool($result))
 			$output = FALSE;
 		elseif(is_callable('mysqli_fetch_array'))
@@ -275,7 +275,7 @@ Class SQL {
 	 * @param resource set of rows
 	 * @return object related to next field, or FALSE if there is no more field
 	 */
-	function &fetch_field(&$result) {
+	public static function fetch_field(&$result) {
 		if(is_callable('mysqli_fetch_field'))
 			$output = mysqli_fetch_field($result);
 		else
@@ -289,7 +289,7 @@ Class SQL {
 	 * @param resource set of rows
 	 * @return array related to next row, or FALSE if there is no more row
 	 */
-	function &fetch_row(&$result) {
+	public static function fetch_row(&$result) {
 		if(is_callable('mysqli_fetch_row'))
 			$output = mysqli_fetch_row($result);
 		else
@@ -303,7 +303,7 @@ Class SQL {
 	 * @param resource to be released
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function free(&$result) {
+	public static function free(&$result) {
 		if(is_callable('mysqli_free_result'))
 			return mysqli_free_result($result);
 		else
@@ -316,7 +316,7 @@ Class SQL {
 	 * @param resource the database connection to look at
 	 * @return int or FALSE
 	 */
-	function get_last_id($connection) {
+	public static function get_last_id($connection) {
 		global $context;
 
 		// use the default connection
@@ -346,7 +346,7 @@ Class SQL {
 	 * @param resource handle to server
 	 * @return boolean TRUE or FALSE
 	 */
-	function has_database($name=NULL, $connection=NULL) {
+	public static function has_database($name=NULL, $connection=NULL) {
 		global $context;
 
 		// sanity check
@@ -377,7 +377,7 @@ Class SQL {
 	 * @param string the name of the table to setup
 	 * @return boolean TRUE or FALSE
 	 */
-	function has_table($table) {
+	public static function has_table($table) {
 		global $context;
 
 		// sanity check
@@ -391,7 +391,7 @@ Class SQL {
 			$query = 'SHOW TABLES';
 			if(!$rows = SQL::query($query))
 				return '<p>'.SQL::error().'</p>';
-			while($row =& SQL::fetch_row($rows))
+			while($row = SQL::fetch_row($rows))
 				$tables[] = strtolower($row[0]);
 			SQL::free($rows);
 		}
@@ -410,7 +410,7 @@ Class SQL {
 	 *
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function initialize() {
+	public static function initialize() {
 		global $context;
 
 		// no database parameters
@@ -418,7 +418,7 @@ Class SQL {
 			;
 
 		// attempt to connect to the database
-		elseif(!$context['connection'] =& SQL::connect($context['database_server'], $context['database_user'], $context['database_password'], $context['database'])) {
+		elseif(!$context['connection'] = SQL::connect($context['database_server'], $context['database_user'], $context['database_password'], $context['database'])) {
 
 			// exit if batch mode
 			if(!isset($_SERVER['REMOTE_ADDR']))
@@ -434,7 +434,7 @@ Class SQL {
 		if(isset($context['users_database_server']) && $context['users_database_server']) {
 
 			// additional connection for users table
-			$context['users_connection'] =& SQL::connect($context['users_database_server'], $context['users_database_user'], $context['users_database_password'], $context['users_database']);
+			$context['users_connection'] = SQL::connect($context['users_database_server'], $context['users_database_user'], $context['users_database_password'], $context['users_database']);
 
 		} elseif(isset($context['connection']))
 			$context['users_connection'] = $context['connection'];
@@ -455,7 +455,7 @@ Class SQL {
 		if(!isset($_SESSION['database_is_utf8'])) {
 			$_SESSION['database_is_utf8'] = FALSE;
 			$query = "SHOW VARIABLES LIKE 'character_set_database'";
-			if(($result =& SQL::query_first($query)) && ($result['Value'] == 'utf8'))
+			if(($result = SQL::query_first($query)) && ($result['Value'] == 'utf8'))
 				$_SESSION['database_is_utf8'] = TRUE;
 		}
 
@@ -474,7 +474,7 @@ Class SQL {
 	 * @param resource connection to the database server, if any
 	 * @return int number of tables, or FALSE on failure
 	 */
-	function &list_tables($name=NULL, $connection=NULL) {
+	public static function list_tables($name=NULL, $connection=NULL) {
 		global $context;
 
 		// sanity check
@@ -495,7 +495,7 @@ Class SQL {
 		$query = 'SHOW TABLES';
 
 		// list tables
-		$output =& SQL::query($query, TRUE, $connection);
+		$output = SQL::query($query, TRUE, $connection);
 		return $output;
 	}
 
@@ -508,7 +508,7 @@ Class SQL {
 	 * @return boolean TRUE on success, FALSE when the database is not reachable
 	 *
 	 */
-	function ping($connection=NULL) {
+	public static function ping($connection=NULL) {
 		global $context;
 
 		// we do need a connection to the database
@@ -548,7 +548,7 @@ Class SQL {
 	 * @param string file name
 	 * @return integer number of processed statements, or FALSE on error
 	 */
-	function process($name) {
+	public static function process($name) {
 		global $context;
 
 		// uncompress while reading
@@ -646,7 +646,7 @@ Class SQL {
 	 * @param boolean optional TRUE to not report on any error
 	 * @return a string to be displayed in resulting page, if any
 	 */
-	function purge($silent=FALSE) {
+	public static function purge($silent=FALSE) {
 		global $context;
 
 		// useless if we don't have a valid database connection
@@ -679,7 +679,7 @@ Class SQL {
 			.', '.SQL::table_name('values')
 			.', '.SQL::table_name('versions')
 			.', '.SQL::table_name('visits');
-		$result =& SQL::query($query, $silent);
+		$result = SQL::query($query, $silent);
 
 		// remember tick date and resulting text
 		Values::set('sql.tick', 'purge');
@@ -704,7 +704,7 @@ Class SQL {
 	 * @param resource connection to be considered, if any
 	 * @return the resource returned by the database server, or the number of affected rows, or FALSE on error
 	 */
-	function &query(&$query, $silent=FALSE, $connection=NULL) {
+	public static function query(&$query, $silent=FALSE, $connection=NULL) {
 		global $context;
 
 		// allow for reference
@@ -800,7 +800,7 @@ Class SQL {
 	 * @param resource connection to be considered, if any
 	 * @return int number of rows, or NULL on error
 	 */
-	function query_count(&$query, $silent=FALSE, $connection=NULL) {
+	public static function query_count(&$query, $silent=FALSE, $connection=NULL) {
 		global $context;
 
 		// use the default connection
@@ -814,7 +814,7 @@ Class SQL {
 		}
 
 		// submit statement to the database
-		if(!$result =& SQL::query($query, $silent, $connection))
+		if(!$result = SQL::query($query, $silent, $connection))
 			return NULL;
 
 		// count rows
@@ -833,7 +833,7 @@ Class SQL {
 	 * @param resource connection to be considered, if any
 	 * @return array containing first item, or NULL on error
 	 */
-	function &query_first(&$query, $silent=FALSE, $connection=NULL) {
+	public static function query_first(&$query, $silent=FALSE, $connection=NULL) {
 		global $context;
 
 		// allow for reference
@@ -858,7 +858,7 @@ Class SQL {
 			return $output;
 
 		// the first item of the list
-		$output =& SQL::fetch($result);
+		$output = SQL::fetch($result);
 		SQL::free($result);
 		return $output;
 	}
@@ -874,7 +874,7 @@ Class SQL {
 	 * @param string the SQL query
 	 * @return mixed containing query result, or NULL on error
 	 */
-	function &query_scalar(&$query, $silent=FALSE, $connection=NULL) {
+	public static function query_scalar(&$query, $silent=FALSE, $connection=NULL) {
 		global $context;
 
 		// allow for reference
@@ -915,7 +915,7 @@ Class SQL {
 	 * @param array of $index_name => $index_declaration
 	 * @return a text string to print
 	 */
-	function setup_table($table, $fields, $indexes) {
+	public static function setup_table($table, $fields, $indexes) {
 		global $context;
 
 		// sanity check
@@ -948,11 +948,11 @@ Class SQL {
 
 			// analyse table structure
 			$query2 = "DESCRIBE ".SQL::table_name($table);
-			if(!$result =& SQL::query($query2))
+			if(!$result = SQL::query($query2))
 				return '<p>'.Logger::error_pop()."</p>\n";
 
 			// build the list of fields
-			while($row =& SQL::fetch($result))
+			while($row = SQL::fetch($result))
 				$actual[] = $row['Field'];
 
 			// check all fields
@@ -972,11 +972,11 @@ Class SQL {
 
 			// list existing indexes
 			$query2 = "SHOW INDEX FROM ".SQL::table_name($table);
-			if(!$result =& SQL::query($query2))
+			if(!$result = SQL::query($query2))
 				return '<p>'.Logger::error_pop()."</p>\n";
 
 			// drop other indexes
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				if(($row['Seq_in_index'] == 1) && ($row['Key_name'] != 'PRIMARY'))
 					$query .= ', DROP INDEX '.$row['Key_name'];
 			}
@@ -1007,7 +1007,7 @@ Class SQL {
 
 			// silently analyze table
 			$query = "ANALYZE TABLE ".SQL::table_name($table);
-			if( ($result =& SQL::query($query))
+			if( ($result = SQL::query($query))
 				&& ($row = SQL::fetch($result))
 				&& ($row['Msg_type'] == 'status') ) {
 
@@ -1018,7 +1018,7 @@ Class SQL {
 
 			// silently optimize table
 			$query = "OPTIMIZE TABLE ".SQL::table_name($table);
-			if( ($result =& SQL::query($query))
+			if( ($result = SQL::query($query))
 				&& ($row = SQL::fetch($result))
 				&& ($row['Msg_type'] == 'status') ) {
 
@@ -1050,7 +1050,7 @@ Class SQL {
 	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
 	 * @return int the number of seconds since 1st January of 1970
 	 */
-	function strtotime($stamp) {
+	public static function strtotime($stamp) {
 		return gmmktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
 	}
 
@@ -1063,7 +1063,7 @@ Class SQL {
 	 * @param string bare table name
 	 * @return string an extensive name suitable for MySQL requests
 	 */
-	function table_name($name) {
+	public static function table_name($name) {
 		global $context;
 
 		// maybe we are looking for user records elsewhere
@@ -1088,7 +1088,7 @@ Class SQL {
 	 * @param string name of table to analyze
 	 * @return NULL, or an array(count, min_date, max_date)
 	 */
-	function table_stat($table) {
+	public static function table_stat($table) {
 		global $context;
 
 		// accept foreign user profiles
@@ -1101,7 +1101,7 @@ Class SQL {
 
 		// query the database
 		$query = "SELECT count(*), min(edit_date), max(edit_date) FROM ".SQL::table_name($table);
-		if($result =& SQL::query($query))
+		if($result = SQL::query($query))
 			if($row = SQL::fetch_row($result))
 				return $row;
 
@@ -1113,7 +1113,7 @@ Class SQL {
 	 *
 	 * @return string mentioning the back-end version number, or NULL on error
 	 */
-	function version($connection=NULL) {
+	public static function version($connection=NULL) {
 		global $context;
 
 		// use the default connection

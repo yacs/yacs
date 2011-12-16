@@ -30,7 +30,7 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// automatic notification
 			if($item['type'] == 'notification')

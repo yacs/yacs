@@ -131,7 +131,7 @@ Class Activities {
 		case 'raw':
 		default:
 			$items = array();
-			while($item =& SQL::fetch($result))
+			while($item = SQL::fetch($result))
 				$items[] = $item;
 			return $items;
 
@@ -238,7 +238,7 @@ Class Activities {
 		$query = "SELECT COUNT(*) as count, MIN(activities.edit_date) as oldest_date, MAX(activities.edit_date) as newest_date"
 			." FROM ".SQL::table_name('activities')." AS activities";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

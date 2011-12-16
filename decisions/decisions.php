@@ -106,13 +106,13 @@ Class Decisions {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('decisions')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -168,7 +168,7 @@ Class Decisions {
 		$query = "SELECT * FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE (decisions.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -195,7 +195,7 @@ Class Decisions {
 			." WHERE (decisions.anchor LIKE '".$anchor."') AND (decisions.create_id = ".SQL::escape(Surfer::get_id()).")";
 
 		// a link to the existing ballot
-		if($row =& SQL::query_first($query))
+		if($row = SQL::query_first($query))
 			return $row['id'];
 
 		// no ballot
@@ -282,7 +282,7 @@ Class Decisions {
 		$query = "SELECT id FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE (decisions.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -290,7 +290,7 @@ Class Decisions {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return Decisions::get_url($item['id']);
 	}
 
@@ -354,7 +354,7 @@ Class Decisions {
 		$query = "SELECT id FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE (decisions.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -362,7 +362,7 @@ Class Decisions {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return Decisions::get_url($item['id']);
 	}
 
@@ -412,7 +412,7 @@ Class Decisions {
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE decisions.anchor LIKE '".SQL::escape($anchor)."'";
-		if($row =& SQL::query_first($query))
+		if($row = SQL::query_first($query))
 			$total_count = $row['count'];
 
 		// number of yes
@@ -420,7 +420,7 @@ Class Decisions {
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE decisions.anchor LIKE '".SQL::escape($anchor)."' AND decisions.type LIKE 'yes'";
-		if($row =& SQL::query_first($query))
+		if($row = SQL::query_first($query))
 			$yes_count = $row['count'];
 
 		// number of no
@@ -428,7 +428,7 @@ Class Decisions {
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE decisions.anchor LIKE '".SQL::escape($anchor)."' AND decisions.type LIKE 'no'";
-		if($row =& SQL::query_first($query))
+		if($row = SQL::query_first($query))
 			$no_count = $row['count'];
 
 		// vote result
@@ -971,7 +971,7 @@ Class Decisions {
 			$query = "SELECT COUNT(*) as count, MIN(decisions.create_date) as oldest_date, MAX(decisions.create_date) as newest_date FROM ".SQL::table_name('decisions')." AS decisions ";
 
 		// select among available items
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -996,7 +996,7 @@ Class Decisions {
 			." FROM ".SQL::table_name('decisions')." AS decisions "
 			." WHERE decisions.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1025,7 +1025,7 @@ Class Decisions {
 			$query = "SELECT COUNT(DISTINCT decisions.anchor) as count FROM ".SQL::table_name('decisions')." AS decisions ";
 
 		// select among available items
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

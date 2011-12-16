@@ -35,7 +35,7 @@ Class Layout_dates_as_family extends Layout_interface {
 		// build a list of sections
 		$family = '';
 		$rows = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change date
 			$this_family = Skin::build_date(substr($item['date_stamp'], 0, 10), 'calendar');

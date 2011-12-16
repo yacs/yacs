@@ -716,7 +716,7 @@ Class Sections {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('sections')." AS sections "
 			." WHERE sections.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -724,7 +724,7 @@ Class Sections {
 			return;
 
 		// delete silently all matching items
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Sections::delete($row['id']);
 	}
 
@@ -746,13 +746,13 @@ Class Sections {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('sections')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -837,7 +837,7 @@ Class Sections {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache
 		if(!$mutable && isset($output['id']))
@@ -948,14 +948,14 @@ Class Sections {
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".implode(' AND', $criteria)
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching sections
 		$anchors = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$anchors[] = 'section:'.$item['id'];
 
 		// return a list of anchors
@@ -1034,14 +1034,14 @@ Class Sections {
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".implode(' AND ', $criteria)
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching sections
 		$anchors = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$anchors[] = 'section:'.$item['id'];
 
 		// return a list of anchors
@@ -1099,7 +1099,7 @@ Class Sections {
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, 1";
-		if($item =& SQL::query_first($query))
+		if($item = SQL::query_first($query))
 			return $item['id'];
 
 		return NULL;
@@ -1139,7 +1139,7 @@ Class Sections {
 			." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_scalar($query);
+		$output = SQL::query_scalar($query);
 
 		// save in cache
 		$cache[$id] = $output;
@@ -1419,8 +1419,8 @@ Class Sections {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE 'section:".$item['id']."')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-			if($result =& SQL::query($query)) {
-				while($row =& SQL::fetch($result)) {
+			if($result = SQL::query($query)) {
+				while($row = SQL::fetch($result)) {
 					if($children)
 						$children .= BR;
 
@@ -1466,10 +1466,10 @@ Class Sections {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE '".$item['anchor']."')".$where
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
 				// brothers and sisters of parent
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 
 					if($family && strncmp(substr($family, -6), '</div>', 6))
 						$family .= BR;
@@ -1539,10 +1539,10 @@ Class Sections {
 				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where
 				." AND (sections.index_map = 'Y')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
 				// process all matching sections
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 
 					if($row['id'] == $item['id']) {
 
@@ -1571,12 +1571,12 @@ Class Sections {
 					." WHERE (sections.anchor='' OR sections.anchor IS NULL)"
 					." AND (sections.index_map != 'Y')"
 					." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-				if($result =& SQL::query($query)) {
+				if($result = SQL::query($query)) {
 
 					$family .= '<hr />';
 
 					// process all matching sections
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 
 						if($row['id'] == $item['id']) {
 
@@ -1653,12 +1653,12 @@ Class Sections {
 		// lookup all sections
 		$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $sections_tree;
 
 		// scan all sections
 		$sections_handles = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			$reference = 'section:'.$item['id'];
 			$label = $item['title'];
@@ -3329,7 +3329,7 @@ Class Sections {
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

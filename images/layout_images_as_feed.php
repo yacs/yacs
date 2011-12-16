@@ -31,7 +31,7 @@ Class Layout_images_as_feed extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this image
 			if($item['anchor'])

@@ -32,7 +32,7 @@ Class Layout_dates_as_ics extends Layout_interface {
 			$text .= 'X-WR-CALNAME:'.$context['site_name'].CRLF;
 		
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// one event at a time
 			$text .= 'BEGIN:VEVENT'.CRLF;

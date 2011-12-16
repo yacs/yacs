@@ -71,7 +71,7 @@ $page = max(1,intval($page));
 
 // minimum size for any search token - depends of mySQL setup
 $query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
-if(!defined('MINIMUM_TOKEN_SIZE') && ($row =& SQL::query_first($query)) && ($row['Value'] > 0))
+if(!defined('MINIMUM_TOKEN_SIZE') && ($row = SQL::query_first($query)) && ($row['Value'] > 0))
 	define('MINIMUM_TOKEN_SIZE', $row['Value']);
 
 // by default MySQL indexes words with at least four chars

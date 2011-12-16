@@ -37,7 +37,7 @@ Class Layout_users extends Layout_interface {
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';

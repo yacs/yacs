@@ -466,11 +466,11 @@ Class Files {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('files')." AS files"
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// delete silently all matching files
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Files::delete($row['id']);
 	}
 
@@ -544,7 +544,7 @@ Class Files {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('files')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// create target folders
 			$file_to = Files::get_path($anchor_to);
@@ -557,7 +557,7 @@ Class Files {
 
 			// process all matching records one at a time
 			$file_from = Files::get_path($anchor_from);
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
 				if(!file_exists($context['path_to_root'].$file_from.'/'.$item['file_name']))
@@ -639,7 +639,7 @@ Class Files {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files"
 			." WHERE (files.id = ".SQL::escape($id).")";
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache
 		if(!$mutable && isset($output['id']))
@@ -663,7 +663,7 @@ Class Files {
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND files.file_name='".SQL::escape($name)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1126,7 +1126,7 @@ Class Files {
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
 			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1134,7 +1134,7 @@ Class Files {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return Files::get_permalink($item);
 	}
 
@@ -1204,7 +1204,7 @@ Class Files {
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
 			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1212,7 +1212,7 @@ Class Files {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return Files::get_permalink($item);
 	}
 
@@ -2467,7 +2467,7 @@ Class Files {
 			.", SUM(file_size) as total_size"
 			." FROM ".SQL::table_name('files')." AS files WHERE ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -2497,7 +2497,7 @@ Class Files {
 			." FROM ".SQL::table_name('files')." AS files"
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

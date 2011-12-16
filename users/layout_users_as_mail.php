@@ -60,7 +60,7 @@ Class Layout_users_as_mail extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// we need some address
 			if(!$item['email'])

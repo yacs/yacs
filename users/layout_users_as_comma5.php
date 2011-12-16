@@ -34,7 +34,7 @@ Class Layout_users_as_comma5 extends Layout_interface {
 		// process all items in the list
 		$count = 0;
 		$items = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the user
 			$url = Users::get_permalink($item);

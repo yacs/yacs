@@ -231,13 +231,13 @@ Class Locations {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('locations')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -295,7 +295,7 @@ Class Locations {
 		$query = "SELECT * FROM ".SQL::table_name('locations')." AS locations "
 			." WHERE (locations.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -468,7 +468,7 @@ Class Locations {
 		$query = "SELECT latitude, longitude FROM ".SQL::table_name('locations')." AS locations "
 			." WHERE (locations.anchor LIKE '".SQL::escape($anchor)."') "
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT 0, 1";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
@@ -480,7 +480,7 @@ Class Locations {
 		}
 
 		// the first item of the list provides latitude and longitude
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		if(@count($item) != 2) {
 			$output = NULL;
 			return $output;
@@ -593,7 +593,7 @@ Class Locations {
 			." ORDER BY location.edit_date DESC, location.geo_place_name LIMIT 0, 1";
 
 		// the location, if any
-		$output =& SQL::query_scalar($query);
+		$output = SQL::query_scalar($query);
 		return $output;
 	}
 
@@ -918,7 +918,7 @@ Class Locations {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('locations')." AS locations";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -936,7 +936,7 @@ Class Locations {
 			." FROM ".SQL::table_name('locations')." AS locations "
 			." WHERE locations.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

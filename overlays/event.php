@@ -1543,7 +1543,7 @@ class Event extends Overlay {
 			// send a cancellation message to participants
 			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
 			$result = SQL::query($query);
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
 				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
@@ -1602,7 +1602,7 @@ class Event extends Overlay {
 			// send a confirmation message to participants
 			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
 			$result = SQL::query($query);
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
 				if(!preg_match(VALID_RECIPIENT, $item['user_email']))

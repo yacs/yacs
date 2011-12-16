@@ -37,7 +37,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to read the full category
 			$url =& Categories::get_permalink($item);

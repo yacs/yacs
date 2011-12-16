@@ -31,7 +31,7 @@ Class Layout_categories_as_raw extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// include all available attributes for this item
 			$items[ $item['id'] ] = $item;

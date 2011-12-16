@@ -46,7 +46,7 @@ Class Layout_sections_as_select extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		$family = '';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// strip locked sections, except to associates and editors
 			if(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered())

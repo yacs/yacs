@@ -231,7 +231,7 @@ Class Categories {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('categories')." AS categories "
 			." WHERE categories.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -239,7 +239,7 @@ Class Categories {
 			return;
 
 		// silently delete everything
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Categories::delete($row['id']);
 	}
 
@@ -261,13 +261,13 @@ Class Categories {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('categories')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -345,7 +345,7 @@ Class Categories {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache
 		if(!$mutable && isset($output['id']))
@@ -371,7 +371,7 @@ Class Categories {
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.keywords = '".SQL::escape($keyword)."' LIMIT 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -391,7 +391,7 @@ Class Categories {
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.title = '".SQL::escape($title)."' OR categories.path = '".str_replace('/', '|', $title)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -447,7 +447,7 @@ Class Categories {
 			." FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE (".$where.") AND categories.anchor =''"
 			." ORDER BY categories.path, categories.title LIMIT 0, 500";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $text;
 
 		// parse request results
@@ -501,7 +501,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY categories.hits DESC, categories.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -533,7 +533,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY categories.edit_date DESC, categories.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -651,7 +651,7 @@ Class Categories {
 			." FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE (".$where.")"
 			." ORDER BY categories.path, categories.title LIMIT 0, 500";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $content;
 
 		// parse request results
@@ -1072,10 +1072,10 @@ Class Categories {
 		$query = "SELECT keywords, introduction FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.keywords LIKE '".SQL::escape($prefix)."%'"
 			." ORDER BY keywords LIMIT 100";
-		$result =& SQL::query($query);
+		$result = SQL::query($query);
 
 		// populate the returned array
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			$output[ $row['keywords'] ] = $row['introduction'];
 
 		// return by reference
@@ -1710,9 +1710,9 @@ Class Categories {
 			$query = "SELECT anchor FROM ".SQL::table_name('members')
 				." WHERE (member LIKE '".SQL::escape($reference)."') AND (anchor LIKE 'category:%')"
 				." LIMIT 0, 500";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 					if(in_array($row['anchor'], $assigned))
 						continue;
 
@@ -1907,7 +1907,7 @@ Class Categories {
 			." FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

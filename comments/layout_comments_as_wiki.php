@@ -49,7 +49,7 @@ Class Layout_comments_as_wiki extends Layout_interface {
 		// build a list of comments
 		$index = 0;
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// odd or even
 			$index++;

@@ -147,11 +147,11 @@ if(!Surfer::is_associate()) {
 
 		// 'SHOW STATUS'
 		$query = "SHOW STATUS";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$content .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
 			}
 			$content .= "</table>\n";
@@ -160,11 +160,11 @@ if(!Surfer::is_associate()) {
 
 		// 'SHOW VARIABLES'
 		$query = "SHOW VARIABLES";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$content .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
 			}
 			$content .= "</table>\n";
@@ -173,11 +173,11 @@ if(!Surfer::is_associate()) {
 
 		// 'SHOW CHARACTER SET'
 		$query = "SHOW CHARACTER SET";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$content .= '<tr><td>'.$row['Charset'].'</td><td>'.$row['Description']."</td></tr>\n";
 			}
 			$content .= "</table>\n";

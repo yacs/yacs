@@ -859,7 +859,7 @@ Class Articles {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE articles.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -867,7 +867,7 @@ Class Articles {
 			return;
 
 		// delete silently all matching items
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Articles::delete($row['id']);
 	}
 
@@ -889,13 +889,13 @@ Class Articles {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('articles')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -995,7 +995,7 @@ Class Articles {
 				." ORDER BY publish_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache, but only on generic request
 		if(!$mutable && isset($output['id']) && ($attributes == '*'))
@@ -1040,14 +1040,14 @@ Class Articles {
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
 			." LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching records
 		$ids = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$ids[] = $item['id'];
 
 		// return a list of ids
@@ -1129,7 +1129,7 @@ Class Articles {
 			." WHERE ".$where
 			." ORDER BY articles.rank, articles.edit_date DESC, articles.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1198,7 +1198,7 @@ Class Articles {
 		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1206,7 +1206,7 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
 	}
 
@@ -1286,7 +1286,7 @@ Class Articles {
 		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1294,7 +1294,7 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
 	}
 
@@ -2472,7 +2472,7 @@ Class Articles {
 			." ORDER BY articles.edit_date DESC LIMIT ".$limit.', 10';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -2480,7 +2480,7 @@ Class Articles {
 			return;
 
 		// delete silently all matching items
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			Articles::delete($item['id']);
 
 		// end of processing
@@ -3181,7 +3181,7 @@ Class Articles {
 			.", ".SQL::table_name('sections')." AS sections"
 			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))  AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -3255,7 +3255,7 @@ Class Articles {
 			." FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
