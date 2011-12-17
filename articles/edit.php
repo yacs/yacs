@@ -456,7 +456,7 @@ if(Surfer::is_crawler()) {
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
 			// list persons that have been notified
-			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
+			if($recipients = Mailer::build_recipients()) {
 
 				$context['text'] .= $recipients;
 
@@ -549,7 +549,7 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));

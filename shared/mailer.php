@@ -147,15 +147,18 @@ class Mailer {
 	 *
 	 * This is useful to list all persons notified after a post for example.
 	 *
-	 * @param string title of the folded box generated
-	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
+	 * @return mixed text to be integrated into the page
 	 */
-	function build_recipients($title=NULL) {
+	public static function build_recipients() {
 		global $context;
 
 		// nothing to show
 		if(!isset($context['mailer_recipients']))
 			return '';
+
+		// title mentions number of recipients
+		$count = count($context['mailer_recipients']);
+		$title = sprintf(i18n::ns('%d person has been notified', '%d persons have been notified', $count), $count);
 
 		// return the bare list
 		if(!$title)
@@ -163,7 +166,7 @@ class Mailer {
 
 		// build a nice list
 		$list = array();
-		if(count($context['mailer_recipients']) > 50)
+		if($count > 50)
 			$count = 30;	// list only 30 first recipients
 		else
 			$count = 100;	//never reached
