@@ -427,7 +427,7 @@ Class Files {
 		global $context;
 
 		// load the row
-		$item =& Files::get($id);
+		$item = Files::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -614,7 +614,7 @@ Class Files {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $row array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check

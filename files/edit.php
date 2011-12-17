@@ -81,7 +81,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;

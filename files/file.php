@@ -212,7 +212,7 @@ Class File extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Files::get($id, $mutable);
+		$this->item = Files::get($id, $mutable);
 	}
 
 	/**
