@@ -1456,7 +1456,7 @@ Class Links {
 
 			// file link
 			case 'file':
-				if($item =& Files::get($matches[2]))
+				if($item = Files::get($matches[2]))
 					return array(Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
 				return array('', $text, '');
 
