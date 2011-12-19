@@ -46,7 +46,6 @@ $context['l10n']['en']['b5dbc68e3397cbbe537f4a7c53b6fc4d']='Nothing has been rec
 $context['l10n']['en']['November']='November';
 $context['l10n']['en']['October']='October';
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['Please provide a date.']='Please provide a date.';
 $context['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $context['l10n']['en']['Posted by']='Posted by';

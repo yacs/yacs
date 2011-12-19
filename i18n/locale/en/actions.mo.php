@@ -40,7 +40,6 @@ $context['l10n']['en']['No title has been provided.']='No title has been provide
 $context['l10n']['en']['On-going']='On-going';
 $context['l10n']['en']['On-going actions']='On-going actions';
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $context['l10n']['en']['Posted by']='Posted by';
 $context['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';

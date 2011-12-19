@@ -60,7 +60,6 @@ $context['l10n']['en']['54e29b42a59e1e8727ac836e3f2bd4e6']='Open a separate wind
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
 $context['l10n']['en']['Other address:'.chr(0).'Other addresses:']='Other address:'.chr(0).'Other addresses:';
 $context['l10n']['en']['Permanent address (permalink):']='Permanent address (permalink):';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['61ab86a39172b19e7cd47a8dec28c0e1']='Please carefully select a section for your link';
 $context['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $context['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';

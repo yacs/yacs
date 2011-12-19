@@ -46,6 +46,9 @@ $context['l10n']['en']['Message']='Message';
 $context['l10n']['en']['Name of the updated server']='Name of the updated server';
 $context['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $context['l10n']['en']['No file data has been received.']='No file data has been received.';
+$context['l10n']['en']['Opentok API URL']='Opentok API URL';
+$context['l10n']['en']['Opentok API key']='Opentok API key';
+$context['l10n']['en']['Opentok API secret']='Opentok API secret';
 $context['l10n']['en']['Ping interface']='Ping interface';
 $context['l10n']['en']['32f16b405d7ec3c7f7a2175487b60cc3']='Please register at %s before blogging';
 $context['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
@@ -64,6 +67,7 @@ $context['l10n']['en']['2be1d54d98311704480cb75da8aa9534']='The name or the IP a
 $context['l10n']['en']['dda86db9a2409f98e6e9438cbc5e6cd7']='This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API).';
 $context['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $context['l10n']['en']['acd27d20c6abc6cc445b677d8046f973']='To integrate Google Maps to your server, %s and enter it here';
+$context['l10n']['en']['fa87a459816a021182fcd9b98e629761']='To integrate Opentok services to your server, %s and enter it here';
 $context['l10n']['en']['5a363027fb4f6b0bede10ded8fcf46c8']='To monitor your server with Google Analytics, %s and enter your account here';
 $context['l10n']['en']['To spread updates']='To spread updates';
 $context['l10n']['en']['URI of the source page']='URI of the source page';
@@ -85,6 +89,7 @@ $context['l10n']['en']['apply for a key']='apply for a key';
 $context['l10n']['en']['a1d3a86cb66f6642e23c2f5f12323187']='configuration panel for services';
 $context['l10n']['en']['6889e5b8e03c320d08c3687b4e284a3e']='http://www.google-analytics.com/';
 $context['l10n']['en']['8347fa7902ce30c1e25d97ec6d1ba222']='http://www.google.com/apis/maps/signup.html';
+$context['l10n']['en']['a47cd43b19556fdd5ca8ba6ce071ea7f']='http://www.tokbox.com/opentok/api/documentation/gettingstarted';
 $context['l10n']['en']['register']='register';
 $context['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

@@ -7,7 +7,7 @@
  */
 $context['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
 $context['l10n']['en']['5ee8eddc825b8b2e2b7c8667178e7594']='%d named person has followed the link: %s'.chr(0).'%d named persons have followed the link: %s';
-$context['l10n']['en']['%s by %s']='%s by %s';
+$context['l10n']['en']['2b8f07a0d17777acaab0e2fecee9fb44']='%d person has been notified'.chr(0).'%d persons have been notified';
 $context['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $context['l10n']['en']['Access collection']='Access collection';
 $context['l10n']['en']['Actions']='Actions';
