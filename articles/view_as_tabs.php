@@ -221,39 +221,26 @@ if(defined('DIGG'))
 if(is_object($overlay))
 	$context['text'] .= $overlay->get_text('view', $item);
 
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$context['text'] .= $context['page_description'];
+
 // the owner profile, if any, at the end of the page
 if(isset($owner['id']) && is_object($anchor))
 	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
+
+// add trailer information from the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('trailer', $item);
+
+// add trailer information from this item, if any
+if(isset($item['trailer']) && trim($item['trailer']))
+	$context['text'] .= Codes::beautify($item['trailer']);
 
 //
 // panels
 //
 $panels = array();
-
-//
-// information tab
-//
-$information = '';
-
-// description has been formatted in articles/view.php
-if(isset($context['page_description']))
-	$information .= $context['page_description'];
-
-// add trailer information from the overlay, if any
-if(is_object($overlay))
-	$information .= $overlay->get_text('trailer', $item);
-
-// add trailer information from this item, if any
-if(isset($item['trailer']) && trim($item['trailer']))
-	$information .= Codes::beautify($item['trailer']);
-
-// insert anchor suffix
-if(is_object($anchor))
-	$information .= $anchor->get_suffix();
-
-// display in a separate panel
-if($information)
-	$panels[] = array('information', i18n::s('Information'), 'information_panel', $information);
 
 //
 // append tabs from the overlay, if any -- they have been captured in articles/view.php
@@ -550,6 +537,10 @@ $context['text'] .= Skin::build_tabs($panels);
 // buttons to display previous and next pages, if any
 if(isset($neighbours) && $neighbours)
 	$context['text'] .= Skin::neighbours($neighbours, 'manual');
+
+// insert anchor suffix, if any
+if(is_object($anchor))
+	$context['text'] .= $anchor->get_suffix();
 
 //
 // extra panel -- most content is cached, except commands specific to current surfer
