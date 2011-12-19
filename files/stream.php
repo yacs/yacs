@@ -211,7 +211,7 @@ if(!$item['id']) {
 		$mime = 'text/html';
 
 		// allow to load Flash objects
-		$script = 'included/browser/js_endpage/swfobject.js';
+		$script = 'included/browser/js_header/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -238,7 +238,7 @@ if(!$item['id']) {
 		$mime = 'text/html';
 
 		// allow to load Flash objects
-		$script = 'included/browser/js_endpage/swfobject.js';
+		$script = 'included/browser/js_header/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -269,7 +269,7 @@ if(!$item['id']) {
 		$mime = 'text/html';
 
 		// allow to load Flash objects
-		$script = 'included/browser/js_endpage/swfobject.js';
+		$script = 'included/browser/js_header/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -299,7 +299,7 @@ if(!$item['id']) {
 		$mime = 'text/html';
 
 		// allow to load Flash objects
-		$script = 'included/browser/js_endpage/swfobject.js';
+		$script = 'included/browser/js_header/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
