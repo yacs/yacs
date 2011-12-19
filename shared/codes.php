@@ -1484,12 +1484,12 @@ Class Codes {
 			.'params.allowscriptaccess = "always";'."\n"
 			.'params.menu = "false";'."\n"
 			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"open_flash_chart_'.$chart_index.'"}, params);'."\n"
+			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"get_open_flash_chart_'.$chart_index.'"}, params);'."\n"
 			."\n"
 			.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
 			."\n"
-			.'function open_flash_chart_'.$chart_index.'() {'."\n"
-			.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+			.'function get_open_flash_chart_'.$chart_index.'() {'."\n"
+			.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 			.'}'."\n"
 			.JS_SUFFIX;
 
@@ -1710,7 +1710,7 @@ Class Codes {
 				.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
 				."\n"
 				.'function table_chart_'.$chart_index.'() {'."\n"
-				.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+				.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 				.'}'."\n"
 				.JS_SUFFIX;
 
