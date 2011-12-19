@@ -30,6 +30,12 @@
  * - [code]google_analytics_account[/code] - according to your registration to
  * Google Analytics services.
  *
+ * - [code]opentok_key[/code] - key provided by Opentok on registration
+ *
+ * - [code]opentok_secret[/code] - secret shared with Opentok server
+ *
+ * - [code]opentok_url[/code] - pointing either to the development web site or to a production server
+ *
  * Configuration information is saved into [code]parameters/services.include.php[/code].
  * If YACS is prevented to write to the file, it displays parameters to allow for a manual update.
  *
@@ -91,6 +97,28 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="text" name="google_analytics_account" size="45" value="'.encode_field($context['google_analytics_account']).'" maxlength="255" />';
 	$hint = sprintf(i18n::s('To monitor your server with Google Analytics, %s and enter your account here'), Skin::build_link(i18n::s('http://www.google-analytics.com/'), i18n::s('register')));
 	$fields[] = array($label, $input, $hint);
+
+	// Opentok API key
+	$label = i18n::s('Opentok API key');
+	if(!isset($context['opentok_api_key']) || !$context['opentok_api_key'])
+		$context['opentok_api_key'] = '';
+	$input = '<input type="text" name="opentok_api_key" size="45" value="'.encode_field($context['opentok_api_key']).'" maxlength="255" />';
+	$hint = sprintf(i18n::s('To integrate Opentok services to your server, %s and enter it here'), Skin::build_link(i18n::s('http://www.tokbox.com/opentok/api/documentation/gettingstarted'), i18n::s('apply for a key')));
+	$fields[] = array($label, $input, $hint);
+
+	// Opentok API secret
+	$label = i18n::s('Opentok API secret');
+	if(!isset($context['opentok_api_secret']) || !$context['opentok_api_secret'])
+		$context['opentok_api_secret'] = '';
+	$input = '<input type="text" name="opentok_api_secret" size="45" value="'.encode_field($context['opentok_api_secret']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
+
+	// Opentok API URL
+	$label = i18n::s('Opentok API URL');
+	if(!isset($context['opentok_api_url']) || !$context['opentok_api_url'])
+		$context['opentok_api_url'] = '';
+	$input = '<input type="text" name="opentok_api_url" size="45" value="'.encode_field($context['opentok_api_url']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
 	// debug_blog
 	$label = i18n::s('Debug blog services');
@@ -203,6 +231,12 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'google_api_key\']=\''.addcslashes($_REQUEST['google_api_key'], "\\'")."';\n";
 	if(isset($_REQUEST['google_analytics_account']))
 		$content .= '$context[\'google_analytics_account\']=\''.addcslashes($_REQUEST['google_analytics_account'], "\\'")."';\n";
+	if(isset($_REQUEST['opentok_api_key']))
+		$content .= '$context[\'opentok_api_key\']=\''.addcslashes($_REQUEST['opentok_api_key'], "\\'")."';\n";
+	if(isset($_REQUEST['opentok_api_secret']))
+		$content .= '$context[\'opentok_api_secret\']=\''.addcslashes($_REQUEST['opentok_api_secret'], "\\'")."';\n";
+	if(isset($_REQUEST['opentok_api_url']))
+		$content .= '$context[\'opentok_api_url\']=\''.addcslashes($_REQUEST['opentok_api_url'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// update the parameters file
