@@ -4392,7 +4392,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see index.php
 	 */
-	function &layout_cover_article(&$item) {
+	public static function layout_cover_article($item) {
 		global $context;
 
 		// process steps similar to an ordinary article -- see articles/view.php
@@ -4418,7 +4418,7 @@ Class Skin_Skeleton {
 	 * @param string optional strings
 	 * @return string text to be returned to the browser
 	 */
-	function &layout_horizontally() {
+	public static function layout_horizontally() {
 
 		// we return some text
 		$text = '';
@@ -4491,7 +4491,7 @@ Class Skin_Skeleton {
 	 * @param string optional strings
 	 * @return string text to be returned to the browser
 	 */
-	function &layout_vertically() {
+	public static function layout_vertically() {
 
 		// we return some text
 		$text = '';

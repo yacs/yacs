@@ -617,14 +617,14 @@ Class Actions {
 
 		// special layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
 		// regular layout
 		include_once $context['path_to_root'].'actions/layout_actions.php';
 		$layout = new Layout_actions();
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 	}
 

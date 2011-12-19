@@ -18,7 +18,7 @@ Class Layout_dates_as_ics extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// build the calendar
@@ -26,19 +26,19 @@ Class Layout_dates_as_ics extends Layout_interface {
 			.'VERSION:2.0'.CRLF
 			.'PRODID:YACS'.CRLF
 			.'METHOD:PUBLISH'.CRLF;
-		
+
 		// organization, if any
 		if(isset($context['site_name']) && $context['site_name'])
 			$text .= 'X-WR-CALNAME:'.$context['site_name'].CRLF;
-		
+
 		// process all items in the list
 		while($item = SQL::fetch($result)) {
 
 			// one event at a time
 			$text .= 'BEGIN:VEVENT'.CRLF;
-		
+
 			// the event spans limited time
-			if(isset($item['duration']) && $item['duration']) {			
+			if(isset($item['duration']) && $item['duration']) {
 				$text .= 'DTSTART:'.gmdate('Ymd\THis\Z', SQL::strtotime($item['date_stamp'])).CRLF;
 				$text .= 'DTEND:'.gmdate('Ymd\THis\Z', SQL::strtotime($item['date_stamp'])+$item['duration']).CRLF;
 
@@ -47,14 +47,14 @@ Class Layout_dates_as_ics extends Layout_interface {
 				$text .= 'DTSTART;VALUE=DATE:'.date('Ymd', SQL::strtotime($item['date_stamp'])).CRLF;
 				$text .= 'DTEND;VALUE=DATE:'.date('Ymd', SQL::strtotime($item['date_stamp'])+86400).CRLF;
 			}
-			
+
 			// url to view the date
 			$text .= 'URL:'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).CRLF;;
 
 			// organization, if any
 			if(isset($item['introduction']) && $item['introduction'])
 				$text .= 'DESCRIPTION:'.str_replace(array("\n", "\r"), ' ', strip_tags($item['introduction'])).CRLF;
-			
+
 			// build a valid title
 			if(isset($item['title']) && $item['title'])
 				$text .= 'SUMMARY:'.Codes::beautify_title($item['title']).CRLF;
@@ -62,7 +62,7 @@ Class Layout_dates_as_ics extends Layout_interface {
 			// required by Outlook 2003
 			if(isset($item['id']) && $item['id'])
 				$text .= 'UID:'.$item['id'].CRLF;
-				
+
 			// date of creation
 			if(isset($item['create_date']) && $item['create_date'])
 				$text .= 'CREATED:'.gmdate('Ymd\THis\Z', SQL::strtotime($item['create_date'])).CRLF;
@@ -74,7 +74,7 @@ Class Layout_dates_as_ics extends Layout_interface {
 			// next event
 			$text .= 'SEQUENCE:0'.CRLF
 				.'END:VEVENT'.CRLF;
-		
+
 		}
 
 		// date of last update

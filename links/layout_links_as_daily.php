@@ -15,7 +15,7 @@ Class Layout_links_as_daily extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string resulting text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return a string

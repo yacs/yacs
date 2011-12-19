@@ -2371,7 +2371,7 @@ Class Articles {
 
 		// use the provided layout interface
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -2403,7 +2403,7 @@ Class Articles {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 	}
 
