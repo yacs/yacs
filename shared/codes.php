@@ -1765,7 +1765,7 @@ Class Codes {
 		$id = $attributes[0];
 
 		// get the file
-		if(!$item =& Files::get($id)) {
+		if(!$item = Files::get($id)) {
 			$output = '[embed='.$id.']';
 			return $output;
 		}
@@ -2218,7 +2218,7 @@ Class Codes {
 			$target_href = $id;
 
 		// one file, as a freemind map
-		} elseif(($item =& Files::get($id)) && isset($item['id'])) {
+		} elseif(($item = Files::get($id)) && isset($item['id'])) {
 
 			// if we have an external reference, use it
 			if(isset($item['file_href']) && $item['file_href']) {
@@ -2937,7 +2937,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Files::get($id))
+			if(!$item = Files::get($id))
 				$output = '[download='.$id.']';
 
 			else {
@@ -2965,7 +2965,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Files::get($id))
+			if(!$item = Files::get($id))
 				$output = '[file='.$id.']';
 
 			else {
@@ -3345,7 +3345,7 @@ Class Codes {
 				$flashvars = $attributes[1];
 
 			// get the file
-			if(!$item =& Files::get($id)) {
+			if(!$item = Files::get($id)) {
 				$output = '[sound='.$id.']';
 				return $output;
 			}
