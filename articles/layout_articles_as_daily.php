@@ -78,11 +78,17 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// permalink
 			$url = Articles::get_permalink($item);
 
+			// signal restricted and private articles
+			if($item['active'] == 'N')
+				$box['title'] .= PRIVATE_FLAG;
+			elseif($item['active'] == 'R')
+				$box['title'] .= RESTRICTED_FLAG;
+
 			// make a live title
 			if(is_object($overlay))
 				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$box['title'] = Codes::beautify_title($item['title']);
+				$box['title'] .= Codes::beautify_title($item['title']);
 
 			// make a clickable title
 			$box['title'] = Skin::build_link($url, $box['title'], 'basic');
@@ -105,12 +111,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$details[] = NEW_FLAG;
 			elseif($item['edit_date'] >= $context['fresh'])
 				$detaisl[] = UPDATED_FLAG;
-
-			// signal restricted and private articles
-			if($item['active'] == 'N')
-				$details[] = PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
-				$details[] = RESTRICTED_FLAG;
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
