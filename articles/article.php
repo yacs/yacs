@@ -1052,29 +1052,17 @@ Class Article extends Anchor {
 			$surfer = Surfer::get_name();
 
 			// mail message
-			$mail = array();
+			$mail = array('subject' => '', 'message' => '', 'headers' => '');
 
 			// mail subject
 			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
-			// nothing done yet
-			$summary = $title = $link = '';
-
 			// a file has been added to the page
 			if($action == 'file:create') {
-				if(($target = Files::get($origin)) && $target['id']) {
+				if(($target = Files::get($origin, TRUE)) && $target['id']) {
 
-					// file title
-					if($target['title'])
-						$title = $target['title'];
-					else
-						$title = $target['file_name'];
-
-					// message components
-					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
-					if($description = trim($item['description']))
-						$summary .= '<p> </p><div>'.$description.'</div>';
-					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
+					// mail content
+					$mail['content'] = Files::build_notification($target);
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
@@ -1084,21 +1072,10 @@ Class Article extends Anchor {
 			// a comment has been added to the page
 			} else if($action == 'comment:create') {
 				include_once $context['path_to_root'].'comments/comments.php';
-				if(($target = Comments::get($origin)) && $target['id']) {
+				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
 
-					// title with link to the commented page
-					$page_title_link = '<a href="'.$context['url_to_home']
-					    .$context['url_to_root']
-					    .Articles::get_permalink($this->item)
-					    .'">'.$this->item['title'].'</a>';
-
-					// insert the full content of the comment, to provide the full information
-					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
-						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
-
-					// offer to react to the comment
-					$title = i18n::s('Reply');
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
+					// mail content
+					$mail['content'] = Comments::build_notification($target);
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
@@ -1108,24 +1085,31 @@ Class Article extends Anchor {
 			// something else has been added to the page
 			} else {
 
-				// add poster name if applicable
-				$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_name());
+				// headline
+				$headline  = sprintf(i18n::c('%s by %s'),
+					Anchors::get_action_label($action),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
 
-				// message components
+				// message main content
+				$mail['content'] = Skin::build_mail_content($headline);
+
+				// call for action
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
 				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
+				$menu = array(Skin::build_mail_button($link, $title, TRUE));
+				$mail['content'] .= Skin::build_mail_menu($menu);
 
 				// threads messages
 				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
 
 			}
 
-			// message to watchers
-			$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+			// wrap the full message
+			$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
 			// we only have mail address of page creator
 			if(!$this->item['create_id'] && $this->item['create_address'])
-				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
+				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
 
 			// alert watchers
 			if($to_watchers)
@@ -1135,7 +1119,7 @@ Class Article extends Anchor {
 			if(Surfer::get_id() && $to_followers) {
 
 				// message to connexions
-				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
+				$mail['message'] = Mailer::build_notification($mail['content'], 2);
 
 				// alert connexions
 				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
@@ -1162,6 +1146,10 @@ Class Article extends Anchor {
 			// notify the full contribution to section watcher
 			if($action == 'comment:create')
 				$action = 'article:comment';
+
+			// notify the full contribution to section watcher
+			elseif($action == 'file:create')
+				$action = 'article:file';
 
 			// default case
 			else

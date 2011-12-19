@@ -760,30 +760,6 @@ Class i18n {
 	}
 
 	/**
-	 * provide a localized template
-	 *
-	 * @param string type of the expected template
-	 * @return string text of the template
-	 */
-	public static function &get_template($id) {
-
-		// depending of the expected template
-		switch($id) {
-
-		case 'mail_notification':
-		default:
-
-			// action, then title and link
-			$text = '<div>%1$s</div><p>&nbsp;</p><div><a href="%3$s">%2$s</a></div>';
-			break;
-
-		}
-
-		// job done
-		return $text;
-	}
-
-	/**
 	 * the database of time zones
 	 *
 	 * @return array of ($shift => $label)

@@ -505,6 +505,160 @@ Class Sections {
 	}
 
 	/**
+	 * build a notification related to a section
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the contributor (if possible)
+	 * - a headline mentioning the contribution
+	 * - the full content of the section
+	 * - a button linked to the section
+	 * - a link to the containing section, if any
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the item
+	 * @param string either 'create' or 'update'
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item, $action='create') {
+		global $context;
+
+		// get the related overlay, if any
+		include_once $context['path_to_root'].'overlays/overlay.php';
+		$overlay = Overlay::load($item, 'section:'.$item['id']);
+
+		// get the main anchor
+		$anchor =& Anchors::get($item['anchor']);
+
+		// compute page title
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
+		else
+			$title = Codes::beautify_title($item['title']);
+
+		// headline template
+		switch($action) {
+		case 'create':
+			$template = i18n::c('%s has created section %s');
+			break;
+		case 'update':
+			$template = i18n::c('%s has updated section %s');
+			break;
+		}
+
+		// headline
+		$headline = sprintf($template,
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$title.'</a>');
+
+		// panel content
+		$content = '';
+
+		// insert page title
+		$content .= '<h2><span>'.$title.'</span></h2>';
+
+		// insert anchor prefix
+		if(is_object($anchor))
+			$content .= $anchor->get_prefix();
+
+		// the introduction text, if any
+		if(is_object($overlay))
+			$content .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+		elseif(isset($item['introduction']) && trim($item['introduction']))
+			$content .= Skin::build_block($item['introduction'], 'introduction');
+
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$content .= $overlay->get_text('view', $item);
+
+		// filter description, if necessary
+		if(is_object($overlay))
+			$description = $overlay->get_text('description', $item);
+		else
+			$description = $item['description'];
+
+		// the beautified description, which is the actual page body
+		if($description) {
+
+			// use adequate label
+			if(is_object($overlay) && ($label = $overlay->get_label('description')))
+				$content .= Skin::build_block($label, 'title');
+
+			// beautify the target page
+			$content .= Skin::build_block($description, 'description', '', $item['options']);
+
+		}
+
+		// attachment details
+		$details = array();
+
+		// info on related sections
+		if($count = Sections::count_for_anchor('section:'.$item['id']))
+			$details[] = sprintf(i18n::nc('%d section', '%d sections', $count), $count);
+
+		// info on related articles
+		if($count = Articles::count_for_anchor('section:'.$item['id']))
+			$details[] = sprintf(i18n::nc('%d page', '%d pages', $count), $count);
+
+		// info on related files
+		if($count = Files::count_for_anchor('section:'.$item['id'], TRUE)) {
+
+			// the actual list of files attached to this section
+			if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300, 'compact');
+			else
+				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300, 'compact');
+
+			// wrap it with some header
+			if(is_array($items))
+				$items = Skin::build_list($items);
+			if($items)
+				$content .= '<h3><span>'.i18n::s('Files').'</span></h3>'.$items;
+
+			// details to be displayed at page bottom
+			$details[] = sprintf(i18n::nc('%d file', '%d files', $count), $count);
+		}
+
+		// info on related links
+		include_once $context['path_to_root'].'links/links.php';
+		if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d link', '%d links', $count), $count);
+
+		// comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
+
+		// describe attachments
+		if(count($details))
+			$content .= '<hr align="left" size=1" width="150">'
+				.'<p style="margin: 3px 0;">'.sprintf(i18n::c('This section has %s'), join(', ', $details)).'</p>';
+
+		$text = Skin::build_mail_content($headline, $content);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		$menu[] = Skin::build_mail_button($link, i18n::c('Open this section'), TRUE);
+
+		// link to the container
+		if(is_object($anchor)) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
