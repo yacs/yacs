@@ -39,14 +39,11 @@ Class Layout_files_as_compact extends Layout_interface {
 			else
 				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
 
+			// provide absolute links because these could be put in a mail
+			$url = $context['url_to_home'].$context['url_to_root'].$url;
+
 			// initialize variables
 			$prefix = $suffix = '';
-
-			// flag files that are dead, or created or updated very recently
-			if($item['create_date'] >= $context['fresh'])
-				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $context['fresh'])
-				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private files
 			if($item['active'] == 'N')
