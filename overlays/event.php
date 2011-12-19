@@ -740,8 +740,8 @@ class Event extends Overlay {
 			return '';
 		case 'none':
 		default:
-			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and confirm their participation')
-				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			return '<p><input type="radio" name="force_enrolment" value="N" /> '.i18n::s('to review this event and confirm their participation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" checked="checked" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
 			break;
 		case 'validate':
 			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and ask for an invitation')
