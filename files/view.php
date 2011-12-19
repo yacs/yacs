@@ -119,17 +119,21 @@ if(is_object($anchor))
 if(isset($item['id']))
 	$context['current_item'] = 'file:'.$item['id'];
 
-// the path to this page
+// path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
 
-// the title of the page
+// page title
+if(isset($item['active']) && ($item['active'] == 'R'))
+	$context['page_title'] .= RESTRICTED_FLAG.' ';
+elseif(isset($item['active']) && ($item['active'] == 'N'))
+	$context['page_title'] .= PRIVATE_FLAG.' ';
 if(isset($item['title']) && $item['title'])
-	$context['page_title'] = $item['title'];
+	$context['page_title'] .= $item['title'];
 elseif(isset($item['file_name']))
-	$context['page_title'] = str_replace('_', ' ', $item['file_name']);
+	$context['page_title'] .= str_replace('_', ' ', $item['file_name']);
 
 // editors have associate-like capabilities
 if(is_object($anchor) && $anchor->is_assigned())
