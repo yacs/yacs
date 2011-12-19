@@ -1170,7 +1170,32 @@ Class Files {
 		// list freshest files
 		$query .= " ORDER BY files.edit_date DESC, files.title LIMIT 0, 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
+		return $output;
+	}
+
+	/**
+	 * get last upload in a thread
+	 *
+	 * @param string anchor reference
+	 * @return the resulting $item array, with at least keys: 'id', 'type', 'description', etc.
+	 *
+	 * @see comments/thread.php
+	 */
+	public static function get_newest_for_anchor($anchor) {
+		global $context;
+
+		// sanity check
+		if(!$anchor) {
+			$output = NULL;
+			return $output;
+		}
+		// select among available items -- exact match
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."'"
+			." ORDER BY files.create_date DESC LIMIT 1";
+
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1575,7 +1600,7 @@ Class Files {
 
 		// a clickable image to access the file
 		if($icon) {
-			$icon = '<img src="'.$icon.'" alt="" />';
+			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
 			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
 		}
 
