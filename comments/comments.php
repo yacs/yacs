@@ -200,6 +200,59 @@ Class Comments {
 	}
 
 	/**
+	 * build a notification for a new comment
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the contributor (if possible)
+	 * - a headline mentioning the contribution
+	 * - the full content of the new comment
+	 * - a button linked to the reply page
+	 * - a link to the containing page
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the new item
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
+			throw new Exception('no anchor for this comment');
+
+		// headline
+		$headline = sprintf(i18n::c('%s has contributed to %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+
+		// content
+		$content = Codes::beautify($item['description']);
+
+		// shape these
+		$text = Skin::build_mail_content($headline, $content);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'reply');
+		$menu[] = Skin::build_mail_button($link, i18n::c('Reply to this post'), TRUE);
+
+		// link to the container
+		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes

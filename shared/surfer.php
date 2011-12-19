@@ -474,6 +474,26 @@ Class Surfer {
 	}
 
 	/**
+	 * get the web address of personal avatar, if any
+	 *
+	 * @return string web link to the avatar, or NULL
+	 */
+	function get_avatar_url() {
+		global $context;
+
+		// read surfer record in database
+		if(($id = Surfer::get_id()) && is_callable(array('Users', 'get')) && ($user = Users::get($id)) && ($url = trim($user['avatar_url']))) {
+			if($url[0] == '/')
+				return $context['url_to_home'].$url;
+			else
+				return $url;
+		}
+
+		// tough luck
+		return NULL;
+	}
+
+	/**
 	 * get the capability of the current surfer
 	 *
 	 * If the surfer has authenticated, his general capability is stored in

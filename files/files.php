@@ -356,6 +356,93 @@ Class Files {
 	}
 
 	/**
+	 * build a notification for a new file upload
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the uploader (if possible)
+	 * - a headline mentioning the upload
+	 * - a button linked to the file page
+	 * - a link to the containing page
+	 * - the full history of all file modifications
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the new item
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item) {
+		global $context;
+
+		// headline
+		$headline = sprintf(i18n::c('A file has been uploaded by %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+
+		// start the notification
+		$text = Skin::build_mail_content($headline);
+
+		// a set of links
+		$menu = array();
+
+		// link to the file
+		$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+		if($item['title'])
+			$title = $item['title'];
+		else
+			$title = $item['file_name'];
+		$menu[] = Skin::build_mail_button($link, $title, TRUE);
+
+		// link to the container
+		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// file history
+		if($description = trim($item['description'])) {
+
+			// transform the definition list
+			$replacements = array('/<dl class="comments"[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> -> <table>
+				'|</a>|i' => '</a><br>',											// line break after links
+				'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td valign="top" width="130"><font size="-1">\\1</font></td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+				'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td valign="top">\\1</td></tr>',					// <dd> ... </dd> -> <tr><td> ... </td>
+				'/on(click|keypress)="([^"]+?)"/i' => '', 							// remove onclick="..." and onkeypress="..." attributes
+				'/<script[^>]*?>(.*?)<\/script>/i' => '',							// remove <script> ... </script> --Javascript considered as spam
+				'/<style[^>]*?>(.*?)<\/style>/i' => '');							// remove <style> ... </style> --use inline style instead
+
+			// text/html part
+			$description = preg_replace(array_keys($replacements), array_values($replacements), $description);
+
+			// finalize file history
+			$text .= '<p> </p>'
+				.'<table border="0" cellpadding="2" cellspacing="10">'
+				.'<tr>'
+				.	'<td>'
+				.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+				.		sprintf(i18n::c('%s: %s'), i18n::c('History'), '')
+				.		'</font>'
+				.	'</td>'
+				.'</tr>'
+				.'<tr>'
+				.	'<td style="font-size: 10px">'
+				.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+				.		Codes::beautify($description)
+				.		'</font>'
+				.	'</td>'
+				.'</tr>'
+				.'</table>';
+
+		}
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes

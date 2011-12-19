@@ -1781,23 +1781,6 @@ Class Skin_Skeleton {
 
 			break;
 
-		case 'button-in-email':
-
-			// build a standalone attractive button in an e-mail message
-			$text = '<table cellpadding=6 cellspacing=1>'
-				.'<tr>'
-				.	'<td bgcolor="#ffe86c" style="border: #ccc 1px solid; padding: 9px">'
-				.		'<p style="border: none; padding: 0cm; text-align:center">'
-				.			'<a href="'.$url.'"'.$href_title.' '.$attributes.' target="_blank">'
-				.				'<span style="color: #333333; font-weight: bold">'.$label.'</span>'
-				.			'</a>'
-				.		'</p>'
-				.	'</td>'
-				.'</tr>'
-				.'</table>';
-
-			break;
-
 		case 'category':
 
 			// a default title
@@ -2226,6 +2209,189 @@ Class Skin_Skeleton {
 		// finalize the list
 		$text =& Skin::finalize_list($list, $variant);
 
+		return $text;
+	}
+
+	/**
+	 * build a clickable button in a message
+	 *
+	 * @param string absolute link
+	 * @param string text to be displayed
+	 * @param boolean TRUE to make it specially attractive, FALSE otherwise
+	 * @return string to be integrated into the message
+	 */
+	public function build_mail_button($url, $label, $flashy=FALSE) {
+		global $context;
+
+		// build a standalone attractive button in an e-mail message
+		if($flashy)
+			$text = '<a href="'.$url.'">'
+				.	'<font color="#333333" face="Helvetica, Arial, sans-serif"><strong>'.$label.'</strong></font>'
+				.'</a>';
+
+		// a button
+		else
+			$text = '<a href="'.$url.'">'
+				.	'<font face="Helvetica, Arial, sans-serif">'.$label.'</font>'
+				.'</a>';
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * build main content of a message
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param string headline
+	 * @param string main content
+	 * @return string text to be send by e-mail
+	 */
+	public function build_mail_content($headline, $content='') {
+		global $context;
+
+		// start the notification
+		$text = '';
+
+		// the illustrated headline
+		if($headline) {
+
+			// insert poster image, if possible
+			if($url = Surfer::get_avatar_url())
+				$text .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">'
+					.'<tr valign="middle">'
+					.	'<td align="left" valign="middle" width="9%"><img src="'.$url.'" alt="" title="avatar"></td>'
+					.	'<td width="1%"> </td>'
+					.	'<td align="left" valign="middle" width="90%">'
+					.		'<font color="navy" face="Helvetica, Arial, sans-serif" size="+1">'
+					.		$headline
+					.		'</font>'
+					.	'</td>'
+					.'</tr>'
+					.'</table>';
+			else
+				$text .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">'
+					.'<tr valign="middle">'
+					.	'<td align="left" valign="middle" width="100%">'
+					.		'<font color="navy" face="Helvetica, Arial, sans-serif" size="+1">'
+					.		$headline
+					.		'</font>'
+					.	'</td>'
+					.'</tr>'
+					.'</table>';
+		}
+
+		// the full content
+		if($content)
+			$text .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">'
+				.'<tr valign="top">'
+				.	'<td align="left" valign="top" width="100%">'
+				.		'<div style="border-left: solid 2px #ccc; padding: 10px 0 10px 10px; margin: 20px 0;">'
+				.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+				.		$content
+				.		'</font>'
+				.		'</div>'
+				.	'</td>'
+				.'</tr>'
+				.'</table>';
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
+	 * build an horizontal menu in a message
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array of links
+	 * @return string to be integrated into the message
+	 */
+	public function build_mail_menu($list) {
+		global $context;
+
+		// beginning of the table
+		$text = '<table border="0" cellpadding="10" cellspacing="0" width="100%">'
+			.'<tr valign="middle">';
+
+		$item_count = 0;
+		foreach($list as $label) {
+			$item_count++;
+
+			// drop the icon
+			if(is_array($label))
+				$label = $label[0];
+
+			// first cell is likely to be a clickable button
+			if($item_count == 1)
+				$text .= '<td align="center" bgcolor="#ffe86c" border="1" valign="middle" width="30%">'
+					.	'<font face="Helvetica, Arial, sans-serif" color="navy">'
+					.	$label
+					.	'</font>'
+					.'</td>';
+
+			// subsequent cell
+			else {
+				$width = (((100-30)/(count($list)-1))-2);
+
+				$text .= '<td width="2%"> </td>'
+					.'<td align="left" valign="middle" width="'.$width.'%">'
+					.	'<font face="Helvetica, Arial, sans-serif" color="navy">'
+					.	$label
+					.	'</font>'
+					.'</td>';
+			}
+
+		}
+
+		// end of the table
+		$text .= '</tr>'
+			.'</table>';
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * wrap an overall mail message
+	 *
+	 * This function loads a template and integrate given content in it.
+	 *
+	 * Example:
+	 * [php]
+	 * $content = 'hello world';
+	 * $message = Skin::build_mail_message($content);
+	 * [/php]
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * This function can be overloaded in a particular skin.php to provide a custom
+	 * messaging template.
+	 *
+	 * @return string text of the template
+	 */
+	public static function build_mail_message($content) {
+		global $context;
+
+		// a basic fixed-size template
+		$template = '<table border="0" cellpadding="5" cellspacing="0" width="610">'
+			.'<tr>'
+			.	'<td align="left" valign="top" width="600">'
+			.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+			.		'%s'
+			.		'</font>'
+			.	'</td>'
+			.'</tr></table>';
+
+		// assemble everything
+		$text = sprintf($template, $content);
+
+		// job done
 		return $text;
 	}
 
