@@ -243,9 +243,9 @@ if(Surfer::is_crawler()) {
 			if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
 				$_REQUEST['version'] = '';
 			else
-				$_REQUEST['version'] = ' - '.$_REQUEST['version'];
+				$_REQUEST['version'] = $_REQUEST['version'].' - ';
 
-			$_REQUEST['version'] = $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+			$_REQUEST['version'] .= $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')';
 
 			// maybe this file has already been uploaded for this anchor
 			if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
@@ -282,7 +282,7 @@ if(Surfer::is_crawler()) {
 			$_REQUEST['description'] = $item['description'];
 
 		// remove active links that were used previously
-		$_REQUEST['description'] = preg_replace('/on(click|keypress)=".?"/', '', $_REQUEST['description']);
+		$_REQUEST['description'] = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $_REQUEST['description']);
 
 		// ensure we know the surfer
 		Surfer::check_default_editor($_REQUEST);
@@ -649,7 +649,7 @@ if($with_form) {
 	// do not process notifications for draft articles
 	if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
 
-		// notify watchers --updating a file, or uploading a new file, should generate a notification
+		// notify watchers
 		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
 
 		// notify people following me
