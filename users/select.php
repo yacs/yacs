@@ -74,39 +74,40 @@ elseif(!$permitted) {
 // list all watchers
 } elseif($permitted == 'watchers') {
 
-	// the title of the page
+	// page title
 	$context['page_title'] = sprintf(i18n::s('Watchers of %s'), $anchor->get_title());
 
-	// for articles, look at the item, and at its parent
-	if(!strncmp($anchor->get_reference(), 'article:', 8)) {
-		if($parent = $anchor->get_parent())
-			$anchors = array($anchor->get_reference(), $parent);
-		else
-			$anchors = $anchor->get_reference();
+	// watchers of a page
+	if(!strncmp($anchor->get_reference(), 'article:', 8))
+		$users = Articles::list_watchers_by_posts($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
 
-	// for sections, show watchers at all levels
-	} else {
+	// watchers of a section
+	elseif(!strncmp($anchor->get_reference(), 'section:', 8))
+		$users = Sections::list_watchers_by_posts($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
+
+	else {
 		$anchors = array($anchor->get_reference());
 		if(is_object($anchor)) {
-			$anchors[] = $anchor->get_reference();
 			$handle = $anchor->get_parent();
 			while($handle && ($parent = Anchors::get($handle))) {
 				$anchors[] = $handle;
 				$handle = $parent->get_parent();
 			}
 		}
-	}
 
-	// authorized users
-	$restricted = NULL;
-	if($anchor->is_hidden() && ($editors =& Members::list_anchors_for_member($anchors))) {
-		foreach($editors as $editor)
-			if(strpos($editor, 'user:') === 0)
-				$restricted[] = substr($editor, strlen('user:'));
-	}
+		// authorized users
+		$restricted = NULL;
+		if($anchor->is_hidden() && ($editors =& Members::list_anchors_for_member($anchors))) {
+			foreach($editors as $editor)
+				if(strpos($editor, 'user:') === 0)
+					$restricted[] = substr($editor, strlen('user:'));
+		}
 
+		$users = Members::list_watchers_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted);
+
+	}
 	// the current list of watchers
-	if(($users =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted)) && count($users)) {
+	if(count($users)) {
 
 		// browse the list
 		foreach($users as $id => $user) {
