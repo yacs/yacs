@@ -208,7 +208,7 @@ if(Surfer::is_crawler()) {
 			$fields['content_options'] = 'with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['locked'] = 'Y'; // for the owner only
-			$fields['options'] = 'articles_by_publication view_as_tabs'; // to list watchers of the news
+			$fields['options'] = 'forward_notifications articles_by_publication';
 			$fields['rank'] = 1000;
 			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/news.gif';
 			$fields['title'] = i18n::c("What is new?");
@@ -232,6 +232,7 @@ if(Surfer::is_crawler()) {
 			$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
+			$fields['options'] = 'forward_notifications';
 			$fields['rank'] = 2000;
 			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 			$fields['title'] = i18n::c('Activities');
@@ -245,6 +246,7 @@ if(Surfer::is_crawler()) {
 			$fields['content_options'] = 'articles_by_title auto_publish comments_as_wall members_edit view_as_wiki with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Information pages');
+			$fields['options'] = 'forward_notifications';
 			$fields['rank'] = 3000;
 			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/information.gif';
 			$fields['title'] = i18n::c('Documentation');
@@ -259,7 +261,7 @@ if(Surfer::is_crawler()) {
 				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
-				$fields['options'] = 'view_as_tabs'; // to list editors and watchers explicitly
+				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly
 				$fields['rank'] = 4000;
 				$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 				$fields['title'] = i18n::c('Private activities');

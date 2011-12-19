@@ -844,6 +844,7 @@ Class Section extends Anchor {
 			.'|articles_by_title'
 			.'|comments_as_wall'
 			.'|files_by_title'
+			.'|forward_notifications'
 			.'|links_by_title'
 			.'|no_comments' 		// e.g. master section vs. sub-forum
 			.'|no_links'
