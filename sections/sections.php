@@ -2157,6 +2157,43 @@ Class Sections {
 	}
 
 	/**
+	 * list all editors of a section
+	 *
+	 * This function lists editors of this section, or of any parent section.
+	 *
+	 * @param array attributes of the section
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_editors_by_login($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('section:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// look for editors of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// look for editors of any ancestor
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				$anchors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// list users assigned to any of these anchors
+		return Members::list_editors_for_member($anchors, $offset, $count, $variant);
+	}
+
+	/**
 	 * apply a layout to one section
 	 *
 	 * Only sections matching following criteria are returned:
@@ -2549,6 +2586,75 @@ Class Sections {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
+	}
+
+	/**
+	 * list all watchers of a section
+	 *
+	 * If the section is public or restricted to any member, the full list of persons watching this
+	 * specific section, or any parent section, is provided.
+	 *
+	 * For example, if the root section A contains a section B, which contains section C, and if
+	 * C is public, the function looks for persons assigned either to A, to B or to C.
+	 *
+	 * If the section is private, then the function looks for any private parent, and list all
+	 * persons watching one of these sections.
+	 *
+	 * For example, if the root section A is public, and if it contains a section B that is private,
+	 * and if B contains section C, the function looks for persons assigned either to B or to C.
+	 * This is because watchers of section A may not be entitled to watch content of B nor of C.
+	 *
+	 * @param array attributes of the watched section
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	public static function list_watchers_by_posts($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this section itself
+		$anchors = array( 'section:'.$item['id'] );
+
+		// there is at least a parent section
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// this section is private, list only hidden parent sections
+			if($item['active'] == 'N') {
+
+				// parent is hidden
+				if($anchor->is_hidden()) {
+					$anchors[] = $anchor->get_reference();
+
+					// look for grand parents
+					$handle = $anchor->get_parent();
+					while($handle && ($parent = Anchors::get($handle))) {
+						if(!$parent->is_hidden())
+							break;
+						$anchors[] = $handle;
+						$handle = $parent->get_parent();
+					}
+				}
+
+			// else list all parent sections
+			} else {
+
+				// add parent section
+				$anchors[] = $anchor->get_reference();
+
+				// look for all grand parents
+				$handle = $anchor->get_parent();
+				while($handle && ($parent = Anchors::get($handle))) {
+					$anchors[] = $handle;
+					$handle = $parent->get_parent();
+				}
+
+			}
+
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_posts_for_anchor($anchors, $offset, $count, $variant);
 	}
 
 	/**

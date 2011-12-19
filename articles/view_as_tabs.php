@@ -453,8 +453,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 
 	// list editors of this page, and of parent sections
-	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
-	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
+	if($items = Articles::list_editors_by_login($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 			$owner_state = '';
 			if($user_id == $item['owner_id'])
@@ -465,13 +464,8 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 		}
 	}
 
-	// watching horizon is limited to parent section at most
-	$anchors = array('article:'.$item['id']);
-	if(($item['active'] != 'N') || $anchor->is_assigned())
-		$anchors[] = $anchor->get_reference();
-
 	// watchers
-	if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 500, 'watch')) {
+	if($items = Articles::list_watchers_by_posts($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 
 			// add the checkmark to existing row

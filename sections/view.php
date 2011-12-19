@@ -521,21 +521,12 @@ if(!isset($item['id'])) {
 			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
 				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
-			// section editors and readers
-			if(is_object($anchor))
-				$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
-			else
-				$anchors = 'section:'.$item['id'];
-			if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+			// section editors
+			if($items = Sections::list_editors_by_login($item, 0, 7, 'comma5'))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
-			if($items =& Members::list_readers_by_name_for_member($anchors, 0, 7, 'comma5'))
-				$details[] = sprintf(i18n::s('Readers: %s'), $items);
-
-			// page watchers
-			if($item['active'] == 'N')
-				$anchors = Sections::get_hidden_sections($item, $anchor);
-			if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+			// section watchers
+			if($items =& Sections::list_watchers_by_posts($item, 0, 7, 'comma5'))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		}

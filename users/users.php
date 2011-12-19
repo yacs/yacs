@@ -48,13 +48,14 @@ Class Users {
 	 *
 	 * @param mixed an array of attributes, or only an id of the user profile
 	 * @param array components of a mail message to be submitted to Mailer::notify()
+	 * @param string reference of the watched container
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert($user, $mail) {
+	private static function alert($user, $mail, $reference) {
 		global $context;
 
 		// retrieve user attributes
-		if(!isset($user['id']) && !$user =& Users::get($user))
+		if(!isset($user['id']) && (!$user =& Users::get($user)))
 			return FALSE;
 
 		// a valid address is required for e-mail...
@@ -95,31 +96,39 @@ Class Users {
 	/**
 	 * alert watchers of one anchor
 	 *
-	 * @param mixed, either reference of the updated anchor, or array for containers path
+	 * @param mixed, either reference of the updated anchor, or array of containers path
 	 * @param array components of a mail message to be submitted to Mailer::notify() (i.e., $mail['subject'], $mail['message'])
 	 * @param array users assigned to the reference, if any
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert_watchers($reference, $mail, $restricted=NULL) {
+	function alert_watchers($references, $mail, $restricted=NULL) {
 		global $context;
 
-		// list watchers, including watchers of containers of this page
-		if($items =& Members::list_watchers_by_posts_for_anchor($reference, 0, 1000, 'raw', $restricted)) {
+		// ensure we have an array of references
+		if(!is_array($references))
+			$references = array( $references );
 
-			// check every watcher
-			foreach($items as $id => $attributes) {
+		// for each reference
+		foreach($references as $reference) {
 
-				// skip banned users
-				if($attributes['capability'] == '?')
-					continue;
+			// list watchers, including watchers of containers of this page
+			if($items = Members::list_watchers_by_posts_for_anchor($reference, 0, 10000, 'raw', $restricted)) {
 
-				// current surfer is already watching the thing
-				if(Surfer::get_id() && (Surfer::get_id() == $id))
-					continue;
+				// check every watcher
+				foreach($items as $id => $watcher) {
 
-				// ensure this surfer wants to be alerted
-				if($attributes['without_alerts'] != 'Y')
-					Users::alert($attributes, $mail);
+					// skip banned users
+					if($watcher['capability'] == '?')
+						continue;
+
+					// skip current surfer
+					if(Surfer::get_id() && (Surfer::get_id() == $id))
+						continue;
+
+					// ensure this surfer wants to be alerted
+					if($watcher['without_alerts'] != 'Y')
+						Users::alert($watcher, $mail, $reference);
+				}
 			}
 		}
 
