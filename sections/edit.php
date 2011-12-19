@@ -798,22 +798,6 @@ if($with_form) {
 			$fields[] = array($label, $input);
 		}
 
-		// editors
-		$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 7, 'comma5')))
-			$input =& Skin::build_list($items, 'comma');
-		else
-			$input = i18n::s('No editor has been assigned to this section.');
-		$fields[] = array($label, $input);
-
-		// readers
-		$label = i18n::s('Readers');
-		if(isset($item['id']) && ($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'comma')))
-			$input =& Skin::build_list($items, 'comma');
-		else
-			$input = i18n::s('No reader has been assigned to this section.');
-		$fields[] = array($label, $input);
-
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
