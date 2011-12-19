@@ -239,9 +239,9 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option :files_by_title:)
 	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300);
+		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 	else
-		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300);
+		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 
 	// actually render the html for the section
 	if($items)

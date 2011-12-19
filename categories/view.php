@@ -577,9 +577,9 @@ if(!isset($item['id'])) {
 			// list files by date (default) or by title (option 'files_by_title')
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
 			if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
-				$items = Files::list_by_title_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE);
+				$items = Files::list_by_title_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
 			else
-				$items = Files::list_by_date_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE);
+				$items = Files::list_by_date_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
 
