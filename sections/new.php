@@ -207,7 +207,6 @@ if(Surfer::is_crawler()) {
 			$fields['articles_templates'] = 'simple_template';
 			$fields['content_options'] = 'with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
-			$fields['locked'] = 'Y'; // for the owner only
 			$fields['options'] = 'forward_notifications articles_by_publication';
 			$fields['rank'] = 1000;
 			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/news.gif';
