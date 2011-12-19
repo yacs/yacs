@@ -133,16 +133,27 @@ elseif(!Surfer::get_id()) {
 
 		// user has confirmed participation
 		if($overlay->get_value('enrolment') == 'none')
-			$action = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
+			$headline = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
 
 		// user is asking for an invitation
 		else
-			$action = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
+			$headline = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
 
-		// finalize the notification
-		$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
+		$mail['content'] = Skin::build_mail_content($headline);
+
+		// several links
+		$menu = array();
+
+		// call for action
 		$link = $context['url_to_home'].$context['url_to_root'].'overlays/events/enroll.php?id='.urlencode($anchor->get_reference());
-		$mail['message'] =& Mailer::build_notification($action, $title, $link);
+		$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
+		$menu[] = Skin::build_mail_button($link, $title, TRUE);
+
+		// add the menu
+		$mail['content'] .= Skin::build_mail_menu($menu);
+
+		// wrap the full message
+		$mail['message'] = Skin::build_mail_message($mail['content']);
 
 		// threads messages
 		$mail['headers'] = Mailer::set_thread($anchor->get_reference());
