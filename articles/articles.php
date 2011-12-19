@@ -1294,7 +1294,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	public static function get_next_url(&$item, $anchor, $order='edition') {
+	public static function get_next_url($item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1382,7 +1382,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	public static function get_previous_url(&$item, $anchor, $order='edition') {
+	public static function get_previous_url($item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
