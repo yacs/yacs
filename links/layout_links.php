@@ -23,12 +23,11 @@ Class Layout_links extends Layout_interface {
 	 * - 'no_author' to list items attached to one user prolink
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return array of resulting items, or NULL
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)

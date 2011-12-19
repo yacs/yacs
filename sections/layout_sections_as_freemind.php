@@ -16,7 +16,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string a set of XML nodes to be integrated into a full Fremind map
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text

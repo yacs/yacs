@@ -18,7 +18,7 @@ Class Layout_comments_as_compact extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -46,7 +46,7 @@ Class Layout_comments_as_compact extends Layout_interface {
 
 			// time of creation
 			$label .= Skin::build_date($item['create_date']);
-			
+
 			// text beginning
 			if($text = Skin::strip($item['description'], 10, NULL, NULL))
 				$suffix = ' - '.$text;

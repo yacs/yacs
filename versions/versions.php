@@ -269,7 +269,7 @@ Class Versions {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -279,13 +279,13 @@ Class Versions {
 		case 'compact':
 			include_once $context['path_to_root'].'versions/layout_versions_as_compact.php';
 			$layout = new Layout_versions_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'versions/layout_versions.php';
 			$layout = new Layout_versions();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}

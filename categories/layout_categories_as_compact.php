@@ -18,7 +18,7 @@ Class Layout_categories_as_compact extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout($result) {
+	function layout($result) {
 		global $context;
 
 		// empty list

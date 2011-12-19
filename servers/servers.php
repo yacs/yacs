@@ -397,7 +397,7 @@ Class Servers {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -407,13 +407,13 @@ Class Servers {
 		case 'compact':
 			include_once $context['path_to_root'].'servers/layout_servers_as_compact.php';
 			$layout = new Layout_servers_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		case 'dates':
 			include_once $context['path_to_root'].'servers/layout_servers_as_dates.php';
 			$layout = new Layout_servers_as_dates();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		case 'feed':
@@ -456,7 +456,7 @@ Class Servers {
 		default:
 			include_once $context['path_to_root'].'servers/layout_servers.php';
 			$layout = new Layout_servers();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
