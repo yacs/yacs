@@ -1278,6 +1278,13 @@ Class Section extends Anchor {
 						// threads messages
 						$mail['headers'] = Mailer::set_thread('comment:'.$comment['id'], 'article:'.$target['id']);
 
+						// message to watchers
+						$mail['message'] = Mailer::build_notification($mail['content'], 1);
+
+						// special case of article watchers
+						if($to_watchers)
+							Users::alert_watchers('article:'.$target['id'], $mail);
+
 					}
 				}
 
@@ -1313,6 +1320,13 @@ Class Section extends Anchor {
 
 						// threads messages
 						$mail['headers'] = Mailer::set_thread('file:'.$file['id'], 'article:'.$target['id']);
+
+						// message to watchers
+						$mail['message'] = Mailer::build_notification($mail['content'], 1);
+
+						// special case of article watchers
+						if($to_watchers)
+							Users::alert_watchers('article:'.$target['id'], $mail);
 
 					}
 				}
@@ -1456,7 +1470,7 @@ Class Section extends Anchor {
 
 				// users assigned to this section only
 				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
+				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
 					foreach($editors as $editor)
 						if(strpos($editor, 'user:') === 0)
 							$restricted[] = substr($editor, strlen('user:'));
@@ -1474,7 +1488,7 @@ Class Section extends Anchor {
 
 					// users assigned only to parent section
 					$restricted = NULL;
-					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
 						foreach($editors as $editor)
 							if(strpos($editor, 'user:') === 0)
 								$restricted[] = substr($editor, strlen('user:'));
