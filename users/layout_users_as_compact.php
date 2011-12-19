@@ -21,14 +21,12 @@ Class Layout_users_as_compact extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
-		// empty list
-		if(!$delta = SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
-
 		// we return an array of ($url => $attributes)
 		$items = array();
+
+		// empty list
+		if(!$delta = SQL::count($result))
+			return $items;
 
 		// flag idle users
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);

@@ -436,7 +436,7 @@ Class Comments {
 	* @param string the place to come back when complete
 	* @return string the HTML tags to put in the page
 	*/
-	public static function get_form($anchor, $follow_up='comments') {
+	public static function get_form($reference, $follow_up='comments') {
 		global $context;
 
 		// the form to post a comment
@@ -464,7 +464,7 @@ Class Comments {
 		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 
 		// finalize the form
-		$text .= '<input type="hidden" name="anchor" value="'.$anchor.'" />'
+		$text .= '<input type="hidden" name="anchor" value="'.$reference.'" />'
 			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
 			.'<input type="hidden" name="notify_watchers" value="Y" />'
 			.Skin::finalize_list($menu, 'menu_bar')
