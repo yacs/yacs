@@ -32,7 +32,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_section_rows(handle) {'."\n"
 			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
-			.'		function() { $(this).attr("checked", $(handle).attr("checked"));}'."\n"
+			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
 			.JS_SUFFIX."\n";
