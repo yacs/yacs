@@ -60,7 +60,6 @@ $context['l10n']['fr']['54e29b42a59e1e8727ac836e3f2bd4e6']='Ouvrir une fenêtre 
 $context['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $context['l10n']['fr']['Other address:'.chr(0).'Other addresses:']='Autre adresse :'.chr(0).'Autres adresses :';
 $context['l10n']['fr']['Permanent address (permalink):']='Adresse permanente (permalink) :';
-$context['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $context['l10n']['fr']['61ab86a39172b19e7cd47a8dec28c0e1']='Choisissez l\'emplacement adéquat pour partager votre lien';
 $context['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $context['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
