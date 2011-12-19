@@ -390,13 +390,6 @@ if($with_form) {
 
 			$fields[] = array($label, $input);
 
-			// editors
-			$label = i18n::s('Editors');
-			if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, 7, 'comma5'))
-				$input =& Skin::build_list($items, 'comma');
-			else
-				$input = i18n::s('Nobody has been assigned to this page.');
-			$fields[] = array($label, $input);
 		}
 
 		// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
