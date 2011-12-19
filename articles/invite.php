@@ -336,13 +336,13 @@ if(Surfer::is_crawler()) {
 		// invitation to a private page should be limited to editors
 		if($item['active'] == 'N') {
 
-			if($editors =& Members::list_editors_for_member($parent->get_reference(), 0, 50, $layout))
+			if($editors = Members::list_editors_for_member($parent->get_reference(), 0, 1000, $layout))
 				$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
 
 		// else invitation should be extended to watchers
 		} else {
 
-			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 50, $layout))
+			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 1000, $layout))
 				$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
 
 		}

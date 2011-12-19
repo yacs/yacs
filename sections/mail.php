@@ -60,21 +60,6 @@ if(isset($item['id']) && $item['title'])
 // page title
 $context['page_title'] = i18n::s('Notify participants');
 
-// recipients of a private section are all editors
-$recipients = array();
-if(isset($item['active']) && ($item['active'] == 'N')) {
-	$anchors = Sections::get_hidden_sections($item, $anchor);
-	$recipients = Members::list_editors_for_member($anchors, 0, 300, 'mail');
-
-// recipients for a public section include all watchers upwards
-} elseif(isset($item['id'])) {
-	if(is_object($anchor))
-		$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
-	else
-		$anchors = 'section:'.$item['id'];
-	$recipients = Members::list_watchers_by_posts_for_anchor($anchors, 0, 300, 'mail');
-}
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -141,8 +126,8 @@ if(Surfer::is_crawler()) {
 	}
 	Mailer::close();
 
-// send message to all watchers
-} elseif(!count($recipients)) {
+// recipients are watchers of this section (including parent sections)
+} elseif(!$recipients = Sections::list_watchers_by_posts($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form

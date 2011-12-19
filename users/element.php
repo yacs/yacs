@@ -174,7 +174,7 @@ if(!isset($item['id'])) {
 
 	// the list of followers
 	$followers = '';
-	if($items =& Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 500, 'compact')) {
+	if($items = Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 1000, 'compact')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
 		if(Surfer::get_id() == $item['id'])

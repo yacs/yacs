@@ -831,7 +831,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function &list_editors_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	function list_editors_for_member($member, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
 		// several references
@@ -1125,18 +1125,16 @@ Class Members {
 	}
 
 	/**
-	 * list watchers of given anchor
-	 *
-	 * Actually list users in alphabetical order.
+	 * list watchers in alphabetical order
 	 *
 	 * @param mixed, either a string the target anchor, or an array of anchors
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @param array users assigned to the reference, if any
+	 * @param array the list of users allowed to access
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_watchers_by_name_for_anchor($anchor, $offset=0, $count=200, $variant='raw', $restricted=NULL) {
+	public static function list_watchers_by_name_for_anchor($anchor, $offset=0, $count=7, $variant='comma5', $restricted=NULL) {
 		global $context;
 
 		// several anchors
@@ -1166,9 +1164,7 @@ Class Members {
 	}
 
 	/**
-	 * list watchers of given anchor
-	 *
-	 * Actually list users by decreasing level of contribution.
+	 * list watchers of by decreasing level of contribution
 	 *
 	 * @param mixed, either a string the target anchor, or an array of anchors
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1177,7 +1173,7 @@ Class Members {
 	 * @param array users assigned to the reference, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_watchers_by_posts_for_anchor($anchor, $offset=0, $count=200, $variant='raw', $restricted=NULL) {
+	public static function list_watchers_by_posts_for_anchor($anchor, $offset=0, $count=7, $variant='comma5', $restricted=NULL) {
 		global $context;
 
 		// several anchors
