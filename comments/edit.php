@@ -339,10 +339,18 @@ if($with_form) {
 		$reference_item = $item;
 		$item['id'] = '';
 		$id = '';
+
+		// isolate first name of initial contributor
 		if($item['create_name'])
-			$item['description'] = sprintf(i18n::s('%s:'), ucfirst($item['create_name']))."\n\n";
+			list($first_name, $dummy) = explode(' ', ucfirst($item['create_name']), 2);
 		elseif($item['edit_name'])
-			$item['description'] = sprintf(i18n::s('%s:'), ucfirst($item['edit_name']))."\n\n";
+			list($first_name, $dummy) = explode(' ', ucfirst($item['edit_name']), 2);
+		else
+			$first_name = '';
+
+		// insert it in this contribution
+		if($first_name)
+			$item['description'] = sprintf(i18n::s('%s:'), $first_name)."\n\n";
 		else
 			$item['description'] = '';
 
