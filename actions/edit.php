@@ -215,12 +215,21 @@ if(Surfer::is_crawler()) {
 			// message subject
 			$subject = sprintf(i18n::s('New action: %s'), strip_tags($_REQUEST['title']));
 
-			// message body
-			$action = '<p>'.i18n::s('The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.').'</p>'
-				.'<div>'.Codes::beautify($_REQUEST['description']).'</div>';
-			$title = $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']);
+			// message main content
+			$headline = i18n::s('The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.');
+			$content = Codes::beautify($_REQUEST['description']);
+			$body = Skin::build_mail_content($headline, $content);
+
+			// several links
+			$menu = array();
+
+			// call for action
 			$link = $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']);
-			$message =& Mailer::build_notification($action, $title, $link);
+			$title = sprintf(i18n::s('New action: %s'), strip_tags($_REQUEST['title']));
+			$menu[] = Skin::build_mail_button($link, $title, TRUE);
+
+			// wrap the full message
+			$message = Mailer::build_notification($action.Skin::build_mail_menu($menu));
 
 			// enable threading
 			$headers = Mailer::set_thread('action:'.$_REQUEST['id'], $anchor);
