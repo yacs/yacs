@@ -83,16 +83,16 @@ class Event extends Overlay {
 		switch($this->attributes['enrolment']) {
 
 		case 'manual': // call for review
-			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Review the meeting page'), 'button-in-email').'</div>';
+			$text .= '<div>'.Skin::build_mail_button($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Review the meeting page'), TRUE).'</div>';
 			break;
 
 		case 'none': // call for confirmation
 		default:
-			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then confirm my participation'), 'button-in-email').'</div>';
+			$text .= '<div>'.Skin::build_mail_button($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then confirm my participation'), TRUE).'</div>';
 			break;
 
 		case 'validate': // call for application
-			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then ask for an invitation'), 'button-in-email').'</div>';
+			$text .= '<div>'.Skin::build_mail_button($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then ask for an invitation'), TRUE).'</div>';
 			break;
 
 		}
