@@ -361,7 +361,7 @@ if(Surfer::is_crawler()) {
 		$title = $overlay->get_live_title($item);
 	else
 		$title = $item['title'];
-	$title = sprintf(i18n::s('%s: %s'), i18n::s('Invitation'), $title);
+	$title = sprintf(i18n::s('Invitation: %s'), $title);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
