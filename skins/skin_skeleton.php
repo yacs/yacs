@@ -751,8 +751,8 @@ Class Skin_Skeleton {
 
 		// months
 		if($language == 'fr')
-			$months = array( '*', 'janvier', 'f&eacute;vrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'ao&ucirc;t', 'septembre',
-				 'octobre', 'novembre', 'd&eacute;cembre' );
+			$months = array( '*', 'jan.', 'f&eacute;v.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'ao&ucirc;t', 'sept.',
+				 'oct.', 'nov.', 'd&eacute;c.' );
 		else
 			$months = array( '*', 'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'June', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.' );
 
