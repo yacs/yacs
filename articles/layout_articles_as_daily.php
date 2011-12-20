@@ -78,12 +78,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// permalink
 			$url = Articles::get_permalink($item);
 
-			// signal restricted and private articles
-			if($item['active'] == 'N')
-				$box['title'] .= PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
-				$box['title'] .= RESTRICTED_FLAG;
-
 			// make a live title
 			if(is_object($overlay))
 				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
@@ -93,7 +87,21 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// make a clickable title
 			$box['title'] = Skin::build_link($url, $box['title'], 'basic');
 
-			// what's the date today?
+			// signal restricted and private articles
+			if($item['active'] == 'N')
+				$box['title'] = PRIVATE_FLAG.$box['title'];
+			elseif($item['active'] == 'R')
+				$box['title'] = RESTRICTED_FLAG.$box['title'];
+
+			// flag articles updated recently
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+				$box['title'] .= EXPIRED_FLAG;
+			elseif($item['create_date'] >= $context['fresh'])
+				$box['title'] .= NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$box['title'] .= UPDATED_FLAG;
+
+			// what's the date of publication?
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 				$box['date'] .= Skin::build_date($item['publish_date'], 'publishing');
 
@@ -103,14 +111,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 
 			// details
 			$details = array();
-
-			// flag articles updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
-				$details[] = EXPIRED_FLAG;
-			elseif($item['create_date'] >= $context['fresh'])
-				$details[] = NEW_FLAG;
-			elseif($item['edit_date'] >= $context['fresh'])
-				$detaisl[] = UPDATED_FLAG;
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
