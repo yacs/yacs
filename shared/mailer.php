@@ -54,11 +54,10 @@ class Mailer {
 	/**
 	 * prepare a multi-part message
 	 *
-	 * @param string message title
 	 * @param string message HTML tags or ASCII content
 	 * @return array containing message parts ($type => $content)
 	 */
-	public static function build_message($title, $text) {
+	public static function build_multipart($text) {
 		global $context;
 
 		// make a full html entity --body attributes are ignored most of the time
@@ -109,11 +108,11 @@ class Mailer {
 	 *
 	 * You can change function build_mail_message() in your skin.php to use a customized template.
 	 *
-	 * @param string coded action (e.g., 'article:create') or full description
+	 * @param string bare message content
 	 * @param int reason for notification
 	 * @return string text to be put in message
 	 */
-	public static function build_notification($content, $reason=0) {
+	public static function build_notification($text, $reason=0) {
 		global $context;
 
 		// decode the reason
@@ -124,19 +123,16 @@ class Mailer {
 			break;
 
 		case 1: // you are watching some container
-			$content .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.'), $context['site_name']).'</p>';
+			$text .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.'), $context['site_name']).'</p>';
 			break;
 
 		case 2: // you are watching the poster
-			$content .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
+			$text .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
 				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name()))
 				.'</a></p>';
 			break;
 
 		}
-
-		// allow for skinnable templates
-		$text = Skin::build_mail_message($content);
 
 		// job done
 		return $text;
@@ -717,6 +713,7 @@ class Mailer {
 	 * @param string subject
 	 * @param string actual message
 	 * @param mixed to be given to Mailer::post()
+	 * @param array to be given to Mailer::post()
 	 * @return TRUE on success, FALSE otherwise
 	 *
 	 * @see agents/messages.php
@@ -725,7 +722,7 @@ class Mailer {
 	 * @see shared/logger.php
 	 * @see users/users.php
 	 */
-	public static function notify($from, $to, $subject, $message, $headers='') {
+	public static function notify($from, $to, $subject, $message, $headers='', $attachments=NULL) {
 		global $context;
 
 		// email services have to be activated
@@ -744,11 +741,14 @@ class Mailer {
 		else
 			$subject .= ' ['.$context['site_name'].']';
 
-		// allow for HTML rendering
-		$message = Mailer::build_message($subject, $message);
+		// allow for skinnable template
+		$message = Skin::build_mail_message($message);
+
+		// build multiple parts, for HTML rendering
+		$message = Mailer::build_multipart($message);
 
 		// do the job -- don't stop on error
-		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
+		if(Mailer::post($from, $to, $subject, $message, $attachments, $headers))
 			return TRUE;
 		return FALSE;
 	}

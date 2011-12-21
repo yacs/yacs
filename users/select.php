@@ -170,19 +170,35 @@ elseif(!$permitted) {
 			// notify a person that is followed
 			if(!strncmp($_REQUEST['member'], 'user:', 5) && ($follower = Anchors::get($_REQUEST['member'])) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
 
-				// contact target user by e-mail
+				// notify target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags($follower->get_title()));
-				$body = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name']).'</p>'
+
+				// headline
+				$headline = sprintf(i18n::c('%s is following you'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.$follower->get_title().'</a>');
+
+				// information
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), $follower->get_title(), $context['site_name']).'</p>'
 					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.ucfirst(strip_tags($follower->get_title())).'</a></p>';
 
-				// preserve tagging as much as possible
-				$message = Mailer::build_message($subject, $body);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = $context['url_to_home'].$context['url_to_root'].$follower->get_url();
+				$menu[] = Skin::build_mail_button($link, $follower->get_title(), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
 
 				// enable threading
-				$headers = Mailer::set_thread('', $anchor);
+				$headers = Mailer::set_thread('', $follower->get_reference());
 
 				// allow for cross-referencing
-				Mailer::post(Surfer::from(), $user['email'], $subject, $message, NULL, $headers);
+				Mailer::notify(Surfer::from(), $user['email'], $subject, $message, $headers);
 			}
 		}
 
