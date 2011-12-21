@@ -612,12 +612,6 @@ Class Articles {
 		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
 			throw new Exception('no anchor for this article');
 
-		// compute page title
-		if(is_object($overlay))
-			$title = Codes::beautify_title($overlay->get_text('title', $item));
-		else
-			$title = Codes::beautify_title($item['title']);
-
 		// headline template
 		switch($action) {
 		case 'create':
@@ -638,6 +632,18 @@ Class Articles {
 
 		// panel content
 		$content = '';
+
+		// compute page title
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
+		else
+			$title = Codes::beautify_title($item['title']);
+
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$title = PRIVATE_FLAG.$title;
+		elseif($item['active'] == 'R')
+			$title = RESTRICTED_FLAG.$title;
 
 		// insert page title
 		$content .= '<h2><span>'.$title.'</span></h2>';
@@ -719,7 +725,9 @@ Class Articles {
 
 		// call for action
 		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-		$menu[] = Skin::build_mail_button($link, i18n::c('Open this page'), TRUE);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
+			$label = i18n::c('View the page');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 		// link to the container
 		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();

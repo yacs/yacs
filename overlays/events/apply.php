@@ -125,21 +125,24 @@ elseif(!Surfer::get_id()) {
 	// notify page owner of this application, except if it is me
 	if(!$anchor->is_owned() && ($owner_id = $anchor->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email']) {
 
-		// mail message
-		$mail = array();
-
 		// mail subject
-		$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+		$subject = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
 
 		// user has confirmed participation
 		if($overlay->get_value('enrolment') == 'none')
-			$headline = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
+			$headline = sprintf(i18n::c('%s has confirmed participation to %s'),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 		// user is asking for an invitation
 		else
-			$headline = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
+			$headline = sprintf(i18n::c('%s would like to be enrolled to %s'),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
-		$mail['content'] = Skin::build_mail_content($headline);
+		// help the chairman
+		$message = Skin::build_mail_content($headline,
+			i18n::s('Click on the link below to manage the full list of participants'));
 
 		// several links
 		$menu = array();
@@ -149,17 +152,18 @@ elseif(!Surfer::get_id()) {
 		$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
 		$menu[] = Skin::build_mail_button($link, $title, TRUE);
 
-		// add the menu
-		$mail['content'] .= Skin::build_mail_menu($menu);
+		// surfer profile
+		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
 
-		// wrap the full message
-		$mail['message'] = Skin::build_mail_message($mail['content']);
+		// add the menu
+		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+		$headers = Mailer::set_thread($anchor->get_reference());
 
 		// send the message
-		Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+		Mailer::notify(Surfer::from(), $user['email'], $subject, $message, $headers);
 
 	}
 

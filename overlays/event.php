@@ -83,16 +83,17 @@ class Event extends Overlay {
 		switch($this->attributes['enrolment']) {
 
 		case 'manual': // call for review
-			$text .= '<div>'.Skin::build_mail_button($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Review the meeting page'), TRUE).'</div>';
 			break;
 
 		case 'none': // call for confirmation
 		default:
-			$text .= '<div>'.Skin::build_mail_button($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then confirm my participation'), TRUE).'</div>';
+			if(!isset($_REQUEST['force_enrolment']) || ($_REQUEST['force_enrolment'] != 'Y'))
+				$text .= '<div><p>'.i18n::c('Thanks to confirm your participation.').'</p></div>';
 			break;
 
 		case 'validate': // call for application
-			$text .= '<div>'.Skin::build_mail_button($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then ask for an invitation'), TRUE).'</div>';
+			if(!isset($_REQUEST['force_enrolment']) || ($_REQUEST['force_enrolment'] != 'Y'))
+				$text .= '<div><p>'.i18n::c('Ask for an invitation if you are interested.').'</p></div>';
 			break;
 
 		}
@@ -764,27 +765,46 @@ class Event extends Overlay {
 	 *
 	 * @param string the target label
 	 * @param string the on-going action
+	 * @param boolean TRUE to localize as per surfer settings, FALSE to localize as per community settings
 	 * @return the label to use
 	 */
-	function get_label($name, $action='view') {
+	function get_label($name, $action='view', $surfer=TRUE) {
 		global $context;
 
 		switch($name.':'.$action) {
 
 		case 'edit_command:articles':
-			return i18n::s('Edit this event');
+		case 'edit_command:sections':
+			if($surfer)
+				return i18n::s('Edit this event');
+			return i18n::c('Edit this event');
 
 		case 'new_command:articles':
-			return i18n::s('Add an event');
+		case 'new_command:sections':
+			if($surfer)
+				return i18n::s('Add an event');
+			return i18n::c('Add an event');
+
+		case 'permalink_command:articles':
+		case 'permalink_command:sections':
+			if($surfer)
+				return i18n::s('View event details');
+			return i18n::c('View event details');
 
 		case 'page_title:edit':
-			return i18n::s('Edit an event');
+			if($surfer)
+				return i18n::s('Edit an event');
+			return i18n::c('Edit an event');
 
 		case 'page_title:delete':
-			return i18n::s('Delete an event');
+			if($surfer)
+				return i18n::s('Delete an event');
+			return i18n::c('Delete an event');
 
 		case 'page_title:new':
-			return i18n::s('Add an event');
+			if($surfer)
+				return i18n::s('Add an event');
+			return i18n::c('Add an event');
 
 		}
 
@@ -1552,17 +1572,25 @@ class Event extends Overlay {
 				// message title
 				$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
 
+				// headline
+				$headline = sprintf(i18n::c('%s has cancelled %s'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+					$this->anchor->get_title());
+
 				// message to reader
 				$message = $this->get_invite_default_message('CANCEL');
 
-				// allow for HTML rendering
-				$message = Mailer::build_message($subject, $message);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// threads messages
+				$headers = Mailer::set_thread('', $this->anchor->get_reference());
 
 				// get attachment from the overlay
 				$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
 
 				// post it
-				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+				Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
 
 			}
 
@@ -1611,17 +1639,35 @@ class Event extends Overlay {
 				// message title
 				$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
 
+				// headline
+				$headline = sprintf(i18n::c('%s has updated %s'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+
 				// message to reader
 				$message = $this->get_invite_default_message('PUBLISH');
 
-				// allow for HTML rendering
-				$message = Mailer::build_message($subject, $message);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+				$menu[] = Skin::build_mail_button($link, $this->anchor->get_title(), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
+
+				// threads messages
+				$headers = Mailer::set_thread('', $this->anchor->get_reference());
 
 				// get attachment from the overlay
 				$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
 
 				// post it
-				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+				Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
 
 			}
 

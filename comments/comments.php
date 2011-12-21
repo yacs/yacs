@@ -238,7 +238,7 @@ Class Comments {
 
 		// call for action
 		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'reply');
-		$menu[] = Skin::build_mail_button($link, i18n::c('Reply to this post'), TRUE);
+		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
 		// link to the container
 		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();

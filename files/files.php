@@ -378,19 +378,35 @@ Class Files {
 		$headline = sprintf(i18n::c('A file has been uploaded by %s'),
 			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
 
+		// several components in this message
+		$details = array();
+
+		// make it visual
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+			$details[] = '<img src="'.$context['url_to_home'].$item['thumbnail_url'].'" />';
+		else
+			$details[] = '<img src="'.$context['url_to_home'].$context['url_to_root'].Files::get_icon_url($item['file_name']).'" />';
+
+		// other details
+		if($item['title'])
+			$details[] = $item['title'];
+		if($item['file_name'])
+			$details[] = $item['file_name'];
+		if($item['file_size'])
+			$details[] = $item['file_size'].' bytes';
+
+		if(is_array($details))
+			$message = '<p>'.implode(BR, $details)."</p>\n";
+
 		// start the notification
-		$text = Skin::build_mail_content($headline);
+		$text = Skin::build_mail_content($headline, $message);
 
 		// a set of links
 		$menu = array();
 
 		// link to the file
 		$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
-		if($item['title'])
-			$title = $item['title'];
-		else
-			$title = $item['file_name'];
-		$menu[] = Skin::build_mail_button($link, $title, TRUE);
+		$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
 
 		// link to the container
 		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {

@@ -82,26 +82,38 @@ else {
 				else
 					$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
-				// mail message
-				$mail = array();
-
 				// mail subject
-				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Cancellation'), strip_tags($anchor->get_title()));
+				$subject = sprintf(i18n::c('%s: %s'), i18n::c('Cancellation'), strip_tags($anchor->get_title()));
+
+				// headline
+				$headline = sprintf(i18n::c('%s has cancelled your participation to %s'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 				// message confirmation
-				$mail['message'] = $overlay->get_invite_default_message('CANCEL');
+				$message = $overlay->get_invite_default_message('CANCEL');
 
-				// allow for HTML rendering
-				$mail['message'] = Mailer::build_message($mail['subject'], $mail['message']);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
 
-				// get attachments from the overlay, if any
-				$mail['attachments'] = $overlay->get_invite_attachments('CANCEL');
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+				$menu[] = Skin::build_mail_button($link, $this->anchor->get_title(), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
 
 				// threads messages
-				$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+				$headers = Mailer::set_thread($anchor->get_reference());
+
+				// get attachments from the overlay, if any
+				$attachments = $overlay->get_invite_attachments('CANCEL');
 
 				// send the message
-				Mailer::post(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['attachments'], $mail['headers']);
+				Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
 
 			}
 		}
@@ -139,26 +151,38 @@ else {
 				else
 					$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
-				// mail message
-				$mail = array();
-
 				// mail subject
-				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+				$subject = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+
+				// headline
+				$headline = sprintf(i18n::c('%s has confirmed your participation to %s'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 				// message confirmation
-				$mail['message'] = $overlay->get_invite_default_message('PUBLISH');
+				$message = $overlay->get_invite_default_message('PUBLISH');
 
-				// allow for HTML rendering
-				$mail['message'] = Mailer::build_message($mail['subject'], $mail['message']);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
 
-				// get attachments from the overlay, if any
-				$mail['attachments'] = $overlay->get_invite_attachments('PUBLISH');
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+				$menu[] = Skin::build_mail_button($link, $this->anchor->get_title(), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
 
 				// threads messages
-				$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+				$headers = Mailer::set_thread($anchor->get_reference());
+
+				// get attachments from the overlay, if any
+				$attachments = $overlay->get_invite_attachments('PUBLISH');
 
 				// send the message
-				Mailer::post(Surfer::from(), $recipient, $mail['subject'], $mail['message'], $mail['attachments'], $mail['headers']);
+				Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
 
 				// report on this notification
 				$enrolled_names[] = htmlspecialchars($recipient);

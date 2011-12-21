@@ -1151,11 +1151,9 @@ Class Article extends Anchor {
 			elseif($action == 'file:create')
 				$action = 'article:file';
 
-			// default case
-			else
-				$action = 'article:update';
-
-			$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
+			// propagate to parent only if target is the article
+			if(!strncmp($action, 'article:', strlen('article:')))
+				$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
 		}
 
 	}

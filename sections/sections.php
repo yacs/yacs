@@ -642,7 +642,9 @@ Class Sections {
 
 		// call for action
 		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
-		$menu[] = Skin::build_mail_button($link, i18n::c('Open this section'), TRUE);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+			$label = i18n::c('View the section');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 		// link to the container
 		if(is_object($anchor)) {
