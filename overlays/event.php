@@ -557,17 +557,17 @@ class Event extends Overlay {
 		if($value = $this->anchor->get_title())
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), str_replace(array("\n", "\r"), ' ', Codes::beautify_title($value))).'\n';
 
-		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
-		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
-
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).'\n';
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
 
 		// location
 		if($method != 'CANCEL')
@@ -695,17 +695,15 @@ class Event extends Overlay {
 		if($value = $this->anchor->get_title())
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 
-		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
-		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
-
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
 
 		// meeting has been cancelled
 		if($method == 'CANCEL')
@@ -716,7 +714,7 @@ class Event extends Overlay {
 
 			// copy content of the introduction field, if any
 			if($value = $this->anchor->get_value('introduction'))
-				$text .= '<div>'.Codes::beautify($value).'</div>';
+				$text .= '<div>'.Codes::beautify('<p>'.$value.'</p>').'</div>';
 
 			// copy the induction message, if any
 			if(isset($this->attributes['induction_message']))
@@ -1192,7 +1190,7 @@ class Event extends Overlay {
 			if(isset($this->attributes['follow_up_message']) && $this->attributes['follow_up_message'])
 				$this->feed_back['status'][] = Codes::render($this->attributes['follow_up_message']);
 			else
-				$this->feed_back['status'][] = i18n::s('Meeting is over');
+				$this->feed_back['status'][] = i18n::s('Event is over');
 
 		// possible transition to state 'stopped'
 		} else
