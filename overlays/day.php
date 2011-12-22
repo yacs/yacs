@@ -105,47 +105,6 @@ class Day extends Event {
 	}
 
 	/**
-	 * get an overlaid label
-	 *
-	 * Accepted action codes:
-	 * - 'edit' the modification of an existing object
-	 * - 'delete' the deleting form
-	 * - 'new' the creation of a new object
-	 * - 'view' a displayed object
-	 *
-	 * @see overlays/overlay.php
-	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use
-	 */
-	function get_label($name, $action='view') {
-		global $context;
-
-		switch($name.':'.$action) {
-
-		case 'edit_command:articles':
-			return i18n::s('Edit this event');
-
-		case 'new_command:articles':
-			return i18n::s('Add an event');
-
-		case 'page_title:edit':
-			return i18n::s('Edit an event');
-
-		case 'page_title:delete':
-			return i18n::s('Delete an event');
-
-		case 'page_title:new':
-			return i18n::s('Add an event');
-
-		}
-
-		// no match
-		return NULL;
-	}
-
-	/**
 	 * display a live title
 	 *
 	 * @see overlays/overlay.php
@@ -183,35 +142,6 @@ class Day extends Event {
 
 		// nothing to display to page owner
 		return NULL;
-	}
-
-	/**
-	 * get a label for a given status code
-	 *
-	 * @param string the status code
-	 * @return string the label to display
-	 */
-	function get_status_label($status) {
-		global $context;
-
-		switch($status) {
-		case 'created':
-		default:
-			return i18n::s('Meeting is under preparation');
-
-		case 'open':
-			return i18n::s('Enrolment is open');
-
-		case 'lobby':
-			return i18n::s('Meeting has not started yet');
-
-		case 'started':
-			return i18n::s('Meeting has started');
-
-		case 'stopped':
-			return i18n::s('Meeting is over');
-
-		}
 	}
 
 	/**
