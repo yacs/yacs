@@ -36,11 +36,16 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// else display the updated page
 		} else {
 
+			// the overlay may have already notified persons involved
+			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
+			if(is_object($overlay))
+				$with_watchers = $overlay->should_notify_watchers();
+
 			// touch the related anchor, but only if the page has been published
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 				$anchor->touch('article:update', $_REQUEST['id'],
 					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'));
+					$with_watchers);
 
 			// add this page to poster watch list
 			if(Surfer::get_id())

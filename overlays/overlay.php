@@ -788,9 +788,10 @@ class Overlay {
 	 * @see articles/edit.php
 	 * @see articles/publish.php
 	 *
+	 * @param array if provided, a notification that can be sent to customised recipients
 	 * @return boolean TRUE by default, but can be changed in derived overlay, such as events
 	 */
-	function should_notify_watchers() {
+	function should_notify_watchers($mail) {
 		return TRUE;
 	}
 

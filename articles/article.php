@@ -1030,11 +1030,6 @@ Class Article extends Anchor {
 			SQL::query($query);
 		}
 
-		// load the anchor, if any
-		$anchor = NULL;
-		if(isset($this->item['anchor']) && $this->item['anchor'])
-			$anchor =& Anchors::get($this->item['anchor']);
-
 		// do not signal the change to watchers if the page is on draft mode
 		if(!isset($this->item['publish_date']) ||  ($this->item['publish_date'] <= NULL_DATE)) {
 			$to_watchers = FALSE;
@@ -1111,9 +1106,23 @@ Class Article extends Anchor {
 			if(!$this->item['create_id'] && $this->item['create_address'])
 				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
 
+			// get the related overlay, if any
+			$overlay = NULL;
+			include_once $context['path_to_root'].'overlays/overlay.php';
+			if(isset($this->item['overlay']))
+				$overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+
+			// do not notify watchers if overlay prevents it
+			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
+				$to_watchers = FALSE;
+
 			// alert watchers
 			if($to_watchers)
 				Users::alert_watchers('article:'.$this->item['id'], $mail);
+
+			// do not notify followers if overlay prevents it
+			if(is_object($overlay) && !$overlay->should_notify_followers($mail))
+				$to_followers = FALSE;
 
 			// alert connexions, except on private pages
 			if(Surfer::get_id() && $to_followers) {
