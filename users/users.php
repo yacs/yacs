@@ -48,10 +48,9 @@ Class Users {
 	 *
 	 * @param mixed an array of attributes, or only an id of the user profile
 	 * @param array components of a mail message to be submitted to Mailer::notify()
-	 * @param string reference of the watched container
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	private static function alert($user, $mail, $reference) {
+	public static function alert($user, $mail) {
 		global $context;
 
 		// retrieve user attributes
@@ -127,7 +126,7 @@ Class Users {
 
 					// ensure this surfer wants to be alerted
 					if($watcher['without_alerts'] != 'Y')
-						Users::alert($watcher, $mail, $reference);
+						Users::alert($watcher, $mail);
 				}
 			}
 		}
