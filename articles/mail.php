@@ -151,7 +151,7 @@ if(Surfer::is_crawler()) {
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $recipient) !== FALSE) {
-			$message = '<p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><hr /><p>'.htmlspecialchars_decode(join(', ', $actual_names)).'</p><hr />'.$message;
+			$message = '<hr /><p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
 		}
 
 		// assemble main content of this message
