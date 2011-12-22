@@ -1627,48 +1627,73 @@ class Event extends Overlay {
 
 		case 'update':
 
+			// reload the anchor through the cache to reflect the update
+			if($reference)
+				$this->anchor =& Anchors::get($reference, TRUE);
+
 			// send a confirmation message to participants
-			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
+			$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
 			$result = SQL::query($query);
 			while($item = SQL::fetch($result)) {
 
-				// sanity check
-				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+				// skip current surfer
+				if(Surfer::get_id() && (Surfer::get_id() == $item['user_id']))
 					continue;
 
-				// message title
-				$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
+				// a user registered on this server
+				if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
 
-				// headline
-				$headline = sprintf(i18n::c('%s has updated %s'),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+					// skip banned users
+					if($watcher['capability'] == '?')
+						continue;
 
-				// message to reader
-				$message = $this->get_invite_default_message('PUBLISH');
+					// ensure this surfer wants to be alerted
+					if($watcher['without_alerts'] == 'Y')
+						continue;
 
-				// assemble main content of this message
-				$message = Skin::build_mail_content($headline, $message);
+					// sanity check
+					if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+						continue;
 
-				// a set of links
-				$menu = array();
+					// use this email address
+					if($watcher['full_name'])
+						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['full_name']);
+					else
+						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['nick_name']);
 
-				// call for action
-				$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
-				$menu[] = Skin::build_mail_button($link, $this->anchor->get_title(), TRUE);
+					// message title
+					$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
 
-				// finalize links
-				$message .= Skin::build_mail_menu($menu);
+					// headline
+					$headline = sprintf(i18n::c('%s has updated %s'),
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
-				// threads messages
-				$headers = Mailer::set_thread('', $this->anchor->get_reference());
+					// message to reader
+					$message = $this->get_invite_default_message('PUBLISH');
 
-				// get attachment from the overlay
-				$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
+					// assemble main content of this message
+					$message = Skin::build_mail_content($headline, $message);
 
-				// post it
-				Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
+					// a set of links
+					$menu = array();
 
+					// call for action
+					$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+					$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
+
+					// finalize links
+					$message .= Skin::build_mail_menu($menu);
+
+					// threads messages
+					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+
+					// get attachment from the overlay
+					$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
+
+					// post it
+					Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
+				}
 			}
 
 			// bind one date to this record
@@ -1864,14 +1889,48 @@ class Event extends Overlay {
 	/**
 	 * notify watchers or not?
 	 *
-	 * This function is used in various scripts to prevent notification of watchers.
+	 * This function is used in various scripts to customize notification of watchers.
 	 *
 	 * @see articles/edit.php
 	 * @see articles/publish.php
 	 *
+	 * @param array if provided, a notification that can be sent to customised recipients
 	 * @return boolean always FALSE for events, since notifications are made through enrolment
 	 */
-	function should_notify_watchers() {
+	function should_notify_watchers($mail) {
+		global $context;
+
+		// sent notification to all enrolled persons
+		if($mail) {
+
+			// list enrolment for this meeting
+			$query = "SELECT user_id FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".SQL::escape($this->anchor->get_reference())."'";
+			if($result = SQL::query($query)) {
+
+				// browse the list
+				while($item = SQL::fetch($result)) {
+
+					// a user registered on this server
+					if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
+
+						// skip banned users
+						if($watcher['capability'] == '?')
+							continue;
+
+						// skip current surfer
+						if(Surfer::get_id() && (Surfer::get_id() == $item['user_id']))
+							continue;
+
+						// ensure this surfer wants to be alerted
+						if($watcher['without_alerts'] != 'Y')
+							Users::alert($watcher, $mail);
+
+					}
+				}
+			}
+		}
+
+		// prevent normal cascading of notifications
 		return FALSE;
 	}
 

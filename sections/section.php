@@ -1248,6 +1248,20 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
+		// get the related overlay, if any
+		$overlay = NULL;
+		include_once $context['path_to_root'].'overlays/overlay.php';
+		if(isset($this->item['overlay']))
+			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
+
+		// do not notify watchers if overlay prevents it
+		if(is_object($overlay) && !$overlay->should_notify_watchers())
+			$to_watchers = FALSE;
+
+		// do not forward this to followers if the page is private
+		if($this->item['active'] == 'N')
+			$to_followers = FALSE;
+
 		// send alerts on new item, or on article modification, or on section modification
 		if(preg_match('/:create$/i', $action)
 			|| !strncmp($action, 'article:', strlen('article:')) || !strncmp($action, 'section:', strlen('section:'))) {
@@ -1349,7 +1363,7 @@ Class Section extends Anchor {
 					// message to watchers
 					$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
-					// special case of article watchers
+					// special case of article watchers, if any
 					if($to_watchers)
 						Users::alert_watchers('article:'.$target['id'], $mail);
 
