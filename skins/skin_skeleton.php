@@ -320,7 +320,7 @@ Class Skin_Skeleton {
 
 		case 'introduction':
 			if($text)
-				$text = '<div class="introduction"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
+				$text = '<div class="introduction"'.$id.'>'.Codes::beautify('<p>'.$text.'</p>', $options).'</div>'."\n";
 			break;
 
 		case 'note':
