@@ -63,32 +63,6 @@
  * This kind of notification is used to communicate directly between surfers.
  * We are talking here of a very bare communication system, equivalent to SMS.
  *
- * This kind of notification can also be used to establish contact between two
- * on-line surfers:
- *
- * 1. Alice wishes to ask a fast and dirty question to Bob
- *
- * 2. For this purpose she visits the user profile of Bob, and checks contact
- * information provided there. Hopefully, the server reports to Alice that
- * Bob is currently browsing the site, and therefore is probably available
- * for contact.
- *
- * 3. Alice clicks on a link that triggers [script]users/contact.php[/script].
- * This page prepares a 'hello' notification and triggers [script]users/heartbit.php[/script],
- * which insert the notification in the database and fall asleep.
- *
- * 4. One of the asynchronous calls to [script]users/heartbit.php[/script] initiated
- * from Bob's browser wakes up. It pushes the new notification to the browser
- * and purges the database.
- *
- * 5. The YACS AJAX code decodes the notification and presents it to Bob, as a
- * dialog box. Bob may accept or refuse to contact Alice.
- *
- * 6a. When Bob accepts to start a new chat session, he is driven to the
- * web address transmitted in Alice's message.
- *
- * 6b. When Bob denegates the contact, nothing happens
- *
  * All following attributes can be part of a 'hello' notification:
  * - 'recipient' - id of the target community member
  * - 'type' = 'hello'
@@ -125,7 +99,6 @@
  * - shared/yacs.js - the AJAX code that manages notifications on browser side
  * - users/notifications.php - the storage engine for transient notifications
  * - users/heartbit.php - receives and pushes notifications
- * - users/contact.php - send a textual notification, or ask for chat
  *
  * @author Bernard Paques
  * @reference
