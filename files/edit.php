@@ -328,19 +328,26 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
+		// the action
+		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
+
 		// show file attributes
 		$attributes = array();
+
+		// make it visual
 		if(isset($_REQUEST['thumbnail_url']) && $_REQUEST['thumbnail_url'])
 			$attributes[] = '<img src="'.$_REQUEST['thumbnail_url'].'" />';
+		else
+			$attributes[] = '<img src="'.$context['url_to_root'].Files::get_icon_url($_REQUEST['file_name']).'" />';
+
+		// other details
 		if($_REQUEST['file_name'])
 			$attributes[] = $_REQUEST['file_name'];
 		if($_REQUEST['file_size'])
 			$attributes[] = $_REQUEST['file_size'].' bytes';
+
 		if(is_array($attributes))
 			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
-
-		// the action
-		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients();

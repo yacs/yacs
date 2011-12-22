@@ -51,6 +51,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
+			// the page has been modified
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
+
 			// list persons that have been notified
 			if($recipients = Mailer::build_recipients()) {
 
