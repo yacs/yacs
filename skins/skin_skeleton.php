@@ -749,12 +749,18 @@ Class Skin_Skeleton {
 		if(($language == 'fr') && ($items['mday'] == 1))
 			$items['mday'] = '1er';
 
-		// months
-		if($language == 'fr')
-			$months = array( '*', 'jan.', 'f&eacute;v.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'ao&ucirc;t', 'sept.',
-				 'oct.', 'nov.', 'd&eacute;c.' );
-		else
-			$months = array( '*', 'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'June', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.' );
+		// allow for months localization through i18n
+		$months = array( '*', i18n::s('Jan.'), i18n::s('Feb.'), i18n::s('Mar.'), i18n::s('Apr.'),
+			i18n::s('May'), i18n::s('June'), i18n::s('Jul.'), i18n::s('Aug.'),
+			i18n::s('Sep.'), i18n::s('Oct.'), i18n::s('Nov.'), i18n::s('Dec.') );
+
+		// load month labels adapted to required language
+		$months = array( '*', i18n::lookup($context['l10n'][$language], 'Jan.'), i18n::lookup($context['l10n'][$language], 'Feb.'),
+			i18n::lookup($context['l10n'][$language], 'Mar.'), i18n::lookup($context['l10n'][$language], 'Apr.'),
+			i18n::lookup($context['l10n'][$language], 'May'), i18n::lookup($context['l10n'][$language], 'June'),
+			i18n::lookup($context['l10n'][$language], 'Jul.'), i18n::lookup($context['l10n'][$language], 'Aug.'),
+			i18n::lookup($context['l10n'][$language], 'Sep.'), i18n::lookup($context['l10n'][$language], 'Oct.'),
+			i18n::lookup($context['l10n'][$language], 'Nov.'), i18n::lookup($context['l10n'][$language], 'Dec.') );
 
 		// now
 		$now = time();
