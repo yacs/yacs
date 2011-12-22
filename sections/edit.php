@@ -222,6 +222,9 @@ if(Surfer::is_crawler()) {
 					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
 					isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
+			// the section has been modified
+			$context['text'] .= '<p>'.i18n::s('The section has been successfully updated.').'</p>';
+
 			// list persons that have been notified
 			if($recipients = Mailer::build_recipients()) {
 
