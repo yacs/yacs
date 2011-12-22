@@ -74,10 +74,11 @@ class Mailer {
 		$replacements = array('/<a [^>]*?><img [^>]*?><\/a>/i' => '', // suppress clickable images
 			"/<a href=\"([^\"]+?)\"([^>]*?)>\\1<\/a>/i" => "\\1",	// un-twin clickable links
 			'/<a href=\"([^\"]+?)" ([^>]*?)>(.*?)<\/a>/i' => "\\3 \\1", // label and link
-			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "\\2 \\1", // label and link too
+			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "\\2 \\1", 		// label and link too
+			'/<hr[^>]*?>/i' => "-------\n", 							// horizontal rule
 			'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
 			'/&nbsp;/' => ' ');
-		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)))));
+		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
 
 		// transform the text/html part
 		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 					// <dl> ... </dl> -> <table> ... </table>
