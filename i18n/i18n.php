@@ -860,7 +860,7 @@ Class i18n {
 	 * @param string original string
 	 * @return string hashed string
 	 */
-	public static function &hash($text) {
+	private static function &hash($text) {
 
 		if(strlen($text) < 32)
 			$output = $text;
@@ -976,7 +976,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	public static function &l($strings, $name, $forced='') {
+	public static function &l(&$strings, $name, $forced='') {
 		global $context;
 
 		// sanity check
@@ -1010,32 +1010,36 @@ Class i18n {
 	}
 
 	/**
-	 * look for a localized string
+	 * list all available locales
 	 *
-	 * @param array the array containing localized strings
-	 * @param string the label identifying string
-	 * @return string the localized string, if any
+	 * @return array of ($locale => $label)
 	 */
-	public static function &lookup($strings, $name) {
-		global $context;
+	public static function &list_locales() {
+		global $context, $locales;
 
-		// match on hashed name
-		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
-			$text = $strings[ $hash ];
+		// list of locales
+		$locales = array();
 
-		// no match
-		else {
+		// one directory per locale
+		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
+			while(($item = Safe::readdir($dir)) !== FALSE) {
+				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
+					continue;
 
-			// log information on development platform
-			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				// remember locale
+				$locales[$item] = $item;
 
-			// degrade to provided string
-			$text = $name;
-		}
+				// enhance with manifest file, if any
+				if(is_readable($context['path_to_root'].'i18n/locale/'.$item.'/manifest.php'))
+					include_once $context['path_to_root'].'i18n/locale/'.$item.'/manifest.php';
+			}
+			Safe::closedir($dir);
 
-		// provide the localized string
-		return $text;
+		} else
+			logger::remember('i18n/i18n.php', 'Impossible to browse directory i18n/locale');
+
+		// done
+		return $locales;
 	}
 
 	/**
@@ -1062,7 +1066,7 @@ Class i18n {
 	 * @param string target module
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	public static function load($language, $module) {
+	private static function load($language, $module) {
 		global $context;
 
 		// sanity check
@@ -1214,36 +1218,32 @@ Class i18n {
 	}
 
 	/**
-	 * list all available locales
+	 * look for a localized string
 	 *
-	 * @return array of ($locale => $label)
+	 * @param array the array containing localized strings
+	 * @param string the label identifying string
+	 * @return string the localized string, if any
 	 */
-	public static function &list_locales() {
-		global $context, $locales;
+	public static function &lookup(&$strings, $name) {
+		global $context;
 
-		// list of locales
-		$locales = array();
+		// match on hashed name
+		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
+			$text = $strings[ $hash ];
 
-		// one directory per locale
-		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
-			while(($item = Safe::readdir($dir)) !== FALSE) {
-				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
-					continue;
+		// no match
+		else {
 
-				// remember locale
-				$locales[$item] = $item;
+			// log information on development platform
+			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
+				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
 
-				// enhance with manifest file, if any
-				if(is_readable($context['path_to_root'].'i18n/locale/'.$item.'/manifest.php'))
-					include_once $context['path_to_root'].'i18n/locale/'.$item.'/manifest.php';
-			}
-			Safe::closedir($dir);
+			// degrade to provided string
+			$text = $name;
+		}
 
-		} else
-			logger::remember('i18n/i18n.php', 'Impossible to browse directory i18n/locale');
-
-		// done
-		return $locales;
+		// provide the localized string
+		return $text;
 	}
 
 	/**
@@ -1369,6 +1369,7 @@ Class i18n {
 	 *
 	 */
 	public static function reset() {
+		global $context;
 
 		if(isset($context['l10n_modules']))
 			unset($context['l10n_modules']);
