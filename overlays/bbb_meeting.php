@@ -1,5 +1,5 @@
 <?php
-include_once 'event.php';
+include_once 'meeting.php';
 
 /**
  * meet on a BigBlueButton server
@@ -37,7 +37,7 @@ include_once 'event.php';
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class BBB_Meeting extends Event {
+class BBB_Meeting extends Meeting {
 
 	/**
 	 * build a secured link to the server
@@ -132,47 +132,6 @@ class BBB_Meeting extends Event {
 	}
 
 	/**
-	 * get an overlaid label
-	 *
-	 * Accepted action codes:
-	 * - 'edit' the modification of an existing object
-	 * - 'delete' the deleting form
-	 * - 'new' the creation of a new object
-	 * - 'view' a displayed object
-	 *
-	 * @see overlays/overlay.php
-	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use
-	 */
-	function get_label($name, $action='view') {
-		global $context;
-
-		switch($name.':'.$action) {
-
-		case 'edit_command:articles':
-			return i18n::s('Edit this meeting');
-
-		case 'new_command:articles':
-			return i18n::s('Add a meeting');
-
-		case 'page_title:edit':
-			return i18n::s('Edit a meeting');
-
-		case 'page_title:delete':
-			return i18n::s('Delete a meeting');
-
-		case 'page_title:new':
-			return i18n::s('Add a meeting');
-
-		}
-
-		// no match
-		return NULL;
-	}
-
-	/**
 	 * the URL to start and to join the meeting
 	 *
 	 * @see overlays/events/start.php
@@ -255,35 +214,6 @@ class BBB_Meeting extends Event {
 
 		// problem, darling!
 		return NULL;
-	}
-
-	/**
-	 * get a label for a given status code
-	 *
-	 * @param string the status code
-	 * @return string the label to display
-	 */
-	function get_status_label($status) {
-		global $context;
-
-		switch($status) {
-		case 'created':
-		default:
-			return i18n::s('Meeting is under preparation');
-
-		case 'open':
-			return i18n::s('Enrolment is open');
-
-		case 'lobby':
-			return i18n::s('Meeting has not started yet');
-
-		case 'started':
-			return i18n::s('Meeting has started');
-
-		case 'stopped':
-			return i18n::s('Meeting is over');
-
-		}
 	}
 
 	/**

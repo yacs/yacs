@@ -1,5 +1,5 @@
 <?php
-include_once 'event.php';
+include_once 'meeting.php';
 
 /**
  * meet on a Dimdim server
@@ -25,7 +25,7 @@ include_once 'event.php';
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class DimDim_Meeting extends Event {
+class DimDim_Meeting extends Meeting {
 
 	/**
 	 * get parameters for one meeting facility
@@ -113,47 +113,6 @@ class DimDim_Meeting extends Event {
 		}
 
 		// don't know where to go
-		return NULL;
-	}
-
-	/**
-	 * get an overlaid label
-	 *
-	 * Accepted action codes:
-	 * - 'edit' the modification of an existing object
-	 * - 'delete' the deleting form
-	 * - 'new' the creation of a new object
-	 * - 'view' a displayed object
-	 *
-	 * @see overlays/overlay.php
-	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use
-	 */
-	function get_label($name, $action='view') {
-		global $context;
-
-		switch($name.':'.$action) {
-
-		case 'edit_command:articles':
-			return i18n::s('Edit this meeting');
-
-		case 'new_command:articles':
-			return i18n::s('Add a meeting');
-
-		case 'page_title:edit':
-			return i18n::s('Edit a meeting');
-
-		case 'page_title:delete':
-			return i18n::s('Delete a meeting');
-
-		case 'page_title:new':
-			return i18n::s('Add a meeting');
-
-		}
-
-		// no match
 		return NULL;
 	}
 
