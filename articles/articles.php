@@ -504,7 +504,7 @@ Class Articles {
 			return TRUE;
 
 		// owners can publish their content in this section
-		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('auto_publish'))
+		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('members_edit'))
 			return TRUE;
 
 		// surfer owns the container
