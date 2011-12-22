@@ -75,7 +75,6 @@ $context['l10n']['en']['RSS feed']='RSS feed';
 $context['l10n']['en']['Recent comments at %s']='Recent comments at %s';
 $context['l10n']['en']['Recent pages']='Recent pages';
 $context['l10n']['en']['Reply']='Reply';
-$context['l10n']['en']['Reply to this post']='Reply to this post';
 $context['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $context['l10n']['en']['a05645e8bcb9d65916b93961e3239d97']='Since you are posting anonymously, most HTML tags and web addresses are removed.';
 $context['l10n']['en']['Start']='Start';

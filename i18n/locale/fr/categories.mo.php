@@ -15,6 +15,7 @@ $context['l10n']['fr']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%
 $context['l10n']['fr']['%d user'.chr(0).'%d users']='%d utilisateur'.chr(0).'%d utilisateurs';
 $context['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $context['l10n']['fr']['%s by %s %s']='%s par %s %s';
+$context['l10n']['fr']['%s has notified you from %s']='%s vous écrit depuis %s';
 $context['l10n']['fr']['%s: %s']='%s : %s';
 $context['l10n']['fr']['-- Root level']='-- Niveau de base';
 $context['l10n']['fr']['A message has been sent to:']='Un message a été envoyé à :';

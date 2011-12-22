@@ -75,7 +75,6 @@ $context['l10n']['fr']['RSS feed']='Fil RSS';
 $context['l10n']['fr']['Recent comments at %s']='Commentaires à %s';
 $context['l10n']['fr']['Recent pages']='Pages récentes';
 $context['l10n']['fr']['Reply']='Répondre';
-$context['l10n']['fr']['Reply to this post']='Répondre à cet envoi';
 $context['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $context['l10n']['fr']['a05645e8bcb9d65916b93961e3239d97']='Vous postez anonymement ; toutes les balises HTLM et les adresses web seront supprimées.';
 $context['l10n']['fr']['Start']='Commencer';
