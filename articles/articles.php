@@ -646,7 +646,7 @@ Class Articles {
 			$title = RESTRICTED_FLAG.$title;
 
 		// insert page title
-		$content .= '<h2><span>'.$title.'</span></h2>';
+		$content .= '<h3><span>'.$title.'</span></h3>';
 
 		// insert anchor prefix
 		if(is_object($anchor))
@@ -715,7 +715,7 @@ Class Articles {
 		// describe attachments
 		if(count($details))
 			$content .= '<hr align="left" size=1" width="150">'
-				.'<p style="margin: 3px 0;">'.sprintf(i18n::c('This page has %s'), join(', ', $details)).'</p>';
+				.'<p>'.sprintf(i18n::c('This page has %s'), join(', ', $details)).'</p>';
 
 		// assemble main content of this message
 		$text = Skin::build_mail_content($headline, $content);
