@@ -212,7 +212,7 @@ if(Surfer::is_crawler()) {
 
 	// default message content
 	$content = '<p>'.i18n::s('Can you review the following page and contribute to it where applicable?').'</p>'
-		.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'<a></p>'
+		.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>'
 		.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
 		.'<p>'.Surfer::get_name().'</p>';
 

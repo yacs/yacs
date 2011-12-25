@@ -229,7 +229,7 @@ if(Surfer::is_crawler()) {
 
 		else
 			$message = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
-				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>';
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>';
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $user['email']) !== FALSE) {
@@ -387,7 +387,7 @@ if(Surfer::is_crawler()) {
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
 		$content = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
-			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>'
+			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
 			.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 
