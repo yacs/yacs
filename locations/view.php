@@ -21,6 +21,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

@@ -13,7 +13,7 @@ class Overlay_test extends Overlay {
 	/**
 	 * text to be inserted aside
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
@@ -31,7 +31,7 @@ class Overlay_test extends Overlay {
 	/**
 	 * display the content of one overlay in a list
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
@@ -44,7 +44,7 @@ class Overlay_test extends Overlay {
 	/**
 	 * display a live introduction
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
@@ -57,7 +57,7 @@ class Overlay_test extends Overlay {
 	/**
 	 * display a live title
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
@@ -91,7 +91,7 @@ class Overlay_test extends Overlay {
 	/**
 	 * text to come after page description
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
@@ -104,7 +104,7 @@ class Overlay_test extends Overlay {
 	/**
 	 * display the content of one overlay in main view panel
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page

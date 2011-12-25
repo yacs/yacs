@@ -71,9 +71,9 @@ Class Article extends Anchor {
 	/**
 	 * get the url to display the icon for this anchor
 	 *
-	 * @return an anchor to the icon image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the icon image
 	 */
 	function get_icon_url() {
 		if(isset($this->item['icon_url']) && $this->item['icon_url'])
@@ -97,11 +97,11 @@ Class Article extends Anchor {
 	/**
 	 * get next and previous items, if any
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_neighbours($type, $item) {
 		global $context;
@@ -235,9 +235,9 @@ Class Article extends Anchor {
 	 *
 	 * For articles, the path bar is made of one stem for the section, then one stem for the article itself.
 	 *
-	 * @return an array of $url => $label, or NULL
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an array of $url => $label, or NULL
 	 */
 	function get_path_bar() {
 		global $context;
@@ -275,9 +275,9 @@ Class Article extends Anchor {
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
-	 * @return 'article:&lt;id&gt;', or NULL on error
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return 'article:&lt;id&gt;', or NULL on error
 	 */
 	function get_reference() {
 		if(isset($this->item['id']))
@@ -315,10 +315,10 @@ Class Article extends Anchor {
 	 * - 'quote' - strip most HTML tags
 	 * - 'teaser' - limit the number of words, tranform YACS codes, and link to permalink
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string an optional variant, including
 	 * @return NULL, of some text
-	 *
-	 * @see shared/anchor.php
 	 */
 	function &get_teaser($variant = 'basic') {
 		global $context;
@@ -445,9 +445,9 @@ Class Article extends Anchor {
 	/**
 	 * get the url to display the thumbnail for this anchor
 	 *
-	 * @return an anchor to the thumbnail image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the thumbnail image
 	 */
 	function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']))
@@ -458,10 +458,10 @@ Class Article extends Anchor {
 	/**
 	 * get the url to display the main page for this anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an anchor to the viewing script, or NULL on error
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
 
@@ -590,10 +590,10 @@ Class Article extends Anchor {
 	/**
 	 * load the related item
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
-	 *
-	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Articles::get($id, $mutable);
@@ -619,13 +619,13 @@ Class Article extends Anchor {
 	 * $fields = $article->parse($content['description'], $item);
 	 * [/php]
 	 *
-	 * @param string the input text
-	 * @param array previous attributes for the page
-	 * @return an array of updated attributes
-	 *
 	 * @see agents/messages.php
 	 $ @see agents/uploads.php
 	 * @see services/blog.php
+	 *
+	 * @param string the input text
+	 * @param array previous attributes for the page
+	 * @return an array of updated attributes
 	 */
 	function parse($text, $item = NULL) {
 		global $context;
@@ -738,10 +738,10 @@ Class Article extends Anchor {
 	/**
 	 * restore a previous version of this article
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		global $context;
@@ -756,10 +756,10 @@ Class Article extends Anchor {
 	/**
 	 * change some attributes of an anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param array of (name, value)
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see shared/anchor.php
 	 */
 	function set_values($fields) {
 
@@ -785,15 +785,15 @@ Class Article extends Anchor {
 	 * a message is sent to the article creator, if different from the current surfer
 	 * and a message is sent to watchers as well.
 	 *
+	 * @see articles/article.php
+	 * @see articles/edit.php
+	 * @see shared/anchor.php
+	 *
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
 	 * @param boolean TRUE to notify section watchers, default is FALSE
 	 * @param boolean TRUE to notify poster followers, default is FALSE
-	 *
-	 * @see articles/article.php
-	 * @see articles/edit.php
-	 * @see shared/anchor.php
 	 */
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
@@ -837,12 +837,11 @@ Class Article extends Anchor {
 
 			// identify specific files
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item =& Files::get($origin))) {
+			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
 
 				// give it to the Flash player
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
 					$label = '[embed='.$origin.']';
-
 
 			}
 
@@ -1031,11 +1030,6 @@ Class Article extends Anchor {
 			SQL::query($query);
 		}
 
-		// load the anchor, if any
-		$anchor = NULL;
-		if(isset($this->item['anchor']) && $this->item['anchor'])
-			$anchor =& Anchors::get($this->item['anchor']);
-
 		// do not signal the change to watchers if the page is on draft mode
 		if(!isset($this->item['publish_date']) ||  ($this->item['publish_date'] <= NULL_DATE)) {
 			$to_watchers = FALSE;
@@ -1053,27 +1047,17 @@ Class Article extends Anchor {
 			$surfer = Surfer::get_name();
 
 			// mail message
-			$mail = array();
+			$mail = array('subject' => '', 'message' => '', 'headers' => '');
 
 			// mail subject
 			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
-			// nothing done yet
-			$summary = $title = $link = '';
-
 			// a file has been added to the page
 			if($action == 'file:create') {
-				if(($target = Files::get($origin)) && $target['id']) {
+				if(($target = Files::get($origin, TRUE)) && $target['id']) {
 
-					// file title
-					if($target['title'])
-						$title = $target['title'];
-					else
-						$title = $target['file_name'];
-
-					// message components
-					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
-					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
+					// mail content
+					$mail['content'] = Files::build_notification($target);
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
@@ -1083,21 +1067,10 @@ Class Article extends Anchor {
 			// a comment has been added to the page
 			} else if($action == 'comment:create') {
 				include_once $context['path_to_root'].'comments/comments.php';
-				if(($target = Comments::get($origin)) && $target['id']) {
+				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
 
-					// title with link to the commented page
-					$page_title_link = '<a href="'.$context['url_to_home']
-					    .$context['url_to_root']
-					    .Articles::get_permalink($this->item)
-					    .'">'.$this->item['title'].'</a>';
-
-					// insert the full content of the comment, to provide the full information
-					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
-						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
-
-					// offer to react to the comment
-					$title = i18n::s('Reply');
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
+					// mail content
+					$mail['content'] = Comments::build_notification($target);
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
@@ -1107,34 +1080,55 @@ Class Article extends Anchor {
 			// something else has been added to the page
 			} else {
 
-				// add poster name if applicable
-				$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_name());
+				// headline
+				$headline  = sprintf(i18n::c('%s by %s'),
+					Anchors::get_action_label($action),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
 
-				// message components
+				// message main content
+				$mail['content'] = Skin::build_mail_content($headline);
+
+				// call for action
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
 				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
+				$menu = array(Skin::build_mail_button($link, $title, TRUE));
+				$mail['content'] .= Skin::build_mail_menu($menu);
 
 				// threads messages
 				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
 
 			}
 
-			// message to watchers
-			$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+			// wrap the full message
+			$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
 			// we only have mail address of page creator
 			if(!$this->item['create_id'] && $this->item['create_address'])
-				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
+				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
+
+			// get the related overlay, if any
+			$overlay = NULL;
+			include_once $context['path_to_root'].'overlays/overlay.php';
+			if(isset($this->item['overlay']))
+				$overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+
+			// do not notify watchers if overlay prevents it
+			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
+				$to_watchers = FALSE;
 
 			// alert watchers
 			if($to_watchers)
 				Users::alert_watchers('article:'.$this->item['id'], $mail);
 
+			// do not notify followers if overlay prevents it
+			if(is_object($overlay) && !$overlay->should_notify_followers($mail))
+				$to_followers = FALSE;
+
 			// alert connexions, except on private pages
 			if(Surfer::get_id() && $to_followers) {
 
 				// message to connexions
-				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
+				$mail['message'] = Mailer::build_notification($mail['content'], 2);
 
 				// alert connexions
 				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
@@ -1162,11 +1156,13 @@ Class Article extends Anchor {
 			if($action == 'comment:create')
 				$action = 'article:comment';
 
-			// default case
-			else
-				$action = 'article:update';
+			// notify the full contribution to section watcher
+			elseif($action == 'file:create')
+				$action = 'article:file';
 
-			$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
+			// propagate to parent only if target is the article
+			if(!strncmp($action, 'article:', strlen('article:')))
+				$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
 		}
 
 	}
@@ -1174,9 +1170,9 @@ Class Article extends Anchor {
 	/**
 	 * transcode some references
 	 *
-	 * @param array of pairs of strings to be used in preg_replace()
-	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 		global $context;

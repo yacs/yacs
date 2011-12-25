@@ -51,7 +51,6 @@ $context['l10n']['fr']['b96aca9f6d136363f1c15754d8da15df']='Aucune décision n\'
 $context['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $context['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $context['l10n']['fr']['Page to review']='Page concernée';
-$context['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $context['l10n']['fr']['cb80e3a58896b7ed8f62cb578e73aa7b']='Merci par avance de votre implication.';
 $context['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $context['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';

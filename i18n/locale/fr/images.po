@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-01 22:53+0200\n"
+"POT-Creation-Date: 2011-11-17 23:00+0100\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -17,23 +17,23 @@ msgstr ""
 
 #: images/check.php:23 images/check.php:34 images/check.php:107
 #: images/check.php:163 images/delete.php:80 images/edit.php:146
-#: images/index.php:63 images/upload.php:74 images/view.php:97
+#: images/index.php:62 images/upload.php:75 images/view.php:97
 msgid "Images"
 msgstr "Images"
 
-#: images/check.php:26 images/index.php:112
+#: images/check.php:26 images/index.php:111
 msgid "Maintenance"
 msgstr "Maintenance"
 
 #: images/check.php:31 images/delete.php:92 images/edit.php:165
-#: images/edit.php:190 images/index.php:68 images/set_as_icon.php:65
+#: images/edit.php:190 images/index.php:67 images/set_as_icon.php:65
 #: images/set_as_icon.php:80 images/set_as_thumbnail.php:63
-#: images/set_as_thumbnail.php:78 images/upload.php:82 images/upload.php:100
+#: images/set_as_thumbnail.php:78 images/upload.php:83 images/upload.php:101
 #: images/view.php:118
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: images/check.php:41 images/index.php:97
+#: images/check.php:41 images/index.php:96
 msgid "No image has been uploaded yet."
 msgstr "Aucune image n'a été téléchargée"
 
@@ -99,12 +99,12 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to delete this image"
 msgstr "Oui, je veux supprimer cette image"
 
-#: images/delete.php:121 images/edit.php:503 images/upload.php:295
+#: images/delete.php:121 images/edit.php:503 images/upload.php:302
 msgid "Cancel"
 msgstr "Annuler"
 
 #: images/delete.php:159 images/edit.php:385 images/edit.php:397
-#: images/layout_images.php:99 images/upload.php:288
+#: images/layout_images.php:99 images/upload.php:295
 msgid "bytes"
 msgstr "octets"
 
@@ -126,17 +126,17 @@ msgstr "Mettre une image à jour"
 msgid "Add an image"
 msgstr "Ajouter une image"
 
-#: images/edit.php:170 images/images.php:703 images/images.php:709
+#: images/edit.php:170 images/images.php:696 images/images.php:702
 #: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
-#: images/upload.php:105
+#: images/upload.php:106
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: images/edit.php:229 images/upload.php:180
+#: images/edit.php:229 images/upload.php:181
 msgid "No file has been transmitted."
 msgstr "Aucune image n'a été transmis."
 
-#: images/edit.php:249 images/upload.php:189
+#: images/edit.php:249 images/upload.php:190
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
@@ -157,19 +157,19 @@ msgstr "L'image a été ajoutée ; elle servira aussi de vignette."
 msgid "The image has been inserted."
 msgstr "L'image a été insérée."
 
-#: images/edit.php:283 images/upload.php:246
+#: images/edit.php:283 images/upload.php:253
 msgid "Persons that have been notified"
 msgstr "Personnes notifiées"
 
-#: images/edit.php:286 images/upload.php:249
+#: images/edit.php:286 images/upload.php:256
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: images/edit.php:288 images/upload.php:251
+#: images/edit.php:288 images/upload.php:258
 msgid "View the page"
 msgstr "Voir la page"
 
-#: images/edit.php:289 images/upload.php:252
+#: images/edit.php:289 images/upload.php:259
 msgid "Edit the page"
 msgstr "Modifier la page"
 
@@ -204,7 +204,7 @@ msgstr ""
 "Choisissez une image pour illustrer cette page. Vous pouvez préférer le %s "
 "si vous souhaitez transmettre plusieurs images en une seule opération."
 
-#: images/edit.php:356 images/upload.php:77
+#: images/edit.php:356 images/upload.php:78
 msgid "Bulk upload"
 msgstr "Téléversement multiple"
 
@@ -221,7 +221,7 @@ msgstr "posté par %s %s"
 msgid "Select another image to replace the current one"
 msgstr "Choisissez une autre image pour remplacer l'image courante"
 
-#: images/edit.php:396 images/upload.php:287
+#: images/edit.php:396 images/upload.php:294
 msgid "Press to select a local file"
 msgstr "Choisir un fichier local"
 
@@ -294,11 +294,11 @@ msgstr ""
 msgid "Options"
 msgstr "Options"
 
-#: images/edit.php:501 images/upload.php:293
+#: images/edit.php:501 images/upload.php:300
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: images/edit.php:501 images/upload.php:293
+#: images/edit.php:501 images/upload.php:300
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -412,22 +412,22 @@ msgstr "Impossible de créer le chemin %s."
 msgid "Impossible to copy file %s."
 msgstr "Impossible de copier le fichier %s."
 
-#: images/images.php:725
+#: images/images.php:718
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: images/images.php:777
+#: images/images.php:770
 msgid "No image has been uploaded."
 msgstr "Aucune image n'a été téléchargée"
 
-#: images/index.php:76
+#: images/index.php:75
 #, php-format
 msgid "%d image"
 msgid_plural "%d images"
 msgstr[0] "%d image"
 msgstr[1] "%d images"
 
-#: images/index.php:120
+#: images/index.php:119
 msgid "Recent pages"
 msgstr "Pages récentes"
 
@@ -468,31 +468,31 @@ msgstr "Utiliser une image"
 msgid "Operation has failed."
 msgstr "Impossible de mener l'opération à son terme"
 
-#: images/upload.php:110
+#: images/upload.php:111
 msgid "This page has been locked."
 msgstr "Cette page a été verrouillée."
 
-#: images/upload.php:176
+#: images/upload.php:177
 msgid "Please provide an archive file."
 msgstr "Merci de choisir le fichier archive à téléverser."
 
-#: images/upload.php:241 images/upload.php:262
+#: images/upload.php:248 images/upload.php:269
 #, php-format
 msgid "%d image has been processed."
 msgid_plural "%d images have been processed."
 msgstr[0] "%d image a été traitée."
 msgstr[1] "%d images ont été traitées."
 
-#: images/upload.php:243
+#: images/upload.php:250
 msgid "No image has been processed."
 msgstr "Aucune image n'a été traitée."
 
-#: images/upload.php:261
+#: images/upload.php:268
 #, php-format
 msgid "New images in %s"
 msgstr "Nouvelles images dans %s"
 
-#: images/upload.php:280
+#: images/upload.php:287
 msgid ""
 "To create nice picture albums, upload archive files that combine several "
 "images. In one operation the server will extract each image, resize it if "
@@ -503,11 +503,11 @@ msgstr ""
 "serveur va extraire chaque image, la retailler si nécessaire, créer une "
 "vignette, puis toutes les images seront intégrées dans la page."
 
-#: images/upload.php:289
+#: images/upload.php:296
 msgid "Select a .zip, .tar, .tar.gz or .tgz archive."
 msgstr "Choisir une archive au format .zip, .tar, .tar.gz ou .tgz."
 
-#: images/upload.php:308
+#: images/upload.php:315
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "

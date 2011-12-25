@@ -20,7 +20,7 @@ Class Layout_users_as_watch extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -31,7 +31,7 @@ Class Layout_users_as_watch extends Layout_interface {
 			return $items;
 
 		// build a list of users
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';

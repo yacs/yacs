@@ -61,7 +61,6 @@ $context['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $context['l10n']['fr']['Operation has failed.']='Impossible de mener l\'opération à son terme';
 $context['l10n']['fr']['Options']='Options';
 $context['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$context['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $context['l10n']['fr']['Please provide an archive file.']='Merci de choisir le fichier archive à téléverser.';
 $context['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $context['l10n']['fr']['16f90961d2f522242b4ab751e6de2bf0']='Merci de choisir une vignette pour cette page.';

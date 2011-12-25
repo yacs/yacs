@@ -44,9 +44,9 @@ Class Section extends Anchor {
 	/**
 	 * get the url to display the icon for this anchor
 	 *
-	 * @return an anchor to the icon image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the icon image
 	 */
 	function get_icon_url() {
 		if(isset($this->item['icon_url']))
@@ -59,12 +59,12 @@ Class Section extends Anchor {
 	 /**
 	  * provide a custom label
 	  *
-	  * @param string the module that is invoking the anchor (e.g., 'comments')
 	  * @param string the target label (e.g., 'edit_title', 'item_name', 'item_names')
+	  * @param string the module that is invoking the anchor (e.g., 'comments')
 	  * @param string an optional title, if any
 	  * @return string the foreseen label
 	  */
-	 function get_label($variant, $id, $title='') {
+	 function get_label($id, $variant, $title='') {
 		global $context;
 
 		// sanity check
@@ -89,20 +89,12 @@ Class Section extends Anchor {
 				return i18n::s('Comments');
 
 			// many comments
-			case 'count_many':
+			case 'list_title':
 				if($this->has_layout('jive'))
-					return i18n::s('replies');
+					return i18n::s('Replies');
 				if($this->has_layout('manual'))
-					return i18n::s('notes');
-				return i18n::s('comments');
-
-			// one comment
-			case 'count_one':
-				if($this->has_layout('jive'))
-					return i18n::s('reply');
-				if($this->has_layout('manual'))
-					return i18n::s('note');
-				return i18n::s('comment');
+					return i18n::s('Notes');
+				return i18n::s('Comments');
 
 			// command to delete a comment
 			case 'delete_command':
@@ -207,9 +199,13 @@ Class Section extends Anchor {
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
-				return $this->anchor->get_label($variant, $id);
+				return $this->anchor->get_label($variant, $id, $title);
 
 		}
+
+		// use default title
+		if($title)
+			return $title;
 
 		// no match
 		return 'Impossible to translate '.$id.' for module '.$variant;
@@ -231,11 +227,11 @@ Class Section extends Anchor {
 	/**
 	 * get next and previous items, if any
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the item type (eg, 'article', 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_neighbours($type, &$item) {
 		global $context;
@@ -408,9 +404,9 @@ Class Section extends Anchor {
 	 *
 	 * This function uses the cache to save on database requests.
 	 *
-	 * @return an array of $url => $label
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an array of $url => $label
 	 */
 	function get_path_bar() {
 		global $context;
@@ -436,9 +432,9 @@ Class Section extends Anchor {
 	/**
 	 * get the reference for this anchor
 	 *
-	 * @return 'section:&lt;id&gt;', or NULL
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return 'section:&lt;id&gt;', or NULL
 	 */
 	function get_reference() {
 		if(isset($this->item['id']))
@@ -476,10 +472,10 @@ Class Section extends Anchor {
 	 * - 'quote' - transform YACS codes, then strip most HTML tags
 	 * - 'teaser' - limit the number of words, tranform YACS codes, and link to permalink
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string an optional variant
 	 * @return NULL, of some text
-	 *
-	 * @see shared/anchor.php
 	 */
 	function &get_teaser($variant = 'basic') {
 		global $context;
@@ -675,9 +671,9 @@ Class Section extends Anchor {
 	 * NOT display section thumbnails throughout the server. In this case, he/she
 	 * has just to suppress the thumbnail URL in each section and that's it.
 	 *
-	 * @return an anchor to the thumbnail image
-	 *
 	 * @see shared/anchor.php
+	 *
+	 * @return an anchor to the thumbnail image
 	 */
 	function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']))
@@ -688,10 +684,10 @@ Class Section extends Anchor {
 	/**
 	 * get the url to display the main page for this anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an anchor to the viewing script
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
 
@@ -748,12 +744,12 @@ Class Section extends Anchor {
 	 * displays an avatar for the user
 	 *
 	 *
+	 * @see articles/view.php
+	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
 	 * @param string more information
 	 * @return a string to be returned to the browser
-	 *
-	 * @see articles/view.php
 	 */
 	function get_user_profile($user, $variant='prefix', $more='') {
 		global $context;
@@ -848,6 +844,7 @@ Class Section extends Anchor {
 			.'|articles_by_title'
 			.'|comments_as_wall'
 			.'|files_by_title'
+			.'|forward_notifications'
 			.'|links_by_title'
 			.'|no_comments' 		// e.g. master section vs. sub-forum
 			.'|no_links'
@@ -964,9 +961,9 @@ Class Section extends Anchor {
 	 * This function is used to enable additional processing steps on public pages only.
 	 * For example, only public pages are pinged on publication.
 	 *
-	 * @return TRUE or FALSE
-	 *
 	 * @see articles/publish.php
+	 *
+	 * @return TRUE or FALSE
 	 */
 	 function is_public() {
 		global $context;
@@ -1002,10 +999,10 @@ Class Section extends Anchor {
 	/**
 	 * load the related item
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
-	 *
-	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item =& Sections::get($id, $mutable);
@@ -1014,10 +1011,10 @@ Class Section extends Anchor {
 	/**
 	 * restore a previous version of this section
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		global $context;
@@ -1032,10 +1029,10 @@ Class Section extends Anchor {
 	/**
 	 * change some attributes of an anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param array of (name, value)
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see shared/anchor.php
 	 */
 	function set_values($fields) {
 
@@ -1050,14 +1047,14 @@ Class Section extends Anchor {
 	/**
 	 * remember the last action for this section
 	 *
+	 * @see articles/article.php
+	 * @see shared/anchor.php
+	 *
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
 	 * @param boolean TRUE to notify section watchers, default is FALSE
 	 * @param boolean TRUE to notify poster followers, default is FALSE
-	 *
-	 * @see articles/article.php
-	 * @see shared/anchor.php
 	 */
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
@@ -1098,7 +1095,7 @@ Class Section extends Anchor {
 
 			// identify specific files
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item =& Files::get($origin))) {
+			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
 
 				// give it to the Flash player
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
@@ -1251,6 +1248,20 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
+		// get the related overlay, if any
+		$overlay = NULL;
+		include_once $context['path_to_root'].'overlays/overlay.php';
+		if(isset($this->item['overlay']))
+			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
+
+		// do not notify watchers if overlay prevents it
+		if(is_object($overlay) && !$overlay->should_notify_watchers())
+			$to_watchers = FALSE;
+
+		// do not forward this to followers if the page is private
+		if($this->item['active'] == 'N')
+			$to_followers = FALSE;
+
 		// send alerts on new item, or on article modification, or on section modification
 		if(preg_match('/:create$/i', $action)
 			|| !strncmp($action, 'article:', strlen('article:')) || !strncmp($action, 'section:', strlen('section:'))) {
@@ -1259,90 +1270,100 @@ Class Section extends Anchor {
 			$surfer = Surfer::get_name();
 
 			// mail message
-			$mail = array();
+			$mail = array('subject' => '', 'message' => '', 'headers' => '');
 
 			// message subject
 			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
-			// nothing done yet
-			$summary = $title = $link = '';
-
 			// a comment has been added to a page in this section
 			if($action == 'article:comment') {
-				if(($target = Articles::get($origin)) && $target['id']) {
+				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
 					// mail subject
 					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
 
 					// look for the last comment
+					include_once $context['path_to_root'].'comments/comments.php';
 					if($comment = Comments::get_newest_for_anchor('article:'.$origin)) {
 
-						// last contributor
-						$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
-
-						// last contribution
-						$contribution = $comment['description'];
-
-						// display signature, but not for notifications
-						if($comment['type'] != 'notification')
-							$contribution .= Users::get_signature($comment['create_id']);
-
-						// title with link to the commented page
-						$page_title_link = '<a href="'.$context['url_to_home']
-							.$context['url_to_root']
-							.Articles::get_permalink($target)
-							.'">'.$target['title'].'</a>';
-
-						// insert the full content of the comment, to provide the full information
-						$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
-							.'<div style="margin: 1em 0;">'.Codes::beautify($contribution).'</div>';
-
-						// offer to react to the comment
-						$title = i18n::s('Reply');
-						$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($comment['id'], 'reply');
+						// mail content
+						$mail['content'] = Comments::build_notification($comment);
 
 						// threads messages
 						$mail['headers'] = Mailer::set_thread('comment:'.$comment['id'], 'article:'.$target['id']);
+
+						// message to watchers
+						$mail['message'] = Mailer::build_notification($mail['content'], 1);
+
+						// special case of article watchers
+						if($to_watchers)
+							Users::alert_watchers('article:'.$target['id'], $mail);
 
 					}
 				}
 
 			// an article has been added to the section
-			} else if($action == 'article:create') {
-				if(($target = Articles::get($origin)) && $target['id']) {
-
-					// message components
-					$summary = sprintf(i18n::c('A page has been submitted by %s'), $surfer);
-					$title = ucfirst(strip_tags($target['title']));
-					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+			} elseif($action == 'article:create') {
+				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
 					// message subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), $title);
+					$mail['subject'] = sprintf(i18n::c('%s: %s'),
+						ucfirst(strip_tags($this->item['title'])),
+						ucfirst(strip_tags($target['title'])));
+
+					// mail content
+					$mail['content'] = Articles::build_notification($target, 'create');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('article:'.$target['id'], $this->get_reference());
 
 				}
 
+			// a file has been added to a page in this section
+			} elseif($action == 'article:file') {
+				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
+
+					// mail subject
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
+
+					// look for the last upload
+					if($file = Files::get_newest_for_anchor('article:'.$origin)) {
+
+						// mail content
+						$mail['content'] = Files::build_notification($file);
+
+						// threads messages
+						$mail['headers'] = Mailer::set_thread('file:'.$file['id'], 'article:'.$target['id']);
+
+						// message to watchers
+						$mail['message'] = Mailer::build_notification($mail['content'], 1);
+
+						// special case of article watchers
+						if($to_watchers)
+							Users::alert_watchers('article:'.$target['id'], $mail);
+
+					}
+				}
+
 			// an article has been published
 			} elseif($action == 'article:publish') {
-				if(($target = Articles::get($origin)) && $target['id']) {
-
-					// message components
-					$summary = sprintf(i18n::c('Page has been published by %s'), $surfer);
-					$title = ucfirst(strip_tags($target['title']));
-					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
 					// message subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
+					$mail['subject'] = sprintf(i18n::c('%s: %s'),
+						ucfirst(strip_tags($this->item['title'])),
+						ucfirst(strip_tags($target['title'])));
+
+					// mail content
+					$mail['content'] = Articles::build_notification($target, 'publish');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
 
 					// message to watchers
-					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+					$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
-					// special case of article watchers
+					// special case of article watchers, if any
 					if($to_watchers)
 						Users::alert_watchers('article:'.$target['id'], $mail);
 
@@ -1350,21 +1371,19 @@ Class Section extends Anchor {
 
 			// an article has been updated
 			} elseif($action == 'article:update') {
-				if(($target = Articles::get($origin)) && $target['id']) {
+				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
-					// message components
-					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
-					$title = ucfirst(strip_tags($target['title']));
-					$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
+					// mail subject
+					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
 
-					// message subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
+					// mail content
+					$mail['content'] = Articles::build_notification($target, 'update');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
 
 					// message to watchers
-					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+					$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
 					// special case of article watchers
 					if($to_watchers)
@@ -1374,17 +1393,10 @@ Class Section extends Anchor {
 
 			// a file has been added to the section
 			} else if($action == 'file:create') {
-				if(($target = Files::get($origin)) && $target['id']) {
+				if(($target = Files::get($origin, TRUE)) && $target['id']) {
 
-					// file title
-					if($target['title'])
-						$title = $target['title'];
-					else
-						$title = $target['file_name'];
-
-					// message components
-					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
-					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
+					// mail content
+					$mail['content'] = Files::build_notification($target);
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
@@ -1394,20 +1406,10 @@ Class Section extends Anchor {
 			// a comment has been added to the section
 			} else if($action == 'comment:create') {
 				include_once $context['path_to_root'].'comments/comments.php';
-				if(($target = Comments::get($origin)) && $target['id']) {
+				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
 
-					// title with link to the commented page
-					$page_title_link = '<a href="'.$context['url_to_home']
-					    .$context['url_to_root']
-					    .Sections::get_permalink($this->item)
-					    .'">'.$this->item['title'].'</a>';
-					// insert the full content of the comment, to provide the full information
-					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
-						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
-
-					// offer to react to the comment
-					$title = i18n::s('Reply');
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
+					// mail content
+					$mail['content'] = Comments::build_notification($target);
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
@@ -1416,12 +1418,10 @@ Class Section extends Anchor {
 
 			// a section has been added to the section
 			} elseif($action == 'section:create') {
-				if(($target = Sections::get($origin)) && $target['id']) {
+				if(($target = Sections::get($origin, TRUE)) && $target['id']) {
 
-					// message components
-					$summary = sprintf(i18n::c('A section has been created by %s'), $surfer);
-					$title = ucfirst(strip_tags($target['title']));
-					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
+					// mail content
+					$mail['content'] = Sections::build_notification($target, 'create');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', $this->get_reference());
@@ -1430,21 +1430,16 @@ Class Section extends Anchor {
 
 			// a section has been updated
 			} elseif($action == 'section:update') {
-				if(($target = Sections::get($origin)) && $target['id']) {
+				if(($target = Sections::get($origin, TRUE)) && $target['id']) {
 
-					// message components
-					$summary = sprintf(i18n::c('Page has been modified by %s'), $surfer);
-					$title = ucfirst(strip_tags($target['title']));
-					$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($target);
-
-					// message subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), ucfirst(strip_tags($target['title'])));
+					// mail content
+					$mail['content'] = Sections::build_notification($target, 'update');
 
 					// threads messages
 					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);
 
 					// message to watchers
-					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+					$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
 					// special case of section watchers
 					if($to_watchers)
@@ -1455,27 +1450,41 @@ Class Section extends Anchor {
 			// something else has been added to the section
 			} else {
 
-				// add poster name
-				$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_name());
+				// headline
+				$headline  = sprintf(i18n::c('%s by %s'),
+					Anchors::get_action_label($action),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
 
-				// message components
+				// start the notification
+				$mail['content'] = Skin::build_mail_content($headline);
+
+				// call for action
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
 				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
+				$menu = array(Skin::build_mail_button($link, $title, TRUE));
+				$mail['content'] .= Skin::build_mail_menu($menu);
 
 				// threads messages
 				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
 
 			}
 
-			// scope of notifications is the originating page, and its parent section
-			if(!strncmp($action, 'article:', strlen('article:'))) {
+			// message to watchers
+			$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
-				// message to watchers
-				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
+			// scope of notifications is the originating page, and its parent section
+			if(!strncmp($action, 'article:', strlen('article:')) && ($action != 'article:create') && ($action != 'article:publish')) {
+
+				// we are the parent section
+				$containers = array($this->get_reference());
+
+				// forward notifications to grand-parent section too
+				if(preg_match('/\bforward_notifications\b/i', $this->item['options']) && ($parent = $this->item['anchor']))
+					$containers[] = $this->item['anchor'];
 
 				// users assigned to this section only
 				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_reference()))) {
+				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
 					foreach($editors as $editor)
 						if(strpos($editor, 'user:') === 0)
 							$restricted[] = substr($editor, strlen('user:'));
@@ -1483,17 +1492,17 @@ Class Section extends Anchor {
 
 				// alert watchers of this section
 				if($to_watchers)
-					Users::alert_watchers($this->get_reference(), $mail, $restricted);
+					Users::alert_watchers($containers, $mail, $restricted);
 
 			// scope of notification is the originating section, and its parent section
-			} elseif(!strncmp($action, 'section:', strlen('section:'))) {
+			} elseif(!strncmp($action, 'section:', strlen('section:')) && ($action != 'section:create')) {
 
 				// we will re-use the message sent to section watchers
 				if(isset($mail['message']) && ($container = $this->get_parent())) {
 
 					// users assigned only to parent section
 					$restricted = NULL;
-					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($container))) {
+					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
 						foreach($editors as $editor)
 							if(strpos($editor, 'user:') === 0)
 								$restricted[] = substr($editor, strlen('user:'));
@@ -1507,9 +1516,6 @@ Class Section extends Anchor {
 
 			// alert watchers of all sections upwards
 			} else {
-
-				// message to watchers
-				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
 
 				// the path of containers to this item
 				$containers = $this->get_focus();
@@ -1530,7 +1536,7 @@ Class Section extends Anchor {
 				if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
 
 					// message to connections
-					$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
+					$mail['message'] = Mailer::build_notification($mail['content'], 2);
 
 					// alert connections
 					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
@@ -1554,9 +1560,9 @@ Class Section extends Anchor {
 	/**
 	 * transcode some references
 	 *
-	 * @param array of pairs of strings to be used in preg_replace()
-	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 		global $context;

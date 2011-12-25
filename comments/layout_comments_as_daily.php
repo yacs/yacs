@@ -39,7 +39,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -57,7 +57,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$count = $this->offset;
 		else
 			$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);

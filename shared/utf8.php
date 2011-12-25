@@ -306,6 +306,11 @@ Class Utf8 {
 	 * $text = utf8::to_ascii($text, ' ');
 	 * [/php]
 	 *
+	 * You can use following constants depending on application:
+	 * - FILENAME_SAFE_ALPHABET
+	 * - PRINTABLE_SAFE_ALPHABET
+	 * - URL_SAFE_ALPHABET
+	 *
 	 * @param string a complex string using HTML entities
 	 * @param string optional characters to accept
 	 * @return a US-ASCII string
@@ -323,7 +328,7 @@ Class Utf8 {
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	function &to_ascii($utf, $options=' =:/()<>"') {
+	function &to_ascii($utf, $options=FILENAME_SAFE_ALPHABET) {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
@@ -621,6 +626,62 @@ Class Utf8 {
 				$input[$name] = utf8::to_unicode_recursively($value);
 			else
 				$input[$name] = utf8::to_unicode($value);
+		}
+		return $input;
+
+	}
+
+	/**
+	 * transcode multi-byte characters to XML representation
+	 *
+	 * This function is aiming to escape XML character entity references, namely: ", &, ', < and > characters.
+	 *
+	 * @link http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
+	 *
+	 * Multi-byte UTF-8 entities are not transformed, since it is assumed that the output
+	 * will be encoded in UTF-8 anyway.
+	 *
+	 * If the input is a string, it is not modified. If it is an array, it is transformed.
+	 * @param mixes the original UTF-8 string, or array of named values
+	 * @return a string acceptable in an XML snippet
+	 */
+	function &to_xml(&$input) {
+		global $context;
+
+		// transcode arrays as well
+		if(is_array($input)) {
+			utf8::to_xml_recursively($input);
+			$output = $input;
+			return $output;
+		}
+
+		// escape all xml predefined entities
+		$output = str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), $input);
+
+		// return the translated string
+		return $output;
+
+	}
+
+	/**
+	 * transcode arrays recursively
+	 *
+	 * @param array the variable to convert
+	 * @return converted object (which is also the input array)
+	 */
+	function to_xml_recursively(&$input) {
+		global $context;
+
+		// sanity check
+		if(!is_array($input))
+			return utf8::to_xml($input);
+
+		// process all attributes
+		foreach($input as $name => $value) {
+			if(is_array($value))
+				$input[$name] = utf8::to_xml_recursively($value);
+			else
+				$input[$name] = utf8::to_xml($value);
 		}
 		return $input;
 

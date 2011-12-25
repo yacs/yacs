@@ -193,8 +193,8 @@ if(!isset($item['id'])) {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.csv');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($item['title']).'.csv');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

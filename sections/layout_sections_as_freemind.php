@@ -16,7 +16,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string a set of XML nodes to be integrated into a full Fremind map
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -64,13 +64,13 @@ Class Layout_sections_as_freemind extends Layout_interface {
 		$count = 0; // number of nodes processed so far
 		$stack = 0; // branch depth
 		$various_index = 0; // style selector for current section
-		$articles_per_page = 10; // to break the list of related articles
+		$articles_per_page = 20; // to break the list of related articles
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = $rating = $content = '';
@@ -111,8 +111,13 @@ Class Layout_sections_as_freemind extends Layout_interface {
 				$details[] = Skin::build_date($item['edit_date']);
 
 			// count related sections, if any
-			if($count = Sections::count_for_anchor('section:'.$item['id']))
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+
+				// list sub-sections
+				$content .= Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'freemind');
+
+			}
 
 			// count related articles, if any
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {

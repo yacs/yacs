@@ -21,7 +21,7 @@ Class Layout_articles_as_tagged extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -35,7 +35,7 @@ Class Layout_articles_as_tagged extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -44,7 +44,7 @@ Class Layout_articles_as_tagged extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -85,6 +85,15 @@ Class Layout_articles_as_tagged extends Layout_interface {
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$suffix .= ' ('.$count.')';
 
+			// the introductory text
+			$introduction = '';
+			if(is_object($overlay))
+				$introduction = $overlay->get_text('introduction', $item);
+			elseif($item['introduction'])
+				$introduction = $item['introduction'];
+			if($introduction)
+				$suffix .= ' -&nbsp;'.Codes::beautify_introduction($introduction);
+
 			// details
 			$details = array();
 
@@ -105,7 +114,7 @@ Class Layout_articles_as_tagged extends Layout_interface {
 				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
 			// list all components for this item
-			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);
+			$items[$url] = array($prefix, $title, $suffix, 'article');
 
 		}
 

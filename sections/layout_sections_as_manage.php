@@ -18,7 +18,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -32,7 +32,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_section_rows(handle) {'."\n"
 			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
-			.'		function() { $(this).attr("checked", $(handle).attr("checked"));}'."\n"
+			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
 			.JS_SUFFIX."\n";
@@ -51,7 +51,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 			$cells = array();
 
 			// get the related overlay, if any
@@ -61,7 +61,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// column to select the row
 			$cells[] = '<input type="checkbox" name="selected_sections[]" id="section_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';

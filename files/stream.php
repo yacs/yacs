@@ -74,7 +74,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -165,7 +165,7 @@ if(!$item['id']) {
 		$file_name = utf8::to_ascii($item['file_name']);
 
 		// where the file is
-		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+		$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 		// redirect to the actual file
 		$target_href = $context['url_to_home'].$context['url_to_root'].$path;
@@ -210,8 +210,8 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
-		// load the full library
-		$script = 'included/browser/library.js';
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -237,12 +237,15 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
@@ -265,12 +268,15 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
@@ -292,6 +298,9 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
@@ -299,7 +308,6 @@ if(!$item['id']) {
 			.'<title>'.$context['page_title'].'</title>'."\n";
 
 		// load the full library
-		$script = 'included/browser/library.js';
 		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
 
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
@@ -385,7 +393,8 @@ if(!$item['id']) {
 		if(!$fetched) {
 
 			// increment the count of downloads
-			Files::increment_hits($item['id']);
+			if(!Surfer::is_crawler())
+				Files::increment_hits($item['id']);
 
 			// record surfer activity
 			Activities::post('file:'.$item['id'], 'fetch');
@@ -401,7 +410,7 @@ if(!$item['id']) {
 		// suggest a download
 		if(!headers_sent()) {
 			$file_name = utf8::to_ascii($item['file_name'].$type);
-			Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+			Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 		}
 
 		// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

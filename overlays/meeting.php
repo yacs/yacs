@@ -23,7 +23,7 @@ include_once 'event.php';
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class External_Meeting extends Event {
+class Meeting extends Event {
 
 	/**
 	 * get parameters for one meeting facility
@@ -58,23 +58,6 @@ class External_Meeting extends Event {
 	}
 
 	/**
-	 * text to be displayed to page owner
-	 *
-	 * @see overlays/event.php
-	 *
-	 * @return string some instructions to page owner
-	 */
-	function get_event_status() {
-
-		// ensure we have an address for the meeting
-		if(!isset($this->attributes['meeting_url']) || !$this->attributes['meeting_url'])
-			return i18n::s('No information has been set for this meeting');
-
-		// everything is ok
-		return NULL;
-	}
-
-	/**
 	 * the URL to join the meeting
 	 *
 	 * @see overlays/events/join.php
@@ -105,45 +88,47 @@ class External_Meeting extends Event {
 	 *
 	 * @param string the target label
 	 * @param string the on-going action
+	 * @param boolean TRUE to localize as per surfer settings, FALSE to localize as per community settings
 	 * @return the label to use
 	 */
-	function get_label($name, $action='view') {
+	function get_label($name, $action='view', $surfer=TRUE) {
 		global $context;
 
-		// the target label
-		switch($name) {
+		switch($name.':'.$action) {
 
-		// edit command
-		case 'edit_command':
-			return i18n::s('Edit this meeting');
-			break;
+		case 'edit_command:articles':
+		case 'edit_command:sections':
+			if($surfer)
+				return i18n::s('Edit this meeting');
+			return i18n::c('Edit this meeting');
 
-		// new command
-		case 'new_command':
-			return i18n::s('Add a meeting');
-			break;
+		case 'new_command:articles':
+		case 'new_command:sections':
+			if($surfer)
+				return i18n::s('Add a meeting');
+			return i18n::c('Add a meeting');
 
-		// page title
-		case 'page_title':
+		case 'permalink_command:articles':
+		case 'permalink_command:sections':
+			if($surfer)
+				return i18n::s('View meeting details');
+			return i18n::c('View meeting details');
 
-			switch($action) {
-
-			case 'edit':
+		case 'page_title:edit':
+			if($surfer)
 				return i18n::s('Edit a meeting');
+			return i18n::c('Edit a meeting');
 
-			case 'delete':
+		case 'page_title:delete':
+			if($surfer)
 				return i18n::s('Delete a meeting');
+			return i18n::c('Delete a meeting');
 
-			case 'new':
-				return i18n::s('New meeting');
+		case 'page_title:new':
+			if($surfer)
+				return i18n::s('Add a meeting');
+			return i18n::c('Add a meeting');
 
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
 		}
 
 		// no match

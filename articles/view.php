@@ -184,7 +184,7 @@ $item =& Articles::get($id);
 // get owner profile, if any
 $owner = array();
 if(isset($item['owner_id']))
-	$owner =& Users::get($item['owner_id']);
+	$owner = Users::get($item['owner_id']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -313,8 +313,8 @@ if(!isset($item['id'])) {
 	// remember surfer visit
 	Surfer::is_visiting(Articles::get_permalink($item), Codes::beautify_title($item['title']), 'article:'.$item['id'], $item['active']);
 
-	// increment silently the hits counter if not associate, nor creator, nor at follow-up page -- editors are taken into account
-	if(Surfer::is_associate())
+	// increment silently the hits counter if not robot, nor associate, nor owner, nor at follow-up page
+	if(Surfer::is_crawler() || Surfer::is_associate())
 		;
 	elseif(isset($item['owner_id']) && Surfer::is($item['owner_id']))
 		;
@@ -466,19 +466,15 @@ if(!isset($item['id'])) {
 		if(Surfer::is_logged()) {
 
 			// page owner
-			if(Surfer::is_logged() && isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
 				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
 			// page editors
-			$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
-			if($items =& Members::list_editors_for_member($anchors, 0, 7, 'comma5'))
+			if($items = Articles::list_editors_by_login($item, 0, 7, 'comma5'))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 			// page watchers
-			$anchors = array('article:'.$item['id']);
-			if(($item['active'] != 'N') || $anchor->is_assigned())
-				$anchors[] = $anchor->get_reference();
-			if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 7, 'comma5'))
+			if($items = Articles::list_watchers_by_posts($item, 0, 7, 'comma5'))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		}
@@ -602,7 +598,7 @@ if(!isset($item['id'])) {
 	// notify participants
 	if((Articles::is_owned($item, $anchor) || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// manage editors
@@ -976,7 +972,7 @@ if(!isset($item['id'])) {
 
 		// title label
 		if(is_object($anchor) && $anchor->is_viewable())
-			$title_label = ucfirst($anchor->get_label('comments', 'count_many'));
+			$title_label = ucfirst($anchor->get_label('list_title', 'comments'));
 		else
 			$title_label = i18n::s('Comments');
 
@@ -988,7 +984,7 @@ if(!isset($item['id'])) {
 
 		// label to create a comment
 		if(is_object($anchor) && $anchor->is_viewable())
-			$add_label = $anchor->get_label('comments', 'new_command');
+			$add_label = $anchor->get_label('new_command', 'comments');
 		else
 			$add_label = i18n::s('Post a comment');
 
@@ -1184,7 +1180,7 @@ if(!isset($item['id'])) {
 	// modify this page
 	if(Articles::allow_modification($item, $anchor)) {
 		Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 			$label = i18n::s('Edit this page');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 	}

@@ -558,7 +558,7 @@ if(!Surfer::is_associate()) {
 	$text = Codes::beautify($_REQUEST['letter_body']);
 
 	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	$message = Mailer::build_multipart($text);
 
 	// reply-to: from the letters configuration file
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
@@ -580,7 +580,7 @@ if(!Surfer::is_associate()) {
 
 	// do the job
 	if($recipients_processed) {
-		$recipients_ok = Mailer::post($from, $to, $subject, $message);
+		$recipients_ok = Mailer::post($from, $to, $subject, $message, NULL, $headers);
 		Mailer::close();
 
 		// we may have more recipients than expected

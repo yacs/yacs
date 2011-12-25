@@ -213,7 +213,7 @@ Class Cache {
 			." WHERE (cache.id LIKE '".SQL::escape($id)."')";
 
 		// do not report on error
-		if(!$item =& SQL::query_first($query, TRUE))
+		if(!$item = SQL::query_first($query, TRUE))
 			return $output;
 
 		// check item validity

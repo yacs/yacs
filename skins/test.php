@@ -176,7 +176,7 @@ $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or c
 $panels = array();
 
 // regular panel
-// will be derivated to $context['text'] after codes::beautify()
+// will be derived to $context['text'] after codes::beautify()
 $text = '';
 
 // $context['text']

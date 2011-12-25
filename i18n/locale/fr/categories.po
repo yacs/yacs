@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 10:08+0200\n"
+"POT-Creation-Date: 2011-11-17 23:00+0100\n"
 "PO-Revision-Date: 2010-11-12 18:26+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -182,11 +182,11 @@ msgstr "Contact"
 msgid "See also"
 msgstr "Voir aussi"
 
-#: categories/complete.php:35
+#: categories/complete.php:33
 msgid "Complete tags"
 msgstr "Etiquetage"
 
-#: categories/complete.php:40
+#: categories/complete.php:38
 msgid "Request is invalid."
 msgstr "La requête est invalide."
 
@@ -212,7 +212,7 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to delete this category"
 msgstr "Oui, je veux supprimer cette catégorie"
 
-#: categories/delete.php:115 categories/edit.php:879 categories/mail.php:164
+#: categories/delete.php:115 categories/edit.php:880 categories/mail.php:164
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -275,7 +275,7 @@ msgstr "Ajouter un lien"
 msgid "Title"
 msgstr "Titre"
 
-#: categories/edit.php:285 categories/edit.php:912 categories/mail.php:182
+#: categories/edit.php:285 categories/edit.php:913 categories/mail.php:182
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
@@ -652,76 +652,76 @@ msgstr "Pour charger template_foo_bar.php à la place du modèle normal"
 msgid "You may combine several keywords:"
 msgstr "Vous pouvez combiner plusieurs mots-clés :"
 
-#: categories/edit.php:815
+#: categories/edit.php:816
 msgid "Change the overlay"
 msgstr "Changer d'overlay"
 
-#: categories/edit.php:818 categories/edit.php:822
+#: categories/edit.php:819 categories/edit.php:823
 msgid "none"
 msgstr "aucun"
 
-#: categories/edit.php:819
+#: categories/edit.php:820
 msgid "If you change the overlay you may loose some data."
 msgstr "Vous pouvez perdre des informations si vous changez l'overlay."
 
-#: categories/edit.php:821
+#: categories/edit.php:822
 msgid "No overlay has been selected yet."
 msgstr "Aucun overlay n'a été sélectionné."
 
-#: categories/edit.php:859
+#: categories/edit.php:860
 msgid "More options"
 msgstr "Plus d'options"
 
-#: categories/edit.php:864
+#: categories/edit.php:865
 msgid "Options"
 msgstr "Options"
 
-#: categories/edit.php:875
+#: categories/edit.php:876
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: categories/edit.php:875 categories/mail.php:160
+#: categories/edit.php:876 categories/mail.php:160
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: categories/edit.php:889
+#: categories/edit.php:890
 msgid "Do not change modification date."
 msgstr "Ne pas changer la date de modification."
 
-#: categories/edit.php:892
+#: categories/edit.php:893
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: categories/edit.php:934
+#: categories/edit.php:935
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: categories/edit.php:934
+#: categories/edit.php:935
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: categories/edit.php:934
+#: categories/edit.php:935
 msgid "smileys"
 msgstr "emoticons"
 
-#: categories/edit.php:937
+#: categories/edit.php:938
 msgid "Mandatory fields are marked with a *"
 msgstr "* signale les champs obligatoires"
 
-#: categories/edit.php:944
+#: categories/edit.php:945
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: categories/edit.php:948
+#: categories/edit.php:949
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: categories/edit.php:952
+#: categories/edit.php:953
 msgid "Textarea"
 msgstr "Textarea"
 
-#: categories/edit.php:956
+#: categories/edit.php:957
 msgid "Help"
 msgstr "Aide"
 

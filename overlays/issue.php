@@ -204,7 +204,7 @@ class Issue extends Overlay {
 			." WHERE (issues.anchor LIKE '".SQL::escape($this->anchor->get_reference())."')";
 
 		// fetch the first row
-		if(!$row =& SQL::query_first($query))
+		if(!$row = SQL::query_first($query))
 			return NULL;
 
 		// text returned
@@ -283,32 +283,26 @@ class Issue extends Overlay {
 		global $context;
 
 		// the target label
-		switch($name) {
+		switch($name.':'.$action) {
 
-		// description label
-		case 'description':
+		case 'description:articles':
 			return i18n::s('Issue description');
 
-		// page title
-		case 'page_title':
+		case 'edit_command:articles':
+			return i18n::s('Edit this issue');
 
-			switch($action) {
+		case 'new_command:articles':
+			return i18n::s('Add an issue');
 
-			case 'edit':
-				return i18n::s('Edit an issue');
+		case 'page_title:edit':
+			return i18n::s('Edit an issue');
 
-			case 'delete':
-				return i18n::s('Delete an issue');
+		case 'page_title:delete':
+			return i18n::s('Delete an issue');
 
-			case 'new':
-				return i18n::s('Add an issue');
+		case 'page_title:new':
+			return i18n::s('Add an issue');
 
-			case 'view':
-			default:
-				// use the article title as the page title
-				return NULL;
-
-			}
 		}
 
 		// no match
@@ -491,7 +485,7 @@ class Issue extends Overlay {
 	/**
 	 * display the content of one overlay in a list
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
 	 * @param mixed any other options
@@ -832,14 +826,14 @@ class Issue extends Overlay {
 				$label = i18n::s('Patch has been submitted on %s');
 			else
 				$label = i18n::s('Page has been created on %s');
-			$tracking .= '<div class="bottom" style="margin-bottom: 1em;">'.sprintf($label, Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'#create_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
+			$tracking .= '<div class="bottom" style="margin-bottom: 1em;">'.sprintf($label, Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'#create_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
 
 			$tracking .= NEXT_STEP;
 
 			// qualification_date
 			if(isset($this->attributes['qualification_date']))
 				$this->attributes['qualification_date'] = Surfer::from_GMT($this->attributes['qualification_date']);
-			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#qualification_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#qualification_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:problem'))
 				$checked = 'checked="checked"';
@@ -856,7 +850,7 @@ class Issue extends Overlay {
 
 				if(isset($this->attributes['analysis_date']))
 					$this->attributes['analysis_date'] = Surfer::from_GMT($this->attributes['analysis_date']);
-				$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#analysis_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+				$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#analysis_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 				$checked = '';
 				if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
 					$checked = 'checked="checked"';
@@ -881,7 +875,7 @@ class Issue extends Overlay {
 				$label = i18n::s('Assignment has been finalized on %s');
 			else
 				$label = i18n::s('Resolution has been finalized on %s');
-			$tracking .= '<div style="margin-top: 1em">'.sprintf($label, Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#resolution_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf($label, Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#resolution_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:solution'))
 				$checked = 'checked="checked"';
@@ -896,7 +890,7 @@ class Issue extends Overlay {
 			// close_date
 			if(isset($this->attributes['close_date']))
 				$this->attributes['close_date'] = Surfer::from_GMT($this->attributes['close_date']);
-			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Case has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#close_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$tracking .= '<div style="margin-top: 1em">'.sprintf(i18n::s('Case has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date'] : NULL_DATE, 'date_time').' <a onclick="$(\'#close_date\').val(\''.$now.'\')" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'completed:solution'))
 				$checked = 'checked="checked"';
@@ -916,13 +910,10 @@ class Issue extends Overlay {
 				$value = '';
 			$tracking .= '<div class="bottom">'.i18n::s('Owner')
 				.' <input type="text" name="owner" id="owner" value ="'.encode_field($value).'" size="25" maxlength="32" />'
-				.'<div id="owner_choice" class="autocomplete"></div>'
 				.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 			$context['page_footer'] .= JS_PREFIX
 				.'// enable owner autocompletion'."\n"
-				.'$(document).ready( function() {'."\n"
-				.' Yacs.autocomplete_names("#owner",true);'."\n"
-				.'});  '."\n"
+				.'$(document).ready( function() { Yacs.autocomplete_names("owner",true); });  '."\n"
 				.JS_SUFFIX;
 		}
 
@@ -1061,7 +1052,6 @@ class Issue extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 
@@ -1077,8 +1067,6 @@ class Issue extends Overlay {
 		$this->attributes['analysis_date'] = isset($fields['analysis_date']) ? Surfer::to_GMT($fields['analysis_date']) : NULL_DATE;
 		$this->attributes['resolution_date'] = isset($fields['resolution_date']) ? Surfer::to_GMT($fields['resolution_date']) : NULL_DATE;
 		$this->attributes['close_date'] = isset($fields['close_date']) ? Surfer::to_GMT($fields['close_date']) : NULL_DATE;
-
-		return $this->attributes;
 	}
 
 	/**
@@ -1088,12 +1076,12 @@ class Issue extends Overlay {
 	 *
 	 * @see overlays/overlay.php
 	 *
-	 * @param string the action 'insert' or 'update' or 'delete'
+	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
-	 * @param string reference of the anchor, if any -- mandatory on 'insert'
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($action, $host, $reference=NULL) {
+	function remember($action, $host, $reference) {
 		global $context;
 
 		// locate anchor on 'insert'

@@ -81,7 +81,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -204,17 +204,36 @@ if(Surfer::is_crawler()) {
 	// just an update of the record
 	$action = 'file:update';
 
-	// a file has been uploaded
-	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
+	// a reference has been posted --process it first, to not take file upload into account, if any
+	if(isset($_REQUEST['file_href']) && $_REQUEST['file_href']) {
 
-		// where to put this file
-		$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
+		// protect from hackers -- encode_link() would introduce &amp;
+		$_REQUEST['file_href'] = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $_REQUEST['file_href']), ' _');
+
+		// ensure we have a title
+		if(!$_REQUEST['title'])
+			$_REQUEST['title'] = str_replace('%20', ' ', basename($_REQUEST['file_href']));
+
+		// ensure we have a file name
+		$_REQUEST['file_name'] = utf8::to_ascii(str_replace('%20', ' ', basename($_REQUEST['file_href'])));
+
+		// always remember file uploads, for traceability
+		if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
+			$_REQUEST['version'] = '';
+		else
+			$_REQUEST['version'] = ' - '.$_REQUEST['version'];
+
+		$_REQUEST['version'] = $_REQUEST['file_name'].' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+
+	// a file has been uploaded
+	} elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
 		// remember file size
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
 		// move the file to the right place
-		if($file_name = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
+		$file_path = Files::get_path($_REQUEST['anchor']);
+		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
 			$_REQUEST['file_name'] = $file_name;
 
 			// actually, a new file
@@ -224,9 +243,9 @@ if(Surfer::is_crawler()) {
 			if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
 				$_REQUEST['version'] = '';
 			else
-				$_REQUEST['version'] = ' - '.$_REQUEST['version'];
+				$_REQUEST['version'] = $_REQUEST['version'].' - ';
 
-			$_REQUEST['version'] = $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+			$_REQUEST['version'] .= $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')';
 
 			// maybe this file has already been uploaded for this anchor
 			if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
@@ -245,19 +264,6 @@ if(Surfer::is_crawler()) {
 		// we have a real file, not a reference
 		$_REQUEST['file_href'] = '';
 
-	// we are posting a reference
-	} elseif(isset($_REQUEST['file_href']) && $_REQUEST['file_href']) {
-
-		// protect from hackers -- encode_link() would introduce &amp;
-		$_REQUEST['file_href'] = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $_REQUEST['file_href']), ' _');
-
-		// ensure we have a title
-		if(!$_REQUEST['title'])
-			$_REQUEST['title'] = str_replace('%20', ' ', basename($_REQUEST['file_href']));
-
-		// ensure we have a file name
-		$_REQUEST['file_name'] = utf8::to_ascii(str_replace('%20', ' ', basename($_REQUEST['file_href'])));
-
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id']))
 		Logger::error(i18n::s('No file has been transmitted.'));
@@ -275,11 +281,14 @@ if(Surfer::is_crawler()) {
 		else
 			$_REQUEST['description'] = $item['description'];
 
+		// remove active links that were used previously
+		$_REQUEST['description'] = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $_REQUEST['description']);
+
 		// ensure we know the surfer
 		Surfer::check_default_editor($_REQUEST);
 
 		// shape the new element
-		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id'], TRUE), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
+		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id']), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
 			.'<dd>'.$_REQUEST['version'].'</dd>';
 
 		// keep it for history
@@ -319,22 +328,29 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
+		// the action
+		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
+
 		// show file attributes
 		$attributes = array();
+
+		// make it visual
 		if(isset($_REQUEST['thumbnail_url']) && $_REQUEST['thumbnail_url'])
 			$attributes[] = '<img src="'.$_REQUEST['thumbnail_url'].'" />';
+		else
+			$attributes[] = '<img src="'.$context['url_to_root'].Files::get_icon_url($_REQUEST['file_name']).'" />';
+
+		// other details
 		if($_REQUEST['file_name'])
 			$attributes[] = $_REQUEST['file_name'];
 		if($_REQUEST['file_size'])
 			$attributes[] = $_REQUEST['file_size'].' bytes';
+
 		if(is_array($attributes))
 			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
 
-		// the action
-		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
-
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -419,7 +435,7 @@ if($with_form) {
 
 			// an upload entry
 			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" />'.i18n::s('Upload a file').'</dt>'
-				.'<dd><input type="file" name="upload" id="upload" size="30" />'
+				.'<dd><input type="file" name="upload" id="upload" size="30" onchange="$(\'input:radio[name=file_type]:nth(0)\').attr(\'checked\', true);$(\'#file_href\').val(\'\');" />'
 				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')</dd>'."\n";
 
 			// or
@@ -429,7 +445,7 @@ if($with_form) {
 
 		// a reference
 		$input .= '<dt><input type="radio" name="file_type" value="href" />'.i18n::s('Share an existing reference (ftp://, http://, ...)').'</dt>'
-			.'<dd><input type="text" name="file_href" size="45" value="'.encode_field(isset($item['file_href'])?$item['file_href']:'').'" maxlength="255" />';
+			.'<dd><input type="text" name="file_href" id="file_href" size="45" value="'.encode_field(isset($item['file_href'])?$item['file_href']:'').'" maxlength="255" onfocus="$(\'input:radio[name=file_type]:nth(1)\').attr(\'checked\', true);" />';
 		$input .= BR.i18n::s('File size')
 			.' <input type="text" name="file_size" size="12" value="'.encode_field(isset($item['file_size'])?$item['file_size']:'').'" maxlength="12" /> '.i18n::s('bytes')
 			.'</dd>'."\n";
@@ -640,7 +656,7 @@ if($with_form) {
 	// do not process notifications for draft articles
 	if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
 
-		// notify watchers --updating a file, or uploading a new file, should generate a notification
+		// notify watchers
 		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
 
 		// notify people following me

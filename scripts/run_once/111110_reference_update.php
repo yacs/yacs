@@ -9,7 +9,7 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Update PDF, JS, CSS, htaccess';
+$local['label_en'] = 'Update reference skins';
 $local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
@@ -20,25 +20,17 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'included/browser/library_js_endpage.min.js';
+$files[] = 'included/browser/library_js_header.min.js';
+$files[] = 'forms/forms.js';
+$files[] = 'shared/yacs.js';
+$files[] = 'skins/_mobile/iui/iuix.js';
+$files[] = 'skins/_reference/pagers/delicious.gif';
 $files[] = 'skins/_reference/yacs.css';
-$files[] = 'skins/shared/yacs.js';
-$files[] = 'included/fpdf.php';
-$files[] = 'included/font/courier.php';
-$files[] = 'included/font/courierb.php';
-$files[] = 'included/font/courierbi.php';
-$files[] = 'included/font/courieri.php';
-$files[] = 'included/font/helvetica.php';
-$files[] = 'included/font/helveticab.php';
-$files[] = 'included/font/helveticabi.php';
-$files[] = 'included/font/helveticai.php';
-$files[] = 'included/font/symbol.php';
-$files[] = 'included/font/times.php';
-$files[] = 'included/font/timesb.php';
-$files[] = 'included/font/timesbi.php';
-$files[] = 'included/font/timesi.php';
-$files[] = 'included/font/zapfdingbats.php';
-$files[] = 'control/htaccess/basic/.htaccess';
-$files[] = 'control/htaccess/indexes/.htaccess';
+$files[] = 'skins/flexible/footers/s-kubrickfooter-b.jpg';
+$files[] = 'skins/flexible/headers/kubrickheader.jpg';
+$files[] = 'skins/flexible/headers/p-whiteblack-x.jpg';
+$files[] = 'skins/flexible/pages/y-kubrickbgwide-y.jpg';
 
 // process every file
 $count = 0;

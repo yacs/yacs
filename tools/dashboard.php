@@ -117,99 +117,20 @@ if(!Surfer::is_associate()) {
 		."edit_date TEXT DEFAULT '',\n"
 		."section_id TEXT DEFAULT '',\n"
 		."section_label TEXT DEFAULT '',\n"
+		."active TEXT DEFAULT '',\n"
 		."articles INT DEFAULT 0,\n"
+		."articles_private INT DEFAULT 0,\n"
 		."comments INT DEFAULT 0,\n"
+		."comments_private INT DEFAULT 0,\n"
 		."files INT DEFAULT 0,\n"
+		."files_private INT DEFAULT 0,\n"
 		."links INT DEFAULT 0,\n"
+		."links_private INT DEFAULT 0,\n"
 		."sections INT DEFAULT 0,\n"
-		."total INT DEFAULT 0)";
+		."sections_private INT DEFAULT 0,\n"
+		."total INT DEFAULT 0, \n"
+		."total_private INT DEFAULT 0)";
 	SQL::query($query);
-
-	// one record for each second-level section
-	$query = "SELECT SUBSTRING_INDEX(anchor, ':', -1) as parent_id, edit_date, id AS section_id, title AS section_label FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
-		."(SELECT CONCAT('section:', id) FROM ".SQL::table_name('sections')." WHERE (anchor < 's')))";
-
-	if($sections =& SQL::query($query)) {
-
-		$records = 0;
-		while($item =& SQL::fetch($sections)) {
-
-			echo '.';
-			$total = 0;
-
-			$fields = array();
-			foreach($item as $name => $value)
-				$fields[] = "`".$name."`='".SQL::escape($value)."'";
-
-			// list children sections, as deep as necessary
-			$anchors = array( 'section:'.$item['section_id'] );
-			$row = $anchors;
-			while(count($row)) {
-
-				$query = "SELECT id FROM ".SQL::table_name('sections')." WHERE anchor IN ('".implode("', '", $row)."')";
-				$row = array();
-				if($result =& SQL::query($query)) {
-
-					while($item =& SQL::fetch($result)) {
-						$anchors[] = 'section:'.$item['id'];
-						$row[] = 'section:'.$item['id'];
-					}
-
-				}
-
-			}
-
-			// count sub-sections
-			$fields[] = "`sections`=".(count($anchors)-1);
-			$total += count($anchors)-1;
-
-			// list articles anchored to these sections
-			$query = "SELECT id FROM ".SQL::table_name('articles')." WHERE anchor IN ('".implode("', '", $anchors)."')";
-			if($result =& SQL::query($query)) {
-
-				// count articles there
-				$fields[] = "`articles`=".SQL::count($result);
-				$total += SQL::count($result);
-
-				while($item =& SQL::fetch($result))
-					$anchors[] = 'article:'.$item['id'];
-
-			}
-
-			// count comments attached either to sections or to articles
-			$query = "SELECT count(*) FROM ".SQL::table_name('comments')." WHERE anchor IN ('".implode("', '", $anchors)."')";
-			if($count =& SQL::query_scalar($query)) {
-				$fields[] = "`comments`=".$count;
-				$total += $count;
-			}
-
-			// count files attached either to sections or to articles
-			$query = "SELECT count(*) FROM ".SQL::table_name('files')." WHERE anchor IN ('".implode("', '", $anchors)."')";
-			if($count =& SQL::query_scalar($query)) {
-				$fields[] = "`files`=".$count;
-				$total += $count;
-			}
-
-			// count links attached either to sections or to articles
-			$query = "SELECT count(*) FROM ".SQL::table_name('links')." WHERE anchor IN ('".implode("', '", $anchors)."')";
-			if($count =& SQL::query_scalar($query)) {
-				$fields[] = "`links`=".$count;
-				$total += $count;
-			}
-
-			// total number of items in this section
-			$fields[] = "`total`=".$total;
-
-			$query = "INSERT INTO ".SQL::table_name('stat_sections').' SET '.implode(', ', $fields);
-			$records += SQL::query($query);
-
-			if(!($records%70))
-				echo BR;
-		}
-
-		echo BR.sprintf('%d records have been processed', $records).BR;
-
-	}
 
 	// stat second-level sections since beginning of the year
 	//
@@ -225,105 +146,217 @@ if(!Surfer::is_associate()) {
 		."edit_date TEXT DEFAULT '',\n"
 		."section_id TEXT DEFAULT '',\n"
 		."section_label TEXT DEFAULT '',\n"
+		."active TEXT DEFAULT '',\n"
 		."articles INT DEFAULT 0,\n"
+		."articles_private INT DEFAULT 0,\n"
 		."comments INT DEFAULT 0,\n"
+		."comments_private INT DEFAULT 0,\n"
 		."files INT DEFAULT 0,\n"
+		."files_private INT DEFAULT 0,\n"
 		."links INT DEFAULT 0,\n"
+		."links_private INT DEFAULT 0,\n"
 		."sections INT DEFAULT 0,\n"
-		."total INT DEFAULT 0)";
+		."sections_private INT DEFAULT 0,\n"
+		."total INT DEFAULT 0, \n"
+		."total_private INT DEFAULT 0)";
 	SQL::query($query);
 
 	// one record for each second-level section
-	$query = "SELECT SUBSTRING_INDEX(anchor, ':', -1) as parent_id, edit_date, id AS section_id, title AS section_label FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
+	$query = "SELECT SUBSTRING_INDEX(anchor, ':', -1) as parent_id, edit_date, id AS section_id, title AS section_label, active FROM ".SQL::table_name('sections')." WHERE (anchor IN \n"
 		."(SELECT CONCAT('section:', id) FROM ".SQL::table_name('sections')." WHERE (anchor < 's')))";
 
-	if($sections =& SQL::query($query)) {
+	if($sections = SQL::query($query)) {
 
 		$records = 0;
-		while($item =& SQL::fetch($sections)) {
+		while($item = SQL::fetch($sections)) {
 
 			echo '.';
+
 			$total = 0;
+			$total_y = 0;
+			$total_private = 0;
+			$total_private_y = 0;
 
 			$fields = array();
-			foreach($item as $name => $value)
+			$fileds_y = array();
+			foreach($item as $name => $value) {
 				$fields[] = "`".$name."`='".SQL::escape($value)."'";
+				$fields_y[] = "`".$name."`='".SQL::escape($value)."'";
+			}
 
 			// list children sections, as deep as necessary
 			$anchors = array( 'section:'.$item['section_id'] );
+			$anchors_private = array();
 			$row = $anchors;
 			while(count($row)) {
 
-				$query = "SELECT id FROM ".SQL::table_name('sections')." WHERE anchor IN ('".implode("', '", $row)."')";
+				$query = "SELECT id, active FROM ".SQL::table_name('sections')." WHERE anchor IN ('".implode("', '", $row)."')";
 				$row = array();
-				if($result =& SQL::query($query)) {
+				if($result = SQL::query($query)) {
 
-					while($item =& SQL::fetch($result)) {
-						$anchors[] = 'section:'.$item['id'];
-						$row[] = 'section:'.$item['id'];
+					while($sitem = SQL::fetch($result)) {
+						$row[] = 'section:'.$sitem['id'];
+						$anchors[] = 'section:'.$sitem['id'];
+						if($sitem['active'] == 'N')
+							$anchors_private[] = 'section:'.$sitem['id'];
 					}
 
 				}
 
 			}
 
-			// list articles anchored to these sections
-			$query = "SELECT id FROM ".SQL::table_name('articles')." WHERE anchor IN ('".implode("', '", $anchors)."')";
-			if($result =& SQL::query($query)) {
+			// count sub-sections
+			$fields[] = "`sections`=".(count($anchors)-1);
+			$fields_y[] = "`sections`=".(count($anchors)-1);
+			$total += count($anchors)-1;
+			$total_y += count($anchors)-1;
+			$fields[] = "`sections_private`=".count($anchors_private);
+			$fields_y[] = "`sections_private`=".count($anchors_private);
+			$total_private += count($anchors_private);
+			$total_private_y += count($anchors_private);
 
-				while($item =& SQL::fetch($result))
-					$anchors[] = 'article:'.$item['id'];
+			// some elements could have been attached to this private section
+			if($item['active'] == 'N')
+				$anchors_private[] = 'section:'.$item['section_id'];
+
+			// count private articles
+			$query = "SELECT id FROM ".SQL::table_name('articles')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (active = 'N')";
+			if($count = SQL::query_count($query)) {
+				$fields[] = "`articles_private`=".$count;
+				$total_private += $count;
+			}
+
+			// count private articles edited this year
+			$query = "SELECT id FROM ".SQL::table_name('articles')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (active = 'N') AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`articles_private`=".$count;
+				$total_private_y += $count;
+			}
+
+			// list articles anchored to these sections
+			$query = "SELECT id, active FROM ".SQL::table_name('articles')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
+			if($result = SQL::query($query)) {
+
+				// count articles there
+				$fields[] = "`articles`=".SQL::count($result);
+				$total += SQL::count($result);
+
+				while($aitem = SQL::fetch($result)) {
+					$anchors[] = 'article:'.$aitem['id'];
+					if($aitem['active'] == 'N')
+						$anchors_private[] = 'article:'.$aitem['id'];
+				}
 
 			}
 
 			// count articles edited this year
-			$query = "SELECT count(*) FROM ".SQL::table_name('articles')
-				." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
-				$fields[] = "`articles`=".$count;
-				$total += $count;
-
+			$query = "SELECT id FROM ".SQL::table_name('articles')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`articles`=".SQL::count($result);
+				$total_y += SQL::count($result);
 			}
 
 			// count comments attached either to sections or to articles
-			$query = "SELECT count(*) FROM ".SQL::table_name('comments')
-				." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`comments`=".$count;
 				$total += $count;
 			}
 
+			// count comments edited this year
+			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`comments`=".$count;
+				$total_y += $count;
+			}
+
+			// count comments attached to private anchors
+			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors_private)."'))";
+			if($count = SQL::query_count($query)) {
+				$fields[] = "`comments_private`=".$count;
+				$total_private += $count;
+			}
+
+			// count private comments edited this year
+			$query = "SELECT id FROM ".SQL::table_name('comments')." WHERE (anchor IN ('".implode("', '", $anchors_private)."')) AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`comments_private`=".$count;
+				$total_private_y += $count;
+			}
+
 			// count files attached either to sections or to articles
-			$query = "SELECT count(*) FROM ".SQL::table_name('files')
-				." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			$query = "SELECT id FROM ".SQL::table_name('files')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`files`=".$count;
 				$total += $count;
 			}
 
+			// count files edited this year
+			$query = "SELECT id FROM ".SQL::table_name('files')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`files`=".$count;
+				$total_y += $count;
+			}
+
+			// count private files
+			$query = "SELECT id FROM ".SQL::table_name('files')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (active = 'N')";
+			if($count = SQL::query_count($query)) {
+				$fields[] = "`files_private`=".$count;
+				$total_private += $count;
+			}
+
+			// count private files edited this year
+			$query = "SELECT id FROM ".SQL::table_name('files')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (active = 'N') AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`files_private`=".$count;
+				$total_private_y += $count;
+			}
+
 			// count links attached either to sections or to articles
-			$query = "SELECT count(*) FROM ".SQL::table_name('links')
-				." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors)."'))";
+			if($count = SQL::query_count($query)) {
 				$fields[] = "`links`=".$count;
 				$total += $count;
 			}
 
-			// count sections edited this year
-			$query = "SELECT count(*) FROM ".SQL::table_name('sections')
-				." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
-				$fields[] = "`sections`=".$count;
-				$total += $count;
+			// count links edited this year
+			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors)."')) AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`links`=".$count;
+				$total_y += $count;
+			}
 
+			// count links attached to private anchors
+			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors_private)."'))";
+			if($count = SQL::query_count($query)) {
+				$fields[] = "`links_private`=".$count;
+				$total_private += $count;
+			}
+
+			// count private links edited this year
+			$query = "SELECT id FROM ".SQL::table_name('links')." WHERE (anchor IN ('".implode("', '", $anchors_private)."')) AND (edit_date LIKE '".$current_year."%')";
+			if($count = SQL::query_count($query)) {
+				$fields_y[] = "`links_private`=".$count;
+				$total_private_y += $count;
 			}
 
 			// total number of items in this section
 			$fields[] = "`total`=".$total;
+			$fields[] = "`total_private`=".$total_private;
 
-			$query = "INSERT INTO ".SQL::table_name('stat_sections_'.$current_year).' SET '.implode(', ', $fields);
+			// add a record for this section
+			$query = "INSERT INTO ".SQL::table_name('stat_sections').' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
+			// total number of items in this section
+			$fields_y[] = "`total`=".$total_y;
+			$fields_y[] = "`total_private`=".$total_private_y;
+
+			// add a record for things edited during current year
+			$query = "INSERT INTO ".SQL::table_name('stat_sections_'.$current_year).' SET '.implode(', ', $fields);
+			SQL::query($query);
+
+			// go to next line
 			if(!($records%70))
 				echo BR;
 		}
@@ -356,10 +389,10 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT id AS user_id, CONCAT(full_name, ' (', nick_name, ')') AS user_label FROM ".SQL::table_name('users')
 		." ORDER BY posts DESC LIMIT 0, 250";
 
-	if($users =& SQL::query($query)) {
+	if(($users = SQL::query($query))) {
 
 		$records = 0;
-		while($item =& SQL::fetch($users)) {
+		while($item = SQL::fetch($users)) {
 
 			echo '.';
 			$total = 0;
@@ -370,35 +403,35 @@ if(!Surfer::is_associate()) {
 
 			// count articles posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('articles')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`articles`=".$count;
 				$total += $count;
 			}
 
 			// count comments posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('comments')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`comments`=".$count;
 				$total += $count;
 			}
 
 			// count files posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('files')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`files`=".$count;
 				$total += $count;
 			}
 
 			// count links posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('links')." WHERE edit_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`links`=".$count;
 				$total += $count;
 			}
 
 			// count sections posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('sections')." WHERE create_id = ".$item['user_id'];
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`sections`=".$count;
 				$total += $count;
 			}
@@ -409,6 +442,7 @@ if(!Surfer::is_associate()) {
 			$query = "INSERT INTO ".SQL::table_name('stat_users').' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
+			// go to next line
 			if(!($records%70))
 				echo BR;
 		}
@@ -441,10 +475,10 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT id AS user_id, CONCAT(full_name, ' (', nick_name, ')') AS user_label FROM ".SQL::table_name('users')
 		." ORDER BY posts DESC LIMIT 0, 250";
 
-	if($users =& SQL::query($query)) {
+	if(($users = SQL::query($query))) {
 
 		$records = 0;
-		while($item =& SQL::fetch($users)) {
+		while($item = SQL::fetch($users)) {
 
 			echo '.';
 			$total = 0;
@@ -455,35 +489,35 @@ if(!Surfer::is_associate()) {
 
 			// count articles posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('articles')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`articles`=".$count;
 				$total += $count;
 			}
 
 			// count comments posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('comments')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`comments`=".$count;
 				$total += $count;
 			}
 
 			// count files posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('files')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`files`=".$count;
 				$total += $count;
 			}
 
 			// count links posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('links')." WHERE (edit_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`links`=".$count;
 				$total += $count;
 			}
 
 			// count sections posted by this user
 			$query = "SELECT count(*) FROM ".SQL::table_name('sections')." WHERE (create_id = ".$item['user_id'].") AND (edit_date LIKE '".$current_year."%')";
-			if($count =& SQL::query_scalar($query)) {
+			if($count = SQL::query_scalar($query)) {
 				$fields[] = "`sections`=".$count;
 				$total += $count;
 			}
@@ -494,6 +528,7 @@ if(!Surfer::is_associate()) {
 			$query = "INSERT INTO ".SQL::table_name('stat_users_'.$current_year).' SET '.implode(', ', $fields);
 			$records += SQL::query($query);
 
+			// go to next line
 			if(!($records%70))
 				echo BR;
 		}
@@ -528,11 +563,11 @@ if(!Surfer::is_associate()) {
 		."ORDER BY total DESC \n"
 		."LIMIT 0, 100";
 
-	if($result =& SQL::query($query)) {
+	if(($result = SQL::query($query))) {
 
 		// one record per user
 		$records = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			$fields = array();
 			foreach($item as $name => $value)
@@ -582,11 +617,11 @@ if(!Surfer::is_associate()) {
 		."ORDER BY total DESC \n"
 		."LIMIT 0, 100";
 
-	if($result =& SQL::query($query)) {
+	if(($result = SQL::query($query))) {
 
 		// one record per user
 		$records = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			$fields = array();
 			foreach($item as $name => $value)

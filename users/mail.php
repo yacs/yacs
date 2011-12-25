@@ -130,21 +130,42 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// enable yacs codes in messages
-	$text = Codes::beautify($_REQUEST['message']);
+	$message = Codes::beautify($_REQUEST['message']);
 
 	// nothing to do
-	if(!$subject || !$text) {
+	if(!$subject || !$message) {
 		Logger::error('Please provide a subject and some text for your message.');
 		$with_form = TRUE;
 
 	// do the post
 	} else {
 
-		// preserve tagging as much as possible
-		$message = Mailer::build_message($subject, $text);
+		// headline
+		$headline = sprintf(i18n::c('%s has sent a message to you'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+
+		// assemble main content of this message
+		$message = Skin::build_mail_content($headline, $message);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'mail');
+		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
+
+		// link to surfer profile
+		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
+
+		// finalize links
+		$message .= Skin::build_mail_menu($menu);
+
+		// threads messages
+		$headers = Mailer::set_thread('', 'user:'.$item['id']);
 
 		// send the message
-		if(Mailer::post($from, $to, $subject, $message)) {
+		if(Mailer::notify($from, $to, $subject, $message, $headers)) {
 
 			// feed-back to the sender
 			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';

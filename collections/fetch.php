@@ -135,7 +135,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 			// provide a valid file name
 			$file_name = utf8::to_ascii($item['node_name']);
-			Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+			Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 
 			// specific to Winamp
 			Safe::header("icy-notice1: this requires winamp<BR>");

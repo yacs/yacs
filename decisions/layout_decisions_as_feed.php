@@ -19,7 +19,7 @@ Class Layout_decisions_as_feed extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -32,7 +32,7 @@ Class Layout_decisions_as_feed extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this decision
 			$anchor = NULL;

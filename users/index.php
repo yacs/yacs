@@ -2,8 +2,6 @@
 /**
  * handling members of this community
  *
- * @todo create buddy lists (CmputrAce)
- *
  * For a comprehensive description of user profiles, you should check the database abstraction script
  * at [script]users/users.php[/script].
  *

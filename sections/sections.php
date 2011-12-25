@@ -505,6 +505,162 @@ Class Sections {
 	}
 
 	/**
+	 * build a notification related to a section
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the contributor (if possible)
+	 * - a headline mentioning the contribution
+	 * - the full content of the section
+	 * - a button linked to the section
+	 * - a link to the containing section, if any
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the item
+	 * @param string either 'create' or 'update'
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item, $action='create') {
+		global $context;
+
+		// get the related overlay, if any
+		include_once $context['path_to_root'].'overlays/overlay.php';
+		$overlay = Overlay::load($item, 'section:'.$item['id']);
+
+		// get the main anchor
+		$anchor =& Anchors::get($item['anchor']);
+
+		// compute page title
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
+		else
+			$title = Codes::beautify_title($item['title']);
+
+		// headline template
+		switch($action) {
+		case 'create':
+			$template = i18n::c('%s has created section %s');
+			break;
+		case 'update':
+			$template = i18n::c('%s has updated section %s');
+			break;
+		}
+
+		// headline
+		$headline = sprintf($template,
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$title.'</a>');
+
+		// panel content
+		$content = '';
+
+		// insert page title
+		$content .= '<h2><span>'.$title.'</span></h2>';
+
+		// insert anchor prefix
+		if(is_object($anchor))
+			$content .= $anchor->get_prefix();
+
+		// the introduction text, if any
+		if(is_object($overlay))
+			$content .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+		elseif(isset($item['introduction']) && trim($item['introduction']))
+			$content .= Skin::build_block($item['introduction'], 'introduction');
+
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$content .= $overlay->get_text('view', $item);
+
+		// filter description, if necessary
+		if(is_object($overlay))
+			$description = $overlay->get_text('description', $item);
+		else
+			$description = $item['description'];
+
+		// the beautified description, which is the actual page body
+		if($description) {
+
+			// use adequate label
+			if(is_object($overlay) && ($label = $overlay->get_label('description')))
+				$content .= Skin::build_block($label, 'title');
+
+			// beautify the target page
+			$content .= Skin::build_block($description, 'description', '', $item['options']);
+
+		}
+
+		// attachment details
+		$details = array();
+
+		// info on related sections
+		if($count = Sections::count_for_anchor('section:'.$item['id']))
+			$details[] = sprintf(i18n::nc('%d section', '%d sections', $count), $count);
+
+		// info on related articles
+		if($count = Articles::count_for_anchor('section:'.$item['id']))
+			$details[] = sprintf(i18n::nc('%d page', '%d pages', $count), $count);
+
+		// info on related files
+		if($count = Files::count_for_anchor('section:'.$item['id'], TRUE)) {
+
+			// the actual list of files attached to this section
+			if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300, 'compact');
+			else
+				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300, 'compact');
+
+			// wrap it with some header
+			if(is_array($items))
+				$items = Skin::build_list($items);
+			if($items)
+				$content .= '<h3><span>'.i18n::s('Files').'</span></h3>'.$items;
+
+			// details to be displayed at page bottom
+			$details[] = sprintf(i18n::nc('%d file', '%d files', $count), $count);
+		}
+
+		// info on related links
+		include_once $context['path_to_root'].'links/links.php';
+		if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d link', '%d links', $count), $count);
+
+		// comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
+
+		// describe attachments
+		if(count($details))
+			$content .= '<hr align="left" size=1" width="150">'
+				.'<p style="margin: 3px 0;">'.sprintf(i18n::c('This section has %s'), join(', ', $details)).'</p>';
+
+		$text = Skin::build_mail_content($headline, $content);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+			$label = i18n::c('View the section');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+		// link to the container
+		if(is_object($anchor)) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -716,7 +872,7 @@ Class Sections {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('sections')." AS sections "
 			." WHERE sections.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -724,7 +880,7 @@ Class Sections {
 			return;
 
 		// delete silently all matching items
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Sections::delete($row['id']);
 	}
 
@@ -746,13 +902,13 @@ Class Sections {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('sections')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -837,7 +993,7 @@ Class Sections {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache
 		if(!$mutable && isset($output['id']))
@@ -948,14 +1104,14 @@ Class Sections {
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".implode(' AND', $criteria)
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching sections
 		$anchors = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$anchors[] = 'section:'.$item['id'];
 
 		// return a list of anchors
@@ -1034,14 +1190,14 @@ Class Sections {
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".implode(' AND ', $criteria)
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching sections
 		$anchors = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$anchors[] = 'section:'.$item['id'];
 
 		// return a list of anchors
@@ -1099,7 +1255,7 @@ Class Sections {
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, 1";
-		if($item =& SQL::query_first($query))
+		if($item = SQL::query_first($query))
 			return $item['id'];
 
 		return NULL;
@@ -1139,7 +1295,7 @@ Class Sections {
 			." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_scalar($query);
+		$output = SQL::query_scalar($query);
 
 		// save in cache
 		$cache[$id] = $output;
@@ -1377,7 +1533,7 @@ Class Sections {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	public static function &get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}
@@ -1419,8 +1575,8 @@ Class Sections {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE 'section:".$item['id']."')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-			if($result =& SQL::query($query)) {
-				while($row =& SQL::fetch($result)) {
+			if($result = SQL::query($query)) {
+				while($row = SQL::fetch($result)) {
 					if($children)
 						$children .= BR;
 
@@ -1466,10 +1622,10 @@ Class Sections {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE '".$item['anchor']."')".$where
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
 				// brothers and sisters of parent
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 
 					if($family && strncmp(substr($family, -6), '</div>', 6))
 						$family .= BR;
@@ -1539,10 +1695,10 @@ Class Sections {
 				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where
 				." AND (sections.index_map = 'Y')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
 				// process all matching sections
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 
 					if($row['id'] == $item['id']) {
 
@@ -1571,12 +1727,12 @@ Class Sections {
 					." WHERE (sections.anchor='' OR sections.anchor IS NULL)"
 					." AND (sections.index_map != 'Y')"
 					." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-				if($result =& SQL::query($query)) {
+				if($result = SQL::query($query)) {
 
 					$family .= '<hr />';
 
 					// process all matching sections
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 
 						if($row['id'] == $item['id']) {
 
@@ -1653,12 +1809,12 @@ Class Sections {
 		// lookup all sections
 		$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $sections_tree;
 
 		// scan all sections
 		$sections_handles = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			$reference = 'section:'.$item['id'];
 			$label = $item['title'];
@@ -2000,6 +2156,43 @@ Class Sections {
 
 		$output =& Sections::list_selected(SQL::query($query), $variant);
 		return $output;
+	}
+
+	/**
+	 * list all editors of a section
+	 *
+	 * This function lists editors of this section, or of any parent section.
+	 *
+	 * @param array attributes of the section
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_editors_by_login($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('section:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// look for editors of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// look for editors of any ancestor
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				$anchors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// list users assigned to any of these anchors
+		return Members::list_editors_for_member($anchors, $offset, $count, $variant);
 	}
 
 	/**
@@ -2385,7 +2578,7 @@ Class Sections {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -2393,8 +2586,77 @@ Class Sections {
 		$layout =& Sections::get_layout($variant);
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
+	}
+
+	/**
+	 * list all watchers of a section
+	 *
+	 * If the section is public or restricted to any member, the full list of persons watching this
+	 * specific section, or any parent section, is provided.
+	 *
+	 * For example, if the root section A contains a section B, which contains section C, and if
+	 * C is public, the function looks for persons assigned either to A, to B or to C.
+	 *
+	 * If the section is private, then the function looks for any private parent, and list all
+	 * persons watching one of these sections.
+	 *
+	 * For example, if the root section A is public, and if it contains a section B that is private,
+	 * and if B contains section C, the function looks for persons assigned either to B or to C.
+	 * This is because watchers of section A may not be entitled to watch content of B nor of C.
+	 *
+	 * @param array attributes of the watched section
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	public static function list_watchers_by_posts($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this section itself
+		$anchors = array( 'section:'.$item['id'] );
+
+		// there is at least a parent section
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// this section is private, list only hidden parent sections
+			if($item['active'] == 'N') {
+
+				// parent is hidden
+				if($anchor->is_hidden()) {
+					$anchors[] = $anchor->get_reference();
+
+					// look for grand parents
+					$handle = $anchor->get_parent();
+					while($handle && ($parent = Anchors::get($handle))) {
+						if(!$parent->is_hidden())
+							break;
+						$anchors[] = $handle;
+						$handle = $parent->get_parent();
+					}
+				}
+
+			// else list all parent sections
+			} else {
+
+				// add parent section
+				$anchors[] = $anchor->get_reference();
+
+				// look for all grand parents
+				$handle = $anchor->get_parent();
+				while($handle && ($parent = Anchors::get($handle))) {
+					$anchors[] = $handle;
+					$handle = $parent->get_parent();
+				}
+
+			}
+
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_posts_for_anchor($anchors, $offset, $count, $variant);
 	}
 
 	/**
@@ -2562,7 +2824,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'none';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2572,7 +2834,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/^(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|threads|titles|yabb)$/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/^(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|threads|titles|yabb)$/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2768,7 +3030,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'map';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2778,7 +3040,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/^(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|threads|titles|yabb)$/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/^(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|threads|titles|yabb)$/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -3329,7 +3591,7 @@ Class Sections {
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

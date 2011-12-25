@@ -39,7 +39,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -51,7 +51,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 		// build a list of comments
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -72,7 +72,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 
 			// avatar
 			if(isset($poster['avatar_url']) && $poster['avatar_url'])
-				$author_details[] = '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />';
+				$author_details[] = '<img src="'.$poster['avatar_url'].'" alt="" title="avatar" class="avatar" />';
 
 			// from where
 			if(isset($poster['from_where']) && $poster['from_where'])

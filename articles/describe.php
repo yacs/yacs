@@ -135,9 +135,9 @@ if(!isset($item['id'])) {
 
 	// suggest a name on download
 	if(!headers_sent()) {
-		$file_name = Skin::strip($context['page_title'], 20).'.opml.xml';
+		$file_name = Skin::strip($context['page_title']).'.opml.xml';
 		$file_name =& utf8::to_ascii($file_name);
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

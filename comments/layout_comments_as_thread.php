@@ -26,7 +26,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return formatted text
@@ -40,7 +40,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 300);
 
 		// build a list of comments
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// automatic notification
 			if($item['type'] == 'notification')

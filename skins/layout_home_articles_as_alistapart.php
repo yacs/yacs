@@ -40,7 +40,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -65,7 +65,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -74,7 +74,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))
@@ -166,7 +166,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$anchor =& Anchors::get($item['anchor']);
 
 		// the url to view this item
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// reset the rendering engine between items
 		Codes::initialize($url);
@@ -284,9 +284,9 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 			// list files by date (default) or by title (option files_by_title)
 			if(Articles::has_option('files_by_title', $anchor, $item))
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
+				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
 			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
+				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
 

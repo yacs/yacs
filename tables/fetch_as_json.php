@@ -96,8 +96,8 @@ if(Surfer::is_crawler()) {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.json');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($item['title']).'.json');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 3-minute caching (3*60 = 180), even through https, to help IE6 on download

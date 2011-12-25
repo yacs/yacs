@@ -17,12 +17,11 @@ Class Layout_categories extends Layout_interface {
 	 * list categories
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout($result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -37,10 +36,10 @@ Class Layout_categories extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to read the full category
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -103,7 +102,7 @@ Class Layout_categories extends Layout_interface {
 				$suffix .= ' '.Codes::beautify(trim($item['introduction']));
 
 			// put the actual icon in the left column
-			if(isset($item['thumbnail_url']) && ($variant != 'sidebar'))
+			if(isset($item['thumbnail_url']) && ($this->layout_variant != 'sidebar'))
 				$icon = $item['thumbnail_url'];
 
 			// list all components for this item

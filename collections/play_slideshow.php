@@ -21,6 +21,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Jan Boen
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -199,7 +200,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 				// make a div for this slide -- click on the image to get the full size version
 				$context['text'] .= '<div id="slide_'.$index.'" class="slide" style="display: none;">'
-					.'<a href="'.$url.'" title="'.sprintf(i18n::s('Click to view only the original image %s'), $file).'"><img src="'.$url.'" width="'.$adjusted_width.'" height="'.$adjusted_height.'" alt="'.$file.'" /></a>'
+					.'<a href="'.$url.'" title="'.sprintf(i18n::s('Click to view only the original image %s'), $file).'"><img src="'.$url.'" width="'.$adjusted_width.'" height="'.$adjusted_height.'" alt="" /></a>'
 					.'</div>'."\n";
 
 				// next slide

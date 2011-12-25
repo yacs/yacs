@@ -47,7 +47,7 @@ class Mutable extends Overlay {
 		// item identifier
 		if(!isset($this->attributes['overlay_id']))
 			$this->attributes['overlay_id'] = '';
-			
+
 		// only associates can change the overlay id
 		if(Surfer::is_associate()) { // isset($host['anchor']) && ($parent =&  Anchors::get($host['anchor'])) && $parent->is_assigned()) {
 			$label = i18n::s('Overlay identifier');
@@ -138,7 +138,6 @@ class Mutable extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 
@@ -146,8 +145,6 @@ class Mutable extends Overlay {
 		$this->attributes['overlay_id'] = isset($fields['overlay_id']) ? $fields['overlay_id'] : '';
 		$this->attributes['trailer_content'] = isset($fields['trailer_content']) ? $fields['trailer_content'] : '';
 		$this->attributes['view_content'] = isset($fields['view_content']) ? $fields['view_content'] : '';
-
-		return $this->attributes;
 	}
 
 	/**

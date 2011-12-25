@@ -25,7 +25,7 @@ Class Layout_categories_as_directory extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -41,7 +41,7 @@ Class Layout_categories_as_directory extends Layout_interface {
 		// build a list of categories
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'category:'.$item['id']);
@@ -50,7 +50,7 @@ Class Layout_categories_as_directory extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))

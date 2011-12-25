@@ -250,7 +250,7 @@ if(Surfer::is_crawler()) {
 
 	// recipients
 	$label = i18n::s('Ask for a decision');
-	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
+	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);
 
@@ -334,9 +334,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		."\n"
 		.'// enable names autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#names");'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("names"); });  '."\n"
 		.JS_SUFFIX;
 }
 

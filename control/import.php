@@ -172,7 +172,7 @@ elseif(!Surfer::is_associate()) {
 						$parsed_item['id'] = $item['id'];
 
 						// stop on error
-						if(!Articles::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item)))
+						if(!Articles::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item, 'article:'.$item['id'])))
 							Logger::error(sprintf('Unable to save article %s', $parsed_item['title'].' ('.$parsed_item['id'].')'));
 
 					// create a new page
@@ -252,7 +252,7 @@ elseif(!Surfer::is_associate()) {
 						$parsed_item['id'] = $item['id'];
 
 						// stop on error
-						if(!Sections::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item)))
+						if(!Sections::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item, 'section:'.$item['id'])))
 							Logger::error(sprintf('Unable to save section %s', $parsed_item['title'].' ('.$parsed_item['id'].')'));
 
 					// create a new page

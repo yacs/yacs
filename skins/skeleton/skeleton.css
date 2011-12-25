@@ -605,7 +605,6 @@ dl.column_2 dd { /* column actual content */
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .extra_box ul { /* a list in the side panel */
@@ -667,7 +666,6 @@ table.jive tr.odd {
 }
 
 div.odd { /* stacked with div.even */
-	padding: 0.5em 0;
 }
 
 #main_panel td.odd { /* one row out of two, but only in the main panel */

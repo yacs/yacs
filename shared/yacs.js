@@ -86,8 +86,12 @@ var Yacs = {
 	 * build on jquery-ui autocomplete plugin
 	 * @link http://jqueryui.com/demos/autocomplete/#multiple-remote
 	 *
+	 * @param string id of the target element (without '#')
+	 * @param string web service to call (default: '/users/complete.php')
+	 * @param function called back on completion, with new value as parameter
+	 *
 	 */
-	autocomplete_m: function(target,php_source) {
+	autocomplete_m: function(target, source_url, callback) {
 		function split( val ) {
 			return val.split( /,\s*/ );
 		}
@@ -95,17 +99,17 @@ var Yacs = {
 			return split( term ).pop();
 		}
 
-		$(target)
+		$('#'+target)
 		    // don't navigate away from the field on tab when selecting an item
 		    .bind( "keydown", function( event ) {
-			    if ( event.keyCode === $.ui.keyCode.TAB &&
+			    if( event.keyCode === $.ui.keyCode.TAB &&
 					    $( this ).data( "autocomplete" ).menu.active ) {
 				    event.preventDefault();
 			    }
 		    })
 		    .autocomplete({
 				source: function( request, response ) {
-					$.getJSON( php_source, {
+					$.getJSON( source_url, {
 						term: extractLast( request.term )
 					}, response );
 				},
@@ -129,31 +133,48 @@ var Yacs = {
 					// add placeholder to get the comma-and-space at the end
 					terms.push( "" );
 					this.value = terms.join( ", " );
+					if(callback)
+						callback(ui.item.value);
 					return false;
 				}
 		    });
 	},
 
 	/**
-	 * autocomplete mecanism to select users
+	 * autocomplete a field by querying an AJAX source
 	 *
 	 * @link http://jqueryui.com/demos/autocomplete/#custom-data
+	 *
+	 * @param string id of the target element (without '#')
+	 * @param boolean true if only one value should be set, false if this is a comma-separated list of values
+	 * @param string web service to call (default: '/users/complete.php')
+	 * @param function called back on completion, with new value as parameter
+	 *
 	 * @see users/complete.php
 	 **/
-	autocomplete_names: function(target,unique) {
+	autocomplete_names: function(target, unique, source_url, callback) {
+
+		if(!source_url) {
+			source_url = url_to_root + 'users/complete.php';
+		}
+
 	    // use the multiple entries autocomplete exept if unique user required
 	    if(unique) {
-		$(target).autocomplete({source:url_to_root + 'users/complete.php',minLength:2});
+	    	if(callback) {
+				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) { $('#'+target).val(ui.item.value); callback(ui.item.value); }});
+	    	} else {
+				$('#'+target).autocomplete({source:source_url, minLength:2});
+			}
 	    } else
-		Yacs.autocomplete_m(target, url_to_root + 'users/complete.php');
+			Yacs.autocomplete_m(target, source_url, callback);
 
-	    // override rendering of items in menu list to show full name and email
-	    $(target).data( "autocomplete" )._renderItem = function( ul, item ) {
-		return $( "<li></li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
-			.appendTo( ul );
-	    };
+		// override rendering of items in menu list to show full name and email
+		$('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( "<li></li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
+				.appendTo( ul );
+		};
 	},
 
 	/**
@@ -893,10 +914,10 @@ var Yacs = {
 
 				// adjust the overall size
 				if(yDelta !== 0) {
-				    previousImage.effect("scale", {direction: 'vertical', percent: yScale, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'vertical', percent: yScale, duration: 400, queue: 'end'});
 				}
 				if(xDelta !== 0) {
-				    previousImage.effect("scale", {direction: 'horizontal', percent: xScale, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'horizontal', percent: xScale, duration: 400, queue: 'end'});
 				}
 			}
 
@@ -954,7 +975,7 @@ var Yacs = {
 
 		// align to the parent container
 		var container = $(handle).parent();
-		$(container).css('position', 'relative');
+		$(container).css({position: 'relative', zIndex: 100});
 
 		// the panel to slide
 		var panel = $(handle).next('.panel');
@@ -987,7 +1008,7 @@ var Yacs = {
 		// display the panel if it is not visible
 		if($(panel).css("display") == 'none') {
 
-			$(panel).slideDown({duration:0.3, scaleContent:false});
+			$(panel).css({position: 'relative', zIndex: 200}).slideDown({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = $(handle).children('img');
@@ -998,7 +1019,7 @@ var Yacs = {
 		// collapse the panel if it is visible
 		} else {
 
-			$(panel).slideUp({duration:.3, scaleContent:false});
+			$(panel).slideUp({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = $(handle).children('img');
@@ -1265,8 +1286,8 @@ var Yacs = {
 	 * or, alternatively, just call Skin::build_tabs() from within you PHP code
 	 * to have everything done automatically.
 	 *
-	 * @param tabs A list of tabs related to panels and URLs
-	 * @param args This corresponds to the Ajax options supported in prototype.js
+	 * @param tabs a list of tabs related to panels and URLs
+	 * @param args additional ajax settings given to $.ajax()
 	 *
 	 * @see users/view.php
 	 * @see skins/skin_skeleton.php
@@ -1295,31 +1316,25 @@ var Yacs = {
 			}
 		}
 
-		// move to the right tab
-//		new PeriodicalExecuter(function(pe) {
+		// where are we?
+		if(window.location.hash.length > 1) {
+			var hash = document.location.hash.substr(1,document.location.hash.length);
 
-			// where are we?
-			if(window.location.hash.length > 1) {
-				var hash = document.location.hash.substr(1,document.location.hash.length);
+			// are we already there?
+			if(Yacs.tabs_current == hash)
+				return;
 
-				// are we already there?
-				if(Yacs.tabs_current == hash)
-					return;
-
-				// change to this tab
-				for(id in tabs) {
-					if(id == hash) {
-						Yacs.tabsDisplay(id);
-						break;
-					}
+			// change to this tab
+			for(id in tabs) {
+				if(id == hash) {
+					Yacs.tabsDisplay(id);
+					break;
 				}
-
-				// wait until next change of hash
-				Yacs.tabs_current = hash;
 			}
 
-//		}, 0.5);
-
+			// wait until next change of hash
+			Yacs.tabs_current = hash;
+		}
 
 	},
 
@@ -1357,7 +1372,6 @@ var Yacs = {
 		panel = Yacs.tabs_list[newCurrent][0];
 
 		// remember our state
-		window.location.hash = id;
 		Yacs.tabs_current = id;
 
 		// update the tab
@@ -1401,6 +1415,7 @@ var Yacs = {
 
 		// do not propagate event
 		e.stopPropagation();
+		return false;
 	},
 
 	/**
@@ -1462,13 +1477,13 @@ var Yacs = {
 		// also resize poorly inherited items
 		$(current.handle + ' div').each(function () {
 		   $(this).css("fontSize", currentSize);
-    });
+		});
 		$(current.handle + ' td').each(function () {
 		   $(this).css("fontSize", currentSize);
-    });
+		});
 		$(current.handle + ' tr').each(function () {
 		   $(this).css("fontSize", currentSize);
-    });
+    	});
 	},
 
 	/**
@@ -1492,22 +1507,22 @@ var Yacs = {
                     // detect unfolded panel
                     if(panel.css("display") != 'none') {
                         // slide up panel
-                        $(panel).slideUp({duration:.3, scaleContent:false});
+                        $(panel).slideUp({duration: 'slow', scaleContent:false});
                         // change icon to unfold visual
-                        $(gusset).find('.handle').attr('src',down_href);
+                        $(gusset).find('.handle').attr('src', down_href);
                         // clicked box has been closed
-			if(toggled == panel) {
+						if(toggled == panel) {
                             processed = true;
-			}
+						}
                     }
                 });
 
                 // only extend closed elements that have not been processed (closed) during this click
                 if((toggled.css("display") == 'none') && !processed) {
                         // slide down panel
-			$(toggled).slideDown({duration:.3, scaleContent:false});
+						$(toggled).slideDown({duration: 'slow', scaleContent:false});
                         // change the image to fold visual
-                        $(handle).find(".handle").attr('src',up_href);
+                        $(handle).find(".handle").attr('src', up_href);
                 }
 
 	},
@@ -1527,23 +1542,24 @@ var Yacs = {
 		// display the panel if it is not visible
 		if(panel.css("display") == 'none') {
 
-			$(panel).slideDown({duration:.3, scaleContent:false});
+			$(panel).slideDown({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
- 			var icon = $(handle +' img:first-child');
+ 			var icon = $(handle).children('img').first();
  			if(icon && up_href) {
- 				icon.src = up_href;
+ 				icon.attr('src', up_href);
  			}
 
 		// collapse the panel if it is visible
 		} else {
 
-			$(panel).slideUp({duration:.3, scaleContent:false});
+			$(panel).slideUp({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = $(handle +' img:first-child');
+ 			var icon = $(handle).children('img').first();
+
 			if(icon && down_href) {
-				icon.src = down_href;
+				icon.attr('src', down_href);
 			}
 
 		}
@@ -1570,26 +1586,28 @@ var Yacs = {
 	 * update content asynchronously
 	 *
 	 * This function displays a nice spinning image while loading the page.
+	 * Args can be a hash of parameters as specified for jQuery ajax settings.
+	 *
+	 * @link http://api.jquery.com/jQuery.ajax/
 	 *
 	 * @param string id of the target CSS container
 	 * @param string web address to fetch new snippet
-	 * @param mixed additional parameters to transmit to Ajax
+	 * @param mixed additional parameters to ajax call
 	 *
 	 */
 	update: function(panel, address, args) {
 
 		// the spinning image
-		$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
+		$('#'+panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 		// go go go
-		$.ajax({
+		$.ajax($.extend({
 			url: address,
 			dataType: 'html',
 			timeout: 3000,
 			success: function(data) {
-			  $(panel).html(data);
-			}
-		});
+			  $('#'+panel).html(data);
+			}}, args));
 
 	},
 

@@ -249,7 +249,7 @@ elseif(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="root_sections_layout" value="custom" id="custom_sections_layout"';
 	if($context['root_sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />');
 	$fields[] = array($label, $input);
 
 	// use flash to animate recent pages
@@ -350,7 +350,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= '<input type="radio" name="root_articles_layout" value="custom" id="custom_articles_layout"';
 	if($context['root_articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').checked=1" />').BR;
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />').BR;
 
 	// no article
 	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';

@@ -1,5 +1,5 @@
 <?php
-include_once 'event.php';
+include_once 'meeting.php';
 
 /**
  * meet on a Dimdim server
@@ -25,7 +25,7 @@ include_once 'event.php';
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class DimDim_Meeting extends Event {
+class DimDim_Meeting extends Meeting {
 
 	/**
 	 * get parameters for one meeting facility
@@ -80,6 +80,9 @@ class DimDim_Meeting extends Event {
 	function get_join_url() {
 		global $context;
 
+		// almost random passwords
+		$this->initialize_passwords();
+
 		// link to create a meeting
 		$url = 'https://my.dimdim.com/api/conf/join_meeting';
 
@@ -114,64 +117,6 @@ class DimDim_Meeting extends Event {
 	}
 
 	/**
-	 * get an overlaid label
-	 *
-	 * Accepted action codes:
-	 * - 'edit' the modification of an existing object
-	 * - 'delete' the deleting form
-	 * - 'new' the creation of a new object
-	 * - 'view' a displayed object
-	 *
-	 * @see overlays/overlay.php
-	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use
-	 */
-	function get_label($name, $action='view') {
-		global $context;
-
-		// the target label
-		switch($name) {
-
-		// edit command
-		case 'edit_command':
-			return i18n::s('Edit this meeting');
-			break;
-
-		// new command
-		case 'new_command':
-			return i18n::s('Add a meeting');
-			break;
-
-		// page title
-		case 'page_title':
-
-			switch($action) {
-
-			case 'edit':
-				return i18n::s('Edit a meeting');
-
-			case 'delete':
-				return i18n::s('Delete a meeting');
-
-			case 'new':
-				return i18n::s('New meeting');
-
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
-		}
-
-		// no match
-		return NULL;
-	}
-
-	/**
 	 * the URL to start and to join the meeting
 	 *
 	 * @see overlays/events/start.php
@@ -180,6 +125,9 @@ class DimDim_Meeting extends Event {
 	 */
 	function get_start_url() {
 		global $context;
+
+		// almost random passwords
+		$this->initialize_passwords();
 
 		// link to authenticate
 		$url = 'https://my.dimdim.com/api/auth/login';
@@ -274,19 +222,17 @@ class DimDim_Meeting extends Event {
 	}
 
 	/**
-	 * initialize this instance
+	 * initialize passwords for this instance
 	 *
-	 * @see overlays/overlay.php
 	 */
-	function initialize() {
+	private function initialize_passwords() {
 		global $context;
 
 		// build moderator and attendees passwords
-		if(isset($this->attributes['id'])) {
-			$buffer = $this->attributes['id'];
-			$this->moderator_password = dechex(crc32($buffer.'moderator'));
-			$this->attendee_password = dechex(crc32($buffer.'attendee'));
-		}
+		$buffer = $this->attributes['id'];
+		$this->moderator_password = dechex(crc32($buffer.'moderator'));
+		$this->attendee_password = dechex(crc32($buffer.'attendee'));
+
 	}
 
 	/**

@@ -35,7 +35,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -50,7 +50,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 		// build a list of sections
 		$family = '';
 		$first = TRUE;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
@@ -87,7 +87,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title as a link to the page
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
@@ -114,8 +114,8 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators =& Members::list_editors_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
-				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
+			if($moderators = Sections::list_editors_by_login($item, 0, 7, 'comma5'))
+				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), $moderators);
 
 			// children boards
 			if($children =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
