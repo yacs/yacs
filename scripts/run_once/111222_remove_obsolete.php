@@ -17,6 +17,7 @@ $count = 0;
 
 // files to delete, from root path
 $files = array();
+$files[] = 'overlays/external_meeting.php';
 $files[] = 'users/contact.php';
 
 // process every file
