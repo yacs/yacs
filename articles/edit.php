@@ -443,8 +443,8 @@ if(Surfer::is_crawler()) {
 
 			// the overlay may have already notified persons involved
 			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
-			if(is_object($overlay))
-				$with_watchers = $overlay->should_notify_watchers();
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
 
 			// touch the related anchor, but only if the page has been published
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
@@ -511,8 +511,8 @@ if(Surfer::is_crawler()) {
 
 			// don't notify the creation of an event
 			$with_watchers = TRUE;
-			if(is_object($overlay))
-				$with_watchers = $overlay->should_notify_watchers();
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
 
 			// update anchors and forward notifications
 			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
