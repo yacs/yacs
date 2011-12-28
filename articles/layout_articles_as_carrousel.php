@@ -18,7 +18,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -99,7 +99,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 
 			// process all items in the list
 			include_once $context['path_to_root'].'overlays/overlay.php';
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// get the related overlay
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -130,7 +130,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 					$title = Codes::beautify_title($item['title']);
 
 				// the url to view this item
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// add to the list
 				$content .= '	<photo>'."\n"

@@ -356,6 +356,109 @@ Class Files {
 	}
 
 	/**
+	 * build a notification for a new file upload
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the uploader (if possible)
+	 * - a headline mentioning the upload
+	 * - a button linked to the file page
+	 * - a link to the containing page
+	 * - the full history of all file modifications
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the new item
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item) {
+		global $context;
+
+		// headline
+		$headline = sprintf(i18n::c('A file has been uploaded by %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+
+		// several components in this message
+		$details = array();
+
+		// make it visual
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+			$details[] = '<img src="'.$context['url_to_home'].$item['thumbnail_url'].'" />';
+		else
+			$details[] = '<img src="'.$context['url_to_home'].$context['url_to_root'].Files::get_icon_url($item['file_name']).'" />';
+
+		// other details
+		if($item['title'])
+			$details[] = $item['title'];
+		if($item['file_name'])
+			$details[] = $item['file_name'];
+		if($item['file_size'])
+			$details[] = $item['file_size'].' bytes';
+
+		if(is_array($details))
+			$message = '<p>'.implode(BR, $details)."</p>\n";
+
+		// start the notification
+		$text = Skin::build_mail_content($headline, $message);
+
+		// a set of links
+		$menu = array();
+
+		// link to the file
+		$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+		$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
+
+		// link to the container
+		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// file history
+		if($description = trim($item['description'])) {
+
+			// transform the definition list
+			$replacements = array('/<dl class="comments"[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> -> <table>
+				'|</a>|i' => '</a><br>',											// line break after links
+				'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td valign="top" width="130"><font size="-1">\\1</font></td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+				'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td valign="top">\\1</td></tr>',					// <dd> ... </dd> -> <tr><td> ... </td>
+				'/on(click|keypress)="([^"]+?)"/i' => '', 							// remove onclick="..." and onkeypress="..." attributes
+				'/<script[^>]*?>(.*?)<\/script>/i' => '',							// remove <script> ... </script> --Javascript considered as spam
+				'/<style[^>]*?>(.*?)<\/style>/i' => '');							// remove <style> ... </style> --use inline style instead
+
+			// text/html part
+			$description = preg_replace(array_keys($replacements), array_values($replacements), $description);
+
+			// finalize file history
+			$text .= '<p> </p>'
+				.'<table border="0" cellpadding="2" cellspacing="10">'
+				.'<tr>'
+				.	'<td>'
+				.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+				.		sprintf(i18n::c('%s: %s'), i18n::c('History'), '')
+				.		'</font>'
+				.	'</td>'
+				.'</tr>'
+				.'<tr>'
+				.	'<td style="font-size: 10px">'
+				.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+				.		Codes::beautify($description)
+				.		'</font>'
+				.	'</td>'
+				.'</tr>'
+				.'</table>';
+
+		}
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -427,19 +530,19 @@ Class Files {
 		global $context;
 
 		// load the row
-		$item =& Files::get($id);
+		$item = Files::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
 		// actual deletion of the file
-		list($anchor_type, $anchor_id) = explode(':', $item['anchor'], 2);
-		Safe::unlink($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['file_name']);
-		Safe::unlink($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs/'.$item['file_name']);
-		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs');
-		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id);
-		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type);
+		$file_path = $context['path_to_root'].Files::get_path($item['anchor']);
+		Safe::unlink($file_path.'/'.$item['file_name']);
+		Safe::unlink($file_path.'/thumbs/'.$item['file_name']);
+		Safe::rmdir($file_path.'/thumbs');
+		Safe::rmdir($file_path);
+		Safe::rmdir(dirname($file_path));
 
 		// delete related items
 		Anchors::delete_related_to('file:'.$id);
@@ -466,12 +569,64 @@ Class Files {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('files')." AS files"
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// delete silently all matching files
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Files::delete($row['id']);
+	}
+
+	/**
+	 * compute a thumbnail image for a file
+	 *
+	 * This function builds a preview image where possible, and returns its URL to caller, or NULL.
+	 * That result can be saved directly as attribute ##thumbnail_url## or associated file record.
+	 *
+	 * @param string path to the file, including trailing slash (e.g., 'files/article/123/')
+	 * @param string file name (e.g., 'document.pdf')
+	 * @return string web address of the thumbnail that has been built, or NULL
+	 *
+	 * @see files/edit.php
+	 */
+	public static function derive_thumbnail($file_path, $file_name) {
+		global $context;
+
+		// if the file is an image, create a thumbnail for it
+		if(($image_information = Safe::GetImageSize($file_path.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
+
+			// derive a thumbnail image
+			$thumbnail_name = 'thumbs/'.$file_name;
+			include_once $context['path_to_root'].'images/image.php';
+			Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.$thumbnail_name, FALSE, TRUE);
+
+			// remember the address of the thumbnail
+			return $context['url_to_root'].$file_path.$thumbnail_name;
+
+		// if this is a PDF that can be converted by Image Magick, then compute a thumbnail for the file
+		} else if(preg_match('/\.pdf$/i', $file_name) && class_exists('Imagick') && ($handle=new Imagick($context['path_to_root'].$file_path.$file_name))) {
+
+			// derive a thumbnail image
+			$thumbnail_name = 'thumbs/'.$file_name.'.png';
+			Safe::mkdir($context['path_to_root'].$file_path.'thumbs');
+
+			// consider only the first page
+			$handle->setIteratorIndex(0);
+
+			$handle->setImageCompression(Imagick::COMPRESSION_LZW);
+			$handle->setImageCompressionQuality(90);
+			$handle->stripImage(90);
+			$handle->thumbnailImage(100, NULL);
+			$handle->writeImage($context['path_to_root'].$file_path.$thumbnail_name);
+
+			// remember the address of the thumbnail
+			return $context['url_to_root'].$file_path.$thumbnail_name;
+
+		}
+
+		// no thumbnail
+		return NULL;
+
 	}
 
 	/**
@@ -492,27 +647,27 @@ Class Files {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('files')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// create target folders
-			$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_to);
-			if(!Safe::make_path($file_path))
-				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path));
-			$file_path = $context['path_to_root'].$file_path.'/';
+			$file_to = Files::get_path($anchor_to);
+			if(!Safe::make_path($file_to))
+				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_to));
+			$file_to = $context['path_to_root'].$file_to.'/';
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			$file_from = Files::get_path($anchor_from);
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
-				if(!file_exists($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name']))
+				if(!file_exists($context['path_to_root'].$file_from.'/'.$item['file_name']))
 					continue;
 
 				// duplicate file
-				if(!copy($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name'],
-					$file_path.$item['file_name'])) {
+				if(!copy($context['path_to_root'].$file_from.'/'.$item['file_name'], $file_to.$item['file_name'])) {
 					Logger::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['file_name']));
 					continue;
 				}
@@ -562,7 +717,7 @@ Class Files {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $row array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -587,7 +742,7 @@ Class Files {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files"
 			." WHERE (files.id = ".SQL::escape($id).")";
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache
 		if(!$mutable && isset($output['id']))
@@ -611,7 +766,7 @@ Class Files {
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND files.file_name='".SQL::escape($name)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1031,7 +1186,32 @@ Class Files {
 		// list freshest files
 		$query .= " ORDER BY files.edit_date DESC, files.title LIMIT 0, 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
+		return $output;
+	}
+
+	/**
+	 * get last upload in a thread
+	 *
+	 * @param string anchor reference
+	 * @return the resulting $item array, with at least keys: 'id', 'type', 'description', etc.
+	 *
+	 * @see comments/thread.php
+	 */
+	public static function get_newest_for_anchor($anchor) {
+		global $context;
+
+		// sanity check
+		if(!$anchor) {
+			$output = NULL;
+			return $output;
+		}
+		// select among available items -- exact match
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."'"
+			." ORDER BY files.create_date DESC LIMIT 1";
+
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1074,7 +1254,7 @@ Class Files {
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
 			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1082,8 +1262,23 @@ Class Files {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return Files::get_permalink($item);
+	}
+
+	/**
+	 * get the location for files attached to a given reference
+	 *
+	 * @param string the reference (e.g., 'article:123')
+	 * @param string the name space (e.g., 'files' or 'images')
+	 * @return string path to files (e.g., 'files/article/123')
+	 *
+	 * @see files/edit.php
+	 */
+	public static function get_path($reference, $space='files') {
+		global $context;
+
+		return $space.'/'.$context['virtual_path'].str_replace(':', '/', $reference);
 	}
 
 	/**
@@ -1092,7 +1287,7 @@ Class Files {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	public static function &get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Files::get_url($item['id'], 'view', $item['file_name']);
 		return $output;
 	}
@@ -1137,7 +1332,7 @@ Class Files {
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
 			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1145,7 +1340,7 @@ Class Files {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return Files::get_permalink($item);
 	}
 
@@ -1421,7 +1616,7 @@ Class Files {
 
 		// a clickable image to access the file
 		if($icon) {
-			$icon = '<img src="'.$icon.'" />';
+			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
 			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
 		}
 
@@ -2052,7 +2247,7 @@ Class Files {
 
 		// special layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -2084,7 +2279,7 @@ Class Files {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -2400,7 +2595,7 @@ Class Files {
 			.", SUM(file_size) as total_size"
 			." FROM ".SQL::table_name('files')." AS files WHERE ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -2430,7 +2625,7 @@ Class Files {
 			." FROM ".SQL::table_name('files')." AS files"
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -2575,10 +2770,17 @@ Class Files {
 	/**
 	 * process uploaded file
 	 *
+	 * This function processes files from the temporary directory, and put them at their definitive
+	 * place.
+	 *
+	 *
+	 * It returns FALSE if there is a disk error, or if some virus has been detected, or if
+	 * the operation fails for some other reason (e.g., file size).
+	 *
 	 * @param array usually, $_FILES['upload']
 	 * @param string target location for the file
 	 * @param mixed reference to the target anchor, of a function to parse every file individually
-	 * @return mixed actual file name if everything went fine, FALSE if an error has occured
+	 * @return mixed actual file name or embedding string if everything went fine, FALSE if an error has occured
 	 */
 	public static function upload($input, $file_path, $target=NULL) {
 		global $context, $_FILES, $_REQUEST;
@@ -2601,7 +2803,7 @@ Class Files {
 			$file_name = substr($input['name'], 0, $position);
 			$file_extension = strtolower(substr($input['name'], $position+1));
 		}
-		$input['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
+		$input['name'] = $file_name;
 		if($file_extension)
 			$input['name'] .= '.'.$file_extension;
 
@@ -2697,38 +2899,6 @@ Class Files {
 						$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
 						$fields['file_href'] = '';
 						$fields['anchor'] = $target;
-					}
-
-					// if the file is an image, create a thumbnail for it
-					if(($image_information = Safe::GetImageSize($file_path.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
-
-						// derive a thumbnail image
-						$thumbnail_name = 'thumbs/'.$file_name;
-						include_once $context['path_to_root'].'images/image.php';
-						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.$thumbnail_name, FALSE, TRUE);
-
-						// remember the address of the thumbnail
-						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
-
-					// if this is a PDF that can be converted by Image Magick, then compute a thumbnail for the file
-					} else if(preg_match('/\.pdf$/i', $file_name) && class_exists('Imagick') && ($handle=new Imagick($context['path_to_root'].$file_path.$file_name))) {
-
-						// derive a thumbnail image
-						$thumbnail_name = 'thumbs/'.$file_name.'.png';
-						Safe::mkdir($context['path_to_root'].$file_path.'thumbs');
-
-						// consider only the first page
-						$handle->setIteratorIndex(0);
-
-						$handle->setImageCompression(Imagick::COMPRESSION_LZW);
-						$handle->setImageCompressionQuality(90);
-						$handle->stripImage(90);
-						$handle->thumbnailImage(100, NULL);
-						$handle->writeImage($context['path_to_root'].$file_path.$thumbnail_name);
-
-						// remember the address of the thumbnail
-						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
-
 					}
 
 					// create the record in the database, and remember this post in comment

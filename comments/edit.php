@@ -220,9 +220,13 @@ if(Surfer::is_crawler()) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
+	// remove default string, if any
+	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
+
 	// attach some file
-	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
-		$_REQUEST['description'] .= '<div>'.$file.'</div>';
+	$file_path = Files::get_path($anchor->get_reference());
+	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference()))
+		$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.$file.'</div>';
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
@@ -256,17 +260,17 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		if($anchor->has_layout('alistapart'))
-			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('permalink_command', 'comments', i18n::s('View the page'))));
 		else
-			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('permalink_command', 'comments', i18n::s('View the page'))));
 		if(Surfer::is_logged())
-			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
+			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('edit_command', 'comments')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -335,10 +339,18 @@ if($with_form) {
 		$reference_item = $item;
 		$item['id'] = '';
 		$id = '';
+
+		// isolate first name of initial contributor
 		if($item['create_name'])
-			$item['description'] = sprintf(i18n::s('%s:'), ucfirst($item['create_name']))."\n\n";
+			list($first_name, $dummy) = explode(' ', ucfirst($item['create_name']), 2);
 		elseif($item['edit_name'])
-			$item['description'] = sprintf(i18n::s('%s:'), ucfirst($item['edit_name']))."\n\n";
+			list($first_name, $dummy) = explode(' ', ucfirst($item['edit_name']), 2);
+		else
+			$first_name = '';
+
+		// insert it in this contribution
+		if($first_name)
+			$item['description'] = sprintf(i18n::s('%s:'), $first_name)."\n\n";
 		else
 			$item['description'] = '';
 

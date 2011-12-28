@@ -7,6 +7,7 @@
  */
 $context['l10n']['fr']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $context['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
+$context['l10n']['fr']['185df574f27b040ed70164eeef40fcb4']='%s vous demande de contribuer';
 $context['l10n']['fr']['%s: %s']='%s : %s';
 $context['l10n']['fr']['f7023d9e1479b6ec8738a65cb7fd9706']='<p>Essayez de décrire complètement l\'action dans son titre, et placez les éléments d\'information complémentaires dans le champ de description.</p><p>Utilisez %s et %s pour embellir le texte.</p><p>Renseignez l\'adresse cible si cette action est reliée à une ressource web particulière.</p>';
 $context['l10n']['fr']['84a77bd6947f2b7aa1017b42f3e7f9c1']='<p>L\'action suivante a maintenant l\'état :</p><p><b>%s</b></p>';
@@ -40,7 +41,6 @@ $context['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fo
 $context['l10n']['fr']['On-going']='En cours';
 $context['l10n']['fr']['On-going actions']='Actions en cours';
 $context['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$context['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $context['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $context['l10n']['fr']['Posted by']='Envoyé par';
 $context['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';

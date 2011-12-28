@@ -288,13 +288,13 @@ Class Actions {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('actions')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -345,7 +345,7 @@ Class Actions {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('actions')." AS actions "
 			." WHERE (actions.id = ".SQL::escape($id).")";
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -383,7 +383,7 @@ Class Actions {
 		$query = "SELECT id FROM ".SQL::table_name('actions')." AS actions "
 			." WHERE (actions.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (actions.status='O')"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return NULL;
 
 		// return url of the first item of the list
@@ -423,7 +423,7 @@ Class Actions {
 		$query = "SELECT id FROM ".SQL::table_name('actions')." AS actions "
 			." WHERE (actions.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (actions.status='O')"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return NULL;
 
 		// return url of the first item of the list
@@ -617,14 +617,14 @@ Class Actions {
 
 		// special layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
 		// regular layout
 		include_once $context['path_to_root'].'actions/layout_actions.php';
 		$layout = new Layout_actions();
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 	}
 
@@ -777,7 +777,7 @@ Class Actions {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date
 			FROM ".SQL::table_name('actions')." AS actions";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -800,7 +800,7 @@ Class Actions {
 			." FROM ".SQL::table_name('actions')." AS actions"
 			." WHERE (actions.anchor LIKE '".SQL::escape($anchor)."') AND (actions.status='C')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

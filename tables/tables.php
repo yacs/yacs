@@ -73,7 +73,7 @@ Class Tables {
 			return NULL;
 
 		// do the SELECT statement
-		if(!$rows =& SQL::query($table['query'])) {
+		if(!$rows = SQL::query($table['query'])) {
 			Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($table['query']).BR.SQL::error());
 			return NULL;
 		}
@@ -93,7 +93,10 @@ Class Tables {
 				$label = preg_replace('/\s/', ' ', $table['title']);
 
 				// encode to ASCII
-				$label = utf8::to_ascii($label, ' =:/()<>"[]');
+				$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
+
+				// escape quotes to preserve them in the data
+				$label = str_replace('"', '""', $label);
 
 				$text .= '"'.$label.'"';
 				$text .= "\n";
@@ -107,7 +110,10 @@ Class Tables {
 				$label = trim(preg_replace('/\s/', ' ', ucfirst($field->name)));
 
 				// encode
-				$label = utf8::to_ascii($label, ' =:/()<>[]');
+				$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
+
+				// escape quotes to preserve them in the data
+				$label = str_replace('"', '""', $label);
 
 				$text .= '"'.$label.'"';
 			}
@@ -115,7 +121,7 @@ Class Tables {
 
 			// process every table row
 			$row_index = 0;
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// one cell at a time
 				$index = 0;
@@ -132,14 +138,14 @@ Class Tables {
 					$label = trim(preg_replace('/\s+/', ' ', $value));
 
 					// encode
-					$label = utf8::to_ascii($label, ' =:/()<>"[]');
+					$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 					// escape quotes to preserve them in the data
 					$label = str_replace('"', '""', $label);
 
 					// make a link if this is a reference
-					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$label = $context['url_to_home'].$label;
+					if(($index == 1) && ($table['with_zoom'] == 'Y'))
+						$label = $context['url_to_home'].$context['url_to_root'].$label;
 
 					// quote data
 					$text .= '"'.$label.'"';
@@ -162,7 +168,7 @@ Class Tables {
 			// all items
 			$data = array();
 			$data['items'] = array();
-			while($row =& SQL::fetch_row($rows)) {
+			while($row = SQL::fetch_row($rows)) {
 
 				// all rows
 				$datum = array();
@@ -195,12 +201,12 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = utf8::to_ascii($value, ' =:/()<>[]"');
+					$datum[ $labels[$name] ] = utf8::to_ascii($value, PRINTABLE_SAFE_ALPHABET);
 
 				}
 
 				if($label && !in_array($labels, 'label'))
-					$datum['label'] = utf8::to_ascii($label);
+					$datum['label'] = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 				// add a tip, if any
 				$data['items'][] = $datum;
@@ -294,7 +300,7 @@ Class Tables {
 		case 'inline':
 		case 'sortable':
 
-			// a tabke with a grid
+			// a table with a grid
 			$text .= Skin::table_prefix('grid');
 
 			// the title, with a menu to download the table into Excel
@@ -322,7 +328,7 @@ Class Tables {
 			// the table body
 			$count = 0;
 			$row_index = 0;
-			while($row =& SQL::fetch_row($rows)) {
+			while($row = SQL::fetch_row($rows)) {
 				$cells = array();
 				$link = '';
 				for($index=0; $index < count($row); $index++) {
@@ -379,7 +385,7 @@ Class Tables {
 			$y3_values = array();
 			$y_min = $y_max = NULL;
 			$count = 1;
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// one cell at a time
 				$index = 0;
@@ -493,7 +499,7 @@ Class Tables {
 			$separator = ",";
 
 			// process every table row
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// not always the first column
 				$index = 0;
@@ -538,7 +544,7 @@ Class Tables {
 			$separator = ",";
 
 			// process every table row
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// one cell at a time
 				$index = 0;
@@ -559,7 +565,7 @@ Class Tables {
 
 					// make a link if this is a reference
 					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$label = $context['url_to_home'].$label;
+						$label = $context['url_to_home'].$context['url_to_root'].$label;
 
 					// quote data
 					if(preg_match('/[^a-zA-Z0-9\-_]/', $label))
@@ -586,7 +592,7 @@ Class Tables {
 			$text .= Skin::table_row($cells, 'header');
 
 			// other rows
-			while($row =& SQL::fetch_row($rows)) {
+			while($row = SQL::fetch_row($rows)) {
 				$text .= Skin::table_row($row, $count++);
 			}
 
@@ -597,7 +603,7 @@ Class Tables {
 		case 'xml':
 
 			$text = '';
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 				$text .= '	<item>'."\n";
 				foreach($row as $name => $value) {
 					$type = preg_replace('/[^a-z0-9]+/i', '_', $name);
@@ -698,13 +704,13 @@ Class Tables {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('tables')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -779,7 +785,7 @@ Class Tables {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -927,7 +933,7 @@ Class Tables {
 
 		// special layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -937,14 +943,14 @@ Class Tables {
 		case 'compact':
 			include_once $context['path_to_root'].'tables/layout_tables_as_compact.php';
 			$layout = new Layout_tables_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'tables/layout_tables.php';
 			$layout = new Layout_tables();
 			$layout->set_variant($variant);
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
@@ -1095,7 +1101,7 @@ Class Tables {
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('tables');
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1113,7 +1119,7 @@ Class Tables {
 			." FROM ".SQL::table_name('tables')
 			." WHERE anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

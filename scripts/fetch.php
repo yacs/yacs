@@ -112,7 +112,7 @@ else {
 		// suggest a download
 		if(!headers_sent()) {
 			$file_name = utf8::to_ascii(basename($script[0]));
-			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+			Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 		}
 
 	// several scripts at one
@@ -136,7 +136,7 @@ else {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

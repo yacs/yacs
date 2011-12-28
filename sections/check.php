@@ -44,11 +44,11 @@ if(!Surfer::is_associate()) {
 		." ORDER BY anchor LIMIT 0, 10000";
 
 	// parse the whole list
-	if($result =& SQL::query($query)) {
+	if($result = SQL::query($query)) {
 
 		// retrieve the id and a printable label
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// set a new handle
 			$handle = md5(mt_rand().$row['id'].$row['handle'].$row['title']);
@@ -91,11 +91,11 @@ if(!Surfer::is_associate()) {
 		." ORDER BY anchor LIMIT 0, 10000";
 
 	// parse the whole list
-	if($result =& SQL::query($query)) {
+	if($result = SQL::query($query)) {
 
 		// retrieve the id and a printable label
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;

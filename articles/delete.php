@@ -101,7 +101,7 @@ if(!isset($item['id'])) {
 		elseif($anchor->is_viewable())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		elseif($id = Surfer::get_id())
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'contact'));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id));
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 

@@ -54,14 +54,16 @@ class Mailer {
 	/**
 	 * prepare a multi-part message
 	 *
-	 * @param string message title
-	 * @param string message HTML or ASCII content
+	 * @param string message HTML tags or ASCII content
 	 * @return array containing message parts ($type => $content)
 	 */
-	function &build_message($title, $text) {
+	public static function build_multipart($text) {
 		global $context;
 
-		// change links from relative to absolute
+		// make a full html entity --body attributes are ignored most of the time
+		$text = '<html><body><font face="Helvetica, Arial, sans-serif">'.$text.'</font></body></html>';
+
+		// change links to include host name
 		$text = str_replace(' href="/', ' href="'.$context['url_to_home'].'/', $text);
 		$text = str_replace(' src="/', ' src="'.$context['url_to_home'].'/', $text);
 
@@ -69,74 +71,70 @@ class Mailer {
 		$message = array();
 
 		// text/plain part has no tag anymore
-		$replacements = array("/<a [^>]*?><img [^>]*?><\/a>/i" => '', // suppress clickable images
+		$replacements = array('/<a [^>]*?><img [^>]*?><\/a>/i' => '', // suppress clickable images
 			"/<a href=\"([^\"]+?)\"([^>]*?)>\\1<\/a>/i" => "\\1",	// un-twin clickable links
-			"/<a href=\"([^\"]+?)\" ([^>]*?)>(.*?)<\/a>/i" => "\\3 \\1", // label and link
-			"/<a href=\"([^\"]+?)\">(.*?)<\/a>/i" => "\\2 \\1", // label and link too
+			'/<a href=\"([^\"]+?)" ([^>]*?)>(.*?)<\/a>/i' => "\\3 \\1", // label and link
+			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "\\2 \\1", 		// label and link too
+			'/<hr[^>]*?>/i' => "-------\n", 							// horizontal rule
 			'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
 			'/&nbsp;/' => ' ');
-		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)))));
+		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
+
+		// transform the text/html part
+		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 					// <dl> ... </dl> -> <table> ... </table>
+			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td style:"margin-right: 10px">\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+			'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td>\\1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
+			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
+			'/class="grid"/i' => 'border="1"',										// display grid borders
+			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
+			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script> --Javascript considered as spam
+			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style> --use inline style instead
 
 		// text/html part
-		$message['text/html; charset=utf-8'] = '<html><head><title>'.$title.'</title></head>'
-			.'<body style="font-family: helvetica, arial, sans-serif;">'.$text.'</body></html>';
+		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
 
 		// return all parts
 		return $message;
 	}
 
 	/**
-	 * format a message
+	 * format a notification to be send by e-mail
 	 *
-	 * This function prepares a localized message
+	 * This function appends a reason string, and format the full content
+	 * as template provided by the skin.
 	 *
-	 * Depending of the reason, the message will have the following kind of trail:
+	 * Depending of the reason, the notification will have the following kind of trail:
 	 * - 0 - no trail
 	 * - 1 - you are watching the container
 	 * - 2 - you are watching the poster
 	 *
-	 * @param string coded action (e.g., 'article:create') or full description
-	 * @param string title of the target page
-	 * @param string link to the target page
+	 * You can change function build_mail_message() in your skin.php to use a customized template.
+	 *
+	 * @param string bare message content
 	 * @param int reason for notification
 	 * @return string text to be put in message
 	 */
-	function &build_notification($action, $title, $link, $reason=0) {
+	public static function build_notification($text, $reason=0) {
 		global $context;
-
-		// decode action
-		if(strpos($action, ':create'))
-			$action = sprintf(i18n::c('%s by %s'), ucfirst(Anchors::get_action_label($action)), Surfer::get_name());
-
-		// clean title
-		$title = strip_tags($title);
 
 		// decode the reason
 		switch($reason) {
 
 		case 0: // no trail
 		default:
-			$reason = '';
 			break;
 
 		case 1: // you are watching some container
-			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.'), $context['site_name']).'</p>';
-
+			$text .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.'), $context['site_name']).'</p>';
 			break;
 
 		case 2: // you are watching the poster
-			$reason = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
+			$text .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
 				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name()))
 				.'</a></p>';
 			break;
 
 		}
-
-		// allow for localized templates
-		$template = i18n::get_template('mail_notification');
-
-		// assemble everything
-		$text = sprintf($template, $action, $title, $link).$reason;
 
 		// job done
 		return $text;
@@ -147,15 +145,18 @@ class Mailer {
 	 *
 	 * This is useful to list all persons notified after a post for example.
 	 *
-	 * @param string title of the folded box generated
-	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
+	 * @return mixed text to be integrated into the page
 	 */
-	function build_recipients($title=NULL) {
+	public static function build_recipients() {
 		global $context;
 
 		// nothing to show
 		if(!isset($context['mailer_recipients']))
 			return '';
+
+		// title mentions number of recipients
+		$count = count($context['mailer_recipients']);
+		$title = sprintf(i18n::ns('%d person has been notified', '%d persons have been notified', $count), $count);
 
 		// return the bare list
 		if(!$title)
@@ -163,7 +164,7 @@ class Mailer {
 
 		// build a nice list
 		$list = array();
-		if(count($context['mailer_recipients']) > 50)
+		if($count > 50)
 			$count = 30;	// list only 30 first recipients
 		else
 			$count = 100;	//never reached
@@ -174,58 +175,16 @@ class Mailer {
 				break;
 			}
 		}
-		return Skin::build_box($title, Skin::finalize_list($list, 'compact'), 'folded');
+		return '<hr align="left" size="1" width="200" />'.Skin::build_box($title, Skin::finalize_list($list, 'compact'), 'folded');
 
 	}
-
-	/**
-	 * explode a list of recipients
-	 *
-	 * @param string a list of recipients
-	 * @return array an array of recipients
-	 */
-	function explode_recipients($text) {
-
-		// we want to split recipients
-		$recipients = array();
-
-		// parse the provided string
-		$head = 0;
-		$index_maximum = strlen($text);
-		$quoted = FALSE;
-		for($index = 0; $index < $index_maximum; $index++) {
-
-			// start quoted string
-			if(!$quoted && ($text[$index] == '"'))
-				$quoted = TRUE;
-
-			// end of quoted string
-			elseif($quoted && ($text[$index] == '"'))
-				$quoted = FALSE;
-
-			// separator
-			elseif(!$quoted && ($text[$index] == ',')) {
-				if($index > $head)
-					$recipients[] = trim(substr($text, $head, $index-$head));
-				$head = $index+1;
-			}
-		}
-
-		// don't forget the last recipient
-		if($head < $index_maximum)
-			$recipients[] = trim(substr($text, $head));
-
-		// return an array of recipients
-		return $recipients;
-	}
-
 
 	/**
 	 * close connection to mail server
 	 *
 	 * This function gracefully ends the transmission of messages.
 	 */
-	function close() {
+	public static function close() {
 		global $context;
 
 		// nothing to do
@@ -286,7 +245,7 @@ class Mailer {
 	 *
 	 * @see control/configure.php
 	 */
-	function connect() {
+	private static function connect() {
 		global $context;
 
 		// we already have an open handle
@@ -552,13 +511,35 @@ class Mailer {
 	}
 
 	/**
+	 * decode a quoted printable string
+	 *
+	 * @link http://en.wikipedia.org/wiki/Quoted-printable
+	 *
+	 * @param string the encoded string
+	 * @return string the original string
+	 */
+	public static function decode_from_quoted_printable($text) {
+		global $context;
+
+		// remove soft line breaks
+		$text = preg_replace('/=\r?\n/', '', $text);
+
+		// decode single entities
+		$text = preg_replace('/=([A-F0-9]{2})/ie', chr(hexdec('\\1' )), $text);
+
+		// decoded string
+		return $text;
+
+	}
+
+	/**
 	 * encode message recipient
 	 *
 	 * @param string the original recipient mail address
 	 * @param string the original recipient name, if any
 	 * @return string the encoded recipient
 	 */
-	function encode_recipient($address, $name=NULL) {
+	public static function encode_recipient($address, $name=NULL) {
 
 		// no space nor HTML tag in address
 		$address = preg_replace('/\s/', '', strip_tags($address));
@@ -570,7 +551,7 @@ class Mailer {
 			$name = str_replace(array(',', '"'), ' ', $name);
 
 			// at the moment we only accept ASCII names
-			$name = utf8::to_ascii($name);
+			$name = utf8::to_ascii($name, PRINTABLE_SAFE_ALPHABET);
 
 			// the full recipient
 			$recipient = '"'.$name.'" <'.$address.'>';
@@ -592,7 +573,7 @@ class Mailer {
 	 * @param string the original subject
 	 * @return string the encoded subject
 	 */
-	function encode_subject($text) {
+	public static function encode_subject($text) {
 
 		// no new line nor HTML tag in title
 		$text = preg_replace('/\s+/', ' ', strip_tags($text));
@@ -615,34 +596,92 @@ class Mailer {
 	/**
 	 * adapt content to legacy transmission pipes
 	 *
+	 * @link http://en.wikipedia.org/wiki/Quoted-printable
+	 *
 	 * @param string the original string
 	 * @return string the encoded string
 	 */
-	function encode_to_quoted_printable($text) {
+	public static function encode_to_quoted_printable($text) {
 		global $context;
 
-		// remove CR
-		$text = str_replace("\r", '', $text);
+		// split lines
+		$lines = preg_split("/\r?\n/", $text);
 
-		// encode non-ASCII chars and white spaces
-		$text = preg_replace("/([\x01-\x09\x10-\x1F\x20\x3D\x7F-\xFF])/e", "sprintf('=%02X', ord('\\1'))", $text);
+		// encoding all lines
+		$text = '';
+		foreach($lines as $line) {
 
-		// break long lines
-        $lines = explode("\n", $text);
-		for($index=count($lines); $index >= 0; $i--) {
+			// encoded line
+			$encoded = '';
 
-			// no more than 76 chars
-			if(strlen($lines[$index]) > 76)
-				$lines[$index] = preg_replace("/((.){73,76}((=[0-9A-Fa-f]{2})|([^=]{0,3})))/", "\\1=\n", $lines[$index]);
+			// one char at a time
+			$len = strlen($line);
+			for($index = 0; $index <= $len - 1; $index++) {
+				$char = substr($line, $index, 1);
+				$code = ord($char);
 
+				// encode this char
+				if(($code < 32) || ($code == 61) || ($code > 126))
+					$char = '='.strtoupper(dechex($code));
+
+				// insert a soft newline to break a long line
+				if((strlen($encoded)+strlen($char)) >= 76) {
+					$text .= $encoded.'='.CRLF;
+					$encoded = '';
+				}
+
+				// append the encoded char
+				$encoded .= $char;
+			}
+
+			// update the output buffer
+			$text .= $encoded.CRLF;
 		}
-
-		// produce one single string
-		$text = implode("\r\n", $lines);
 
 		// encoded string
 		return $text;
 
+	}
+
+	/**
+	 * explode a list of recipients
+	 *
+	 * @param string a list of recipients
+	 * @return array an array of recipients
+	 */
+	public static function explode_recipients($text) {
+
+		// we want to split recipients
+		$recipients = array();
+
+		// parse the provided string
+		$head = 0;
+		$index_maximum = strlen($text);
+		$quoted = FALSE;
+		for($index = 0; $index < $index_maximum; $index++) {
+
+			// start quoted string
+			if(!$quoted && ($text[$index] == '"'))
+				$quoted = TRUE;
+
+			// end of quoted string
+			elseif($quoted && ($text[$index] == '"'))
+				$quoted = FALSE;
+
+			// separator
+			elseif(!$quoted && ($text[$index] == ',')) {
+				if($index > $head)
+					$recipients[] = trim(substr($text, $head, $index-$head));
+				$head = $index+1;
+			}
+		}
+
+		// don't forget the last recipient
+		if($head < $index_maximum)
+			$recipients[] = trim(substr($text, $head));
+
+		// return an array of recipients
+		return $recipients;
 	}
 
 	/**
@@ -653,7 +692,7 @@ class Mailer {
 	 *
 	 * @return string either the address of the current surfer, or the address of the web server itself
 	 */
-	function get_from_recipient() {
+	public static function get_from_recipient() {
 		global $context;
 
 		// determine the From: address
@@ -676,6 +715,7 @@ class Mailer {
 	 * @param string subject
 	 * @param string actual message
 	 * @param mixed to be given to Mailer::post()
+	 * @param array to be given to Mailer::post()
 	 * @return TRUE on success, FALSE otherwise
 	 *
 	 * @see agents/messages.php
@@ -684,7 +724,7 @@ class Mailer {
 	 * @see shared/logger.php
 	 * @see users/users.php
 	 */
-	function notify($from, $to, $subject, $message, $headers='') {
+	public static function notify($from, $to, $subject, $message, $headers='', $attachments=NULL) {
 		global $context;
 
 		// email services have to be activated
@@ -703,11 +743,14 @@ class Mailer {
 		else
 			$subject .= ' ['.$context['site_name'].']';
 
-		// allow for HTML rendering
-		$message = Mailer::build_message($subject, $message);
+		// allow for skinnable template
+		$message = Skin::build_mail_message($message);
+
+		// build multiple parts, for HTML rendering
+		$message = Mailer::build_multipart($message);
 
 		// do the job -- don't stop on error
-		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
+		if(Mailer::post($from, $to, $subject, $message, $attachments, $headers))
 			return TRUE;
 		return FALSE;
 	}
@@ -719,7 +762,7 @@ class Mailer {
 	 * @param int the expected response code
 	 * @return mixed the string of returned messages, or FALSE on unexpected response or on error
 	 */
-	function parse_response($handle, $expected) {
+	private static function parse_response($handle, $expected) {
 		global $context;
 
 		$response = '';
@@ -797,7 +840,7 @@ class Mailer {
 	 *
 	 * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
 	 *
-	 * Message parts are base64-encoded or send "as-is", as set in $context['mail_encoding'].
+	 * Message parts are encoded either as quoted-printable (textual entities) or as base-64 (others).
 	 *
 	 * A list of files to be attached to the message can be provided as in the following example:
 	 *
@@ -816,7 +859,7 @@ class Mailer {
 	 * @param string sender address
 	 * @param mixed recipient address(es)
 	 * @param string subject
-	 * @param string actual message
+	 * @param mixed actual message, either a string, or an array of message parts
 	 * @param array attachments, if any
 	 * @param mixed additional headers, if any
 	 * @return the number of actual posts, or 0
@@ -825,7 +868,7 @@ class Mailer {
 	 * @see letters/new.php
 	 * @see users/mail.php
 	 */
-	function post($from, $to, $subject, $message, $attachments=NULL, $headers='') {
+	public static function post($from, $to, $subject, $message, $attachments=NULL, $headers='') {
 		global $context;
 
 		// ensure that we have a sender
@@ -952,32 +995,21 @@ class Mailer {
 		if(!defined('WRAPPING_LENGTH'))
 			define('WRAPPING_LENGTH', 70);
 
-		// decode encoding settings
-		$content_encoding = 'binary';
-		if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
-			$content_encoding = 'base64';
-
 		// combine message parts
 		$content_type = '';
 		$body = '';
 		foreach($message as $type => $part) {
 
-			// encode plain text parts
-			if(!strncmp($type, 'text/plain', 10)) {
+			// quote textual entities
+			if(!strncmp($type, 'text/', 5)) {
+				$content_encoding = 'quoted-printable';
+				$part = Mailer::encode_to_quoted_printable($part);
 
-				// wrap the message if necessary
-				$lines = explode("\n", $part);
-				$part = '';
-				foreach($lines as $line)
-					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.M_EOL, 0).M_EOL;
-
-				// ensure utf-8
-				$part = utf8::from_unicode($part);
+			// encode everything else
+			} else {
+				$content_encoding = 'base64';
+				$part = chunk_split(base64_encode($content), 76, M_EOL);
 			}
-
-			// encode the part for it transfer
-			if($content_encoding == 'base64')
-				$part = chunk_split(base64_encode($part), 76, M_EOL);
 
 			// only one part
 			if(count($message) == 1) {
@@ -1064,13 +1096,13 @@ class Mailer {
 				// headers for one file
 				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'
 					.M_EOL.'Content-Type: '.$type
-					.M_EOL.'Content-Disposition: inline; filename="'.$basename.'"'
+					.M_EOL.'Content-Disposition: inline; filename="'.str_replace('"', '', $basename).'"'
 					.M_EOL.'Content-ID: <'.$cid.'>';
 
 				// transfer textual entities as they are
 				if(!strncmp($type, 'text/', 5)) {
-					$body .= M_EOL.'Content-Transfer-Encoding: binary'
-						.M_EOL.M_EOL.$content;
+					$body .= M_EOL.'Content-Transfer-Encoding: quoted-printable'
+						.M_EOL.M_EOL.Mailer::encode_to_quoted_printable($content);
 
 				// encode everything else
 				} else {
@@ -1154,7 +1186,7 @@ class Mailer {
 	 * @param mixed message headers
 	 * @return int the number of transmitted messages, O on error
 	 */
-	function process($recipient, $subject, $message, $headers='') {
+	private static function process($recipient, $subject, $message, $headers='') {
 		global $context;
 
 		// email services have to be activated
@@ -1324,8 +1356,8 @@ class Mailer {
 	/**
 	 * defer the processing of one message
 	 *
-	 * This function saves provided data in the database, except if the flow of messages is not
-	 * shaped.
+	 * This function either processes a message immediately, or it saves provided data in the
+	 * database for later processing.
 	 *
 	 * @param string the target address
 	 * @param string message subject
@@ -1333,7 +1365,7 @@ class Mailer {
 	 * @param string optional headers
 	 * @return int the number of queued messages, or 0 on error
 	 */
-	function queue($recipient, $subject, $message, $headers='') {
+	private static function queue($recipient, $subject, $message, $headers='') {
 		global $context;
 
 		// we don't have to rate messages
@@ -1364,7 +1396,7 @@ class Mailer {
 	 * @param string thread context for this message
 	 * @return array headers to be used by Mailer::post()
 	 */
-	function set_thread($this_id=NULL, $parent_id=NULL) {
+	public static function set_thread($this_id=NULL, $parent_id=NULL) {
 		global $context;
 
 		$headers = array();
@@ -1389,7 +1421,7 @@ class Mailer {
 	/**
 	 * create tables for queued messages
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1449,7 +1481,7 @@ class Mailer {
 	 *
 	 * @see cron.php
 	 */
-	function tick_hook() {
+	public static function tick_hook() {
 		global $context;
 
 		// email services have to be activated
@@ -1509,7 +1541,7 @@ class Mailer {
 			if($result = SQL::query($query)) {
 
 				// process every message
-				while($item =& SQL::fetch($result)) {
+				while($item = SQL::fetch($result)) {
 
 					Mailer::process($item['recipient'], $item['subject'], $item['message'], $item['headers']);
 

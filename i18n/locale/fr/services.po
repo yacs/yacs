@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:05+0200\n"
+"POT-Creation-Date: 2011-11-17 23:00+0100\n"
 "PO-Revision-Date: 2010-04-08 22:58+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -15,67 +15,67 @@ msgstr ""
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: services/blog.php:522 services/blog.php:567 services/blog.php:666
-#: services/blog.php:749 services/blog.php:818 services/blog.php:849
-#: services/blog.php:880 services/blog.php:933 services/blog.php:1035
-#: services/blog.php:1067 services/blog.php:1163 services/blog.php:1205
-#: services/blog.php:1280 services/blog.php:1356 services/blog.php:1446
-#: services/blog.php:1565 services/blog.php:1600 services/blog.php:1639
-#: services/blog.php:1691
+#: services/blog.php:551 services/blog.php:596 services/blog.php:695
+#: services/blog.php:778 services/blog.php:847 services/blog.php:878
+#: services/blog.php:909 services/blog.php:962 services/blog.php:1064
+#: services/blog.php:1096 services/blog.php:1203 services/blog.php:1245
+#: services/blog.php:1321 services/blog.php:1394 services/blog.php:1484
+#: services/blog.php:1606 services/blog.php:1641 services/blog.php:1680
+#: services/blog.php:1732
 #, php-format
 msgid "Please register at %s before blogging"
 msgstr "Merci de vous enregistrer à l'adresse %s avant de blogger"
 
-#: services/blog.php:526 services/blog.php:571 services/blog.php:670
-#: services/blog.php:1071 services/blog.php:1209
+#: services/blog.php:555 services/blog.php:600 services/blog.php:699
+#: services/blog.php:1100 services/blog.php:1249
 #, php-format
 msgid "Unknown postid %s at %s"
 msgstr "Identifiant postid %s inconnu à l'adresse %s"
 
-#: services/blog.php:543 services/blog.php:591 services/blog.php:674
-#: services/blog.php:707 services/blog.php:757 services/blog.php:826
-#: services/blog.php:941 services/blog.php:945 services/blog.php:949
-#: services/blog.php:1043 services/blog.php:1047 services/blog.php:1090
-#: services/blog.php:1213 services/blog.php:1246 services/blog.php:1288
-#: services/blog.php:1360 services/blog.php:1372 services/blog.php:1376
-#: services/blog.php:1380 services/blog.php:1454 services/blog.php:1458
-#: services/blog.php:1462 services/blog.php:1647 services/check.php:57
+#: services/blog.php:572 services/blog.php:620 services/blog.php:703
+#: services/blog.php:736 services/blog.php:786 services/blog.php:855
+#: services/blog.php:970 services/blog.php:974 services/blog.php:978
+#: services/blog.php:1072 services/blog.php:1076 services/blog.php:1119
+#: services/blog.php:1253 services/blog.php:1286 services/blog.php:1329
+#: services/blog.php:1398 services/blog.php:1410 services/blog.php:1414
+#: services/blog.php:1418 services/blog.php:1492 services/blog.php:1496
+#: services/blog.php:1500 services/blog.php:1688 services/check.php:57
 #: services/check.php:62 services/configure.php:71 services/proxy.php:21
 #: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: services/blog.php:547
+#: services/blog.php:576
 #, php-format
 msgid "Impossible to delete record of postid %s"
 msgstr "Impossible d'effacer l'envoi %s"
 
-#: services/blog.php:619 services/blog.php:1121
+#: services/blog.php:648 services/blog.php:1163
 #, php-format
 msgid "Impossible to update record of postid %s"
 msgstr "Impossible de modifier la page %s"
 
-#: services/blog.php:753 services/blog.php:822 services/blog.php:937
-#: services/blog.php:1039 services/blog.php:1284 services/blog.php:1368
-#: services/blog.php:1450 services/blog.php:1643
+#: services/blog.php:782 services/blog.php:851 services/blog.php:966
+#: services/blog.php:1068 services/blog.php:1325 services/blog.php:1406
+#: services/blog.php:1488 services/blog.php:1684
 #, php-format
 msgid "Unknown blog %s at %s"
 msgstr "Identifiant blog %s inconnu à l'adresse %s"
 
-#: services/blog.php:863
+#: services/blog.php:892
 msgid "Unknown user name"
 msgstr "Nom d'utilisateur inconnu"
 
-#: services/blog.php:1364
+#: services/blog.php:1402
 msgid "No file data has been received."
 msgstr "Aucun fichier n'a été transmis."
 
-#: services/blog.php:1392
+#: services/blog.php:1430
 #, php-format
 msgid "Impossible to save content of file %s"
 msgstr "Impossible d'enregistrer le contenu du fichier %s"
 
-#: services/blog.php:1746
+#: services/blog.php:1787
 #, php-format
 msgid "Do not know how to process %s"
 msgstr "%s ne correspond à rien de connu"

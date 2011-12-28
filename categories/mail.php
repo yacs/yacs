@@ -100,14 +100,40 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// enable yacs codes in messages
-	$text = Codes::beautify($_REQUEST['message']);
+	// headline
+	$headline = sprintf(i18n::c('%s has notified you from %s'),
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'">'.$item['title'].'</a>');
 
-	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	// enable yacs codes in messages
+	$message = Codes::beautify($_REQUEST['message']);
+
+	// assemble main content of this message
+	$message = Skin::build_mail_content($headline, $message);
+
+	// a set of links
+	$menu = array();
+
+	// call for action
+	$link = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+	if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'categories', FALSE)))
+		$label = i18n::c('View the category');
+	$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+	// link to the container
+	if(is_object($anchor)) {
+		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+	}
+
+	// finalize links
+	$message .= Skin::build_mail_menu($menu);
+
+	// threads messages
+	$headers = Mailer::set_thread('', 'category:'.$item['id']);
 
 	// send the message
-	if(Mailer::post(Surfer::from(), $to, $subject, $message)) {
+	if(Mailer::notify(Surfer::from(), $to, $subject, $message, $headers)) {
 
 		// feed-back to the sender
 		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";

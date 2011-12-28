@@ -21,7 +21,7 @@ Class Layout_articles_as_select extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -34,7 +34,7 @@ Class Layout_articles_as_select extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$items = array_merge($items, Layout_articles_as_select::one($item));
 
 		// end of processing

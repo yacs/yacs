@@ -23,7 +23,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -53,7 +53,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		$nodes = 0; // number of nodes processed so far
 		$stack = 0; // branch depth
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -62,7 +62,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))

@@ -21,12 +21,11 @@ Class Layout_decisions extends Layout_interface {
 	 * - 'no_author' -- do not mention author link
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return array
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -38,7 +37,7 @@ Class Layout_decisions extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'decisions/decisions.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = '';
@@ -56,7 +55,7 @@ Class Layout_decisions extends Layout_interface {
 				$stamp = Skin::build_date($item['edit_date']);
 
 			// mention decision date
-			if($variant == 'no_author') {
+			if(isset($this->layout_variant) && ($this->layout_variant == 'no_author')) {
 				switch($item['type']) {
 				case 'no':
 					$suffix .= ' '.sprintf(i18n::s('Rejected %s'), $stamp);

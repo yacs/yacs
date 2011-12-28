@@ -54,7 +54,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor, image_name FROM ".SQL::table_name('images')
 		." ORDER BY anchor LIMIT 0, 10000";
-	if(!($result =& SQL::query($query))) {
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
@@ -63,7 +63,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -117,7 +117,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor, image_name FROM ".SQL::table_name('images')
 		." ORDER BY anchor LIMIT 0, 10000";
-	if(!($result =& SQL::query($query))) {
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
@@ -126,7 +126,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;

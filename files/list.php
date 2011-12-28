@@ -126,9 +126,9 @@ if(!is_object($anchor)) {
 
 		// list files by date or by title
 		if($anchor->has_option('files_by_title'))
-			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, $anchor->get_reference());
 		else
-			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $anchor->get_reference());
 
 		// actually render the html
 		if(is_array($items))

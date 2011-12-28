@@ -185,10 +185,6 @@ if(Surfer::is_crawler()) {
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// only members are allowed to post links
-	if(!Surfer::is_member())
-		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
-
 	// preview mode
 	if(isset($_REQUEST['preview']) && $_REQUEST['preview']) {
 		$item = $_REQUEST;
@@ -232,7 +228,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');

@@ -30,7 +30,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// ask share/surfer.php to not filter html input
+// ask shared/surfer.php to not filter html input
 // by default YACS allows only associates to submit some HTML
 // but here we would like to accept HTML input from any logged member
 $context['allow_html_input'] = 'Y';

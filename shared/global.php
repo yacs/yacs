@@ -52,7 +52,7 @@ if(!defined('CRLF'))
 if(!defined('FORBIDDEN_IN_NAMES'))
 	define('FORBIDDEN_IN_NAMES', '/[<>{}\(\)]+/');
 
-// default value for path filtering in forms -- ../ and \
+// default value for path filtering in forms -- ../
 if(!defined('FORBIDDEN_IN_PATHS'))
 	define('FORBIDDEN_IN_PATHS', '/\.{2,}\//');
 
@@ -63,6 +63,18 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 // default value for url filtering in forms
 if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\^\,+%\?=\-\[\]*]+/');
+
+// options to utf8::to_ascii() for file names
+if(!defined('FILENAME_SAFE_ALPHABET'))
+	define('FILENAME_SAFE_ALPHABET', ' !"#$%&\'()*+,-.;<=>?@[]^_{|}~');
+
+// options to utf8::to_ascii() for printable chars
+if(!defined('PRINTABLE_SAFE_ALPHABET'))
+	define('PRINTABLE_SAFE_ALPHABET', ' !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~');
+
+// options to utf8::to_ascii() for URLs and web links
+if(!defined('URL_SAFE_ALPHABET'))
+	define('URL_SAFE_ALPHABET', '-_.~');  // used to be '=:()<>"[]'
 
 // pattern for valid email recipients
 if(!defined('VALID_RECIPIENT'))
@@ -168,7 +180,7 @@ $context['page_date'] = '';
 // page details (complementary information about the page)
 $context['page_details'] = '';
 
-// additional content for the page footer --cache restriction
+// additional content for the page footer
 $context['page_footer'] = '';
 
 // additional meta-information to be put in page header
@@ -1169,7 +1181,7 @@ function render_skin($with_last_modified=TRUE) {
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
 		.JS_SUFFIX;
 
-	// activate tinyMCE, if available -- before prototype and scriptaculous
+	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
 		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
@@ -1715,7 +1727,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = strtolower(utf8::to_ascii(trim($name), '=:()<>"[]'));
+		$name = strtolower(utf8::to_ascii(trim($name), URL_SAFE_ALPHABET));
 
 	// do not fool rewriting, just in case alternate name would be put in title
 	if(isset($name))

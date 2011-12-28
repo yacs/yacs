@@ -51,7 +51,6 @@ $context['l10n']['en']['b96aca9f6d136363f1c15754d8da15df']='No decision has been
 $context['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
 $context['l10n']['en']['Page to review']='Page to review';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['cb80e3a58896b7ed8f62cb578e73aa7b']='Please let me thank you for your involvement.';
 $context['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $context['l10n']['en']['b415a5c94f6a4a564921362b1e8516ac']='Please provide a recipient address.';

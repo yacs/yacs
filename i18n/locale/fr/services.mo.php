@@ -46,6 +46,9 @@ $context['l10n']['fr']['Message']='Message';
 $context['l10n']['fr']['Name of the updated server']='Nom du serveur mis à jour';
 $context['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $context['l10n']['fr']['No file data has been received.']='Aucun fichier n\'a été transmis.';
+$context['l10n']['fr']['Opentok API URL']='Opentok API URL';
+$context['l10n']['fr']['Opentok API key']='Opentok API key';
+$context['l10n']['fr']['Opentok API secret']='Opentok API secret';
 $context['l10n']['fr']['Ping interface']='Interface Ping';
 $context['l10n']['fr']['32f16b405d7ec3c7f7a2175487b60cc3']='Merci de vous enregistrer à l\'adresse %s avant de blogger';
 $context['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -64,6 +67,7 @@ $context['l10n']['fr']['2be1d54d98311704480cb75da8aa9534']='Le nom ou l\'adresse
 $context['l10n']['fr']['dda86db9a2409f98e6e9438cbc5e6cd7']='Cette page liste les principaux services que vous pouvez utiliser en arrière-plan. Connectez votre logiciel de blogging, votre lecteur de nouvelles RSS, ou d\'autres sites à ce serveur web sur la base des interfaces programmatiques décrites ci-dessous.';
 $context['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
 $context['l10n']['fr']['acd27d20c6abc6cc445b677d8046f973']='Pour intégrer Google Maps à votre serveur, %s et indiquez-la ici';
+$context['l10n']['fr']['fa87a459816a021182fcd9b98e629761']='Pour intégrer les services Opentok à votre serveur, %s et indiquez-la ici';
 $context['l10n']['fr']['5a363027fb4f6b0bede10ded8fcf46c8']='To monitor your server with Google Analytics, %s and enter your account here';
 $context['l10n']['fr']['To spread updates']='Pour diffuser les mises à jour';
 $context['l10n']['fr']['URI of the source page']='Adresse de la page source';
@@ -85,6 +89,7 @@ $context['l10n']['fr']['apply for a key']='demandez une clé';
 $context['l10n']['fr']['a1d3a86cb66f6642e23c2f5f12323187']='le panneau de configuration des services';
 $context['l10n']['fr']['6889e5b8e03c320d08c3687b4e284a3e']='http://www.google-analytics.com/';
 $context['l10n']['fr']['8347fa7902ce30c1e25d97ec6d1ba222']='http://www.google.com/apis/maps/signup.html';
+$context['l10n']['fr']['a47cd43b19556fdd5ca8ba6ce071ea7f']='http://www.tokbox.com/opentok/api/documentation/gettingstarted';
 $context['l10n']['fr']['register']='enregistrez-vous';
 $context['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

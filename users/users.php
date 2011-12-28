@@ -50,11 +50,11 @@ Class Users {
 	 * @param array components of a mail message to be submitted to Mailer::notify()
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert($user, $mail) {
+	public static function alert($user, $mail) {
 		global $context;
 
 		// retrieve user attributes
-		if(!isset($user['id']) && !$user =& Users::get($user))
+		if(!isset($user['id']) && (!$user =& Users::get($user)))
 			return FALSE;
 
 		// a valid address is required for e-mail...
@@ -95,31 +95,39 @@ Class Users {
 	/**
 	 * alert watchers of one anchor
 	 *
-	 * @param mixed, either reference of the updated anchor, or array for containers path
+	 * @param mixed, either reference of the updated anchor, or array of containers path
 	 * @param array components of a mail message to be submitted to Mailer::notify() (i.e., $mail['subject'], $mail['message'])
 	 * @param array users assigned to the reference, if any
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert_watchers($reference, $mail, $restricted=NULL) {
+	function alert_watchers($references, $mail, $restricted=NULL) {
 		global $context;
 
-		// list watchers, including watchers of containers of this page
-		if($items =& Members::list_watchers_by_posts_for_anchor($reference, 0, 1000, 'raw', $restricted)) {
+		// ensure we have an array of references
+		if(!is_array($references))
+			$references = array( $references );
 
-			// check every watcher
-			foreach($items as $id => $attributes) {
+		// for each reference
+		foreach($references as $reference) {
 
-				// skip banned users
-				if($attributes['capability'] == '?')
-					continue;
+			// list watchers, including watchers of containers of this page
+			if($items = Members::list_watchers_by_posts_for_anchor($reference, 0, 10000, 'raw', $restricted)) {
 
-				// current surfer is already watching the thing
-				if(Surfer::get_id() && (Surfer::get_id() == $id))
-					continue;
+				// check every watcher
+				foreach($items as $id => $watcher) {
 
-				// ensure this surfer wants to be alerted
-				if($attributes['without_alerts'] != 'Y')
-					Users::alert($attributes, $mail);
+					// skip banned users
+					if($watcher['capability'] == '?')
+						continue;
+
+					// skip current surfer
+					if(Surfer::get_id() && (Surfer::get_id() == $id))
+						continue;
+
+					// ensure this surfer wants to be alerted
+					if($watcher['without_alerts'] != 'Y')
+						Users::alert($watcher, $mail);
+				}
 			}
 		}
 
@@ -201,36 +209,36 @@ Class Users {
 		$contacts = array();
 
 		// twitter
-		if(isset($item['twitter_address']) && $item['twitter_address'])
-			$contacts[] = Skin::build_presence($item['twitter_address'], 'twitter');
+		if(isset($item['twitter_address']) && ($id = trim($item['twitter_address'])))
+			$contacts[] = Skin::build_presence($id, 'twitter');
 
 		// jabber
-		if(isset($item['jabber_address']) && $item['jabber_address'])
-			$contacts[] = Skin::build_presence($item['jabber_address'], 'jabber');
+		if(isset($item['jabber_address']) && ($id = trim($item['jabber_address'])))
+			$contacts[] = Skin::build_presence($id, 'jabber');
 
 		// skype
-		if(isset($item['skype_address']) && $item['skype_address'])
-			$contacts[] = Skin::build_presence($item['skype_address'], 'skype');
+		if(isset($item['skype_address']) && ($id = trim($item['skype_address'])))
+			$contacts[] = Skin::build_presence($id, 'skype');
 
 		// yahoo
-		if(isset($item['yahoo_address']) && $item['yahoo_address'])
-			$contacts[] = Skin::build_presence($item['yahoo_address'], 'yahoo');
+		if(isset($item['yahoo_address']) && ($id = trim($item['yahoo_address'])))
+			$contacts[] = Skin::build_presence($id, 'yahoo');
 
 		// msn
-		if(isset($item['msn_address']) && $item['msn_address'])
-			$contacts[] = Skin::build_presence($item['msn_address'], 'msn');
+		if(isset($item['msn_address']) && ($id = trim($item['msn_address'])))
+			$contacts[] = Skin::build_presence($id, 'msn');
 
 		// aim
-		if(isset($item['aim_address']) && $item['aim_address'])
-			$contacts[] = Skin::build_presence($item['aim_address'], 'aim');
+		if(isset($item['aim_address']) && ($id = trim($item['aim_address'])))
+			$contacts[] = Skin::build_presence($id, 'aim');
 
 		// irc
-		if(isset($item['irc_address']) && $item['irc_address'])
-			$contacts[] = Skin::build_presence($item['irc_address'], 'irc');
+		if(isset($item['irc_address']) && ($id = trim($item['irc_address'])))
+			$contacts[] = Skin::build_presence($id, 'irc');
 
 		// icq
-		if(isset($item['icq_address']) && $item['icq_address'])
-			$contacts[] = Skin::build_presence($item['icq_address'], 'icq');
+		if(isset($item['icq_address']) && ($id = trim($item['icq_address'])))
+			$contacts[] = Skin::build_presence($id, 'icq');
 
 		return join(' ', $contacts);
 	}
@@ -404,7 +412,7 @@ Class Users {
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE ".join(' OR ', $query)
 			." LIMIT 1";
-		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 
 		// ensure we have a full name
 		if((!isset($output['full_name']) || !$output['full_name']) && isset($output['nick_name']))
@@ -460,7 +468,7 @@ Class Users {
 			." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_scalar($query, FALSE, $context['users_connection']);
+		$output = SQL::query_scalar($query, FALSE, $context['users_connection']);
 
 		// save in cache
 		$cache[$id] = $output;
@@ -563,7 +571,7 @@ Class Users {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	function &get_permalink($item) {
+	function get_permalink($item) {
 		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
 		return $output;
 	}
@@ -1014,7 +1022,7 @@ Class Users {
 
 		// special layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -1046,7 +1054,7 @@ Class Users {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -1129,7 +1137,7 @@ Class Users {
 		// search a user profile locally
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."' OR users.full_name LIKE '".SQL::escape($name)."'";
-		if(isset($context['users_connection']) && ($item =& SQL::query_first($query, FALSE, $context['users_connection']))) {
+		if(isset($context['users_connection']) && ($item = SQL::query_first($query, FALSE, $context['users_connection']))) {
 
 			// the user has been explicitly locked
 			if($item['capability'] == '?')
@@ -2010,7 +2018,7 @@ Class Users {
 			." FROM ".SQL::table_name('users')." AS users"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 		return $output;
 	}
 
@@ -2046,7 +2054,7 @@ Class Users {
 			." FROM ".SQL::table_name('users')." AS users"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 		return $output;
 	}
 
@@ -2070,7 +2078,7 @@ Class Users {
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET capability='M'"
 			." WHERE (id = ".$id.") AND (capability != 'A')";
-		$result =& SQL::query($query, FALSE, $context['users_connection']);
+		$result = SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users
 		Cache::clear(array('users', 'user:'.$id, 'categories'));

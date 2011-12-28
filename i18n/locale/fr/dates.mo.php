@@ -46,7 +46,6 @@ $context['l10n']['fr']['b5dbc68e3397cbbe537f4a7c53b6fc4d']='Rien n\'a été enre
 $context['l10n']['fr']['November']='Novembre';
 $context['l10n']['fr']['October']='Octobre';
 $context['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$context['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $context['l10n']['fr']['Please provide a date.']='Merci d\'indiquer une date.';
 $context['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $context['l10n']['fr']['Posted by']='Envoyé par';

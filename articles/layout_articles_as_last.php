@@ -32,7 +32,7 @@ Class Layout_articles_as_last extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -45,7 +45,7 @@ Class Layout_articles_as_last extends Layout_interface {
 		// build a list of articles
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -54,7 +54,7 @@ Class Layout_articles_as_last extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))

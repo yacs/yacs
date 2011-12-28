@@ -1,6 +1,6 @@
 <?php
 /**
- * update reference skins
+ * update misc. files
  *
  * @author Bernard Paques
  * @reference
@@ -9,7 +9,7 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Update reference skins';
+$local['label_en'] = 'Update miscellaneous files';
 $local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
@@ -20,14 +20,8 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
-$files[] = 'forms/forms.js';
-$files[] = 'skins/_mobile/iui/iuix.js';
-$files[] = 'skins/_reference/pagers/delicious.gif';
-$files[] = 'skins/_reference/yacs.css';
-$files[] = 'skins/flexible/footers/s-kubrickfooter-b.jpg';
-$files[] = 'skins/flexible/headers/kubrickheader.jpg';
-$files[] = 'skins/flexible/headers/p-whiteblack-x.jpg';
-$files[] = 'skins/flexible/pages/y-kubrickbgwide-y.jpg';
+$files[] = 'control/htaccess/basic/.htaccess';
+$files[] = 'control/htaccess/indexes/.htaccess';
 
 // process every file
 $count = 0;
@@ -38,6 +32,9 @@ foreach($files as $file) {
 
 	// expected location in staging repository
 	$local_reference = $context['path_to_root'].'scripts/staging/'.$file;
+
+	// expected link from reference server
+	include_once $context['path_to_root'].'links/link.php';
 
 	// don't execute PHP scripts, just get them
 	if(preg_match('/\.php$/i', $file))
@@ -52,7 +49,7 @@ foreach($files as $file) {
 		$content = Safe::file_get_contents($local_reference);
 
 	// or get the file from reference server
-	elseif(($content = http::proceed($remote_reference)) === FALSE) {
+	elseif(($content = Link::fetch($remote_reference)) === FALSE) {
 		$local['error_en'] = 'Unable to get '.$file;
 		$local['error_fr'] = 'Impossible d\'obtenir '.$file;
 		echo i18n::user('error')."<br />\n";

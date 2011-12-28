@@ -4,7 +4,6 @@
  *
  * @todo search for images (Alainderieux)
  * @todo allow for import from inbox/images (olivier)
- * @todo allow for flash uploads (viviane)
  * @todo list and suppress images attached to an article images/list.php
  *
  * For a comprehensive description of images, you should check the database abstraction script

@@ -20,7 +20,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -38,7 +38,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -53,21 +53,6 @@ Class Layout_sections_as_tabs extends Layout_interface {
 
 			// panel content
 			$text = '';
-
-			// ensure that the surfer can change content
-			if(Sections::allow_modification($item, $anchor)) {
-
-				// view or modify this section
-				$menu = array();
-				$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the section'), 'shortcut');
-				if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
-					$label = i18n::s('Edit this section');
-				$menu[] = Skin::build_link(Sections::get_url($item['id'], 'edit'), $label, 'shortcut');
-				$text .= Skin::finalize_list($menu, 'menu_bar');
-
-			}
-
-
 
 			// insert anchor prefix
 			if(is_object($anchor))
@@ -142,42 +127,6 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				else
 					$items_per_page = ARTICLES_PER_PAGE;
 
-				// create a box
-				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
-
-				// no navigation bar with alistapart
-				if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
-
-					// count the number of articles in this section
-					if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-						if($count > 20)
-							$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
-
-						// navigation commands for articles
-						$home =& Sections::get_permalink($item);
-						$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
-						$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, 1);
-
-						// help to navigate across multiple pages
-						if($count > $items_per_page)
-							$box['bottom_bar'] = $box['top_bar'];
-
-					}
-
-					// the command to post a new page
-					if(Articles::allow_creation($item, $anchor)) {
-
-						Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
-						$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-						if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
-							;
-						else
-							$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
-						$box['top_bar'] += array( $url => $label );
-
-					}
-				}
-
 				// sort and list articles
 				$offset = 0;
 				if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -186,6 +135,22 @@ Class Layout_sections_as_tabs extends Layout_interface {
 					$order = $layout->items_order();
 				else
 					$order = 'edition';
+
+				// create a box
+				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
+
+				// the command to post a new page
+				if(Articles::allow_creation($item, $anchor)) {
+
+					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
+					if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
+						;
+					else
+						$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
+					$box['top_bar'] += array( $url => $label );
+
+				}
 
 				// list pages under preparation
 				$this_section = new section;
@@ -212,6 +177,23 @@ Class Layout_sections_as_tabs extends Layout_interface {
 					$box['text'] .= Skin::build_list($items, 'decorated');
 				elseif(is_string($items))
 					$box['text'] .= $items;
+
+				// no navigation bar with alistapart
+				if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
+
+					// count the number of articles in this section
+					if($count = Articles::count_for_anchor('section:'.$item['id'])) {
+						if($count > 20)
+							$box['bottom_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
+
+						// navigation commands for articles
+						$home = Sections::get_permalink($item);
+						$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
+						$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, 1);
+
+					}
+
+				}
 
 				// bottom menu
 				if($box['bottom_bar'])
@@ -263,36 +245,19 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				// build a complete box
 				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
-				// count the number of subsections
-				if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-
-					if($count > 20)
-						$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
-
-					// navigation commands for sections
-					$home =& Sections::get_permalink($item);
-					$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
-					$box['top_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, 1);
-
-					// help to navigate across multiple pages
-					if($count > $items_per_page)
-						$box['bottom_bar'] = $box['top_bar'];
-
-				}
-
 				// the command to add a new section
 				if(Sections::allow_creation($item, $anchor)) {
 					Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 					$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 				}
 
-				// list items by family then title
-				$offset = 0 * $items_per_page;
-				$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
-
 				// top menu
 				if($box['top_bar'])
 					$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
+
+				// list items by family then title
+				$offset = 0 * $items_per_page;
+				$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 				// actually render the html for the section
 				if(is_array($items) && is_string($item['sections_layout']) && ($item['sections_layout'] == 'compact'))
@@ -302,6 +267,19 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				elseif(is_string($items))
 					$box['text'] .= $items;
 
+				// count the number of subsections
+				if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+
+					if($count > 20)
+						$box['bottom_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
+
+					// navigation commands for sections
+					$home = Sections::get_permalink($item);
+					$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
+					$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, 1);
+
+				}
+
 				// bottom menu
 				if($box['bottom_bar'])
 					$box['text'] .= Skin::build_list($box['bottom_bar'], 'menu_bar');
@@ -309,6 +287,19 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				// there is some box content
 				if($box['text'])
 					$text .= $box['text'];
+
+			}
+
+			// ensure that the surfer can change content
+			if(Sections::allow_modification($item, $anchor)) {
+
+				// view or modify this section
+				$menu = array();
+				$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the sub-section'), 'span');
+				if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'sections')))
+					$label = i18n::s('Edit this sub-section');
+				$menu[] = Skin::build_link(Sections::get_url($item['id'], 'edit'), $label, 'span');
+				$text .= Skin::finalize_list($menu, 'menu_bar');
 
 			}
 

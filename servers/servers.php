@@ -115,7 +115,7 @@ Class Servers {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -196,7 +196,7 @@ Class Servers {
 		$query = 'SELECT * FROM '.SQL::table_name('servers')
 			." WHERE (main_url LIKE '$url') OR (feed_url LIKE '$url')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -397,7 +397,7 @@ Class Servers {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -407,18 +407,18 @@ Class Servers {
 		case 'compact':
 			include_once $context['path_to_root'].'servers/layout_servers_as_compact.php';
 			$layout = new Layout_servers_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		case 'dates':
 			include_once $context['path_to_root'].'servers/layout_servers_as_dates.php';
 			$layout = new Layout_servers_as_dates();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		case 'feed':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// stamp of last feed
 				$stamp = NULL_DATE;
@@ -433,7 +433,7 @@ Class Servers {
 
 		case 'ping':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				$url = Servers::get_url($item['id']);
 
 				// prepare for ping
@@ -444,7 +444,7 @@ Class Servers {
 
 		case 'search':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				$url = Servers::get_url($item['id']);
 
 				// prepare for search
@@ -456,7 +456,7 @@ Class Servers {
 		default:
 			include_once $context['path_to_root'].'servers/layout_servers.php';
 			$layout = new Layout_servers();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
@@ -822,7 +822,7 @@ Class Servers {
 			.' FROM '.SQL::table_name('servers').' AS servers'
 			.' WHERE ('.$where.')';
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

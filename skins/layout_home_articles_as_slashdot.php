@@ -38,7 +38,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -57,7 +57,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// permalink
 			$url =& Articles::get_permalink($item);
@@ -84,7 +84,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			elseif(is_callable(array($anchor, 'get_bullet_url')))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
@@ -114,7 +114,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date'], 'publishing');
+			$details[] = Skin::build_date($item['publish_date']);
 
 			// details
 			if(count($details))
@@ -142,11 +142,11 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id']))
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu = array_merge($menu, array( $url.'#files' => sprintf(i18n::ns('%d file', '%d files', $count), $count) ));
 
 			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id']))
+			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 
 			// discuss
@@ -154,7 +154,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id']))
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback

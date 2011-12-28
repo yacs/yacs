@@ -20,7 +20,7 @@ Class Layout_categories_as_inline extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout($result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -33,7 +33,7 @@ Class Layout_categories_as_inline extends Layout_interface {
 		$text = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// one box per category
 			$box['title'] = '';
@@ -76,9 +76,9 @@ Class Layout_categories_as_inline extends Layout_interface {
 
 			// info on related files
 			if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
-				$items = Files::list_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
+				$items = Files::list_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE, 'category:'.$item['id']);
 			else
-				$items = Files::list_by_date_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
+				$items = Files::list_by_date_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE, 'category:'.$item['id']);
 			if($items) {
 				foreach($items as $url => $label) {
 					if(is_array($label))

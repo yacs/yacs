@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 10:08+0200\n"
+"POT-Creation-Date: 2011-11-24 23:09+0100\n"
 "PO-Revision-Date: 2011-03-22 15:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,20 +16,20 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: skins/configure.php:221 skins/configure.php:796 skins/configure.php:969
-#: skins/page.php:60 skins/flexible/configure.php:2381
+#: skins/page.php:60 skins/flexible/configure.php:2382
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
 #: skins/configure.php:224 skins/configure.php:360 skins/configure.php:389
 #: skins/configure.php:413 skins/configure.php:514 skins/configure.php:526
 #: skins/configure.php:538 skins/configure.php:550 skins/configure.php:562
-#: skins/configure.php:586 skins/flexible/configure.php:460
+#: skins/configure.php:586 skins/flexible/configure.php:461
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
 #: skins/configure.php:224 skins/index.php:248
-#: skins/flexible/configure.php:460
+#: skins/flexible/configure.php:461
 msgid "Configure"
 msgstr "Configurer"
 
@@ -40,7 +40,7 @@ msgstr "Fabrication des pages"
 #: skins/configure.php:233 skins/derive.php:56 skins/derive.php:65
 #: skins/derive.php:70 skins/display.php:29 skins/edit.php:53
 #: skins/edit.php:62 skins/edit.php:67 skins/edit.php:72 skins/upload.php:40
-#: skins/upload.php:49 skins/flexible/configure.php:469
+#: skins/upload.php:49 skins/flexible/configure.php:470
 #: skins/flexible/display.php:34 skins/flexible/upload.php:33
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération."
@@ -53,7 +53,7 @@ msgstr ""
 "Vous pouvez garder les valeurs par défaut. Ceci peut être modifié plus tard. "
 "Cliquez sur le bouton en bas de page pour passer à l'étape suivante."
 
-#: skins/configure.php:254 skins/test.php:74 skins/flexible/configure.php:847
+#: skins/configure.php:254 skins/test.php:74 skins/flexible/configure.php:848
 msgid "Site name"
 msgstr "Nom du site"
 
@@ -65,7 +65,7 @@ msgstr ""
 "Label court et significatif, comme \"Mon serveur perso\", utilisé presque "
 "partout, et ajouté à la fin des titres sur chaque page de ce site"
 
-#: skins/configure.php:262 skins/test.php:76 skins/flexible/configure.php:849
+#: skins/configure.php:262 skins/test.php:76 skins/flexible/configure.php:850
 msgid "Site slogan"
 msgstr "Slogan du site"
 
@@ -243,7 +243,7 @@ msgstr ""
 "Choisissez et ordonnez les composants à afficher dans la zone centrale de la "
 "page"
 
-#: skins/configure.php:353 skins/flexible/configure.php:1104
+#: skins/configure.php:353 skins/flexible/configure.php:1105
 msgid "Page title"
 msgstr "Titre de page"
 
@@ -691,14 +691,14 @@ msgstr "Google Map"
 msgid "Freemind"
 msgstr "Freemind"
 
-#: skins/configure.php:792 skins/edit.php:182 skins/skin_skeleton.php:2704
-#: skins/upload.php:161 skins/flexible/configure.php:1621
+#: skins/configure.php:792 skins/edit.php:182 skins/skin_skeleton.php:2758
+#: skins/upload.php:161 skins/flexible/configure.php:1622
 #: skins/flexible/upload.php:76
 msgid "Submit"
 msgstr "Envoyer"
 
 #: skins/configure.php:792 skins/derive.php:292 skins/edit.php:182
-#: skins/upload.php:161 skins/flexible/configure.php:1621
+#: skins/upload.php:161 skins/flexible/configure.php:1622
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -709,12 +709,12 @@ msgstr "Appuyer sur [s] pour envoyer les informations"
 msgid "Themes"
 msgstr "Thèmes"
 
-#: skins/configure.php:811 skins/flexible/configure.php:1636
+#: skins/configure.php:811 skins/flexible/configure.php:1637
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
-#: skins/configure.php:931 skins/flexible/configure.php:1900
+#: skins/configure.php:931 skins/flexible/configure.php:1901
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -723,8 +723,8 @@ msgstr ""
 "ERREUR: Impossible d'écrire dans le fichier %s. Les paramètres n'ont pas été "
 "sauvegardés."
 
-#: skins/configure.php:934 skins/flexible/configure.php:1903
-#: skins/flexible/configure.php:2355
+#: skins/configure.php:934 skins/flexible/configure.php:1904
+#: skins/flexible/configure.php:2356
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
@@ -733,7 +733,7 @@ msgstr ""
 "Pour changer la configuration, merci de copier les lignes ci-dessous, et de "
 "les mettre par vous-même dans le fichier %s :"
 
-#: skins/configure.php:939 skins/flexible/configure.php:1908
+#: skins/configure.php:939 skins/flexible/configure.php:1909
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
@@ -745,13 +745,13 @@ msgstr ""
 "Contrôler l'information fournie et utiliser le bouton en bas de page pour "
 "continuer."
 
-#: skins/configure.php:949 skins/flexible/configure.php:1914
-#: skins/flexible/configure.php:2371
+#: skins/configure.php:949 skins/flexible/configure.php:1915
+#: skins/flexible/configure.php:2372
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-#: skins/configure.php:954 skins/flexible/configure.php:1920
+#: skins/configure.php:954 skins/flexible/configure.php:1921
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
@@ -759,11 +759,11 @@ msgstr "Paramètres de configuration"
 msgid "Switch the server on"
 msgstr "Mettre le serveur en route"
 
-#: skins/configure.php:966 skins/flexible/configure.php:2378
+#: skins/configure.php:966 skins/flexible/configure.php:2379
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: skins/configure.php:970 skins/flexible/configure.php:2382
+#: skins/configure.php:970 skins/flexible/configure.php:2383
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
@@ -900,7 +900,7 @@ msgid "http://www.yacs.fr/"
 msgstr "http://www.yacs.fr/"
 
 #: skins/derive.php:301 skins/page.php:56 skins/upload.php:214
-#: skins/flexible/configure.php:1631
+#: skins/flexible/configure.php:1632
 msgid "Help"
 msgstr "Aide"
 
@@ -1155,9 +1155,9 @@ msgstr "Commenter"
 #: skins/layout_home_articles_as_hardboiled.php:353
 #: skins/layout_home_articles_as_newspaper.php:207
 #: skins/layout_home_articles_as_newspaper.php:303
-#: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1711
-#: skins/skin_skeleton.php:1817 skins/skin_skeleton.php:1914
-#: skins/skin_skeleton.php:2161 skins/skin_skeleton.php:4989
+#: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1764
+#: skins/skin_skeleton.php:1870 skins/skin_skeleton.php:1967
+#: skins/skin_skeleton.php:2215 skins/skin_skeleton.php:5053
 msgid "View the page"
 msgstr "Voir la page"
 
@@ -1217,7 +1217,7 @@ msgid "More pages"
 msgstr "Autres pages"
 
 #: skins/layout_home_articles_as_newspaper.php:195
-#: skins/skin_skeleton.php:1843 skins/skin_skeleton.php:4491
+#: skins/skin_skeleton.php:1896 skins/skin_skeleton.php:4555
 msgid "More"
 msgstr "Suite"
 
@@ -1278,10 +1278,10 @@ msgid "Front page"
 msgstr "Page d'accueil"
 
 #: skins/skin_skeleton.php:38 skins/skin_skeleton.php:60
-#: skins/skin_skeleton.php:71 skins/skin_skeleton.php:1048
-#: skins/skin_skeleton.php:1056 skins/skin_skeleton.php:2629
-#: skins/skin_skeleton.php:2960 skins/skin_skeleton.php:3132
-#: skins/skin_skeleton.php:3140
+#: skins/skin_skeleton.php:71 skins/skin_skeleton.php:1056
+#: skins/skin_skeleton.php:1064 skins/skin_skeleton.php:2683
+#: skins/skin_skeleton.php:3014 skins/skin_skeleton.php:3186
+#: skins/skin_skeleton.php:3194
 msgid "Click to slide"
 msgstr "Cliquer pour faire glisser"
 
@@ -1325,8 +1325,8 @@ msgstr "<b>Note :</b> "
 msgid "Search..."
 msgstr "Chercher..."
 
-#: skins/skin_skeleton.php:366 skins/skin_skeleton.php:2617
-#: skins/skin_skeleton.php:2948 skins/flexible/configure.php:1304
+#: skins/skin_skeleton.php:366 skins/skin_skeleton.php:2671
+#: skins/skin_skeleton.php:3002 skins/flexible/configure.php:1305
 msgid "Content"
 msgstr "Contenu"
 
@@ -1334,204 +1334,204 @@ msgstr "Contenu"
 msgid "Persons"
 msgstr "Personnes"
 
-#: skins/skin_skeleton.php:770
+#: skins/skin_skeleton.php:774
 #, php-format
 msgid " at %s%s"
 msgstr " à %s%s"
 
-#: skins/skin_skeleton.php:770
+#: skins/skin_skeleton.php:774
 msgid "h:i a"
 msgstr "H:i"
 
-#: skins/skin_skeleton.php:832
+#: skins/skin_skeleton.php:840
 msgid "Calendar of this month"
 msgstr "Calendrier de ce mois"
 
-#: skins/skin_skeleton.php:833
+#: skins/skin_skeleton.php:841
 msgid "Calendar of this year"
 msgstr "Calendrier de cette année"
 
-#: skins/skin_skeleton.php:1382
+#: skins/skin_skeleton.php:1393
 msgid "Update this image"
 msgstr "Mettre à jour cette image"
 
-#: skins/skin_skeleton.php:1689
+#: skins/skin_skeleton.php:1742
 msgid "Browse in a separate window"
 msgstr "Lire dans une autre fenêtre"
 
-#: skins/skin_skeleton.php:1749
+#: skins/skin_skeleton.php:1802
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: skins/skin_skeleton.php:1768
+#: skins/skin_skeleton.php:1821
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: skins/skin_skeleton.php:1777
+#: skins/skin_skeleton.php:1830
 msgid "Daily calendar"
 msgstr "Calendrier de ce jour"
 
-#: skins/skin_skeleton.php:1788
+#: skins/skin_skeleton.php:1841
 msgid "Send a message"
 msgstr "Envoyer un message"
 
-#: skins/skin_skeleton.php:1834
+#: skins/skin_skeleton.php:1887
 msgid "Monthly calendar"
 msgstr "Calendrier de ce mois"
 
-#: skins/skin_skeleton.php:1856 skins/skin_skeleton.php:4497
-#: skins/skin_skeleton.php:4554 skins/skin_skeleton.php:4556
+#: skins/skin_skeleton.php:1909 skins/skin_skeleton.php:4561
+#: skins/skin_skeleton.php:4618 skins/skin_skeleton.php:4620
 #: skins/test.php:245
 msgid "Next"
 msgstr "Suivant"
 
-#: skins/skin_skeleton.php:1869 skins/skin_skeleton.php:4540
-#: skins/skin_skeleton.php:4542 skins/test.php:245
+#: skins/skin_skeleton.php:1922 skins/skin_skeleton.php:4604
+#: skins/skin_skeleton.php:4606 skins/test.php:245
 msgid "Previous"
 msgstr "Précédent"
 
-#: skins/skin_skeleton.php:1893
+#: skins/skin_skeleton.php:1946
 msgid "www.yacs.fr"
 msgstr "www.yacs.fr"
 
-#: skins/skin_skeleton.php:1904
+#: skins/skin_skeleton.php:1957
 msgid "Go to the documentation page"
 msgstr "Voir la documentation"
 
-#: skins/skin_skeleton.php:1923
+#: skins/skin_skeleton.php:1976
 msgid "See server profile"
 msgstr "Voir le profil de serveur"
 
-#: skins/skin_skeleton.php:1932
+#: skins/skin_skeleton.php:1985
 msgid "Shortcut"
 msgstr "Raccourci"
 
-#: skins/skin_skeleton.php:1947
+#: skins/skin_skeleton.php:2000
 msgid "View person profile"
 msgstr "Voir le profil de cette personne"
 
-#: skins/skin_skeleton.php:1956
+#: skins/skin_skeleton.php:2009
 msgid "Provide this link to specialized software, such as a RSS news reader"
 msgstr ""
 "Indiquer ce lien à un logiciel spécialisé, par exemple un lecteur de "
 "nouvelles RSS"
 
-#: skins/skin_skeleton.php:1968
+#: skins/skin_skeleton.php:2021
 msgid "Yearly calendar"
 msgstr "Calendrier de l'année"
 
-#: skins/skin_skeleton.php:2270
+#: skins/skin_skeleton.php:2324
 msgid "If AOL Instant Messenger has been installed, click to open a session"
 msgstr ""
 "Si le logiciel AOL Instant Messenger est installé, cliquez pour ouvrir une "
 "session"
 
-#: skins/skin_skeleton.php:2276
+#: skins/skin_skeleton.php:2330
 msgid "If ICQ has been installed, click to open a session"
 msgstr "Si le logiciel ICQ est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2282
+#: skins/skin_skeleton.php:2336
 msgid "If some IRC software has been installed, click to open a session"
 msgstr "Si un logiciel IRC est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2289
+#: skins/skin_skeleton.php:2343
 msgid "If some Jabber software has been installed, click to open a session"
 msgstr "Si un logiciel Jabber est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2295
+#: skins/skin_skeleton.php:2349
 msgid "If Windows Live Messenger has been installed, click to open a session"
 msgstr ""
 "Si Windows Live Messenger est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2301
+#: skins/skin_skeleton.php:2355
 msgid "If Skype software is installed, click to open a Skype session"
 msgstr "Si le logiciel Skype est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2307
+#: skins/skin_skeleton.php:2361
 msgid "Visit the Twitter page"
 msgstr "Visiter sur Twitter"
 
-#: skins/skin_skeleton.php:2313
+#: skins/skin_skeleton.php:2367
 msgid "If Yahoo Messenger has been installed, click to open session"
 msgstr ""
 "Si le logiciel Yahoo Messenger est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2382 skins/skin_skeleton.php:2420
-#: skins/skin_skeleton.php:2458
+#: skins/skin_skeleton.php:2436 skins/skin_skeleton.php:2474
+#: skins/skin_skeleton.php:2512
 #, php-format
 msgid "from %s"
 msgstr "depuis %s"
 
-#: skins/skin_skeleton.php:2448
+#: skins/skin_skeleton.php:2502
 msgid "Add picture"
 msgstr "Ajouter une image"
 
-#: skins/skin_skeleton.php:2547
+#: skins/skin_skeleton.php:2601
 msgid "Referrals"
 msgstr "Références externes"
 
-#: skins/skin_skeleton.php:2987
+#: skins/skin_skeleton.php:3041
 msgid "Questions"
 msgstr "Questions"
 
-#: skins/skin_skeleton.php:3254
+#: skins/skin_skeleton.php:3308
 msgid "more"
 msgstr "suite"
 
-#: skins/skin_skeleton.php:3836
+#: skins/skin_skeleton.php:3900
 msgid "A: "
 msgstr "R:"
 
-#: skins/skin_skeleton.php:3906
+#: skins/skin_skeleton.php:3970
 msgid "to publish"
 msgstr "à publier"
 
-#: skins/skin_skeleton.php:3913
+#: skins/skin_skeleton.php:3977
 msgid "expired"
 msgstr "périmé"
 
-#: skins/skin_skeleton.php:4001
+#: skins/skin_skeleton.php:4065
 msgid "new"
 msgstr "nouveau"
 
-#: skins/skin_skeleton.php:4038
+#: skins/skin_skeleton.php:4102
 msgid "popular"
 msgstr "populaire"
 
-#: skins/skin_skeleton.php:4050
+#: skins/skin_skeleton.php:4114
 msgid "private"
 msgstr "privé"
 
-#: skins/skin_skeleton.php:4057
+#: skins/skin_skeleton.php:4121
 msgid "Q: "
 msgstr "Q: "
 
-#: skins/skin_skeleton.php:4064
+#: skins/skin_skeleton.php:4128
 msgid "restricted"
 msgstr "Protégé"
 
-#: skins/skin_skeleton.php:4123
+#: skins/skin_skeleton.php:4187
 msgid "updated"
 msgstr "mis à jour"
 
-#: skins/skin_skeleton.php:4403
+#: skins/skin_skeleton.php:4467
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: skins/skin_skeleton.php:4679
+#: skins/skin_skeleton.php:4743
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: skins/skin_skeleton.php:4704
+#: skins/skin_skeleton.php:4768
 msgid "Next page"
 msgstr "Page suivante"
 
-#: skins/skin_skeleton.php:4986
+#: skins/skin_skeleton.php:5050
 #, php-format
 msgid "%d words to read"
 msgstr "encore %d mots"
 
-#: skins/skin_skeleton.php:5122
+#: skins/skin_skeleton.php:5186
 msgid "Click to sort"
 msgstr "Cliquer pour trier"
 
@@ -1624,7 +1624,7 @@ msgstr "pavé plié"
 msgid "with a folded box"
 msgstr "avec une boîte pliable"
 
-#: skins/test.php:239 skins/flexible/configure.php:2380
+#: skins/test.php:239 skins/flexible/configure.php:2381
 msgid "Test page"
 msgstr "Page de test"
 
@@ -1640,11 +1640,11 @@ msgstr "avec une barre de menu"
 msgid "with neighbours"
 msgstr "avec voisinage"
 
-#: skins/test.php:258 skins/flexible/configure.php:944
-#: skins/flexible/configure.php:1092 skins/flexible/configure.php:1122
-#: skins/flexible/configure.php:1163 skins/flexible/configure.php:1204
-#: skins/flexible/configure.php:1227 skins/flexible/configure.php:1245
-#: skins/flexible/configure.php:1297 skins/flexible/configure.php:1558
+#: skins/test.php:258 skins/flexible/configure.php:945
+#: skins/flexible/configure.php:1093 skins/flexible/configure.php:1123
+#: skins/flexible/configure.php:1164 skins/flexible/configure.php:1205
+#: skins/flexible/configure.php:1228 skins/flexible/configure.php:1246
+#: skins/flexible/configure.php:1298 skins/flexible/configure.php:1559
 msgid "Text"
 msgstr "Texte"
 
@@ -1760,11 +1760,11 @@ msgstr "Page préparée en %.2f secondes pour %s"
 msgid "Powered by %s"
 msgstr "Encore un serveur %s"
 
-#: skins/flexible/configure.php:460
+#: skins/flexible/configure.php:461
 msgid "flexible theme"
 msgstr "thème flexible"
 
-#: skins/flexible/configure.php:502
+#: skins/flexible/configure.php:503
 msgid ""
 "Select background color first, then background image. The color will appear "
 "in the area not covered by the image."
@@ -1772,283 +1772,283 @@ msgstr ""
 "Choisissez d'abord la couleur, puis l'image de fond. La couleur apparaitra "
 "dans les zones non couvertes par l'image."
 
-#: skins/flexible/configure.php:510
+#: skins/flexible/configure.php:511
 msgid "Transparent"
 msgstr "Transparent"
 
-#: skins/flexible/configure.php:581 skins/flexible/configure.php:869
-#: skins/flexible/configure.php:887
+#: skins/flexible/configure.php:582 skins/flexible/configure.php:870
+#: skins/flexible/configure.php:888
 msgid "top"
 msgstr "haut"
 
-#: skins/flexible/configure.php:586
+#: skins/flexible/configure.php:587
 msgid "right"
 msgstr "droite"
 
-#: skins/flexible/configure.php:591
+#: skins/flexible/configure.php:592
 msgid "bottom"
 msgstr "bas"
 
-#: skins/flexible/configure.php:596 skins/flexible/configure.php:870
-#: skins/flexible/configure.php:888
+#: skins/flexible/configure.php:597 skins/flexible/configure.php:871
+#: skins/flexible/configure.php:889
 msgid "left"
 msgstr "gauche"
 
-#: skins/flexible/configure.php:638
+#: skins/flexible/configure.php:639
 msgid "None"
 msgstr "Aucune"
 
-#: skins/flexible/configure.php:686
+#: skins/flexible/configure.php:687
 msgid "Test"
 msgstr "Test"
 
-#: skins/flexible/configure.php:765 skins/flexible/configure.php:1312
-#: skins/flexible/configure.php:1428
+#: skins/flexible/configure.php:766 skins/flexible/configure.php:1313
+#: skins/flexible/configure.php:1429
 msgid "Width"
 msgstr "Largeur"
 
-#: skins/flexible/configure.php:771
+#: skins/flexible/configure.php:772
 msgid "Fluid"
 msgstr "Fluide"
 
-#: skins/flexible/configure.php:777
+#: skins/flexible/configure.php:778
 msgid "960px"
 msgstr "960px"
 
-#: skins/flexible/configure.php:783
+#: skins/flexible/configure.php:784
 msgid "850px"
 msgstr "850px"
 
-#: skins/flexible/configure.php:789
+#: skins/flexible/configure.php:790
 msgid "640px"
 msgstr "640px"
 
-#: skins/flexible/configure.php:794
+#: skins/flexible/configure.php:795
 msgid "Columns"
 msgstr "Colonnes"
 
-#: skins/flexible/configure.php:800
+#: skins/flexible/configure.php:801
 msgid "1-2-3"
 msgstr "1-2-3"
 
-#: skins/flexible/configure.php:806
+#: skins/flexible/configure.php:807
 msgid "3-2-1"
 msgstr "3-2-1"
 
-#: skins/flexible/configure.php:812
+#: skins/flexible/configure.php:813
 msgid "2-3-1"
 msgstr "2-3-1"
 
-#: skins/flexible/configure.php:818
+#: skins/flexible/configure.php:819
 msgid "2-1-3"
 msgstr "2-1-3"
 
-#: skins/flexible/configure.php:830
+#: skins/flexible/configure.php:831
 msgid "Body background"
 msgstr "Fond général"
 
-#: skins/flexible/configure.php:831 skins/flexible/configure.php:835
-#: skins/flexible/configure.php:856 skins/flexible/configure.php:896
-#: skins/flexible/configure.php:1025 skins/flexible/configure.php:1140
-#: skins/flexible/configure.php:1181 skins/flexible/configure.php:1222
-#: skins/flexible/configure.php:1326 skins/flexible/configure.php:1359
-#: skins/flexible/configure.php:1417 skins/flexible/configure.php:1442
-#: skins/flexible/configure.php:1475 skins/flexible/configure.php:1533
-#: skins/flexible/configure.php:1590 skins/flexible/upload.php:64
+#: skins/flexible/configure.php:832 skins/flexible/configure.php:836
+#: skins/flexible/configure.php:857 skins/flexible/configure.php:897
+#: skins/flexible/configure.php:1026 skins/flexible/configure.php:1141
+#: skins/flexible/configure.php:1182 skins/flexible/configure.php:1223
+#: skins/flexible/configure.php:1327 skins/flexible/configure.php:1360
+#: skins/flexible/configure.php:1418 skins/flexible/configure.php:1443
+#: skins/flexible/configure.php:1476 skins/flexible/configure.php:1534
+#: skins/flexible/configure.php:1591 skins/flexible/upload.php:64
 msgid "Add a file"
 msgstr "Ajouter un fichier"
 
-#: skins/flexible/configure.php:834
+#: skins/flexible/configure.php:835
 msgid "Page background"
 msgstr "Fond de page"
 
-#: skins/flexible/configure.php:838
+#: skins/flexible/configure.php:839
 msgid "Page"
 msgstr "Page"
 
-#: skins/flexible/configure.php:843 skins/flexible/configure.php:1038
+#: skins/flexible/configure.php:844 skins/flexible/configure.php:1039
 msgid "Header"
 msgstr "Haut de page"
 
-#: skins/flexible/configure.php:855
+#: skins/flexible/configure.php:856
 msgid "Logo"
 msgstr "Logo"
 
-#: skins/flexible/configure.php:855
+#: skins/flexible/configure.php:856
 msgid ""
 "If you select an image, it will replace the display of the textual title."
 msgstr "Si vous choisissez une image, elle sera affichée à la place du titre. "
 
-#: skins/flexible/configure.php:859 skins/flexible/configure.php:877
-#: skins/flexible/configure.php:925 skins/flexible/configure.php:1073
-#: skins/flexible/configure.php:1112 skins/flexible/configure.php:1153
-#: skins/flexible/configure.php:1194 skins/flexible/configure.php:1235
-#: skins/flexible/configure.php:1249 skins/flexible/configure.php:1285
-#: skins/flexible/configure.php:1339 skins/flexible/configure.php:1366
-#: skins/flexible/configure.php:1389 skins/flexible/configure.php:1455
-#: skins/flexible/configure.php:1482 skins/flexible/configure.php:1505
-#: skins/flexible/configure.php:1545 skins/flexible/configure.php:1562
+#: skins/flexible/configure.php:860 skins/flexible/configure.php:878
+#: skins/flexible/configure.php:926 skins/flexible/configure.php:1074
+#: skins/flexible/configure.php:1113 skins/flexible/configure.php:1154
+#: skins/flexible/configure.php:1195 skins/flexible/configure.php:1236
+#: skins/flexible/configure.php:1250 skins/flexible/configure.php:1286
+#: skins/flexible/configure.php:1340 skins/flexible/configure.php:1367
+#: skins/flexible/configure.php:1390 skins/flexible/configure.php:1456
+#: skins/flexible/configure.php:1483 skins/flexible/configure.php:1506
+#: skins/flexible/configure.php:1546 skins/flexible/configure.php:1563
 msgid "Font"
 msgstr "Police"
 
-#: skins/flexible/configure.php:866 skins/flexible/configure.php:884
-#: skins/flexible/configure.php:1119 skins/flexible/configure.php:1160
-#: skins/flexible/configure.php:1201 skins/flexible/configure.php:1242
-#: skins/flexible/configure.php:1292 skins/flexible/configure.php:1346
-#: skins/flexible/configure.php:1373 skins/flexible/configure.php:1462
-#: skins/flexible/configure.php:1489 skins/flexible/configure.php:1552
+#: skins/flexible/configure.php:867 skins/flexible/configure.php:885
+#: skins/flexible/configure.php:1120 skins/flexible/configure.php:1161
+#: skins/flexible/configure.php:1202 skins/flexible/configure.php:1243
+#: skins/flexible/configure.php:1293 skins/flexible/configure.php:1347
+#: skins/flexible/configure.php:1374 skins/flexible/configure.php:1463
+#: skins/flexible/configure.php:1490 skins/flexible/configure.php:1553
 msgid "Color"
 msgstr "Couleur"
 
-#: skins/flexible/configure.php:869 skins/flexible/configure.php:887
+#: skins/flexible/configure.php:870 skins/flexible/configure.php:888
 msgid "Position"
 msgstr "Position"
 
-#: skins/flexible/configure.php:873
+#: skins/flexible/configure.php:874
 msgid "Title"
 msgstr "Titre"
 
-#: skins/flexible/configure.php:891
+#: skins/flexible/configure.php:892
 msgid "Slogan"
 msgstr "Slogan"
 
-#: skins/flexible/configure.php:895 skins/flexible/configure.php:1024
-#: skins/flexible/configure.php:1139 skins/flexible/configure.php:1180
-#: skins/flexible/configure.php:1221 skins/flexible/configure.php:1358
-#: skins/flexible/configure.php:1474 skins/flexible/configure.php:1589
+#: skins/flexible/configure.php:896 skins/flexible/configure.php:1025
+#: skins/flexible/configure.php:1140 skins/flexible/configure.php:1181
+#: skins/flexible/configure.php:1222 skins/flexible/configure.php:1359
+#: skins/flexible/configure.php:1475 skins/flexible/configure.php:1590
 msgid "Background"
 msgstr "Arrière-plan"
 
-#: skins/flexible/configure.php:899 skins/flexible/configure.php:1593
+#: skins/flexible/configure.php:900 skins/flexible/configure.php:1594
 msgid "Height"
 msgstr "Hauteur"
 
-#: skins/flexible/configure.php:902 skins/flexible/configure.php:1031
-#: skins/flexible/configure.php:1052 skins/flexible/configure.php:1129
-#: skins/flexible/configure.php:1170 skins/flexible/configure.php:1211
-#: skins/flexible/configure.php:1318 skins/flexible/configure.php:1352
-#: skins/flexible/configure.php:1379 skins/flexible/configure.php:1434
-#: skins/flexible/configure.php:1468 skins/flexible/configure.php:1495
-#: skins/flexible/configure.php:1599
+#: skins/flexible/configure.php:903 skins/flexible/configure.php:1032
+#: skins/flexible/configure.php:1053 skins/flexible/configure.php:1130
+#: skins/flexible/configure.php:1171 skins/flexible/configure.php:1212
+#: skins/flexible/configure.php:1319 skins/flexible/configure.php:1353
+#: skins/flexible/configure.php:1380 skins/flexible/configure.php:1435
+#: skins/flexible/configure.php:1469 skins/flexible/configure.php:1496
+#: skins/flexible/configure.php:1600
 msgid "Borders"
 msgstr "Bordures"
 
-#: skins/flexible/configure.php:905 skins/flexible/configure.php:1034
-#: skins/flexible/configure.php:1055 skins/flexible/configure.php:1099
-#: skins/flexible/configure.php:1135 skins/flexible/configure.php:1176
-#: skins/flexible/configure.php:1217 skins/flexible/configure.php:1321
-#: skins/flexible/configure.php:1437 skins/flexible/configure.php:1602
+#: skins/flexible/configure.php:906 skins/flexible/configure.php:1035
+#: skins/flexible/configure.php:1056 skins/flexible/configure.php:1100
+#: skins/flexible/configure.php:1136 skins/flexible/configure.php:1177
+#: skins/flexible/configure.php:1218 skins/flexible/configure.php:1322
+#: skins/flexible/configure.php:1438 skins/flexible/configure.php:1603
 msgid "Disposition"
 msgstr "Disposition"
 
-#: skins/flexible/configure.php:911 skins/flexible/configure.php:1021
+#: skins/flexible/configure.php:912 skins/flexible/configure.php:1022
 msgid "Tabs"
 msgstr "Onglets"
 
-#: skins/flexible/configure.php:932 skins/flexible/configure.php:1080
-#: skins/flexible/configure.php:1256 skins/flexible/configure.php:1396
-#: skins/flexible/configure.php:1512 skins/flexible/configure.php:1569
+#: skins/flexible/configure.php:933 skins/flexible/configure.php:1081
+#: skins/flexible/configure.php:1257 skins/flexible/configure.php:1397
+#: skins/flexible/configure.php:1513 skins/flexible/configure.php:1570
 msgid "Link color"
 msgstr "Couleur de lien"
 
-#: skins/flexible/configure.php:938 skins/flexible/configure.php:1086
-#: skins/flexible/configure.php:1264 skins/flexible/configure.php:1404
-#: skins/flexible/configure.php:1520 skins/flexible/configure.php:1577
+#: skins/flexible/configure.php:939 skins/flexible/configure.php:1087
+#: skins/flexible/configure.php:1265 skins/flexible/configure.php:1405
+#: skins/flexible/configure.php:1521 skins/flexible/configure.php:1578
 msgid "Hover color"
 msgstr "Couleur de survol"
 
-#: skins/flexible/configure.php:1028 skins/flexible/configure.php:1049
-#: skins/flexible/configure.php:1096 skins/flexible/configure.php:1126
-#: skins/flexible/configure.php:1167 skins/flexible/configure.php:1208
-#: skins/flexible/configure.php:1315 skins/flexible/configure.php:1349
-#: skins/flexible/configure.php:1376 skins/flexible/configure.php:1431
-#: skins/flexible/configure.php:1465 skins/flexible/configure.php:1492
-#: skins/flexible/configure.php:1596
+#: skins/flexible/configure.php:1029 skins/flexible/configure.php:1050
+#: skins/flexible/configure.php:1097 skins/flexible/configure.php:1127
+#: skins/flexible/configure.php:1168 skins/flexible/configure.php:1209
+#: skins/flexible/configure.php:1316 skins/flexible/configure.php:1350
+#: skins/flexible/configure.php:1377 skins/flexible/configure.php:1432
+#: skins/flexible/configure.php:1466 skins/flexible/configure.php:1493
+#: skins/flexible/configure.php:1597
 msgid "Padding"
 msgstr "Espacement"
 
-#: skins/flexible/configure.php:1060
+#: skins/flexible/configure.php:1061
 msgid "Breadcrumbs"
 msgstr "Liens de retour"
 
-#: skins/flexible/configure.php:1108 skins/flexible/configure.php:1149
-#: skins/flexible/configure.php:1190
+#: skins/flexible/configure.php:1109 skins/flexible/configure.php:1150
+#: skins/flexible/configure.php:1191
 msgid "Sample title"
 msgstr "Exemple de titre"
 
-#: skins/flexible/configure.php:1132 skins/flexible/configure.php:1173
-#: skins/flexible/configure.php:1214 skins/flexible/configure.php:1355
-#: skins/flexible/configure.php:1382 skins/flexible/configure.php:1471
-#: skins/flexible/configure.php:1498
+#: skins/flexible/configure.php:1133 skins/flexible/configure.php:1174
+#: skins/flexible/configure.php:1215 skins/flexible/configure.php:1356
+#: skins/flexible/configure.php:1383 skins/flexible/configure.php:1472
+#: skins/flexible/configure.php:1499
 msgid "Margin"
 msgstr "Marges"
 
-#: skins/flexible/configure.php:1145
+#: skins/flexible/configure.php:1146
 msgid "Level 1 title"
 msgstr "Titre de niveau 1"
 
-#: skins/flexible/configure.php:1186
+#: skins/flexible/configure.php:1187
 msgid "Level 2 title"
 msgstr "Titre de niveau 2"
 
-#: skins/flexible/configure.php:1231 skins/flexible/configure.php:1281
+#: skins/flexible/configure.php:1232 skins/flexible/configure.php:1282
 msgid "Sample text"
 msgstr "Exemple de texte"
 
-#: skins/flexible/configure.php:1272 skins/flexible/configure.php:1412
-#: skins/flexible/configure.php:1528 skins/flexible/configure.php:1585
+#: skins/flexible/configure.php:1273 skins/flexible/configure.php:1413
+#: skins/flexible/configure.php:1529 skins/flexible/configure.php:1586
 msgid "Links"
 msgstr "Liens"
 
-#: skins/flexible/configure.php:1277
+#: skins/flexible/configure.php:1278
 msgid "Details"
 msgstr "Détails"
 
-#: skins/flexible/configure.php:1325 skins/flexible/configure.php:1441
+#: skins/flexible/configure.php:1326 skins/flexible/configure.php:1442
 msgid "Panel background"
 msgstr "Fond de panneau"
 
-#: skins/flexible/configure.php:1330
+#: skins/flexible/configure.php:1331
 msgid "Navigation box"
 msgstr "Boîte de navigation"
 
-#: skins/flexible/configure.php:1334 skins/flexible/configure.php:1450
+#: skins/flexible/configure.php:1335 skins/flexible/configure.php:1451
 msgid "Sample box"
 msgstr "Boîte exemple"
 
-#: skins/flexible/configure.php:1362 skins/flexible/configure.php:1478
+#: skins/flexible/configure.php:1363 skins/flexible/configure.php:1479
 msgid "Box title"
 msgstr "Titre de boîte"
 
-#: skins/flexible/configure.php:1385 skins/flexible/configure.php:1501
+#: skins/flexible/configure.php:1386 skins/flexible/configure.php:1502
 msgid "Box content"
 msgstr "Contenu de boîte"
 
-#: skins/flexible/configure.php:1416 skins/flexible/configure.php:1532
+#: skins/flexible/configure.php:1417 skins/flexible/configure.php:1533
 msgid "Box background"
 msgstr "Fond de boîte"
 
-#: skins/flexible/configure.php:1420
+#: skins/flexible/configure.php:1421
 msgid "Navigation"
 msgstr "Navigation"
 
-#: skins/flexible/configure.php:1446
+#: skins/flexible/configure.php:1447
 msgid "Extra box"
 msgstr "Boîte extra"
 
-#: skins/flexible/configure.php:1536
+#: skins/flexible/configure.php:1537
 msgid "Extras"
 msgstr "Extras"
 
-#: skins/flexible/configure.php:1555 skins/flexible/upload.php:83
+#: skins/flexible/configure.php:1556 skins/flexible/upload.php:83
 msgid "Alignment"
 msgstr "Alignement"
 
-#: skins/flexible/configure.php:1606
+#: skins/flexible/configure.php:1607
 msgid "Footer"
 msgstr "Pied de page"
 
-#: skins/flexible/configure.php:1630
+#: skins/flexible/configure.php:1631
 msgid ""
 "You are encouraged to check the test page each time you submit some "
 "modifications. You may need several iterations to refine the actual "
@@ -2058,12 +2058,12 @@ msgstr ""
 "Habituellement il faut plusieurs itérations pour obtenir le rendu visuel "
 "souhaité. "
 
-#: skins/flexible/configure.php:1927
+#: skins/flexible/configure.php:1928
 #, php-format
 msgid "ERROR: Impossible to read the file %s."
 msgstr "ERREUR : Impossible de lire le fichier %s."
 
-#: skins/flexible/configure.php:2352
+#: skins/flexible/configure.php:2353
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. Styles sheet has not been saved."
@@ -2071,11 +2071,11 @@ msgstr ""
 "ERREUR : Impossible d'écrire dans le fichier %s. Les styles n'ont pas été "
 "sauvegardés."
 
-#: skins/flexible/configure.php:2358 skins/flexible/configure.php:2365
+#: skins/flexible/configure.php:2359 skins/flexible/configure.php:2366
 msgid "Styles"
 msgstr "Styles"
 
-#: skins/flexible/configure.php:2362
+#: skins/flexible/configure.php:2363
 #, php-format
 msgid "Styles sheet has been saved into the file %s."
 msgstr "Les styles ont été enregistrés dans le fichier %s."

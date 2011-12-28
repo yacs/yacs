@@ -200,6 +200,59 @@ Class Comments {
 	}
 
 	/**
+	 * build a notification for a new comment
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the contributor (if possible)
+	 * - a headline mentioning the contribution
+	 * - the full content of the new comment
+	 * - a button linked to the reply page
+	 * - a link to the containing page
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the new item
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
+			throw new Exception('no anchor for this comment');
+
+		// headline
+		$headline = sprintf(i18n::c('%s has contributed to %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+
+		// content
+		$content = Codes::beautify($item['description']);
+
+		// shape these
+		$text = Skin::build_mail_content($headline, $content);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'reply');
+		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
+
+		// link to the container
+		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -310,13 +363,13 @@ Class Comments {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('comments')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -372,7 +425,7 @@ Class Comments {
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -383,24 +436,41 @@ Class Comments {
 	* @param string the place to come back when complete
 	* @return string the HTML tags to put in the page
 	*/
-	public static function get_form($anchor, $follow_up='comments') {
+	public static function get_form($reference, $follow_up='comments') {
 		global $context;
 
-		$menu = array(Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'));
+		// the form to post a comment
+		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" id="comment_form"><div style="margin: 1em 0;">';
 
-		if(Surfer::may_upload())
-			$menu[] = '<span class="details">'.sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']).' <input type="hidden" name="file_type" value="upload" /><input type="file" name="upload" size="30" /></span>';
-
-		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data"><div style="margin: 1em 0;">';
-
+		// use the right editor, maybe wysiwyg
 		$text .= Surfer::get_editor('description', '', TRUE);
 
-		$text .= '<input type="hidden" name="anchor" value="'.$anchor.'" />'
+		// bottom commands
+		$menu = array();
+
+		// option to attach a file
+		if(Surfer::may_upload()) {
+
+			// intput field to appear on demand
+			$text .= '<p id="comment_upload" class="details" style="display: none;"><input type="file" name="upload" size="30" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+			.'<input type="hidden" name="file_type" value="upload" /></p>';
+
+			// the command to attach a file
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.i18n::s('Attach a file').'</span></a>';
+		}
+
+		// the submit button
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+		// finalize the form
+		$text .= '<input type="hidden" name="anchor" value="'.$reference.'" />'
 			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
 			.'<input type="hidden" name="notify_watchers" value="Y" />'
 			.Skin::finalize_list($menu, 'menu_bar')
 			.'</div></form>';
 
+		// done
 		return $text;
 	}
 
@@ -625,7 +695,7 @@ Class Comments {
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
 			." ORDER BY comments.create_date DESC LIMIT 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -664,7 +734,7 @@ Class Comments {
 		$query = "SELECT id FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return NULL;
 
 		// return url of the first item of the list
@@ -755,11 +825,11 @@ Class Comments {
 		$query = "SELECT id FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$item =& SQL::query_first($query))
+		if(!$previous = SQL::query_first($query))
 			return NULL;
 
 		// return url of the first item of the list
-		return Comments::get_url($item['id']);
+		return Comments::get_url($previous['id']);
 	}
 
 	/**
@@ -1159,7 +1229,7 @@ Class Comments {
 
 		// use an external layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -1191,7 +1261,7 @@ Class Comments {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -1587,7 +1657,7 @@ Class Comments {
 			." LIMIT 1";
 
 		// we may timeout ourself, to be safe with network resources
-		while((!$stat =& SQL::query_first($query)) || (isset($stat['edit_date']) && ($stat['edit_date'] <= $stamp))) {
+		while((!$stat = SQL::query_first($query)) || (isset($stat['edit_date']) && ($stat['edit_date'] <= $stamp))) {
 
 			// kill the request to avoid repeated transmissions when nothing has changed
 			if(--$timer < 1) {
@@ -1632,7 +1702,7 @@ Class Comments {
 			." ORDER BY comments.edit_date DESC LIMIT ".$limit.', 100';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -1641,7 +1711,7 @@ Class Comments {
 
 		// build an array of links
 		$ids = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$ids[] = "(id = ".SQL::escape($item['id']).")";
 
 		// delete the record in the database
@@ -1754,7 +1824,7 @@ Class Comments {
 			$query = "SELECT COUNT(*) as count, MIN(comments.create_date) as oldest_date, MAX(comments.create_date) as newest_date FROM ".SQL::table_name('comments')." AS comments ";
 
 		// select among available items
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1792,7 +1862,7 @@ Class Comments {
 			." FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

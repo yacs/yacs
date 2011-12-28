@@ -18,7 +18,7 @@ Class Layout_users_as_mail extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -43,16 +43,6 @@ Class Layout_users_as_mail extends Layout_interface {
 		else
 			$checked = ' checked="checked"';
 
-		// the script used to check all items at once
-		if($serial == 1)
-			$text .= JS_PREFIX
-				.'function cascade_selection_to_all_user_rows(scope, handle) {'."\n"
-				.'	$(scope + " input[type=\'checkbox\'].row_selector").each('."\n"
-				.'		function() { $(this).attr("checked", $(handle).attr("checked"));}'."\n"
-				.'	);'."\n"
-				.'}'."\n"
-				.JS_SUFFIX."\n";
-
 		// div prefix
 		$text .= '<div id="users_as_mail_panel_'.$serial.'">';
 
@@ -60,7 +50,7 @@ Class Layout_users_as_mail extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// we need some address
 			if(!$item['email'])
@@ -83,7 +73,7 @@ Class Layout_users_as_mail extends Layout_interface {
 				$text .= RESTRICTED_FLAG;
 
 			// the url to view this item
-			$url =& Users::get_permalink($item);
+			$url = Users::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -116,10 +106,23 @@ Class Layout_users_as_mail extends Layout_interface {
 		}
 
 		// allow to select/deslect multiple rows at once
-		$text .= '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_user_rows(\'div#users_as_mail_panel_'.$serial.'\', this);"'.$checked.' /> '.i18n::s('Select all/none');
+		$text .= '<input type="checkbox" class="row_selector" onchange="check_user_as_mail_panel_'.$serial.'(\'div#users_as_mail_panel_'.$serial.'\', this);"'.$checked.' /> '.i18n::s('Select all/none');
+
+		// the script used to check all items at once
+		$text .= JS_PREFIX
+			.'function check_user_as_mail_panel_'.$serial.'(scope, handle) {'."\n"
+			.'	$(scope + " input[type=\'checkbox\'].row_selector").each('."\n"
+			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
+			.'	);'."\n"
+			.'}'."\n"
+			.JS_SUFFIX."\n";
 
 		// div suffix
 		$text .= '</div>';
+
+		// no valid account has been found
+		if(!$count)
+			$text = '';
 
 		// end of processing
 		SQL::free($result);

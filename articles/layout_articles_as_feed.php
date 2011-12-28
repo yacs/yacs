@@ -25,7 +25,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -40,7 +40,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'locations/locations.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);

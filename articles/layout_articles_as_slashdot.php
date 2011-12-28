@@ -26,7 +26,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -41,7 +41,8 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		$class = 'even';
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -50,7 +51,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -66,7 +67,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('More')).'" /></a>';
 
 			// flag sticky pages
 			if($item['rank'] < 10000)
@@ -163,10 +164,18 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// details
 			if(count($details))
-				$content .= '<p class="details" style="margin-top: 2em;">'.ucfirst(implode(' - ', $details)).'</p>';
+				$content .= '<div><span class="details">'.ucfirst(implode(' - ', $details)).'</span></div>';
 
 			// insert a complete box
-			$text .= Skin::build_box(Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')), $icon.$content, 'header1', 'article_'.$item['id']);
+			$text .= Skin::build_box(Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')),
+				$icon.$content,
+				'header1 '.$class, 'article_'.$item['id']);
+
+			// stack boxes
+			if($class == 'even')
+				$class = 'odd';
+			else
+				$class = 'even';
 
 		}
 

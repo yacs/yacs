@@ -110,7 +110,7 @@ Class Versions {
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.anchor LIKE '".SQL::escape($anchor)."')";
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// package result
 		if(isset($output['count']))
@@ -154,7 +154,7 @@ Class Versions {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.id = ".SQL::escape($id).")";
-		$item =& SQL::query_first($query);
+		$item = SQL::query_first($query);
 
 		// inflate the serialized object if necessary
 		if(isset($item['content']) && strncmp($item['content'], 'a:', 2) && is_callable('gzuncompress'))
@@ -269,7 +269,7 @@ Class Versions {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -279,13 +279,13 @@ Class Versions {
 		case 'compact':
 			include_once $context['path_to_root'].'versions/layout_versions_as_compact.php';
 			$layout = new Layout_versions_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'versions/layout_versions.php';
 			$layout = new Layout_versions();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
@@ -313,7 +313,7 @@ Class Versions {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.id = ".SQL::escape($id).")";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return FALSE;
 
 		// retrieve the related anchor
@@ -447,7 +447,7 @@ Class Versions {
 			." FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.anchor LIKE '".SQL::escape($anchor)."')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

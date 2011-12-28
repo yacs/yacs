@@ -326,7 +326,7 @@ Class User extends Anchor {
 	/**
 	 * check that the surfer owns an anchor
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
 	 * @param boolean TRUE to not cascade the check to parent containers

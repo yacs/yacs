@@ -14,12 +14,11 @@ Class Layout_users_as_password extends Layout_interface {
 	 * list users
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -32,7 +31,7 @@ Class Layout_users_as_password extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -92,10 +91,7 @@ Class Layout_users_as_password extends Layout_interface {
 				$details[] = sprintf(i18n::s('%d posts'), intval($item['posts']));
 
 			if(count($details))
-				if($variant == 'full')
-					$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
-				else
-					$suffix .= ' <span class="details">'.implode(', ', $details).'</span>';
+				$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
 
 			// the command to ask for a new password
 			$suffix .= '<p style="padding: 0.5em 0 0.5em 0">'.Skin::build_link(Users::get_url($item['id'], 'password', $item['nick_name']), i18n::s('Authenticate with this profile'), 'button').'</p>';

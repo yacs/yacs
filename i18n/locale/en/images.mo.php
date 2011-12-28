@@ -61,7 +61,6 @@ $context['l10n']['en']['No item has the provided id.']='No item has the provided
 $context['l10n']['en']['Operation has failed.']='Operation has failed.';
 $context['l10n']['en']['Options']='Options';
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['Please provide an archive file.']='Please provide an archive file.';
 $context['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $context['l10n']['en']['16f90961d2f522242b4ab751e6de2bf0']='Please upload a thumbnail image for this page.';

@@ -562,7 +562,6 @@ dl.column_2 dd { /* column actual content */
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .extra_box ul { /* a list in the side panel */
@@ -601,7 +600,6 @@ dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- fr
 }
 
 div.odd { /* stacked with div.even */
-	padding: 0.5em 0;
 }
 
 #main_panel tr.odd { /* one row out of two, but only in the main panel */

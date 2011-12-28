@@ -22,7 +22,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -41,7 +41,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
@@ -50,7 +50,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))

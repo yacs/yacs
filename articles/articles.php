@@ -504,7 +504,7 @@ Class Articles {
 			return TRUE;
 
 		// owners can publish their content in this section
-		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('auto_publish'))
+		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('members_edit'))
 			return TRUE;
 
 		// surfer owns the container
@@ -561,7 +561,7 @@ Class Articles {
 			if($item['publish_name'])
 				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
 			else
-				$details[] = Skin::build_date($item['publish_date'], 'publishing');
+				$details[] = Skin::build_date($item['publish_date']);
 
 		}
 
@@ -582,6 +582,163 @@ Class Articles {
 
 		// job done
 		return $details;
+	}
+
+	/**
+	 * build a notification related to an article
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the contributor (if possible)
+	 * - a headline mentioning the contribution
+	 * - the full content of the new comment
+	 * - a button linked to the reply page
+	 * - a link to the containing page
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param array attributes of the item
+	 * @param string either 'create', 'publish' or 'update'
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification(&$item, $action='create') {
+		global $context;
+
+		// get the related overlay, if any
+		include_once $context['path_to_root'].'overlays/overlay.php';
+		$overlay = Overlay::load($item, 'article:'.$item['id']);
+
+		// sanity check
+		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
+			throw new Exception('no anchor for this article');
+
+		// headline template
+		switch($action) {
+		case 'create':
+			$template = i18n::c('%s has posted a page in %s');
+			break;
+		case 'publish':
+			$template = i18n::c('%s has published a page in %s');
+			break;
+		case 'update':
+			$template = i18n::c('%s has updated a page in %s');
+			break;
+		}
+
+		// headline
+		$headline = sprintf($template,
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+
+		// panel content
+		$content = '';
+
+		// compute page title
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
+		else
+			$title = Codes::beautify_title($item['title']);
+
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$title = PRIVATE_FLAG.$title;
+		elseif($item['active'] == 'R')
+			$title = RESTRICTED_FLAG.$title;
+
+		// insert page title
+		$content .= '<h3><span>'.$title.'</span></h3>';
+
+		// insert anchor prefix
+		if(is_object($anchor))
+			$content .= $anchor->get_prefix();
+
+		// the introduction text, if any
+		if(is_object($overlay))
+			$content .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+		elseif(isset($item['introduction']) && trim($item['introduction']))
+			$content .= Skin::build_block($item['introduction'], 'introduction');
+
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$content .= $overlay->get_text('view', $item);
+
+		// filter description, if necessary
+		if(is_object($overlay))
+			$description = $overlay->get_text('description', $item);
+		else
+			$description = $item['description'];
+
+		// the beautified description, which is the actual page body
+		if($description) {
+
+			// use adequate label
+			if(is_object($overlay) && ($label = $overlay->get_label('description')))
+				$content .= Skin::build_block($label, 'title');
+
+			// beautify the target page
+			$content .= Skin::build_block($description, 'description', '', $item['options']);
+
+		}
+
+		// attachment details
+		$details = array();
+
+		// info on related files
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
+
+			// the actual list of files attached to this article
+			if(Articles::has_option('files_by_title', $anchor, $item))
+				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
+			else
+				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
+
+			// wrap it with some header
+			if(is_array($items))
+				$items = Skin::build_list($items);
+			if($items)
+				$content .= '<h3><span>'.i18n::c('Files').'</span></h3>'.$items;
+
+			// details to be displayed at page bottom
+			$details[] = sprintf(i18n::nc('%d file', '%d files', $count), $count);
+		}
+
+		// info on related links
+		include_once $context['path_to_root'].'links/links.php';
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d link', '%d links', $count), $count);
+
+		// comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
+
+		// describe attachments
+		if(count($details))
+			$content .= '<hr align="left" size=1" width="150">'
+				.'<p>'.sprintf(i18n::c('This page has %s'), join(', ', $details)).'</p>';
+
+		// assemble main content of this message
+		$text = Skin::build_mail_content($headline, $content);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
+			$label = i18n::c('View the page');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+		// link to the container
+		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// the full message
+		return $text;
+
 	}
 
 	/**
@@ -627,16 +784,17 @@ Class Articles {
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 		$text = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
 
-		$context['page_footer'] .= 	JS_PREFIX
-						.'function append_to_options(keyword) {'."\n"
-						.'	var target = $("#options");'."\n"
-						.'	target.val(target.val() + " " + keyword);'."\n"
-						.'}'."\n"
-						.'$(document).ready(function() {'."\n"
-						.'	$("#options_list a").bind("click",function(){'."\n"
-						.'		append_to_options($(this).text());'."\n"
-						.'	}).css("cursor","pointer");'."\n"
-						.'});'.JS_SUFFIX;
+		$context['page_footer'] .= JS_PREFIX
+			.'function append_to_options(keyword) {'."\n"
+			.'	var target = $("#options");'."\n"
+			.'	target.val(target.val() + " " + keyword);'."\n"
+			.'}'."\n"
+			.'$(document).ready(function() {'."\n"
+			.'	$("#options_list a").bind("click",function(){'."\n"
+			.'		append_to_options($(this).text());'."\n"
+			.'	}).css("cursor","pointer");'."\n"
+			.'});'
+			.JS_SUFFIX;
 
 		return $text;
 	}
@@ -858,7 +1016,7 @@ Class Articles {
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE articles.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -866,7 +1024,7 @@ Class Articles {
 			return;
 
 		// delete silently all matching items
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Articles::delete($row['id']);
 	}
 
@@ -888,13 +1046,13 @@ Class Articles {
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('articles')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -994,7 +1152,7 @@ Class Articles {
 				." ORDER BY publish_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache, but only on generic request
 		if(!$mutable && isset($output['id']) && ($attributes == '*'))
@@ -1039,14 +1197,14 @@ Class Articles {
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
 			." LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching records
 		$ids = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$ids[] = $item['id'];
 
 		// return a list of ids
@@ -1128,7 +1286,7 @@ Class Articles {
 			." WHERE ".$where
 			." ORDER BY articles.rank, articles.edit_date DESC, articles.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1144,7 +1302,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	public static function get_next_url(&$item, $anchor, $order='edition') {
+	public static function get_next_url($item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1197,7 +1355,7 @@ Class Articles {
 		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1205,7 +1363,7 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
 	}
 
@@ -1215,7 +1373,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	public static function &get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}
@@ -1232,7 +1390,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	public static function get_previous_url(&$item, $anchor, $order='edition') {
+	public static function get_previous_url($item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1285,7 +1443,7 @@ Class Articles {
 		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1293,7 +1451,7 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
 	}
 
@@ -1774,6 +1932,43 @@ Class Articles {
 	}
 
 	/**
+	 * list all editors of a page
+	 *
+	 * This function lists editors of this page, or of any parent section.
+	 *
+	 * @param array attributes of the page
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_editors_by_login($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('article:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// look for editors of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// look for editors of any ancestor
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				$anchors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// list users assigned to any of these anchors
+		return Members::list_editors_for_member($anchors, $offset, $count, $variant);
+	}
+
+	/**
 	 * list articles attached to one anchor
 	 *
 	 * The ordering method is provided by layout.
@@ -2184,7 +2379,7 @@ Class Articles {
 
 		// use the provided layout interface
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -2216,8 +2411,76 @@ Class Articles {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
+	}
+
+	/**
+	 * list all watchers of a page
+	 *
+	 * If the page is public or restricted to any member, the full list of persons watching this
+	 * page, and its parent section. If the parent section has the option 'forward_notifications'
+	 * the persons assigned to grand parent section are added.
+	 *
+	 * For example, if the root section A contains a section B, which contains page P, and if
+	 * P is public, the function looks for persons assigned either to B or to P.
+	 *
+	 * If the parent section has option 'forward_notifications', then this fonction adds watchers
+	 * of grand-parent section to the list.
+	 *
+	 * If the page is private, then the function looks for wtahcers of it, and for editors of the
+	 * parent section that may also be watchers.
+	 *
+	 * For example, if the section A is public, and if it contains private page P, the function
+	 * looks for watchers of P and for editors of A that are also watchers of A.
+	 * This is because watchers of section A who are not editors are not entitled to watch P.
+	 *
+	 * @param array attributes of the watched page
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_watchers_by_posts($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('article:'.$item['id']);
+
+		// to list persons entitled to access this page
+		$ancestors = array('article:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// notify watchers of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// notify watchers of grand-parent section too
+			if($anchor->has_option('forward_notifications', FALSE) && $anchor->get_parent())
+				$anchors[] = $anchor->get_parent();
+
+			// editors of parent and grand parent section are entitled to access the page too
+			$ancestors[] = $anchor->get_reference();
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				$ancestors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// authorized users only
+		$restricted = NULL;
+		if(($item['active'] == 'N') && ($editors =& Members::list_anchors_for_member($ancestors))) {
+			foreach($editors as $editor)
+				if(strpos($editor, 'user:') === 0)
+					$restricted[] = substr($editor, strlen('user:'));
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_posts_for_anchor($anchors, $offset, $count, $variant, $restricted);
 	}
 
 	/**
@@ -2471,7 +2734,7 @@ Class Articles {
 			." ORDER BY articles.edit_date DESC LIMIT ".$limit.', 10';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -2479,7 +2742,7 @@ Class Articles {
 			return;
 
 		// delete silently all matching items
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			Articles::delete($item['id']);
 
 		// end of processing
@@ -3180,7 +3443,7 @@ Class Articles {
 			.", ".SQL::table_name('sections')." AS sections"
 			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))  AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -3254,7 +3517,7 @@ Class Articles {
 			." FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

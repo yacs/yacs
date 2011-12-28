@@ -85,7 +85,7 @@ Class Forms {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -205,7 +205,7 @@ Class Forms {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -237,7 +237,7 @@ Class Forms {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -396,7 +396,7 @@ Class Forms {
 			.' FROM '.SQL::table_name('forms').' AS forms'
 			.' WHERE ('.$where.')';
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

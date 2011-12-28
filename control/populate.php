@@ -527,7 +527,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
 		$fields['options'] = 'edit_as_simple comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
 		$overlay = Overlay::bind('bbb_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -549,7 +549,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To arrange an interactive textual discussion. This is turned to a permanent transcript at the end of the meeting.');
 		$fields['options'] = 'edit_as_thread view_as_chat';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/chat.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/chat.gif';
 
 		$overlay = Overlay::bind('chat_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -584,7 +584,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To ask a question, or to suggest a new idea. Start a thread of discussion.');
 		$fields['options'] = 'view_as_tabs edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -600,7 +600,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.');
 		$fields['options'] = 'comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/event.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
 		$overlay = Overlay::bind('event');
 		$fields['overlay'] = $overlay->save();
@@ -622,7 +622,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.');
 		$fields['options'] = 'comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
 		$overlay = Overlay::bind('etherpad_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -643,7 +643,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address.');
 		$fields['options'] = 'comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/event.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
 		$overlay = Overlay::bind('external_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -681,7 +681,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To drive your audience to a Livestream channel. At the given date and time participants are invited to join the show.');
 		$fields['options'] = 'edit_as_thread view_as_chat';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
 
 		$overlay = Overlay::bind('livestream_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -752,7 +752,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To add a web page with a streamlined interface.');
 		$fields['options'] = 'edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/basic.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/basic.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -769,7 +769,7 @@ if(!$permitted) {
 		$fields['active_set'] = 'N'; // a private page
 		$fields['options'] = 'view_as_tabs comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -785,7 +785,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To drive your audience to a USTREAM show. At the given date and time participants are invited to join the channel.');
 		$fields['options'] = 'comments_as_wall edit_as_thread';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
 
 		$overlay = Overlay::bind('ustream_meeting');
 		$fields['overlay'] = $overlay->save();
@@ -806,7 +806,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To allow contributions from several persons. Create an initial page and invite participants to follow-up.');
 		$fields['options'] = 'view_as_wiki comments_as_wall edit_as_simple members_edit';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/page.gif';
+		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/page.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else

@@ -18,7 +18,7 @@ Class Layout_files_as_raw extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -29,7 +29,7 @@ Class Layout_files_as_raw extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// include all available attributes for this item
 			$items[ $item['id'] ] = $item;

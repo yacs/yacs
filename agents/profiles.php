@@ -41,7 +41,7 @@ class Profiles {
 
 		// if a record exists for this url
 		$query = "SELECT * FROM ".SQL::table_name('profiles')." AS profiles WHERE profiles.url = '$url'";
-		$item =& SQL::query_first($query);
+		$item = SQL::query_first($query);
 
 		// update figures
 		if($item['id']) {
@@ -75,8 +75,8 @@ class Profiles {
 		// the list of profiles
 		$query = "SELECT * FROM ".SQL::table_name('profiles')." "
 			."ORDER BY total_hits DESC LIMIT ".$offset.', '.$count;
-		if($result =& SQL::query($query))
-			while($row =& SQL::fetch($result))
+		if($result = SQL::query($query))
+			while($row = SQL::fetch($result))
 				$rows[] = array('left='.$row['url'], 'left='.$row['total_hits'], 'left='.round($row['total_time']/$row['total_hits'], 3), 'left='.$row['minimum_time'], 'left='.$row['maximum_time'], 'left='.$row['total_time']);
 
 		return $rows;
@@ -118,7 +118,7 @@ class Profiles {
 		// select among available items
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('profiles');
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

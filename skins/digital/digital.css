@@ -630,8 +630,8 @@ dl#user_menu ul { /* commands that apply to this user -- see template script */
 
 a.button,
 a.button:visited,
-p.menu_bar a.button,
-p.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
+div.menu_bar a.button,
+div.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
 	display: -moz-inline-box; /* mandatory for firefox 2 */
 	display: inline-block;
 	cursor: pointer;
@@ -649,7 +649,7 @@ p.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[
 }
 
 a.button span,
-p.menu_bar a.button span {
+div.menu_bar a.button span {
 	display: inline-block;
 	cursor: pointer;
 	border: none;
@@ -705,8 +705,8 @@ span.button button {
 
 a.button:hover,
 span.button:hover,
-p.menu_bar a.button:hover,
-p.menu_bar span.button:hover {
+div.menu_bar a.button:hover,
+div.menu_bar span.button:hover {
 	background-position: 0 -60px;
 	color:#222;
 	text-decoration:none;
@@ -714,8 +714,8 @@ p.menu_bar span.button:hover {
 
 a.button:hover span,
 span.button:hover button,
-p.menu_bar a.button:hover span,
-p.menu_bar span.button:hover button {
+div.menu_bar a.button:hover span,
+div.menu_bar span.button:hover button {
 	background-position: 100% -60px;
 }
 
@@ -773,7 +773,6 @@ table.calendar td.spot {
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .extra_box ul { /* a list in the side panel */
@@ -856,7 +855,6 @@ dl dd a.menu_2 {
 }
 
 div.odd { /* stacked with div.even */
-	padding: 0.5em 0;
 }
 
 #main_panel td.odd { /* one row out of two, but only in the main panel */

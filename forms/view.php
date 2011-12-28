@@ -273,7 +273,7 @@ if(Surfer::is_crawler()) {
 					$file_name = utf8::to_ascii($_FILES[$field['name']]['name']);
 
 					// create folders
-					$file_path = 'files/'.$context['virtual_path'].'article/'.$_REQUEST['id'];
+					$file_path = Files::get_path('article:'.$_REQUEST['id']);
 					Safe::make_path($file_path);
 
 					// make an absolute path

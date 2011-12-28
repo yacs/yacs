@@ -221,39 +221,26 @@ if(defined('DIGG'))
 if(is_object($overlay))
 	$context['text'] .= $overlay->get_text('view', $item);
 
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$context['text'] .= $context['page_description'];
+
 // the owner profile, if any, at the end of the page
 if(isset($owner['id']) && is_object($anchor))
 	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
+
+// add trailer information from the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('trailer', $item);
+
+// add trailer information from this item, if any
+if(isset($item['trailer']) && trim($item['trailer']))
+	$context['text'] .= Codes::beautify($item['trailer']);
 
 //
 // panels
 //
 $panels = array();
-
-//
-// information tab
-//
-$information = '';
-
-// description has been formatted in articles/view.php
-if(isset($context['page_description']))
-	$information .= $context['page_description'];
-
-// add trailer information from the overlay, if any
-if(is_object($overlay))
-	$information .= $overlay->get_text('trailer', $item);
-
-// add trailer information from this item, if any
-if(isset($item['trailer']) && trim($item['trailer']))
-	$information .= Codes::beautify($item['trailer']);
-
-// insert anchor suffix
-if(is_object($anchor))
-	$information .= $anchor->get_suffix();
-
-// display in a separate panel
-if($information)
-	$panels[] = array('information', i18n::s('Information'), 'information_panel', $information);
 
 //
 // append tabs from the overlay, if any -- they have been captured in articles/view.php
@@ -453,25 +440,19 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 
 	// list editors of this page, and of parent sections
-	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
-	if($items =& Members::list_editors_for_member($anchors, 0, 500, 'watch')) {
+	if($items = Articles::list_editors_by_login($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
-			$owner = '';
+			$owner_state = '';
 			if($user_id == $item['owner_id'])
-				$owner = CHECKED_IMG;
-			$editor = CHECKED_IMG;
-			$watcher = '';
-			$rows[$user_id] = array($user_label, $watcher, $editor, $owner);
+				$owner_state = CHECKED_IMG;
+			$editor_state = CHECKED_IMG;
+			$watcher_state = '';
+			$rows[$user_id] = array($user_label, $watcher_state, $editor_state, $owner_state);
 		}
 	}
 
-	// watching horizon is limited to parent section at most
-	$anchors = array('article:'.$item['id']);
-	if(($item['active'] != 'N') || $anchor->is_assigned())
-		$anchors[] = $anchor->get_reference();
-
 	// watchers
-	if($items =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 500, 'watch')) {
+	if($items = Articles::list_watchers_by_posts($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 
 			// add the checkmark to existing row
@@ -557,6 +538,10 @@ $context['text'] .= Skin::build_tabs($panels);
 if(isset($neighbours) && $neighbours)
 	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
+// insert anchor suffix, if any
+if(is_object($anchor))
+	$context['text'] .= $anchor->get_suffix();
+
 //
 // extra panel -- most content is cached, except commands specific to current surfer
 //
@@ -595,7 +580,7 @@ if(Images::allow_creation($anchor, $item)) {
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 }

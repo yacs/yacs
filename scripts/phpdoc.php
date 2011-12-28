@@ -540,7 +540,7 @@ class PhpDoc {
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('phpdoc')." AS phpdoc "
 			." WHERE phpdoc.name = '".SQL::escape($name)."'";
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

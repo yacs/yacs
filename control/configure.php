@@ -127,9 +127,6 @@
  * [*] [code]mail_server[/code] - host name or IP address of the server that will process SMTP requests.
  * There is no default value.
  *
- * [*] [code]mail_encoding[/code] - either '8bit' or 'base64'.
- * The default value is 'base64'.
- *
  * [*] [code]mail_from[/code] - the account used to send messages
  * There is no default value.
  *
@@ -626,18 +623,6 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="password" name="mail_password" size="45" value="'.encode_field($context['mail_password']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
 
-	// mail encoding
-	$label = i18n::s('Messages encoding');
-	$input = '<input type="radio" name="mail_encoding" value="base64"';
-	if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
-	$input .= BR.'<input type="radio" name="mail_encoding" value="8bit"';
-	if(isset($context['mail_encoding']) && ($context['mail_encoding'] == '8bit'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not encode messages.');
-	$fields[] = array($label, $input);
-
 	// source address
 	$label = i18n::s('Source address for electronic mail (From:)');
 	if(!isset($context['mail_from']))
@@ -824,8 +809,6 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'users_table_prefix\']=\''.addcslashes($_REQUEST['users_table_prefix'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_server']))
 		$content .= '$context[\'mail_server\']=\''.addcslashes($_REQUEST['mail_server'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_encoding']))
-		$content .= '$context[\'mail_encoding\']=\''.addcslashes($_REQUEST['mail_encoding'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from']))
 		$content .= '$context[\'mail_from\']=\''.addcslashes($_REQUEST['mail_from'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from_surfer']))
@@ -887,7 +870,7 @@ if(!Surfer::is_associate()) {
 	SQL::query($query, TRUE);
 
 	// alert the end user if we are not able to connect to the database
-	if(!$handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
+	if(!$handle = SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
 
 		Logger::error(i18n::s('ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.'));
 
