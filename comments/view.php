@@ -76,8 +76,8 @@ else
 
 // page title
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('comments', 'view_title', $anchor->get_title());
-else
+	$context['page_title'] = $anchor->get_title();
+if(!$context['page_title'])
 	$context['page_title'] = i18n::s('View a comment');
 
 // not found -- help web crawlers

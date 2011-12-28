@@ -67,18 +67,6 @@ if(isset($item['active']) && ($item['active'] == 'N'))
 else
 	$context['page_title'] = i18n::s('Notify watchers');
 
-// recipients of a private page are all editors upwards
-$recipients = array();
-if(isset($item['active']) && ($item['active'] == 'N')) {
-	$anchors = array_merge(array('article:'.$item['id']), $anchor->get_focus());
-	$recipients = Members::list_editors_for_member($anchors, 0, 300, 'mail');
-
-// recipients for a public page are watchers of it and of parent section
-} elseif(is_object($anchor)) {
-	$anchors = array('article:'.$item['id'], $anchor->get_reference());
-	$recipients = Members::list_watchers_by_posts_for_anchor($anchors, 0, 300, 'mail');
-}
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -116,34 +104,82 @@ if(Surfer::is_crawler()) {
 	$to = array();
 	foreach($_REQUEST['selected_users'] as $address)
 		$to[] = $address;
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
-		$to[] = Surfer::from();
 
 	// message subject
 	$subject = '';
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
+	// headline
+	$headline = sprintf(i18n::c('%s has notified you from %s'),
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>');
+
 	// enable yacs codes in messages
-	$text = Codes::beautify($_REQUEST['message']);
+	$content = Codes::beautify($_REQUEST['message']);
 
 	// avoid duplicates
 	$to = array_unique($to);
+
+	// copy to sender
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+		$to[] = Surfer::from();
 
 	// process every recipient
 	$actual_names = array();
 	foreach($to as $recipient) {
 
-		// preserve tagging as much as possible
-		$message = Mailer::build_message($subject, $text);
+		// clean the provided string
+		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
+
+		// look for a user with this nick name
+		if(!$user =& Users::lookup($recipient))
+			continue;
+
+		// this person has no valid email address
+		if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
+			continue;
+
+		// use this email address
+		if($user['full_name'])
+			$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+		else
+			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
+
+		// basic message
+		$message = $content;
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $recipient) !== FALSE) {
-			$message = '<p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><hr /><p>'.htmlspecialchars_decode(join(', ', $actual_names)).'</p><hr />'.$message;
+			$message = '<hr /><p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
 		}
 
+		// assemble main content of this message
+		$message = Skin::build_mail_content($headline, $message);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
+			$label = i18n::c('View the page');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+		// link to the container
+		if(is_object($anchor)) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$message .= Skin::build_mail_menu($menu);
+
+		// threads messages
+		$headers = Mailer::set_thread('', 'article:'.$item['id']);
+
 		// post message for this recipient
-		if(Mailer::post(Surfer::from(), $recipient, $subject, $message))
+		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers))
 			$actual_names[] = htmlspecialchars($recipient);
 
 	}
@@ -155,17 +191,13 @@ if(Surfer::is_crawler()) {
 	else
 		$context['text'] .= '<p>'.i18n::s('No message has been sent').'</p>';
 
-	// follow-up commands
-	$follow_up = i18n::s('What do you want to do now?');
+	// back to the page
 	$menu = array();
-	$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Back to main page'), 'button');
-	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), i18n::s('Notify participants'));
-	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), i18n::s('Invite participants'));
-	$follow_up .= Skin::finalize_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
+	$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 // send message to all watchers
-} elseif(!count($recipients)) {
+} elseif(!$recipients = Articles::list_watchers_by_posts($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form
@@ -185,16 +217,17 @@ if(Surfer::is_crawler()) {
 		$title = $overlay->get_live_title($item);
 	else
 		$title = $item['title'];
+	$title = sprintf(i18n::s('Notification: %s'), $title);
 	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
-	// message content
+	// default message content
 	$content = '';
 	if(is_callable(array($overlay, 'get_invite_default_message')))
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
-		$content = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
-			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'<a></p>'
+		$content = '<p>'.i18n::s('Can you review the following page and contribute to it where applicable?').'</p>'
+			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
 			.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 

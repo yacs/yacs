@@ -95,8 +95,7 @@ if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
 
 // page title
-if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Share: %s'), $item['title']);
+$context['page_title'] = i18n::s('Invite participants');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -160,11 +159,6 @@ if(Surfer::is_crawler()) {
 	$to = '';
 	if(isset($_REQUEST['to']))
 		$to = $_REQUEST['to'];
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y')) {
-		if($to)
-			$to .= ', ';
-		$to .= Surfer::from();
-	}
 
 	// make an array of recipients
 	if(!is_array($to))
@@ -180,6 +174,10 @@ if(Surfer::is_crawler()) {
 
 	// avoid duplicates
 	$to = array_unique($to);
+
+	// copy to sender
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+		$to[] = Surfer::from();
 
 	// process every recipient
 	$actual_names = array();
@@ -220,32 +218,56 @@ if(Surfer::is_crawler()) {
 		else
 			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
+		// headline
+		$headline = sprintf(i18n::c('%s has invited you to %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a>');
+
 		// build the full message
 		if(isset($_REQUEST['message']))
 			$message = '<div>'.$_REQUEST['message'].'</div>';
 
 		else
 			$message = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
-				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'<a></p>';
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>';
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $user['email']) !== FALSE) {
-			$message = '<p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><hr /><p>'.htmlspecialchars_decode(join(', ', $actual_names)).'</p><hr />'.$message;
+			$message = '<hr /><p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
 		}
-
-		// the secret link --see users/login.php
-		$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('visit', 'section:'.$item['id'], $user['id'], $item['handle']);
-
-		// provide a link that also authenticates surfers on click-through --see users/login.php
-		$message = str_replace($context['url_to_root'].Sections::get_permalink($item),
-			$context['url_to_root'].Users::get_login_url('visit', 'section:'.$item['id'], $user['id'], $item['handle']), $message);
 
 		// allow the overlay to filter message content
 		if(is_callable(array($overlay, 'filter_invite_message')))
 			$message = $overlay->filter_invite_message($message);
 
-		// allow for HTML rendering
-		$message = Mailer::build_message($subject, $message);
+		// assemble main content of this message
+		$message = Skin::build_mail_content($headline, $message);
+
+		// a set of links
+		$menu = array();
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+			$label = i18n::c('View the section');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+		// link to the container
+		if(is_object($anchor)) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$message .= Skin::build_mail_menu($menu);
+
+		// provide a link that also authenticates surfers on click-through --see users/login.php
+		$message = str_replace(array($context['url_to_root'].Sections::get_permalink($item),
+			str_replace('&', '&amp;', $context['url_to_root'].Sections::get_permalink($item))),
+			$context['url_to_root'].Users::get_login_url('visit', 'section:'.$item['id'], $user['id'], $item['handle']), $message);
+
+		// threads messages
+		$headers = Mailer::set_thread('', 'section:'.$item['id']);
 
 		// get attachments from the overlay, if any
 		$attachments = NULL;
@@ -253,7 +275,7 @@ if(Surfer::is_crawler()) {
 			$attachments = $overlay->get_invite_attachments('PUBLISH');
 
 		// post it
-		if(Mailer::post(Surfer::from(), $recipient, $subject, $message, $attachments))
+		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments))
 			$actual_names[] = htmlspecialchars($recipient);
 	}
 	Mailer::close();
@@ -264,13 +286,10 @@ if(Surfer::is_crawler()) {
 	else
 		$context['text'] .= '<p>'.i18n::s('No message has been sent').'</p>';
 
-	// follow-up commands
-	$follow_up = i18n::s('What do you want to do now?');
+	// back to the section page
 	$menu = array();
-	$menu = array_merge($menu, array(Sections::get_permalink($item) => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array(Sections::get_url($item['id'], 'invite') => i18n::s('Invite participants')));
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
+	$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 // a form to send an invitation to several people
 } else {
@@ -336,20 +355,20 @@ if(Surfer::is_crawler()) {
 		// invitation to a private page should be limited to editors
 		if($item['active'] == 'N') {
 
-			if($editors =& Members::list_editors_for_member($parent->get_reference(), 0, 50, $layout))
+			if($editors = Members::list_editors_for_member($parent->get_reference(), 0, 1000, $layout))
 				$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
 
 		// else invitation should be extended to watchers
 		} else {
 
-			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 50, $layout))
+			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 1000, $layout))
 				$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
 
 		}
 	}
 
 	// add some names manually
-	$input .= Skin::build_box(i18n::s('Invite some individuals'), '<textarea name="to" id="names" rows="3" cols="50"></textarea>', 'unfolded');
+	$input .= Skin::build_box(i18n::s('Invite some persons'), '<textarea name="to" id="names" rows="3" cols="50"></textarea>', 'unfolded');
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 
 	// combine all these elements
@@ -361,7 +380,7 @@ if(Surfer::is_crawler()) {
 		$title = $overlay->get_live_title($item);
 	else
 		$title = $item['title'];
-	$title = sprintf(i18n::s('%s: %s'), i18n::s('Invitation'), $title);
+	$title = sprintf(i18n::s('Invitation: %s'), $title);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
@@ -371,7 +390,7 @@ if(Surfer::is_crawler()) {
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
 		$content = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
-			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'<a></p>'
+			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>'
 			.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 
@@ -435,9 +454,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		."\n"
 		.'// enable names autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#names");'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("names"); });  '."\n"
 		.JS_SUFFIX;
 
 	// help message

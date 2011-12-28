@@ -42,7 +42,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor FROM ".SQL::table_name('comments')
 		." ORDER BY anchor LIMIT 0, 100000";
-	if(!($result =& SQL::query($query)))
+	if(!($result = SQL::query($query)))
 		return;
 
 	// parse the whole list
@@ -50,7 +50,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;

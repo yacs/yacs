@@ -79,8 +79,8 @@ if($id && !isset($item['id'])) {
 	else
 		$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
 
-	// load the full library
-	$script = 'included/browser/library.js';
+	// allow to load Flash objects
+	$script = 'included/browser/js_header/swfobject.js';
 
 	// page preamble
 	$text = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"

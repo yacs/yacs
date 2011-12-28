@@ -7,7 +7,7 @@
  */
 $context['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif maintenant'.chr(0).'%d actifs maintenant';
 $context['l10n']['fr']['5ee8eddc825b8b2e2b7c8667178e7594']='%d personne identifiée a suivi le lien : %s'.chr(0).'%d personnes identifiées ont suivi le lien : %s';
-$context['l10n']['fr']['%s by %s']='%s par %s';
+$context['l10n']['fr']['2b8f07a0d17777acaab0e2fecee9fb44']='%d personne a été notifiée'.chr(0).'%d personnes ont été notifiées';
 $context['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $context['l10n']['fr']['Access collection']='Voir la collection';
 $context['l10n']['fr']['Actions']='Actions';

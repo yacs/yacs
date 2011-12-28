@@ -48,6 +48,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -583,7 +584,7 @@ if(Surfer::is_crawler()) {
 
 					// post an overlay, with the new article id
 					if(is_object($overlay))
-						$overlay->remember('insert', $article);
+						$overlay->remember('insert', $article, 'article:'.$article['id']);
 
 					// duplicate elements related to this item
 					Anchors::duplicate_related_to('article:'.$old_id, 'article:'.$article['id']);
@@ -646,7 +647,7 @@ if(Surfer::is_crawler()) {
 
 					// post an overlay, with the new section id
 					if(is_object($overlay))
-						$overlay->remember('insert', $section);
+						$overlay->remember('insert', $section, 'section:'.$section['id']);
 
 					// duplicate elements related to this item
 					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$section['id']);

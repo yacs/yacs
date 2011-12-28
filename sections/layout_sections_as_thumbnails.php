@@ -19,7 +19,7 @@ Class Layout_sections_as_thumbnails extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -32,7 +32,7 @@ Class Layout_sections_as_thumbnails extends Layout_interface {
 		$text = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// we want to make it visual
 			if(!$item['thumbnail_url'])
@@ -45,7 +45,7 @@ Class Layout_sections_as_thumbnails extends Layout_interface {
 				$title = '';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the skin to shape it
 			$text .= Skin::build_image('thumbnail', $item['thumbnail_url'], $title, $url);

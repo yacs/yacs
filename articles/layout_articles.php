@@ -29,7 +29,7 @@ Class Layout_articles extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -47,7 +47,7 @@ Class Layout_articles extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -56,7 +56,7 @@ Class Layout_articles extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -199,6 +199,10 @@ Class Layout_articles extends Layout_interface {
 
 			// end of details
 			$suffix .= '</span>';
+
+			// display all tags
+			if($item['tags'])
+				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
 			// strip empty details
 			$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);

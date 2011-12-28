@@ -128,7 +128,7 @@ render_raw('text/xml; charset='.$context['charset']);
 // suggest a name on download
 if(!headers_sent()) {
 	$file_name = utf8::to_ascii($context['site_name'].'.atom.xml');
-	Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

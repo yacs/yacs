@@ -21,6 +21,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -141,7 +142,7 @@ if(!isset($item['id'])) {
 				.'	  customIcons["user"] = iconRed;'."\n"
 				."\n"
 				.'	if (GBrowserIsCompatible()) {'."\n"
-				.'	  var map = new GMap2($("#map"));'."\n"
+				.'	  var map = new GMap2($("#map")[0]);'."\n"
 				.'	  map.addControl(new GSmallMapControl());'."\n"
 				.'	  map.addControl(new GMapTypeControl());'."\n"
 				."\n"

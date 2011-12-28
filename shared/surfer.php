@@ -103,10 +103,10 @@ Class Surfer {
 			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 		// submit a silent query because at setup tables don't exist
-		if(($result =& SQL::query($query, TRUE))) {
+		if(($result = SQL::query($query, TRUE))) {
 
 			// build the list
-			while($row =& SQL::fetch($result))
+			while($row = SQL::fetch($result))
 				$cache[ $id ][] = $row['id'];
 
 		}
@@ -169,10 +169,10 @@ Class Surfer {
 				." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 			// submit a silent query because at setup tables don't exist
-			if(($result =& SQL::query($query, TRUE))) {
+			if(($result = SQL::query($query, TRUE))) {
 
 				// build the list
-				while($row =& SQL::fetch($result))
+				while($row = SQL::fetch($result))
 					$cache[ $id ][] = $row['id'];
 
 			}
@@ -188,10 +188,10 @@ Class Surfer {
 
 				// submit a silent query because at setup tables don't exist
 				$level = array();
-				if(($result =& SQL::query($query, TRUE))) {
+				if(($result = SQL::query($query, TRUE))) {
 
 					// build the list
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -205,11 +205,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -223,11 +223,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -241,11 +241,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -259,11 +259,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -474,6 +474,26 @@ Class Surfer {
 	}
 
 	/**
+	 * get the web address of personal avatar, if any
+	 *
+	 * @return string web link to the avatar, or NULL
+	 */
+	function get_avatar_url() {
+		global $context;
+
+		// read surfer record in database
+		if(($id = Surfer::get_id()) && is_callable(array('Users', 'get')) && ($user = Users::get($id)) && ($url = trim($user['avatar_url']))) {
+			if($url[0] == '/')
+				return $context['url_to_home'].$url;
+			else
+				return $url;
+		}
+
+		// tough luck
+		return NULL;
+	}
+
+	/**
 	 * get the capability of the current surfer
 	 *
 	 * If the surfer has authenticated, his general capability is stored in
@@ -577,7 +597,7 @@ Class Surfer {
 				.'<textarea name="'.$name.'" id="'.$name.'"'
 				.	' rows="1" cols="50"'
 				.	' style="width: 60%; color: #ccc"'
-				.	' onfocus="if(fuse'.$name.'){Element.update(this, \'\');Yacs.growPanel(this);Element.setStyle(this, {color: \'#444\'});fuse'.$name.'=0;}">'
+				.	' onfocus="if(fuse'.$name.'){$(this).html(\'\').css({color: \'#444\'});Yacs.growPanel(this);fuse'.$name.'=0;}">'
 				.	i18n::s('Contribute to this page!').'</textarea>';
 
 		// default to plain editor -- BR after the Textarea is mandatory

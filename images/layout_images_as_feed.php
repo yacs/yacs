@@ -18,7 +18,7 @@ Class Layout_images_as_feed extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -31,7 +31,7 @@ Class Layout_images_as_feed extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this image
 			if($item['anchor'])
@@ -78,7 +78,7 @@ Class Layout_images_as_feed extends Layout_interface {
 
 			// url for enclosure
 			$type = Files::get_mime_type($item['image_name']);
-			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'].'"'
+			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name'].'"'
 				.' length="'.$item['image_size'].'"'
 				.' type="'.$type.'" />';
 

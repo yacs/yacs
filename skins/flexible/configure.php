@@ -531,7 +531,7 @@ elseif(!Surfer::is_associate()) {
 		} else
 			$fixed_color = '';
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'
-			.'<input class="color {hash:true,required:false}" name="'.$name.'_color" size="10" value="'.encode_field($fixed_color).'" maxlength="12"  onchange="$(\'#'.$name.'_handle\').checked=1; $(\'#'.$name.'_handle\').value=this.value; $(\'#'.$sample.'\').css({\'background\': this.value})" id="background_fixed_color_'.$count.'" />'
+			.'<input class="color {hash:true,required:false}" name="'.$name.'_color" size="10" value="'.encode_field($fixed_color).'" maxlength="12"  onchange="$(\'#'.$name.'_handle\').attr(\'checked\', \'checked\'); $(\'#'.$name.'_handle\').value=this.value; $(\'#'.$sample.'\').css({\'background\': this.value})" id="background_fixed_color_'.$count.'" />'
 			.'</div></div>'
 			.'<input type="radio" name="'.$name.'" value="'.$fixed_color.'"'.$checked.' id="'.$name.'_handle" onchange="this.value = $(\'#background_fixed_color_'.$count.'\').value; $(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
 
@@ -718,7 +718,7 @@ elseif(!Surfer::is_associate()) {
 			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$actual_value.'" onchange="$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": this.value});})"'.$checked.' />'.$value.' ';
 		}
 
-		return $text;                                       
+		return $text;
 	}
 
 	/**
@@ -768,25 +768,25 @@ elseif(!Surfer::is_associate()) {
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#fluid\').checked=1; return false;"><img src="configuration/fluid.gif" /></a>'
+	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#fluid\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fluid.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="fluid" value="fluid" />'.BR.i18n::s('Fluid').'</div>';
 	if(isset($context['flexible_width']) && ($context['flexible_width'] == '960px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#960px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#960px\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="960px" value="960px" />'.BR.Skin::build_link('http://960.gs/', i18n::s('960px')).'</div>';
 	if(isset($context['flexible_width']) && ($context['flexible_width'] == '850px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#850px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#850px\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="850px" value="850px" />'.BR.i18n::s('850px').'</div>';
 	if(isset($context['flexible_width']) && ($context['flexible_width'] == '640px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#640px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#640px\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="640px" value="640px" />'.BR.i18n::s('640px').'</div>';
 	$input = Skin::layout_horizontally($cell1, $cell2, $cell3, $cell4);
 	$fields[] = array($label, $input);
@@ -797,25 +797,25 @@ elseif(!Surfer::is_associate()) {
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#1_2_3\').checked=1; return false;"><img src="configuration/1_2_3.gif" /></a>'
+	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#1_2_3\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/1_2_3.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="1_2_3" value="1_2_3" />'.BR.i18n::s('1-2-3').'</div>';
 	if(isset($context['flexible_columns']) && ($context['flexible_columns'] == '3_2_1'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#3_2_1\').checked=1; return false;"><img src="configuration/3_2_1.gif" /></a>'
+	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#3_2_1\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/3_2_1.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="3_2_1" value="3_2_1" />'.BR.i18n::s('3-2-1').'</div>';
 	if(isset($context['flexible_columns']) && ($context['flexible_columns'] == '2_3_1'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_3_1\').checked=1; return false;"><img src="configuration/2_3_1.gif" /></a>'
+	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_3_1\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/2_3_1.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="2_3_1" value="2_3_1" />'.BR.i18n::s('2-3-1').'</div>';
 	if(isset($context['flexible_columns']) && ($context['flexible_columns'] == '2_1_3'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_1_3\').checked=1; return false;"><img src="configuration/2_1_3.gif" /></a>'
+	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_1_3\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/2_1_3.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="2_1_3" value="2_1_3" />'.BR.i18n::s('2-1-3').'</div>';
 	$input = Skin::layout_horizontally($cell1, $cell2, $cell3, $cell4);
 	$fields[] = array($label, $input);

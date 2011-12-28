@@ -34,25 +34,33 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			Versions::save($item, 'article:'.$item['id']);
 
 		// stop on error
-		if(!Articles::put_attributes($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
+		if(!Articles::put_attributes($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST, 'article:'.$_REQUEST['id']))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
 		// else display the updated page
 		} else {
 
+			// the overlay may have already notified persons involved
+			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
+
 			// touch the related anchor, but only if the page has been published
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 				$anchor->touch('article:update', $_REQUEST['id'],
 					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'));
+					$with_watchers);
 
 			// add this page to poster watch list
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
+			// the page has been modified
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
+
 			// list persons that have been notified
-			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
+			if($recipients = Mailer::build_recipients()) {
 
 				$context['text'] .= $recipients;
 
@@ -91,8 +99,13 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// attach some file
-		if(isset($_FILES['upload']))
-			Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']);
+		if(isset($_FILES['upload'])) {
+
+			$path = Files::get_path('article:'.$_REQUEST['id']);
+
+			Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']);
+
+		}
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
@@ -103,8 +116,8 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 			// don't notify the creation of an event
 			$with_watchers = TRUE;
-			if(is_object($overlay))
-				$with_watchers = $overlay->should_notify_watchers();
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
 
 			// update anchors and forward notifications
 			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
@@ -149,7 +162,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// list persons that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
@@ -393,13 +406,6 @@ if($with_form) {
 
 			$fields[] = array($label, $input);
 
-			// editors
-			$label = i18n::s('Editors');
-			if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, 7, 'comma5'))
-				$input =& Skin::build_list($items, 'comma');
-			else
-				$input = i18n::s('Nobody has been assigned to this page.');
-			$fields[] = array($label, $input);
 		}
 
 		// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards

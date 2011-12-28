@@ -55,7 +55,7 @@ Class Layout_interface {
 	/**
 	 * the variant for this layout, if any
 	 */
-	var $variant;
+	var $layout_variant;
 
 	/**
 	 * change the behaviour of this layout

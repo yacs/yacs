@@ -88,11 +88,18 @@ class Poll extends Overlay {
 		case 'description':
 			return i18n::s('Additional information');
 
+		case 'edit_command':
+			return i18n::s('Edit this poll');
+
 		// help panel
 		case 'help':
 			if(($action == 'new') || ($action == 'edit'))
 				return '<p>'.i18n::s('Keep your polls as simple to understand as possible.').'</p>';
 			return NULL;
+
+		// command to add an item
+		case 'new_command':
+			return i18n::s('Add a poll');
 
 		// page title
 		case 'page_title':
@@ -107,11 +114,6 @@ class Poll extends Overlay {
 
 			case 'new':
 				return i18n::s('Add a poll');
-
-			case 'view':
-			default:
-				// use the article title as the page title
-				break;
 
 			}
 		}
@@ -441,7 +443,6 @@ class Poll extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return array of updated attributes
 	 */
 	function parse_fields($fields) {
 
@@ -460,7 +461,6 @@ class Poll extends Overlay {
 			}
 		}
 
-		return $this->attributes;
 	}
 
 }

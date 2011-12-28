@@ -206,7 +206,7 @@ if(isset($item['id']) && isset($item['title']))
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command')))
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'articles')))
 	$context['page_title'] = i18n::s('Add a page');
 
 // save data in session, if any, to pass through login step or through section selection step
@@ -348,10 +348,6 @@ if(Surfer::is_crawler()) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
-	// only authenticated surfers are allowed to post links
-	if(!Surfer::is_logged() && isset($_REQUEST['description']))
-		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
-
 	// set options
 	if(!isset($_REQUEST['options']))
 		$_REQUEST['options'] = '';
@@ -377,7 +373,7 @@ if(Surfer::is_crawler()) {
 
 		// delete the previous version, if any
 		if(is_object($overlay) && isset($_REQUEST['id']))
-			$overlay->remember('delete', $_REQUEST);
+			$overlay->remember('delete', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -445,11 +441,16 @@ if(Surfer::is_crawler()) {
 		// else display the updated page
 		} else {
 
+			// the overlay may have already notified persons involved
+			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
+
 			// touch the related anchor, but only if the page has been published
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 				$anchor->touch('article:update', $_REQUEST['id'],
 					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'));
+					$with_watchers);
 
 			// cascade changes on access rights
 			if($_REQUEST['active'] != $item['active'])
@@ -459,8 +460,11 @@ if(Surfer::is_crawler()) {
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
+			// the page has been modified
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
+
 			// list persons that have been notified
-			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
+			if($recipients = Mailer::build_recipients()) {
 
 				$context['text'] .= $recipients;
 
@@ -507,8 +511,8 @@ if(Surfer::is_crawler()) {
 
 			// don't notify the creation of an event
 			$with_watchers = TRUE;
-			if(is_object($overlay))
-				$with_watchers = $overlay->should_notify_watchers();
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
 
 			// update anchors and forward notifications
 			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
@@ -553,7 +557,7 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
@@ -630,7 +634,7 @@ if(Surfer::is_crawler()) {
 	unset($item['nick_name']);
 
 	// also duplicate the provided overlay, if any
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, NULL);
 
 	// let the surfer do the rest
 	$with_form = TRUE;
@@ -701,10 +705,6 @@ if($with_form) {
 
 		// notify watchers, but not on draft pages
 		$with_watchers = (isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE));
-
-		// allow the anchor to prevent notifications of watchers
-		if($with_watchers && is_object($overlay))
-			$with_watchers = $overlay->should_notify_watchers();
 
 		// allow surfer to uncheck notifications
 		if($with_watchers)
@@ -813,7 +813,7 @@ if($with_form) {
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});'."\n"
 		.JS_SUFFIX;
 	// branch to another script to display form fields, tabs, etc
@@ -1059,13 +1059,6 @@ if($with_form) {
 
 		$fields[] = array($label, $input);
 
-		// editors
-		$label = i18n::s('Editors');
-		if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, 7, 'comma5'))
-			$input =& Skin::build_list($items, 'comma');
-		else
-			$input = i18n::s('Nobody has been assigned to this page.');
-		$fields[] = array($label, $input);
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards

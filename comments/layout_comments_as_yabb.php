@@ -42,7 +42,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -55,7 +55,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 		// build a list of comments
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -85,7 +85,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 
 				// avatar
 				if(isset($poster['avatar_url']) && $poster['avatar_url'])
-					$author .= '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />'.BR;
+					$author .= '<img src="'.$poster['avatar_url'].'" alt="" title="avatar" class="avatar" />'.BR;
 
 				// link to poster, if possible
 				$author .= Users::get_link($poster['full_name'], $poster['email'], $poster['id']);

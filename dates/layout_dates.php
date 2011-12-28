@@ -22,12 +22,11 @@ Class Layout_dates extends Layout_interface {
 	 * - 'no_author' to list items attached to one user prodate
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -42,13 +41,13 @@ Class Layout_dates extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a valid label
 			$label = Codes::beautify_title($item['title']);
@@ -67,12 +66,8 @@ Class Layout_dates extends Layout_interface {
 			$details = array();
 
 			// item poster
-			if($variant != 'no_author') {
-				if($item['edit_name'])
-					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-			} else
-				$details[] = Anchors::get_action_label($item['edit_action']);
+			if($item['edit_name'])
+				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))

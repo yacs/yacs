@@ -2,6 +2,8 @@
 /**
  * assign users to any object
  *
+ * @todo flag banned users in the list of editors
+ *
  * This script displays assigned users to an anchor, and list users that could be assigned as well.
  *
  * This is the main tool used by associates to assign editors to pages they are managing.
@@ -72,39 +74,40 @@ elseif(!$permitted) {
 // list all watchers
 } elseif($permitted == 'watchers') {
 
-	// the title of the page
+	// page title
 	$context['page_title'] = sprintf(i18n::s('Watchers of %s'), $anchor->get_title());
 
-	// for articles, look at the item, and at its parent
-	if(!strncmp($anchor->get_reference(), 'article:', 8)) {
-		if($parent = $anchor->get_parent())
-			$anchors = array($anchor->get_reference(), $parent);
-		else
-			$anchors = $anchor->get_reference();
+	// watchers of a page
+	if(!strncmp($anchor->get_reference(), 'article:', 8))
+		$users = Articles::list_watchers_by_posts($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
 
-	// for sections, show watchers at all levels
-	} else {
+	// watchers of a section
+	elseif(!strncmp($anchor->get_reference(), 'section:', 8))
+		$users = Sections::list_watchers_by_posts($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
+
+	else {
 		$anchors = array($anchor->get_reference());
 		if(is_object($anchor)) {
-			$anchors[] = $anchor->get_reference();
 			$handle = $anchor->get_parent();
 			while($handle && ($parent = Anchors::get($handle))) {
 				$anchors[] = $handle;
 				$handle = $parent->get_parent();
 			}
 		}
-	}
 
-	// authorized users
-	$restricted = NULL;
-	if($anchor->is_hidden() && ($editors =& Members::list_anchors_for_member($anchors))) {
-		foreach($editors as $editor)
-			if(strpos($editor, 'user:') === 0)
-				$restricted[] = substr($editor, strlen('user:'));
-	}
+		// authorized users
+		$restricted = NULL;
+		if($anchor->is_hidden() && ($editors =& Members::list_anchors_for_member($anchors))) {
+			foreach($editors as $editor)
+				if(strpos($editor, 'user:') === 0)
+					$restricted[] = substr($editor, strlen('user:'));
+		}
 
+		$users = Members::list_watchers_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted);
+
+	}
 	// the current list of watchers
-	if(($users =& Members::list_watchers_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted)) && count($users)) {
+	if(count($users)) {
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -167,19 +170,35 @@ elseif(!$permitted) {
 			// notify a person that is followed
 			if(!strncmp($_REQUEST['member'], 'user:', 5) && ($follower = Anchors::get($_REQUEST['member'])) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
 
-				// contact target user by e-mail
+				// notify target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags($follower->get_title()));
-				$body = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $follower->get_title(), $context['site_name']).'</p>'
+
+				// headline
+				$headline = sprintf(i18n::c('%s is following you'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.$follower->get_title().'</a>');
+
+				// information
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), $follower->get_title(), $context['site_name']).'</p>'
 					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.ucfirst(strip_tags($follower->get_title())).'</a></p>';
 
-				// preserve tagging as much as possible
-				$message = Mailer::build_message($subject, $body);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = $context['url_to_home'].$context['url_to_root'].$follower->get_url();
+				$menu[] = Skin::build_mail_button($link, $follower->get_title(), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
 
 				// enable threading
-				$headers = Mailer::set_thread('', $anchor);
+				$headers = Mailer::set_thread('', $follower->get_reference());
 
 				// allow for cross-referencing
-				Mailer::post(Surfer::from(), $user['email'], $subject, $message, NULL, $headers);
+				Mailer::notify(Surfer::from(), $user['email'], $subject, $message, $headers);
 			}
 		}
 
@@ -200,9 +219,10 @@ elseif(!$permitted) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" />'
+		.'<input type="text" name="assigned_name" id="assigned_name" size="45" maxlength="255" />'
 		.'<input type="hidden" name="member" value="'.encode_field($anchor->get_reference()).'">'
 		.'<input type="hidden" name="action" value="set">'
+		.' <input type="submit" id="submit_button" value="'.i18n::s('Submit').'" style="display: none;" />'
 		.'</p></form>'."\n";
 
 	// enable autocompletion
@@ -212,10 +232,8 @@ elseif(!$permitted) {
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
 		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
-		.JS_SUFFIX;
+		.'$(document).ready( function() { Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); }); });  '."\n"
+ 		.JS_SUFFIX;
 
 	// the current list of category members
 	if(!strncmp($anchor->get_reference(), 'category:', 9) && ($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {

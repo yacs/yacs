@@ -7,6 +7,7 @@
  */
 $context['l10n']['en']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $context['l10n']['en']['%d records have been processed']='%d records have been processed';
+$context['l10n']['en']['185df574f27b040ed70164eeef40fcb4']='%s is requesting your contribution';
 $context['l10n']['en']['%s: %s']='%s: %s';
 $context['l10n']['en']['f7023d9e1479b6ec8738a65cb7fd9706']='<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>';
 $context['l10n']['en']['84a77bd6947f2b7aa1017b42f3e7f9c1']='<p>The following action has been flagged with the status:</p><p><b>%s</b></p>';
@@ -40,7 +41,6 @@ $context['l10n']['en']['No title has been provided.']='No title has been provide
 $context['l10n']['en']['On-going']='On-going';
 $context['l10n']['en']['On-going actions']='On-going actions';
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $context['l10n']['en']['Posted by']='Posted by';
 $context['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';

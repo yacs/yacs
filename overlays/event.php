@@ -83,16 +83,17 @@ class Event extends Overlay {
 		switch($this->attributes['enrolment']) {
 
 		case 'manual': // call for review
-			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Review the meeting page'), 'button-in-email').'</div>';
 			break;
 
 		case 'none': // call for confirmation
 		default:
-			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then confirm my participation'), 'button-in-email').'</div>';
+			if(!isset($_REQUEST['force_enrolment']) || ($_REQUEST['force_enrolment'] != 'Y'))
+				$text .= '<div><p>'.i18n::c('Thanks to confirm your participation.').'</p></div>';
 			break;
 
 		case 'validate': // call for application
-			$text .= '<div>'.Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), i18n::s('Browse the meeting page, then ask for an invitation'), 'button-in-email').'</div>';
+			if(!isset($_REQUEST['force_enrolment']) || ($_REQUEST['force_enrolment'] != 'Y'))
+				$text .= '<div><p>'.i18n::c('Ask for an invitation if you are interested.').'</p></div>';
 			break;
 
 		}
@@ -118,14 +119,11 @@ class Event extends Overlay {
 		else
 			$value = '';
 		$input = '<input type="text" name="chairman" id="chairman" value ="'.encode_field($value).'" size="25" maxlength="32" />'
-			.'<div id="chairman_choice" class="autocomplete"></div>'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		// append the script used for autocompletion
 		$context['page_footer'] .= JS_PREFIX
 			.'// enable chairman autocompletion'."\n"
-			.'$(document).ready( function() {'."\n"
-			.' Yacs.autocomplete_names("#chairman",true);'."\n"
-			.'});  '."\n"
+			.'$(document).ready( function() { Yacs.autocomplete_names("chairman",true); });  '."\n"
 			.JS_SUFFIX;
 		// done
 		return $input;
@@ -559,17 +557,17 @@ class Event extends Overlay {
 		if($value = $this->anchor->get_title())
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), str_replace(array("\n", "\r"), ' ', Codes::beautify_title($value))).'\n';
 
-		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
-		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
-
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).'\n';
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
 
 		// location
 		if($method != 'CANCEL')
@@ -697,17 +695,15 @@ class Event extends Overlay {
 		if($value = $this->anchor->get_title())
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 
-		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
-		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
-
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
 
 		// meeting has been cancelled
 		if($method == 'CANCEL')
@@ -718,7 +714,7 @@ class Event extends Overlay {
 
 			// copy content of the introduction field, if any
 			if($value = $this->anchor->get_value('introduction'))
-				$text .= '<div>'.Codes::beautify($value).'</div>';
+				$text .= '<div>'.Codes::beautify('<p>'.$value.'</p>').'</div>';
 
 			// copy the induction message, if any
 			if(isset($this->attributes['induction_message']))
@@ -743,8 +739,8 @@ class Event extends Overlay {
 			return '';
 		case 'none':
 		default:
-			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and confirm their participation')
-				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			return '<p><input type="radio" name="force_enrolment" value="N" /> '.i18n::s('to review this event and confirm their participation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" checked="checked" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
 			break;
 		case 'validate':
 			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and ask for an invitation')
@@ -767,45 +763,47 @@ class Event extends Overlay {
 	 *
 	 * @param string the target label
 	 * @param string the on-going action
+	 * @param boolean TRUE to localize as per surfer settings, FALSE to localize as per community settings
 	 * @return the label to use
 	 */
-	function get_label($name, $action='view') {
+	function get_label($name, $action='view', $surfer=TRUE) {
 		global $context;
 
-		// the target label
-		switch($name) {
+		switch($name.':'.$action) {
 
-		// edit command
-		case 'edit_command':
-			return i18n::s('Edit this event');
-			break;
+		case 'edit_command:articles':
+		case 'edit_command:sections':
+			if($surfer)
+				return i18n::s('Edit this event');
+			return i18n::c('Edit this event');
 
-		// new command
-		case 'new_command':
-			return i18n::s('Add an event');
-			break;
+		case 'new_command:articles':
+		case 'new_command:sections':
+			if($surfer)
+				return i18n::s('Add an event');
+			return i18n::c('Add an event');
 
-		// page title
-		case 'page_title':
+		case 'permalink_command:articles':
+		case 'permalink_command:sections':
+			if($surfer)
+				return i18n::s('View event details');
+			return i18n::c('View event details');
 
-			switch($action) {
-
-			case 'edit':
+		case 'page_title:edit':
+			if($surfer)
 				return i18n::s('Edit an event');
+			return i18n::c('Edit an event');
 
-			case 'delete':
+		case 'page_title:delete':
+			if($surfer)
 				return i18n::s('Delete an event');
+			return i18n::c('Delete an event');
 
-			case 'new':
-				return i18n::s('New event');
+		case 'page_title:new':
+			if($surfer)
+				return i18n::s('Add an event');
+			return i18n::c('Add an event');
 
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
 		}
 
 		// no match
@@ -1192,7 +1190,7 @@ class Event extends Overlay {
 			if(isset($this->attributes['follow_up_message']) && $this->attributes['follow_up_message'])
 				$this->feed_back['status'][] = Codes::render($this->attributes['follow_up_message']);
 			else
-				$this->feed_back['status'][] = i18n::s('Meeting is over');
+				$this->feed_back['status'][] = i18n::s('Event is over');
 
 		// possible transition to state 'stopped'
 		} else
@@ -1424,13 +1422,6 @@ class Event extends Overlay {
 		if(!is_callable(array($this->anchor, 'get_reference')))
 			return;
 
-		// ony for authenticated users
-		if(!Surfer::get_id())
-			return;
-
-		// add this page to the watching list of this surfer
-		Members::assign($this->anchor->get_reference(), 'user:'.Surfer::get_id());
-
 		// create a comment only on first join
 		if(!isset($_SESSION['event_'.$this->anchor->get_reference()])) {
 
@@ -1443,12 +1434,19 @@ class Event extends Overlay {
 			Comments::post($fields);
 		}
 
+		// remember that you joined the event
+		$_SESSION['event_'.$this->anchor->get_reference()] = TRUE;
+
+		// additional steps only for authenticated users
+		if(!Surfer::get_id())
+			return;
+
+		// add this page to the watching list of this surfer
+		Members::assign($this->anchor->get_reference(), 'user:'.Surfer::get_id());
+
 		// update enrolment
 		include_once $context['path_to_root'].'shared/enrolments.php';
 		enrolments::confirm($this->anchor->get_reference());
-
-		// remember that you joined the event
-		$_SESSION['event_'.$this->anchor->get_reference()] = TRUE;
 
 	}
 
@@ -1500,7 +1498,6 @@ class Event extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 
@@ -1532,20 +1529,19 @@ class Event extends Overlay {
 		// process event specific attributes
 		$this->parse_event_fields($fields);
 
-		return $this->attributes;
 	}
 
 	/**
 	 * remember an action once it's done
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
-	 * @param string reference of the anchor, if any -- mandatory on 'insert'
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($action, $host, $reference=NULL) {
+	function remember($action, $host, $reference) {
 		global $context;
 
 		// remember the id of the master record
@@ -1565,7 +1561,7 @@ class Event extends Overlay {
 			// send a cancellation message to participants
 			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
 			$result = SQL::query($query);
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
 				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
@@ -1574,17 +1570,25 @@ class Event extends Overlay {
 				// message title
 				$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
 
+				// headline
+				$headline = sprintf(i18n::c('%s has cancelled %s'),
+					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+					$this->anchor->get_title());
+
 				// message to reader
 				$message = $this->get_invite_default_message('CANCEL');
 
-				// allow for HTML rendering
-				$message = Mailer::build_message($subject, $message);
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// threads messages
+				$headers = Mailer::set_thread('', $this->anchor->get_reference());
 
 				// get attachment from the overlay
 				$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
 
 				// post it
-				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+				Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
 
 			}
 
@@ -1621,30 +1625,73 @@ class Event extends Overlay {
 
 		case 'update':
 
-			// send a confirmation message to participants
-			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
-			$result = SQL::query($query);
-			while($item =& SQL::fetch($result)) {
+			// reload the anchor through the cache to reflect the update
+			if($reference)
+				$this->anchor =& Anchors::get($reference, TRUE);
 
-				// sanity check
-				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+			// send a confirmation message to participants
+			$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
+			$result = SQL::query($query);
+			while($item = SQL::fetch($result)) {
+
+				// skip current surfer
+				if(Surfer::get_id() && (Surfer::get_id() == $item['user_id']))
 					continue;
 
-				// message title
-				$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
+				// a user registered on this server
+				if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
 
-				// message to reader
-				$message = $this->get_invite_default_message('PUBLISH');
+					// skip banned users
+					if($watcher['capability'] == '?')
+						continue;
 
-				// allow for HTML rendering
-				$message = Mailer::build_message($subject, $message);
+					// ensure this surfer wants to be alerted
+					if($watcher['without_alerts'] == 'Y')
+						continue;
 
-				// get attachment from the overlay
-				$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
+					// sanity check
+					if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+						continue;
 
-				// post it
-				Mailer::post(Surfer::from(), $item['user_email'], $subject, $message, $attachments);
+					// use this email address
+					if($watcher['full_name'])
+						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['full_name']);
+					else
+						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['nick_name']);
 
+					// message title
+					$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
+
+					// headline
+					$headline = sprintf(i18n::c('%s has updated %s'),
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+
+					// message to reader
+					$message = $this->get_invite_default_message('PUBLISH');
+
+					// assemble main content of this message
+					$message = Skin::build_mail_content($headline, $message);
+
+					// a set of links
+					$menu = array();
+
+					// call for action
+					$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+					$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
+
+					// finalize links
+					$message .= Skin::build_mail_menu($menu);
+
+					// threads messages
+					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+
+					// get attachment from the overlay
+					$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
+
+					// post it
+					Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
+				}
 			}
 
 			// bind one date to this record
@@ -1738,7 +1785,7 @@ class Event extends Overlay {
 
 			// navigation commands for dates
 			if($section = Sections::get(str_replace('section:', '', $anchor))) {
-				$home =& Sections::get_permalink($section);
+				$home = Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 			}
@@ -1771,7 +1818,7 @@ class Event extends Overlay {
 
 				// navigation commands for dates
 				$section = Sections::get($anchor);
-				$home =& Sections::get_permalink($section);
+				$home = Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 
@@ -1840,14 +1887,48 @@ class Event extends Overlay {
 	/**
 	 * notify watchers or not?
 	 *
-	 * This function is used in various scripts to prevent notification of watchers.
+	 * This function is used in various scripts to customize notification of watchers.
 	 *
 	 * @see articles/edit.php
 	 * @see articles/publish.php
 	 *
+	 * @param array if provided, a notification that can be sent to customised recipients
 	 * @return boolean always FALSE for events, since notifications are made through enrolment
 	 */
-	function should_notify_watchers() {
+	function should_notify_watchers($mail) {
+		global $context;
+
+		// sent notification to all enrolled persons
+		if($mail) {
+
+			// list enrolment for this meeting
+			$query = "SELECT user_id FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".SQL::escape($this->anchor->get_reference())."'";
+			if($result = SQL::query($query)) {
+
+				// browse the list
+				while($item = SQL::fetch($result)) {
+
+					// a user registered on this server
+					if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
+
+						// skip banned users
+						if($watcher['capability'] == '?')
+							continue;
+
+						// skip current surfer
+						if(Surfer::get_id() && (Surfer::get_id() == $item['user_id']))
+							continue;
+
+						// ensure this surfer wants to be alerted
+						if($watcher['without_alerts'] != 'Y')
+							Users::alert($watcher, $mail);
+
+					}
+				}
+			}
+		}
+
+		// prevent normal cascading of notifications
 		return FALSE;
 	}
 
@@ -2020,20 +2101,13 @@ class Event extends Overlay {
 				.'	timestamp: 0,'."\n"
 				."\n"
 				.'	subscribe: function() {'."\n"
-				.'		Lobby.subscribeAjax = new Ajax.Request(Lobby.url, {'."\n"
-				.'			method: "get",'."\n"
-				.'			parameters: { "timestamp" : this.timestamp },'."\n"
-				.'			requestHeaders: {Accept: "application/json"},'."\n"
-				.'			onSuccess: Lobby.updateOnSuccess'."\n"
-				.'		});'."\n"
-				.'	},'."\n"
-				."\n"
-				.'	updateOnSuccess: function(transport) {'."\n"
-				.'		var response = transport.responseText.evalJSON(true);'."\n"
-				.'		if(Lobby.timestamp == 0)'."\n"
-				.'			Lobby.timestamp = response["timestamp"];'."\n"
-				.'		else if(Lobby.timestamp != response["timestamp"])'."\n"
-				.'			window.location.reload(true);'."\n"
+				.'		$.get(Lobby.url, { "timestamp" : this.timestamp },'."\n"
+				.'		function(response) {'."\n"
+				.'			if(Lobby.timestamp == 0)'."\n"
+				.'				Lobby.timestamp = response["timestamp"];'."\n"
+				.'			else if(Lobby.timestamp != response["timestamp"])'."\n"
+				.'				window.location.reload(true);'."\n"
+				.'		}, "json");'."\n"
 				.'	}'."\n"
 				."\n"
 				.'}'."\n"

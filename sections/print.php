@@ -89,15 +89,6 @@ if(Surfer::is_crawler()) {
 	if((intval($item['rank']) != 10000) && Surfer::is_associate())
 		$details[] = sprintf(i18n::s('Rank: %s'), $item['rank']);
 
-	// section editors
-	if(Surfer::is_empowered() && Surfer::is_member()) {
-		if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
-
-		if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
-			$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
-	}
-
 	// signal sections to be activated
 	if(Surfer::is_empowered() && ($item['activation_date'] > $context['now']))
 		$details[] = DRAFT_FLAG.' '.sprintf(i18n::s('Section will be activated %s'), Skin::build_date($item['activation_date']));
@@ -239,9 +230,9 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option :files_by_title:)
 	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300);
+		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 	else
-		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300);
+		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 
 	// actually render the html for the section
 	if($items)

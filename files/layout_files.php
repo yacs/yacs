@@ -27,7 +27,7 @@ Class Layout_files extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -42,7 +42,7 @@ Class Layout_files extends Layout_interface {
 			$this->layout_variant = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
 			$anchor =& Anchors::get($item['anchor']);
@@ -157,7 +157,7 @@ Class Layout_files extends Layout_interface {
 
 			// or reinforce file type
 			else
-				$icon = Files::get_icon_url($item['file_name']);
+				$icon = $context['url_to_root'].Files::get_icon_url($item['file_name']);
 
 			// show a reference to the file for members
 			$hover = i18n::s('Get the file');

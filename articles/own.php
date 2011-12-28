@@ -99,9 +99,10 @@ if(Surfer::is_crawler()) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" />'
-		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'">'
-		.'<input type="hidden" name="action" value="set">'
+		.'<input type="text" name="assigned_name" id="assigned_name" size="45" maxlength="255" />'
+		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'" />'
+		.'<input type="hidden" name="action" value="set" />'
+		.' <input type="submit" id="submit_button" value="'.i18n::s('Submit').'" style="display: none;" />'
 		.'</p></form>'."\n";
 
 	// enable autocompletion
@@ -111,9 +112,7 @@ if(Surfer::is_crawler()) {
 		.'$(document).ready( function() { $("#name").focus() });'."\n"
 		."\n"
 		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
+		.'$(document).ready( function() { Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); }); });  '."\n"
 		.JS_SUFFIX;
 
 

@@ -63,7 +63,7 @@ class Referrals {
 		// if a record exists for this url
 		$query = "SELECT id FROM ".SQL::table_name('referrals')." AS referrals"
 			." WHERE referrals.url LIKE '".SQL::escape($url)."' AND referrals.referer LIKE '".SQL::escape($referer)."'";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return;
 
 		// update figures
@@ -227,7 +227,7 @@ class Referrals {
 
 		// render a compact list, and including the number of referrals
 		$items = array();
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// hack to make this compliant to XHTML
 			$url = str_replace('&', '&amp;', $row['referer']);
@@ -256,7 +256,7 @@ class Referrals {
 			." GROUP BY referer"
 			." ORDER BY hits DESC LIMIT ".$offset.', '.$count;
 		if($result = SQL::query($query, $context['connection'])) {
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$url = $row['referer'];
 				$items[$url] = Skin::build_number($row['hits']);
 			}
@@ -431,7 +431,7 @@ class Referrals {
 		// select among available items
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('referrals');
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

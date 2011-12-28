@@ -164,7 +164,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		Locations::clear($_REQUEST);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients();
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -252,7 +252,7 @@ if($with_form) {
 			.'				if (!point) {'."\n"
 			.'					alert("'.i18n::s('This address has not been found').'");'."\n"
 			.'				} else {'."\n"
-			.'					$(\'#geo_position\').value = point.y.toString() + ", " + point.x.toString();'."\n"
+			.'					$(\'#geo_position\').val( point.y.toString() + ", " + point.x.toString() );'."\n"
 			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"

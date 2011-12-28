@@ -19,7 +19,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -42,7 +42,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 
 		// process all items in the list
 		$family = '';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
@@ -55,7 +55,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $label = $suffix = $icon = '';

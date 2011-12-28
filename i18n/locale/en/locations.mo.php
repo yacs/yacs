@@ -45,7 +45,6 @@ $context['l10n']['en']['95eeec18709a90fc951edc69a4187d66']='No location has been
 $context['l10n']['en']['a9864baa813ec36afd9d1d510045645a']='Not capable to generate dynamic images.';
 $context['l10n']['en']['On page %s']='On page %s';
 $context['l10n']['en']['Orphan: %s']='Orphan: %s';
-$context['l10n']['en']['Persons that have been notified']='Persons that have been notified';
 $context['l10n']['en']['Place name']='Place name';
 $context['l10n']['en']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Please add a geo_place_name for this location';
 $context['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';

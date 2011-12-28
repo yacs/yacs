@@ -117,7 +117,7 @@ if(!isset($item['id'])) {
 
 		// post an overlay, with the new article id
 		if(is_object($overlay))
-			$overlay->remember('insert', $item);
+			$overlay->remember('insert', $item, 'article:'.$item['id']);
 
 		// duplicate all related items, images, etc.
 		Anchors::duplicate_related_to($original_anchor, 'article:'.$item['id']);

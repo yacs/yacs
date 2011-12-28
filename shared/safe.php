@@ -423,18 +423,26 @@ class Safe {
 	 *
 	 */
 	public static function header($attribute, $replace=NULL, $status=NULL) {
+		global $context;
 
  		// CGI and FastCGI error parsing headers
  		if(substr(php_sapi_name(), 0, 3) == 'cgi')
  			$attribute = str_replace('Status:', 'HTTP/1.0', $attribute);
 
-		// too late
-		if(headers_sent())
-			return;
-
 		// in case we are validating all scripts
 		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 			return;
+
+		// too late
+		if(headers_sent($file, $line)) {
+
+			// help on development machine
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/safe.php', 'Can not add HTTP header', 'Headers already sent in '.$file.' on line '.$line, 'debug');
+
+			// don't call header(), this would raise an error
+			return;
+		}
 
 		// function has been allowed
 		if(is_callable('header')) {
@@ -745,7 +753,7 @@ class Safe {
 	 * @return string
 	 */
 	public static function mkdir_index_content() {
-		return '<?php echo "Browsing is not allowed here."; ?>';
+		return '<'.'?php echo "Browsing is not allowed here."; ?'.'>';
 	}
 
 	/**
@@ -904,7 +912,7 @@ class Safe {
 		// a message for human beings
 		if(!is_callable(array('i18n', 's')))
 			exit();
-		exit(sprintf(i18n::s('Redirecting to %s'), $reference));
+		exit(sprintf(i18n::s('Redirecting to %s'), '<a href="'.$reference.'">'.$reference.'</a>'));
 
 	}
 

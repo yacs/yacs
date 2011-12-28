@@ -99,8 +99,7 @@ else
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable()) {
-	$title = $anchor->get_title();;
-	$context['page_title'] = $anchor->get_label('comments', 'list_title', $title);
+	$context['page_title'] = $anchor->get_title();
 } else
 	$context['page_title'] = i18n::s('Comments');
 
@@ -169,9 +168,7 @@ if(!is_object($anchor)) {
 		include_once '../comments/comments.php';
 		if($count = Comments::count_for_anchor($anchor->get_reference())) {
 			if($count > 1) {
-				$box['bar'] += array('_count' => $count.' '.$anchor->get_label('comments', 'count_many'));
-			} elseif($count == 1) {
-				$box['bar'] += array('_count' => '1 '.$anchor->get_label('comments', 'count_one'));
+				$box['bar'] += array('_count' => $count.' '.strtolower($anchor->get_label('list_title', 'comments')));
 			}
 
 			// navigation commands for comments
@@ -194,7 +191,7 @@ if(!is_object($anchor)) {
 		if(Comments::allow_creation($anchor)) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$box['bar'] = array_merge($box['bar'],
-				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$anchor->get_label('comments', 'new_command') ));
+				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$anchor->get_label('new_command', 'comments') ));
 		}
 
 		// show commands

@@ -18,12 +18,11 @@ Class Layout_users extends Layout_interface {
 	 * list users
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -36,8 +35,12 @@ Class Layout_users extends Layout_interface {
 		// flag idle users
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
 
+		// default variant
+		if(!isset($this->layout_variant))
+			$this->layout_variant == 'full';
+
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -102,7 +105,7 @@ Class Layout_users extends Layout_interface {
 				$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
 
 			// last login
-			if($variant == 'dates') {
+			if($this->layout_variant == 'dates') {
 				if(isset($item['login_date']) && ($item['login_date'] > '2000-01-01')) {
 					$address = '';
 					if($item['login_address'])
@@ -114,7 +117,7 @@ Class Layout_users extends Layout_interface {
 			}
 
 			// last post
-			if($variant == 'dates') {
+			if($this->layout_variant == 'dates') {
 				if(isset($item['post_date']) && ($item['post_date'] > '2000-01-01'))
 					$details[] = sprintf(i18n::s('last post %s'), Skin::build_date($item['post_date']));
 			}
@@ -124,7 +127,7 @@ Class Layout_users extends Layout_interface {
 				$details[] = sprintf(i18n::s('%d posts'), intval($item['posts']));
 
 			if(count($details))
-				if($variant == 'full')
+				if($this->layout_variant == 'full')
 					$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
 				else
 					$suffix .= ' <span class="details">'.implode(', ', $details).'</span>';

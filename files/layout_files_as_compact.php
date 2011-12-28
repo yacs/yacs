@@ -18,7 +18,7 @@ Class Layout_files_as_compact extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -29,7 +29,7 @@ Class Layout_files_as_compact extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// play freemind maps and flash files in separate windows
 			if(preg_match('/\.(mm|swf)$/i', $item['file_name']))
@@ -39,14 +39,11 @@ Class Layout_files_as_compact extends Layout_interface {
 			else
 				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
 
+			// provide absolute links because these could be put in a mail
+			$url = $context['url_to_home'].$context['url_to_root'].$url;
+
 			// initialize variables
 			$prefix = $suffix = '';
-
-			// flag files that are dead, or created or updated very recently
-			if($item['create_date'] >= $context['fresh'])
-				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $context['fresh'])
-				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private files
 			if($item['active'] == 'N')

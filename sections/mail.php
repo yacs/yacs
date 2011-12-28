@@ -60,21 +60,6 @@ if(isset($item['id']) && $item['title'])
 // page title
 $context['page_title'] = i18n::s('Notify participants');
 
-// recipients of a private section are all editors
-$recipients = array();
-if(isset($item['active']) && ($item['active'] == 'N')) {
-	$anchors = Sections::get_hidden_sections($item, $anchor);
-	$recipients = Members::list_editors_for_member($anchors, 0, 300, 'mail');
-
-// recipients for a public section include all watchers upwards
-} elseif(isset($item['id'])) {
-	if(is_object($anchor))
-		$anchors = array_merge(array('section:'.$item['id']), $anchor->get_focus());
-	else
-		$anchors = 'section:'.$item['id'];
-	$recipients = Members::list_watchers_by_posts_for_anchor($anchors, 0, 300, 'mail');
-}
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -118,31 +103,94 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
+	// headline
+	$headline = sprintf(i18n::c('%s has notified you from %s'),
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a>');
+
 	// enable yacs codes in messages
-	$text = Codes::beautify($_REQUEST['message']);
+	$content = Codes::beautify($_REQUEST['message']);
 
-	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	// avoid duplicates
+	$to = array_unique($to);
 
-	// send the message
-	if(Mailer::post(Surfer::from(), $to, $subject, $message)) {
+	// copy to sender
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+		$to[] = Surfer::from();
 
-		// feed-back to the sender
-		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
-		foreach($to as $address)
-			$context['text'] .= '<li>'.encode_field($address).'</li>'."\n";
-		$context['text'] .= '</ul>'."\n";
+	// process every recipient
+	$actual_names = array();
+	foreach($to as $recipient) {
 
-		// back to the section page
+		// clean the provided string
+		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
+
+		// look for a user with this nick name
+		if(!$user =& Users::lookup($recipient))
+			continue;
+
+		// this person has no valid email address
+		if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
+			continue;
+
+		// use this email address
+		if($user['full_name'])
+			$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
+		else
+			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
+
+		// basic message
+		$message = $content;
+
+		// change content for message poster
+		if(strpos(Surfer::from(), $recipient) !== FALSE) {
+			$message = '<hr /><p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
+		}
+
+		// assemble main content of this message
+		$message = Skin::build_mail_content($headline, $message);
+
+		// a set of links
 		$menu = array();
-		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Done'), 'button');
-		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+			$label = i18n::c('View the section');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+		// link to the container
+		if(is_object($anchor)) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$message .= Skin::build_mail_menu($menu);
+
+		// threads messages
+		$headers = Mailer::set_thread('', 'section:'.$item['id']);
+
+		// post message for this recipient
+		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers))
+			$actual_names[] = htmlspecialchars($recipient);
 
 	}
 	Mailer::close();
 
-// send message to all watchers
-} elseif(!count($recipients)) {
+	// display the list of actual recipients
+	if($actual_names)
+		$context['text'] .= '<div>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</div>';
+	else
+		$context['text'] .= '<p>'.i18n::s('No message has been sent').'</p>';
+
+	// back to the section page
+	$menu = array();
+	$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+// recipients are watchers of this section (including parent sections)
+} elseif(!$recipients = Sections::list_watchers_by_posts($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form
@@ -158,12 +206,19 @@ if(Surfer::is_crawler()) {
 
 	// the subject
 	$label = i18n::s('Message title');
-	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($item['title']).'" />';
+	$title = sprintf(i18n::s('Notification: %s'), $item['title']);
+	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
+
+	// default message content
+	$content = '<p>'.i18n::s('Can you review the following page and contribute to it where applicable?').'</p>'
+		.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>'
+		.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
+		.'<p>'.Surfer::get_name().'</p>';
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'</p>');
+	$input = Surfer::get_editor('message', $content);
 	$fields[] = array($label, $input);
 
 	// build the form

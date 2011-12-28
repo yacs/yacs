@@ -3,7 +3,6 @@
  * create a new user or edit an existing one
  *
  * @todo on subscriptor application, post a query page when there is no messaging facility (gnapz)
- * @todo derive this to users/subscribe.php
  *
  * This page can be used by anonymous surfers that would like to register, by logged
  * users that are updating their profile, or by associates that declare new users
@@ -199,7 +198,7 @@ if(Surfer::is_crawler()) {
 
 		// actual update
 		if(Users::put($_REQUEST)
-			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST))) {
+			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST, 'user:'.$_REQUEST['id']))) {
 
 			// 'users/edit.php#put' hook
 			if(is_callable(array('Hooks', 'include_scripts')))
@@ -474,8 +473,7 @@ if($with_form) {
 
 	// agent
 	$label = i18n::s('Alternate contact');
-	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />'
-		.'<div id="vcard_agent_choice" class="autocomplete"></div>';
+	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />';
 	$hint = i18n::s('Another person who can act on your behalf');
 	$fields[] = array($label, $input, $hint);
 
@@ -486,13 +484,8 @@ if($with_form) {
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
 		.'// enable autocompletion for user names'."\n"
-    .'$(document).ready( function() {'."\n"
-    .'  $("#vcard_agent").autocomplete({                     '."\n"
-    .'		source: "'.$context['url_to_root'].'categories/complete.php",  '."\n"
-    .'		minLength: 1                                                  '."\n"
-    .'  });                                                              '."\n"
-    .'});  '."\n"
-    .JS_SUFFIX;
+		.'$(document).ready( function() { Yacs.autocomplete_names("vcard_agent",true); });  '."\n"
+		.JS_SUFFIX;
 
 	// instant messaging
 	//
@@ -864,7 +857,7 @@ if($with_form) {
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
 		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});  '."\n"
 		.JS_SUFFIX;
 

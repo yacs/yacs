@@ -283,7 +283,7 @@ if(!Surfer::is_associate()) {
 		if($result = Referrals::list_by_dates($links_offset, CHUNK_SIZE)) {
 
 			// analyze each link
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				list($link, $domain, $keywords) = Referrals::normalize($item['referer']);
 
 				// we suppose the referral is already ok
@@ -386,7 +386,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor, link_url, title FROM ".SQL::table_name('links')
 		." ORDER BY anchor LIMIT 0, 20000";
-	if(!($result =& SQL::query($query))) {
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
@@ -395,7 +395,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;

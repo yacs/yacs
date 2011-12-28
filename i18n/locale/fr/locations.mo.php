@@ -45,7 +45,6 @@ $context['l10n']['fr']['95eeec18709a90fc951edc69a4187d66']='Aucun emplacement n\
 $context['l10n']['fr']['a9864baa813ec36afd9d1d510045645a']='Impossible de créer une image dynamique';
 $context['l10n']['fr']['On page %s']='Sur la page %s';
 $context['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$context['l10n']['fr']['Persons that have been notified']='Personnes notifiées';
 $context['l10n']['fr']['Place name']='Lieu géographique';
 $context['l10n']['fr']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Merci d\'indiquer un titre pour cet emplacement';
 $context['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
