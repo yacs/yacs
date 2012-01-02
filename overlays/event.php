@@ -1558,38 +1558,42 @@ class Event extends Overlay {
 
 		case 'delete':
 
-			// send a cancellation message to participants
-			$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
-			$result = SQL::query($query);
-			while($item = SQL::fetch($result)) {
+			// no need to notify participants after the event has started
+			if(($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')) {
 
-				// sanity check
-				if(!preg_match(VALID_RECIPIENT, $item['user_email']))
-					continue;
+				// send a cancellation message to participants
+				$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
+				$result = SQL::query($query);
+				while($item = SQL::fetch($result)) {
 
-				// message title
-				$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
+					// sanity check
+					if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+						continue;
 
-				// headline
-				$headline = sprintf(i18n::c('%s has cancelled %s'),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-					$this->anchor->get_title());
+					// message title
+					$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
 
-				// message to reader
-				$message = $this->get_invite_default_message('CANCEL');
+					// headline
+					$headline = sprintf(i18n::c('%s has cancelled %s'),
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+						$this->anchor->get_title());
 
-				// assemble main content of this message
-				$message = Skin::build_mail_content($headline, $message);
+					// message to reader
+					$message = $this->get_invite_default_message('CANCEL');
 
-				// threads messages
-				$headers = Mailer::set_thread('', $this->anchor->get_reference());
+					// assemble main content of this message
+					$message = Skin::build_mail_content($headline, $message);
 
-				// get attachment from the overlay
-				$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
+					// threads messages
+					$headers = Mailer::set_thread('', $this->anchor->get_reference());
 
-				// post it
-				Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
+					// get attachment from the overlay
+					$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
 
+					// post it
+					Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
+
+				}
 			}
 
 			// delete dates for this anchor
@@ -1895,7 +1899,7 @@ class Event extends Overlay {
 	 * @param array if provided, a notification that can be sent to customised recipients
 	 * @return boolean always FALSE for events, since notifications are made through enrolment
 	 */
-	function should_notify_watchers($mail) {
+	function should_notify_watchers($mail=NULL) {
 		global $context;
 
 		// sent notification to all enrolled persons
