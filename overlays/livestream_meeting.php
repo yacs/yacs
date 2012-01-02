@@ -92,6 +92,8 @@ class Livestream_Meeting extends Meeting {
 	 *
 	 * This is invoked from within get_view_text(), to support integrated streams
 	 *
+	 * @see overlays/event.php
+	 *
 	 * @return text to be integrated into the resulting page
 	 */
 	function get_view_text_extension() {
