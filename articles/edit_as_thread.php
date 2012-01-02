@@ -99,12 +99,14 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$_REQUEST['first_comment'] .= '<div>'.$file.'</div>';
 
 		// capture first comment too
+		$action = 'article:create';
 		if(isset($_REQUEST['first_comment']) && $_REQUEST['first_comment']) {
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
 			$fields['anchor'] = 'article:'.$_REQUEST['id'];
 			$fields['description'] = $_REQUEST['first_comment'];
-			Comments::post($fields);
+			if(Comments::post($fields))
+				$action = 'article:comment';
 		}
 
 		// increment the post counter of the surfer
@@ -120,7 +122,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 				$with_watchers = FALSE;
 
 			// update anchors and forward notifications
-			$anchor->touch('article:comment', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
+			$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
