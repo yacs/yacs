@@ -231,7 +231,7 @@ class Meeting extends Event {
 	 * @return boolean TRUE
 	 */
 	function with_new_window() {
-		return TRUE;
+		return FALSE;
 	}
 
 }
