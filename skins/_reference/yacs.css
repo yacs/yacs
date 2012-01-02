@@ -1163,6 +1163,7 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 table.grid,
 table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
+	margin: 1em 0;
 }
 
 table.grid tbody tr td,
@@ -1611,7 +1612,7 @@ div#thread_wrapper { /* around text and input field */
 	position: relative;
 	max-width: 700px; /* limit the width */
 	width: expression(this.width > 700 ? 700: true); /* just for IE 6 */
-	margin: 1em 0;
+	margin: 0;
 	padding: 0 0 6px 0;
 }
 
@@ -1641,6 +1642,11 @@ div#thread_text_panel { /* where successive contributions are displayed */
 	overflow: auto; /* add a vertical scroller if required */
 	border: 1px dotted #ccc;
 	background-color: #fcfcfc;
+}
+
+div#thread_text_panel dl { /* all contributions */
+	margin: 0;
+	padding: 0;
 }
 
 div#thread_text_panel dl dd { /* one contribution */
