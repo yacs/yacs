@@ -183,7 +183,7 @@ class http {
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			if($debug)
+			if($debug && ($context['with_debug'] == 'Y'))
 				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
@@ -313,7 +313,7 @@ class http {
 
 		// finalize the request
 		$request .= $headers.CRLF.$data;
-		if($debug)
+		if($debug && ($context['with_debug'] == 'Y'))
 			Logger::remember($debug, 'http request', $request, 'debug');
 
 		// submit the request
@@ -358,7 +358,7 @@ class http {
 				return FALSE;
 			}
 
-			if($debug)
+			if($debug && ($context['with_debug'] == 'Y'))
 				Logger::remember($debug, 'redirecting to '.$matches[1], '', 'debug');
 			return http::proceed_natively($matches[1], $headers, $data, $debug, $cookie, $limit);
 
@@ -395,7 +395,7 @@ class http {
 			$handles[$host][$port] = $handle;
 
 		// log the response
-		if($debug)
+		if($debug && ($context['with_debug'] == 'Y'))
 			Logger::remember($debug, 'http response', http::get_headers()."\n\n".$body, 'debug');
 
 		// return the fetched object
