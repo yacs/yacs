@@ -474,6 +474,9 @@ class http {
 		// let CURL adapt to the encoding
 		curl_setopt($handle, CURLOPT_ENCODING, '');
 
+		// be cool over SSL/TLS
+		curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+
 		// parse the returned error code as well
 		curl_setopt($handle, CURLOPT_FAILONERROR, TRUE);
 
@@ -484,6 +487,22 @@ class http {
 		// set headers, if any
 		if(isset($headers) && is_array($headers))
 			curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
+
+		// encode provided data, if any
+		if(is_array($data) && count($data)) {
+			$items = array();
+			foreach($data as $name => $value)
+				$items[] = urlencode($name).'='.urlencode($value);
+			$data = implode('&', $items);
+
+		}
+
+		// finalize the HTTP request
+		if($data) {
+            curl_setopt($handle, CURLOPT_HTTPHEADER, Array('Content-type: application/x-www-form-urlencoded'));
+            curl_setopt($handle, CURLOPT_POST, TRUE);
+            curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+        }
 
 		// we would like to look at headers by ourselves
 		curl_setopt($handle, CURLOPT_HEADER, FALSE);
