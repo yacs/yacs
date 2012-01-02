@@ -1226,15 +1226,15 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
 		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>';
 
-	// activate SIMILE timeline, if available
+	// activate SIMILE timeline, if required
 	if(isset($context['javascript']['timeline']))
 		$metas[] = '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>';
 
-	// activate SIMILE timeplot, if available
+	// activate SIMILE timeplot, if required
 	if(isset($context['javascript']['timeplot']))
 		$metas[] = '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>';
 
-	// activate SIMILE exhibit, if available
+	// activate SIMILE exhibit, if required
 	if(isset($context['javascript']['exhibit']))
 		$metas[] = '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>';
 
