@@ -300,6 +300,9 @@ default:
 		.'			success: Comments.updateOnSuccess'."\n"
 		.'		});'."\n"
 		."\n"
+		.'	},'."\n"
+		."\n"
+		.'	subscribeToExtraUpdates: function() {'."\n"
 		.'		$.ajax("'.$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'visit').'", {'."\n"
 		.'			type: "get",'."\n"
 		.'			dataType: "html",'."\n"
@@ -328,8 +331,9 @@ default:
 		."\n"
 		.'}'."\n"
 		."\n"
-		.'// wait for new comments'."\n"
+		.'// wait for new comments and for other updates'."\n"
 		.'Comments.subscribeTimer = setInterval("Comments.subscribe()", 10000);'."\n"
+		.'Comments.subscribeTimer = setInterval("Comments.subscribeToExtraUpdates()", 59999);'."\n"
 		."\n";
 
 	// only authenticated surfers can contribute
