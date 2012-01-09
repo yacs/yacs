@@ -526,7 +526,7 @@ if($with_form) {
 			elseif(isset($_SESSION['pasted_name']))
 				$value = $_SESSION['pasted_name'];
 			$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
-			$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+			$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'open'));
 			$fields[] = array($label, $input, $hint);
 		}
 

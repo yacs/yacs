@@ -377,7 +377,7 @@ if(!isset($item['id'])) {
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'open', i18n::s('Start')).'</dt>'
 			.'</dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
@@ -394,7 +394,7 @@ if(!isset($item['id'])) {
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'open', i18n::s('Start')).'</dt>'
 			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
@@ -414,7 +414,7 @@ if(!isset($item['id'])) {
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'open', i18n::s('Start')).'</dt>'
 			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}

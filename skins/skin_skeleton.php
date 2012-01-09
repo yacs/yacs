@@ -1558,11 +1558,11 @@ Class Skin_Skeleton {
 	 * - 'external' - jump to the outside world
 	 * - 'file' - see file details
 	 * - 'internal' - jump to the outside world, but stay in this window
-	 * - 'help' - open a separate window to display some help
 	 * - 'menu_1' - one top level link (&#91;menu]...&#91;/menu])
 	 * - 'menu_2' - one secondary level link (&#91;submenu]...&#91;/submenu])
 	 * - 'month' - a one month calendar
 	 * - 'more' - a follow-up link
+	 * - 'open' - open a separate window to display some help
 	 * - 'raw' - return only the url
 	 * - 'xml' - this has to be processed by a specialized software
 	 * - 'script' - see some phpDoc page
@@ -1669,7 +1669,7 @@ Class Skin_Skeleton {
 
 		// open in a separate window if asked explicitly or on file streaming
 		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
-			$attributes = ' onclick="window.open(this.href); window.location.reload(); return false;" onkeypress="window.open(this.href); window.location.reload(); return false;"';
+			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
 		else
 			$attributes = '';
 
@@ -1802,7 +1802,7 @@ Class Skin_Skeleton {
 			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// always open in a separate window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1838,7 +1838,7 @@ Class Skin_Skeleton {
 
 		case 'external':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); window.location.reload(); return false;">'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
@@ -1846,7 +1846,8 @@ Class Skin_Skeleton {
 			$text = '<a href="'.$url.'"'.$href_title.' class="file"'.$attributes.'>'.$label.'</a>';
 			break;
 
-		case 'help':
+		case 'open': // open the link in a side window
+		case 'help': // -- obsolete
 			$text = '<a href="'.$url.'"'.$href_title.' class="help"'
 				.' onclick="window.open(this.href); return false;"'
 				.' onkeypress="window.open(this.href); return false;" rel="nofollow"><span>'.$label.'</span></a>';
