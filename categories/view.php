@@ -899,7 +899,7 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 		}
 
-		// attach a file, if upload is allowed
+		// add a file, if upload is allowed
 		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));

@@ -430,11 +430,11 @@ if($with_form) {
 	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '');
 	$fields[] = array($label, $input);
 
-	// attach a file on first post, and if allowed
+	// add a file on first post, and if allowed
 	if(Surfer::may_upload() && (!isset($item['id']) || ($action == 'quote') || ($action == 'reply'))) {
 
 		// attachment label
-		$label = i18n::s('Upload a file');
+		$label = i18n::s('Add a file');
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
