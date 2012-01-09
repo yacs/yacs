@@ -2084,8 +2084,17 @@ class Event extends Overlay {
 		} elseif(isset($this->anchor) && ($this->anchor->is_owned())) {
 
 			// display the button to start the meeting
-			if($this->with_start_button())
-				$this->feed_back['menu'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), 'button', NULL, $this->with_new_window());
+			if($this->with_start_button()) {
+
+				// reload this page and go to a new one
+				if($this->with_new_window())
+					$type = 'tee';
+				else
+					$type = 'button';
+
+				// add the button
+				$this->feed_back['menu'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
+			}
 
 			// else remind the owner to do something
 			elseif(is_callable(array($this, 'get_start_status')) && ($status = $this->get_start_status()))
@@ -2220,7 +2229,7 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), 'button', NULL, $this->with_new_window());
+					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 				// display the button to stop the meeting
 				if($this->with_stop_button())
@@ -2231,14 +2240,14 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), 'button', NULL, $this->with_new_window());
+					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 			// surfer has been fully enrolled
 			} elseif(($enrolment = enrolments::get_record($this->anchor->get_reference())) && ($enrolment['approved'] == 'Y')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), 'button', NULL, $this->with_new_window());
+					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 			}
 		}

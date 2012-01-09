@@ -1571,6 +1571,7 @@ Class Skin_Skeleton {
 	 * - 'shortcut' - stay within the site
 	 * - 'span' - like 'basic', but insert a <span> around the label
 	 * - 'tag' - a folksonomy
+	 * - 'tee' - like button, but also reload the current page
 	 * - 'user' - a person profile
 	 * - 'year' - a full year calendar
 	 *
@@ -1983,6 +1984,11 @@ Class Skin_Skeleton {
 		case 'span':
 
 			$text = '<a href="'.$url.'"'.$href_title.$attributes.'><span>'.$label.'</span></a>';
+			break;
+
+		case 'tee': // like button, but also reload the current page and go to another window
+
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'idle user':
