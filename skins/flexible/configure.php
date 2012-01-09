@@ -555,7 +555,7 @@ elseif(!Surfer::is_associate()) {
 				}
 				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent '.Image::as_background($context['url_to_root'].$path.'/'.$item).'">&nbsp;</div>'
 					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onchange="this.value = $(\'#background_fixed_color_'.$count.'\').value + \' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'\'; $(\'#'.$sample.'\').css({\'background\': this.value})" />'
-					.' '.Skin::build_link('skins/display.php?id='.urlencode($path.'/'.$item), '*', 'help').'</div>';
+					.' '.Skin::build_link('skins/display.php?id='.urlencode($path.'/'.$item), '*', 'open').'</div>';
 			}
 			Safe::closedir($dir);
 

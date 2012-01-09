@@ -298,28 +298,28 @@ elseif(!Surfer::is_associate()) {
 	if($context['root_articles_layout'] == 'daily')
 		$input .= ' checked="checked"';
 	$input .= '/>daily - '.i18n::s('For weblogs and blogmarks.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_daily.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_daily.jpg', i18n::s('Preview'), 'open').BR;
 
 	// newspaper
 	$input .= '<input type="radio" name="root_articles_layout" value="newspaper"';
 	if($context['root_articles_layout'] == 'newspaper')
 		$input .= ' checked="checked"';
 	$input .= '/>newspaper - '.i18n::s('Focus on the last published article, and on the three articles published previously.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'open').BR;
 
 	// hardboiled
 	$input .= '<input type="radio" name="root_articles_layout" value="hardboiled"';
 	if($context['root_articles_layout'] == 'hardboiled')
 		$input .= ' checked="checked"';
 	$input .= '/>hardboiled - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_hardboiled.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_hardboiled.jpg', i18n::s('Preview'), 'open').BR;
 
 	// slashdot
 	$input .= '<input type="radio" name="root_articles_layout" value="slashdot"';
 	if($context['root_articles_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
 	$input .= '/>slashdot - '.i18n::s('List most recent pages equally.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_slashdot.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_slashdot.jpg', i18n::s('Preview'), 'open').BR;
 
 	// digg
 	$input .= '<input type="radio" name="root_articles_layout" value="digg"';
@@ -344,7 +344,7 @@ elseif(!Surfer::is_associate()) {
 	if($context['root_articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
 	$input .= '/>alistapart - '.i18n::s('Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'open').BR;
 
 	// custom
 	$input .= '<input type="radio" name="root_articles_layout" value="custom" id="custom_articles_layout"';

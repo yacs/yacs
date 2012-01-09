@@ -227,10 +227,10 @@ default:
 		}
 
 		// go to smileys
-		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'help');
+		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'open');
 
 		// view thread history
-		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
+		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'open');
 
 		// display all commands
 		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');

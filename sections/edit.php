@@ -519,7 +519,7 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Overlay');
 		$input = '<input type="text" name="content_overlay" size="50" value="'.encode_field(isset($item['content_overlay']) ? $item['content_overlay'] : '').'" maxlength="64" />';
-		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay articles'), 'help'));
+		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay articles'), 'open'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -527,7 +527,7 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Templates');
 		$input = '<input type="text" name="articles_templates" size="50" value="'.encode_field(isset($item['articles_templates']) ? $item['articles_templates'] : '').'" maxlength="250" />';
-		$hint = sprintf(i18n::s('One or several %s. This setting overrides the overlay setting.'), Skin::build_link(Sections::get_url('templates'), i18n::s('templates'), 'help'));
+		$hint = sprintf(i18n::s('One or several %s. This setting overrides the overlay setting.'), Skin::build_link(Sections::get_url('templates'), i18n::s('templates'), 'open'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -630,7 +630,7 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Overlay');
 		$input = '<input type="text" name="section_overlay" size="20" value="'.encode_field(isset($item['section_overlay']) ? $item['section_overlay'] : '').'" maxlength="64" />';
-		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'help'));
+		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'open'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1031,7 +1031,7 @@ if($with_form) {
 	// the nick name
 	$label = i18n::s('Nick name');
 	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field(isset($item['nick_name']) ? $item['nick_name'] : '').'" maxlength="64" accesskey="n" />';
-	$hint = sprintf(i18n::s('To designate a section by its name in the %s'), Skin::build_link('go.php', i18n::s('page selector'), 'help'));
+	$hint = sprintf(i18n::s('To designate a section by its name in the %s'), Skin::build_link('go.php', i18n::s('page selector'), 'open'));
 	$fields[] = array($label, $input, $hint);
 
 	// the family
@@ -1102,7 +1102,7 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Behaviors');
 		$input = '<textarea name="behaviors" rows="2" cols="50">'.encode_field(isset($item['behaviors']) ? $item['behaviors'] : '').'</textarea>';
-		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'help'));
+		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'open'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1258,7 +1258,7 @@ if($with_form) {
 		$help .= '<p>'.i18n::s('Please describe the new section and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
 
 	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

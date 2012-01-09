@@ -564,7 +564,7 @@ if($with_form) {
 	$help = '<p>'.sprintf(i18n::s('You can use following shortcuts to link to other pages of this server: %s'), '&#91;article=&lt;id>] &#91;section=&lt;id>] &#91;category=&lt;id>]').'</p>'
 		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
 		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

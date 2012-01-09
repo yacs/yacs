@@ -344,7 +344,7 @@ if($with_form) {
 	// general help on this form
 	$help = '<p>'.i18n::s('Use this page to describe network interactions with a peering server, part of the cloud we are in.').'</p>'
 		.'<p>'.i18n::s('Edit general-purpose attributes in the overview area.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>'
 		.'<p>'.i18n::s('Then configure and trigger web services that we will use remotely.').'</p>'
 		.'<p>'.i18n::s('Also, uncheck web services that we should not provide to the target server.').'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');

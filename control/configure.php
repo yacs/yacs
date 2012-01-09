@@ -401,7 +401,7 @@ if(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="with_cron" value="Y"';
 	if(isset($context['with_cron']) && ($context['with_cron'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help')).')';
+	$input .= '/> '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'open')).')';
 	$fields[] = array($label, $input);
 
 	// file_mask and directory_mask
@@ -464,12 +464,12 @@ if(!Surfer::is_associate()) {
 	if($context['with_friendly_urls'] == 'Y')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
-		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'help').')';
+		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'open').')';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
 	if($context['with_friendly_urls'] == 'R')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
-		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'help').')';
+		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'open').')';
 	$fields[] = array($label, $input);
 
 	// alternate urls
@@ -494,7 +494,7 @@ if(!Surfer::is_associate()) {
 	if(isset($context['with_https']) && ($context['with_https'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Redirect all non-secured requests to https.')
-		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'help').')';
+		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'open').')';
 	$fields[] = array($label, $input);
 
 	// web cache
