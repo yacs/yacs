@@ -1617,6 +1617,19 @@ Class Files {
 		if(!$with_icon)
 			return '';
 
+		// this is a reasonably large image
+		if(Files::is_image($item['file_name'])
+			&& ($image_information = Safe::GetImageSize($context['path_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.$item['file_name']))
+			&& ($image_information[0] <= 600)) {
+
+			// provide a direct link to it!
+			$src = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+
+			$icon = '<img src="'.$src.'" width="'.$image_information[0].'" height="'.$image_information[1].'" alt="" style="padding: 3px"/>'.BR;
+			return Skin::build_link(Files::get_download_url($item), $icon, 'basic');
+		}
+
+
 		// explicit icon
 		if($item['thumbnail_url'])
 			$icon = $item['thumbnail_url'];
