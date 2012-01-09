@@ -181,16 +181,16 @@ if(!isset($item['id'])) {
 			// allow posters to change their own comments
 			if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id())) {
 				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'span');
 			}
 
 			// allow surfers to react to contributions from other people
 			else {
 				Skin::define_img('COMMENTS_REPLY_IMG', 'comments/reply.gif');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'), 'span');
 
 				Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'), 'span');
 
 			}
 		}
