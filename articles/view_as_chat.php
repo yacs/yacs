@@ -180,7 +180,7 @@ default:
 	$context['text'] .= '<div id="thread_wrapper">'."\n";
 
 	// text panel
-	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /></div>'."\n";
+	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /> </div>'."\n";
 
 	// other surfers are invited to authenticate
 	if(!Surfer::get_id()) {
@@ -194,12 +194,6 @@ default:
 		if(isset($item['id']))
 			$menu[] = Skin::build_link('users/login.php?url='.urlencode(Articles::get_permalink($item)), i18n::s('Authenticate or register to contribute to this thread'), 'button');
 
-		// view thread history
-		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
-
-		// augment panel size
-		$menu[] = '<a href="#" onclick="Comments.showMore(); return false;"><span>'.i18n::s('Show more lines').'</span></a>';
-
 		// display all commands
 		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
@@ -211,20 +205,34 @@ default:
 
 	// the input panel is where logged surfers can post data
 	elseif(Surfer::is_logged()) {
-		$context['text'] .= '<form method="post" action="#" onsubmit="Comments.contribute($(\'#contribution\').value);return false;" id="thread_input_panel">'."\n"
-			.'<textarea rows="2" name="contribution" id="contribution" ></textarea>';
+		$context['text'] .= '<form method="post" action="'.$context['url_to_home'].$context['url_to_root'].'comments/edit.php"'
+				.' onsubmit="Comments.contribute(); return true;"'
+				.' id="thread_input_panel"'
+				.' target="upload_frame"'
+				.' enctype="multipart/form-data">'."\n"
+			.'<textarea rows="1" name="description" id="description" ></textarea>'
+			.'<input type="hidden" name="anchor" value="article:'.$item['id'].'" />'
+			.'<iframe src="#" width="0" height="0" style="display: none;" id="upload_frame" name="upload_frame"></iframe>';
 
 		// user commands
 		$menu = array();
 
+		// option to add a file
+		if(Files::allow_creation($anchor, $item, 'article')) {
+
+			// intput field to appear on demand
+			$context['text'] .= '<p id="comment_upload" class="details" style="display: none;">'
+				.'<input type="file" id="upload" name="upload" size="30" />'
+				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+				.'<input type="hidden" name="file_type" value="upload" /></p>';
+
+			// the command to add a file
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+		}
+
 		// the submit button
 		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit', 'no_spin_on_click');
-
-		// upload a file
-		if(Files::allow_creation($anchor, $item, 'article')) {
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'span');
-		}
 
 		// go to smileys
 		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'open');
@@ -234,9 +242,6 @@ default:
 
 		// display all commands
 		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
-
-		// an option to submit with the Enter key
-		$context['text'] .= '<input type="checkbox" id="submitOnEnter" checked="checked" /> '.i18n::s('Submit text when Enter is pressed.');
 
 		// end the form
 		$context['text'] .= '</form>'."\n";
@@ -256,31 +261,24 @@ default:
 		."\n"
 		.'	initialize: function() { },'."\n"
 		."\n"
-		.'	contribute: function(request) {'."\n"
-		.'		// contribute to the thread'."\n"
-		.'		$.ajax(Comments.url, {'."\n"
-		.'			type: "post",'."\n"
-		.'			data: { "message" : request },'."\n"
-		.'			complete: function(transport) {'."\n"
-		.'				$("#contribution").val("");'."\n"
-		.'				$("#contribution").focus();'."\n"
-		.'				setTimeout("Comments.subscribe()", 500);'."\n"
-		.'			},'."\n"
-		.'			error: function(transport) {'."\n"
-		.'				if(!response) {'."\n"
-		.'					response = "'.i18n::s('Your contribution has not been posted.').'";'."\n"
-		.'				}'."\n"
-		.'				response += "\n\n'.i18n::s('Do you agree to reload this page?').'";'."\n"
-		.'				if(confirm(response)) {'."\n"
-		.'					window.location.reload();'."\n"
-		.'				}'."\n"
-		.'			}'."\n"
-		.'		});'."\n"
+		.'	contribute: function() {'."\n"
+		.'		Yacs.startWorking();'."\n"
+		.'		$("#upload_frame").load(Comments.contributed);'."\n"
+		.'		return true;'."\n"
+		.'	},'."\n"
+		."\n"
+		.'	contributed: function() {'."\n"
+		.'		$("#upload_frame").unbind("load");'."\n"
+		.'		$("#comment_upload").slideUp(600);'."\n"
+		.'		$("#upload").replaceWith(\'<input type="file" id="upload" name="upload" size="30" />\');'."\n"
+		.'		$("#description").val("").focus();'."\n"
+		.'		setTimeout(function() {Comments.subscribe(); Yacs.stopWorking();}, 500);'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	keypress: function(event) {'."\n"
-		.'		if(($("#submitOnEnter").is(":checked")) && (event.which == 13)) {'."\n"
-		.'			Comments.contribute($(\'#contribution\').val());'."\n"
+		.'		if(event.which == 13) {'."\n"
+		.'			$("#submit").click();'."\n"
+		.'			return false;'."\n"
 		.'		}'."\n"
 		.'	},'."\n"
 		."\n"
@@ -322,7 +320,9 @@ default:
 		.'		if(response["status"] != "started")'."\n"
 		.'			window.location.reload(true);'."\n"
 		.'		$("#thread_text_panel").html("<div>" + response["items"] + "</div>");'."\n"
-		.'		$("#thread_text_panel").scrollTop($("#thread_text_panel").height());'."\n"
+		.'		var div = $("#thread_text_panel")[0];'."\n"
+		.'		var scrollHeight = Math.max(div.scrollHeight, div.clientHeight);'."\n"
+		.'		div.scrollTop = scrollHeight - div.clientHeight;'."\n"
 		.'		if(typeof Comments.windowOriginalTitle != "string")'."\n"
 		.'			Comments.windowOriginalTitle = document.title;'."\n"
 		.'		document.title = "[" + response["name"] + "] " + Comments.windowOriginalTitle;'."\n"
@@ -332,19 +332,18 @@ default:
 		.'}'."\n"
 		."\n"
 		.'// wait for new comments and for other updates'."\n"
-		.'Comments.subscribeTimer = setInterval("Comments.subscribe()", 10000);'."\n"
+		.'Comments.subscribeTimer = setInterval("Comments.subscribe()", 5000);'."\n"
 		.'Comments.subscribeTimer = setInterval("Comments.subscribeToExtraUpdates()", 59999);'."\n"
 		."\n";
 
 	// only authenticated surfers can contribute
 	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
 		$context['page_footer'] .= "\n"
-			.'// ready to type something'."\n"
-			.'$(document).ready(function() { $(\'#contribution\').focus(); Comments.subscribe(); });'."\n"
+			.'// load past contributions asynchronously'."\n"
+			.'$(document).ready(function() { $("#description").focus(); Comments.subscribe(); });'."\n"
 			."\n"
 			.'// send contribution on Enter'."\n"
-			.'$(\'#contribution\').keypress( Comments.keypress );'."\n"
-			.'$(\'#submit\').click(function() { Comments.contribute($(\'#contribution\').val()); });'."\n";
+			.'$(\'#description\').keypress( Comments.keypress );'."\n";
 
 	// end of the AJAX part
 	$context['page_footer'] .= JS_SUFFIX;
@@ -362,7 +361,7 @@ case 'excluded': // surfer is not
 // trailer information
 //
 
-// add trailer information from the overlay, if any
+// add trailer information from the overlay, if any --opentok videos come from here
 if(is_object($overlay))
 	$context['text'] .= $overlay->get_text('trailer', $item);
 
