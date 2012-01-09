@@ -1694,6 +1694,17 @@ Class Files {
 	}
 
 	/**
+	 * is this file an image?
+	 *
+	 * @param string file name, including extension
+	 * @return TRUE or FALSE
+	 *
+	 */
+	public static function is_image($name) {
+		return preg_match('/\.(gif|jpg|jpeg|png)$/i', $name);
+	}
+
+	/**
 	 * is this file can be streamed separately
 	 *
 	 * @param string file name, including extension
@@ -2901,10 +2912,20 @@ Class Files {
 						$fields['anchor'] = $target;
 					}
 
-					// create the record in the database, and remember this post in comment
-					if($fields['id'] = Files::post($fields)) {
+					// if this is an image, maybe we can derive a thumbnail for it?
+					if(Files::is_image($file_name)) {
+
+						include_once $context['path_to_root'].'images/image.php';
+						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.'thumbs/'.$file_name);
+
+						if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
+							$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
+					}
+
+					// create the record in the database, and allow for direct access from containing item
+					if($fields['id'] = Files::post($fields))
 						return "\n[file=".$fields['id'].']';
-					} else
+					else
 						return FALSE;
 				}
 
