@@ -771,6 +771,17 @@ Class Files {
 	}
 
 	/**
+	 * get address for download
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	public static function get_download_url($item) {
+		$output = Files::get_url($item['id'], 'fetch', $item['file_name']);
+		return $output;
+	}
+
+	/**
 	 * get the url to the icon for this file
 	 *
 	 * @param string the file name
@@ -1616,8 +1627,8 @@ Class Files {
 
 		// a clickable image to access the file
 		if($icon) {
-			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
-			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
+			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>'.BR;
+			return Skin::build_link(Files::get_download_url($item), $icon, 'basic');
 		}
 
 		// nothing special
