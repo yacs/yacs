@@ -1597,7 +1597,7 @@ class Event extends Overlay {
 			}
 
 			// delete dates for this anchor
-			Dates::delete_for_anchor('article:'.$id);
+			Dates::delete_for_anchor($reference);
 
 			// also delete related enrolment records
 			$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".$reference."'";
@@ -1610,7 +1610,7 @@ class Event extends Overlay {
 			if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp']) {
 
 				$fields = array();
-				$fields['anchor'] = 'article:'.$id;
+				$fields['anchor'] = $reference;
 				$fields['date_stamp'] = $this->attributes['date_stamp'];
 
 				// update the database
@@ -1623,7 +1623,63 @@ class Event extends Overlay {
 
 			// enroll page creator
 			include_once $context['path_to_root'].'shared/enrolments.php';
-			enrolments::confirm('article:'.$id);
+			enrolments::confirm($reference);
+
+			// reload the anchor through the cache to reflect the update
+			if($reference)
+				$this->anchor =& Anchors::get($reference, TRUE);
+
+			// send a confirmation message to event creator
+			$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
+			$result = SQL::query($query);
+			while($item = SQL::fetch($result)) {
+
+				// a user registered on this server
+				if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
+
+					// sanity check
+					if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+						continue;
+
+					// use this email address
+					if($watcher['full_name'])
+						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['full_name']);
+					else
+						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['nick_name']);
+
+					// message title
+					$subject = sprintf(i18n::c('Meeting: %s'), strip_tags($this->anchor->get_title()));
+
+					// headline
+					$headline = sprintf(i18n::c('you have arranged %s'),
+						'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+
+					// message to reader
+					$message = $this->get_invite_default_message('PUBLISH');
+
+					// assemble main content of this message
+					$message = Skin::build_mail_content($headline, $message);
+
+					// a set of links
+					$menu = array();
+
+					// call for action
+					$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+					$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
+
+					// finalize links
+					$message .= Skin::build_mail_menu($menu);
+
+					// threads messages
+					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+
+					// get attachment from the overlay
+					$attachments = $this->get_invite_attachments('PUBLISH');
+
+					// post it
+					Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
+				}
+			}
 
 			break;
 
@@ -1664,7 +1720,7 @@ class Event extends Overlay {
 						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['nick_name']);
 
 					// message title
-					$subject = sprintf('%s: %s', i18n::c('Modification'), strip_tags($this->anchor->get_title()));
+					$subject = sprintf(i18n::c('Updated: %s'), strip_tags($this->anchor->get_title()));
 
 					// headline
 					$headline = sprintf(i18n::c('%s has updated %s'),
@@ -1702,11 +1758,11 @@ class Event extends Overlay {
 			if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp']) {
 
 				$fields = array();
-				$fields['anchor'] = 'article:'.$id;
+				$fields['anchor'] = $reference;
 				$fields['date_stamp'] = $this->attributes['date_stamp'];
 
 				// there is an existing record
-				if($date =& Dates::get_for_anchor('article:'.$id)) {
+				if($date =& Dates::get_for_anchor($reference)) {
 
 					// update the record
 					$fields['id'] = $date['id'];
