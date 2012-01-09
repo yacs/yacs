@@ -332,7 +332,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		if(is_object($anchor) && $anchor->has_option('with_files')
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
-			// attach a file
+			// add a file
 			if(Files::allow_creation($anchor, $item, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];

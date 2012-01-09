@@ -448,7 +448,7 @@ Class Comments {
 		// bottom commands
 		$menu = array();
 
-		// option to attach a file
+		// option to add a file
 		if(Surfer::may_upload()) {
 
 			// intput field to appear on demand
@@ -456,8 +456,9 @@ Class Comments {
 			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
 			.'<input type="hidden" name="file_type" value="upload" /></p>';
 
-			// the command to attach a file
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.i18n::s('Attach a file').'</span></a>';
+			// the command to add a file
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
 		}
 
 		// the submit button
