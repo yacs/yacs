@@ -2980,7 +2980,7 @@ Class Codes {
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_permalink($item);
+				$url = Files::get_download_url($item);
 
 				// return a complete anchor
 				$output .= Skin::build_link($url, $text, 'basic');
@@ -3388,7 +3388,7 @@ Class Codes {
 				$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_permalink($item);
+				$url = Files::get_download_url($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
