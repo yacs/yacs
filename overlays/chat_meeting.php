@@ -21,11 +21,12 @@ include_once 'meeting.php';
  * - chairman
  * - number of seats
  *
- * If OpenTok has been activated, then the webcams of participants are triggered automatically,
- * and a series of videos are displayed above the chatting area. Echo cancellation is managed
- * to allow for a smmother video chat experience of all participants.
+ * If OpenTok has been activated, webcams of participants are triggered automatically,
+ * and a series of videos are displayed above the chatting area.
  *
  * @link http://www.tokbox.com/
+ *
+ * @todo use signal to accelerate comments forwarding
  *
  * @author Bernard Paques
  * @reference
@@ -146,7 +147,7 @@ class Chat_meeting extends Meeting {
 
 				// invalid xml response
 				if(!$xml = @simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA)) {
-					Logger::error(sprintf('OpenTok error: %s', 'response is not valid XML'));
+					Logger::error(sprintf('OpenTok: %s', 'response is not valid XML'));
 					return NULL;
 
 				// error code returned by the server
@@ -155,12 +156,12 @@ class Chat_meeting extends Meeting {
 						$message = (string)$message[0]['message'];
 					else
 						$message = 'unknown error';
-					Logger::error(sprintf('OpenTok error: %s', $xml->error['code'].' '.$xml->error->children()->getName().': '.$message));
+					Logger::error(sprintf('OpenTok: %s', $xml->error['code'].' '.$xml->error->children()->getName().': '.$message));
 					return NULL;
 
 				// no session id in the response
 				} elseif(!isset($xml->Session->session_id)) {
-					Logger::error(sprintf('OpenTok error: %s', 'no session id has been provided'));
+					Logger::error(sprintf('OpenTok: %s', 'no session id has been provided'));
 					return NULL;
 				}
 
@@ -182,15 +183,15 @@ class Chat_meeting extends Meeting {
 	}
 
 	/**
-	 * add text to the main event page
+	 * add text to the bottom of the page
 	 *
-	 * This is invoked from within get_view_text(), to support integrated streams
+	 * This is where video streams from OpenTok are included
 	 *
 	 * @see overlays/event.php
 	 *
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function get_view_text_extension() {
+	function get_trailer_text() {
 		global $context;
 
 		// meeting is not on-going
@@ -217,7 +218,7 @@ class Chat_meeting extends Meeting {
         $hash = hash_hmac('sha1', $credentials, $context['opentok_api_secret']);
 
 		// finalize the authentication token expected by OpenTok
-        $token = "T1==".base64_encode('partner_id='.$context['opentok_api_key'].'&sig='.$hash.':'.$credentials);
+        $token = 'T1=='.base64_encode('partner_id='.$context['opentok_api_key'].'&sig='.$hash.':'.$credentials);
 
 		// load the OpenTok javascript library in shared/global.php
 		$context['javascript']['opentok'] = TRUE;
@@ -230,128 +231,227 @@ class Chat_meeting extends Meeting {
 			.'	sessionId: "'.$this->attributes['session_id'].'",'."\n"
 			.'	tokenString: "'.$token.'",'."\n"
 			."\n"
-			.'	session: null,'."\n"
+			.'	deviceManager: null,'."\n"
 			.'	publisher: null,'."\n"
-			.'	pushToTalk: true,'."\n"
+			.'	session: null,'."\n"
 			.'	subscribers: {},'."\n"
+			.'	tentatives: 3,'."\n"
+			."\n"
+			.'	// attempt to reconnect to the server'."\n"
+			.'	connectAgain: function() {'."\n"
+			.'		OpenTok.growl("'.i18n::s('Connecting again to OpenTok').'");'."\n"
+			.'		OpenTok.session.connect(OpenTok.apiKey, OpenTok.tokenString);'."\n"
+			.'	},'."\n"
 			."\n"
 			.'	// successful detection of local devices'."\n"
 			.'	devicesDetectedHandler: function(event) {'."\n"
 			."\n"
-			.'		if(event.cameras.length == 0 || event.microphones.length == 0)'."\n"
+			.'		// no adequate hardware to move forward'."\n"
+			.'		if(event.cameras.length == 0 || event.microphones.length == 0) {'."\n"
+			.'			OpenTok.growl("'.i18n::s('A webcam is required to be visible').'");'."\n"
 			.'			return;'."\n"
+			.'		}'."\n"
 			."\n"
-			.'		// create one div for my own camera, with the id opentok_publisher'."\n"
-			.'		var parentDiv = document.getElementById("myCamera");'."\n"
-			.'		var publisherDiv = document.createElement("div");'."\n"
-			.'		publisherDiv.setAttribute("id", "opentok_publisher");'."\n"
-			.'		var followingDiv = document.getElementById("push-to-talk");'."\n"
-			.'		parentDiv.insertBefore(publisherDiv, followingDiv);'."\n"
+			.'		// create one placeholder div for my own camera'."\n"
+			.'		OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
+			.'		$("#opentok .me").append(\'<div class="frame subscriber"><div id="placeholder"></div></div>\');'."\n"
 			."\n"
 			.'		// bind this div with my own camera'."\n"
-			.'		var subscriberProps = {width: 120, height: 90, publishAudio: !OpenTok.pushToTalk};'."\n"
-			.'		OpenTok.publisher = OpenTok.session.publish(publisherDiv.id, subscriberProps);'."\n"
+			.'		var streamProps = {encodedWidth: 120, encodedHeight: 90, width: 120, height: 90,'."\n"
+			.'				publishAudio: false, publishVideo: true, name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
+			.'		OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
 			."\n"
-			.'		// manage echo cancellation'."\n"
-			.'		OpenTok.publisher.addEventListener("echoCancellationModeChanged", OpenTok.echoCancellationModeChangedHandler);'."\n"
+			.'		// monitor the publishing session'."\n"
+			.'		OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
+			."\n"
 			.'	},'."\n"
 			."\n"
-			.'	// echo can be cancelled, or not'."\n"
-			.'	echoCancellationModeChangedHandler: function(event) {'."\n"
-			.'		switch(OpenTok.publisher.getEchoCancellationMode()) {'."\n"
-			."\n"
-			.'			// listen to everybody, and no need for push-to-talk'."\n"
-			.'			case "fullDuplex":'."\n"
-			.'				for (var i = 0; i < OpenTok.subscribers.length; i++) {'."\n"
-			.'					OpenTok.subscribers[i].subscribeToAudio(true);'."\n"
-			.'				}'."\n"
-			.'				OpenTok.publisher.publishAudio(true);'."\n"
-			.'				document.getElementById("push-to-talk").style.display = "none";'."\n"
-			.'				OpenTok.pushToTalk = false;'."\n"
-			.'				break;'."\n"
-			."\n"
-			.'			// listen to one audio stream at a time, and activate push-to-talk'."\n"
-			.'			case "none":'."\n"
-			.'				OpenTok.stopTalking();'."\n"
-			.'				document.getElementById("push-to-talk").style.display = "block";'."\n"
-			.'				OpenTok.pushToTalk = true;'."\n"
-			.'				break;'."\n"
+			.'	// for some reason the user is not publishing anymore'."\n"
+			.'	deviceInactiveHandler: function(event) {'."\n"
+			.'		if(event.camera) {'."\n"
+			.'			OpenTok.growl("'.i18n::s('You are not visible').'");'."\n"
 			.'		}'."\n"
+			.'		if(event.microphone) {'."\n"
+			.'			OpenTok.growl("'.i18n::s('You have been muted').'");'."\n"
+			.'			$("#opentok .me .frame").removeClass("talker");'."\n"
+			.'		}'."\n"
+			.'	},'."\n"
+			."\n"
+			.'	// we have been killed by an asynchronous exception'."\n"
+			.'	exceptionHandler: function(event) {'."\n"
+			."\n"
+			.'		OpenTok.tentatives--;'."\n"
+			.'		if((OpenTok.tentatives > 0) && (event.code === 1006 || event.code === 1008 || event.code === 1014)) {'."\n"
+			.'			OpenTok.growl("'.i18n::s('Error while connecting to OpenTok').'");'."\n"
+			.'			OpenTok.session.connecting = false;'."\n"
+			.'			window.setTimeout("OpenTok.connectAgain()", 3000);'."\n"
+			.'			return;'."\n"
+			.'		}'."\n"
+			."\n"
+			.'		OpenTok.growl(event.code + " " + event.title + " - " + event.message);'."\n"
+			.'	},'."\n"
+			."\n"
+			.'	// display a message for some seconds'."\n"
+			.'	growl: function(message) {'."\n"
+			.'		if(typeof OpenTok.growlId != "number") {'."\n"
+			.'			OpenTok.growlId = 1;'."\n"
+			.'		} else {'."\n"
+			.'			OpenTok.growlId++;'."\n"
+			.'		}'."\n"
+			.'		var myId = OpenTok.growlId++;'."\n"
+			.'		$("#opentok .growl").append(\'<span id="growl\'+myId+\'" style="padding-right: 2em;">\'+message+"</span>");'."\n"
+			.'		window.setTimeout("$(\'#growl"+myId+"\').fadeOut(\'slow\')", 7000);'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// launch the video chat based on OpenTok'."\n"
 			.'	initialize: function() {'."\n"
 			."\n"
+			.'		// report on error, if any'."\n"
+			.'		TB.setLogLevel(TB.DEBUG);'."\n"
+			.'		TB.addEventListener("exception", OpenTok.exceptionHandler);'."\n"
+			."\n"
 			.'		// check system capabilities before activating the service'."\n"
-			.'		if (TB.checkSystemRequirements() == TB.HAS_REQUIREMENTS) {'."\n"
+			.'		if(TB.checkSystemRequirements() == TB.HAS_REQUIREMENTS) {'."\n"
 			."\n"
-			.'			// tell the API who we are'."\n"
+			.'			// slide to page bottom, because this is not obvious to end-user'."\n"
+			.'			OpenTok.growl(\''.i18n::s('Connecting to OpenTok')
+			.				' <img style="padding: 0 3px; vertical-align: middle" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="*" />\');'."\n"
+			."\n"
+			.'			// bind to local hardware via a device manager'."\n"
+			.'			OpenTok.deviceManager = TB.initDeviceManager(OpenTok.apiKey);'."\n"
+			.'			OpenTok.deviceManager.addEventListener("devicesDetected", OpenTok.devicesDetectedHandler);'."\n"
+			."\n"
+			.'			// bind to the API via a session'."\n"
 			.'			OpenTok.session = TB.initSession(OpenTok.sessionId);'."\n"
-			."\n"
-			.'			// listen to events received from the session'."\n"
 			.'			OpenTok.session.addEventListener("sessionConnected", OpenTok.sessionConnectedHandler);'."\n"
 			.'			OpenTok.session.addEventListener("streamCreated", OpenTok.streamCreatedHandler);'."\n"
+			.'			OpenTok.session.addEventListener("streamDestroyed", OpenTok.streamDestroyedHandler);'."\n"
+			.'			OpenTok.session.addEventListener("streamPropertyChanged", OpenTok.streamPropertyChangedHandler);'."\n"
 			."\n"
-			.'			// connect to the back-end servers'."\n"
-			.'			$("#myCamera").html(\'<img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." />\');'."\n"
+			.'			// connect to back-end servers'."\n"
 			.'			OpenTok.session.connect(OpenTok.apiKey, OpenTok.tokenString);'."\n"
+			."\n"
+			.'		// no way to use the service'."\n"
+			.'		} else {'."\n"
+			.'			OpenTok.growl("'.i18n::s('This system is not supported by OpenTok').'");'."\n"
 			.'		}'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// successful connection to the OpenTok back-end servers'."\n"
 			.'	sessionConnectedHandler: function(event) {'."\n"
 			."\n"
-			.'		// display streams already attached to this session'."\n"
-			.'		$("#myCamera").html("");'."\n"
-			.'		OpenTok.subscribeToStreams(event.streams);'."\n"
-			."\n"
 			.'		// attach the local webcam and microphone if detected'."\n"
-			.'		var deviceManager = TB.initDeviceManager(OpenTok.apiKey);'."\n"
-			.'		deviceManager.addEventListener("devicesDetected", OpenTok.devicesDetectedHandler);'."\n"
-			.'		deviceManager.detectDevices();'."\n"
+			.'		OpenTok.deviceManager.detectDevices();'."\n"
+			."\n"
+			.'		// display streams already attached to this session'."\n"
+			.'		OpenTok.subscribeToStreams(event.streams);'."\n"
 			.'	},'."\n"
 			."\n"
-			.'	// a user click push-to-talk'."\n"
+			.'	// i start to talk'."\n"
 			.'	startTalking: function() {'."\n"
-			.'		for (var i = 0; i < OpenTok.subscribers.length; i++) {'."\n"
+			.'		for(var i = 0; i < OpenTok.subscribers.length; i++) {'."\n"
 			.'			OpenTok.subscribers[i].subscribeToAudio(false);'."\n"
 			.'		}'."\n"
 			.'		OpenTok.publisher.publishAudio(true);'."\n"
 			."\n"
-			.'		document.getElementById("push-to-talk").onclick = OpenTok.stopTalking;'."\n"
-			.'		document.getElementById("push-to-talk").value = "'.i18n::s('Click to mute').'";'."\n"
+			.'		document.getElementById("pushToTalk").onclick = OpenTok.stopTalking;'."\n"
+			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Listen').'";'."\n"
 			.'	},'."\n"
 			."\n"
-			.'	// a user releases push-to-talk'."\n"
+			.'	// i am back to listening mode'."\n"
 			.'	stopTalking: function() {'."\n"
 			.'		OpenTok.publisher.publishAudio(false);'."\n"
 			.'		for (var i = 0; i < OpenTok.subscribers.length; i++) {'."\n"
 			.'			OpenTok.subscribers[i].subscribeToAudio(true);'."\n"
 			.'		}'."\n"
 			."\n"
-			.'		document.getElementById("push-to-talk").onclick = OpenTok.startTalking;'."\n"
-			.'		document.getElementById("push-to-talk").value = "'.i18n::s('Click to talk').'";'."\n"
+			.'		document.getElementById("pushToTalk").onclick = OpenTok.startTalking;'."\n"
+			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Talk').'";'."\n"
 			.'	},'."\n"
 			."\n"
-			.'	// successful creation of new OpenTok streams'."\n"
+			.'	// display new streams on people arrival'."\n"
 			.'	streamCreatedHandler: function(event) {'."\n"
-			.'		// display new streams on people arrival'."\n"
 			.'		OpenTok.subscribeToStreams(event.streams);'."\n"
+			.'	},'."\n"
+			."\n"
+			.'	// remove a stream that has been destroyed'."\n"
+			.'	streamDestroyedHandler: function(event) {'."\n"
+			.'		for(i = 0; i < event.streams.length; i++) {'."\n"
+			.'			var stream = event.streams[i];'."\n"
+			.'			$("#opentok_"+stream.streamId).remove();'."\n"
+			.'		}'."\n"
+			.'	},'."\n"
+			."\n"
+			.'	// a stream has started or stopped'."\n"
+			.'	streamPropertyChangedHandler: function(event) {'."\n"
+			.'		switch(event.changedProperty) {'."\n"
+			.'			case "hasAudio":'."\n"
+			.'				if(event.newValue) {'."\n"
+			.'					OpenTok.growl("'.i18n::s("%s is talking").'".replace(/%s/, event.stream.name));'."\n"
+			.'					if(event.stream.connection.connectionId != OpenTok.session.connection.connectionId) {'."\n"
+			.'						$("#opentok_"+event.stream.streamId).addClass("talker");'."\n"
+			.'						OpenTok.stopTalking();'."\n"
+			.'					} else {'."\n"
+			.'						$("#opentok .me .frame").addClass("talker");'."\n"
+			.'					}'."\n"
+			.'				} else {'."\n"
+			.'					OpenTok.growl("'.i18n::s("%s is listening").'".replace(/%s/, event.stream.name));'."\n"
+			.'					if(event.stream.connection.connectionId != OpenTok.session.connection.connectionId) {'."\n"
+			.'						$("#opentok_"+event.stream.streamId).removeClass("talker");'."\n"
+			.'					} else {'."\n"
+			.'						$("#opentok .me .frame").removeClass("talker");'."\n"
+			.'					}'."\n"
+			.'				}'."\n"
+			.'				break;'."\n"
+			.'			case "hasVideo":'."\n"
+			.'				if(!event.newValue) {'."\n"
+			.'					OpenTok.growl("'.i18n::s("%s is not visible").'".replace(/%s/, event.stream.name));'."\n"
+			.'				}'."\n"
+			.'				break;'."\n"
+//			.'			case "quality":'."\n"
+//			.'				OpenTok.growl(event.stream.name+" has "+event.newValue.networkQuality+" network connection");'."\n"
+//			.'				break;'."\n"
+			.'		}'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// add new streams to the user interface'."\n"
 			.'	subscribeToStreams: function(streams) {'."\n"
-			.'		for (i = 0; i < streams.length; i++) {'."\n"
+			."\n"
+			.'		// some remote stream in the list?'."\n"
+			.'		for(i = 0; i < streams.length; i++) {'."\n"
+			.'			if(streams[i].connection.connectionId != OpenTok.session.connection.connectionId) {'."\n"
+			.'				OpenTok.growl("'.i18n::s('Adding remote video streams').'");'."\n"
+			.'				break;'."\n"
+			.'			}'."\n"
+			.'		}'."\n"
+			."\n"
+			.'		for(i = 0; i < streams.length; i++) {'."\n"
 			.'			var stream = streams[i];'."\n"
-			.'			// subscribe to all streams there, except my own camera'."\n"
+			."\n"
+			.'			// subscribe to all streams, except my own camera'."\n"
 			.'			if(stream.connection.connectionId != OpenTok.session.connection.connectionId) {'."\n"
+			."\n"
 			.'				// create one div per subscribed stream and give it the id of the stream'."\n"
-			.'				var subscriberDiv = document.createElement("div");'."\n"
-			.'				subscriberDiv.setAttribute("id", stream.streamId);'."\n"
-			.'				document.getElementById("subscribers").appendChild(subscriberDiv);'."\n"
+			.'				$("#opentok .others").append(\'<span id="opentok_\'+stream.streamId+\'"><span id="placeholder"></span></span>\');'."\n"
+			.'				$("#opentok_"+stream.streamId).addClass("ibox subscriber").css({width: 120, height: 90 });'."\n"
+			."\n"
 			.'				// bind the stream to this div'."\n"
-			.'				var subscriberProps = {width: 120, height: 90, publishAudio: !OpenTok.pushToTalk};'."\n"
-			.'				OpenTok.subscribers[stream.streamId] = OpenTok.session.subscribe(stream, subscriberDiv.id, subscriberProps);'."\n"
+			.'				var streamProps = {width: 120, height: 90, subscribeToAudio: true, subscribeToVideo: true};'."\n"
+			.'				OpenTok.subscribers[stream.streamId] = OpenTok.session.subscribe(stream, "placeholder", streamProps);'."\n"
+			."\n"
+			.'				// the remote stream is active'."\n"
+			.'				if(stream.hasAudio) {'."\n"
+			.'					OpenTok.growl("'.i18n::s("%s is talking").'".replace(/%s/, stream.name));'."\n"
+			.'					$("#opentok_"+stream.streamId).addClass("talker");'."\n"
+			.'				}'."\n"
+			."\n"
+			.'			// the default is to push to talk'."\n"
+			.'			} else {'."\n"
+			.'				$("#opentok .me .frame").addClass("subscriber").css({width: 120, height: 90});'."\n"
+			.'				$("#opentok .me").append(\'<div style="text-align: center; padding: 2px 0;">'
+			.					'<input type="button" id="pushToTalk" value="'.i18n::s('Talk').'" onClick="OpenTok.startTalking()" />'
+			.					'</div>\');'."\n"
+			.'				OpenTok.growl("'.i18n::s("Click on the Talk button before speaking").'");'."\n"
 			.'			}'."\n"
 			.'		}'."\n"
 			.'	}'."\n"
@@ -363,11 +463,13 @@ class Chat_meeting extends Meeting {
 			.JS_SUFFIX;
 
 		// video streams are put above the chat area
-		return '<table class="layout"><tr><td><div id="myCamera" style="float: left">'
-			.	'<input type="button" id="push-to-talk" value="'.i18n::s('Click to talk').'" onclick="OpenTok.startTalking()" style="display: none" />'
-			.'</div>'
-			.'<div id="subscribers"></div>'
-			.'</td></tr></table>'."\n";
+		return '<div id="opentok">'
+			.	'<div class="growl" style="height: 1.6em;" > </div>'
+			.	'<table class="layout"><tr>'
+			.	'<td class="me"></td>'
+			.	'<td class="others"></td>'
+			.	'</tr></table>'
+			.'</div>'."\n";
 
 	}
 
