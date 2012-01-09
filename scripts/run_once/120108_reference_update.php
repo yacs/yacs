@@ -20,7 +20,9 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'control/htaccess/options/.htaccess';
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/_reference/ajax/ajax_spinner_black.gif';
 
 // process every file
 $count = 0;
@@ -85,4 +87,10 @@ foreach($files as $file) {
 $local['label_en'] = 'files have been processed';
 $local['label_fr'] = 'fichiers ont &eacute;t&eacute; trait&eacute;s';
 echo $count.' '.i18n::user('label')."<br />\n";
+
+$local['label_en'] = 'After the end of the upgrade, please rebuild the .htaccess file from the Control Panel.';
+$local['label_fr'] = 'Lorsque la mise &agrave; jour sera termin&eacute;e, merci de reconstruire le fichier .htaccess &agrave; partir du Panneau de Configuration.';
+echo '<p style="color: red;">'.i18n::user('label')."</p>\n";
+
+
 ?>

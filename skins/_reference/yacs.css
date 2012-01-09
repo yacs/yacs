@@ -422,9 +422,15 @@ div.box div.content { /* actual content of the box */
 	position: relative;
 }
 
+html > body .ibox { display:inline-block; } /* inline boxes that work on IE6 -- use span.ibox */
+.ibox {display:inline-block;position:relative;}
+* html .ibox { display: inline; }
+:first-child + html .ibox { display:inline; }
+
 /* menu bars */
 
-div.menu_bar { /* an horizontal menu of commands */
+div.menu_bar,
+p.assistant_bar { /* an horizontal menu of commands */
 	margin: 1em 0 1em 0;
 	padding: 3px 0 3px 0;
 	font-weight: normal;
@@ -447,7 +453,6 @@ div.menu_bar a.button,
 div.menu_bar a.button span,
 div.menu_bar a.button:hover,
 div.menu_bar a.button:hover span { /* no specific background image for buttons */
-	background-color: #c0c0c0;
 	background-image: none;
 }
 
@@ -538,10 +543,15 @@ table.neighbours tr td.previous { /* to the left */
 
 /* vertical and horizontal layouts --it used to be named "form" instead of "layout" */
 
-table.layout,
 table.form {
-/*	margin: 0 auto; */
 	width: 99%; /* not 100% because of IE6 */
+	border: none; /* we are only interested into the layout */
+	margin: 0;
+	padding: 0;
+}
+
+table.layout {
+	width: auto; /* fully adapt to content */
 	border: none; /* we are only interested into the layout */
 	margin: 0;
 	padding: 0;
@@ -782,7 +792,20 @@ a img {
 }
 
 a.button,
-div.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
+div.menu_bar a.button,
+input[type="submit"],
+button.bigButton { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
+	background-color: #B6D3F4;
+	background-image: -moz-linear-gradient(center top , #B6D3F4, #5483B8);
+	border: 1px solid #9AC9FF !important;
+	border-radius: 18px 18px 18px 18px;
+	color: white !important;
+	display: inline-block;
+	font: 600 15px/1.4 "myriad-pro-1","myriad-pro-2","Lucida Grande",Sans-Serif;
+	padding: 7px 15px;
+	position: relative;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+/*
 	border-color: #dcdcdc #696969 #696969 #dcdcdc;
 	border-style: solid;
 	border-width: 2px;
@@ -790,23 +813,25 @@ div.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a
 	padding: 4px;
 	line-height: 2.5em;
 	background-color: #c0c0c0;
+*/
 }
 
 a.button,
 a.button span,
 a:visited.button,
 a:visited.button span {
-   	color: #202020;
+   	color: white;
 	text-decoration: none;
 }
 
-a:active.button { /* click on button */
+a:.button:active { /* click on button */
 	color: #202040;
 	border-color: #eaeaea #095ba5 #095ba5 #eaeaea;
 }
 
-a:hover.button { /* hover a button */
-	color: #202040;
+a.button:hover { /* hover a button */
+	box-shadow: 0 2px 6px #FFFFFF inset, 0 3px 3px rgba(0, 0, 0, 0.6);
+	text-decoration: none;
 }
 
 @media screen { /* not on printers */
@@ -1608,17 +1633,51 @@ dl#scrolling_news dd ul { /* a list with no bullet */
  * @see articles/view_as_chat.php
  */
 
+div#opentok { /* for videos above the chat area */
+	position: relative;
+	max-width: 720px; /* limit the width */
+	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .growl,
+body#faceme .growl { /* for real-time status updates */
+	color: #888;
+	font-size: 0.8em;
+	font-style: italic;
+	padding: 2px 0;
+}
+
+div#opentok .subscriber { /* each listener has an invisible border at the top, to be replaced when he starts talking */
+	border-top: 3px solid transparent;
+}
+
+div#opentok .me { /* for my video */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .others { /* for videos of other participants */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .subscriber.talker { /* each talker has a red border at the top */
+	border-top: 3px solid red;
+}
+
 div#thread_wrapper { /* around text and input field */
 	position: relative;
-	max-width: 700px; /* limit the width */
-	width: expression(this.width > 700 ? 700: true); /* just for IE 6 */
+	max-width: 720px; /* limit the width */
+	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
 	margin: 0;
 	padding: 0 0 6px 0;
 }
 
-div#thread_wrapper textarea#contribution { /* the main input field */
+div#thread_wrapper textarea#description { /* the main input field */
 	width: 99%;
-	margin: 0 0 0.5em 0;
+	margin: 0;
 	padding: 3px;
 	background-color: #eee;
 	overflow: auto; /* add a vertical scroller if required */
@@ -1635,12 +1694,14 @@ div#thread_files_panel {
 }
 
 div#thread_text_panel { /* where successive contributions are displayed */
-	margin: 0 0 0.5em 0;
+	margin: 0;
 	padding: 0;
 	height: 350px; /* ensure the input field is always visible */
 	max-height: 350px;
 	overflow: auto; /* add a vertical scroller if required */
-	border: 1px dotted #ccc;
+	border-top: 1px dotted #ccc;
+	border-right: 1px dotted #ccc;
+	border-left: 1px dotted #ccc;
 	background-color: #fcfcfc;
 }
 
