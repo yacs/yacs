@@ -673,7 +673,7 @@ class Event extends Overlay {
 		global $context;
 
 		// attach an invitation file
-		return array('text/calendar; method="'.$method.'"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics($method));
+		return array('text/calendar; method="'.$method.'"; charset="UTF-8"; name="'.str_replace('"', "'", $this->anchor->get_title()).'.ics"' => $this->get_ics($method));
 	}
 
 	/**
