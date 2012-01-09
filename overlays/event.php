@@ -1588,7 +1588,7 @@ class Event extends Overlay {
 					$headers = Mailer::set_thread('', $this->anchor->get_reference());
 
 					// get attachment from the overlay
-					$attachments = array('text/calendar; method="CANCEL"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('CANCEL'));
+					$attachments = $this->get_invite_attachments('CANCEL');
 
 					// post it
 					Mailer::notify(Surfer::from(), $item['user_email'], $subject, $message, $headers, $attachments);
@@ -1691,7 +1691,7 @@ class Event extends Overlay {
 					$headers = Mailer::set_thread('', $this->anchor->get_reference());
 
 					// get attachment from the overlay
-					$attachments = array('text/calendar; method="PUBLISH"; charset="UTF-8"; name="meeting.ics"' => $this->get_ics('PUBLISH'));
+					$attachments = $this->get_invite_attachments('PUBLISH');
 
 					// post it
 					Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
