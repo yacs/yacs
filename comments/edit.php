@@ -223,10 +223,32 @@ if(Surfer::is_crawler()) {
 	// remove default string, if any
 	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
 
+	// append to previous comment during 10 minutes
+	if(!isset($item['id'])
+		&& ($newest = Comments::get_newest_for_anchor($anchor->get_reference()))
+		&& ($newest['type'] != 'notification')
+		&& Surfer::get_id() && (isset($newest['create_id']) && (Surfer::get_id() == $newest['create_id']))
+		&& ($newest['edit_date'] > gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600))) {
+
+		// copy from previous comment record
+		$_REQUEST['id'] 			= $newest['id'];
+		$_REQUEST['create_address']	= $newest['create_address'];
+		$_REQUEST['create_date']	= $newest['create_date'];
+		$_REQUEST['create_id']		= $newest['create_id'];
+		$_REQUEST['create_name']	= $newest['create_name'];
+		$_REQUEST['description']	= $newest['description'].BR.$_REQUEST['description'];
+		$_REQUEST['previous_id']	= $newest['previous_id'];
+		$_REQUEST['type']			= $newest['type'];
+
+	}
+
 	// attach some file
 	$file_path = Files::get_path($anchor->get_reference());
-	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference()))
+	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
+		if(!$_REQUEST['description'])
+			$_REQUEST['description'] .= '<p>&nbsp;</p>';
 		$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.$file.'</div>';
+	}
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
