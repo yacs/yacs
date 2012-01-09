@@ -484,7 +484,8 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)/i', // YouTube link
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
+				'/http:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
 				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
 				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, Ĭ or ՠ-- no space ahead */
@@ -500,6 +501,7 @@ Class Codes {
 				"</h2>",
 				"</h3>",
 				"</h4>",
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
 				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
