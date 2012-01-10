@@ -272,6 +272,8 @@ default:
 		.'		$("#comment_upload").slideUp(600);'."\n"
 		.'		$("#upload").replaceWith(\'<input type="file" id="upload" name="upload" size="30" />\');'."\n"
 		.'		$("#description").val("").focus();'."\n"
+		.'		if(typeof OpenTok == "object")'."\n"
+		.'			OpenTok.signal();'."\n"
 		.'		setTimeout(function() {Comments.subscribe(); Yacs.stopWorking();}, 500);'."\n"
 		.'	},'."\n"
 		."\n"
