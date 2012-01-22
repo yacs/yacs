@@ -415,7 +415,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// get a copy of the sent message
-	$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
+	$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
