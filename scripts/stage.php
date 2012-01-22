@@ -437,28 +437,7 @@ if($id) {
 
 	}
 
-/*
-	// option #3 - on-line staging
-	$context['text'] .= Skin::build_block(i18n::s('Staging individual files'), 'title');
-
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('This script will compare the running scripts with those available on the reference server. Then it will attempt to download updated files in a staging directory. You will then be able to manually review updated scripts before actually using them on your site.').'</p>';
-
-	// the submit button
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.Skin::build_submit_button(sprintf(i18n::s('Yes, I want to stage files from %s'), $context['reference_server']), NULL, NULL, 'confirmed')
-		.'</p></form>'."\n";
-
-	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
-
-	// this may take several minutes
-	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will immediately start to stage updated scripts. However, because of the time requested to complete data exchanges, you may have to wait for minutes before getting a response displayed.').'</p>';
-*/
-	// option #4 - out-of-band staging
+	// option #3 - out-of-band staging
 	$context['text'] .= Skin::build_block(i18n::s('Direct staging'), 'title');
 
 	// upload an archive
