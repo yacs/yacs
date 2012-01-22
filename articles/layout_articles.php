@@ -171,7 +171,7 @@ Class Layout_articles extends Layout_interface {
 
 				// rating
 				if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-					$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+					$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 				// unusual ranks are signaled to associates and owners
 				if(($item['rank'] != 10000) && Articles::is_owned($item, $anchor))

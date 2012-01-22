@@ -55,12 +55,12 @@ if(!Surfer::is_crawler()) {
 		// report on current rating
 		$label = '';
 		if($item['rating_count'])
-			$label .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
+			$label .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rating', '%d ratings', $item['rating_count']), $item['rating_count']).' ';
 		if(!$label)
 			$label .= i18n::s('Rate this page');
 
 		// link to the rating page
-		$label = Skin::build_link(Articles::get_url($item['id'], 'rate'), $label, 'span', i18n::s('Rate this page'));
+		$label = Skin::build_link(Articles::get_url($item['id'], 'like'), $label, 'span', i18n::s('Rate this page'));
 
 		// feature page rating
 		$details[] = $label;
@@ -188,7 +188,7 @@ if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_opti
 
 	// where the surfer can rate this item
 	else
-		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 	// rendering
 	$context['text'] .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'

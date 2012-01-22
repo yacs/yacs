@@ -105,7 +105,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// where the surfer can rate this item
 			else
-				$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+				$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 			// close digg-like area
 			$digg .= '</div>';
