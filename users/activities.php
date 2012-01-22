@@ -128,6 +128,15 @@ Class Activities {
 		// one of regular layouts
 		switch($variant) {
 
+		case 'comma':
+			$text = '';
+			while($item = SQL::fetch($result)) {
+				if($text)
+					$text .= ', ';
+				$text .= Skin::build_link(Users::get_url($item['edit_id'], 'view', $item['edit_name']), $item['edit_name'], 'user');
+			}
+			return $text;
+
 		case 'raw':
 		default:
 			$items = array();
