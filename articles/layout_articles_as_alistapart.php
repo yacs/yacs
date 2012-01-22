@@ -222,7 +222,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			$label .= i18n::s('Rate this page');
 
 			// allow for rating
-			$text .= Skin::build_link(Articles::get_url($item['id'], 'rate'), $label, 'basic');
+			$text .= Skin::build_link(Articles::get_url($item['id'], 'like'), $label, 'basic');
 		}
 
 		// the introduction text, if any

@@ -1517,14 +1517,24 @@ Class Articles {
 				return 'services/check.php?id='.urlencode('article:'.$id);
 		}
 
-		// rate this page
-		if($action == 'rate') {
+		// i like this page
+		if($action == 'like') {
 			if($context['with_friendly_urls'] == 'Y')
 				return 'articles/rate.php/'.rawurlencode($id).'?rating=5&amp;referer='.urlencode($context['self_url']);
 			elseif($context['with_friendly_urls'] == 'R')
 				return 'article-rate/'.rawurlencode($id).'?rating=5&amp;referer='.urlencode($context['self_url']);
 			else
 				return 'articles/rate.php?id='.urlencode($id).'&amp;rating=5&amp;referer='.urlencode($context['self_url']);
+		}
+
+		// i dislike this page
+		if($action == 'dislike') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'articles/rate.php/'.rawurlencode($id).'?rating=1&amp;referer='.urlencode($context['self_url']);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'article-rate/'.rawurlencode($id).'?rating=1&amp;referer='.urlencode($context['self_url']);
+			else
+				return 'articles/rate.php?id='.urlencode($id).'&amp;rating=1&amp;referer='.urlencode($context['self_url']);
 		}
 
 		// check the target action

@@ -92,7 +92,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$suffix .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$suffix .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// select an icon for this thread
 			$item['comments_count'] = Comments::count_for_anchor('article:'.$item['id']);

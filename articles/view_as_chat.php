@@ -81,7 +81,7 @@ if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_
 
 	// where the surfer can rate this item
 	else
-		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 	// rendering
 	$context['text'] .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'

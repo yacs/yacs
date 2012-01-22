@@ -167,7 +167,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// pack in a block
 		$text = '<h2>'.Skin::build_link($url, $icon.$title, 'basic').'</h2>';
@@ -264,7 +264,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// pack in a block
 		$text = '<h3>'.Skin::build_link($url, $icon.$title, 'basic').'</h3>';
