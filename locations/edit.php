@@ -237,7 +237,7 @@ if($with_form) {
 	if(isset($context['google_api_key']) && $context['google_api_key']) {
 
 		// encode on click
-		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').value); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
+		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').val()); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
 			.'<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'" type="text/javascript"></script>'."\n"
 			.JS_PREFIX
 			.'var geocoder = null;'."\n"
