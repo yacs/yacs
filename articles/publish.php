@@ -133,15 +133,15 @@ if(Surfer::is_crawler()) {
 
 		// allow the anchor to prevent notifications of watchers
 		if(is_object($overlay) && !$overlay->should_notify_watchers())
-			$_REQUEST['notify_watchers'] == 'N';
+			$_REQUEST['notify_watchers'] = 'N';
 
 		// never notify followers on private pages
 		if(isset($item['active']) && ($item['active'] == 'N'))
-			$_REQUEST['notify_followers'] == 'N';
+			$_REQUEST['notify_followers'] = 'N';
 
 		// allow the anchor to prevent notifications of followers
 		elseif(is_object($overlay) && !$overlay->should_notify_followers())
-			$_REQUEST['notify_followers'] == 'N';
+			$_REQUEST['notify_followers'] = 'N';
 
 		// touch the section
 		if(is_object($anchor)) {
