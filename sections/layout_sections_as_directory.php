@@ -62,9 +62,9 @@ Class Layout_sections_as_directory extends Layout_interface {
 
 			// signal restricted and private sections
 			if(isset($item['active']) && ($item['active'] == 'N'))
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif(isset($item['active']) && ($item['active'] == 'R'))
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag sections updated recently
 			if($item['create_date'] >= $context['fresh'])

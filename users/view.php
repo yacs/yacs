@@ -181,9 +181,9 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['active']) && ($item['active'] == 'R'))
-	$context['page_title'] .= RESTRICTED_FLAG.' ';
+	$context['page_title'] .= RESTRICTED_FLAG;
 elseif(isset($item['active']) && ($item['active'] == 'N'))
-	$context['page_title'] .= PRIVATE_FLAG.' ';
+	$context['page_title'] .= PRIVATE_FLAG;
 if(isset($item['full_name']) && $item['full_name']) {
 	if($item['full_name'] != $item['nick_name'])
 		$context['page_title'] .= $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';

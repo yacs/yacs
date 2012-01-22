@@ -263,9 +263,9 @@ $context['path_bar'] = Surfer::get_path_bar($anchor);
 if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now']))
 	$context['page_title'] .= DRAFT_FLAG;
 if(isset($item['active']) && ($item['active'] == 'R'))
-	$context['page_title'] .= RESTRICTED_FLAG.' ';
+	$context['page_title'] .= RESTRICTED_FLAG;
 elseif(isset($item['active']) && ($item['active'] == 'N'))
-	$context['page_title'] .= PRIVATE_FLAG.' ';
+	$context['page_title'] .= PRIVATE_FLAG;
 if(is_object($overlay))
 	$context['page_title'] .= $overlay->get_text('title', $item);
 elseif(isset($item['title']))
@@ -450,11 +450,11 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
+			$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer');
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
-			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
+			$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons');
 
 		// expired article
 		if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))

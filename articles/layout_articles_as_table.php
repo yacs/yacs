@@ -56,9 +56,9 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$title .= PRIVATE_FLAG.' ';
+				$title .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$title .= RESTRICTED_FLAG.' ';
+				$title .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the page');

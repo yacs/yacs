@@ -81,11 +81,11 @@ if(!Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer');
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons');
 
 	// expired article
 	if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))
