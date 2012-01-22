@@ -290,7 +290,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// allow for an initial upload, if allowed
-	if(!isset($item['id']) && Surfer::may_upload()) {
+	if(!isset($item['id']) && Surfer::may_upload() && Files::allow_creation($anchor, $item, 'article')) {
 
 		// attachment label
 		$label = i18n::s('Upload a file');
