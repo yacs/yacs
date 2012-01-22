@@ -67,9 +67,9 @@ Class Layout_articles_as_directory extends Layout_interface {
 
 			// signal restricted and private articles
 			if(isset($item['active']) && ($item['active'] == 'N'))
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif(isset($item['active']) && ($item['active'] == 'R'))
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))

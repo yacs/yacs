@@ -71,9 +71,9 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$text .= PRIVATE_FLAG.' ';
+				$text .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$text .= RESTRICTED_FLAG.' ';
+				$text .= RESTRICTED_FLAG;
 
 			// use the title as a link to the page
 			$text .= Skin::build_link($url, '<strong>'.$title.'</strong>', 'basic');

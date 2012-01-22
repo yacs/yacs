@@ -502,7 +502,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/attention.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('ATTENTION_IMG', '');
 			}
@@ -517,7 +517,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/done.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('DONE_IMG', '');
 			}
@@ -533,7 +533,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/idea.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('IDEA_IMG', '');
 			}
@@ -549,7 +549,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/information.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('INFORMATION_IMG', '');
 			}
@@ -564,7 +564,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/question.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('QUESTION_IMG', '');
 			}
@@ -580,7 +580,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/thumbs_down.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('THUMBS_DOWN_IMG', '');
 			}
@@ -596,7 +596,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/thumbs_up.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('THUMBS_UP_IMG', '');
 			}
@@ -611,7 +611,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/warning.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('WARNING_IMG', '');
 			}

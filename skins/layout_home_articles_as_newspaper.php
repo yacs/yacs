@@ -177,9 +177,9 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
-			$text .= PRIVATE_FLAG.' ';
+			$text .= PRIVATE_FLAG;
 		elseif($item['active'] == 'R')
-			$text .= RESTRICTED_FLAG.' ';
+			$text .= RESTRICTED_FLAG;
 
 		// the author
 		$author = '';
@@ -274,9 +274,9 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
-			$text .= PRIVATE_FLAG.' ';
+			$text .= PRIVATE_FLAG;
 		elseif($item['active'] == 'R')
-			$text .= RESTRICTED_FLAG.' ';
+			$text .= RESTRICTED_FLAG;
 
 		// the author
 		$author = '';
@@ -351,13 +351,13 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
-			$prefix .= PRIVATE_FLAG.' ';
+			$prefix .= PRIVATE_FLAG;
 		elseif($item['active'] == 'R')
-			$prefix .= RESTRICTED_FLAG.' ';
+			$prefix .= RESTRICTED_FLAG;
 
 		// rating
 		if($item['rating_count'])
-			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// the introductory text
 		if(isset($item['introduction']) && $item['introduction'])
