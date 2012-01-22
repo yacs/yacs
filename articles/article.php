@@ -485,7 +485,7 @@ Class Article extends Anchor {
 				return Comments::get_url($this->get_reference(), 'list');
 
 			// layouts that start at the article page
-			return Articles::get_permalink($this->item).'#comments';
+			return Articles::get_permalink($this->item);
 
 		// list of files
 		case 'files':
