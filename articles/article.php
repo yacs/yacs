@@ -1089,7 +1089,7 @@ Class Article extends Anchor {
 				$mail['content'] = Skin::build_mail_content($headline);
 
 				// call for action
-				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
+				$title = sprintf(i18n::c('%s in %s'), ucfirst(Anchors::get_action_label($action)), strip_tags($this->item['title']));
 				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
 				$menu = array(Skin::build_mail_button($link, $title, TRUE));
 				$mail['content'] .= Skin::build_mail_menu($menu);
