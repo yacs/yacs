@@ -23,7 +23,7 @@ class http {
 	 * @param string received HTTP header
 	 * @return sizeof headers
 	 */
-	function callback_headers($dummy, $header) {
+	public static function callback_headers($dummy, $header) {
 
 		// remember this header
 		if(rtrim($header)) {
@@ -59,7 +59,7 @@ class http {
 	 *
 	 * @param int number of seconds to cache (default: 30 minutes)
 	 */
-	function expire($time=1800) {
+	public static function expire($time=1800) {
 
 		// ask for revalidation - 'no-cache' is mandatory for IE6 !!!
 		if(!$time || ($time < 1)) {
@@ -80,7 +80,7 @@ class http {
 	 *
 	 * @return string the base URI
 	 */
-	function get_base_uri() {
+	public static function get_base_uri() {
 		global $context, $_SERVER;
 
 		// host name
@@ -102,7 +102,7 @@ class http {
 	/**
 	 * returns the last error description, if any
 	 */
-	function get_error() {
+	public static function get_error() {
 		global $http_internal_error;
 		return $http_internal_error;
 	}
@@ -110,7 +110,7 @@ class http {
 	/**
 	 * returns headers of the last response, if any
 	 */
-	function get_headers() {
+	public static function get_headers() {
 		global $http_fetch_headers;
 		return implode("\n", $http_fetch_headers);
 	}
@@ -120,7 +120,7 @@ class http {
 	 *
 	 * Useful to AJAX responses when nothing has to be transmitted back to the browser.
 	 */
-	function no_content() {
+	public static function no_content() {
 		Safe::header('Status: 204 No Content', TRUE, 204);
 		Safe::header('Content-Length: 0',true);
 		Safe::header('Content-Type: text/html',true);
@@ -138,7 +138,7 @@ class http {
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	function proceed($url, $headers='', $data='', $debug='', $cookie='') {
+	public static function proceed($url, $headers='', $data='', $debug='', $cookie='') {
 		global $context;
 
 		// target content
@@ -155,6 +155,7 @@ class http {
 		// compensate for network time
 		Safe::set_time_limit(30);
 
+		// call http::get_headers() to get meta information returned by the server
 		return $body;
 
 	}
@@ -178,7 +179,7 @@ class http {
 	 * @param int to manage a maximum number of redirections
 	 * @return the actual content, of FALSE on error
 	 */
-	function proceed_natively($url, $headers='', $data='', $debug='', $cookie='', $limit=3) {
+	public static function proceed_natively($url, $headers='', $data='', $debug='', $cookie='', $limit=3) {
 		global $context;
 
 		// outbound web is not authorized
@@ -289,7 +290,7 @@ class http {
 
 		// open a network connection -- wait for up to 10 seconds for the TCP connection
 		if(!$handle && (!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10))) {
-			if($debug)
+			if($debug && ($context['with_debug'] == 'Y'))
 				Logger::remember($debug, sprintf('Impossible to connect to %s.', $host.':'.$port), '', 'debug');
 			return FALSE;
 		}
@@ -351,7 +352,7 @@ class http {
 		}
 
 		// redirect to another place
-		if(preg_match('/^Location: (\w.+?)/', $r_headers, $matches)) {
+		if(preg_match('/^Location: (.+)$/m', $r_headers, $matches)) {
 
 			if(--$limit <= 0) {
 				$http_internal_error = 'Too many redirections';
@@ -417,19 +418,19 @@ class http {
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	function proceed_using_curl($url, $headers='', $data='', $debug='', $cookie='') {
+	public static function proceed_using_curl($url, $headers='', $data='', $debug='', $cookie='') {
 		global $context;
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			if($debug)
+			if($debug && ($context['with_debug'] == 'Y'))
 				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 
 		// sanity check
 		if(!is_callable('curl_init')) {
-			if($debug)
+			if($debug && ($context['with_debug'] == 'Y'))
 				Logger::remember($debug, 'CURL is not implemented"', '', 'debug');
 			return FALSE;
 		}
@@ -536,7 +537,7 @@ class http {
 	 * @param string the opaque string characterizing the target object
 	 * @return boolean TRUE if the client has provided the right headers, FALSE otherwise
 	 */
-	function validate($last_modified, $etag=NULL) {
+	public static function validate($last_modified, $etag=NULL) {
 
 		// not cached yet
 		$cached = FALSE;
