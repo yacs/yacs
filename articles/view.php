@@ -906,21 +906,30 @@ if(!isset($item['id'])) {
 			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
+			// we have a compact list, or not
+			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {
+				include_once $context['path_to_root'].'files/layout_files_as_compact.php';
+				$layout = new Layout_files_as_compact();
+				$layout->set_variant('article:'.$item['id']);
+			} else
+				$layout = 'article:'.$item['id'];
+
+
 			// list files by date (default) or by title (option files_by_title)
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
 			if(Articles::has_option('files_by_title', $anchor, $item))
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
+				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
 			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
+				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
 
 			// actually render the html
 			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'decorated');
+				$box['text'] .= Skin::build_list($items, $compact?'compact':'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
 
 			// the command to post a new file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(!$compact && Files::allow_creation($anchor, $item, 'article')) {
 				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
 			}
@@ -928,7 +937,7 @@ if(!isset($item['id'])) {
 		}
 
 		// some files have been attached to this page
-		if(($page == 1) && ($count > 1)) {
+		if(($page == 1) && ($count > 5)) {
 
 			// the command to download all files
 			$link = 'files/fetch_all.php?anchor='.urlencode('article:'.$item['id']);
