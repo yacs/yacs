@@ -50,8 +50,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 } elseif(isset($_REQUEST['start_session'])) {
 
 	// create a random id
-	$random = substr((string)rand(1000000000, 9999999999), 1);
-	$id = substr($random, 0, 3).'-'.substr($random, 3, 3).'-'.substr($random, 6, 3);
+	$id = (string)rand(100000, 999999);
 
 	// server to connect to
 	if(isset($context['opentok_api_url']) && $context['opentok_api_url'])
@@ -69,7 +68,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 	$parameters = array();
 	$parameters['api_key'] = $context['opentok_api_key'];
 	$parameters['location'] = $_SERVER['REMOTE_ADDR'];
-	$parameters['p2p.preference'] = 'enabled';
+//	$parameters['p2p.preference'] = 'enabled';
 
 	// get a new session id
 	if(!$response = http::proceed_natively($url, $headers, $parameters, 'faceme.php'))
@@ -258,7 +257,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 	$join = '<div>'
 		.'<form>'
 		.	'<p>'.i18n::s('Meet a person').'</p>'
-		.	'<p style="font-size: 7pt"><input type="text" id="sessionAddress" />'.BR.'<span class="details">'.i18n::s('Paste the web address given to you').'</span></p>'
+		.	'<p style="font-size: 7pt"><input type="text" id="sessionAddress" />'.BR.'<span class="details">'.i18n::s('Paste the number or web address given to you').'</span></p>'
 		.	'<button class="bigButton" onclick="OpenTok.goTo($(\'#sessionAddress\').val())" type="button">'
 		.	i18n::s('Join this session')
 		.	'</button>'
@@ -274,6 +273,13 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 	// meeting panel
 	$context['text'] .= '<div id="meetingPanel" style="display: none">';
 
+	// sharing panel
+	$context['text'] .= '<div id="sharingPanel" style="text-align: center; vertical-align: middle">'
+			.'<p>'.i18n::s('Copy and paste this link into an email or instant message:').'</p>'
+			.'<input type="text" id="linkToShare" value="'.$link.$id.'" onclick="this.select();" readonly="readonly" />'
+		.'</div>';
+
+	// growl-like notifications
 	$context['text'] .= '<div class="growl" style="height: 1.6em;" > </div>';
 
 	// video streams
@@ -281,8 +287,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'<td style="text-align: center; vertical-align: middle" class="myFace"></td>'
 		.'<td style="text-align: center; vertical-align: middle" class="yourFace">'
 			.'<img style="vertical-align: middle" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner_black.gif" alt="*" />'
-			.BR.BR.'<span class="small">'.sprintf(i18n::s('Waiting for the other person to join %s'),
-				BR.BR.'<span style="color: red" id="linkToShare">'.$link.$id.'</span>').'</span>'
+			.BR.BR.'<span class="small">'.i18n::s('Waiting for the other person to join').'</span>'
 		.'</td>'
 		.'</tr></tbody></table>';
 
@@ -294,7 +299,15 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 
 		// show the initial panel
 		$context['page_footer'] .= JS_PREFIX
-			.'$(document).ready(function() { $("#initialPanel").slideDown(); });'."\n"
+			.'$(document).ready(function() {'."\n"
+			.'	$("#sessionAddress").keyup(function(event) {'."\n"
+			.'		if(event.which == 13) {'."\n"
+			.'			event.preventDefault();'."\n"
+			.'			OpenTok.goTo($(this).val());'."\n"
+			.'		}'."\n"
+			.'	});'."\n"
+			.'	$("#initialPanel").slideDown();'
+			.'});'."\n"
 			.JS_SUFFIX;
 
 	// join an existing session
@@ -348,21 +361,6 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'			return;'."\n"
 		.'		}'."\n"
 		."\n"
-		.'		// create one placeholder div for my own camera'."\n"
-		.'		OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
-		.'		$("#meetingPanel .myFace").append(\'<div class="frame"><div id="placeholder"></div></div>\');'."\n"
-		.'		$("#meetingPanel .myFace .frame").css({width: OpenTok.publisherWidth, height: OpenTok.publisherHeight });'."\n"
-		."\n"
-		.'		// bind this div with my own camera'."\n"
-		.'		var streamProps = {encodedWidth: OpenTok.subscriberWidth, encodedHeight: OpenTok.subscriberHeight,'."\n"
-		.'				width: OpenTok.publisherWidth, height: OpenTok.publisherHeight,'."\n"
-		.'				name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
-		.'		OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
-		."\n"
-		.'		// monitor the publishing session'."\n"
-		.'		OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
-		.'		OpenTok.publisher.addEventListener("echoCancellationModeChanged", OpenTok.echoCancellationModeChangedHandler);'."\n"
-		."\n"
 		.'	},'."\n"
 		."\n"
 		.'	// for some reason the user is not publishing anymore'."\n"
@@ -403,7 +401,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		."\n"
 		.'	// go to a named session'."\n"
 		.'	goTo: function(data) {'."\n"
-		.'		if(data.match(/^[0-9]{3}-[0-9]{3}-[0-9]{3}$/i))'."\n"
+		.'		if(data.match(/^[0-9]{6}$/i))'."\n"
 		.'			data = "'.$link.'"+data;'."\n"
 		.'		window.location.href = data;'."\n"
 		.'		return false;'."\n"
@@ -417,8 +415,8 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'			OpenTok.growlId++;'."\n"
 		.'		}'."\n"
 		.'		var myId = OpenTok.growlId++;'."\n"
-		.'		$("#meetingPanel .growl").append(\'<span id="growl\'+myId+\'" style="padding-right: 2em;">\'+message+"</span>");'."\n"
-		.'		window.setTimeout("$(\'#growl"+myId+"\').fadeOut(\'slow\')", 7000);'."\n"
+		.'		$("#meetingPanel .growl").append(\'<span id="growl\'+myId+\'">\'+message+"</span>");'."\n"
+		.'		window.setTimeout("$(\'#growl"+myId+"\').fadeOut(\'slow\')", 5000);'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	// launch the video chat based on OpenTok'."\n"
@@ -432,14 +430,11 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'		if(TB.checkSystemRequirements() == TB.HAS_REQUIREMENTS) {'."\n"
 		."\n"
 		.'			// slide to page bottom, because this is not obvious to end-user'."\n"
-		.'			OpenTok.growl(\''.i18n::s('Connecting to OpenTok').$wheel.'\');'."\n"
-		."\n"
-		.'			// bind to local hardware via a device manager'."\n"
-		.'			OpenTok.deviceManager = TB.initDeviceManager(OpenTok.apiKey);'."\n"
-		.'			OpenTok.deviceManager.addEventListener("devicesDetected", OpenTok.devicesDetectedHandler);'."\n"
+		.'			OpenTok.growl("'.i18n::s('Connecting to OpenTok').'");'."\n"
 		."\n"
 		.'			// bind to the API via a session'."\n"
 		.'			OpenTok.session = TB.initSession(OpenTok.sessionId);'."\n"
+//		.'			OpenTok.session.addEventListener("microphoneLevelChanged", OpenTok.microphoneLevelChangedHandler);'."\n"
 		.'			OpenTok.session.addEventListener("sessionConnected", OpenTok.sessionConnectedHandler);'."\n"
 		.'			OpenTok.session.addEventListener("streamCreated", OpenTok.streamCreatedHandler);'."\n"
 		.'			OpenTok.session.addEventListener("streamDestroyed", OpenTok.streamDestroyedHandler);'."\n"
@@ -476,14 +471,38 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'		});'."\n"
 		.'	},'."\n"
 		."\n"
+		.'	// monitor levels of sound captured in microphones'."\n"
+		.'	microphoneLevelChangedHandler: function(event) {'."\n"
+//		.'		console.log("The microphone level for stream " + event.streamId + " is: " + event.volume);'."\n"
+		.'	},'."\n"
+		."\n"
 		.'	// successful connection to the OpenTok back-end servers'."\n"
 		.'	sessionConnectedHandler: function(event) {'."\n"
 		."\n"
-		.'		// attach the local webcam and microphone if detected'."\n"
-		.'		OpenTok.deviceManager.detectDevices();'."\n"
+		.'		// create one placeholder div for my own camera'."\n"
+		.'		OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
+		.'		$("#meetingPanel .myFace").append(\'<div class="frame"><div id="placeholder"></div></div>\');'."\n"
+		.'		$("#meetingPanel .myFace .frame").css({width: OpenTok.publisherWidth, height: OpenTok.publisherHeight });'."\n"
+		."\n"
+		.'		// bind this div with my own camera'."\n"
+		.'		var streamProps = {encodedWidth: OpenTok.subscriberWidth, encodedHeight: OpenTok.subscriberHeight,'."\n"
+		.'				width: OpenTok.publisherWidth, height: OpenTok.publisherHeight,'."\n"
+		.'				name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
+		.'		OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
+		."\n"
+		.'		// monitor the publishing session'."\n"
+		.'		OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
+		.'		OpenTok.publisher.addEventListener("echoCancellationModeChanged", OpenTok.echoCancellationModeChangedHandler);'."\n"
 		."\n"
 		.'		// display streams already attached to this session'."\n"
 		.'		OpenTok.subscribeToStreams(event.streams);'."\n"
+		."\n"
+		.'		// bind to local hardware via a device manager'."\n"
+		.'		OpenTok.deviceManager = TB.initDeviceManager(OpenTok.apiKey);'."\n"
+		.'		OpenTok.deviceManager.addEventListener("devicesDetected", OpenTok.devicesDetectedHandler);'."\n"
+		."\n"
+		.'		// attach the local webcam and microphone if detected'."\n"
+		.'		OpenTok.deviceManager.detectDevices();'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	// i start a new session'."\n"
@@ -494,11 +513,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'			dataType: "json",'."\n"
 		.'			data: { "start_session": true },'."\n"
 		.'			success: function(data) {'."\n"
-		.'				OpenTok.id = data.id;'."\n"
-		.'				$("#linkToShare").text(OpenTok.link+OpenTok.id);'."\n"
-		.'				$("#initialPanel").slideUp();'."\n"
-		.'				$("#meetingPanel").slideDown();'."\n"
-		.'				OpenTok.joinSession(data.id);'."\n"
+		.'				window.location.href = "'.$link.'"+data.id;'."\n"
 		.'			},'."\n"
 		.'			error: function(data) {'."\n"
 		.'				Yacs.stopWorking();'."\n"
@@ -522,6 +537,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		."\n"
 		.'	// a stream has started or stopped'."\n"
 		.'	streamPropertyChangedHandler: function(event) {'."\n"
+//		.'		console.log(event);'."\n"
 		.'		switch(event.changedProperty) {'."\n"
 		.'			case "hasAudio":'."\n"
 		.'				if(event.newValue) {'."\n"
@@ -554,6 +570,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		."\n"
 		.'		for(i = 0; i < streams.length; i++) {'."\n"
 		.'			var stream = streams[i];'."\n"
+//		.'			console.log(stream);'."\n"
 		."\n"
 		.'			// subscribe to all streams, except my own camera'."\n"
 		.'			if(stream.connection.connectionId != OpenTok.session.connection.connectionId) {'."\n"
@@ -566,6 +583,8 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 		.'				var streamProps = {width: OpenTok.subscriberWidth, height: OpenTok.subscriberHeight};'."\n"
 		.'				OpenTok.subscribers[stream.streamId] = OpenTok.session.subscribe(stream, "placeholder", streamProps);'."\n"
 		."\n"
+		.'				// hide the sharing panel'."\n"
+		.'				$("#sharingPanel").slideUp();'."\n"
 		.'			} else {'."\n"
 		.'				$("#meetingPanel .myFace .frame").addClass("onAir");'."\n"
 		.'			}'."\n"
