@@ -1063,9 +1063,12 @@ var Yacs = {
 	 */
 	spin: function(panel) {
 
-		$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
+		if(Yacs.spinningImage)
+			$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 	},
+
+	spinningImage: null,
 
 	/**
 	 * load some opaque overlay during back-end processing
@@ -1677,7 +1680,7 @@ var Yacs = {
 	updateOnce: function(panel, address, args) {
 
 		// do nothing if the panel contains something
-		if(!$(panel).innerHTML || ($(panel).innerHTML === '') || ($(panel).innerHTML == '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />')) {
+		if(!$(panel).html() || ($(panel).html() === '') || ($(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />'))) {
 			Yacs.update(panel, address, args);
 		}
 
@@ -1708,5 +1711,4 @@ var Yacs = {
 };
 
 // initialize yacs
-$(document).ready( Yacs.onWindowLoad);
-
+$(document).ready(Yacs.onWindowLoad);
