@@ -81,10 +81,13 @@ Class Files {
 		// attach a file to an article
 		if($variant == 'article') {
 
+			// 'no initial upload' option
+			if(!isset($item['id']) && Articles::has_option('no_initial_upload', $anchor, $item))
+				return FALSE;
+
 			// 'no files' option
 			if(Articles::has_option('no_files', $anchor, $item))
 				return FALSE;
-
 
 		// attach a file to a user profile
 		} elseif($variant == 'user') {
@@ -1219,7 +1222,7 @@ Class Files {
 		}
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE files.anchor LIKE '".SQL::escape($anchor)."'"
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."')"
 			." ORDER BY files.create_date DESC LIMIT 1";
 
 		$output = SQL::query_first($query);
@@ -1640,8 +1643,15 @@ Class Files {
 
 		// a clickable image to access the file
 		if($icon) {
-			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>'.BR;
-			return Skin::build_link(Files::get_download_url($item), $icon, 'basic');
+			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
+
+			// ensure we have a label for this link
+			$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+			// make a link to the target page
+			$url = Files::get_download_url($item);
+
+			return Skin::build_link($url, $icon, 'basic').BR.Skin::build_link($url, $text, 'basic');
 		}
 
 		// nothing special

@@ -1113,7 +1113,7 @@ class Issue extends Overlay {
 		if(!isset($this->attributes['close_date']) || ($this->attributes['close_date'] <= NULL_DATE))
 			$this->attributes['close_date'] = NULL_DATE;
 
-		// if a comment has to be apended as well
+		// if a comment has to be appended as well
 		$comments = array();
 
 		// build the update query

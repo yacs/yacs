@@ -653,9 +653,7 @@ Class Locations {
 		// create this map
 		$text .= JS_PREFIX
 			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
-			.'	var map = new GMap2($("#'.$handle.'")[0]);'."\n"
-			.'	map.addControl(new GSmallMapControl());'."\n"
-			.'	map.addControl(new GMapTypeControl());'."\n";
+			.'	var map = new GMap2($("#'.$handle.'")[0]);'."\n";
 
 		// frame the map
 		$latitudes = $longitudes = 0.00;
@@ -670,6 +668,9 @@ Class Locations {
 		$latitude_middle = $latitudes / max(1, $index);
 		$longitude_middle = $longitudes / max(1, $index);
 		$text .= '	map.setCenter(new GLatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")), '.$scale.');'."\n";
+
+		$text .= '	map.addControl(new GSmallMapControl());'."\n"
+			.'	map.addControl(new GMapTypeControl());'."\n";
 
 		// add all markers
 		$index = 1;
