@@ -3,7 +3,6 @@
  * layout articles as topics, including last contribution
  *
  * This script layouts articles as discussed topics, with the last comment attached.
- * The result can be put in a mail message, like Linked In is doing.
  *
  * @see sections/view.php
  *
@@ -18,12 +17,12 @@ Class Layout_articles_as_last extends Layout_interface {
 	/**
 	 * the preferred number of items for this layout
 	 *
-	 * @return 50
+	 * @return 25
 	 *
 	 * @see skins/layout.php
 	 */
 	function items_per_page() {
-		return 50;
+		return 20;
 	}
 
 	/**
@@ -36,7 +35,7 @@ Class Layout_articles_as_last extends Layout_interface {
 		global $context;
 
 		// we return some text
-		$text = '';
+		$text = '<div class="last_articles">';
 
 		// empty list
 		if(!SQL::count($result))
@@ -44,6 +43,7 @@ Class Layout_articles_as_last extends Layout_interface {
 
 		// build a list of articles
 		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
@@ -75,13 +75,13 @@ Class Layout_articles_as_last extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG;
 
-			// flag expired articles, and articles updated recently
+			// flag expired articles
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
-				$suffix = EXPIRED_FLAG.' ';
-			elseif($item['create_date'] >= $context['fresh'])
-				$suffix = NEW_FLAG.' ';
-			elseif($item['edit_date'] >= $context['fresh'])
-				$suffix = UPDATED_FLAG.' ';
+				$prefix .= EXPIRED_FLAG.' ';
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
+				$suffix .= ' '.LOCKED_FLAG;
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
@@ -92,32 +92,35 @@ Class Layout_articles_as_last extends Layout_interface {
 			if(Surfer::is_member())
 				$hover .= ' [article='.$item['id'].']';
 
+			// one box per update
+			$text .= '<div class="last_article" >';
+
 			// use the title as a link to the page
-			$title = $prefix.Skin::build_link($url, ucfirst($title), 'basic', $hover).$suffix;
+			$text .= Skin::build_block($prefix.ucfirst($title).$suffix, 'header1');
 
-			$teaser = '';
-
-			// the introductory text
-			$introduction = '';
-			if(is_object($overlay))
-				$introduction = $overlay->get_text('introduction', $item);
-			elseif($item['introduction'])
-				$introduction = $item['introduction'];
-			if($introduction)
-				$teaser .= Codes::beautify_introduction($introduction);
-
-			// insert overlay data, if any
-			if(is_object($overlay))
-				$teaser .= $overlay->get_text('list', $item);
+			// some details about this page
+			$details = array();
 
 			// the creator of this article
-			$starter = '';
-			if($item['create_name'])
-				$starter = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
+			if($item['create_name']) {
+				$starter = sprintf(i18n::s('Started by %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']));
+
+				// nothing has happened still the page creation
+				$date = '';
+				if($item['edit_date'] && ($item['edit_action'] == 'article:create')) {
+					$date = ' '.Skin::build_date($item['edit_date']);
+
+					// flag fresh new pages
+					if($item['create_date'] >= $context['fresh'])
+						$date .= NEW_FLAG;
+
+				}
+
+				$details[] = $starter.$date;
+			}
 
 			// the last editor
-			$details = '';
-			if($item['edit_date']) {
+			if($item['edit_date'] && ($item['edit_action'] != 'article:create')) {
 
 				// find a name, if any
 				$user = '';
@@ -131,75 +134,113 @@ Class Layout_articles_as_last extends Layout_interface {
 					$user .= sprintf(i18n::s('by %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']));
 				}
 
-				$details .= $user.' '.Skin::build_date($item['edit_date']);
+				// flag new items
+				$flag = '';
+				if($item['create_date'] >= $context['fresh'])
+					$flag = NEW_FLAG;
+				elseif($item['edit_date'] >= $context['fresh'])
+					$flag = UPDATED_FLAG;
+				$details[] = $user.' '.Skin::build_date($item['edit_date']).$flag;
 			}
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
-				$details .= ', '.LOCKED_FLAG;
 
 			// poster details
 			if($details)
-				$details = '<p class="details">'.$details."</p>\n";
+				$text .= '<p class="details">'.join(', ', $details)."</p>\n";
 
-			$comments_link = '';
-			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$comments_link = Skin::build_link($context['url_to_root'].$url, sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
+			// the introductory text
+			$introduction = '';
+			if(is_object($overlay))
+				$introduction = $overlay->get_text('introduction', $item);
+			elseif($item['introduction'])
+				$introduction = $item['introduction'];
+			if($introduction)
+				$text .= '<div style="margin: 1em 0;">'.Codes::beautify_introduction($introduction).'</div>';
 
-			// produce a full table
-			$text .= '<table width="100%" cellspacing="0" cellpadding="0" border="0" class="layout" style="margin-top:15px;margin-bottom:10px;border-bottom:1px dotted #ccc">'."\n"
-				.'<tbody>'."\n"
-				.'<tr>'."\n"
-				.'<td style="font-size:13px"><strong>'.$title.'</strong></td>'."\n"
-				.'<td style="text-align:right;font-size:10px;white-space:nowrap;width:20%">'."\n"
-				.$comments_link."\n"
-				.'</td>'."\n"
-				.'</tr>'."\n"
-				.'<tr>'."\n"
-				.'<td colspan="2">'."\n"
-				.$teaser
-				.'<p class="details" style="margin:3px 0 20px">'.sprintf(i18n::s('Started by %s'), $starter).'</p>'."\n"
-				.'</td>'."\n"
-				.'</tr>'."\n";
+			// insert overlay data, if any
+			if(is_object($overlay))
+				$text .= $overlay->get_text('list', $item);
 
 			// get last contribution for this page
 			if($comment = Comments::get_newest_for_anchor('article:'.$item['id'])) {
 
+				// details of this contribution
+				$details = array();
+
 				// last contributor
 				$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
+				$details[] = sprintf(i18n::s('By %s'), $contributor);
+
+				// offer to reply
+				if(Comments::allow_creation($anchor, $item)) {
+					$link = Comments::get_url($comment['id'], 'reply');
+					$details[] = Skin::build_link($link, i18n::s('Reply'), 'basic');
+				}
 
 				// last contribution
 				$contribution = $comment['description'];
 
-				// display signature, but not for notifications
-				if($comment['type'] != 'notification')
-					$contribution .= Users::get_signature($comment['create_id']);
+				// display signature, if any
+				$contribution .= Users::get_signature($comment['create_id']);
 
-				$text .= '<tr>'."\n"
-					.'<td colspan="2">'."\n"
-					.'<div style="border-left:2px solid #ccc;margin:7px 10px 20px 7px;padding-left:10px;font-size:12px">'."\n"
-					.ucfirst(trim(Codes::beautify($contribution)))."\n"
-					.'<br>'."\n"
-					.'<a href="'.$context['url_to_root'].$url.'" style="display: block; margin-top: 10px;">'."\n"
-					.i18n::s('More').' &raquo;'."\n"
-					.'</a>'."\n"
-					.'<span class="details" style="display:block;margin-top:3px">'.sprintf(i18n::s('By %s'), $contributor).'</span>'."\n"
-					.'</div>'."\n"
-					.'</td>'."\n"
-					.'</tr>'."\n";
+				$text .= '<div class="last_comment">'."\n"
+					.ucfirst(trim($contribution))."\n"
+					.'<div style="margin-top: 1em;">'.Skin::finalize_list($details, 'menu').'</div>'."\n"
+					.'</div>'."\n";
 
 			}
 
-			$text .= '</tbody>'."\n"
-				.'</table>';
+			// list more recent files
+			if($items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 3, 'compact')) {
 
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+				$text .= '<div style="margin: 1em 0;">'.$items.'</div>';
+			}
+
+			// display all tags
+			if($item['tags'])
+				$text .= ' <p class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+
+			// navigation links
+			$menu = array();
+
+			// permalink
+			$menu[] = Skin::build_link($url, i18n::s('View the page'), 'span');
+
+			// info on related comments
+			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu[] = sprintf(i18n::ns('%d contribution', '%d contributions', $count), $count);
+
+			// info on related files
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
+
+			// info on related links
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
+
+			// the main anchor link
+			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+				$menu[] = Skin::build_link($anchor->get_url(), sprintf(i18n::s('in %s'), ucfirst($anchor->get_title())), 'span', i18n::s('View the section'));
+
+			// actually insert details
+			$text .= Skin::finalize_list($menu, 'menu_bar');
+
+			// bottom of the box
+			$text .= '</div>';
 
 		}
+
+		// close the list of articles
+		$text .= '</div>';
+
+		// beautify everything at once
+		$text = Codes::beautify($text);
 
 		// end of processing
 		SQL::free($result);
 
-		// make a sortable table
+		// done
 		return $text;
 	}
 }
