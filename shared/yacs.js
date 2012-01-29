@@ -204,7 +204,9 @@ var Yacs = {
 				}
 				response = null; // no memory leak
 			},
-			error: function(transport) {
+			error: function(handle, ajaxOptions, thrownError) {
+//				console.log('status: '+handle.statusText);
+//				console.log('error: '+thrownError);
 				if(typeof callBack == 'function') {
 					callBack(0);
 				}
@@ -731,6 +733,26 @@ var Yacs = {
 			if(buttonType.toLowerCase().match('submit') && !$(this).hasClass('no_spin_on_click')) {
 				$(this).click(Yacs.startWorking);
 			}
+		});
+
+		// show the tip
+		$('a[title].tip').each(function() {
+			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+		});
+
+		// load the link in a scaled-down iframe
+		$('a.tipsy_preview').each(function() {
+			$(this).tipsy({fallback: '<div class="tipsy_thumbnail"><iframe class="tipsy_iframe" src="'+$(this).attr('href')+'" /></div>',
+				html: true,
+				gravity: $.fn.tipsy.autoWE,
+				fade: true,
+				offset: 8,
+				opacity: 1.0});
+		});
+
+		// beautify links titles in menu bars
+		$('.menu_bar a[title]').each(function() {
+			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
 		// on-demand headers

@@ -21,8 +21,17 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 $files = array();
 $files[] = 'control/htaccess/options/.htaccess';
+$files[] = 'included/browser/js_endpage/jquery.tipsy.js';
+$files[] = 'included/browser/library_js_endpage.min.js';
+$files[] = 'included/browser/library_js_header.min.js';
+$files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/_reference/ajax/ajax_spinner_black.gif';
+$files[] = 'skins/_reference/tools/tipsy.gif';
+$files[] = 'skins/boxesandarrows/boxesandarrows.css';
+$files[] = 'skins/digital/digital.css';
+$files[] = 'skins/joi/joi.css';
+$files[] = 'skins/skeleton/skeleton.css';
 
 // process every file
 $count = 0;
