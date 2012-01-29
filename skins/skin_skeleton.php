@@ -1682,8 +1682,13 @@ Class Skin_Skeleton {
 		if($variant == 'click')
 			;
 
+		// force tip display for this link
+		if($variant == 'tip') {
+			$attributes .= ' class="tip"';
+			$variant = 'basic';
+
 		// malformed url '//server/path' --> 'http://server/path'
-		elseif(!strncmp($url, '//', 2))
+		} elseif(!strncmp($url, '//', 2))
 			$url = 'http:'.$url;
 
 		// fix relative path
@@ -2118,7 +2123,7 @@ Class Skin_Skeleton {
 		}
 
 		// a bare reference to an image
-		if($default_icon && strncmp($default_icon, '<img ', 5))
+		if($default_icon && (strpos($default_icon, '<img ') === FALSE))
 			$default_icon = '<img src="'.$default_icon.'" alt="" class="reflect" />';
 		elseif($default_icon)
 			;
@@ -2171,7 +2176,7 @@ Class Skin_Skeleton {
 				$label = '<span class="box_header">'.$label.'</span>';
 
 			// ease the handling of css, but only for links
-			if(($variant == 'tabs') || ($variant == 'menu_bar') || ($variant == 'page_menu')) {
+			if(($variant == 'tabs') || ($variant == 'page_menu')) {
 				if(count($list) == 0)
 					$label = '<span class="first">'.$label.'</span>';
 				elseif(count($list)+1 == count($items))
@@ -2219,7 +2224,6 @@ Class Skin_Skeleton {
 			$list[] = array($prefix.$link.$suffix, $icon, $id);
 		}
 
-		// finalize the list
 		$text =& Skin::finalize_list($list, $variant);
 
 		return $text;
@@ -3514,9 +3518,9 @@ Class Skin_Skeleton {
 
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/_reference/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
 		else
 			define($name, $default);
 	}
@@ -3849,7 +3853,9 @@ Class Skin_Skeleton {
 						$label = $label[0];
 
 					// mark first and last items
-					if($line_count == 1)
+					if($label[0] != '<')
+						$text .= '<span class="label">'.$label.'</span>';
+					elseif($line_count == 1)
 						$text .= '<span class="first">'.$label.'</span>';
 					elseif($line_count == count($list))
 						$text .= '<span class="last">'.$label.'</span>';
@@ -4231,7 +4237,7 @@ Class Skin_Skeleton {
 
 		// the HTML string inserted between menu items
 		if(!defined('MENU_SEPARATOR'))
-			define('MENU_SEPARATOR', ' &middot;&nbsp;');
+			define('MENU_SEPARATOR', '');
 
 		// the HTML string appended to a menu
 		if(!defined('MENU_SUFFIX'))
@@ -4271,7 +4277,7 @@ Class Skin_Skeleton {
 
 		// the HTML string inserted between menu items
 		if(!defined('PAGE_MENU_SEPARATOR'))
-			define('PAGE_MENU_SEPARATOR', ' &middot;&nbsp;');
+			define('PAGE_MENU_SEPARATOR', '');
 
 		// the HTML string appended to the main page menu
 		if(!defined('PAGE_MENU_SUFFIX'))
@@ -4848,12 +4854,12 @@ Class Skin_Skeleton {
 		// a link to go backwards
 		$previous = '';
 		if($previous_url)
-			$previous =& Skin::build_link($previous_url, $previous_label, 'basic', $previous_hover);
+			$previous =& Skin::build_link($previous_url, $previous_label, 'pager-previous', $previous_hover);
 
 		// a link to go forward
 		$next = '';
 		if($next_url)
-			$next =& Skin::build_link($next_url, $next_label, 'basic', $next_hover);
+			$next =& Skin::build_link($next_url, $next_label, 'pager-next', $next_hover);
 
 		// an option, if any
 		$option = '';
@@ -4873,7 +4879,7 @@ Class Skin_Skeleton {
 				$items[] = $next;
 			if($option)
 				$items[] = $option;
-			$text .= '<p class="tiny" style="text-align: right; margin-top: 8px; margin-bottom: 8px">'.implode(' / ', $items).'</p>'."\n";
+			$text .= '<p class="tiny" style="text-align: right; margin: 1em auto">'.implode(MENU_SEPARATOR, $items).'</p>'."\n";
 			break;
 
 		case 'sidebar':

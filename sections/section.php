@@ -271,7 +271,7 @@ Class Section extends Anchor {
 			}
 
 			// go up
-			$option_label = Skin::build_link($this->get_url(), i18n::s('Index'), 'basic');
+			$option_label = Skin::build_link($this->get_url(), i18n::s('Index'), 'pager-item');
 
 		// previous and next comments
 		} elseif($type == 'comment') {
