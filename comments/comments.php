@@ -632,12 +632,12 @@ Class Comments {
 
 		// a wall
 		if((is_object($anchor) && $anchor->has_option('comments_as_wall'))) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
+			include_once '../comments/layout_comments_as_updates.php';
+			$layout = new Layout_comments_as_updates();
 
 		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
+			include_once '../comments/layout_comments_as_updates.php';
+			$layout = new Layout_comments_as_updates();
 
 		// a wiki
 		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
@@ -693,7 +693,7 @@ Class Comments {
 		}
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
+			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."') AND (comments.type != 'notification')"
 			." ORDER BY comments.create_date DESC LIMIT 1";
 
 		$output = SQL::query_first($query);
