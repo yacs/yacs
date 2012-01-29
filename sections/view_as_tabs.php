@@ -461,9 +461,10 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	}
 
 	// title label
-	if(is_object($anchor) && $anchor->is_viewable())
-		$title_label = $anchor->get_label('list_title', 'comments');
-	else
+	$title_label = '';
+	if(is_object($overlay))
+		$title_label = $overlay->get_label('list_title', 'comments');
+	if(!$title_label)
 		$title_label = i18n::s('Comments');
 
 	// new comments are allowed -- check option 'with_comments'

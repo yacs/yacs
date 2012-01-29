@@ -287,12 +287,25 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
+
+		$label = '';
+		if(is_object($anchor->overlay))
+			$label = $anchor->overlay->get_label('permalink_command', 'comments');
+		if(!$label)
+			$label = i18n::s('View the page');
 		if($anchor->has_layout('alistapart'))
-			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('permalink_command', 'comments', i18n::s('View the page'))));
+			$menu = array_merge($menu, array($anchor->get_url('parent') => $label));
 		else
-			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('permalink_command', 'comments', i18n::s('View the page'))));
+			$menu = array_merge($menu, array($anchor->get_url('comments') => $label));
+
+		$label = '';
+		if(is_object($anchor->overlay))
+			$label = $anchor->overlay->get_label('edit_command', 'comments');
+		if(!$label)
+			$label = i18n::s('Edit the comment');
 		if(Surfer::is_logged())
-			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('edit_command', 'comments')));
+			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $label));
+
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
