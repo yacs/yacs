@@ -33,7 +33,7 @@ Class Layout_sections_as_main_tabs extends Layout_interface {
 			return $output;
 		}
 
-		// no hovering label, because nicetitle may kill the effect
+		// no hovering label
 		$href_title = '';
 
 		// we return an array of ($url => $attributes)

@@ -596,9 +596,17 @@ Class Surfer {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
 				.'<textarea name="'.$name.'" id="'.$name.'"'
 				.	' rows="1" cols="50"'
-				.	' style="width: 60%; color: #ccc"'
-				.	' onfocus="if(fuse'.$name.'){$(this).html(\'\').css({color: \'#444\'});Yacs.growPanel(this);fuse'.$name.'=0;}">'
-				.	i18n::s('Contribute to this page!').'</textarea>';
+				.	' onfocus="if(fuse'.$name.'){$(this).tipsy(\'hide\');Yacs.growPanel(this);fuse'.$name.'=0;}">'
+				.	'</textarea>'."\n"
+				.JS_PREFIX
+				.'$(document).ready(function(){'
+				.	'setTimeout(function() {'
+				.		'$("textarea#'.$name.'")'
+				.		'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
+				.		'.tipsy("show");'
+				.	'}, 5000);'
+				.'});'."\n"
+				.JS_SUFFIX;
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
