@@ -789,7 +789,7 @@ if($with_form) {
 	$keywords[] = '<a>with_comments</a> - '.i18n::s('The index page itself is a thread');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-	$hint = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
+	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
 	$context['page_footer'] .= JS_PREFIX
