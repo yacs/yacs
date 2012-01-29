@@ -470,7 +470,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Sample discussion places');
 		$fields['sections_layout'] = 'yabb';
 		$fields['articles_layout'] = 'none';
-		$fields['articles_templates'] = 'discussion_template';
+		$fields['articles_templates'] = 'information_template, question_template';
 		$fields['locked'] = 'Y';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -525,7 +525,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('My yabb discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'yabb';
-		$fields['articles_templates'] = 'discussion_template, chat_template';
+		$fields['articles_templates'] = 'information_template, question_template';
 		$fields['content_options'] = 'auto_publish, with_extra_profile';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -582,7 +582,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('My jive discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'jive'; // a threading layout
-		$fields['articles_templates'] = 'discussion_template, chat_template';
+		$fields['articles_templates'] = 'information_template, question_template';
 		$fields['content_options'] = 'auto_publish'; // let surfers rate their readings
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -744,7 +744,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Project private area');
 		$fields['active_set'] = 'N'; // for editors only
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
-		$fields['articles_templates'] = 'discussion_template, event_template';
+		$fields['articles_templates'] = 'information_template, question_template, chat_template';
 		$fields['content_options'] = 'with_extra_profile, comments_as_wall'; // put poster profile aside
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');

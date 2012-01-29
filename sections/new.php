@@ -102,7 +102,7 @@ if(Surfer::is_crawler()) {
 		$fields = array();
 		$fields['nick_name'] = 'groups';
 		$fields['articles_layout'] = 'none';
-		$fields['articles_templates'] = 'discussion_template, chat_template, event_template, wiki_template';
+		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template, wiki_template';
 		$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$fields['home_panel'] = 'none'; // not mentioned at the home page
