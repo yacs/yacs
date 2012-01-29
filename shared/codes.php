@@ -2973,19 +2973,21 @@ Class Codes {
 			else {
 
 				// maybe we want to illustrate this file
-				$output = Files::interact($item);
+				if(!$output = Files::interact($item)) {
 
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+					// ensure we have a label for this link
+					if(isset($attributes[1]))
+						$text = $attributes[1];
+					else
+						$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
-				// make a link to the target page
-				$url = Files::get_download_url($item);
+					// make a link to the target page
+					$url = Files::get_download_url($item);
 
-				// return a complete anchor
-				$output .= Skin::build_link($url, $text, 'basic');
+					// return a complete anchor
+					$output .= Skin::build_link($url, $text, 'basic');
+
+				}
 			}
 			return $output;
 

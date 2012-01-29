@@ -236,6 +236,7 @@ class Chat_meeting extends Meeting {
 			.'	session: null,'."\n"
 			.'	subscribers: {},'."\n"
 			.'	tentatives: 3,'."\n"
+			.'	watchdog: null,'."\n"
 			."\n"
 			.'	// attempt to reconnect to the server'."\n"
 			.'	connectAgain: function() {'."\n"
@@ -251,18 +252,6 @@ class Chat_meeting extends Meeting {
 			.'			OpenTok.growl("'.i18n::s('A webcam is required to be visible').'");'."\n"
 			.'			return;'."\n"
 			.'		}'."\n"
-			."\n"
-			.'		// create one placeholder div for my own camera'."\n"
-			.'		OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
-			.'		$("#opentok .me").append(\'<div class="frame subscriber"><div id="placeholder"></div></div>\');'."\n"
-			."\n"
-			.'		// bind this div with my own camera'."\n"
-			.'		var streamProps = {encodedWidth: 120, encodedHeight: 90, width: 120, height: 90,'."\n"
-			.'				publishAudio: false, publishVideo: true, name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
-			.'		OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
-			."\n"
-			.'		// monitor the publishing session'."\n"
-			.'		OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
 			."\n"
 			.'	},'."\n"
 			."\n"
@@ -299,8 +288,8 @@ class Chat_meeting extends Meeting {
 			.'			OpenTok.growlId++;'."\n"
 			.'		}'."\n"
 			.'		var myId = OpenTok.growlId++;'."\n"
-			.'		$("#opentok .growl").append(\'<span id="growl\'+myId+\'" style="padding-right: 2em;">\'+message+"</span>");'."\n"
-			.'		window.setTimeout("$(\'#growl"+myId+"\').fadeOut(\'slow\')", 7000);'."\n"
+			.'		$("#opentok .growl").append(\'<span id="growl\'+myId+\'">\'+message+"</span>");'."\n"
+			.'		window.setTimeout("$(\'#growl"+myId+"\').fadeOut(\'slow\')", 5000);'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// launch the video chat based on OpenTok'."\n"
@@ -314,8 +303,7 @@ class Chat_meeting extends Meeting {
 			.'		if(TB.checkSystemRequirements() == TB.HAS_REQUIREMENTS) {'."\n"
 			."\n"
 			.'			// slide to page bottom, because this is not obvious to end-user'."\n"
-			.'			OpenTok.growl(\''.i18n::s('Connecting to OpenTok')
-			.				' <img style="padding: 0 3px; vertical-align: middle" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="*" />\');'."\n"
+			.'			OpenTok.growl("'.i18n::s('Connecting to OpenTok').'");'."\n"
 			."\n"
 			.'			// bind to local hardware via a device manager'."\n"
 			.'			OpenTok.deviceManager = TB.initDeviceManager(OpenTok.apiKey);'."\n"
@@ -341,11 +329,23 @@ class Chat_meeting extends Meeting {
 			.'	// successful connection to the OpenTok back-end servers'."\n"
 			.'	sessionConnectedHandler: function(event) {'."\n"
 			."\n"
-			.'		// attach the local webcam and microphone if detected'."\n"
-			.'		OpenTok.deviceManager.detectDevices();'."\n"
-			."\n"
 			.'		// display streams already attached to this session'."\n"
 			.'		OpenTok.subscribeToStreams(event.streams);'."\n"
+			."\n"
+			.'		// create one placeholder div for my own camera'."\n"
+			.'		OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
+			.'		$("#opentok .me").append(\'<div class="frame subscriber"><div id="placeholder"></div></div>\');'."\n"
+			."\n"
+			.'		// bind this div with my own camera'."\n"
+			.'		var streamProps = {width: 120, height: 90,'."\n"
+			.'				publishAudio: false, publishVideo: true, name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
+			.'		OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
+			."\n"
+			.'		// monitor the publishing session'."\n"
+			.'		OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
+			."\n"
+			.'		// attach the local webcam and microphone if detected'."\n"
+			.'		OpenTok.deviceManager.detectDevices();'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// send a signal to other parties'."\n"
@@ -370,18 +370,34 @@ class Chat_meeting extends Meeting {
 			.'		OpenTok.publisher.publishAudio(true);'."\n"
 			."\n"
 			.'		document.getElementById("pushToTalk").onclick = OpenTok.stopTalking;'."\n"
-			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Listen').'";'."\n"
-			.'	},'."\n"
+			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Stop talking').'";'."\n";
+
+		// identify the chairman or, if unknown, the owner of this page
+		$chairman = array();
+		if(isset($this->attributes['chairman']) && $this->attributes['chairman'])
+			$chairman =& Users::get($this->attributes['chairman']);
+		if(!isset($chairman['id']) && ($owner = $this->anchor->get_value('owner_id')))
+			$chairman =& Users::get($owner);
+
+		// if this surfer is the chairman of this meeting, he will take over after three seconds of silence
+		if(isset($chairman['id']) && Surfer::is($chairman['id']))
+			$context['page_footer'] .= 'OpenTok.watchdog = setInterval(function () {'
+				.	'if(!$("#opentok .talker").length) {OpenTok.startTalking();}'
+				.'}, 3000);'."\n";
+
+		// end of javascript snippet
+		$context['page_footer'] .= '	},'."\n"
 			."\n"
 			.'	// i am back to listening mode'."\n"
 			.'	stopTalking: function() {'."\n"
+			.'		if(OpenTok.watchdog) { clearInterval(OpenTok.watchdog); OpenTok.watchdog = null; }'."\n"
 			.'		OpenTok.publisher.publishAudio(false);'."\n"
-			.'		for (var i = 0; i < OpenTok.subscribers.length; i++) {'."\n"
+			.'		for(var i = 0; i < OpenTok.subscribers.length; i++) {'."\n"
 			.'			OpenTok.subscribers[i].subscribeToAudio(true);'."\n"
 			.'		}'."\n"
 			."\n"
 			.'		document.getElementById("pushToTalk").onclick = OpenTok.startTalking;'."\n"
-			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Talk').'";'."\n"
+			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Start talking').'";'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// display new streams on people arrival'."\n"
@@ -464,17 +480,21 @@ class Chat_meeting extends Meeting {
 			.'			} else {'."\n"
 			.'				$("#opentok .me .frame").addClass("subscriber").css({width: 120, height: 90});'."\n"
 			.'				$("#opentok .me").append(\'<div style="text-align: center; padding: 2px 0;">'
-			.					'<input type="button" id="pushToTalk" value="'.i18n::s('Talk').'" onClick="OpenTok.startTalking()" />'
+			.					'<input type="button" id="pushToTalk" value="'.i18n::s('Start talking').'" onClick="OpenTok.startTalking()" />'
 			.					'</div>\');'."\n"
-			.'				OpenTok.growl("'.i18n::s("Click on the Talk button before speaking").'");'."\n"
+			.'				OpenTok.growl("'.i18n::s("Click on the button before talking").'");'."\n"
 			.'			}'."\n"
 			.'		}'."\n"
+
+			.'		$("#description").focus();'."\n"
+
 			.'	}'."\n"
 			."\n"
 			.'}'."\n"
 			."\n"
 			.'// bind to OpenTok'."\n"
 			.'$(document).ready(function() { OpenTok.initialize(); });'."\n"
+			."\n"
 			.JS_SUFFIX;
 
 		// video streams are put above the chat area
@@ -501,6 +521,27 @@ class Chat_meeting extends Meeting {
 		// seats
 		$this->attributes['seats'] = isset($fields['seats']) ? $fields['seats'] : 20;
 
+	}
+
+	/**
+	 * notify watchers or not?
+	 *
+	 * Disable notifications during the interactive chat.
+	 *
+	 * @see overlays/event.php
+	 *
+	 * @param array if provided, a notification that can be sent to customised recipients
+	 * @return boolean always FALSE for events, since notifications are made through enrolment
+	 */
+	function should_notify_watchers($mail=NULL) {
+		global $context;
+
+		// no e-mail if we are chatting
+		if($this->attributes['status'] == 'started')
+			return FALSE;
+
+		// else rely on parent class
+		return parent::should_notify_watchers($mail);
 	}
 
 	/**

@@ -74,10 +74,10 @@ Class Layout_comments_as_thread extends Layout_interface {
 					$stamp = Skin::build_date($item['edit_date']);
 
 				// append this at the end of the comment
-				$stamp = ' <span style="font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic', i18n::s('Edit')).'</span> &nbsp;';
+				$stamp = ' <div style="float: right; font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic', i18n::s('Edit')).'</div>';
 
 				// package everything --change order to get oldest first
-				$text = '<dt'.$style.'>'.$stamp.$author.'</dt><dd'.$style.'>'.ucfirst(trim(Codes::beautify($item['description']))).'</dd>'.$text;
+				$text = '<dt'.$style.'>'.$author.'</dt><dd'.$style.'>'.$stamp.ucfirst(trim(Codes::beautify($item['description']))).'</dd>'.$text;
 			}
 		}
 

@@ -223,12 +223,12 @@ if(Surfer::is_crawler()) {
 	// remove default string, if any
 	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
 
-	// append to previous comment during 10 minutes
+	// append to previous comment during 1 minute
 	if(!isset($item['id'])
 		&& ($newest = Comments::get_newest_for_anchor($anchor->get_reference()))
 		&& ($newest['type'] != 'notification')
 		&& Surfer::get_id() && (isset($newest['create_id']) && (Surfer::get_id() == $newest['create_id']))
-		&& ($newest['edit_date'] > gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600))) {
+		&& ($newest['edit_date'] > gmstrftime('%Y-%m-%d %H:%M:%S', time() - 60))) {
 
 		// copy from previous comment record
 		$_REQUEST['id'] 			= $newest['id'];

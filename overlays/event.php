@@ -51,7 +51,7 @@
  * @see overlays/bbb_meeting.php
  * @see overlays/chat_meeting.php
  * @see overlays/dimdim_meeting.php
- * @see overlays/external_meeting.php
+ * @see overlays/meeting.php
  *
  * When configured as being the overlay of pages in a section, this overlay formats events as
  * a dynamic calendar. Following parameters can be used to change the default behavior:
@@ -537,7 +537,7 @@ class Event extends Overlay {
 			$text .= 'DTEND;TZID=/GMT:'.gmdate('Ymd\THis', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
 
 		// a full-day event
-		} else {
+		} elseif(isset($this->attributes['date_stamp'])) {
 			$text .= 'DTSTART;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
 			$text .= 'DTEND;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
 		}
@@ -1559,7 +1559,8 @@ class Event extends Overlay {
 		case 'delete':
 
 			// no need to notify participants after the event has started
-			if(($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')) {
+			if(isset($this->attributes['status'])
+				&& ($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')) {
 
 				// send a cancellation message to participants
 				$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
@@ -1689,68 +1690,72 @@ class Event extends Overlay {
 			if($reference)
 				$this->anchor =& Anchors::get($reference, TRUE);
 
-			// send a confirmation message to participants
-			$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
-			$result = SQL::query($query);
-			while($item = SQL::fetch($result)) {
+			// should we notify watchers?
+			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y')) {
 
-				// skip current surfer
-				if(Surfer::get_id() && (Surfer::get_id() == $item['user_id']))
-					continue;
+				// send a confirmation message to participants
+				$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
+				$result = SQL::query($query);
+				while($item = SQL::fetch($result)) {
 
-				// a user registered on this server
-				if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
-
-					// skip banned users
-					if($watcher['capability'] == '?')
+					// skip current surfer
+					if(Surfer::get_id() && (Surfer::get_id() == $item['user_id']))
 						continue;
 
-					// ensure this surfer wants to be alerted
-					if($watcher['without_alerts'] == 'Y')
-						continue;
+					// a user registered on this server
+					if($item['user_id'] && ($watcher = Users::get($item['user_id']))) {
 
-					// sanity check
-					if(!preg_match(VALID_RECIPIENT, $item['user_email']))
-						continue;
+						// skip banned users
+						if($watcher['capability'] == '?')
+							continue;
 
-					// use this email address
-					if($watcher['full_name'])
-						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['full_name']);
-					else
-						$recipient = Mailer::encode_recipient($watcher['email'], $watcher['nick_name']);
+						// ensure this surfer wants to be alerted
+						if($watcher['without_alerts'] == 'Y')
+							continue;
 
-					// message title
-					$subject = sprintf(i18n::c('Updated: %s'), strip_tags($this->anchor->get_title()));
+						// sanity check
+						if(!preg_match(VALID_RECIPIENT, $item['user_email']))
+							continue;
 
-					// headline
-					$headline = sprintf(i18n::c('%s has updated %s'),
-						'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-						'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+						// use this email address
+						if($watcher['full_name'])
+							$recipient = Mailer::encode_recipient($watcher['email'], $watcher['full_name']);
+						else
+							$recipient = Mailer::encode_recipient($watcher['email'], $watcher['nick_name']);
 
-					// message to reader
-					$message = $this->get_invite_default_message('PUBLISH');
+						// message title
+						$subject = sprintf(i18n::c('Updated: %s'), strip_tags($this->anchor->get_title()));
 
-					// assemble main content of this message
-					$message = Skin::build_mail_content($headline, $message);
+						// headline
+						$headline = sprintf(i18n::c('%s has updated %s'),
+							'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+							'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
-					// a set of links
-					$menu = array();
+						// message to reader
+						$message = $this->get_invite_default_message('PUBLISH');
 
-					// call for action
-					$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
-					$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
+						// assemble main content of this message
+						$message = Skin::build_mail_content($headline, $message);
 
-					// finalize links
-					$message .= Skin::build_mail_menu($menu);
+						// a set of links
+						$menu = array();
 
-					// threads messages
-					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+						// call for action
+						$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+						$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
 
-					// get attachment from the overlay
-					$attachments = $this->get_invite_attachments('PUBLISH');
+						// finalize links
+						$message .= Skin::build_mail_menu($menu);
 
-					// post it
-					Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
+						// threads messages
+						$headers = Mailer::set_thread('', $this->anchor->get_reference());
+
+						// get attachment from the overlay
+						$attachments = $this->get_invite_attachments('PUBLISH');
+
+						// post it
+						Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers, $attachments);
+					}
 				}
 			}
 
@@ -2207,6 +2212,13 @@ class Event extends Overlay {
 		// manual enrolment
 		if(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'manual'))
 			$this->feed_back['status'][] = i18n::s('Registration is managed by page owner');
+
+		// spread the word
+		if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] != 'manual')) {
+			$label = i18n::s('Invite participants');
+			$this->feed_back['menu'][] = Skin::build_link($this->anchor->get_url('invite'), $label, 'span');
+
+		}
 
 		// manage enrolment
 		if(isset($this->anchor) && ($this->anchor->is_owned())) {
