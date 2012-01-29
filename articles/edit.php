@@ -45,7 +45,7 @@
  * - edit.php/&lt;id&gt; modify an existing article
  * - edit.php?id=&lt;id&gt; modify an existing article
  *
- * If no anchor data is provided, a list of sections is proposed to let the surfer select one of them.
+ * If no anchor data is provided, the new page will be posted in the section named 'theads'.
  *
  * There is also a special invocation format to be used for direct blogging from bookmarklets,
  * such as the one provided by YACS for each section (see [script]sections/view.php[/script]),
@@ -147,6 +147,10 @@ elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
 	$anchor =& Anchors::get($_SESSION['anchor_reference']);
 
+// the default is to create a thread
+if(!is_object($anchor) && !isset($item['id']) && ($reference = Sections::lookup('threads')))
+	$anchor =& Anchors::get($reference);
+
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
 	$item['active'] = $anchor->get_active();
@@ -244,6 +248,11 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // permission denied
 } elseif(!$permitted) {
 
@@ -263,73 +272,6 @@ if(Surfer::is_crawler()) {
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// an anchor is mandatory
-} elseif(!is_object($anchor) && !isset($item['id'])) {
-	$context['text'] .= '<p>'.i18n::s('Please carefully select a section for your page.')."</p>\n";
-
-	// no need for a title yet
-	$with_title = FALSE;
-
-	// list assigned sections, if any
-	include_once '../sections/layout_sections_as_select.php';
-	$layout = new Layout_sections_as_select();
-	if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
-
-		// one section at a time
-		$items = array();
-		foreach($assigned as $assigned_id) {
-			if($item = Sections::get($assigned_id)) {
-
-				// strip locked sections, except to associates and editors
-				if(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered())
-					continue;
-
-				// format this item
-				$items = array_merge($items, $layout->one($item));
-
-			}
-		}
-
-		// one box for all sections
-		if(count($items)) {
-			$context['text'] .= Skin::build_box(i18n::s('Your sections'), Skin::build_list($items, '2-columns'), 'header1', 'assigned_sections');
-			$with_title = TRUE;
-
-		}
-
-	}
-
-	// list regular top-level sections
-	if($items = Sections::list_by_title_for_anchor(NULL, 0, 20, $layout)) {
-
-		if(count($items))
-			$items = Skin::build_list($items, '2-columns');
-
-		$title = '';
-		if($with_title)
-			$title = i18n::s('Regular sections');
-
-		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
-
-	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
-
-	// also list special sections to associates
-	if(Surfer::is_associate()) {
-
-		// query the database and layout that stuff
-		if($text = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
-
-			// we have an array to format
-			if(is_array($text))
-				$text =& Skin::build_list($text, '2-columns');
-
-			// displayed as another box
-			$context['text'] .= Skin::build_box(i18n::s('Other sections'), $text, 'header1', 'other_sections');
-
-		}
-	}
 
 // an error occured
 } elseif(count($context['error'])) {
