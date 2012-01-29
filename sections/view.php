@@ -1420,9 +1420,10 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'comments')) {
 
 		// title label
-		if($section =& Anchors::get('section:'.$item['id']))
-			$title_label = $section->get_label('list_title', 'comments');
-		else
+		$title_label = '';
+		if(is_object($overlay))
+			$title_label = $overlay->get_label('list_title', 'comments');
+		if(!$title_label)
 			$title_label = i18n::s('Comments');
 
 		// new comments are allowed -- check option 'with_comments'

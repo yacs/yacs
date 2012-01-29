@@ -963,9 +963,10 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'comments')) {
 
 		// title label
-		if(is_object($anchor) && $anchor->is_viewable())
-			$title_label = ucfirst($anchor->get_label('list_title', 'comments'));
-		else
+		$title_label = '';
+		if(is_object($overlay))
+			$title_label = ucfirst($overlay->get_label('list_title', 'comments'));
+		if(!$title_label)
 			$title_label = i18n::s('Comments');
 
 		// no layout yet
@@ -975,9 +976,10 @@ if(!isset($item['id'])) {
 		$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 		// label to create a comment
-		if(is_object($anchor) && $anchor->is_viewable())
-			$add_label = $anchor->get_label('new_command', 'comments');
-		else
+		$add_label = '';
+		if(is_object($overlay))
+			$add_label = $overlay->get_label('new_command', 'comments');
+		if(!$add_label)
 			$add_label = i18n::s('Post a comment');
 
 		// get a layout from anchor
