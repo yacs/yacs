@@ -180,7 +180,7 @@ default:
 	$context['text'] .= '<div id="thread_wrapper">'."\n";
 
 	// text panel
-	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /> </div>'."\n";
+	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /> &nbsp; </div>'."\n";
 
 	// other surfers are invited to authenticate
 	if(!Surfer::get_id()) {
@@ -215,7 +215,7 @@ default:
 			.'<iframe src="#" width="0" height="0" style="display: none;" id="upload_frame" name="upload_frame"></iframe>';
 
 		// user commands
-		$menu = array();
+		$menu = array( '<a id="commands" href="#" ></a>'.i18n::s('Type some text and hit Enter') );
 
 		// option to add a file
 		if(Files::allow_creation($anchor, $item, 'article')) {
@@ -224,6 +224,7 @@ default:
 			$context['text'] .= '<p id="comment_upload" class="details" style="display: none;">'
 				.'<input type="file" id="upload" name="upload" size="30" />'
 				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+				.' <button type="submit">'.i18n::s('Submit').'</button>'
 				.'<input type="hidden" name="file_type" value="upload" /></p>';
 
 			// the command to add a file
@@ -232,16 +233,16 @@ default:
 		}
 
 		// the submit button
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit', 'no_spin_on_click');
+//		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit');
 
 		// go to smileys
-		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'open');
+//		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'open');
 
 		// view thread history
-		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'open');
+//		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'open');
 
 		// display all commands
-		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+		$context['text'] .= '<p style="margin: 0.3em 0 0.5em 0">'.join(' &middot; ', $menu).'</p>';
 
 		// end the form
 		$context['text'] .= '</form>'."\n";
@@ -272,14 +273,14 @@ default:
 		.'		$("#comment_upload").slideUp(600);'."\n"
 		.'		$("#upload").replaceWith(\'<input type="file" id="upload" name="upload" size="30" />\');'."\n"
 		.'		$("#description").val("").focus();'."\n"
-		.'		if(typeof OpenTok == "object")'."\n"
-		.'			OpenTok.signal();'."\n"
 		.'		setTimeout(function() {Comments.subscribe(); Yacs.stopWorking();}, 500);'."\n"
+		.'		if((typeof OpenTok == "object") && OpenTok.session)'."\n"
+		.'			OpenTok.signal();'."\n"
 		.'	},'."\n"
 		."\n"
 		.'	keypress: function(event) {'."\n"
 		.'		if(event.which == 13) {'."\n"
-		.'			$("#submit").click();'."\n"
+		.'			$("#thread_input_panel").submit();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
 		.'	},'."\n"
@@ -336,13 +337,24 @@ default:
 		.'// wait for new comments and for other updates'."\n"
 		.'Comments.subscribeTimer = setInterval("Comments.subscribe()", 5000);'."\n"
 		.'Comments.subscribeTimer = setInterval("Comments.subscribeToExtraUpdates()", 59999);'."\n"
+		."\n"
+		.'// load past contributions asynchronously'."\n"
+		.'$(document).ready(function() {'
+		.	'Comments.subscribe();'
+		.	'location.hash="#thread_text_panel";'
+		.	'$("#description").tipsy({gravity: "s", fade: true, title: function () {return "'.i18n::s('Contribute here').'";}, trigger: "manual"});'
+		.	'$("#description").tipsy("show");'
+		.	'setTimeout("$(\'#description\').tipsy(\'hide\');", 10000);'
+		.'});'."\n"
 		."\n";
 
 	// only authenticated surfers can contribute
 	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
 		$context['page_footer'] .= "\n"
 			.'// load past contributions asynchronously'."\n"
-			.'$(document).ready(function() { $("#description").focus(); Comments.subscribe(); });'."\n"
+			.'$(document).ready(function() {'
+			.	'$("#description").focus();'
+			.'});'."\n"
 			."\n"
 			.'// send contribution on Enter'."\n"
 			.'$(\'#description\').keypress( Comments.keypress );'."\n";
