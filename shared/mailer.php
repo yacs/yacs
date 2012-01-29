@@ -82,10 +82,10 @@ class Mailer {
 
 		// transform the text/html part
 		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 					// <dl> ... </dl> -> <table> ... </table>
-			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td style:"margin-right: 10px">\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
 			'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td>\\1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
+			'/<table([^>]*?)>/i' => '<table \\1 border="1" cellspacing="0" cellpadding="10">',	 // improve rendering of tables
 			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
-			'/class="grid"/i' => 'border="1"',										// display grid borders
 			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
 			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script> --Javascript considered as spam
 			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style> --use inline style instead
