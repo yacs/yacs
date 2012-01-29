@@ -2644,7 +2644,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html(""); } } ) } );'."\n"
+			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;

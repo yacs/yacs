@@ -382,7 +382,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tagged|titles|yabb)$/', $item['articles_layout'])) {
+	elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|titles|yabb)$/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -500,7 +500,7 @@ if($with_form) {
 	$keywords[] = '<a>with_prefix_profile</a> - '.i18n::s('Introduce the poster before main text');
 	$keywords[] = '<a>with_suffix_profile</a> - '.i18n::s('Append some poster details at the bottom of the page');
 	$keywords[] = '<a>with_extra_profile</a> - '.i18n::s('Append some poster details aside the page (adequate to most weblogs)');
-	$hint = i18n::s('You may combine several keywords:').'<span id="content_options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
+	$hint = i18n::s('You may combine several keywords:').'<div id="content_options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
 	$context['page_footer'] .= JS_PREFIX
@@ -556,7 +556,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)$/', $item['sections_layout'])) {
+	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -1071,7 +1071,7 @@ if($with_form) {
 	$keywords[] = '<a>no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
 	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
 	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
-	$hint = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
+	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
 	$context['page_footer'] .= JS_PREFIX
