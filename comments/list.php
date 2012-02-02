@@ -168,7 +168,12 @@ if(!is_object($anchor)) {
 		include_once '../comments/comments.php';
 		if($count = Comments::count_for_anchor($anchor->get_reference())) {
 			if($count > 1) {
-				$box['bar'] += array('_count' => $count.' '.strtolower($anchor->get_label('list_title', 'comments')));
+				$label = '';
+				if(is_object($anchor->overlay))
+					$label = $anchor->overlay->get_label('list_title', 'comments');
+				if(!$label)
+					$label = i18n::s('Comments');
+				$box['bar'] += array('_count' => $count.' '.strtolower($label));
 			}
 
 			// navigation commands for comments
@@ -190,8 +195,13 @@ if(!is_object($anchor)) {
 		// the command to post a new comment, if this is allowed
 		if(Comments::allow_creation($anchor)) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+			$label = '';
+			if(is_object($anchor->overlay))
+				$label = $anchor->overlay->get_label('new_command', 'comments');
+			if(!$label)
+				$label = i18n::s('Add a comment');
 			$box['bar'] = array_merge($box['bar'],
-				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$anchor->get_label('new_command', 'comments') ));
+				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$label ));
 		}
 
 		// show commands

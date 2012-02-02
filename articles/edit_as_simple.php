@@ -94,10 +94,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	// successful post
 	} else {
 
-		// post an overlay, with the new article id --don't stop on error
-		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
-
 		// attach some file
 		if(isset($_FILES['upload'])) {
 
@@ -106,6 +102,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']);
 
 		}
+
+		// post an overlay, with the new article id --don't stop on error
+		if(is_object($overlay))
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
@@ -290,7 +290,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// allow for an initial upload, if allowed
-	if(!isset($item['id']) && Surfer::may_upload()) {
+	if(!isset($item['id']) && Surfer::may_upload() && Files::allow_creation($anchor, $item, 'article')) {
 
 		// attachment label
 		$label = i18n::s('Upload a file');
@@ -532,7 +532,7 @@ if($with_form) {
 			elseif(isset($_SESSION['pasted_name']))
 				$value = $_SESSION['pasted_name'];
 			$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
-			$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+			$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'open'));
 			$fields[] = array($label, $input, $hint);
 		}
 

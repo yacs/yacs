@@ -1,17 +1,17 @@
 <?php
 /**
- * miscelleanous updates
+ * update reference skins
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // splash message
 global $local;
-$local['label_en'] = 'Miscelleanous updates';
-$local['label_fr'] = 'Mises &agrave; jour diverses';
-echo get_local('label')."<br />\n";
+$local['label_en'] = 'Update reference skins';
+$local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
+echo i18n::user('label')."<br />\n";
 
 // the reference server to use
 @include_once $context['path_to_root'].'scripts/parameters.include.php';
@@ -19,9 +19,19 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 	$context['reference_server'] = 'www.yacs.fr';
 
 // files to fetch, from root path
-unset($files);
+$files = array();
+$files[] = 'control/htaccess/options/.htaccess';
+$files[] = 'included/browser/js_endpage/jquery.tipsy.js';
+$files[] = 'included/browser/library_js_endpage.min.js';
+$files[] = 'included/browser/library_js_header.min.js';
 $files[] = 'shared/yacs.js';
-$files[] = 'tools/srcfiles.txt';
+$files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/_reference/ajax/ajax_spinner_black.gif';
+$files[] = 'skins/_reference/tools/tipsy.gif';
+$files[] = 'skins/boxesandarrows/boxesandarrows.css';
+$files[] = 'skins/digital/digital.css';
+$files[] = 'skins/joi/joi.css';
+$files[] = 'skins/skeleton/skeleton.css';
 
 // process every file
 $count = 0;
@@ -33,9 +43,6 @@ foreach($files as $file) {
 	// expected location in staging repository
 	$local_reference = $context['path_to_root'].'scripts/staging/'.$file;
 
-	// expected link from reference server
-	include_once $context['path_to_root'].'links/link.php';
-
 	// don't execute PHP scripts, just get them
 	if(preg_match('/\.php$/i', $file))
 		$remote_reference = 'http://'.$context['reference_server'].'/scripts/fetch.php?script='.urlencode($file);
@@ -46,13 +53,13 @@ foreach($files as $file) {
 
 	// get the file locally
 	if(file_exists($local_reference))
-		$content = file_get_contents($local_reference);
+		$content = Safe::file_get_contents($local_reference);
 
 	// or get the file from reference server
-	elseif(($content = Link::fetch($remote_reference)) === FALSE) {
+	elseif(($content = http::proceed($remote_reference)) === FALSE) {
 		$local['error_en'] = 'Unable to get '.$file;
 		$local['error_fr'] = 'Impossible d\'obtenir '.$file;
-		echo get_local('error')."<br />\n";
+		echo i18n::user('error')."<br />\n";
 	}
 
 	// we have something in hand
@@ -71,11 +78,11 @@ foreach($files as $file) {
 		if(!Safe::file_put_contents($file, $content)) {
 			$local['label_en'] = 'Impossible to write to the file '.$file.'.';
 			$local['label_fr'] = 'Impossible d\'&eacute;crire le fichier '.$file.'.';
-			echo get_local('label')."<br />\n";
+			echo i18n::user('label')."<br />\n";
 		} else {
 			$local['label_en'] = 'has been updated';
 			$local['label_fr'] = 'a &eacute;t&eacute; mis &agrave; jour';
-			echo $file.' '.get_local('label')."<br />\n";
+			echo $file.' '.i18n::user('label')."<br />\n";
 		}
 
 	}
@@ -88,5 +95,11 @@ foreach($files as $file) {
 // basic reporting
 $local['label_en'] = 'files have been processed';
 $local['label_fr'] = 'fichiers ont &eacute;t&eacute; trait&eacute;s';
-echo $count.' '.get_local('label')."<br />\n";
+echo $count.' '.i18n::user('label')."<br />\n";
+
+$local['label_en'] = 'After the end of the upgrade, please rebuild the .htaccess file from the Control Panel.';
+$local['label_fr'] = 'Lorsque la mise &agrave; jour sera termin&eacute;e, merci de reconstruire le fichier .htaccess &agrave; partir du Panneau de Configuration.';
+echo '<p style="color: red;">'.i18n::user('label')."</p>\n";
+
+
 ?>

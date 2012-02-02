@@ -36,9 +36,6 @@ Class Layout_comments_as_thread extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// flag items older than 5 minutes ago
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 300);
-
 		// build a list of comments
 		while($item = SQL::fetch($result)) {
 
@@ -69,22 +66,18 @@ Class Layout_comments_as_thread extends Layout_interface {
 				$stamp = '#';
 
 				// flag old items on same day
-				if(!strncmp($item['edit_date'], $threshold, 10)) {
-					if(isset($item['edit_date']) && ($item['edit_date'] < $threshold))
-						$stamp = '--&nbsp;'.Skin::build_time($item['edit_date']);
+				if(!strncmp($item['edit_date'], gmstrftime('%Y-%m-%d %H:%M:%S', time()), 10))
+					$stamp = Skin::build_time($item['edit_date']);
 
 				// flag items from previous days
-				} else {
-					if(isset($item['edit_date']) && ($item['edit_date'] < $threshold))
-						$stamp = '--&nbsp;'.Skin::build_date($item['edit_date']);
-
-				}
+				else
+					$stamp = Skin::build_date($item['edit_date']);
 
 				// append this at the end of the comment
-				$stamp = ' <span style="font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic', i18n::s('Edit')).'</span>';
+				$stamp = ' <div style="float: right; font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic', i18n::s('Edit')).'</div>';
 
 				// package everything --change order to get oldest first
-				$text = '<dt'.$style.'>'.$author.'</dt><dd'.$style.'>'.ucfirst(trim(Codes::beautify($item['description']))).$stamp.'</dd>'.$text;
+				$text = '<dt'.$style.'>'.$author.'</dt><dd'.$style.'>'.$stamp.ucfirst(trim(Codes::beautify($item['description']))).'</dd>'.$text;
 			}
 		}
 

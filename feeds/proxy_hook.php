@@ -49,6 +49,7 @@ class Proxy_hook {
 		// make a string
 		$output['text'] = '';
 		$even = true;
+		$count = 0;
 		foreach($feed->get_items() as $item) {
 
 			// allow for alternate layout

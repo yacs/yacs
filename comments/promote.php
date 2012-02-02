@@ -66,8 +66,8 @@ else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Threads') );
 
 // the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('promote_title', 'comments');
+if(is_object($anchor) && is_object($anchor->overlay))
+	$context['page_title'] = $anchor->overlay->get_label('promote_title', 'comments');
 if(!$context['page_title'])
 	$context['page_title'] = i18n::s('Promote a comment');
 
@@ -136,9 +136,10 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// the submit button
-	if(is_object($anchor))
-		$label = $anchor->get_label('promote_confirmation', 'comments', i18n::s('Yes, I want to promote this comment to an article'));
-	else
+	$label = '';
+	if(is_object($anchor) && is_object($anchor->overlay))
+		$label = $anchor->overlay->get_label('promote_confirmation', 'comments');
+	if(!$label)
 		$label = i18n::s('Yes, I want to promote this comment to an article');
 
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"

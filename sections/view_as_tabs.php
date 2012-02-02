@@ -44,11 +44,11 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer');
 
 	// restricted to associates
 	if($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons');
 
 	// index panel
 	if(Surfer::is_empowered() && Surfer::is_logged()) {
@@ -461,9 +461,10 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	}
 
 	// title label
-	if(is_object($anchor) && $anchor->is_viewable())
-		$title_label = $anchor->get_label('list_title', 'comments');
-	else
+	$title_label = '';
+	if(is_object($overlay))
+		$title_label = $overlay->get_label('list_title', 'comments');
+	if(!$title_label)
 		$title_label = i18n::s('Comments');
 
 	// new comments are allowed -- check option 'with_comments'
@@ -979,7 +980,7 @@ if(Comments::allow_creation($anchor, $item, 'section')) {
 	$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 }
 
-// attach a file, if upload is allowed
+// add a file, if upload is allowed
 if(Files::allow_creation($anchor, $item, 'section')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));

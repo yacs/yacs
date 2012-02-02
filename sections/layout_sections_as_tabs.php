@@ -30,7 +30,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// no hovering label, because nicetitle may kill the effect
+		// no hovering label
 		$href_title = '';
 
 		// we build an array for the skin::build_tabs() function

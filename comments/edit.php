@@ -223,10 +223,32 @@ if(Surfer::is_crawler()) {
 	// remove default string, if any
 	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
 
+	// append to previous comment during 1 minute
+	if(!isset($item['id'])
+		&& ($newest = Comments::get_newest_for_anchor($anchor->get_reference()))
+		&& ($newest['type'] != 'notification')
+		&& Surfer::get_id() && (isset($newest['create_id']) && (Surfer::get_id() == $newest['create_id']))
+		&& ($newest['edit_date'] > gmstrftime('%Y-%m-%d %H:%M:%S', time() - 60))) {
+
+		// copy from previous comment record
+		$_REQUEST['id'] 			= $newest['id'];
+		$_REQUEST['create_address']	= $newest['create_address'];
+		$_REQUEST['create_date']	= $newest['create_date'];
+		$_REQUEST['create_id']		= $newest['create_id'];
+		$_REQUEST['create_name']	= $newest['create_name'];
+		$_REQUEST['description']	= $newest['description'].BR.$_REQUEST['description'];
+		$_REQUEST['previous_id']	= $newest['previous_id'];
+		$_REQUEST['type']			= $newest['type'];
+
+	}
+
 	// attach some file
 	$file_path = Files::get_path($anchor->get_reference());
-	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference()))
+	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
+		if(!$_REQUEST['description'])
+			$_REQUEST['description'] .= '<p>&nbsp;</p>';
 		$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.$file.'</div>';
+	}
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
@@ -265,12 +287,25 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
+
+		$label = '';
+		if(is_object($anchor->overlay))
+			$label = $anchor->overlay->get_label('permalink_command', 'comments');
+		if(!$label)
+			$label = i18n::s('View the page');
 		if($anchor->has_layout('alistapart'))
-			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('permalink_command', 'comments', i18n::s('View the page'))));
+			$menu = array_merge($menu, array($anchor->get_url('parent') => $label));
 		else
-			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('permalink_command', 'comments', i18n::s('View the page'))));
+			$menu = array_merge($menu, array($anchor->get_url('comments') => $label));
+
+		$label = '';
+		if(is_object($anchor->overlay))
+			$label = $anchor->overlay->get_label('edit_command', 'comments');
+		if(!$label)
+			$label = i18n::s('Edit the comment');
 		if(Surfer::is_logged())
-			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('edit_command', 'comments')));
+			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $label));
+
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -430,11 +465,11 @@ if($with_form) {
 	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '');
 	$fields[] = array($label, $input);
 
-	// attach a file on first post, and if allowed
+	// add a file on first post, and if allowed
 	if(Surfer::may_upload() && (!isset($item['id']) || ($action == 'quote') || ($action == 'reply'))) {
 
 		// attachment label
-		$label = i18n::s('Upload a file');
+		$label = i18n::s('Add a file');
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
@@ -554,7 +589,7 @@ if($with_form) {
 		$help .= '<p>'.i18n::s('Most HTML tags are removed.');
 	else
 		$help .= '<p>';
-	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
  	// change to another editor
 	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';

@@ -56,9 +56,9 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$title .= PRIVATE_FLAG.' ';
+				$title .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$title .= RESTRICTED_FLAG.' ';
+				$title .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the page');
@@ -157,7 +157,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// page details
 			if(count($details))
