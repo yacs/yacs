@@ -61,9 +61,9 @@ else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Threads') );
 
 // the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('delete_title', 'comments');
-else
+if(is_object($overlay))
+	$context['page_title'] = $overlay->get_label('delete_title', 'comments');
+if(!$context['page_title'])
 	$context['page_title'] = i18n::s('Delete a comment');
 
 // stop crawlers
@@ -105,11 +105,12 @@ else {
 
 	// commands
 	$menu = array();
-	if(is_object($anchor))
-		$label = $anchor->get_label('delete_confirmation', 'comments', i18n::s('Yes, I want to delete this comment'));
-	else
-		$label = i18n::s('Yes, I want to delete this comment');
-	$menu[] = Skin::build_submit_button($label, NULL, NULL, 'confirmed');
+	$delete_label = '';
+	if(is_object($overlay))
+		$delete_label = $overlay->get_label('delete_confirmation', 'comments');
+	if(!$delete_label)
+		$delete_label = i18n::s('Yes, I want to delete this comment');
+	$menu[] = Skin::build_submit_button($delete_label, NULL, NULL, 'confirmed');
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Comments::get_url($item['id']), i18n::s('Cancel'), 'span');
 

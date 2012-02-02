@@ -81,10 +81,13 @@ Class Files {
 		// attach a file to an article
 		if($variant == 'article') {
 
+			// 'no initial upload' option
+			if(!isset($item['id']) && Articles::has_option('no_initial_upload', $anchor, $item))
+				return FALSE;
+
 			// 'no files' option
 			if(Articles::has_option('no_files', $anchor, $item))
 				return FALSE;
-
 
 		// attach a file to a user profile
 		} elseif($variant == 'user') {
@@ -771,6 +774,17 @@ Class Files {
 	}
 
 	/**
+	 * get address for download
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	public static function get_download_url($item) {
+		$output = Files::get_url($item['id'], 'fetch', $item['file_name']);
+		return $output;
+	}
+
+	/**
 	 * get the url to the icon for this file
 	 *
 	 * @param string the file name
@@ -1208,7 +1222,7 @@ Class Files {
 		}
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE files.anchor LIKE '".SQL::escape($anchor)."'"
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."')"
 			." ORDER BY files.create_date DESC LIMIT 1";
 
 		$output = SQL::query_first($query);
@@ -1606,6 +1620,19 @@ Class Files {
 		if(!$with_icon)
 			return '';
 
+		// this is a reasonably large image
+		if(Files::is_image($item['file_name'])
+			&& ($image_information = Safe::GetImageSize($context['path_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.$item['file_name']))
+			&& ($image_information[0] <= 600)) {
+
+			// provide a direct link to it!
+			$src = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+
+			$icon = '<img src="'.$src.'" width="'.$image_information[0].'" height="'.$image_information[1].'" alt="" style="padding: 3px"/>'.BR;
+			return Skin::build_link(Files::get_download_url($item), $icon, 'basic');
+		}
+
+
 		// explicit icon
 		if($item['thumbnail_url'])
 			$icon = $item['thumbnail_url'];
@@ -1617,7 +1644,14 @@ Class Files {
 		// a clickable image to access the file
 		if($icon) {
 			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
-			return Skin::build_link(Files::get_permalink($item), $icon, 'basic').BR;
+
+			// ensure we have a label for this link
+			$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+			// make a link to the target page
+			$url = Files::get_download_url($item);
+
+			return Skin::build_link($url, $icon, 'basic').BR.Skin::build_link($url, $text, 'basic');
 		}
 
 		// nothing special
@@ -1691,6 +1725,17 @@ Class Files {
 	 */
 	public static function is_embeddable($name) {
 		return preg_match('/\.(flv|gan|mov|m4v|mp4|swf)$/i', $name);
+	}
+
+	/**
+	 * is this file an image?
+	 *
+	 * @param string file name, including extension
+	 * @return TRUE or FALSE
+	 *
+	 */
+	public static function is_image($name) {
+		return preg_match('/\.(gif|jpg|jpeg|png)$/i', $name);
 	}
 
 	/**
@@ -2901,10 +2946,20 @@ Class Files {
 						$fields['anchor'] = $target;
 					}
 
-					// create the record in the database, and remember this post in comment
-					if($fields['id'] = Files::post($fields)) {
+					// if this is an image, maybe we can derive a thumbnail for it?
+					if(Files::is_image($file_name)) {
+
+						include_once $context['path_to_root'].'images/image.php';
+						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.'thumbs/'.$file_name);
+
+						if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
+							$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
+					}
+
+					// create the record in the database, and allow for direct access from containing item
+					if($fields['id'] = Files::post($fields))
 						return "\n[file=".$fields['id'].']';
-					} else
+					else
 						return FALSE;
 				}
 

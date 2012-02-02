@@ -82,10 +82,10 @@ class Mailer {
 
 		// transform the text/html part
 		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 					// <dl> ... </dl> -> <table> ... </table>
-			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td style:"margin-right: 10px">\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
 			'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td>\\1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
+			'/<table([^>]*?)>/i' => '<table \\1 border="1" cellspacing="0" cellpadding="10">',	 // improve rendering of tables
 			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
-			'/class="grid"/i' => 'border="1"',										// display grid borders
 			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
 			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script> --Javascript considered as spam
 			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style> --use inline style instead
@@ -977,8 +977,9 @@ class Mailer {
 						// transcode the link in this part
 						$part = substr($part, 0, $head).'cid:'.$cid.substr($part, $tail);
 
-						// remember to put content in attachments of this message
-						$attachments[] = $name;
+						// remember to put content in attachments of this message, if not done yet
+						if(!in_array($name, $attachments))
+							$attachments[] = $name;
 					}
 				}
 			}
@@ -1087,11 +1088,11 @@ class Mailer {
 				} else
 					$type = Files::get_mime_type($name);
 
-				// set a name that avoids problems
-				$basename = utf8::to_ascii(basename($name));
-
 				// a unique id for for this file
 				$cid = sprintf('%u@%s', crc32($name), $context['host_name']);
+
+				// set a name that avoids problems
+				$basename = utf8::to_ascii(basename($name));
 
 				// headers for one file
 				$body .= M_EOL.M_EOL.'--'.$boundary.'-external'

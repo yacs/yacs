@@ -129,6 +129,9 @@ class Anchor {
 	// the related item
 	var $item;
 
+	// its related overlay, if any
+	var $overlay;
+
 	// its related anchor, if any
 	var $anchor;
 
@@ -306,40 +309,6 @@ class Anchor {
 	 */
 	function get_icon_url() {
 		 return NULL;
-	}
-
-	 /**
-	  * provide a custom label
-	  *
-	  * @param string the target label (e.g., 'edit_title', 'item_name', 'item_names')
-	  * @param string the module that is invoking the anchor (e.g., 'comment')
-	  * @param string an optional title, if any
-	  * @return string the foreseen label
-	  */
-	 function get_label($id, $variant, $title='') {
-
-		// sanity check
-		if(!$this->item)
-			return FALSE;
-
-		// climb the anchoring chain, if any
-		if(isset($this->item['anchor']) && $this->item['anchor']) {
-
-			// cache anchor
-			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
-
-			if(is_object($this->anchor))
-				return $this->anchor->get_label($id, $variant, $title);
-
-		}
-
-		// use default title
-		if($title)
-			return $title;
-
-		// no match
-		return 'Impossible to translate '.$id.' for module '.$variant;
 	}
 
 	/**
@@ -1069,6 +1038,7 @@ class Anchor {
 	 * @param array attributes of the anchor, if any
 	 */
 	function load_by_content($item, $anchor=NULL) {
+		global $context;
 
 		// save attributes of this instance
 		$this->item = $item;
@@ -1076,6 +1046,15 @@ class Anchor {
 		// save attributes of the anchor
 		if($anchor)
 			$this->anchor = $anchor;
+
+		// get the related overlay, if any
+		$this->overlay = NULL;
+		if(isset($this->item['overlay'])) {
+			include_once $context['path_to_root'].'overlays/overlay.php';
+			$this->overlay = Overlay::load($this->item, $this->get_reference());
+		}
+
+
 	}
 
 	/**

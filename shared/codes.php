@@ -484,7 +484,8 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)/i', // YouTube link
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
+				'/http:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
 				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
 				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, Ĭ or ՠ-- no space ahead */
@@ -500,6 +501,7 @@ Class Codes {
 				"</h2>",
 				"</h3>",
 				"</h4>",
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
 				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
@@ -2642,7 +2644,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html(""); } } ) } );'."\n"
+			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;
@@ -2971,19 +2973,21 @@ Class Codes {
 			else {
 
 				// maybe we want to illustrate this file
-				$output = Files::interact($item);
+				if(!$output = Files::interact($item)) {
 
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+					// ensure we have a label for this link
+					if(isset($attributes[1]))
+						$text = $attributes[1];
+					else
+						$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
-				// make a link to the target page
-				$url = Files::get_permalink($item);
+					// make a link to the target page
+					$url = Files::get_download_url($item);
 
-				// return a complete anchor
-				$output .= Skin::build_link($url, $text, 'basic');
+					// return a complete anchor
+					$output .= Skin::build_link($url, $text, 'basic');
+
+				}
 			}
 			return $output;
 
@@ -3388,7 +3392,7 @@ Class Codes {
 				$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_permalink($item);
+				$url = Files::get_download_url($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');

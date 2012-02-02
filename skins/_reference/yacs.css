@@ -48,12 +48,14 @@ h4 { font-size: 2.0em; }
 
 input {
 	padding: 2px;
-	font-family: Tahoma, sans-serif;
+	font-family: Georgia, Times, serif;
+	font-size: 13px;
 }
 
 textarea {
-	padding: 5px;
-	font-family: Tahoma, sans-serif;
+	padding: 2px;
+	font-family: Georgia, Times, serif;
+	font-size: 13px;
 }
 
 /*************************
@@ -211,21 +213,30 @@ p#crumbs a { /* one of the links to go up */
 /* the main menu of commands */
 
 p#page_menu { /* the main horizontal menu of commands */
-	margin: 0 0 8px 0;
+	margin: 2px 0 8px 0;
 	font-weight: normal;
 }
 
-p#page_menu a,
-p#page_menu a:hover { /* a link in the menu */
-	margin: 0;
-	padding: 0px 0px 0px 7px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
+p#page_menu a { /* a link in the main page menu */
+	margin: 2px;
+	padding: 0.25em 0.55em;
+	background-color: #666666;
+	color: white;
+	border-radius: 5px; -moz-border-radius:5px; -webkit-border-radius:5px;
+	display: inline-block;
 	text-decoration: none;
 	font-weight: normal;
 }
 
+p#page_menu a:active { /* click on button */
+	left: 1px;
+	position: relative;
+	top: 1px;
+}
+
 p#page_menu a:hover { /* about to click */
-	color: red;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
 }
 
 p#page_menu a.button,
@@ -238,8 +249,7 @@ p#page_menu a.button:hover span { /* no specific background image for buttons */
 
 p#page_menu a span { /* to complement background, if required */
 	margin: 0;
-	padding: 0px 7px 0px 0px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
+	padding: 0;
 }
 
 p#page_menu a span.first { /* first command on left */
@@ -381,7 +391,7 @@ span.details a { /* faded into text */
 }
 
 p.details { /* stick to previous and next elements */
-	margin: 0;
+	margin: 0.2em 0;
 	padding: 0;
 }
 
@@ -391,6 +401,7 @@ p.details { /* stick to previous and next elements */
 
 div.box { /* some content with a title */
 	position: relative;
+	margin-bottom: 1em;
 }
 
 div.box h2 { /* box title */
@@ -422,52 +433,70 @@ div.box div.content { /* actual content of the box */
 	position: relative;
 }
 
+html > body .ibox { display:inline-block; } /* inline boxes that work on IE6 -- use span.ibox */
+.ibox {display:inline-block;position:relative;}
+* html .ibox { display: inline; }
+:first-child + html .ibox { display:inline; }
+
 /* menu bars */
 
-div.menu_bar { /* an horizontal menu of commands */
+div.menu_bar,
+p.assistant_bar { /* an horizontal menu of commands */
 	margin: 1em 0 1em 0;
 	padding: 3px 0 3px 0;
 	font-weight: normal;
+	line-height: 2em; /* because of large padded links */
 }
 
-div.menu_bar a,
-div.menu_bar a:hover { /* one command */
-	margin: 0;
-	padding: 0px 0px 0px 7px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
-	text-decoration: none;
-	font-weight: normal;
+div.menu_bar a { /* one command */
+	background-color: #ddd;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
 }
 
 div.menu_bar a:hover { /* behaviour on hovering */
-	color: red;
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	text-decoration: none;
 }
 
 div.menu_bar a.button,
 div.menu_bar a.button span,
 div.menu_bar a.button:hover,
 div.menu_bar a.button:hover span { /* no specific background image for buttons */
-	background-color: #c0c0c0;
-	background-image: none;
 }
 
 div.menu_bar a span { /* secondary background image */
-	margin: 0;
-	padding: 0px 7px 0px 0px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
 }
 
-div.menu_bar a span.first { /* first command of the menu */
+div.menu_bar span.first a { /* first command of the menu */
 }
 
-div.menu_bar a span.last { /* last command of the menu */
+div.menu_bar > span.label { /* some text in a menu bar, with no link */
+	background-color: #eee;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
+}
+
+div.menu_bar span.last a { /* last command of the menu */
 }
 
 div.menu_bar a span a,
 div.menu_bar a span a:hover,
 div.menu_bar a span a span,
 div.menu_bar a span a:hover span { /* don't put background image on sub links (e.g., drop menus) */
+
 	background: none;
+
 }
 
 @media print { /* do not print menu bars */
@@ -479,21 +508,37 @@ div.menu_bar a span a:hover span { /* don't put background image on sub links (e
 
 /* navigation bar */
 
-.pager-current { /* where we are */
-	border: 1px solid #cccccc;
-	margin: 0 3px;
-	padding: 3px;
+a.pager-current,	/* where we are */
+a.pager-item,		/* navigation link in option */
+a.pager-previous,	/* link to previous item */
+a.pager-next {		/* link to next item */
+	background-color: #ddd;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
 }
 
-.pager-item { /* navigation link */
-	margin: 0 3px;
-	padding: 0 3px;
+a.pager-current {
+	border: 1px solid black;
 }
 
+a.pager-current:hover,
+a.pager-item:hover,
+a.pager-previous:hover,
+a.pager-next:hover {
+	color: black;
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	text-decoration: none;
+}
 table.neighbours { /* previous and next links */
 	clear: left;
 	border: none;
-	margin: 0 auto;
+	margin: 1em auto;
 }
 
 table.neighbours tr td {
@@ -538,29 +583,34 @@ table.neighbours tr td.previous { /* to the left */
 
 /* vertical and horizontal layouts --it used to be named "form" instead of "layout" */
 
-table.layout,
 table.form {
-/*	margin: 0 auto; */
 	width: 99%; /* not 100% because of IE6 */
 	border: none; /* we are only interested into the layout */
 	margin: 0;
 	padding: 0;
 }
 
-table.layout tbody tr td.center,
-table.form tbody tr td.center,
-table.layout tbody tr td.east,
-table.form tbody tr td.east,
-table.layout tbody tr td.west,
-table.form tbody tr td.west,
-table.layout tbody tr td.north,
-table.form tbody tr td.north,
-table.layout tbody tr td.equator,
-table.form tbody tr td.equator,
-table.layout tbody tr td.south,
-table.form tbody tr td.south,
-table.layout tbody tr td,
-table.form tbody tr td{
+table.layout {
+	width: auto; /* fully adapt to content */
+	border: none; /* we are only interested into the layout */
+	margin: 0;
+	padding: 0;
+}
+
+table.layout > tbody > tr > td.center,
+table.form > tbody > tr > td.center,
+table.layout > tbody > tr > td.east,
+table.form > tbody > tr > td.east,
+table.layout > tbody > tr > td.west,
+table.form > tbody > tr > td.west,
+table.layout > tbody > tr > td.north,
+table.form > tbody > tr > td.north,
+table.layout > tbody > tr > td.equator,
+table.form > tbody > tr > td.equator,
+table.layout > tbody > tr > td.south,
+table.form > tbody > tr > td.south,
+table.layout > tbody > tr > td,
+table.form > tbody > tr > td{
 	padding: 0; /* save on space around cells */
 	margin: 0;
 	text-align: left; /* prefix cells with 'left=' or 'center=' or 'right=' to change alignment */
@@ -568,22 +618,22 @@ table.form tbody tr td{
 	background: transparent none;
 }
 
-table.layout tbody tr.even td.center,
-table.form tbody tr.even td.center,
-table.layout tbody tr.even td.east,
-table.form tbody tr.even td.east,
-table.layout tbody tr.even td.west,
-table.form tbody tr.even td.west,
-table.layout tbody tr.even td,
-table.form tbody tr.even td,
-table.layout tbody tr.odd td.center,
-table.form tbody tr.odd td.center,
-table.layout tbody tr.odd td.east,
-table.form tbody tr.odd td.east,
-table.layout tbody tr.odd td.west,
-table.form tbody tr.odd td.west,
-table.layout tbody tr.odd td,
-table.form tbody tr.odd td { /* some space around content when background is paint */
+table.layout > tbody > tr.even > td.center,
+table.form > tbody > tr.even > td.center,
+table.layout > tbody > tr.even > td.east,
+table.form > tbody > tr.even > td.east,
+table.layout > tbody > tr.even > td.west,
+table.form > tbody > tr.even > td.west,
+table.layout > tbody > tr.even > td,
+table.form > tbody > tr.even > td,
+table.layout > tbody > tr.odd > td.center,
+table.form > tbody > tr.odd > td.center,
+table.layout > tbody > tr.odd > td.east,
+table.form > tbody > tr.odd > td.east,
+table.layout > tbody > tr.odd > td.west,
+table.form > tbody > tr.odd > td.west,
+table.layout > tbody > tr.odd > td,
+table.form > tbody > tr.odd > td { /* some space around content when background is paint */
 	padding: 0.5em;
 }
 
@@ -595,6 +645,12 @@ table.layout tbody tr td.equator { /* some room between rows */
 table.layout tbody tr td.west,
 table.layout tbody tr td.center { /* some room between columns */
 	padding-right: 3em;
+}
+
+form textarea,
+#comment_form textarea {
+	margin: 0 auto;
+	width: 90%;
 }
 
 /* explorer tree (in #contextual_menu) */
@@ -665,7 +721,41 @@ dl#contextual_menu ul.tree li a.open { /* item has the current focus */
 }
 
 
+/* tipsy -- see http://onehackoranother.com/projects/jquery/tipsy/ */
 
+.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 1000; }
+  .tipsy-inner { padding: 5px 8px 4px 8px; background-color: black; color: white; max-width: 200px; text-align: center; }
+  .tipsy-inner { border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+  .tipsy-arrow { position: absolute; background: url('tools/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
+  .tipsy-n .tipsy-arrow { top: 0; left: 50%; margin-left: -4px; }
+    .tipsy-nw .tipsy-arrow { top: 0; left: 10px; }
+    .tipsy-ne .tipsy-arrow { top: 0; right: 10px; }
+  .tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -4px; background-position: bottom left; }
+    .tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; background-position: bottom left; }
+    .tipsy-se .tipsy-arrow { bottom: 0; right: 10px; background-position: bottom left; }
+  .tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
+  .tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
+
+.tipsy_thumbnail { /* absolute limit for the contained iframe */
+    width: 200px;
+    height: 130px;
+    overflow: hidden;
+    background-color: white;
+    background-image: none;
+    margin: 3px 0 4px 0;
+}
+
+.tipsy_iframe {	/* display a scaled-down web page */
+    width: 800px;
+    height: 520px;
+    border: none;
+	-moz-transform: scale(0.25);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.25);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.25);
+    -webkit-transform-origin: 0 0;
+}
 
 /*************************
  * styles demonstrated into help page codes/basic.php
@@ -690,21 +780,25 @@ code { /* ##..## or [code]..[/code] -- some script shell */
 
 a.tiny,
 span.tiny a,
+div.tiny,
 span.tiny { /* [tiny]...[/tiny] -- smaller than .small*/
 	font-family: sans-serif;
 	font-size: 9px;
 }
 
+div.small,
 span.small { /* [small]...[/small] -- smaller than default, but larger than .tiny */
 	font-family: sans-serif;
 	font-size: 0.75em;
 }
 
+div.big,
 span.big { /* [big]...[/big] -- bigger than default, but smaller than .huge */
 	font-size: 1.5em;
 	line-height: 1.1em;
 }
 
+div.huge,
 span.huge { /* [huge]...[/huge] -- bigger than .big */
 	font-size: 3em;
 	line-height: 1.1em;
@@ -782,31 +876,46 @@ a img {
 }
 
 a.button,
-div.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
-	border-color: #dcdcdc #696969 #696969 #dcdcdc;
-	border-style: solid;
-	border-width: 2px;
-	text-align: center;
-	padding: 4px;
-	line-height: 2.5em;
-	background-color: #c0c0c0;
+div.menu_bar a.button,
+input[type="submit"],
+button.bigButton,
+div.menu_bar .button button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
+	background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC) repeat scroll 0 0 transparent;
+    border: 1px solid #AAAAAA;
+    border-radius: 12px 12px 12px 12px;
+    color: #111111;
+    font-weight: normal;
+	font-size: 1em;
+    margin: 1px 4px 1px 4px;
+    padding: 5px 7px 4px 7px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFFFFF;
 }
 
 a.button,
 a.button span,
-a:visited.button,
-a:visited.button span {
-   	color: #202020;
+a.button:visited,
+a.button:visited span,
+div.menu_bar .button button span {
+	color: #111111;
+}
+
+a.button:active { /* click on button */
+	left: 1px;
+	position: relative;
+	top: 1px;
+}
+
+a.button:hover,
+div.menu_bar a.button:hover,
+input[type="submit"]:hover,
+button.bigButton:hover,
+div.menu_bar .button button:hover { /* hover a button */
+	background: -moz-linear-gradient(center top , #CCCCCC, #DDDDDD) repeat scroll 0 0 transparent;
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 6px #FFFFFF inset, 0 3px 3px rgba(0, 0, 0, 0.6);
 	text-decoration: none;
-}
-
-a:active.button { /* click on button */
-	color: #202040;
-	border-color: #eaeaea #095ba5 #095ba5 #eaeaea;
-}
-
-a:hover.button { /* hover a button */
-	color: #202040;
 }
 
 @media screen { /* not on printers */
@@ -841,12 +950,14 @@ a:hover.button { /* hover a button */
 		background: none;
 	}
 
-	#main_panel a.external { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
+	#main_panel a.external span { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
 		padding-right: 15px;
-		background: transparent url("links/external.png") no-repeat right;
+		background-image: url("links/external.png");
+		background-position: right;
+		background-repeat: no-repeat;
 	}
 
-	* html #main_panel a.external { /* ie6 kills trailing rendering on long links */
+	* html #main_panel a.external span { /* ie6 kills trailing rendering on long links */
 		padding-right: 0px;
 		background: none;
 	}
@@ -866,9 +977,39 @@ a:hover.button { /* hover a button */
 	}
 
 	#main_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
+		background-color: #ddd;
+		color: black;
+		font-size: 1em;
+		font-style: none;
+		border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+		padding: 5px 8px 3px 8px;
+		margin: 2px;
+	}
+
+	#main_panel a.next:hover { /* about to click */
+		color: black;
+		cursor: pointer;
+		position: relative;
+		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+		text-decoration: none;
 	}
 
 	#main_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
+		background-color: #ddd;
+		color: black;
+		font-size: 1em;
+		font-style: none;
+		border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+		padding: 5px 8px 3px 8px;
+		margin: 2px;
+	}
+
+	#main_panel a.previous:hover { /* about to click */
+		color: black;
+		cursor: pointer;
+		position: relative;
+		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+		text-decoration: none;
 	}
 
 	#main_panel a.script { /* the image near a link to a phpDoc page -- [script]path/script.php[/script] */
@@ -989,17 +1130,17 @@ table.decorated tbody tr td.image img {
 }
 
 div.caution { /* [caution]...[/caution] -- draw attention to a warning message */
-	margin: 1em 0 1em 0;
+	margin: 1em auto;
 	padding: 1em;
 	border: 1px solid #f66;
 	background-color: #faa;
 }
 
 div.note { /* [note]...[/note] -- draw attention to a note */
-	margin: 1em 0 1em 0;
+	margin: 1em auto;
 	padding: 1em;
-	border: 1px solid #f66;
-	background-color: #faa;
+	border: 1px solid #063;
+	background-color: #6c6;
 }
 
 pre { /* [php]...[/php] and [snippet]...[/snippet] -- pre-formatted text */
@@ -1063,7 +1204,7 @@ div.folder_box div.folder_body { /* rendering while unfolded */
 
 div.sidebar_box { /* [sidebar]...[/sidebar] -- a side box somewhere in the main panel */
 	float: right;
-	width: 10em;
+	width: 20em;
 	margin: 0 1em 1em 1em ;
 }
 
@@ -1112,7 +1253,7 @@ td { /* an ordinary table cell -- cells in [table]headers[body]content[/table] *
 	border-top: 1px solid #bfbfbf;
 	border-left: 1px solid #bfbfbf;
 	margin: 0;
-	padding: 4px;
+	padding: 8px;
 	vertical-align: top;
 	text-align: left;
 	position: relative;
@@ -1141,7 +1282,7 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 	border-top: 1px solid #bfbfbf;
 	border-left: 1px solid #bfbfbf;
 	margin: 0;
-	padding: 4px;
+	padding: 8px;
 	color: #444;
 	background-color: #ddd;
 }
@@ -1163,6 +1304,7 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 table.grid,
 table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
+	margin: 1em 0;
 }
 
 table.grid tbody tr td,
@@ -1262,6 +1404,23 @@ div.toc_box { /* table of content -- [toc] */
 	position: relative;
 }
 
+div.toc_box a.handle { /* the handle to open/close the box */
+	background-color: #ddd;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
+}
+
+div.toc_box a.handle:hover { /* about to click */
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	text-decoration: none;
+}
+
 div.toc_box a code { /* some code in a toc */
 	font-size: 1em;
 	font-family: tahoma, sans-serif;
@@ -1307,6 +1466,15 @@ dl.newsfeed_item dt,
 dl.newsfeed_item dd { /* [newsfeed=url] */
 	margin-left: 0; /* flush to the left */
 	max-width: 500px; /* few words could create orphan lines */
+}
+
+dl.newsfeed_item dt h2 {
+	margin: 1em 0 auto;
+}
+
+dl.newsfeed_item dt span.details {
+	display: block;
+	margin: 2px auto;
 }
 
 dl.newsfeed_item dd,
@@ -1602,26 +1770,89 @@ dl#scrolling_news dd ul { /* a list with no bullet */
 
 
 /**
- * styles for chats
+ * styles for chats and for face to face sessions
  *
  * @see articles/view_as_chat.php
+ * @see faceme.php
  */
+
+body#faceme div#sharingPanel { /* help the surfer to spread the link */
+	width: 515px;
+	margin: 0;
+	padding: 1em;
+}
+
+body#faceme div#sharingPanel p { /* the help label */
+	margin: 0 0 0.5em;
+}
+
+body#faceme div#sharingPanel input { /* display the link to share */
+	width: 400px;
+}
+
+div#opentok { /* for videos above the chat area */
+	position: relative;
+	max-width: 720px; /* limit the width */
+	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .growl,
+body#faceme .growl { /* for real-time status updates */
+	font-size: 10px;
+	font-style: none;
+	padding: 2px 0;
+}
+
+div#opentok .growl span,
+body#faceme .growl span { /* tipsy-like real-time notification */
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
+}
+
+div#opentok .subscriber { /* each listener has an invisible border at the top, to be replaced when he starts talking */
+	border-top: 3px solid transparent;
+}
+
+div#opentok .me { /* for my video */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .others { /* for videos of other participants */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .subscriber.talker { /* each talker has a red border at the top */
+	border-top: 3px solid red;
+}
 
 div#thread_wrapper { /* around text and input field */
 	position: relative;
-	max-width: 700px; /* limit the width */
-	width: expression(this.width > 700 ? 700: true); /* just for IE 6 */
-	margin: 1em 0;
+	max-width: 720px; /* limit the width */
+	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
+	margin: 0;
 	padding: 0 0 6px 0;
 }
 
-div#thread_wrapper textarea#contribution { /* the main input field */
+div#thread_wrapper textarea#description { /* the main input field */
+	max-width: 99%;
 	width: 99%;
-	margin: 0 0 0.5em 0;
+	margin: 0;
 	padding: 3px;
-	background-color: #eee;
+	background-color: #FFFFE5; /* #eee; */
 	overflow: auto; /* add a vertical scroller if required */
-	border: 1px dotted #aaa;
+	border-top: none;
+	border-right: 1px dotted #ccc;
+	border-bottom: 1px dotted #aaa;
+	border-left: 1px dotted #ccc;
 }
 
 div#thread_wrapper button#submit { /* the submit button */
@@ -1634,13 +1865,18 @@ div#thread_files_panel {
 }
 
 div#thread_text_panel { /* where successive contributions are displayed */
-	margin: 0 0 0.5em 0;
+	margin: 0;
 	padding: 0;
 	height: 350px; /* ensure the input field is always visible */
 	max-height: 350px;
 	overflow: auto; /* add a vertical scroller if required */
 	border: 1px dotted #ccc;
 	background-color: #fcfcfc;
+}
+
+div#thread_text_panel dl { /* all contributions */
+	margin: 0;
+	padding: 0;
 }
 
 div#thread_text_panel dl dd { /* one contribution */
@@ -1661,9 +1897,8 @@ div#thread_text_panel dl dd.thread_other { /* one contribution from another surf
 div#thread_text_panel dl dt { /* contributor details */
 	clear: both;	/* because of stacked rows */
 	float: left;
-/*	width: 120px; */
 	margin: 0;
-	padding: 0.3em 1em 0.3em 0.6em;
+	padding: 0.3em 1em 0 0.6em;
 	text-align: left;
 }
 
@@ -1996,7 +2231,7 @@ div.accordion_content div.introduction {
  *  <div class="date">date of post</div>
  *	<h2><span>box title</span></h2>
  *  <div class="content">
- * 		<a><img class="left_image">page thumbnail</img></a>
+ * 		<a><img class="left_image" src="page thumbnail" /></a>
  *		<p class="details">box details</p>
  *		box content
  *		<div class="menu_bar right">box menu</div>
@@ -2010,7 +2245,7 @@ div.accordion_content div.introduction {
  *  <div class="date">date of post</div>
  *	<h2><span>box title</span></h2>
  *  <div class="content">
- * 		<a><img class="left_image">page thumbnail</img></a>
+ * 		<a><img class="left_image" src="page thumbnail" /></a>
  *		<p class="details">box details</p>
  *		box content
  *		<div class="menu_bar right">box menu</div>
@@ -2217,6 +2452,30 @@ table.jive tr th { /* table header */
 }
 
 /**
+ * last layout: reflect last contributions to the page
+ *
+ * @see articles/layout_articles_as_last.php
+ */
+
+div.last_articles { /* the overall list of articles */
+	border-bottom: 1px dotted #ccc;
+	padding-bottom: 4px;
+	margin-bottom: 2em;
+}
+
+div.last_article { /* one div per article */
+	border-top: 1px dotted #ccc;
+	padding-top: 4px;
+	margin-bottom: 2em;
+}
+
+div.last_comment { /* content of last comment to the page */
+	border-left: 2px solid #ccc;
+	margin: 7px 10px 20px 7px;
+	padding: 4px 0 0 10px;
+}
+
+/**
  * manual layout: a compact list of titles
  *
  * <ul class="manual">
@@ -2376,7 +2635,7 @@ div.recent div.east { /* the second newest item */
  * slashdot layout: a list of boxes like the following
  *
  * <div class="box">
- *	<h2><span><img class="right_image">page thumbnail</img>box title</span></h2>
+ *	<h2><span><img class="right_image" src="page thumbnail" />box title</span></h2>
  *  <div class="content">
  *		<p class="details">box details</p>
  *		box content
@@ -2608,7 +2867,7 @@ div.icon img { /* main image of an article, or of some section -- $context[page_
 div.bottom { /* bottom -- the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
-	padding-top: 0;
+	padding-top: 4px;
    	width: 80%; /* same width as div#tabs_bar */
 }
 
@@ -2808,31 +3067,39 @@ dl.column dt img { /* align the image */
 
 
 ul.compact,
-#extra_panel ul.compact,
-#main_panel ul.compact,
-#side_panel ul.compact { /* a compact list */
-	margin: 0;
-	padding: 0;
-	list-style: none;
+#main_panel ul.compact { /* a regular compact list */
 }
 
 ul.compact li,
-#extra_panel ul.compact li,
-#main_panel ul.compact li,
-#side_panel ul.compact li { /* item in a compact list */
-	margin: 0;
-	padding: 0;
-	background: none;
+#main_panel ul.compact li { /* an item in a regular compact list */
 }
 
 ul.compact li a,
 ul.compact li a span,
+#main_panel ul.compact li a,
+#main_panel ul.compact li a span { /* a link in a regular compact list */
+	background: none;
+	padding: 0;
+}
+
+#extra_panel ul.compact,
+#side_panel ul.compact { /* a compact list in a side panel */
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+}
+
+#extra_panel ul.compact li,
+#side_panel ul.compact li { /* item in a side compact list */
+	margin: 0 auto;
+	padding: 0;
+	background: none;
+}
+
 #extra_panel ul.compact li a,
 #extra_panel ul.compact li a span,
-#main_panel ul.compact li a,
-#main_panel ul.compact li a span,
 #side_panel ul.compact li a,
-#side_panel ul.compact li a span { /* links in a compact list */
+#side_panel ul.compact li a span { /* links in a side compact list */
 	background: none;
 	padding: 0;
 }
@@ -2847,6 +3114,7 @@ address { /* a author profile towards the end of the main panel */
 	margin: 0.5em 0 0.5em 0;
 	padding: 1em;
 	border: 1px solid #ccc;
+	border-radius: 8px; -moz-border-radius:8px; -webkit-border-radius:8px;
 }
 
 img.avatar { /* an image representing a member -- do not float it! */
@@ -2960,6 +3228,7 @@ dl.comments dd { /* comment content */
 	border-bottom: 1px solid #aaa;
 	border-right: 1px solid #aaa;
 	background-color: #E5DDCD;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
 }
 
 dl.comments dt { /* poster name */
@@ -3014,6 +3283,13 @@ table.month thead tr th { /* an ordinary cell in a calendar table */
 
 table.calendar tbody tr td.spot { /* a cell in calendar that has some content */
 	background-color: #fdd;
+}
+
+div.day_panel { /* where content of one day is displayed */
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	max-width: 200px;
 }
 
 dl.family { /* a list of dates */

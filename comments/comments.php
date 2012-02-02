@@ -448,7 +448,7 @@ Class Comments {
 		// bottom commands
 		$menu = array();
 
-		// option to attach a file
+		// option to add a file
 		if(Surfer::may_upload()) {
 
 			// intput field to appear on demand
@@ -456,8 +456,9 @@ Class Comments {
 			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
 			.'<input type="hidden" name="file_type" value="upload" /></p>';
 
-			// the command to attach a file
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.i18n::s('Attach a file').'</span></a>';
+			// the command to add a file
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
 		}
 
 		// the submit button
@@ -501,7 +502,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/attention.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('ATTENTION_IMG', '');
 			}
@@ -516,7 +517,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/done.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('DONE_IMG', '');
 			}
@@ -532,7 +533,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/idea.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('IDEA_IMG', '');
 			}
@@ -548,7 +549,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/information.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('INFORMATION_IMG', '');
 			}
@@ -563,7 +564,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/question.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('QUESTION_IMG', '');
 			}
@@ -579,7 +580,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/thumbs_down.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('THUMBS_DOWN_IMG', '');
 			}
@@ -595,7 +596,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/thumbs_up.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('THUMBS_UP_IMG', '');
 			}
@@ -610,7 +611,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/_reference/comments/warning.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
+					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
 				else
 					define('WARNING_IMG', '');
 			}
@@ -631,12 +632,12 @@ Class Comments {
 
 		// a wall
 		if((is_object($anchor) && $anchor->has_option('comments_as_wall'))) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
+			include_once '../comments/layout_comments_as_updates.php';
+			$layout = new Layout_comments_as_updates();
 
 		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
+			include_once '../comments/layout_comments_as_updates.php';
+			$layout = new Layout_comments_as_updates();
 
 		// a wiki
 		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
@@ -692,7 +693,7 @@ Class Comments {
 		}
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
+			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."') AND (comments.type != 'notification')"
 			." ORDER BY comments.create_date DESC LIMIT 1";
 
 		$output = SQL::query_first($query);

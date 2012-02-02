@@ -263,9 +263,9 @@ $context['path_bar'] = Surfer::get_path_bar($anchor);
 if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now']))
 	$context['page_title'] .= DRAFT_FLAG;
 if(isset($item['active']) && ($item['active'] == 'R'))
-	$context['page_title'] .= RESTRICTED_FLAG.' ';
+	$context['page_title'] .= RESTRICTED_FLAG;
 elseif(isset($item['active']) && ($item['active'] == 'N'))
-	$context['page_title'] .= PRIVATE_FLAG.' ';
+	$context['page_title'] .= PRIVATE_FLAG;
 if(is_object($overlay))
 	$context['page_title'] .= $overlay->get_text('title', $item);
 elseif(isset($item['title']))
@@ -418,23 +418,6 @@ if(!isset($item['id'])) {
 		if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
 			$details[] = $more;
 
-		// article rating, if the anchor allows for it, and if no rating has already been registered
-		if(!Articles::has_option('without_rating', $anchor, $item) && !Articles::has_option('rate_as_digg', $anchor, $item)) {
-
-			// report on current rating
-			$label = '';
-			if($item['rating_count'])
-				$label .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
-			if(!$label)
-				$label .= i18n::s('Rate this page');
-
-			// link to the rating page
-			$label = Skin::build_link(Articles::get_url($item['id'], 'rate'), $label, 'span', i18n::s('Rate this page'));
-
-			// feature page rating
-			$details[] = $label;
-		}
-
 		// the source, if any
 		if($item['source']) {
 			if(preg_match('/(http|https|ftp):\/\/([^\s]+)/', $item['source'], $matches))
@@ -450,11 +433,11 @@ if(!isset($item['id'])) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
+			$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer');
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
-			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
+			$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons');
 
 		// expired article
 		if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))
@@ -871,7 +854,7 @@ if(!isset($item['id'])) {
 
 				// where the surfer can rate this item
 				else
-					$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+					$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 				// rendering
 				$text .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
@@ -923,21 +906,30 @@ if(!isset($item['id'])) {
 			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
+			// we have a compact list, or not
+			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {
+				include_once $context['path_to_root'].'files/layout_files_as_compact.php';
+				$layout = new Layout_files_as_compact();
+				$layout->set_variant('article:'.$item['id']);
+			} else
+				$layout = 'article:'.$item['id'];
+
+
 			// list files by date (default) or by title (option files_by_title)
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
 			if(Articles::has_option('files_by_title', $anchor, $item))
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
+				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
 			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
+				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
 
 			// actually render the html
 			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'decorated');
+				$box['text'] .= Skin::build_list($items, $compact?'compact':'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
 
 			// the command to post a new file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(!$compact && Files::allow_creation($anchor, $item, 'article')) {
 				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
 			}
@@ -945,7 +937,7 @@ if(!isset($item['id'])) {
 		}
 
 		// some files have been attached to this page
-		if(($page == 1) && ($count > 1)) {
+		if(($page == 1) && ($count > 5)) {
 
 			// the command to download all files
 			$link = 'files/fetch_all.php?anchor='.urlencode('article:'.$item['id']);
@@ -971,9 +963,10 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'comments')) {
 
 		// title label
-		if(is_object($anchor) && $anchor->is_viewable())
-			$title_label = ucfirst($anchor->get_label('list_title', 'comments'));
-		else
+		$title_label = '';
+		if(is_object($overlay))
+			$title_label = ucfirst($overlay->get_label('list_title', 'comments'));
+		if(!$title_label)
 			$title_label = i18n::s('Comments');
 
 		// no layout yet
@@ -983,9 +976,10 @@ if(!isset($item['id'])) {
 		$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
 
 		// label to create a comment
-		if(is_object($anchor) && $anchor->is_viewable())
-			$add_label = $anchor->get_label('new_command', 'comments');
-		else
+		$add_label = '';
+		if(is_object($overlay))
+			$add_label = $overlay->get_label('new_command', 'comments');
+		if(!$add_label)
 			$add_label = i18n::s('Post a comment');
 
 		// get a layout from anchor

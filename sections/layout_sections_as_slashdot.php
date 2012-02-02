@@ -84,9 +84,9 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// this is another row of the output
 			$text .= '<tr class="'.$class_title.'"><th>'.$prefix.Skin::build_link($url, $title, 'basic', i18n::s('View the section')).$suffix.'</th></tr>'."\n";
@@ -120,9 +120,9 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 				// signal restricted and private articles
 				if($article['active'] == 'N')
-					$prefix .= PRIVATE_FLAG.' ';
+					$prefix .= PRIVATE_FLAG;
 				elseif($article['active'] == 'R')
-					$prefix .= RESTRICTED_FLAG.' ';
+					$prefix .= RESTRICTED_FLAG;
 
 				// the icon to put aside
 				if($article['thumbnail_url'])

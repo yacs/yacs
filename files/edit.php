@@ -434,17 +434,17 @@ if($with_form) {
 		if(Surfer::may_upload()) {
 
 			// an upload entry
-			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" />'.i18n::s('Upload a file').'</dt>'
+			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" />&nbsp;'.i18n::s('Upload a file').'</dt>'
 				.'<dd><input type="file" name="upload" id="upload" size="30" onchange="$(\'input:radio[name=file_type]:nth(0)\').attr(\'checked\', true);$(\'#file_href\').val(\'\');" />'
 				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')</dd>'."\n";
 
 			// or
-			$input .= '<dt>'.i18n::s('or').'</dt>';
+			$input .= '<dt><div style="margin: 1em">-- '.i18n::s('or').' --</div></dt>';
 
 		}
 
 		// a reference
-		$input .= '<dt><input type="radio" name="file_type" value="href" />'.i18n::s('Share an existing reference (ftp://, http://, ...)').'</dt>'
+		$input .= '<dt><input type="radio" name="file_type" value="href" />&nbsp;'.i18n::s('Share an existing reference (ftp://, http://, ...)').'</dt>'
 			.'<dd><input type="text" name="file_href" id="file_href" size="45" value="'.encode_field(isset($item['file_href'])?$item['file_href']:'').'" maxlength="255" onfocus="$(\'input:radio[name=file_type]:nth(1)\').attr(\'checked\', true);" />';
 		$input .= BR.i18n::s('File size')
 			.' <input type="text" name="file_size" size="12" value="'.encode_field(isset($item['file_size'])?$item['file_size']:'').'" maxlength="12" /> '.i18n::s('bytes')

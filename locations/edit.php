@@ -237,7 +237,7 @@ if($with_form) {
 	if(isset($context['google_api_key']) && $context['google_api_key']) {
 
 		// encode on click
-		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').value); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
+		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').val()); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
 			.'<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'" type="text/javascript"></script>'."\n"
 			.JS_PREFIX
 			.'var geocoder = null;'."\n"
@@ -342,7 +342,7 @@ if($with_form) {
 		.'<li>'.Skin::build_link(i18n::s('http://www.batchgeocode.com/lookup/'), i18n::s('Address Map Coordinate (Lat/Long) Finder'), 'external').'</li>'
 		.'<li>'.Skin::build_link(i18n::s('http://www.travelgis.com/geocode/Default.aspx'), i18n::s('Free Geocoding Service for 22 Countries'), 'external').'</li>'
 		.'</ul>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

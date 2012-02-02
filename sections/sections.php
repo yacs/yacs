@@ -710,7 +710,7 @@ Class Sections {
 			$where = "(sections.anchor='' OR sections.anchor is NULL)";
 
 		// display active and restricted items
-		$where .= "AND (sections.active='Y'";
+		$where .= " AND (sections.active='Y'";
 
 		// list restricted sections to authenticated surfers
 		if(Surfer::is_logged())
@@ -729,7 +729,7 @@ Class Sections {
 		$where .= ")";
 
 		// hide sections removed from index maps
-		$where .= " AND (sections.index_map = 'Y')";
+//		$where .= " AND (sections.index_map = 'Y')";
 
 		// non-associates will have only live sections
 		if($anchor && !Surfer::is_empowered()) {

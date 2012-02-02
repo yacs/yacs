@@ -149,6 +149,8 @@ Options -Indexes
 	#
 	RewriteRule ^about$	articles/view.php?id=about	[QSA]
 	RewriteRule ^cron$  cron.php  [QSA]
+	RewriteRule ^faceme$ faceme.php  [QSA]
+	RewriteRule ^faceme/([^/]+)$ faceme.php?id=$1  [QSA]
 	RewriteRule ^privacy$  articles/view.php?id=privacy	[QSA]
 	RewriteRule ^search$  search.php  [QSA]
 

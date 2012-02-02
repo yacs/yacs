@@ -76,9 +76,6 @@ echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'
 // we have one style sheet for everything -- media="all" means it is not loaded by Netscape Navigator 4
 echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/digital.css" type="text/css" media="all" />'."\n";
 
-// nice titles
-echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/nicetitle.css" type="text/css" media="all" />'."\n";
-
 // implement the 'you are here' feature
 if($focus = Page::top_focus()) {
 	echo "\t".'<style type="text/css" media="screen">'."\n"
@@ -160,9 +157,6 @@ echo '</div>'."\n";
 
 // insert the dynamic footer, if any, including inline scripts
 echo $context['page_footer'];
-
-// nice titles
-echo "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'skins/digital/nicetitle.js"></script>'."\n";
 
 // end of the page
 echo '</body>'."\n"

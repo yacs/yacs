@@ -114,6 +114,7 @@ function json_encode2($var) {
 		case 'float':
 			return sprintf('%f', $var);
 		case 'string':
+			$var = str_replace('\\', '\\\\', $var);
 			$var = str_replace("\n", "\\n", $var);
 			$var = str_replace("\r", "\\r", $var);
 			$var = str_replace("\"", "\\\"", $var);

@@ -75,9 +75,9 @@ Class Layout_sections_as_accordion extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$box['title'] .= PRIVATE_FLAG.' ';
+				$box['title'] .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$box['title'] .= RESTRICTED_FLAG.' ';
+				$box['title'] .= RESTRICTED_FLAG;
 
 			// use the title to label the link
 			if(is_object($overlay))

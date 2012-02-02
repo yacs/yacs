@@ -917,7 +917,7 @@ if(!$permitted) {
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
 				$sub_section['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
-				$sub_section['articles_templates'] = 'discussion_template';
+				$sub_section['articles_templates'] = 'information_template, question_template';
 				$sub_section['content_options'] = 'auto_publish, with_prefix_profile'; // control is a posteriori; show poster avatar, if any
 				$sub_section['rank'] = ($index+1); //  preserve order
 				if($sub_section['title'])

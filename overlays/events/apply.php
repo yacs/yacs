@@ -132,13 +132,13 @@ elseif(!Surfer::get_id()) {
 		if($overlay->get_value('enrolment') == 'none')
 			$headline = sprintf(i18n::c('%s has confirmed participation to %s'),
 				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// user is asking for an invitation
 		else
 			$headline = sprintf(i18n::c('%s would like to be enrolled to %s'),
 				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// help the chairman
 		$message = Skin::build_mail_content($headline,

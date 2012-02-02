@@ -316,7 +316,7 @@ if($with_form) {
 		$text .= '<p>'.i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
 	else
 		$text .= '<p>'.i18n::s('Most HTML tags are removed.');
-	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help')).'.</p>';
+	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open')).'.</p>';
 
 	// locate mandatory fields
 	$text .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

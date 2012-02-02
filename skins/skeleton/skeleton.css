@@ -90,7 +90,12 @@ h1 { /* appears only once, with the page title */
 	text-align: left;
 }
 
-h2 { /* appears in the main content panel, to introduce sections of the page -- [title]...[/title], [question]...[/question] */
+h2,
+div.box h2,
+div.box h2 span,
+div.box h2 a,
+div.box h2 a:hover,
+div.box h2 a span { /* appears in the main content panel -- [title]...[/title], [question]...[/question] */
 	clear: left;
 	margin: 1em 0 0.5em 0;
 	padding: 0;
@@ -101,7 +106,12 @@ h2 { /* appears in the main content panel, to introduce sections of the page -- 
 
 }
 
-h3 { /* a second level of heading in the main panel -- [subtitle]...[/subtitle] */
+h3,
+div.box h3,
+div.box h3 span,
+div.box h3 a,
+div.box h3 a:hover,
+div.box h3 a span  { /* a second level of heading in the main panel -- [subtitle]...[/subtitle] */
 	clear: left;
 	margin: 1em 0 0.5em 0;
 	padding: 0;
@@ -116,7 +126,11 @@ img { /* a standard image */
 }
 
 input[type="password"],
-input[type="text"] { /* change form elements */
+input[type="text"],
+textarea { /* change form elements */
+	font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	font-weight: normal;
 	color: black;
 	background-color: white;
 	border: #26a solid 1px;
@@ -504,56 +518,19 @@ td.author { /* in jive and yabb layouts */
 }
 
 
-#main_panel span.button { /* a button in a form */
-	display: -moz-inline-box; /* mandatory for firefox 2 */
-	display: inline-block;
-	cursor: pointer;
-	border: none;
-	font-size: 0;
-	font-style: normal;
-	text-decoration: none;
-	color: #2e523b;
-	line-height: 0;
-	background: transparent url('images/button_drop.png') no-repeat 0 0;
-	height: 30px;
-	margin: 0 6px 0 0;
-	padding: 0 10px 0 0;
-	vertical-align: middle;
-}
-
-#main_panel span.button button {
-	display: -moz-inline-box;
-	display: inline-block;
-	cursor: pointer;
-	border: none;
-	font-family: "Arial" !important;
-	font-size: 12px !important;
-	font-style: normal;
-	white-space: nowrap;
-	letter-spacing: 0 !important;
-	color: #222;
-	line-height: 1;
-	background: transparent url('images/button_drop.png') no-repeat 100% 0;
-	height: 30px;
-	margin: 0 -16px 0 10px;
-	padding: 0 20px 0 10px;
-}
-
-#main_panel a.button:hover,
-#main_panel span.button:hover {
+#main_panel a.button:hover {
 	background-position:0 -60px;
 	color:#fff;
 	text-decoration:none;
+	box-shadow: none;
 }
 
-#main_panel a.button:hover span,
-#main_panel span.button:hover button {
+#main_panel a.button:hover span {
 	background-position:100% -60px;
 	color:#fff;
 }
 
-#main_panel a.button:active span,
-#main_panel span.button:focus button {
+#main_panel a.button:active span {
 	color:#444;
 }
 
@@ -680,7 +657,7 @@ div.sidebar_box { /* somewhere in the main panel -- [sidebar]...[/sidebar] */
 	float: right;
 	padding: 1em;
 	font-size: smaller;
-	margin: 0 0 4px 4px;
+	margin: 0 0 4px 2em;
 }
 
 div.sidebar_box h3 { /* header of one sidebar box -- the 'foo bar' of [sidebar=foo bar]...[/sidebar] */

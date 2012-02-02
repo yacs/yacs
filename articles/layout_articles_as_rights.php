@@ -75,9 +75,9 @@ Class Layout_articles_as_rights extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$summary .= PRIVATE_FLAG.' ';
+				$summary .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$summary .= RESTRICTED_FLAG.' ';
+				$summary .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the page');

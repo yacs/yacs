@@ -226,7 +226,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['users_overlay']))
 		$context['users_overlay'] = '';
 	$input = '<input type="text" name="users_overlay" size="65" value="'.encode_field($context['users_overlay']).'" maxlength="128" />';
-	$hint = sprintf(i18n::s('Script used to %s at this server'), Skin::build_link('overlays/', i18n::s('overlay user profiles'), 'help'));
+	$hint = sprintf(i18n::s('Script used to %s at this server'), Skin::build_link('overlays/', i18n::s('overlay user profiles'), 'open'));
 	$fields[] = array($label, $input, $hint);
 
 	// deletion control

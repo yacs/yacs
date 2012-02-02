@@ -58,7 +58,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			$url = Sections::get_permalink($item);
 
 			// initialize variables
-			$prefix = $label = $suffix = $icon = '';
+			$prefix = $label = $suffix = $icon = $hover = '';
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
@@ -77,9 +77,8 @@ Class Layout_sections_as_titles extends Layout_interface {
 				$suffix .= UPDATED_FLAG;
 
 			// display introduction field on hovering
-			$hover = '';
 			if($item['introduction'])
-				$hover = strip_tags(Codes::beautify_introduction($item['introduction']));
+				$hover .= strip_tags(Codes::beautify_introduction($item['introduction']));
 
 			// details and content
 			$details = array();
@@ -203,7 +202,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 				$related_count += $count;
 
 				// add sub-sections
-				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, $maximum_items, 'compact')) {
+				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, $maximum_items - count($content), 'compact')) {
 					foreach($related as $sub_url => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';
 						if(is_array($label)) {
@@ -221,24 +220,19 @@ Class Layout_sections_as_titles extends Layout_interface {
 
 			// give me more
 			if(count($content) && ($related_count > $maximum_items))
-				$content[] = i18n::s('More').MORE_IMG;
+				$content[] = '...'.MORE_IMG;
 
 			// layout details
 			if(count($content)) {
-				if($hover)
-					$hover .= BR;
-				$hover .= '- '.implode(BR.'- ', $content);
+				$hover .= '<ul><li>'.implode('</li><li>', $content).'</li></ul>';
 			}
 
 			// add a link to the main page
-			if(!hover)
+			if(!$hover)
 				$hover = i18n::s('View the section');
 
 			// use the title to label the link
 			$title = Skin::strip($item['title'], 50);
-
-			// title is a link to the target section
-			$title =& Skin::build_link($url, $title, 'basic', i18n::s('View the section'));
 
 			// new or updated flag
 			if($suffix)
@@ -274,8 +268,23 @@ Class Layout_sections_as_titles extends Layout_interface {
 			} else
 				$icon = MAP_IMG;
 
+			// use tipsy on hover
+			$content = '<a href="'.$context['url_to_root'].$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>'
+				.JS_PREFIX
+				.'$(document).ready(function() {'."\n"
+				.'	$("a#titles_'.$item['id'].'").each(function() {'."\n"
+				.'		$(this).tipsy({fallback: \'<div style="text-align: left;">'.str_replace(array("'", "\n"), array('"', '<br />'), $hover).'</div>\','."\n"
+				.	'		 html: true,'."\n"
+				.	'		 gravity: $.fn.tipsy.autoWE,'."\n"
+				.	'		 fade: true,'."\n"
+				.	'		 offset: 8,'."\n"
+				.	'		 opacity: 1.0});'."\n"
+				.'	});'."\n"
+				.'});'."\n"
+				.JS_SUFFIX;
+
 			// add a floating box
-			$text .= Skin::build_box($prefix.$title, '<a href="'.$context['url_to_root'].$url.'" class="tip">'.$icon.'<span class="tip_content">'.$hover.'</span></a>', 'floating');
+			$text .= Skin::build_box(NULL, $content, 'floating');
 
 		}
 

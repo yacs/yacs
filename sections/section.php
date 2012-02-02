@@ -67,6 +67,8 @@ Class Section extends Anchor {
 	 function get_label($id, $variant, $title='') {
 		global $context;
 
+		throw new exception('function get_label() in sections/section.php has been obsoleted');
+
 		// sanity check
 		if(!isset($this->item['id']))
 			return FALSE;
@@ -191,24 +193,9 @@ Class Section extends Anchor {
 
 		}
 
-		// climb the anchoring chain, if any
-		if(isset($this->item['anchor']) && $this->item['anchor']) {
+		// fall-back on default behavior
+		return parent::get_label($variant, $id, $title);
 
-			// cache anchor
-			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
-
-			if(is_object($this->anchor))
-				return $this->anchor->get_label($variant, $id, $title);
-
-		}
-
-		// use default title
-		if($title)
-			return $title;
-
-		// no match
-		return 'Impossible to translate '.$id.' for module '.$variant;
 	}
 
 	/**
@@ -271,7 +258,7 @@ Class Section extends Anchor {
 			}
 
 			// go up
-			$option_label = Skin::build_link($this->get_url(), i18n::s('Index'), 'basic');
+			$option_label = Skin::build_link($this->get_url(), i18n::s('Index'), 'pager-item');
 
 		// previous and next comments
 		} elseif($type == 'comment') {
@@ -1459,7 +1446,7 @@ Class Section extends Anchor {
 				$mail['content'] = Skin::build_mail_content($headline);
 
 				// call for action
-				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
+				$title = sprintf(i18n::c('%s in %s'), ucfirst(Anchors::get_action_label($action)), strip_tags($this->item['title']));
 				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
 				$menu = array(Skin::build_mail_button($link, $title, TRUE));
 				$mail['content'] .= Skin::build_mail_menu($menu);

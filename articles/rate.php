@@ -69,17 +69,9 @@ if(is_object($anchor) && !$anchor->is_viewable())
 elseif(is_object($anchor) && $anchor->has_option('without_rating'))
 	$permitted = FALSE;
 
-// surfer is logged
-elseif(Surfer::is_logged())
-	$permitted = TRUE;
-
-// surfer may handle this item
-elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	$permitted = TRUE;
-
-// the default is to disallow access
+// the default is to allow rating
 else
-	$permitted = FALSE;
+	$permitted = TRUE;
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -118,7 +110,7 @@ if(Surfer::is_crawler()) {
 // a rating has already been registered
 } elseif(isset($_COOKIE['rating_'.$id])) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('You have already rated his page.'));
+	Logger::error(i18n::s('You have already rated this page.'));
 
 // not a valid rating
 } elseif(($rating < 1 ) || ($rating > 5)) {

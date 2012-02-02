@@ -28,7 +28,7 @@ Class Layout_categories_as_tabs extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// no hovering label, because nicetitle may kill the effect
+		// no hovering label
 		$href_title = '';
 
 		// process all items in the list
