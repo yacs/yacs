@@ -311,9 +311,9 @@ if(!$item['id']) {
 		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
 
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
-		if(isset($context['skin'])) {
+		if(isset($context['skin']) && ($pathnames = Safe::glob($context['path_to_root'].$context['skin'].'/*.js'))) {
 
-			foreach(Safe::glob($context['path_to_root'].$context['skin'].'/*.js') as $name)
+			foreach($pathnames as $name)
 	 			$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$context['skin'].'/'.basename($name).'"></script>'."\n";
 
 		}
