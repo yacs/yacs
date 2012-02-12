@@ -164,7 +164,9 @@ elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor))
+
+// set a new overlay instance, except if some template has been defined for this anchor
+} elseif(!isset($item['id']) && is_object($anchor) && !$anchor->get_value('articles_templates'))
 	$overlay = $anchor->get_overlay('content_overlay');
 
 // get related behaviors, if any
