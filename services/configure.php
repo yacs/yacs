@@ -82,6 +82,9 @@ elseif(!Surfer::is_associate()) {
 	// the form
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 
+	// several tabs
+	$panels = array();
+
 	// Google API key
 	$label = i18n::s('Google API key');
 	if(!isset($context['google_api_key']) || !$context['google_api_key'])
@@ -119,6 +122,26 @@ elseif(!Surfer::is_associate()) {
 		$context['opentok_api_url'] = '';
 	$input = '<input type="text" name="opentok_api_url" size="45" value="'.encode_field($context['opentok_api_url']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
+
+	// Twilio Account SID
+	$label = i18n::s('Twilio account SID');
+	if(!isset($context['twilio_account_sid']) || !$context['twilio_account_sid'])
+		$context['twilio_account_sid'] = '';
+	$input = '<input type="text" name="twilio_account_sid" size="45" value="'.encode_field($context['twilio_account_sid']).'" maxlength="255" />';
+	$hint = sprintf(i18n::s('To integrate Twilio to your server, %s and enter SID here'), Skin::build_link(i18n::s('http://www.twilio.com/'), i18n::s('register')));
+	$fields[] = array($label, $input, $hint);
+
+	// Twilio Authentication token
+	$label = i18n::s('Twilio authentication token');
+	if(!isset($context['twilio_authentication_token']) || !$context['twilio_authentication_token'])
+		$context['twilio_authentication_token'] = '';
+	$input = '<input type="text" name="twilio_authentication_token" size="45" value="'.encode_field($context['twilio_authentication_token']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
+
+	// panel for web services
+	$text = Skin::build_form($fields);
+	$fields = array();
+	$panels[] = array('providers', i18n::s('Providers'), 'providers', $text);
 
 	// debug_blog
 	$label = i18n::s('Debug blog services');
@@ -174,8 +197,13 @@ elseif(!Surfer::is_associate()) {
 	$hint = i18n::s('Use this option only for troubleshooting');
 	$fields[] = array($label, $input, $hint);
 
-	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	// panel for debugging
+	$text = Skin::build_form($fields);
+	$fields = array();
+	$panels[] = array('debugging', i18n::s('Debugging'), 'debugging', $text);
+
+	// assemble all tabs
+	$context['text'] .= Skin::build_tabs($panels);
 
 	//
 	// bottom commands
@@ -237,6 +265,10 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'opentok_api_secret\']=\''.addcslashes($_REQUEST['opentok_api_secret'], "\\'")."';\n";
 	if(isset($_REQUEST['opentok_api_url']))
 		$content .= '$context[\'opentok_api_url\']=\''.addcslashes($_REQUEST['opentok_api_url'], "\\'")."';\n";
+	if(isset($_REQUEST['twilio_account_sid']))
+		$content .= '$context[\'twilio_account_sid\']=\''.addcslashes($_REQUEST['twilio_account_sid'], "\\'")."';\n";
+	if(isset($_REQUEST['twilio_authentication_token']))
+		$content .= '$context[\'twilio_authentication_token\']=\''.addcslashes($_REQUEST['twilio_authentication_token'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// update the parameters file
