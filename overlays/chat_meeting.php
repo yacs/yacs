@@ -26,8 +26,6 @@ include_once 'meeting.php';
  *
  * @link http://www.tokbox.com/
  *
- * @todo use signal to accelerate comments forwarding
- *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
