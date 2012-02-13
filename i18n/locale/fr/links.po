@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-12-20 00:31+0100\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -174,13 +174,13 @@ msgstr "Oui, je veux supprimer ce lien"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: links/delete.php:154 links/edit.php:553 links/layout_links.php:77
+#: links/delete.php:154 links/edit.php:553 links/layout_links.php:76
 #: links/layout_links_as_daily.php:95
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: links/delete.php:158 links/edit.php:557 links/layout_links.php:63
+#: links/delete.php:158 links/edit.php:557 links/layout_links.php:62
 msgid "clicks"
 msgstr "clics"
 
@@ -207,10 +207,6 @@ msgstr "Merci de votre contribution"
 #: links/edit.php:321
 msgid "The link has been successfully recorded."
 msgstr "Le lien a été enregistré"
-
-#: links/edit.php:324
-msgid "Persons that have been notified"
-msgstr "Personnes notifiées"
 
 #: links/edit.php:327
 msgid "What do you want to do now?"
@@ -408,17 +404,17 @@ msgstr "Hit-Parade"
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: links/layout_links.php:84 links/layout_links_as_daily.php:104
+#: links/layout_links.php:83 links/layout_links_as_daily.php:104
 #: links/layout_links_as_simple.php:54
 #, php-format
 msgid "in %s"
 msgstr "dans %s"
 
-#: links/layout_links.php:89
+#: links/layout_links.php:88
 msgid "edit"
 msgstr "modifier"
 
-#: links/layout_links.php:90
+#: links/layout_links.php:89
 msgid "delete"
 msgstr "supprimer"
 
@@ -580,6 +576,9 @@ msgid "You can use this form to manually trackback your pages to this site."
 msgstr ""
 "Vous pouvez utiliser ce formulaire pour lier manuellement vos pages à celles "
 "de ce site."
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Personnes notifiées"
 
 #~ msgid ""
 #~ "Please feel free to blog about this particular page, and to trackback to "

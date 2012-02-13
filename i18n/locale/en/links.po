@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-12-20 00:31+0100\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -178,13 +178,13 @@ msgstr "Yes, I want to delete this link"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: links/delete.php:154 links/edit.php:553 links/layout_links.php:77
+#: links/delete.php:154 links/edit.php:553 links/layout_links.php:76
 #: links/layout_links_as_daily.php:95
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
 
-#: links/delete.php:158 links/edit.php:557 links/layout_links.php:63
+#: links/delete.php:158 links/edit.php:557 links/layout_links.php:62
 msgid "clicks"
 msgstr "clicks"
 
@@ -211,10 +211,6 @@ msgstr "Thank you for your contribution"
 #: links/edit.php:321
 msgid "The link has been successfully recorded."
 msgstr "The link has been successfully recorded."
-
-#: links/edit.php:324
-msgid "Persons that have been notified"
-msgstr "Persons that have been notified"
 
 #: links/edit.php:327
 msgid "What do you want to do now?"
@@ -408,17 +404,17 @@ msgstr "Popular"
 msgid "View the category"
 msgstr "View the category"
 
-#: links/layout_links.php:84 links/layout_links_as_daily.php:104
+#: links/layout_links.php:83 links/layout_links_as_daily.php:104
 #: links/layout_links_as_simple.php:54
 #, php-format
 msgid "in %s"
 msgstr "in %s"
 
-#: links/layout_links.php:89
+#: links/layout_links.php:88
 msgid "edit"
 msgstr "edit"
 
-#: links/layout_links.php:90
+#: links/layout_links.php:89
 msgid "delete"
 msgstr "delete"
 
@@ -579,6 +575,9 @@ msgstr "trackback specification"
 #: links/trackback.php:396
 msgid "You can use this form to manually trackback your pages to this site."
 msgstr "You can use this form to manually trackback your pages to this site."
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Persons that have been notified"
 
 #~ msgid ""
 #~ "Please feel free to blog about this particular page, and to trackback to "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: locations/check.php:21 locations/check.php:32 locations/check.php:91
 #: locations/check.php:147 locations/delete.php:75 locations/edit.php:81
 #: locations/index.php:58 locations/map_on_earth.php:32
-#: locations/map_on_google.php:52 locations/view.php:65
+#: locations/map_on_google.php:52 locations/view.php:66
 msgid "Locations"
 msgstr ""
 
@@ -96,8 +96,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: locations/delete.php:144 locations/layout_locations.php:81
-#: locations/view.php:190
+#: locations/delete.php:144 locations/layout_locations.php:80
+#: locations/view.php:191
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Add a location"
 msgstr ""
 
-#: locations/edit.php:116 locations/locations.php:798
+#: locations/edit.php:116 locations/locations.php:799
 msgid "No anchor has been found."
 msgstr ""
 
@@ -124,10 +124,6 @@ msgstr ""
 
 #: locations/edit.php:158
 msgid "The location has been appended to the page."
-msgstr ""
-
-#: locations/edit.php:167
-msgid "Persons that have been notified"
 msgstr ""
 
 #: locations/edit.php:170
@@ -283,34 +279,34 @@ msgstr ""
 msgid "Recent pages"
 msgstr ""
 
-#: locations/layout_locations.php:63 locations/view.php:212
-#: locations/view.php:217
+#: locations/layout_locations.php:62 locations/view.php:213
+#: locations/view.php:218
 msgid "Edit"
 msgstr ""
 
-#: locations/layout_locations.php:64 locations/view.php:213
+#: locations/layout_locations.php:63 locations/view.php:214
 msgid "Delete"
 msgstr ""
 
-#: locations/layout_locations.php:90
+#: locations/layout_locations.php:89
 #, php-format
 msgid "in %s"
 msgstr ""
 
-#: locations/locations.php:650 locations/view.php:100
+#: locations/locations.php:650 locations/view.php:101
 msgid "Loading..."
 msgstr ""
 
-#: locations/locations.php:745 locations/map_on_google.php:66
+#: locations/locations.php:746 locations/map_on_google.php:66
 msgid ""
 "Use the configuration panel for web services to enter your Google API key."
 msgstr ""
 
-#: locations/locations.php:792
+#: locations/locations.php:793
 msgid "Please add a geo_place_name for this location"
 msgstr ""
 
-#: locations/locations.php:814
+#: locations/locations.php:815
 msgid "No item has the provided id."
 msgstr ""
 
@@ -335,16 +331,16 @@ msgstr ""
 msgid "Reference a valid anchor, or all users."
 msgstr ""
 
-#: locations/view.php:98 locations/view.php:175
+#: locations/view.php:99 locations/view.php:176
 #, php-format
 msgid "Geographical coordinates: %s"
 msgstr ""
 
-#: locations/view.php:182
+#: locations/view.php:183
 #, php-format
 msgid "Regional position: %s"
 msgstr ""
 
-#: locations/view.php:202
+#: locations/view.php:203
 msgid "Back to main page"
 msgstr ""
