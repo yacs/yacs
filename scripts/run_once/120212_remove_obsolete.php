@@ -17,7 +17,12 @@ $count = 0;
 
 // files to delete, from root path
 $files = array();
+$files[] = 'included/browser/js_endpage/swfobject.js';
 $files[] = 'overlays/external_meeting.php';
+$files[] = 'skins/digital/nicetitle.css';
+$files[] = 'skins/digital/nicetitle.js';
+$files[] = 'skins/skeleton/nicetitle.css';
+$files[] = 'skins/skeleton/nicetitle.js';
 $files[] = 'users/contact.php';
 
 // process every file
