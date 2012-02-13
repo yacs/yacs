@@ -1686,9 +1686,10 @@ Class Skin_Skeleton {
 		if($variant == 'tip') {
 			$attributes .= ' class="tip"';
 			$variant = 'basic';
+		}
 
 		// malformed url '//server/path' --> 'http://server/path'
-		} elseif(!strncmp($url, '//', 2))
+		if(!strncmp($url, '//', 2))
 			$url = 'http:'.$url;
 
 		// fix relative path
