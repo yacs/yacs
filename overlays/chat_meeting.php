@@ -23,6 +23,7 @@ include_once 'meeting.php';
  *
  * If OpenTok has been activated, webcams of participants are triggered automatically,
  * and a series of videos are displayed above the chatting area.
+ * The OpenTok signalling facility is also used to make the chat almost real-time.
  *
  * @link http://www.tokbox.com/
  *
@@ -218,6 +219,13 @@ class Chat_meeting extends Meeting {
 		// finalize the authentication token expected by OpenTok
         $token = 'T1=='.base64_encode('partner_id='.$context['opentok_api_key'].'&sig='.$hash.':'.$credentials);
 
+        // delegate audio processing to OpenTok too
+        $with_audio = 'true';
+
+        // except if twilio has been activated instead
+        if(isset($context['twilio_account_sid']) && $context['twilio_account_sid'])
+        	$with_audio = 'false';
+
 		// load the OpenTok javascript library in shared/global.php
 		$context['javascript']['opentok'] = TRUE;
 
@@ -235,7 +243,7 @@ class Chat_meeting extends Meeting {
 			.'	subscribers: {},'."\n"
 			.'	tentatives: 3,'."\n"
 			.'	watchdog: null,'."\n"
-			.'	withAudio: true,'."\n"
+			.'	withAudio: '.$with_audio.','."\n"
 			."\n"
 			.'	// user has denied access to the camera from Flash'."\n"
 			.'	accessDeniedHandler: function() {'."\n"
