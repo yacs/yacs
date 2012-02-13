@@ -20,10 +20,16 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'articles/article.dtd';
 $files[] = 'control/htaccess/options/.htaccess';
 $files[] = 'included/browser/js_endpage/jquery.tipsy.js';
+$files[] = 'included/browser/js_header/swfobject.js';
 $files[] = 'included/browser/library_js_endpage.min.js';
 $files[] = 'included/browser/library_js_header.min.js';
+$files[] = 'included/fckeditor/editor/css/behaviors/disablehandles.htc';
+$files[] = 'included/fckeditor/editor/css/behaviors/showtableborders.htc';
+$files[] = 'readme.txt';
+$files[] = 'services/xml-rpc/blogger.getUsersBlogs.response.2.xml';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/_reference/ajax/ajax_spinner_black.gif';
@@ -32,6 +38,7 @@ $files[] = 'skins/boxesandarrows/boxesandarrows.css';
 $files[] = 'skins/digital/digital.css';
 $files[] = 'skins/joi/joi.css';
 $files[] = 'skins/skeleton/skeleton.css';
+$files[] = 'tools/transform.xsl';
 
 // process every file
 $count = 0;
