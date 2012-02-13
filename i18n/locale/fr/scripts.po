@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2012-01-13 16:28+0100\n"
 "PO-Revision-Date: 2010-05-12 16:29+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -707,11 +707,11 @@ msgstr ""
 "Cliquer pour extraire les fichiers. Vous pouvez avoir à attendre avant "
 "d'obtenir une réponse à l'écran."
 
-#: scripts/stage.php:462
+#: scripts/stage.php:441
 msgid "Direct staging"
 msgstr "Mise à jour directe du tampon"
 
-#: scripts/stage.php:465
+#: scripts/stage.php:444
 #, php-format
 msgid ""
 "Ultimately, you can populate the directory %s by yourself. On completion you "
@@ -720,7 +720,7 @@ msgstr ""
 "Vous pouvez aussi choisir de remplir le répertoire %s manuellement. Ensuite "
 "vous pourrez lancer %s."
 
-#: scripts/stage.php:465
+#: scripts/stage.php:444
 msgid "update process"
 msgstr "la mise à jour"
 

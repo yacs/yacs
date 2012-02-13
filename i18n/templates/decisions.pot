@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,10 +157,6 @@ msgstr ""
 msgid "Your approval has been recorded"
 msgstr ""
 
-#: decisions/edit.php:231
-msgid "Persons that have been notified"
-msgstr ""
-
 #: decisions/edit.php:234 decisions/mail.php:238
 msgid "What do you want to do now?"
 msgstr ""
@@ -299,31 +295,31 @@ msgstr ""
 msgid "Recent pages"
 msgstr ""
 
-#: decisions/layout_decisions.php:62
+#: decisions/layout_decisions.php:61
 #, php-format
 msgid "Rejected %s"
 msgstr ""
 
-#: decisions/layout_decisions.php:65
+#: decisions/layout_decisions.php:64
 #, php-format
 msgid "Approved %s"
 msgstr ""
 
-#: decisions/layout_decisions.php:79
+#: decisions/layout_decisions.php:78
 #, php-format
 msgid "Rejected by %s %s"
 msgstr ""
 
-#: decisions/layout_decisions.php:82
+#: decisions/layout_decisions.php:81
 #, php-format
 msgid "Approved by %s %s"
 msgstr ""
 
-#: decisions/layout_decisions.php:93
+#: decisions/layout_decisions.php:92
 msgid "edit"
 msgstr ""
 
-#: decisions/layout_decisions.php:97
+#: decisions/layout_decisions.php:96
 msgid "delete"
 msgstr ""
 

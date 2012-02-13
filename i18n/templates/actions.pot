@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,15 +34,15 @@ msgstr ""
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: actions/accept.php:125 actions/edit.php:317
+#: actions/accept.php:125 actions/edit.php:331
 msgid "On-going"
 msgstr ""
 
-#: actions/accept.php:129 actions/edit.php:321 actions/view.php:136
+#: actions/accept.php:129 actions/edit.php:335 actions/view.php:136
 msgid "Completed"
 msgstr ""
 
-#: actions/accept.php:133 actions/edit.php:325 actions/view.php:137
+#: actions/accept.php:133 actions/edit.php:339 actions/view.php:137
 msgid "Rejected"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Unknown status %s"
 msgstr ""
 
-#: actions/actions.php:644 actions/edit.php:358
+#: actions/actions.php:644 actions/edit.php:372
 msgid "No title has been provided."
 msgstr ""
 
@@ -173,10 +173,6 @@ msgstr ""
 msgid "Thank you for your contribution"
 msgstr ""
 
-#: actions/edit.php:201
-msgid "Persons that have been notified"
-msgstr ""
-
 #: actions/edit.php:204
 msgid "What do you want to do now?"
 msgstr ""
@@ -189,82 +185,87 @@ msgstr ""
 msgid "Edit the action"
 msgstr ""
 
-#: actions/edit.php:216
+#: actions/edit.php:216 actions/edit.php:233
 #, php-format
 msgid "New action: %s"
 msgstr ""
 
 #: actions/edit.php:219
+#, php-format
+msgid "%s is requesting your contribution"
+msgstr ""
+
+#: actions/edit.php:223
 msgid ""
 "The following action has been added to your to-do list. Please process it as "
 "soon as possible to ensure minimal delay."
 msgstr ""
 
-#: actions/edit.php:235
+#: actions/edit.php:249
 #, php-format
 msgid "New action for %s"
 msgstr ""
 
-#: actions/edit.php:265
+#: actions/edit.php:279
 msgid ""
 "You can use actions to notify immediately other members of new things to do. "
 "Actions are sent by email where possible. Else they are listed at login time."
 msgstr ""
 
-#: actions/edit.php:269
+#: actions/edit.php:283
 #, php-format
 msgid "Action assigned to: %s"
 msgstr ""
 
-#: actions/edit.php:281
+#: actions/edit.php:295
 msgid "Posted by"
 msgstr ""
 
-#: actions/edit.php:288
+#: actions/edit.php:302
 msgid "Edited by"
 msgstr ""
 
-#: actions/edit.php:294
+#: actions/edit.php:308
 msgid "Title"
 msgstr ""
 
-#: actions/edit.php:296
+#: actions/edit.php:310
 msgid "Be straigthforward"
 msgstr ""
 
-#: actions/edit.php:300
+#: actions/edit.php:314
 msgid "Description"
 msgstr ""
 
-#: actions/edit.php:307 actions/view.php:124
+#: actions/edit.php:321 actions/view.php:124
 msgid "Target address"
 msgstr ""
 
-#: actions/edit.php:309
+#: actions/edit.php:323
 msgid "The URL of the target page for this action, if any"
 msgstr ""
 
-#: actions/edit.php:313
+#: actions/edit.php:327
 msgid "Status"
 msgstr ""
 
-#: actions/edit.php:332
+#: actions/edit.php:346
 msgid "Submit"
 msgstr ""
 
-#: actions/edit.php:332
+#: actions/edit.php:346
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: actions/edit.php:335
+#: actions/edit.php:349
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: actions/edit.php:372
+#: actions/edit.php:386
 msgid "Help"
 msgstr ""
 
-#: actions/edit.php:373
+#: actions/edit.php:387
 #, php-format
 msgid ""
 "<p>If possible, describe the whole action in its title. The description "
@@ -273,11 +274,11 @@ msgid ""
 "designate the main web resource involved in the action.</p>"
 msgstr ""
 
-#: actions/edit.php:373
+#: actions/edit.php:387
 msgid "YACS codes"
 msgstr ""
 
-#: actions/edit.php:373
+#: actions/edit.php:387
 msgid "smileys"
 msgstr ""
 

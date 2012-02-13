@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-24 23:09+0100\n"
-"PO-Revision-Date: 2011-11-24 23:09+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
+"PO-Revision-Date: 2012-01-22 22:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
@@ -20,232 +20,134 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Language: English\n"
 
-#: overlays/bbb_meeting.php:87
-#: overlays/bbb_meeting.php:218
-#: overlays/chat_meeting.php:94
-#: overlays/dimdim_meeting.php:44
-#: overlays/dimdim_meeting.php:228
-#: overlays/etherpad_meeting.php:53
-#: overlays/event.php:561
-#: overlays/event.php:563
-#: overlays/event.php:699
-#: overlays/event.php:701
-#: overlays/event.php:1268
-#: overlays/external_meeting.php:40
-#: overlays/livestream_meeting.php:70
-#: overlays/ustream_meeting.php:72
+#: overlays/bbb_meeting.php:87 overlays/bbb_meeting.php:183
+#: overlays/chat_meeting.php:101 overlays/dimdim_meeting.php:44
+#: overlays/dimdim_meeting.php:193 overlays/etherpad_meeting.php:53
+#: overlays/event.php:568 overlays/event.php:570 overlays/event.php:706
+#: overlays/event.php:1286 overlays/livestream_meeting.php:70
+#: overlays/meeting.php:40 overlays/ustream_meeting.php:72
 msgid "Chairman"
 msgstr "Chairman"
 
-#: overlays/bbb_meeting.php:92
-#: overlays/chat_meeting.php:99
-#: overlays/dimdim_meeting.php:49
-#: overlays/etherpad_meeting.php:58
-#: overlays/external_meeting.php:45
-#: overlays/livestream_meeting.php:75
+#: overlays/bbb_meeting.php:92 overlays/chat_meeting.php:106
+#: overlays/dimdim_meeting.php:49 overlays/etherpad_meeting.php:58
+#: overlays/livestream_meeting.php:75 overlays/meeting.php:45
 #: overlays/ustream_meeting.php:77
 msgid "Seats"
 msgstr "Seats"
 
-#: overlays/bbb_meeting.php:94
-#: overlays/chat_meeting.php:101
-#: overlays/dimdim_meeting.php:51
-#: overlays/etherpad_meeting.php:60
-#: overlays/external_meeting.php:47
-#: overlays/livestream_meeting.php:77
+#: overlays/bbb_meeting.php:94 overlays/chat_meeting.php:108
+#: overlays/dimdim_meeting.php:51 overlays/etherpad_meeting.php:60
+#: overlays/livestream_meeting.php:77 overlays/meeting.php:47
 #: overlays/ustream_meeting.php:79
 msgid "Maximum number of participants."
 msgstr "Maximum number of participants."
 
-#: overlays/bbb_meeting.php:152
-#: overlays/chat_meeting.php:129
-#: overlays/dimdim_meeting.php:137
-#: overlays/etherpad_meeting.php:124
-#: overlays/external_meeting.php:116
-msgid "Edit this meeting"
-msgstr "Edit this meeting"
-
-#: overlays/bbb_meeting.php:155
-#: overlays/bbb_meeting.php:164
-#: overlays/chat_meeting.php:132
-#: overlays/chat_meeting.php:142
-#: overlays/dimdim_meeting.php:140
-#: overlays/dimdim_meeting.php:149
-#: overlays/etherpad_meeting.php:127
-#: overlays/etherpad_meeting.php:136
-#: overlays/external_meeting.php:119
-#: overlays/external_meeting.php:128
-msgid "Add a meeting"
-msgstr "Add a meeting"
-
-#: overlays/bbb_meeting.php:158
-#: overlays/chat_meeting.php:136
-#: overlays/dimdim_meeting.php:143
-#: overlays/etherpad_meeting.php:130
-#: overlays/external_meeting.php:122
-msgid "Edit a meeting"
-msgstr "Edit a meeting"
-
-#: overlays/bbb_meeting.php:161
-#: overlays/chat_meeting.php:139
-#: overlays/dimdim_meeting.php:146
-#: overlays/etherpad_meeting.php:133
-#: overlays/external_meeting.php:125
-msgid "Delete a meeting"
-msgstr "Delete a meeting"
-
-#: overlays/bbb_meeting.php:206
-#: overlays/bbb_meeting.php:210
-#: overlays/bbb_meeting.php:214
-#: overlays/bbb_meeting.php:218
-#: overlays/dimdim_meeting.php:216
-#: overlays/dimdim_meeting.php:220
-#: overlays/dimdim_meeting.php:224
-#: overlays/dimdim_meeting.php:228
-#: overlays/event.php:557
-#: overlays/event.php:561
-#: overlays/event.php:563
-#: overlays/event.php:567
-#: overlays/event.php:569
-#: overlays/event.php:573
-#: overlays/event.php:695
-#: overlays/event.php:699
-#: overlays/event.php:701
-#: overlays/event.php:705
-#: overlays/event.php:707
-#: overlays/events/apply.php:132
-#: overlays/events/apply.php:174
-#: overlays/events/enroll.php:89
-#: overlays/events/enroll.php:146
+#: overlays/bbb_meeting.php:171 overlays/bbb_meeting.php:175
+#: overlays/bbb_meeting.php:179 overlays/bbb_meeting.php:183
+#: overlays/dimdim_meeting.php:181 overlays/dimdim_meeting.php:185
+#: overlays/dimdim_meeting.php:189 overlays/dimdim_meeting.php:193
+#: overlays/event.php:558 overlays/event.php:562 overlays/event.php:564
+#: overlays/event.php:568 overlays/event.php:570 overlays/event.php:574
+#: overlays/event.php:696 overlays/event.php:700 overlays/event.php:702
+#: overlays/event.php:706 overlays/events/apply.php:129
+#: overlays/events/apply.php:189 overlays/events/enroll.php:86
+#: overlays/events/enroll.php:155
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: overlays/bbb_meeting.php:206
-#: overlays/dimdim_meeting.php:216
+#: overlays/bbb_meeting.php:171 overlays/dimdim_meeting.php:181
 msgid "Title"
 msgstr "Title"
 
-#: overlays/bbb_meeting.php:210
-#: overlays/day.php:72
-#: overlays/dimdim_meeting.php:220
-#: overlays/event.php:432
-#: overlays/event.php:567
-#: overlays/event.php:705
-#: overlays/event.php:1243
+#: overlays/bbb_meeting.php:175 overlays/day.php:72
+#: overlays/dimdim_meeting.php:185 overlays/event.php:433
+#: overlays/event.php:562 overlays/event.php:700 overlays/event.php:1261
 msgid "Date"
 msgstr "Date"
 
-#: overlays/bbb_meeting.php:214
-#: overlays/dimdim_meeting.php:224
-#: overlays/event.php:454
-#: overlays/event.php:569
-#: overlays/event.php:707
-#: overlays/event.php:1259
+#: overlays/bbb_meeting.php:179 overlays/dimdim_meeting.php:189
+#: overlays/event.php:455 overlays/event.php:564 overlays/event.php:702
+#: overlays/event.php:1277
 msgid "Duration"
 msgstr "Duration"
 
-#: overlays/bbb_meeting.php:214
-#: overlays/dimdim_meeting.php:224
-#: overlays/event.php:569
-#: overlays/event.php:707
+#: overlays/bbb_meeting.php:179 overlays/dimdim_meeting.php:189
+#: overlays/event.php:564 overlays/event.php:702
 msgid "minutes"
 msgstr "minutes"
 
-#: overlays/bbb_meeting.php:266
-#: overlays/chat_meeting.php:180
-#: overlays/day.php:200
-#: overlays/etherpad_meeting.php:215
-#: overlays/external_meeting.php:180
-#: overlays/livestream_meeting.php:229
-#: overlays/ustream_meeting.php:213
-msgid "Meeting is under preparation"
-msgstr "Meeting is under preparation"
+#: overlays/chat_meeting.php:243
+msgid "Connecting again to OpenTok"
+msgstr "Connecting again to OpenTok"
 
-#: overlays/bbb_meeting.php:269
-#: overlays/chat_meeting.php:183
-#: overlays/day.php:203
-#: overlays/etherpad_meeting.php:218
-#: overlays/event.php:901
-#: overlays/external_meeting.php:183
-#: overlays/livestream_meeting.php:232
-#: overlays/ustream_meeting.php:216
-msgid "Enrolment is open"
-msgstr "Enrolment is open"
+#: overlays/chat_meeting.php:252
+msgid "A webcam is required to be visible"
+msgstr "A webcam is required to be visible"
 
-#: overlays/bbb_meeting.php:272
-#: overlays/chat_meeting.php:186
-#: overlays/day.php:206
-#: overlays/etherpad_meeting.php:221
-#: overlays/external_meeting.php:186
-#: overlays/livestream_meeting.php:235
-#: overlays/ustream_meeting.php:219
-msgid "Meeting has not started yet"
-msgstr "Meeting has not started yet"
+#: overlays/chat_meeting.php:261
+msgid "You are not visible"
+msgstr "You are not visible"
 
-#: overlays/bbb_meeting.php:275
-#: overlays/chat_meeting.php:189
-#: overlays/day.php:209
-#: overlays/etherpad_meeting.php:224
-#: overlays/external_meeting.php:189
-#: overlays/livestream_meeting.php:238
-#: overlays/ustream_meeting.php:222
-msgid "Meeting has started"
-msgstr "Meeting has started"
+#: overlays/chat_meeting.php:264
+msgid "You have been muted"
+msgstr "You have been muted"
 
-#: overlays/bbb_meeting.php:278
-#: overlays/chat_meeting.php:192
-#: overlays/day.php:212
-#: overlays/etherpad_meeting.php:227
-#: overlays/event.php:1175
-#: overlays/external_meeting.php:192
-#: overlays/livestream_meeting.php:241
-#: overlays/ustream_meeting.php:225
-msgid "Meeting is over"
-msgstr "Meeting is over"
+#: overlays/chat_meeting.php:274
+msgid "Error while connecting to OpenTok"
+msgstr "Error while connecting to OpenTok"
 
-#: overlays/day.php:74
-#: overlays/event.php:434
+#: overlays/chat_meeting.php:306
+msgid "Connecting to OpenTok"
+msgstr "Connecting to OpenTok"
+
+#: overlays/chat_meeting.php:325
+msgid "This system is not supported by OpenTok"
+msgstr "This system is not supported by OpenTok"
+
+#: overlays/chat_meeting.php:336
+msgid "Adding local video stream"
+msgstr "Adding local video stream"
+
+#: overlays/chat_meeting.php:373
+msgid "Stop talking"
+msgstr "Stop talking"
+
+#: overlays/chat_meeting.php:400 overlays/chat_meeting.php:483
+msgid "Start talking"
+msgstr "Start talking"
+
+#: overlays/chat_meeting.php:421 overlays/chat_meeting.php:475
+#, php-format
+msgid "%s is talking"
+msgstr "%s is talking"
+
+#: overlays/chat_meeting.php:429
+#, php-format
+msgid "%s is listening"
+msgstr "%s is listening"
+
+#: overlays/chat_meeting.php:439
+#, php-format
+msgid "%s is not visible"
+msgstr "%s is not visible"
+
+#: overlays/chat_meeting.php:454
+msgid "Adding remote video streams"
+msgstr "Adding remote video streams"
+
+#: overlays/chat_meeting.php:485
+msgid "Click on the button before talking"
+msgstr "Click on the button before talking"
+
+#: overlays/day.php:74 overlays/event.php:435
 msgid "Use format YYYY-MM-DD"
 msgstr "Use format YYYY-MM-DD"
 
-#: overlays/day.php:83
-#: overlays/event.php:443
+#: overlays/day.php:83 overlays/event.php:444
 msgid "Please provide a date."
 msgstr "Please provide a date."
-
-#: overlays/day.php:128
-#: overlays/event.php:775
-#: overlays/livestream_meeting.php:128
-#: overlays/ustream_meeting.php:148
-msgid "Edit this event"
-msgstr "Edit this event"
-
-#: overlays/day.php:131
-#: overlays/day.php:140
-#: overlays/event.php:778
-#: overlays/event.php:787
-#: overlays/event.php:1699
-#: overlays/livestream_meeting.php:131
-#: overlays/livestream_meeting.php:140
-#: overlays/ustream_meeting.php:151
-#: overlays/ustream_meeting.php:160
-msgid "Add an event"
-msgstr "Add an event"
-
-#: overlays/day.php:134
-#: overlays/event.php:781
-#: overlays/livestream_meeting.php:134
-#: overlays/ustream_meeting.php:154
-msgid "Edit an event"
-msgstr "Edit an event"
-
-#: overlays/day.php:137
-#: overlays/event.php:784
-#: overlays/livestream_meeting.php:137
-#: overlays/ustream_meeting.php:157
-msgid "Delete an event"
-msgstr "Delete an event"
 
 #: overlays/dimdim_meeting.php:55
 msgid "Account"
@@ -260,317 +162,377 @@ msgstr "Enter a valid %s account"
 msgid "Password"
 msgstr "Password"
 
-#: overlays/etherpad_meeting.php:252
+#: overlays/embed.php:28
+msgid "Share"
+msgstr "Share"
+
+#: overlays/embed.php:36
+msgid "Paste the address of a web page that you have visited"
+msgstr "Paste the address of a web page that you have visited"
+
+#: overlays/embed.php:40
+msgid "Upload a file"
+msgstr "Upload a file"
+
+#: overlays/embed.php:43
+msgid "Document an idea or a sugggestion in the description field below"
+msgstr "Document an idea or a sugggestion in the description field below"
+
+#: overlays/embed.php:49
+#, php-format
+msgid "Following sites are recognized automatically: %s"
+msgstr "Following sites are recognized automatically: %s"
+
+#: overlays/embed.php:96
+#, php-format
+msgid "Select a file of less than %s"
+msgstr "Select a file of less than %s"
+
+#: overlays/embed.php:96
+msgid "bytes"
+msgstr "bytes"
+
+#: overlays/embed.php:467 overlays/embed.php:499
+#, php-format
+msgid "%s has shared a link"
+msgstr "%s has shared a link"
+
+#: overlays/embed.php:471
+#, php-format
+msgid "%s has shared a photo"
+msgstr "%s has shared a photo"
+
+#: overlays/embed.php:475
+#, php-format
+msgid "%s has shared some information"
+msgstr "%s has shared some information"
+
+#: overlays/embed.php:479
+#, php-format
+msgid "%s has shared a video"
+msgstr "%s has shared a video"
+
+#: overlays/embed.php:516
+#, php-format
+msgid "%s has shared a file"
+msgstr "%s has shared a file"
+
+#: overlays/etherpad_meeting.php:181
 msgid "Resulting text"
 msgstr "Resulting text"
 
-#: overlays/event.php:86
-msgid "Review the meeting page"
-msgstr "Review the meeting page"
-
 #: overlays/event.php:91
-msgid "Browse the meeting page, then confirm my participation"
-msgstr "Browse the meeting page, then confirm my participation"
+msgid "Thanks to confirm your participation."
+msgstr "Thanks to confirm your participation."
 
-#: overlays/event.php:95
-msgid "Browse the meeting page, then ask for an invitation"
-msgstr "Browse the meeting page, then ask for an invitation"
+#: overlays/event.php:96
+msgid "Ask for an invitation if you are interested."
+msgstr "Ask for an invitation if you are interested."
 
-#: overlays/event.php:101
+#: overlays/event.php:102
 msgid "Use the file attached to update your calendar."
 msgstr "Use the file attached to update your calendar."
 
-#: overlays/event.php:121
-#: overlays/issue.php:913
+#: overlays/event.php:122 overlays/issue.php:913
 msgid "Type some letters of the name and select in the list"
 msgstr "Type some letters of the name and select in the list"
 
-#: overlays/event.php:139
+#: overlays/event.php:140
 msgid "Meeting location"
 msgstr "Meeting location"
 
-#: overlays/event.php:174
+#: overlays/event.php:175
 msgid "Provide directions to join the meeting"
 msgstr "Provide directions to join the meeting"
 
-#: overlays/event.php:458
-#: overlays/event.php:459
-#: overlays/event.php:460
-#: overlays/event.php:1256
+#: overlays/event.php:459 overlays/event.php:460 overlays/event.php:461
+#: overlays/event.php:1274
 #, php-format
 msgid "%d minutes"
 msgstr "%d minutes"
 
-#: overlays/event.php:461
-#: overlays/event.php:1250
+#: overlays/event.php:462 overlays/event.php:1268
 msgid "one hour"
 msgstr "one hour"
 
-#: overlays/event.php:462
-#: overlays/event.php:1253
+#: overlays/event.php:463 overlays/event.php:1271
 msgid "two hours"
 msgstr "two hours"
 
-#: overlays/event.php:463
+#: overlays/event.php:464
 msgid "all day"
 msgstr "all day"
 
-#: overlays/event.php:557
-#: overlays/event.php:695
+#: overlays/event.php:558 overlays/event.php:696
 msgid "Topic"
 msgstr "Topic"
 
-#: overlays/event.php:573
+#: overlays/event.php:574
 msgid "Location"
 msgstr "Location"
 
-#: overlays/event.php:577
-#: overlays/event.php:711
+#: overlays/event.php:578 overlays/event.php:710
 msgid "Meeting has been cancelled."
 msgstr "Meeting has been cancelled."
 
-#: overlays/event.php:743
+#: overlays/event.php:742
 msgid "to review this event and confirm their participation"
 msgstr "to review this event and confirm their participation"
 
-#: overlays/event.php:744
-#: overlays/event.php:748
+#: overlays/event.php:743 overlays/event.php:747
 msgid "to be notified of their enrolment"
 msgstr "to be notified of their enrolment"
 
-#: overlays/event.php:747
+#: overlays/event.php:746
 msgid "to review this event and ask for an invitation"
 msgstr "to review this event and ask for an invitation"
 
-#: overlays/event.php:839
+#: overlays/event.php:777 overlays/event.php:778
+msgid "Edit this event"
+msgstr "Edit this event"
+
+#: overlays/event.php:783 overlays/event.php:784 overlays/event.php:804
+#: overlays/event.php:805 overlays/event.php:1833
+msgid "Add an event"
+msgstr "Add an event"
+
+#: overlays/event.php:789 overlays/event.php:790 overlays/event.php:1669
+#: overlays/event.php:1745
+msgid "View event details"
+msgstr "View event details"
+
+#: overlays/event.php:794 overlays/event.php:795
+msgid "Edit an event"
+msgstr "Edit an event"
+
+#: overlays/event.php:799 overlays/event.php:800
+msgid "Delete an event"
+msgstr "Delete an event"
+
+#: overlays/event.php:857
 msgid "Description"
 msgstr "Description"
 
-#: overlays/event.php:842
+#: overlays/event.php:860
 msgid "Welcome"
 msgstr "Welcome"
 
-#: overlays/event.php:844
+#: overlays/event.php:862
 msgid "Follow-up"
 msgstr "Follow-up"
 
-#: overlays/event.php:898
+#: overlays/event.php:916
 msgid "Event is under preparation"
 msgstr "Event is under preparation"
 
-#: overlays/event.php:904
+#: overlays/event.php:919 overlays/meeting.php:185
+msgid "Enrolment is open"
+msgstr "Enrolment is open"
+
+#: overlays/event.php:922
 msgid "Event has not started yet"
 msgstr "Event has not started yet"
 
-#: overlays/event.php:907
+#: overlays/event.php:925
 msgid "Event has started"
 msgstr "Event has started"
 
-#: overlays/event.php:910
+#: overlays/event.php:928 overlays/event.php:1193
 msgid "Event is over"
 msgstr "Event is over"
 
-#: overlays/event.php:964
+#: overlays/event.php:982
 msgid "Event preparation"
 msgstr "Event preparation"
 
-#: overlays/event.php:967
+#: overlays/event.php:985
 msgid "Induction message"
 msgstr "Induction message"
 
-#: overlays/event.php:971
+#: overlays/event.php:989
 msgid "Displayed until the beginning of the event."
 msgstr "Displayed until the beginning of the event."
 
-#: overlays/event.php:981
-#: overlays/event.php:1167
+#: overlays/event.php:999 overlays/event.php:1185
 msgid "Enrolment"
 msgstr "Enrolment"
 
-#: overlays/event.php:989
-#: overlays/event.php:2033
+#: overlays/event.php:1007 overlays/event.php:2210
 msgid "Any page visitor can participate"
 msgstr "Any page visitor can participate"
 
-#: overlays/event.php:995
+#: overlays/event.php:1013
 msgid "Accept applications, to be confirmed by page owner"
 msgstr "Accept applications, to be confirmed by page owner"
 
-#: overlays/event.php:1001
-#: overlays/event.php:2037
+#: overlays/event.php:1019 overlays/event.php:2214
 msgid "Registration is managed by page owner"
 msgstr "Registration is managed by page owner"
 
-#: overlays/event.php:1012
+#: overlays/event.php:1030
 msgid "During the event"
 msgstr "During the event"
 
-#: overlays/event.php:1015
+#: overlays/event.php:1033
 msgid "Lobby message"
 msgstr "Lobby message"
 
-#: overlays/event.php:1019
+#: overlays/event.php:1037
 msgid "Displayed one hour ahead the beginning of the event."
 msgstr "Displayed one hour ahead the beginning of the event."
 
-#: overlays/event.php:1023
+#: overlays/event.php:1041
 msgid "Welcome message"
 msgstr "Welcome message"
 
-#: overlays/event.php:1027
+#: overlays/event.php:1045
 msgid "Displayed only during the event."
 msgstr "Displayed only during the event."
 
-#: overlays/event.php:1035
+#: overlays/event.php:1053
 msgid "After the event"
 msgstr "After the event"
 
-#: overlays/event.php:1038
+#: overlays/event.php:1056
 msgid "Follow-up message"
 msgstr "Follow-up message"
 
-#: overlays/event.php:1042
-msgid "Congratulate participants, and drive people to complementary information or action."
-msgstr "Congratulate participants, and drive people to complementary information or action."
+#: overlays/event.php:1060
+msgid ""
+"Congratulate participants, and drive people to complementary information or "
+"action."
+msgstr ""
+"Congratulate participants, and drive people to complementary information or "
+"action."
 
-#: overlays/event.php:1052
+#: overlays/event.php:1070
 msgid "Management"
 msgstr "Management"
 
-#: overlays/event.php:1241
+#: overlays/event.php:1259
 msgid "Update my calendar"
 msgstr "Update my calendar"
 
-#: overlays/event.php:1285
-#: overlays/event.php:1299
-#: overlays/issue.php:1020
+#: overlays/event.php:1303 overlays/event.php:1317 overlays/issue.php:1020
 msgid "Status"
 msgstr "Status"
 
-#: overlays/event.php:1421
+#: overlays/event.php:1432
 #, php-format
 msgid "%s has joined the meeting"
 msgstr "%s has joined the meeting"
 
-#: overlays/event.php:1452
+#: overlays/event.php:1470
 #, php-format
 msgid "%s has open enrolment to the event"
 msgstr "%s has open enrolment to the event"
 
-#: overlays/event.php:1553
-#: overlays/events/enroll.php:89
+#: overlays/event.php:1575 overlays/events/enroll.php:86
 msgid "Cancellation"
 msgstr "Cancellation"
 
-#: overlays/event.php:1588
-#: overlays/event.php:1648
+#: overlays/event.php:1578
+#, php-format
+msgid "%s has cancelled %s"
+msgstr "%s has cancelled %s"
+
+#: overlays/event.php:1619 overlays/event.php:1782
 msgid "Impossible to add an item."
 msgstr "Impossible to add an item."
 
-#: overlays/event.php:1612
-msgid "Modification"
-msgstr "Modification"
+#: overlays/event.php:1652
+#, php-format
+msgid "Meeting: %s"
+msgstr "Meeting: %s"
 
-#: overlays/event.php:1641
+#: overlays/event.php:1655
+#, php-format
+msgid "you have arranged %s"
+msgstr "you have arranged %s"
+
+#: overlays/event.php:1727
+#, php-format
+msgid "Updated: %s"
+msgstr "Updated: %s"
+
+#: overlays/event.php:1730
+#, php-format
+msgid "%s has updated %s"
+msgstr "%s has updated %s"
+
+#: overlays/event.php:1775
 #, php-format
 msgid "Impossible to update date %s"
 msgstr "Impossible to update date %s"
 
-#: overlays/event.php:1715
-#: overlays/event.php:1748
+#: overlays/event.php:1849 overlays/event.php:1882
 #, php-format
 msgid "%d date"
 msgid_plural "%d dates"
 msgstr[0] "%d date"
 msgstr[1] "%d dates"
 
-#: overlays/event.php:1729
+#: overlays/event.php:1863
 msgid "Past dates"
 msgstr "Past dates"
 
-#: overlays/event.php:1848
+#: overlays/event.php:2016
 #, php-format
 msgid "%s has started the meeting"
 msgstr "%s has started the meeting"
 
-#: overlays/event.php:1871
+#: overlays/event.php:2039
 #, php-format
 msgid "%s has stopped the meeting"
 msgstr "%s has stopped the meeting"
 
-#: overlays/event.php:1943
+#: overlays/event.php:2111
 msgid "Open enrolment"
 msgstr "Open enrolment"
 
-#: overlays/event.php:1947
+#: overlays/event.php:2115
 msgid "Enrolment has not been opened yet"
 msgstr "Enrolment has not been opened yet"
 
-#: overlays/event.php:1981
+#: overlays/event.php:2157
 msgid "Start the meeting"
 msgstr "Start the meeting"
 
-#: overlays/event.php:1993
+#: overlays/event.php:2170
 msgid "Please wait until the meeting begins"
 msgstr "Please wait until the meeting begins"
 
-#: overlays/event.php:2041
+#: overlays/event.php:2218 overlays/events/enroll.php:272
+msgid "Invite participants"
+msgstr "Invite participants"
+
+#: overlays/event.php:2225
 msgid "Manage enrolment"
 msgstr "Manage enrolment"
 
-#: overlays/event.php:2053
+#: overlays/event.php:2237
 msgid "You have been enrolled"
 msgstr "You have been enrolled"
 
-#: overlays/event.php:2057
-#: overlays/event.php:2062
+#: overlays/event.php:2241 overlays/event.php:2246
 msgid "You have asked for an invitation"
 msgstr "You have asked for an invitation"
 
-#: overlays/event.php:2075
+#: overlays/event.php:2259
 msgid "Confirm my participation"
 msgstr "Confirm my participation"
 
-#: overlays/event.php:2082
+#: overlays/event.php:2266
 msgid "Ask for an invitation"
 msgstr "Ask for an invitation"
 
-#: overlays/event.php:2116
-#: overlays/event.php:2127
-#: overlays/event.php:2134
+#: overlays/event.php:2300 overlays/event.php:2311 overlays/event.php:2318
 msgid "Join the meeting"
 msgstr "Join the meeting"
 
-#: overlays/event.php:2120
+#: overlays/event.php:2304
 msgid "Stop the meeting"
 msgstr "Stop the meeting"
-
-#: overlays/external_meeting.php:51
-msgid "Link to the meeting"
-msgstr "Link to the meeting"
-
-#: overlays/external_meeting.php:53
-msgid "Paste the web address of the meeting"
-msgstr "Paste the web address of the meeting"
-
-#: overlays/external_meeting.php:71
-#: overlays/livestream_meeting.php:101
-#: overlays/ustream_meeting.php:103
-msgid "No information has been set for this meeting"
-msgstr "No information has been set for this meeting"
-
-#: overlays/external_meeting.php:161
-#: overlays/livestream_meeting.php:210
-#: overlays/ustream_meeting.php:194
-#, php-format
-msgid "You have to activate %s externally, before the planned start of the meeting"
-msgstr "You have to activate %s externally, before the planned start of the meeting"
-
-#: overlays/external_meeting.php:162
-#: overlays/livestream_meeting.php:211
-#: overlays/ustream_meeting.php:195
-msgid "the meeting page"
-msgstr "the meeting page"
 
 #: overlays/form.php:53
 msgid "CSV"
@@ -589,21 +551,33 @@ msgid "Overlays"
 msgstr "Overlays"
 
 #: overlays/index.php:183
-msgid "Overlays listed below can be used to customise articles attached to some sections."
-msgstr "Overlays listed below can be used to customise articles attached to some sections."
+msgid ""
+"Overlays listed below can be used to customise articles attached to some "
+"sections."
+msgstr ""
+"Overlays listed below can be used to customise articles attached to some "
+"sections."
 
 #: overlays/index.php:214
 #, php-format
-msgid "For example, if you want to apply the overlay <code>foo</code>, go to the %s, and select a target section, or add one."
-msgstr "For example, if you want to apply the overlay <code>foo</code>, go to the %s, and select a target section, or add one."
+msgid ""
+"For example, if you want to apply the overlay <code>foo</code>, go to the "
+"%s, and select a target section, or add one."
+msgstr ""
+"For example, if you want to apply the overlay <code>foo</code>, go to the "
+"%s, and select a target section, or add one."
 
 #: overlays/index.php:214
 msgid "site map"
 msgstr "site map"
 
 #: overlays/index.php:215
-msgid "In the form used to edit the section, type the keyword <code>foo</code> in the overlay field, then save changes."
-msgstr "In the form used to edit the section, type the keyword <code>foo</code> in the overlay field, then save changes."
+msgid ""
+"In the form used to edit the section, type the keyword <code>foo</code> in "
+"the overlay field, then save changes."
+msgstr ""
+"In the form used to edit the section, type the keyword <code>foo</code> in "
+"the overlay field, then save changes."
 
 #: overlays/issue.php:100
 msgid "under control"
@@ -629,9 +603,7 @@ msgstr "Orange"
 msgid "Red"
 msgstr "Red"
 
-#: overlays/issue.php:180
-#: overlays/issue.php:804
-#: overlays/issue.php:1016
+#: overlays/issue.php:180 overlays/issue.php:804 overlays/issue.php:1016
 msgid "Workflow"
 msgstr "Workflow"
 
@@ -673,8 +645,7 @@ msgstr "Issue description"
 msgid "Edit this issue"
 msgstr "Edit this issue"
 
-#: overlays/issue.php:295
-#: overlays/issue.php:304
+#: overlays/issue.php:295 overlays/issue.php:304
 msgid "Add an issue"
 msgstr "Add an issue"
 
@@ -686,23 +657,16 @@ msgstr "Edit an issue"
 msgid "Delete an issue"
 msgstr "Delete an issue"
 
-#: overlays/issue.php:336
-#: overlays/issue.php:343
-#: overlays/issue.php:346
-#: overlays/issue.php:376
-#: overlays/issue.php:415
+#: overlays/issue.php:336 overlays/issue.php:343 overlays/issue.php:346
+#: overlays/issue.php:376 overlays/issue.php:415
 msgid "Cancelled"
 msgstr "Cancelled"
 
-#: overlays/issue.php:340
-#: overlays/issue.php:412
-#: overlays/issue.php:430
+#: overlays/issue.php:340 overlays/issue.php:412 overlays/issue.php:430
 msgid "Solved"
 msgstr "Solved"
 
-#: overlays/issue.php:354
-#: overlays/issue.php:358
-#: overlays/issue.php:364
+#: overlays/issue.php:354 overlays/issue.php:358 overlays/issue.php:364
 msgid "Validated"
 msgstr "Validated"
 
@@ -710,21 +674,16 @@ msgstr "Validated"
 msgid "Confirmed"
 msgstr "Confirmed"
 
-#: overlays/issue.php:372
-#: overlays/issue.php:382
-#: overlays/issue.php:408
+#: overlays/issue.php:372 overlays/issue.php:382 overlays/issue.php:408
 #: overlays/issue.php:418
 msgid "Rejected"
 msgstr "Rejected"
 
-#: overlays/issue.php:390
-#: overlays/issue.php:394
-#: overlays/issue.php:400
+#: overlays/issue.php:390 overlays/issue.php:394 overlays/issue.php:400
 msgid "Analyzed"
 msgstr "Analyzed"
 
-#: overlays/issue.php:426
-#: overlays/issue.php:436
+#: overlays/issue.php:426 overlays/issue.php:436
 msgid "Pending"
 msgstr "Pending"
 
@@ -732,8 +691,7 @@ msgstr "Pending"
 msgid "Started"
 msgstr "Started"
 
-#: overlays/issue.php:444
-#: overlays/issue.php:454
+#: overlays/issue.php:444 overlays/issue.php:454
 msgid "Released"
 msgstr "Released"
 
@@ -745,9 +703,7 @@ msgstr "Patched"
 msgid "Terminated"
 msgstr "Terminated"
 
-#: overlays/issue.php:462
-#: overlays/issue.php:466
-#: overlays/issue.php:472
+#: overlays/issue.php:462 overlays/issue.php:466 overlays/issue.php:472
 msgid "Integrated"
 msgstr "Integrated"
 
@@ -771,8 +727,7 @@ msgstr "Change is foreseen"
 msgid "Patch has been submitted"
 msgstr "Patch has been submitted"
 
-#: overlays/issue.php:623
-#: overlays/issue.php:626
+#: overlays/issue.php:623 overlays/issue.php:626
 msgid "Immediate solution has been provided"
 msgstr "Immediate solution has been provided"
 
@@ -824,8 +779,7 @@ msgstr "Issue has been documented and cause has been identified"
 msgid "Patch should be integrated"
 msgstr "Patch should be integrated"
 
-#: overlays/issue.php:675
-#: overlays/issue.php:682
+#: overlays/issue.php:675 overlays/issue.php:682
 msgid "No resource to work on the software"
 msgstr "No resource to work on the software"
 
@@ -837,8 +791,7 @@ msgstr "No specific solution has been released"
 msgid "Change has been cancelled"
 msgstr "Change has been cancelled"
 
-#: overlays/issue.php:688
-#: overlays/issue.php:695
+#: overlays/issue.php:688 overlays/issue.php:695
 msgid "A developer is working on this"
 msgstr "A developer is working on this"
 
@@ -850,8 +803,7 @@ msgstr "A solution has been made available"
 msgid "Change has been initiated"
 msgstr "Change has been initiated"
 
-#: overlays/issue.php:701
-#: overlays/issue.php:708
+#: overlays/issue.php:701 overlays/issue.php:708
 msgid "Software is available separately"
 msgstr "Software is available separately"
 
@@ -863,8 +815,7 @@ msgstr "Solution is available separately"
 msgid "Partial change has been achieved"
 msgstr "Partial change has been achieved"
 
-#: overlays/issue.php:714
-#: overlays/issue.php:721
+#: overlays/issue.php:714 overlays/issue.php:721
 msgid "Software has been fully integrated"
 msgstr "Software has been fully integrated"
 
@@ -876,8 +827,7 @@ msgstr "Solution has been fully integrated"
 msgid "Change has been fully completed"
 msgstr "Change has been fully completed"
 
-#: overlays/issue.php:744
-#: overlays/issue.php:751
+#: overlays/issue.php:744 overlays/issue.php:751
 msgid "Submitted"
 msgstr "Submitted"
 
@@ -916,11 +866,8 @@ msgstr "Patch has been submitted on %s"
 msgid "Page has been created on %s"
 msgstr "Page has been created on %s"
 
-#: overlays/issue.php:829
-#: overlays/issue.php:836
-#: overlays/issue.php:853
-#: overlays/issue.php:878
-#: overlays/issue.php:893
+#: overlays/issue.php:829 overlays/issue.php:836 overlays/issue.php:853
+#: overlays/issue.php:878 overlays/issue.php:893
 msgid "now"
 msgstr "now"
 
@@ -934,8 +881,7 @@ msgstr "Qualification has taken place on %s"
 msgid "Analysis has ended on %s"
 msgstr "Analysis has ended on %s"
 
-#: overlays/issue.php:871
-#: overlays/issue.php:875
+#: overlays/issue.php:871 overlays/issue.php:875
 #, php-format
 msgid "Assignment has been finalized on %s"
 msgstr "Assignment has been finalized on %s"
@@ -955,8 +901,7 @@ msgstr "Resolution has been finalized on %s"
 msgid "Case has been closed on %s"
 msgstr "Case has been closed on %s"
 
-#: overlays/issue.php:911
-#: overlays/issue.php:1024
+#: overlays/issue.php:911 overlays/issue.php:1024
 msgid "Owner"
 msgstr "Owner"
 
@@ -1007,14 +952,70 @@ msgstr "Owner has been changed to %s"
 msgid "Livestream channel"
 msgstr "Livestream channel"
 
-#: overlays/livestream_meeting.php:83
-#: overlays/ustream_meeting.php:85
+#: overlays/livestream_meeting.php:83 overlays/ustream_meeting.php:85
 #, php-format
 msgid "As registered at %s"
 msgstr "As registered at %s"
 
-#: overlays/mutable.php:53
-#: overlays/mutables/edit.php:84
+#: overlays/livestream_meeting.php:154 overlays/meeting.php:163
+#: overlays/ustream_meeting.php:136
+#, php-format
+msgid ""
+"You have to activate %s externally, before the planned start of the meeting"
+msgstr ""
+"You have to activate %s externally, before the planned start of the meeting"
+
+#: overlays/livestream_meeting.php:155 overlays/meeting.php:164
+#: overlays/ustream_meeting.php:137
+msgid "the meeting page"
+msgstr "the meeting page"
+
+#: overlays/meeting.php:51
+msgid "Link to the meeting"
+msgstr "Link to the meeting"
+
+#: overlays/meeting.php:53
+msgid "Paste the web address of the meeting"
+msgstr "Paste the web address of the meeting"
+
+#: overlays/meeting.php:102 overlays/meeting.php:103
+msgid "Edit this meeting"
+msgstr "Edit this meeting"
+
+#: overlays/meeting.php:108 overlays/meeting.php:109 overlays/meeting.php:129
+#: overlays/meeting.php:130
+msgid "Add a meeting"
+msgstr "Add a meeting"
+
+#: overlays/meeting.php:114 overlays/meeting.php:115
+msgid "View meeting details"
+msgstr "View meeting details"
+
+#: overlays/meeting.php:119 overlays/meeting.php:120
+msgid "Edit a meeting"
+msgstr "Edit a meeting"
+
+#: overlays/meeting.php:124 overlays/meeting.php:125
+msgid "Delete a meeting"
+msgstr "Delete a meeting"
+
+#: overlays/meeting.php:182
+msgid "Meeting is under preparation"
+msgstr "Meeting is under preparation"
+
+#: overlays/meeting.php:188
+msgid "Meeting has not started yet"
+msgstr "Meeting has not started yet"
+
+#: overlays/meeting.php:191
+msgid "Meeting has started"
+msgstr "Meeting has started"
+
+#: overlays/meeting.php:194
+msgid "Meeting is over"
+msgstr "Meeting is over"
+
+#: overlays/mutable.php:53 overlays/mutables/edit.php:84
 msgid "Overlay identifier"
 msgstr "Overlay identifier"
 
@@ -1065,8 +1066,7 @@ msgstr "Only associates are allowed to sign."
 msgid "Allowed: %s"
 msgstr "Allowed: %s"
 
-#: overlays/petition.php:111
-#: overlays/vote.php:355
+#: overlays/petition.php:111 overlays/vote.php:355
 msgid "(to be defined)"
 msgstr "(to be defined)"
 
@@ -1074,34 +1074,27 @@ msgstr "(to be defined)"
 msgid "Scope"
 msgstr "Scope"
 
-#: overlays/petition.php:136
-#: overlays/vote.php:115
+#: overlays/petition.php:136 overlays/vote.php:115
 msgid "All members of the community"
 msgstr "All members of the community"
 
-#: overlays/petition.php:140
-#: overlays/vote.php:119
+#: overlays/petition.php:140 overlays/vote.php:119
 msgid "Editors of this section"
 msgstr "Editors of this section"
 
-#: overlays/petition.php:144
-#: overlays/vote.php:123
+#: overlays/petition.php:144 overlays/vote.php:123
 msgid "Associates only"
 msgstr "Associates only"
 
-#: overlays/petition.php:148
-#: overlays/vote.php:127
+#: overlays/petition.php:148 overlays/vote.php:127
 msgid "Following people:"
 msgstr "Following people:"
 
-#: overlays/petition.php:153
-#: overlays/vote.php:144
+#: overlays/petition.php:153 overlays/vote.php:144
 msgid "End date"
 msgstr "End date"
 
-#: overlays/petition.php:161
-#: overlays/vote.php:140
-#: overlays/vote.php:152
+#: overlays/petition.php:161 overlays/vote.php:140 overlays/vote.php:152
 msgid "YYYY-MM-AA HH:MM"
 msgstr "YYYY-MM-AA HH:MM"
 
@@ -1109,8 +1102,7 @@ msgstr "YYYY-MM-AA HH:MM"
 msgid "Edit this petition"
 msgstr "Edit this petition"
 
-#: overlays/petition.php:193
-#: overlays/petition.php:207
+#: overlays/petition.php:193 overlays/petition.php:207
 msgid "Add a petition"
 msgstr "Add a petition"
 
@@ -1122,8 +1114,7 @@ msgstr "Edit a petition"
 msgid "Delete a petition"
 msgstr "Delete a petition"
 
-#: overlays/petition.php:235
-#: overlays/vote.php:330
+#: overlays/petition.php:235 overlays/vote.php:330
 msgid "See ballot papers"
 msgstr "See ballot papers"
 
@@ -1155,8 +1146,7 @@ msgstr "Answer"
 msgid "Delete to suppress"
 msgstr "Delete to suppress"
 
-#: overlays/poll.php:48
-#: overlays/poll.php:59
+#: overlays/poll.php:48 overlays/poll.php:59
 msgid "Count"
 msgstr "Count"
 
@@ -1184,8 +1174,7 @@ msgstr "Edit this poll"
 msgid "Keep your polls as simple to understand as possible."
 msgstr "Keep your polls as simple to understand as possible."
 
-#: overlays/poll.php:102
-#: overlays/poll.php:116
+#: overlays/poll.php:102 overlays/poll.php:116
 msgid "Add a poll"
 msgstr "Add a poll"
 
@@ -1197,14 +1186,11 @@ msgstr "Edit a poll"
 msgid "Delete a poll"
 msgstr "Delete a poll"
 
-#: overlays/poll.php:264
-#: overlays/poll.php:366
+#: overlays/poll.php:264 overlays/poll.php:366
 msgid "Cast your vote"
 msgstr "Cast your vote"
 
-#: overlays/poll.php:267
-#: overlays/poll.php:273
-#: overlays/poll.php:423
+#: overlays/poll.php:267 overlays/poll.php:273 overlays/poll.php:423
 #: overlays/poll.php:429
 msgid "View results"
 msgstr "View results"
@@ -1217,6 +1203,53 @@ msgstr "%d votes up to now"
 #: overlays/poll.php:420
 msgid "Vote"
 msgstr "Vote"
+
+#: overlays/question.php:30
+msgid "Context"
+msgstr "Context"
+
+#: overlays/question.php:33 overlays/question.php:42
+msgid "Edit the question"
+msgstr "Edit the question"
+
+#: overlays/question.php:36 overlays/question.php:48
+msgid "Add a question"
+msgstr "Add a question"
+
+#: overlays/question.php:39
+msgid "Contributions"
+msgstr "Contributions"
+
+#: overlays/question.php:45
+msgid "Delete a question"
+msgstr "Delete a question"
+
+#: overlays/question.php:52
+msgid "Question"
+msgstr "Question"
+
+#: overlays/question.php:84
+msgid "Has this page been useful to you?"
+msgstr "Has this page been useful to you?"
+
+#: overlays/question.php:85
+msgid "Yes"
+msgstr "Yes"
+
+#: overlays/question.php:86
+msgid "No"
+msgstr "No"
+
+#: overlays/question.php:92
+#, php-format
+msgid "%d rating"
+msgid_plural "%d ratings"
+msgstr[0] "%d rating"
+msgstr[1] "%d ratings"
+
+#: overlays/question.php:98
+msgid "Feed-back"
+msgstr "Feed-back"
 
 #: overlays/recipe.php:25
 msgid "Persons to be served"
@@ -1248,7 +1281,8 @@ msgstr "Ingredients"
 
 #: overlays/recipe.php:45
 msgid "Type each ingredient on one separate line starting with a '-' character"
-msgstr "Type each ingredient on one separate line starting with a '-' character"
+msgstr ""
+"Type each ingredient on one separate line starting with a '-' character"
 
 #: overlays/recipe.php:74
 msgid "Preparation steps"
@@ -1262,8 +1296,7 @@ msgstr "Edit this recipe"
 msgid "We are trying to standardize recipes for 4 people."
 msgstr "We are trying to standardize recipes for 4 people."
 
-#: overlays/recipe.php:88
-#: overlays/recipe.php:102
+#: overlays/recipe.php:88 overlays/recipe.php:102
 msgid "Add a recipe"
 msgstr "Add a recipe"
 
@@ -1304,8 +1337,7 @@ msgstr "with %s"
 msgid "Show name"
 msgstr "Show name"
 
-#: overlays/vote.php:69
-#: overlays/polls/vote.php:147
+#: overlays/vote.php:69 overlays/polls/vote.php:147
 msgid "You have already voted"
 msgstr "You have already voted"
 
@@ -1333,8 +1365,7 @@ msgstr "Vote description"
 msgid "Edit this vote"
 msgstr "Edit this vote"
 
-#: overlays/vote.php:189
-#: overlays/vote.php:203
+#: overlays/vote.php:189 overlays/vote.php:203
 msgid "Add a vote"
 msgstr "Add a vote"
 
@@ -1363,8 +1394,7 @@ msgstr "Vote is currently open"
 msgid "Vote is open until %s"
 msgstr "Vote is open until %s"
 
-#: overlays/vote.php:261
-#: overlays/vote.php:296
+#: overlays/vote.php:261 overlays/vote.php:296
 #, php-format
 msgid "Vote has ended on %s"
 msgstr "Vote has ended on %s"
@@ -1433,38 +1463,29 @@ msgstr "Only associates are allowed to vote"
 msgid "Voters:"
 msgstr "Voters:"
 
-#: overlays/events/apply.php:45
-#: overlays/events/apply.php:54
-#: overlays/events/apply.php:59
-#: overlays/events/enroll.php:44
-#: overlays/events/enroll.php:53
-#: overlays/events/enroll.php:57
-#: overlays/events/fetch_ics.php:58
-#: overlays/events/fetch_ics.php:67
-#: overlays/events/join.php:44
-#: overlays/events/join.php:53
-#: overlays/events/join.php:57
-#: overlays/events/join.php:69
-#: overlays/events/open.php:44
-#: overlays/events/open.php:53
-#: overlays/events/open.php:57
-#: overlays/events/open.php:65
-#: overlays/events/start.php:44
-#: overlays/events/start.php:53
-#: overlays/events/start.php:57
-#: overlays/events/start.php:65
-#: overlays/events/stop.php:44
-#: overlays/events/stop.php:53
-#: overlays/events/stop.php:57
-#: overlays/events/stop.php:65
-#: overlays/forms/fetch_as_csv.php:135
-#: overlays/mutables/edit.php:29
+#: overlays/events/apply.php:45 overlays/events/apply.php:54
+#: overlays/events/apply.php:59 overlays/events/enroll.php:44
+#: overlays/events/enroll.php:53 overlays/events/enroll.php:57
+#: overlays/events/fetch_ics.php:58 overlays/events/fetch_ics.php:67
+#: overlays/events/join.php:44 overlays/events/join.php:53
+#: overlays/events/join.php:57 overlays/events/join.php:69
+#: overlays/events/open.php:44 overlays/events/open.php:53
+#: overlays/events/open.php:57 overlays/events/open.php:65
+#: overlays/events/start.php:44 overlays/events/start.php:53
+#: overlays/events/start.php:57 overlays/events/start.php:65
+#: overlays/events/stop.php:44 overlays/events/stop.php:53
+#: overlays/events/stop.php:57 overlays/events/stop.php:65
+#: overlays/forms/fetch_as_csv.php:135 overlays/mutables/edit.php:29
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
 #: overlays/events/apply.php:67
-msgid "There is no seat left available for this event. We are sorry to not consider your application."
-msgstr "There is no seat left available for this event. We are sorry to not consider your application."
+msgid ""
+"There is no seat left available for this event. We are sorry to not consider "
+"your application."
+msgstr ""
+"There is no seat left available for this event. We are sorry to not consider "
+"your application."
 
 #: overlays/events/apply.php:106
 msgid "You have been enrolled to this meeting."
@@ -1474,75 +1495,96 @@ msgstr "You have been enrolled to this meeting."
 msgid "Your invitation request has been recorded."
 msgstr "Your invitation request has been recorded."
 
-#: overlays/events/apply.php:132
-#: overlays/events/apply.php:174
-#: overlays/events/enroll.php:146
+#: overlays/events/apply.php:129 overlays/events/apply.php:189
+#: overlays/events/enroll.php:155
 msgid "Meeting"
 msgstr "Meeting"
 
-#: overlays/events/apply.php:136
+#: overlays/events/apply.php:133
 #, php-format
-msgid "%s would like to participate to this event"
-msgstr "%s would like to participate to this event"
+msgid "%s has confirmed participation to %s"
+msgstr "%s has confirmed participation to %s"
 
-#: overlays/events/apply.php:140
+#: overlays/events/apply.php:139
 #, php-format
-msgid "%s would like to be enrolled to this event"
-msgstr "%s would like to be enrolled to this event"
+msgid "%s would like to be enrolled to %s"
+msgstr "%s would like to be enrolled to %s"
 
-#: overlays/events/apply.php:143
+#: overlays/events/apply.php:145
+msgid "Click on the link below to manage the full list of participants"
+msgstr "Click on the link below to manage the full list of participants"
+
+#: overlays/events/apply.php:152
 #, php-format
 msgid "Manage enrolment of %s"
 msgstr "Manage enrolment of %s"
 
-#: overlays/events/apply.php:160
+#: overlays/events/apply.php:175
 #, php-format
 msgid "%s has confirmed his participation"
 msgstr "%s has confirmed his participation"
 
-#: overlays/events/apply.php:167
-#: overlays/events/enroll.php:247
+#: overlays/events/apply.php:182 overlays/events/enroll.php:271
 msgid "Done"
 msgstr "Done"
 
-#: overlays/events/enroll.php:174
+#: overlays/events/enroll.php:89
+#, php-format
+msgid "%s has cancelled your participation to %s"
+msgstr "%s has cancelled your participation to %s"
+
+#: overlays/events/enroll.php:158
+#, php-format
+msgid "%s has confirmed your participation to %s"
+msgstr "%s has confirmed your participation to %s"
+
+#: overlays/events/enroll.php:198
 msgid "Following persons have been notified of their enrolment by e-mail"
 msgstr "Following persons have been notified of their enrolment by e-mail"
 
-#: overlays/events/enroll.php:179
-msgid "Registration is managed by page owner. You have to invite participants manually, and they will be notified by e-mail about this event."
-msgstr "Registration is managed by page owner. You have to invite participants manually, and they will be notified by e-mail about this event."
+#: overlays/events/enroll.php:203
+msgid ""
+"Registration is managed by page owner. You have to invite participants "
+"manually, and they will be notified by e-mail about this event."
+msgstr ""
+"Registration is managed by page owner. You have to invite participants "
+"manually, and they will be notified by e-mail about this event."
 
-#: overlays/events/enroll.php:183
-msgid "Enrolment has been configured to accept any visitor. You may invite some participants to draw their attention on this event."
-msgstr "Enrolment has been configured to accept any visitor. You may invite some participants to draw their attention on this event."
+#: overlays/events/enroll.php:207
+msgid ""
+"Enrolment has been configured to accept any visitor. You may invite some "
+"participants to draw their attention on this event."
+msgstr ""
+"Enrolment has been configured to accept any visitor. You may invite some "
+"participants to draw their attention on this event."
 
-#: overlays/events/enroll.php:186
-msgid "Visitors are entitled to ask for participation, and enrolment is confirmed by page owner. Check the list below to validate applications, and to confirm registrations by e-mail."
-msgstr "Visitors are entitled to ask for participation, and enrolment is confirmed by page owner. Check the list below to validate applications, and to confirm registrations by e-mail."
+#: overlays/events/enroll.php:210
+msgid ""
+"Visitors are entitled to ask for participation, and enrolment is confirmed "
+"by page owner. Check the list below to validate applications, and to confirm "
+"registrations by e-mail."
+msgstr ""
+"Visitors are entitled to ask for participation, and enrolment is confirmed "
+"by page owner. Check the list below to validate applications, and to confirm "
+"registrations by e-mail."
 
-#: overlays/events/enroll.php:195
+#: overlays/events/enroll.php:219
 msgid "Current enrolment"
 msgstr "Current enrolment"
 
-#: overlays/events/enroll.php:225
+#: overlays/events/enroll.php:249
 msgid "validate"
 msgstr "validate"
 
-#: overlays/events/enroll.php:230
+#: overlays/events/enroll.php:254
 msgid "drop"
 msgstr "drop"
-
-#: overlays/events/enroll.php:248
-msgid "Invite participants"
-msgstr "Invite participants"
 
 #: overlays/forms/fetch_as_csv.php:126
 msgid "Fetch as CSV"
 msgstr "Fetch as CSV"
 
-#: overlays/mutables/edit.php:24
-#: overlays/mutables/edit.php:71
+#: overlays/mutables/edit.php:24 overlays/mutables/edit.php:71
 msgid "Change named overlays"
 msgstr "Change named overlays"
 
@@ -1638,6 +1680,50 @@ msgstr "View poll results"
 #: overlays/polls/vote.php:195
 msgid "Front page"
 msgstr "Front page"
+
+#~ msgid "Paste a web address (YouTube, Slideshare, Flickr, ...)"
+#~ msgstr "Paste a web address (YouTube, Slideshare, Flickr, ...)"
+
+#~ msgid "Edit a question"
+#~ msgstr "Edit a question"
+
+#~ msgid "Listen"
+#~ msgstr "Listen"
+
+#~ msgid "Talk"
+#~ msgstr "Talk"
+
+#~ msgid "Echo cancellation is active"
+#~ msgstr "Echo cancellation is active"
+
+#~ msgid "Push-to-talk mode"
+#~ msgstr "Push-to-talk mode"
+
+#~ msgid "Modification"
+#~ msgstr "Modification"
+
+#~ msgid "Click to mute"
+#~ msgstr "Click to mute"
+
+#~ msgid "Click to talk"
+#~ msgstr "Click to talk"
+
+#~ msgid "No information has been set for this meeting"
+#~ msgstr "No information has been set for this meeting"
+
+#, fuzzy
+#~ msgid "Review event details, then confirm your participation"
+#~ msgstr "View event details, then confirm my participation"
+
+#, fuzzy
+#~ msgid "Review the event details, then ask for an invitation"
+#~ msgstr "View event details, then ask for an invitation"
+
+#~ msgid "Review the meeting page"
+#~ msgstr "Review the meeting page"
+
+#~ msgid "%s would like to participate to this event"
+#~ msgstr "%s would like to participate to this event"
 
 #~ msgid " # "
 #~ msgstr " "
@@ -1742,9 +1828,6 @@ msgstr "Front page"
 #, fuzzy
 #~ msgid "Select carefully the OS Version  of this tracker"
 #~ msgstr "Select carefully the type of this issue"
-
-#~ msgid "Resolution"
-#~ msgstr "Resolution"
 
 #~ msgid "No solution"
 #~ msgstr "No solution"
@@ -1996,7 +2079,6 @@ msgstr "Front page"
 #~ msgstr "Petition description"
 
 #~ msgid "%d signature"
-
 #~ msgid_plural "%d signatures"
 #~ msgstr[0] "%d signature"
 #~ msgstr[1] "%d signatures"
@@ -2035,13 +2117,11 @@ msgstr "Front page"
 #~ msgstr "Web"
 
 #~ msgid "1 date"
-
 #~ msgid_plural "%d dates"
 #~ msgstr[0] "1 date"
 #~ msgstr[1] "%d dates"
 
 #~ msgid "1 approval"
-
 #~ msgid_plural "%d approvals"
 #~ msgstr[0] "1 approval"
 #~ msgstr[1] "%d approvals"
@@ -2120,19 +2200,16 @@ msgstr "Front page"
 #~ msgstr "Edit this page to select some overlay."
 
 #~ msgid "1&nbsp;date"
-
 #~ msgid_plural "%d&nbsp;dates"
 #~ msgstr[0] "1&nbsp;date"
 #~ msgstr[1] "%d&nbsp;dates"
 
 #~ msgid "1&nbsp;approval"
-
 #~ msgid_plural "%d&nbsp;approvals"
 #~ msgstr[0] "1&nbsp;approval"
 #~ msgstr[1] "%d&nbsp;approvals"
 
 #~ msgid "1&nbsp;reject"
-
 #~ msgid_plural "%d&nbsp;rejects"
 #~ msgstr[0] "1&nbsp;reject"
 #~ msgstr[1] "%d&nbsp;rejects"

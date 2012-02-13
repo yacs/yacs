@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 22:10+0200\n"
+"POT-Creation-Date: 2012-01-13 16:28+0100\n"
 "PO-Revision-Date: 2010-05-12 16:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -702,11 +702,11 @@ msgstr ""
 "Click to explode the selected archive. You may have to wait for some time "
 "before getting a response displayed."
 
-#: scripts/stage.php:462
+#: scripts/stage.php:441
 msgid "Direct staging"
 msgstr "Direct staging"
 
-#: scripts/stage.php:465
+#: scripts/stage.php:444
 #, php-format
 msgid ""
 "Ultimately, you can populate the directory %s by yourself. On completion you "
@@ -715,7 +715,7 @@ msgstr ""
 "Ultimately, you can populate the directory %s by yourself. On completion you "
 "can start the %s."
 
-#: scripts/stage.php:465
+#: scripts/stage.php:444
 msgid "update process"
 msgstr "update process"
 
