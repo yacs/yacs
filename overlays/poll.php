@@ -2,9 +2,6 @@
 /**
  * describe one poll
  *
- * @todo allow for multiple choices (Myriam)
- * @todo export data as csv
- *
  * Normally, a poll appears at the front page only to let people vote.
  *
  * However, you can select to also display raw results by adding the keyword
