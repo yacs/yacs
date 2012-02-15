@@ -420,7 +420,9 @@ class Vote extends Overlay {
 			break;
 		}
 
+		// job done
 		return TRUE;
+
 	}
 
 }
