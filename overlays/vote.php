@@ -410,7 +410,7 @@ class Vote extends Overlay {
 
 		case 'delete':
 			include_once $context['path_to_root'].'decisions/decisions.php';
-			Decisions::delete_for_anchor('article:'.$this->attributes['id']);
+			Decisions::delete_for_anchor($reference);
 			break;
 
 		case 'insert':
