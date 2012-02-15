@@ -683,6 +683,15 @@ class Anchor {
 	}
 
 	/**
+	 * get all attributes
+	 *
+	 * @return array all attributes of this instance
+	 */
+	function get_values() {
+		return $this->item;
+	}
+
+	/**
 	 * check if an anchor implements a given layout
 	 *
 	 * To be overloaded into derived class, if necessary
