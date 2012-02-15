@@ -324,7 +324,9 @@ class Petition extends Overlay {
 			break;
 		}
 
+		// job done
 		return TRUE;
+
 	}
 
 }

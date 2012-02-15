@@ -1790,7 +1790,9 @@ class Event extends Overlay {
 			break;
 		}
 
+		// job done
 		return TRUE;
+
 	}
 
 	/**
