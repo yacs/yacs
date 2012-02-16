@@ -5000,7 +5000,7 @@ Class Skin_Skeleton {
 
 			$text .= "\n".'// from item '.$from.' to item '.$to."\n"
 				.'function rotate_'.$from.'() {'."\n"
-				.'	$("#'.$from.'").fadeOut();'."\n"
+				.'	$("#'.$from.'").hide();'."\n"
 				.'	$("#'.$to.'").fadeIn();'."\n"
 				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
 				.'}'."\n";
