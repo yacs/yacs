@@ -1190,7 +1190,7 @@ function render_skin($with_last_modified=TRUE) {
 			.'		mode : "textareas",'."\n"
 			.'		theme : "advanced",'."\n"
 			.'		editor_selector : "tinymce",'."\n"
-			.'		languages : "fr",'."\n"
+			.'		language : "fr",'."\n"
 			.'		disk_cache : false,'."\n"
 			.'		relative_urls : false,'."\n"
 			.'		remove_script_host : false,'."\n"
