@@ -23,10 +23,9 @@ include_once 'meeting.php';
  *
  * If OpenTok has been activated, webcams of participants are triggered automatically,
  * and a series of videos are displayed above the chatting area.
+ * The OpenTok signalling facility is also used to make the chat almost real-time.
  *
  * @link http://www.tokbox.com/
- *
- * @todo use signal to accelerate comments forwarding
  *
  * @author Bernard Paques
  * @reference
@@ -220,6 +219,13 @@ class Chat_meeting extends Meeting {
 		// finalize the authentication token expected by OpenTok
         $token = 'T1=='.base64_encode('partner_id='.$context['opentok_api_key'].'&sig='.$hash.':'.$credentials);
 
+        // delegate audio processing to OpenTok too
+        $with_audio = 'true';
+
+        // except if twilio has been activated instead
+        if(isset($context['twilio_account_sid']) && $context['twilio_account_sid'])
+        	$with_audio = 'false';
+
 		// load the OpenTok javascript library in shared/global.php
 		$context['javascript']['opentok'] = TRUE;
 
@@ -237,6 +243,12 @@ class Chat_meeting extends Meeting {
 			.'	subscribers: {},'."\n"
 			.'	tentatives: 3,'."\n"
 			.'	watchdog: null,'."\n"
+			.'	withAudio: '.$with_audio.','."\n"
+			."\n"
+			.'	// user has denied access to the camera from Flash'."\n"
+			.'	accessDeniedHandler: function() {'."\n"
+			.'		$("#opentok .me").empty();'."\n"
+			.'	},'."\n"
 			."\n"
 			.'	// attempt to reconnect to the server'."\n"
 			.'	connectAgain: function() {'."\n"
@@ -248,9 +260,25 @@ class Chat_meeting extends Meeting {
 			.'	devicesDetectedHandler: function(event) {'."\n"
 			."\n"
 			.'		// no adequate hardware to move forward'."\n"
-			.'		if(event.cameras.length == 0 || event.microphones.length == 0) {'."\n"
+			.'		if(event.cameras.length == 0) {'."\n"
 			.'			OpenTok.growl("'.i18n::s('A webcam is required to be visible').'");'."\n"
-			.'			return;'."\n"
+			."\n"
+			.'		// at least one camera is available'."\n"
+			.'		} else {'."\n"
+			."\n"
+			.'			// create one placeholder div for my own camera'."\n"
+			.'			OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
+			.'			$("#opentok .me").append(\'<div class="frame subscriber"><div id="placeholder"></div></div>\');'."\n"
+			."\n"
+			.'			// bind this div with my own camera'."\n"
+			.'			var streamProps = {width: 120, height: 90,'."\n"
+			.'					publishAudio: false, publishVideo: true, name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
+			.'			OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
+			."\n"
+			.'			// monitor the publishing session'."\n"
+			.'			OpenTok.publisher.addEventListener("accessDenied", OpenTok.accessDeniedHandler);'."\n"
+			.'			OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
+			."\n"
 			.'		}'."\n"
 			."\n"
 			.'	},'."\n"
@@ -259,6 +287,7 @@ class Chat_meeting extends Meeting {
 			.'	deviceInactiveHandler: function(event) {'."\n"
 			.'		if(event.camera) {'."\n"
 			.'			OpenTok.growl("'.i18n::s('You are not visible').'");'."\n"
+			.'			$("#opentok .me").empty();'."\n"
 			.'		}'."\n"
 			.'		if(event.microphone) {'."\n"
 			.'			OpenTok.growl("'.i18n::s('You have been muted').'");'."\n"
@@ -331,18 +360,6 @@ class Chat_meeting extends Meeting {
 			."\n"
 			.'		// display streams already attached to this session'."\n"
 			.'		OpenTok.subscribeToStreams(event.streams);'."\n"
-			."\n"
-			.'		// create one placeholder div for my own camera'."\n"
-			.'		OpenTok.growl("'.i18n::s('Adding local video stream').'");'."\n"
-			.'		$("#opentok .me").append(\'<div class="frame subscriber"><div id="placeholder"></div></div>\');'."\n"
-			."\n"
-			.'		// bind this div with my own camera'."\n"
-			.'		var streamProps = {width: 120, height: 90,'."\n"
-			.'				publishAudio: false, publishVideo: true, name: "'.str_replace('"', "'", Surfer::get_name()).'" };'."\n"
-			.'		OpenTok.publisher = OpenTok.session.publish("placeholder", streamProps);'."\n"
-			."\n"
-			.'		// monitor the publishing session'."\n"
-			.'		OpenTok.publisher.addEventListener("deviceInactive", OpenTok.deviceInactiveHandler);'."\n"
 			."\n"
 			.'		// attach the local webcam and microphone if detected'."\n"
 			.'		OpenTok.deviceManager.detectDevices();'."\n"
@@ -477,8 +494,7 @@ class Chat_meeting extends Meeting {
 			.'				}'."\n"
 			."\n"
 			.'			// the default is to push to talk'."\n"
-			.'			} else {'."\n"
-			.'				$("#opentok .me .frame").addClass("subscriber").css({width: 120, height: 90});'."\n"
+			.'			} else if(OpenTok.withAudio) {'."\n"
 			.'				$("#opentok .me").append(\'<div style="text-align: center; padding: 2px 0;">'
 			.					'<input type="button" id="pushToTalk" value="'.i18n::s('Start talking').'" onClick="OpenTok.startTalking()" />'
 			.					'</div>\');'."\n"
@@ -486,6 +502,7 @@ class Chat_meeting extends Meeting {
 			.'			}'."\n"
 			.'		}'."\n"
 
+			.'		$("#opentok .me .frame").addClass("subscriber").css({width: 120, height: 90});'."\n"
 			.'		$("#description").focus();'."\n"
 
 			.'	}'."\n"

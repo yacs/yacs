@@ -96,8 +96,13 @@ elseif(isset($context['arguments'][1]))
 if(!isset($item['active']) && is_object($anchor))
 	$item['active'] = $anchor->get_active();
 
+// get parent of the anchor too
+$parent = NULL;
+if(is_object($anchor) && ($parent = $anchor->get_parent()))
+	$parent =& Anchors::get($parent);
+
 // we are allowed to add a new file
-if(!isset($item['id']) && Files::allow_creation($anchor))
+if(!isset($item['id']) && is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type()))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing file

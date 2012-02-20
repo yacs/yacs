@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2011-12-20 00:31+0100\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -154,10 +154,6 @@ msgstr "Ceci a été rejeté"
 msgid "Your approval has been recorded"
 msgstr "Votre accord a été enregistré"
 
-#: decisions/edit.php:231
-msgid "Persons that have been notified"
-msgstr "Personnes notifiées"
-
 #: decisions/edit.php:234 decisions/mail.php:238
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
@@ -300,31 +296,31 @@ msgstr "Aucune décision n'a été prise"
 msgid "Recent pages"
 msgstr "Pages récentes"
 
-#: decisions/layout_decisions.php:62
+#: decisions/layout_decisions.php:61
 #, php-format
 msgid "Rejected %s"
 msgstr "Rejeté %s"
 
-#: decisions/layout_decisions.php:65
+#: decisions/layout_decisions.php:64
 #, php-format
 msgid "Approved %s"
 msgstr "Approuvé %s"
 
-#: decisions/layout_decisions.php:79
+#: decisions/layout_decisions.php:78
 #, php-format
 msgid "Rejected by %s %s"
 msgstr "Rejeté par %s %s"
 
-#: decisions/layout_decisions.php:82
+#: decisions/layout_decisions.php:81
 #, php-format
 msgid "Approved by %s %s"
 msgstr "Approuvé par %s %s"
 
-#: decisions/layout_decisions.php:93
+#: decisions/layout_decisions.php:92
 msgid "edit"
 msgstr "modifier"
 
-#: decisions/layout_decisions.php:97
+#: decisions/layout_decisions.php:96
 msgid "delete"
 msgstr "supprimer"
 
@@ -435,6 +431,9 @@ msgstr "Modifier"
 #: decisions/view.php:193
 msgid "Delete"
 msgstr "Supprimer"
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Personnes notifiées"
 
 #~ msgid "Invite participants"
 #~ msgstr "Inviter des participants"

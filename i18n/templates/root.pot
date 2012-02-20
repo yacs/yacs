@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -512,6 +512,107 @@ msgstr ""
 #: error.php:146
 #, php-format
 msgid "Page not found (404) at %s"
+msgstr ""
+
+#: faceme.php:43
+msgid "Face Me"
+msgstr ""
+
+#: faceme.php:47 faceme.php:132 faceme.php:136
+msgid "The service is not available"
+msgstr ""
+
+#: faceme.php:250
+msgid "Invite one person"
+msgstr ""
+
+#: faceme.php:252
+msgid ""
+"Click the button to start a face-to-face meeting. Each meeting has a unique "
+"web address."
+msgstr ""
+
+#: faceme.php:254
+msgid "Start a session"
+msgstr ""
+
+#: faceme.php:259
+msgid "Meet a person"
+msgstr ""
+
+#: faceme.php:260
+msgid "Paste the number or web address given to you"
+msgstr ""
+
+#: faceme.php:262
+msgid "Join this session"
+msgstr ""
+
+#: faceme.php:278
+msgid "Copy and paste this link into an email or instant message:"
+msgstr ""
+
+#: faceme.php:290
+msgid "Waiting for the other person to join"
+msgstr ""
+
+#: faceme.php:351
+msgid "Connecting again to OpenTok"
+msgstr ""
+
+#: faceme.php:360
+msgid "A webcam is required to be visible"
+msgstr ""
+
+#: faceme.php:369
+msgid "You are not visible"
+msgstr ""
+
+#: faceme.php:372
+msgid "You have been muted"
+msgstr ""
+
+#: faceme.php:380
+msgid "Full-duplex mode"
+msgstr ""
+
+#: faceme.php:383
+msgid "No echo cancellation"
+msgstr ""
+
+#: faceme.php:393
+msgid "Error while connecting to OpenTok"
+msgstr ""
+
+#: faceme.php:433
+msgid "Connecting to OpenTok"
+msgstr ""
+
+#: faceme.php:448
+msgid "This system is not supported by OpenTok"
+msgstr ""
+
+#: faceme.php:483
+msgid "Adding local video stream"
+msgstr ""
+
+#: faceme.php:544
+#, php-format
+msgid "%s is talking"
+msgstr ""
+
+#: faceme.php:546
+#, php-format
+msgid "%s is listening"
+msgstr ""
+
+#: faceme.php:551
+#, php-format
+msgid "%s is not visible"
+msgstr ""
+
+#: faceme.php:566
+msgid "Adding remote video streams"
 msgstr ""
 
 #: go.php:80

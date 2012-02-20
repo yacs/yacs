@@ -471,6 +471,7 @@ if(Surfer::is_crawler()) {
 		$fields['sections_layout'] = 'yabb';
 		$fields['articles_layout'] = 'none';
 		$fields['articles_templates'] = 'information_template, question_template';
+		$fields['content_options'] = 'auto_publish'; // ease the job
 		$fields['locked'] = 'Y';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";

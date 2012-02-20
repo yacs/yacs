@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgid "Tools"
 msgstr ""
 
 #: tools/ajax.php:23 tools/ajax.php:29 tools/ajax.php:34 tools/ajax.php:37
-#: tools/ajax.php:53
+#: tools/ajax.php:56
 msgid "AJAX demonstration"
 msgstr ""
 
@@ -82,48 +82,52 @@ msgstr ""
 msgid "Click on buttons to process notifications"
 msgstr ""
 
-#: tools/ajax.php:50
-msgid "Google"
+#: tools/ajax.php:50 tools/ajax.php:53
+msgid "Cisco"
 msgstr ""
 
-#: tools/ajax.php:50 tools/ajax.php:59
+#: tools/ajax.php:50
+msgid "Hover the button to display a preview"
+msgstr ""
+
+#: tools/ajax.php:53 tools/ajax.php:62
 msgid "Click on the button to trigger the popup window"
 msgstr ""
 
-#: tools/ajax.php:53
+#: tools/ajax.php:56
 msgid "Click on the button to call a remote function"
 msgstr ""
 
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Click on the button to remember some on-line activity"
 msgstr ""
 
-#: tools/ajax.php:59 tools/embed.php:25 tools/hello.php:25
+#: tools/ajax.php:62 tools/embed.php:25 tools/hello.php:25
 #: tools/populate.php:404 tools/populate.php:1596 tools/transform.php:32
 msgid "Hello world"
 msgstr ""
 
-#: tools/ajax.php:59
+#: tools/ajax.php:62
 msgid "Close"
 msgstr ""
 
-#: tools/ajax.php:62
+#: tools/ajax.php:65
 msgid "Hover me to access tools"
 msgstr ""
 
-#: tools/ajax.php:68
+#: tools/ajax.php:71
 msgid "Drag and drop following elements"
 msgstr ""
 
-#: tools/ajax.php:76
+#: tools/ajax.php:79
 msgid "Interactive filters"
 msgstr ""
 
-#: tools/ajax.php:78
+#: tools/ajax.php:81
 msgid "Enter an integer"
 msgstr ""
 
-#: tools/ajax.php:79
+#: tools/ajax.php:82
 msgid "Enter a floating number"
 msgstr ""
 

@@ -2,9 +2,7 @@
 /**
  * the index page for categories
  *
- * @todo categorize images (NickR)
  * @todo categorize files (NickR)
- * @todo categorize users
  *
  * Any article can be associated to a variable number of categories.
  *

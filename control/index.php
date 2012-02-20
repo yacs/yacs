@@ -719,10 +719,9 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// members can use additional tools
 			if(Surfer::is_member()) {
-				$text .= Skin::build_block(i18n::s('Blogging tools'), 'title');
 
 				// introduce bookmarklets
-				$text .= '<p>'.i18n::s('To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.').'</p>'."\n".'<ul>';
+				$box = '<p>'.i18n::s('To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.').'</p>'."\n".'<ul>';
 
 				// the blogging bookmarklet uses YACS codes
 				$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
@@ -733,7 +732,7 @@ if(!file_exists('../parameters/control.include.php')) {
 						."title='+escape(d.title)+'"
 						."&amp;text='+escape('%22'+s+'%22%5Bnl]-- %5Blink='+d.title+']'+d.location+'%5B/link]')+'"
 						."&amp;source='+escape(d.location);";
-				$text .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Blog at %s'), $context['site_name']).'</a></li>'."\n";
+				$box .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Blog at %s'), $context['site_name']).'</a></li>'."\n";
 
 				// the bookmarking bookmarklet
 				$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
@@ -744,13 +743,13 @@ if(!file_exists('../parameters/control.include.php')) {
 						."link='+escape(d.location)+'"
 						."&amp;title='+escape(d.title)+'"
 						."&amp;text='+escape(s);";
-				$text .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Bookmark at %s'), $context['site_name']).'</a></li>'."\n";
+				$box .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Bookmark at %s'), $context['site_name']).'</a></li>'."\n";
 
 				// end of bookmarklets
-				$text .= '</ul>'."\n";
+				$box .= '</ul>'."\n";
 
 				// the command to add a side panel
-				$text .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
+				$box .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
 
 				// the actual javascript code to add a panel
 				$context['page_footer'] .= JS_PREFIX
@@ -775,8 +774,10 @@ if(!file_exists('../parameters/control.include.php')) {
 					.JS_SUFFIX;
 
 				// the command to install a bookmaklet into internet explorer
-				$text .= '<p>'.sprintf(i18n::s('If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
+				$box .= '<p>'.sprintf(i18n::s('If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
 
+				// make a nice box out of it
+				$text .= Skin::build_box(i18n::s('Blogging tools'), $box);
 			}
 
 			// build another tab
@@ -790,10 +791,8 @@ if(!file_exists('../parameters/control.include.php')) {
 			// display a system overview if not a crawler
 			if(!Surfer::is_crawler()) {
 
-				$text .= Skin::build_block(i18n::s('System overview'), 'title');
-
 				// use a neat table for the layout
-				$text .= Skin::table_prefix('');
+				$box = Skin::table_prefix('');
 				$lines = 1;
 
 				// yacs version
@@ -805,20 +804,20 @@ if(!file_exists('../parameters/control.include.php')) {
 					$cells[] = $generation['version'].', '.$generation['date'].', '.$generation['server'];
 				else
 					$cells[] = '---';
-				$text .= Skin::table_row($cells, $lines++);
+				$box .= Skin::table_row($cells, $lines++);
 
 				// php version
 				$cells = array();
 				$cells[] = Skin::build_link('http://www.php.net/', 'PHP');
 				$cells[] = phpversion();
-				$text .= Skin::table_row($cells, $lines++);
+				$box .= Skin::table_row($cells, $lines++);
 
 				// MySQL version
 				if($version = SQL::version()) {
 					$cells = array();
 					$cells[] = Skin::build_link('http://www.mysql.com/', 'MySQL');
 					$cells[] = $version;
-					$text .= Skin::table_row($cells, $lines++);
+					$box .= Skin::table_row($cells, $lines++);
 				}
 
 				// Apache version
@@ -826,26 +825,28 @@ if(!file_exists('../parameters/control.include.php')) {
 					$cells = array();
 					$cells[] = Skin::build_link('http://www.apache.org/', 'Apache');
 					$cells[] = apache_get_version();
-					$text .= Skin::table_row($cells, $lines++);
+					$box .= Skin::table_row($cells, $lines++);
 				}
 
 				// time shift
 				$cells = array();
 				$cells[] = i18n::s('Server time zone');
 				$cells[] = sprintf('UTC %s%s %s', ($context['gmt_offset'] > 0)?'+':'', $context['gmt_offset'], i18n::ns('hour', 'hours', abs($context['gmt_offset'])));
-				$text .= Skin::table_row($cells, $lines++);
+				$box .= Skin::table_row($cells, $lines++);
 
 				// memory usage
 				if(is_callable('memory_get_usage')) {
 					$cells = array();
 					$cells[] = i18n::s('Memory');
 					$cells[] = memory_get_usage();
-					$text .= Skin::table_row($cells, $lines++);
+					$box .= Skin::table_row($cells, $lines++);
 				}
 
 				// end of the table
-				$text .= Skin::table_suffix();
+				$box .= Skin::table_suffix();
 
+				// make a nice box out of it
+				$text .= Skin::build_box(i18n::s('System overview'), $box);
 			}
 
 			// available commands for system management

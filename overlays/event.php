@@ -1558,9 +1558,9 @@ class Event extends Overlay {
 
 		case 'delete':
 
-			// no need to notify participants after the event has started
-			if(isset($this->attributes['status'])
-				&& ($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')) {
+			// no need to notify participants after the date planned for the event, nor if the event has been initiated
+			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmstrftime('%Y-%m-%d %H:%M'))
+				&& isset($this->attributes['status']) && ($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')) {
 
 				// send a cancellation message to participants
 				$query = "SELECT user_email FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."') AND (approved LIKE 'Y')";
@@ -1690,8 +1690,10 @@ class Event extends Overlay {
 			if($reference)
 				$this->anchor =& Anchors::get($reference, TRUE);
 
-			// should we notify watchers?
-			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y')) {
+			// no need to notify watchers after the date planned for the event, nor if the event has been initiated
+			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmstrftime('%Y-%m-%d %H:%M'))
+				&& isset($this->attributes['status']) && ($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')
+				&& isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y')) {
 
 				// send a confirmation message to participants
 				$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
@@ -1788,7 +1790,9 @@ class Event extends Overlay {
 			break;
 		}
 
+		// job done
 		return TRUE;
+
 	}
 
 	/**

@@ -2,8 +2,6 @@
 /**
  * handle internationalization
  *
- * @todo add a library of currencies
- *
  * This library helps to internationalize (i18n) and localize (l10n) strings used throughout the software.
  *
  * YACS leverages the gettext framework, which is the de facto standard for the internationalization of open source software.
