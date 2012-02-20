@@ -64,7 +64,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Sections::is_owned($item, $anchor)) {
+} elseif(!Sections::is_owned($item, $anchor) && !Surfer::is_associate()) {  
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
