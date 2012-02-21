@@ -2,9 +2,6 @@
 /**
  * the posting form as a browser sidebar
  *
- * @todo add an option to make it post bookmarks
- * @link http://quikonnex.com/start/ Channel Viever and Bookmark Server
- *
  * This is a simple form to ease blogger work. Put text here while browsing.
  * Then hit the submit button to push it at your own web site.
  *

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-17 23:00+0100\n"
-"PO-Revision-Date: 2010-11-12 18:21+0100\n"
+"POT-Creation-Date: 2011-12-21 18:52+0100\n"
+"PO-Revision-Date: 2011-12-21 16:41+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
@@ -217,7 +217,7 @@ msgstr "The action has not been confirmed."
 msgid "Yes, I want to delete this category"
 msgstr "Yes, I want to delete this category"
 
-#: categories/delete.php:115 categories/edit.php:880 categories/mail.php:164
+#: categories/delete.php:115 categories/edit.php:880 categories/mail.php:190
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -258,7 +258,7 @@ msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
 #: categories/edit.php:249 categories/layout_categories_as_yahoo.php:166
-#: categories/layout_categories_as_yahoo.php:180
+#: categories/layout_categories_as_yahoo.php:180 categories/mail.php:120
 msgid "View the category"
 msgstr "View the category"
 
@@ -279,7 +279,7 @@ msgstr "Add a link"
 msgid "Title"
 msgstr "Title"
 
-#: categories/edit.php:285 categories/edit.php:913 categories/mail.php:182
+#: categories/edit.php:285 categories/edit.php:913 categories/mail.php:208
 msgid "Please provide a meaningful title."
 msgstr "Please provide a meaningful title."
 
@@ -684,7 +684,7 @@ msgstr "Options"
 msgid "Submit"
 msgstr "Submit"
 
-#: categories/edit.php:876 categories/mail.php:160
+#: categories/edit.php:876 categories/mail.php:186
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
@@ -757,7 +757,7 @@ msgstr "Cloud of tags"
 msgid "Popular"
 msgstr "Popular"
 
-#: categories/layout_categories.php:71
+#: categories/layout_categories.php:70
 #: categories/layout_categories_as_yahoo.php:75
 #, php-format
 msgid "%d category"
@@ -765,7 +765,7 @@ msgid_plural "%d categories"
 msgstr[0] "%d category"
 msgstr[1] "%d categories"
 
-#: categories/layout_categories.php:75
+#: categories/layout_categories.php:74
 #: categories/layout_categories_as_yahoo.php:80 categories/view.php:467
 #, php-format
 msgid "%d section"
@@ -773,7 +773,7 @@ msgid_plural "%d sections"
 msgstr[0] "%d section"
 msgstr[1] "%d sections"
 
-#: categories/layout_categories.php:79
+#: categories/layout_categories.php:78
 #: categories/layout_categories_as_yahoo.php:86 categories/view.php:533
 #, php-format
 msgid "%d page"
@@ -781,7 +781,7 @@ msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: categories/layout_categories.php:83
+#: categories/layout_categories.php:82
 #: categories/layout_categories_as_yahoo.php:92 categories/view.php:575
 #, php-format
 msgid "%d file"
@@ -789,7 +789,7 @@ msgid_plural "%d files"
 msgstr[0] "%d file"
 msgstr[1] "%d files"
 
-#: categories/layout_categories.php:87
+#: categories/layout_categories.php:86
 #: categories/layout_categories_as_yahoo.php:98 categories/view.php:672
 #, php-format
 msgid "%d link"
@@ -797,7 +797,7 @@ msgid_plural "%d links"
 msgstr[0] "%d link"
 msgstr[1] "%d links"
 
-#: categories/layout_categories.php:91
+#: categories/layout_categories.php:90
 #: categories/layout_categories_as_yahoo.php:104 categories/view.php:626
 #, php-format
 msgid "%d comment"
@@ -805,7 +805,7 @@ msgid_plural "%d comments"
 msgstr[0] "%d comment"
 msgstr[1] "%d comments"
 
-#: categories/layout_categories.php:95
+#: categories/layout_categories.php:94
 #: categories/layout_categories_as_yahoo.php:110 categories/view.php:830
 #, php-format
 msgid "%d user"
@@ -829,39 +829,44 @@ msgstr "E-mail has not been enabled on this system."
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
 
-#: categories/mail.php:113
+#: categories/mail.php:104
+#, php-format
+msgid "%s has notified you from %s"
+msgstr "%s has notified you from %s"
+
+#: categories/mail.php:139
 msgid "A message has been sent to:"
 msgstr "A message has been sent to:"
 
-#: categories/mail.php:120
+#: categories/mail.php:146
 msgid "Done"
 msgstr "Done"
 
-#: categories/mail.php:128
+#: categories/mail.php:154
 msgid "No recipient has been found."
 msgstr "No recipient has been found."
 
-#: categories/mail.php:137
+#: categories/mail.php:163
 msgid "Message recipients"
 msgstr "Message recipients"
 
-#: categories/mail.php:138
+#: categories/mail.php:164
 msgid "Select recipients"
 msgstr "Select recipients"
 
-#: categories/mail.php:142
+#: categories/mail.php:168
 msgid "Message title"
 msgstr "Message title"
 
-#: categories/mail.php:147
+#: categories/mail.php:173
 msgid "Message content"
 msgstr "Message content"
 
-#: categories/mail.php:160
+#: categories/mail.php:186
 msgid "Send"
 msgstr "Send"
 
-#: categories/mail.php:189
+#: categories/mail.php:215
 msgid "Message content can not be empty"
 msgstr "Message content can not be empty"
 
@@ -1090,6 +1095,13 @@ msgstr "Technorati"
 #: categories/view.php:1003
 msgid "External search"
 msgstr "External search"
+
+#, fuzzy
+#~ msgid "View this category"
+#~ msgstr "View the category"
+
+#~ msgid "Open this category"
+#~ msgstr "Open this category"
 
 #~ msgid "Public - Everybody, including anonymous surfers"
 #~ msgstr "Public - Everybody, including anonymous surfers"

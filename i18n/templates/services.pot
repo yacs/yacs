@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,67 +17,66 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: services/blog.php:551 services/blog.php:596 services/blog.php:695
-#: services/blog.php:778 services/blog.php:847 services/blog.php:878
-#: services/blog.php:909 services/blog.php:962 services/blog.php:1064
-#: services/blog.php:1096 services/blog.php:1203 services/blog.php:1245
-#: services/blog.php:1321 services/blog.php:1394 services/blog.php:1484
-#: services/blog.php:1606 services/blog.php:1641 services/blog.php:1680
-#: services/blog.php:1732
+#: services/blog.php:563 services/blog.php:608 services/blog.php:714
+#: services/blog.php:797 services/blog.php:866 services/blog.php:897
+#: services/blog.php:928 services/blog.php:999 services/blog.php:1109
+#: services/blog.php:1141 services/blog.php:1256 services/blog.php:1298
+#: services/blog.php:1374 services/blog.php:1447 services/blog.php:1537
+#: services/blog.php:1666 services/blog.php:1701 services/blog.php:1740
+#: services/blog.php:1792
 #, php-format
 msgid "Please register at %s before blogging"
 msgstr ""
 
-#: services/blog.php:555 services/blog.php:600 services/blog.php:699
-#: services/blog.php:1100 services/blog.php:1249
+#: services/blog.php:567 services/blog.php:612 services/blog.php:718
+#: services/blog.php:1145 services/blog.php:1302
 #, php-format
 msgid "Unknown postid %s at %s"
 msgstr ""
 
-#: services/blog.php:572 services/blog.php:620 services/blog.php:703
-#: services/blog.php:736 services/blog.php:786 services/blog.php:855
-#: services/blog.php:970 services/blog.php:974 services/blog.php:978
-#: services/blog.php:1072 services/blog.php:1076 services/blog.php:1119
-#: services/blog.php:1253 services/blog.php:1286 services/blog.php:1329
-#: services/blog.php:1398 services/blog.php:1410 services/blog.php:1414
-#: services/blog.php:1418 services/blog.php:1492 services/blog.php:1496
-#: services/blog.php:1500 services/blog.php:1688 services/check.php:57
-#: services/check.php:62 services/configure.php:71 services/proxy.php:21
-#: services/proxy.php:26
+#: services/blog.php:584 services/blog.php:632 services/blog.php:722
+#: services/blog.php:755 services/blog.php:805 services/blog.php:874
+#: services/blog.php:1007 services/blog.php:1011 services/blog.php:1015
+#: services/blog.php:1117 services/blog.php:1121 services/blog.php:1164
+#: services/blog.php:1306 services/blog.php:1339 services/blog.php:1382
+#: services/blog.php:1451 services/blog.php:1463 services/blog.php:1467
+#: services/blog.php:1471 services/blog.php:1545 services/blog.php:1549
+#: services/blog.php:1553 services/blog.php:1748 services/check.php:57
+#: services/check.php:62 services/configure.php:77 services/proxy.php:21
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: services/blog.php:576
+#: services/blog.php:588
 #, php-format
 msgid "Impossible to delete record of postid %s"
 msgstr ""
 
-#: services/blog.php:648 services/blog.php:1163
+#: services/blog.php:660 services/blog.php:1208
 #, php-format
 msgid "Impossible to update record of postid %s"
 msgstr ""
 
-#: services/blog.php:782 services/blog.php:851 services/blog.php:966
-#: services/blog.php:1068 services/blog.php:1325 services/blog.php:1406
-#: services/blog.php:1488 services/blog.php:1684
+#: services/blog.php:801 services/blog.php:870 services/blog.php:1003
+#: services/blog.php:1113 services/blog.php:1378 services/blog.php:1459
+#: services/blog.php:1541 services/blog.php:1744
 #, php-format
 msgid "Unknown blog %s at %s"
 msgstr ""
 
-#: services/blog.php:892
+#: services/blog.php:911
 msgid "Unknown user name"
 msgstr ""
 
-#: services/blog.php:1402
+#: services/blog.php:1455
 msgid "No file data has been received."
 msgstr ""
 
-#: services/blog.php:1430
+#: services/blog.php:1483
 #, php-format
 msgid "Impossible to save content of file %s"
 msgstr ""
 
-#: services/blog.php:1787
+#: services/blog.php:1847
 #, php-format
 msgid "Do not know how to process %s"
 msgstr ""
@@ -133,171 +132,192 @@ msgstr ""
 msgid "No anchor has been found."
 msgstr ""
 
-#: services/configure.php:59 services/configure.php:162
-#: services/configure.php:237
+#: services/configure.php:65 services/configure.php:190
+#: services/configure.php:271
 msgid "Control Panel"
 msgstr ""
 
-#: services/configure.php:62
+#: services/configure.php:68
 #, php-format
 msgid "%s: %s"
 msgstr ""
 
-#: services/configure.php:62 services/index.php:98
+#: services/configure.php:68 services/index.php:98
 msgid "Configure"
 msgstr ""
 
-#: services/configure.php:62 services/configure.php:166
-#: services/configure.php:236
+#: services/configure.php:68 services/configure.php:194
+#: services/configure.php:270
 msgid "Web services"
 msgstr ""
 
-#: services/configure.php:80
+#: services/configure.php:86
 msgid "Google API key"
 msgstr ""
 
-#: services/configure.php:84
+#: services/configure.php:90
 #, php-format
 msgid "To integrate Google Maps to your server, %s and enter it here"
 msgstr ""
 
-#: services/configure.php:84
+#: services/configure.php:90
 msgid "http://www.google.com/apis/maps/signup.html"
 msgstr ""
 
-#: services/configure.php:84
+#: services/configure.php:90 services/configure.php:106
 msgid "apply for a key"
 msgstr ""
 
-#: services/configure.php:88
+#: services/configure.php:94
 msgid "Google Analytics"
 msgstr ""
 
-#: services/configure.php:92
+#: services/configure.php:98
 #, php-format
 msgid ""
 "To monitor your server with Google Analytics, %s and enter your account here"
 msgstr ""
 
-#: services/configure.php:92
+#: services/configure.php:98
 msgid "http://www.google-analytics.com/"
 msgstr ""
 
-#: services/configure.php:92
+#: services/configure.php:98
 msgid "register"
 msgstr ""
 
-#: services/configure.php:96
+#: services/configure.php:102
+msgid "Opentok API key"
+msgstr ""
+
+#: services/configure.php:106
+#, php-format
+msgid "To integrate Opentok services to your server, %s and enter it here"
+msgstr ""
+
+#: services/configure.php:106
+msgid "http://www.tokbox.com/opentok/api/documentation/gettingstarted"
+msgstr ""
+
+#: services/configure.php:110
+msgid "Opentok API secret"
+msgstr ""
+
+#: services/configure.php:117
+msgid "Opentok API URL"
+msgstr ""
+
+#: services/configure.php:124
 msgid "Debug blog services"
 msgstr ""
 
-#: services/configure.php:100
+#: services/configure.php:128
 msgid ""
 "Copy network packets sent and received by services/blog.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:101 services/configure.php:110
-#: services/configure.php:119 services/configure.php:128
-#: services/configure.php:137 services/configure.php:146
+#: services/configure.php:129 services/configure.php:138
+#: services/configure.php:147 services/configure.php:156
+#: services/configure.php:165 services/configure.php:174
 msgid "Use this option only for troubleshooting"
 msgstr ""
 
-#: services/configure.php:105
+#: services/configure.php:133
 msgid "Debug commenting services"
 msgstr ""
 
-#: services/configure.php:109
+#: services/configure.php:137
 msgid ""
 "Copy network packets sent and received by comments/post.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:114
+#: services/configure.php:142
 msgid "Debug calls of web services"
 msgstr ""
 
-#: services/configure.php:118
+#: services/configure.php:146
 msgid ""
 "Copy network packets sent and received by services/call.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:123
+#: services/configure.php:151
 msgid "Debug ping services"
 msgstr ""
 
-#: services/configure.php:127
+#: services/configure.php:155
 msgid ""
 "Copy network packets sent and received by services/ping.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:132
+#: services/configure.php:160
 msgid "Debug remote procedure calls"
 msgstr ""
 
-#: services/configure.php:136
+#: services/configure.php:164
 msgid ""
 "Copy network packets sent and received by services/json_rpc.php and by "
 "services/xml_rpc.php in temporary/debug.txt"
 msgstr ""
 
-#: services/configure.php:141
+#: services/configure.php:169
 msgid "Debug pingback and trackback services"
 msgstr ""
 
-#: services/configure.php:145
+#: services/configure.php:173
 msgid ""
 "Copy network packets sent and received by links/trackback.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:158
+#: services/configure.php:186
 msgid "Submit"
 msgstr ""
 
-#: services/configure.php:158
+#: services/configure.php:186
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: services/configure.php:177
+#: services/configure.php:205
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: services/configure.php:211
+#: services/configure.php:245
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: services/configure.php:214
+#: services/configure.php:248
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 
-#: services/configure.php:219
+#: services/configure.php:253
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: services/configure.php:225
+#: services/configure.php:259
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: services/configure.php:231
+#: services/configure.php:265
 msgid "Configuration parameters"
 msgstr ""
 
-#: services/configure.php:234
+#: services/configure.php:268
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: services/configure.php:238
+#: services/configure.php:272
 msgid "Configure again"
 msgstr ""
 

@@ -180,7 +180,7 @@ Class Tables {
 
 					// first column is only a link
 					if(($index == 1) && ($table['with_zoom'] == 'Y')) {
-						$link = $context['url_to_home'].$context['url_to_root'].$value;
+						$link = $context['url_to_home'].$context['url_to_root'].ltrim($value, '/');
 						continue;
 					}
 

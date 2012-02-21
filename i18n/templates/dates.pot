@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:56+0100\n"
+"POT-Creation-Date: 2012-01-29 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -203,7 +203,7 @@ msgstr ""
 msgid "Target date"
 msgstr ""
 
-#: dates/delete.php:134 dates/layout_dates.php:72 dates/view.php:83
+#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -228,15 +228,11 @@ msgstr ""
 msgid "The date has been saved."
 msgstr ""
 
-#: dates/edit.php:136
-msgid "Persons that have been notified"
-msgstr ""
-
 #: dates/edit.php:139
 msgid "What do you want to do now?"
 msgstr ""
 
-#: dates/edit.php:141 dates/layout_dates.php:62
+#: dates/edit.php:141 dates/layout_dates.php:61
 #: dates/layout_dates_as_family.php:83
 msgid "View the page"
 msgstr ""
@@ -301,21 +297,21 @@ msgstr ""
 msgid "Monitor"
 msgstr ""
 
-#: dates/layout_dates.php:79
+#: dates/layout_dates.php:74
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dates/layout_dates.php:83
+#: dates/layout_dates.php:78
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dates/layout_dates.php:87
+#: dates/layout_dates.php:82
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-17 23:00+0100\n"
+"POT-Creation-Date: 2011-12-17 00:09+0100\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -156,10 +156,6 @@ msgstr "L'image a été ajoutée ; elle servira aussi de vignette."
 #: images/edit.php:276
 msgid "The image has been inserted."
 msgstr "L'image a été insérée."
-
-#: images/edit.php:283 images/upload.php:253
-msgid "Persons that have been notified"
-msgstr "Personnes notifiées"
 
 #: images/edit.php:286 images/upload.php:256
 msgid "What do you want to do now?"
@@ -545,6 +541,9 @@ msgstr ""
 #: images/view.php:256
 msgid "Thumbnail"
 msgstr "Vignette"
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Personnes notifiées"
 
 #~ msgid "Size: %s x %s"
 #~ msgstr "Taille : %s x %s"

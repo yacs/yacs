@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2012-01-20 09:44+0100\n"
 "PO-Revision-Date: 2010-08-11 17:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"XQoedit-SourceCharset: utf-8\n"
 
 #: dates/check.php:21 dates/check.php:32 dates/check.php:90
 #: dates/check.php:146 dates/delete.php:70 dates/edit.php:64
@@ -205,7 +205,7 @@ msgstr "%s: %s"
 msgid "Target date"
 msgstr "Target date"
 
-#: dates/delete.php:134 dates/layout_dates.php:72 dates/view.php:83
+#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
@@ -230,15 +230,11 @@ msgstr "Thank you for your contribution"
 msgid "The date has been saved."
 msgstr "The date has been saved."
 
-#: dates/edit.php:136
-msgid "Persons that have been notified"
-msgstr "Persons that have been notified"
-
 #: dates/edit.php:139
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: dates/edit.php:141 dates/layout_dates.php:62
+#: dates/edit.php:141 dates/layout_dates.php:61
 #: dates/layout_dates_as_family.php:83
 msgid "View the page"
 msgstr "View the page"
@@ -303,21 +299,21 @@ msgstr "Get calendar"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: dates/layout_dates.php:79
+#: dates/layout_dates.php:74
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d file"
 msgstr[1] "%d files"
 
-#: dates/layout_dates.php:83
+#: dates/layout_dates.php:78
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] "%d link"
 msgstr[1] "%d links"
 
-#: dates/layout_dates.php:87
+#: dates/layout_dates.php:82
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -339,6 +335,9 @@ msgstr "Delete"
 #: dates/view.php:123
 msgid "Navigation"
 msgstr "Navigation"
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Persons that have been notified"
 
 #~ msgid "Information channels"
 #~ msgstr "Information channels"

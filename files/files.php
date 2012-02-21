@@ -56,7 +56,7 @@ Class Files {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @param string the type of item, e.g., 'section'
+	 * @param string the type of item, e.g., 'article' or 'section'
 	 * @return boolean TRUE or FALSE
 	 */
 	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
@@ -208,7 +208,7 @@ Class Files {
 	 * and FALSE otherwise.
 	 *
 	 * @param object an instance of the Anchor interface
-	 * @param array a set of item attributes, aka, the target comment
+	 * @param array a set of item attributes, aka, the target file
 	 * @return TRUE or FALSE
 	 */
 	public static function allow_modification($anchor, $item) {

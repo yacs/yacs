@@ -2,8 +2,6 @@
 /**
  * the index page for files
  *
- * @todo add a bulk.php to upload files as a table (Justin)
- *
  * For a comprehensive description of files, you should check the database abstraction script
  * at [script]files/files.php[/script].
  *

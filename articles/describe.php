@@ -2,9 +2,6 @@
 /**
  * describe an article in RDF
  *
- * @todo derive this to support web slices http://en.wikipedia.org/wiki/Web_Slice
- * @todo web slice example at http://blogs.msdn.com/ie/archive/2009/03/03/create-a-dynamic-web-slice-in-5-minutes.aspx
- *
  * This script may be used by crawlers to index pages.
  * Therefore, only partial information is provided here.
  *
