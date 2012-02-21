@@ -629,7 +629,7 @@ Class Section extends Anchor {
 		if(($type == 'article') && isset($this->item['articles_templates']) && trim($this->item['articles_templates']))
 			$output = trim($this->item['articles_templates']);
 
-		// we already are at the top level
+		// else climb the content tree
 		elseif(isset($this->item['anchor'])) {
 
 			// get the parent

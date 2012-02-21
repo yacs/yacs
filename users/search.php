@@ -2,8 +2,6 @@
 /**
  * search among users
  *
- * @todo search in every contact addresses (moi-meme)
- *
  * This script calls for a search pattern, then actually searches the database.
  *
  * The integrated search engine is based on full-text indexing capabilities of MySQL.

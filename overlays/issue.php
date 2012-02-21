@@ -1275,7 +1275,9 @@ class Issue extends Overlay {
 			Comments::post($fields);
 		}
 
+		// job done
 		return TRUE;
+
 	}
 
 	/**

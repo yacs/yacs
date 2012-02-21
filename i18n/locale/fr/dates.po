@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2012-01-16 00:13+0100\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -200,7 +200,7 @@ msgstr "%s : %s"
 msgid "Target date"
 msgstr "Date cible"
 
-#: dates/delete.php:134 dates/layout_dates.php:72 dates/view.php:83
+#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -225,15 +225,11 @@ msgstr "Merci de votre contribution"
 msgid "The date has been saved."
 msgstr "La date a été enregistrée."
 
-#: dates/edit.php:136
-msgid "Persons that have been notified"
-msgstr "Personnes notifiées"
-
 #: dates/edit.php:139
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: dates/edit.php:141 dates/layout_dates.php:62
+#: dates/edit.php:141 dates/layout_dates.php:61
 #: dates/layout_dates_as_family.php:83
 msgid "View the page"
 msgstr "Voir la page"
@@ -298,21 +294,21 @@ msgstr "Obtenir le calendrier"
 msgid "Monitor"
 msgstr "Surveiller"
 
-#: dates/layout_dates.php:79
+#: dates/layout_dates.php:74
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d fichier"
 msgstr[1] "%d fichiers"
 
-#: dates/layout_dates.php:83
+#: dates/layout_dates.php:78
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] "%d lien"
 msgstr[1] "%d liens"
 
-#: dates/layout_dates.php:87
+#: dates/layout_dates.php:82
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -334,6 +330,9 @@ msgstr "Supprimer"
 #: dates/view.php:123
 msgid "Navigation"
 msgstr "Navigation"
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Personnes notifiées"
 
 #~ msgid "Information channels"
 #~ msgstr "Fils d'information"

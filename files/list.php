@@ -145,8 +145,13 @@ if(!is_object($anchor)) {
 	// page menu
 	//
 
+	// get parent of the anchor too
+	$parent = NULL;
+	if(is_object($anchor) && ($parent = $anchor->get_parent()))
+		$parent =&  Anchors::get($parent);
+
 	// the command to post a new file, if this is allowed
-	if(Files::allow_creation($anchor)) {
+	if(is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type())) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Upload a file'));
 	}
@@ -159,7 +164,7 @@ if(!is_object($anchor)) {
 	//
 
 	// the command to post a new file, if this is allowed
-	if(Files::allow_creation($anchor))
+	if(is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type()))
 		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Upload a file'));
 
 	// back to main page

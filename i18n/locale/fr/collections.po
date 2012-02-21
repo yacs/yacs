@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2011-12-15 00:03+0100\n"
 "PO-Revision-Date: 2010-09-29 15:40+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -18,38 +18,38 @@ msgstr ""
 #: collections/browse.php:84 collections/configure.php:55
 #: collections/configure.php:226 collections/configure.php:302
 #: collections/fetch.php:55 collections/play_audio.php:71
-#: collections/play_slideshow.php:53 collections/stream.php:85
+#: collections/play_slideshow.php:54 collections/stream.php:85
 #: collections/upload.php:53
 msgid "File collections"
 msgstr "Collections de fichiers"
 
 #: collections/browse.php:89 collections/fetch.php:60
-#: collections/play_audio.php:76 collections/play_slideshow.php:58
+#: collections/play_audio.php:76 collections/play_slideshow.php:59
 #: collections/stream.php:90 collections/upload.php:67
 msgid "Unknown collection"
 msgstr "Collection inconnue"
 
 #: collections/browse.php:90 collections/fetch.php:61
-#: collections/play_audio.php:77 collections/play_slideshow.php:59
+#: collections/play_audio.php:77 collections/play_slideshow.php:60
 #: collections/stream.php:91 collections/upload.php:68
 msgid "The collection asked for is unknown."
 msgstr "La collection demandée n'existe pas."
 
 #: collections/browse.php:104 collections/fetch.php:75
-#: collections/play_audio.php:91 collections/play_slideshow.php:73
+#: collections/play_audio.php:91 collections/play_slideshow.php:74
 #: collections/stream.php:105
 msgid "Restricted access"
 msgstr "Accès restreint"
 
 #: collections/browse.php:105 collections/configure.php:64
 #: collections/fetch.php:76 collections/play_audio.php:92
-#: collections/play_slideshow.php:74 collections/stream.php:106
+#: collections/play_slideshow.php:75 collections/stream.php:106
 #: collections/upload.php:62
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
 #: collections/browse.php:124 collections/fetch.php:95
-#: collections/play_audio.php:111 collections/play_slideshow.php:88
+#: collections/play_audio.php:111 collections/play_slideshow.php:89
 #: collections/stream.php:125 collections/upload.php:87
 msgid "Untitled collection"
 msgstr "Collection sans titre"
@@ -60,8 +60,8 @@ msgid "The directory %s does not exist. Please check %s"
 msgstr "Le répertoire %s n'existe pas. Vérifiez %s"
 
 #: collections/browse.php:143 collections/fetch.php:107
-#: collections/play_audio.php:123 collections/play_slideshow.php:92
-#: collections/play_slideshow.php:119 collections/stream.php:137
+#: collections/play_audio.php:123 collections/play_slideshow.php:93
+#: collections/play_slideshow.php:120 collections/stream.php:137
 msgid "the index page"
 msgstr "la page d'index"
 
@@ -356,54 +356,54 @@ msgid "No collection has been defined. Please configure."
 msgstr ""
 "Aucune collection n'a été définie Allez sur le panneau de configuration."
 
-#: collections/play_audio.php:123 collections/play_slideshow.php:92
+#: collections/play_audio.php:123 collections/play_slideshow.php:93
 #, php-format
 msgid "The directory %s does not exist. Please check %s."
 msgstr "Le répertoire %s n'existe pas. Vérifiez %s."
 
-#: collections/play_slideshow.php:119
+#: collections/play_slideshow.php:120
 #, php-format
 msgid "There is no image in the directory %s to run a show. Please check %s."
 msgstr "Le répertoire %s ne contient pas d'images. Vérifiez %s."
 
-#: collections/play_slideshow.php:131
+#: collections/play_slideshow.php:132
 msgid "Select the slide to show"
 msgstr "Choisir l'image à afficher"
 
-#: collections/play_slideshow.php:144
+#: collections/play_slideshow.php:145
 msgid "Beginning"
 msgstr "Début"
 
-#: collections/play_slideshow.php:145
+#: collections/play_slideshow.php:146
 msgid "Previous"
 msgstr "Précédent"
 
-#: collections/play_slideshow.php:146 collections/play_slideshow.php:346
+#: collections/play_slideshow.php:147 collections/play_slideshow.php:347
 msgid "Start"
 msgstr "Démarrer"
 
-#: collections/play_slideshow.php:146
+#: collections/play_slideshow.php:147
 msgid "Autoplay"
 msgstr "Automatique"
 
-#: collections/play_slideshow.php:147
+#: collections/play_slideshow.php:148
 msgid "Next"
 msgstr "Suivant"
 
-#: collections/play_slideshow.php:148
+#: collections/play_slideshow.php:149
 msgid "Last"
 msgstr "Dernier"
 
-#: collections/play_slideshow.php:153
+#: collections/play_slideshow.php:154
 msgid "Please activate Javascript to benefit from the slideshow."
 msgstr "Merci d'activer Javascript pour bénéficier du diaporama."
 
-#: collections/play_slideshow.php:202
+#: collections/play_slideshow.php:203
 #, php-format
 msgid "Click to view only the original image %s"
 msgstr "Cliquer pour voir seulement l'image %s"
 
-#: collections/play_slideshow.php:364
+#: collections/play_slideshow.php:365
 msgid "Stop"
 msgstr "Arrêter"
 
