@@ -122,19 +122,20 @@ class Embed extends Overlay {
 			;
 
 		// display the address of the embedded object
-		elseif($this->attributes['embed_type'] == 'href') {
+		elseif(($this->attributes['embed_type'] == 'href') && trim($this->attributes['embed_href'])) {
 
 			$input .= $this->attributes['embed_href'];
 
 		// display file details
-		} elseif($this->attributes['embed_type'] == 'upload') {
+		} elseif(($this->attributes['embed_type'] == 'upload') && trim($this->attributes['embed_name'])) {
 
 			$input .= $this->attributes['embed_name'];
 
 		}
 
 		// a complex field
-		$fields[] = array($label, $input);
+		if($input)
+			$fields[] = array($label, $input);
 
 		return $fields;
 	}
@@ -149,7 +150,8 @@ class Embed extends Overlay {
 		$text = '';
 
 		// if we have a valid thumbnail, use it as a link to the anchor page
-		if(isset($this->attributes['thumbnail_url']) && isset($this->attributes['thumbnail_width']) && isset($this->attributes['thumbnail_height'])) {
+		if(isset($this->attributes['thumbnail_url']) && trim($this->attributes['thumbnail_url'])
+			&& isset($this->attributes['thumbnail_width']) && isset($this->attributes['thumbnail_height'])) {
 
 			$text .= '<div style="margin: 0.3em auto">'
 				.Skin::build_link($this->anchor->get_url(), '<img src="'.$this->attributes['thumbnail_url'].'" width="'.$this->attributes['thumbnail_width'].'" height="'.$this->attributes['thumbnail_height'].'" alt="" />', 'basic')
@@ -184,6 +186,10 @@ class Embed extends Overlay {
 				// default url is the original one
 				if(!isset($this->attributes['url']))
 					$this->attributes['url'] = $this->attributes['embed_href'];
+
+				// empty url
+				if(!trim($this->attributes['url']))
+					return $text;
 
 				// what has to be embedded?
 				switch($this->attributes['type']) {
