@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-29 23:26+0100\n"
+"POT-Creation-Date: 2012-02-24 14:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 #: users/login.php:156 users/mail.php:73 users/mail.php:92 users/mail.php:103
 #: users/notifications.php:158 users/password.php:69 users/password.php:74
 #: users/password.php:156 users/print.php:65 users/print.php:80
-#: users/select.php:72 users/select_avatar.php:76 users/select_avatar.php:89
+#: users/select_avatar.php:76 users/select_avatar.php:89 users/select.php:70
 #: users/track.php:60 users/track.php:65 users/transfer.php:46
 #: users/validate.php:51 users/view.php:208 users/visit.php:59
 msgid "You are not allowed to perform this operation."
@@ -54,7 +54,7 @@ msgstr ""
 
 #: users/configure.php:145 users/delete.php:69 users/password.php:60
 #: users/password.php:62 users/print.php:125 users/print.php:129
-#: users/search.php:94 users/view.php:563 users/view.php:567
+#: users/search.php:92 users/view.php:563 users/view.php:567
 #: users/view.php:590 users/view.php:592 users/view.php:669
 #, php-format
 msgid "%s: %s"
@@ -69,7 +69,7 @@ msgstr ""
 #: users/element.php:95 users/feed.php:75 users/fetch_vcard.php:76
 #: users/index.php:76 users/leave.php:42 users/login.php:403 users/mail.php:61
 #: users/password.php:54 users/review.php:33 users/review.php:68
-#: users/select.php:63 users/select_avatar.php:67 users/track.php:46
+#: users/select_avatar.php:67 users/select.php:61 users/track.php:46
 #: users/transfer.php:37 users/user.php:212 users/validate.php:43
 #: users/view.php:180
 msgid "People"
@@ -394,7 +394,7 @@ msgid "Submission"
 msgstr ""
 
 #: users/configure.php:509 users/edit.php:779 users/mail.php:228
-#: users/password.php:256 users/select.php:225 users/select_avatar.php:126
+#: users/password.php:256 users/select_avatar.php:126 users/select.php:223
 msgid "Submit"
 msgstr ""
 
@@ -944,8 +944,8 @@ msgstr ""
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
-#: users/edit.php:889 users/login.php:546 users/search.php:180
-#: users/select.php:412 users/select.php:421
+#: users/edit.php:889 users/login.php:546 users/search.php:178
+#: users/select.php:410 users/select.php:419
 msgid "Help"
 msgstr ""
 
@@ -1003,11 +1003,11 @@ msgid_plural "%d users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: users/index.php:109 users/search.php:100
+#: users/index.php:109 users/search.php:98
 msgid "Look for some user"
 msgstr ""
 
-#: users/index.php:110 users/search.php:104
+#: users/index.php:110 users/search.php:102
 msgid "Go"
 msgstr ""
 
@@ -1044,33 +1044,6 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: users/layout_users.php:105 users/layout_users_as_password.php:77
-#: users/view.php:299
-#, php-format
-msgid "registered %s"
-msgstr ""
-
-#: users/layout_users.php:113 users/layout_users_as_password.php:81
-#: users/view.php:295
-#, php-format
-msgid "last login %s"
-msgstr ""
-
-#: users/layout_users.php:115 users/layout_users_as_password.php:83
-msgid "no login"
-msgstr ""
-
-#: users/layout_users.php:122 users/layout_users_as_password.php:87
-#, php-format
-msgid "last post %s"
-msgstr ""
-
-#: users/layout_users.php:127 users/layout_users_as_password.php:91
-#: users/print.php:93 users/view.php:291
-#, php-format
-msgid "%d posts"
-msgstr ""
-
 #: users/layout_users_as_compact.php:86
 #, php-format
 msgid "and %d other person"
@@ -1086,6 +1059,33 @@ msgstr ""
 msgid "Select all/none"
 msgstr ""
 
+#: users/layout_users_as_password.php:77 users/layout_users.php:105
+#: users/view.php:299
+#, php-format
+msgid "registered %s"
+msgstr ""
+
+#: users/layout_users_as_password.php:81 users/layout_users.php:113
+#: users/view.php:295
+#, php-format
+msgid "last login %s"
+msgstr ""
+
+#: users/layout_users_as_password.php:83 users/layout_users.php:115
+msgid "no login"
+msgstr ""
+
+#: users/layout_users_as_password.php:87 users/layout_users.php:122
+#, php-format
+msgid "last post %s"
+msgstr ""
+
+#: users/layout_users_as_password.php:91 users/layout_users.php:127
+#: users/print.php:93 users/view.php:291
+#, php-format
+msgid "%d posts"
+msgstr ""
+
 #: users/layout_users_as_password.php:97
 msgid "Authenticate with this profile"
 msgstr ""
@@ -1095,7 +1095,7 @@ msgid "View profile"
 msgstr ""
 
 #: users/leave.php:46 users/login.php:166 users/login.php:245
-#: users/select.php:67 users/visit.php:64
+#: users/select.php:65 users/visit.php:64
 msgid "No anchor has been found."
 msgstr ""
 
@@ -1119,8 +1119,8 @@ msgid ""
 msgstr ""
 
 #: users/leave.php:77 users/mail.php:182 users/password.php:184
-#: users/select.php:138 users/select.php:403 users/select.php:588
-#: users/select_avatar.php:203 users/track.php:83 users/transfer.php:84
+#: users/select_avatar.php:203 users/select.php:136 users/select.php:401
+#: users/select.php:586 users/track.php:83 users/transfer.php:84
 msgid "Done"
 msgstr ""
 
@@ -1243,7 +1243,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: users/login.php:405 users/search.php:94 users/search.php:96
+#: users/login.php:405 users/search.php:92 users/search.php:94
 msgid "Search"
 msgstr ""
 
@@ -1539,22 +1539,22 @@ msgstr ""
 msgid "Users who have never been authenticated are not listed at all."
 msgstr ""
 
-#: users/search.php:115
+#: users/search.php:113
 msgid "Please type something to search for."
 msgstr ""
 
-#: users/search.php:157
+#: users/search.php:155
 msgid "Results"
 msgstr ""
 
-#: users/search.php:159
+#: users/search.php:157
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: users/search.php:177
+#: users/search.php:175
 #, php-format
 msgid ""
 "No item has been found. This will happen with very short words (less than %s "
@@ -1563,91 +1563,10 @@ msgid ""
 "and to suppress \"noise\" words."
 msgstr ""
 
-#: users/search.php:180
+#: users/search.php:178
 msgid ""
 "This search engine only display pages that have all words in it. Also, only "
 "exact matches will be listed."
-msgstr ""
-
-#: users/select.php:78
-#, php-format
-msgid "Watchers of %s"
-msgstr ""
-
-#: users/select.php:148 users/select.php:432
-msgid "Persons that I am following"
-msgstr ""
-
-#: users/select.php:150 users/select.php:279 users/select.php:434
-#: users/select.php:482
-#, php-format
-msgid "Persons followed by %s"
-msgstr ""
-
-#: users/select.php:152 users/select.php:436
-#, php-format
-msgid "Members of %s"
-msgstr ""
-
-#: users/select.php:154
-msgid "Manage editors"
-msgstr ""
-
-#: users/select.php:174 users/select.php:177 users/track.php:95
-#: users/track.php:98
-#, php-format
-msgid "%s is following you"
-msgstr ""
-
-#: users/select.php:181 users/track.php:102
-#, php-format
-msgid "%s will receive notifications when you will update your followers at %s"
-msgstr ""
-
-#: users/select.php:218
-msgid ""
-"To add a person, type some letters to look for a name, then select one "
-"profile at a time."
-msgstr ""
-
-#: users/select.php:242 users/select.php:316 users/select.php:389
-#: users/select.php:451 users/select.php:513 users/select.php:574
-#, php-format
-msgid "Persons assigned to %s"
-msgstr ""
-
-#: users/select.php:259 users/select.php:296 users/select.php:333
-#: users/select.php:375 users/select.php:468 users/select.php:499
-#: users/select.php:530 users/select.php:566
-msgid "owner"
-msgstr ""
-
-#: users/select.php:264 users/select.php:301 users/select.php:338
-#: users/select.php:380
-msgid "unassign"
-msgstr ""
-
-#: users/select.php:395 users/select.php:580
-msgid "Following editors inherit from assignments at parent containers"
-msgstr ""
-
-#: users/select.php:409
-#, php-format
-msgid ""
-"%s if you have to assign new persons and to notify them in a single "
-"operation."
-msgstr ""
-
-#: users/select.php:409
-msgid "Invite participants"
-msgstr ""
-
-#: users/select.php:418
-msgid "Each new person will be notified that you are following him."
-msgstr ""
-
-#: users/select.php:438
-msgid "Editors"
 msgstr ""
 
 #: users/select_avatar.php:71
@@ -1708,6 +1627,87 @@ msgstr ""
 
 #: users/select_avatar.php:196
 msgid "Use a gravatar"
+msgstr ""
+
+#: users/select.php:76
+#, php-format
+msgid "Watchers of %s"
+msgstr ""
+
+#: users/select.php:146 users/select.php:430
+msgid "Persons that I am following"
+msgstr ""
+
+#: users/select.php:148 users/select.php:277 users/select.php:432
+#: users/select.php:480
+#, php-format
+msgid "Persons followed by %s"
+msgstr ""
+
+#: users/select.php:150 users/select.php:434
+#, php-format
+msgid "Members of %s"
+msgstr ""
+
+#: users/select.php:152
+msgid "Manage editors"
+msgstr ""
+
+#: users/select.php:172 users/select.php:175 users/track.php:95
+#: users/track.php:98
+#, php-format
+msgid "%s is following you"
+msgstr ""
+
+#: users/select.php:179 users/track.php:102
+#, php-format
+msgid "%s will receive notifications when you will update your followers at %s"
+msgstr ""
+
+#: users/select.php:216
+msgid ""
+"To add a person, type some letters to look for a name, then select one "
+"profile at a time."
+msgstr ""
+
+#: users/select.php:240 users/select.php:314 users/select.php:387
+#: users/select.php:449 users/select.php:511 users/select.php:572
+#, php-format
+msgid "Persons assigned to %s"
+msgstr ""
+
+#: users/select.php:257 users/select.php:294 users/select.php:331
+#: users/select.php:373 users/select.php:466 users/select.php:497
+#: users/select.php:528 users/select.php:564
+msgid "owner"
+msgstr ""
+
+#: users/select.php:262 users/select.php:299 users/select.php:336
+#: users/select.php:378
+msgid "unassign"
+msgstr ""
+
+#: users/select.php:393 users/select.php:578
+msgid "Following editors inherit from assignments at parent containers"
+msgstr ""
+
+#: users/select.php:407
+#, php-format
+msgid ""
+"%s if you have to assign new persons and to notify them in a single "
+"operation."
+msgstr ""
+
+#: users/select.php:407
+msgid "Invite participants"
+msgstr ""
+
+#: users/select.php:416
+msgid "Each new person will be notified that you are following him."
+msgstr ""
+
+#: users/select.php:436
+msgid "Editors"
 msgstr ""
 
 #: users/track.php:51

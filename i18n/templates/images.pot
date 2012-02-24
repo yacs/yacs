@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-29 23:26+0100\n"
+"POT-Creation-Date: 2012-02-24 14:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -414,6 +414,10 @@ msgstr[1] ""
 msgid "Recent pages"
 msgstr ""
 
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr ""
+
 #: images/layout_images.php:86
 #, php-format
 msgid "In %s"
@@ -437,10 +441,6 @@ msgstr ""
 
 #: images/layout_images.php:128 images/view.php:244
 msgid "Delete this image"
-msgstr ""
-
-#: images/layout_images_as_hits.php:57
-msgid "hits"
 msgstr ""
 
 #: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
