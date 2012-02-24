@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-19 23:01+0100\n"
+"POT-Creation-Date: 2012-02-24 14:25+0100\n"
 "PO-Revision-Date: 2011-12-21 16:41+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -22,22 +22,22 @@ msgstr ""
 
 #: files/check.php:23 files/check.php:34 files/check.php:90
 #: files/configure.php:44 files/configure.php:150 files/configure.php:224
-#: files/delete.php:68 files/edit.php:125 files/feed.php:108
-#: files/fetch.php:123 files/fetch_all.php:99 files/index.php:60
+#: files/delete.php:68 files/edit.php:130 files/feed.php:108
+#: files/fetch_all.php:99 files/fetch.php:123 files/index.php:58
 #: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
 #: files/stream.php:125 files/thread.php:60 files/thread.php:63
 #: files/view.php:126
 msgid "Files"
 msgstr "Files"
 
-#: files/check.php:26 files/index.php:111
+#: files/check.php:26 files/index.php:109
 msgid "Maintenance"
 msgstr "Maintenance"
 
 #: files/check.php:31 files/configure.php:53 files/delete.php:81
-#: files/edit.php:144 files/edit.php:174 files/feed.php:124
-#: files/fetch.php:156 files/fetch_all.php:116 files/files.php:2860
-#: files/index.php:70 files/list.php:88 files/list.php:93 files/stream.php:152
+#: files/edit.php:149 files/edit.php:179 files/feed.php:124
+#: files/fetch_all.php:116 files/fetch.php:156 files/files.php:2860
+#: files/index.php:68 files/list.php:88 files/list.php:93 files/stream.php:152
 #: files/thread.php:68 files/view.php:159
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
@@ -89,7 +89,7 @@ msgstr "Control Panel"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: files/configure.php:44 files/index.php:110
+#: files/configure.php:44 files/index.php:108
 msgid "Configure"
 msgstr "Configure"
 
@@ -161,11 +161,11 @@ msgstr "Extensions"
 msgid "Storage"
 msgstr "Storage"
 
-#: files/configure.php:142 files/edit.php:648
+#: files/configure.php:142 files/edit.php:653
 msgid "Submit"
 msgstr "Submit"
 
-#: files/configure.php:142 files/edit.php:648
+#: files/configure.php:142 files/edit.php:653
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
@@ -237,7 +237,7 @@ msgstr "Configure again"
 msgid "Delete"
 msgstr "Delete"
 
-#: files/delete.php:87 files/edit.php:180 files/edit.php:406
+#: files/delete.php:87 files/edit.php:185 files/edit.php:411
 #, php-format
 msgid ""
 "This file has been reserved by %s %s, and it is likely that an updated "
@@ -246,7 +246,7 @@ msgstr ""
 "This file has been reserved by %s %s, and it is likely that an updated "
 "version will be made available soon."
 
-#: files/delete.php:91 files/edit.php:183 files/fetch.php:257
+#: files/delete.php:91 files/edit.php:188 files/fetch.php:257
 #: files/fetch.php:277
 msgid "Done"
 msgstr "Done"
@@ -268,11 +268,11 @@ msgstr "The action has not been confirmed."
 msgid "Yes, I want to delete this file"
 msgstr "Yes, I want to delete this file"
 
-#: files/delete.php:129 files/edit.php:650 files/fetch.php:288
+#: files/delete.php:129 files/edit.php:655 files/fetch.php:288
 msgid "Cancel"
 msgstr "Cancel"
 
-#: files/delete.php:150 files/edit.php:517 files/view.php:298
+#: files/delete.php:150 files/edit.php:522 files/view.php:298
 msgid "Title"
 msgstr "Title"
 
@@ -280,7 +280,7 @@ msgstr "Title"
 msgid "Description"
 msgstr "Description"
 
-#: files/delete.php:171 files/edit.php:616
+#: files/delete.php:171 files/edit.php:621
 msgid "Source"
 msgstr "Source"
 
@@ -288,7 +288,7 @@ msgstr "Source"
 msgid "Actual file"
 msgstr "Actual file"
 
-#: files/delete.php:180 files/edit.php:449 files/edit.php:508
+#: files/delete.php:180 files/edit.php:454 files/edit.php:513
 msgid "File size"
 msgstr "File size"
 
@@ -301,8 +301,8 @@ msgstr "%d bytes"
 msgid "Downloads"
 msgstr "Downloads"
 
-#: files/delete.php:185 files/edit.php:483 files/layout_files.php:91
-#: files/layout_files_as_hits.php:60 files/view.php:251
+#: files/delete.php:185 files/edit.php:488 files/layout_files_as_hits.php:60
+#: files/layout_files.php:91 files/view.php:251
 msgid "downloads"
 msgstr "downloads"
 
@@ -318,7 +318,7 @@ msgstr "Updated by"
 msgid "Last action"
 msgstr "Last action"
 
-#: files/delete.php:208 files/delete.php:210 files/edit.php:560
+#: files/delete.php:208 files/delete.php:210 files/edit.php:565
 msgid "Access"
 msgstr "Access"
 
@@ -336,145 +336,145 @@ msgid ""
 msgstr ""
 "Following items are attached to this record and will be deleted as well."
 
-#: files/edit.php:129 files/edit.php:131
+#: files/edit.php:134 files/edit.php:136
 #, php-format
 msgid "Update: %s"
 msgstr "Update: %s"
 
-#: files/edit.php:133
+#: files/edit.php:138
 msgid "Add a file"
 msgstr "Add a file"
 
-#: files/edit.php:149 files/edit.php:269 files/files.php:2876
+#: files/edit.php:154 files/edit.php:274 files/files.php:2876
 #: files/files.php:2880 files/files.php:2884
 msgid "No file has been transmitted."
 msgstr "No file has been transmitted."
 
-#: files/edit.php:154 files/fetch.php:143 files/files.php:2386
+#: files/edit.php:159 files/fetch.php:143 files/files.php:2386
 #: files/list.php:77 files/thread.php:73
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: files/edit.php:188 files/files.php:2864
+#: files/edit.php:193 files/files.php:2864
 msgid "This type of file is not allowed."
 msgstr "This type of file is not allowed."
 
-#: files/edit.php:226 files/edit.php:248 files/edit.php:439 files/edit.php:450
-#: files/edit.php:464 files/edit.php:485 files/edit.php:498 files/edit.php:509
+#: files/edit.php:231 files/edit.php:253 files/edit.php:444 files/edit.php:455
+#: files/edit.php:469 files/edit.php:490 files/edit.php:503 files/edit.php:514
 #: files/layout_files.php:87 files/view.php:247
 msgid "bytes"
 msgstr "bytes"
 
-#: files/edit.php:291
+#: files/edit.php:296
 #, php-format
 msgid "%s %s"
 msgstr "%s %s"
 
-#: files/edit.php:329
+#: files/edit.php:334
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 
-#: files/edit.php:332
+#: files/edit.php:337
 msgid "The upload has been successfully recorded."
 msgstr "The upload has been successfully recorded."
 
-#: files/edit.php:356
+#: files/edit.php:361
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: files/edit.php:361 files/list.php:156 files/list.php:166
+#: files/edit.php:366 files/list.php:161 files/list.php:171
 msgid "Back to main page"
 msgstr "Back to main page"
 
-#: files/edit.php:363 files/edit.php:582 files/edit.php:606 files/view.php:869
+#: files/edit.php:368 files/edit.php:587 files/edit.php:611 files/view.php:869
 msgid "Add an image"
 msgstr "Add an image"
 
-#: files/edit.php:365
+#: files/edit.php:370
 msgid "Upload another file"
 msgstr "Upload another file"
 
-#: files/edit.php:371
+#: files/edit.php:376
 #, php-format
 msgid "New file in %s"
 msgstr "New file in %s"
 
-#: files/edit.php:373
+#: files/edit.php:378
 #, php-format
 msgid "%s at %s"
 msgstr "%s at %s"
 
-#: files/edit.php:424
+#: files/edit.php:429
 msgid "File"
 msgstr "File"
 
-#: files/edit.php:437 files/list.php:151 files/list.php:163
+#: files/edit.php:442 files/list.php:156 files/list.php:168
 msgid "Upload a file"
 msgstr "Upload a file"
 
-#: files/edit.php:442
+#: files/edit.php:447
 msgid "or"
 msgstr "or"
 
-#: files/edit.php:447
+#: files/edit.php:452
 msgid "Share an existing reference (ftp://, http://, ...)"
 msgstr "Share an existing reference (ftp://, http://, ...)"
 
-#: files/edit.php:478
+#: files/edit.php:483
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: files/edit.php:496
+#: files/edit.php:501
 msgid "Select another file to replace the current one"
 msgstr "Select another file to replace the current one"
 
-#: files/edit.php:506
+#: files/edit.php:511
 msgid "Existing reference (ftp://, http://, ...)"
 msgstr "Existing reference (ftp://, http://, ...)"
 
-#: files/edit.php:522 files/files.php:444 files/layout_files.php:152
+#: files/edit.php:527 files/files.php:444 files/layout_files.php:152
 #: files/view.php:327
 msgid "History"
 msgstr "History"
 
-#: files/edit.php:523
+#: files/edit.php:528
 msgid "What is new in this file?"
 msgstr "What is new in this file?"
 
-#: files/edit.php:534
+#: files/edit.php:539
 msgid "Information"
 msgstr "Information"
 
-#: files/edit.php:543
+#: files/edit.php:548
 msgid "Submit the new item, and you will be able to add resources afterwards."
 msgstr "Submit the new item, and you will be able to add resources afterwards."
 
-#: files/edit.php:547
+#: files/edit.php:552
 msgid "Images"
 msgstr "Images"
 
-#: files/edit.php:551
+#: files/edit.php:556
 msgid "Resources"
 msgstr "Resources"
 
-#: files/edit.php:572
+#: files/edit.php:577
 msgid "Image"
 msgstr "Image"
 
-#: files/edit.php:579 files/edit.php:603
+#: files/edit.php:584 files/edit.php:608
 msgid "Change"
 msgstr "Change"
 
-#: files/edit.php:581
+#: files/edit.php:586
 msgid "Image to be displayed in the panel aside the page."
 msgstr "Image to be displayed in the panel aside the page."
 
-#: files/edit.php:596
+#: files/edit.php:601
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
-#: files/edit.php:605
+#: files/edit.php:610
 msgid ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
@@ -482,15 +482,15 @@ msgstr ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
 
-#: files/edit.php:618
+#: files/edit.php:623
 msgid "If you have got this file from outside source, please describe it here"
 msgstr "If you have got this file from outside source, please describe it here"
 
-#: files/edit.php:622
+#: files/edit.php:627
 msgid "Keywords"
 msgstr "Keywords"
 
-#: files/edit.php:624
+#: files/edit.php:629
 msgid ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
@@ -498,35 +498,35 @@ msgstr ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
 
-#: files/edit.php:628
+#: files/edit.php:633
 msgid "Alternate link"
 msgstr "Alternate link"
 
-#: files/edit.php:630
+#: files/edit.php:635
 msgid "Paste here complicated peer-to-peer href (ed2k, torrent, etc.)"
 msgstr "Paste here complicated peer-to-peer href (ed2k, torrent, etc.)"
 
-#: files/edit.php:634
+#: files/edit.php:639
 msgid "More options"
 msgstr "More options"
 
-#: files/edit.php:639
+#: files/edit.php:644
 msgid "Options"
 msgstr "Options"
 
-#: files/edit.php:660
+#: files/edit.php:665
 msgid "Notify watchers"
 msgstr "Notify watchers"
 
-#: files/edit.php:664
+#: files/edit.php:669
 msgid "Notify my followers"
 msgstr "Notify my followers"
 
-#: files/edit.php:671
+#: files/edit.php:676
 msgid "Do not change modification date of the main page."
 msgstr "Do not change modification date of the main page."
 
-#: files/edit.php:674
+#: files/edit.php:679
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
@@ -543,6 +543,10 @@ msgstr "Files at %s"
 msgid "Most recent public files"
 msgstr "Most recent public files"
 
+#: files/fetch_all.php:182 files/fetch.php:254 files/fetch.php:274
+msgid "Operation has failed."
+msgstr "Operation has failed."
+
 #: files/fetch.php:138
 msgid "No item has been found."
 msgstr "No item has been found."
@@ -552,10 +556,6 @@ msgid ""
 "You have released this file, and other surfers can reserve it for revision."
 msgstr ""
 "You have released this file, and other surfers can reserve it for revision."
-
-#: files/fetch.php:254 files/fetch.php:274 files/fetch_all.php:182
-msgid "Operation has failed."
-msgstr "Operation has failed."
 
 #: files/fetch.php:263
 msgid "Reserve"
@@ -668,49 +668,61 @@ msgstr "No virus has been found in this file."
 msgid "This file has been infected by a virus and has been rejected!"
 msgstr "This file has been infected by a virus and has been rejected!"
 
-#: files/index.php:65 files/list.php:121
+#: files/index.php:63 files/list.php:121
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d file"
 msgstr[1] "%d files"
 
-#: files/index.php:93
+#: files/index.php:91
 msgid "No file has been uploaded yet."
 msgstr "No file has been uploaded yet."
 
-#: files/index.php:108
+#: files/index.php:106
 msgid "Review files"
 msgstr "Review files"
 
-#: files/index.php:115
+#: files/index.php:113
 msgid "Podcast"
 msgstr "Podcast"
 
-#: files/index.php:116
+#: files/index.php:114
 #, php-format
 msgid "You can list new public files through RSS by going %s"
 msgstr "You can list new public files through RSS by going %s"
 
-#: files/index.php:125
+#: files/index.php:123
 msgid "Popular"
 msgstr "Popular"
 
-#: files/index.php:133
+#: files/index.php:131
 msgid "View the category"
 msgstr "View the category"
 
-#: files/layout_files.php:105 files/layout_files_as_feed.php:73
-#: files/layout_files_as_simple.php:68
-#, php-format
-msgid "in %s"
-msgstr "in %s"
-
-#: files/layout_files.php:110 files/layout_files_as_embeddable.php:89
+#: files/layout_files_as_embeddable.php:89 files/layout_files.php:110
 #: files/view.php:219
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
+
+#: files/layout_files_as_embeddable.php:94 files/layout_files.php:140
+msgid "details"
+msgstr "details"
+
+#: files/layout_files_as_embeddable.php:95
+msgid "edit"
+msgstr "edit"
+
+#: files/layout_files_as_embeddable.php:96 files/layout_files.php:144
+msgid "delete"
+msgstr "delete"
+
+#: files/layout_files_as_feed.php:73 files/layout_files_as_simple.php:68
+#: files/layout_files.php:105
+#, php-format
+msgid "in %s"
+msgstr "in %s"
 
 #: files/layout_files.php:119 files/view.php:257
 #, php-format
@@ -742,14 +754,6 @@ msgstr "Prevent other persons from changing this file until you update it"
 msgid "Allow other persons to update this file"
 msgstr "Allow other persons to update this file"
 
-#: files/layout_files.php:140 files/layout_files_as_embeddable.php:94
-msgid "details"
-msgstr "details"
-
-#: files/layout_files.php:144 files/layout_files_as_embeddable.php:96
-msgid "delete"
-msgstr "delete"
-
 #: files/layout_files.php:144
 msgid "Drop file content"
 msgstr "Drop file content"
@@ -757,10 +761,6 @@ msgstr "Drop file content"
 #: files/layout_files.php:163
 msgid "Get the file"
 msgstr "Get the file"
-
-#: files/layout_files_as_embeddable.php:95
-msgid "edit"
-msgstr "edit"
 
 #: files/list.php:70
 #, php-format

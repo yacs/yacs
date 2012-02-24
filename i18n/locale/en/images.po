@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-17 00:09+0100\n"
+"POT-Creation-Date: 2012-02-24 14:25+0100\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -431,6 +431,10 @@ msgstr[1] "%d images"
 msgid "Recent pages"
 msgstr "Recent pages"
 
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr "hits"
+
 #: images/layout_images.php:86
 #, php-format
 msgid "In %s"
@@ -455,10 +459,6 @@ msgstr "Set as page thumbnail"
 #: images/layout_images.php:128 images/view.php:244
 msgid "Delete this image"
 msgstr "Delete this image"
-
-#: images/layout_images_as_hits.php:57
-msgid "hits"
-msgstr "hits"
 
 #: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
 msgid "Use an image"

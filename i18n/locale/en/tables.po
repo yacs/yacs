@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-17 23:00+0100\n"
+"POT-Creation-Date: 2012-02-24 14:25+0100\n"
 "PO-Revision-Date: 2010-05-27 10:17+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -24,12 +24,12 @@ msgstr ""
 #: tables/check.php:147 tables/delete.php:62 tables/edit.php:78
 #: tables/fetch_as_csv.php:56 tables/fetch_as_json.php:53
 #: tables/fetch_as_png.php:56 tables/fetch_as_raw.php:55
-#: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:63
+#: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:60
 #: tables/view.php:70
 msgid "Tables"
 msgstr "Tables"
 
-#: tables/check.php:24 tables/index.php:104
+#: tables/check.php:24 tables/index.php:101
 msgid "Maintenance"
 msgstr "Maintenance"
 
@@ -39,7 +39,7 @@ msgstr "Maintenance"
 #: tables/fetch_as_png.php:65 tables/fetch_as_png.php:80
 #: tables/fetch_as_raw.php:64 tables/fetch_as_raw.php:79
 #: tables/fetch_as_xml.php:68 tables/fetch_as_xml.php:83 tables/import.php:26
-#: tables/import.php:35 tables/index.php:68 tables/view.php:95
+#: tables/import.php:35 tables/index.php:65 tables/view.php:95
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -361,22 +361,22 @@ msgstr ""
 "you may have to wait for minutes before getting a response displayed. Thank "
 "you for your patience."
 
-#: tables/index.php:76
+#: tables/index.php:73
 #, php-format
 msgid "%d table"
 msgid_plural "%d tables"
 msgstr[0] "%d table"
 msgstr[1] "%d tables"
 
-#: tables/index.php:93
+#: tables/index.php:90
 msgid "No table has been created yet."
 msgstr "No table has been created yet."
 
-#: tables/index.php:103
+#: tables/index.php:100
 msgid "Import"
 msgstr "Import"
 
-#: tables/index.php:113
+#: tables/index.php:110
 msgid "Recent pages"
 msgstr "Recent pages"
 

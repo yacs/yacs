@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-29 23:26+0100\n"
+"POT-Creation-Date: 2012-02-24 14:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,12 +22,12 @@ msgstr ""
 #: tables/check.php:147 tables/delete.php:62 tables/edit.php:78
 #: tables/fetch_as_csv.php:56 tables/fetch_as_json.php:53
 #: tables/fetch_as_png.php:56 tables/fetch_as_raw.php:55
-#: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:63
+#: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:60
 #: tables/view.php:70
 msgid "Tables"
 msgstr ""
 
-#: tables/check.php:24 tables/index.php:104
+#: tables/check.php:24 tables/index.php:101
 msgid "Maintenance"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 #: tables/fetch_as_png.php:65 tables/fetch_as_png.php:80
 #: tables/fetch_as_raw.php:64 tables/fetch_as_raw.php:79
 #: tables/fetch_as_xml.php:68 tables/fetch_as_xml.php:83 tables/import.php:26
-#: tables/import.php:35 tables/index.php:68 tables/view.php:95
+#: tables/import.php:35 tables/index.php:65 tables/view.php:95
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -351,22 +351,22 @@ msgid ""
 "you for your patience."
 msgstr ""
 
-#: tables/index.php:76
+#: tables/index.php:73
 #, php-format
 msgid "%d table"
 msgid_plural "%d tables"
 msgstr[0] ""
 msgstr[1] ""
 
-#: tables/index.php:93
+#: tables/index.php:90
 msgid "No table has been created yet."
 msgstr ""
 
-#: tables/index.php:103
+#: tables/index.php:100
 msgid "Import"
 msgstr ""
 
-#: tables/index.php:113
+#: tables/index.php:110
 msgid "Recent pages"
 msgstr ""
 

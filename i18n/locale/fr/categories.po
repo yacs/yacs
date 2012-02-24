@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-21 18:52+0100\n"
+"POT-Creation-Date: 2012-02-24 14:25+0100\n"
 "PO-Revision-Date: 2011-12-21 16:48+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -69,18 +69,18 @@ msgstr ""
 #: categories/category.php:68 categories/check.php:27 categories/check.php:38
 #: categories/check.php:95 categories/check.php:151 categories/check.php:261
 #: categories/delete.php:62 categories/edit.php:102 categories/feed.php:85
-#: categories/index.php:63 categories/mail.php:55 categories/print.php:69
+#: categories/index.php:61 categories/mail.php:55 categories/print.php:69
 #: categories/select.php:58 categories/view.php:177 categories/view.php:781
 msgid "Categories"
 msgstr "Catégories"
 
-#: categories/check.php:30 categories/cloud.php:23 categories/index.php:141
+#: categories/check.php:30 categories/cloud.php:23 categories/index.php:139
 msgid "Maintenance"
 msgstr "Maintenance"
 
 #: categories/check.php:35 categories/delete.php:77
 #: categories/describe.php:111 categories/edit.php:128 categories/edit.php:148
-#: categories/feed.php:105 categories/index.php:71 categories/mail.php:63
+#: categories/feed.php:105 categories/index.php:69 categories/mail.php:63
 #: categories/mail.php:83 categories/print.php:78 categories/print.php:93
 #: categories/select.php:69 categories/select.php:85
 #: categories/set_as_thumbnail.php:58 categories/set_as_thumbnail.php:73
@@ -151,7 +151,7 @@ msgstr "Commencer"
 msgid "The cloud of tags"
 msgstr "Le nuage d'étiquettes"
 
-#: categories/cloud.php:22 categories/edit.php:111 categories/index.php:139
+#: categories/cloud.php:22 categories/edit.php:111 categories/index.php:137
 #: categories/view.php:768 categories/view.php:893
 msgid "Add a category"
 msgstr "Ajouter une catégorie"
@@ -162,23 +162,23 @@ msgstr "Ajouter une catégorie"
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: categories/cloud.php:51 categories/index.php:150
+#: categories/cloud.php:51 categories/index.php:148
 msgid "Site map"
 msgstr "Carte du site"
 
-#: categories/cloud.php:52 categories/index.php:151
+#: categories/cloud.php:52 categories/index.php:149
 msgid "Search"
 msgstr "Recherche"
 
-#: categories/cloud.php:53 categories/index.php:152
+#: categories/cloud.php:53 categories/index.php:150
 msgid "Help index"
 msgstr "Index de l'aide"
 
-#: categories/cloud.php:54 categories/index.php:153
+#: categories/cloud.php:54 categories/index.php:151
 msgid "Contact"
 msgstr "Contact"
 
-#: categories/cloud.php:55 categories/index.php:154 categories/print.php:163
+#: categories/cloud.php:55 categories/index.php:152 categories/print.php:163
 msgid "See also"
 msgstr "Voir aussi"
 
@@ -729,80 +729,80 @@ msgstr "Aide"
 msgid "RSS feed"
 msgstr "Fil RSS"
 
-#: categories/index.php:86
+#: categories/index.php:84
 msgid "No category has been created yet."
 msgstr "Aucune catégorie n'a été créée à ce jour."
 
-#: categories/index.php:95
+#: categories/index.php:93
 msgid "categories"
 msgstr "catégories"
 
-#: categories/index.php:126
+#: categories/index.php:124
 msgid "Special categories"
 msgstr "Catégories spéciales"
 
-#: categories/index.php:140
+#: categories/index.php:138
 msgid "Content Assistant"
 msgstr "Assistant de contenu"
 
-#: categories/index.php:149
+#: categories/index.php:147
 msgid "Cloud of tags"
 msgstr "Nuage d'étiquettes"
 
-#: categories/index.php:159
+#: categories/index.php:157
 msgid "Popular"
 msgstr "Hit-Parade"
 
-#: categories/layout_categories.php:70
 #: categories/layout_categories_as_yahoo.php:75
+#: categories/layout_categories.php:70
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
 msgstr[0] "%d catégorie"
 msgstr[1] "%d catégories"
 
-#: categories/layout_categories.php:74
-#: categories/layout_categories_as_yahoo.php:80 categories/view.php:467
+#: categories/layout_categories_as_yahoo.php:80
+#: categories/layout_categories.php:74 categories/view.php:467
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
 msgstr[0] "%d section"
 msgstr[1] "%d sections"
 
-#: categories/layout_categories.php:78
-#: categories/layout_categories_as_yahoo.php:86 categories/view.php:533
+#: categories/layout_categories_as_yahoo.php:86
+#: categories/layout_categories.php:78 categories/view.php:533
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: categories/layout_categories.php:82
-#: categories/layout_categories_as_yahoo.php:92 categories/view.php:575
+#: categories/layout_categories_as_yahoo.php:92
+#: categories/layout_categories.php:82 categories/view.php:575
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d fichier"
 msgstr[1] "%d fichiers"
 
-#: categories/layout_categories.php:86
-#: categories/layout_categories_as_yahoo.php:98 categories/view.php:672
+#: categories/layout_categories_as_yahoo.php:98
+#: categories/layout_categories.php:86 categories/view.php:672
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] "%d lien"
 msgstr[1] "%d liens"
 
-#: categories/layout_categories.php:90
-#: categories/layout_categories_as_yahoo.php:104 categories/view.php:626
+#: categories/layout_categories_as_yahoo.php:104
+#: categories/layout_categories.php:90 categories/view.php:626
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
 msgstr[0] "%d commentaire"
 msgstr[1] "%d commentaires"
 
-#: categories/layout_categories.php:94
-#: categories/layout_categories_as_yahoo.php:110 categories/view.php:830
+#: categories/layout_categories_as_yahoo.php:110
+#: categories/layout_categories.php:94 categories/view.php:830
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
