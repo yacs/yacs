@@ -5012,7 +5012,7 @@ Class Skin_Skeleton {
 			.'setTimeout("rotate_'.$matches[1][0].'()",5000)'."\n";
 
 		// end of javascript
-		$text .= JS_SUFFIX."\n";
+		$text .= JS_SUFFIX;
 
 		return $text;
 	}
@@ -5097,7 +5097,7 @@ Class Skin_Skeleton {
 			."\n"
 			.'})'."\n"
 			."\n"
-			.JS_SUFFIX."\n";
+			.JS_SUFFIX;
 
 		return $text;
 	}
