@@ -4971,11 +4971,12 @@ Class Skin_Skeleton {
 	 * If Javascript is disabled, all items will be shown statically, as usual.
 	 *
 	 * @param string, the set of news to animate
+	 * @param time, time in seconds between rotations
 	 * @return text to be returned to the browser
 	 *
 	 * @see index.php
 	 */
-	function &rotate($text) {
+	function &rotate($text, $time = 5) {
 		global $context;
 
 		// list news ids
@@ -5003,13 +5004,13 @@ Class Skin_Skeleton {
 				.'function rotate_'.$from.'() {'."\n"
 				.'	$("#'.$from.'").hide();'."\n"
 				.'	$("#'.$to.'").fadeIn();'."\n"
-				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
+				.'	setTimeout("rotate_'.$to.'()",'.($time * 1000).');'."\n"
 				.'}'."\n";
 		}
 
 		// trigger the rotation
 		$text .= "\n".'// start'."\n"
-			.'setTimeout("rotate_'.$matches[1][0].'()",5000)'."\n";
+			.'setTimeout("rotate_'.$matches[1][0].'()",'.($time * 1000).')'."\n";
 
 		// end of javascript
 		$text .= JS_SUFFIX;
