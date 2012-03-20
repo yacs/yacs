@@ -105,10 +105,10 @@ Class Layout_articles_as_last extends Layout_interface {
 			if($item['create_name']) {
 				$starter = sprintf(i18n::s('Started by %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']));
 
-				// nothing has happened still the page creation
+				// page has not been modified still page creation
 				$date = '';
-				if($item['edit_date'] && ($item['edit_action'] == 'article:create')) {
-					$date = ' '.Skin::build_date($item['edit_date']);
+				if($item['edit_date'] && ($item['edit_action'] != 'article:update')) {
+					$date = ' '.Skin::build_date($item['create_date']);
 
 					// flag fresh new pages
 					if($item['create_date'] >= $context['fresh'])
@@ -120,7 +120,7 @@ Class Layout_articles_as_last extends Layout_interface {
 			}
 
 			// the last editor
-			if($item['edit_date'] && ($item['edit_action'] != 'article:create')) {
+			if($item['edit_date'] && !in_array($item['edit_action'], array('article:create', 'comment:create', 'file:create'))) {
 
 				// find a name, if any
 				$user = '';
@@ -160,41 +160,75 @@ Class Layout_articles_as_last extends Layout_interface {
 			if(is_object($overlay))
 				$text .= $overlay->get_text('list', $item);
 
+			$top_menu = array();
+
+			// friends
+			if($friends =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5', $item['create_id']))
+				$top_menu[] = sprintf(i18n::s('with %s'), $friends);
+
+			// info on related comments
+			if(($count = Comments::count_for_anchor('article:'.$item['id'], FALSE)) > 1)
+				$top_menu[] = sprintf(i18n::s('%d contributions, including:'), $count);
+
+			// top
+			if($top_menu)
+				$text .= '<div style="margin: 1em 0;">'.ucfirst(trim(Skin::finalize_list($top_menu, 'menu'))).'</div>';
+
+			// avoid first file if mentioned in last contribution
+			$file_offset = 0;
+
 			// get last contribution for this page
 			if($comment = Comments::get_newest_for_anchor('article:'.$item['id'])) {
 
-				// details of this contribution
-				$details = array();
+				if(preg_match('/\[(download|file)=/', $comment['description']))
+					$file_offset++;
+
+				// bars around the last contribution
+				$bottom_menu = array();
 
 				// last contributor
 				$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
-				$details[] = sprintf(i18n::s('By %s'), $contributor);
+				$flag = '';
+				if($item['create_date'] >= $context['fresh'])
+					$flag = NEW_FLAG;
+				elseif($item['edit_date'] >= $context['fresh'])
+					$flag = UPDATED_FLAG;
+				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
 
 				// offer to reply
 				if(Comments::allow_creation($anchor, $item)) {
 					$link = Comments::get_url($comment['id'], 'reply');
-					$details[] = Skin::build_link($link, i18n::s('Reply'), 'basic');
+					$bottom_menu[] = Skin::build_link($link, i18n::s('Reply'), 'basic');
 				}
 
-				// last contribution
-				$contribution = $comment['description'];
+				// gather pieces
+				$pieces = array();
 
-				// display signature, if any
-				$contribution .= Users::get_signature($comment['create_id']);
+				// last contribution, and user signature
+				$pieces[] = ucfirst(trim($comment['description'])).Users::get_signature($comment['create_id']);
 
+				// bottom
+				if($bottom_menu)
+					$pieces[] = '<div style="margin-top: 1em;">'.ucfirst(trim(Skin::finalize_list($bottom_menu, 'menu'))).'</div>';
+
+				// put all pieces together
 				$text .= '<div class="last_comment">'."\n"
-					.ucfirst(trim($contribution))."\n"
-					.'<div style="margin-top: 1em;">'.Skin::finalize_list($details, 'menu').'</div>'."\n"
+					.join("\n", $pieces)
 					.'</div>'."\n";
 
 			}
 
 			// list more recent files
-			if($items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 3, 'compact')) {
+			if($items = Files::list_by_date_for_anchor('article:'.$item['id'], $file_offset, 3, 'dates')) {
+
+				// more files than listed
+				$more = '';
+				if(($count = Files::count_for_anchor('article:'.$item['id'], FALSE)) > 3)
+					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
 
 				if(is_array($items))
 					$items = Skin::build_list($items, 'compact');
-				$text .= '<div style="margin: 1em 0;">'.$items.'</div>';
+				$text .= '<div style="margin: 1em 0;">'.$more.$items.'</div>';
 			}
 
 			// display all tags
@@ -206,14 +240,6 @@ Class Layout_articles_as_last extends Layout_interface {
 
 			// permalink
 			$menu[] = Skin::build_link($url, i18n::s('View the page'), 'span');
-
-			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = sprintf(i18n::ns('%d contribution', '%d contributions', $count), $count);
-
-			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
