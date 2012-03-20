@@ -1941,13 +1941,17 @@ Class Sections {
 		if(!$option)
 			return FALSE;
 
-		// option check for this page
+		// 'variant' matches with 'variant_red_background', return 'red_background'
+		if(isset($item['options']) && preg_match('/\b'.$option.'_(.+?)\b/i', $item['options'], $matches))
+			return $matches[1];
+
+		// exact match, return TRUE
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// check in anchor
-		if(is_object($anchor) && $anchor->has_option($option))
-			return TRUE;
+		if(is_object($anchor) && ($result = $anchor->has_option($option)))
+			return $result;
 
 		// sorry
 		return FALSE;

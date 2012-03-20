@@ -782,7 +782,7 @@ class Anchor {
 			return $matches[1];
 
 		// exact match, return TRUE
-		if(isset($this->item['options']) && preg_match('/\b'.$option.'\b/i', $this->item['options']))
+		if(isset($this->item['options']) && (strpos($this->item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// climb the anchoring chain
