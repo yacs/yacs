@@ -165,7 +165,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
 				// list files by date (default) or by title (option files_by_title)
-				if(Articles::has_option('files_by_title', $anchor, $item))
+				if(Articles::has_option('files_by', $anchor, $item) == 'title')
 					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
 				else
 					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
