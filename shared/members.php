@@ -983,7 +983,7 @@ Class Members {
 
 		// avoid this one
 		if($to_avoid)
-			$where .= " AND (users.id != '".SQL::escape($to_avoid)."')";
+			$where .= " AND (users.id != ".SQL::escape($to_avoid).")";
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
