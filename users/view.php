@@ -81,7 +81,7 @@ include_once '../links/links.php';
 include_once '../locations/locations.php';
 include_once 'visits.php';
 
-Safe::define('SECTIONS_PER_PAGE', 10);
+Safe::define('SECTIONS_PER_PAGE', 30);
 Safe::define('ARTICLES_PER_PAGE', 30);
 
 // look for the id
