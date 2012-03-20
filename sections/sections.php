@@ -787,16 +787,12 @@ Class Sections {
 		if(!$user_id)
 			return NULL;
 
-		// limit the scope of the request
+		// limit the scope of the request for watched sections --that are not also managed
 		$where = "(sections.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR sections.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR sections.active='N'";
-
-		// include assigned sections
-		if($my_sections = Surfer::assigned_sections($user_id))
-			$where .= " OR sections.id IN (".join(', ', $my_sections).")";
 
 		$where .= ')';
 
@@ -814,14 +810,12 @@ Class Sections {
 		// include sections assigned to this surfer
 		if($these_items = Surfer::assigned_sections($user_id))
 			$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE sections.id IN (".join(', ', $these_items).")"
-				."	AND ".$where.")"
+				." WHERE sections.id IN (".join(', ', $these_items)."))"
 				." UNION ".$query;
 
 		// include sections owned by this surfer
 		$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE sections.owner_id = ".$user_id
-			."	AND ".$where.")"
+			." WHERE sections.owner_id = ".$user_id.")"
 			." UNION ".$query;
 
 		// count records
@@ -2288,17 +2282,12 @@ Class Sections {
 	public static function &list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
-		// limit the scope of the request
+		// limit the scope of the request for watched sections --that are not also managed
 		$where = "(sections.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR sections.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR sections.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections($user_id))
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-
 		$where .= ')';
 
 		// strip dead sections
@@ -2315,14 +2304,12 @@ Class Sections {
 		// include sections assigned to this surfer
 		if($these_items = Surfer::assigned_sections($user_id))
 			$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE sections.id IN (".join(', ', $these_items).")"
-				."	AND ".$where.")"
+				." WHERE sections.id IN (".join(', ', $these_items)."))"
 				." UNION ".$query;
 
 		// include sections owned by this surfer
 		$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE sections.owner_id = ".$user_id
-			."	AND ".$where.")"
+			." WHERE sections.owner_id = ".$user_id.")"
 			." UNION ".$query;
 
 		// finalize the query
