@@ -7,8 +7,9 @@
  */
 $context['l10n']['fr']['"%s" is not a valid date']='"%s" n\'est pas une date valide';
 $context['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
-$context['l10n']['fr']['8a8e69c6c4fda8938ea136dfda2a1973']='%d contribution'.chr(0).'%d contributions';
+$context['l10n']['fr']['%d contributions, including:']='%d contributions, dont :';
 $context['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
+$context['l10n']['fr']['%d files, including:']='%d fichiers, dont :';
 $context['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $context['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $context['l10n']['fr']['%d participant'.chr(0).'%d participants']='%d participant'.chr(0).'%d participants';
@@ -281,6 +282,7 @@ $context['l10n']['fr']['Servers that have been notified']='Serveurs notifiés';
 $context['l10n']['fr']['Share']='Partager';
 $context['l10n']['fr']['Share at LinkedIn']='Partager sur LinkedIn';
 $context['l10n']['fr']['Shortcut: %s']='Raccourci : %s';
+$context['l10n']['fr']['Sort files by date (default)']='Trier les fichiers par date';
 $context['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers par titre (et non par date)';
 $context['l10n']['fr']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Trier les liens par titre (et non par date)';
 $context['l10n']['fr']['Source']='Source';
@@ -388,5 +390,6 @@ $context['l10n']['fr']['smileys']='les emoticons';
 $context['l10n']['fr']['sticky']='classées';
 $context['l10n']['fr']['d7f7ce7c3843c3e03df7d9524aefaf24']='à gérer le contenu public et privé (éditeurs)';
 $context['l10n']['fr']['8adc64309d47ca5da514f33a0a59d66e']='à consulter le contenu public (observateurs)';
+$context['l10n']['fr']['with %s']='avec %s';
 $context['l10n']['fr']['_plural']='nplurals=2; plural=o != 1);';
 ?>

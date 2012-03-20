@@ -346,6 +346,7 @@ $context['l10n']['fr']['f4d16a9e1c0a2805e57b3f5db79b382b']='Montrer les détails
 $context['l10n']['fr']['45d84ff337a84210c6fb014947863dc1']='Comme la première option, avec un défilement vertical.';
 $context['l10n']['fr']['89edab10eeb61aae1e05cd41ae5594b4']='Comme la première option, avec une rotation des nouvelles.';
 $context['l10n']['fr']['Site map']='Carte du site';
+$context['l10n']['fr']['Sort files by date (default)']='Trier les fichiers par date';
 $context['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers par titre (et non par date)';
 $context['l10n']['fr']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Trier les liens par titre (et non par date)';
 $context['l10n']['fr']['Sort pages by publication date']='Trier les articles par date de publication';
