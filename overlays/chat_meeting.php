@@ -287,7 +287,7 @@ class Chat_meeting extends Meeting {
 			.'	deviceInactiveHandler: function(event) {'."\n"
 			.'		if(event.camera) {'."\n"
 			.'			OpenTok.growl("'.i18n::s('You are not visible').'");'."\n"
-			.'			$("#opentok .me").empty();'."\n"
+//			.'			$("#opentok .me").empty();'."\n"
 			.'		}'."\n"
 			.'		if(event.microphone) {'."\n"
 			.'			OpenTok.growl("'.i18n::s('You have been muted').'");'."\n"
