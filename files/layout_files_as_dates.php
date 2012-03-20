@@ -1,6 +1,6 @@
 <?php
 /**
- * layout files as a compact list, with hits count
+ * layout files as a compact list
  *
  * @see files/files.php
  *
@@ -34,14 +34,22 @@ Class Layout_files_as_dates extends Layout_interface {
 			// download the file directly
 			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
 
+			// file title or file name
+			$label = Codes::beautify_title($item['title']);
+			if(!$label)
+				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
+
 			// initialize variables
 			$prefix = $suffix = '';
 
-			// flag files that are dead, or created or updated very recently
-			if(($item['create_date'] >= $context['fresh']) && defined('NEW_FLAG'))
-				$suffix .= NEW_FLAG;
-			elseif(($item['edit_date'] >= $context['fresh']) && defined('UPDATED_FLAG'))
-				$suffix .= UPDATED_FLAG;
+			$contributor = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
+			$flag = '';
+			if($item['create_date'] >= $context['fresh'])
+				$flag = NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$flag = UPDATED_FLAG;
+
+			$suffix .= '<span class="details"> - '.sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($item['create_date']).$flag.'</span>';
 
 			// signal restricted and private files
 			if(($item['active'] == 'N') && defined('PRIVATE_FLAG'))
@@ -49,16 +57,8 @@ Class Layout_files_as_dates extends Layout_interface {
 			elseif(($item['active'] == 'R') && defined('RESTRICTED_FLAG'))
 				$prefix .= RESTRICTED_FLAG;
 
-			// file title or file name
-			$label = Codes::beautify_title($item['title']);
-			if(!$label)
-				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
-
-			// with dates
-			$suffix .= ' '.Skin::build_date($item['edit_date'], 'yyyy-mm-dd');
-
 			// list all components for this item
-			$items[$url] = array('', $label, trim($suffix), 'file', NULL);
+			$items[$url] = array($prefix, $label, $suffix, 'file', NULL);
 
 		}
 
