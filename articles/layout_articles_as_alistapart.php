@@ -271,7 +271,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
 
 			// list files by date (default) or by title (option files_by_title)
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);

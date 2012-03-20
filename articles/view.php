@@ -917,7 +917,7 @@ if(!isset($item['id'])) {
 
 			// list files by date (default) or by title (option files_by_title)
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);

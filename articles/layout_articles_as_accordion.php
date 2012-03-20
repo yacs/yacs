@@ -79,7 +79,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact');

@@ -687,7 +687,7 @@ Class Articles {
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
 
 			// the actual list of files attached to this article
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
@@ -771,6 +771,7 @@ Class Articles {
 		$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
 		$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 		$keywords[] = '<a>no_comments</a> - '.i18n::s('Prevent the addition of comments');
+		$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 		$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 		$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
 		$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
