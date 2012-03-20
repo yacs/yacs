@@ -35,6 +35,7 @@ $context['l10n']['fr']['Back to main page']='Retour à la page principale';
 $context['l10n']['fr']['Biggest files']='Les plus gros fichiers';
 $context['l10n']['fr']['Bitrate']='Débit';
 $context['l10n']['fr']['Browse %s']='Naviguer %s';
+$context['l10n']['fr']['By %s']='Par %s';
 $context['l10n']['fr']['bfbcc298c988f6d70e9919fba19bda0d']='Par défaut, les fichiers sont rangés dans l\'espace web de votre serveur. Pour optimiser le transfert des grands fichiers, vous pouvez installer un ftp anonyme sur votre serveur, puis utiliser ce panneau de configuration pour en activer l\'usage.';
 $context['l10n']['fr']['Cancel']='Annuler';
 $context['l10n']['fr']['Change']='Changer';
