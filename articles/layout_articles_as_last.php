@@ -39,7 +39,7 @@ Class Layout_articles_as_last extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result))
-			return $text;
+			return $text.'</div>';
 
 		// build a list of articles
 		include_once $context['path_to_root'].'comments/comments.php';
