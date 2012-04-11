@@ -584,7 +584,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($items, 'decorated');
 
 			// navigation commands for files
-			$home =& Categories::get_permalink($item);
+			$home = Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'files');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));

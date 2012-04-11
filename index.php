@@ -351,7 +351,7 @@ if(!$text =& Cache::get($cache_id)) {
 						@array_splice($items, COMPACT_LIST_SIZE);
 
 						// link to the category page
-						$url =& Categories::get_permalink($attributes);
+						$url = Categories::get_permalink($attributes);
 						$items[$url] = i18n::s('More pages').MORE_IMG;
 					}
 
@@ -366,7 +366,7 @@ if(!$text =& Cache::get($cache_id)) {
 						@array_splice($items, COMPACT_LIST_SIZE);
 
 						// link to the category page
-						$url =& Categories::get_permalink($attributes);
+						$url = Categories::get_permalink($attributes);
 						$items[$url] = i18n::s('More links').MORE_IMG;
 					}
 
@@ -697,7 +697,7 @@ if(Surfer::is_associate()) {
 	if(($section = Sections::get('extra_boxes')) && isset($section['id']))
 		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Extra boxes'), 'basic');
 	if(($section = Sections::get('navigation_boxes')) && isset($section['id']))
-		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section['id']), i18n::s('Navigation boxes'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Navigation boxes'), 'basic');
 }
 
 // save some database requests

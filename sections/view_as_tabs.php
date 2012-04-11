@@ -637,7 +637,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 					$box['bottom_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 				// navigation commands for sections
-				$home =& Sections::get_permalink($item);
+				$home = Sections::get_permalink($item);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
 				$box['bottom_bar'] += Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index);
 
@@ -742,7 +742,7 @@ if(!$zoom_type || ($zoom_type == 'files')) {
 			$box['text'] .= $items;
 
 		// navigation commands for files
-		$home =& Sections::get_permalink($item);
+		$home = Sections::get_permalink($item);
 		$prefix = Sections::get_url($item['id'], 'navigate', 'files');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
@@ -791,7 +791,7 @@ if(!$zoom_type || ($zoom_type == 'links')) {
 			$box['text'] .= $items;
 
 		// navigation commands for links
-		$home =& Sections::get_permalink($item);
+		$home = Sections::get_permalink($item);
 		$prefix = Sections::get_url($item['id'], 'navigate', 'links');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
@@ -854,7 +854,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	}
 
 	// watchers
-	if($items =& Sections::list_watchers_by_posts($item, 0, 1000, 'watch')) {
+	if($items = Sections::list_watchers_by_posts($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 
 			// add the checkmark to existing row
