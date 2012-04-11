@@ -258,7 +258,7 @@ Class Versions {
 	 * @return NULL on error, else an ordered array with $key => ($prefix, $label, $suffix, $type, $icon)
 	 *
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

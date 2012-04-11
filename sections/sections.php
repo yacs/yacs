@@ -2558,7 +2558,7 @@ Class Sections {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	public static function &list_selected(&$result, $variant='full') {
+	public static function &list_selected($result, $variant='full') {
 		global $context;
 
 		// no result

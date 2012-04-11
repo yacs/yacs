@@ -1219,7 +1219,7 @@ Class Comments {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

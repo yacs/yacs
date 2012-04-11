@@ -2281,7 +2281,7 @@ Class Files {
 	 * @see skins/skin_skeleton.php
 	 * @see files/fetch_all.php
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
