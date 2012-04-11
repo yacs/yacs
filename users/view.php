@@ -382,49 +382,6 @@ if(!isset($item['id'])) {
 
 	}
 
-	// the list of recent contributed files if not at another follow-up page
-// 	if(!$zoom_type) {
-//
-// 		// build a complete box
-// 		$box['text'] = '';
-//
-// 		// avoid links to this page
-// 		include_once '../files/layout_files_as_simple.php';
-// 		$layout = new Layout_files_as_simple();
-// 		if(is_object($layout))
-// 			$layout->set_variant('user:'.$item['id']);
-//
-// 		// list files by date
-// 		$items = Files::list_by_date_for_author($item['id'], 0, 30, $layout);
-// 		if(is_array($items))
-// 			$items = Skin::build_list($items, 'compact');
-//
-// 		// layout the columns
-// 		$box['text'] .= $items;
-//
-// 		// actually render the html for the section
-// 		if($box['text'])
-// 			$stream .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'contributed_files');
-//
-// 	}
-
-	// the list of contributed links if not at another follow-up page
-// 	if(!$zoom_type) {
-//
-// 		// build a complete box
-// 		$box['text'] = '';
-//
-// 		// list links by date
-// 		$items = Links::list_by_date_for_author($item['id'], 0, 20, 'simple');
-//
-// 		// actually render the html for the section
-// 		if(is_array($items))
-// 			$box['text'] .= Skin::build_list($items, 'compact');
-// 		if($box['text'])
-// 			$stream .= Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'contributed_links');
-//
-// 	}
-
 	// in a separate panel
 	if(trim($stream))
 		$panels[] = array('stream', i18n::s('My pages'), 'stream', $stream);
