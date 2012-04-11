@@ -362,7 +362,7 @@ if($with_form) {
 		$input .= '<input type="radio" name="capability" value="?"';
 		if(isset($item['capability']) && ($item['capability'] == '?'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Suspended')."\n";
+		$input .= ' /> '.i18n::s('Blocked')."\n";
 		$fields[] = array($label, $input);
 	}
 
