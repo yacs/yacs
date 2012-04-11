@@ -160,14 +160,7 @@ elseif(!Surfer::is_associate()) {
 
 	// analyse each script
 	$footprints = array();
-	foreach($scripts as $script) {
-
-		// check file content
-		list($module, $name) = $script;
-		if($module)
-			$file = $module.'/'.$name;
-		else
-			$file = $name;
+	foreach($scripts as $file) {
 
 		// silently skip configuration files
 		if(strpos($file, '.include.php'))
