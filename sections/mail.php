@@ -104,7 +104,7 @@ if(Surfer::is_crawler()) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// headline
-	$headline = sprintf(i18n::c('%s has notified you from %s'),
+	$headline = sprintf(i18n::c('%s is notifying  you from %s'),
 		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
 		'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a>');
 
