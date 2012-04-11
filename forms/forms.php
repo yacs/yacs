@@ -194,7 +194,7 @@ Class Forms {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

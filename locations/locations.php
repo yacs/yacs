@@ -504,7 +504,7 @@ Class Locations {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

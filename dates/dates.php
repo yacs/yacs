@@ -1059,7 +1059,7 @@ Class Dates {
 	 * @param string 'full', etc or object, i.e., an instance of the layout interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
