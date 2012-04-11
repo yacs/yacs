@@ -501,25 +501,6 @@ class Event extends Overlay {
 		// method
 		$text .= 'METHOD:'.$method.CRLF;
 
-		// yacs uses dates in UTC
-		$text .= 'BEGIN:VTIMEZONE'.CRLF
-			.'TZID:/GMT'.CRLF
-			.'BEGIN:DAYLIGHT'.CRLF
-			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20750407T030000Z;BYMONTH=3D4;BYDAY=3D-1SU'.CRLF
-			.'TZNAME:Universal Coordinated Time'.CRLF
-			.'TZOFFSETTO:+0000'.CRLF
-			.'TZOFFSETFROM:+0000'.CRLF
-			.'DTSTART:19910401T030000'.CRLF
-			.'END:DAYLIGHT'.CRLF
-			.'BEGIN:STANDARD'.CRLF
-			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20751031T010000Z;BYMONTH=3D10;BYDAY=3D-1SU'.CRLF
-			.'TZNAME:Universal Coordinated Time'.CRLF
-			.'TZOFFSETTO:+0000'.CRLF
-			.'TZOFFSETFROM:+0000'.CRLF
-			.'DTSTART:19911025T010000'.CRLF
-			.'END:STANDARD'.CRLF
-			.'END:VTIMEZONE'.CRLF;
-
 		// begin event
 		$text .= 'BEGIN:VEVENT'.CRLF;
 
@@ -533,13 +514,13 @@ class Event extends Overlay {
 
 		// the event spans limited time --duration is expressed in minutes
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440)) {
-			$text .= 'DTSTART;TZID=/GMT:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).CRLF;
-			$text .= 'DTEND;TZID=/GMT:'.gmdate('Ymd\THis', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
+			$text .= 'DTSTART:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).'Z'.CRLF;
+			$text .= 'DTEND:'.gmdate('Ymd\THis\Z', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
 
 		// a full-day event
 		} elseif(isset($this->attributes['date_stamp'])) {
-			$text .= 'DTSTART;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
-			$text .= 'DTEND;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
+			$text .= 'DTSTART;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
+			$text .= 'DTEND;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
 		}
 
 		// url to view the date

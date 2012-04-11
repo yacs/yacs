@@ -40,7 +40,7 @@ Class Layout_dates_as_ics extends Layout_interface {
 			// the event spans limited time
 			if(isset($item['duration']) && $item['duration']) {
 				$text .= 'DTSTART:'.gmdate('Ymd\THis\Z', SQL::strtotime($item['date_stamp'])).CRLF;
-				$text .= 'DTEND:'.gmdate('Ymd\THis\Z', SQL::strtotime($item['date_stamp'])+$item['duration']).CRLF;
+				$text .= 'DTEND:'.gmdate('Ymd\THis\Z', SQL::strtotime($item['date_stamp'])+($item['duration'])*60).CRLF;
 
 			// a full-day event
 			} else {

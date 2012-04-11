@@ -2,20 +2,6 @@
 /**
  * fetch calendar data
  *
- * Example of data formatted by this script:
- * [snippet]
- * BEGIN:VCALENDAR
- * VERSION:2.0
- * FN:Foo Bar
- * N:Bar;Foo
- * NICKNAME:little_foo
- * EMAIL;PREF;INTERNET:foo.bar@acme.com
- * REV:20040922T000712Z
- * END:VCARD
- * [/snippet]
- *
- * @link http://www.imc.org/pdi/vcard-21.txt
- *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
