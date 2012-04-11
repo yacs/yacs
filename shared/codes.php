@@ -309,7 +309,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	function &beautify($text, $options='') {
+	public static function &beautify($text, $options='') {
 		global $context;
 
 		// save CPU cycles
@@ -389,7 +389,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	function &beautify_extra($text) {
+	public static function &beautify_extra($text) {
 		global $context;
 
 		$search = array();
@@ -456,7 +456,7 @@ Class Codes {
 	 * @param sring either 'text' or 'newlines'
 	 * @return the modified string
 	 */
-	function &beautify_implied($text, $variant='text') {
+	public static function &beautify_implied($text, $variant='text') {
 
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
@@ -601,7 +601,7 @@ Class Codes {
 	 * @param string raw introduction
 	 * @return string finalized title
 	 */
-	function &beautify_introduction($text) {
+	public static function &beautify_introduction($text) {
 
 		// render codes
 		$output =& Codes::render($text);
@@ -623,7 +623,7 @@ Class Codes {
 	 * @param string raw title
 	 * @return string finalized title
 	 */
-	function &beautify_title($text) {
+	public static function &beautify_title($text) {
 
 		// suppress pairing codes
 		$output =& Codes::strip($text);
@@ -646,7 +646,7 @@ Class Codes {
 	 * @param int the id of the object
 	 * @return boolean TRUE if the code is present, false otherwise
 	 */
-	function check_embedded($text, $code, $id) {
+	public static function check_embedded($text, $code, $id) {
 
 		// we check the string of digits
 		$id = strval($id);
@@ -696,7 +696,7 @@ Class Codes {
 	 * @param int the id of the object
 	 * @return string the resulting string
 	 */
-	function delete_embedded($text, $code, $id) {
+	public static function delete_embedded($text, $code, $id) {
 
 		// we check the string of digits
 		$id = strval($id);
@@ -769,7 +769,7 @@ Class Codes {
 	 * @param string input
 	 * @return string original or modified content
 	 */
-	function &fix_tags($text) {
+	public static function &fix_tags($text) {
 
 		// look for opening tag at content end
 		$last_open = strrpos($text, '<p>');
@@ -803,7 +803,7 @@ Class Codes {
 	 *
 	 * @param string the target URL for this rendering (e.g., 'articles/view.php/123')
 	 */
-	function initialize($main_target=NULL) {
+	public static function initialize($main_target=NULL) {
 		global $context;
 
 		if($main_target)
@@ -818,7 +818,7 @@ Class Codes {
 	 * @param string code to check (e.g., 'embed')
 	 * @return array the list of matching ids
 	 */
-	function list_embedded($text, $code='embed') {
+	public static function list_embedded($text, $code='embed') {
 
 		// all ids we have found
 		$ids = array();
@@ -889,7 +889,7 @@ Class Codes {
 	 * @param string the input string
 	 * @return string the transformed string
 	 */
-	function &render($text) {
+	public static function &render($text) {
 		global $context;
 
 		// streamline newlines, even if this has been done elsewhere
@@ -1345,7 +1345,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_animated($text, $variant) {
+	public static function &render_animated($text, $variant) {
 		global $context, $scroller_counter;
 
 		$scroller_counter++;
@@ -1363,7 +1363,7 @@ Class Codes {
 	 * @param string the anchor (e.g. 'section:123')
 	 * @return string the rendered text
 	**/
-	function &render_calendar($anchor='') {
+	public static function &render_calendar($anchor='') {
 		global $context;
 
 		// a list of dates
@@ -1398,7 +1398,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_categories($anchor='', $layout='compact') {
+	public static function &render_categories($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -1450,7 +1450,7 @@ Class Codes {
 	 * @param string chart parameters
 	 * @return string the rendered text
 	**/
-	function &render_chart($data, $variant) {
+	public static function &render_chart($data, $variant) {
 		global $context;
 
 		// split parameters
@@ -1505,7 +1505,7 @@ Class Codes {
 	 * @param string web address that is monitored
 	 * @return string the rendered text
 	**/
-	function &render_clicks($url) {
+	public static function &render_clicks($url) {
 		global $context;
 
 		$text = '';
@@ -1538,7 +1538,7 @@ Class Codes {
 	 * @param string the number of items to list
 	 * @return string the rendered text
 	**/
-	function &render_cloud($count=40) {
+	public static function &render_cloud($count=40) {
 		global $context;
 
 		// sanity check
@@ -1563,7 +1563,7 @@ Class Codes {
 	 *
 	 * @return string the rendered text
 	**/
-	function &render_collections() {
+	public static function &render_collections() {
 		global $context;
 
 		// has one collection been defined?
@@ -1629,7 +1629,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function &render_dynamic_table($id, $variant='inline') {
+	public static function &render_dynamic_table($id, $variant='inline') {
 		global $context;
 
 		// refresh on every page load
@@ -1735,7 +1735,7 @@ Class Codes {
 	 * @param string the label
 	 * @return string the rendered text
 	**/
-	function &render_email($address, $text) {
+	public static function &render_email($address, $text) {
 
 		// be sure to display something
 		if(!$text)
@@ -1759,7 +1759,7 @@ Class Codes {
 	 * @param string id of the target file
 	 * @return string the rendered string
 	**/
-	function &render_embed($id) {
+	public static function &render_embed($id) {
 		global $context;
 
 		// split parameters
@@ -2066,7 +2066,7 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	function &render_escaped($text) {
+	public static function &render_escaped($text) {
 
 		// replace strings --initialize only once
 		static $from, $to;
@@ -2110,7 +2110,7 @@ Class Codes {
 	 * @param mixed default value, if any
 	 * @return text generated during the inclusion
 	 */
-	function &render_execute($name) {
+	public static function &render_execute($name) {
 		global $context;
 
 		// check path to the file
@@ -2172,7 +2172,7 @@ Class Codes {
 	 * @param string id of the target map
 	 * @return string the rendered string
 	**/
-	function &render_freemind($id) {
+	public static function &render_freemind($id) {
 		global $context;
 
 		// process parameters
@@ -2291,7 +2291,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_graphviz($text, $variant='digraph') {
+	public static function &render_graphviz($text, $variant='digraph') {
 		global $context;
 
 		// sanity check
@@ -2365,7 +2365,7 @@ Class Codes {
 	 * @param either 'anonymous', or 'restricted' or 'hidden'
 	 * @return string the rendered text
 	**/
-	function &render_hidden($text, $variant) {
+	public static function &render_hidden($text, $variant) {
 
 		// this block should only be visible from non-logged surfers
 		if($variant == 'anonymous') {
@@ -2394,7 +2394,7 @@ Class Codes {
 	 * @param string iframe parameters
 	 * @return string the rendered text
 	**/
-	function &render_iframe($url, $variant) {
+	public static function &render_iframe($url, $variant) {
 		global $context;
 
 		// split parameters
@@ -2421,7 +2421,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function &render_list($content, $variant='') {
+	public static function &render_list($content, $variant='') {
 		global $context;
 
 		if(!$content = trim($content)) {
@@ -2486,7 +2486,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_location($id) {
+	public static function &render_location($id) {
 		global $context;
 
 		// the required library
@@ -2541,7 +2541,7 @@ Class Codes {
 	 * @param string 'all' or 'users'
 	 * @return string the rendered text
 	**/
-	function &render_locations($id='all') {
+	public static function &render_locations($id='all') {
 		global $context;
 
 		// the required library
@@ -2584,7 +2584,7 @@ Class Codes {
 	 * @param string the variant - default is 'flash'
 	 * @return string the rendered text
 	**/
-	function &render_news($variant) {
+	public static function &render_news($variant) {
 		global $context;
 
 		switch($variant) {
@@ -2627,7 +2627,7 @@ Class Codes {
 	 * @param string address of the newsfeed to get
 	 * @return string the rendered text
 	**/
-	function &render_newsfeed($url, $variant='ajax') {
+	public static function &render_newsfeed($url, $variant='ajax') {
 		global $context;
 
 		// we allow multiple calls
@@ -2686,7 +2686,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_object($type, $id) {
+	public static function &render_object($type, $id) {
 		global $context;
 
 		// depending on type
@@ -3450,7 +3450,7 @@ Class Codes {
 	 * @param mixed default value, if any
 	 * @return the actual value of this parameter, else the default value, else ''
 	 */
-	function &render_parameter($name, $default='') {
+	public static function &render_parameter($name, $default='') {
 		global $context;
 
 		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
@@ -3473,7 +3473,7 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	function &render_pre($text, $variant='snippet') {
+	public static function &render_pre($text, $variant='snippet') {
 
 		// change new lines
 		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
@@ -3539,7 +3539,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_published($anchor='', $layout='compact') {
+	public static function &render_published($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -3676,7 +3676,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_random($anchor='', $layout='') {
+	public static function &render_random($anchor='', $layout='') {
 		global $context;
 
 		// we return some text;
@@ -3790,7 +3790,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_read($anchor='', $layout='hits') {
+	public static function &render_read($anchor='', $layout='hits') {
 		global $context;
 
 		// we return some text;
@@ -3876,7 +3876,7 @@ Class Codes {
 	 * @param string target link
 	 * @return text generated during the inclusion
 	 */
-	function &render_redirect($link) {
+	public static function &render_redirect($link) {
 		global $context;
 
 		// turn external links to clickable things
@@ -3925,7 +3925,7 @@ Class Codes {
 	 *
 	 * @return string the rendered text
 	**/
-	function &render_retweet() {
+	public static function &render_retweet() {
 		global $context;
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
@@ -3951,7 +3951,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_sections($anchor='', $layout='simple') {
+	public static function &render_sections($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;
@@ -4003,7 +4003,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function render_static_table($content, $variant='') {
+	public static function render_static_table($content, $variant='') {
 		global $context;
 
 		// we are providing inline tables
@@ -4058,7 +4058,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_table_of($variant) {
+	public static function &render_table_of($variant) {
 		global $context;
 
 		// nothing to return yet
@@ -4161,7 +4161,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_title($text, $variant) {
+	public static function &render_title($text, $variant) {
 		global $codes_toc, $codes_toq, $context;
 
 		// remember questions
@@ -4219,7 +4219,7 @@ Class Codes {
 	 * @param string twitter id to display, plus optional parameters, if any
 	 * @return string the rendered text
 	**/
-	function &render_twitter($id) {
+	public static function &render_twitter($id) {
 		global $context;
 
 		// up to 4 parameters: id, width, height, styles
@@ -4284,7 +4284,7 @@ Class Codes {
 	 * @param string twitter searched keywords, plus optional parameters, if any
 	 * @return string the rendered text
 	**/
-	function &render_twitter_search($id) {
+	public static function &render_twitter_search($id) {
 		global $context;
 
 		// up to 4 parameters: id, width, height, styles
@@ -4357,7 +4357,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_updated($anchor='', $layout='compact') {
+	public static function &render_updated($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -4486,7 +4486,7 @@ Class Codes {
 	 * @param string the anchor (e.g. 'present')
 	 * @return string the rendered text
 	**/
-	function &render_users($anchor='') {
+	public static function &render_users($anchor='') {
 		global $context;
 
 		// we return some text;
@@ -4525,7 +4525,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_voted($anchor='', $layout='simple') {
+	public static function &render_voted($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;
@@ -4609,7 +4609,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_wikipedia($id) {
+	public static function &render_wikipedia($id) {
 		global $context;
 
 		// maybe an alternate title has been provided
@@ -4645,7 +4645,7 @@ Class Codes {
 	 * @param string embedding YACS codes
 	 * @return a purged string
 	 */
-	function &strip($text, $suppress_all_brackets=FALSE) {
+	public static function &strip($text, $suppress_all_brackets=FALSE) {
 		global $context;
 
 		// suppress pairing codes

@@ -70,7 +70,7 @@ Class Members {
 	 * @see sections/select.php
 	 * @see services/blog.php
 	**/
-	function assign($anchor, $member, $father=NULL) {
+	public static function assign($anchor, $member, $father=NULL) {
 		global $context;
 
 		// anchor cannot be empty
@@ -129,7 +129,7 @@ Class Members {
 	 * @see articles/layout_articles_as_jive.php
 	 * @see users/track.php
 	**/
-	function check($anchor, $member) {
+	public static function check($anchor, $member) {
 		global $context;
 
 		// sanity check
@@ -174,7 +174,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	function count_articles_for_anchor($anchor) {
+	public static function count_articles_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -219,7 +219,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	function count_sections_for_anchor($anchor) {
+	public static function count_sections_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -254,7 +254,7 @@ Class Members {
 	 *
 	 * @see categories/view.php
 	 */
-	function count_users_for_anchor($anchor, $with_me=TRUE) {
+	public static function count_users_for_anchor($anchor, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -296,7 +296,7 @@ Class Members {
 	 *
 	 * @see sections/view_as_tabs.php
 	 */
-	function count_users_for_member($member, $with_me=TRUE) {
+	public static function count_users_for_member($member, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -339,7 +339,7 @@ Class Members {
 	 * @param string the target reference
 	 * @return int the number of duplicated records
 	 */
-	function duplicate_for($reference_from, $reference_to) {
+	public static function duplicate_for($reference_from, $reference_to) {
 		global $context;
 
 		// nothing done yet
@@ -403,7 +403,7 @@ Class Members {
 	 * @param string the member id (e.g., 'file:23')
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function free($anchor, $member) {
+	public static function free($anchor, $member) {
 		global $context;
 
 		// anchor cannot be empty
@@ -434,7 +434,7 @@ Class Members {
 	 * @param the maximum size of the returned list
 	 * @return an array of members anchors
 	 */
-	function &list_anchors_for_member($member, $offset=0, $count=500) {
+	public static function &list_anchors_for_member($member, $offset=0, $count=500) {
 		global $context;
 
 		// we return an array
@@ -500,7 +500,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -603,7 +603,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -667,7 +667,7 @@ Class Members {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -732,7 +732,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see services/blog.php
 	 */
-	function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -780,7 +780,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
+	public static function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// return by reference
@@ -831,7 +831,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function list_editors_for_member($member, $offset=0, $count=7, $variant='comma5') {
+	public static function list_editors_for_member($member, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
 		// several references
@@ -884,7 +884,7 @@ Class Members {
 	 *
 	 * @see sections/select.php
 	 */
-	function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
+	public static function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// display active and restricted items
@@ -933,7 +933,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -966,7 +966,7 @@ Class Members {
 	 * @param string an id to avoid, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1011,7 +1011,7 @@ Class Members {
 	 *
 	 * @see categories/view.php
 	 */
-	function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1063,7 +1063,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
+	public static function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
 		global $context;
 
 		// return by reference
@@ -1205,7 +1205,7 @@ Class Members {
 	/**
 	 * create tables for members
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1240,7 +1240,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see users/track.php
 	**/
-	function toggle($anchor, $member, $father=NULL) {
+	public static function toggle($anchor, $member, $father=NULL) {
 		global $context;
 
 		// anchor cannot be empty
@@ -1298,7 +1298,7 @@ Class Members {
 	 *
 	 * @param string the suppressed reference
 	 */
-	function unlink_for_reference($reference) {
+	public static function unlink_for_reference($reference) {
 		global $context;
 
 		// delete all uses of this reference

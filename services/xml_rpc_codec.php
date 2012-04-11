@@ -97,7 +97,7 @@ Class XML_RPC_Codec extends Codec {
 	 * @param type, if any
 	 * @return string some XML
 	 */
-	function encode($parameter, $type='') {
+	public static function encode($parameter, $type='') {
 
 		// a date
 		if($type == 'date') {

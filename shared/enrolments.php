@@ -22,7 +22,7 @@ class Enrolments {
 	 * @param string to designate the target anchor
 	 * @return int number of people enrolled, or 0
 	 */
-	function count_enrolled($reference) {
+	public static function count_enrolled($reference) {
 		global $context;
 
 		// count records
@@ -38,7 +38,7 @@ class Enrolments {
 	 * @param int target user, or NULL for current surfer
 	 * @return array enrolment attributes, or NULL
 	 */
-	function get_record($reference, $id = NULL) {
+	public static function get_record($reference, $id = NULL) {
 		global $context;
 
 		// which surfer?
@@ -72,7 +72,7 @@ class Enrolments {
 	 * @param int the initial number of available seats
 	 * @return boolean TRUE if you there is enough room, FALSE otherwise
 	 */
-	function get_seat($reference, $offer=20) {
+	public static function get_seat($reference, $offer=20) {
 		global $context;
 
 		// number of seats is not really managed
@@ -93,7 +93,7 @@ class Enrolments {
 	 *
 	 * @param string reference of the target page
 	 */
-	function confirm($reference) {
+	public static function confirm($reference) {
 		global $context;
 
 		// sanity check
@@ -130,7 +130,7 @@ class Enrolments {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

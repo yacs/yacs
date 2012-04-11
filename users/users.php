@@ -100,7 +100,7 @@ Class Users {
 	 * @param array users assigned to the reference, if any
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert_watchers($references, $mail, $restricted=NULL) {
+	public static function alert_watchers($references, $mail, $restricted=NULL) {
 		global $context;
 
 		// ensure we have an array of references
@@ -509,7 +509,7 @@ Class Users {
 	 *
 	 * @see feeds/feeds.php
 	 */
-	function get_link($name, $email, $id, $new_window=FALSE, $hover=NULL) {
+	public static function get_link($name, $email, $id, $new_window=FALSE, $hover=NULL) {
 		global $context;
 
 		if(!$name)
@@ -538,7 +538,7 @@ Class Users {
 	 * @param string salt to be used for the hash
 	 * @return string the link to be authenticated
 	 */
-	function get_login_url($command, $reference, $name, $salt) {
+	public static function get_login_url($command, $reference, $name, $salt) {
 		global $context;
 
 		// build a signed
@@ -571,7 +571,7 @@ Class Users {
 	 * @param array page attributes
 	 * @return string the permalink
 	 */
-	function get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
 		return $output;
 	}
@@ -582,7 +582,7 @@ Class Users {
 	 * @param int user id
 	 * @param string his signature, or ''
 	 */
-	function get_signature($id) {
+	public static function get_signature($id) {
 		global $context;
 
 		if(!$id)
@@ -623,7 +623,7 @@ Class Users {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// track something -- the id has to be an anchor (e.g., 'article:15')
@@ -678,7 +678,7 @@ Class Users {
 	 * @see services/blog.php
 	 * @see tables/edit.php
 	 */
-	function increment_posts($id) {
+	public static function increment_posts($id) {
 		global $context;
 
 		// sanity check
@@ -714,7 +714,7 @@ Class Users {
 	 *
 	 * @see letters/new.php
 	 */
-	function &list_associates_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function &list_associates_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -758,7 +758,7 @@ Class Users {
 	 * @see users/index.php
 	 * @see users/review.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='compact') {
+	public static function &list_by_date($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -789,7 +789,7 @@ Class Users {
 	 *
 	 * @see users/review.php
 	 */
-	function &list_by_login_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_login_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// limit the scope of the request
@@ -819,7 +819,7 @@ Class Users {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_name($offset=0, $count=10, $variant='full') {
+	public static function &list_by_name($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -850,7 +850,7 @@ Class Users {
 	 *
 	 * @see users/review.php
 	 */
-	function &list_by_post_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_post_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// limit the scope of the request
@@ -897,7 +897,7 @@ Class Users {
 	 * @see letters/new.php
 	 * @see users/index.php
 	 */
-	function &list_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function &list_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -940,7 +940,7 @@ Class Users {
 	 *
 	 * @see letters/new.php
 	 */
-	function &list_members_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function &list_members_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -977,7 +977,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	function &list_present($offset=0, $count=10, $variant='compact') {
+	public static function &list_present($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -1111,7 +1111,7 @@ Class Users {
 	 * @see users/login.php
 	 * @see services/blog.php
 	 */
-	function login($name, $password) {
+	public static function login($name, $password) {
 		global $context;
 
 		// using the last resort password
@@ -1257,7 +1257,7 @@ Class Users {
 	 * @param string the name looked for, or a mail address, or a complex RFC 822 recipient address
 	 * @return array either the found profile, or NULL
 	 */
-	function lookup($name) {
+	public static function lookup($name) {
 		global $context;
 
 		// the profile already exists
@@ -1363,7 +1363,7 @@ Class Users {
 	 * @see users/populate.php
 	 * @see query.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// nick_name is required
@@ -1643,7 +1643,7 @@ Class Users {
 	 * @see users/password.php
 	 * @see users/select_avatar.php
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// load the record
@@ -1859,7 +1859,7 @@ Class Users {
 	 *
 	 * @see search.php
 	 */
-	function &search($pattern, $offset=0, $count=50, $variant='decorated') {
+	public static function &search($pattern, $offset=0, $count=50, $variant='decorated') {
 		global $context;
 
 		// sanity check
@@ -1876,7 +1876,7 @@ Class Users {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
-		// do not show suspended users, except to associates
+		// do not show blocked users, except to associates
 		if(!Surfer::is_associate())
 			$where .= " AND (users.capability != '?')";
 
@@ -1907,7 +1907,7 @@ Class Users {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -2003,7 +2003,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	function &stat() {
+	public static function &stat() {
 		global $context;
 
 		// limit the scope of the request
@@ -2035,7 +2035,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	function &stat_present() {
+	public static function &stat_present() {
 		global $context;
 
 		// limit the scope of the request
@@ -2067,7 +2067,7 @@ Class Users {
 	 *
 	 * @see users/validate.php
 	 */
-	function validate($id) {
+	public static function validate($id) {
 		global $context;
 
 		// sanity check

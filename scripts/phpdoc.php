@@ -534,7 +534,7 @@ class PhpDoc {
 	 * @param string the name of the comment to fetch
 	 * @return the resulting $row array, with at least keys: 'name', 'anchor' and 'content'
 	 */
-	function &get($name) {
+	public static function &get($name) {
 		global $context;
 
 		// select among available items
@@ -650,7 +650,7 @@ class PhpDoc {
 	/**
 	 * delete all documentation pages
 	 */
-	function purge() {
+	public static function purge() {
 		global $context;
 
 		// purge the old documentation
@@ -662,7 +662,7 @@ class PhpDoc {
 	/**
 	 * create a table for the php documentation
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

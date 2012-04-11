@@ -16,10 +16,9 @@ class Thread extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param array the hosting record
-	 * @param mixed additional options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL, $options=NULL) {
+	function &get_list_text($host=NULL) {
 		global $context;
 
 		// we return some text

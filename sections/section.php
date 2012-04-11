@@ -220,7 +220,7 @@ Class Section extends Anchor {
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
 	 */
-	function get_neighbours($type, &$item) {
+	function get_neighbours($type, $item) {
 		global $context;
 
 		// no item bound

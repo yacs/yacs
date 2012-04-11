@@ -23,7 +23,7 @@ class Logger {
 	 * @param string an optional label string
 	 * @return void
 	 */
-	function debug($value='', $label=NULL) {
+	public static function debug($value='', $label=NULL) {
 		global $context;
 
 		// ensure we have a string --preserve HTML
@@ -54,7 +54,7 @@ class Logger {
 	 * @param boolean if FALSE, do not add message if there is already one
 	 *
 	 */
-	function error($line, $multiple=TRUE) {
+	public static function error($line, $multiple=TRUE) {
 		global $context;
 
 		// there is already one message
@@ -78,7 +78,7 @@ class Logger {
 	 *
 	 * @return string most recent error message, or NULL
 	 */
-	function error_pop() {
+	public static function error_pop() {
 		global $context;
 
 		// no stack
@@ -101,7 +101,7 @@ class Logger {
 	 * @param string variant - default is 'all'
 	 * @return an array of ($stamp, $surfer, $script, $label, $description)
 	 */
-	function get_tail($count=20, $variant='all') {
+	public static function get_tail($count=20, $variant='all') {
 		global $context;
 
 		// open the log file for reading
@@ -185,7 +185,7 @@ class Logger {
 	 * @param string a more comprehensive description, if any
 	 * @return void
 	 */
-	function notify($script, $label, $description='') {
+	public static function notify($script, $label, $description='') {
 		global $context;
 
 		// local storage
@@ -240,7 +240,7 @@ class Logger {
 	 * @param string either 'log' or 'debug'
 	 * @return void
 	 */
-	function remember($script, $label, $description='', $store='log') {
+	public static function remember($script, $label, $description='', $store='log') {
 		global $context;
 
 		// ensure we have a string
@@ -302,7 +302,7 @@ class Logger {
 	 * @param boolean TRUE if HTML tags should be suppressed, FALSE otherwise
 	 * @return string
 	 */
-	function &to_string($value='', $strip_tags=TRUE) {
+	public static function &to_string($value='', $strip_tags=TRUE) {
 		global $context;
 
 		// a boolean

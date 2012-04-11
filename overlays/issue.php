@@ -488,10 +488,9 @@ class Issue extends Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL, $options=NULL) {
+	function &get_list_text($host=NULL) {
 
 		// show progress
 		$text = BR.self::get_progress_value();
@@ -1285,7 +1284,7 @@ class Issue extends Overlay {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

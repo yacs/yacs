@@ -650,7 +650,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			.'class Hooks {'."\n\n";
 
 		// start the linking function
-		$content .= "\t".'function link_scripts($id, $variant=\'list\') {'."\n"
+		$content .= "\t".'public static function link_scripts($id, $variant=\'list\') {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$links = array();'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -689,7 +689,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
 
 		// start the including function
-		$content .= "\t".'function include_scripts($id, $parameters=NULL) {'."\n"
+		$content .= "\t".'public static function include_scripts($id, $parameters=NULL) {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$text = \'\';'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -710,7 +710,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t\t}\n\n\t\t".'return $text;'."\n\n\t}\n\n";
 
 		// start the calling function
-		$content .= "\t".'function call_scripts($id, $parameters, $variant=\'XML-RPC\') {'."\n"
+		$content .= "\t".'public static function call_scripts($id, $parameters, $variant=\'XML-RPC\') {'."\n"
 			."\t\t".'global $local, $context;'."\n"
 			."\t\t".'include_once $context[\'path_to_root\'].\'services/call.php\';'."\n\n"
 			."\t\t".'$result = array();'."\n\n"
@@ -727,7 +727,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
 
 		// start the serving function
-		$content .= "\t".'function serve_scripts($id, $parameters) {'."\n"
+		$content .= "\t".'public static function serve_scripts($id, $parameters) {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$result = NULL;'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";

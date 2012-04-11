@@ -526,7 +526,7 @@ if(!isset($item['id'])) {
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 			// section watchers
-			if($items =& Sections::list_watchers_by_posts($item, 0, 7, 'comma5'))
+			if($items = Sections::list_watchers_by_posts($item, 0, 7, 'comma5'))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'watch'), i18n::s('Watchers')), $items);
 
 		}
