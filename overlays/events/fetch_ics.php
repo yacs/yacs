@@ -2,20 +2,6 @@
 /**
  * fetch calendar data
  *
- * Example of data formatted by this script:
- * [snippet]
- * BEGIN:VCALENDAR
- * VERSION:2.0
- * FN:Foo Bar
- * N:Bar;Foo
- * NICKNAME:little_foo
- * EMAIL;PREF;INTERNET:foo.bar@acme.com
- * REV:20040922T000712Z
- * END:VCARD
- * [/snippet]
- *
- * @link http://www.imc.org/pdi/vcard-21.txt
- *
  * Accept following invocations:
  * - fetch_ics.php/article/&lt;id&gt;
  * - fetch_ics.php?id=&lt;article:id&gt;
