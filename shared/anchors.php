@@ -14,7 +14,7 @@ class Anchors {
 	 * @param string referencing of the changed anchor
 	 * @param string rights to be cascaded (e.g., 'Y', 'R' or 'N')
 	 */
-	function cascade($reference, $active) {
+	public static function cascade($reference, $active) {
 		global $context;
 
 		// only sections may have sub-sections
@@ -98,7 +98,7 @@ class Anchors {
 	 * @param string set locally (e.g., 'Y', 'R', or 'N')
 	 * @return string resulting value (e.g., 'Y', 'R', or 'N')
 	 */
-	function ceil_rights($inherited, $set) {
+	public static function ceil_rights($inherited, $set) {
 
 		if($inherited == 'N')
 			return 'N';
@@ -125,7 +125,7 @@ class Anchors {
 	 *
 	 * @param string reference of the deleted anchor (e.g., 'article:12')
 	 */
-	function delete_related_to($anchor) {
+	public static function delete_related_to($anchor) {
 		global $context;
 
 		// delete related actions
@@ -201,7 +201,7 @@ class Anchors {
 	 * @param string reference of the source anchor (e.g., 'article:12')
 	 * @param string reference of the target anchor (e.g., 'article:12')
 	 */
-	function duplicate_related_to($from_anchor, $to_anchor) {
+	public static function duplicate_related_to($from_anchor, $to_anchor) {
 		global $context;
 
 		// duplicate related actions
@@ -271,7 +271,7 @@ class Anchors {
 	 *
 	 * @see shared/anchor.php
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function &get($id, $mutable=FALSE) {
 		global $context;
 
 		// no anchor yet
@@ -354,7 +354,7 @@ class Anchors {
 	 * @return a string
 	 * @see shared/anchor.php#touch
 	 */
-	function get_action_label($action) {
+	public static function get_action_label($action) {
 
 		if(preg_match('/.*:import/i', $action))
 			return i18n::s('imported');
@@ -451,7 +451,7 @@ class Anchors {
 	 * @param string the label to use, if any
 	 * @return string some XHTML snippet to send to the browser
 	 */
-	function &stat_related_to($anchor, $label=NULL) {
+	public static function &stat_related_to($anchor, $label=NULL) {
 		global $context;
 
 		// describe related content

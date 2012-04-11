@@ -23,7 +23,7 @@ Class Image {
 	 * @param string 'standard' or 'avatar'
 	 * @return TRUE on resize, FALSE otherwise
 	 */
-	function adjust($original, $verbose=TRUE, $variant='standard') {
+	public static function adjust($original, $verbose=TRUE, $variant='standard') {
 		global $context;
 
 		// get file name
@@ -146,7 +146,7 @@ Class Image {
 	 * @return string to be integrated into background CSS rule
 	 *
 	 */
-	function as_background($name) {
+	public static function as_background($name) {
 		$repeat = 'repeat';
 		if(strpos($name, '-x.'))
 			$repeat = 'repeat-x top left';
@@ -184,7 +184,7 @@ Class Image {
 	 * @param boolean TRUE to see error messages, if any
 	 * @return TRUE on success, FALSE on error
 	 */
-	function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
+	public static function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
 		global $context;
 
 		// get file name
@@ -331,7 +331,7 @@ Class Image {
 	 * @param boolean TRUE to not report on errors
 	 * @return boolean TRUE on correct processing, FALSE otherwise
 	 */
-	function upload($file_name, $file_path, $silent=FALSE) {
+	public static function upload($file_name, $file_path, $silent=FALSE) {
 		global $context, $_REQUEST;
 
 		// we accept only valid images

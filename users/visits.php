@@ -31,7 +31,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return TRUE on recent visit, FALSE otherwise
 	 */
-	function check_user_at_anchor($user_id, $anchor, $timeout=259200) {
+	public static function check_user_at_anchor($user_id, $anchor, $timeout=259200) {
 		global $context;
 
 		// sanity check
@@ -62,7 +62,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of links, or NULL
 	 */
-	function &list_for_user($user, $count=3, $timeout=259200) {
+	public static function &list_for_user($user, $count=3, $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -132,7 +132,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of user profiles
 	 */
-	function &list_users($offset=0, $count=30, $layout='compact', $timeout=259200) {
+	public static function &list_users($offset=0, $count=30, $layout='compact', $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -171,7 +171,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of user profiles
 	 */
-	function &list_users_at_anchor($anchor, $offset=0, $count=30, $layout='compact', $timeout=259200) {
+	public static function &list_users_at_anchor($anchor, $offset=0, $count=30, $layout='compact', $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -212,7 +212,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return TRUE if the user is present, FALSE otherwise
 	 */
-	function prove_presence_of($user, $timeout=3600) {
+	public static function prove_presence_of($user, $timeout=3600) {
 		global $context;
 
 		// sanity check
@@ -242,7 +242,7 @@ Class Visits {
 	 * @see shared/surfer.php
 	 * @see users/logout.php
 	 */
-	function purge_for_user($user_id) {
+	public static function purge_for_user($user_id) {
 		global $context;
 
 		if(!$user_id)
@@ -257,7 +257,7 @@ Class Visits {
 	/**
 	 * create table for visits
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -285,7 +285,7 @@ Class Visits {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat($timeout=259200) {
+	public static function &stat($timeout=259200) {
 		global $context;
 
 		// only consider recent presence records
@@ -307,7 +307,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor, $timeout=259200) {
+	public static function &stat_for_anchor($anchor, $timeout=259200) {
 		global $context;
 
 		// sanity check
@@ -342,7 +342,7 @@ Class Visits {
 	 * @param string level of visibility for this anchor (e.g., 'Y', 'R' or 'N')
 	 * @return boolean TRUE on success, FALSE otherwise
 	**/
-	function track($anchor, $active='Y') {
+	public static function track($anchor, $active='Y') {
 		global $context;
 
 		// ensure regular operation of the server

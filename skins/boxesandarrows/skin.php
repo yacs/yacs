@@ -17,7 +17,7 @@ Class Skin extends Skin_Skeleton {
 	/**
 	 * define constants used with this skin
 	 */
-	function initialize() {
+	public static function initialize() {
 		global $context;
 
 		// we are XHTML

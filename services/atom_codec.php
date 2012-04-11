@@ -235,7 +235,7 @@ Class Atom_Codec extends Codec {
 	 * @param mixed the parameter to encode
 	 * @return some XML
 	 */
-	function encode(&$values) {
+	public static function encode(&$values) {
 		global $context;
 
 		// ensure we have a feed title

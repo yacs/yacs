@@ -203,7 +203,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_path_bar() {
+	function get_path_bar() {
 
 		// load localized strings
 		i18n::bind('users');
@@ -307,11 +307,12 @@ Class User extends Anchor {
 	 * @return TRUE if the surfer is browsing his/her own profile
 	 *
 	 * @param int optional reference to some user profile
+	 * @param boolean TRUE to climb the list of containers up to the top
 	 * @return TRUE or FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_assigned($user_id=NULL) {
+	function is_assigned($user_id=NULL, $cascade=TRUE) {
 
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
@@ -334,7 +335,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_owned($user_id=NULL, $strict=FALSE) {
+	function is_owned($user_id=NULL, $strict=FALSE) {
 		global $context;
 
 		// id of requesting user

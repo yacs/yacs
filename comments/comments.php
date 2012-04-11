@@ -1900,7 +1900,8 @@ Class Comments {
 			."	AND ".$where;
 
 		// select among available items
-		$output = SQL::count(SQL::query($query));
+		$result = SQL::query($query);
+		$output = SQL::count($result);
 		return $output;
 	}
 

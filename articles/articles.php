@@ -386,7 +386,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_message($item, $anchor=NULL) {
+	public static function allow_message($item, $anchor=NULL) {
 		global $context;
 
 		// subscribers can never send a message
