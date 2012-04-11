@@ -2402,6 +2402,14 @@ Class Sections {
 		else
 			$silent = FALSE;
 
+		static $depth;
+		if(!isset($depth))
+			$depth = 0;
+		$depth++;
+		$output = '';
+		if(($variant == 'freemind') && ($depth > 3))
+			return $output;
+
 		// provide context to layout
 		$layout =& Sections::get_layout($variant);
 		if($anchor)
