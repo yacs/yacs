@@ -346,6 +346,7 @@ $context['l10n']['en']['f4d16a9e1c0a2805e57b3f5db79b382b']='Show page details to
 $context['l10n']['en']['45d84ff337a84210c6fb014947863dc1']='Similar to the first option, except that displayed information is scrolling.';
 $context['l10n']['en']['89edab10eeb61aae1e05cd41ae5594b4']='Similar to the first option, except that news are rotated.';
 $context['l10n']['en']['Site map']='Site map';
+$context['l10n']['en']['Sort files by date (default)']='Sort files by date (default)';
 $context['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title (and not by date)';
 $context['l10n']['en']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Sort links by title (and not by date)';
 $context['l10n']['en']['Sort pages by publication date']='Sort pages by publication date';
