@@ -447,8 +447,7 @@ if(Surfer::is_crawler()) {
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// increment the post counter of the surfer
-		if(Surfer::get_id())
-			Users::increment_posts(Surfer::get_id());
+		Users::increment_posts(Surfer::get_id());
 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
