@@ -755,6 +755,24 @@ class Overlay {
 	}
 
 	/**
+	 * embed embeddable files or not?
+	 *
+	 * By default, when an embeddable file is attached to a page, a yacs code is placed
+	 * in the description field of this page to feature the new file.
+	 * To prevent this behaviour in some pages, you can program the overlay to return
+	 * FALSE to this function call.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see overlays/embed.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay
+	 */
+	function should_embed_files() {
+		return TRUE;
+	}
+
+	/**
 	 * notify followers or not?
 	 *
 	 * This function is used in articles/publish.php to prevent notification of followers.
