@@ -540,6 +540,17 @@ class Embed extends Overlay {
 
 	}
 
+	/**
+	 * we don't want to embed uploaded files in description field
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay
+	 */
+	function should_embed_files() {
+		return FALSE;
+	}
+
 }
 
 ?>
