@@ -70,6 +70,7 @@
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
+include_once '../users/activities.php';
 include_once 'files.php';
 
 // look for the id
@@ -330,6 +331,9 @@ if(Surfer::is_crawler()) {
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
+		// record surfer activity
+		Activities::post('file:'.$_REQUEST['id'], 'upload');
+
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
@@ -393,6 +397,9 @@ if(Surfer::is_crawler()) {
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
+
+		// record surfer activity
+		Activities::post('file:'.$_REQUEST['id'], 'upload');
 
 		// forward to the anchor page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
