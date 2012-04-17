@@ -1509,6 +1509,11 @@ Class Files {
 		else
 			$counter++;
 
+		// display explicit title, if any
+		$title = '';
+		if($item['title'])
+			$title = '<p>'.Skin::strip($item['title']).'</p>';
+
 		// several ways to play flash
 		switch(strtolower(substr($item['file_name'], -3))) {
 
@@ -1530,6 +1535,7 @@ Class Files {
 
 				// combine the two in a single object
 				return '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.$title
 					.JS_PREFIX
 					.'var params = {};'."\n"
 					.'params.base = "'.dirname($mp3_url).'/";'."\n"
@@ -1538,7 +1544,7 @@ Class Files {
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX.BR."\n";
+					.JS_SUFFIX."\n";
 
 			}
 
@@ -1554,6 +1560,7 @@ Class Files {
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div><br />'."\n"
+				.$title
 				.JS_PREFIX
 				.'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
@@ -1594,6 +1601,7 @@ Class Files {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.$title
 					.JS_PREFIX
 					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
@@ -1609,7 +1617,8 @@ Class Files {
 					.'	<param value="true" name="allowFullScreen" />'."\n"
 					.'	<param value="always" name="allowscriptaccess" />'."\n"
 					.'	<a href="'.$url.'">No video playback capabilities, please download the file</a>'."\n"
-					.'</object>'."\n";
+					.'</object>'."\n"
+					.$title;
 
 			}
 
@@ -1629,7 +1638,7 @@ Class Files {
 			$src = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$icon = '<img src="'.$src.'" width="'.$image_information[0].'" height="'.$image_information[1].'" alt="" style="padding: 3px"/>'.BR;
-			return Skin::build_link(Files::get_download_url($item), $icon, 'basic');
+			return Skin::build_link(Files::get_download_url($item), $icon, 'basic').$title;
 		}
 
 
