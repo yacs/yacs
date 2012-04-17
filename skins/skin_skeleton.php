@@ -2841,6 +2841,7 @@ Class Skin_Skeleton {
 	 * @param string the box content
 	 * @param string an optional unique id for this box
 	 * @param boolean TRUE to align left border of the sliding panel
+	 * @param boolean TRUE to slide downward, or FALSE to slide upward
 	 * @return the HTML to display
 	 */
 	public static function &build_sliding_box($title, &$content, $id=NULL, $onLeft=TRUE, $down=TRUE) {

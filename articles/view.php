@@ -906,11 +906,13 @@ if(!isset($item['id'])) {
 			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
-			// we have a compact list, or not
+			// compact list of files
 			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {
 				include_once $context['path_to_root'].'files/layout_files_as_compact.php';
 				$layout = new Layout_files_as_compact();
 				$layout->set_variant('article:'.$item['id']);
+
+			// standard list of files
 			} else
 				$layout = 'article:'.$item['id'];
 
