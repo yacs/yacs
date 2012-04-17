@@ -7,8 +7,9 @@
  */
 $context['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $context['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
-$context['l10n']['en']['8a8e69c6c4fda8938ea136dfda2a1973']='%d contribution'.chr(0).'%d contributions';
+$context['l10n']['en']['%d contributions, including:']='%d contributions, including:';
 $context['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
+$context['l10n']['en']['%d files, including:']='%d files, including:';
 $context['l10n']['en']['%d link'.chr(0).'%d links']='%d link'.chr(0).'%d links';
 $context['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $context['l10n']['en']['%d participant'.chr(0).'%d participants']='%d participant'.chr(0).'%d participants';
@@ -281,6 +282,7 @@ $context['l10n']['en']['Servers that have been notified']='Servers that have bee
 $context['l10n']['en']['Share']='Share';
 $context['l10n']['en']['Share at LinkedIn']='Share at LinkedIn';
 $context['l10n']['en']['Shortcut: %s']='Shortcut: %s';
+$context['l10n']['en']['Sort files by date (default)']='Sort files by date (default)';
 $context['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title (and not by date)';
 $context['l10n']['en']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Sort links by title (and not by date)';
 $context['l10n']['en']['Source']='Source';
@@ -388,5 +390,6 @@ $context['l10n']['en']['smileys']='smileys';
 $context['l10n']['en']['sticky']='sticky';
 $context['l10n']['en']['d7f7ce7c3843c3e03df7d9524aefaf24']='to manage public and private content (editors)';
 $context['l10n']['en']['8adc64309d47ca5da514f33a0a59d66e']='to review public content (watchers)';
+$context['l10n']['en']['with %s']='with %s';
 $context['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

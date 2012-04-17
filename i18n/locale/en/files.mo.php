@@ -35,6 +35,7 @@ $context['l10n']['en']['Back to main page']='Back to main page';
 $context['l10n']['en']['Biggest files']='Biggest files';
 $context['l10n']['en']['Bitrate']='Bitrate';
 $context['l10n']['en']['Browse %s']='Browse %s';
+$context['l10n']['en']['By %s']='By %s';
 $context['l10n']['en']['bfbcc298c988f6d70e9919fba19bda0d']='By default files are stored into the web space of your server. To optimize the transfer of large files, you should setup an anonymous ftp service on your server, and then use this configuration panel to enable its usage.';
 $context['l10n']['en']['Cancel']='Cancel';
 $context['l10n']['en']['Change']='Change';
