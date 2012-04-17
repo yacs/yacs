@@ -583,7 +583,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'information_template';
 		$fields['title'] = i18n::c('Share some information');
 		$fields['introduction'] = i18n::c('From the web, from your computer, or from your head.');
-		$fields['options'] = 'edit_as_simple no_initial_upload files_as_compact comments_as_wall';
+		$fields['options'] = 'edit_as_simple no_initial_upload comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 
@@ -685,7 +685,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'question_template';
 		$fields['title'] = i18n::c('Ask a question');
 		$fields['introduction'] = i18n::c('Let the community help you. Answered pages can be rated by visitors.');
-		$fields['options'] = 'edit_as_simple files_as_compact comments_as_wall';
+		$fields['options'] = 'edit_as_simple comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 
