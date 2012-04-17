@@ -52,7 +52,7 @@ Class SQL {
 			if(($handle = mysql_connect($host, $user, $password)) && !mysql_select_db($database, $handle))
 				$handle = FALSE;
 		} else
-			exit('no support for MySQL'.BR);
+			exit('no support for MySQL');
 
 		// end of job
 		return $handle;
