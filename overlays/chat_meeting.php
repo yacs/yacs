@@ -195,17 +195,18 @@ class Chat_meeting extends Meeting {
 		global $context;
 
 		// meeting is not on-going
+		$text = '';
 		if($this->attributes['status'] != 'started')
-			return '';
+			return $text;
 
 		// use services/configure.php to activate OpenTok
 		if(!isset($context['opentok_api_key']) || !$context['opentok_api_key'])
-			return '';
+			return $text;
 
 		// no session id!
 		if(!isset($this->attributes['session_id']) || !$this->attributes['session_id']) {
 			Logger::error(sprintf('OpenTok error: %s', 'no session id has been found'));
-			return '';
+			return $text;
 		}
 
 		// prepare the authentication token
@@ -299,15 +300,14 @@ class Chat_meeting extends Meeting {
 			.'	// we have been killed by an asynchronous exception'."\n"
 			.'	exceptionHandler: function(event) {'."\n"
 			."\n"
+			.'		OpenTok.growl(event.code + " " + event.title + " - " + event.message);'."\n"
+			."\n"
 			.'		OpenTok.tentatives--;'."\n"
 			.'		if((OpenTok.tentatives > 0) && (event.code === 1006 || event.code === 1008 || event.code === 1014)) {'."\n"
 			.'			OpenTok.growl("'.i18n::s('Error while connecting to OpenTok').'");'."\n"
 			.'			OpenTok.session.connecting = false;'."\n"
 			.'			window.setTimeout("OpenTok.connectAgain()", 3000);'."\n"
-			.'			return;'."\n"
 			.'		}'."\n"
-			."\n"
-			.'		OpenTok.growl(event.code + " " + event.title + " - " + event.message);'."\n"
 			.'	},'."\n"
 			."\n"
 			.'	// display a message for some seconds'."\n"
@@ -516,13 +516,14 @@ class Chat_meeting extends Meeting {
 			.JS_SUFFIX;
 
 		// video streams are put above the chat area
-		return '<div id="opentok">'
+		$text = '<div id="opentok">'
 			.	'<div class="growl" style="height: 1.6em;" > </div>'
 			.	'<table class="layout"><tr>'
 			.	'<td class="me"></td>'
 			.	'<td class="others"></td>'
 			.	'</tr></table>'
 			.'</div>'."\n";
+		return $text;
 
 	}
 
