@@ -1528,8 +1528,9 @@ Class Sections {
 	 * @return string the permalink
 	 */
 	public static function get_permalink($item) {
-		$output = Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
-		return $output;
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+		return Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
