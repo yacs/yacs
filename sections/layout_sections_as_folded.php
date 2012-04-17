@@ -2,7 +2,7 @@
 /**
  * layout sections as folded boxes with content
  *
- * With this layout each section is displayed as a folded box listing up to seven related pages.
+ * With this layout each section is displayed as a folded box listing content (sub-sections, pages, ...).
  *
  * @see sections/view.php
  *
@@ -14,6 +14,17 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Layout_sections_as_folded extends Layout_interface {
+
+	/**
+	 * the preferred number of items for this layout
+	 *
+	 * The compact format of this layout allows a high number of items to be listed
+	 *
+	 * @return int the optimised count of items fro this layout
+	 */
+	function items_per_page() {
+		return 1000;
+	}
 
 	/**
 	 * list sections
