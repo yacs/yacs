@@ -3797,8 +3797,12 @@ Class Skin_Skeleton {
 				$line_count = 0;
 				foreach($list as $item) {
 
+					// only one item
+					if(count($list) < 2)
+						$text .= '<tr>';
+
 					// flag oddity
-					if($line_count++%2)
+					elseif($line_count++%2)
 						$text .= '<tr class="odd">';
 					else
 						$text .= '<tr class="even">';
