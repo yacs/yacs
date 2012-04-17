@@ -1589,7 +1589,7 @@ Class Skin_Skeleton {
 		global $context;
 
 		// don't create a link if there is no url - strip everything that begins with '_'
-		if(!$url || (strpos($url, '_') === 0))
+		if(!$url || !is_string($url) || (strpos($url, '_') === 0))
 			return $label;
 
 		// be sure to have a label
