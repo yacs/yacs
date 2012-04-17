@@ -822,6 +822,14 @@ Class Article extends Anchor {
 			return;
 		}
 
+		// get the related overlay, if any
+		if(!isset($this->overlay)) {
+			$this->overlay = NULL;
+			include_once $context['path_to_root'].'overlays/overlay.php';
+			if(isset($this->item['overlay']))
+				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+		}
+
 		// components of the query
 		$query = array();
 
@@ -839,9 +847,17 @@ Class Article extends Anchor {
 			$label = '';
 			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
 
-				// give it to the Flash player
-				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
-					$label = '[embed='.$origin.']';
+				// this file is eligible for being embedded in the page
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
+
+					// the overlay may prevent embedding
+					if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+
+					// else use a yacs code to implement the embedded object
+					else
+						$label = '[embed='.$origin.']';
+				}
 
 			}
 
@@ -1106,14 +1122,8 @@ Class Article extends Anchor {
 			if(!$this->item['create_id'] && $this->item['create_address'])
 				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
 
-			// get the related overlay, if any
-			$overlay = NULL;
-			include_once $context['path_to_root'].'overlays/overlay.php';
-			if(isset($this->item['overlay']))
-				$overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
-
 			// do not notify watchers if overlay prevents it
-			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
+			if(is_object($this->overlay) && !$this->overlay->should_notify_watchers($mail))
 				$to_watchers = FALSE;
 
 			// alert watchers
@@ -1121,7 +1131,7 @@ Class Article extends Anchor {
 				Users::alert_watchers('article:'.$this->item['id'], $mail);
 
 			// do not notify followers if overlay prevents it
-			if(is_object($overlay) && !$overlay->should_notify_followers($mail))
+			if(is_object($this->overlay) && !$this->overlay->should_notify_followers($mail))
 				$to_followers = FALSE;
 
 			// alert connexions, except on private pages
