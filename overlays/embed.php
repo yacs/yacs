@@ -244,10 +244,8 @@ class Embed extends Overlay {
 				}
 				break;
 
-			// a file has been shared
+			// a file has been shared -- laid out with other files
 			case 'upload':
-				if($this->attributes['embed_id'])
-					$text .= Codes::render_object('file', $this->attributes['embed_id']);
 				break;
 
 			}
