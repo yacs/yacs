@@ -1124,7 +1124,11 @@ class Event extends Overlay {
 		$rows = array();
 
 		// initialize feed-back to end-user
-		$this->feed_back = array('message' => '', 'status' => array(), 'menu' => array(), 'reload_this_page' => FALSE);;
+		$this->feed_back = array('message' => '',
+			'status' => array(),	// several lines to report on meeting status
+			'menu' => array(),		// invite, enroll, confirm, ...
+			'commands' => array(),	// start, join, stop, ...
+			'reload_this_page' => FALSE);;
 
 		// maybe a bare instance
 		if(!isset($this->attributes['status']))
@@ -1167,11 +1171,12 @@ class Event extends Overlay {
 
 			}
 
+			// signal that the event is over
+			$this->feed_back['status'][] = i18n::s('Event is over');
+
 			// display the follow-up message
 			if(isset($this->attributes['follow_up_message']) && $this->attributes['follow_up_message'])
-				$this->feed_back['status'][] = Codes::render($this->attributes['follow_up_message']);
-			else
-				$this->feed_back['status'][] = i18n::s('Event is over');
+				$this->feed_back['message'] .= Codes::render($this->attributes['follow_up_message']);
 
 		// possible transition to state 'stopped'
 		} else
@@ -1220,10 +1225,6 @@ class Event extends Overlay {
 		// possible transition to state 'created'
 		} else
 			$this->transition_to_created();
-
-		// finalize feed-back
-		if($this->feed_back['message'])
-			$rows[] = array($this->get_message_label(), $this->feed_back['message']);
 
 		// event details
 		if($details = $this->get_event_details_text())
@@ -1298,8 +1299,16 @@ class Event extends Overlay {
 			$rows[] = array(i18n::s('Status'), $status);
 		}
 
+		// display commands to page owner
+		if(count($this->feed_back['commands']))
+			$rows[] = array('', Skin::finalize_list($this->feed_back['commands'], 'menu_bar'));
+
 		// format text in a table
 		$text = Skin::table(NULL, $rows, 'grid');
+
+		// finalize feed-back
+		if($this->feed_back['message'])
+			$text .= Skin::build_box($this->get_message_label(), $this->feed_back['message']);
 
 		// allow for extensions
 		if(is_callable(array($this, 'get_view_text_extension')))
@@ -2061,7 +2070,7 @@ class Event extends Overlay {
 			return;
 
 		// initiate the meeting one hour in advance
-		if(($this->minutes_before_start > 0) && ($this->minutes_before_start <= 60)) {
+		if($this->minutes_before_start <= 60) {
 
 			// move to the 'lobby' status and refresh the page
 			$fields = array('status' => 'lobby');
@@ -2139,7 +2148,7 @@ class Event extends Overlay {
 					$type = 'button';
 
 				// add the button
-				$this->feed_back['menu'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
+				$this->feed_back['commands'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
 			}
 
 			// else remind the owner to do something
@@ -2282,25 +2291,26 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 				// display the button to stop the meeting
 				if($this->with_stop_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('stop'), i18n::s('Stop the meeting'), 'span');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('stop'), i18n::s('Stop the meeting'),
+						$this->with_join_button()?'span':'button');
 
 			// enrolment is not required
 			} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'none')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 			// surfer has been fully enrolled
 			} elseif(($enrolment = enrolments::get_record($this->anchor->get_reference())) && ($enrolment['approved'] == 'Y')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 			}
 		}
