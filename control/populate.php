@@ -410,7 +410,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'threads';
 		$fields['articles_layout'] = 'yabb'; // these are threads
 		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template';
-		$fields['content_options'] = 'with_export_tools auto_publish';
+		$fields['content_options'] = 'auto_publish with_export_tools with_neighbours';
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['introduction'] =& i18n::c('For standalone pages');
@@ -526,7 +526,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'bbb_template';
 		$fields['title'] = i18n::c('Present to others');
 		$fields['introduction'] = i18n::c('Arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
-		$fields['options'] = 'edit_as_simple comments_as_wall';
+		$fields['options'] = 'edit_as_thread files_as_compact comments_as_wall';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
@@ -604,7 +604,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'event_template';
 		$fields['title'] = i18n::c('Plan an event');
 		$fields['introduction'] = i18n::c('Arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.');
-		$fields['options'] = 'comments_as_wall';
+		$fields['options'] = 'comments_as_wall files_as_compact';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
