@@ -517,7 +517,7 @@ class Embed extends Overlay {
 					$this->set_values($fields);
 
 					// notify this contribution
-					$comments[] = sprintf(i18n::s('%s has shared a file'), Surfer::get_name());
+					$comments[] = '[file='.$file['id'].']';
 				}
 
 			}
@@ -529,7 +529,8 @@ class Embed extends Overlay {
 			$fields = array();
 			$fields['anchor'] = $reference;
 			$fields['description'] = join(BR, $comments);
-			$fields['type'] = 'notification';
+			if($this->attributes['embed_type'] != 'upload')
+				$fields['type'] = 'notification';
 			Comments::post($fields);
 		}
 
