@@ -69,7 +69,7 @@ if(is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower();
 
 // the anchor may control the script
-if(is_object($anchor) && is_callable(array($anchor, 'allows')) && !$anchor->allows('decision', 'list'))
+if(is_object($anchor) && !$anchor->allows('decision', 'list'))
 	$permitted = FALSE;
 
 // associates and editors can do what they want
