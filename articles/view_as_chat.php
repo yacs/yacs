@@ -65,6 +65,15 @@ defined('YACS') or exit('Script must be included');
 if(is_object($anchor))
 	$context['text'] .= $anchor->get_prefix();
 
+// neighbours information
+$neighbours = NULL;
+if(Articles::has_option('with_neighbours', $anchor, $item) && is_object($anchor))
+	$neighbours = $anchor->get_neighbours('article', $item);
+
+// buttons to display previous and next pages, if any
+if($neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
+
 // article rating, if the anchor allows for it, and if no rating has already been registered
 if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_option('rate_as_digg')) {
 
@@ -382,6 +391,10 @@ if(is_object($overlay))
 // add trailer information from this item, if any
 if(isset($item['trailer']) && trim($item['trailer']))
 	$context['text'] .= Codes::beautify($item['trailer']);
+
+// buttons to display previous and next pages, if any
+if($neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
 // insert anchor suffix
 if(is_object($anchor))
