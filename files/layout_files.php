@@ -60,6 +60,7 @@ Class Layout_files extends Layout_interface {
 
 			// we are listing various files from various places
 			} else {
+				$prefix = '';
 
 				// flag files uploaded recently
 				if($item['create_date'] >= $context['fresh'])
