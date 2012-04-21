@@ -857,6 +857,15 @@ Class Article extends Anchor {
 					// else use a yacs code to implement the embedded object
 					else
 						$label = '[embed='.$origin.']';
+
+				// else add a comment to take note of the upload
+				} else {
+					include_once $context['path_to_root'].'comments/comments.php';
+					$fields = array();
+					$fields['anchor'] = 'article:'.$this->item['id'];
+					$fields['description'] = '[file='.$item['id'].']';
+					Comments::post($fields);
+
 				}
 
 			}
