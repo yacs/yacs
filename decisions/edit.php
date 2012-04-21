@@ -105,7 +105,7 @@ if(is_object($anchor) && ($ballot = Decisions::get_ballot($anchor->get_reference
 }
 
 // the anchor may control the script
-if(is_object($anchor) && is_callable(array($anchor, 'allows')) && !$anchor->allows('decision', $action))
+if(is_object($anchor) && !$anchor->allows('decision', $action))
 	$permitted = FALSE;
 
 // associates, but not editors, can do what they want
