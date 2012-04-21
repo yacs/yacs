@@ -246,9 +246,13 @@ if(Surfer::is_crawler()) {
 	$file_path = Files::get_path($anchor->get_reference());
 	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
 		if(!$_REQUEST['description'])
-			$_REQUEST['description'] .= '<p>&nbsp;</p>';
+			$_REQUEST['description'] = '';
 		$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.$file.'</div>';
 	}
+
+	// hardcode line breaks if no WYSIWYG editor
+	if(!isset($_REQUEST['editor']))
+		$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
