@@ -105,6 +105,10 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
+// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
+elseif(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('file', 'fetch'))
+	$permitted = TRUE;
+
 // the default is to disallow access
 else
 	$permitted = FALSE;
