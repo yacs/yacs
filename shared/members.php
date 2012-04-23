@@ -855,7 +855,7 @@ Class Members {
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
 			."	AND (".$where.")"
-			." GROUP BY users.id ORDER BY users.login_date DESC LIMIT ".$offset.','.$count;
+			." GROUP BY users.id ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);

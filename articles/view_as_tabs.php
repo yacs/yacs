@@ -440,7 +440,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 
 	// list editors of this page, and of parent sections
-	if($items = Articles::list_editors_by_login($item, 0, 1000, 'watch')) {
+	if($items = Articles::list_editors_by_name($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 			$owner_state = '';
 			if($user_id == $item['owner_id'])

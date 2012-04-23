@@ -114,7 +114,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators = Sections::list_editors_by_login($item, 0, 7, 'comma5'))
+			if($moderators = Sections::list_editors_by_name($item, 0, 7, 'comma5'))
 				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), $moderators);
 
 			// children boards

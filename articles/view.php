@@ -453,7 +453,7 @@ if(!isset($item['id'])) {
 				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Owner'), Users::get_link($owner['full_name'], $owner['email'], $owner['id']));
 
 			// page editors
-			if($items = Articles::list_editors_by_login($item, 0, 7, 'comma5'))
+			if($items = Articles::list_editors_by_name($item, 0, 7, 'comma5'))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), $items);
 
 			// page watchers

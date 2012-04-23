@@ -1958,7 +1958,7 @@ Class Articles {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	public static function list_editors_by_login($item, $offset=0, $count=7, $variant='comma5') {
+	public static function list_editors_by_name($item, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
 		// this page itself
