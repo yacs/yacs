@@ -82,37 +82,39 @@ Class Layout_comments_as_daily extends Layout_interface {
 			// a link to the user profile
 			$text .= Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
 
-			// the icon is a link to comment permalink
-			$text .= ' '.Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('View this comment')).' ';
-
-			// flag new comments
-			if($item['create_date'] >= $context['fresh'])
-				$text .= NEW_FLAG;
-
-			// the creation date is a link to the permanent link for this comment
-			$text .= Skin::build_link( Comments::get_url($item['id']), Skin::build_date($item['create_date']));
-
-			// comment has been modified
-			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
-				$text .= ', '.sprintf(i18n::s('modified by %s'), $item['edit_name']);
-
 			// commands to handle this comment
 			$menu = array();
 
+			// the icon is a link to comment permalink
+			$menu[] = Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('View this comment'));
+
+			// the creation date is a link to the permanent link for this comment
+			$label = Skin::build_link(Comments::get_url($item['id']), Skin::build_date($item['create_date']), 'basic');
+
+			// flag new comments
+			if($item['create_date'] >= $context['fresh'])
+				$label .= NEW_FLAG;
+
+			$menu[] = $label;
+
+			// comment has been modified
+			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
+				$menu[] = sprintf(i18n::s('modified by %s'), $item['edit_name']);
+
 			// the reply and quote commands are offered when new comments are allowed
 			if(Comments::allow_creation($anchor)) {
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => i18n::s('Reply') ));
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), i18n::s('Reply'), 'basic');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), i18n::s('Quote'), 'basic');
 			}
 
 			// the menu bar for associates and poster
 			if(Comments::allow_modification($anchor, $item)) {
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), i18n::s('Delete'), 'basic');
 			}
 
 			if($menu)
-				$text .= ' -&nbsp;'.Skin::build_list($menu, 'menu');
+				$text .= ' -&nbsp;'.Skin::finalize_list($menu, 'menu');
 
 			// the note itself
 			$text .= '</h4>';
