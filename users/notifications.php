@@ -67,7 +67,7 @@
  * - 'recipient' - id of the target community member
  * - 'type' = 'hello'
  * - 'nick_name' - short name of the surfer that is requesting some direct contact
- * - 'address' - a web link to browse, if accepted by receiving party (optional)
+ * - 'address' - a web address to browse, if accepted by receiving party (optional)
  * - 'message' - less than 200 characters submitted by originator
  *
  *
