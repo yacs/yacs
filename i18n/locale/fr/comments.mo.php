@@ -39,6 +39,7 @@ $context['l10n']['fr']['Edit the comment']='Modifier le commentaire';
 $context['l10n']['fr']['Edit your post below']='Modifiez votre texte ci-dessous';
 $context['l10n']['fr']['Edited by']='Modifié par';
 $context['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
+$context['l10n']['fr']['Extract files from the archive']='Extraire les fichiers de l\'archive';
 $context['l10n']['fr']['FCKEditor']='FCKEditor';
 $context['l10n']['fr']['4bb33a5f640ed9b688aede2807e169fc']='Les commentaires passionnés sont les bienvenus. Attention toutefois de ne pas trop s\'écarter du sujet principal et de rester courtois. Nous supprimerons sans hésiter tout commentaire mal placé ou blessant. Merci de ne pas nous contraindre à de telles extrémités.';
 $context['l10n']['fr']['Help']='Aide';

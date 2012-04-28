@@ -190,7 +190,6 @@ $context['l10n']['en']['Trailer']='Trailer';
 $context['l10n']['en']['8dba3e281bee8eeab2f14d6e4c0f5548']='Unknown anchor %s, record has been deleted';
 $context['l10n']['en']['e0d8b6d765ad12a441a66eeaa6e77e71']='Unknown member %s, record has been deleted';
 $context['l10n']['en']['Unlink']='Unlink';
-$context['l10n']['en']['Upload a file']='Upload a file';
 $context['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $context['l10n']['en']['Use an image']='Use an image';
 $context['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';

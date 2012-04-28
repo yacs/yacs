@@ -398,7 +398,6 @@ $context['l10n']['fr']['3d95ce6c80d00bc9abd6f771d7d54bec']='Balises XHTML additi
 $context['l10n']['fr']['Unlock']='Déverrouiller';
 $context['l10n']['fr']['Update a note']='Modifier une annotation';
 $context['l10n']['fr']['Update a reply']='Modifier une réponse';
-$context['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $context['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $context['l10n']['fr']['36ab5b5ac398b5cfe4feb817d68c45f1']='Utilisez l\'%s pour peupler ce serveur.';
 $context['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';

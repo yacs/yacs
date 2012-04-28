@@ -39,6 +39,7 @@ $context['l10n']['en']['Edit the comment']='Edit the comment';
 $context['l10n']['en']['Edit your post below']='Edit your post below';
 $context['l10n']['en']['Edited by']='Edited by';
 $context['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
+$context['l10n']['en']['Extract files from the archive']='Extract files from the archive';
 $context['l10n']['en']['FCKEditor']='FCKEditor';
 $context['l10n']['en']['4bb33a5f640ed9b688aede2807e169fc']='Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.';
 $context['l10n']['en']['Help']='Help';

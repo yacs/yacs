@@ -398,7 +398,6 @@ $context['l10n']['en']['3d95ce6c80d00bc9abd6f771d7d54bec']='Type here any XHTML 
 $context['l10n']['en']['Unlock']='Unlock';
 $context['l10n']['en']['Update a note']='Update a note';
 $context['l10n']['en']['Update a reply']='Update a reply';
-$context['l10n']['en']['Upload a file']='Upload a file';
 $context['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $context['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to populate this server.';
 $context['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';

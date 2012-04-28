@@ -355,7 +355,6 @@ $context['l10n']['en']['Trailer']='Trailer';
 $context['l10n']['en']['Transparent']='Transparent';
 $context['l10n']['en']['8addb3b5e126c5905fc1f9c4c81aa4c0']='Up to two lines of text, used in the "description" meta field to help search engines';
 $context['l10n']['en']['Update this image']='Update this image';
-$context['l10n']['en']['Upload a file']='Upload a file';
 $context['l10n']['en']['Upload a theme']='Upload a theme';
 $context['l10n']['en']['39bea6edbd8e2b492554ecb2316dd544']='Use HTML codes for colors, and "fork" or "bubble" for style.';
 $context['l10n']['en']['9d7e73c835199c02d166b1038aedac4a']='Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.';
