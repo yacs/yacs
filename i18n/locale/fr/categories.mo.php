@@ -190,7 +190,6 @@ $context['l10n']['fr']['Trailer']='Bas de page';
 $context['l10n']['fr']['8dba3e281bee8eeab2f14d6e4c0f5548']='Ancrage inconnu %s, l\'enregistrement a été supprimé';
 $context['l10n']['fr']['e0d8b6d765ad12a441a66eeaa6e77e71']='Membre inconnu %s, l\'enregistrement a été supprimé';
 $context['l10n']['fr']['Unlink']='Délier';
-$context['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $context['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $context['l10n']['fr']['Use an image']='Utiliser une image';
 $context['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';

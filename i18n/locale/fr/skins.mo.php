@@ -355,7 +355,6 @@ $context['l10n']['fr']['Trailer']='Bas de page';
 $context['l10n']['fr']['Transparent']='Transparent';
 $context['l10n']['fr']['8addb3b5e126c5905fc1f9c4c81aa4c0']='Jusqu\'à deux lignes de texte, utilisé dans le champ "description" pour aider les moteurs de recherche';
 $context['l10n']['fr']['Update this image']='Mettre à jour cette image';
-$context['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $context['l10n']['fr']['Upload a theme']='Téléverser un thème';
 $context['l10n']['fr']['39bea6edbd8e2b492554ecb2316dd544']='utilisez les codes HTML pour les couleurs, et "fork" ou "bubble" pour le style.';
 $context['l10n']['fr']['9d7e73c835199c02d166b1038aedac4a']='Utilisez les codes HTML pour les couleurs, des nombres ou "thin" pour l\'épaisseur, et "bezier" ou "linear" pour le style.';
