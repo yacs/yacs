@@ -93,10 +93,28 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		if(is_object($overlay))
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
 
+		if(!isset($_REQUEST['first_comment']))
+			$_REQUEST['first_comment'] = '';
+
 		// attach some file
 		$file_path = Files::get_path('article:'.$_REQUEST['id']);
-		if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, 'article:'.$_REQUEST['id']))
-			$_REQUEST['first_comment'] .= '<div>'.$file.'</div>';
+		if(isset($_FILES['upload']) && ($uploaded = Files::upload($_FILES['upload'], $file_path, 'article:'.$_REQUEST['id']))) {
+
+			// several files have been added
+			if(is_array($uploaded))
+				$_REQUEST['first_comment'] .= '<div>'.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact').'</div>';
+
+			// one file has been added
+			elseif($file =& Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
+				$_REQUEST['first_comment'] .= '<div>'.Codes::render_object('file', $file['id']).'</div>';
+
+				// silently delete the previous file if the name has changed
+				if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
+					Safe::unlink($file_path.'/'.$file['file_name']);
+
+			}
+
+		}
 
 		// capture first comment too
 		$action = 'article:create';
@@ -299,8 +317,11 @@ if($with_form) {
 
 			// an upload entry
 			$input = '<input type="hidden" name="file_type" value="upload" />'
-				.'<input type="file" name="upload" size="30" />'
-				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+				.'<input type="file" name="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+				.'<div id="upload_option" style="display: none;" >'
+				.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+				.'</div>';
 
 			$fields[] = array($label, $input);
 
