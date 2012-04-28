@@ -595,13 +595,13 @@ Class Surfer {
 		} elseif($spring) {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
 				.'<textarea name="'.$name.'" id="'.$name.'"'
-				.	' rows="1" cols="50"'
-				.	' onfocus="if(fuse'.$name.'){$(this).tipsy(\'hide\');Yacs.growPanel(this);fuse'.$name.'=0;}">'
+				.	' rows="1" cols="50" >'
+//				.	' onfocus="if(fuse'.$name.'){$(this).tipsy(\'hide\');Yacs.growPanel(this);fuse'.$name.'=0;}">'
 				.	'</textarea>'."\n"
 				.JS_PREFIX
 				.'$(document).ready(function(){'
 				.	'setTimeout(function() {'
-				.		'$("textarea#'.$name.'")'
+				.		'$("textarea#'.$name.'").autogrow()'
 				.		'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
 				.		'.tipsy("show");'
 				.	'}, 5000);'
