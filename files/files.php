@@ -1458,7 +1458,7 @@ Class Files {
 			fclose($handle);
 			return '?';
 		}
-//		if($context['with_debug'] == 'Y')
+		if($context['with_debug'] == 'Y')
 			Logger::remember('files/files.php', 'CLAMAV <-', $reply, 'debug');
 
 		// file has been infected!
