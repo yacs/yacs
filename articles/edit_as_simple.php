@@ -94,12 +94,28 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	// successful post
 	} else {
 
+		// page title
+		$context['page_title'] = i18n::s('Thank you for your contribution');
+
 		// attach some file
-		if(isset($_FILES['upload'])) {
+		$path = Files::get_path('article:'.$_REQUEST['id']);
+		if(isset($_FILES['upload']) && ($uploaded = Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']))) {
 
-			$path = Files::get_path('article:'.$_REQUEST['id']);
+			// several files have been added
+			if(is_array($uploaded))
+				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'
+					.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact');
 
-			Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']);
+			// one file has been added
+			elseif($file =& Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
+				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
+					.Codes::render_object('file', $file['id']);
+
+				// silently delete the previous file if the name has changed
+				if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
+					Safe::unlink($file_path.'/'.$file['file_name']);
+
+			}
 
 		}
 
@@ -141,9 +157,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// get the new item
 		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
-		// page title
-		$context['page_title'] = i18n::s('Thank you for your contribution');
-
 		// the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully posted. Please review it now to ensure that it reflects your mind.').'</p>';
@@ -163,7 +176,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients();
 
-		// list persons that have been notified
+		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
 
 		// follow-up commands
@@ -292,12 +305,15 @@ if($with_form) {
 	if(!isset($item['id']) && Surfer::may_upload() && Files::allow_creation($anchor, $item, 'article')) {
 
 		// attachment label
-		$label = i18n::s('Upload a file');
+		$label = i18n::s('Add a file');
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
-			.'<input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+			.'<input type="file" name="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+			.'<div id="upload_option" style="display: none;" >'
+			.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+			.'</div>';
 
 		$fields[] = array($label, $input);
 

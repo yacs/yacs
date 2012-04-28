@@ -2276,6 +2276,32 @@ Class Files {
 	}
 
 	/**
+	 * list files for given anchor and name
+	 *
+	 * @param string the anchor
+	 * @param mixed file name, or an array of file names
+	 * @param string the list variant, if any
+	 * @return NULL on error, else the laid out list
+	 */
+	public static function &list_for_anchor_and_name($anchor, $name, $variant='embeddable') {
+		global $context;
+
+		// several files
+		if(is_array($name))
+			$where = "files.file_name IN ('".join("', '", $name)."')";
+		else
+			$where = "files.file_name='".SQL::escape($name)."'";
+
+		// list items attached directly to this anchor
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
+
+		// the list of files
+		$output =& Files::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * list selected files
 	 *
 	 * If variant is provided as a string, the functions looks for a script featuring this name.
@@ -2827,17 +2853,16 @@ Class Files {
 	 * This function processes files from the temporary directory, and put them at their definitive
 	 * place.
 	 *
-	 *
 	 * It returns FALSE if there is a disk error, or if some virus has been detected, or if
 	 * the operation fails for some other reason (e.g., file size).
 	 *
 	 * @param array usually, $_FILES['upload']
 	 * @param string target location for the file
 	 * @param mixed reference to the target anchor, of a function to parse every file individually
-	 * @return mixed actual file name or embedding string if everything went fine, FALSE if an error has occured
+	 * @return mixed file name or array of file names or FALSE if an error has occured
 	 */
 	public static function upload($input, $file_path, $target=NULL) {
-		global $context, $_FILES, $_REQUEST;
+		global $context, $_REQUEST;
 
 		// do we have a file?
 		if(!isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
@@ -2892,8 +2917,8 @@ Class Files {
 		elseif(!$input['size'])
 			Logger::error(i18n::s('No file has been transmitted.'));
 
-		// check provided upload name
-		elseif(!Safe::is_uploaded_file($file_upload))
+		// are there some risk to move this file?
+		elseif($file_path && !Safe::is_uploaded_file($file_upload))
 			Logger::error(i18n::s('Possible file attack.'));
 
 		// process uploaded data
@@ -2908,18 +2933,24 @@ Class Files {
 				$file_path .= '/';
 
 			// move the uploaded file
-			if(!Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
+			if($file_path && !Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
 				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
 			// continue the processing
 			else {
 
-				// check viruses
+				// process the file where it is
+				if(!$file_path) {
+					$file_path = str_replace($context['path_to_root'], '', dirname($file_upload));
+					$file_name = basename($file_upload);
+				}
+
+				// check against viruses
 				$result = Files::has_virus($context['path_to_root'].$file_path.'/'.$file_name);
 
 				// no virus has been found in this file
 				if($result == 'N')
-					$context['text'] .= Skin::build_block(i18n::s('No virus has been found in this file.'), 'note');
+					$context['text'] .= Skin::build_block(i18n::s('No virus has been found.'), 'note');
 
 				// this file has been infected!
 				if($result == 'Y') {
@@ -2932,48 +2963,137 @@ Class Files {
 
 				}
 
-				// this will be filtered by umask anyway
-				Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
+				// explode a .zip file
+				include_once $context['path_to_root'].'shared/zipfile.php';
+				if(preg_match('/\.zip$/i', $file_name) && isset($_REQUEST['explode_files'])) {
+					$zipfile = new zipfile();
 
-				// invoke post-processing function
-				if($target && is_callable($target)) {
-					call_user_func($target, $file_name, $context['path_to_root'].$file_path);
+					// check files extracted from the archive file
+					function explode_callback($name) {
+						global $context;
 
-				// we have to update an anchor page
-				} elseif($target && is_string($target)) {
+						// reject all files put in sub-folders
+						if(($path = substr($name, strlen($context['uploaded_path'].'/'))) && (strpos($path, '/') !== FALSE))
+							Safe::unlink($name);
 
-					// update an existing record for this anchor
-					if($match =& Files::get_by_anchor_and_name($target, $file_name))
-						$fields = $match;
+						// we only want to preserve authorized extensions
+						elseif(!Files::is_authorized($name))
+							Safe::unlink($name);
 
-					// create a new file record
-					else {
-						$fields = array();
-						$fields['file_name'] = $file_name;
-						$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
-						$fields['file_href'] = '';
-						$fields['anchor'] = $target;
+						// ok, this one is fine
+						else {
+
+							// make it easy to download
+							$ascii = utf8::to_ascii(basename($name));
+							Safe::rename($name, $context['uploaded_path'].'/'.$ascii);
+
+							// remember this name
+							$context['uploaded_files'][] = $ascii;
+
+						}
 					}
 
-					// if this is an image, maybe we can derive a thumbnail for it?
-					if(Files::is_image($file_name)) {
-
-						include_once $context['path_to_root'].'images/image.php';
-						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.'thumbs/'.$file_name);
-
-						if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
-							$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
-					}
-
-					// create the record in the database, and allow for direct access from containing item
-					if($fields['id'] = Files::post($fields))
-						return "\n[file=".$fields['id'].']';
-					else
+					// extract archive components and save them in mentioned directory
+					$context['uploaded_files'] = array();
+					$context['uploaded_path'] = $file_path;
+					if(!$count = $zipfile->explode($context['path_to_root'].$file_path.'/'.$file_name, $file_path, '', 'explode_callback')) {
+						Logger::error(sprintf('Nothing has been extracted from %s.', $file_name));
 						return FALSE;
+					}
+
+				// one singe file has been uploaded
+				} else
+					$context['uploaded_files'] = array( $file_name );
+
+				// ensure we know the surfer
+				Surfer::check_default_editor($_REQUEST);
+
+				// post-process all uploaded files
+				foreach($context['uploaded_files'] as $file_name) {
+
+					// this will be filtered by umask anyway
+					Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
+
+					// invoke post-processing function
+					if($target && is_callable($target)) {
+						call_user_func($target, $file_name, $context['path_to_root'].$file_path);
+
+					// we have to update an anchor page
+					} elseif($target && is_string($target)) {
+
+						// update an existing record for this anchor
+						if($match =& Files::get_by_anchor_and_name($target, $file_name))
+							$fields = $match;
+
+						// create a new file record
+						else {
+							$fields = array();
+							$fields['file_name'] = $file_name;
+							$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
+							$fields['file_href'] = '';
+							$fields['anchor'] = $target;
+						}
+
+						// used to expand the history field
+						if(!defined('MARKER'))
+							define('MARKER', '<!-- insert point -->');
+
+						// ensure we have a marker in the history field
+						if(!isset($fields['description']))
+							$fields['description'] = '<dl class="comments">'.MARKER.'</dl>';
+						elseif(!strpos($fields['description'], MARKER))
+							$fields['description'] = '<dl class="comments">'.MARKER.'</dl><div>'.$fields['description'].'</div>';
+
+						// remove active links that were used in previous versions of yacs
+						$fields['description'] = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $fields['description']);
+
+						// maybe the surfer has documented the change
+						if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
+							$version = '';
+						else
+							$version = $_REQUEST['version'].' - ';
+
+						// always remember file uploads, for traceability
+						$version .= $file_name.' ('.Skin::build_number($fields['file_size'], i18n::s('bytes')).')';
+
+						// shape the new element
+						$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id']), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
+							.'<dd>'.$version.'</dd>';
+
+						// keep it for history
+						$fields['description'] = str_replace(MARKER, MARKER.$version, $fields['description']);
+
+						// make the file name searchable on initial post
+						if(!isset($_REQUEST['id']))
+							$fields['keywords'] = ' '.str_replace(array('%20', '_', '.', '-'), ' ', $file_name);
+
+						// if this is an image, maybe we can derive a thumbnail for it?
+						if(Files::is_image($file_name)) {
+
+							include_once $context['path_to_root'].'images/image.php';
+							Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.'thumbs/'.$file_name);
+
+							if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
+								$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
+						}
+
+						// create the record in the database
+						if(!$fields['id'] = Files::post($fields))
+							return FALSE;
+
+						// record surfer activity
+						include_once $context['path_to_root'].'users/activities.php';
+						Activities::post('file:'.$fields['id'], 'upload');
+
+					}
+
 				}
 
 				// so far so good
-				return $file_name;
+				if(count($context['uploaded_files']) == 1)
+					return $context['uploaded_files'][0];
+				else
+					return $context['uploaded_files'];
 
 			}
 

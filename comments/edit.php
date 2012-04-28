@@ -223,6 +223,10 @@ if(Surfer::is_crawler()) {
 	// remove default string, if any
 	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
 
+	// hardcode line breaks if no WYSIWYG editor
+	if(!isset($_REQUEST['editor']))
+		$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
+
 	// append to previous comment during 10 secondes
 	if(!isset($item['id'])
 		&& ($newest = Comments::get_newest_for_anchor($anchor->get_reference()))
@@ -244,15 +248,26 @@ if(Surfer::is_crawler()) {
 
 	// attach some file
 	$file_path = Files::get_path($anchor->get_reference());
-	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
+	if(isset($_FILES['upload']) && ($uploaded = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference()))) {
+
+		// sanity check
 		if(!$_REQUEST['description'])
 			$_REQUEST['description'] = '';
-		$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.$file.'</div>';
-	}
 
-	// hardcode line breaks if no WYSIWYG editor
-	if(!isset($_REQUEST['editor']))
-		$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
+		// several files have been added
+		if(is_array($uploaded))
+			$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact').'</div>';
+
+		// one file has been added
+		elseif($file =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+			$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.Codes::render_object('file', $file['id']).'</div>';
+
+			// silently delete the previous file if the name has changed
+			if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
+				Safe::unlink($file_path.'/'.$file['file_name']);
+
+		}
+	}
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
@@ -477,8 +492,11 @@ if($with_form) {
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
-			.'<input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+			.'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+			.'<div id="upload_option" style="display: none;" >'
+			.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+			.'</div>';
 
 		$fields[] = array($label, $input);
 

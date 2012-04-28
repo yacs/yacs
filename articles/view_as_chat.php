@@ -223,35 +223,37 @@ default:
 			.'<input type="hidden" name="anchor" value="article:'.$item['id'].'" />'
 			.'<iframe src="#" width="0" height="0" style="display: none;" id="upload_frame" name="upload_frame"></iframe>';
 
-		// user commands
-		$menu = array( '<a id="commands" href="#" ></a>'.i18n::s('Type some text and hit Enter') );
+		// commands
+		$menu = array();
 
 		// option to add a file
 		if(Files::allow_creation($anchor, $item, 'article')) {
 
 			// intput field to appear on demand
-			$context['text'] .= '<p id="comment_upload" class="details" style="display: none;">'
-				.'<input type="file" id="upload" name="upload" size="30" />'
-				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
-				.' <button type="submit">'.i18n::s('Submit').'</button>'
-				.'<input type="hidden" name="file_type" value="upload" /></p>';
+			$context['text'] .= '<div id="comment_upload" style="display: none;">'
+				.	'<p class="details">'
+				.		'<input type="file" id="upload" name="upload" size="30" />'
+				.			' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+				.		'<input type="hidden" name="file_type" value="upload" />'
+				.	'</p>'
+				.	'<div id="upload_option" style="display: none;" >'
+				.		'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+				.	'</div>'
+				.'</div>';
 
 			// the command to add a file
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(\'body\').delegate(\'#upload\', \'change\', function(event){if(/\\.zip$/i.test($(\'#upload\').val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}});return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
 		}
 
 		// the submit button
-//		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit');
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit');
 
 		// go to smileys
 //		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'open');
 
-		// view thread history
-//		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'open');
-
 		// display all commands
-		$context['text'] .= '<p style="margin: 0.3em 0 0.5em 0">'.join(' &middot; ', $menu).'</p>';
+		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
 		// end the form
 		$context['text'] .= '</form>'."\n";
@@ -280,8 +282,9 @@ default:
 		.'	contributed: function() {'."\n"
 		.'		$("#upload_frame").unbind("load");'."\n"
 		.'		$("#comment_upload").slideUp(600);'."\n"
+		.'		$("#upload_option").slideUp();'."\n"
 		.'		$("#upload").replaceWith(\'<input type="file" id="upload" name="upload" size="30" />\');'."\n"
-		.'		$("#description").val("").focus();'."\n"
+		.'		$("#description").val("").trigger("change").focus();'."\n"
 		.'		setTimeout(function() {Comments.subscribe(); Yacs.stopWorking();}, 500);'."\n"
 		.'		if((typeof OpenTok == "object") && OpenTok.session)'."\n"
 		.'			OpenTok.signal();'."\n"
@@ -289,7 +292,7 @@ default:
 		."\n"
 		.'	keypress: function(event) {'."\n"
 		.'		if(event.which == 13) {'."\n"
-		.'			$("#thread_input_panel").submit();'."\n"
+		.'			$("#submit").trigger("click");'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
 		.'	},'."\n"
@@ -354,6 +357,12 @@ default:
 		.	'$("#description").tipsy({gravity: "s", fade: true, title: function () {return "'.i18n::s('Contribute here').'";}, trigger: "manual"});'
 		.	'$("#description").tipsy("show");'
 		.	'setTimeout("$(\'#description\').tipsy(\'hide\');", 10000);'
+		.'});'."\n"
+		."\n"
+		.'// let the field grow progressively if needed'."\n"
+		.'$(document).ready(function(){'
+		.	'$("textarea#description").autogrow();'
+//		.	'$("#upload").on("change", function(event) {if(/\.zip$/i.test($(this).val())){$("#upload_option").slideDown();}else{$("#upload_option").slideUp();}});'
 		.'});'."\n"
 		."\n";
 

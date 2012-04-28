@@ -798,6 +798,8 @@ Class Article extends Anchor {
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
 
+		include_once $context['path_to_root'].'comments/comments.php';
+
 		// don't go further on import
 		if(preg_match('/import$/i', $action))
 			return;
@@ -816,12 +818,6 @@ Class Article extends Anchor {
 			return;
 		}
 
-		// sanity check
-		if(!$origin) {
-			logger::remember('articles/article.php', 'unexpected NULL origin at touch()');
-			return;
-		}
-
 		// get the related overlay, if any
 		if(!isset($this->overlay)) {
 			$this->overlay = NULL;
@@ -837,7 +833,6 @@ Class Article extends Anchor {
 		if($action == 'comment:create') {
 
 			// purge oldest comments
-			include_once $context['path_to_root'].'comments/comments.php';
 			Comments::purge_for_anchor('article:'.$this->item['id']);
 
 		// a new file has been attached
@@ -845,7 +840,14 @@ Class Article extends Anchor {
 
 			// identify specific files
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
+			if(!$origin) {
+				$fields = array();
+				$fields['anchor'] = 'article:'.$this->item['id'];
+				$fields['description'] = i18n::s('Several files have been added');
+				$fields['type'] = 'notification';
+				Comments::post($fields);
+
+			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
 
 				// this file is eligible for being embedded in the page
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
@@ -860,7 +862,6 @@ Class Article extends Anchor {
 
 				// else add a comment to take note of the upload
 				} else {
-					include_once $context['path_to_root'].'comments/comments.php';
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
 					$fields['description'] = '[file='.$item['id'].']';
@@ -871,7 +872,7 @@ Class Article extends Anchor {
 			}
 
 			// we are in some interactive thread
-			if($this->has_option('view_as_chat')) {
+			if($origin && $this->has_option('view_as_chat')) {
 
 				// default is to download the file
 				if(!$label)
@@ -901,12 +902,12 @@ Class Article extends Anchor {
 				Comments::post($fields);
 
 			// include flash videos in a regular page
-			} elseif($label)
+			} elseif($origin && $label)
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
 		// suppress references to a deleted file
-		} elseif($action == 'file:delete') {
+		} elseif(($action == 'file:delete') && $origin) {
 
 			// suppress reference in main description field
 			$text = Codes::delete_embedded($this->item['description'], 'download', $origin);
@@ -917,7 +918,7 @@ Class Article extends Anchor {
 			$query[] = "description = '".SQL::escape($text)."'";
 
 		// append a reference to a new image to the description
-		} elseif($action == 'image:create') {
+		} elseif(($action == 'image:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
@@ -943,7 +944,7 @@ Class Article extends Anchor {
 				$silently = TRUE;
 
 		// suppress a reference to an image that has been deleted
-		} elseif($action == 'image:delete') {
+		} elseif(($action == 'image:delete') && $origin) {
 
 			// suppress reference in main description field
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
@@ -968,7 +969,7 @@ Class Article extends Anchor {
 			}
 
 		// set an existing image as the article icon
-		} elseif($action == 'image:set_as_icon') {
+		} elseif(($action == 'image:set_as_icon') && $origin) {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
@@ -981,7 +982,7 @@ Class Article extends Anchor {
 			}
 
 		// set an existing image as the article thumbnail
-		} elseif($action == 'image:set_as_thumbnail') {
+		} elseif(($action == 'image:set_as_thumbnail') && $origin) {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image = Images::get($origin)) {
 
@@ -999,7 +1000,7 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// append a new image, and set it as the article thumbnail
-		} elseif($action == 'image:set_as_both') {
+		} elseif(($action == 'image:set_as_both') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
@@ -1021,21 +1022,21 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// add a reference to a location in the article description
-		} elseif($action == 'location:create') {
+		} elseif(($action == 'location:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'location', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [location='.$origin.']')."'";
 
 		// suppress a reference to a location that has been deleted
-		} elseif($action == 'location:delete') {
+		} elseif(($action == 'location:delete') && $origin) {
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'location', $origin))."'";
 
 		// add a reference to a new table in the article description
-		} elseif($action == 'table:create') {
+		} elseif(($action == 'table:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description']."\n".'[table='.$origin.']'."\n")."'";
 
 		// suppress a reference to a table that has been deleted
-		} elseif($action == 'table:delete') {
+		} elseif(($action == 'table:delete') && $origin) {
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
@@ -1077,8 +1078,12 @@ Class Article extends Anchor {
 			// mail subject
 			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
 
+			// nothing to use
+			if(!$origin)
+				$mail['content'] = '';
+
 			// a file has been added to the page
-			if($action == 'file:create') {
+			elseif($action == 'file:create') {
 				if(($target = Files::get($origin, TRUE)) && $target['id']) {
 
 					// mail content
