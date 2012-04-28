@@ -88,8 +88,8 @@ class Mailer {
 			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
 			'/class="grid"/i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
 			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
-			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script> --Javascript considered as spam
-			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style> --use inline style instead
+			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script>
+			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style>
 
 		// text/html part
 		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
