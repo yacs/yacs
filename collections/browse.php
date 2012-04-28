@@ -440,7 +440,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		else
 			$link = 'collections/upload.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
 
-		$context['page_tools'][] = Skin::build_link($link, i18n::s('Upload a file'));
+		$context['page_tools'][] = Skin::build_link($link, i18n::s('Add a file'));
 	}
 
 	// general help

@@ -702,7 +702,7 @@ if(!isset($item['id'])) {
 		// the command to post a new file
 		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload()) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'span');
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], FILES_UPLOAD_IMG.i18n::s('Add a file'), 'span');
 		}
 
 		if(count($menu))

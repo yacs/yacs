@@ -417,7 +417,7 @@ if(Surfer::is_crawler()) {
 				$menu = array();
 				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
 				if(Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
+					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
 				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
 				$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -510,7 +510,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if((!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'publish') => i18n::s('Publish the page')));
 		if(is_object($anchor) && Surfer::is_empowered())

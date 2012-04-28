@@ -148,7 +148,7 @@ if(!isset($item['id'])) {
 		$menu = array_merge($menu, array($article->get_url('edit') => i18n::s('Edit the page')));
 		if(Surfer::may_upload()) {
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add an image')));
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add a file')));
 		}
 		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');

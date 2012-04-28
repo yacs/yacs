@@ -88,7 +88,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 		// the list of files
 		$offset = ($page - 1) * $items_per_page;
 		if(!$text = Files::list_by_date($offset, $items_per_page, 'full'))
-			$text = '<p>'.i18n::s('No file has been uploaded yet.').'</p>';
+			$text = '<p>'.i18n::s('No file has been added yet.').'</p>';
 
 		// we have an array to format
 		if(is_array($text))

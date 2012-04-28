@@ -594,7 +594,7 @@ if(!isset($item['id'])) {
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
 		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
+			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 		}
 
 		// actually render the html for the section
@@ -902,7 +902,7 @@ if(!isset($item['id'])) {
 		// add a file, if upload is allowed
 		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 		}
 
 		// comment this page if anchor does not prevent it
