@@ -225,7 +225,7 @@ if($with_form) {
 		.BR."\n".'<input type="radio" name="with_zoom" value="Y"';
 	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('First column provides a web link');
+	$input .= '/> '.i18n::s('First column provides a web address');
 	$fields[] = array($label, $input);
 
 	// the description

@@ -2496,7 +2496,7 @@ Class Skin_Skeleton {
 	 *
 	 * @param string the contact identification string
 	 * @param string the kind of contact
-	 * @return a string with a web link to page the contact
+	 * @return a string with a web address to page the contact
 	 *
 	 * @see users/layout_users.php
 	 */
