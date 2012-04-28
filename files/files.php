@@ -428,9 +428,9 @@ Class Files {
 				'|</a>|i' => '</a><br>',											// line break after links
 				'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td valign="top" width="130"><font size="-1">\\1</font></td>',	// <dt> ... </dt> -> <tr><td> ... </td>
 				'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td valign="top">\\1</td></tr>',					// <dd> ... </dd> -> <tr><td> ... </td>
-				'/on(click|keypress)="([^"]+?)"/i' => '', 							// remove onclick="..." and onkeypress="..." attributes
-				'/<script[^>]*?>(.*?)<\/script>/i' => '',							// remove <script> ... </script> --Javascript considered as spam
-				'/<style[^>]*?>(.*?)<\/style>/i' => '');							// remove <style> ... </style> --use inline style instead
+				'/on(click|keypress)="([^"]+?)"/i' => '',
+				'/<script[^>]*?>(.*?)<\/script>/i' => '',
+				'/<style[^>]*?>(.*?)<\/style>/i' => '');
 
 			// text/html part
 			$description = preg_replace(array_keys($replacements), array_values($replacements), $description);
