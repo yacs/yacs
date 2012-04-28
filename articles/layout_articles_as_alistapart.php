@@ -263,7 +263,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			// the command to post a new file, if allowed
 			if(Files::allow_creation($anchor, $item, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$box['top_bar'] += array( $link => i18n::s('Upload a file') );
+				$box['top_bar'] += array( $link => i18n::s('Add a file') );
 			}
 
 			// menu bar before the list
@@ -325,7 +325,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 					$link = 'files/edit.php/article/'.$item['id'];
 				else
 					$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$this->menu[] = Skin::build_link($link, i18n::s('Upload a file'), 'span');
+				$this->menu[] = Skin::build_link($link, i18n::s('Add a file'), 'span');
 			}
 
 		}

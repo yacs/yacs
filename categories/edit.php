@@ -250,7 +250,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $category->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(!preg_match('/\bno_links\b/i', $category->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');

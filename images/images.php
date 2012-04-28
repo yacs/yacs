@@ -767,7 +767,7 @@ Class Images {
 
 		// nothing done
 		} else {
-			Logger::error(i18n::s('No image has been uploaded.'));
+			Logger::error(i18n::s('No image has been added.'));
 			return FALSE;
 		}
 

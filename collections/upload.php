@@ -104,7 +104,7 @@ elseif(!Surfer::is_associate()) {
 		if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
 			Logger::error(i18n::s('Nothing has been received.'));
 
-		// a file has been uploaded
+		// a file has been added
 		else {
 
 			// access the temporary uploaded file

@@ -93,7 +93,7 @@ if(!Surfer::is_associate()) {
 		// query the database and layout that stuff
 		$offset = ($page - 1) * IMAGES_PER_PAGE;
 		if(!$text = Images::list_by_date($offset, IMAGES_PER_PAGE, 'full'))
-			$context['text'] .= '<p>'.i18n::s('No image has been uploaded yet.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('No image has been added.').'</p>';
 
 		// we have an array to format
 		if(is_array($text))

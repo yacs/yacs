@@ -496,7 +496,7 @@ $invite = '';
 if(Files::allow_creation($anchor, $item, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic').BR;
+	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic').BR;
 }
 
 // list files by date (default) or by title (option files_by_title)
