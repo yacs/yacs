@@ -15,6 +15,14 @@
 Class Layout_comments_as_updates extends Layout_interface {
 
 	/**
+	 * this layout arranges reactions to previous comments
+	 * @return boolean TRUE
+	 */
+	function can_handle_cascaded_items() {
+		return TRUE;
+	}
+
+	/**
 	 * list comments as successive notes in a thread
 	 *
 	 * @param resource the SQL result
@@ -38,7 +46,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
 
-			// get record
+			// get poster information
 			if($item['create_name']) {
 				if(!$poster =& Users::get($item['create_id'])) {
 					$poster = array();
@@ -73,41 +81,53 @@ Class Layout_comments_as_updates extends Layout_interface {
 			// commands to handle this comment
 			$menu = array();
 
+			// get an icon for this comment
+			$icon = Comments::get_img($item['type']);
+
+			// link to comment permalink
+			$label = Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('View this comment')).' ';
+
+			// the creation date
+			if($item['create_date'])
+				$label .= Skin::build_date($item['create_date'], 'with_hour');
+			else
+				$label .= Skin::build_date($item['edit_date'], 'with_hour');
+
+			// flag new comments
+			if($item['create_date'] >= $context['fresh'])
+				$label .= NEW_FLAG;
+
+			$menu[] = $label;
+
 			// an automatic notification
 			if($item['type'] == 'notification') {
 
 				// additional commands for associates and poster and editor
 				if($anchor->is_owned()) {
 					Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
-					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => COMMENTS_DELETE_IMG.i18n::s('Delete') ));
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'), 'basic');
 				}
 
 			// regular case
 			} else {
 
-				// the reply and quote commands are offered when new comments are allowed
-				if(Comments::allow_creation($anchor)) {
-
-					Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => COMMENTS_ADD_IMG.i18n::s('Reply') ));
-
-					Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
-					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => COMMENTS_QUOTE_IMG.i18n::s('Quote') ));
-				}
-
 				// additional commands for associates and poster and editor
 				if(Comments::allow_modification($anchor, $item)) {
 					Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
-					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => COMMENTS_EDIT_IMG.i18n::s('Edit') ));
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'basic');
 
 					Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
-					$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => COMMENTS_DELETE_IMG.i18n::s('Delete') ));
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'), 'basic');
 				}
 
 			}
 
 			// comment main text
 			$text = '';
+
+			// float the menu on the right
+			if(count($menu))
+				$text .= '<div style="float: right">'.Skin::finalize_list($menu, 'menu').'</div>';
 
 			// display comment main text
 			$comment = $item['description'];
@@ -123,38 +143,62 @@ Class Layout_comments_as_updates extends Layout_interface {
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
 				$text .= '<p class="details">'.ucfirst(sprintf(i18n::s('edited by %s %s'), $item['edit_name'], Skin::build_date($item['edit_date']))).'</p>';
 
-			// clear on both sides
-			$text .= '<hr style="clear:both" />';
+			// potential replies to this comment
+			if($item['type'] != 'notification') {
 
-			// float the menu on the right
-			if(count($menu))
-				$text .= '<div style="float: right">'.Skin::build_list($menu, 'menu').'</div>';
+				// look for replies
+				if($replies = Comments::list_next($item['id'], 'replies')) {
+					if(is_array($replies))
+						$replies = Skin::build_list($replies, 'compact');
+					$text .= '<div>'.$replies.'</div>';
+				}
 
-			// float details on the left
-			$text .= '<p class="details" style="float: left">';
+				// allow to reply to this comment
+				if(Comments::allow_creation($anchor)) {
 
-			// get an icon for this comment
-			$icon = Comments::get_img($item['type']);
+					// the form to edit a comment
+					$text .= '<form method="post" action="'.Comments::get_url($item['id'], 'reply').'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div style="margin-top: 1em;">';
 
-			// link to comment permalink
-			$text .= Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('View this comment')).' ';
+					// reference the anchor page
+					$text .= '<input type="hidden" name="anchor" value="'.$item['anchor'].'" />';
 
-			// link to the previous comment in thread, if any
-			if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))
-				$text .= sprintf(i18n::s('inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).' ';
+					// remember the id of the replied comment
+					$text .= '<input type="hidden" name="previous_id" value="'.$item['id'].'" />';
 
-			// the creation date
-			if($item['create_date'])
-				$text .= Skin::build_date($item['create_date'], 'with_hour');
-			else
-				$text .= Skin::build_date($item['edit_date'], 'with_hour');
+					// ensure id uniqueness
+					static $fuse_id;
+					if(!isset($fuse_id))
+						$fuse_id = 1;
+					else
+						$fuse_id++;
 
-			// flag new comments
-			if($item['create_date'] >= $context['fresh'])
-				$text .= NEW_FLAG;
+					// a textarea that grow on focus
+					$text .= '<script type="text/javascript">var reply'.$fuse_id.'=1;</script>'
+						.'<textarea name="description" id="reply'.$fuse_id.'"'
+						.	' rows="1" cols="50"'
+						.	' onfocus="if(reply'.$fuse_id.'){$(\'div#submit'.$fuse_id.'\').slideDown(600);reply'.$fuse_id.'=0;}">'
+						.	'</textarea>'."\n";
 
-			// end of details
-			$text .= '</p>';
+					// fix number of rows in firefox
+					$text .= JS_PREFIX
+						.'$(document).ready(function(){'
+						.	'$("textarea#reply'.$fuse_id.'").autogrow()'
+						.	'.each(function(){'
+						.		'var lineHeight = parseFloat($(this).css("line-height"));'
+						.		'var lines = $(this).attr("rows")*1 || $(this).prop("rows")*1;'
+						.		'$(this).css("height", lines*lineHeight);'
+						.	'});'
+						.'});'."\n"
+						.JS_SUFFIX;
+
+					// the submit button
+					$text .= '<div class="menu_bar" style="display: none;" id="submit'.$fuse_id.'">'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</div>';
+
+					// end of the form
+					$text .= '</div></form>';
+
+				}
+			}
 
 			// the main part of the comment, with an id
 			$text = '<td class="comment" id="comment_'.$item['id'].'">'.$text.'</td>';

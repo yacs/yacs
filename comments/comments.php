@@ -1119,6 +1119,11 @@ Class Comments {
 	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
 		global $context;
 
+		// show main comments, or all?
+		$where = '';
+		if(is_object($variant) && is_callable(array($variant, 'can_handle_cascaded_items')) && $variant->can_handle_cascaded_items())
+			$where = " AND (comments.previous_id = 0)";
+
 		// the wall or a forum
 		if($reverse)
 			$reverse = 'DESC';
@@ -1127,7 +1132,7 @@ Class Comments {
 
 		// the list of comments
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
+			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."')".$where
 			." ORDER BY comments.create_date ".$reverse." LIMIT ".$offset.','.$count;
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
@@ -1188,12 +1193,13 @@ Class Comments {
 	}
 
 	/**
-	 * list next comments in thread
+	 * list replies to a comment
 	 *
 	 * @param int the id of the main comment
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
+	 * @see comments/layout_comments_as_updates.php
 	 * @see comments/view.php
 	 */
 	public static function &list_next($id, $variant='date') {
@@ -1202,7 +1208,7 @@ Class Comments {
 		// the list of comments
 		$query = "SELECT comments.* FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE previous_id = ".SQL::escape($id)
-			." ORDER BY comments.create_date LIMIT 0,50";
+			." ORDER BY comments.create_date LIMIT 0,100";
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
 		return $output;
