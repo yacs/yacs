@@ -394,13 +394,16 @@ if($with_form) {
 		$item['id'] = '';
 		$id = '';
 
-		// isolate first name of initial contributor
+		// name of the person who is replied
+		$first_name = '';
 		if($item['create_name'])
-			list($first_name, $dummy) = explode(' ', ucfirst($item['create_name']), 2);
+			$first_name = $item['create_name'];
 		elseif($item['edit_name'])
-			list($first_name, $dummy) = explode(' ', ucfirst($item['edit_name']), 2);
-		else
-			$first_name = '';
+			$first_name = $item['edit_name'];
+
+		// extract first name
+		if($position = strpos($first_name, ' '))
+				$first_name = substr($first_name, 0, $position);
 
 		// insert it in this contribution
 		if($first_name)
