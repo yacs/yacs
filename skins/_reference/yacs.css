@@ -442,7 +442,7 @@ html > body .ibox { display:inline-block; } /* inline boxes that work on IE6 -- 
 
 div.menu_bar,
 p.assistant_bar { /* an horizontal menu of commands */
-	margin: 1em 0 1em 0;
+	margin: 0.5em 0 1em 0;
 	padding: 3px 0 3px 0;
 	font-weight: normal;
 	line-height: 2em; /* because of large padded links */
@@ -1110,7 +1110,7 @@ table.decorated tbody tr { /* vertical alignment */
 table.decorated tbody tr td.content { /* the cell with content */
 	border: none;
 	margin: 0;
-	padding: 6px 6px 1em 6px;
+	padding: 6px;
 	position: static;
 }
 
@@ -2016,8 +2016,8 @@ dl.wiki_comments { /* to list comments in a wiki */
 }
 
 dl.wiki_comments dd { /* body of one note */
-	margin: 0 0 2em 4px;
-	padding: 0.5em 1em 0.5em 1em;
+	margin: 0 0 1em 0;
+	padding: 0.5em;
 }
 
 dl.wiki_comments dd.odd {
@@ -2030,7 +2030,7 @@ dl.wiki_comments dd.even {
 
 dl.wiki_comments dt { /* header of one note */
 	margin: 0;
-	padding: 0 0 2px 0;
+	padding: 0 0 0 0;
 	display: inline;
 	margin-right: auto;
 }
