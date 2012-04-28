@@ -886,80 +886,14 @@ if(!isset($item['id'])) {
 	}
 
 	//
-	// files attached to this article
+	// put additional content in different panels
 	//
-
-	// the list of related files if not at another follow-up page
-	if(!$zoom_type || ($zoom_type == 'files')) {
-
-		// list files only to people able to change the page
-		if(Articles::allow_modification($item, $anchor))
-			$embedded = NULL;
-		else
-			$embedded = Codes::list_embedded($item['description']);
-
-		// build a complete box
-		$box = array('bar' => array(), 'text' => '');
-
-		// count the number of files in this article
-		if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
-			if($count > 20)
-				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
-
-			// compact list of files
-			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {
-				include_once $context['path_to_root'].'files/layout_files_as_compact.php';
-				$layout = new Layout_files_as_compact();
-				$layout->set_variant('article:'.$item['id']);
-
-			// standard list of files
-			} else
-				$layout = 'article:'.$item['id'];
-
-
-			// list files by date (default) or by title (option files_by_title)
-			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if(Articles::has_option('files_by', $anchor, $item) == 'title')
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
-			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
-
-			// actually render the html
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, $compact?'compact':'decorated');
-			elseif(is_string($items))
-				$box['text'] .= $items;
-
-			// the command to post a new file
-			if(!$compact && Files::allow_creation($anchor, $item, 'article')) {
-				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
-			}
-
-		}
-
-		// some files have been attached to this page
-		if(($page == 1) && ($count > 5)) {
-
-			// the command to download all files
-			$link = 'files/fetch_all.php?anchor='.urlencode('article:'.$item['id']);
-			if($count > 20)
-				$label = i18n::s('Zip 20 first files');
-			else
-				$label = i18n::s('Zip all files');
-			$box['bar'] += array( $link => $label );
-
-		}
-
-		// there is some box content
-		if($box['text'])
-			$text .= Skin::build_content('files', i18n::s('Files'), $box['text'], $box['bar']);
-
-	}
+	$panels = array();
 
 	//
 	// comments attached to this article
 	//
+	$discussion = '';
 
 	// the list of related comments, if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'comments')) {
