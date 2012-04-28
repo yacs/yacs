@@ -81,6 +81,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
+include_once '../shared/zipfile.php';
 include_once 'image.php';	// image processing
 include_once 'images.php';
 
@@ -197,31 +198,65 @@ if(Surfer::is_crawler()) {
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
+	// true when several files are uploaded at once
+	$exploded = FALSE;
+
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
-		// where to put this file
+		// where to put uploaded items
 		$file_path = Files::get_path($_REQUEST['anchor'], 'images');
 
-		// attach some file
-		if($file_name = Files::upload($_FILES['upload'], $file_path, array('Image', 'upload')))
+		// explode a .zip file
+		if(preg_match('/\.zip$/i', $_FILES['upload']['name'])) {
+			$zipfile = new zipfile();
+
+			// check files extracted from the archive file
+			function explode_callback($name) {
+				global $context;
+
+				// reject all files put in sub-folders
+				$file_path = Files::get_path($_REQUEST['anchor'], 'images');
+				if(($path = substr($name, strlen($file_path.'/'))) && (strpos($path, '/') !== FALSE))
+					Safe::unlink($name);
+
+				// we only want to preserve images
+				elseif(!$attributes = Safe::GetImageSize($name))
+					Safe::unlink($name);
+
+				// kill images that are too large - 2,000 x 2,000 x 3 = 12MB
+				elseif(($attributes[0] > 2000) || ($attributes[1] > 2000))
+					Safe::unlink($name);
+
+			}
+
+			// extract archive components and save them in mentioned directory
+			if($count = $zipfile->explode($_FILES['upload']['tmp_name'], $file_path, '', 'explode_callback')) {
+				$exploded = TRUE;
+			} else
+				Logger::error(sprintf('Nothing has been extracted from %s.', $_FILES['upload']['name']));
+
+		// attach one file
+		} elseif($file_name = Files::upload($_FILES['upload'], $file_path, array('Image', 'upload'))) {
 			$_REQUEST['image_name'] = $file_name;
 
-		// maybe this image has already been uploaded for this anchor
-		if(isset($_REQUEST['anchor']) && ($match =& Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
+			// maybe this image has already been uploaded for this anchor
+			if(isset($_REQUEST['anchor']) && ($match =& Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
 
-			// if yes, switch to the matching record (and forget the record fetched previously, if any)
-			$_REQUEST['id'] = $match['id'];
-			$item = $match;
-		}
+				// if yes, switch to the matching record (and forget the record fetched previously, if any)
+				$_REQUEST['id'] = $match['id'];
+				$item = $match;
+			}
 
-		// remember file size
-		$_REQUEST['image_size'] = $_FILES['upload']['size'];
+			// remember file size
+			$_REQUEST['image_size'] = $_FILES['upload']['size'];
 
-		// silently delete the previous file if the name has changed
-		if(isset($item['image_name']) && $item['image_name'] && $file_name && ($item['image_name'] != $file_name) && isset($file_path)) {
-			Safe::unlink($file_path.'/'.$item['image_name']);
-			Safe::unlink($file_path.'/'.$item['thumbnail_name']);
+			// silently delete the previous file if the name has changed
+			if(isset($item['image_name']) && $item['image_name'] && $file_name && ($item['image_name'] != $file_name) && isset($file_path)) {
+				Safe::unlink($file_path.'/'.$item['image_name']);
+				Safe::unlink($file_path.'/'.$item['thumbnail_name']);
+			}
+
 		}
 
 	// nothing has been posted
@@ -230,12 +265,11 @@ if(Surfer::is_crawler()) {
 
 	// an error has already been encountered
 	if(count($context['error'])) {
-
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$_REQUEST['id'] = Images::post(array_merge($_REQUEST, $_FILES))) {
+	} elseif(!$exploded && (!$_REQUEST['id'] = Images::post(array_merge($_REQUEST, $_FILES)))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -248,36 +282,109 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
-		// show image attributes
-		$attributes = array();
-		if($_REQUEST['image_name'])
-			$attributes[] = $_REQUEST['image_name'];
-		if($url = Images::get_thumbnail_href($_REQUEST)) {
-			$stuff = '<img src="'.$url.'" alt="" />';
-			$attributes[] = Skin::build_link(Images::get_url($_REQUEST['id']), $stuff, 'basic');
-		}
-		if(is_array($attributes))
-			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
+		// only one file
+		if(!$exploded) {
 
-		// the action
-		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon')) {
-			$action = 'image:set_as_icon';
-		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
-			$action = 'image:set_as_avatar';
-			$context['text'] .= '<p>'.i18n::s('The image has become the profile picture.').'</p>';
-		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_thumbnail')) {
-			$action = 'image:set_as_thumbnail';
-			$context['text'] .= '<p>'.i18n::s('This has become the thumbnail image of the page.').'</p>';
-		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_both')) {
-			$action = 'image:set_as_both';
-			$context['text'] .= '<p>'.i18n::s('The image has been added, and it also has been set as the page thumbnail.').'</p>';
+			// show image attributes
+			$attributes = array();
+			if($_REQUEST['image_name'])
+				$attributes[] = $_REQUEST['image_name'];
+			if($url = Images::get_thumbnail_href($_REQUEST)) {
+				$stuff = '<img src="'.$url.'" alt="" />';
+				$attributes[] = Skin::build_link(Images::get_url($_REQUEST['id']), $stuff, 'basic');
+			}
+			if(is_array($attributes))
+				$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
+
+			// the action
+			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon')) {
+				$action = 'image:set_as_icon';
+			} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
+				$action = 'image:set_as_avatar';
+				$context['text'] .= '<p>'.i18n::s('The image has become the profile picture.').'</p>';
+			} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_thumbnail')) {
+				$action = 'image:set_as_thumbnail';
+				$context['text'] .= '<p>'.i18n::s('This has become the thumbnail image of the page.').'</p>';
+			} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_both')) {
+				$action = 'image:set_as_both';
+				$context['text'] .= '<p>'.i18n::s('The image has been added, and it also has been set as the page thumbnail.').'</p>';
+			} else {
+				$action = 'image:create';
+				$context['text'] .= '<p>'.i18n::s('The image has been inserted.').'</p>';
+			}
+
+			// touch the related anchor and alert watchers if surfer is not the owner
+			$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), !$anchor->is_owned());
+
+		// process several files
 		} else {
-			$action = 'image:create';
-			$context['text'] .= '<p>'.i18n::s('The image has been inserted.').'</p>';
-		}
 
-		// touch the related anchor and alert watchers if surfer is not the owner
-		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), !$anchor->is_owned());
+			// scan all image files for this anchor
+			$count = 0;
+			if($handle = Safe::opendir($file_path)) {
+
+				// list all nodes
+				$nodes = array();
+				while(($node = Safe::readdir($handle)) !== FALSE) {
+
+					// special directory names
+					if(($node == '.') || ($node == '..'))
+						continue;
+
+					// process special nodes
+					if($node[0] == '.')
+						continue;
+
+					// skip directories
+					if(is_dir($context['path_to_root'].$file_path.'/'.$node))
+						continue;
+
+					// an image has been found
+					if(Image::upload($node, $context['path_to_root'].$file_path.'/', TRUE)) {
+						$count++;
+
+						// resize the image where applicable
+						Image::adjust($context['path_to_root'].$file_path.'/'.$node, TRUE, 'standard');
+
+						// if the file does not exist yet
+						if(!$item =& Images::get_by_anchor_and_name($anchor->get_reference(), $node)) {
+
+							// create a new image record for this file
+							$item = array();
+							$item['anchor'] = $anchor->get_reference();
+							$item['image_name'] = $node;
+							$item['thumbnail_name'] = 'thumbs/'.$node;
+							$item['image_size'] = Safe::filesize($file_path.'/'.$node);
+							$item['use_thumbnail'] = 'A'; // ensure it is always displayed as a clickable small image
+							$item['id'] = Images::post($item);
+						}
+
+						// ensure that the image is in anchor description field
+						$nodes[ $node ] = $item['id'];
+
+					}
+
+				}
+				Safe::closedir($handle);
+
+				// embed uploaded images in alphabetical order
+				ksort($nodes);
+				foreach($nodes as $name => $id)
+					$anchor->touch('image:create', $id);
+
+			}
+
+			// clear floating thumbnails
+			if($count)
+				$anchor->touch('clear');
+
+			// provide feed-back to surfer
+			if($count)
+				$context['text'] .= '<p>'.sprintf(i18n::ns('%d image has been processed.', '%d images have been processed.', $count), $count).'</p>';
+			else
+				$context['text'] .= '<p>'.i18n::s('No image has been processed.').'</p>';
+
+		}
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients();
@@ -339,22 +446,6 @@ if($with_form) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
-	// we are updating a user profile
-	if(is_object($anchor) && preg_match('/^user:/i', $anchor->get_reference()))
-		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile.').'</p>';
-
-	// explicit avatar
-	elseif($action == 'avatar')
-		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile.').'</p>';
-
-	// use as page thumbnail
-	elseif($action == 'thumbnail')
-		$context['text'] .= '<p>'.i18n::s('Please upload a thumbnail image for this page.').'</p>';
-
-	// generic splash message
-	elseif(is_object($anchor))
-		$context['text'] .= '<p>'.sprintf(i18n::s('Please upload an image to illustrate this page. To transmit several images in one single operation, go to %s instead.'), Skin::build_link('images/upload.php?anchor='.urlencode($anchor->get_reference()), i18n::s('Bulk upload'), 'shortcut')).'</p>';
-
 	// the section
 	if($anchor)
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
@@ -395,7 +486,22 @@ if($with_form) {
 			$input .= i18n::s('Select another image to replace the current one').BR;
 		$input .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
 			.' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')';
-		$hint = i18n::s('Select a .png, .gif or .jpeg image.');
+
+		// we are updating a user profile
+		if(is_object($anchor) && preg_match('/^user:/i', $anchor->get_reference()))
+			$hint = i18n::s('Select a picture to illustrate this user profile.');
+
+		// explicit avatar
+		elseif($action == 'avatar')
+			$hint = i18n::s('Select a picture to illustrate this user profile.');
+
+		// use as page thumbnail
+		elseif($action == 'thumbnail')
+			$hint = i18n::s('Select a thumbnail picture for this page.');
+
+		// generic splash message
+		elseif(is_object($anchor))
+			$hint = i18n::s('Select a .png, .gif or .jpeg image, or a .zip file containing several images.');
 
 	}
 
