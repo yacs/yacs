@@ -217,36 +217,10 @@ elseif(isset($item['introduction']) && trim($item['introduction']))
 if(defined('DIGG'))
 	$context['text'] .= '</div>';
 
-// get text related to the overlay, if any
-if(is_object($overlay))
-	$context['text'] .= $overlay->get_text('view', $item);
-
-// description has been formatted in articles/view.php
-if(isset($context['page_description']))
-	$context['text'] .= $context['page_description'];
-
-// the owner profile, if any, at the end of the page
-if(isset($owner['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
-
-// add trailer information from the overlay, if any
-if(is_object($overlay))
-	$context['text'] .= $overlay->get_text('trailer', $item);
-
-// add trailer information from this item, if any
-if(isset($item['trailer']) && trim($item['trailer']))
-	$context['text'] .= Codes::beautify($item['trailer']);
-
 //
 // panels
 //
 $panels = array();
-
-//
-// append tabs from the overlay, if any -- they have been captured in articles/view.php
-//
-if(isset($context['tabs']) && is_array($context['tabs']))
-	$panels = array_merge($panels, $context['tabs']);
 
 //
 // discussion tab - a near real-time interaction area
@@ -335,6 +309,31 @@ if($discussion) {
 		$label .= ' ('.$discussion_count.')';
 	$panels[] = array('discussion', $label, 'discussion_panel', $discussion);
 }
+
+//
+// information tab
+//
+$information = '';
+
+// get text related to the overlay, if any
+if(is_object($overlay))
+	$information .= $overlay->get_text('view', $item);
+
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$information .= $context['page_description'];
+
+// display in a separate panel
+if($information) {
+	$label = i18n::s('Information');
+	$panels[] = array('information', $label, 'information_panel', $information);
+}
+
+//
+// append tabs from the overlay, if any -- they have been captured in articles/view.php
+//
+if(isset($context['tabs']) && is_array($context['tabs']))
+	$panels = array_merge($panels, $context['tabs']);
 
 //
 // attachments tab
@@ -528,11 +527,26 @@ if($users) {
 	$panels[] = array('users', $label, 'users_panel', $users);
 }
 
-
 //
 // assemble all tabs
 //
 $context['text'] .= Skin::build_tabs($panels);
+
+//
+// bottom of the page
+//
+
+// the owner profile, if any, at the end of the page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
+
+// add trailer information from the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('trailer', $item);
+
+// add trailer information from this item, if any
+if(isset($item['trailer']) && trim($item['trailer']))
+	$context['text'] .= Codes::beautify($item['trailer']);
 
 // buttons to display previous and next pages, if any
 if(isset($neighbours) && $neighbours)
