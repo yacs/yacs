@@ -20,7 +20,11 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'included/browser/library_js_endpage.min.js';
 $files[] = 'included/simplepie.inc';
+$files[] = 'skins/_reference/thumbnails/download.gif';
+$files[] = 'skins/_reference/thumbnails/video.gif';
+$files[] = 'skins/_reference/yacs.css';
 
 // process every file
 $count = 0;
