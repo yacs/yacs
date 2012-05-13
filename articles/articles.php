@@ -605,7 +605,6 @@ Class Articles {
 		global $context;
 
 		// get the related overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// sanity check
@@ -995,7 +994,6 @@ Class Articles {
 			return FALSE;
 
 		// remember overlay deletion
-		include_once '../overlays/overlay.php';
 		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])))
 			$overlay->remember('delete', $item, 'article:'.$item['id']);
 

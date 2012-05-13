@@ -29,7 +29,6 @@ Class Article extends Anchor {
 		global $context;
 
 		// cache the overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		if(!isset($this->overlay) && isset($this->item['overlay']))
 			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 
@@ -356,7 +355,6 @@ Class Article extends Anchor {
 
 		// use overlay data, if any
 		if(!$text) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(!isset($this->overlay) && isset($this->item['overlay']))
 				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 			if(is_object($this->overlay))
@@ -821,7 +819,6 @@ Class Article extends Anchor {
 		// get the related overlay, if any
 		if(!isset($this->overlay)) {
 			$this->overlay = NULL;
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(isset($this->item['overlay']))
 				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 		}

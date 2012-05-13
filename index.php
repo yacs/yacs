@@ -578,10 +578,8 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// get the overlay for content of this section, if any
 		$content_overlay = NULL;
-		if(isset($target_section['content_overlay'])) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
+		if(isset($target_section['content_overlay']))
 			$content_overlay = Overlay::bind($target_section['content_overlay']);
-		}
 
 		// delegate rendering to the overlay, where applicable
 		if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$target_section['id']))) {
@@ -945,7 +943,6 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// get the related overlay, if any
 			$overlay = NULL;
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(isset($item['overlay']))
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
 

@@ -1058,11 +1058,8 @@ class Anchor {
 
 		// get the related overlay, if any
 		$this->overlay = NULL;
-		if(isset($this->item['overlay'])) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
+		if(isset($this->item['overlay']))
 			$this->overlay = Overlay::load($this->item, $this->get_reference());
-		}
-
 
 	}
 

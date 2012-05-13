@@ -38,7 +38,6 @@ if(isset($item['anchor']) && $item['anchor'])
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'section:'.$item['id']);
 

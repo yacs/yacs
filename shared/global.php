@@ -654,6 +654,10 @@ if(!defined('NO_MODEL_PRELOAD')) {
 
 }
 
+// the overlay interface
+if(!defined('NO_MODEL_PRELOAD'))
+	include_once $context['path_to_root'].'overlays/overlay.php';
+
 // the library for membership
 if(!defined('NO_MODEL_PRELOAD'))
 	include_once $context['path_to_root'].'shared/members.php';

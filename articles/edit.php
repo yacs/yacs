@@ -110,7 +110,6 @@ include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../links/links.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../servers/servers.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back

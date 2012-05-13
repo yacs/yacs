@@ -47,8 +47,6 @@ Class Layout_users_as_mail extends Layout_interface {
 		$text .= '<div id="users_as_mail_panel_'.$serial.'">';
 
 		// process all items in the list
-		include_once $context['path_to_root'].'overlays/overlay.php';
-
 		$count = 0;
 		while($item = SQL::fetch($result)) {
 

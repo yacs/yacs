@@ -39,7 +39,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
-include_once '../overlays/overlay.php';
 include_once '../servers/servers.php'; // servers to be advertised
 
 // look for the id

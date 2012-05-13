@@ -35,7 +35,6 @@ Class Layout_articles_as_table extends Layout_interface {
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay

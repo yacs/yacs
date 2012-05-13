@@ -240,7 +240,6 @@ if(Surfer::is_crawler()) {
 	Surfer::track($_REQUEST);
 
 	// store structured data in an overlay
-	include_once '../overlays/overlay.php';
 	$overlay = Overlay::bind('form');
 	$overlay->parse_once($attributes);
 

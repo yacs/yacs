@@ -39,7 +39,6 @@ Class Layout_articles_as_contents extends Layout_interface {
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'locations/locations.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay

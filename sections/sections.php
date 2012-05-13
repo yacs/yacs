@@ -525,7 +525,6 @@ Class Sections {
 		global $context;
 
 		// get the related overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 		// get the main anchor
