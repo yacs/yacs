@@ -239,7 +239,6 @@ Class Links {
 			return;
 
 		// record the activity
-		include_once $context['path_to_root'].'users/activities.php';
 		Activities::post($url, 'click');
 
 		// do not record clicks driving to search engines

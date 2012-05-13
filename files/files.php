@@ -3082,7 +3082,6 @@ Class Files {
 							return FALSE;
 
 						// record surfer activity
-						include_once $context['path_to_root'].'users/activities.php';
 						Activities::post('file:'.$fields['id'], 'upload');
 
 					}
