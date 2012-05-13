@@ -101,7 +101,6 @@ function send_body() {
 
 		// take care of dependances
 		include_once '../behaviors/behavior.php';
-		include_once '../overlays/overlay.php';
 		include_once '../users/authenticator.php';
 
 		// analyse each script

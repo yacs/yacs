@@ -141,7 +141,6 @@ $item =& Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'user:'.$item['id']);
 

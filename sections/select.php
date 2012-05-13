@@ -105,7 +105,6 @@ if(Surfer::is_crawler()) {
 		// browse the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		foreach($sections as $id => $section) {
 
 			// get the related overlay, if any

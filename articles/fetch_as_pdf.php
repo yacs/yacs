@@ -22,7 +22,6 @@
 include_once '../shared/global.php';
 include_once '../comments/comments.php';
 include_once '../links/links.php';
-include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;

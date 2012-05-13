@@ -82,7 +82,6 @@ include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
 
@@ -99,7 +98,6 @@ $item =& Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'user:'.$item['id']);
 elseif(isset($context['users_overlay']) && $context['users_overlay'])

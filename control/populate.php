@@ -77,7 +77,6 @@
 
 // common libraries
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
 
 // force the creation of a user profile if the user table does not exists, or is empty
 $query = "SELECT count(*) FROM ".SQL::table_name('users');

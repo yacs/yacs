@@ -80,9 +80,6 @@
 // include the global declarations
 include_once '../shared/global.php';
 
-// include explicitly some libraries
-include_once '../overlays/overlay.php';
-
 // what to do
 $action = '';
 if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))

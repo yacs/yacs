@@ -2777,7 +2777,6 @@ Class Codes {
 
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
 					$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 					// get text related to the overlay, if any
@@ -2853,7 +2852,6 @@ Class Codes {
 
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
 					$overlay = Overlay::load($item, 'category:'.$item['id']);
 
 					// get text related to the overlay, if any
@@ -3756,7 +3754,6 @@ Class Codes {
 
 					// load overlay, if any
 					if(isset($item['overlay']) && $item['overlay']) {
-						include_once '../overlays/overlay.php';
 						$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 						// get text related to the overlay, if any

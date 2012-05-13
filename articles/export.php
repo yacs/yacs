@@ -17,7 +17,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -37,7 +36,6 @@ if(isset($item['anchor']))
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 

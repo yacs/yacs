@@ -118,7 +118,6 @@ include_once '../comments/comments.php';		// attached comments and notes
 include_once '../images/images.php';			// attached images
 include_once '../links/links.php';				// related pages
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../versions/versions.php';		// back in history
 
 // look for the id

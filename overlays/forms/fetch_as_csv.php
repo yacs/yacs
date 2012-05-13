@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id
 $id = NULL;

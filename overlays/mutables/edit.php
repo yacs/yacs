@@ -30,7 +30,6 @@ if(!Surfer::is_associate()) {
 
 // update targeted overlays
 } elseif(isset($_REQUEST['id']) && $_REQUEST['id']) {
-	include_once '../../overlays/overlay.php';
 
 	// change all named overlays
 	$count = 0;

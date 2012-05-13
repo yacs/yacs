@@ -40,7 +40,6 @@ Class Layout_articles_as_directory extends Layout_interface {
 
 		// build a list of articles
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any

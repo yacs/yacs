@@ -68,7 +68,6 @@ if(!isset($item['active']) && is_object($anchor))
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']) && $item['overlay_id'])
