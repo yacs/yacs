@@ -53,7 +53,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
-include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())

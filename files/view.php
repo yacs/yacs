@@ -58,7 +58,6 @@
 include_once '../shared/global.php';
 include_once '../images/images.php';
 include_once '../links/links.php';
-include_once '../users/activities.php';		// the list of users who have accessed the file
 include_once '../versions/versions.php';	// back in history
 include_once 'files.php';
 

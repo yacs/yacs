@@ -635,6 +635,7 @@ if(!defined('NO_MODEL_PRELOAD')) {
 	include_once $context['path_to_root'].'files/files.php';
 	include_once $context['path_to_root'].'sections/sections.php';
 	include_once $context['path_to_root'].'users/users.php';
+	include_once $context['path_to_root'].'users/activities.php';
 
 	// load users parameters -- see users/configure.php
 	Safe::load('parameters/users.include.php');

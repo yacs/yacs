@@ -1515,7 +1515,6 @@ Class Codes {
 			$url = 'file:'.$url;
 
 		// the list of people who have followed this link
-		include_once $context['path_to_root'].'users/activities.php';
 		if($users = Activities::list_at($url, array('click', 'fetch'), 50, 'comma')) {
 
 			$count = Activities::count_at($url, array('click', 'fetch'));

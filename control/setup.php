@@ -158,7 +158,6 @@ function send_body() {
 		echo Users::setup();
 
 		// create tables for activities
-		include_once '../users/activities.php';
 		echo Activities::setup();
 
 		// create tables for notifications

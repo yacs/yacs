@@ -71,7 +71,6 @@ include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
 include_once '../images/image.php';
 include_once '../images/images.php';
-include_once '../users/activities.php';
 include_once 'files.php';
 
 // look for the id
