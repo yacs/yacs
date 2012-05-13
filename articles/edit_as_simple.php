@@ -60,7 +60,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
 			// list persons that have been notified
-			if($recipients = Mailer::build_recipients()) {
+			if($recipients = Mailer::build_recipients('article:'.$item['id'])) {
 
 				$context['text'] .= $recipients;
 
@@ -174,7 +174,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
 
 		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));

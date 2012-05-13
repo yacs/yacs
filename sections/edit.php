@@ -226,7 +226,7 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('The section has been successfully updated.').'</p>';
 
 			// list persons that have been notified
-			if($recipients = Mailer::build_recipients()) {
+			if($recipients = Mailer::build_recipients('section:'.$item['id'])) {
 
 				$context['text'] .= $recipients;
 
@@ -281,7 +281,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients('section:'.$_REQUEST['id']);
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
