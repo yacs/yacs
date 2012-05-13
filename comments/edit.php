@@ -301,7 +301,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');

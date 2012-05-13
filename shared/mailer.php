@@ -146,9 +146,10 @@ class Mailer {
 	 *
 	 * This is useful to list all persons notified after a post for example.
 	 *
+	 * @param string the reference of the notifying item, if any
 	 * @return mixed text to be integrated into the page
 	 */
-	public static function build_recipients() {
+	public static function build_recipients($reference='') {
 		global $context;
 
 		// nothing to show
@@ -158,6 +159,10 @@ class Mailer {
 		// title mentions number of recipients
 		$count = count($context['mailer_recipients']);
 		$title = sprintf(i18n::ns('%d person has been notified', '%d persons have been notified', $count), $count);
+
+		// remember the number of notifications sent from this anchor
+		if($reference)
+			Activities::post($reference, 'notify', $count);
 
 		// return the bare list
 		if(!$title)

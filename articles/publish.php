@@ -154,7 +154,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients('article:'.$item['id']);
 
 		// trackback option
 		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {
