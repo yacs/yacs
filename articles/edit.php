@@ -2,6 +2,8 @@
 /**
  * create a new article or edit an existing one
  *
+ * @todo manage edition conflicts through date of last version
+ *
  * This is the main script used to post a new page, or to modify an existing one.
  *
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
@@ -441,6 +443,25 @@ if(Surfer::is_crawler()) {
 	// successful post
 	} else {
 
+		// page title
+		$context['page_title'] = i18n::s('Thank you for your contribution');
+
+		// the page has been published
+		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully posted. Please review it now to ensure that it reflects your mind.').'</p>';
+
+		// remind that the page has to be published
+		elseif(Surfer::is_empowered())
+			$context['text'] .= i18n::s('<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>');
+
+		// section ask for auto-publish, but the surfer has posted a draft document
+		elseif((isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y')) || (is_object($anchor) && $anchor->has_option('auto_publish')))
+			$context['text'] .= i18n::s('<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>');
+
+		// reward regular members
+		else
+			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
+
 		// update the overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
 			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
@@ -478,25 +499,6 @@ if(Surfer::is_crawler()) {
 
 		// get the new item
 		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
-
-		// page title
-		$context['page_title'] = i18n::s('Thank you for your contribution');
-
-		// the page has been published
-		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
-			$context['text'] .= '<p>'.i18n::s('The page has been successfully posted. Please review it now to ensure that it reflects your mind.').'</p>';
-
-		// remind that the page has to be published
-		elseif(Surfer::is_empowered())
-			$context['text'] .= i18n::s('<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>');
-
-		// section ask for auto-publish, but the surfer has posted a draft document
-		elseif((isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y')) || (is_object($anchor) && $anchor->has_option('auto_publish')))
-			$context['text'] .= i18n::s('<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>');
-
-		// reward regular members
-		else
-			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
