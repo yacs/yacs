@@ -157,7 +157,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 				if(Comments::allow_creation($anchor)) {
 
 					// the form to edit a comment
-					$text .= '<form method="post" action="'.Comments::get_url($item['id'], 'reply').'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div style="margin-top: 1em;">';
+					$text .= '<form method="post" action="'.$context['url_to_root'].Comments::get_url($item['id'], 'reply').'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div style="margin-top: 1em;">';
 
 					// reference the anchor page
 					$text .= '<input type="hidden" name="anchor" value="'.$item['anchor'].'" />';
