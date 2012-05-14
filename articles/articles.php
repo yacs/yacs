@@ -1569,6 +1569,10 @@ Class Articles {
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
 
+		// look in overlay, if any
+		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && ($result = $overlay->get_value($option)))
+			return $result;
+
 		// check in anchor
 		if(is_object($anchor) && ($result = $anchor->has_option($option)))
 			return $result;
