@@ -285,6 +285,9 @@ if(Surfer::is_crawler()) {
 		// only one file
 		if(isset($_REQUEST['id'])) {
 
+			// record surfer activity
+			Activities::post('file:'.$_REQUEST['id'], 'upload');
+
 			// touch the related anchor
 			$anchor->touch('file:create', $_REQUEST['id'],
 				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
