@@ -127,7 +127,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['articles_templates'] = 'simple_template';
 		$_REQUEST['content_options'] = 'with_extra_profile with_neighbours';
 		$_REQUEST['options'] = 'with_extra_profile';
-		$_REQUEST['locked'] = 'Y'; // no direct contributions
+		$_REQUEST['locked'] = 'Y'; // only editors can contribute
 
 	// we are creating a project
 	} elseif(isset($_REQUEST['space_type']) && ($_REQUEST['space_type'] == 'project')) {
@@ -228,7 +228,7 @@ if(Surfer::is_crawler()) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'yabb';
-			$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
+			$fields['content_options'] = 'auto_publish comments_as_wall with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
 			$fields['options'] = 'forward_notifications';
@@ -257,7 +257,7 @@ if(Surfer::is_crawler()) {
 				$fields['active_set'] = 'N';
 				$fields['anchor'] = 'section:'.$_REQUEST['id'];
 				$fields['articles_layout'] = 'yabb';
-				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours members_edit';
+				$fields['content_options'] = 'auto_publish comments_as_wall with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
 				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly
