@@ -439,6 +439,9 @@ class Embed extends Overlay {
 	function remember($action, $host, $reference) {
 		global $context;
 
+		// set default values for this editor
+		Surfer::check_default_editor($this->attributes);
+
 		// add a notification to the anchor page
 		$comments = array();
 
