@@ -881,7 +881,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Anonymous wiki');
 		$fields['introduction'] = i18n::c('Anyone can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
-		$fields['content_options'] = 'view_as_wiki anonymous_edit edit_as_simple auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki comments_as_wall anonymous_edit edit_as_simple auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -936,7 +936,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Restricted wiki');
 		$fields['introduction'] = i18n::c('Authenticated persons can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
-		$fields['content_options'] = 'view_as_wiki members_edit edit_as_simple auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki comments_as_wall members_edit edit_as_simple auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
