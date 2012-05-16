@@ -435,6 +435,89 @@ Class Users {
 	}
 
 	/**
+	 * enable direct telephony service
+	 *
+	 * @param array of attributes for the first person to be called
+	 * @return string interactive form plus related AJAX code, or an empty string
+	 */
+	public static function get_click_to_call($item) {
+		global $context;
+
+		// to be put in resulting page
+		$text = '';
+
+		// this user profile has a phone number and we can use the OBS back-end
+		if((Surfer::get_id() != $item['id']) && $item['phone_number'] && isset($context['obs_api_key'])) {
+
+			// allow for several controls in the same page
+			$id = uniqid();
+
+			Skin::define_img('PHONE_IMG', 'pagers/phone.gif');
+			Skin::define_img('SPINNER_IMG', 'ajax/ajax_spinner.gif');
+			$text .= ' <div id="a_'.$id.'" style="display: inline;">'
+				.	'<button onclick="ClickToCall.start(\'#b_'.$id.'\'); return false;">'.sprintf(i18n::s('Click to call %s'), ucfirst($item['nick_name'])).PHONE_IMG.'</button>'
+				.	' <input type="text" id="b_'.$id.'" style="display: none;" value="'.Surfer::get_phone_number().'" />'
+				.'</div>'
+				.'<span id="d_'.$id.'" style="display: none;">'
+				.	SPINNER_IMG.i18n::s('Calling...')
+				.'</span>'
+				.'<span id="e_'.$id.'" style="display: none;">'
+				.	'<button onclick="ClickToCall.stop(\'#b_'.$id.'\'); return false;">'.i18n::s('Stop the call').'</button>'
+				.'</span>'
+				.'<span id="f_'.$id.'" style="display: none;">'
+				.	SPINNER_IMG.i18n::s('Stopping the call...')
+				.'</span>'
+				.JS_PREFIX
+				."\n"
+				.'var ClickToCall = {'."\n"
+				."\n"
+				.'	start: function(id) {'."\n"
+
+				.'		if(!$(id).is(":visible")) {'."\n"
+				.'			$(id).show("slide", '
+								.'{ direction: "right" }, '
+								.'500, '
+								.'function() { $(id).focus().tipsy({fallback: "'.i18n::s('Your phone number in international format, starting with country code').'", gravity: "w", fade: true}).tipsy("show") });'."\n"
+				.'			$(id).focus();'."\n"
+				.'			return;'."\n"
+				.'		}'."\n"
+
+				.'		if(!$(id).val()) {'."\n"
+				.'			$(id).focus();'."\n"
+				.'			return;'."\n"
+				.'		}'."\n"
+
+				.'		$(id).tipsy("hide");'."\n"
+				.'		$("#a_'.$id.'").hide();'."\n"
+				.'		$("#d_'.$id.'").show("slide", { direction: "right" }, 100);'."\n"
+
+				.'		Yacs.call( { method: "obs.call", params: { user: '.$item['id'].', number: $(id).val() }, id: 123 }, '
+							.'function(s) { $("#d_'.$id.'").hide(); '
+								.'if(s.message) { alert(s.message);$("#a_'.$id.'").show("slide", { direction: "right" }, 500);$(id).focus(); } '
+								.'else { ClickToCall.call_id = s.call_id; $("#e_'.$id.'").show("slide", { direction: "right" }, 500); } } '
+				.'		);'."\n"
+
+				.'	},'."\n"
+				."\n"
+				.'	stop: function(id) {'."\n"
+
+				.'		$("#e_'.$id.'").hide("slide", { direction: "left" }, 500);'."\n"
+				.'		$("#f_'.$id.'").show("slide", { direction: "right" }, 500);'."\n"
+				.'		Yacs.call( { method: "obs.release", params: { call_id: ClickToCall.call_id }, id: 123 }, '
+							.'function(s) { $("#f_'.$id.'").hide("slide", { direction: "left" }, 500); '
+								.'if(s.message) {alert(s.message);} $("#a_'.$id.'").show("slide", { direction: "right" }, 500); } );'."\n"
+
+				.'	}'."\n"
+				."\n"
+				.'}'."\n"
+				.JS_SUFFIX;
+		}
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * get the unique handle associated to a user profile
 	 *
 	 * @param int or string the id or nick name of the user
