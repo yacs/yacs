@@ -978,18 +978,6 @@ if(!isset($item['id'])) {
 
 		}
 
-		// build a box
-		if($box['text']) {
-
-			// put a title if there are other titles or if more than 2048 chars
-			$title = '';
-			if(preg_match('/(<h1|<h2|<h3|<table|\[title|\[subtitle)/i', $context['text'].$text) || (strlen($context['text'].$text) > 2048))
-				$title = $title_label;
-
-			// insert a full box
-			$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'comments');
-		}
-
 		// put the discussion in a separate panel
 		if(trim($box['text'])) {
 			$discussion .= $box['text'];
