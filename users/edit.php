@@ -443,7 +443,8 @@ if($with_form) {
 	// phone number
 	$label = i18n::s('Phone number');
 	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" />';
-	$fields[] = array($label, $input);
+	$hint = i18n::s('Enter phone number in international format, starting with country code');
+	$fields[] = array($label, $input, $hint);
 
 	// alternate number
 	$label = i18n::s('Alternate number');
