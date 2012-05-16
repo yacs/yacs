@@ -1039,6 +1039,9 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
+		// do not list blocked users
+		$where .= " AND (users.capability != 'Y')";
+
 		// avoid this one
 		if($to_avoid)
 			$where .= " AND (users.id != ".SQL::escape($to_avoid).")";
@@ -1091,6 +1094,9 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where .= ')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability != 'Y')";
 
 		// avoid this one
 		if($to_avoid)
@@ -1166,6 +1172,9 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability != 'Y')";
 
 		// only include users who want to receive mail messages
 		if($variant == 'mail')
