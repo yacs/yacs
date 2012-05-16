@@ -308,9 +308,9 @@ if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_errors','1');
 	Safe::ini_set('display_startup_errors','1');
 	Safe::ini_set('allow_call_time_pass_reference','0');
-// 	if(defined('E_STRICT'))
-// 		$level = E_ALL | E_STRICT;
-// 	else
+ 	if(defined('E_STRICT'))
+ 		$level = E_ALL | E_STRICT;
+ 	else
 		$level = E_ALL;
 } else
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
