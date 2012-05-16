@@ -159,7 +159,7 @@ $context['l10n']['fr']['Lock']='Verrouiller';
 $context['l10n']['fr']['Locker']='Verrou';
 $context['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $context['l10n']['fr']['Maintenance']='Maintenance';
-$context['l10n']['fr']['Manage editors']='Gérer les éditeurs';
+$context['l10n']['fr']['Manage participants']='Gérer les participants';
 $context['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $context['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $context['l10n']['fr']['be2b5e247910fa0abc3137df3a3b2c67']='Mentionnez vos sources s\'il y a lieu. Lien web (http://...), référence interne ([user=tom]), ou texte libre.';
