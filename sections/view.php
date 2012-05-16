@@ -746,7 +746,7 @@ if(!isset($item['id'])) {
 	// manage editors
 	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage participants'));
 	}
 
 	// the command to track back

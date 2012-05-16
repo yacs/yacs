@@ -495,7 +495,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	// manage editors, for owners
 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
+		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage participants'));
 
 	// leave this page, for editors
 	} elseif(Articles::is_assigned($item['id'])) {
