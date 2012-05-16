@@ -2,7 +2,7 @@
 /**
  * the database abstraction layer for membership
  *
- * In YACS, membership is a link between one anchor and some related element.
+ * In yacs, membership is a link between one anchor and some related element.
  * Both the anchor and the element are designated by a reference made of a type, a colon character ':',
  * and an id, like for example 'section:123'.
  *
@@ -26,6 +26,20 @@
  * Editorial responsibilities are given to editors by assigning sections (members) to users (anchors).
  * Assignment is implemented in sections/select.php, and used in scripts related to sections.
  *
+ * [subtitle]Summary of assignments[/subtitle]
+ *
+ * The list below is a summary of the various options for membership.
+ * The first column is an example of reference used for the anchor.
+ * The second column is an example of reference used for the member attributes.
+ * The third columns describes the semantic of such an assignment.
+ *
+ * - anchor='article:123' and member='user:456' - user 456 is watching the article 123
+ * - anchor='user:456' and member='article:123' - user 456 is an editor of the article 123
+ * - anchor='section:123' and member='user:456' - user 456 is watching the section 123
+ * - anchor='user:456' and member='section:123' - user 456 is an editor of the section 123
+ * - anchor='category:123' and member='user:456' - user 456 is a member of category 123
+ * - anchor='user:123' and member='user:456' - user 456 is following user 123
+ *
  * [title]Sample calls[/title]
  *
  * [php]
@@ -42,10 +56,10 @@
  * // to get the list of anchors for one member, ordered by id
  * Members::list_anchors_for_member($member);
  *
- * // to get ordered categories linked with some member
+ * // to get ordered categories linked to some member
  * Members::list_categories_by_title_for_member($member, $offset, $count, $variant);
  *
- * // to get ordered sections linked with some member
+ * // to get ordered sections linked to some member
  * Members::list_sections_by_title_for_anchor($anchor, $offset, $count, $variant);
  * [/php]
  *
@@ -957,9 +971,53 @@ Class Members {
 	}
 
 	/**
+	 * list all users that are either watcher or editor of a given reference
+	 *
+	 * @param string the target reference (e.g., 'section:123')
+	 * @return NULL on error, else a set of (user_id, is_watcher, is_editor) rows
+	 */
+	public static function &list_users_by_name_for_reference($reference, $variant="raw") {
+		global $context;
+
+		// the list of watchers
+		$w_query = "(SELECT member_id AS w_id, 1 AS watcher FROM ".SQL::table_name('members')
+				." WHERE (anchor LIKE '".SQL::escape($reference)."') AND (member LIKE 'user:%'))";
+
+		// the list of editors
+		$e_query = "(SELECT SUBSTRING(anchor, 6) AS e_id, 1 AS editor FROM ".SQL::table_name('members')
+				." WHERE (member LIKE '".SQL::escape($reference)."') and (anchor like 'user:%'))";
+
+		// full outer join is done by union of left outer join and of right outer join
+		$query = "((SELECT IFNULL(w_id, e_id) AS user_id, watcher, editor FROM ".$w_query." AS w LEFT OUTER JOIN ".$e_query." AS e ON w.w_id = e.e_id)"
+			." UNION "
+			."(SELECT IFNULL(w_id, e_id) AS user_id, watcher, editor FROM ".$w_query." AS w RIGHT OUTER JOIN ".$e_query." AS e ON w.w_id = e.e_id))";
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability != 'Y')";
+
+		// now list matching users
+		$query = "SELECT users.*, x.watcher, x.editor FROM ".$query." AS x"
+			." LEFT JOIN ".SQL::table_name('users')." AS users"
+			." ON (users.id = user_id) WHERE ".$where
+			." ORDER BY users.full_name, users.nick_name";
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * list users assigned to an anchor ordered by name
 	 *
-	 * @param the target anchor
+	 * @param string the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
