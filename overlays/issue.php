@@ -104,15 +104,17 @@ class Issue extends Overlay {
 		$text = '<span style="background-color: '.self::get_color_value('green').';"> <input type="radio" name="color" value="green"';
 		if($color == 'green')
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('under control').' </span>'
-			.' <span style="background-color: '.self::get_color_value('orange').';"> <input type="radio" name="color" value="orange"';
+		$text .= '/> '.i18n::s('Situation is under control').' </span>'
+			.BR
+			.'<span style="background-color: '.self::get_color_value('orange').';"> <input type="radio" name="color" value="orange"';
 		if($color == 'orange')
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('abnormal resources are required')
-			.' </span> <span style="background-color: '.self::get_color_value('red').';"> <input type="radio" name="color" value="red"';
+		$text .= '/> '.i18n::s('Exceptional effort is required').' </span>'
+			.BR
+			.'<span style="background-color: '.self::get_color_value('red').';"> <input type="radio" name="color" value="red"';
 		if($color == 'red')
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('stop everything else').'&nbsp;</span>';
+		$text .= '/> '.i18n::s('This is our first priority').'&nbsp;</span>';
 		return $text;
 	}
 
@@ -128,13 +130,13 @@ class Issue extends Overlay {
 		switch($color) {
 		case 'green':
 		default:
-			return i18n::s('Green');
+			return '<span style="background-color: '.self::get_color_value('green').';">'.i18n::s('Situation is under control').'</span>';
 
 		case 'orange':
-			return i18n::s('Orange');
+			return '<span style="background-color: '.self::get_color_value('orange').';">'.i18n::s('Exceptional effort is required').'</span>';
 
 		case 'red':
-			return i18n::s('Red');
+			return '<span style="background-color: '.self::get_color_value('red').';">'.i18n::s('This is our first priority').'</span>';
 
 		}
 
@@ -188,7 +190,7 @@ class Issue extends Overlay {
 		$fields = array();
 
 		// capture of initial data
-		if(!isset($this->attributes['type'])) {
+		if(!isset($host['id'])) {
 			$this->attributes['type'] = 'incident';
 
 			$label = i18n::s('Workflow');
@@ -809,18 +811,47 @@ class Issue extends Overlay {
 		// only associates and page owners can change the status
 		if(($variant == 'edit') && isset($this->anchor) && $this->anchor->is_owned()) {
 
-			// type
-			if(!isset($this->attributes['type']))
-				$this->attributes['type'] = 'incident';
+			// a table of fields
+			$fields = array();
+
+			// owner
+			$label = i18n::s('Owner');
+			if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id'])))
+				$value = $user['nick_name'];
+			else
+				$value = '';
+			$input = '<input type="text" name="owner" id="owner" value ="'.encode_field($value).'" size="25" maxlength="32" />';
+			$hint = i18n::s('Type some letters of the name and select in the list');
+			$fields[] = array($label, $input, $hint);
+
+			$tracking .= JS_PREFIX
+				.'// enable owner autocompletion'."\n"
+				.'$(document).ready( function() { Yacs.autocomplete_names("owner",true); });  '."\n"
+				.JS_SUFFIX;
+
+			// priority
+			$label = i18n::s('Priority');
 			if(!isset($this->attributes['color']))
 				$this->attributes['color'] = 'green';
-			$tracking .= '<div>'.i18n::s('Workflow')
-				.' <select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select></div>'
-				.'<div style="margin-top: 0.5em;" >'.i18n::s('Color').' '.self::get_color_as_radio_buttons($this->attributes['color']).'</div>';
+			$input = self::get_color_as_radio_buttons($this->attributes['color']);
+			$fields[] = array($label, $input);
 
 			// for easy detection of changes
-			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />'
-				.'<input type="hidden" name="previous_color" value="'.$this->attributes['color'].'" />';
+			$tracking .= '<input type="hidden" name="previous_color" value="'.$this->attributes['color'].'" />';
+
+			// type
+			$label = i18n::s('Workflow');
+			if(!isset($this->attributes['type']))
+				$this->attributes['type'] = 'incident';
+			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
+			$fields[] = array($label, $input);
+
+			// for easy detection of changes
+			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />';
+
+			// format these fields
+			$tracking .= Skin::build_form($fields);
+			$fields = array();
 
 			// to represent transitions from one step to the next one
 			Skin::define_img('NEXT_STEP', 'overlays/next_step.gif', 'V');
@@ -916,18 +947,6 @@ class Issue extends Overlay {
 			// for easy detection of status change
 			$tracking .= '<input type="hidden" name="previous_status" value="'.$this->attributes['status'].'" />';
 
-			// owner
-			if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id'])))
-				$value = $user['nick_name'];
-			else
-				$value = '';
-			$tracking .= '<div class="bottom">'.i18n::s('Owner')
-				.' <input type="text" name="owner" id="owner" value ="'.encode_field($value).'" size="25" maxlength="32" />'
-				.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
-			$context['page_footer'] .= JS_PREFIX
-				.'// enable owner autocompletion'."\n"
-				.'$(document).ready( function() { Yacs.autocomplete_names("owner",true); });  '."\n"
-				.JS_SUFFIX;
 		}
 
 		// finalize this tab
@@ -1044,6 +1063,17 @@ class Issue extends Overlay {
 	}
 
 	/**
+	 * initialize this instance
+	 *
+	 */
+	function initialize() {
+
+		$this->attributes['status'] = 'on-going:suspect';
+		$this->attributes['type'] = 'incident';
+
+	}
+
+	/**
 	 * retrieve the content of one modified overlay
 	 *
 	 * These are data saved into the piggy-backed overlay field of the hosting record.
@@ -1142,10 +1172,10 @@ class Issue extends Overlay {
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
 				."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
 				."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
-				."color='".SQL::escape($this->attributes['color'])."', \n"
-				."status='".SQL::escape($this->attributes['status'])."', \n"
+				."color='".SQL::escape(isset($this->attributes['color'])?$this->attributes['color']:'green')."', \n"
+				."status='".SQL::escape(isset($this->attributes['status'])?$this->attributes['status']:'on-going:suspect')."', \n"
 				."title='".SQL::escape($this->attributes['anchor_title'])."', \n"
-				."type='".SQL::escape($this->attributes['type'])."', \n"
+				."type='".SQL::escape(isset($this->attributes['type'])?$this->attributes['type']:'incident')."', \n"
 				."create_name='".SQL::escape(isset($this->attributes['create_name']) ? $this->attributes['create_name'] : $this->attributes['edit_name'])."', \n"
 				."create_id=".SQL::escape(isset($this->attributes['create_id']) ? $this->attributes['create_id'] : $this->attributes['edit_id']).", \n"
 				."create_address='".SQL::escape(isset($this->attributes['create_address']) ? $this->attributes['create_address'] : $this->attributes['edit_address'])."', \n"
