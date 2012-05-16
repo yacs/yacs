@@ -11,6 +11,13 @@
 class Thread extends Overlay {
 
 	/**
+	 * force wall-like updates at threads
+	 */
+	function get_comments_as_wall_value() {
+		return TRUE;
+	}
+
+	/**
 	 * list participants
 	 *
 	 * @see overlays/overlay.php
