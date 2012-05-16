@@ -304,7 +304,6 @@ class Chat_meeting extends Meeting {
 			."\n"
 			.'		OpenTok.tentatives--;'."\n"
 			.'		if((OpenTok.tentatives > 0) && (event.code === 1006 || event.code === 1008 || event.code === 1014)) {'."\n"
-			.'			OpenTok.growl("'.i18n::s('Error while connecting to OpenTok').'");'."\n"
 			.'			OpenTok.session.connecting = false;'."\n"
 			.'			window.setTimeout("OpenTok.connectAgain()", 3000);'."\n"
 			.'		}'."\n"
