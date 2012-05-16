@@ -11,7 +11,7 @@
  * message per recipient. This feature is important to preserve confidentiality, and to pass
  * through spam filters.
  *
- * This script is conforming to the Simple Mail Transfer Protocol (SMTP), including
+ * This script is a native implementation of the Simple Mail Transfer Protocol (SMTP), including
  * extensions related to security and authentication. If openssl is available, it can connect
  * to mail servers using the SSL/TLS protocol. For authentication, CRAM-MD5, LOGIN and PLAIN
  * mechanisms are provided. Alternatively, authentication can also be done using POP3 before
@@ -27,7 +27,7 @@
  *
  * @link http://en.wikipedia.org/wiki/MIME Multipurpose Internet Mail Extensions (MIME)
  *
- * The number of messages transmitted every hour is limited, and exceeding messages
+ * The number of messages transmitted every hour can be capped. Exceeding messages
  * are queued in the database. When this happens, actual posts to the mail
  * server are processed in the background. Therefore bursts of mail messages are
  * shaped to accomodate for limitations set by many Internet service providers.
@@ -81,15 +81,14 @@ class Mailer {
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
 
 		// transform the text/html part
-		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 					// <dl> ... </dl> -> <table> ... </table>
-			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> ... </dl> -> <table> ... </table>
+			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',						// <dt> ... </dt> -> <tr><td> ... </td>
 			'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td>\\1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
-//			'/<table([^>]*?)>/i' => '<table \\1 border="1" cellspacing="0" cellpadding="10">',	 // improve rendering of tables
 			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
 			'/class="grid"/i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
 			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
-			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script>
-			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style>
+			'/<scr'.'ipt[^>]*?>(.*?)<\/scr'.'ipt>/i' => '',							// remove scripts
+			'/<sty'.'le[^>]*?>(.*?)<\/sty'.'le>/i' => '');							// remove style rules
 
 		// text/html part
 		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
@@ -834,7 +833,7 @@ class Mailer {
 	 * [php]
 	 * $message = array();
 	 * $message['text/plain; charset=utf-8'] = 'This is a plain message';
-	 * $message['text/html'] = '<html><head><title>Hello</title><body>This is an HTML message</body></html>';
+	 * $message['text/html'] = '<html><head><body>This is an HTML message</body></html>';
 	 * Mailer::post($from, $to, $subject, $message);
 	 * [/php]
 	 *
