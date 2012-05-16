@@ -66,14 +66,10 @@ Class Layout_articles_as_spray extends Layout_interface {
 			$url = Articles::get_permalink($item);
 
 			// reset everything
-			$id = $type = $summary = $status = $update = $progress = '';
+			$id = $summary = $owner = $type = $status = $update = $progress = '';
 
 			// link to the page
 			$id = Skin::build_link($url, $item['id'], 'basic');
-
-			// type is provided by the overlay
-			if(is_object($overlay))
-				$type = $overlay->get_value('type', '');
 
 			// signal articles to be published
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -143,6 +139,14 @@ Class Layout_articles_as_spray extends Layout_interface {
 			if($item['tags'])
 				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
+			// page owner
+			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+				$owner = Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+
+			// type is provided by the overlay
+			if(is_object($overlay))
+				$type = $overlay->get_value('type', '');
+
 			// status value
 			if(is_object($overlay))
 				$status = $overlay->get_value('status', '');
@@ -152,7 +156,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 				$progress = $overlay->get_value('progress', '');
 
 			// this is another row of the output
-			$cells = array($id, $type, $summary, $status, $progress);
+			$cells = array($id, $summary, $owner, $type, $status, $progress);
 
 			// append this row
 			$rows[] = $cells;
@@ -163,7 +167,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 		SQL::free($result);
 
 		// headers
-		$headers = array(i18n::s('Number'), i18n::s('Type'), i18n::s('Information'), i18n::s('Status'), i18n::s('Progress'));
+		$headers = array(i18n::s('Number'), i18n::s('Information'), i18n::s('Owner'), i18n::s('Type'), i18n::s('Status'), i18n::s('Progress'));
 
 		// return a sortable table
 		$text .= Skin::table($headers, $rows, 'grid');
