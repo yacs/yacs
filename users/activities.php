@@ -5,10 +5,15 @@
  * An activity relates one object of the database (designated by its reference) and one
  * surfer (retrieved by its id or by its name). It is qualified by an 'action' attribute,
  * which should be a verb (e.g., 'fetch') or a state transition (e.g., 'beginPresentation'),
- * and a free-form attribute, 'data', that can be used to save some text or serialized variables.
+ * and a 'count' attribute, that can be used to save some integer number.
  *
  * Typical actions recorded:
  * - 'file:123' - 'fetch' - for file download or streaming, in files/fetch.php
+ * - 'file:123' - 'upload' - for file upload, in files/edit.php
+ * - 'http://...' - 'click' - for clicks on external links, in links/links.php
+ * - 'article:123' - 'notify' - plus the count of notifications sent by e-mail, related to this article
+ * - 'section:123' - 'notify' - plus the count of notifications sent by e-mail, related to this section
+ * - 'file:123' - 'notify' - plus the count of notifications sent by e-mail, related to this file
  *
  *
  * @author Bernard Paques
@@ -187,18 +192,18 @@ Class Activities {
 	 *
 	 * @param string reference of the handled object (e.g., 'article:123')
 	 * @param string description of the action (e.g., 'post' or 'get' or 'delete')
-	 * @param string optional text to be saved along the activity
+	 * @param integer optional counter to be saved along the activity
 	 * @return boolean TRUE on success, FALSE otherwise
 	 *
 	**/
-	public static function post($anchor, $action='get', $data='') {
+	public static function post($anchor, $action='get', $count=1) {
 		global $context;
 
 		// update the database; do not report on error
 		$query = "INSERT INTO ".SQL::table_name('activities')." SET"
 			." action='".SQL::escape($action)."',"
 			." anchor='".SQL::escape($anchor)."',"
-			." data='".SQL::escape($data)."',"
+			." count=".SQL::escape($count).","
 			." edit_date='".SQL::escape($context['now'])."',"
 			." edit_id='".SQL::escape(Surfer::get_id())."',"
 			." edit_name='".SQL::escape(Surfer::get_name())."'";
@@ -218,7 +223,7 @@ Class Activities {
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['action']		= "VARCHAR(64) DEFAULT 'view' NOT NULL";
 		$fields['anchor']		= "VARCHAR(255) DEFAULT '' NOT NULL"; // can also be a web URL
-		$fields['data'] 		= "TEXT";
+		$fields['count'] 		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
