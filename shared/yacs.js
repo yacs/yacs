@@ -719,14 +719,6 @@ var Yacs = {
 		// detect Flash on client side
 		Yacs.detectFlash();
 
-		// pre-load the spinning image used during ajax updates
-		Yacs.spinningImage = new Image();
-		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
-
-		// pre-load the image used at the working overlay
-		Yacs.workingImage = new Image();
-		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
-
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
 		$('button').each(function() {
 			var buttonType = String($(this).attr('type'));
@@ -1712,3 +1704,15 @@ var Yacs = {
 
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
+
+// this can be done right now
+
+// pre-load the spinning image used during ajax updates
+Yacs.spinningImage = new Image();
+Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
+
+// pre-load the image used at the working overlay
+Yacs.workingImage = new Image();
+Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
+
+
