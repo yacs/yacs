@@ -1105,7 +1105,8 @@ Class i18n {
 		}
 
 		// read magic number
-		$magic = array_shift(unpack('V', fread($handle, 4)));
+		$values = unpack('V', fread($handle, 4));
+		$magic = array_shift($values);
 
 		// byte ordering
 		if($magic == (int)0x0950412de)
@@ -1124,16 +1125,20 @@ Class i18n {
 		}
 
 		// read revision number
-		$revision = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$revision = array_shift($values);
 
 		// read number of strings
-		$number_of_strings = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$number_of_strings = array_shift($values);
 
 		// read offset for table of original strings
-		$original_table_offset = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$original_table_offset = array_shift($values);
 
 		// read offset for table of translated strings
-		$translated_table_offset = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$translated_table_offset = array_shift($values);
 
 		// two integers per string (offset and size)
 		$count = $number_of_strings * 2;
