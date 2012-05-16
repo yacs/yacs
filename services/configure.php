@@ -30,11 +30,17 @@
  * - [code]google_analytics_account[/code] - according to your registration to
  * Google Analytics services.
  *
- * - [code]opentok_key[/code] - key provided by Opentok on registration
+ * - [code]obs_api_key[/code] - key provided by Orange Business Services (OBS) on registration
  *
- * - [code]opentok_secret[/code] - secret shared with Opentok server
+ * - [code]opentok_api_key[/code] - key provided by Opentok on registration
  *
- * - [code]opentok_url[/code] - pointing either to the development web site or to a production server
+ * - [code]opentok_api_secret[/code] - secret shared with Opentok server
+ *
+ * - [code]opentok_api_url[/code] - pointing either to the development web site or to a production server
+ *
+ * - [code]twilio_account_sid[/code] - provided by Twilio on registration
+ *
+ * - [code]twilio_authentication_token[/code] - provided by Twilio on registration
  *
  * Configuration information is saved into [code]parameters/services.include.php[/code].
  * If YACS is prevented to write to the file, it displays parameters to allow for a manual update.
@@ -122,6 +128,14 @@ elseif(!Surfer::is_associate()) {
 		$context['opentok_api_url'] = '';
 	$input = '<input type="text" name="opentok_api_url" size="45" value="'.encode_field($context['opentok_api_url']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
+
+	// OBS API key
+	$label = i18n::s('Orange Business Services API key');
+	if(!isset($context['obs_api_key']) || !$context['obs_api_key'])
+		$context['obs_api_key'] = '';
+	$input = '<input type="text" name="obs_api_key" size="45" value="'.encode_field($context['obs_api_key']).'" maxlength="255" />';
+	$hint = sprintf(i18n::s('To integrate Orange Business Services (OBS) API into your server, %s and enter it here'), Skin::build_link(i18n::s('http://api.orange.com/'), i18n::s('apply for a key')));
+	$fields[] = array($label, $input, $hint);
 
 	// Twilio Account SID
 	$label = i18n::s('Twilio account SID');
@@ -259,6 +273,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'google_api_key\']=\''.addcslashes($_REQUEST['google_api_key'], "\\'")."';\n";
 	if(isset($_REQUEST['google_analytics_account']))
 		$content .= '$context[\'google_analytics_account\']=\''.addcslashes($_REQUEST['google_analytics_account'], "\\'")."';\n";
+	if(isset($_REQUEST['obs_api_key']))
+		$content .= '$context[\'obs_api_key\']=\''.addcslashes($_REQUEST['obs_api_key'], "\\'")."';\n";
 	if(isset($_REQUEST['opentok_api_key']))
 		$content .= '$context[\'opentok_api_key\']=\''.addcslashes($_REQUEST['opentok_api_key'], "\\'")."';\n";
 	if(isset($_REQUEST['opentok_api_secret']))
