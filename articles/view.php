@@ -790,9 +790,9 @@ if(!isset($item['id'])) {
 	//
 
 	// the overlay may generate some tabs
-	$context['tabs'] = '';
-	if(is_object($overlay))
-		$context['tabs'] = $overlay->get_tabs('view', $item);
+	$context['tabs'] = array();
+	if(is_object($overlay) && ($tabs = $overlay->get_tabs('view', $item)))
+		$context['tabs'] = $tabs;
 
 	// branch to another script
 	if(!Surfer::is_desktop()) {
@@ -804,9 +804,6 @@ if(!isset($item['id'])) {
 	} elseif(is_object($anchor) && ($viewer = $anchor->has_option('view_as')) && is_readable('view_as_'.$viewer.'.php')) {
 		$name = 'view_as_'.$viewer.'.php';
 		include $name;
-		return;
-	} elseif(is_array($context['tabs']) && count($context['tabs'])) {
-		include 'view_as_tabs.php';
 		return;
 	}
 
@@ -1004,6 +1001,12 @@ if(!isset($item['id'])) {
 		}
 
 	}
+
+	//
+	// append tabs from the overlay, if any, right after discussion panel
+	//
+	if(isset($context['tabs']) && is_array($context['tabs']))
+		$panels = array_merge($panels, $context['tabs']);
 
 	//
 	// files attached to this article
