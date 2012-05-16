@@ -159,7 +159,7 @@ $context['l10n']['en']['Lock']='Lock';
 $context['l10n']['en']['Locker']='Locker';
 $context['l10n']['en']['Look for orphan records']='Look for orphan records';
 $context['l10n']['en']['Maintenance']='Maintenance';
-$context['l10n']['en']['Manage editors']='Manage editors';
+$context['l10n']['en']['Manage participants']='Manage participants';
 $context['l10n']['en']['Manage your watch list']='Manage your watch list';
 $context['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
 $context['l10n']['en']['be2b5e247910fa0abc3137df3a3b2c67']='Mention your source, if any. Web link (http://...), internal reference ([user=tom]), or free text.';
