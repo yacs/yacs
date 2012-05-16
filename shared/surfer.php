@@ -762,6 +762,21 @@ Class Surfer {
 	}
 
 	/**
+	 * get the phone number of the current surfer, if known
+	 *
+	 * @return string a valid number, or NULL
+	 */
+	public static function get_phone_number() {
+		global $context;
+
+		// use session data
+		if(isset($_SESSION['surfer_phone_number']))
+			return $_SESSION['surfer_phone_number'];
+
+		return NULL;
+	}
+
+	/**
 	 * ask surfer to replicate random data
 	 *
 	 * This function complements a web form to stop anonymous robots.
@@ -1374,7 +1389,8 @@ Class Surfer {
 	 * - $fields['nick_name'] - nick name of the logged surfer
 	 * - $fields['email'] - email address
 	 * - $fields['editor'] - preferred on-line editor
-	 * - $fields['capability'] - 'A'ssociate or 'M'ember
+	 * - $fields['capability'] - 'A'ssociate or 'M'ember or 'S'ubscriber or '?'
+	 * - $fields['phone_number'] - phone number (international format)
 	 *
 	 * We also remember the IP address of the authenticating workstation,
 	 * and the root path of the instance that has validated the surfer.
@@ -1398,6 +1414,8 @@ Class Surfer {
 			$_SESSION['surfer_name'] = '';
 
 		$_SESSION['surfer_email_address'] = isset($fields['email'])?$fields['email']:'';
+
+		$_SESSION['surfer_phone_number'] = isset($fields['phone_number'])?$fields['phone_number']:'';
 
 		// provide a default capability only to recorded users
 		if(!$_SESSION['surfer_id'])
