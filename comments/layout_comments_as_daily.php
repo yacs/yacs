@@ -101,12 +101,6 @@ Class Layout_comments_as_daily extends Layout_interface {
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
 				$menu[] = sprintf(i18n::s('modified by %s'), $item['edit_name']);
 
-			// the reply and quote commands are offered when new comments are allowed
-			if(Comments::allow_creation($anchor)) {
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), i18n::s('Reply'), 'basic');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), i18n::s('Quote'), 'basic');
-			}
-
 			// the menu bar for associates and poster
 			if(Comments::allow_modification($anchor, $item)) {
 				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic');
