@@ -643,6 +643,11 @@ Class Comments {
 			include_once '../comments/layout_comments_as_updates.php';
 			$layout = new Layout_comments_as_updates();
 
+		// look in overlay, if any
+		} elseif(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && ($result = $overlay->get_value('comments_as_wall'))) {
+			include_once '../comments/layout_comments_as_updates.php';
+			$layout = new Layout_comments_as_updates();
+
 		// a wiki
 		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
 			include_once '../comments/layout_comments_as_wiki.php';
