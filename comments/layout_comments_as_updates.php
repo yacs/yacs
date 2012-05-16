@@ -66,17 +66,13 @@ Class Layout_comments_as_updates extends Layout_interface {
 			// author description
 			$author = '';
 
-			// except for automatic notifications
-			if($item['type'] != 'notification') {
+			// avatar
+			if(isset($poster['avatar_url']) && $poster['avatar_url'])
+				$author .= '<img src="'.$poster['avatar_url'].'" alt="" title="avatar" class="avatar" />'.BR;
 
-				// avatar
-				if(isset($poster['avatar_url']) && $poster['avatar_url'])
-					$author .= '<img src="'.$poster['avatar_url'].'" alt="" title="avatar" class="avatar" />'.BR;
-
-				// link to poster, if possible
+			// link to poster, if possible
+			if(isset($poster['id']))
 				$author .= Users::get_link($poster['full_name'], $poster['email'], $poster['id']);
-
-			}
 
 			// commands to handle this comment
 			$menu = array();
