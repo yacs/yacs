@@ -372,7 +372,8 @@ class PhpDoc {
 		foreach($this->comments as $script => $comment) {
 
 			// extract first directory from path information
-			$path = array_shift(preg_split('/\//', dirname($script)));
+			$elements = preg_split('/\//', dirname($script));
+			$path = array_shift($elements);
 
 			// build links to view the documentation
 			if($context['with_friendly_urls'] == 'Y') {
@@ -390,7 +391,6 @@ class PhpDoc {
 			}
 
 			// extract first directory from path information
-			$path = array_shift(preg_split('/\//', dirname($script)));
 			if($path && ($path != '.') && ($path != $previous_path)) {
 				if($index)
 					$index .= "</ul><p></p></dd>\n";
