@@ -319,7 +319,7 @@ if(!isset($item['id'])) {
 	//
 	$stream = '';
 
-	// contributed articles
+	// my pages
 	//
 
 	// the list of contributed articles if not at another follow-up page
@@ -386,7 +386,7 @@ if(!isset($item['id'])) {
 		$panels[] = array('stream', i18n::s('My pages'), 'stream', $stream);
 
 	//
-	// the sections of choice
+	// my sections
 	//
 	$sections = '';
 
