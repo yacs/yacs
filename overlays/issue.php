@@ -1126,7 +1126,7 @@ class Issue extends Overlay {
 		if(!isset($this->attributes['close_date']) || ($this->attributes['close_date'] <= NULL_DATE))
 			$this->attributes['close_date'] = NULL_DATE;
 
-		// if a comment has to be appended as well
+		// add a notification to the anchor page
 		$comments = array();
 
 		// build the update query
@@ -1137,6 +1137,7 @@ class Issue extends Overlay {
 			break;
 
 		case 'insert':
+			$comments[] = i18n::s('Page has been created');
 
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
 				."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
@@ -1158,10 +1159,6 @@ class Issue extends Overlay {
 				."analysis_date='".SQL::escape(isset($this->attributes['analysis_date']) ? $this->attributes['analysis_date'] : NULL_DATE)."', \n"
 				."resolution_date='".SQL::escape(isset($this->attributes['resolution_date']) ? $this->attributes['resolution_date'] : NULL_DATE)."', \n"
 				."close_date='".SQL::escape(isset($this->attributes['close_date']) ? $this->attributes['close_date'] : NULL_DATE)."'";
-
-
-				$comments[] = i18n::s('Page has been created');
-
 			break;
 
 		case 'update':
@@ -1175,7 +1172,7 @@ class Issue extends Overlay {
 
 				// detect color modification
 				if($this->attributes['color'] != $this->attributes['previous_color'])
-					$comments[] = sprintf(i18n::s('Color has been changed to "%s"'), $this->get_color_label($this->attributes['color']));
+					$comments[] = $this->get_color_label($this->attributes['color']);
 
 				// change host owner, if any
 				if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != $this->anchor->get_value('owner_id'))) {
@@ -1205,6 +1202,7 @@ class Issue extends Overlay {
 
 				// detect status modification
 				if($this->attributes['status'] != $this->attributes['previous_status']) {
+					$comments[] = $this->get_status_label($this->attributes['status']);
 
 					// depending of new status
 					switch($this->attributes['status']) {
@@ -1214,8 +1212,6 @@ class Issue extends Overlay {
 						$query .= "create_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."create_id=".SQL::escape($this->attributes['edit_id']).", \n"
 							."create_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// problem has been validated
@@ -1224,8 +1220,6 @@ class Issue extends Overlay {
 						$query .= "qualification_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."qualification_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."qualification_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// cause has been identified
@@ -1234,8 +1228,6 @@ class Issue extends Overlay {
 						$query .= "analysis_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."analysis_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."analysis_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// solution has been achieved
@@ -1244,8 +1236,6 @@ class Issue extends Overlay {
 						$query .= "resolution_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."resolution_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."resolution_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// ending the issue
@@ -1254,8 +1244,6 @@ class Issue extends Overlay {
 						$query .= "close_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."close_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."close_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 					}
 
@@ -1270,6 +1258,10 @@ class Issue extends Overlay {
 					." WHERE anchor LIKE '".SQL::escape($this->attributes['anchor_reference'])."'";
 
 			}
+
+			// ensure that this change has been recorded
+			if(!$comments)
+				$comments[] = i18n::s('Page has been edited');
 
 			break;
 		}

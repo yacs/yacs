@@ -118,14 +118,18 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		if(isset($_FILES['upload']) && ($uploaded = Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']))) {
 
 			// several files have been added
-			if(is_array($uploaded))
+			if(is_array($uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'
 					.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact');
 
+				$_REQUEST['first_comment'] = '<div>'.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact').'</div>';
+
 			// one file has been added
-			elseif($file =& Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
+			} elseif($file =& Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $file['id']);
+
+				$_REQUEST['first_comment'] = '<div>'.Codes::render_object('file', $file['id']).'</div>';
 
 				// silently delete the previous file if the name has changed
 				if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
@@ -133,6 +137,15 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 			}
 
+		}
+
+		// capture first comment too
+		if(isset($_REQUEST['first_comment']) && $_REQUEST['first_comment']) {
+			include_once $context['path_to_root'].'comments/comments.php';
+			$fields = array();
+			$fields['anchor'] = 'article:'.$_REQUEST['id'];
+			$fields['description'] = $_REQUEST['first_comment'];
+			Comments::post($fields);
 		}
 
 		// post an overlay, with the new article id --don't stop on error
