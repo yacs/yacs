@@ -195,7 +195,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$cells[] = $prefix.Skin::build_link($url, $title, 'section').' - '.Skin::finalize_list($commands, 'menu').$suffix;
 
 			// ranking
-			$cells[] = '<input type="text" size="5" name="section_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#section_selector_'.$count.'\').checked = true;" onchange="$(\'#act_on_sections\').selectedIndex = 6;" />';
+			$cells[] = '<input type="text" size="5" name="section_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#section_selector_'.$count.'\').attr(\'checked\', \'checked\');" onchange="$(\'#act_on_sections\').prop(\'selectedIndex\', 6);" />';
 
 			// append the row
 			$text .= Skin::table_row($cells, $count++);

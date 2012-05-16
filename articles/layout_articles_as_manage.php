@@ -194,7 +194,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$cells[] = $prefix.Skin::build_link($url, $title, 'article').' - '.Skin::finalize_list($commands, 'menu').$suffix;
 
 			// ranking
-			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#article_selector_'.$count.'\').checked = true;" onchange="$(\'#act_on_articles\').selectedIndex = 9;" />';
+			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#article_selector_'.$count.'\').attr(\'checked\', \'checked\');" onchange="$(\'#act_on_articles\').prop(\'selectedIndex\', 9);" />';
 
 			// append the row
 			$text .= Skin::table_row($cells, $count++);
