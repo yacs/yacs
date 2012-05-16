@@ -671,14 +671,6 @@ if($with_form) {
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
-	// hardcoded
-//	if(!isset($item['id']))
-//		$suffix[] = '<input type="checkbox" name="option_hardcoded" value="Y" /> '.i18n::s('Preserve carriage returns and newlines.');
-
-	// do not apply implicit transformations
-//	if(!isset($item['id']))
-//		$suffix[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('Avoid implicit transformations (links, lists, ...), but process yacs codes as usual.');
-
 	// validate page content
 	if(Surfer::is_associate())
 		$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
@@ -766,6 +758,7 @@ if($with_form) {
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});'."\n"
 		.JS_SUFFIX;
+
 	// branch to another script to display form fields, tabs, etc
 	//
 	$branching = '';
