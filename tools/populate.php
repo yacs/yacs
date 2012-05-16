@@ -49,12 +49,16 @@
  * - 'book_chapter' - chapter 1 of the sample electronic book
  * - 'book_page' - a sample page of an electronic book
  *
- * Sample items for wikis:
+ * Sample wiki:
  * - 'wikis' - top-level section for wiki samples
  * - 'wiki_anonymous' - a section that can be modified by anonymous surfers
  * - 'wiki_anonymous_page' - an article in 'wiki_anonymous'
  * - 'wiki_members' - a section that can be modified by authenticated persons
  * - 'wiki_members_page' - an article in 'wiki_anonymous'
+ *
+ * Sample support forum:
+ * - 'bugzilla' - a sample support forum
+ * - 'bugzilla_page' - a sample thread in the forum
  *
  * Following sections are created:
  * - 'files' - a sample library of files
@@ -957,6 +961,70 @@ if(Surfer::is_crawler()) {
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// bugzilla
+	//
+	$text .= Skin::build_block(i18n::s('Support forum'), 'subtitle');
+
+	// 'bugzilla' section
+	if(Sections::get('bugzilla'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'bugzilla').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'bugzilla';
+		$fields['title'] = i18n::c('Support forum');
+		$fields['introduction'] = i18n::c('Sample support forum');
+		$fields['options'] = 'auto_publish';
+		$fields['content_overlay'] = 'issue';	// incident/requirement/change/patch
+		$fields['articles_layout'] = 'custom';	// not in the standard list
+		$fields['articles_custom_layout'] = 'spray';	// show progress
+		if(Sections::post($fields))
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'bugzilla_page' article
+	if(Articles::get('bugzilla_page'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'bugzilla_page').BR."\n";
+	elseif($anchor = Sections::lookup('bugzilla')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'bugzilla_page';
+		$fields['title'] = i18n::c('I need help');
+		$fields['introduction'] = i18n::c('Sample support request');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$overlay = Overlay::bind('issue');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+		if(Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$overlay->remember('insert', $fields, 'article:'.$fields['id']);
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// add sample comments to 'bugzilla_page'
+	if($anchor = Articles::lookup('bugzilla_page')) {
+
+		// add a bunch of comments
+		$stats = Comments::stat_for_anchor($anchor);
+		if($stats['count'] < 50) {
+			for($index = 1; $index <= 10; $index++) {
+				$fields = array();
+				$fields['anchor'] = $anchor;
+				$fields['description'] = sprintf(i18n::c('Comment #%d'), $index);
+				$fields['edit_name'] = $names[ rand(0, 2) ];
+				if(!Comments::post($fields)) {
+					$text .= Logger::error_pop().BR."\n";
+					break;
+				}
+			}
+
+			if($index > 1)
+				$text .= sprintf(i18n::s('Comments have been added to "%s".'), 'bugzilla_page').BR."\n";
+		}
 	}
 
 	// access rights
