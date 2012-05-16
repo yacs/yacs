@@ -35,11 +35,14 @@ Class Layout_articles_as_last extends Layout_interface {
 		global $context;
 
 		// we return some text
-		$text = '<div class="last_articles">';
+		$text = '';
 
 		// empty list
 		if(!SQL::count($result))
 			return $text;
+
+		// allow for complete styling
+		$text = '<div class="last_articles">';
 
 		// build a list of articles
 		include_once $context['path_to_root'].'comments/comments.php';
