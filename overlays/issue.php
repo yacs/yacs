@@ -1044,19 +1044,25 @@ class Issue extends Overlay {
 
 		$rows = array();
 
+		// this page has an explicit owner
+		if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id']))) {
+
+			// allow for click-to-call
+			$click_to_call = Users::get_click_to_call($user);
+
+			// display information on the owner
+			$rows[] = array(i18n::s('Owner'), Users::get_link($user['full_name'], NULL, $user['id']).' '.$click_to_call);
+		}
+
+		// show progress
+		$rows[] = array(i18n::s('Progress'), self::get_progress_value());
+
 		// type
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
 
 		// the status and history
 		$history = self::get_history();
 		$rows[] = array(i18n::s('Status'), self::get_status_label($this->attributes['status']).$history);
-
-		// build a link to the owner page, if any
-		if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id'])))
-			$rows[] = array(i18n::s('Owner'), Users::get_link($user['full_name'], NULL, $user['id']));
-
-		// show progress
-		$rows[] = array(i18n::s('Progress'), self::get_progress_value());
 
 		$text = Skin::table(NULL, $rows, 'grid');
 		return $text;
