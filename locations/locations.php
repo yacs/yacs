@@ -650,11 +650,6 @@ Class Locations {
 			.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
 			.'</div>'."\n";
 
-		// create this map
-		$text .= JS_PREFIX
-			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
-			.'	var map = new GMap2($("#'.$handle.'")[0]);'."\n";
-
 		// frame the map
 		$latitudes = $longitudes = 0.00;
 		$index = 0;
@@ -667,10 +662,15 @@ Class Locations {
 		// center point
 		$latitude_middle = $latitudes / max(1, $index);
 		$longitude_middle = $longitudes / max(1, $index);
-		$text .= '	map.setCenter(new GLatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")), '.$scale.');'."\n";
 
-		$text .= '	map.addControl(new GSmallMapControl());'."\n"
-			.'	map.addControl(new GMapTypeControl());'."\n";
+		// create this map
+		$text .= JS_PREFIX
+			.'var mapOptions = {'."\n"
+			.'	zoom: 13,'."\n"
+			.'	center: new google.maps.LatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")),'."\n"
+			.'	mapTypeId: google.maps.MapTypeId.ROADMAP'."\n"
+			.'};'."\n"
+			.'var map = new google.maps.Map($("#'.$handle.'")[0], mapOptions);'."\n";
 
 		// add all markers
 		$index = 1;
@@ -705,20 +705,27 @@ Class Locations {
 				$icon = 'iconBlue';
 
 			// add one marker for this item
-			$text .= '	var point = new GLatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
-				.'	var marker'.$map_index.$index.' = new GMarker(point, '.$icon.');'."\n"
-				.'	GEvent.addListener(marker'.$map_index.$index.', "click", function() {'."\n"
-				.'		marker'.$map_index.$index.'.openInfoWindowHtml("'.addcslashes($description, '\'\\"'."\n\r").'");'."\n"
+			$text .= '	var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
+				.'	var marker'.$map_index.$index.' = new google.maps.Marker({ position: point, map: map });'."\n"
+				.'	var infoWindow = new google.maps.InfoWindow();'."\n"
+				.'google.maps.event.addDomListener(marker'.$map_index.$index.', "click", function() {'."\n"
+				.'	infoWindow.setContent("'.addcslashes($description, '\'\\"'."\n\r").'");'."\n"
+				.'	infoWindow.open(map, marker'.$map_index.$index.');'."\n"
 				.'	});'."\n"
-				.'	map.addOverlay(marker'.$map_index.$index.');'."\n";
+				.'$("body").bind("yacs", function(e) {'."\n"
+				.'	google.maps.event.trigger(map, "resize");'."\n"
+				.'	map.setZoom( map.getZoom() );'."\n"
+				.'	map.setCenter(point);'."\n"
+				.'});'."\n";
 
 			// next index
 			$index++;
 		}
 
 		// the postamble
-		$text .= '}'."\n"
-			.JS_SUFFIX;
+		$text .= JS_SUFFIX;
+
+		$text .= '<a href="#" onclick="google.maps.event.trigger(map, \'resize\');map.setZoom( map.getZoom() );">resize</a>';
 
 		// job done
 		return $text;
@@ -741,33 +748,27 @@ Class Locations {
 			return $text;
 		$fused = TRUE;
 
-		// no capability to create an image
-		if(!isset($context['google_api_key']) || !$context['google_api_key']) {
-			Logger::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
-			return $text;
-		}
-
 		// load the google library
-		$text .= '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'"></script>'."\n";
+		$text .= '<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>'."\n";
 
 		// load some icons from Google
 		$text .= JS_PREFIX
-			.'if(typeof GIcon != "undefined") {'."\n"
-			.'	var iconBlue = new GIcon();'."\n"
+			.'if(typeof google.maps.Icon != "undefined") {'."\n"
+			.'	var iconBlue = new google.maps.Icon();'."\n"
 			.'	iconBlue.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";'."\n"
 			.'	iconBlue.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";'."\n"
-			.'	iconBlue.iconSize = new GSize(12, 20);'."\n"
-			.'	iconBlue.shadowSize = new GSize(22, 20);'."\n"
-			.'	iconBlue.iconAnchor = new GPoint(6, 20);'."\n"
-			.'	iconBlue.infoWindowAnchor = new GPoint(5, 1);'."\n"
+			.'	iconBlue.iconSize = new google.maps.Size(12, 20);'."\n"
+			.'	iconBlue.shadowSize = new google.maps.Size(22, 20);'."\n"
+			.'	iconBlue.iconAnchor = new google.maps.Point(6, 20);'."\n"
+			.'	iconBlue.infoWindowAnchor = new google.maps.Point(5, 1);'."\n"
 			."\n"
-			.'	var iconRed = new GIcon();'."\n"
+			.'	var iconRed = new google.maps.Icon();'."\n"
 			.'	iconRed.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";'."\n"
 			.'	iconRed.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";'."\n"
-			.'	iconRed.iconSize = new GSize(12, 20);'."\n"
-			.'	iconRed.shadowSize = new GSize(22, 20);'."\n"
-			.'	iconRed.iconAnchor = new GPoint(6, 20);'."\n"
-			.'	iconRed.infoWindowAnchor = new GPoint(5, 1);'."\n"
+			.'	iconRed.iconSize = new google.maps.Size(12, 20);'."\n"
+			.'	iconRed.shadowSize = new google.maps.Size(22, 20);'."\n"
+			.'	iconRed.iconAnchor = new google.maps.Point(6, 20);'."\n"
+			.'	iconRed.infoWindowAnchor = new google.maps.Point(5, 1);'."\n"
 			.'}'
 			.JS_SUFFIX;
 
