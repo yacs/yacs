@@ -742,6 +742,11 @@ var Yacs = {
 				opacity: 1.0});
 		});
 
+		// close all tooltips on tabbing, etc
+		$("body").bind("yacs", function(e) {
+			$('a.tip').each(function() { $(this).tipsy("hide"); });
+		});
+
 		// beautify links titles in menu bars
 		$('.menu_bar a[title]').each(function() {
 			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true});
@@ -1407,6 +1412,8 @@ var Yacs = {
 			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 		}
 
+		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
+		$('body').trigger('yacs');
 	},
 
 	/**
