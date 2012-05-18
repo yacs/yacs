@@ -744,7 +744,7 @@ var Yacs = {
 
 		// close all tooltips on tabbing, etc
 		$("body").bind("yacs", function(e) {
-			$('a.tip').each(function() { $(this).tipsy("hide"); });
+			$('a.tip,input.tip,textarea.tip').each(function() { $(this).tipsy("hide"); });
 		});
 
 		// beautify links titles in menu bars
