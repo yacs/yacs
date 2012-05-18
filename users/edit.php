@@ -741,14 +741,14 @@ if($with_form) {
 		// locations are reserved to authenticated members
 		if(Locations::allow_creation(NULL, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$items = Locations::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 		// tables are reserved to associates
 		if(Tables::allow_creation(NULL, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$items = Tables::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
