@@ -725,8 +725,6 @@ Class Locations {
 		// the postamble
 		$text .= JS_SUFFIX;
 
-		$text .= '<a href="#" onclick="google.maps.event.trigger(map, \'resize\');map.setZoom( map.getZoom() );">resize</a>';
-
 		// job done
 		return $text;
 	}
