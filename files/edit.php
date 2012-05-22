@@ -495,7 +495,7 @@ if($with_form) {
 	$label = i18n::s('History');
 	$input = '<span class="details">'.i18n::s('What is new in this file?').'</span>'.BR.'<textarea name="version" rows="3" cols="50"></textarea>';
 	if(isset($item['description']))
-		$input .= Skin::build_block($item['description'], 'description');
+		$input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
 	$fields[] = array($label, $input);
 
 	// build the form
