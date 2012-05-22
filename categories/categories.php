@@ -679,7 +679,7 @@ Class Categories {
 	 * get permanent address
 	 *
 	 * @param array page attributes
-	 * @return string the permalink
+	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
 		$output = Categories::get_url($item['id'], 'view', $item['title']);
