@@ -563,11 +563,8 @@ Class Users {
 	/**
 	 * build a pretty link to a user page
 	 *
-	 * YACS has been designed to track people who submit or change information, and this small function
-	 * is aiming to shape tracking data.
-	 *
-	 * Most of the time it will build a nice link to the user profile of the involved community member.
-	 * At other time it will link to the external server that has provided published information.
+	 * Most of the time this function will build a nice link to the user profile at this server.
+	 * At other time it may feature either a link to another server, or an e-mail address.
 	 *
 	 * Pseudo code:
 	 * [snippet]
@@ -598,10 +595,8 @@ Class Users {
 		if(!$name)
 			$name = i18n::s('(unknown)');
 
-		$name = ucfirst($name);
-
 		if(($id > 0) && ($url = Users::get_url($id, 'view', $name)))
-			return Skin::build_link($url, $name, 'user', $hover, $new_window);
+			return Skin::build_link($context['url_to_home'].$context['url_to_root'].$url, $name, 'user', $hover, $new_window);
 		elseif(!Surfer::may_mail())
 			return $name;
 		elseif(preg_match('/@/', $email))
