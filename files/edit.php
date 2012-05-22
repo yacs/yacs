@@ -213,7 +213,7 @@ if(Surfer::is_crawler()) {
 	// true when several files are uploaded at once
 	$exploded = FALSE;
 
-	// a reference has been posted --process it first, to not take file upload into account, if any
+	// this record is a reference to an external file -- do not take upload into account, if any
 	if(isset($_REQUEST['file_href']) && $_REQUEST['file_href']) {
 
 		// protect from hackers -- encode_link() would introduce &amp;
@@ -226,23 +226,37 @@ if(Surfer::is_crawler()) {
 		// ensure we have a file name
 		$_REQUEST['file_name'] = utf8::to_ascii(str_replace('%20', ' ', basename($_REQUEST['file_href'])));
 
-		// always remember file uploads, for traceability
+		// change has been documented
 		if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
 			$_REQUEST['version'] = '';
 		else
 			$_REQUEST['version'] = ' - '.$_REQUEST['version'];
 
+		// always remember file uploads, for traceability
 		$_REQUEST['version'] = $_REQUEST['file_name'].' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+
+		// add to file history
+		$_REQUEST['description'] = Files::add_to_history($item, $_REQUEST['version']);
+
+		// save in the database
+		Files::post($_REQUEST);
 
 	// a file has been uploaded
 	} elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
+		$file_path = Files::get_path($_REQUEST['anchor']);
+
+		// update an existing file record
+		if(isset($item['id']))
+			$_FILES['upload']['id'] = $item['id'];
 
 		// attach some file
-		$file_path = Files::get_path($_REQUEST['anchor']);
 		if($uploaded = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
 
 			// actually, a new file
-			$action = 'file:create';
+			if(!isset($item['id']))
+				$action = 'file:create';
+			else
+				$action = 'file:upload';
 
 			// several files have been added
 			if(is_array($uploaded))
@@ -264,8 +278,18 @@ if(Surfer::is_crawler()) {
 			}
 		}
 
+	// update a record about an uploaded file
+	} elseif(isset($_REQUEST['id'])) {
+
+		// change has been documented
+		if(isset($_REQUEST['version']) && $_REQUEST['version'])
+			$_REQUEST['description'] = Files::add_to_history($item, $_REQUEST['version']);
+
+		// save in the database
+		Files::post($_REQUEST);
+
 	// nothing has been posted
-	} elseif(!isset($_REQUEST['id']))
+	} else
 		Logger::error(i18n::s('No file has been transmitted.'));
 
 	// an error has already been encoutered
