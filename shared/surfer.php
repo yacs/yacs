@@ -591,12 +591,11 @@ Class Surfer {
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
 
-		// a textarea that grow on focus
+		// a textarea that grow automatically
 		} elseif($spring) {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
 				.'<textarea name="'.$name.'" id="'.$name.'"'
-				.	' rows="1" cols="50" >'
-//				.	' onfocus="if(fuse'.$name.'){$(this).tipsy(\'hide\');Yacs.growPanel(this);fuse'.$name.'=0;}">'
+				.	' rows="1" cols="50" class="tip" >'
 				.	'</textarea>'."\n"
 				.JS_PREFIX
 				.'$(document).ready(function(){'
