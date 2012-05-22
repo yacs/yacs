@@ -832,10 +832,10 @@ Class Article extends Anchor {
 			// purge oldest comments
 			Comments::purge_for_anchor('article:'.$this->item['id']);
 
-		// a new file has been attached
-		} elseif(($action == 'file:create')) {
+		// file upload
+		} elseif(($action == 'file:create') || ($action == 'file:upload')) {
 
-			// identify specific files
+			// actually, several files have been added
 			$label = '';
 			if(!$origin) {
 				$fields = array();
@@ -844,6 +844,7 @@ Class Article extends Anchor {
 				$fields['type'] = 'notification';
 				Comments::post($fields);
 
+			// one file has been added
 			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
 
 				// this file is eligible for being embedded in the page
@@ -861,7 +862,10 @@ Class Article extends Anchor {
 				} else {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
-					$fields['description'] = '[file='.$item['id'].']';
+					if($action == 'file:create')
+						$fields['description'] = '[file='.$item['id'].']';
+					else
+						$fields['description'] = '[download='.$item['id'].']';
 					Comments::post($fields);
 
 				}
@@ -1064,7 +1068,7 @@ Class Article extends Anchor {
 			$to_followers = FALSE;
 
 		// send alert only on new stuff
-		if(preg_match('/:create$/i', $action)) {
+		if(preg_match('/:create$/i', $action) || !strcmp($action, 'file:upload')) {
 
 			// poster name
 			$surfer = Surfer::get_name();
@@ -1079,8 +1083,8 @@ Class Article extends Anchor {
 			if(!$origin)
 				$mail['content'] = '';
 
-			// a file has been added to the page
-			elseif($action == 'file:create') {
+			// a file has been added to the page, or a file has been refreshed
+			elseif(($action == 'file:create') || ($action == 'file:upload')){
 				if(($target = Files::get($origin, TRUE)) && $target['id']) {
 
 					// mail content
@@ -1175,8 +1179,8 @@ Class Article extends Anchor {
 			if($action == 'comment:create')
 				$action = 'article:comment';
 
-			// notify the full contribution to section watcher
-			elseif($action == 'file:create')
+			// notify file upload to section watcher
+			elseif(($action == 'file:create') || ($action == 'file:upload'))
 				$action = 'article:file';
 
 			// propagate to parent only if target is the article
