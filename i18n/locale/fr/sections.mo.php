@@ -339,6 +339,7 @@ $context['l10n']['fr']['Send']='Envoyer';
 $context['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $context['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $context['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
+$context['l10n']['fr']['Several files have been added']='Plusieurs fichiers ont été ajoutés';
 $context['l10n']['fr']['Share']='Partager';
 $context['l10n']['fr']['Share at LinkedIn']='Partager sur LinkedIn';
 $context['l10n']['fr']['Shortcut: %s']='Raccourci : %s';
