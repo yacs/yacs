@@ -2502,10 +2502,14 @@ Class Files {
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
 			$fields['create_date'] = $fields['edit_date'];
 
+		// make the file name searchable on initial post
+		if(!isset($fields['id']) && !isset($fields['keywords']) && isset($fields['file_name']) && ($fields['file_name'] != 'none'))
+				$fields['keywords'] = ' '.str_replace(array('%20', '_', '.', '-'), ' ', $fields['file_name']);
+
 		// columns updated
 		$query = array();
 
-		// update the existing record
+		// update an existing record
 		if(isset($fields['id'])) {
 
 			// id cannot be empty
@@ -3080,22 +3084,30 @@ Class Files {
 
 					// we have to update an anchor page
 					} elseif($target && is_string($target)) {
+						$fields = array();
 
-						// update an existing record for this anchor
-						if($match =& Files::get_by_anchor_and_name($target, $file_name))
-							$fields = $match;
+						// update a file with the same name for this anchor
+						if($fields =& Files::get_by_anchor_and_name($target, $file_name))
+							;
 
-						// create a new file record
-						else {
-							$fields = array();
-							$fields['file_name'] = $file_name;
-							$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
-							$fields['file_href'] = '';
-							$fields['anchor'] = $target;
+						// update an existing record
+						elseif(isset($input['id']) && ($fields = Files::get($input['id']))) {
+
+							// silently delete the previous version of the file
+							if(isset($fields['file_name']))
+								Safe::unlink($file_path.'/'.$fields['file_name']);
+
 						}
 
+						// prepare file record
+						$fields['file_name'] = $file_name;
+						$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
+						$fields['file_href'] = '';
+						$fields['anchor'] = $target;
 
-
+						// change title
+						if(isset($_REQUEST['title']))
+							$fields['title'] = $_REQUEST['title'];
 
 						// change has been documented
 						if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
@@ -3106,9 +3118,6 @@ Class Files {
 						// always remember file uploads, for traceability
 						$_REQUEST['version'] = $fields['file_name'].' ('.Skin::build_number($fields['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
 
-						// make the file name searchable on initial post
-						if(!isset($_REQUEST['id']))
-							$fields['keywords'] = ' '.str_replace(array('%20', '_', '.', '-'), ' ', $file_name);
 						// add to file history
 						$fields['description'] = Files::add_to_history($fields, $_REQUEST['version']);
 
@@ -3121,6 +3130,22 @@ Class Files {
 							if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
 								$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
 						}
+
+						// change active_set
+						if(isset($_REQUEST['active_set']))
+							$fields['active_set'] = $_REQUEST['active_set'];
+
+						// change source
+						if(isset($_REQUEST['source']))
+							$fields['source'] = $_REQUEST['source'];
+
+						// change keywords
+						if(isset($_REQUEST['keywords']))
+							$fields['keywords'] = $_REQUEST['keywords'];
+
+						// change alternate_href
+						if(isset($_REQUEST['alternate_href']))
+							$fields['alternate_href'] = $_REQUEST['alternate_href'];
 
 						// create the record in the database
 						if(!$fields['id'] = Files::post($fields))
