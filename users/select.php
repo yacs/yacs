@@ -445,9 +445,9 @@ elseif(!$permitted) {
 
 		// list also watchers and editors of parent containers
 		$inherited = '';
+		$forwarding = TRUE;
 		$handle = $anchor->get_parent();
 		while($handle && ($parent = Anchors::get($handle))) {
-			$handle = $parent->get_parent();
 
 			// watchers and editors of this container
 			if(($users =& Members::list_users_by_name_for_reference($parent->get_reference(), 'raw')) && count($users)) {
@@ -478,8 +478,12 @@ elseif(!$permitted) {
 					elseif(Surfer::is_associate())
 						$disabled ='';
 
+					// limit the horizon of watching
+					if($forwarding && !strncmp($anchor->get_reference(), 'article:', 8) && ($handle != $anchor->get_parent()) && !$parent->has_option('forward_notifications'))
+						$forwarding = FALSE;
+
 					// watcher?
-					if($user['watcher']) {
+					elseif($user['watcher']) {
 						$link = $context['script_url'].'?member='.urlencode($parent->get_reference()).'&amp;watcher=user:'.$id.'&amp;action=reset';
 						$details[] = '<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('watcher');
 					} else {
@@ -508,6 +512,9 @@ elseif(!$permitted) {
 				$inherited .= Skin::build_box(sprintf(i18n::s('Participants to %s'), $parent->get_title()), Skin::build_list($items, 'compact'), 'folded');
 
 			}
+
+			// next level
+			$handle = $parent->get_parent();
 		}
 
 		if($inherited)
