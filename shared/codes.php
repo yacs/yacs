@@ -2959,8 +2959,8 @@ Class Codes {
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
 			$id = $attributes[0];
 
-			// load the record from the database
-			if(!$item = Files::get($id))
+			// load the record from the database --ensure we get a fresh copy of the record, not a cached one
+			if(!$item = Files::get($id, TRUE))
 				$output = '[file='.$id.']';
 
 			else {
