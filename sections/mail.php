@@ -105,7 +105,7 @@ if(Surfer::is_crawler()) {
 
 	// headline
 	$headline = sprintf(i18n::c('%s is notifying  you from %s'),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+		Surfer::get_link(),
 		'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages

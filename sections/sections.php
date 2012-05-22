@@ -548,7 +548,7 @@ Class Sections {
 
 		// headline
 		$headline = sprintf($template,
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			Surfer::get_link(),
 			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$title.'</a>');
 
 		// panel content

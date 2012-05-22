@@ -95,12 +95,11 @@ if(!$item['id']) {
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags(Surfer::get_name()));
 
 				// headline
-				$headline = sprintf(i18n::c('%s is following you'),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name())).'</a>');
+				$headline = sprintf(i18n::c('%s is following you'), Surfer::get_link());
 
 				// information
 				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), Surfer::get_name(), $context['site_name']).'</p>'
-					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name())).'</a></p>';
+					.'<p>'.Surfer::get_link().'</p>';
 
 				// assemble main content of this message
 				$message = Skin::build_mail_content($headline, $message);

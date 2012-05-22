@@ -1565,9 +1565,7 @@ class Event extends Overlay {
 					$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
 
 					// headline
-					$headline = sprintf(i18n::c('%s has cancelled %s'),
-						'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-						$this->anchor->get_title());
+					$headline = sprintf(i18n::c('%s has cancelled %s'), Surfer::get_link(), $this->anchor->get_title());
 
 					// message to reader
 					$message = $this->get_invite_default_message('CANCEL');
@@ -1719,8 +1717,7 @@ class Event extends Overlay {
 						$subject = sprintf(i18n::c('Updated: %s'), strip_tags($this->anchor->get_title()));
 
 						// headline
-						$headline = sprintf(i18n::c('%s has updated %s'),
-							'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+						$headline = sprintf(i18n::c('%s has updated %s'), Surfer::get_link(),
 							'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 						// message to reader
