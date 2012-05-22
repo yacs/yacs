@@ -2867,7 +2867,7 @@ div.icon img { /* main image of an article, or of some section -- $context[page_
 div.bottom { /* bottom -- the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
-	padding-top: 4px;
+	padding-top: 0.8em; /* because of Done buttons */
    	width: 80%; /* same width as div#tabs_bar */
 }
 
