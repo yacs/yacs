@@ -536,10 +536,6 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 	}
 
-	// append fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
-
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_member()) {
 		$label = i18n::s('Image');
@@ -603,8 +599,8 @@ if($with_form) {
 	$hint = i18n::s('Paste here complicated peer-to-peer href (ed2k, torrent, etc.)');
 	$fields[] = array($label, $input, $hint);
 
-	// add a folded box
-	$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
+	// append fields
+	$text .= Skin::build_form($fields);
 	$fields = array();
 
 	// display in a separate panel
