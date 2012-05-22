@@ -463,12 +463,7 @@ if($with_form) {
 		$details = array();
 
 		// file name
-		if(isset($item['file_name']) && $item['file_name'])
-			$details[] = $item['file_name'];
-
-		// file uploader
-		if(isset($item['create_name']))
-			$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+		$name = str_replace('_', ' ', $item['file_name']);
 
 		// downloads and file size
 		$other_details = array();
@@ -477,7 +472,14 @@ if($with_form) {
 		if(isset($item['file_size']) && ($item['file_size'] > 1))
 			$other_details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
 		if(count($other_details))
-			$details[] = join(', ', $other_details);
+			$name .= '  ('.join(', ', $other_details).')';
+
+		// the file itself
+		$details[] = $name;
+
+		// file uploader
+		if(isset($item['create_name']))
+			$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
 
 		if(count($details))
 			$input .= ucfirst(implode(BR, $details)).BR.BR;
@@ -486,7 +488,7 @@ if($with_form) {
 		if(Surfer::may_upload()) {
 
 			// refresh the file
-			$input .= i18n::s('Select another file to replace the current one').BR
+			$input .= '<span class="details">'.i18n::s('Select another file to replace the current one').'</span>'.BR
 				.'<input type="file" name="upload" id="upload" size="30" />'
 				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'."\n";
 
