@@ -260,7 +260,7 @@ if(Surfer::is_crawler()) {
 
 		// one file has been added
 		elseif($file =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
-			$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.Codes::render_object('file', $file['id']).'</div>';
+			$_REQUEST['description'] .= '<div style="margin-top: 1em;">[file='.$file['id'].']</div>';
 
 			// silently delete the previous file if the name has changed
 			if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
