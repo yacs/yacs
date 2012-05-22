@@ -1655,8 +1655,23 @@ Class Files {
 		if($icon) {
 			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
 
-			// ensure we have a label for this link
-			$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+			// label for this file
+			$text = '';
+
+			// signal restricted and private files
+			if($item['active'] == 'N')
+				$text .= PRIVATE_FLAG;
+			elseif($item['active'] == 'R')
+				$text .= RESTRICTED_FLAG;
+
+			// use file name, or regular title
+			$text .= Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+			// flag files uploaded recently
+			if($item['create_date'] >= $context['fresh'])
+				$text .= NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$text .= UPDATED_FLAG;
 
 			// make a link to the target page
 			$url = Files::get_download_url($item);
