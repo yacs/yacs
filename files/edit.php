@@ -268,10 +268,6 @@ if(Surfer::is_crawler()) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $item['id']);
 
-				// silently delete the previous file if the name has changed
-				if(isset($item['file_name']) && ($item['file_name'] != $uploaded))
-					Safe::unlink($file_path.'/'.$item['file_name']);
-
 				// use this file record
 				$_REQUEST['id'] = $item['id'];
 
