@@ -378,8 +378,7 @@ Class Files {
 		global $context;
 
 		// headline
-		$headline = sprintf(i18n::c('A file has been added by %s'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+		$headline = sprintf(i18n::c('A file has been added by %s'), Surfer::get_link());
 
 		// several components in this message
 		$details = array();

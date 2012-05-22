@@ -130,8 +130,7 @@ class Mailer {
 
 		case 2: // you are watching the poster
 			$text .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
-				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name()))
-				.'</a></p>';
+				.'<p>'.Surfer::get_link().'</p>';
 			break;
 
 		}

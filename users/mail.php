@@ -141,8 +141,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	} else {
 
 		// headline
-		$headline = sprintf(i18n::c('%s has sent a message to you'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+		$headline = sprintf(i18n::c('%s has sent a message to you'), Surfer::get_link());
 
 		// assemble main content of this message
 		$message = Skin::build_mail_content($headline, $message);

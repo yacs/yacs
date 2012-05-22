@@ -224,7 +224,7 @@ Class Comments {
 
 		// headline
 		$headline = sprintf(i18n::c('%s has contributed to %s'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			Surfer::get_link(),
 			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// content

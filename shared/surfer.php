@@ -690,6 +690,21 @@ Class Surfer {
 	}
 
 	/**
+	 * build a pretty link to the profile page of this surfer
+	 *
+	 * This function is a proxy for Users::get_link(), limited to current surfer.
+	 *
+	 * @return string some text describing this surfer, with a link to get more information
+	 *
+	 * @see users/users.php
+	 */
+	public static function get_link() {
+		global $context;
+
+		return Users::get_link(Surfer::get_name(), Surfer::get_email_address(), Surfer::get_id());
+	}
+
+	/**
 	 * get the name of the current surfer, if known
 	 *
 	 * If the surfer has been authenticated, then its name is provided.

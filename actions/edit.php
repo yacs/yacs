@@ -216,8 +216,7 @@ if(Surfer::is_crawler()) {
 			$subject = sprintf(i18n::s('New action: %s'), strip_tags($_REQUEST['title']));
 
 			// headline
-			$headline = sprintf(i18n::c('%s is requesting your contribution'),
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+			$headline = sprintf(i18n::c('%s is requesting your contribution'), Surfer::get_link());
 
 			// message main content
 			$message = '<p>'.i18n::s('The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.').'</p>'

@@ -1108,9 +1108,7 @@ Class Article extends Anchor {
 			} else {
 
 				// headline
-				$headline  = sprintf(i18n::c('%s by %s'),
-					Anchors::get_action_label($action),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+				$headline  = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_link());
 
 				// message main content
 				$mail['content'] = Skin::build_mail_content($headline);

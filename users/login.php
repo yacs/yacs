@@ -331,8 +331,7 @@ if(Surfer::is_crawler()) {
 		// a link to the user profile
 		$cells = array();
 		$cells[] = i18n::s('Your profile');
-		$url = Surfer::get_permalink();
-		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
+		$cells[] = 'left='.Surfer::get_link();
 		$information .= Skin::table_row($cells, $lines++);
 
 		// the email field
