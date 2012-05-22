@@ -49,6 +49,50 @@
 Class Files {
 
 	/**
+	 * add to the history of a file
+	 *
+	 * @param array previous attributes of this file, including its history
+	 * @param string new information to be remembered
+	 * @return string new content of the history field
+	 */
+	public static function add_to_history($item, $version) {
+		global $context;
+
+		// we return some text
+		$text = '';
+
+		// used to expand the history field
+		if(!defined('MARKER'))
+			define('MARKER', '<!-- insert point -->');
+
+		// ensure we have a marker to insert history in the description field
+		if(!isset($item['description']))
+			$text = '<dl class="comments">'.MARKER.'</dl>';
+		elseif(!strpos($item['description'], MARKER))
+			$text = '<dl class="comments">'.MARKER.'</dl><div>'.$item['description'].'</div>';
+		else
+			$text = $item['description'];
+
+		// remove active links that were used in previous versions of yacs
+		$text = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $text);
+
+		// sanity check
+		if(!$version)
+			return $text;
+
+		// shape the new element
+		$version = '<dt>'.sprintf(i18n::s('%s %s'), Surfer::get_link(), Skin::build_date($context['now'], 'plain')).'</dt>'
+			.'<dd>'.$version.'</dd>';
+
+		// the new history attribute
+		$text = str_replace(MARKER, MARKER.$version, $text);
+
+		// job done
+		return $text;
+
+	}
+
+	/**
 	 * check if new files can be added
 	 *
 	 * This function returns TRUE if files can be added to some place,
@@ -3050,38 +3094,23 @@ Class Files {
 							$fields['anchor'] = $target;
 						}
 
-						// used to expand the history field
-						if(!defined('MARKER'))
-							define('MARKER', '<!-- insert point -->');
 
-						// ensure we have a marker in the history field
-						if(!isset($fields['description']))
-							$fields['description'] = '<dl class="comments">'.MARKER.'</dl>';
-						elseif(!strpos($fields['description'], MARKER))
-							$fields['description'] = '<dl class="comments">'.MARKER.'</dl><div>'.$fields['description'].'</div>';
 
-						// remove active links that were used in previous versions of yacs
-						$fields['description'] = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $fields['description']);
 
-						// maybe the surfer has documented the change
+						// change has been documented
 						if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
-							$version = '';
+							$_REQUEST['version'] = '';
 						else
-							$version = $_REQUEST['version'].' - ';
+							$_REQUEST['version'] = ' - '.$_REQUEST['version'];
 
 						// always remember file uploads, for traceability
-						$version .= $file_name.' ('.Skin::build_number($fields['file_size'], i18n::s('bytes')).')';
-
-						// shape the new element
-						$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id']), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
-							.'<dd>'.$version.'</dd>';
-
-						// keep it for history
-						$fields['description'] = str_replace(MARKER, MARKER.$version, $fields['description']);
+						$_REQUEST['version'] = $fields['file_name'].' ('.Skin::build_number($fields['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
 
 						// make the file name searchable on initial post
 						if(!isset($_REQUEST['id']))
 							$fields['keywords'] = ' '.str_replace(array('%20', '_', '.', '-'), ' ', $file_name);
+						// add to file history
+						$fields['description'] = Files::add_to_history($fields, $_REQUEST['version']);
 
 						// if this is an image, maybe we can derive a thumbnail for it?
 						if(Files::is_image($file_name)) {
