@@ -182,34 +182,8 @@ if(!isset($item['id'])) {
 	// do not mention details to crawlers
 	if(!Surfer::is_crawler()) {
 
-		// display the source, if any, but only to authenticated surfers
-		if($item['source']) {
-			if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
-				$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
-			else {
-				if($attributes = Links::transform_reference($item['source'])) {
-					list($link, $title, $description) = $attributes;
-					$item['source'] = Skin::build_link($link, $title);
-				}
-			}
-			$context['page_details'] .= '<p>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
-		}
-
 		// all details
 		$context['page_details'] .= '<p class="details">';
-
-		// warns associate, poster and editor if not active
-		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()) || Surfer::is($item['create_id'])) {
-
-			// restricted to logged members
-			if($item['active'] == 'R')
-				$context['page_details'] .= RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
-
-			// restricted to associates
-			elseif($item['active'] == 'N')
-				$context['page_details'] .= PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
-
-		}
 
 		$details = array();
 
@@ -231,35 +205,100 @@ if(!isset($item['id'])) {
 
 	}
 
-	// file details
-	$context['text'] .= '<p>';
+	// file has been assigned
+	if(isset($item['assign_id']) && $item['assign_id']) {
 
-	// the file name
-	if($item['title'])
-		$context['text'] .= str_replace('_', ' ', $item['file_name']).BR;
+		// reminder to file owner
+		if(Surfer::is_member() && (Surfer::get_id() == $item['assign_id'])) {
+			$context['text'] .= Skin::build_block(sprintf(i18n::s('You have reserved this file %s, and you are encouraged to %s as soon as possible, or to %s.'), Skin::build_date($item['assign_date']), Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('upload an updated version'), 'basic'), Skin::build_link(Files::get_url($item['id'], 'fetch', 'release'), i18n::s('release reservation'), 'basic')), 'note');
 
-	// some details
-	$details = array();
+		// information to other surfers
+		} else {
+			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'note');
 
-	// file size
-	if($item['file_size'] > 1)
-		$details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
+		}
 
-	// hits
-	if($item['hits'] > 1)
-		$details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
+	}
+
+	// a table to present file data
+	$rows = array();
+
+	// file name
+	$name = str_replace('_', ' ', $item['file_name']);
+
+	// downloads and file size
+	$other_details = array();
+	if(isset($item['hits']) && ($item['hits'] > 1))
+		$other_details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
+	if(isset($item['file_size']) && ($item['file_size'] > 1))
+		$other_details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
+	if(count($other_details))
+		$name .= '  ('.join(', ', $other_details).')';
+
+	// the file itself
+	$rows[] = array(i18n::s('File'), $name);
+
+	// access rights
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()) || Surfer::is($item['create_id'])) {
+
+		// restricted to logged members
+		if($item['active'] == 'R')
+			$rows[] = array(i18n::s('Access'), RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer'));
+
+		// restricted to associates
+		elseif($item['active'] == 'N')
+			$rows[] = array(i18n::s('Access'), PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons'));
+
+	}
+
+	// file history
+	$history = '';
 
 	// file has been assigned
 	if(isset($item['assign_id']) && $item['assign_id']) {
-		// who has been assigned?
 		if(Surfer::is($item['assign_id']))
-			$details[] = DRAFT_FLAG.sprintf(i18n::s('reserved by you %s'), Skin::build_date($item['assign_date']));
+			$label = i18n::s('you');
 		else
-			$details[] = DRAFT_FLAG.sprintf(i18n::s('reserved by %s %s'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']));
+			$label = $item['assign_name'];
+		$history .= DRAFT_FLAG.sprintf(i18n::s('reserved by %s %s'), Users::get_link($label, $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])).BR;
 	}
 
+	// file uploader
+	if(isset($item['create_name'])) {
+		if(Surfer::is($item['create_id']))
+			$label = i18n::s('you');
+		else
+			$label = $item['create_name'];
+		$history .= sprintf(i18n::s('shared by %s %s'), Users::get_link($label, $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+	}
+
+	// display the full text
+	if($item['description'])
+		$history .= Skin::build_box(i18n::s('More information'), $item['description'], 'folded');
+
+	// past of this file
+	if($history)
+		$rows[] = array(i18n::s('History'), $history);
+
+	// display the source
+	if($item['source']) {
+		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
+			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
+		else {
+			if($attributes = Links::transform_reference($item['source'])) {
+				list($link, $title, $description) = $attributes;
+				$item['source'] = Skin::build_link($link, $title);
+			}
+		}
+		$rows[] = array(i18n::s('Source'), $item['source']);
+	}
+
+	// keywords
+	if($item['keywords'])
+		$rows[] = array(i18n::s('Keywords'), $item['keywords']);
+
 	// display these details
-	$context['text'] .= '<span class="details">'.ucfirst(implode(', ', $details)).'</span></p>';
+	$context['text'] .= Skin::table(NULL, $rows);
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -320,10 +359,6 @@ if(!isset($item['id'])) {
 			$context['text'] .= Skin::table(NULL, $rows);
 
 	}
-
-	// display the full text
-	if($item['description'])
-		$context['text'] .= Skin::build_box(i18n::s('History'), Skin::build_block($item['description'], 'description'), 'folded');
 
 	//
 	// plugins
@@ -470,21 +505,6 @@ if(!isset($item['id'])) {
 	//
 	// link to download the file
 	//
-
-	// file has been assigned
-	if(isset($item['assign_id']) && $item['assign_id']) {
-
-		// reminder to file owner
-		if(Surfer::is_member() && (Surfer::get_id() == $item['assign_id'])) {
-			$context['text'] .= Skin::build_block(sprintf(i18n::s('You have reserved this file %s, and you are encouraged to %s as soon as possible, or to %s.'), Skin::build_date($item['assign_date']), Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('upload an updated version'), 'basic'), Skin::build_link(Files::get_url($item['id'], 'fetch', 'release'), i18n::s('release reservation'), 'basic')), 'note');
-
-		// information to other surfers
-		} else {
-			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'note');
-
-		}
-
-	}
 
 	// download description
 	$description = '';
@@ -822,10 +842,6 @@ if(!isset($item['id'])) {
 
 	// anti-virus manifest
 	$context['text'] .= '<p>'.i18n::s('While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.')."</p>\n";
-
-	// keywords for members
-	if($item['keywords'] && Surfer::is_logged())
-		$context['text'] .= "<p>".sprintf(i18n::s('Keywords: %s'), $item['keywords'])."</p>\n";
 
 	// file is also available for detach
 	if(Files::allow_modification($anchor, $item) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
