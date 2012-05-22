@@ -1079,14 +1079,37 @@ Class Section extends Anchor {
 		// a new file has been attached
 		} elseif(($action == 'file:create')) {
 
-			// identify specific files
+			// actually, several files have been added
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
+			if(!$origin) {
+				$fields = array();
+				$fields['anchor'] = 'section:'.$this->item['id'];
+				$fields['description'] = i18n::s('Several files have been added');
+				$fields['type'] = 'notification';
+				Comments::post($fields);
 
-				// give it to the Flash player
-				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
-					$label = '[embed='.$origin.']';
+			// one file has been added
+			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
 
+				// this file is eligible for being embedded in the page
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
+
+					// the overlay may prevent embedding
+					if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+
+					// else use a yacs code to implement the embedded object
+					else
+						$label = '[embed='.$origin.']';
+
+				// else add a comment to take note of the upload
+				} else {
+					$fields = array();
+					$fields['anchor'] = 'section:'.$this->item['id'];
+					$fields['description'] = '[file='.$item['id'].']';
+					Comments::post($fields);
+
+				}
 
 			}
 
