@@ -294,7 +294,7 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// reward the poster for new posts, or for actual upload
-	} elseif(!isset($item['id']) || ($action == 'file:create')) {
+	} elseif(!isset($item['id']) || ($action == 'file:create') || ($action == 'file:upload')) {
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -309,7 +309,7 @@ if(Surfer::is_crawler()) {
 			Activities::post('file:'.$_REQUEST['id'], 'upload');
 
 			// touch the related anchor
-			$anchor->touch('file:create', $_REQUEST['id'],
+			$anchor->touch($action, $_REQUEST['id'],
 				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
 				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
 				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
