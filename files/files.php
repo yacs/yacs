@@ -816,6 +816,7 @@ Class Files {
 				'bz2' => $files_icons_url.'zip_icon.gif',
 				'cer' => $files_icons_url.'security_icon.png',
 				'css' => $files_icons_url.'html_icon.gif',
+				'csv' => $files_icons_url.'excel_icon.gif',
 				'divx' => $files_icons_url.'film_icon.gif',
 				'dll' => $files_icons_url.'exe_icon.gif',
 				'doc' => $files_icons_url.'word_icon.gif',
@@ -1037,6 +1038,7 @@ Class Files {
 				'cer' => 'application/x-x509-ca-cert',	// a X509 certificate
 				'chm' => 'application/octet-stream',		// windows help file
 				'css' => 'text/css',
+				'csv' => 'text/csv',
 				'divx' => 'video/vnd.divx ',
 				'dll' => 'application/octet-stream',
 				'doc' => 'application/msword',
