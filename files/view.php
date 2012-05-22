@@ -770,6 +770,7 @@ if(!isset($item['id'])) {
 		$description .= '<p>'.sprintf(i18n::s('You are about to download a Microsoft Write document. If you do not have this software, you can get more information at the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external')).'</p>';
 		break;
 
+	case 'csv':
 	case 'xls':
 	case 'xlsm':
 	case 'xlsx':
