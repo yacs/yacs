@@ -2919,7 +2919,7 @@ Class Codes {
 				$url = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($item['id']);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
+				$output = Skin::build_link($url, $text, 'basic');
 
 			}
 			return $output;
@@ -2937,17 +2937,32 @@ Class Codes {
 
 			else {
 
+				// label for this file
+				$prefix = $text = $suffix = '';
+
+				// signal restricted and private files
+				if($item['active'] == 'N')
+					$prefix .= PRIVATE_FLAG;
+				elseif($item['active'] == 'R')
+					$prefix .= RESTRICTED_FLAG;
+
 				// ensure we have a label for this link
 				if(isset($attributes[1]))
 					$text = $attributes[1];
 				else
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
+				// flag files uploaded recently
+				if($item['create_date'] >= $context['fresh'])
+					$suffix .= NEW_FLAG;
+				elseif($item['edit_date'] >= $context['fresh'])
+					$suffix .= UPDATED_FLAG;
+
 				// always download the file
 				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'file');
+				$output = $prefix.Skin::build_link($url, $text, 'file').$suffix;
 			}
 
 			return $output;
@@ -2968,17 +2983,32 @@ Class Codes {
 				// maybe we want to illustrate this file
 				if(!$output = Files::interact($item)) {
 
+					// label for this file
+					$prefix = $text = $suffix = '';
+
+					// signal restricted and private files
+					if($item['active'] == 'N')
+						$prefix .= PRIVATE_FLAG;
+					elseif($item['active'] == 'R')
+						$prefix .= RESTRICTED_FLAG;
+
 					// ensure we have a label for this link
 					if(isset($attributes[1]))
-						$text = $attributes[1];
+						$text .= $attributes[1];
 					else
-						$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+						$text .= Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+					// flag files uploaded recently
+					if($item['create_date'] >= $context['fresh'])
+						$suffix .= NEW_FLAG;
+					elseif($item['edit_date'] >= $context['fresh'])
+						$suffix .= UPDATED_FLAG;
 
 					// make a link to the target page
 					$url = Files::get_download_url($item);
 
 					// return a complete anchor
-					$output .= Skin::build_link($url, $text, 'basic');
+					$output .= $prefix.Skin::build_link($url, $text, 'basic').$suffix;
 
 				}
 			}

@@ -60,19 +60,7 @@ Class Layout_files extends Layout_interface {
 
 			// we are listing various files from various places
 			} else {
-				$prefix = '';
-
-				// flag files uploaded recently
-				if($item['create_date'] >= $context['fresh'])
-					$prefix .= NEW_FLAG;
-				elseif($item['edit_date'] >= $context['fresh'])
-					$prefix .= UPDATED_FLAG;
-
-				// signal restricted and private files
-				if($item['active'] == 'N')
-					$prefix .= PRIVATE_FLAG;
-				elseif($item['active'] == 'R')
-					$prefix .= RESTRICTED_FLAG;
+				$prefix = $suffix = '';
 
 				// stream the file
 				if(Files::is_stream($item['file_name']))
@@ -85,6 +73,12 @@ Class Layout_files extends Layout_interface {
 				// absolute url
 				$url = $context['url_to_home'].$context['url_to_root'].$url;
 
+				// signal restricted and private files
+				if($item['active'] == 'N')
+					$prefix .= PRIVATE_FLAG;
+				elseif($item['active'] == 'R')
+					$prefix .= RESTRICTED_FLAG;
+
 				// file title or file name
 				$label = Codes::beautify_title($item['title']);
 				if(!$label)
@@ -95,8 +89,14 @@ Class Layout_files extends Layout_interface {
 				if(Surfer::is_member())
 					$hover .= ' [file='.$item['id'].']';
 
+				// flag files uploaded recently
+				if($item['create_date'] >= $context['fresh'])
+					$suffix .= NEW_FLAG;
+				elseif($item['edit_date'] >= $context['fresh'])
+					$suffix .= UPDATED_FLAG;
+
 				// one line of text
-				$box .= $prefix.Skin::build_link($url, $label, 'basic', $hover);
+				$box .= $prefix.Skin::build_link($url, $label, 'basic', $hover).$suffix;
 
 				// side icon
 				if($item['thumbnail_url'])
