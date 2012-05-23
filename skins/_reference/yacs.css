@@ -1487,7 +1487,34 @@ dl.newsfeed_item dd img {
 	padding: 0.5em; /* some space between images and text around */
 }
 
+.tweet {
+	background: #fff;
+	margin: 4px 0;
+	width: 500px;
+	padding: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
 
+.tweet img {
+	float: left;
+	margin: 0 8px 4px 0;
+}
+
+.tweet .text {
+	margin: 0;
+}
+
+.tweet .time a {
+	font-size: 80%;
+	color: #888;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.tweet .time a:hover {
+	text-decoration: underline;
+}
 
 /*************************
  * styles demonstrated into help page codes/misc.php

@@ -4283,17 +4283,8 @@ Class Codes {
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="twitter_'.$count.'"></div>'."\n"
-			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
-			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'new TWTR.Widget({'."\n"
-			.'  profile: true,'."\n"
-			.'  id: "twitter_'.$count.'",'."\n"
-			.'  loop: true,'."\n"
-			.'  width: '.$width.','."\n"
-			.'  height: '.$height.','."\n"
-			.'  '.$theme."\n"
-			.'}).render().setProfile("'.$id.'").start();'."\n"
+			.'$(document).ready(function() { $("#twitter_'.$count.'").liveTwitter("'.$id.'", {mode: "user_timeline"}); });'."\n"
 			.'</script>';
 
 		// job done
@@ -4325,20 +4316,6 @@ Class Codes {
 		else
 			$height = 300;
 
-		// theme
-		if(isset($attributes[3]))
-			$theme = $attributes[3];
-		else
-			$theme = 'theme: { shell: {'."\n"
-				.'      background: "#3082af",'."\n"
-				.'      color: "#ffffff"'."\n"
-				.'    },'."\n"
-				.'    tweets: {'."\n"
-				.'      background: "#ffffff",'."\n"
-				.'      color: "#444444",'."\n"
-				.'      links: "#1985b5"'."\n"
-				.'    }}';
-
 		// allow multiple widgets
 		static $count;
 		if(!isset($count))
@@ -4348,17 +4325,8 @@ Class Codes {
 
 		// $context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="tsearch_'.$count.'"></div>'."\n"
-			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
-			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'new TWTR.Widget({'."\n"
-			.'  search: "'.str_replace('"', '', $id).'",'."\n"
-			.'  id: "tsearch_'.$count.'",'."\n"
-			.'  loop: true,'."\n"
-			.'  width: '.$width.','."\n"
-			.'  height: '.$height.','."\n"
-			.'  '.$theme."\n"
-			.'}).render().start();'."\n"
+			.'$(document).ready(function() { $("#tsearch_'.$count.'").liveTwitter("'.str_replace('"', '', $id).'"); });'."\n"
 			.'</script>';
 
 		// job done
