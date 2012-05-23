@@ -1,6 +1,6 @@
 <?php
 /**
- * update reference skins
+ * update reference files
  *
  * @author Bernard Paques
  * @reference
@@ -9,7 +9,7 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Update reference skins';
+$local['label_en'] = 'Update reference files';
 $local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
@@ -23,9 +23,22 @@ $files = array();
 $files[] = 'included/browser/js_endpage/jquery.autogrow-textarea.js';
 $files[] = 'included/browser/js_endpage/jquery.livetwitter.js';
 $files[] = 'included/browser/library_js_endpage.min.js';
+$files[] = 'included/browser/library_js_header.min.js';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/pagers/phone.gif';
+$files[] = 'skins/_reference/thumbnails/basic.gif';
+$files[] = 'skins/_reference/thumbnails/chat.gif';
+$files[] = 'skins/_reference/thumbnails/meeting.gif';
+$files[] = 'skins/_reference/thumbnails/page.gif';
+$files[] = 'skins/_reference/thumbnails/thread.gif';
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/boxesandarrows/boxesandarrows.css';
+$files[] = 'skins/digital/digital.css';
+$files[] = 'skins/flexible/template.css';
+$files[] = 'skins/joi/joi.css';
+$files[] = 'skins/skeleton/skeleton.css';
+$files[] = 'tools/srcfiles.txt';
+$files[] = 'tools/transform.xsl';
 
 // process every file
 $count = 0;
