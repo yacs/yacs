@@ -179,14 +179,13 @@ Class Layout_files extends Layout_interface {
 			if(count($details))
 				$box .= '<p class="details">'.Skin::finalize_list($details, 'menu').'</p>';
 
-
+			// insert item icon
 			if($icon) {
 				$list = array(array($box, $icon));
 				$items[] = Skin::finalize_list($list, 'decorated');
 
+			// put the item in a division
 			} else
-
-				// list all components for this item
 				$items[] = '<div style="margin: 0 0 2em 0">'.$box.'</div>';
 
 		}
