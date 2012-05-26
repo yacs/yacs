@@ -3059,12 +3059,12 @@ Class Articles {
 	 * @see categories/set_keyword.php
 	 *
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+	public static function &search($pattern, $offset=1.0, $count=50, $layout='search') {
 		global $context;
 
 		$output =& Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -3078,14 +3078,18 @@ Class Articles {
 	 *
 	 * @see search.php
 	 *
+	 * Modification dates are taken into account to prefer freshest information.
+	 *
+	 * @link http://www.artfulcode.net/articles/full-text-searching-mysql/
+	 *
 	 * @param int the id of the section to look in
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
+	public static function &search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
 		global $context;
 
 		// sanity check
@@ -3093,6 +3097,29 @@ Class Articles {
 			$output = NULL;
 			return $output;
 		}
+
+		// select among active articles
+		$where = "active='Y'";
+
+		// add restricted items to authenticated surfers, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_teased())
+			$where .= " OR active='R'";
+
+		// associates can access hidden articles
+		if(is_string($layout) && ($layout == 'feed'))
+			;
+		elseif(Surfer::is_associate())
+			$where .= " OR active='N'";
+
+		//include managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR id IN (".join(', ', $my_articles).")";
+
+		$where = "(".$where.")";
 
 		// search is restricted to one section
 		$sections_where = '';
@@ -3133,59 +3160,30 @@ Class Articles {
 			$anchors[] = 'section:'.$section_id;
 
 			// the full set of sections searched
-			$sections_where = "articles.anchor IN ('".join("', '", $anchors)."')";
+			$where .= " AND (anchor IN ('".join("', '", $anchors)."'))";
 
 		}
-
-		// select among active sections
-		if($sections_where)
-			$sections_where = " AND (".$sections_where.")";
-
-		// select among active articles
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feed'))
-			;
-		elseif(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		//include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
 
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member())
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$context['now']."')";
+			$where .= " AND NOT ((publish_date is NULL) OR (publish_date <= '0000-00-00'))"
+				." AND (publish_date < '".$context['now']."')";
 
 		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
+		$where .= " AND ((expiry_date is NULL) "
+				."OR (expiry_date <= '".NULL_DATE."') OR (expiry_date > '".$context['now']."'))";
 
-		// match
-		$match = " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
+		// how to compute the score for articles
+		$score = "(MATCH(title, source, introduction, overlay, description)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of articles
-		$query = "SELECT articles.*"
-			." FROM (".SQL::table_name('articles')." AS articles"
-			.", ".SQL::table_name('sections')." AS sections)"
-			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
-			."	AND (".$where.")".$sections_where.$match
-			." ORDER BY articles.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *, ".$score." AS score FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+			."  AND (".$where.")"
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);
 		return $output;

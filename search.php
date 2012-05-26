@@ -2,9 +2,6 @@
 /**
  * search among pages
  *
- * @todo combine search results into one list
- * @todo trigger two search requests: one limited to the parent container of the page/section you are coming from, and a global one
- *
  * This script calls for a search pattern, then actually searches the database.
  *
  * The request can be limited to only one section. In this case, sub-sections are searched as well.
@@ -23,7 +20,7 @@
  *
  * Accept following invocations:
  * - search.php?search=&lt;keywords&gt;
- * - search.php?search=&lt;keywords&gt;&page=1
+ * - search.php?search=&lt;keywords&gt;&offset=0.324
  * - search.php?search=&lt;keywords&gt;&anchor=section:12
  *
  * @author Bernard Paques
@@ -62,12 +59,12 @@ if(isset($_REQUEST['anchor']) && (strpos($_REQUEST['anchor'], 'section:') === 0)
 	$section_id = str_replace('section:', '', $_REQUEST['anchor']);
 $section_id = strip_tags($section_id);
 
-// which page should be displayed
-if(isset($_REQUEST['page']))
-	$page = $_REQUEST['page'];
-else
-	$page = 1;
-$page = max(1,intval($page));
+// offset, to navigate in result set
+$offset = 1.0;
+if(isset($_REQUEST['offset']))
+	$offset = (float)$_REQUEST['offset'];
+if(($offset > 1.0) || ($offset < 0.0))
+	$offset = 1.0;
 
 // minimum size for any search token - depends of mySQL setup
 $query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
@@ -160,89 +157,110 @@ $context['text'] .= JS_PREFIX
 	.'$("#search").focus();'."\n"
 	.JS_SUFFIX."\n";
 
-// nothing found yet
-$no_result = TRUE;
-
-// provide results in separate panels
+// various panels
 $panels = array();
 
-// search in sections, but only on first page
-if(($page == 1)) {
+// all results, as array($score, $summary)
+$result = array();
 
-	if($rows = Sections::search_in_section($section_id, $search)) {
-		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
-}
+// number of results per page
+$bucket = 20;
 
 // search in articles
-$box = array();
-$box['title'] = '';
-$box['text'] = '';
-$offset = ($page - 1) * ARTICLES_PER_PAGE;
-$cap = 0;
-if($items = Articles::search_in_section($section_id, $search, $offset, ARTICLES_PER_PAGE + 1)) {
-	$box['title'] = i18n::s('Matching articles');
+if($items = Articles::search_in_section($section_id, $search, $offset, $bucket))
+	$result = array_merge($result, $items);
 
-	// link to next page if greater than ARTICLES_PER_PAGE
-	$cap = count($items);
+// search in sections
+if($items = Sections::search_in_section($section_id, $search, $offset, $bucket))
+	$result = array_merge($result, $items);
 
-	// limit the number of boxes displayed
-	if($cap > ARTICLES_PER_PAGE)
-		@array_splice($items, ARTICLES_PER_PAGE);
-
-
-}
-$cap += $offset;
-
-// we have found some articles
-if($cap || ($page > 1))
-	$no_result = FALSE;
-
-// navigation commands for articles
-$box['bar'] = array();
-if($cap > ARTICLES_PER_PAGE)
-	$box['bar'] = array('_count' => i18n::s('Results'));
-elseif($cap)
-	$box['bar'] = array('_count' => sprintf(i18n::ns('%d result', '%d results', count($items)), count($items)));
-$home = 'search.php?search='.urlencode($search);
-$prefix = $home.'&page=';
-if(($navigate = Skin::navigate($home, $prefix, $cap, ARTICLES_PER_PAGE, $page)) && @count($navigate))
-	$box['bar'] += $navigate;
-
-// actually render the html
-if(@count($box['bar']))
-	$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-if(@count($items))
-	$box['text'] .= Skin::build_list($items, 'decorated');
-elseif(is_string($items))
-	$box['text'] .= $items;
-if($box['text'])
-	$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $box['text']);
-
-// on first page, and if search is not constrained
-if(($page == 1) && !$section_id) {
-
-	// search in files
-	if($rows = Files::search($search)) {
-		$panels[] = array('files', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
-	// search in users
-	if($rows = Users::search($search)) {
-		$panels[] = array('users', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
+// global search
+if(!$section_id) {
 
 	// search in categories
-	if($rows = Categories::search($search)) {
-		$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
+	if($items = Categories::search($search, $offset, $bucket))
+		$result = array_merge($result, $items);
+
+	// search in files
+	if($items = Files::search($search, $offset, $bucket))
+		$result = array_merge($result, $items);
+
+	// search in users
+	if($items = Users::search($search, $offset, $bucket))
+		$result = array_merge($result, $items);
 
 }
+
+// compare scores of two items
+function compare_scores($a, $b) {
+	if($a[0] < $b[0])
+		return 1;
+	if($a[0] == $b[0])
+		return 0;
+	return -1;
+}
+
+// sort the full array of results
+uasort($result, 'compare_scores');
+
+// limit the number of items displayed
+$more_results = FALSE;
+if(count($result) > $bucket) {
+	@array_splice($result, $bucket);
+	$more_results = TRUE;
+}
+
+// display results
+if($result) {
+
+	// drop scores
+	$items = array();
+	$last_offset = $offset;
+	foreach($result as $item) {
+		$items[] = $item[1];
+		$last_offset = $item[0];
+	}
+
+	// avoid that the first item of the next slice is the last item of current slice
+	$last_offset -= 0.0000000000001;
+
+	// stack all results
+	$text = Skin::finalize_list($items, 'rows');
+
+	// offer to fetch more results
+	if($more_results) {
+
+		// make a valid id
+		$id = str_replace('.', '_', $last_offset);
+
+		// the button to get more results
+		$text .= '<div style="margin-top: 1em; text-align: center;" id="div'.$id.'"><a href="#" class="button wide" id="a'.$id.'">'.i18n::s('Get more results').'</a></div>'
+			.JS_PREFIX
+			.'$(document).ready(function(){'
+			.	'$("#div'.$id.' a").click( function() {'
+			.		'Yacs.update("div'.$id.'", "'.$context['self_url'].'", {'
+			.			'data: "offset='.$last_offset.'",'
+			.			'complete: function() {'
+			.				'setTimeout(function() {$("#div'.$id.'").animate({"marginTop":0})}, 500); '
+			.			'}'
+			.		'});'
+			.		'return false;'
+			.	'});'
+			.'});'
+			.JS_SUFFIX;
+	}
+
+	// return a slice of results to update the search page through ajax call
+	if($offset < 1.0) {
+		echo $text;
+		return;
+	}
+
+} else
+	$text = sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";
+
+// in a separate panel
+$panels[] = array('results', i18n::s('Results'), 'result', $text);
 
 // add an extra panel
 if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X')) {
@@ -277,20 +295,15 @@ if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'
 
 	// in a separate panel
 	$panels[] = array('extension', i18n::s('Extended search'), 'extensions_panel', $text);
-	$no_result = FALSE;
 }
 
 // assemble all tabs
 if(count($panels))
 	$context['text'] .= Skin::build_tabs($panels);
 
-// nothing found
-if(!count($panels) && $search)
-	$context['text'] .= sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";
-
 // search at peering sites, but only on unconstrained request and on first page
 include_once $context['path_to_root'].'servers/servers.php';
-if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 'search'))) {
+if(!$section_id && ($servers = Servers::list_for_search(0, 3, 'search'))) {
 
 	// everything in a separate section
 	$context['text'] .= Skin::build_block(i18n::s('At partner sites'), 'title');
@@ -339,10 +352,10 @@ if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 's
 //
 
 // extend the search, but only at first page
-if($search && ($page == 1)) {
+if($search) {
 
 	// a tool to update the related category
-	if($cap && Surfer::is_member())
+	if(Surfer::is_member())
 		$context['page_tools'][] = Skin::build_link('categories/set_keyword.php?search='.urlencode($search), i18n::s('Remember this search'));
 
 	// same keywords on whole site
