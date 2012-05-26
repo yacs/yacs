@@ -3320,12 +3320,12 @@ Class Sections {
 	 * search for some keywords in all sections
 	 *
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+	public static function &search($pattern, $offset=1.0, $count=50, $layout='search') {
 		global $context;
 
 		$output =& Sections::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -3339,14 +3339,18 @@ Class Sections {
 	 *
 	 * @see search.php
 	 *
+	 * Modification dates are taken into account to prefer freshest information.
+	 *
+	 * @link http://www.artfulcode.net/articles/full-text-searching-mysql/
+	 *
 	 * @param int the id of the section to look in
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
+	public static function &search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
 		global $context;
 
 		// sanity check
@@ -3354,6 +3358,27 @@ Class Sections {
 			$output = NULL;
 			return $output;
 		}
+
+		// select among active sections
+		$where = "sections.active='Y'";
+
+		// add restricted items to authenticated surfers, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_teased())
+			$where .= " OR sections.active='R'";
+
+		// associates can access hidden articles
+		if(is_string($layout) && ($layout == 'feed'))
+			;
+		elseif(Surfer::is_associate())
+			$where .= " OR sections.active='N'";
+
+		// include managed pages for editors
+		if($my_sections = Surfer::assigned_sections()) {
+			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+		}
+
+		$where = "(".$where.")";
 
 		// search is restricted to one section
 		$sections_where = '';
@@ -3394,48 +3419,37 @@ Class Sections {
 			$anchors[] = $section_id;
 
 			// the full set of sections searched
-			$sections_where = "sections.id IN (".str_replace('section:', '', join(", ", $anchors)).")";
+			$where .= " AND (sections.id IN (".str_replace('section:', '', join(", ", $anchors))."))";
 
 		}
-
-		// select among active sections
-		if($sections_where)
-			$sections_where = " AND (".$sections_where.")";
-
-		// select among active sections
-		$where = "sections.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feed'))
-			;
-		elseif(Surfer::is_associate())
-			$where .= " OR sections.active='N'";
-
-		// include managed pages for editors
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		$where = "(".$where.")";
 
 		// only consider live sections
 		$where .= " AND ((sections.expiry_date is NULL) "
 				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
-		// match
-		$match = " AND MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
+		// how to compute the score for sections
+		$score = "(MATCH(title, introduction, description)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of articles
-		$query = "SELECT sections.*"
+		$query = "SELECT sections.*,"
+
+			// compute the score
+			." ".$score." AS score"
+
+			// matching sections
 			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (".$where.")".$sections_where.$match
-			." ORDER BY sections.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+
+			// score < offset and score > 0
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+
+			// other constraints
+			." AND (".$where.")"
+
+			// packaging
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Sections::list_selected(SQL::query($query), $layout);
 		return $output;

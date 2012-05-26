@@ -2624,12 +2624,12 @@ Class Files {
 	 * - file is restricted (active='N'), but surfer is an associate
 	 *
 	 * @param string searched tokens
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $variant='search') {
+	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -2639,22 +2639,37 @@ Class Files {
 		}
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
+		$where = "active='Y'";
 		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
+			$where .= " OR active='R'";
 		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+			$where .= " OR active='N'";
 
-		// match
-		$match = "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
+		// files attached to managed sections
+		if($my_sections = Surfer::assigned_sections()) {
+			$where .= " OR anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+			// files attached to pages in managed sections
+			$where .= " OR anchor IN (SELECT CONCAT('article:', id) FROM ".SQL::table_name('articles')."  WHERE anchor IN ('section:".join("', 'section:", $my_sections)."'))";
+		}
+
+		// files attached to managed articles
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR anchor IN ('article:".join("', 'article:", $my_articles)."')";
+
+		// how to compute the score for files
+		$score = "(MATCH(title, source, description, keywords)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of files
-		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE ".$where." AND $match"
-			." ORDER BY files.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *, ".$score." AS score FROM ".SQL::table_name('files')." AS files"
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+			."  AND (".$where.")"
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
+		// do the query
 		$output =& Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}

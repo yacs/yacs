@@ -1930,14 +1930,14 @@ Class Users {
 	 * search for some keywords in all users
 	 *
 	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 *
 	 * @see search.php
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $variant='decorated') {
+	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -1958,23 +1958,29 @@ Class Users {
 		if(!Surfer::is_associate())
 			$where .= " AND (users.capability != '?')";
 
-		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-//			$match .= "MATCH(nick_name, full_name, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
-			$match .= "((nick_name LIKE '%".SQL::escape($word['value'])."%')"
-				." OR (full_name LIKE '%".SQL::escape($word['value'])."%')"
-				." OR (email LIKE '%".SQL::escape($word['value'])."%'))";
-		}
+		// how to compute the score for users
+		$score = "(MATCH(nick_name, full_name, introduction, description) "
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of users
-		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where." AND (".$match.")"
-			." ORDER BY users.login_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *,"
+
+			// compute the score
+			." ".$score." AS score"
+
+			// matching users
+			." FROM ".SQL::table_name('users')." AS users"
+
+			// score < offset and score > 0
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+
+			// other constraints
+			." AND ".$where
+
+			// packaging
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;

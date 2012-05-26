@@ -1735,13 +1735,13 @@ Class Categories {
 	 * - an expiry date has not been defined, or is not yet passed
 	 *
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 * @see #list_selected for $variant description
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $variant='search') {
+	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -1762,17 +1762,29 @@ Class Categories {
 		$where .= ' AND ((categories.expiry_date is NULL)'
 			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
-		// match
-		$match = "MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// look in keywords as well
-		$match = "((keywords LIKE '".SQL::escape($pattern)."%') OR (".$match."))";
+		// how to compute the score for categories
+		$score = "(MATCH(title, introduction, description, keywords)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of categories
-		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE ".$where." AND $match"
-			." ORDER BY categories.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *,"
+
+			// compute the score
+			." ".$score." AS score"
+
+			// matching categories
+			." FROM ".SQL::table_name('categories')." AS categories"
+
+			// score < offset and score > 0
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+
+			// other constraints
+			." AND ".$where
+
+			// packaging
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Categories::list_selected(SQL::query($query), $variant);
 		return $output;
@@ -1860,7 +1872,7 @@ Class Categories {
 		$indexes['INDEX path']			= "(path(255))";
 		$indexes['INDEX rank']			= "(rank)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']	= "full_text(title, introduction, description)";
+		$indexes['FULLTEXT INDEX']	= "full_text(title, introduction, description, keywords)";
 
 		return SQL::setup_table('categories', $fields, $indexes);
 
