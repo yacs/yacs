@@ -875,38 +875,6 @@ Class Decisions {
 	}
 
 	/**
-	 * search for some keywords in all decisions
-	 *
-	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 */
-	public static function &search($pattern, $offset=0, $count=30, $variant='search') {
-		global $context;
-
-		// sanity check
-		if(!$pattern = trim($pattern)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// match
-		$match = "MATCH(description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// the list of decisions
-		$query = "SELECT * FROM ".SQL::table_name('decisions')." AS decisions "
-			." WHERE ".$match
-			." ORDER BY decisions.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
-
-		$output =& Decisions::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * create tables for decisions
 	 *
 	 * @see control/setup.php

@@ -1786,40 +1786,6 @@ Class Comments {
 	}
 
 	/**
-	 * search for some keywords in all comments
-	 *
-	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see search.php
-	 * @see services/search.php
-	 */
-	public static function &search($pattern, $offset=0, $count=30, $variant='search') {
-		global $context;
-
-		// sanity check
-		if(!$pattern = trim($pattern)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// match
-		$match = "MATCH(description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// the list of comments
-		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE ".$match
-			." ORDER BY comments.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
-
-		$output =& Comments::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * create tables for comments
 	 *
 	 * @see control/setup.php
