@@ -102,21 +102,9 @@ switch($type) {
 		$values['items'] = Articles::search($search, 0, 30, 'feed');
 		break;
 
-	// search in comments
-	case 'comments':
-		include_once $context['path_to_root'].'comments/comments.php';
-		$values['items'] = Comments::search($search, 0, 30, 'feed');
-		break;
-
 	// search in files
 	case 'files':
 		$values['items'] = Files::search($search, 0, 30, 'feed');
-		break;
-
-	// search in links
-	case 'links':
-		include_once $context['path_to_root'].'links/links.php';
-		$values['items'] = Links::search($search, 0, 30, 'feed');
 		break;
 
 	// search in users
