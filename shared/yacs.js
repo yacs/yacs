@@ -1628,9 +1628,12 @@ var Yacs = {
 		$.ajax($.extend({
 			url: address,
 			dataType: 'html',
-			timeout: 3000,
+			timeout: 30000,
 			success: function(data) {
-			  $('#'+panel).html(data);
+			  $('#'+panel).hide().html(data).show(400);
+			},
+			error: function(xhr, message) {
+			  $('#'+panel).text(message);
 			}}, args));
 
 	},
