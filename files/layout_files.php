@@ -186,7 +186,7 @@ Class Layout_files extends Layout_interface {
 
 			// put the item in a division
 			} else
-				$items[] = '<div style="margin: 0 0 2em 0">'.$box.'</div>';
+				$items[] = '<div style="margin: 0 0 1em 0">'.$box.'</div>';
 
 		}
 
