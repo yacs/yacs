@@ -227,6 +227,7 @@ $context['l10n']['en']['featured']='featured';
 $context['l10n']['en']['5d181095688bfed68cd54669f53465fc']='folded - One folded box per section, with content';
 $context['l10n']['en']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Build an interactive mind map';
 $context['l10n']['en']['hits']='hits';
+$context['l10n']['en']['in %s']='in %s';
 $context['l10n']['en']['f641bce5b6dc2dc3cedb05c6cf23952b']='in the middle of the front page, among other gadget boxes';
 $context['l10n']['en']['b1c2d741f390d79e96f548400e7e25cc']='inline - List categories and related pages';
 $context['l10n']['en']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - List sections and related pages';

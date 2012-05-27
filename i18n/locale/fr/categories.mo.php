@@ -227,6 +227,7 @@ $context['l10n']['fr']['featured']='une';
 $context['l10n']['fr']['5d181095688bfed68cd54669f53465fc']='folded - Une boîte pliée par section, avec son contenu';
 $context['l10n']['fr']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Visualiser une carte mentale interactive';
 $context['l10n']['fr']['hits']='lectures';
+$context['l10n']['fr']['in %s']='dans %s';
 $context['l10n']['fr']['f641bce5b6dc2dc3cedb05c6cf23952b']='au milieu de la page d\'accueil, parmi les autres boîtes gadget';
 $context['l10n']['fr']['b1c2d741f390d79e96f548400e7e25cc']='inline - Lister les catégories et les pages associées';
 $context['l10n']['fr']['f4af0c53b8f89fdc2a4512f5c6540c3d']='inline - Lister les sections et les pages associées';
