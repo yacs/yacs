@@ -918,6 +918,12 @@ div.menu_bar .button button:hover { /* hover a button */
 	text-decoration: none;
 }
 
+a.button.wide { /* a button spanning most of the available space */
+	display: block;
+	width: 98%;
+	text-align: center;
+}
+
 @media screen { /* not on printers */
 
 	#main_panel a.category { /* the image near a link to a category -- [category=id], [category=id, label] */
