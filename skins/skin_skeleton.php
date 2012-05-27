@@ -2165,7 +2165,7 @@ Class Skin_Skeleton {
 
 			// pass elements ids of the site bar
 			$id = '';
-			if(($variant == 'tabs') && $type)
+			if(($variant == 'tabs') && ($type != 'basic'))
 				$id = ' id="tab_'.$type.'"';
 
 			// clean labels at occasions --codes have already been transformed here
