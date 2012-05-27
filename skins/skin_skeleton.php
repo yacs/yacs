@@ -3596,10 +3596,14 @@ Class Skin_Skeleton {
 	 *
 	 * @param array a list of string, or of array($link, $icon)
 	 * @param string the list variant - see available values in Skin::build_list()
+	 * @param string id of the resulting tag, if any
 	 * @return string text to be put in page
 	 */
-	public static function &finalize_list($list, $variant) {
+	public static function &finalize_list($list, $variant, $id=NULL) {
 		global $context;
+
+		if($id)
+			$id = ' id="'.$id.'" ';
 
 		// decorate the list according to the selected variant
 		$text = '';
@@ -3615,7 +3619,7 @@ Class Skin_Skeleton {
 					$text .= '<dd>'.$label.'</dd>'."\n";
 				}
 
-				$text = '<dl class="column">'."\n".$text.'</dl>'."\n";
+				$text = '<dl class="column"'.$id.'>'."\n".$text.'</dl>'."\n";
 				break;
 
 			// use css selector: p.assistant_bar, or customize constants in skin.php -- icons are dropped, if any
@@ -3645,7 +3649,7 @@ Class Skin_Skeleton {
 						$text .= $label;
 				}
 
-				$text = Skin::build_block('<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</div>', 'bottom');
+				$text = Skin::build_block('<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX.'</div>', 'bottom', $id);
 				break;
 
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
@@ -3669,7 +3673,7 @@ Class Skin_Skeleton {
 						$class = 'even';
 				}
 
-				$text = '<dl class="'.$variant.'">'."\n".$text.'</dl>'."\n";
+				$text = '<dl class="'.$variant.'"'.$id.'>'."\n".$text.'</dl>'."\n";
 				break;
 
 			// separate items with commas
@@ -3740,7 +3744,7 @@ Class Skin_Skeleton {
 						$text .= '<li>'.$label.'</li>'."\n";
 					}
 
-					$text =  '<ul class="compact">'."\n".$text.'</ul>'."\n";
+					$text =  '<ul class="compact"'.$id.'>'."\n".$text.'</ul>'."\n";
 
 				// regular rendering
 				} else {
@@ -3763,7 +3767,7 @@ Class Skin_Skeleton {
 						$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$label.COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
 					}
 
-					$text = COMPACT_LIST_PREFIX.'<ul class="compact">'."\n".$text.'</ul>'.COMPACT_LIST_SUFFIX."\n";
+					$text = COMPACT_LIST_PREFIX.'<ul class="compact"'.$id.'>'."\n".$text.'</ul>'.COMPACT_LIST_SUFFIX."\n";
 
 				}
 				break;
@@ -3812,7 +3816,7 @@ Class Skin_Skeleton {
 					$text .= '<td class="image" style="text-align: center">'.$icon.'</td><td class="content">'.$label.'</td></tr>'."\n";
 				}
 
-				$text = '<table class="decorated">'."\n".$text.'</table>'."\n";
+				$text = '<table class="decorated"'.$id.'>'."\n".$text.'</table>'."\n";
 				break;
 
 			// an in-line menu to be customized through constants in skin.php
@@ -3870,7 +3874,7 @@ Class Skin_Skeleton {
 
 				}
 
-				$text = '<div class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
+				$text = '<div class="menu_bar"'.$id.'>'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
 				break;
 
 			// some news, that can be statically displayed, scrolled or rotated
@@ -3901,7 +3905,7 @@ Class Skin_Skeleton {
 				}
 
 				// use constants to finalize rendering, where applicable
-				$text = NEWS_PREFIX.'<ul>'.implode("\n", $news).'</ul>'.NEWS_SUFFIX;
+				$text = NEWS_PREFIX.'<ul'.$id.'>'.implode("\n", $news).'</ul>'.NEWS_SUFFIX;
 				break;
 
 			// the regular <ol> list -- icons are dropped, if any
@@ -3915,7 +3919,7 @@ Class Skin_Skeleton {
 					$text .= '<li>'.$label.'</li>'."\n";
 				}
 
-				$text = '<ol>'."\n".$text.'</ol>'."\n";
+				$text = '<ol'.$id.'>'."\n".$text.'</ol>'."\n";
 				break;
 
 			// use css selector: p#page_menu, or customize constants in skin.php -- icons are dropped, if any
@@ -3958,8 +3962,11 @@ Class Skin_Skeleton {
 					if(is_array($label))
 						$label = $label[0].BR.$label[1];
 
-					$text .= $label.'</div>'."\n";
+					$text .= $label.'</div>';
 				}
+
+				if($id)
+					$text = '<div'.$id.'>'.$text.'</div>';
 
 				break;
 
@@ -3987,7 +3994,7 @@ Class Skin_Skeleton {
 				}
 
 				// use constants to finalize rendering, where applicable
-				$text = '<div class="stack">'.implode("\n", $stack).'</div>';
+				$text = '<div class="stack"'.$id.'>'.implode("\n", $stack).'</div>';
 				break;
 
 			// to handle tabs; use css selector div.tabs, etc. or override constants in skin.php
@@ -4005,7 +4012,7 @@ Class Skin_Skeleton {
 					$text .= '<li'.$id.'>'.TABS_ITEM_PREFIX.$label.TABS_ITEM_SUFFIX.'</li>'."\n";
 				}
 
-				$text = '<div class="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
+				$text = '<div class="tabs"'.$id.'>'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
 				break;
 
 			// similar to compact
@@ -4045,7 +4052,7 @@ Class Skin_Skeleton {
 					$text .= '<li'.$class.'>'.$label.'</li>'."\n";
 				}
 
-				$text = '<ul>'."\n".$text.'</ul>'."\n";
+				$text = '<ul'.$id.'>'."\n".$text.'</ul>'."\n";
 				break;
 
 		}
