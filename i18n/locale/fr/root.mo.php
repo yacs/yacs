@@ -5,7 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$context['l10n']['fr']['%d result'.chr(0).'%d results']='%d résultat'.chr(0).'%d résultats';
 $context['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $context['l10n']['fr']['%s is listening']='%s écoute';
 $context['l10n']['fr']['%s is not visible']='%s n\'est plus visible';
@@ -58,7 +57,6 @@ $context['l10n']['fr']['At partner sites']='Sites partenaires';
 $context['l10n']['fr']['Bing']='Bing';
 $context['l10n']['fr']['Browse index pages']='Parcourez les index';
 $context['l10n']['fr']['Cancel']='Annuler';
-$context['l10n']['fr']['Categories']='Catégories';
 $context['l10n']['fr']['Check PHP version again']='Vérifier de nouveau la version de PHP';
 $context['l10n']['fr']['cb40395a3d15718ae092a8130657ad77']='Vérifier de nouveau notre capacité à écrire dans les fichiers';
 $context['l10n']['fr']['3bac6ade67ed1723807f842efeb3025f']='Vérifier de nouveau la présence de l\'extension PHP MySQL';
@@ -118,6 +116,7 @@ $context['l10n']['fr']['Forbidden (403) at %s']='Accès interdit (403) à %s';
 $context['l10n']['fr']['Front page']='Page d\'accueil';
 $context['l10n']['fr']['Full-duplex mode']='Mode full-duplex';
 $context['l10n']['fr']['Gadget boxes']='Boîtes gadget';
+$context['l10n']['fr']['Get more results']='Obtenir plus de résultats';
 $context['l10n']['fr']['Google']='Google';
 $context['l10n']['fr']['Help']='Aide';
 $context['l10n']['fr']['Help index']='Index de l\'aide';
@@ -150,7 +149,6 @@ $context['l10n']['fr']['Look for a named page']='Chercher une page nommée';
 $context['l10n']['fr']['ae43a0ee8e8ea35d53814c5cb18e85b7']='Pour limiter la recherche à une seule section.';
 $context['l10n']['fr']['Main panel']='Panneau principal';
 $context['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='Les champs obligatoires sont signalés par un *';
-$context['l10n']['fr']['Matching articles']='Pages trouvées';
 $context['l10n']['fr']['Matching pages']='Pages trouvées';
 $context['l10n']['fr']['May change configuration files']='Autorisé à modifier les fichiers de configuration';
 $context['l10n']['fr']['Meet a person']='Rejoindre une personne';
@@ -179,7 +177,6 @@ $context['l10n']['fr']['Page not found (404) at %s']='Page introuvable (404) à 
 $context['l10n']['fr']['Pages']='Pages';
 $context['l10n']['fr']['b30457987d30ee23a4fdcec1a6e2b816']='Coller le code ou l\'adresse web qui vous a été communiqué';
 $context['l10n']['fr']['Peers']='Serveurs';
-$context['l10n']['fr']['People']='Personnes';
 $context['l10n']['fr']['Permissions']='Permissions';
 $context['l10n']['fr']['ee000dc19f71134ce7edb91992abf0a7']='Merci de remplir le formulaire, qui sera envoyé automatiquement aux responsables du site. Soyez aussi précis que possible, et indiquez votre adresse de courrier électronique pour nous laisser une chance de vous recontacter.';
 $context['l10n']['fr']['Please give your e-mail address']='Merci d\'indiquer votre adresse de courrier électronique';
