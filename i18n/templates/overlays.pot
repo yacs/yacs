@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-29 23:26+0100\n"
+"POT-Creation-Date: 2012-02-24 14:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: overlays/bbb_meeting.php:87 overlays/bbb_meeting.php:183
-#: overlays/chat_meeting.php:101 overlays/dimdim_meeting.php:44
+#: overlays/chat_meeting.php:100 overlays/dimdim_meeting.php:44
 #: overlays/dimdim_meeting.php:193 overlays/etherpad_meeting.php:53
 #: overlays/event.php:568 overlays/event.php:570 overlays/event.php:706
 #: overlays/event.php:1286 overlays/livestream_meeting.php:70
@@ -27,14 +27,14 @@ msgstr ""
 msgid "Chairman"
 msgstr ""
 
-#: overlays/bbb_meeting.php:92 overlays/chat_meeting.php:106
+#: overlays/bbb_meeting.php:92 overlays/chat_meeting.php:105
 #: overlays/dimdim_meeting.php:49 overlays/etherpad_meeting.php:58
 #: overlays/livestream_meeting.php:75 overlays/meeting.php:45
 #: overlays/ustream_meeting.php:77
 msgid "Seats"
 msgstr ""
 
-#: overlays/bbb_meeting.php:94 overlays/chat_meeting.php:108
+#: overlays/bbb_meeting.php:94 overlays/chat_meeting.php:107
 #: overlays/dimdim_meeting.php:51 overlays/etherpad_meeting.php:60
 #: overlays/livestream_meeting.php:77 overlays/meeting.php:47
 #: overlays/ustream_meeting.php:79
@@ -76,66 +76,66 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-#: overlays/chat_meeting.php:243
+#: overlays/chat_meeting.php:255
 msgid "Connecting again to OpenTok"
 msgstr ""
 
-#: overlays/chat_meeting.php:252
+#: overlays/chat_meeting.php:264
 msgid "A webcam is required to be visible"
 msgstr ""
 
-#: overlays/chat_meeting.php:261
-msgid "You are not visible"
-msgstr ""
-
-#: overlays/chat_meeting.php:264
-msgid "You have been muted"
-msgstr ""
-
-#: overlays/chat_meeting.php:274
-msgid "Error while connecting to OpenTok"
-msgstr ""
-
-#: overlays/chat_meeting.php:306
-msgid "Connecting to OpenTok"
-msgstr ""
-
-#: overlays/chat_meeting.php:325
-msgid "This system is not supported by OpenTok"
-msgstr ""
-
-#: overlays/chat_meeting.php:336
+#: overlays/chat_meeting.php:270
 msgid "Adding local video stream"
 msgstr ""
 
-#: overlays/chat_meeting.php:373
+#: overlays/chat_meeting.php:289
+msgid "You are not visible"
+msgstr ""
+
+#: overlays/chat_meeting.php:293
+msgid "You have been muted"
+msgstr ""
+
+#: overlays/chat_meeting.php:303
+msgid "Error while connecting to OpenTok"
+msgstr ""
+
+#: overlays/chat_meeting.php:335
+msgid "Connecting to OpenTok"
+msgstr ""
+
+#: overlays/chat_meeting.php:354
+msgid "This system is not supported by OpenTok"
+msgstr ""
+
+#: overlays/chat_meeting.php:390
 msgid "Stop talking"
 msgstr ""
 
-#: overlays/chat_meeting.php:400 overlays/chat_meeting.php:483
+#: overlays/chat_meeting.php:417 overlays/chat_meeting.php:499
 msgid "Start talking"
 msgstr ""
 
-#: overlays/chat_meeting.php:421 overlays/chat_meeting.php:475
+#: overlays/chat_meeting.php:438 overlays/chat_meeting.php:492
 #, php-format
 msgid "%s is talking"
 msgstr ""
 
-#: overlays/chat_meeting.php:429
+#: overlays/chat_meeting.php:446
 #, php-format
 msgid "%s is listening"
 msgstr ""
 
-#: overlays/chat_meeting.php:439
+#: overlays/chat_meeting.php:456
 #, php-format
 msgid "%s is not visible"
 msgstr ""
 
-#: overlays/chat_meeting.php:454
+#: overlays/chat_meeting.php:471
 msgid "Adding remote video streams"
 msgstr ""
 
-#: overlays/chat_meeting.php:485
+#: overlays/chat_meeting.php:501
 msgid "Click on the button before talking"
 msgstr ""
 
@@ -290,12 +290,12 @@ msgid "Edit this event"
 msgstr ""
 
 #: overlays/event.php:783 overlays/event.php:784 overlays/event.php:804
-#: overlays/event.php:805 overlays/event.php:1833
+#: overlays/event.php:805 overlays/event.php:1837
 msgid "Add an event"
 msgstr ""
 
 #: overlays/event.php:789 overlays/event.php:790 overlays/event.php:1669
-#: overlays/event.php:1745
+#: overlays/event.php:1747
 msgid "View event details"
 msgstr ""
 
@@ -355,7 +355,7 @@ msgstr ""
 msgid "Enrolment"
 msgstr ""
 
-#: overlays/event.php:1007 overlays/event.php:2210
+#: overlays/event.php:1007 overlays/event.php:2214
 msgid "Any page visitor can participate"
 msgstr ""
 
@@ -363,7 +363,7 @@ msgstr ""
 msgid "Accept applications, to be confirmed by page owner"
 msgstr ""
 
-#: overlays/event.php:1019 overlays/event.php:2214
+#: overlays/event.php:1019 overlays/event.php:2218
 msgid "Registration is managed by page owner"
 msgstr ""
 
@@ -432,7 +432,7 @@ msgstr ""
 msgid "%s has cancelled %s"
 msgstr ""
 
-#: overlays/event.php:1619 overlays/event.php:1782
+#: overlays/event.php:1619 overlays/event.php:1784
 msgid "Impossible to add an item."
 msgstr ""
 
@@ -446,87 +446,87 @@ msgstr ""
 msgid "you have arranged %s"
 msgstr ""
 
-#: overlays/event.php:1727
+#: overlays/event.php:1729
 #, php-format
 msgid "Updated: %s"
 msgstr ""
 
-#: overlays/event.php:1730
+#: overlays/event.php:1732
 #, php-format
 msgid "%s has updated %s"
 msgstr ""
 
-#: overlays/event.php:1775
+#: overlays/event.php:1777
 #, php-format
 msgid "Impossible to update date %s"
 msgstr ""
 
-#: overlays/event.php:1849 overlays/event.php:1882
+#: overlays/event.php:1853 overlays/event.php:1886
 #, php-format
 msgid "%d date"
 msgid_plural "%d dates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: overlays/event.php:1863
+#: overlays/event.php:1867
 msgid "Past dates"
 msgstr ""
 
-#: overlays/event.php:2016
+#: overlays/event.php:2020
 #, php-format
 msgid "%s has started the meeting"
 msgstr ""
 
-#: overlays/event.php:2039
+#: overlays/event.php:2043
 #, php-format
 msgid "%s has stopped the meeting"
 msgstr ""
 
-#: overlays/event.php:2111
+#: overlays/event.php:2115
 msgid "Open enrolment"
 msgstr ""
 
-#: overlays/event.php:2115
+#: overlays/event.php:2119
 msgid "Enrolment has not been opened yet"
 msgstr ""
 
-#: overlays/event.php:2157
+#: overlays/event.php:2161
 msgid "Start the meeting"
 msgstr ""
 
-#: overlays/event.php:2170
+#: overlays/event.php:2174
 msgid "Please wait until the meeting begins"
 msgstr ""
 
-#: overlays/event.php:2218 overlays/events/enroll.php:272
+#: overlays/event.php:2222 overlays/events/enroll.php:272
 msgid "Invite participants"
 msgstr ""
 
-#: overlays/event.php:2225
+#: overlays/event.php:2229
 msgid "Manage enrolment"
 msgstr ""
 
-#: overlays/event.php:2237
+#: overlays/event.php:2241
 msgid "You have been enrolled"
 msgstr ""
 
-#: overlays/event.php:2241 overlays/event.php:2246
+#: overlays/event.php:2245 overlays/event.php:2250
 msgid "You have asked for an invitation"
 msgstr ""
 
-#: overlays/event.php:2259
+#: overlays/event.php:2263
 msgid "Confirm my participation"
 msgstr ""
 
-#: overlays/event.php:2266
+#: overlays/event.php:2270
 msgid "Ask for an invitation"
 msgstr ""
 
-#: overlays/event.php:2300 overlays/event.php:2311 overlays/event.php:2318
+#: overlays/event.php:2304 overlays/event.php:2315 overlays/event.php:2322
 msgid "Join the meeting"
 msgstr ""
 
-#: overlays/event.php:2304
+#: overlays/event.php:2308
 msgid "Stop the meeting"
 msgstr ""
 
@@ -1115,81 +1115,81 @@ msgstr ""
 msgid "Sign this petition"
 msgstr ""
 
-#: overlays/poll.php:35
+#: overlays/poll.php:32
 msgid "Answer 1"
 msgstr ""
 
-#: overlays/poll.php:36
+#: overlays/poll.php:33
 msgid "Answer 2"
 msgstr ""
 
-#: overlays/poll.php:37
+#: overlays/poll.php:34
 msgid "Answer 3"
 msgstr ""
 
-#: overlays/poll.php:44
+#: overlays/poll.php:41
 msgid "Answer"
 msgstr ""
 
-#: overlays/poll.php:46
+#: overlays/poll.php:43
 msgid "Delete to suppress"
 msgstr ""
 
-#: overlays/poll.php:48 overlays/poll.php:59
+#: overlays/poll.php:45 overlays/poll.php:56
 msgid "Count"
 msgstr ""
 
-#: overlays/poll.php:55
+#: overlays/poll.php:52
 msgid "Add an answer"
 msgstr ""
 
-#: overlays/poll.php:57
+#: overlays/poll.php:54
 msgid "Check this is a valid answer to your question"
 msgstr ""
 
-#: overlays/poll.php:61
+#: overlays/poll.php:58
 msgid "Do not trick your polls; Start at zero"
 msgstr ""
 
-#: overlays/poll.php:89
+#: overlays/poll.php:86
 msgid "Additional information"
 msgstr ""
 
-#: overlays/poll.php:92
+#: overlays/poll.php:89
 msgid "Edit this poll"
 msgstr ""
 
-#: overlays/poll.php:97
+#: overlays/poll.php:94
 msgid "Keep your polls as simple to understand as possible."
 msgstr ""
 
-#: overlays/poll.php:102 overlays/poll.php:116
+#: overlays/poll.php:99 overlays/poll.php:113
 msgid "Add a poll"
 msgstr ""
 
-#: overlays/poll.php:110
+#: overlays/poll.php:107
 msgid "Edit a poll"
 msgstr ""
 
-#: overlays/poll.php:113
+#: overlays/poll.php:110
 msgid "Delete a poll"
 msgstr ""
 
-#: overlays/poll.php:264 overlays/poll.php:366
+#: overlays/poll.php:261 overlays/poll.php:363
 msgid "Cast your vote"
 msgstr ""
 
-#: overlays/poll.php:267 overlays/poll.php:273 overlays/poll.php:423
-#: overlays/poll.php:429
+#: overlays/poll.php:264 overlays/poll.php:270 overlays/poll.php:420
+#: overlays/poll.php:426
 msgid "View results"
 msgstr ""
 
-#: overlays/poll.php:370
+#: overlays/poll.php:367
 #, php-format
 msgid "%d votes up to now"
 msgstr ""
 
-#: overlays/poll.php:420
+#: overlays/poll.php:417
 msgid "Vote"
 msgstr ""
 
