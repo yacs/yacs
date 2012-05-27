@@ -89,6 +89,10 @@ if(@count($tokens)) {
 		if(strpos($search, $token) !== FALSE)
 			continue;
 
+		// re-enforce boolean mode
+		if(($token[0] != '+') && ($token[0] != '+') && ($token[0] != '~'))
+			$token = '+'.$token;
+
 		// keep this token
 		$search .= $token.' ';
 	}
@@ -101,9 +105,12 @@ i18n::bind('root');
 // load the skin
 load_skin('search');
 
+// mask the boolean mode to end users
+$pretty_search = str_replace('+', '', $search);
+
 // the title of the page
 if($search)
-	$context['page_title'] = sprintf(i18n::s('Search: %s'), $search);
+	$context['page_title'] = sprintf(i18n::s('Search: %s'), $pretty_search);
 else
 	$context['page_title'] = i18n::s('Search');
 
@@ -113,7 +120,8 @@ $fields = array();
 
 // a field to type keywords
 $label = i18n::s('You are searching for');
-$input = '<input type="text" name="search" id="search" size="45" value="'.encode_field($search).'" maxlength="255" />';
+$input = '<input type="text" name="search" size="45" value="'.encode_field($pretty_search).'" maxlength="255" />'
+	.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 $hint = i18n::s('Type one or several words.');
 $fields[] = array($label, $input, $hint);
 
@@ -130,9 +138,6 @@ $fields[] = array($label, $input, $hint);
 // build the form
 $context['text'] .= Skin::build_form($fields);
 $fields = array();
-
-// the submit button
-$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 // the form to submit a new search
 $context['text'] .= '</div></form>';
