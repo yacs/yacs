@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-29 23:26+0100\n"
+"POT-Creation-Date: 2012-02-24 14:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -356,11 +356,11 @@ msgstr ""
 msgid "Side panel"
 msgstr ""
 
-#: configure.php:512 panel.php:80 query.php:261 search.php:138
+#: configure.php:512 panel.php:77 query.php:261 search.php:138
 msgid "Submit"
 msgstr ""
 
-#: configure.php:512 panel.php:80 query.php:261 search.php:138
+#: configure.php:512 panel.php:77 query.php:261 search.php:138
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -759,19 +759,19 @@ msgstr ""
 msgid "Random Pages"
 msgstr ""
 
-#: panel.php:53
+#: panel.php:50
 msgid "New page"
 msgstr ""
 
-#: panel.php:65
+#: panel.php:62
 msgid "Title"
 msgstr ""
 
-#: panel.php:70
+#: panel.php:67
 msgid "Introduction"
 msgstr ""
 
-#: panel.php:75
+#: panel.php:72
 msgid "Page content"
 msgstr ""
 
