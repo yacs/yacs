@@ -113,7 +113,7 @@ Class Call {
 	 * @see servers/servers.php
 	 * @see services/blog_test.php
 	 */
-	function invoke($url, $service, $parameters = NULL, $variant='XML-RPC') {
+	public static function invoke($url, $service, $parameters = NULL, $variant='XML-RPC') {
 		global $context;
 
 		// submit a raw request
@@ -235,7 +235,7 @@ Class Call {
 	 *
 	 * @see search.php
 	 */
-	function list_resources($url, $parameters = NULL) {
+	public static function list_resources($url, $parameters = NULL) {
 		global $context;
 
 		// encode the request

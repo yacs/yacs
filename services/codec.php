@@ -83,7 +83,7 @@ Class Codec {
 	 * @param string the variant to handle
 	 * @return a Codec instance, or NULL if the variant is unknown
 	 */
-	function initialize($variant) {
+	public static function initialize($variant) {
 		global $context;
 
 		switch($variant) {
