@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:30+0100\n"
+"POT-Creation-Date: 2012-05-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: dates/check.php:21 dates/check.php:32 dates/check.php:90
 #: dates/check.php:146 dates/delete.php:70 dates/edit.php:64
-#: dates/fetch_ics.php:41 dates/fetch_ics.php:44 dates/index.php:43
+#: dates/fetch_ics.php:27 dates/fetch_ics.php:30 dates/index.php:43
 #: dates/view.php:55
 msgid "Dates"
 msgstr ""
@@ -232,8 +232,8 @@ msgstr ""
 msgid "What do you want to do now?"
 msgstr ""
 
-#: dates/edit.php:141 dates/layout_dates_as_family.php:83
-#: dates/layout_dates.php:61
+#: dates/edit.php:141 dates/layout_dates.php:61
+#: dates/layout_dates_as_family.php:83
 msgid "View the page"
 msgstr ""
 

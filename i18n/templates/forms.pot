@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:30+0100\n"
+"POT-Creation-Date: 2012-05-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: forms/delete.php:47 forms/view.php:581
+#: forms/delete.php:47 forms/view.php:580
 msgid "Delete"
 msgstr ""
 
@@ -44,20 +44,20 @@ msgstr ""
 msgid "Yes, I want to suppress this form"
 msgstr ""
 
-#: forms/delete.php:80 forms/edit.php:390 forms/view.php:553
+#: forms/delete.php:80 forms/edit.php:390 forms/view.php:552
 msgid "Cancel"
 msgstr ""
 
-#: forms/delete.php:101 forms/view.php:400
+#: forms/delete.php:101 forms/view.php:399
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
 
-#: forms/delete.php:105 forms/edit.php:348 forms/view.php:404
+#: forms/delete.php:105 forms/edit.php:348 forms/view.php:403
 msgid "Community - Access is granted to any identified surfer"
 msgstr ""
 
-#: forms/delete.php:109 forms/edit.php:354 forms/view.php:408
+#: forms/delete.php:109 forms/edit.php:354 forms/view.php:407
 msgid "Private - Access is restricted to selected persons"
 msgstr ""
 
@@ -100,11 +100,11 @@ msgstr ""
 msgid "Other sections"
 msgstr ""
 
-#: forms/edit.php:214 forms/view.php:350
+#: forms/edit.php:214 forms/view.php:349
 msgid "Thank you for your contribution"
 msgstr ""
 
-#: forms/edit.php:217 forms/view.php:356
+#: forms/edit.php:217 forms/view.php:355
 msgid "What do you want to do now?"
 msgstr ""
 
@@ -126,11 +126,11 @@ msgstr ""
 msgid "Sent by %s"
 msgstr ""
 
-#: forms/edit.php:262 forms/view.php:477
+#: forms/edit.php:262 forms/view.php:476
 msgid "Title"
 msgstr ""
 
-#: forms/edit.php:267 forms/edit.php:412 forms/view.php:479
+#: forms/edit.php:267 forms/edit.php:412 forms/view.php:478
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -211,11 +211,11 @@ msgstr ""
 msgid "Processing"
 msgstr ""
 
-#: forms/edit.php:386 forms/view.php:552
+#: forms/edit.php:386 forms/view.php:551
 msgid "Submit"
 msgstr ""
 
-#: forms/edit.php:386 forms/view.php:552
+#: forms/edit.php:386 forms/view.php:551
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -300,78 +300,78 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: forms/view.php:253
+#: forms/view.php:252
 msgid "Please prove you are not a robot."
 msgstr ""
 
-#: forms/view.php:284 forms/view.php:288
+#: forms/view.php:283 forms/view.php:287
 msgid "The size of this file is over limit."
 msgstr ""
 
-#: forms/view.php:292 forms/view.php:296 forms/view.php:300
+#: forms/view.php:291 forms/view.php:295 forms/view.php:299
 msgid "No file has been transmitted."
 msgstr ""
 
-#: forms/view.php:304
+#: forms/view.php:303
 msgid "Possible file attack."
 msgstr ""
 
-#: forms/view.php:308
+#: forms/view.php:307
 #, php-format
 msgid "Impossible to move the upload file to %s."
 msgstr ""
 
-#: forms/view.php:353
+#: forms/view.php:352
 msgid ""
 "A new page has been created with submitted data. This will be reviewed by "
 "people in charge."
 msgstr ""
 
-#: forms/view.php:359
+#: forms/view.php:358
 msgid "Front page"
 msgstr ""
 
-#: forms/view.php:361
+#: forms/view.php:360
 msgid "View the page"
 msgstr ""
 
-#: forms/view.php:366
+#: forms/view.php:365
 #, php-format
 msgid "New page: %s"
 msgstr ""
 
-#: forms/view.php:369
+#: forms/view.php:368
 #, php-format
 msgid "Sent by %s in %s"
 msgstr ""
 
-#: forms/view.php:439
+#: forms/view.php:438
 #, php-format
 msgid ""
 "If you have previously registered to this site, please %s. Then the server "
 "will automatically put your name and address in following fields."
 msgstr ""
 
-#: forms/view.php:439
+#: forms/view.php:438
 msgid "authenticate"
 msgstr ""
 
-#: forms/view.php:442 forms/view.php:460 forms/view.php:476
+#: forms/view.php:441 forms/view.php:459 forms/view.php:475
 msgid "Your name"
 msgstr ""
 
-#: forms/view.php:444
+#: forms/view.php:443
 msgid "Let us a chance to know who you are"
 msgstr ""
 
-#: forms/view.php:448 forms/view.php:465
+#: forms/view.php:447 forms/view.php:464
 msgid "Your e-mail address"
 msgstr ""
 
-#: forms/view.php:450
+#: forms/view.php:449
 msgid "Put your e-mail address to receive feed-back"
 msgstr ""
 
-#: forms/view.php:580
+#: forms/view.php:579
 msgid "Edit"
 msgstr ""

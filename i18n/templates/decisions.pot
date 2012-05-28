@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:30+0100\n"
+"POT-Creation-Date: 2012-05-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -295,11 +295,6 @@ msgstr ""
 msgid "Recent pages"
 msgstr ""
 
-#: decisions/layout_decisions_as_feed.php:50
-#, php-format
-msgid "%s: %s"
-msgstr ""
-
 #: decisions/layout_decisions.php:61
 #, php-format
 msgid "Rejected %s"
@@ -326,6 +321,11 @@ msgstr ""
 
 #: decisions/layout_decisions.php:96
 msgid "delete"
+msgstr ""
+
+#: decisions/layout_decisions_as_feed.php:50
+#, php-format
+msgid "%s: %s"
 msgstr ""
 
 #: decisions/list.php:163
