@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:30+0100\n"
+"POT-Creation-Date: 2012-05-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -637,7 +637,7 @@ msgstr ""
 msgid "Freemind"
 msgstr ""
 
-#: skins/configure.php:792 skins/edit.php:182 skins/skin_skeleton.php:2944
+#: skins/configure.php:792 skins/edit.php:182 skins/skin_skeleton.php:2945
 #: skins/upload.php:161 skins/flexible/configure.php:1622
 #: skins/flexible/upload.php:76
 msgid "Submit"
@@ -889,8 +889,8 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-#: skins/edit.php:140 skins/layout_home_articles_as_alistapart.php:309
-#: skins/layout_home_articles_as_daily.php:176
+#: skins/edit.php:140 skins/layout_home_articles_as_alistapart.php:308
+#: skins/layout_home_articles_as_daily.php:175
 msgid "Files"
 msgstr ""
 
@@ -974,173 +974,181 @@ msgstr ""
 msgid "Content Assistant"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:136
+#: skins/layout_home_articles_as_alistapart.php:135
 msgid "Pages under preparation"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:140
-#: skins/layout_home_articles_as_digg.php:209
-#: skins/layout_home_articles_as_newspaper.php:126
-#: skins/layout_home_articles_as_slashdot.php:192
+#: skins/layout_home_articles_as_alistapart.php:139
+#: skins/layout_home_articles_as_digg.php:208
+#: skins/layout_home_articles_as_newspaper.php:125
+#: skins/layout_home_articles_as_slashdot.php:191
 msgid "Previous pages"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:144
+#: skins/layout_home_articles_as_alistapart.php:143
 msgid "Follow-up"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:190
-#: skins/layout_home_articles_as_alistapart.php:352
-#: skins/layout_home_articles_as_daily.php:183
+#: skins/layout_home_articles_as_alistapart.php:189
+#: skins/layout_home_articles_as_alistapart.php:351
+#: skins/layout_home_articles_as_daily.php:182
 msgid "Permalink"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:241
+#: skins/layout_home_articles_as_alistapart.php:240
+#: skins/layout_home_articles_as_digg.php:122
 #: skins/layout_home_articles_as_digg.php:123
-#: skins/layout_home_articles_as_digg.php:124
-#: skins/layout_home_articles_as_digg.php:154
-#: skins/layout_home_articles_as_hardboiled.php:318
+#: skins/layout_home_articles_as_digg.php:153
+#: skins/layout_home_articles_as_hardboiled.php:317
 msgid "Rate this page"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:283
-#: skins/layout_home_articles_as_daily.php:187
-#: skins/layout_home_articles_as_digg.php:161
-#: skins/layout_home_articles_as_hardboiled.php:195
-#: skins/layout_home_articles_as_hardboiled.php:357
-#: skins/layout_home_articles_as_newspaper.php:211
-#: skins/layout_home_articles_as_slashdot.php:146
+#: skins/layout_home_articles_as_alistapart.php:282
+#: skins/layout_home_articles_as_daily.php:186
+#: skins/layout_home_articles_as_digg.php:160
+#: skins/layout_home_articles_as_hardboiled.php:194
+#: skins/layout_home_articles_as_hardboiled.php:356
+#: skins/layout_home_articles_as_newspaper.php:210
+#: skins/layout_home_articles_as_slashdot.php:145
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/layout_home_articles_as_alistapart.php:300
-#: skins/layout_home_articles_as_alistapart.php:341
-msgid "Upload a file"
+#: skins/layout_home_articles_as_alistapart.php:299
+#: skins/layout_home_articles_as_alistapart.php:340
+#: skins/flexible/configure.php:832 skins/flexible/configure.php:836
+#: skins/flexible/configure.php:857 skins/flexible/configure.php:897
+#: skins/flexible/configure.php:1026 skins/flexible/configure.php:1141
+#: skins/flexible/configure.php:1182 skins/flexible/configure.php:1223
+#: skins/flexible/configure.php:1327 skins/flexible/configure.php:1360
+#: skins/flexible/configure.php:1418 skins/flexible/configure.php:1443
+#: skins/flexible/configure.php:1476 skins/flexible/configure.php:1534
+#: skins/flexible/configure.php:1591 skins/flexible/upload.php:64
+msgid "Add a file"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:317
+#: skins/layout_home_articles_as_alistapart.php:316
 msgid "Post a comment"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:321
-#: skins/layout_home_articles_as_daily.php:191
-#: skins/layout_home_articles_as_digg.php:166
-#: skins/layout_home_articles_as_hardboiled.php:203
-#: skins/layout_home_articles_as_newspaper.php:216
-#: skins/layout_home_articles_as_newspaper.php:312
-#: skins/layout_home_articles_as_newspaper.php:378
-#: skins/layout_home_articles_as_slashdot.php:150
+#: skins/layout_home_articles_as_alistapart.php:320
+#: skins/layout_home_articles_as_daily.php:190
+#: skins/layout_home_articles_as_digg.php:165
+#: skins/layout_home_articles_as_hardboiled.php:202
+#: skins/layout_home_articles_as_newspaper.php:215
+#: skins/layout_home_articles_as_newspaper.php:311
+#: skins/layout_home_articles_as_newspaper.php:377
+#: skins/layout_home_articles_as_slashdot.php:149
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/layout_home_articles_as_alistapart.php:325
-#: skins/layout_home_articles_as_daily.php:203
-#: skins/layout_home_articles_as_digg.php:179
-#: skins/layout_home_articles_as_slashdot.php:162
+#: skins/layout_home_articles_as_alistapart.php:324
+#: skins/layout_home_articles_as_daily.php:202
+#: skins/layout_home_articles_as_digg.php:178
+#: skins/layout_home_articles_as_slashdot.php:161
 msgid "Reference this page"
 msgstr ""
 
-#: skins/layout_home_articles_as_alistapart.php:329
-#: skins/layout_home_articles_as_daily.php:199
-#: skins/layout_home_articles_as_digg.php:175
-#: skins/layout_home_articles_as_hardboiled.php:199
-#: skins/layout_home_articles_as_newspaper.php:224
-#: skins/layout_home_articles_as_newspaper.php:317
-#: skins/layout_home_articles_as_slashdot.php:158
+#: skins/layout_home_articles_as_alistapart.php:328
+#: skins/layout_home_articles_as_daily.php:198
+#: skins/layout_home_articles_as_digg.php:174
+#: skins/layout_home_articles_as_hardboiled.php:198
+#: skins/layout_home_articles_as_newspaper.php:223
+#: skins/layout_home_articles_as_newspaper.php:316
+#: skins/layout_home_articles_as_slashdot.php:157
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/layout_home_articles_as_alistapart.php:348
+#: skins/layout_home_articles_as_alistapart.php:347
 msgid "Edit"
 msgstr ""
 
-#: skins/layout_home_articles_as_daily.php:195
-#: skins/layout_home_articles_as_digg.php:171
-#: skins/layout_home_articles_as_newspaper.php:220
-#: skins/layout_home_articles_as_newspaper.php:307
-#: skins/layout_home_articles_as_slashdot.php:154
+#: skins/layout_home_articles_as_daily.php:194
+#: skins/layout_home_articles_as_digg.php:170
+#: skins/layout_home_articles_as_newspaper.php:219
+#: skins/layout_home_articles_as_newspaper.php:306
+#: skins/layout_home_articles_as_slashdot.php:153
 msgid "Discuss"
 msgstr ""
 
-#: skins/layout_home_articles_as_digg.php:87
-#: skins/layout_home_articles_as_hardboiled.php:109
-#: skins/layout_home_articles_as_hardboiled.php:154
-#: skins/layout_home_articles_as_hardboiled.php:321
-#: skins/layout_home_articles_as_hardboiled.php:353
-#: skins/layout_home_articles_as_newspaper.php:207
-#: skins/layout_home_articles_as_newspaper.php:303
-#: skins/layout_home_articles_as_slashdot.php:87 skins/skin_skeleton.php:1780
+#: skins/layout_home_articles_as_digg.php:86
+#: skins/layout_home_articles_as_hardboiled.php:108
+#: skins/layout_home_articles_as_hardboiled.php:153
+#: skins/layout_home_articles_as_hardboiled.php:320
+#: skins/layout_home_articles_as_hardboiled.php:352
+#: skins/layout_home_articles_as_newspaper.php:206
+#: skins/layout_home_articles_as_newspaper.php:302
+#: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:1780
 #: skins/skin_skeleton.php:1870 skins/skin_skeleton.php:1967
-#: skins/skin_skeleton.php:2220 skins/skin_skeleton.php:5241
+#: skins/skin_skeleton.php:2220 skins/skin_skeleton.php:5253
 msgid "View the page"
 msgstr ""
 
-#: skins/layout_home_articles_as_digg.php:107
-#: skins/layout_home_articles_as_hardboiled.php:183
-#: skins/layout_home_articles_as_hardboiled.php:331
-#: skins/layout_home_articles_as_newspaper.php:187
-#: skins/layout_home_articles_as_newspaper.php:284
-#: skins/layout_home_articles_as_newspaper.php:371
-#: skins/layout_home_articles_as_slashdot.php:111
+#: skins/layout_home_articles_as_digg.php:106
+#: skins/layout_home_articles_as_hardboiled.php:182
+#: skins/layout_home_articles_as_hardboiled.php:330
+#: skins/layout_home_articles_as_newspaper.php:186
+#: skins/layout_home_articles_as_newspaper.php:283
+#: skins/layout_home_articles_as_newspaper.php:370
+#: skins/layout_home_articles_as_slashdot.php:110
 #, php-format
 msgid "by %s"
 msgstr ""
 
-#: skins/layout_home_articles_as_digg.php:109
-#: skins/layout_home_articles_as_hardboiled.php:181
-#: skins/layout_home_articles_as_hardboiled.php:329
-#: skins/layout_home_articles_as_slashdot.php:113
+#: skins/layout_home_articles_as_digg.php:108
+#: skins/layout_home_articles_as_hardboiled.php:180
+#: skins/layout_home_articles_as_hardboiled.php:328
+#: skins/layout_home_articles_as_slashdot.php:112
 #, php-format
 msgid "by %s, %s"
 msgstr ""
 
-#: skins/layout_home_articles_as_digg.php:118
+#: skins/layout_home_articles_as_digg.php:117
 #, php-format
 msgid "%d rating"
 msgid_plural "%d ratings"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/layout_home_articles_as_digg.php:157
-#: skins/layout_home_articles_as_slashdot.php:142
+#: skins/layout_home_articles_as_digg.php:156
+#: skins/layout_home_articles_as_slashdot.php:141
 msgid "Read more"
 msgstr ""
 
-#: skins/layout_home_articles_as_digg.php:207
-#: skins/layout_home_articles_as_slashdot.php:190
+#: skins/layout_home_articles_as_digg.php:206
+#: skins/layout_home_articles_as_slashdot.php:189
 msgid "monthly"
 msgstr ""
 
-#: skins/layout_home_articles_as_hardboiled.php:191
+#: skins/layout_home_articles_as_hardboiled.php:190
 msgid "hits"
 msgstr ""
 
-#: skins/layout_home_articles_as_hardboiled.php:233
+#: skins/layout_home_articles_as_hardboiled.php:232
 #, php-format
 msgid "In %s"
 msgstr ""
 
-#: skins/layout_home_articles_as_hardboiled.php:270
-#: skins/layout_home_articles_as_newspaper.php:123
+#: skins/layout_home_articles_as_hardboiled.php:269
+#: skins/layout_home_articles_as_newspaper.php:122
 msgid "All pages"
 msgstr ""
 
-#: skins/layout_home_articles_as_hardboiled.php:361
-#: skins/layout_home_articles_as_hardboiled.php:375
+#: skins/layout_home_articles_as_hardboiled.php:360
+#: skins/layout_home_articles_as_hardboiled.php:374
 msgid "More pages"
 msgstr ""
 
-#: skins/layout_home_articles_as_newspaper.php:195
-#: skins/skin_skeleton.php:1896 skins/skin_skeleton.php:4743
+#: skins/layout_home_articles_as_newspaper.php:194
+#: skins/skin_skeleton.php:1896 skins/skin_skeleton.php:4755
 msgid "More"
 msgstr ""
 
@@ -1202,9 +1210,9 @@ msgstr ""
 
 #: skins/skin_skeleton.php:39 skins/skin_skeleton.php:61
 #: skins/skin_skeleton.php:72 skins/skin_skeleton.php:1063
-#: skins/skin_skeleton.php:1071 skins/skin_skeleton.php:2869
-#: skins/skin_skeleton.php:3200 skins/skin_skeleton.php:3372
-#: skins/skin_skeleton.php:3380
+#: skins/skin_skeleton.php:1071 skins/skin_skeleton.php:2870
+#: skins/skin_skeleton.php:3201 skins/skin_skeleton.php:3373
+#: skins/skin_skeleton.php:3381
 msgid "Click to slide"
 msgstr ""
 
@@ -1248,8 +1256,8 @@ msgstr ""
 msgid "Search..."
 msgstr ""
 
-#: skins/skin_skeleton.php:367 skins/skin_skeleton.php:2857
-#: skins/skin_skeleton.php:3188 skins/flexible/configure.php:1305
+#: skins/skin_skeleton.php:367 skins/skin_skeleton.php:2858
+#: skins/skin_skeleton.php:3189 skins/flexible/configure.php:1305
 msgid "Content"
 msgstr ""
 
@@ -1350,14 +1358,14 @@ msgstr ""
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:1909 skins/skin_skeleton.php:4749
-#: skins/skin_skeleton.php:4806 skins/skin_skeleton.php:4808
+#: skins/skin_skeleton.php:1909 skins/skin_skeleton.php:4761
+#: skins/skin_skeleton.php:4818 skins/skin_skeleton.php:4820
 #: skins/test.php:268
 msgid "Next"
 msgstr ""
 
-#: skins/skin_skeleton.php:1922 skins/skin_skeleton.php:4792
-#: skins/skin_skeleton.php:4794 skins/test.php:268
+#: skins/skin_skeleton.php:1922 skins/skin_skeleton.php:4804
+#: skins/skin_skeleton.php:4806 skins/test.php:268
 msgid "Previous"
 msgstr ""
 
@@ -1435,68 +1443,68 @@ msgstr ""
 msgid "Referrals"
 msgstr ""
 
-#: skins/skin_skeleton.php:3227
+#: skins/skin_skeleton.php:3228
 msgid "Questions"
 msgstr ""
 
-#: skins/skin_skeleton.php:3494
+#: skins/skin_skeleton.php:3495
 msgid "more"
 msgstr ""
 
-#: skins/skin_skeleton.php:4088
+#: skins/skin_skeleton.php:4100
 msgid "A: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4158
+#: skins/skin_skeleton.php:4170
 msgid "to publish"
 msgstr ""
 
-#: skins/skin_skeleton.php:4165
+#: skins/skin_skeleton.php:4177
 msgid "expired"
 msgstr ""
 
-#: skins/skin_skeleton.php:4253
+#: skins/skin_skeleton.php:4265
 msgid "new"
 msgstr ""
 
-#: skins/skin_skeleton.php:4290
+#: skins/skin_skeleton.php:4302
 msgid "popular"
 msgstr ""
 
-#: skins/skin_skeleton.php:4302
+#: skins/skin_skeleton.php:4314
 msgid "private"
 msgstr ""
 
-#: skins/skin_skeleton.php:4309
+#: skins/skin_skeleton.php:4321
 msgid "Q: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4316
+#: skins/skin_skeleton.php:4328
 msgid "restricted"
 msgstr ""
 
-#: skins/skin_skeleton.php:4375
+#: skins/skin_skeleton.php:4387
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:4655
+#: skins/skin_skeleton.php:4667
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:4931
+#: skins/skin_skeleton.php:4943
 msgid "Previous page"
 msgstr ""
 
-#: skins/skin_skeleton.php:4956
+#: skins/skin_skeleton.php:4968
 msgid "Next page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5238
+#: skins/skin_skeleton.php:5250
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:5374
+#: skins/skin_skeleton.php:5386
 msgid "Click to sort"
 msgstr ""
 
@@ -1800,17 +1808,6 @@ msgstr ""
 
 #: skins/flexible/configure.php:831
 msgid "Body background"
-msgstr ""
-
-#: skins/flexible/configure.php:832 skins/flexible/configure.php:836
-#: skins/flexible/configure.php:857 skins/flexible/configure.php:897
-#: skins/flexible/configure.php:1026 skins/flexible/configure.php:1141
-#: skins/flexible/configure.php:1182 skins/flexible/configure.php:1223
-#: skins/flexible/configure.php:1327 skins/flexible/configure.php:1360
-#: skins/flexible/configure.php:1418 skins/flexible/configure.php:1443
-#: skins/flexible/configure.php:1476 skins/flexible/configure.php:1534
-#: skins/flexible/configure.php:1591 skins/flexible/upload.php:64
-msgid "Add a file"
 msgstr ""
 
 #: skins/flexible/configure.php:835

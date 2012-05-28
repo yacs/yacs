@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:30+0100\n"
+"POT-Creation-Date: 2012-05-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,17 +19,17 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: control/backup.php:95 control/backup.php:110 control/chmod.php:27
-#: control/chmod.php:42 control/chmod.php:92 control/configure.php:216
+#: control/chmod.php:42 control/chmod.php:85 control/configure.php:216
 #: control/configure.php:227 control/configure.php:736
 #: control/configure.php:968 control/index.php:195 control/info.php:42
-#: control/info.php:61 control/populate.php:106 control/populate.php:123
-#: control/populate.php:874 control/purge.php:67 control/purge.php:204
+#: control/info.php:61 control/populate.php:105 control/populate.php:122
+#: control/populate.php:873 control/purge.php:67 control/purge.php:204
 #: control/purge.php:223 control/purge.php:243 control/purge.php:261
 #: control/purge.php:278 control/purge.php:297 control/purge.php:314
 #: control/purge.php:331 control/purge.php:365 control/purge.php:387
 #: control/purge.php:406 control/purge.php:425 control/purge.php:444
 #: control/scan.php:167 control/scan.php:224 control/scan.php:449
-#: control/scan.php:802 control/setup.php:103 control/setup.php:278
+#: control/scan.php:802 control/setup.php:100 control/setup.php:274
 #: control/switch.php:40 control/switch.php:53 control/switch.php:83
 #: control/switch.php:143 control/test.php:88 control/virtual.php:55
 #: control/virtual.php:95 control/virtual.php:119 control/virtual.php:175
@@ -44,8 +44,8 @@ msgid "Backup/Restore"
 msgstr ""
 
 #: control/backup.php:107 control/chmod.php:39 control/configure.php:224
-#: control/import.php:33 control/info.php:58 control/populate.php:120
-#: control/purge.php:201 control/scan.php:221 control/setup.php:120
+#: control/import.php:32 control/info.php:58 control/populate.php:119
+#: control/purge.php:201 control/scan.php:221 control/setup.php:117
 #: control/switch.php:50 control/test.php:66 control/virtual.php:67
 #: control/htaccess/index.php:29
 msgid "You are not allowed to perform this operation."
@@ -64,12 +64,12 @@ msgstr ""
 msgid "Reindex tables and optimize data storage"
 msgstr ""
 
-#: control/backup.php:381 control/backup.php:385 control/import.php:40
-#: control/import.php:51
+#: control/backup.php:381 control/backup.php:385 control/import.php:39
+#: control/import.php:50
 msgid "Nothing has been received."
 msgstr ""
 
-#: control/backup.php:392 control/import.php:55
+#: control/backup.php:392 control/import.php:54
 msgid "Possible file attack."
 msgstr ""
 
@@ -166,9 +166,9 @@ msgid "Skip transient data and minimize size of backup file"
 msgstr ""
 
 #: control/backup.php:852 control/backup.php:917 control/backup.php:940
-#: control/backup.php:977 control/chmod.php:112 control/configure.php:949
-#: control/populate.php:199 control/scan.php:788 control/scan.php:798
-#: control/scan.php:825 control/setup.php:268 control/setup.php:314
+#: control/backup.php:977 control/chmod.php:105 control/configure.php:949
+#: control/populate.php:198 control/scan.php:788 control/scan.php:798
+#: control/scan.php:825 control/setup.php:264 control/setup.php:310
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -187,11 +187,11 @@ msgid ""
 "restauration."
 msgstr ""
 
-#: control/backup.php:865 control/import.php:342
+#: control/backup.php:865 control/import.php:341
 msgid "Select the file to upload"
 msgstr ""
 
-#: control/backup.php:866 control/import.php:341
+#: control/backup.php:866 control/import.php:340
 msgid "bytes"
 msgstr ""
 
@@ -210,7 +210,7 @@ msgid "Apply these SQL statements"
 msgstr ""
 
 #: control/backup.php:908 control/backup.php:934 control/configure.php:732
-#: control/populate.php:159 control/purge.php:494 control/virtual.php:143
+#: control/populate.php:158 control/purge.php:494 control/virtual.php:143
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -288,12 +288,12 @@ msgstr ""
 msgid "Updating file permissions..."
 msgstr ""
 
-#: control/chmod.php:84
+#: control/chmod.php:77
 #, php-format
 msgid "%d files have been updated."
 msgstr ""
 
-#: control/chmod.php:89 control/purge.php:220 control/purge.php:240
+#: control/chmod.php:82 control/purge.php:220 control/purge.php:240
 #: control/purge.php:258 control/purge.php:275 control/purge.php:294
 #: control/purge.php:311 control/purge.php:328 control/purge.php:362
 #: control/purge.php:384 control/purge.php:403 control/purge.php:422
@@ -302,18 +302,18 @@ msgstr ""
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: control/chmod.php:96
+#: control/chmod.php:89
 #, php-format
 msgid "chmod %s has been applied to scripts"
 msgstr ""
 
-#: control/chmod.php:103
+#: control/chmod.php:96
 #, php-format
 msgid ""
 "You are about to chmod(%d) all running scripts of this server. Are you sure?"
 msgstr ""
 
-#: control/chmod.php:107
+#: control/chmod.php:100
 msgid "Yes, I do want to change permissions of running scripts"
 msgstr ""
 
@@ -728,7 +728,7 @@ msgstr ""
 msgid "Skin"
 msgstr ""
 
-#: control/configure.php:732 control/import.php:349 control/populate.php:159
+#: control/configure.php:732 control/import.php:348 control/populate.php:158
 #: control/virtual.php:143
 msgid "Submit"
 msgstr ""
@@ -763,8 +763,8 @@ msgstr ""
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: control/configure.php:892 control/populate.php:206 control/scan.php:460
-#: control/setup.php:154
+#: control/configure.php:892 control/populate.php:205 control/scan.php:460
+#: control/setup.php:151
 msgid ""
 "Review provided information and go to the bottom of the page to move forward."
 msgstr ""
@@ -797,21 +797,21 @@ msgstr ""
 msgid "Configure again"
 msgstr ""
 
-#: control/import.php:24 control/index.php:692
+#: control/import.php:23 control/index.php:692
 msgid "Import XML content"
 msgstr ""
 
-#: control/import.php:59 control/scan.php:185 control/htaccess/index.php:42
+#: control/import.php:58 control/scan.php:185 control/htaccess/index.php:42
 #: control/htaccess/index.php:49 control/htaccess/index.php:57
 #, php-format
 msgid "Impossible to read %s."
 msgstr ""
 
-#: control/import.php:317
+#: control/import.php:316
 msgid "Following items have been processed:"
 msgstr ""
 
-#: control/import.php:339
+#: control/import.php:338
 msgid "File"
 msgstr ""
 
@@ -982,8 +982,8 @@ msgstr ""
 msgid "%s - enhance information provided through RSS"
 msgstr ""
 
-#: control/index.php:247 control/index.php:699 control/populate.php:669
-#: control/populate.php:672
+#: control/index.php:247 control/index.php:699 control/populate.php:647
+#: control/populate.php:650
 msgid "Information channels"
 msgstr ""
 
@@ -1137,7 +1137,7 @@ msgid ""
 "%s - select a section and type some text, then add images, files and links"
 msgstr ""
 
-#: control/index.php:657 control/populate.php:778
+#: control/index.php:657 control/populate.php:777
 msgid "Add a page"
 msgstr ""
 
@@ -1155,7 +1155,7 @@ msgstr ""
 msgid "%s - create blogs, wikis, forums, and more"
 msgstr ""
 
-#: control/index.php:664 control/populate.php:109
+#: control/index.php:664 control/populate.php:108
 msgid "Content Assistant"
 msgstr ""
 
@@ -1164,7 +1164,7 @@ msgstr ""
 msgid "%s - you may enhance %s of some sections"
 msgstr ""
 
-#: control/index.php:669 control/index.php:909 control/populate.php:733
+#: control/index.php:669 control/index.php:909 control/populate.php:732
 msgid "Site map"
 msgstr ""
 
@@ -1190,7 +1190,7 @@ msgstr ""
 msgid "%s, including: %s, %s, %s and %s"
 msgstr ""
 
-#: control/index.php:681 control/populate.php:323
+#: control/index.php:681 control/populate.php:322
 msgid "Global pages"
 msgstr ""
 
@@ -1198,15 +1198,15 @@ msgstr ""
 msgid "the cover page"
 msgstr ""
 
-#: control/index.php:683 control/populate.php:728
+#: control/index.php:683 control/populate.php:727
 msgid "Menu"
 msgstr ""
 
-#: control/index.php:684 control/populate.php:488
+#: control/index.php:684 control/populate.php:487
 msgid "About this site"
 msgstr ""
 
-#: control/index.php:685 control/populate.php:749
+#: control/index.php:685 control/populate.php:748
 msgid "Privacy statement"
 msgstr ""
 
@@ -1388,7 +1388,7 @@ msgid ""
 msgstr ""
 
 #: control/index.php:868 control/scan.php:783 control/scan.php:802
-#: control/setup.php:106
+#: control/setup.php:103
 msgid "Database maintenance"
 msgstr ""
 
@@ -1429,7 +1429,7 @@ msgstr ""
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr ""
 
-#: control/index.php:881 control/populate.php:852
+#: control/index.php:881 control/populate.php:851
 msgid "Extensions"
 msgstr ""
 
@@ -1455,11 +1455,11 @@ msgstr ""
 msgid "System management"
 msgstr ""
 
-#: control/index.php:910 control/populate.php:478 control/populate.php:734
+#: control/index.php:910 control/populate.php:477 control/populate.php:733
 msgid "Categories"
 msgstr ""
 
-#: control/index.php:917 control/populate.php:735
+#: control/index.php:917 control/populate.php:734
 msgid "Help"
 msgstr ""
 
@@ -1575,235 +1575,235 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: control/populate.php:130
+#: control/populate.php:129
 msgid ""
 "Please indicate below the name and password you will use to authenticate to "
 "this server."
 msgstr ""
 
-#: control/populate.php:131
+#: control/populate.php:130
 msgid ""
 "DO NOT FORGET THIS LOGIN!! There is no default administrative login created "
 "when YACS is installed, so if you lose your login, you will have to purge "
 "the database and trigger the setup script again."
 msgstr ""
 
-#: control/populate.php:138
+#: control/populate.php:137
 msgid "Nick name"
 msgstr ""
 
-#: control/populate.php:140
+#: control/populate.php:139
 msgid "Please carefully select a meaningful nick name."
 msgstr ""
 
-#: control/populate.php:144
+#: control/populate.php:143
 msgid "Password"
 msgstr ""
 
-#: control/populate.php:146
+#: control/populate.php:145
 msgid ""
 "We recommend at least 4 letters, two digits, and a punctuation sign - in any "
 "order"
 msgstr ""
 
-#: control/populate.php:150
+#: control/populate.php:149
 msgid "Password confirmation"
 msgstr ""
 
-#: control/populate.php:171
+#: control/populate.php:170
 msgid "You must provide a nick name."
 msgstr ""
 
-#: control/populate.php:178
+#: control/populate.php:177
 msgid "You must provide a password."
 msgstr ""
 
-#: control/populate.php:185
+#: control/populate.php:184
 msgid "You must confirm the password."
 msgstr ""
 
-#: control/populate.php:244
+#: control/populate.php:243
 msgid "Users"
 msgstr ""
 
-#: control/populate.php:246
+#: control/populate.php:245
 #, php-format
 msgid "One associate profile \"%s\" has been created."
 msgstr ""
 
-#: control/populate.php:262
+#: control/populate.php:261
 msgid "Covers"
 msgstr ""
 
-#: control/populate.php:263
+#: control/populate.php:262
 msgid "The top page here is also displayed at the front page"
 msgstr ""
 
-#: control/populate.php:269 control/populate.php:282 control/populate.php:298
-#: control/populate.php:314 control/populate.php:330 control/populate.php:346
-#: control/populate.php:365 control/populate.php:385 control/populate.php:402
-#: control/populate.php:420
+#: control/populate.php:268 control/populate.php:281 control/populate.php:297
+#: control/populate.php:313 control/populate.php:329 control/populate.php:345
+#: control/populate.php:364 control/populate.php:384 control/populate.php:401
+#: control/populate.php:419
 #, php-format
 msgid "A section \"%s\" has been created."
 msgstr ""
 
-#: control/populate.php:278 control/populate.php:848
+#: control/populate.php:277 control/populate.php:847
 msgid "Pages"
 msgstr ""
 
-#: control/populate.php:279
+#: control/populate.php:278
 msgid "The default place for new pages"
 msgstr ""
 
-#: control/populate.php:291
+#: control/populate.php:290
 msgid "Extra boxes"
 msgstr ""
 
-#: control/populate.php:292
+#: control/populate.php:291
 msgid "Boxes displayed aside the front page"
 msgstr ""
 
-#: control/populate.php:293 control/populate.php:309 control/populate.php:341
+#: control/populate.php:292 control/populate.php:308 control/populate.php:340
 msgid ""
 "All [link=codes]codes/[/link] are available to format boxes. Keep the "
 "content as compact as possible because of the small size of any single box. "
 "When ready, publish pages to actually show boxes to everybody."
 msgstr ""
 
-#: control/populate.php:307
+#: control/populate.php:306
 msgid "Gadget boxes"
 msgstr ""
 
-#: control/populate.php:308
+#: control/populate.php:307
 msgid "Boxes displayed in the middle of the front page"
 msgstr ""
 
-#: control/populate.php:339
+#: control/populate.php:338
 msgid "Navigation boxes"
 msgstr ""
 
-#: control/populate.php:340
+#: control/populate.php:339
 msgid "Boxes displayed aside all pages"
 msgstr ""
 
-#: control/populate.php:357
+#: control/populate.php:356
 msgid "Processed queries"
 msgstr ""
 
-#: control/populate.php:358
+#: control/populate.php:357
 msgid "Saved for history"
 msgstr ""
 
-#: control/populate.php:374
+#: control/populate.php:373
 msgid "Queries"
 msgstr ""
 
-#: control/populate.php:375
+#: control/populate.php:374
 msgid "Submitted by any surfer"
 msgstr ""
 
-#: control/populate.php:376
+#: control/populate.php:375
 msgid "Add comments to provide support."
 msgstr ""
 
-#: control/populate.php:398
+#: control/populate.php:397
 msgid "Models to be duplicated"
 msgstr ""
 
-#: control/populate.php:400
+#: control/populate.php:399
 msgid "Templates"
 msgstr ""
 
-#: control/populate.php:416
+#: control/populate.php:415
 msgid "For standalone pages"
 msgstr ""
 
-#: control/populate.php:418
+#: control/populate.php:417
 msgid "Threads"
 msgstr ""
 
-#: control/populate.php:427 control/populate.php:475 control/populate.php:845
+#: control/populate.php:426 control/populate.php:474 control/populate.php:844
 msgid "No item has been added"
 msgstr ""
 
-#: control/populate.php:430
+#: control/populate.php:429
 msgid "Sections"
 msgstr ""
 
-#: control/populate.php:436 control/populate.php:438
+#: control/populate.php:435 control/populate.php:437
 msgid "featured"
 msgstr ""
 
-#: control/populate.php:439
+#: control/populate.php:438
 msgid "Featured"
 msgstr ""
 
-#: control/populate.php:440
+#: control/populate.php:439
 msgid "Pages to display at the front page"
 msgstr ""
 
-#: control/populate.php:441
+#: control/populate.php:440
 msgid ""
 "Pages attached to this category are featured at the front page in a compact "
 "list aside."
 msgstr ""
 
-#: control/populate.php:446 control/populate.php:458 control/populate.php:470
+#: control/populate.php:445 control/populate.php:457 control/populate.php:469
 #, php-format
 msgid "A category \"%s\" has been created."
 msgstr ""
 
-#: control/populate.php:450 control/populate.php:452
+#: control/populate.php:449 control/populate.php:451
 msgid "monthly"
 msgstr ""
 
-#: control/populate.php:453
+#: control/populate.php:452
 msgid "Publications by month"
 msgstr ""
 
-#: control/populate.php:462 control/populate.php:464
+#: control/populate.php:461 control/populate.php:463
 msgid "weekly"
 msgstr ""
 
-#: control/populate.php:465
+#: control/populate.php:464
 msgid "Publications by week"
 msgstr ""
 
-#: control/populate.php:490
+#: control/populate.php:489
 msgid "What is [parameter=site_name] about?"
 msgstr ""
 
-#: control/populate.php:491
+#: control/populate.php:490
 msgid ""
 "Welcome to this server! Here are attributes transmitted in the header of "
 "each page:"
 msgstr ""
 
-#: control/populate.php:493
+#: control/populate.php:492
 msgid "Site name"
 msgstr ""
 
-#: control/populate.php:494
+#: control/populate.php:493
 msgid "Description"
 msgstr ""
 
-#: control/populate.php:495
+#: control/populate.php:494
 msgid "Keywords"
 msgstr ""
 
-#: control/populate.php:496
+#: control/populate.php:495
 msgid "Geographical position"
 msgstr ""
 
-#: control/populate.php:497
+#: control/populate.php:496
 msgid "Copyright"
 msgstr ""
 
-#: control/populate.php:498
+#: control/populate.php:497
 msgid "Owner"
 msgstr ""
 
-#: control/populate.php:500
+#: control/populate.php:499
 msgid ""
 "This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]"
 "http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a "
@@ -1811,11 +1811,11 @@ msgid ""
 "information that matters for you."
 msgstr ""
 
-#: control/populate.php:501
+#: control/populate.php:500
 msgid "Contact"
 msgstr ""
 
-#: control/populate.php:502
+#: control/populate.php:501
 msgid ""
 "The preferred mean to join us is to use the general-purpose query form. This "
 "is a convenient tool for you and for us, because your request and related "
@@ -1824,32 +1824,32 @@ msgid ""
 "query."
 msgstr ""
 
-#: control/populate.php:503
+#: control/populate.php:502
 msgid "Query: [link=Use the on-line form]query.php[/link]"
 msgstr ""
 
-#: control/populate.php:504
+#: control/populate.php:503
 msgid ""
 "If you have something vitally important to tell us, send a message at the "
 "following address."
 msgstr ""
 
-#: control/populate.php:505
+#: control/populate.php:504
 msgid "Webmaster: [parameter=site_email]"
 msgstr ""
 
-#: control/populate.php:506
+#: control/populate.php:505
 msgid ""
 "Due to the large amount of e-mail that we get, we can NOT guarantee a "
 "response! This is especially true if your e-mail concerns issues we can't "
 "really help you with."
 msgstr ""
 
-#: control/populate.php:507
+#: control/populate.php:506
 msgid "How you can help"
 msgstr ""
 
-#: control/populate.php:508
+#: control/populate.php:507
 msgid ""
 "We are proud of this server, but it certainly isn't perfect. We're always "
 "looking for ways to improve the site. So, if you've got any great ideas, "
@@ -1859,17 +1859,17 @@ msgid ""
 "whole community - and that's who we're here to serve."
 msgstr ""
 
-#: control/populate.php:509
+#: control/populate.php:508
 msgid "Legal Stuff"
 msgstr ""
 
-#: control/populate.php:510
+#: control/populate.php:509
 msgid ""
 "Be nice to other people, don't spam them, and don't do anything bad with any "
 "information you might get from this site."
 msgstr ""
 
-#: control/populate.php:511
+#: control/populate.php:510
 msgid ""
 "All content, including but not limited to user reviews, application listings "
 "and information contained therein, is owned by [parameter=site_owner] and "
@@ -1878,7 +1878,7 @@ msgid ""
 "submitting it."
 msgstr ""
 
-#: control/populate.php:512
+#: control/populate.php:511
 msgid ""
 "[parameter=site_owner] is not responsible for the content of information "
 "submitted to the site. [parameter=site_owner] is not responsible for any "
@@ -1888,7 +1888,7 @@ msgid ""
 "of said site or its contents."
 msgstr ""
 
-#: control/populate.php:513
+#: control/populate.php:512
 msgid ""
 "All other trademarks, icons, and logos, shown or mentioned, are the property "
 "of their respective owners, including those associated with any solutions "
@@ -1902,106 +1902,106 @@ msgid ""
 "resolve any disputes that may arise in this area."
 msgstr ""
 
-#: control/populate.php:517 control/populate.php:539 control/populate.php:560
-#: control/populate.php:574 control/populate.php:595 control/populate.php:617
-#: control/populate.php:638 control/populate.php:659 control/populate.php:676
-#: control/populate.php:697 control/populate.php:718 control/populate.php:739
-#: control/populate.php:768 control/populate.php:784 control/populate.php:801
-#: control/populate.php:822 control/populate.php:838
+#: control/populate.php:516 control/populate.php:538 control/populate.php:559
+#: control/populate.php:573 control/populate.php:594 control/populate.php:616
+#: control/populate.php:637 control/populate.php:654 control/populate.php:675
+#: control/populate.php:696 control/populate.php:717 control/populate.php:738
+#: control/populate.php:767 control/populate.php:783 control/populate.php:800
+#: control/populate.php:821 control/populate.php:837
 #, php-format
 msgid "A page \"%s\" has been created."
 msgstr ""
 
-#: control/populate.php:527
+#: control/populate.php:526
 msgid "Present to others"
 msgstr ""
 
-#: control/populate.php:528
+#: control/populate.php:527
 msgid ""
 "Arrange an interactive virtual meeting based on document or desktop sharing. "
 "This relies on a BigBlueButton server, and supports webcams and interactive "
 "chat."
 msgstr ""
 
-#: control/populate.php:549
+#: control/populate.php:548
 msgid "Chat with others"
 msgstr ""
 
-#: control/populate.php:550
+#: control/populate.php:549
 msgid ""
 "Start an interactive session right now, or add it to your agenda. The page "
 "will be turned to a permanent transcript at the end of the meeting."
 msgstr ""
 
-#: control/populate.php:570
+#: control/populate.php:569
 msgid "Welcome!"
 msgstr ""
 
-#: control/populate.php:584
-msgid "Share some information"
-msgstr ""
-
-#: control/populate.php:585
-msgid "From the web, from your computer, or from your head."
-msgstr ""
-
-#: control/populate.php:605
-msgid "Plan an event"
-msgstr ""
-
-#: control/populate.php:606
-msgid ""
-"Arrange an event at the given date and time. Manage enrolment, and provide "
-"meeting instructions on-line."
-msgstr ""
-
-#: control/populate.php:627
+#: control/populate.php:583
 msgid "Real-time collaboration"
 msgstr ""
 
-#: control/populate.php:628
+#: control/populate.php:584
 msgid ""
 "Allow multiple contributors to work at the same document. At the given date "
 "and time participants are invited to join and to contribute."
 msgstr ""
 
-#: control/populate.php:648
+#: control/populate.php:604
+msgid "Plan an event"
+msgstr ""
+
+#: control/populate.php:605
+msgid ""
+"Arrange an event at the given date and time. Manage enrolment, and provide "
+"meeting instructions on-line."
+msgstr ""
+
+#: control/populate.php:626
 msgid "Meet somewhere on the web"
 msgstr ""
 
-#: control/populate.php:649
+#: control/populate.php:627
 msgid ""
 "Arrange an on-line meeting supported externally. At the given date and time "
 "participants are invited to join the provided web address."
 msgstr ""
 
-#: control/populate.php:671
+#: control/populate.php:649
 msgid "Recent pages"
 msgstr ""
 
-#: control/populate.php:686
+#: control/populate.php:664
+msgid "Share some information"
+msgstr ""
+
+#: control/populate.php:665
+msgid "From the web, from your computer, or from your head."
+msgstr ""
+
+#: control/populate.php:685
 msgid "Ask a question"
 msgstr ""
 
-#: control/populate.php:687
+#: control/populate.php:686
 msgid "Let the community help you. Answered pages can be rated by visitors."
 msgstr ""
 
-#: control/populate.php:707
+#: control/populate.php:706
 msgid "Livestream broadcast"
 msgstr ""
 
-#: control/populate.php:708
+#: control/populate.php:707
 msgid ""
 "Drive your audience to a Livestream channel. At the given date and time "
 "participants are invited to join the show."
 msgstr ""
 
-#: control/populate.php:731
+#: control/populate.php:730
 msgid "Home"
 msgstr ""
 
-#: control/populate.php:751
+#: control/populate.php:750
 msgid ""
 "We respect your privacy! Any and all information collected at this site will "
 "be kept strictly confidential and will not be sold, reused, rented, loaned "
@@ -2010,11 +2010,11 @@ msgid ""
 "Read on for more specific information."
 msgstr ""
 
-#: control/populate.php:752
+#: control/populate.php:751
 msgid "User Information"
 msgstr ""
 
-#: control/populate.php:753
+#: control/populate.php:752
 msgid ""
 "In order to make certain parts of this server work, some sections of the "
 "site require you to give us your e-mail address and/or other types of "
@@ -2024,11 +2024,11 @@ msgid ""
 "safe with us."
 msgstr ""
 
-#: control/populate.php:754
+#: control/populate.php:753
 msgid "Mailings"
 msgstr ""
 
-#: control/populate.php:755
+#: control/populate.php:754
 msgid ""
 "In some cases we will use your email address internally, both for "
 "identification purposes and to email you updates related to your pages. Your "
@@ -2040,11 +2040,11 @@ msgid ""
 "spam you.)"
 msgstr ""
 
-#: control/populate.php:756
+#: control/populate.php:755
 msgid "Web Logs"
 msgstr ""
 
-#: control/populate.php:757
+#: control/populate.php:756
 msgid ""
 "We occasionally analyzes our website logs to constantly improve the value of "
 "the content available on our website. Our website logs are not personally "
@@ -2052,11 +2052,11 @@ msgid ""
 "actually browse the site."
 msgstr ""
 
-#: control/populate.php:758
+#: control/populate.php:757
 msgid "Cookies"
 msgstr ""
 
-#: control/populate.php:759
+#: control/populate.php:758
 msgid ""
 "Although some Internet users think cookies are a serious privacy issue, as "
 "web designers we think that they come in darned handy. This site uses "
@@ -2070,11 +2070,11 @@ msgid ""
 "ability to do anything that requires you to be logged into the server)."
 msgstr ""
 
-#: control/populate.php:760
+#: control/populate.php:759
 msgid "Passwords"
 msgstr ""
 
-#: control/populate.php:761
+#: control/populate.php:760
 msgid ""
 "This server requires you to define and enter passwords to access certain "
 "areas of the site. In case this conjures up images of crackers breaking into "
@@ -2089,11 +2089,11 @@ msgid ""
 "first place."
 msgstr ""
 
-#: control/populate.php:762
+#: control/populate.php:761
 msgid "Posted material"
 msgstr ""
 
-#: control/populate.php:763
+#: control/populate.php:762
 msgid ""
 "Posted material is, of course, not private; several persons can look at "
 "them. But this is as good a time as any to point out that we own and retain "
@@ -2107,59 +2107,59 @@ msgid ""
 "netiquette by now, right?  :-)"
 msgstr ""
 
-#: control/populate.php:764
+#: control/populate.php:763
 msgid ""
 "If you have any questions or comments about our privacy policy, or would "
 "like more information about a particular category, please [article=about, "
 "get in touch] with us."
 msgstr ""
 
-#: control/populate.php:779
+#: control/populate.php:778
 msgid "Add a web page with a streamlined interface."
 msgstr ""
 
-#: control/populate.php:794
+#: control/populate.php:793
 msgid "Private discussion"
 msgstr ""
 
-#: control/populate.php:795
+#: control/populate.php:794
 msgid "To interact privately with some persons."
 msgstr ""
 
-#: control/populate.php:811
+#: control/populate.php:810
 msgid "USTREAM broadcast"
 msgstr ""
 
-#: control/populate.php:812
+#: control/populate.php:811
 msgid ""
 "Drive your audience to a USTREAM show. At the given date and time "
 "participants are invited to join the channel."
 msgstr ""
 
-#: control/populate.php:832
+#: control/populate.php:831
 msgid "Wiki page"
 msgstr ""
 
-#: control/populate.php:833
+#: control/populate.php:832
 msgid ""
 "Create an initial page and invite participants to follow-up. Modifications "
 "are saved, to allow for fall-back."
 msgstr ""
 
-#: control/populate.php:861
+#: control/populate.php:860
 msgid "Configure the page factory"
 msgstr ""
 
-#: control/populate.php:868 control/virtual.php:92 control/virtual.php:115
+#: control/populate.php:867 control/virtual.php:92 control/virtual.php:115
 #: control/virtual.php:171 control/virtual.php:194 control/virtual.php:219
 msgid "What do you want to do now?"
 msgstr ""
 
-#: control/populate.php:872
+#: control/populate.php:871
 msgid "Check the updated Site Map"
 msgstr ""
 
-#: control/populate.php:873
+#: control/populate.php:872
 msgid "Launch the Content Assistant again"
 msgstr ""
 
@@ -2430,53 +2430,53 @@ msgstr ""
 msgid "Current content of %s"
 msgstr ""
 
-#: control/setup.php:132
+#: control/setup.php:129
 msgid "You have associate privilege"
 msgstr ""
 
-#: control/setup.php:144 control/switch.php:124
+#: control/setup.php:141 control/switch.php:124
 msgid "The server has been switched off."
 msgstr ""
 
-#: control/setup.php:259 control/switch.php:70
+#: control/setup.php:255 control/switch.php:70
 msgid "The server has been switched on."
 msgstr ""
 
-#: control/setup.php:264
+#: control/setup.php:260
 msgid "Run one-time scripts and go to the Control Panel"
 msgstr ""
 
-#: control/setup.php:273
+#: control/setup.php:269
 msgid "Initialize the database"
 msgstr ""
 
-#: control/setup.php:286
+#: control/setup.php:282
 msgid "The database has been optimised"
 msgstr ""
 
-#: control/setup.php:293
+#: control/setup.php:289
 msgid ""
 "This script will check the structure of the database and optimize data "
 "storage:"
 msgstr ""
 
-#: control/setup.php:295
+#: control/setup.php:291
 msgid "Missing tables will be created, if necessary."
 msgstr ""
 
-#: control/setup.php:296
+#: control/setup.php:292
 msgid "Some columns may be created or converted if their type has evolved."
 msgstr ""
 
-#: control/setup.php:297
+#: control/setup.php:293
 msgid "All indexes will be (re)built."
 msgstr ""
 
-#: control/setup.php:298
+#: control/setup.php:294
 msgid "Data files will be optimized as well."
 msgstr ""
 
-#: control/setup.php:303
+#: control/setup.php:299
 msgid "Ensure the database structure is accurate"
 msgstr ""
 
