@@ -209,7 +209,7 @@ Class Images {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'files', 'images', 'sections', 'users');
