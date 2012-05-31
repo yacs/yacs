@@ -269,7 +269,7 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$exploded && (!$_REQUEST['id'] = Images::post(array_merge($_REQUEST, $_FILES)))) {
+	} elseif(!$exploded && ($combined = array_merge($_REQUEST, $_FILES)) && (!$_REQUEST['id'] = Images::post($combined))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
