@@ -727,9 +727,14 @@ var Yacs = {
 			}
 		});
 
-		// show the tip
+		// show tips
 		$('a[title].tip').each(function() {
 			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+		});
+
+		// close all tooltips on tabbing, etc
+		$("body").bind("yacs", function(e) {
+			$('a.tip,input.tip,textarea.tip').each(function() { $(this).tipsy("hide"); });
 		});
 
 		// load the link in a scaled-down iframe
@@ -740,11 +745,6 @@ var Yacs = {
 				fade: true,
 				offset: 8,
 				opacity: 1.0});
-		});
-
-		// close all tooltips on tabbing, etc
-		$("body").bind("yacs", function(e) {
-			$('a.tip,input.tip,textarea.tip').each(function() { $(this).tipsy("hide"); });
 		});
 
 		// beautify links titles in menu bars

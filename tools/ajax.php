@@ -82,7 +82,6 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 	.'<p><input type="text" size="6" onkeypress="return Yacs.filterFloat(this, event)" /> - '.i18n::s('Enter a floating number').'</p>'
 	.'</form>'."\n";
 
-
 // some AJAX to make it work
 $context['page_footer'] .= JS_PREFIX
 	.'$("#sortables .sortable").each( function() { Yacs.addOnDemandTools($(this));}); '."\n"
