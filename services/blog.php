@@ -1440,6 +1440,10 @@ else {
 	case 'metaWeblog.newMediaObject':
 		list($blogid, $username, $password, $content) = $parameters['params'];
 
+		// use default section for this post
+		if($blogid == 1)
+			$blogid = Sections::get_default();
+
 		// get item from the database
 		if($item =& Sections::get($blogid)) {
 			$section = new Section();
@@ -1529,6 +1533,10 @@ else {
 	// create a new post, and optionally publish it
 	case 'metaWeblog.newPost':
 		list($blogid, $username, $password, $content, $publish) = $parameters['params'];
+
+		// use default section for this post
+		if($blogid == 1)
+			$blogid = Sections::get_default();
 
 		// get item from the database
 		if($item =& Sections::get($blogid)) {
