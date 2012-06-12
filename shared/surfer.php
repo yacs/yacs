@@ -598,7 +598,7 @@ Class Surfer {
 				.	' rows="1" cols="50" class="tip" >'
 				.	'</textarea>'."\n"
 				.JS_PREFIX
-				.'$(document).ready(function(){'
+				.'$(function(){'
 				.	'setTimeout(function() {'
 				.		'$("textarea#'.$name.'").autogrow()'
 				.		'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'

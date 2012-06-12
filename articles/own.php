@@ -108,11 +108,10 @@ if(Surfer::is_crawler()) {
 	// enable autocompletion
 	$context['text'] .= JS_PREFIX
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#name").focus() });'."\n"
-		."\n"
-		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); }); });  '."\n"
+		.'$(function() {'."\n"
+		.'	$("#name").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); });'."\n" // enable name autocompletion
+		.'});'."\n"
 		.JS_SUFFIX;
 
 

@@ -789,7 +789,7 @@ Class Articles {
 			.'	var target = $("#options");'."\n"
 			.'	target.val(target.val() + " " + keyword);'."\n"
 			.'}'."\n"
-			.'$(document).ready(function() {'."\n"
+			.'$(function() {'."\n"
 			.'	$("#options_list a").bind("click",function(){'."\n"
 			.'		append_to_options($(this).text());'."\n"
 			.'	}).css("cursor","pointer");'."\n"

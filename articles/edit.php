@@ -750,12 +750,9 @@ if($with_form) {
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#title").focus() });'."\n"
-		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'$(function() {'."\n"
+		.'	$("#title").focus();'."\n" // set the focus on first form field
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n" // enable autocompletion
 		.'});'."\n"
 		.JS_SUFFIX;
 

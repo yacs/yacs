@@ -510,7 +510,7 @@ class Chat_meeting extends Meeting {
 			.'}'."\n"
 			."\n"
 			.'// bind to OpenTok'."\n"
-			.'$(document).ready(function() { OpenTok.initialize(); });'."\n"
+			.'$(document).ready(OpenTok.initialize);'."\n"
 			."\n"
 			.JS_SUFFIX;
 
