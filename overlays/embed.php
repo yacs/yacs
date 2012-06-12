@@ -88,7 +88,7 @@ class Embed extends Overlay {
 				.'</p>'
 				.'</div>'
 				.JS_PREFIX
-				.'$(document).ready(function() {'."\n"
+				.'$(function() {'."\n"
 				.'	var obj = $("#provider_ticker");'."\n"
 				.'	var list = obj.children();'."\n"
 				.'	list.not(":first").hide();'."\n"
@@ -115,7 +115,7 @@ class Embed extends Overlay {
 
 			// change the display on selection
 			$input .= JS_PREFIX
-				.'$(document).ready(function() {'."\n"
+				.'$(function() {'."\n"
 				.'	$("input[name=embed_type]").change(function() {'."\n"
 				.'		if($("#share_href").attr("checked")) {'."\n"
 				.'			$("#embed_a_link").slideDown();'."\n"
@@ -219,7 +219,7 @@ class Embed extends Overlay {
 						.'</div>'
 						.JS_PREFIX
 						.'// load the link in a scaled-down iframe'."\n"
-						.'$(document).ready(function() {'."\n"
+						.'$(function() {'."\n"
 						.'	$("a.tipsy_showme").each(function() {'."\n"
 						.'		$(this).tipsy({fallback: \'<div class="tipsy_thumbnail"><iframe class="tipsy_iframe" src="\'+$(this).attr("href")+\'" /></div>\','."\n"
 						.	'		 html: true,'."\n"

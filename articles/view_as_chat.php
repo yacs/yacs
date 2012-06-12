@@ -351,18 +351,13 @@ default:
 		.'Comments.subscribeTimer = setInterval("Comments.subscribeToExtraUpdates()", 59999);'."\n"
 		."\n"
 		.'// load past contributions asynchronously'."\n"
-		.'$(document).ready(function() {'
+		.'$(function() {'
 		.	'Comments.subscribe();'
 		.	'location.hash="#thread_text_panel";'
 		.	'$("#description").tipsy({gravity: "s", fade: true, title: function () {return "'.i18n::s('Contribute here').'";}, trigger: "manual"});'
 		.	'$("#description").tipsy("show");'
 		.	'setTimeout("$(\'#description\').tipsy(\'hide\');", 10000);'
-		.'});'."\n"
-		."\n"
-		.'// let the field grow progressively if needed'."\n"
-		.'$(document).ready(function(){'
-		.	'$("textarea#description").autogrow();'
-//		.	'$("#upload").on("change", function(event) {if(/\.zip$/i.test($(this).val())){$("#upload_option").slideDown();}else{$("#upload_option").slideUp();}});'
+		.	'$("textarea#description").autogrow();' // let the field grow progressively if needed
 		.'});'."\n"
 		."\n";
 
@@ -370,7 +365,7 @@ default:
 	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
 		$context['page_footer'] .= "\n"
 			.'// load past contributions asynchronously'."\n"
-			.'$(document).ready(function() {'
+			.'$(function() {'
 			.	'$("#description").focus();'
 			.'});'."\n"
 			."\n"

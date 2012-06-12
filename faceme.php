@@ -299,7 +299,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 
 		// show the initial panel
 		$context['page_footer'] .= JS_PREFIX
-			.'$(document).ready(function() {'."\n"
+			.'$(function() {'."\n"
 			.'	$("#sessionAddress").keyup(function(event) {'."\n"
 			.'		if(event.which == 13) {'."\n"
 			.'			event.preventDefault();'."\n"
@@ -315,7 +315,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 
 		// show the meeting panel and load OpenTok
 		$context['page_footer'] .= JS_PREFIX
-			.'$(document).ready(function() { $("#meetingPanel").slideDown(); OpenTok.joinSession("'.$id.'"); });'."\n"
+			.'$(function() { $("#meetingPanel").slideDown(); OpenTok.joinSession("'.$id.'"); });'."\n"
 			.JS_SUFFIX;
 
 	}

@@ -1447,7 +1447,7 @@ Class Skin_Skeleton {
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= JS_PREFIX
-					.'$(document).ready( function() { Calendar.setup({'."\n"
+					.'$(function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%Y-%m-%d",'."\n"
 					.'	showsTime	:	false,'."\n"
@@ -1476,7 +1476,7 @@ Class Skin_Skeleton {
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= JS_PREFIX
-					.'$(document).ready( function() { Calendar.setup({'."\n"
+					.'$(function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
 					.'	showsTime	:	true,'."\n"
@@ -3055,7 +3055,7 @@ Class Skin_Skeleton {
 		// finalize javascript loader
 		$js_text .= "\n".JS_PREFIX
 			.'// use the YACS AJAX library to manage tabs'."\n"
-			."$(document).ready(function() { Yacs.tabs({"."\n"
+			."$(function() { Yacs.tabs({"."\n"
 			."\t".implode(",\n\t", $js_lines)."}, {})\n"
 			."\t});"."\n"
 			.JS_SUFFIX."\n";
@@ -5090,7 +5090,7 @@ Class Skin_Skeleton {
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
-			.'$(document).ready(function() {'."\n"
+			.'$(function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
 			.'	handle = document.getElementById("scroller_'.$scroller_id.'");'."\n"

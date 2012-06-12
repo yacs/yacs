@@ -177,7 +177,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 					// fix number of rows in firefox
 					$text .= JS_PREFIX
-						.'$(document).ready(function(){'
+						.'$(function(){'
 						.	'$("textarea#reply'.$fuse_id.'").autogrow()'
 						.	'.each(function(){'
 						.		'var lineHeight = parseFloat($(this).css("line-height"));'

@@ -2639,7 +2639,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
+			.'$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;
@@ -4284,7 +4284,7 @@ Class Codes {
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="twitter_'.$count.'"></div>'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'$(document).ready(function() { $("#twitter_'.$count.'").liveTwitter("'.$id.'", {mode: "user_timeline"}); });'."\n"
+			.'$(function() { $("#twitter_'.$count.'").liveTwitter("'.$id.'", {mode: "user_timeline"}); });'."\n"
 			.'</script>';
 
 		// job done
@@ -4326,7 +4326,7 @@ Class Codes {
 		// $context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="tsearch_'.$count.'"></div>'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'$(document).ready(function() { $("#tsearch_'.$count.'").liveTwitter("'.str_replace('"', '', $id).'"); });'."\n"
+			.'$(function() { $("#tsearch_'.$count.'").liveTwitter("'.str_replace('"', '', $id).'"); });'."\n"
 			.'</script>';
 
 		// job done

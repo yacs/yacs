@@ -445,12 +445,11 @@ if(Surfer::is_crawler()) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#names").focus() });'."\n"
-		."\n"
-		."\n"
-		.'// enable names autocompletion'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("names"); });  '."\n"
+		.''."\n"
+		.'$(function() {'
+		.'	$("#names").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("names");'."\n" // enable names autocompletion
+		.'});'.":n"
 		.JS_SUFFIX;
 
 	// help message

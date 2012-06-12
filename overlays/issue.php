@@ -825,8 +825,7 @@ class Issue extends Overlay {
 			$fields[] = array($label, $input, $hint);
 
 			$tracking .= JS_PREFIX
-				.'// enable owner autocompletion'."\n"
-				.'$(document).ready( function() { Yacs.autocomplete_names("owner",true); });  '."\n"
+				.'$(function() { Yacs.autocomplete_names("owner",true); });'."\n" // enable owner autocompletion
 				.JS_SUFFIX;
 
 			// priority

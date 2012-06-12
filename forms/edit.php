@@ -423,8 +423,7 @@ if($with_form) {
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#title").focus() });'."\n"
+		.'$(function() { $("#title").focus() });'."\n" // set the focus on first form field
 		."\n"
 		.JS_SUFFIX."\n";
 
@@ -459,8 +458,8 @@ if($with_form) {
 	// the script used to restore previous state
 	if(isset($item['content']) && $item['content']) {
 		$context['page_footer'] .= JS_PREFIX
-			.'// restore fields of the form'."\n"
-			.'$(document).ready( function() { Forms.fromJSON("#form_panel", '.utf8::encode($item['content']).') });'."\n"
+			.'// restore form fields'."\n"
+			.'$(function() { Forms.fromJSON("#form_panel", '.utf8::encode($item['content']).') });'."\n"
 			.JS_SUFFIX."\n";
 	}
 

@@ -280,12 +280,12 @@ elseif(!$permitted) {
 
 	// enable autocompletion
 	$form .= JS_PREFIX
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#name").focus() });'."\n"
-		."\n"
-		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("assigned_name",true, "", function(data) { Yacs.startWorking(); $("#submit_button").show().click(); }); $("#assigned_name").focus(); });  '."\n"
+		.'$(function() {'."\n"
+		.'	// set the focus on first form field'."\n"
+		.'	$("#assigned_name").focus();'."\n"
+		.'	// enable name autocompletion'."\n"
+		.'	Yacs.autocomplete_names("assigned_name",true, "", function(data) { Yacs.startWorking(); $("#submit_button").show().click(); });'."\n"
+		.'});  '."\n"
  		.JS_SUFFIX;
 
 	// title says it all

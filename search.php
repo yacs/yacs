@@ -241,7 +241,7 @@ if($result) {
 		// the button to get more results
 		$text .= '<div style="margin-top: 1em; text-align: center;" id="div'.$id.'"><a href="#" class="button wide" id="a'.$id.'">'.i18n::s('Get more results').'</a></div>'
 			.JS_PREFIX
-			.'$(document).ready(function(){'
+			.'$(function(){'
 			.	'$("#div'.$id.' a").click( function() {'
 			.		'Yacs.update("div'.$id.'", "'.$context['self_url'].'", {'
 			.			'data: "offset='.$last_offset.'",'

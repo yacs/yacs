@@ -482,8 +482,7 @@ if($with_form) {
 
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
-		.'// enable autocompletion for user names'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("vcard_agent",true); });  '."\n"
+		.'$(function() { Yacs.autocomplete_names("vcard_agent",true); });'."\n" // enable autocompletion for user names
 		.JS_SUFFIX;
 
 	// instant messaging
@@ -855,7 +854,7 @@ if($with_form) {
 	 		.'$("#first_name").focus();'."\n"
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
+		.'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});  '."\n"
 		.JS_SUFFIX;
