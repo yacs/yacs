@@ -331,7 +331,7 @@ Class XML_RPC_Codec extends Codec {
 	}
 
 
-	var $stack;
+	private $stack;
 
 	/**
 	 * update the stack on opening tags
@@ -346,6 +346,7 @@ Class XML_RPC_Codec extends Codec {
 	 *
 	 */
 	function parse_tag_open($parser, $tag, $attributes) {
+
 		if(preg_match('/^(methodCall|methodResponse|fault)$/', $tag)) {
 			array_push($this->stack, $tag);
 		} elseif($tag == 'array') {
@@ -360,9 +361,10 @@ Class XML_RPC_Codec extends Codec {
 				array_push($this->stack, ++$index);
 			}
 		}
+
 	}
 
-	var $cdata;
+	private $cdata = '';
 
 	/**
 	 * capture cdata for further processing
@@ -376,9 +378,9 @@ Class XML_RPC_Codec extends Codec {
 			$this->cdata = ltrim($cdata);
 	}
 
-	var $result;
+	private $result = array();
 
-	var $name;
+	private $name = NULL;
 
 	/**
 	 * update the stack on closing tags
@@ -449,7 +451,7 @@ Class XML_RPC_Codec extends Codec {
 		case 'string':
 
 			// transcode to our internal charset, if unicode
-			if($context['charset'] == 'utf-8')
+			if(($context['charset'] == 'utf-8') && isset($this->cdata))
 				$this->cdata = utf8::encode($this->cdata);
 
 			return;
@@ -488,6 +490,7 @@ Class XML_RPC_Codec extends Codec {
 			array_pop($this->stack);
 			array_pop($this->stack);
 		}
+
 	}
 
 }
