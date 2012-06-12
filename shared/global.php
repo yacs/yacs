@@ -1248,7 +1248,6 @@ function render_skin($with_last_modified=TRUE) {
 //		$metas[] = '<script type="text/javascript" src="http://staging.tokbox.com/v0.91/js/TB.min.js"></script>';
 		$metas[] = '<script type="text/javascript" src="http://static.opentok.com/v0.91/js/TB.min.js"></script>';
 
-
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
 // 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
