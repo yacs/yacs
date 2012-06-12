@@ -512,6 +512,11 @@ $codec = new xml_rpc_Codec();
 
 // regular decoding
 if(isset($raw_data) && $raw_data) {
+
+	// fix malformed XML-RPC requests (i.e. missing tag <value> in each param)
+	if(strpos($raw_data, '<param><string>'))
+		$raw_data = str_replace(array('<param>', '</param>'), array('<param><value>', '</value></param>'), $raw_data);
+
 	// parse xml parameter
 	$result = $codec->import_request($raw_data);
 	$status = @$result[0];
