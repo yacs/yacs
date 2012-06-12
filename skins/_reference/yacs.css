@@ -3176,6 +3176,7 @@ div.top { /* poster information, when placed at page top */
  */
 
 div#tabs_bar {
+	clear: both; /* because of floating images inserted before tabs */
 	position: relative;
 	margin: 2em 0 1em 0;
 	padding: 0 0 0 0.5em;
