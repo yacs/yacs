@@ -752,6 +752,17 @@ var Yacs = {
 			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
+		// stick some div to the top
+		var handle = $('div.stickyHeader');
+		if(handle && handle.offset())
+			Yacs.stickyHeader = handle.offset().top;
+
+		// adjust stickies on load
+		Yacs.positionStickies();
+
+		// adjust position on scrolling and on resize
+		$(window).scroll(Yacs.positionStickies).resize(Yacs.positionStickies);
+
 		// on-demand headers
 		$('.onDemandTools').each(function() {
 			Yacs.addOnDemandTools($(this));
@@ -847,6 +858,26 @@ var Yacs = {
 
 		// allow for additional handling of this window
 		return window_handle;
+	},
+
+	/**
+	 * adjust sticky header and footer
+	 */
+	positionStickies: function() {
+
+		// adjust sticking header
+		var wt = $(window).scrollTop();
+		$('div.stickyHeader').each(function() {
+			var mt = Yacs.stickyHeader;
+			$(this).css({'position': (wt>mt) ? 'fixed' : 'static', 'top': (wt>mt) ? '0px' : ''});
+		});
+
+		// adjust sticking footer
+		$('div.stickyFooter').each(function() {
+			$(this).css({position: "absolute",
+				top: ($(window).scrollTop()+$(window).height()-$(this).outerHeight())+"px"});
+		});
+
 	},
 
 	/**
