@@ -195,7 +195,7 @@ var Yacs = {
 			success: function(response) {
 				if(typeof callBack == 'function') {
 					if(response.error) {
-						callBack(response.error);
+						callBack(response);
 					} else if(response.result) {
 						callBack(response.result);
 					} else {
