@@ -418,7 +418,7 @@ if(Surfer::is_crawler()) {
 		Logger::error(i18n::s('Failed authentication'), FALSE);
 
 		// help surfer to recover
-		if($items =& Users::search($name, 0, 7, 'password')) {
+		if($items =& Users::search($name, 1.0, 7, 'password')) {
 			// display candidate profiles
 			if(is_array($items))
 				$items =& Skin::build_list($items, 'decorated');

@@ -47,7 +47,7 @@ if(Surfer::is_crawler()) {
 $output = '';
 
 // look for matching items
-$items = Users::search($_REQUEST['term'], 0, 50, 'complete');
+$items = Users::search($_REQUEST['term'], 1.0, 50, 'complete');
 
 // build an unordered list
 if(count($items)) {

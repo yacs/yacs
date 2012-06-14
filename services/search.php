@@ -109,7 +109,7 @@ switch($type) {
 
 	// search in users
 	case 'users':
-		$values['items'] = Users::search($search, 0, 30, 'feed');
+		$values['items'] = Users::search($search, 1.0, 30, 'feed');
 		break;
 
 }
