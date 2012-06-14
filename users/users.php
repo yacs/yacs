@@ -1946,6 +1946,29 @@ Class Users {
 			return $output;
 		}
 
+		// make it a proper boolean search
+		if($pattern[0] != '+') {
+
+			$tokens = preg_split('/[\s,]+/', $pattern);
+			if(@count($tokens)) {
+				$pattern = '';
+				foreach($tokens as $token) {
+
+					// already here (repeated word)
+					if(strpos($pattern, $token) !== FALSE)
+						continue;
+
+					// re-enforce boolean mode
+					if(($token[0] != '+') && ($token[0] != '+') && ($token[0] != '~'))
+						$token = '+'.$token;
+
+					// keep this token
+					$pattern .= $token.' ';
+				}
+				$pattern = trim($pattern).'*';
+			}
+		}
+
 		// limit the scope of the request
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
@@ -1973,7 +1996,7 @@ Class Users {
 			." FROM ".SQL::table_name('users')." AS users"
 
 			// score < offset and score > 0
-			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0.0)"
 
 			// other constraints
 			." AND ".$where
