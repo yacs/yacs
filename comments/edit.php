@@ -280,7 +280,7 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// reward the poster for new posts
-	} elseif(!isset($item['id'])) {
+	} elseif(!isset($item['id']) || ($item['id'] != $_REQUEST['id'])) {
 
 		// touch the related anchor
 		$anchor->touch('comment:create', $_REQUEST['id'],
