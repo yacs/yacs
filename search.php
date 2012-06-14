@@ -96,7 +96,7 @@ if(@count($tokens)) {
 		// keep this token
 		$search .= $token.' ';
 	}
-	$search = trim($search);
+	$search = trim($search).'*';
 }
 
 // load localized strings
