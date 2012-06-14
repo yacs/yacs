@@ -161,6 +161,9 @@ Class Layout_comments_as_updates extends Layout_interface {
 					// remember the id of the replied comment
 					$text .= '<input type="hidden" name="previous_id" value="'.$item['id'].'" />';
 
+					// notify watchers
+					$text .= '<input type="hidden" name="notify_watchers" value="Y" />';
+
 					// ensure id uniqueness
 					static $fuse_id;
 					if(!isset($fuse_id))
