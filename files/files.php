@@ -2658,7 +2658,7 @@ Class Files {
 			$where .= " OR anchor IN ('article:".join("', 'article:", $my_articles)."')";
 
 		// how to compute the score for files
-		$score = "(MATCH(title, source, description, keywords)"
+		$score = "(MATCH(title, source, keywords)"
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
 			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
 
@@ -2726,7 +2726,7 @@ Class Files {
 		$indexes['INDEX file_size'] 	= "(file_size)";
 		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']		= "full_text(title, source, description, keywords)";
+		$indexes['FULLTEXT INDEX']		= "full_text(title, source, keywords)";
 
 		return SQL::setup_table('files', $fields, $indexes);
 	}
