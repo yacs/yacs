@@ -1478,15 +1478,24 @@ Class Section extends Anchor {
 			// message to watchers
 			$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
-			// scope of notifications is the originating page, and its parent section
+			// scope of notifications is the originating page, and its parent section, and forwarded section upwards
 			if(!strncmp($action, 'article:', strlen('article:')) && ($action != 'article:create') && ($action != 'article:publish')) {
 
-				// we are the parent section
-				$containers = array($this->get_reference());
+				// notifications should be sent to watchers of these containers
+				$containers = array();
+				$handle = $this->get_reference();
+				while($handle && ($container = Anchors::get($handle))) {
 
-				// forward notifications to grand-parent section too
-				if(preg_match('/\bforward_notifications\b/i', $this->item['options']) && ($parent = $this->item['anchor']))
-					$containers[] = $this->item['anchor'];
+					// add watchers of this level
+					$containers[] = $handle;
+
+					// should we forward notifications upwards
+					if(!$container->has_option('forward_notifications', FALSE))
+						break;
+
+					// add watchers of next level
+					$handle = $container->get_parent();
+				}
 
 				// users assigned to this section only
 				$restricted = NULL;

@@ -478,9 +478,9 @@ elseif(!$permitted) {
 					elseif(Surfer::is_associate())
 						$disabled ='';
 
-					// limit the horizon of watching
-					if($forwarding && !strncmp($anchor->get_reference(), 'article:', 8) && ($handle != $anchor->get_parent()) && !$parent->has_option('forward_notifications'))
-						$forwarding = FALSE;
+					// it is not relevant to list watchers of this container
+					if(!$forwarding)
+						;
 
 					// watcher?
 					elseif($user['watcher']) {
@@ -513,7 +513,11 @@ elseif(!$permitted) {
 
 			}
 
-			// next level
+			// limit the horizon of watching for next level
+			if($forwarding && !strncmp($anchor->get_reference(), 'article:', 8) && !$parent->has_option('forward_notifications', FALSE))
+				$forwarding = FALSE;
+
+			// explore next level
 			$handle = $parent->get_parent();
 		}
 

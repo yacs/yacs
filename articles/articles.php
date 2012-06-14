@@ -2482,6 +2482,11 @@ Class Articles {
 			$ancestors[] = $anchor->get_reference();
 			$handle = $anchor->get_parent();
 			while($handle && ($parent = Anchors::get($handle))) {
+
+				// notify watchers of grand-parent section too
+				if($parent->has_option('forward_notifications', FALSE) && $parent->get_parent())
+					$anchors[] = $parent->get_parent();
+
 				$ancestors[] = $handle;
 				$handle = $parent->get_parent();
 			}
