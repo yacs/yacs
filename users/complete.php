@@ -70,7 +70,7 @@ if(count($items)) {
 render_raw('application/json; charset='.$context['charset']);
 
 // actual transmission except on a HEAD request
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 	echo $output;
 
 // the post-processing hook, then exit
