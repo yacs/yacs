@@ -205,7 +205,7 @@ Class Tables {
 
 				}
 
-				if($label && !in_array($labels, 'label'))
+				if($label && !in_array('label', $labels))
 					$datum['label'] = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 				// add a tip, if any
