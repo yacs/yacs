@@ -62,7 +62,7 @@ if(count($items)) {
 }
 
 // allow for data compression
-render_raw();
+render_raw('application/json; charset='.$context['charset']);
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
