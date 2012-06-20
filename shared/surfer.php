@@ -599,10 +599,11 @@ Class Surfer {
 				.	'</textarea>'."\n"
 				.JS_PREFIX
 				.'$(function(){'
+				.	'$("textarea#'.$name.'").autogrow();'
 				.	'setTimeout(function() {'
-				.		'$("textarea#'.$name.'").autogrow()'
-				.		'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
-				.		'.tipsy("show");'
+				.		'$("textarea#'.$name.'")'
+				.			'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
+				.			'.tipsy("show");'
 				.	'}, 5000);'
 				.'});'."\n"
 				.JS_SUFFIX;
