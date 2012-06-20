@@ -1100,7 +1100,7 @@ Class Section extends Anchor {
 						$label = '[embed='.$origin.']';
 
 				// else add a comment to take note of the upload
-				} else {
+				} elseif(Comments::allow_creation(NULL, $this->item, 'section')) {
 					$fields = array();
 					$fields['anchor'] = 'section:'.$this->item['id'];
 					$fields['description'] = '[file='.$item['id'].']';
