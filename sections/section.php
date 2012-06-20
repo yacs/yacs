@@ -1040,6 +1040,9 @@ Class Section extends Anchor {
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
 
+		// we make extensive use of comments below
+		include_once $context['path_to_root'].'comments/comments.php';
+
 		// don't go further on import
 		if(preg_match('/import$/i', $action))
 			return;
@@ -1068,7 +1071,6 @@ Class Section extends Anchor {
 		} elseif($action == 'comment:create') {
 
 			// purge oldest comments
-			include_once $context['path_to_root'].'comments/comments.php';
 			Comments::purge_for_anchor('section:'.$this->item['id']);
 
 		// a new file has been attached
@@ -1408,7 +1410,6 @@ Class Section extends Anchor {
 
 			// a comment has been added to the section
 			} else if($action == 'comment:create') {
-				include_once $context['path_to_root'].'comments/comments.php';
 				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
 
 					// mail content
