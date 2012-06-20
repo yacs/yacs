@@ -41,7 +41,6 @@ $context['l10n']['en']['Add another page']='Add another page';
 $context['l10n']['en']['All files']='All files';
 $context['l10n']['en']['All pages']='All pages';
 $context['l10n']['en']['e0505deafaddcb1c64c1fe609cab8361']='Allow anonymous surfers to edit content';
-$context['l10n']['en']['938ce40939cb309af06c1cc6644797dc']='Allow easy interactions between people';
 $context['l10n']['en']['Allow members to edit content']='Allow members to edit content';
 $context['l10n']['en']['de5b7203b45b8660746f749207ab2a51']='Also complements the title in lists featuring this page';
 $context['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';

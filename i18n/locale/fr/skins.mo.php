@@ -251,7 +251,6 @@ $context['l10n']['fr']['b5de5afc151f6530a35bcfee3a88cc3b']='Le parent n\'est pas
 $context['l10n']['fr']['41dd8514175d79f308930ada3e52bf01']='Le parent est privé, et cette contrainte sera héritée';
 $context['l10n']['fr']['People']='Personnes';
 $context['l10n']['fr']['Permalink']='Permalink';
-$context['l10n']['fr']['Persons']='Personnes';
 $context['l10n']['fr']['5407f72b825d5a546bc759d46d6abd15']='Merci de rester réaliste. Ce paramètre sert à marquer les pages nouvelles ou mises à jour. Cette information figure également dans le méta-champ "revisit-after".';
 $context['l10n']['fr']['23c0e258bccdc30697a9879f43ccde0e']='Merci d\'aller jusqu\'à la fin de cette page pour vérifier les résultats de la construction du nouveau référentiel.';
 $context['l10n']['fr']['Position']='Position';

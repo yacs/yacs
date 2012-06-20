@@ -5,7 +5,6 @@
  * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
-$context['l10n']['fr']['%d post'.chr(0).'%d posts']='%d envoi'.chr(0).'%d envois';
 $context['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $context['l10n']['fr']['%d thread'.chr(0).'%d threads']='%d discussion'.chr(0).'%d discussions';
 $context['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
@@ -18,7 +17,6 @@ $context['l10n']['fr']['Add a comment']='Ajouter un commentaire';
 $context['l10n']['fr']['Add a file']='Ajouter un fichier';
 $context['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $context['l10n']['fr']['Anonymous comment']='Commentaire anonyme';
-$context['l10n']['fr']['Associate']='Associé';
 $context['l10n']['fr']['Attention']='Important';
 $context['l10n']['fr']['Back to main page']='Retour à la page principale';
 $context['l10n']['fr']['Cancel']='Annuler';
@@ -50,7 +48,6 @@ $context['l10n']['fr']['Impossible to add a page.']='Impossible d\'ajouter une p
 $context['l10n']['fr']['Job has been completed']='C\'est fait';
 $context['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $context['l10n']['fr']['Maintenance']='Maintenance';
-$context['l10n']['fr']['Member']='Membre';
 $context['l10n']['fr']['Most HTML tags are removed.']='La plupart des balises HTML sont retirées.';
 $context['l10n']['fr']['My two cents']='Une contribution personnelle';
 $context['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
@@ -82,7 +79,6 @@ $context['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %
 $context['l10n']['fr']['a05645e8bcb9d65916b93961e3239d97']='Vous postez anonymement ; toutes les balises HTLM et les adresses web seront supprimées.';
 $context['l10n']['fr']['Start']='Commencer';
 $context['l10n']['fr']['Submit']='Enregistrer';
-$context['l10n']['fr']['Subscriber']='Souscripteur';
 $context['l10n']['fr']['Textarea']='Textarea';
 $context['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $context['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
@@ -107,7 +103,6 @@ $context['l10n']['fr']['Your contribution']='Votre contribution';
 $context['l10n']['fr']['26d108ddac5f9af035390574928cd68d']='Votre contribution n\'a pas été envoyée.';
 $context['l10n']['fr']['Your intent']='Votre intention';
 $context['l10n']['fr']['Your name']='Votre nom';
-$context['l10n']['fr']['Zoom on this note']='Zoomer sur cette annotation';
 $context['l10n']['fr']['anonymous']='anonyme';
 $context['l10n']['fr']['authenticate']='authentifier';
 $context['l10n']['fr']['by %s %s']='par %s %s';
@@ -116,14 +111,9 @@ $context['l10n']['fr']['delete']='supprimer';
 $context['l10n']['fr']['74b5672945558b3b34f2599587f6c14c']='Adresse de courrier électronique ou de serveur Internet. Champ optionnel';
 $context['l10n']['fr']['edit']='modifier';
 $context['l10n']['fr']['edited by %s %s']='modifié par %s %s';
-$context['l10n']['fr']['from %s']='depuis %s';
-$context['l10n']['fr']['inspired from %s']='inspiré par %s';
 $context['l10n']['fr']['modified by %s']='modifié par %s';
 $context['l10n']['fr']['on %s']='sur %s';
 $context['l10n']['fr']['posted by %s %s']='posté par %s %s';
-$context['l10n']['fr']['quote']='citer';
-$context['l10n']['fr']['registered %s']='depuis %s';
-$context['l10n']['fr']['reply']='répondre';
 $context['l10n']['fr']['smileys']='emoticons';
 $context['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

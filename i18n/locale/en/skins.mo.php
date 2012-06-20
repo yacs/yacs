@@ -251,7 +251,6 @@ $context['l10n']['en']['b5de5afc151f6530a35bcfee3a88cc3b']='Parent is not public
 $context['l10n']['en']['41dd8514175d79f308930ada3e52bf01']='Parent is private, and this will be re-enforced anyway';
 $context['l10n']['en']['People']='People';
 $context['l10n']['en']['Permalink']='Permalink';
-$context['l10n']['en']['Persons']='Persons';
 $context['l10n']['en']['5407f72b825d5a546bc759d46d6abd15']='Please be realistic here. Used to flag new and updated items. Also featured in "revisit-after" meta field.';
 $context['l10n']['en']['23c0e258bccdc30697a9879f43ccde0e']='Please go to the end of this page to check results of the building process.';
 $context['l10n']['en']['Position']='Position';
