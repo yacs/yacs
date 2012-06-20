@@ -789,6 +789,7 @@ Class Article extends Anchor {
 	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
 		global $context;
 
+		// we make extensive use of comments below
 		include_once $context['path_to_root'].'comments/comments.php';
 
 		// don't go further on import
@@ -873,7 +874,6 @@ Class Article extends Anchor {
 					$label = '[download='.$origin.']';
 
 				// this is the first contribution to the thread
-				include_once $context['path_to_root'].'comments/comments.php';
 				if(!$comment = Comments::get_newest_for_anchor('article:'.$this->item['id'])) {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
@@ -1090,7 +1090,6 @@ Class Article extends Anchor {
 
 			// a comment has been added to the page
 			} else if($action == 'comment:create') {
-				include_once $context['path_to_root'].'comments/comments.php';
 				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
 
 					// mail content
