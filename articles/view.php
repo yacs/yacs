@@ -901,9 +901,6 @@ if(!isset($item['id'])) {
 		if(!$title_label)
 			$title_label = i18n::s('Comments');
 
-		// we have a wall, or not
-		$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
-
 		// label to create a comment
 		$add_label = '';
 		if(is_object($overlay))
@@ -933,8 +930,12 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 		// feed the wall
-		if(Comments::allow_creation($anchor, $item) && $reverted)
+		if(Comments::allow_creation($anchor, $item))
 			$box['text'] .= Comments::get_form('article:'.$item['id']);
+		else {
+			$bar = array(Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'button'));
+			$box['text'] .= Skin::finalize_list($bar, 'menu_bar');
+		}
 
 		// a navigation bar for these comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
@@ -942,7 +943,7 @@ if(!isset($item['id'])) {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
+			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 			// actually render the html
 			if(is_array($items))
@@ -954,17 +955,6 @@ if(!isset($item['id'])) {
 			$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index));
-		}
-
-		// new comments are allowed
-		if(Comments::allow_creation($anchor, $item) && !$reverted) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-			$box['bar'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment')));
-
-			// also feature this command at the top
-			if($count > 20)
-				$box['prefix_bar'] = array_merge($box['prefix_bar'], array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment'))));
-
 		}
 
 		// show commands

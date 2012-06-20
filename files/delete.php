@@ -110,7 +110,7 @@ if(!isset($item['id'])) {
 		Files::clear($item);
 
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#files');
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments');
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'files/');
 	}

@@ -183,7 +183,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// info on related files
 			if($count)
-				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
@@ -195,7 +195,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 			// trackback
 			if(Links::allow_trackback())

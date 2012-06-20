@@ -350,7 +350,7 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 
-		// follow-up commands -- do not use #files, because of thread layout, etc.
+		// follow-up commands -- do not use #_attachments, because of thread layout, etc.
 		$menu = array();
 		if(is_object($anchor))
 			$menu = array_merge($menu, array($anchor->get_url('files') => i18n::s('Back to main page')));

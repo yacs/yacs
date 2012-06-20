@@ -11,13 +11,6 @@
 class Question extends Overlay {
 
 	/**
-	 * force wall-like answers to questions
-	 */
-	function get_comments_as_wall_value() {
-		return TRUE;
-	}
-
-	/**
 	 * get an overlaid label
 	 *
 	 * @see overlays/overlay.php

@@ -86,13 +86,6 @@
 class Issue extends Overlay {
 
 	/**
-	 * force wall-like updates at issues
-	 */
-	function get_comments_as_wall_value() {
-		return TRUE;
-	}
-
-	/**
 	 * get radio buttons to change the color
 	 *
 	 * @param string the current color, if any

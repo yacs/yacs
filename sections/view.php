@@ -1425,35 +1425,8 @@ if(!isset($item['id'])) {
 		if(!$title_label)
 			$title_label = i18n::s('Comments');
 
-		// new comments are allowed -- check option 'with_comments'
-		if(Comments::allow_creation($anchor, $item, 'section')) {
-			if(preg_match('/\bcomments_as_wall\b/i', $item['options']))
-				$comments_prefix = TRUE;
-			else
-				$comments_suffix = TRUE;
-		}
-
-		// layout is defined in options
-		if($item['articles_layout'] == 'daily') {
-			include_once '../comments/layout_comments_as_daily.php';
-			$layout = new Layout_comments_as_daily();
-
-		} elseif($item['articles_layout'] == 'jive') {
-			include_once '../comments/layout_comments_as_jive.php';
-			$layout = new Layout_comments_as_jive();
-
-		} elseif($item['articles_layout'] == 'manual') {
-			include_once '../comments/layout_comments_as_manual.php';
-			$layout = new Layout_comments_as_manual();
-
-		} elseif($item['articles_layout'] == 'yabb') {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
-
-		} else {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
-		}
+		// get a layout for comments of this item
+		$layout =& Comments::get_layout($anchor, $item);
 
 		// the maximum number of comments per page
 		if(is_object($layout))
@@ -1469,8 +1442,8 @@ if(!isset($item['id'])) {
 		// build a complete box
 		$box = array('bar' => array(), 'text' => '');
 
-		// new comments are allowed
-		if(isset($comments_prefix))
+		// feed the wall
+		if(Comments::allow_creation($anchor, $item, 'section'))
 			$box['text'] .= Comments::get_form('section:'.$item['id']);
 
 		// a navigation bar for these comments
@@ -1481,7 +1454,7 @@ if(!isset($item['id'])) {
 				$box['bar'] += array($link => sprintf(i18n::s('%d comments'), $count));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix) || preg_match('/\bcomments_as_wall\b/i', $item['options']));
+			$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 			// actually render the html
 			if(is_array($items))
@@ -1494,12 +1467,6 @@ if(!isset($item['id'])) {
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE));
 
-		}
-
-		// new comments are allowed
-		if(isset($comments_suffix)) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-			$box['bar'] += array( Comments::get_url('section:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Express yourself, and say what you think.')));
 		}
 
 		// show commands

@@ -353,7 +353,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// link to the anchor page
 		if(is_object($anchor))

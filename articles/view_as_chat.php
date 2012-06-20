@@ -152,9 +152,8 @@ case 'yabb':
 	// some space with previous content
 	$context['text'] .= '<div style="margin-top: 2em;">';
 
-	// list comments by date
-	include_once '../comments/layout_comments_as_yabb.php';
-	$layout = new Layout_comments_as_yabb();
+	// get a layout for comments of this item
+	$layout =& Comments::get_layout($anchor, $item);
 	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 100, $layout, isset($comments_prefix));
 	if(is_array($items))
 		$context['text'] .= Skin::build_list($items, 'rows');

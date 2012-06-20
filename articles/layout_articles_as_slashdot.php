@@ -133,7 +133,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
@@ -147,7 +147,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// list categories by title, if any
 			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {

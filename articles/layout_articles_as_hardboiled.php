@@ -331,7 +331,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// list up to three categories by title, if any
 		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {

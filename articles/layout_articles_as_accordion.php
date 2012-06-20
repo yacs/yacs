@@ -99,7 +99,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact', Articles::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact', TRUE)) {
 
 				// mention the number of items in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));

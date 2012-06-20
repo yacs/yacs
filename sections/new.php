@@ -139,7 +139,7 @@ if(Surfer::is_crawler()) {
 	// default is to create a group
 	} else {
 		$_REQUEST['articles_layout'] = 'yabb';
-		$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall view_as_tabs with_neighbours';
+		$_REQUEST['content_options'] = 'with_extra_profile auto_publish view_as_tabs with_neighbours';
 		$_REQUEST['options'] = 'view_as_tabs';
 		$_REQUEST['space_type'] = 'group'; // just to be sure...
 	}
@@ -228,7 +228,7 @@ if(Surfer::is_crawler()) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'yabb';
-			$fields['content_options'] = 'auto_publish comments_as_wall with_neighbours';
+			$fields['content_options'] = 'auto_publish with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
 			$fields['options'] = 'forward_notifications';
@@ -242,7 +242,7 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'tagged';
 			$fields['articles_templates'] = 'simple_template';
-			$fields['content_options'] = 'articles_by_title auto_publish comments_as_wall members_edit view_as_wiki with_neighbours';
+			$fields['content_options'] = 'articles_by_title auto_publish members_edit view_as_wiki with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Information pages');
 			$fields['options'] = 'forward_notifications';
@@ -257,7 +257,7 @@ if(Surfer::is_crawler()) {
 				$fields['active_set'] = 'N';
 				$fields['anchor'] = 'section:'.$_REQUEST['id'];
 				$fields['articles_layout'] = 'yabb';
-				$fields['content_options'] = 'auto_publish comments_as_wall with_neighbours members_edit';
+				$fields['content_options'] = 'auto_publish with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
 				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly

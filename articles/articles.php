@@ -768,7 +768,6 @@ Class Articles {
 		$keywords = array();
 		$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
 		$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
-		$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 		$keywords[] = '<a>no_comments</a> - '.i18n::s('Prevent the addition of comments');
 		$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 		$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');

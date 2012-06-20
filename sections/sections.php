@@ -142,18 +142,15 @@
  * [*] [code]manual[/code]
  *
  * @see articles/layout_articles_as_manual.php
- * @see comments/layout_comments_as_manual.php
  *
  * [*] [code]jive[/code]
  *
  * @see articles/layout_articles_as_jive.php
- * @see comments/layout_comments_as_jive.php
  *
  * [*] [code]yabb[/code] - This section acts a threaded forum, or bulletin board.
  * Each article is a topic. Comments are attached to articles to build a straightforward threaded system.
  *
  * @see articles/layout_articles_as_yabb.php
- * @see comments/layout_comments_as_yabb.php
  *
  *
  * [title]Handling sections at the index page[/title]

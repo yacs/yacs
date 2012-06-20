@@ -181,12 +181,13 @@ Class Layout_comments_as_updates extends Layout_interface {
 					// fix number of rows in firefox
 					$text .= JS_PREFIX
 						.'$(function(){'
-						.	'$("textarea#reply'.$fuse_id.'").autogrow()'
-						.	'.each(function(){'
-						.		'var lineHeight = parseFloat($(this).css("line-height"));'
-						.		'var lines = $(this).attr("rows")*1 || $(this).prop("rows")*1;'
-						.		'$(this).css("height", lines*lineHeight);'
-						.	'});'
+						.	'$("textarea#reply'.$fuse_id.'")'
+						.		'.each(function(){'
+						.			'var lineHeight = parseFloat($(this).css("line-height"));'
+						.			'var lines = $(this).attr("rows")*1 || $(this).prop("rows")*1;'
+						.			'$(this).css("height", lines*lineHeight);'
+						.		'})'
+						.		'.autogrow();'
 						.'});'."\n"
 						.JS_SUFFIX;
 

@@ -482,20 +482,16 @@ Class Article extends Anchor {
 			if($this->has_layout('alistapart'))
 				return Comments::get_url($this->get_reference(), 'list');
 
-			// layouts that start at the article page
-			return Articles::get_permalink($this->item);
+			// layouts that start at the article page --assume we have at least one comment, on a tab
+			return Articles::get_permalink($this->item).'#_discussion';
 
 		// list of files
 		case 'files':
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_attachments';
-			return Articles::get_permalink($this->item).'#files';
+			return $this->get_url().'#_attachments';
 
 		// list of links
 		case 'links':
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_attachments';
-			return Articles::get_permalink($this->item).'#links';
+			return $this->get_url().'#_attachments';
 
 		// jump to parent page
 		case 'parent':

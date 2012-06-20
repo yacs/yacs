@@ -708,7 +708,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Sample project web space');
 		$fields['options'] = 'view_as_tabs';
 		$fields['sections_layout'] = 'folded'; // show many articles in sections tab
-		$fields['articles_options'] = 'view_as_wiki comments_as_wall edit_as_simple'; // a set of wiki pages
+		$fields['articles_options'] = 'view_as_wiki edit_as_simple'; // a set of wiki pages
 		if($id = Sections::post($fields)) {
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 
@@ -731,7 +731,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'project_public_page';
 		$fields['title'] = i18n::c('Project description');
 		$fields['introduction'] = i18n::c('This is a public page that describes the project.');
-		$fields['options'] = 'view_as_wiki comments_as_wall edit_as_simple';
+		$fields['options'] = 'view_as_wiki edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -750,7 +750,7 @@ if(Surfer::is_crawler()) {
 		$fields['active_set'] = 'N'; // for editors only
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
 		$fields['articles_templates'] = 'information_template, question_template, chat_template';
-		$fields['content_options'] = 'with_extra_profile, comments_as_wall'; // put poster profile aside
+		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
 		if(Sections::post($fields))
@@ -885,7 +885,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Anonymous wiki');
 		$fields['introduction'] = i18n::c('Anyone can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
-		$fields['content_options'] = 'view_as_wiki comments_as_wall anonymous_edit edit_as_simple auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki anonymous_edit edit_as_simple auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -940,7 +940,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Restricted wiki');
 		$fields['introduction'] = i18n::c('Authenticated persons can update pages in this section');
 		$fields['articles_layout'] = 'tagged'; // a wiki
-		$fields['content_options'] = 'view_as_wiki comments_as_wall members_edit edit_as_simple auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki members_edit edit_as_simple auto_publish with_export_tools';
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -1039,8 +1039,8 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_s';
 		$fields['title'] = i18n::c('Test section');
 		$fields['introduction'] = i18n::c('To demonstrate access right management');
-		$fields['options'] = 'with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
-		$fields['content_options'] = 'comments_as_wall view_as_tabs with_neighbours';
+		$fields['options'] = 'with_comments with_files with_links view_as_tabs articles_by_title';
+		$fields['content_options'] = 'view_as_tabs with_neighbours';
 		$fields['sections_layout'] = 'decorated'; // show both sub-sections and articles
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
@@ -1076,7 +1076,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ss';
 		$fields['title'] = i18n::c('Test sub-section');
-		$fields['options'] = 'with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1133,7 +1133,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssa';
 		$fields['title'] = i18n::c('Test sub-section').' anonymous_edit';
-		$fields['options'] = 'anonymous_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'anonymous_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1191,7 +1191,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_ssal';
 		$fields['locked'] = 'Y';
 		$fields['title'] = i18n::c('Test sub-section').' anonymous_edit '.i18n::s('locked');
-		$fields['options'] = 'anonyous_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'anonyous_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1248,7 +1248,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssm';
 		$fields['title'] = i18n::c('Test sub-section').' members_edit';
-		$fields['options'] = 'members_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'members_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1306,7 +1306,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_ssml';
 		$fields['locked'] = 'Y';
 		$fields['title'] = i18n::c('Test sub-section').' members_edit '.i18n::s('locked');
-		$fields['options'] = 'members_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'members_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];

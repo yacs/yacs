@@ -207,7 +207,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
@@ -220,7 +220,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
 		$text .= BR.Skin::build_list($menu, 'menu');
@@ -313,7 +313,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$text .= ' - '.Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$text .= ' - '.Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// end of details
 		$text .= '</p>';

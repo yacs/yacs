@@ -230,9 +230,6 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 // on-going conversation
 } else {
 
-	// we have a wall, or not
-	$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
-
 	// get a layout for these comments
 	$layout =& Comments::get_layout($anchor, $item);
 
@@ -255,8 +252,12 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(Comments::allow_creation($anchor, $item) && $reverted)
+	if(Comments::allow_creation($anchor, $item))
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
+	else {
+		$bar = array(Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'button'));
+		$box['text'] .= Skin::finalize_list($bar, 'menu_bar');
+	}
 
 	// a navigation bar for these comments
 	if($count = Comments::count_for_anchor('article:'.$item['id'])) {
@@ -264,7 +265,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// list comments by date
-		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 		// actually render the html
 		if(is_array($items))
@@ -276,12 +277,6 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 		$box['bottom'] += Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE);
 
-	}
-
-	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item) && !$reverted) {
-		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-		$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
 	}
 
 	// build a box
