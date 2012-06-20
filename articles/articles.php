@@ -683,7 +683,7 @@ Class Articles {
 		$details = array();
 
 		// info on related files
-		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
+		if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
 			// the actual list of files attached to this article
 			if(Articles::has_option('files_by', $anchor, $item) == 'title')

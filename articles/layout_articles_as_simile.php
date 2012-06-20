@@ -132,11 +132,11 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$details = array();
 
 				// info on related comments
-				if($count = Comments::count_for_anchor('article:'.$item['id'], FALSE))
+				if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 					$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// info on related files
-				if($count = Files::count_for_anchor('article:'.$item['id'], FALSE))
+				if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 					$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 				// info on related links

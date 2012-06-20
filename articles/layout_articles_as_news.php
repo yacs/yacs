@@ -115,7 +115,7 @@ Class Layout_articles_as_news extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+			if($count = Files::count_for_anchor('article:'.$item['id']))
 				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
