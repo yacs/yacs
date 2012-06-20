@@ -622,7 +622,7 @@ Class Codes {
 	public static function &beautify_title($text) {
 
 		// suppress pairing codes
-		$output =& Codes::strip($text);
+		$output =& Codes::strip($text, FALSE);
 
 		// the only code transformed in titles
 		$output = str_replace(array('[nl]', '[NL]'), '<br />', $output);
@@ -4633,9 +4633,10 @@ Class Codes {
 	 * remove YACS codes from a string
 	 *
 	 * @param string embedding YACS codes
+	 * @param boolean FALSE to remove only only pairing codes, TRUE otherwise
 	 * @return a purged string
 	 */
-	public static function &strip($text, $suppress_all_brackets=FALSE) {
+	public static function &strip($text, $suppress_all_brackets=TRUE) {
 		global $context;
 
 		// suppress pairing codes
