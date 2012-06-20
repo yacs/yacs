@@ -1560,7 +1560,8 @@ Class Comments {
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
-		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
+			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
