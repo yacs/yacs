@@ -111,7 +111,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
+			if($count = Files::count_for_anchor('article:'.$item['id'])) {
 				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
 				$details[] = FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count);
 			}
