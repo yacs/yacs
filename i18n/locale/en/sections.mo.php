@@ -53,7 +53,6 @@ $context['l10n']['en']['e2e9c40ed29fe1d9d356defc431ccc35']='Add links to previou
 $context['l10n']['en']['Add new content to this section']='Add new content to this section';
 $context['l10n']['en']['c148006ede24ddc2d95717ec7d80aeb4']='Allow anonymous surfers to change content';
 $context['l10n']['en']['e0505deafaddcb1c64c1fe609cab8361']='Allow anonymous surfers to edit content';
-$context['l10n']['en']['938ce40939cb309af06c1cc6644797dc']='Allow easy interactions between people';
 $context['l10n']['en']['Allow members to change content']='Allow members to change content';
 $context['l10n']['en']['Allow members to edit content']='Allow members to edit content';
 $context['l10n']['en']['9cd2d568cc55c69de1af0be1a063ec12']='Alternate title used in lists and in the contextual menu';

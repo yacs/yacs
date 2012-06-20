@@ -53,7 +53,6 @@ $context['l10n']['fr']['e2e9c40ed29fe1d9d356defc431ccc35']='Insérer des liens v
 $context['l10n']['fr']['Add new content to this section']='Ajouter du contenu à cette section';
 $context['l10n']['fr']['c148006ede24ddc2d95717ec7d80aeb4']='Les surfeurs anonymes peuvent changer le contenu';
 $context['l10n']['fr']['e0505deafaddcb1c64c1fe609cab8361']='Les surfeurs anonymes peuvent modifier le contenu';
-$context['l10n']['fr']['938ce40939cb309af06c1cc6644797dc']='Favoriser les interactions entre les gens';
 $context['l10n']['fr']['Allow members to change content']='Les membres peuvent changer le contenu';
 $context['l10n']['fr']['Allow members to edit content']='Les membres peuvent modifier le contenu';
 $context['l10n']['fr']['9cd2d568cc55c69de1af0be1a063ec12']='Titre utilisé dans les listes et dans le menu contextuel';
