@@ -472,9 +472,6 @@ Class Article extends Anchor {
 		// view comments
 		case 'comments':
 			// variants that start at the article page
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_discussion';
-
 			if($this->has_option('view_as_chat'))
 				return $this->get_url().'#comments';
 
