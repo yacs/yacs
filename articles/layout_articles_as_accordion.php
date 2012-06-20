@@ -109,7 +109,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 					$prefix = $suffix = '';
 					if(is_array($label)) {
 						$prefix = $label[0];
-						$suffix = $label[2];
+						$suffix = rtrim(Codes::strip(' '.$label[2]), '- ');
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label, 'comment').$suffix;
