@@ -142,7 +142,7 @@ if(Surfer::is_crawler()) {
 		else
 			$suffix = i18n::s('(do not wish to receive newsletters)');
 
-		$context['text'] .= '<p>'.sprintf(i18n::s($label), Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
+		$context['text'] .= '<p>'.sprintf($label, Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
 	}
 
 	// the introduction text
