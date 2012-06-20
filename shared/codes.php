@@ -500,7 +500,7 @@ Class Codes {
 				"</h3>",
 				"</h4>",
 				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
-				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link too
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
 				BR."$1:$2",
