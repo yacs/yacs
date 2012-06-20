@@ -1338,7 +1338,7 @@ Class Skin_Skeleton {
 
 		// remove YACS codes from alternate label and hovering title
 		if(is_callable(array('Codes', 'strip')))
-			$hover =& Codes::strip($hover);
+			$hover =& Codes::strip($hover, FALSE);
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
@@ -5168,10 +5168,7 @@ Class Skin_Skeleton {
 			// render all codes
 			$text = Codes::beautify($text);
 
-		// suppress all pairing yacs codes, but not unitary codes (could be added by overlay at end of titles)
 		}
-// 		} else
-// 			$text = Codes::strip($text, FALSE);
 
 		// suppress all javascript
 		$text = preg_replace('#<script[^>]*>.*?</script>#is', '', $text);
