@@ -824,6 +824,9 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	if($items = Sections::list_watchers_by_posts($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 
+			// this is a true participant to the item
+			$users_count += 1;
+
 			// add the checkmark to existing row
 			if(isset($rows[$user_id]))
 				$rows[$user_id][1] = CHECKED_IMG;
@@ -841,8 +844,8 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 	}
 
 	// count
-	if($count = count($rows))
-		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $count), $count));
+	if($users_count)
+		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $users_count), $users_count));
 
 	// add to the watch list -- $in_watch_list is set in sections/view.php
 	if(Surfer::get_id() && ($in_watch_list == 'N')) {
@@ -882,10 +885,6 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 
 	// actually render the html
 	$users .= Skin::build_content(NULL, NULL, $box['text'], $box['bar']);
-
-	// slight correction
-	if(count($rows) > $users_count)
-		$users_count = count($rows);
 
 }
 
