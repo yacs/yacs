@@ -242,30 +242,8 @@ if(Surfer::is_crawler()) {
 	// the comments section
 	//
 
-	// layout as defined in options
-	if($item['articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} elseif($item['articles_layout'] == 'jive') {
-		include_once '../comments/layout_comments_as_jive.php';
-		$layout = new Layout_comments_as_jive();
-
-	} elseif($item['articles_layout'] == 'manual') {
-		include_once '../comments/layout_comments_as_manual.php';
-		$layout = new Layout_comments_as_manual();
-
-	} elseif($item['articles_layout'] == 'yabb') {
-		include_once '../comments/layout_comments_as_yabb.php';
-		$layout = new Layout_comments_as_yabb();
-
-	// layout as defined by general parameter
-	} elseif($context['root_articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} else
-		$layout = 'no_anchor';
+	// layout for printed comments
+	$layout = 'no_anchor';
 
 	// the maximum number of comments per page
 	if(is_object($layout))

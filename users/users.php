@@ -356,7 +356,6 @@ Class Users {
 	 *
 	 * @see agents/messages/php
 	 * @see articles/view.php
-	 * @see comments/layout_comments_as_yabb.php
 	 * @see links/edit.php
 	 * @see services/blog.php
 	 * @see shared/codes.php

@@ -16,13 +16,6 @@
 class Poll extends Overlay {
 
 	/**
-	 * force wall-like updates at polls
-	 */
-	function get_comments_as_wall_value() {
-		return TRUE;
-	}
-
-	/**
 	 * build the list of fields for one overlay
 	 *
 	 * @see overlays/overlay.php

@@ -479,7 +479,6 @@ if($with_form) {
 	$keywords[] = '<a>auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
 	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to change content');
 	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to change content');
-	$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a>no_comments</a> - '.i18n::s('Disallow post of new comments');
 	$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
@@ -1064,7 +1063,6 @@ if($with_form) {
 	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a>with_extra_profile</a> - '.i18n::s('Display profile of section owner');
 	$keywords[] = '<a>with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
-	$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a>view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');

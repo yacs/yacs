@@ -691,15 +691,11 @@ Class Section extends Anchor {
 
 		// list of files
 		case 'files':
-			if($this->has_option('view_as_tabs', FALSE))
-				return $this->get_url().'#_attachments';
-			return Sections::get_permalink($this->item).'#files';
+			return $this->get_url().'#_attachments';
 
 		// list of links
 		case 'links':
-			if($this->has_option('view_as_tabs', FALSE))
-				return $this->get_url().'#_attachments';
-			return Sections::get_permalink($this->item).'#links';
+			return $this->get_url().'#_attachments';
 
 		// the permalink page
 		case 'view':
@@ -828,7 +824,6 @@ Class Section extends Anchor {
 		// options that are not cascaded to sub-sections, because there is no way to revert from this setting
 		$screened = '/(articles_by_publication' 	// no way to revert from this
 			.'|articles_by_title'
-			.'|comments_as_wall'
 			.'|files_by_title'
 			.'|forward_notifications'
 			.'|links_by_title'

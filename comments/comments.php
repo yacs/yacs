@@ -485,10 +485,6 @@ Class Comments {
 	 * @param the type ('suggestion', etc.')
 	 * @return a suitable HTML element
 	 *
-	 * @see comments/layout_comments_as_daily.php
-	 * @see comments/layout_comments_as_jive.php
-	 * @see comments/layout_comments_as_manual.php
-	 * @see comments/layout_comments_as_yabb.php
 	 * @see skins/skin_skeleton.php
 	 */
 	public static function get_img($type) {
@@ -634,53 +630,8 @@ Class Comments {
 	public static function &get_layout($anchor, $item=NULL) {
 		global $context;
 
-		// a wall
-		if((is_object($anchor) && $anchor->has_option('comments_as_wall'))) {
-			include_once '../comments/layout_comments_as_updates.php';
-			$layout = new Layout_comments_as_updates();
-
-		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_updates.php';
-			$layout = new Layout_comments_as_updates();
-
-		// look in overlay, if any
-		} elseif(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && ($result = $overlay->get_value('comments_as_wall'))) {
-			include_once '../comments/layout_comments_as_updates.php';
-			$layout = new Layout_comments_as_updates();
-
-		// a wiki
-		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
-			include_once '../comments/layout_comments_as_wiki.php';
-			$layout = new Layout_comments_as_wiki();
-
-		} elseif(isset($item['options']) && preg_match('/\bview_as_wiki\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_wiki.php';
-			$layout = new Layout_comments_as_wiki();
-
-		// layout is defined in anchor
-		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
-			include_once '../comments/layout_comments_as_daily.php';
-			$layout = new Layout_comments_as_daily();
-
-		} elseif(is_object($anchor) && $anchor->has_layout('jive')) {
-			include_once '../comments/layout_comments_as_jive.php';
-			$layout = new Layout_comments_as_jive();
-
-		} elseif(is_object($anchor) && $anchor->has_layout('manual')) {
-			include_once '../comments/layout_comments_as_manual.php';
-			$layout = new Layout_comments_as_manual();
-
-		} elseif(is_object($anchor) && $anchor->has_layout('yabb')) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
-
-		// regular case
-		} else {
-			include_once '../comments/layout_comments.php';
-			$layout = new Layout_comments();
-		}
-
-		// job done
+		include_once '../comments/layout_comments_as_updates.php';
+		$layout = new Layout_comments_as_updates();
 		return $layout;
 	}
 

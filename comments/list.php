@@ -155,11 +155,6 @@ if(!is_object($anchor)) {
 		if(is_object($layout) && method_exists($layout, 'set_offset'))
 			$layout->set_offset($offset);
 
-		// reverse order
-		$reverted = FALSE;
-		if(is_object($anchor) && $anchor->has_option('comments_as_wall'))
-			$reverted = TRUE;
-
 		// build a complete box
 		$box['bar'] = array();
 		$box['text'] = '';
@@ -182,7 +177,7 @@ if(!is_object($anchor)) {
 				Skin::navigate($anchor->get_url('comments'), $prefix, $count, $items_per_page, $page, FALSE));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, $reverted);
+			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, TRUE);
 
 			// actually render the html
 			if(is_array($items))
