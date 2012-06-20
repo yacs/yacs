@@ -279,7 +279,7 @@ Class Comments {
 	 * count records for one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'article:12')
-	 * @param boolean TRUE if this can be optionnally avoided
+	 * @param boolean TRUE if this can be optionally avoided
 	 * @return int the resulting count, or NULL on error
 	 */
 	public static function count_for_anchor($anchor, $optional=FALSE) {

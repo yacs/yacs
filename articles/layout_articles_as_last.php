@@ -169,7 +169,7 @@ Class Layout_articles_as_last extends Layout_interface {
 				$top_menu[] = sprintf(i18n::s('with %s'), $friends);
 
 			// info on related comments
-			if(($count = Comments::count_for_anchor('article:'.$item['id'], FALSE)) > 1)
+			if(($count = Comments::count_for_anchor('article:'.$item['id'])) > 1)
 				$top_menu[] = sprintf(i18n::s('%d contributions, including:'), $count);
 
 			// top
@@ -225,7 +225,7 @@ Class Layout_articles_as_last extends Layout_interface {
 
 				// more files than listed
 				$more = '';
-				if(($count = Files::count_for_anchor('article:'.$item['id'], FALSE)) > 3)
+				if(($count = Files::count_for_anchor('article:'.$item['id'])) > 3)
 					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
 
 				if(is_array($items))
