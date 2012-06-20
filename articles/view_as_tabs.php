@@ -223,6 +223,31 @@ if(defined('DIGG'))
 $panels = array();
 
 //
+// information tab
+//
+$information = '';
+
+// get text related to the overlay, if any
+if(is_object($overlay))
+	$information .= $overlay->get_text('view', $item);
+
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$information .= $context['page_description'];
+
+// display in a separate panel
+if($information) {
+	$label = i18n::s('Information');
+	$panels[] = array('information', $label, 'information_panel', $information);
+}
+
+//
+// append tabs from the overlay, if any -- they have been captured in articles/view.php
+//
+if(isset($context['tabs']) && is_array($context['tabs']))
+	$panels = array_merge($panels, $context['tabs']);
+
+//
 // discussion tab - a near real-time interaction area
 //
 $discussion = '';
@@ -304,31 +329,6 @@ if($discussion) {
 		$label .= ' ('.$discussion_count.')';
 	$panels[] = array('discussion', $label, 'discussion_panel', $discussion);
 }
-
-//
-// information tab
-//
-$information = '';
-
-// get text related to the overlay, if any
-if(is_object($overlay))
-	$information .= $overlay->get_text('view', $item);
-
-// description has been formatted in articles/view.php
-if(isset($context['page_description']))
-	$information .= $context['page_description'];
-
-// display in a separate panel
-if($information) {
-	$label = i18n::s('Information');
-	$panels[] = array('information', $label, 'information_panel', $information);
-}
-
-//
-// append tabs from the overlay, if any -- they have been captured in articles/view.php
-//
-if(isset($context['tabs']) && is_array($context['tabs']))
-	$panels = array_merge($panels, $context['tabs']);
 
 //
 // attachments tab

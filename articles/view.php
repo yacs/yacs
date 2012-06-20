@@ -887,6 +887,12 @@ if(!isset($item['id'])) {
 	$panels = array();
 
 	//
+	// append tabs from the overlay, if any, before discussion panel
+	//
+	if(isset($context['tabs']) && is_array($context['tabs']))
+		$panels = array_merge($panels, $context['tabs']);
+
+	//
 	// comments attached to this article
 	//
 	$discussion = '';
@@ -908,7 +914,7 @@ if(!isset($item['id'])) {
 		if(!$add_label)
 			$add_label = i18n::s('Post a comment');
 
-		// get a layout from anchor
+		// get a layout for comments of this item
 		$layout =& Comments::get_layout($anchor, $item);
 
 		// provide author information to layout
@@ -979,12 +985,6 @@ if(!isset($item['id'])) {
 		}
 
 	}
-
-	//
-	// append tabs from the overlay, if any, right after discussion panel
-	//
-	if(isset($context['tabs']) && is_array($context['tabs']))
-		$panels = array_merge($panels, $context['tabs']);
 
 	//
 	// files attached to this article
