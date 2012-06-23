@@ -75,10 +75,10 @@ if(!defined('MINIMUM_TOKEN_SIZE') && ($row = SQL::query_first($query)) && ($row[
 if(!defined('MINIMUM_TOKEN_SIZE'))
 	define('MINIMUM_TOKEN_SIZE', 4);
 
-// kill short and redundant tokens
+// kill short and redundant tokens; adapt to boolean search
+$boolean_search = '';
 $tokens = preg_split('/[\s,]+/', $search);
 if(@count($tokens)) {
-	$search = '';
 	foreach($tokens as $token) {
 
 		// too short
@@ -86,7 +86,7 @@ if(@count($tokens)) {
 			continue;
 
 		// already here (repeated word)
-		if(strpos($search, $token) !== FALSE)
+		if(strpos($boolean_search, $token) !== FALSE)
 			continue;
 
 		// re-enforce boolean mode
@@ -94,9 +94,9 @@ if(@count($tokens)) {
 			$token = '+'.$token;
 
 		// keep this token
-		$search .= $token.' ';
+		$boolean_search .= $token.' ';
 	}
-	$search = trim($search).'*';
+	$boolean_search = trim($boolean_search).'*';
 }
 
 // load localized strings
@@ -105,12 +105,9 @@ i18n::bind('root');
 // load the skin
 load_skin('search');
 
-// mask the boolean mode to end users
-$pretty_search = str_replace('+', '', $search);
-
 // the title of the page
 if($search)
-	$context['page_title'] = sprintf(i18n::s('Search: %s'), $pretty_search);
+	$context['page_title'] = sprintf(i18n::s('Search: %s'), $search);
 else
 	$context['page_title'] = i18n::s('Search');
 
@@ -120,7 +117,7 @@ $fields = array();
 
 // a field to type keywords
 $label = i18n::s('You are searching for');
-$input = '<input type="text" name="search" size="45" value="'.encode_field($pretty_search).'" maxlength="255" />'
+$input = '<input type="text" name="search" size="45" value="'.encode_field($search).'" maxlength="255" />'
 	.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 $hint = i18n::s('Type one or several words.');
 $fields[] = array($label, $input, $hint);
@@ -172,26 +169,26 @@ $result = array();
 $bucket = 20;
 
 // search in articles
-if($items = Articles::search_in_section($section_id, $search, $offset, $bucket))
+if($items = Articles::search_in_section($section_id, $boolean_search, $offset, $bucket))
 	$result = array_merge($result, $items);
 
 // search in sections
-if($items = Sections::search_in_section($section_id, $search, $offset, $bucket))
+if($items = Sections::search_in_section($section_id, $boolean_search, $offset, $bucket))
 	$result = array_merge($result, $items);
 
 // global search
 if(!$section_id) {
 
 	// search in categories
-	if($items = Categories::search($search, $offset, $bucket))
+	if($items = Categories::search($boolean_search, $offset, $bucket))
 		$result = array_merge($result, $items);
 
 	// search in files
-	if($items = Files::search($search, $offset, $bucket))
+	if($items = Files::search($boolean_search, $offset, $bucket))
 		$result = array_merge($result, $items);
 
 	// search in users
-	if($items = Users::search($search, $offset, $bucket))
+	if($items = Users::search($boolean_search, $offset, $bucket))
 		$result = array_merge($result, $items);
 
 }
