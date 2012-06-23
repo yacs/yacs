@@ -950,8 +950,12 @@ Class i18n {
 		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
 			$context['language'] = $context['preferred_language'];
 
-		// english is the default
+		// English is the default
 		elseif(!isset($context['language']))
+			$context['language'] = 'en';
+
+		// maybe the target language does not exist --fallback to English
+		elseif(!file_exists($context['path_to_root'].'i18n/locale/'.$context['language'].'/i18n.mo'))
 			$context['language'] = 'en';
 
 		// set the country, if known
