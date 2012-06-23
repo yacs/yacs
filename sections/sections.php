@@ -2280,7 +2280,7 @@ Class Sections {
 
 		// limit the query to one level
 		if(is_array($anchor))
-			$where = "(sections.anchor LIKE '".join("' OR sections.anchor LIKE '", $anchor)."')";
+			$where = "(sections.anchor IN ('".join("', '", $anchor)."'))";
 		elseif($anchor)
 			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
 		else
