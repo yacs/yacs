@@ -236,7 +236,7 @@ if(Surfer::is_crawler()) {
 			$message .= Skin::build_mail_menu($menu);
 
 			// enable threading
-			$headers = Mailer::set_thread('action:'.$_REQUEST['id'], $anchor);
+			$headers = Mailer::set_thread($anchor);
 
 			// actual post - don't stop on error
 			Mailer::notify(Surfer::from(), $to, $subject, $message, $headers);

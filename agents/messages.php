@@ -1386,7 +1386,7 @@ class Messages {
 					.'<p>'.i18n::c('Thank you for your contribution').'</p>';
 
 				// enable threading
-				$headers = Mailer::set_thread($article->get_reference(), $section);
+				$headers = Mailer::set_thread($section);
 
 				// send a mail message
 				Mailer::notify(NULL, $post_sender, 'Re: '.$post_subject, $message, $headers);

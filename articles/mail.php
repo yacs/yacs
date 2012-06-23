@@ -175,7 +175,7 @@ if(Surfer::is_crawler()) {
 		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'article:'.$item['id']);
+		$headers = Mailer::set_thread('article:'.$item['id']);
 
 		// post message for this recipient
 		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers))

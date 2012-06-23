@@ -1573,7 +1573,7 @@ class Event extends Overlay {
 					$message = Skin::build_mail_content($headline, $message);
 
 					// threads messages
-					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+					$headers = Mailer::set_thread($this->anchor->get_reference());
 
 					// get attachment from the overlay
 					$attachments = $this->get_invite_attachments('CANCEL');
@@ -1659,7 +1659,7 @@ class Event extends Overlay {
 					$message .= Skin::build_mail_menu($menu);
 
 					// threads messages
-					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+					$headers = Mailer::set_thread($this->anchor->get_reference());
 
 					// get attachment from the overlay
 					$attachments = $this->get_invite_attachments('PUBLISH');
@@ -1736,7 +1736,7 @@ class Event extends Overlay {
 						$message .= Skin::build_mail_menu($menu);
 
 						// threads messages
-						$headers = Mailer::set_thread('', $this->anchor->get_reference());
+						$headers = Mailer::set_thread($this->anchor->get_reference());
 
 						// get attachment from the overlay
 						$attachments = $this->get_invite_attachments('PUBLISH');

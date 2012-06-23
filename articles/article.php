@@ -1084,7 +1084,7 @@ Class Article extends Anchor {
 					$mail['content'] = Files::build_notification($target);
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
+					$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 				}
 
@@ -1096,7 +1096,7 @@ Class Article extends Anchor {
 					$mail['content'] = Comments::build_notification($target);
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
+					$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 				}
 
@@ -1116,7 +1116,7 @@ Class Article extends Anchor {
 				$mail['content'] .= Skin::build_mail_menu($menu);
 
 				// threads messages
-				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
+				$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 			}
 

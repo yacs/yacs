@@ -115,7 +115,7 @@ if(!$item['id']) {
 				$message .= Skin::build_mail_menu($menu);
 
 				// enable threading
-				$headers = Mailer::set_thread('', 'user:'.$item['id']);
+				$headers = Mailer::set_thread('user:'.$item['id']);
 
 				// sent by the server
 				Mailer::notify(NULL, $user['email'], $subject, $message, $headers);
