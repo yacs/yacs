@@ -333,26 +333,8 @@ Class Dates {
 	public static function count_for_anchor($anchor) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
@@ -668,27 +650,8 @@ Class Dates {
 	public static function &list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// finalize ACL
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -730,26 +693,8 @@ Class Dates {
 	public static function &list_for_day($year, $month, $day, $variant='links') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -842,27 +787,8 @@ Class Dates {
 		if(!$prefix)
 			$prefix = gmstrftime('%Y-%m-');
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// bracket everything
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// limit to this anchor, if any
 		if($anchor)
@@ -924,27 +850,8 @@ Class Dates {
 	public static function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// finalize ACL
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -996,27 +903,8 @@ Class Dates {
 	public static function &list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// finalize ACL
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -1249,26 +1137,8 @@ Class Dates {
 	public static function &stat_for_anchor($anchor) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
@@ -1309,26 +1179,8 @@ Class Dates {
 	public static function &stat_past_for_anchor($anchor) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {

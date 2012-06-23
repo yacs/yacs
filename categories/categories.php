@@ -1752,9 +1752,9 @@ Class Categories {
 
 		// limit the scope of the request
 		$where = "categories.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_member() || Surfer::is_teased())
 			$where .= " OR categories.active='R'";
-		if(Surfer::is_associate())
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$where .= " OR categories.active='N'";
 		$where = '('.$where.')';
 

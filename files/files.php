@@ -246,7 +246,7 @@ Class Files {
 	}
 
 	/**
-	 * check if a comment can be modified
+	 * check if a file can be modified
 	 *
 	 * This function returns TRUE if the file can be modified,
 	 * and FALSE otherwise.
@@ -547,12 +547,7 @@ Class Files {
 			return NULL;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// ids to avoid
 		if($avoid)
@@ -1294,11 +1289,7 @@ Class Files {
 			return $item;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		if($order == 'date') {
 			$match = "files.edit_date > '".SQL::escape($item['edit_date'])."'";
@@ -1311,7 +1302,7 @@ Class Files {
 
 		// query the database
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND ".$where
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
 			return NULL;
@@ -1371,11 +1362,7 @@ Class Files {
 			return $item;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// depending on selected sequence
 		if($order == 'date') {
@@ -1389,7 +1376,7 @@ Class Files {
 
 		// query the database
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND ".$where
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
 			return NULL;
@@ -1401,6 +1388,31 @@ Class Files {
 		// return url of the first item of the list
 		$item = SQL::fetch($result);
 		return Files::get_permalink($item);
+	}
+
+	/**
+	 * restrict the scope of SQL query
+	 *
+	 * @return string to be inserted into a SQL statement
+	 */
+	private static function get_sql_where() {
+
+		// display active items
+		$where = "files.active='Y'";
+
+		// add restricted items to members, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_teased())
+			$where .= " OR files.active='R'";
+
+		// include hidden items for associates, or if teasers are allowed
+		if(Surfer::is_empowered('S') || Surfer::is_teased())
+			$where .= " OR files.active='N'";
+
+		// end of active filter
+		$where = '('.$where.')';
+
+		// job done
+		return $where;
 	}
 
 	/**
@@ -1879,12 +1891,7 @@ Class Files {
 				."WHERE ";
 
 		// limit the scope of the request
-		$query .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$query .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$query .= " OR files.active='N'";
-		$query .= ")";
+		$query .= Files::get_sql_where();
 
 		// list freshest files
 		$query .= " ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
@@ -1935,12 +1942,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// ids to avoid
 		if($avoid)
@@ -2026,15 +2028,8 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-
-		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND (".$where.")"
+			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND ".Files::get_sql_where()
 			." ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -2076,12 +2071,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request
-		$where .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where .= ")";
+		$where .= Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files ".$where
@@ -2112,11 +2102,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
@@ -2144,11 +2130,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
@@ -2184,12 +2166,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request
-		$where .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where .= ")";
+		$where .= Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT files.* FROM ".SQL::table_name('files')." AS files ".$where
@@ -2234,12 +2211,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// ids to avoid
 		if($avoid)
@@ -2318,12 +2290,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// list items attached directly to this anchor
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
@@ -2446,11 +2413,8 @@ Class Files {
 		} else
 			$where = "WHERE ";
 
-		// limit the scope of the request - hidden files are never listed here
-		$where .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		$where .= ")";
+		// limit the scope of the request
+		$where .= Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT files.* FROM ".SQL::table_name('files')." AS files ".$where
@@ -2640,22 +2604,28 @@ Class Files {
 
 		// limit the scope of the request
 		$where = "active='Y'";
-		if(Surfer::is_logged())
+
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR active='R'";
-		if(Surfer::is_associate())
+
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$where .= " OR active='N'";
 
-		// files attached to managed sections
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR anchor IN ('section:".join("', 'section:", $my_sections)."')";
+		else {
 
-			// files attached to pages in managed sections
-			$where .= " OR anchor IN (SELECT CONCAT('article:', id) FROM ".SQL::table_name('articles')."  WHERE anchor IN ('section:".join("', 'section:", $my_sections)."'))";
+			// files attached to managed sections
+			if($my_sections = Surfer::assigned_sections()) {
+				$where .= " OR anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+				// files attached to pages in managed sections
+				$where .= " OR anchor IN (SELECT CONCAT('article:', id) FROM ".SQL::table_name('articles')."  WHERE anchor IN ('section:".join("', 'section:", $my_sections)."'))";
+			}
+
+			// files attached to managed articles
+			if($my_articles = Surfer::assigned_articles())
+				$where .= " OR anchor IN ('article:".join("', 'article:", $my_articles)."')";
+
 		}
-
-		// files attached to managed articles
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR anchor IN ('article:".join("', 'article:", $my_articles)."')";
 
 		// how to compute the score for files
 		$score = "(MATCH(title, source, keywords)"
@@ -2772,17 +2742,13 @@ Class Files {
 			return NULL;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			.", SUM(file_size) as total_size"
 			." FROM ".SQL::table_name('files')." AS files"
-			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
 
 		$output = SQL::query_first($query);
 		return $output;

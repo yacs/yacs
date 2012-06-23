@@ -1077,8 +1077,8 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
-		// include hidden sections for associates
-		if(Surfer::is_associate())
+		// include hidden sections for associates, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$active .= " OR sections.active='N'";
 
 		// end of filter on active field
@@ -1163,8 +1163,8 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
-		// include hidden sections for associates
-		if(Surfer::is_associate())
+		// include hidden sections for associates, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$active .= " OR sections.active='N'";
 
 		// end of filter on active field
@@ -1585,33 +1585,9 @@ Class Sections {
 		$family = '';
 		if(isset($item['anchor']) && ($granparent =& Anchors::get($item['anchor']))) {
 
-			// list everything to associates
-			if(Surfer::is_associate())
-				$where = " AND (sections.active IN ('Y', 'R', 'N')";
-
-			// list unlocked sections
-			else {
-
-				// display active items
-				$where = " AND ((sections.active='Y')";
-
-				// add restricted items to logged members, or if teasers are allowed
-				if(Surfer::is_logged() || Surfer::is_teased())
-					$where .= " OR (sections.active='R')";
-
-			}
-
-			// include managed sections for editors
-			if($my_sections = Surfer::assigned_sections()) {
-				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-			}
-
-			// end of scope
-			$where .= ")";
-
+			// limit to accessible scope
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (anchor LIKE '".$item['anchor']."')".$where
+				." WHERE (anchor LIKE '".$item['anchor']."') AND ".sections::get_sql_where()
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result = SQL::query($query)) {
 
@@ -1650,21 +1626,8 @@ Class Sections {
 				$family .= '<input type="radio" name="anchor" value="" '.((!isset($item['id']))?'checked="checked"':'').' /> '.i18n::s('Top of the content tree').BR
 					.'<div style="margin: 0 0 0 3em">';
 
-			// list everything to associates
-			if(Surfer::is_associate())
-				$where = " AND (sections.active IN ('Y', 'R', 'N')";
-
-			// list unlocked sections
-			else {
-
-				// display active items
-				$where = " AND ((sections.active='Y')";
-
-				// add restricted items to logged members, or if teasers are allowed
-				if(Surfer::is_logged() || Surfer::is_teased())
-					$where .= " OR (sections.active='R')";
-
-			}
+			// restrict to accessible scope
+			$where = sections::get_sql_where();
 
 			// always mention current and parent sections
 			if($me)
@@ -1672,18 +1635,9 @@ Class Sections {
 			if($current)
 				$where .= " OR (sections.id=".$current.")";
 
-			// include managed sections for editors
-			if($my_sections = Surfer::assigned_sections()) {
-				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-			}
-
-			// end of scope
-			$where .= ")";
-
 			// list regular sections first
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where
+				." WHERE (sections.anchor='' OR sections.anchor IS NULL) AND (".$where.")"
 				." AND (sections.index_map = 'Y')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result = SQL::query($query)) {
@@ -1761,6 +1715,40 @@ Class Sections {
 		return $output;
 	}
 
+	/**
+	 * restrict the scope of SQL query
+	 *
+	 * @return string to be inserted into a SQL statement
+	 */
+	private static function get_sql_where() {
+
+		// display active items
+		$where = "sections.active='Y'";
+
+		// add restricted items to members, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_teased())
+			$where .= " OR sections.active='R'";
+
+		// include hidden items for associates, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_teased())
+			$where .= " OR sections.active='N'";
+
+		// include private items that the surfer can access
+		else {
+
+			// include content from managed sections
+			if($my_sections = Surfer::assigned_sections())
+				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')"
+					." OR sections.id IN (".join(", ", $my_sections).")";
+
+		}
+
+		// end of active filter
+		$where = '('.$where.')';
+
+		// job done
+		return $where;
+	}
 
 	public static function &get_tree() {
 		global $context;
@@ -2351,23 +2339,8 @@ Class Sections {
 		else
 			$where = "(sections.anchor='' OR sections.anchor IS NULL)";
 
-		// display active items
-		$where .= " AND (sections.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// include managed sections
-		if(Surfer::is_associate())
-			$where .= " OR sections.active='N'";
-		elseif($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// end of scope
-		$where .= ")";
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
 
 		// limit to regular sections
 		$where .= " AND (sections.index_panel LIKE 'main')";
@@ -2438,25 +2411,8 @@ Class Sections {
 		// limit the scope to one section
 		$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
 
-		// display active items
-		$where .= " AND (sections.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// list hidden sections to associates, editors and subscribers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// end of scope
-		$where .= ')';
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
 
 		// non-associates will have only live sections
 		if(!Surfer::is_associate()) {
@@ -2506,15 +2462,14 @@ Class Sections {
 	public static function &list_inactive_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
 		global $context;
 
-		// only for associates and editors
-		if(!Surfer::is_empowered())
-			return NULL;
-
 		// limit the query to one level
 		if($anchor)
 			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
 		else
 			$where = "(sections.anchor='' OR sections.anchor is NULL)";
+
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
 
 		// display everything if no sub-section is laid out in parent section
 		if($anchor && ($parent =& Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
@@ -3356,26 +3311,8 @@ Class Sections {
 			return $output;
 		}
 
-		// select among active sections
-		$where = "sections.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feed'))
-			;
-		elseif(Surfer::is_associate())
-			$where .= " OR sections.active='N'";
-
-		// include managed pages for editors
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		$where = "(".$where.")";
+		// limit the scope of the request
+		$where = Sections::get_sql_where();
 
 		// search is restricted to one section
 		$sections_where = '';
