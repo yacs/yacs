@@ -611,8 +611,21 @@ Class Articles {
 		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
 			throw new Exception('no anchor for this article');
 
+		// compute page title
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
+		else
+			$title = Codes::beautify_title($item['title']);
+
+		// headline link to section
+		$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>';
+
 		// headline template
 		switch($action) {
+		case 'apply':
+			$template = i18n::c('%s is requesting access to %s');
+			$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$title.'</a>';
+			break;
 		case 'create':
 			$template = i18n::c('%s has posted a page in %s');
 			break;
@@ -625,18 +638,10 @@ Class Articles {
 		}
 
 		// headline
-		$headline = sprintf($template,
-			Surfer::get_link(),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+		$headline = sprintf($template, Surfer::get_link(), $headline_link);
 
 		// panel content
 		$content = '';
-
-		// compute page title
-		if(is_object($overlay))
-			$title = Codes::beautify_title($overlay->get_text('title', $item));
-		else
-			$title = Codes::beautify_title($item['title']);
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
@@ -722,15 +727,33 @@ Class Articles {
 		// a set of links
 		$menu = array();
 
-		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
-			$label = i18n::c('View the page');
-		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+		// request access to the item
+		if($action == 'apply') {
 
-		// link to the container
-		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'invite', Surfer::get_id());
+			$label = sprintf(i18n::c('Invite %s to participate'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to user profile
+			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, FALSE);
+
+		// invite to visit the item
+		} else {
+
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
+				$label = i18n::c('View the page');
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to the container
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+
+		}
 
 		// finalize links
 		$text .= Skin::build_mail_menu($menu);
@@ -1497,6 +1520,14 @@ Class Articles {
 				return 'services/check.php?id='.urlencode('article:'.$id);
 			else
 				return 'services/check.php?id='.urlencode('article:'.$id);
+		}
+
+		// invite someone to participate
+		if($action == 'invite') {
+			if($name)
+				return 'articles/invite.php?id='.urlencode($id).'&amp;invited='.urlencode($name);
+			else
+				return 'articles/invite.php?id='.urlencode($id);
 		}
 
 		// i like this page
