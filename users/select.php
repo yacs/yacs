@@ -297,7 +297,7 @@ elseif(!$permitted) {
 	} elseif(!strncmp($anchor->get_reference(), 'category:', 9))
 		$title = sprintf(i18n::s('Add a member to %s'), $anchor->get_title());
 	else
-		$title = sprintf(i18n::s('Add a participant to %s'), $anchor->get_title());
+		$title = i18n::s('Add a participant');
 
 	// finalize the box
 	$context['text'] .= Skin::build_box($title, $form, 'header1');
@@ -508,8 +508,14 @@ elseif(!$permitted) {
 
 				}
 
-				// display attached users with unlink buttons
-				$inherited .= Skin::build_box(sprintf(i18n::s('Participants to %s'), $parent->get_title()), Skin::build_list($items, 'compact'), 'folded');
+				// distinguish forwarding containers
+				if($forwarding)
+					$template = i18n::s('Participants to %s');
+				else
+					$template = i18n::s('Editors of %s');
+
+				// display assigned users with unlink buttons
+				$inherited .= Skin::build_box(sprintf($template, $parent->get_title()), Skin::build_list($items, 'compact'), 'folded');
 
 			}
 
