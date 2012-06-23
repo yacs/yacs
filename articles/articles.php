@@ -840,26 +840,8 @@ Class Articles {
 		if(!$anchor)
 			return NULL;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// avoid sticky articles
 		if($without_sticky)
@@ -1169,31 +1151,9 @@ Class Articles {
 	public static function get_ids_for_overlay($overlay_id) {
 		global $context;
 
-		// display active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// include hidden sections for associates
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// end of active filter
-		$where = '('.$where.')';
-
 		// limit the overall list of results
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
+			." WHERE (overlay_id LIKE '".SQl::escape($overlay_id)."') AND ".Articles::get_sql_where()
 			." LIMIT 5000";
 		if(!$result = SQL::query($query)) {
 			$output = NULL;
@@ -1232,22 +1192,8 @@ Class Articles {
 	public static function &get_newest_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
-		// select among active and restricted items
-		$where = "articles.active='Y'";
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// just get the newest page
 		if($anchor) {
@@ -1462,6 +1408,44 @@ Class Articles {
 	public static function &get_short_url($item) {
 		$output = 'a~'.reduce_number($item['id']);
 		return $output;
+	}
+
+	/**
+	 * restrict the scope of SQL query
+	 *
+	 * @return string to be inserted into a SQL statement
+	 */
+	public static function get_sql_where() {
+
+		// display active items
+		$where = "articles.active='Y'";
+
+		// add restricted items to members, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_teased())
+			$where .= " OR articles.active='R'";
+
+		// include hidden items for associates, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_teased())
+			$where .= " OR articles.active='N'";
+
+		// include private items that the surfer can access
+		else {
+
+			// include articles from managed sections
+			if($my_sections = Surfer::assigned_sections())
+				$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+			// include managed pages for editors
+			if($my_articles = Surfer::assigned_articles())
+				$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		}
+
+		// end of active filter
+		$where = '('.$where.')';
+
+		// job done
+		return $where;
 	}
 
 	/**
@@ -1864,27 +1848,8 @@ Class Articles {
 	public static function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(Surfer::is_associate() && !( is_string($layout) && (($layout == 'feed') || ($layout == 'contents')) ) )
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// bracket OR statements
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// list only draft articles
 		if($order == 'draft')
@@ -2054,27 +2019,8 @@ Class Articles {
 	public static function &list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// avoid sticky articles
 		if($without_sticky)
@@ -2132,13 +2078,6 @@ Class Articles {
 	/**
 	 * list articles for one author
 	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is not visible (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
 	 * @param string order of resulting set
 	 * @param int the id of the author of the article
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -2158,21 +2097,13 @@ Class Articles {
 		}
 		$author_id = SQL::escape($author_id);
 
-		// select among active items
-		$where = "articles.active='Y'";
+		// list all of my articles
+		if(Surfer::get_id() == $author_id)
+			$where = "(articles.active IN ('Y', 'R', 'N'))";
 
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors, readers, and page authors may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-		elseif(Surfer::get_id() && (Surfer::get_id() == $author_id))
-			$where .= " OR articles.active='N'";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// else restrict the scope of this request
+		else
+			$where = Articles::get_sql_where();
 
 		// list only articles contributed by this author
 		$where .= " AND ((articles.create_id = ".$author_id.") OR (articles.owner_id = ".$author_id."))";
@@ -2257,9 +2188,6 @@ Class Articles {
 	 * This is used by the page locator to offer alternatives when several pages have the same nick names.
 	 * It is also used to link a page to twins, these being, most of the time, translations.
 	 *
-	 * Most matching articles are returned, and we assume that access control to private articles
-	 * is postponed to actual access to these articles.
-	 *
 	 * @param string the nick name
 	 * @param int the id of the current page, which will not be listed
 	 * @param mixed the layout, if any
@@ -2268,8 +2196,8 @@ Class Articles {
 	public static function &list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
-		// gather constraints
-		$where = '';
+		// limit the scope of this request
+		$where = Articles::get_sql_where();
 
 		// avoid exception, if any
 		if($exception)
@@ -2278,7 +2206,7 @@ Class Articles {
 		// articles by title -- no more than 100 pages with the same name
 		$query = "SELECT articles.*"
 			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."')".$where
+			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."') AND ".$where
 			." ORDER BY articles.title LIMIT 100";
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);
@@ -2310,21 +2238,7 @@ Class Articles {
 			return NULL;
 
 		// limit the scope of the request
-		$where = "(articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where .= ')';
+		$where = Articles::get_sql_where();
 
 		// show only published articles if not looking at self record
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
@@ -3102,28 +3016,8 @@ Class Articles {
 			return $output;
 		}
 
-		// select among active articles
-		$where = "active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR active='R'";
-
-		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feed'))
-			;
-		elseif(Surfer::is_associate())
-			$where .= " OR active='N'";
-
-		//include managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// search is restricted to one section
 		$sections_where = '';
@@ -3423,26 +3317,8 @@ Class Articles {
 	public static function &stat() {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// list only published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -3491,26 +3367,8 @@ Class Articles {
 		if(!$anchor)
 			return NULL;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// avoid sticky articles
 		if($without_sticky)

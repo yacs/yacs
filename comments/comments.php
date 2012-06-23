@@ -1338,19 +1338,8 @@ Class Comments {
 	public static function &list_threads_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// provide published pages to anonymous surfers
 		if(!Surfer::is_logged()) {
@@ -1460,19 +1449,8 @@ Class Comments {
 	public static function &list_threads_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// provide published pages to anonymous surfers
 		if(!Surfer::is_logged()) {
