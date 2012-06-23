@@ -66,8 +66,8 @@ Class Layout_comments_as_updates extends Layout_interface {
 			// author description
 			$author = '';
 
-			// avatar
-			if(isset($poster['avatar_url']) && $poster['avatar_url'])
+			// avatar, but not for notifications
+			if(($item['type'] != 'notification') && isset($poster['avatar_url']) && $poster['avatar_url'])
 				$author .= '<img src="'.$poster['avatar_url'].'" alt="" title="avatar" class="avatar" />'.BR;
 
 			// link to poster, if possible
@@ -201,10 +201,10 @@ Class Layout_comments_as_updates extends Layout_interface {
 			}
 
 			// the main part of the comment, with an id
-			$text = '<td class="comment" id="comment_'.$item['id'].'">'.$text.'</td>';
+			$text = '<td class="comment '.$item['type'].'" id="comment_'.$item['id'].'">'.$text.'</td>';
 
 			// this is another row of the output
-			$rows[] = '<td class="author">'.$author.'</td>'.$text;
+			$rows[] = '<td class="author '.$item['type'].'">'.$author.'</td>'.$text;
 
 		}
 
