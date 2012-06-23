@@ -828,18 +828,12 @@ class Issue extends Overlay {
 			$input = self::get_color_as_radio_buttons($this->attributes['color']);
 			$fields[] = array($label, $input);
 
-			// for easy detection of changes
-			$tracking .= '<input type="hidden" name="previous_color" value="'.$this->attributes['color'].'" />';
-
 			// type
 			$label = i18n::s('Workflow');
 			if(!isset($this->attributes['type']))
 				$this->attributes['type'] = 'incident';
 			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
 			$fields[] = array($label, $input);
-
-			// for easy detection of changes
-			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />';
 
 			// format these fields
 			$tracking .= Skin::build_form($fields);
@@ -935,9 +929,6 @@ class Issue extends Overlay {
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:solution'))
 				$checked = 'checked="checked"';
 			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:solution" '.$checked.' />&nbsp;'.$this->get_status_label('cancelled:solution').'</p></div>';
-
-			// for easy detection of status change
-			$tracking .= '<input type="hidden" name="previous_status" value="'.$this->attributes['status'].'" />';
 
 		}
 
@@ -1098,9 +1089,6 @@ class Issue extends Overlay {
 
 		$this->attributes['color'] = isset($fields['color']) ? $fields['color'] : 'green';
 		$this->attributes['owner'] = isset($fields['owner']) ? $fields['owner'] : '';
-		$this->attributes['previous_color'] = isset($fields['previous_color']) ? $fields['previous_color'] : 'green';
-		$this->attributes['previous_status'] = isset($fields['previous_status']) ? $fields['previous_status'] : 'on-going:suspect';
-		$this->attributes['previous_type'] = isset($fields['previous_type']) ? $fields['previous_type'] : 'incident';
 		$this->attributes['status'] = isset($fields['status']) ? $fields['status'] : 'on-going:suspect';
 		$this->attributes['type'] = isset($fields['type']) ? $fields['type'] : 'incident';
 		$this->attributes['create_date'] = isset($fields['create_date']) ? Surfer::to_GMT($fields['create_date']) : NULL_DATE;
@@ -1195,11 +1183,11 @@ class Issue extends Overlay {
 			if(is_callable(array($this->anchor, 'is_owned')) && $this->anchor->is_owned()) {
 
 				// detect type modification
-				if($this->attributes['type'] != $this->attributes['previous_type'])
+				if($this->attributes['type'] != $this->snapshot['type'])
 					$comments[] = sprintf(i18n::s('Workflow has been changed to "%s"'), $this->get_type_label($this->attributes['type']));
 
 				// detect color modification
-				if($this->attributes['color'] != $this->attributes['previous_color'])
+				if($this->attributes['color'] != $this->snapshot['color'])
 					$comments[] = $this->get_color_label($this->attributes['color']);
 
 				// change host owner, if any
@@ -1229,7 +1217,7 @@ class Issue extends Overlay {
 					."close_date='".SQL::escape(isset($this->attributes['close_date']) ? $this->attributes['close_date'] : NULL_DATE)."', \n";
 
 				// detect status modification
-				if($this->attributes['status'] != $this->attributes['previous_status']) {
+				if($this->attributes['status'] != $this->snapshot['status']) {
 					$comments[] = $this->get_status_label($this->attributes['status']);
 
 					// depending of new status
