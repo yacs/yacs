@@ -79,7 +79,7 @@ Class Visits {
 		$where = "visits.active='Y'";
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR visits.active='R'";
-		if(Surfer::is_associate())
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$where .= " OR visits.active='N'";
 
 		// select matching links
@@ -321,7 +321,7 @@ Class Visits {
 		$where = "visits.active='Y'";
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR visits.active='R'";
-		if(Surfer::is_associate())
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$where .= " OR visits.active='N'";
 
 		// select among available items

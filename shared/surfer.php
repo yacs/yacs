@@ -1114,10 +1114,6 @@ Class Surfer {
 		if(Surfer::is_crawler())
 			return FALSE;
 
-		// no need to tease logged surfers
-		if(Surfer::is_logged())
-			return FALSE;
-
 		// use global parameter
 		if(isset($context['users_without_teasers']) && ($context['users_without_teasers'] == 'Y'))
 			return FALSE;
