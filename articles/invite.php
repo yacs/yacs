@@ -451,11 +451,10 @@ if(Surfer::is_crawler()) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.''."\n"
-		.'$(function() {'
+		.'$(function() {'."\n"
 		.'	$("#names").focus();'."\n" // set the focus on first form field
 		.'	Yacs.autocomplete_names("names");'."\n" // enable names autocompletion
-		.'});'.":n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// help message
