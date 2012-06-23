@@ -804,6 +804,26 @@ class Overlay {
 		return TRUE;
 	}
 
+	/**
+	 * make a shallow copy of attributes
+	 *
+	 * This function allows to detect changes when content of an overlay is modified.
+	 *
+	 */
+	function snapshot() {
+
+		// to be compared with $this->attributes
+		$this->snapshot = array();
+
+		// shallow copy should be enough
+		foreach($this->attributes as $name => $value) {
+			if(is_object($value))
+				$this->snapshot[$name] = clone $value;
+			else
+				$this->snapshot[$name] = $value;
+		}
+
+	}
 }
 
 ?>
