@@ -930,7 +930,7 @@ class Mailer {
 
 		// Message-ID: header --helps to avoid spam filters
 		if(!preg_match('/^Message-ID: /im', $headers))
-			$headers .= M_EOL.'Message-ID: <'.time().'@'.$context['host_name'].'>';
+			$headers .= M_EOL.'Message-ID: <uniqid.'.uniqid().'@'.$context['host_name'].'>';
 
 		// MIME-Version: header
 		if(!preg_match('/^MIME-Version: /im', $headers))
@@ -1397,21 +1397,13 @@ class Mailer {
 	 *
 	 * @link http://www.jwz.org/doc/threading.html message threading
 	 *
-	 * @param string unique id for this message
 	 * @param string thread context for this message
 	 * @return array headers to be used by Mailer::post()
 	 */
-	public static function set_thread($this_id=NULL, $parent_id=NULL) {
+	public static function set_thread($parent_id=NULL) {
 		global $context;
 
 		$headers = array();
-
-		// just help to overcome spam filters
-		if(!$this_id)
-			$this_id = 'object';
-
-		// Message-ID: header
-		$headers[] = 'Message-ID: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $this_id).'.'.time().'@'.$context['host_name'].'>';
 
 		// In-Reply-To: header
 		if($parent_id) {

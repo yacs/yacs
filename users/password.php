@@ -127,7 +127,7 @@ if(Surfer::is_crawler()) {
 				'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 		// enable threading
-		$headers = Mailer::set_thread('', 'user:'.$item['id']);
+		$headers = Mailer::set_thread('user:'.$item['id']);
 
 		// post the confirmation message
 		Mailer::notify(NULL, $item['email'], $subject, $message, $headers);

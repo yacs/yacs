@@ -264,7 +264,7 @@ if(Surfer::is_crawler()) {
 			$context['url_to_root'].Users::get_login_url('visit', 'article:'.$item['id'], $user['id'], $item['handle']), $message);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'article:'.$item['id']);
+		$headers = Mailer::set_thread('article:'.$item['id']);
 
 		// get attachments from the overlay, if any
 		$attachments = NULL;

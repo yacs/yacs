@@ -1295,7 +1295,7 @@ Class Section extends Anchor {
 						$mail['content'] = Comments::build_notification($comment);
 
 						// threads messages
-						$mail['headers'] = Mailer::set_thread('comment:'.$comment['id'], 'article:'.$target['id']);
+						$mail['headers'] = Mailer::set_thread('article:'.$target['id']);
 
 						// message to watchers
 						$mail['message'] = Mailer::build_notification($mail['content'], 1);
@@ -1320,7 +1320,7 @@ Class Section extends Anchor {
 					$mail['content'] = Articles::build_notification($target, 'create');
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('article:'.$target['id'], $this->get_reference());
+					$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 				}
 
@@ -1338,7 +1338,7 @@ Class Section extends Anchor {
 						$mail['content'] = Files::build_notification($file);
 
 						// threads messages
-						$mail['headers'] = Mailer::set_thread('file:'.$file['id'], 'article:'.$target['id']);
+						$mail['headers'] = Mailer::set_thread('article:'.$target['id']);
 
 						// message to watchers
 						$mail['message'] = Mailer::build_notification($mail['content'], 1);
@@ -1363,7 +1363,7 @@ Class Section extends Anchor {
 					$mail['content'] = Articles::build_notification($target, 'publish');
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
+					$mail['headers'] = Mailer::set_thread('article:'.$target['id']);
 
 					// message to watchers
 					$mail['message'] = Mailer::build_notification($mail['content'], 1);
@@ -1385,7 +1385,7 @@ Class Section extends Anchor {
 					$mail['content'] = Articles::build_notification($target, 'update');
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
+					$mail['headers'] = Mailer::set_thread('article:'.$target['id']);
 
 					// message to watchers
 					$mail['message'] = Mailer::build_notification($mail['content'], 1);
@@ -1404,7 +1404,7 @@ Class Section extends Anchor {
 					$mail['content'] = Files::build_notification($target);
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
+					$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 				}
 
@@ -1416,7 +1416,7 @@ Class Section extends Anchor {
 					$mail['content'] = Comments::build_notification($target);
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
+					$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 				}
 
@@ -1428,7 +1428,7 @@ Class Section extends Anchor {
 					$mail['content'] = Sections::build_notification($target, 'create');
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('', $this->get_reference());
+					$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 				}
 
@@ -1440,7 +1440,7 @@ Class Section extends Anchor {
 					$mail['content'] = Sections::build_notification($target, 'update');
 
 					// threads messages
-					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);
+					$mail['headers'] = Mailer::set_thread('section:'.$target['id']);
 
 					// message to watchers
 					$mail['message'] = Mailer::build_notification($mail['content'], 1);
@@ -1467,7 +1467,7 @@ Class Section extends Anchor {
 				$mail['content'] .= Skin::build_mail_menu($menu);
 
 				// threads messages
-				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
+				$mail['headers'] = Mailer::set_thread($this->get_reference());
 
 			}
 

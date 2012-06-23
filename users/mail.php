@@ -161,7 +161,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'user:'.$item['id']);
+		$headers = Mailer::set_thread('user:'.$item['id']);
 
 		// send the message
 		if(Mailer::notify($from, $to, $subject, $message, $headers)) {
