@@ -193,7 +193,7 @@ elseif(!$permitted) {
 				$message .= Skin::build_mail_menu($menu);
 
 				// enable threading
-				$headers = Mailer::set_thread('', $follower->get_reference());
+				$headers = Mailer::set_thread($follower->get_reference());
 
 				// allow for cross-referencing
 				Mailer::notify(Surfer::from(), $user['email'], $subject, $message, $headers);
