@@ -6,12 +6,6 @@
  * directly to previous and next neighbours.
  * This is displayed as a sidebar box in the extra panel.
  *
- * Post of new comments may have been explicitly prevented in anchor (option '[code]no_comments[/code]').
- * Otherwise commands to post new comments are added if the surfer has been authenticated,
- * or if anonymous comments are allowed (parameter '[code]users_with_anonymous_comments[/code]' set to 'Y'),
- * of if teasers have been enabled (parameter '[code]users_without_teasers[/code]' not set to 'Y').
- * Both global parameters are set in [script]users/configure.php[/script]).
- *
  * Where applicable, a link is added on page bottom to incitate people to reply to the displayed comment.
  *
  * The extra panel also features top popular referrals in a sidebar box, if applicable.

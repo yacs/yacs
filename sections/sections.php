@@ -2092,56 +2092,6 @@ Class Sections {
 	}
 
 	/**
-	 * list sections assigned to one surfer
-	 *
-	 * Only sections matching following criteria are returned:
-	 * - section is visible (active='Y')
-	 * - or section is restricted (active='R'), but surfer is a logged user
-	 * - or section is hidden (active='N'), but surfer is an associate
-	 *
-	 * @param int surfer id
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 */
-	public static function &list_assigned_by_title($surfer_id, $offset=0, $count=20, $variant='full') {
-		global $context;
-
-		// obviously we need some assigned sections
-		if(!$assigned = Surfer::assigned_sections($surfer_id)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// limit the query to one level
-		$where = "(sections.id = ".join(" OR sections.id = ", $assigned).")";
-
-		// display active items
-		$where .= " AND (sections.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// list hidden sections to associates and to editors
-		if(is_callable(array('Surfer', 'is_empowered')) && Surfer::is_empowered())
-			$where .= " OR sections.active='N'";
-
-		// end of scope
-		$where .= ")";
-
-		// list sections
-		$query = "SELECT sections.*"
-			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".$where
-			." ORDER BY sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
-
-		$output =& Sections::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * list all editors of a section
 	 *
 	 * This function lists editors of this section, or of any parent section.
@@ -2176,45 +2126,6 @@ Class Sections {
 
 		// list users assigned to any of these anchors
 		return Members::list_editors_for_member($anchors, $offset, $count, $variant);
-	}
-
-	/**
-	 * apply a layout to one section
-	 *
-	 * Only sections matching following criteria are returned:
-	 * - related section is visible (active='Y')
-	 * - related section is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - related section is hidden (active='N'), but the surfer is an associate or an editor,
-	 *
-	 * @param int id of the target section
-	 * @param string the list variant, if any
-	 * @return NULL on error, else the outcome of the layout
-	 */
-	public static function &list_for_id($id, $variant='compact') {
-		global $context;
-
-		// select among active items
-		$where = "sections.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// add hidden items to associates, editors and readers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// bracket OR statements
-		$where = '('.$where.')';
-
-		// sections by title
-		$query = "SELECT sections.*"
-			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (sections.id = LIKE '".SQL::escape($name)."') AND ".$where;
-
-		$output =& Sections::list_selected(SQL::query($query), $variant);
-		return $output;
 	}
 
 	/**
