@@ -417,30 +417,24 @@ if(Surfer::is_crawler()) {
 			// the page has been modified
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
-			// list persons that have been notified
-			if($recipients = Mailer::build_recipients('article:'.$item['id'])) {
-
-				$context['text'] .= $recipients;
-
-				// follow-up commands
-				$follow_up = i18n::s('What do you want to do now?');
-				$menu = array();
-				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
-				if(Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
-				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				$follow_up .= Skin::build_list($menu, 'menu_bar');
-				$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-				// log page modification
-				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('articles/edit.php', $label, $description);
-
 			// display the updated page
-			} else
+			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
 				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+
+			// list persons that have been notified
+			$context['text'] .= $recipients;
+
+			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
+			$menu = array();
+			$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
+			if(Surfer::may_upload())
+				$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
+			if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
+				$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
+			$follow_up .= Skin::build_list($menu, 'menu_bar');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 		}
 
 
