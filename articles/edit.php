@@ -395,6 +395,11 @@ if(Surfer::is_crawler()) {
 		// else display the updated page
 		} else {
 
+			// log page modification
+			$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
+			Logger::notify('articles/edit.php', $label, $description);
+
 			// the overlay may have already notified persons involved
 			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
 			if(is_object($overlay) && !$overlay->should_notify_watchers())
