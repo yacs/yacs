@@ -1995,48 +1995,14 @@ ul.collections { /* a list of collections, in [collections] */
 }
 
 /**
- * comments in a manual
+ * comments in a wall
  *
- * @see comments/layout_comments_as_manual.php
+ * @see comments/layout_comments_as_updates.php
  */
 
-dl.manual_comments { /* to list comments in a manual */
-	margin: 0 1em 0 0;
-	padding: 0;
-}
-
-dl.manual_comments dd { /* body of one note */
-	margin: 0 0 1em 0;
-	padding: 0.3em 1em 1em 1em;
-}
-
-dl.manual_comments dd.odd {
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-	border-bottom: 1px solid #daa;
-}
-
-dl.manual_comments dd.even {
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
-	border-bottom: 1px solid #aaf;
-}
-
-dl.manual_comments dt { /* header of one note */
-	margin: 1em 0 0 0;
-	padding: 1em 1em 2px 1em;
-}
-
-dl.manual_comments dt.odd {
-	border-top: 1px solid #daa;
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-}
-
-dl.manual_comments dt.even {
-	border-top: 1px solid #aaf;
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
+.author.notification,
+.comment.notification { /* a notification */
+	font-style: italic;
 }
 
 /**
