@@ -336,13 +336,78 @@ if(!isset($item['id'])) {
 // permission denied
 } elseif(!$permitted) {
 
+	// make it clear to crawlers
+	if(Surfer::is_crawler())
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
+
 	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged())
+	elseif(!Surfer::is_logged())
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_permalink($item)));
 
-	// permission denied to authenticated user
-	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+	// require access from some owner
+	elseif(isset($_REQUEST['requested']) && ($requested = Users::get($_REQUEST['requested'])) && $requested['email']) {
+
+		// prepare the mail message
+		$to = Mailer::encode_recipient($requested['email'], $requested['full_name']);
+		$subject = sprintf(i18n::c('%s: %s'), i18n::c('Request'), strip_tags($item['title']));
+		$message = Sections::build_notification($item, 'apply');
+		$headers = Mailer::set_thread('section:'.$item['id']);
+
+		// allow for skinnable template
+		$message = Skin::build_mail_message($message);
+
+		// build multiple parts, for HTML rendering
+		$message = Mailer::build_multipart($message);
+
+		// send the message to requested user
+		if(Mailer::post(Surfer::from(), $to, $subject, $message, NULL, $headers)) {
+			$text = sprintf(i18n::s('Your request has been transmitted to %s. Check your mailbox for feed-back.'),
+				Skin::build_link(Users::get_permalink($requested), Codes::beautify_title($requested['full_name']), 'user'));
+			$context['text'] .= Skin::build_block($text, 'note');
+		}
+
+		// follow-up navigation
+		$context['text'] .= '<div>'.i18n::s('Where do you want to go now?').'</div>';
+		$menu = array();
+		$menu[] = Skin::build_link($context['url_to_root'], i18n::s('Front page'), 'button');
+		$menu[] = Skin::build_link(Surfer::get_permalink(), i18n::s('My profile'), 'span');
+		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+
+	// offer to request some owner
+	} else {
+
+		// provide feed-back to surfer
+		$context['text'] .= Skin::build_block(i18n::s('You are not allowed to access this page.'), 'caution');
+
+		// list owners
+		$owners = array();
+
+		// owner of this section
+		if(isset($item['owner_id']) && $item['owner_id'] && ($user = Users::get($item['owner_id'])) && $user['email'])
+			$owners[] = $user['id'];
+
+		// owners of parent containers
+		$reference = $item['anchor'];
+		while($reference) {
+			if(!$parent = Anchors::get($reference))
+				break;
+			if(($owner_id = $parent->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email'])
+				$owners[] = $user['id'];
+			$reference = $parent->get_value('anchor');
+		}
+
+		// suggest to query one of available owners
+		if($owners) {
+			$context['text'] .= '<div>'.i18n::ns('Following person is entitled to invite you to participate:', 'Following persons are entitled to invite you to participate:', count($owners)).'</div>';
+
+			// the form
+			$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'
+				.Users::list_for_ids($owners, 'request')
+				.Skin::finalize_list(array(Skin::build_submit_button(i18n::s('Submit a request to get access'))), 'menu_bar')
+				.'<input type="hidden" name="id" value="'.$item['id'].'">'
+				.'</div></form>';
+		}
+	}
 
 // re-enforce the canonical link
 } elseif(!$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {

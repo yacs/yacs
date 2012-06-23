@@ -535,6 +535,9 @@ Class Sections {
 
 		// headline template
 		switch($action) {
+		case 'apply':
+			$template = i18n::c('%s is requesting access to %s');
+			break;
 		case 'create':
 			$template = i18n::c('%s has created section %s');
 			break;
@@ -551,8 +554,14 @@ Class Sections {
 		// panel content
 		$content = '';
 
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$title = PRIVATE_FLAG.$title;
+		elseif($item['active'] == 'R')
+			$title = RESTRICTED_FLAG.$title;
+
 		// insert page title
-		$content .= '<h2><span>'.$title.'</span></h2>';
+		$content .= '<h3><span>'.$title.'</span></h3>';
 
 		// insert anchor prefix
 		if(is_object($anchor))
@@ -631,21 +640,40 @@ Class Sections {
 			$content .= '<hr align="left" size=1" width="150">'
 				.'<p style="margin: 3px 0;">'.sprintf(i18n::c('This section has %s'), join(', ', $details)).'</p>';
 
+		// assemble main content of this message
 		$text = Skin::build_mail_content($headline, $content);
 
 		// a set of links
 		$menu = array();
 
-		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
-		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
-			$label = i18n::c('View the section');
-		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+		// request access to the item
+		if($action == 'apply') {
 
-		// link to the container
-		if(is_object($anchor)) {
-			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'invite', Surfer::get_id());
+			$label = sprintf(i18n::c('Invite %s to participate'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to user profile
+			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, FALSE);
+
+		// invite to visit the item
+		} else {
+
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+				$label = i18n::c('View the section');
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to the container
+			if(is_object($anchor)) {
+				$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+				$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			}
+
 		}
 
 		// finalize links
@@ -1885,6 +1913,14 @@ Class Sections {
 				return 'files/feed.php/section/'.rawurlencode($id);
 			else
 				return 'files/feed.php?anchor='.urlencode('section:'.$id);
+		}
+
+		// invite someone to participate
+		if($action == 'invite') {
+			if($name)
+				return 'sections/invite.php?id='.urlencode($id).'&amp;invited='.urlencode($name);
+			else
+				return 'sections/invite.php?id='.urlencode($id);
 		}
 
 		// the prefix for managing content

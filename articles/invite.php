@@ -30,8 +30,7 @@
  * Accepted calls:
  * - invite.php/&lt;id&gt;
  * - invite.php?id=&lt;id&gt;
- * - invite.php/&lt;id&gt;
- * - invite.php?id=&lt;id&gt;
+ * - invite.php?id=&lt;id&gt;&amp;invited=&lt;invited_id&gt;
  *
  * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -344,28 +343,35 @@ if(Surfer::is_crawler()) {
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
 		$layout->set_variant('unchecked');
 
-	// list also selectable groups of people
-	$handle = $item['anchor'];
-	while($handle && ($parent = Anchors::get($handle))) {
-		$handle = $parent->get_parent();
+	// pre-invite someone
+	$invited = '';
+	if(isset($_REQUEST['invited']) && ($user = Users::get($_REQUEST['invited'])))
+		$invited = $user['nick_name'];
 
-		// invitation to a private page should be limited to editors
-		if($item['active'] == 'N') {
+	// list selectable groups of people
+	else {
+		$handle = $item['anchor'];
+		while($handle && ($parent = Anchors::get($handle))) {
+			$handle = $parent->get_parent();
 
-			if($editors = Members::list_editors_for_member($parent->get_reference(), 0, 1000, $layout))
-				$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
+			// invitation to a private page should be limited to editors
+			if($item['active'] == 'N') {
 
-		// else invitation should be extended to watchers
-		} else {
+				if($editors = Members::list_editors_for_member($parent->get_reference(), 0, 1000, $layout))
+					$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
 
-			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 1000, $layout))
-				$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
+			// else invitation should be extended to watchers
+			} else {
 
+				if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 1000, $layout))
+					$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
+
+			}
 		}
 	}
 
 	// add some names manually
-	$input .= Skin::build_box(i18n::s('Invite some persons'), '<textarea name="to" id="names" rows="3" cols="50"></textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
+	$input .= Skin::build_box(i18n::s('Invite some persons'), '<textarea name="to" id="names" rows="3" cols="50">'.$invited.'</textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
 
 	// combine all these elements
 	$fields[] = array($label, $input);
