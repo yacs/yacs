@@ -802,10 +802,6 @@ if(!isset($item['id'])) {
 			$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('section:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 		}
 
-		// public aggregators
-// 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-// 			$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), $item['title']));
-
 	}
 
 	// in a side box
@@ -921,13 +917,6 @@ if(!isset($item['id'])) {
 			$context['components']['bookmarklets'] = Skin::build_box(i18n::s('Bookmarklets to contribute'), $label, 'bookmarklets', 'bookmarklets');
 		}
 	}
-
-	// list feeding servers, if any
-// 	if(Surfer::is_associate() && ($content = Servers::list_by_date_for_anchor('section:'.$item['id']))) {
-// 		if(is_array($content))
-// 			$content =& Skin::build_list($content, 'compact');
-// 		$context['components']['servers'] = Skin::build_box(i18n::s('Related servers'), $content, 'servers', 'servers');
-// 	}
 
 	// download content
 	if(Surfer::is_empowered() && !$zoom_type && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
