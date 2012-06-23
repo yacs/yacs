@@ -126,7 +126,7 @@ if(Surfer::is_crawler()) {
 		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
 		// look for a user with this nick name
-		if(!$user =& Users::lookup($recipient))
+		if(!$user = Users::lookup($recipient))
 			continue;
 
 		// this person has no valid email address
