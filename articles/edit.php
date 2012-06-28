@@ -7,7 +7,7 @@
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  * Also, sample smilies are displayed, and may be used to introduce related codes into the description field.
  *
  * This script attempts to validate the new or updated article description against a standard PHP XML parser.

@@ -3,7 +3,7 @@
  * set a new location or update an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * See either [link=Address Map Coordinate (Lat/Long) Finder]http://www.batchgeocode.com/lookup/[/link]
  * or [link=Free Geocoding Service for 22 Countries]http://www.travelgis.com/geocode/Default.aspx[/link]

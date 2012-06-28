@@ -3,7 +3,7 @@
  * post a new comment or update an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  * Also, sample smilies are displayed, and may be used to introduce related codes into the description field.
  *
  * Surfers are given the opportunity to attach a file to new comments.
