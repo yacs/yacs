@@ -235,6 +235,10 @@ Class Articles {
 		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
+			return TRUE;
+
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			return FALSE;
@@ -1447,12 +1451,12 @@ Class Articles {
 		// display active items
 		$where = "articles.active='Y'";
 
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
+		// add restricted items to members and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
-		// include hidden items for associates, or if teasers are allowed
-		if(Surfer::is_associate() || Surfer::is_teased())
+		// include hidden items for associates and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_trusted() || Surfer::is_teased())
 			$where .= " OR articles.active='N'";
 
 		// include private items that the surfer can access

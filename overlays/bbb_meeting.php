@@ -58,11 +58,11 @@ class BBB_Meeting extends Meeting {
 			return TRUE;
 
 		// reject download if caller is not bigbluebutton server
-		if($_SERVER['HTTP_HOST'] != $context['bbb_server'])
-			return FALSE;
+		if(isset($_SERVER['HTTP_HOST']) && isset($context['bbb_server']) && ($_SERVER['HTTP_HOST'] == $context['bbb_server']))
+			return TRUE;
 
-		// allowed
-		return TRUE;
+		// blocked
+		return FALSE;
 	}
 
 	/**
