@@ -36,8 +36,8 @@ Class Article extends Anchor {
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
 			return $this->overlay->allows($type, $action);
 
-		// allowed
-		return TRUE;
+		// blocked by default
+		return FALSE;
 	}
 
 	/**

@@ -108,7 +108,7 @@ class Overlay {
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */
 	function allows($type, $action) {
-		return TRUE;
+		return FALSE;
 	}
 
 	/**
