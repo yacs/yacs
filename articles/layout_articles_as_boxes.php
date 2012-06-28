@@ -1,6 +1,6 @@
 <?php
 /**
- * layout articles as a text of boxes
+ * layout articles as a set of boxes
  *
  * Page nick names are used as box CSS identifiers.
  *

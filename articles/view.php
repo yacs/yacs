@@ -208,10 +208,6 @@ $behaviors = NULL;
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-//
-// is this surfer allowed to browse the page?
-//
-
 // change default behavior
 if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
 	$permitted = FALSE;
