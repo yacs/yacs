@@ -88,24 +88,12 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// public access is allowed
-if(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetch.php', 'file:'.$item['id']))
+	$permitted = FALSE;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// associates, editors and readers can view the page
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
-	$permitted = TRUE;
-
-// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
-elseif(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('file', 'fetch'))
+// check access rights
+elseif(Files::allow_access($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
