@@ -1123,6 +1123,35 @@ Class Surfer {
 	}
 
 	/**
+	 * is this a trusted host?
+	 *
+	 * Network addresses of trusted hosts are defined in the configuration panel for users.
+	 * Private content should be exposed to trusted hosts.
+	 *
+	 * @see users/configure.php
+	 *
+	 * @return boolean TRUE if request is coming from a trusted host, FALSE otherwise
+	 */
+	public static function is_trusted() {
+		global $context;
+
+		// no parameter has been set
+		if(!isset($context['users_trusted_hosts']))
+			return FALSE;
+
+		// match the network address
+		if(isset($_SERVER['REMOTE_ADDR']) && (strpos($context['users_trusted_hosts'], $_SERVER['REMOTE_ADDR']) !== FALSE))
+			return TRUE;
+
+		// match the network address
+		if(isset($_SERVER['REMOTE_HOST']) && (strpos($context['users_trusted_hosts'], $_SERVER['REMOTE_HOST']) !== FALSE))
+			return TRUE;
+
+		// not trusted
+		return FALSE;
+	}
+
+	/**
 	 * update surfer presence
 	 *
 	 * This function is used to track presence information.
