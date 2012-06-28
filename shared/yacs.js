@@ -1175,7 +1175,7 @@ var Yacs = {
 		// start an ajax transaction
 		Yacs.subscribeAjax = $.ajax(url_to_root + 'users/heartbit.php', {
 			type: 'get',
-			data: { },
+			data: {'reference': Yacs.current_item, 'action': Yacs.current_action},
 			dataType: "json",
 			success: Yacs.subscribeSuccess,
 			error: Yacs.subscribeFailure
@@ -1215,9 +1215,6 @@ var Yacs = {
 		Yacs.subscribeAjax = null;
 
 	},
-
-	// remember polling rate
-	subscribeRate: "fast",
 
 	// on-going timer, if any
 	subscribeTimer: 0,

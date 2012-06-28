@@ -329,6 +329,7 @@ $context['l10n']['fr']['6f667d5aa6579c8239335c342b69c9c1']='Ceci est une copie d
 $context['l10n']['fr']['90df479ff757e0d021662d61d272b2bd']='Cette page est un brouillon. Ne pas notifier les observateurs, ni les abonnés.';
 $context['l10n']['fr']['This page has %s']='Cette page a %s';
 $context['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
+$context['l10n']['fr']['6525655c3f8792296135380f4ac5447c']='Cette page est modifiée par %s. Vous devez attendre qu\'une nouvelle version soit disponible.';
 $context['l10n']['fr']['5ba6a855747f2ced505ea08ed6ec0b2b']='Faire la publicité de cette publication :';
 $context['l10n']['fr']['Thumbnail']='Vignette';
 $context['l10n']['fr']['TinyMCE']='TinyMCE';

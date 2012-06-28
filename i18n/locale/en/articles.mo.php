@@ -329,6 +329,7 @@ $context['l10n']['en']['6f667d5aa6579c8239335c342b69c9c1']='This is a copy of th
 $context['l10n']['en']['90df479ff757e0d021662d61d272b2bd']='This is a draft document. Do not notify watchers nor followers.';
 $context['l10n']['en']['This page has %s']='This page has %s';
 $context['l10n']['en']['This page has been locked.']='This page has been locked.';
+$context['l10n']['en']['6525655c3f8792296135380f4ac5447c']='This page is currently edited by %s. You have to wait for a new version to be released.';
 $context['l10n']['en']['5ba6a855747f2ced505ea08ed6ec0b2b']='This publication should be advertised at:';
 $context['l10n']['en']['Thumbnail']='Thumbnail';
 $context['l10n']['en']['TinyMCE']='TinyMCE';

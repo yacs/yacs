@@ -99,6 +99,18 @@ if(!Surfer::get_id()) {
 		." WHERE (id = ".SQL::escape(Surfer::get_id()).")";
 	SQL::query($query, FALSE, $context['users_connection']);
 
+	// assign article for more time
+	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'edit')
+		&& isset($_REQUEST['reference']) && !strncmp($_REQUEST['reference'], 'article:', 8)) {
+
+		// refresh record of this article
+		$query = "UPDATE ".SQL::table_name('articles')." SET "
+			." assign_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'"
+			." WHERE (id = ".SQL::escape(substr($_REQUEST['reference'],8)).") AND (assign_id = ".SQL::escape(Surfer::get_id()).")";
+		SQL::query($query);
+
+	}
+
 	// look for one notification -- script will be be killed if none is available
 	$response =& Notifications::pull();
 

@@ -2533,6 +2533,12 @@ Class Articles {
 		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:create')."'";
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 
+		// reset user assignment, if any
+		$query[] = "assign_name=''";
+		$query[] = "assign_id=0";
+		$query[] = "assign_address=''";
+		$query[] = "assign_date='".SQL::escape(NULL_DATE)."'";
+
 		// set or change the publication date
 		if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE)) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
@@ -2750,6 +2756,12 @@ Class Articles {
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 		}
+
+		// reset user assignment, if any
+		$query[] = "assign_name=''";
+		$query[] = "assign_id=0";
+		$query[] = "assign_address=''";
+		$query[] = "assign_date='".SQL::escape(NULL_DATE)."'";
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('articles')." SET ".implode(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
@@ -3051,6 +3063,10 @@ Class Articles {
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
 		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
+		$fields['assign_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['assign_date']	= "DATETIME";
+		$fields['assign_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['assign_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
