@@ -42,7 +42,7 @@
  * - associates uploads are flagged according to the input form
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * Accepted calls:
  * - edit.php upload a file and create an article to host it

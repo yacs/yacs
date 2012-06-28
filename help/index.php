@@ -67,7 +67,7 @@
  * By default text submitted to any yacs server is filtered to protect from hackers.
  * Also, a special set of safe codes are available to beautify your posts.
  *
- * See: [link]codes/index.php[/link] and [link]smileys/index.php[/link]
+ * See: [link]codes/[/link] and [link]smileys/[/link]
  *
  * [subtitle]Boxes[/subtitle]
  * What is static and what is dynamic in yacs? Numerous web systems are offering a

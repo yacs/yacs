@@ -26,7 +26,7 @@
  * If an image is set as the page icon, it is also used as the default thumnail for this page.
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * The content of the uploaded file is checked to ensure we have a valid image, that is, a .GIF, .JPG or .PNG image.
  *
@@ -51,9 +51,6 @@
  * - permission denied is the default
  *
  * Anonymous (not-logged) surfer are invited to register to be able to post new images.
- *
- * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
  *
  * Accepted calls:
  * - edit.php upload an image and create an article to host it
