@@ -454,6 +454,10 @@ Class Articles {
 		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
+		// allow page editors to manage content, except on private page
+		if(Surfer::is_member() && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
+			return TRUE;
+
 		// article has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
