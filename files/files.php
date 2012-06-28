@@ -93,6 +93,67 @@ Class Files {
 	}
 
 	/**
+	 * check if a file can be accessed
+	 *
+	 * This function returns TRUE if the item can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target file
+	 * @param object an instance of the Anchor interface, if any
+	 * @return boolean TRUE or FALSE
+	 */
+	public static function allow_access($item, $anchor) {
+		global $context;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer has uploaded this file
+		if(isset($item['create_id']) && Surfer::is($item['create_id']))
+			return TRUE;
+
+		// the file is anchored to the profile of this member
+		if(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+			return TRUE;
+
+		// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
+		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('file', 'fetch'))
+			return TRUE;
+
+		// anonymous surfer has provided the secret handle
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
+
+		// surfer is an editor
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is logged
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// public page
+		return TRUE;
+	}
+
+	/**
 	 * check if new files can be added
 	 *
 	 * This function returns TRUE if files can be added to some place,
@@ -1400,12 +1461,12 @@ Class Files {
 		// display active items
 		$where = "files.active='Y'";
 
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
+		// add restricted items to members and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
 			$where .= " OR files.active='R'";
 
-		// include hidden items for associates, or if teasers are allowed
-		if(Surfer::is_empowered('S') || Surfer::is_teased())
+		// include hidden items for associates and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_empowered('S') || Surfer::is_trusted() || Surfer::is_teased())
 			$where .= " OR files.active='N'";
 
 		// end of active filter
