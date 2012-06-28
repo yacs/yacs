@@ -2,8 +2,6 @@
 /**
  * create a new article or edit an existing one
  *
- * @todo manage edition conflicts through date of last version
- *
  * This is the main script used to post a new page, or to modify an existing one.
  *
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
@@ -205,6 +203,10 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'article:'.$item['id'];
+
 // path to this page
 $context['path_bar'] = Surfer::get_path_bar($anchor);
 if(isset($item['id']) && isset($item['title']))
@@ -280,6 +282,14 @@ if(Surfer::is_crawler()) {
 } elseif(count($context['error'])) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
+
+// page has been assigned to another person during the last 5 minutes
+} elseif(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])
+	&& (SQL::strtotime($item['assign_date'])+5*60 >= time())) {
+
+	// permission denied to authenticated user
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('This page is currently edited by %s. You have to wait for a new version to be released.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id'])), 'caution');
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -1267,6 +1277,26 @@ if($with_form) {
 	unset($_SESSION['pasted_source']);
 	unset($_SESSION['pasted_text']);
 	unset($_SESSION['pasted_title']);
+
+	// assign the page to the surfer
+	if(isset($item['id']) && Surfer::get_id()) {
+		$query = "UPDATE ".SQL::table_name('articles')." SET "
+			." assign_name = '".SQL::escape(Surfer::get_name())."',"
+			." assign_id = ".SQL::escape(Surfer::get_id()).","
+			." assign_address = '".SQL::escape(Surfer::get_email_address())."',"
+			." assign_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'"
+			." WHERE (id  = ".SQL::escape($item['id']).")";
+
+		// do not stop on error
+		SQL::query($query);
+
+		// for subsequent heartbits
+		$_SESSION['assigned'] = $item['id'];
+
+		// current item
+		$context['current_action'] = 'edit';
+
+	}
 
 }
 

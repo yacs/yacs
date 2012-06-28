@@ -1253,10 +1253,21 @@ function render_skin($with_last_modified=TRUE) {
 // 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
 
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
+	$context['page_footer'] .= JS_PREFIX;
+
+	// a reference to the data we are at (e.g., 'article:123')
 	if(isset($context['current_item']) && $context['current_item'])
-		$context['page_footer'] .= JS_PREFIX
-			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
-			.JS_SUFFIX;
+		$context['page_footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
+	else
+		$context['page_footer'] .= '	Yacs.current_item = "";'."\n";
+
+	// some indication at what we are doing (e.g., 'edit')
+	if(isset($context['current_action']) && $context['current_action'])
+		$context['page_footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
+	else
+		$context['page_footer'] .= '	Yacs.current_action = "";'."\n";
+
+	$context['page_footer'] .= JS_SUFFIX;
 
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
