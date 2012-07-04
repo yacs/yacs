@@ -109,6 +109,7 @@ class Enrolments {
 				$query = array();
 				$query[] = "anchor = '".$reference."'";
 				$query[] = "approved = 'Y'";
+				$query[] = "edit_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
 				$query[] = "user_id = ".SQL::escape(Surfer::get_id());
 				$query[] = "user_email = '".SQL::escape(Surfer::get_email_address())."'";
 
@@ -137,6 +138,7 @@ class Enrolments {
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['approved']		= "ENUM('Y', 'N') DEFAULT 'N' NOT NULL";
+		$fields['edit_date']	= "DATETIME";
 		$fields['user_email']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['user_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 
