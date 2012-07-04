@@ -3128,15 +3128,16 @@ Class Files {
 						$fields = array();
 
 						// update a file with the same name for this anchor
-						if($fields =& Files::get_by_anchor_and_name($target, $file_name))
-							;
+						if($matching =& Files::get_by_anchor_and_name($target, $file_name))
+							$fields['id'] = $matching['id'];
 
 						// update an existing record
-						elseif(isset($input['id']) && ($fields = Files::get($input['id']))) {
+						elseif(isset($input['id']) && ($matching = Files::get($input['id']))) {
+							$fields['id'] = $matching['id'];
 
 							// silently delete the previous version of the file
-							if(isset($fields['file_name']))
-								Safe::unlink($file_path.'/'.$fields['file_name']);
+							if(isset($matching['file_name']))
+								Safe::unlink($file_path.'/'.$matching['file_name']);
 
 						}
 
