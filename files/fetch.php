@@ -379,7 +379,7 @@ if(!isset($item['id']) || !$item['id']) {
 			}
 
 			// serve the right type
-			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
 
 			// suggest a name for the saved file
 			$file_name = utf8::to_ascii($item['file_name']);

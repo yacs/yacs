@@ -1071,10 +1071,9 @@ Class Files {
 	 * We don't use the internal function from PHP library, which has proven to be boggus.
 	 *
 	 * @param string the file name
-	 * @param boolean force download
 	 * @return a string describing the MIME type
 	 */
-	public static function get_mime_type($name, $download=FALSE) {
+	public static function get_mime_type($name) {
 		global $context;
 
 		// get the list of supported extensions
