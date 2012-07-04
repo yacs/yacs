@@ -857,9 +857,9 @@ Class Article extends Anchor {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
 					if($action == 'file:create')
-						$fields['description'] = '[file='.$item['id'].']';
+						$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
 					else
-						$fields['description'] = '[download='.$item['id'].']';
+						$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
 					Comments::post($fields);
 
 				}
