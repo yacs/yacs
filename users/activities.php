@@ -235,7 +235,17 @@ Class Activities {
 		$indexes['INDEX edit_date'] = "(edit_date)";
 		$indexes['INDEX edit_id'] 	= "(edit_id)";
 
-		return SQL::setup_table('activities', $fields, $indexes);
+		$views = array();
+		$views[] = "CREATE OR REPLACE VIEW ".SQL::table_name('activities_notifications_per_month')." AS"
+			." SELECT"
+			."  SUBSTRING(edit_date, 1, 7) AS Month,"
+			."  edit_name AS 'Person',"
+			."  SUM(count) AS 'Notifications'"
+			." FROM ".SQL::table_name('activities')
+			." WHERE (action = 'notify')"
+			." GROUP BY Month, edit_name";
+
+		return SQL::setup_table('activities', $fields, $indexes, $views);
 	}
 
 	/**
