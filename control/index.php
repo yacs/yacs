@@ -825,7 +825,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			if(!Surfer::is_crawler()) {
 
 				// use a neat table for the layout
-				$box = Skin::table_prefix('');
+				$box = Skin::table_prefix('wide');
 				$lines = 1;
 
 				// yacs version

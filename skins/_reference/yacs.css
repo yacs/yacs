@@ -1342,6 +1342,16 @@ table.wide { /* a table that takes as much space as possible horizontally */
 	margin: 1px;
 }
 
+table.wide tbody tr td,
+table.wide tbody tr.even td,
+table.wide tbody tr.odd td,
+table.wide tbody tr th,
+table.wide thead tr th { /* a cell in a grid */
+	border: 2px ridge #bfbfbf;
+	padding: 0.5em;
+	position: static; /* specially for firefox 8 */
+}
+
 
 
 /*************************
@@ -3192,7 +3202,7 @@ div#tabs_panels {
 	padding: 2px 0;
 	margin: 1em 0 0 0;
 	min-height: 200px;
-	overflow: auto;
+	overflow: none;
 	position: relative; /* we have absolute positioning inside! */
 }
 
