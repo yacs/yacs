@@ -510,15 +510,7 @@ class Embed extends Overlay {
 					}
 				}
 
-			// embed a file that has been uploaded
-			} elseif($this->attributes['embed_type'] == 'upload') {
-
-				// notify this contribution
-				if(Files::count_for_anchor($reference) > 1)
-					$comments[] = i18n::s('Several files have been added');
-				elseif($file = Files::get_newest_for_anchor($reference))
-					$comments[] = '[file='.$file['id'].']';
-
+			// uploaded files are turned to comments automatically in articles/article.php
 			}
 		}
 
