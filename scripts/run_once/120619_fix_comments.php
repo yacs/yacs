@@ -3,6 +3,8 @@
  * add comments for page creation and file upload
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // splash message
