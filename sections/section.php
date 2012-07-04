@@ -1086,7 +1086,7 @@ Class Section extends Anchor {
 				Comments::post($fields);
 
 			// one file has been added
-			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
+			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin, TRUE))) {
 
 				// this file is eligible for being embedded in the page
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
