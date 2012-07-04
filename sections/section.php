@@ -1073,8 +1073,8 @@ Class Section extends Anchor {
 			// purge oldest comments
 			Comments::purge_for_anchor('section:'.$this->item['id']);
 
-		// a new file has been attached
-		} elseif(($action == 'file:create')) {
+		// file upload
+		} elseif(($action == 'file:create') || ($action == 'file:upload')) {
 
 			// actually, several files have been added
 			$label = '';
@@ -1103,7 +1103,10 @@ Class Section extends Anchor {
 				} elseif(Comments::allow_creation(NULL, $this->item, 'section')) {
 					$fields = array();
 					$fields['anchor'] = 'section:'.$this->item['id'];
-					$fields['description'] = '[file='.$item['id'].']';
+					if($action == 'file:create')
+						$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
+					else
+						$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
 					Comments::post($fields);
 
 				}
