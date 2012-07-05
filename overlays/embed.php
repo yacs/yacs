@@ -252,7 +252,8 @@ class Embed extends Overlay {
 			}
 		}
 
-		$text = '<div style="margin: 1em 0 2em 0">'.$text.'</div>';
+		if($text)
+			$text = '<div style="margin: 1em 0 2em 0">'.$text.'</div>';
 		return $text;
 	}
 
