@@ -2690,7 +2690,7 @@ Class Files {
 		// how to compute the score for files
 		$score = "(MATCH(title, source, keywords)"
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of files
 		$query = "SELECT *, ".$score." AS score FROM ".SQL::table_name('files')." AS files"

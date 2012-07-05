@@ -2033,7 +2033,7 @@ Class Users {
 		// how to compute the score for users
 		$score = "(MATCH(nick_name, full_name, introduction, description) "
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of users
 		$query = "SELECT *,"

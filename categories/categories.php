@@ -1765,7 +1765,7 @@ Class Categories {
 		// how to compute the score for categories
 		$score = "(MATCH(title, introduction, description, keywords)"
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of categories
 		$query = "SELECT *,"
