@@ -3041,12 +3041,11 @@ Class Articles {
 		// how to compute the score for articles
 		$score = "(MATCH(title, source, introduction, overlay, description)"
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of articles
 		$query = "SELECT *, ".$score." AS score FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
-			."  AND (".$where.")"
+			." WHERE (".$where.") AND (".$score." < ".$offset.") AND (".$score." > 0)"
 			." ORDER BY score DESC"
 			." LIMIT ".$count;
 

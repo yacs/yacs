@@ -3315,7 +3315,7 @@ Class Sections {
 		// how to compute the score for sections
 		$score = "(MATCH(title, introduction, description)"
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of articles
 		$query = "SELECT sections.*,"
