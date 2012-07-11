@@ -1001,7 +1001,7 @@ Class Members {
 		$where = '('.$where.')';
 
 		// do not list blocked users
-		$where .= " AND (users.capability != 'Y')";
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
 		// now list matching users
 		$query = "SELECT users.*, x.watcher, x.editor FROM ".$query." AS x"
@@ -1040,7 +1040,7 @@ Class Members {
 		$where = '('.$where.')';
 
 		// do not list blocked users
-		$where .= " AND (users.capability != 'Y')";
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
 		// avoid this one
 		if($to_avoid)
@@ -1096,7 +1096,7 @@ Class Members {
 		$where .= ')';
 
 		// do not list blocked users
-		$where .= " AND (users.capability != 'Y')";
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
 		// avoid this one
 		if($to_avoid)
@@ -1174,7 +1174,7 @@ Class Members {
 		$where = '('.$where.')';
 
 		// do not list blocked users
-		$where .= " AND (users.capability != 'Y')";
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
 		// only include users who want to receive mail messages
 		if($variant == 'mail')
