@@ -2741,10 +2741,9 @@ div.recent div.east { /* the second newest item */
 
 dl.floating_box { /* float to the left */
 	float: left;
-	display: table-cell;
-	margin-right: 2em;
 	text-align: center;
 	padding: 6px;
+	width: 20em;
 }
 
 dl.floating_box:hover {
@@ -2995,8 +2994,7 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 	float: left;
 	margin-right: 8px;
 	text-align: center;
-	height: 150px;	 /* to align with actual thumbnail height set in configuration panel for skins */
-	width: 120px;	/* to align with actual thumbnail width set in configuration panel for skins */
+	width: 80px;	/* to align with actual thumbnail width set in configuration panel for skins */
 	overflow: auto;
 }
 

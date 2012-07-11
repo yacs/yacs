@@ -20,6 +20,8 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'included/browser/js_endpage/jquery.autogrow-textarea.js';
+$files[] = 'included/browser/js_endpage/jquery.masonry.min.js';
 $files[] = 'included/browser/library_js_endpage.min.js';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
