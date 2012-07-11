@@ -2,12 +2,6 @@
 /**
  * upload a new image or update an existing one
  *
- * If no anchor has been provided to host the image, this script will create one.
- * The title given for the image, or the file name, will be used as the page title.
- * On direct uploads the sender will have the opportunity to select in which section
- * the article has to be created.
- * By default the article will be posted in the first public section appearing at the site map.
- *
  * Depending on the user selection, the image upload may be followed by one action among following option:
  * - append at the bottom of the page
  * - append at the bottom of the page, and set as thumbnail
@@ -28,7 +22,8 @@
  * A button-based editor is used for the description field.
  * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
- * The content of the uploaded file is checked to ensure we have a valid image, that is, a .GIF, .JPG or .PNG image.
+ * The content of the uploaded file is checked to ensure we have a valid image, that is,
+ * a .gif, .jpg or .png image. If the uploadd file is a .zip archive, it is exploded to check images inside.
  *
  * Also the uploaded image is automatically resized if it is too large, to limit its width and weight.
  * There are different limits for standard images and for avatars, all set in the configuration
