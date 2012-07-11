@@ -11,7 +11,7 @@
  * A button-based editor is used for the description field.
  * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
- * This script attempts to validate the new or updated article description against a standard PHP XML parser.
+ * This script attempts to validate the new or updated description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
  *
  * The anchor is always touched silently, and there is no related option displayed in the edit form.
