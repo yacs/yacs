@@ -221,8 +221,8 @@ if(Surfer::is_crawler()) {
 				elseif(!$attributes = Safe::GetImageSize($name))
 					Safe::unlink($name);
 
-				// kill images that are too large - 2,000 x 2,000 x 3 = 12MB
-				elseif(($attributes[0] > 2000) || ($attributes[1] > 2000))
+				// kill images that are too large - 5,000 x 5,000 x 3 = 75MB
+				elseif(($attributes[0] > 5000) || ($attributes[1] > 5000))
 					Safe::unlink($name);
 
 			}
