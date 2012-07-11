@@ -106,7 +106,7 @@ Class Layout_users extends Layout_interface {
 
 			// last login
 			if($this->layout_variant == 'dates') {
-				if(isset($item['login_date']) && ($item['login_date'] > '2000-01-01')) {
+				if(isset($item['login_date']) && ($item['login_date'] > NULL_DATE)) {
 					$address = '';
 					if($item['login_address'])
 						$address = ' ('.$item['login_address'].')';
@@ -118,7 +118,7 @@ Class Layout_users extends Layout_interface {
 
 			// last post
 			if($this->layout_variant == 'dates') {
-				if(isset($item['post_date']) && ($item['post_date'] > '2000-01-01'))
+				if(isset($item['post_date']) && ($item['post_date'] > NULL_DATE))
 					$details[] = sprintf(i18n::s('last post %s'), Skin::build_date($item['post_date']));
 			}
 
