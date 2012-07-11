@@ -77,13 +77,13 @@ Class Layout_users_as_password extends Layout_interface {
 				$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
 
 			// last login
-			if(isset($item['login_date']) && ($item['login_date'] > '2000-01-01'))
+			if(isset($item['login_date']) && ($item['login_date'] > NULL_DATE))
 				$details[] = sprintf(i18n::s('last login %s'), Skin::build_date($item['login_date']));
 			else
 				$details[] = i18n::s('no login');
 
 			// last post
-			if(isset($item['post_date']) && ($item['post_date'] > '2000-01-01'))
+			if(isset($item['post_date']) && ($item['post_date'] > NULL_DATE))
 				$details[] = sprintf(i18n::s('last post %s'), Skin::build_date($item['post_date']));
 
 			// posts
