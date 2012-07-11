@@ -865,7 +865,7 @@ Class Members {
 
 		// the list of users
 		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
 			."	AND (".$where.")"
@@ -959,7 +959,7 @@ Class Members {
 
 		// the list of users
 		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability = 'S')"
 			."	AND (".$where.")"
@@ -1005,7 +1005,7 @@ Class Members {
 
 		// now list matching users
 		$query = "SELECT users.*, x.watcher, x.editor FROM ".$query." AS x"
-			." LEFT JOIN ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." ON (users.id = user_id) WHERE ".$where
 			." ORDER BY users.full_name, users.nick_name";
 
@@ -1048,7 +1048,7 @@ Class Members {
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1104,7 +1104,7 @@ Class Members {
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1218,7 +1218,7 @@ Class Members {
 
 		// the list of users -- never list banned users
 		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1257,7 +1257,7 @@ Class Members {
 
 		// the list of users -- never list banned users
 		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
