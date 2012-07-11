@@ -271,7 +271,6 @@ $context['l10n']['en']['Scope']='Scope';
 $context['l10n']['en']['Seats']='Seats';
 $context['l10n']['en']['See ballot papers']='See ballot papers';
 $context['l10n']['en']['Select a file of less than %s']='Select a file of less than %s';
-$context['l10n']['en']['Several files have been added']='Several files have been added';
 $context['l10n']['en']['Share']='Share';
 $context['l10n']['en']['Show name']='Show name';
 $context['l10n']['en']['Sign this petition']='Sign this petition';

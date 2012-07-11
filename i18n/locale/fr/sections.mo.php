@@ -52,6 +52,7 @@ $context['l10n']['fr']['Add another section']='Ajouter une autre section';
 $context['l10n']['fr']['7c21ef7da5dc4f5c2933d009b916bdd3']='Ajouter des outils de conversion PDF, MS-Word';
 $context['l10n']['fr']['e2e9c40ed29fe1d9d356defc431ccc35']='Insérer des liens vers les pages suivantes et précédentes de la même section';
 $context['l10n']['fr']['Add new content to this section']='Ajouter du contenu à cette section';
+$context['l10n']['fr']['1f9109f580de93ec45000ebade646286']='Alerter les observateurs de la section parente';
 $context['l10n']['fr']['c148006ede24ddc2d95717ec7d80aeb4']='Les surfeurs anonymes peuvent changer le contenu';
 $context['l10n']['fr']['e0505deafaddcb1c64c1fe609cab8361']='Les surfeurs anonymes peuvent modifier le contenu';
 $context['l10n']['fr']['Allow members to change content']='Les membres peuvent changer le contenu';
