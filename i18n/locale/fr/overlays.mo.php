@@ -271,7 +271,6 @@ $context['l10n']['fr']['Scope']='Etendue';
 $context['l10n']['fr']['Seats']='Places';
 $context['l10n']['fr']['See ballot papers']='Voir les décisions';
 $context['l10n']['fr']['Select a file of less than %s']='Choisir un fichier de moins de %s';
-$context['l10n']['fr']['Several files have been added']='Plusieurs fichiers ont été ajoutés';
 $context['l10n']['fr']['Share']='Partager';
 $context['l10n']['fr']['Show name']='Nom de l\'émission';
 $context['l10n']['fr']['Sign this petition']='Exprimez-vous et signez';
