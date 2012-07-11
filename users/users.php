@@ -987,7 +987,7 @@ Class Users {
 
 		// protect the privacy of e-mail boxes and never send messages to locked users
 		if($variant == 'address')
-			$where .= " AND (users.with_newsletters='Y') AND (users.capability != '?')";
+			$where .= " AND (users.with_newsletters='Y') AND (users.capability IN ('S', 'M', 'A'))";
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
@@ -1083,7 +1083,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ((users.capability='A') OR (users.capability='M')) AND (".$where.")"
+			." WHERE (users.capability IN ('M', 'A')) AND (".$where.")"
 			." ORDER BY users.posts DESC, users.nick_name"
 			." LIMIT ".$offset.','.$count;
 
@@ -2028,7 +2028,7 @@ Class Users {
 
 		// do not show blocked users, except to associates
 		if(!Surfer::is_associate())
-			$where .= " AND (users.capability != '?')";
+			$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
 		// how to compute the score for users
 		$score = "(MATCH(nick_name, full_name, introduction, description) "
