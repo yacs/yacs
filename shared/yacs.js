@@ -768,6 +768,28 @@ var Yacs = {
 			Yacs.addOnDemandTools($(this));
 		});
 
+		// identify all elements that should be tiled
+		$('.floating_box').addClass('tile');
+		$('div.description .thumbnail_image').addClass('tile');
+
+		// create groups of adjacent tiles
+		var siblingsLast = null;
+		$('.tile').each(function(){
+
+			// head of a group of tiles
+			if(!siblingsLast)
+				siblingsLast = $(this).nextUntil(':not(.tile)').andSelf().wrapAll('<div class="tiler" />').last();
+
+			// tail of the group
+			if( $(this).is(siblingsLast) )
+				siblingsLast = null;
+		});
+
+		// do the tiling
+		$('.tiler').masonry({
+			itemSelector: '.tile'
+		});
+
 		// prepare for a nice slideshow
 		var anchors = $('.image_show');
 		for(index = 0; index < anchors.length; index++) {
