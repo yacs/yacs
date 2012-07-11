@@ -1073,6 +1073,7 @@ if($with_form) {
 	$keywords[] = '<a>no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
 	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
 	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
+	$keywords[] = '<a>forward_notifications</a> - '.i18n::s('Alert watchers of containing section');
 	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
