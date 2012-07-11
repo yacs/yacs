@@ -627,7 +627,7 @@ class Anchor {
 	 */
 	function get_title() {
 		if($this->item)
-			return str_replace('& ', '&amp; ', $this->item['title']);
+			return trim(str_replace('& ', '&amp; ', $this->item['title']));
 		return $this->get_reference();
 	}
 
