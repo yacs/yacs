@@ -40,7 +40,7 @@ Class Layout_articles_as_search extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Articles::get_permalink($item);

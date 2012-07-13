@@ -946,7 +946,7 @@ class Messages {
 		}
 
 		// get anchor data -- this is a mutable object
-		$host =& Anchors::get($anchor, TRUE);
+		$host = Anchors::get($anchor, TRUE);
 		if(!is_object($host)) {
 			Logger::remember('agents/messages.php', 'Unknown anchor '.$anchor);
 			return NULL;
@@ -1076,7 +1076,7 @@ class Messages {
 		}
 
 		// get anchor data -- this is a mutable object
-		$host =& Anchors::get($anchor, TRUE);
+		$host = Anchors::get($anchor, TRUE);
 		if(!is_object($host)) {
 			Logger::remember('agents/messages.php', 'Unknown anchor '.$anchor, $file_name);
 			return NULL;
@@ -1294,7 +1294,7 @@ class Messages {
 			Users::increment_posts($user['id']);
 
 			// clear cache
-			$parent =& Anchors::get($entry_fields['anchor']);
+			$parent = Anchors::get($entry_fields['anchor']);
 
 			// touch the related anchor
 			if(is_object($parent) && isset($entry_fields['id']))
@@ -1306,7 +1306,7 @@ class Messages {
 		} else {
 
 			// publish automatically, if required to do so
-			$section =& Anchors::get($entry_fields['anchor']);
+			$section = Anchors::get($entry_fields['anchor']);
 			if((isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
 				|| preg_match('/\bauto_publish\b/i', $options)
 				|| (is_object($section) && $section->has_option('auto_publish'))) {
@@ -1339,7 +1339,7 @@ class Messages {
 			Users::increment_posts($user['id']);
 
 			// get the new item
-			$article =& Anchors::get($anchor);
+			$article = Anchors::get($anchor);
 
 			// if the page has been published
 			if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE)) {

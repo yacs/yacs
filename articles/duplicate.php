@@ -46,7 +46,7 @@ $item =& Articles::get($id);
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -133,7 +133,7 @@ if(!isset($item['id'])) {
 		}
 
 		// get the new item
-		$article =& Anchors::get('article:'.$item['id'], TRUE);
+		$article = Anchors::get('article:'.$item['id'], TRUE);
 
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 

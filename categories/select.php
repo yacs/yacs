@@ -40,7 +40,7 @@ $member = strip_tags($member);
 // get the member object, which is supposed to be a container
 $anchor = NULL;
 if($member)
-	$anchor =& Anchors::get($member);
+	$anchor = Anchors::get($member);
 
 // do we have the permission to add new categories?
 if(Categories::allow_creation($anchor))

@@ -803,7 +803,7 @@ Class Files {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -2501,16 +2501,16 @@ Class Files {
 		global $context;
 
 		// no anchor reference
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// protect access from anonymous users
 		if(!isset($fields['active_set']))
@@ -2768,7 +2768,7 @@ Class Files {
 	 *
 	 * @see files/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// limit the scope of the request
@@ -2794,7 +2794,7 @@ Class Files {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -3161,7 +3161,7 @@ Class Files {
 						$_REQUEST['version'] = $fields['file_name'].' ('.Skin::build_number($fields['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
 
 						// add to file history
-						$fields['description'] = Files::add_to_history($fields, $_REQUEST['version']);
+						$fields['description'] = Files::add_to_history($matching, $_REQUEST['version']);
 
 						// if this is an image, maybe we can derive a thumbnail for it?
 						if(Files::is_image($file_name)) {

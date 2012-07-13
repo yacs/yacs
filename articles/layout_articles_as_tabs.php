@@ -40,7 +40,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);

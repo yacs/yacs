@@ -41,7 +41,7 @@ $item =& Forms::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -343,7 +343,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');

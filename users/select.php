@@ -23,9 +23,9 @@ include_once '../shared/global.php';
 // users are assigned to this anchor, passed as member
 $anchor = NULL;
 if(isset($_REQUEST['member']))
-	$anchor =& Anchors::get($_REQUEST['member']);
+	$anchor = Anchors::get($_REQUEST['member']);
 elseif(isset($_REQUEST['anchor']))
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 
 // only looking at watchers
 if(isset($_REQUEST['anchor']) && !isset($_REQUEST['action']))

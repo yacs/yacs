@@ -83,7 +83,7 @@ Class Layout_locations extends Layout_interface {
 				$details[] = Anchors::get_action_label($item['edit_action']);
 
 			// show an anchor location
-			if(isset($this->layout_variant) && ($this->layout_variant != 'no_anchor') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(isset($this->layout_variant) && ($this->layout_variant != 'no_anchor') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));

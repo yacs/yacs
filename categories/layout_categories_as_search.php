@@ -37,7 +37,7 @@ Class Layout_categories_as_search extends Layout_interface {
 			$box = '';
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// url to read the full category
 			$url = Categories::get_permalink($item);

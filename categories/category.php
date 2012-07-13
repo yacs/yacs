@@ -46,7 +46,7 @@ Class Category extends Anchor {
 	 * the path bar has to mention the category. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -61,7 +61,7 @@ Class Category extends Anchor {
 			return NULL;
 
 		// the parent level
-		$anchor =& Anchors::get($this->item['anchor']);
+		$anchor = Anchors::get($this->item['anchor']);
 		if(is_object($anchor))
 			$top_bar = $anchor->get_path_bar();
 		else
@@ -300,7 +300,7 @@ Class Category extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))

@@ -34,7 +34,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the related anchor, if any
-$anchor =& Anchors::get($id);
+$anchor = Anchors::get($id);
 
 // the anchor has to be viewable by this surfer
 if(is_object($anchor) && !$anchor->is_viewable())

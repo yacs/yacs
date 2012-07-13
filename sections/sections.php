@@ -529,7 +529,7 @@ Class Sections {
 		$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 		// get the main anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// compute page title
 		if(is_object($overlay))
@@ -965,7 +965,7 @@ Class Sections {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -1615,7 +1615,7 @@ Class Sections {
 
 		// list sections at the same level as parent
 		$family = '';
-		if(isset($item['anchor']) && ($granparent =& Anchors::get($item['anchor']))) {
+		if(isset($item['anchor']) && ($granparent = Anchors::get($item['anchor']))) {
 
 			// limit to accessible scope
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
@@ -2423,7 +2423,7 @@ Class Sections {
 		$where .= " AND ".Sections::get_sql_where();
 
 		// display everything if no sub-section is laid out in parent section
-		if($anchor && ($parent =& Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
+		if($anchor && ($parent = Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
 			;
 
 		// only inactive sections have to be displayed
@@ -2750,7 +2750,7 @@ Class Sections {
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -2956,7 +2956,7 @@ Class Sections {
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -3057,7 +3057,7 @@ Class Sections {
 		if(isset($fields['active_set'])) {
 
 			// cascade anchor access rights
-			if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+			if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 				$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 			else
 				$fields['active'] = $fields['active_set'];

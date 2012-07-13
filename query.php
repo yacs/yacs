@@ -44,7 +44,7 @@ load_skin('query');
 $context['page_title'] = i18n::s('Help');
 
 // get a section for queries
-if(!$anchor =& Anchors::get('section:queries')) {
+if(!$anchor = Anchors::get('section:queries')) {
 	$fields = array();
 	$fields['nick_name'] = 'queries';
 	$fields['title'] =& i18n::c('Queries');
@@ -57,7 +57,7 @@ if(!$anchor =& Anchors::get('section:queries')) {
 
 	// reference the new section
 	if($fields['id'] = Sections::post($fields, FALSE))
-		$anchor =& Anchors::get('section:'.$fields['id']);
+		$anchor = Anchors::get('section:'.$fields['id']);
 }
 $_REQUEST['anchor'] = $anchor->get_reference();
 
@@ -189,7 +189,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the article back
-		$article =& Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// log the query submission
 		if(is_object($article)) {

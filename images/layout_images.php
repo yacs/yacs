@@ -59,7 +59,7 @@ Class Layout_images extends Layout_interface {
 				$suffix .= Skin::strip($item['title'], 10).BR;
 
 			// there is an anchor
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 
 				// codes to embed this image
 				if($this->layout_variant == $anchor->get_reference()) {

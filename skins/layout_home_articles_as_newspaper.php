@@ -147,7 +147,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the icon to put aside
 		$icon = '';
@@ -244,7 +244,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the icon to put aside
 		$icon = '';
@@ -337,7 +337,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// use the title to label the link
 		if(is_object($overlay))

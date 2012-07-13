@@ -44,7 +44,7 @@ $item =& Locations::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -104,7 +104,7 @@ if(!isset($item['id'])) {
 
 		// link to anchor page
 		$description = '';
-		if($anchor =& Anchors::get($item['anchor']))
+		if($anchor = Anchors::get($item['anchor']))
 			$description .= Skin::build_link($anchor->get_url(), $anchor->get_title());
 
 		// item type

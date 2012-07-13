@@ -35,7 +35,7 @@ Class Layout_files_as_search extends Layout_interface {
 			$box = '';
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			$prefix = $suffix = '';
 

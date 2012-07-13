@@ -1615,7 +1615,7 @@ class Event extends Overlay {
 
 			// reload the anchor through the cache to reflect the update
 			if($reference)
-				$this->anchor =& Anchors::get($reference, TRUE);
+				$this->anchor = Anchors::get($reference, TRUE);
 
 			// send a confirmation message to event creator
 			$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
@@ -1675,7 +1675,7 @@ class Event extends Overlay {
 
 			// reload the anchor through the cache to reflect the update
 			if($reference)
-				$this->anchor =& Anchors::get($reference, TRUE);
+				$this->anchor = Anchors::get($reference, TRUE);
 
 			// no need to notify watchers after the date planned for the event, nor if the event has been initiated
 			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmstrftime('%Y-%m-%d %H:%M'))
@@ -1797,7 +1797,7 @@ class Event extends Overlay {
 			return NULL;
 
 		// get the containing page
-		$container =& Anchors::get($anchor);
+		$container = Anchors::get($anchor);
 
 		// handle dates
 		include_once $context['path_to_root'].'dates/dates.php';

@@ -60,7 +60,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// one box per section
 			$box = array('title' => '', 'text' => '');

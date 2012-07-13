@@ -44,7 +44,7 @@ if(!strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // an anchor is mandatory
 if(!is_object($anchor)) {

@@ -35,7 +35,7 @@ $track = strip_tags($track);
 
 // get the item from the database
 $item = NULL;
-$anchor =& Anchors::get($track);
+$anchor = Anchors::get($track);
 if(is_object($anchor))
 	$item = $anchor->item;
 

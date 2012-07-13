@@ -49,9 +49,9 @@ if(!isset($target_anchor) && isset($context['arguments'][1]))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and owners can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))

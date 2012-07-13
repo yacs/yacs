@@ -230,7 +230,7 @@ if(isset($item['content_overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -649,7 +649,7 @@ if(!isset($item['id'])) {
 	//
 
 	// show creator profile, if required to do so
-	if(preg_match('/\bwith_extra_profile\b/', $item['options']) && ($owner = Users::get($item['owner_id'])) && ($section =& Anchors::get('section:'.$item['id'])))
+	if(preg_match('/\bwith_extra_profile\b/', $item['options']) && ($owner = Users::get($item['owner_id'])) && ($section = Anchors::get('section:'.$item['id'])))
 		$context['components']['profile'] = $section->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
 
 	// show news -- set in sections/edit.php
@@ -725,7 +725,7 @@ if(!isset($item['id'])) {
 			$box = array('title' => '', 'text' => '');
 
 			// sanity check
-			if(!$section =& Anchors::get($anchor))
+			if(!$section = Anchors::get($anchor))
 				continue;
 
 			// link to the section page from box title
@@ -896,7 +896,7 @@ if(!isset($item['id'])) {
 		&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
 
 		// use title from topmost level
-		if(count($context['current_focus']) && ($topmost =& Anchors::get($context['current_focus'][0]))) {
+		if(count($context['current_focus']) && ($topmost = Anchors::get($context['current_focus'][0]))) {
 			$box_title = $topmost->get_title();
 			$box_url = $topmost->get_url();
 
@@ -1120,7 +1120,7 @@ if(!isset($item['id'])) {
 			foreach($anchors as $anchor) {
 
 				// sanity check
-				if(!$section =& Anchors::get($anchor))
+				if(!$section = Anchors::get($anchor))
 					continue;
 
 				$box = array( 'title' => '', 'list' => array(), 'text' => '');

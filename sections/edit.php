@@ -45,9 +45,9 @@ $item =& Sections::get($id);
 // get the related anchor, if any --use request first, because anchor can change
 $anchor = NULL;
 if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -275,7 +275,7 @@ if(Surfer::is_crawler()) {
 		Users::increment_posts(Surfer::get_id());
 
 		// get the new item
-		$section =& Anchors::get('section:'.$_REQUEST['id'], TRUE);
+		$section = Anchors::get('section:'.$_REQUEST['id'], TRUE);
 
 		// reward the poster for new posts
 		$context['page_title'] = i18n::s('Thank you for your contribution');

@@ -317,7 +317,7 @@ Class Versions {
 			return FALSE;
 
 		// retrieve the related anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 		if(!is_object($anchor)) {
 			Logger::error(sprintf(i18n::s('Unknown anchor %s'), $item['anchor']));
 			return FALSE;

@@ -162,7 +162,7 @@ if(Surfer::is_crawler()) {
 	if(isset($credentials[0]) && ($credentials[0] == 'edit')) {
 
 		// get an anchor
-		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
+		if(!isset($credentials[1]) || (!$anchor = Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// retrieve poster attributes
@@ -241,7 +241,7 @@ if(Surfer::is_crawler()) {
 	} elseif(isset($credentials[0]) && ($credentials[0] == 'visit')) {
 
 		// get an anchor
-		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
+		if(!isset($credentials[1]) || (!$anchor = Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// visitor id or email address

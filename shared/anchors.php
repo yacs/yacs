@@ -271,7 +271,7 @@ class Anchors {
 	 *
 	 * @see shared/anchor.php
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// no anchor yet

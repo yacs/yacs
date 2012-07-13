@@ -45,7 +45,7 @@ Class Layout_sections_as_directory extends Layout_interface {
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);

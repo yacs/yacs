@@ -49,7 +49,7 @@ Class Layout_files extends Layout_interface {
 			$box = '';
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// we feature only the head of the list, if we are at the origin page
 			if(!count($items) && $anchor && is_string($this->layout_variant) && ($this->layout_variant == $anchor->get_reference())) {
