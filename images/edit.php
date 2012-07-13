@@ -104,11 +104,11 @@ $item =& Images::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']))
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($context['arguments'][1]))
-	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
+	$anchor = Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
 // we are allowed to add a new file
 if(!isset($item['id']) && Images::allow_creation($anchor))

@@ -560,7 +560,7 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -605,7 +605,7 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -711,7 +711,7 @@ else {
 
 		// get item from the database
 		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -975,7 +975,7 @@ else {
 
 			// provide default section
 			if(!$response && ($default_id = Sections::get_default())) {
-				if($section =& Anchors::get('section:'.$default_id)) {
+				if($section = Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
 						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
@@ -1138,7 +1138,7 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -1295,7 +1295,7 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);

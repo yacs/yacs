@@ -219,7 +219,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// fetch the member
-			if($row['member'] && !$item =& Anchors::get($row['member'])) {
+			if($row['member'] && !$item = Anchors::get($row['member'])) {
 
 				// delete this entry
 				$query = "DELETE FROM ".SQL::table_name('members')." WHERE id = ".SQL::escape($row['id']);

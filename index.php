@@ -384,7 +384,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$box = array();
 
 				// sanity check
-				if(!$section =& Anchors::get($anchor))
+				if(!$section = Anchors::get($anchor))
 					continue;
 
 				// link to the section page from box title

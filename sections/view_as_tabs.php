@@ -246,7 +246,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		// one box per section
 		foreach($anchors as $anchor) {
 			// sanity check
-			if(!$section =& Anchors::get($anchor))
+			if(!$section = Anchors::get($anchor))
 				continue;
 
 			$box = array( 'title' => '', 'list' => array(), 'text' => '');

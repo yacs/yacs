@@ -70,7 +70,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$url = Sections::get_permalink($item);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
@@ -106,7 +106,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 				$url = Articles::get_permalink($article);
 
 				// get the anchor
-				$anchor =& Anchors::get($article['anchor']);
+				$anchor = Anchors::get($article['anchor']);
 
 				// get the related overlay, if any
 				$overlay = Overlay::load($item, 'section:'.$item['id']);

@@ -136,19 +136,19 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($_REQUEST['section']) && $_REQUEST['section'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['section']);
+	$anchor = Anchors::get('section:'.$_REQUEST['section']);
 elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['blogid']);
+	$anchor = Anchors::get('section:'.$_REQUEST['blogid']);
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
-	$anchor =& Anchors::get($_SESSION['anchor_reference']);
+	$anchor = Anchors::get($_SESSION['anchor_reference']);
 
 // the default is to create a thread
 if(!is_object($anchor) && !isset($item['id']) && ($reference = Sections::lookup('threads')))
-	$anchor =& Anchors::get($reference);
+	$anchor = Anchors::get($reference);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -516,7 +516,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
+		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
@@ -567,7 +567,7 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
 
 	// ensure we are not duplicating outside regular templates
-	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
+	if((!$templates = Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
 		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		die(i18n::s('You are not allowed to perform this operation.'));
 	}

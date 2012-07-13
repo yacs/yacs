@@ -359,7 +359,7 @@ Class Images {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -698,7 +698,7 @@ Class Images {
 		}
 
 		// get the anchor
-		if(!$anchor =& Anchors::get($fields['anchor'])) {
+		if(!$anchor = Anchors::get($fields['anchor'])) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}

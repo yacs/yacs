@@ -70,7 +70,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Articles::get_permalink($item);
@@ -162,7 +162,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the url to view this item
 		$url = Articles::get_permalink($item);
@@ -216,7 +216,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// if this article has a specific icon, use it
 		if($item['icon_url'])
 			$icon = $item['icon_url'];
-		elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+		elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 			$icon = $anchor->get_icon_url();
 
 		// if we have a valid image

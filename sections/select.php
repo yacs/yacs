@@ -32,7 +32,7 @@ include_once '../shared/global.php';
 // find the target anchor in path args (e.g., http:.../sections/select.php?anchor=article:15)
 $anchor = NULL;
 if(isset($_REQUEST['anchor']))
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor);
@@ -111,7 +111,7 @@ if(Surfer::is_crawler()) {
 			$overlay = Overlay::load($section, 'section:'.$id);
 
 			// get parent anchor
-			$parent =& Anchors::get($section['anchor']);
+			$parent = Anchors::get($section['anchor']);
 
 			// the url to view this item
 			$url = Sections::get_permalink($section);

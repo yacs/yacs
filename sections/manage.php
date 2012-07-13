@@ -97,7 +97,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // which action?
 $action = NULL;
@@ -276,7 +276,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'associate_confirmed') {
 
 	// nothing to do
-	if(!isset($_REQUEST['associate_to']) || (!$destination =& Anchors::get($_REQUEST['associate_to'])))
+	if(!isset($_REQUEST['associate_to']) || (!$destination = Anchors::get($_REQUEST['associate_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
 	// articles
@@ -536,7 +536,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'duplicate_confirmed') {
 
 	// nothing to do
-	if(!isset($_REQUEST['duplicate_to']) || (!$destination =& Anchors::get($_REQUEST['duplicate_to'])))
+	if(!isset($_REQUEST['duplicate_to']) || (!$destination = Anchors::get($_REQUEST['duplicate_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
 	// articles
@@ -814,7 +814,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'move_confirmed') {
 
 	// nothing to do
-	if(!isset($_REQUEST['move_to']) || (!$destination =& Anchors::get($_REQUEST['move_to'])))
+	if(!isset($_REQUEST['move_to']) || (!$destination = Anchors::get($_REQUEST['move_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
 	// articles

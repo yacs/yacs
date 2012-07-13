@@ -909,7 +909,7 @@ Class Links {
 		}
 
 		// locate the anchor object for this text, we need its url
-		$anchor =& Anchors::get($anchor);
+		$anchor = Anchors::get($anchor);
 		if(!is_object($anchor))
 			return;
 
@@ -918,7 +918,7 @@ Class Links {
 
 		// find blog name for anchor
 		if($parent = $anchor->get_value('anchor')) {
-			$blog =& Anchors::get($parent);
+			$blog = Anchors::get($parent);
 			if(is_object($blog))
 				$blog_name = $blog->get_title();
 		}

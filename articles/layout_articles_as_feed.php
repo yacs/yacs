@@ -45,7 +45,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// provide an absolute link
 			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
@@ -61,14 +61,14 @@ Class Layout_articles_as_feed extends Layout_interface {
 
 			// the section
 			$section = '';
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 				$section = ucfirst(trim(strip_tags(Codes::beautify_title($anchor->get_title()))));
 
 			// the icon to use
 			$icon = '';
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])) && is_callable($anchor, 'get_bullet_url'))
+			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])) && is_callable($anchor, 'get_bullet_url'))
 				$icon = $anchor->get_bullet_url();
 			if($icon)
 				$icon = $context['url_to_home'].$context['url_to_home'].$icon;

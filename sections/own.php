@@ -32,7 +32,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // only strict section owners can proceed
 if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())

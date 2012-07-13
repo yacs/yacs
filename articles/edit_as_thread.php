@@ -178,7 +178,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		}
 
 		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
+		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);

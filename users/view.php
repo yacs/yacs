@@ -482,7 +482,7 @@ if(!isset($item['id'])) {
 			} elseif(isset($item['click_date']) && ($item['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
 				// show place of last click
-				if(isset($item['click_anchor']) && ($anchor =& Anchors::get($item['click_anchor'])))
+				if(isset($item['click_anchor']) && ($anchor = Anchors::get($item['click_anchor'])))
 					$visited = array_merge($visited, array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $anchor->get_title())));
 
 			}

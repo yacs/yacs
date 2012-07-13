@@ -34,7 +34,7 @@ Class Layout_files_as_embeddable extends Layout_interface {
 		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';

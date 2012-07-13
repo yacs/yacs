@@ -71,7 +71,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// get the anchor
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 				// start
 				if($item['publish_date'] > $item['create_date'])

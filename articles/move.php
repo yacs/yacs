@@ -35,7 +35,7 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -63,7 +63,7 @@ if($destination && is_object($anchor)) {
 }
 
 // load the target section, by id , or with a full reference
-$destination =& Anchors::get($destination);
+$destination = Anchors::get($destination);
 
 // clear the tab we are in, if any
 if(is_object($anchor))

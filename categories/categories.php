@@ -161,7 +161,7 @@ Class Categories {
 	 * @return a string to be used in &lt;option&gt;
 	 */
 	public static function build_path($reference) {
-		$anchor =& Anchors::get($reference);
+		$anchor = Anchors::get($reference);
 		if(is_object($anchor)) {
 			if(preg_match('/category:(.+?)$/', $reference, $matches) && ($category =& Categories::get($matches[1])) && $category['anchor'] && ($category['anchor'] != $reference))
 				return Categories::build_path($category['anchor']).'|'.strip_tags($anchor->get_title());
@@ -291,7 +291,7 @@ Class Categories {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -1314,7 +1314,7 @@ Class Categories {
 		}
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1511,7 +1511,7 @@ Class Categories {
 			$fields['active_set'] = 'Y';
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1717,7 +1717,7 @@ Class Categories {
 						continue;
 
 					// assigned, and a keyword exists, but not in the string of tags
-					if(($category =& Anchors::get($row['anchor'])) && ($keywords = $category->get_value('keywords')) && (stripos($tags, $keywords) === FALSE))
+					if(($category = Anchors::get($row['anchor'])) && ($keywords = $category->get_value('keywords')) && (stripos($tags, $keywords) === FALSE))
 						Members::free($row['anchor'], $reference);
 				}
 			}

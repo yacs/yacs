@@ -52,7 +52,7 @@ if(isset($item['overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // owners associate-like capabilities
 if(Sections::is_owned($item, $anchor) || Surfer::is_associate())

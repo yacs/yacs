@@ -63,7 +63,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			}
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);

@@ -104,7 +104,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// get the anchor
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 				// this is visual
 				if(isset($item['icon_url']) && $item['icon_url'])

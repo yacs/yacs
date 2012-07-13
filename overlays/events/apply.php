@@ -24,7 +24,7 @@ elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the anchor
-$anchor =& Anchors::get($id);
+$anchor = Anchors::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
