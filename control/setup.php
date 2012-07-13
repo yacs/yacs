@@ -16,7 +16,6 @@
  * - [script]categories/categories.php[/script]
  * - [script]comments/comments.php[/script]
  * - [script]dates/dates.php[/script]
- * - [script]decisions/decisions.php[/script]
  * - [script]files/files.php[/script]
  * - [script]forms/forms.php[/script]
  * - [script]images/images.php[/script]
@@ -199,10 +198,6 @@ function send_body() {
 		// create tables for comments
 		include_once '../comments/comments.php';
 		echo Comments::setup();
-
-		// create tables for decisions
-		include_once '../decisions/decisions.php';
-		echo Decisions::setup();
 
 		// create tables for categories
 		echo Categories::setup();

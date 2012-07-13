@@ -5,6 +5,7 @@
  * Comments can be used either to attach short notes to content, or to support discussion threading.
  *
  * Yacs supports following comment types:
+ * - approval - a special type used to capture decision points
  * - attention - it's worth the reading
  * - dislike - thumbs down - I dislike it
  * - done - job has been completed
@@ -276,6 +277,33 @@ Class Comments {
 	}
 
 	/**
+	 * count approvals for one anchor
+	 *
+	 * @param string the selected anchor (e.g., 'article:12')
+	 * @param int the surfer who is providing approval
+	 * @return int the resulting count, or NULL on error
+	 */
+	public static function count_approvals_for_anchor($anchor, $user_id=NULL) {
+		global $context;
+
+		// sanity check
+		if(!$anchor)
+			return NULL;
+		$where = "(comments.anchor LIKE '".SQL::escape($anchor)."')";
+
+		// id of requesting user
+		if($user_id)
+			$where .= " AND (comments.create_id = ".$user_id.")";
+
+		// select among available items
+		$query = "SELECT COUNT(id) as count"
+			." FROM ".SQL::table_name('comments')." AS comments "
+			." WHERE ".$where;
+
+		return SQL::query_scalar($query);
+	}
+
+	/**
 	 * count records for one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'article:12')
@@ -491,6 +519,21 @@ Class Comments {
 		global $context;
 		switch($type) {
 
+		// approval
+		case 'approval':
+
+			// use skin declaration if any
+			if(!defined('APPROVAL_IMG')) {
+
+				// else use default image file
+				$file = 'skins/_reference/comments/yes.gif';
+				if($size = Safe::GetImageSize($context['path_to_root'].$file))
+					define('APPROVAL_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
+				else
+					define('APPROVAL_IMG', '');
+			}
+			return APPROVAL_IMG;
+
 		// it's worth the reading
 		case 'attention':
 		case 'default':
@@ -507,6 +550,21 @@ Class Comments {
 					define('ATTENTION_IMG', '');
 			}
 			return ATTENTION_IMG;
+
+		// denial
+		case 'denial':
+
+			// use skin declaration if any
+			if(!defined('DENIAL_IMG')) {
+
+				// else use default image file
+				$file = 'skins/_reference/comments/no.gif';
+				if($size = Safe::GetImageSize($context['path_to_root'].$file))
+					define('DENIAL_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
+				else
+					define('DENIAL_IMG', '');
+			}
+			return DENIAL_IMG;
 
 		// job has been completed
 		case 'done':
@@ -967,6 +1025,16 @@ Class Comments {
 	 */
 	public static function get_url($id, $action='view') {
 		global $context;
+
+		// add an approval comment -- the id has to be an anchor (e.g., 'article:15')
+		if($action == 'approve') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'comments/approve.php/'.str_replace(':', '/', $id);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'comments/approve.php/'.str_replace(':', '/', $id);
+			else
+				return 'comments/approve.php?anchor='.urlencode($id);
+		}
 
 		// add a comment -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'comment') {
@@ -1518,8 +1586,12 @@ Class Comments {
 	public static function post(&$fields) {
 		global $context;
 
-		// no comment
-		if(!$fields['description']) {
+		// ensure this item has a type
+		if(!isset($fields['type']))
+			$fields['type'] = 'attention';
+
+		// comment is mandatory, except for approvals
+		if(!$fields['description'] && ($fields['type'] != 'approval')) {
 			Logger::error(i18n::s('No comment has been transmitted.'));
 			return FALSE;
 		}
@@ -1556,7 +1628,7 @@ Class Comments {
 
 			// update the existing record
 			$query = "UPDATE ".SQL::table_name('comments')." SET "
-				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
+				."type='".SQL::escape($fields['type'])."', "
 				."description='".SQL::escape($fields['description'])."'";
 
 			// maybe another anchor
@@ -1585,7 +1657,7 @@ Class Comments {
 				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1), "
 				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1), "
 				."previous_id='".SQL::escape(isset($fields['previous_id']) ? $fields['previous_id'] : 0)."', "
-				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
+				."type='".SQL::escape($fields['type'])."', "
 				."description='".SQL::escape($fields['description'])."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
 				."create_id=".SQL::escape($fields['edit_id']).", "

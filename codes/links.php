@@ -38,8 +38,6 @@
  * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;comment=&lt;id>] - use comment id in link label
  * - &#91;comment=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;decision=&lt;id>] - use decision id in link label
- * - &#91;decision=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;script]&lt;path/script.php&gt;[/email] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
@@ -324,14 +322,6 @@ $context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [comment=2, this comment]').'[/escape]</td>'
 	.'<td>'.i18n::s('Click to view the page of [comment=2, this comment]').'</td></tr>'
-	.Skin::table_suffix();
-
-// [decision=id]
-$context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&lt;id&gt;] [decision=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [decision=2, this decision]').'[/escape]</td>'
-	.'<td>'.i18n::s('Click to view the page of [decision=2, this decision]').'</td></tr>'
 	.Skin::table_suffix();
 
 // [script]index.php[/script]

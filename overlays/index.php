@@ -10,13 +10,12 @@
  * If, during some analysis of your needs, you end up with the conclusion that adding some fields to an article
  * would suffice, then consider overlays as the faster track to deliver.
  *
- * YACs is provided with following overlays:
+ * Yacs is provided with following overlays:
  * - contact - to build address books
  * - issue - to support bug tracking
  * - petition - to show evidence of people opinions
  * - poll - to understand average view on any topic
  * - recipe - to create cooking books (see below)
- * - vote - to achieve motivated decisions
  *
  * Let's consider for example the way we have developed the support of recipes within YACS.
  *

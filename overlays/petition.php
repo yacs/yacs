@@ -25,8 +25,8 @@ class Petition extends Overlay {
 	function allows($type, $action) {
 		global $context;
 
-		// we filter only votes
-		if($type != 'decision')
+		// we filter only approvals
+		if($type != 'approval')
 			return TRUE;
 
 		// we filter only new votes
@@ -34,8 +34,7 @@ class Petition extends Overlay {
 			return TRUE;
 
 		// block if this surfer has already voted
-		include_once $context['path_to_root'].'decisions/decisions.php';
-		if(isset($this->attributes['id']) && ($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))) {
+		if(isset($this->attributes['id']) && Surfer::get_id() && Comments::count_approvals_for_anchor($this->anchor->get_reference(), Surfer::get_id())) {
 			Logger::error(i18n::s('You have already signed'));
 			return FALSE;
 		}
@@ -69,8 +68,6 @@ class Petition extends Overlay {
 	 */
 	function &get_details_text($host=NULL) {
 		global $context;
-
-		include_once $context['path_to_root'].'decisions/decisions.php';
 
 		// feed-back to surfer
 		$information = array();
@@ -222,17 +219,11 @@ class Petition extends Overlay {
 	function &get_trailer_text($host=NULL) {
 		global $context;
 
-		include_once $context['path_to_root'].'decisions/decisions.php';
-
 		// the text
 		$text = '';
 
 		// actually, a menu of commands
 		$menu = array();
-
-		// list of all signatures
-		if($label = Decisions::get_results_label_for_anchor('article:'.$this->attributes['id']))
-			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers'));
 
 		// no end date
 		if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
@@ -249,13 +240,9 @@ class Petition extends Overlay {
 		// different for each surfer
 		Cache::poison();
 
-		// get ballot
-		if($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))
-			$menu[] = Skin::build_link(Decisions::get_url($ballot), i18n::s('View your signature'), 'shortcut');
-
 		// link to vote
-		elseif($open && Surfer::is_member())
-			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'decision'), i18n::s('Sign this petition'), 'shortcut');
+		if($open && Surfer::get_id() && Surfer::get_id() && !Comments::count_approvals_for_anchor($this->anchor->get_reference(), Surfer::get_id()))
+			$menu[] = Skin::build_link(Comments::get_url($this->anchor->get_reference(), 'approve'), i18n::s('Sign this petition'), 'shortcut');
 
 		$text = Skin::finalize_list($menu, 'menu_bar');
 		return $text;
@@ -313,8 +300,6 @@ class Petition extends Overlay {
 		switch($action) {
 
 		case 'delete':
-			include_once $context['path_to_root'].'decisions/decisions.php';
-			Decisions::delete_for_anchor($reference);
 			break;
 
 		case 'insert':
