@@ -103,7 +103,9 @@ class Overlay {
 	/**
 	 * allow or block operations
 	 *
-	 * @param string the kind of item to handle ('decision', ...)
+	 * @see overlays/petition.php
+	 *
+	 * @param string the kind of item to handle ('approval', ...)
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */

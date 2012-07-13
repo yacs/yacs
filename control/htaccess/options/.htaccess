@@ -56,12 +56,6 @@ Options -Indexes
 	RewriteRule ^date-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	dates/$1.php?id=$2	[QSA]
 	RewriteRule ^date-([0-9]+)$	dates/view.php?id=$1  [QSA]
 
-	# decisions
-	#
-	RewriteRule ^decision-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	decisions/$1.php?id=$2	[QSA]
-	RewriteRule ^decision-([0-9]+)$	decisions/view.php?id=$1  [QSA]
-	RewriteRule ^decisions/([0-9]+)$	decisions/index.php?page=$1  [QSA]
-
 	# feeds
 	#
 	RewriteRule ^feeds/articles$  articles/feed.php	[QSA]

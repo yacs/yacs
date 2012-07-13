@@ -366,17 +366,6 @@ if(!file_exists('../parameters/control.include.php')) {
 			} else
 				$text .= Skin::table_row(array(SQL::table_name('dates'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// decisions
-			if($row = SQL::table_stat('decisions')) {
-				$cells = array();
-				$cells[] = Skin::build_link('decisions/', SQL::table_name('decisions'), 'basic');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(SQL::table_name('decisions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
 			// enrolments
 			if($row = SQL::table_stat('enrolments')) {
 				$cells = array();
@@ -969,8 +958,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('comments/', 'comments', 'shortcut');
 				$links[] = Skin::build_link('dates/', 'dates', 'shortcut');
-				if(Surfer::is_associate())
-					$links[] = Skin::build_link('decisions/', 'decisions', 'shortcut');
 				$links[] = Skin::build_link('feeds/', 'feeds', 'shortcut');
 				$links[] = Skin::build_link('files/', 'files', 'shortcut');
 				$links[] = Skin::build_link('forms/', 'forms', 'shortcut');

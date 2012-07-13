@@ -95,8 +95,17 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 			$menu[] = $label;
 
-			// an automatic notification
-			if($item['type'] == 'notification') {
+			// an approval -- can be modified, but not deleted
+			if($item['type'] == 'approval') {
+
+				// additional commands for associates and poster and editor
+				if($anchor->is_owned()) {
+					Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'basic');
+				}
+
+			// an automatic notification -- can be deleted, but not modified
+			} elseif($item['type'] == 'notification') {
 
 				// additional commands for associates and poster and editor
 				if($anchor->is_owned()) {
@@ -121,19 +130,24 @@ Class Layout_comments_as_updates extends Layout_interface {
 			// comment main text
 			$text = '';
 
-			// float the menu on the right
-			if(count($menu))
-				$text .= '<div style="float: right">'.Skin::finalize_list($menu, 'menu').'</div>';
+			// state clearly that this is an approval
+			if(($item['type'] == 'approval') && isset($poster['id']))
+				$text .= '<p>'.sprintf(i18n::s('%s has provided his approval'),
+					Users::get_link($poster['full_name'], $poster['email'], $poster['id'])).'</p>';
 
 			// display comment main text
-			$comment = $item['description'];
+			$text .= $item['description'];
 
 			// display signature, but not for notifications
 			if($item['type'] != 'notification')
-				$comment .= Users::get_signature($item['create_id']);
+				$text .= Users::get_signature($item['create_id']);
 
 			// format and display
-			$text .= ucfirst(trim(Codes::beautify($comment)))."\n";
+			$text = ucfirst(trim(Codes::beautify($text)))."\n";
+
+			// float the menu on the right
+			if(count($menu))
+				$text = '<div style="float: right">'.Skin::finalize_list($menu, 'menu').'</div>'.$text;
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))

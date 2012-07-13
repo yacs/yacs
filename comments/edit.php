@@ -297,6 +297,14 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
+		// state clearly that this is an approval
+		if($_REQUEST['type'] == 'approval') {
+
+			if(!isset($item['id']))
+				$context['text'] .= Skin::build_block(i18n::s('You have provided your approval'), 'note');
+
+		}
+
 		// actual content
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
@@ -372,6 +380,7 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
 
+	// a reaction from a previous item
 	$reference_item = array();
 
 	// preview a comment
@@ -468,6 +477,7 @@ if($with_form) {
 
 	// the type
 	if(is_object($anchor)) {
+
 		$label = i18n::s('Your intent');
 		if(isset($item['type']))
 			$type = $item['type'];
@@ -475,8 +485,28 @@ if($with_form) {
 			$type = $_REQUEST['type'];
 		else
 			$type = '';
-		$input = Comments::get_radio_buttons('type', $type);
-		$hint = i18n::s('Please carefully select a type adequate for your comment.');
+
+		// this is an approval
+		if($type == 'approval') {
+			$input = Comments::get_img('approval').' '
+				.sprintf(i18n::s('You are approving %s'), Skin::build_link($anchor->get_url(), $anchor->get_title()))
+				.'<input type="hidden" name="type" value="approval" />';
+			$hint = '';
+
+			// warn in case of multiple approval
+			if(!isset($item['id']) && isset($_REQUEST['type']) && ($_REQUEST['type'] == 'approval')
+				&& Surfer::get_id() && Comments::count_approvals_for_anchor($anchor->get_reference(), Surfer::get_id()))
+				$input .= '<p class="details">'.i18n::s('It is not your first approval for this page.').'</p>';
+
+			// change page title too
+			$context['page_title'] = sprintf(i18n::s('Approval: %s'), $anchor->get_title());
+
+		// else select a regular type
+		} else {
+			$input = Comments::get_radio_buttons('type', $type);
+			$hint = i18n::s('Please carefully select a type adequate for your comment.');
+		}
+
 		$fields[] = array($label, $input, $hint);
 	}
 
