@@ -1108,7 +1108,7 @@ Class Comments {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|promote|thread|view)$/', $action))
-			return 'comments/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
+			return 'comments/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('comments', 'comment'), $action, $id);
