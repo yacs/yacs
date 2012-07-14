@@ -97,7 +97,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// put all groups at the same place
-	if(!($anchor =& Sections::get('groups'))) {
+	if(!($anchor = Sections::get('groups'))) {
 
 		$fields = array();
 		$fields['nick_name'] = 'groups';
@@ -117,7 +117,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// retrieve the new section
-		$anchor =& Sections::get('groups');
+		$anchor = Sections::get('groups');
 
 	}
 

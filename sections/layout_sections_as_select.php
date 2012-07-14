@@ -91,7 +91,7 @@ Class Layout_sections_as_select extends Layout_interface {
 	 *
 	 * @see articles/edit.php
 	**/
-	function &one(&$item) {
+	function one(&$item) {
 		global $context;
 
 		// this function is invoked directly from articles/edit.php

@@ -104,7 +104,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 // page tools
 if(Surfer::is_associate()) {
-	if($section =& Sections::get('clicks'))
+	if($section = Sections::get('clicks'))
 		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Detected clicks'), 'basic');
 	$context['page_tools'][] = Skin::build_link('links/check.php', i18n::s('Maintenance'), 'basic');
 }

@@ -30,7 +30,7 @@ if($id == 'all')
 	$id = NULL;
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;

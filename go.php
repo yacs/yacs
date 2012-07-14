@@ -88,7 +88,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 
 // short link to some section
-} elseif(!strncmp($id, 's~', 2) && ($item =& Sections::get(restore_number(substr($id, 2))))) {
+} elseif(!strncmp($id, 's~', 2) && ($item = Sections::get(restore_number(substr($id, 2))))) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
 
 // look in sections

@@ -1416,7 +1416,7 @@ Class Links {
 
 			// section link
 			case 'section':
-				if($item =& Sections::get($matches[2]))
+				if($item = Sections::get($matches[2]))
 					return array(Sections::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
