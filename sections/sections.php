@@ -1018,7 +1018,7 @@ Class Sections {
 		$output = SQL::query_first($query);
 
 		// save in cache
-		if(!$mutable && isset($output['id']))
+		if(isset($output['id']) && (count($cache) < 1000))
 			$cache[$id] = $output;
 
 		// return by reference
