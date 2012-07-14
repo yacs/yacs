@@ -2455,9 +2455,9 @@ Class Articles {
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);

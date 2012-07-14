@@ -103,7 +103,7 @@ Class Activities {
 			." GROUP BY activities.action ORDER BY activities.edit_date DESC LIMIT ".$count;
 
 		// use existing listing facility
-		$output =& Activities::list_selected(SQL::query($query), $variant);
+		$output = Activities::list_selected(SQL::query($query), $variant);
 		return $output;
 
 	}
@@ -115,7 +115,7 @@ Class Activities {
 	 * @param string 'compact', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	public static function &list_selected($result, $variant='raw') {
+	public static function list_selected($result, $variant='raw') {
 		global $context;
 
 		// no result

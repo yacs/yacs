@@ -160,7 +160,7 @@ if(Surfer::is_crawler()) {
 	$next = $context['url_to_root'].$anchor->get_url();
 
 	// protect from hackers
-	$_REQUEST['target_url'] =& encode_link($_REQUEST['target_url']);
+	$_REQUEST['target_url'] = encode_link($_REQUEST['target_url']);
 
 	// remember status changes only
 	if($item['status'] && ($item['status'] == $_REQUEST['status'])) {

@@ -175,7 +175,7 @@ include_once '../shared/global.php';
 
 // if we have changed the url to root, consider it right now
 if(isset($_REQUEST['url_to_root']))
-	$context['url_to_root'] =& encode_link($_REQUEST['url_to_root']);
+	$context['url_to_root'] = encode_link($_REQUEST['url_to_root']);
 
 // stop hackers
 if(isset($_REQUEST['value']))

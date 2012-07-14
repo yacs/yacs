@@ -1583,7 +1583,7 @@ Class Users {
 
 		// protect from hackers
 		if(isset($fields['avatar_url']))
-			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
+			$fields['avatar_url'] = encode_link($fields['avatar_url']);
 		$query[] = "avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."'";
 
 		if(!isset($fields['birth_date']) || !$fields['birth_date'])
@@ -1819,7 +1819,7 @@ Class Users {
 
 			// protect from hackers
 			if(isset($fields['avatar_url']))
-				$fields['avatar_url'] =& encode_link($fields['avatar_url']);
+				$fields['avatar_url'] = encode_link($fields['avatar_url']);
 
 			// set default values
 			if(!isset($fields['active']) || !$fields['active'])
