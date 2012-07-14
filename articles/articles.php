@@ -2327,6 +2327,79 @@ Class Articles {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
+	public static function list_watchers_by_name($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('article:'.$item['id']);
+
+		// to list persons entitled to access this page
+		$ancestors = array('article:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// notify watchers of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// notify watchers of grand-parent section too
+			if($anchor->has_option('forward_notifications', FALSE) && $anchor->get_parent())
+				$anchors[] = $anchor->get_parent();
+
+			// editors of parent and grand parent section are entitled to access the page too
+			$ancestors[] = $anchor->get_reference();
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+
+				// notify watchers of grand-parent section too
+				if($parent->has_option('forward_notifications', FALSE) && $parent->get_parent())
+					$anchors[] = $parent->get_parent();
+
+				$ancestors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// authorized users only
+		$restricted = NULL;
+		if(($item['active'] == 'N') && ($editors =& Members::list_anchors_for_member($ancestors))) {
+			foreach($editors as $editor)
+				if(strpos($editor, 'user:') === 0)
+					$restricted[] = substr($editor, strlen('user:'));
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_name_for_anchor($anchors, $offset, $count, $variant, $restricted);
+	}
+
+	/**
+	 * list all watchers of a page
+	 *
+	 * If the page is public or restricted to any member, the full list of persons watching this
+	 * page, and its parent section. If the parent section has the option 'forward_notifications'
+	 * the persons assigned to grand parent section are added.
+	 *
+	 * For example, if the root section A contains a section B, which contains page P, and if
+	 * P is public, the function looks for persons assigned either to B or to P.
+	 *
+	 * If the parent section has option 'forward_notifications', then this fonction adds watchers
+	 * of grand-parent section to the list.
+	 *
+	 * If the page is private, then the function looks for wtahcers of it, and for editors of the
+	 * parent section that may also be watchers.
+	 *
+	 * For example, if the section A is public, and if it contains private page P, the function
+	 * looks for watchers of P and for editors of A that are also watchers of A.
+	 * This is because watchers of section A who are not editors are not entitled to watch P.
+	 *
+	 * @param array attributes of the watched page
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
 	public static function list_watchers_by_posts($item, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
