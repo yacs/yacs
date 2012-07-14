@@ -126,7 +126,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in forms
-} elseif($items =& Forms::list_for_name($id, NULL, 'full')) {
+} elseif($items = Forms::list_for_name($id, NULL, 'full')) {
 
 		// only one page has this name
 		if(count($items) == 1) {
