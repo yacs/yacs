@@ -92,7 +92,7 @@ if($zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -161,7 +161,7 @@ if(isset($_REQUEST['selected_sections']) && ($count = @count($_REQUEST['selected
 
 	$items = array();
 	foreach($_REQUEST['selected_sections'] as $dummy => $id) {
-		if($section =& Sections::get($id)) {
+		if($section = Sections::get($id)) {
 			if($bucket-- >= 0)
 				$items[] = Skin::build_link(Sections::get_permalink($section), $section['title'], 'article');
 			$selected_sections .= '<input type="hidden" name="selected_sections[]" value="'.$section['id'].'" />';
@@ -612,7 +612,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// the section to duplicate
-			if($section =& Sections::get($id)) {
+			if($section = Sections::get($id)) {
 
 				// a new id will be allocated
 				$old_id = $section['id'];
@@ -722,7 +722,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// an section to lock
-			if(($section =& Sections::get($id)) && ($section['locked'] != 'Y')) {
+			if(($section = Sections::get($id)) && ($section['locked'] != 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $section['id'];
@@ -1003,7 +1003,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// an section to lock
-			if(($section =& Sections::get($id)) && ($section['locked'] == 'Y')) {
+			if(($section = Sections::get($id)) && ($section['locked'] == 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $section['id'];

@@ -791,7 +791,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -860,7 +860,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $type) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -993,7 +993,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1103,7 +1103,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $template, $type) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1368,7 +1368,7 @@ else {
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1445,7 +1445,7 @@ else {
 			$blogid = Sections::get_default();
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1539,7 +1539,7 @@ else {
 			$blogid = Sections::get_default();
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1742,7 +1742,7 @@ else {
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}

@@ -448,7 +448,7 @@ if(!$text = Cache::get($cache_id)) {
 	if(isset($context['root_sections_at_home']) && ((int)$context['root_sections_at_home'] > 0)) {
 
 		// get the item from the database --do not cast to int, because of following UTF-8 to unicode conversion
-		$target_section =& Sections::get($context['root_sections_at_home']);
+		$target_section = Sections::get($context['root_sections_at_home']);
 
 	}
 

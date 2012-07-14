@@ -2201,7 +2201,7 @@ Class Codes {
 		// content of one section
 		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
 
-			if(!$item =& Sections::get(substr($id, $position + strlen('section:')))) {
+			if(!$item = Sections::get(substr($id, $position + strlen('section:')))) {
 				$text = '[freemind='.$id.']';
 				return $text;
 			}
@@ -3310,7 +3310,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Sections::get($id))
+			if(!$item = Sections::get($id))
 				$output = '[section='.$id.']';
 
 			else {

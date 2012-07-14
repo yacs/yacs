@@ -986,7 +986,7 @@ Class Section extends Anchor {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Sections::get($id, $mutable);
+		$this->item = Sections::get($id, $mutable);
 	}
 
 	/**

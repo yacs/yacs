@@ -862,7 +862,7 @@ Class Sections {
 		global $context;
 
 		// load the row
-		$item =& Sections::get($id);
+		$item = Sections::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -981,7 +981,7 @@ Class Sections {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -1242,7 +1242,7 @@ Class Sections {
 		global $context;
 
 		// look for a 'default' section
-		if($item =& Sections::get('default'))
+		if($item = Sections::get('default'))
 			return $item['id'];
 
 		// look only at top level
@@ -2620,14 +2620,14 @@ Class Sections {
 		global $context;
 
 		// the section already exists
-		if($item =& Sections::get($nick_name))
+		if($item = Sections::get($nick_name))
 			return 'section:'.$item['id'];
 
 		// attempt to create a default item
 		Sections::post_default($nick_name);
 
 		// do the check again
-		if($item =& Sections::get($nick_name))
+		if($item = Sections::get($nick_name))
 			return 'section:'.$item['id'];
 
 		// tough luck
@@ -2856,7 +2856,7 @@ Class Sections {
 		global $context;
 
 		// the section already exists
-		if($item =& Sections::get($nick_name))
+		if($item = Sections::get($nick_name))
 			return '';
 
 		// use the provided model for this item
@@ -3184,7 +3184,7 @@ Class Sections {
 			return i18n::s('No item has the provided id.');
 
 		// load section attributes
-		if(!$item =& Sections::get($id))
+		if(!$item = Sections::get($id))
 			return i18n::s('No item has the provided id.');
 
 		// locate the new skin
@@ -3447,7 +3447,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	public static function &stat_for_anchor($anchor = '') {
+	public static function stat_for_anchor($anchor = '') {
 		global $context;
 
 		// limit the query to one level
