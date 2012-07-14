@@ -879,34 +879,6 @@ Class Tables {
 			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// the list of tables
-		return $output;
-	}
-
-	/**
-	 * list newest tables for one author
-	 *
-	 * Example:
-	 * include_once 'tables/tables.php';
-	 * $items = Tables::list_by_date_for_author(0, 10, '', 12);
-	 * $context['text'] .= Skin::build_list($items, 'compact');
-	 *
-	 * @param int the id of the author of the table
-	 * @param int the offset from the start of the list; usually, 0 or 1 - default is 0
-	 * @param int the number of items to display - default is 20
-	 * @param string the list variant, if any - default is 'date'
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 * @see tables/tables.php#list_selected for $variant description
-	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
-		global $context;
-
-		// limit the scope of the request
-		$query = "SELECT * FROM ".SQL::table_name('tables')
-			." WHERE (edit_id = ".SQL::escape($author_id).")"
-			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
-
-		// the list of tables
-		$output =& Tables::list_selected(SQL::query($query), $variant);
 		$output = Tables::list_selected(SQL::query($query), $variant);
 		return $output;
 	}

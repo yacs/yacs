@@ -199,29 +199,6 @@ Class Versions {
 	}
 
 	/**
-	 * list most recent versions
-	 *
-	 * Actually list versions by date.
-	 *
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see versions/index.php
-	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
-		global $context;
-
-		// the list of versions
-		$query = "SELECT versions.* FROM ".SQL::table_name('versions')." AS versions"
-			." ORDER BY versions.edit_date DESC LIMIT ".$offset.','.$count;
-
-		$output =& Versions::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * list most recent versions for one anchor
 	 *
 	 * @param string the target anchor

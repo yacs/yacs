@@ -388,27 +388,6 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		return $output;
-	}
-
-	/**
-	 * list newest locations for one author
-	 *
-	 * @param int the id of the author of the location
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
-		global $context;
-
-		// limit the scope of the request
-		$query = "SELECT * FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.edit_id = ".SQL::escape($author_id).")"
-			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
-
-		// the list of locations
 		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
@@ -442,53 +421,6 @@ Class Locations {
 			." LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list nearest locations to one anchor
-	 *
-	 * This function is similar to [code]list_by_distance()[/code],
-	 * except that it looks for a location for the given anchor first.
-	 *
-	 * @param string a reference to the target anchor (eg, 'article:123')
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see locations/view.php
-	 */
-	public static function &list_by_distance_for_anchor($anchor, $offset=0, $count=20, $variant='compact') {
-		global $context;
-
-		// look for a location for this anchor
-		$query = "SELECT latitude, longitude FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.anchor LIKE '".SQL::escape($anchor)."') "
-			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT 0, 1";
-		if(!$result = SQL::query($query)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// empty list
-		if(!SQL::count($result)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// the first item of the list provides latitude and longitude
-		$item = SQL::fetch($result);
-		if(@count($item) != 2) {
-			$output = NULL;
-			return $output;
-		}
-		$latitude = trim($item['latitude'], ' ,');
-		$longitude = $item['longitude'];
-
-		// select records by distance to the target point, with a limit to 5,000 km
-		$output =& Locations::list_by_distance($latitude, $longitude, $offset, $count, $variant);
 		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}

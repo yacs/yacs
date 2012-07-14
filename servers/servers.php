@@ -256,39 +256,6 @@ Class Servers {
 			.' ORDER BY servers.edit_date DESC, servers.title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		return $output;
-	}
-
-	/**
-	 * list servers anchored to the given reference
-	 *
-	 * This script is used to display feeders attached to categories.
-	 *
-	 * @see categories/view.php
-	 *
-	 * @param string the anchor for this server (e.g., 'category:123')
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon)
-	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
-		global $context;
-
-		// select among active and restricted items
-		$where = "servers.active='Y'";
-		if(Surfer::is_member())
-			$where .= " OR servers.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR servers.active='N'";
-
-		// limit the scope of the request
-		$query = "SELECT servers.* FROM ".SQL::table_name('servers')." AS servers"
-			." WHERE (".$where.") AND (anchor LIKE '".SQL::escape($anchor)."')"
-			." ORDER BY servers.edit_date DESC, servers.title LIMIT ".$offset.','.$count;
-
-		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
 		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
