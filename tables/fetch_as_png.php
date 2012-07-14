@@ -29,7 +29,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Tables::get($id);
+$item = Tables::get($id);
 
 // get the related anchor
 $anchor = NULL;

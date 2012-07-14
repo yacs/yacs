@@ -69,7 +69,7 @@ Class Tables {
 		$id = $attributes[0];
 
 		// get the table object
-		if(!($table =& Tables::get($id)))
+		if(!($table = Tables::get($id)))
 			return NULL;
 
 		// do the SELECT statement
@@ -756,7 +756,7 @@ Class Tables {
 	 * @param int the id of the table
 	 * @return the resulting $row array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -842,7 +842,7 @@ Class Tables {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see tables/tables.php#list_selected for $variant description
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -850,7 +850,7 @@ Class Tables {
 			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// the list of tables
-		$output =& Tables::list_selected(SQL::query($query), $variant);
+		$output = Tables::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -870,7 +870,7 @@ Class Tables {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the request
@@ -879,7 +879,6 @@ Class Tables {
 			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// the list of tables
-		$output =& Tables::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -908,6 +907,7 @@ Class Tables {
 
 		// the list of tables
 		$output =& Tables::list_selected(SQL::query($query), $variant);
+		$output = Tables::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -922,7 +922,7 @@ Class Tables {
 	 * @variant string 'compact' or nothing
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1094,7 +1094,7 @@ Class Tables {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -1111,7 +1111,7 @@ Class Tables {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
