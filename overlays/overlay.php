@@ -594,7 +594,7 @@ class Overlay {
 	 *
 	 * [php]
 	 * // get the record from the database
-	 * $item =& Articles::get($id);
+	 * $item = Articles::get($id);
 	 *
 	 * // extract overlay data from $item['overlay']
 	 * $overlay = Overlay::load($item, 'article:'.$item['id']);

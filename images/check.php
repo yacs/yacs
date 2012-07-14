@@ -76,7 +76,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// look only in articles
-			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article =& Articles::get($matches[1]))) {
+			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article = Articles::get($matches[1]))) {
 
 				// check that the description has a reference to this image, or that the image is either an icon or a thumbnail
 				if(!preg_match('/\[image='.$row['id'].'.*\]/', $article['description'])

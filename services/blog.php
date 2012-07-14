@@ -559,7 +559,7 @@ else {
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
+		if($item = Articles::get($postid))
 			$anchor = Anchors::get($item['anchor']);
 
 		// check user
@@ -604,7 +604,7 @@ else {
 		list($ignored_appkey, $postid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
+		if($item = Articles::get($postid))
 			$anchor = Anchors::get($item['anchor']);
 
 		// check user
@@ -710,7 +710,7 @@ else {
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Articles::get($postid))
+		if($item = Articles::get($postid))
 			$anchor = Anchors::get($item['anchor']);
 
 		// check user
@@ -1137,7 +1137,7 @@ else {
 		list($postid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
+		if($item = Articles::get($postid))
 			$anchor = Anchors::get($item['anchor']);
 
 		// check user
@@ -1294,7 +1294,7 @@ else {
 		list($postid, $username, $password) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
+		if($item = Articles::get($postid))
 			$anchor = Anchors::get($item['anchor']);
 
 		// check user

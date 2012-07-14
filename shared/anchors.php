@@ -451,7 +451,7 @@ class Anchors {
 	 * @param string the label to use, if any
 	 * @return string some XHTML snippet to send to the browser
 	 */
-	public static function &stat_related_to($anchor, $label=NULL) {
+	public static function stat_related_to($anchor, $label=NULL) {
 		global $context;
 
 		// describe related content

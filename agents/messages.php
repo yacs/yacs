@@ -1257,7 +1257,7 @@ class Messages {
 
 
 		// we have to extend an existing article --this entity is mutable
-		if($target && !strncmp($target, 'article:', 8) && ($article =& Articles::get(substr($target, 8), TRUE))) {
+		if($target && !strncmp($target, 'article:', 8) && ($article = Articles::get(substr($target, 8), TRUE))) {
 
 			// append the text to article description field
 			$fields = array();

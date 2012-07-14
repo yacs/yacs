@@ -40,7 +40,7 @@ if(!Surfer::is_associate()) {
 		foreach($ids as $id) {
 
 			// load the page and bind the related overlay
-			if(($item =& Articles::get($id)) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && is_callable(array($overlay, 'update'))) {
+			if(($item = Articles::get($id)) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && is_callable(array($overlay, 'update'))) {
 				$count++;
 
 				// update provided attributes

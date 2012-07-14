@@ -50,7 +50,7 @@ Class Layout_articles_as_select extends Layout_interface {
 	 *
 	 * @see articles/edit.php
 	**/
-	function &one(&$item) {
+	function one(&$item) {
 		global $context;
 
 		// initialize variables

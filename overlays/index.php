@@ -73,7 +73,7 @@
  * ...
  *
  * // retrieve the article
- * $article =& Articles::get(123);
+ * $article = Articles::get(123);
  *
  * // restore the embedded recipe
  * $recipe = Safe::unserialize($article['overlay']);
@@ -153,7 +153,7 @@
  *
  * // or we have to edit an existing one
  * elseif($id = $context['arguments'][0]) {
- *	 $item =& Articles::get($id);
+ *	 $item = Articles::get($id);
  *	 $overlay = get_overlay($item);
  * }
  * [/php]

@@ -84,7 +84,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 	$context['text'] .= '<p>'.i18n::s('Please indicate a nick name to look for.')."</p>\n";
 
 // short link to some article
-} elseif(!strncmp($id, 'a~', 2) && ($item =& Articles::get(restore_number(substr($id, 2))))) {
+} elseif(!strncmp($id, 'a~', 2) && ($item = Articles::get(restore_number(substr($id, 2))))) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 
 // short link to some section

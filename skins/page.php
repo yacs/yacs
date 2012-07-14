@@ -163,7 +163,7 @@
 
 		// look a named page, but only during regular operation
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-			if($item =& Articles::get($name)) {
+			if($item = Articles::get($name)) {
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), $variant, 'component_'.$name);
 				return TRUE;
 			}
@@ -333,7 +333,7 @@
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 
 			// use content of a named global page
-			if($item =& Articles::get('menu'))
+			if($item = Articles::get('menu'))
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
 		}
 	}
