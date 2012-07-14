@@ -1435,7 +1435,7 @@ Class Links {
 
 			// category link
 			case 'category':
-				if($item =& Categories::get($matches[2]))
+				if($item = Categories::get($matches[2]))
 					return array(Categories::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 

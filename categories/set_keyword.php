@@ -68,7 +68,7 @@ elseif(!$articles = Articles::search($search, 1.0, 50, 'raw')) {
 	$fields['title'] = ucfirst($search);
 	if($fields['id'] = Categories::post($fields)) {
 		Categories::clear($fields);
-		$category =& Categories::get($fields['id']);
+		$category = Categories::get($fields['id']);
 	}
 }
 

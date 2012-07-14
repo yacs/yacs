@@ -197,7 +197,7 @@ if(!$text = Cache::get($cache_id)) {
 	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'boxes');
 
 	// list monthly publications in an extra box
-	$anchor =& Categories::get(i18n::c('monthly'));
+	$anchor = Categories::get(i18n::c('monthly'));
 	if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact'))) {
 		$text .= Skin::build_box($anchor['title'], Skin::build_list($items, 'compact'), 'boxes')."\n";
 	}

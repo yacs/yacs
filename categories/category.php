@@ -144,7 +144,7 @@ Class Category extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Categories::get($id, $mutable);
+		$this->item = Categories::get($id, $mutable);
 	}
 
 	/**
