@@ -62,7 +62,7 @@ if($url && !preg_match('/^(\/|\w+:)/i', $url)) {
 $url = rtrim($url, '/');
 
 // get the item from the database
-$item =& Links::get($url);
+$item = Links::get($url);
 
 // get the related anchor, if any
 $anchor = NULL;
