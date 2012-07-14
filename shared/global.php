@@ -541,7 +541,7 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
  * @param string some text to be encoded
  * @return the string to be displayed
  */
-function &encode_field($text) {
+function encode_field($text) {
 	global $context;
 
 	// not a string
@@ -577,7 +577,7 @@ function &encode_field($text) {
  * @param string a web reference to check
  * @return a clean string
  */
-function &encode_link($link) {
+function encode_link($link) {
 
 	// suppress invalid chars, if any
 	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', str_replace(' ', '%20', $link)), ' _');

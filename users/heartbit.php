@@ -49,7 +49,7 @@ if(!Surfer::get_id()) {
 	$fields['type'] = $_REQUEST['type'];
 
 	if(isset($_REQUEST['address']))
-		$fields['address'] =& encode_link($_REQUEST['address']);
+		$fields['address'] = encode_link($_REQUEST['address']);
 	if(isset($_REQUEST['message']))
 		$fields['message'] = strip_tags($_REQUEST['message']);
 
