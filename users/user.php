@@ -425,7 +425,7 @@ Class User extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['avatar_url'] == $url)
@@ -441,7 +441,7 @@ Class User extends Anchor {
 		// set an existing image as the user avatar
 		} elseif($action == 'image:set_as_avatar') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "avatar_url = '".SQL::escape($url)."'";
 			}
@@ -450,7 +450,7 @@ Class User extends Anchor {
 		// set an existing image as the user thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "avatar_url = '".SQL::escape($url)."'";
 			}

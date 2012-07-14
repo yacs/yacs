@@ -1161,7 +1161,7 @@ Class Section extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -1181,7 +1181,7 @@ Class Section extends Anchor {
 		// set an existing image as the section icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -1197,7 +1197,7 @@ Class Section extends Anchor {
 		// set an existing image as the section thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				// use the thumbnail for large files, or the image itself for smaller files
 				if($image['image_size'] > $context['thumbnail_threshold'])
@@ -1216,7 +1216,7 @@ Class Section extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				// use the thumbnail for large files, or the image itself for smaller files
 				if($image['image_size'] > $context['thumbnail_threshold'])

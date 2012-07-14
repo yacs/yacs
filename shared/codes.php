@@ -3074,7 +3074,7 @@ Class Codes {
 				$variant = 'inline';
 
 			// get the image record
-			if(!$image =& Images::get($id)) {
+			if(!$image = Images::get($id)) {
 				$output = '[image='.$id.']';
 				return $output;
 			}
@@ -3164,7 +3164,7 @@ Class Codes {
 			foreach($ids as $id) {
 
 				// get the image record
-				if($image =& Images::get($id)) {
+				if($image = Images::get($id)) {
 
 					// a title for the image --do not force a title
 					if(isset($image['title']))
