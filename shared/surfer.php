@@ -881,7 +881,7 @@ Class Surfer {
 	 * To control that a surfer is the actual creator of one article, following code may be used:
 	 * [php]
 	 * // load the article from the database, including the editors list
-	 * $item =& Articles::get($id);
+	 * $item = Articles::get($id);
 	 *
 	 * // check that the current surfer is a valid editor
 	 * if(Surfer::is($item['create_id']) {

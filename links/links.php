@@ -1410,7 +1410,7 @@ Class Links {
 
 			// article link
 			case 'article':
-				if($item =& Articles::get($matches[2]))
+				if($item = Articles::get($matches[2]))
 					return array(Articles::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 

@@ -56,7 +56,7 @@ $id = strip_tags($id);
 // get the related item, if any
 $item = array();
 if(($type == 'article') && $id)
-	$item =& Articles::get($id);
+	$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;

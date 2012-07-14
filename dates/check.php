@@ -63,7 +63,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// look only in articles
-			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article =& Articles::get($matches[1]))) {
+			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article = Articles::get($matches[1]))) {
 
 				// check that the description has a reference to this date, or that overlay date has been used
 				if(!preg_match('/\[date='.$row['id'].'.*\]/', $article['description']) && !preg_match('/date_stamp/', $article['overlay'])) {

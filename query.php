@@ -129,7 +129,7 @@ if(Surfer::is_crawler()) {
 		// use the secret handle to access the query
 		$link = '';
 		$status = '';
-		if($item =& Articles::get($_REQUEST['id'])) {
+		if($item = Articles::get($_REQUEST['id'])) {
 
 			// ensure the article has a private handle
 			if(!isset($item['handle']) || !$item['handle']) {

@@ -688,7 +688,7 @@ Class Locations {
 				$description .= Codes::beautify($item['description']);
 
 			// use anchor information
-			if(isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor'])) && is_object($anchor)) {
+			if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor'])) && is_object($anchor)) {
 
 				// insert thumbnail, if any
 				if($icon = $anchor->get_thumbnail_url())

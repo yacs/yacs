@@ -133,7 +133,7 @@ if(isset($_REQUEST['selected_articles']) && ($count = @count($_REQUEST['selected
 
 	$items = array();
 	foreach($_REQUEST['selected_articles'] as $dummy => $id) {
-		if($article =& Articles::get($id)) {
+		if($article = Articles::get($id)) {
 			if($bucket-- >= 0)
 				$items[] = Skin::build_link(Articles::get_permalink($article), $article['title'], 'article');
 			$selected_articles .= '<input type="hidden" name="selected_articles[]" value="'.$article['id'].'" />';
@@ -444,7 +444,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to de-publish
-			if(($article =& Articles::get($id)) && ($article['publish_date'] > NULL_DATE)) {
+			if(($article = Articles::get($id)) && ($article['publish_date'] > NULL_DATE)) {
 
 				$attributes = array();
 				$attributes['id'] = $article['id'];
@@ -546,7 +546,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to duplicate
-			if($article =& Articles::get($id)) {
+			if($article = Articles::get($id)) {
 
 				// a new id will be allocated
 				$old_id = $article['id'];
@@ -682,7 +682,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// an article to lock
-			if(($article =& Articles::get($id)) && ($article['locked'] != 'Y')) {
+			if(($article = Articles::get($id)) && ($article['locked'] != 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $article['id'];
@@ -887,7 +887,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to publish
-			if(($article =& Articles::get($id)) && ($article['publish_date'] <= NULL_DATE)) {
+			if(($article = Articles::get($id)) && ($article['publish_date'] <= NULL_DATE)) {
 
 				if(!Articles::stamp($article['id'], gmstrftime('%Y-%m-%d %H:%M:%S'), ''))
 					$count++;
@@ -963,7 +963,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// an article to lock
-			if(($article =& Articles::get($id)) && ($article['locked'] == 'Y')) {
+			if(($article = Articles::get($id)) && ($article['locked'] == 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $article['id'];

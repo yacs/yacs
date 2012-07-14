@@ -991,7 +991,7 @@ Class Articles {
 		global $context;
 
 		// load the record
-		$item =& Articles::get($id);
+		$item = Articles::get($id);
 		if(!isset($item['id']) || !$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -1116,7 +1116,7 @@ Class Articles {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		$output = Articles::get_attributes($id, '*', $mutable);
 		return $output;
 	}
@@ -2411,14 +2411,14 @@ Class Articles {
 		global $context;
 
 		// the page already exists
-		if($item =& Articles::get($nick_name))
+		if($item = Articles::get($nick_name))
 			return 'article:'.$item['id'];
 
 		// attempt to create a default item
 		Articles::post_default($nick_name);
 
 		// do the check again
-		if($item =& Articles::get($nick_name))
+		if($item = Articles::get($nick_name))
 			return 'article:'.$item['id'];
 
 		// tough luck
@@ -2597,7 +2597,7 @@ Class Articles {
 		global $context;
 
 		// the page already exists
-		if($item =& Articles::get($nick_name))
+		if($item = Articles::get($nick_name))
 			return '';
 
 		// use the provided model for this item
@@ -3284,7 +3284,7 @@ Class Articles {
 	 *
 	 * @see articles/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// restrict the query to addressable content
@@ -3330,7 +3330,7 @@ Class Articles {
 	 *
 	 * @see sections/view.php
 	 */
-	public static function &stat_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function stat_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// sanity check
