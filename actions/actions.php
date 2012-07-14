@@ -333,7 +333,7 @@ Class Actions {
 	 * @param int the id of the action
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -770,7 +770,7 @@ Class Actions {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -792,7 +792,7 @@ Class Actions {
 	 *
 	 * @see actions/list.php
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items

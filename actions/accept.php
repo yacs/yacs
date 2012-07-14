@@ -50,7 +50,7 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // get the item from the database
-$item =& Actions::get($id);
+$item = Actions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
