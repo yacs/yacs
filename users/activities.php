@@ -248,23 +248,5 @@ Class Activities {
 		return SQL::setup_table('activities', $fields, $indexes, $views);
 	}
 
-	/**
-	 * get some statistics
-	 *
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see control/index.php
-	 */
-	public static function &stat() {
-		global $context;
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(activities.edit_date) as oldest_date, MAX(activities.edit_date) as newest_date"
-			." FROM ".SQL::table_name('activities')." AS activities";
-
-		$output = SQL::query_first($query);
-		return $output;
-	}
-
 }
 ?>

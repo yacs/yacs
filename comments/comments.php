@@ -1830,35 +1830,6 @@ Class Comments {
 	}
 
 	/**
-	 * get some statistics
-	 *
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see comments/index.php
-	 */
-	public static function &stat() {
-		global $context;
-
-		// if not associate, restrict to comments at public published not expired pages
-		if(!Surfer::is_associate())
-			$query = "SELECT COUNT(*) as count, MIN(comments.create_date) as oldest_date, MAX(comments.create_date) as newest_date FROM ".SQL::table_name('articles')." AS articles"
-				." LEFT JOIN ".SQL::table_name('comments')." AS comments"
-				."	ON ((comments.anchor_type LIKE 'article') AND (comments.anchor_id = articles.id))"
-				." WHERE (articles.active='Y')"
-				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
-
-		// the list of comments
-		else
-			$query = "SELECT COUNT(*) as count, MIN(comments.create_date) as oldest_date, MAX(comments.create_date) as newest_date FROM ".SQL::table_name('comments')." AS comments ";
-
-		// select among available items
-		$output = SQL::query_first($query);
-		return $output;
-	}
-
-	/**
 	 * get some statistics for one anchor
 	 *
 	 * @param the selected anchor (e.g., 'article:12')

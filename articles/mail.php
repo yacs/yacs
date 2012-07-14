@@ -131,7 +131,7 @@ if(Surfer::is_crawler()) {
 		// clean the provided string
 		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
-		// look for a user with this nick name
+		// look for a user with this address
 		if(!$user = Users::lookup($recipient))
 			continue;
 
