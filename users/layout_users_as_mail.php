@@ -46,6 +46,9 @@ Class Layout_users_as_mail extends Layout_interface {
 		// div prefix
 		$text .= '<div id="users_as_mail_panel_'.$serial.'">';
 
+		// allow to select/deslect multiple rows at once
+		$text .= '<input type="checkbox" class="row_selector" onchange="check_user_as_mail_panel_'.$serial.'(\'div#users_as_mail_panel_'.$serial.'\', this);"'.$checked.' /> '.i18n::s('Select all/none').BR;
+
 		// process all items in the list
 		$count = 0;
 		while($item = SQL::fetch($result)) {
@@ -102,9 +105,6 @@ Class Layout_users_as_mail extends Layout_interface {
 			$text .= BR;
 			$count++;
 		}
-
-		// allow to select/deslect multiple rows at once
-		$text .= '<input type="checkbox" class="row_selector" onchange="check_user_as_mail_panel_'.$serial.'(\'div#users_as_mail_panel_'.$serial.'\', this);"'.$checked.' /> '.i18n::s('Select all/none');
 
 		// the script used to check all items at once
 		$text .= JS_PREFIX
