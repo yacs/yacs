@@ -107,8 +107,6 @@
  * - &#91;category=&lt;id>] - use category title as link label
  * - &#91;category=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;category.description=&lt;id>] - insert category description
- * - &#91;decision=&lt;id>] - use decision id in link label
- * - &#91;decision=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;user=&lt;id>] - use nick name as link label
  * - &#91;user=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;server=&lt;id>] - use server title as link label
@@ -1015,7 +1013,6 @@ Class Codes {
 				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
 				'/\[action=([^\]]+?)\]/ie', 				// [action=<id>]
 				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
-				'/\[decision=([^\]]+?)\]/ie',				// [decision=<id>] or [decision=<id>, title]
 				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
 				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
@@ -1218,7 +1215,6 @@ Class Codes {
 				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
 				"Codes::render_object('action', Codes::fix_tags('$1'))",			// [action=<id>]
 				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
-				"Codes::render_object('decision', Codes::fix_tags('$1'))", 			// [decision=<id>] or [decision=<id>, title]
 				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
@@ -2664,7 +2660,6 @@ Class Codes {
 	 * - article - link to an article page
 	 * - category - link to a category page
 	 * - comment - link to a comment page
-	 * - decision - link to a decision page
 	 * - download - link to a download page
 	 * - file - link to a file page
 	 * - flash - display a file as a native flash object, or play a flash video
@@ -2893,35 +2888,6 @@ Class Codes {
 				$output =& Skin::build_link($url, $text, 'basic');
 			}
 
-			return $output;
-
-		// link to a decision
-		case 'decision':
-			include_once $context['path_to_root'].'decisions/decisions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item =& Decisions::get($id))
-				$output = '[decision='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = i18n::s('View this decision');
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($item['id']);
-
-				// return a complete anchor
-				$output = Skin::build_link($url, $text, 'basic');
-
-			}
 			return $output;
 
 		// link to a download

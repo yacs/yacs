@@ -20,11 +20,18 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 $files = array();
+$files[] = 'control/htaccess/options/.htaccess';
 $files[] = 'included/browser/js_endpage/jquery.autogrow-textarea.js';
 $files[] = 'included/browser/js_endpage/jquery.masonry.min.js';
 $files[] = 'included/browser/library_js_endpage.min.js';
 $files[] = 'shared/yacs.js';
+$files[] = 'skins/_reference/comments/no.gif';
+$files[] = 'skins/_reference/comments/yes.gif';
 $files[] = 'skins/_reference/yacs.css';
+$files[] = 'tools/build_i18n.bat';
+$files[] = 'tools/check_i18n.bat';
+$files[] = 'tools/srcfiles.txt';
+$files[] = 'tools/update_i18n.bat';
 
 // process every file
 $count = 0;
