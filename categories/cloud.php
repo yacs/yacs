@@ -24,7 +24,7 @@ if(Surfer::is_associate())
 
 // the list of active categories
 $cache_id = 'categories/cloud.php#content';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// query the database and layout that stuff
 	if(!$text =& Members::list_categories_by_count_for_anchor(NULL, 0, 200, 'cloud'))
@@ -45,7 +45,7 @@ $context['text'] .= $text;
 
 // display extra information
 $cache_id = 'categories/cloud.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// add an extra box with helpful links
 	$links = array('sections/' => i18n::s('Site map'),

@@ -307,7 +307,7 @@ if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] !=
 
 // save some database requests
 $cache_id = 'index.php#text';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// the prefix hook
 	if(is_callable(array('Hooks', 'include_scripts')))
@@ -700,7 +700,7 @@ if(Surfer::is_associate()) {
 
 // save some database requests
 $cache_id = 'index.php#extra_news';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// show featured articles -- set in configure.php
 	if(isset($context['root_featured_layout']) && ($context['root_featured_layout'] != 'none')) {
@@ -800,7 +800,7 @@ $context['components']['news'] = $text;
 
 // save some database requests
 $cache_id = 'index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// list extra boxes
 	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra_boxes')) {
@@ -988,7 +988,7 @@ if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['wi
 
 // save some database requests
 $cache_id = 'index.php#navigation';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// list most recent peering servers
 	if(isset($context['home_with_peering_servers']) && ($context['home_with_peering_servers'] == 'Y')) {

@@ -135,7 +135,7 @@ if(!is_object($anchor)) {
 
 	// cache the section
 	$cache_id = 'comments/list.php?id='.$anchor->get_reference().'#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// get a layout from anchor
 		$layout =& Comments::get_layout($anchor);

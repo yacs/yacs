@@ -2696,7 +2696,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Actions::get($id))
+			if(!$item = Actions::get($id))
 				$output = '[action='.$id.']';
 
 			else {
@@ -2724,7 +2724,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[article='.$id.']';
 
 			else {
@@ -2753,7 +2753,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[article.description='.$id.']';
 
 			else {
@@ -3282,7 +3282,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[previous='.$id.']';
 
 			else {

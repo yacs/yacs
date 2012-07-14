@@ -141,7 +141,7 @@ if(!isset($item['id'])) {
 
 		// retrieve information from cache, if any
 		$cache_id = 'images/view.php?id='.$item['id'].'#navigation';
-		if($data =& Cache::get($cache_id))
+		if($data = Cache::get($cache_id))
 			$data = Safe::unserialize($data);
 
 		// build information from the database
