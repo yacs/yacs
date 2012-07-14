@@ -94,7 +94,7 @@ Class Servers {
 	 * @param int the id of the server, or its nick name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -184,7 +184,7 @@ Class Servers {
 	 * @param string one of the URLs related to this server
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get_by_url($url) {
+	public static function get_by_url($url) {
 		global $context;
 
 		// sanity check
@@ -240,7 +240,7 @@ Class Servers {
 	 * @see index.php
 	 * @see servers/index.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// select among active and restricted items
@@ -256,7 +256,6 @@ Class Servers {
 			.' ORDER BY servers.edit_date DESC, servers.title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -290,6 +289,7 @@ Class Servers {
 
 		// the list of servers
 		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -308,7 +308,7 @@ Class Servers {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon)
 	 */
-	public static function &list_for_feed($offset=0, $count=10, $variant='feed') {
+	public static function list_for_feed($offset=0, $count=10, $variant='feed') {
 		global $context;
 
 		// limit the scope of the request
@@ -317,7 +317,7 @@ Class Servers {
 			.' ORDER BY stamp_date, edit_date DESC, title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -335,7 +335,7 @@ Class Servers {
 	 *
 	 * @see articles/publish.php
 	 */
-	public static function &list_for_ping($offset=0, $count=10, $variant='ping') {
+	public static function list_for_ping($offset=0, $count=10, $variant='ping') {
 		global $context;
 
 		// limit the scope of the request
@@ -344,7 +344,7 @@ Class Servers {
 			.' ORDER BY edit_date DESC, title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -362,7 +362,7 @@ Class Servers {
 	 *
 	 * @see search.php
 	 */
-	public static function &list_for_search($offset=0, $count=10, $variant='search') {
+	public static function list_for_search($offset=0, $count=10, $variant='search') {
 		global $context;
 
 		// limit the scope of the request
@@ -371,7 +371,7 @@ Class Servers {
 			.' ORDER BY edit_date DESC, title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -386,7 +386,7 @@ Class Servers {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -518,7 +518,7 @@ Class Servers {
 		global $context;
 
 		// the entry already exists
-		if($item =& Servers::get_by_url($url)) {
+		if($item = Servers::get_by_url($url)) {
 
 			// ensure this operation is allowed
 			if(isset($item['process_ping']) && ($item['process_ping'] != 'Y'))
@@ -807,7 +807,7 @@ Class Servers {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among active and restricted items

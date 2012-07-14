@@ -3340,7 +3340,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Servers::get($id))
+			if(!$item = Servers::get($id))
 				$output = '[server='.$id.']';
 
 			else {
