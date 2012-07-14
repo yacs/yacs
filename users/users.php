@@ -426,7 +426,7 @@ Class Users {
 			$output['is_present'] = FALSE;
 
 		// save in cache
-		if(isset($output['id']))
+		if(isset($output['id']) && (count($cache) < 1000))
 			$cache[ $output['id'] ] = $output;
 
 		// return by reference
