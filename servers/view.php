@@ -35,7 +35,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Servers::get($id);
+$item = Servers::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;

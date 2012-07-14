@@ -166,7 +166,7 @@ if(!$raw_data) {
 
 		// caller has been banned
 		include_once $context['path_to_root'].'servers/servers.php';
-		if($_SERVER['REMOTE_HOST'] && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_monitor'] != 'Y')))
+		if($_SERVER['REMOTE_HOST'] && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_monitor'] != 'Y')))
 			$response = array('faultCode' => 49, 'faultString' => 'Access denied');
 
 		// check we have a configuration file
@@ -204,7 +204,7 @@ if(!$raw_data) {
 
 		// caller has been banned
 		include_once $context['path_to_root'].'servers/servers.php';
-		if(isset($_SERVER['REMOTE_HOST']) && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
+		if(isset($_SERVER['REMOTE_HOST']) && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
 			$response = 49;
 
 		// check we are linking on this site
@@ -267,7 +267,7 @@ if(!$raw_data) {
 
 		// caller has been banned
 		include_once $context['path_to_root'].'servers/servers.php';
-		if($_SERVER['REMOTE_HOST'] && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
+		if($_SERVER['REMOTE_HOST'] && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
 			$response = array('flerror' => 49, 'message' => 'Access denied');
 
 		// do not accept local address
