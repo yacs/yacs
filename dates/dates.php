@@ -415,7 +415,7 @@ Class Dates {
 	 * @see dates/edit.php
 	 * @see dates/view.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -1117,7 +1117,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -1134,7 +1134,7 @@ Class Dates {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// restrict the query to addressable content
@@ -1176,7 +1176,7 @@ Class Dates {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_past_for_anchor($anchor) {
+	public static function stat_past_for_anchor($anchor) {
 		global $context;
 
 		// restrict the query to addressable content

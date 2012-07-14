@@ -34,7 +34,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Dates::get($id);
+$item = Dates::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
