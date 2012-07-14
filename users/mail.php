@@ -32,7 +32,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())

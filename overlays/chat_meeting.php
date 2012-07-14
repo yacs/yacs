@@ -392,9 +392,9 @@ class Chat_meeting extends Meeting {
 		// identify the chairman or, if unknown, the owner of this page
 		$chairman = array();
 		if(isset($this->attributes['chairman']) && $this->attributes['chairman'])
-			$chairman =& Users::get($this->attributes['chairman']);
+			$chairman = Users::get($this->attributes['chairman']);
 		if(!isset($chairman['id']) && ($owner = $this->anchor->get_value('owner_id')))
-			$chairman =& Users::get($owner);
+			$chairman = Users::get($owner);
 
 		// if this surfer is the chairman of this meeting, he will take over after three seconds of silence
 		if(isset($chairman['id']) && Surfer::is($chairman['id']))

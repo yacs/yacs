@@ -236,7 +236,7 @@ if(!$permitted) {
 				$context['error'] = array();
 
 		// remember the new user profile
-		} elseif($user =& Users::get($_REQUEST['nick_name'])) {
+		} elseif($user = Users::get($_REQUEST['nick_name'])) {
 
 			// we will create additional items on first installation
 			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))

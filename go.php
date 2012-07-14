@@ -141,7 +141,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in user profiles
-} elseif($item =& Users::get($id)) {
+} elseif($item = Users::get($id)) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
 
 // not found

@@ -103,7 +103,7 @@ if(Surfer::is_associate()) {
 
 // page extra content
 $cache_id = 'tables/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

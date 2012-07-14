@@ -34,7 +34,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get existing user data, if any
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // is this is a shadow record?
 $origin = '';

@@ -100,7 +100,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['email'], $user['id'])).'</p>';
 
 	// name current owner
-	} elseif(isset($item['owner_id']) && ($owner =& Users::get($item['owner_id']))) {
+	} elseif(isset($item['owner_id']) && ($owner = Users::get($item['owner_id']))) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($owner['full_name'], $owner['email'], $owner['id'])).'</p>';
 
 	}

@@ -366,7 +366,7 @@ Class User extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Users::get($id, $mutable);
+		$this->item = Users::get($id, $mutable);
 	}
 
 	/**

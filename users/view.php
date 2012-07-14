@@ -137,7 +137,7 @@ if($zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -542,7 +542,7 @@ if(!isset($item['id'])) {
 		// agent, if any
 		if(isset($item['vcard_agent']) && $item['vcard_agent']) {
 			$text .= '</p><p>';
-			if($agent =& Users::get($item['vcard_agent']))
+			if($agent = Users::get($item['vcard_agent']))
 				$text .= sprintf(i18n::s('%s: %s'), i18n::s('Alternate contact'), Skin::build_link(Users::get_permalink($agent), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
 			else
 				$text .= sprintf(i18n::s('%s: %s'), i18n::s('Alternate contact'), $item['vcard_agent']);

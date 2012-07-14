@@ -902,7 +902,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		else {
-			$item =& Users::get($username);
+			$item = Users::get($username);
 			if($item['id'])
 				$response = array(
 					'userid' => (string)$item['id'],

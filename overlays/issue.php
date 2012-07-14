@@ -809,7 +809,7 @@ class Issue extends Overlay {
 
 			// owner
 			$label = i18n::s('Owner');
-			if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id'])))
+			if(isset($host['owner_id']) && ($user = Users::get($host['owner_id'])))
 				$value = $user['nick_name'];
 			else
 				$value = '';
@@ -1028,7 +1028,7 @@ class Issue extends Overlay {
 		$rows = array();
 
 		// this page has an explicit owner
-		if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id']))) {
+		if(isset($host['owner_id']) && ($user = Users::get($host['owner_id']))) {
 
 			// allow for click-to-call
 			$click_to_call = Users::get_click_to_call($user);

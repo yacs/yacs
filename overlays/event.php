@@ -114,7 +114,7 @@ class Event extends Overlay {
 		global $context;
 
 		// capture chairman's id
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
 			$value = $user['nick_name'];
 		else
 			$value = '';
@@ -544,9 +544,9 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
 
 		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
-		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user = Users::get($owner)))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
 
 		// location
@@ -682,7 +682,7 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
 
 		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
 
 		// meeting has been cancelled
@@ -1260,7 +1260,7 @@ class Event extends Overlay {
 
 		// build a link to the owner page, if any
 		if(isset($this->attributes['chairman']) && $this->attributes['chairman']) {
-			if($user =& Users::get($this->attributes['chairman']))
+			if($user = Users::get($this->attributes['chairman']))
 				$label = Users::get_link($user['full_name'], NULL, $user['id']);
 			else
 				$label = $this->attributes['chairman'];
