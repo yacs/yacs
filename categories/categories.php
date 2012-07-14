@@ -163,7 +163,7 @@ Class Categories {
 	public static function build_path($reference) {
 		$anchor = Anchors::get($reference);
 		if(is_object($anchor)) {
-			if(preg_match('/category:(.+?)$/', $reference, $matches) && ($category =& Categories::get($matches[1])) && $category['anchor'] && ($category['anchor'] != $reference))
+			if(preg_match('/category:(.+?)$/', $reference, $matches) && ($category = Categories::get($matches[1])) && $category['anchor'] && ($category['anchor'] != $reference))
 				return Categories::build_path($category['anchor']).'|'.strip_tags($anchor->get_title());
 			return strip_tags($anchor->get_title());
 		}
@@ -307,7 +307,7 @@ Class Categories {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -1268,7 +1268,7 @@ Class Categories {
 	 * @return string either 'category:&lt;id&gt;', or NULL
 	 */
 	public static function lookup($nick_name) {
-		if($item =& Categories::get($nick_name))
+		if($item = Categories::get($nick_name))
 			return 'category:'.$item['id'];
 		return NULL;
 	}
@@ -1610,7 +1610,7 @@ Class Categories {
 				$week = mktime(0,0,0, $stamp['mon'], $stamp['mday']-$stamp['wday']+1, $stamp['year']);
 
 				// create the category for this week if it does not exist
-				if(!($category = Categories::lookup('week '.date('y/m/d', $week))) && ($anchor =& Categories::get(i18n::c('weekly')))) {
+				if(!($category = Categories::lookup('week '.date('y/m/d', $week))) && ($anchor = Categories::get(i18n::c('weekly')))) {
 
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
@@ -1635,7 +1635,7 @@ Class Categories {
 				$month = mktime(0,0,0, $stamp['mon'], 1, $stamp['year']);
 
 				// create the category for this month if it does not exist
-				if(!($category = Categories::lookup('month '.date('M Y', $month))) && ($anchor =& Categories::get(i18n::c('monthly')))) {
+				if(!($category = Categories::lookup('month '.date('M Y', $month))) && ($anchor = Categories::get(i18n::c('monthly')))) {
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
 					$fields['nick_name'] = 'month '.date('M Y', $month);
@@ -1890,7 +1890,7 @@ Class Categories {
 	 * @param the selected anchor (e.g., 'category:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request

@@ -2799,7 +2799,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Categories::get($id))
+			if(!$item = Categories::get($id))
 				$output = '[category='.$id.']';
 
 			else {
@@ -2828,7 +2828,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Categories::get($id))
+			if(!$item = Categories::get($id))
 				$output = '[category.description='.$id.']';
 
 			else {

@@ -203,7 +203,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		SQL::free($result);
 
 		// add links to archives
-		$anchor =& Categories::get(i18n::c('monthly'));
+		$anchor = Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($items, 'menu_bar'));
 
