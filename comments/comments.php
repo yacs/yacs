@@ -440,7 +440,7 @@ Class Comments {
 	 * @see comments/edit.php
 	 * @see comments/view.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -1880,7 +1880,7 @@ Class Comments {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -1903,7 +1903,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	public static function &stat_threads() {
+	public static function stat_threads() {
 		global $context;
 
 		// a dynamic where clause

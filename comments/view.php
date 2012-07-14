@@ -38,7 +38,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -130,7 +130,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::neighbours($neighbours, 'slideshow');
 
 	// link to the previous comment in thread, if any
-	if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))
+	if($item['previous_id'] && ($previous = Comments::get($item['previous_id'])))
 		$context['text'] .= ' <p>'.sprintf(i18n::s('Comment inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).'</p>';
 
 	// display the full comment

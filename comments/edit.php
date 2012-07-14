@@ -128,7 +128,7 @@ $id = strip_tags($id);
 $target_anchor = strip_tags($target_anchor);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
