@@ -237,7 +237,7 @@ Class Images {
 		global $context;
 
 		// load the row
-		$item =& Images::get($id);
+		$item = Images::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has been found.'));
 			return FALSE;
@@ -374,7 +374,7 @@ Class Images {
 	 * @param int the id of the image
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -817,7 +817,7 @@ Class Images {
 	 *
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -835,7 +835,7 @@ Class Images {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
