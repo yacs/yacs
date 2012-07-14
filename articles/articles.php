@@ -1166,7 +1166,7 @@ Class Articles {
 		$output = SQL::query_first($query);
 
 		// save in cache, but only on generic request
-		if(!$mutable && isset($output['id']) && ($attributes == '*'))
+		if(isset($output['id']) && ($attributes == '*') && (count($cache) < 1000))
 			$cache[$id] = $output;
 
 		// return by reference
