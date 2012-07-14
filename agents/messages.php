@@ -1269,7 +1269,7 @@ class Messages {
 			return $target;
 
 		// we have to extend an existing comment --this entity is mutable
-		} elseif($target && !strncmp($target, 'comment:', 8) && ($comment =& Comments::get(substr($target, 8), TRUE))) {
+		} elseif($target && !strncmp($target, 'comment:', 8) && ($comment = Comments::get(substr($target, 8), TRUE))) {
 
 			// append the text to comment description field
 			$comment['description'] .= $entry_fields['description'];

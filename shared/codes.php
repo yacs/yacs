@@ -2875,7 +2875,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Comments::get($id))
+			if(!$item = Comments::get($id))
 				$output = '[comment='.$id.']';
 
 			else {

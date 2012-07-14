@@ -37,7 +37,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
