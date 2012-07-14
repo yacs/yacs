@@ -90,7 +90,7 @@ class Behaviors {
 	 * @param array current menu
 	 * @return array updated menu
 	 */
-	function &add_commands($script, $anchor, $menu=array()) {
+	function add_commands($script, $anchor, $menu=array()) {
 		global $context;
 
 		// check every behavior in sequence
@@ -98,7 +98,7 @@ class Behaviors {
 
 			// extend the menu
 			$behavior = $this->items[$index];
-			$menu =& $behavior->add_commands($script, $anchor, $menu);
+			$menu = $behavior->add_commands($script, $anchor, $menu);
 
 		}
 

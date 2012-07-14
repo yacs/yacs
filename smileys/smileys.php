@@ -47,7 +47,7 @@ class Smileys {
 	 * @param string the input text
 	 * @return the tansformed text
 	 */
-	public static function &render_smileys($text) {
+	public static function render_smileys($text) {
 		global $context;
 
 		// no content on HEAD request --see scripts/validate.php

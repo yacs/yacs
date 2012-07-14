@@ -25,7 +25,7 @@ Class Collections {
 	 * @param string the provided path for the item, including the collection prefix
 	 * @return a set of attributes for this item, including: 'collection', 'relative_path', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// avoid code injection

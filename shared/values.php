@@ -49,7 +49,7 @@ Class Values {
 	 * @param string an optional default value
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	public static function &get($id, $default_value=NULL) {
+	public static function get($id, $default_value=NULL) {
 		global $context;
 
 		// get one attribute of the record
@@ -69,7 +69,7 @@ Class Values {
 	 * @param string an optional default value
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	public static function &get_record($id, $default_value=NULL) {
+	public static function get_record($id, $default_value=NULL) {
 		global $context;
 
 		// sanity check
@@ -101,7 +101,7 @@ Class Values {
 	 * @param string the id of the value to be retrieved
 	 * @return string modification date, or '0000-00-00'
 	 */
-	public static function &get_stamp($id) {
+	public static function get_stamp($id) {
 		global $context;
 
 		// get one attribute of the record

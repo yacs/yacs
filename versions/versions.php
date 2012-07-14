@@ -142,7 +142,7 @@ Class Versions {
 	 * @param int the id of the version
 	 * @return the resulting $item array, with at least keys: 'id', 'anchor', 'content', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -232,7 +232,7 @@ Class Versions {
 	 *
 	 * @see versions/list.php
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -244,7 +244,7 @@ Class Versions {
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."')"
 			." ORDER BY versions.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Versions::list_selected(SQL::query($query), $variant);
+		$output = Versions::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -258,7 +258,7 @@ Class Versions {
 	 * @return NULL on error, else an ordered array with $key => ($prefix, $label, $suffix, $type, $icon)
 	 *
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -434,7 +434,7 @@ Class Versions {
 	 * @param the selected anchor (e.g., 'section:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check

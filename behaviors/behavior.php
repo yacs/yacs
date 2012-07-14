@@ -45,7 +45,7 @@ class Behavior {
 	 * @param array current menu
 	 * @return array updated menu
 	 */
-	function &add_commands($script, $anchor, $menu=array()) {
+	function add_commands($script, $anchor, $menu=array()) {
 		return $menu;
 	}
 

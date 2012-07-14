@@ -529,12 +529,12 @@ class PhpDoc {
 	}
 
 	/**
-	 * get one comment
+	 * get one documentation snippet
 	 *
-	 * @param string the name of the comment to fetch
+	 * @param string the name of the snippet to fetch
 	 * @return the resulting $row array, with at least keys: 'name', 'anchor' and 'content'
 	 */
-	public static function &get($name) {
+	public static function get($name) {
 		global $context;
 
 		// select among available items
