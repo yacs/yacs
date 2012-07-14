@@ -146,10 +146,6 @@ class Anchors {
 		include_once $context['path_to_root'].'dates/dates.php';
 		Dates::delete_for_anchor($anchor);
 
-		// delete related decisions
-		include_once $context['path_to_root'].'decisions/decisions.php';
-		Decisions::delete_for_anchor($anchor);
-
 		// delete related files
 		Files::delete_for_anchor($anchor);
 
@@ -191,7 +187,7 @@ class Anchors {
 	 * This function is invoked  when some anchor is duplicated.
 	 *
 	 * Note: do not refer here to objects that will be duplicated through
-	 * overlays, such as Dates and Decisions.
+	 * overlays, such as Dates.
 	 *
 	 * The duplicate_related_to hook is used to invoke any software extension bound as follows:
 	 * - id: 'shared/anchors.php#duplicate_related_to'
@@ -219,8 +215,6 @@ class Anchors {
 		Comments::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// do not duplicate related dates -- this will be done through overlays
-
-		// do not duplicate related decisions -- this will be done through overlays
 
 		// duplicate related files
 		Files::duplicate_for_anchor($from_anchor, $to_anchor);
@@ -553,17 +547,6 @@ class Anchors {
 		if(($stats = Dates::stat_for_anchor($anchor)) && $stats['count']) {
 			$cells = array();
 			$cells[] = i18n::s('Dates');
-			$cells[] = 'center='.$stats['count'];
-			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
-			$cells[] = 'center='.Skin::build_date($stats['newest_date']);
-			$related .= Skin::table_row($cells, $lines++);
-		}
-
-		// stats for related decisions
-		include_once $context['path_to_root'].'decisions/decisions.php';
-		if(($stats = Decisions::stat_for_anchor($anchor)) && $stats['count']) {
-			$cells = array();
-			$cells[] = i18n::s('Decisions');
 			$cells[] = 'center='.$stats['count'];
 			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
 			$cells[] = 'center='.Skin::build_date($stats['newest_date']);

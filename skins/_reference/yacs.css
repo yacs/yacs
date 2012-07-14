@@ -2010,6 +2010,12 @@ ul.collections { /* a list of collections, in [collections] */
  * @see comments/layout_comments_as_updates.php
  */
 
+.comment.approval  > p:first-of-type {		/* an approval */
+	background-color: yellow;
+	font-weight: bold;
+	padding: 0.5em 1em;
+}
+
 .author.notification,
 .comment.notification { /* a notification */
 	font-style: italic;
