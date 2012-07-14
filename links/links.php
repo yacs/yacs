@@ -413,7 +413,7 @@ Class Links {
 	 * @see links/delete.php
 	 * @see links/edit.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -1329,7 +1329,7 @@ Class Links {
 	 *
 	 * @see links/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -1374,7 +1374,7 @@ Class Links {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -1429,7 +1429,7 @@ Class Links {
 			// image link
 			case 'image':
 				include_once $context['path_to_root'].'images/images.php';
-				if($item =& Images::get($matches[2]))
+				if($item = Images::get($matches[2]))
 					return array(Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
 				return array('', $text, '');
 
