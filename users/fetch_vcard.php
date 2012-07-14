@@ -143,28 +143,28 @@ if(!isset($item['id'])) {
 	if(isset($item['birth_date']) && $item['birth_date'])
 		$text .= 'BDAY:'.substr($item['birth_date'], 0, 10).CRLF;
 
-	// agent, if any -- not accepted by Palm Desktop :-(
-// 	if(isset($item['vcard_agent']) && $item['vcard_agent'] && ($agent =& Users::get($item['vcard_agent']))) {
-// 		$text .= 'AGENT:'."\x0D\x0A"
-// 			.'BEGIN:VCARD'."\x0D\x0A"
-// 			.'VERSION:2.1'."\x0D\x0A"
-// 			.'FN:'.$agent['full_name']."\x0D\x0A"
-// 			.'NICKNAME:'.$agent['nick_name']."\x0D\x0A";
+	// agent, if any
+ 	if(isset($item['vcard_agent']) && $item['vcard_agent'] && ($agent = Users::get($item['vcard_agent']))) {
+ 		$text .= 'AGENT:'."\x0D\x0A"
+ 			.'BEGIN:VCARD'."\x0D\x0A"
+ 			.'VERSION:2.1'."\x0D\x0A"
+ 			.'FN:'.$agent['full_name']."\x0D\x0A"
+ 			.'NICKNAME:'.$agent['nick_name']."\x0D\x0A";
 
-// 		// phone number, if any
-// 		if(isset($agent['phone_number']) && $agent['phone_number'])
-// 			$text .= 'TEL;PREF:'.$agent['phone_number']."\x0D\x0A";
+ 		// phone number, if any
+ 		if(isset($agent['phone_number']) && $agent['phone_number'])
+ 			$text .= 'TEL;PREF:'.$agent['phone_number']."\x0D\x0A";
 
-// 		// alternate number, if any
-// 		if(isset($agent['alternate_number']) && $agent['alternate_number'])
-// 			$text .= 'TEL;MSG:'.$agent['alternate_number']."\x0D\x0A";
+ 		// alternate number, if any
+ 		if(isset($agent['alternate_number']) && $agent['alternate_number'])
+ 			$text .= 'TEL;MSG:'.$agent['alternate_number']."\x0D\x0A";
 
-// 		// web mail, if any
-// 		if(isset($agent['email']) && $agent['email'])
-// 			$text .= 'EMAIL;PREF;INTERNET:'.$agent['email']."\x0D\x0A";
+ 		// web mail, if any
+ 		if(isset($agent['email']) && $agent['email'])
+ 			$text .= 'EMAIL;PREF;INTERNET:'.$agent['email']."\x0D\x0A";
 
-// 		$text .= 'END:VCARD'."\x0D\x0A";
-// 	}
+ 		$text .= 'END:VCARD'."\x0D\x0A";
+ 	}
 
 	// date of last update
 	$text .= 'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date'])).CRLF
