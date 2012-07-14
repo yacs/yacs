@@ -3023,7 +3023,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Forms::get($id))
+			if(!$item = Forms::get($id))
 				$output = '[form='.$id.']';
 
 			else {
