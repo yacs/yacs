@@ -2502,7 +2502,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// a record is mandatory
-			if(!$item =& Locations::get($id)) {
+			if(!$item = Locations::get($id)) {
 				if(Surfer::is_member()) {
 					$output = '&#91;location='.$id.']';
 					return $output;
@@ -2525,7 +2525,7 @@ Class Codes {
 		}
 
 		// map on Google
-		$output =& Locations::map_on_google(array($item));
+		$output = Locations::map_on_google(array($item));
 		return $output;
 
 	}
@@ -2564,7 +2564,7 @@ Class Codes {
 		}
 
 		// integrate with google maps
-		$output =& Locations::map_on_google($items);
+		$output = Locations::map_on_google($items);
 		return $output;
 
 	}

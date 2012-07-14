@@ -23,7 +23,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Locations::get($id);
+$item = Locations::get($id);
 
 // load the skin
 load_skin('locations');
