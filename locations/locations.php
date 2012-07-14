@@ -282,7 +282,7 @@ Class Locations {
 	 * @see locations/view.php
 	 * @see shared/codes.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -351,7 +351,7 @@ Class Locations {
 	 *
 	 * @see locations/index.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -359,7 +359,7 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -375,7 +375,7 @@ Class Locations {
 	 * @see articles/edit.php
 	 * @see users/edit.php
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -410,7 +410,7 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -428,7 +428,7 @@ Class Locations {
 	 *
 	 * @see locations/view.php
 	 */
-	public static function &list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
+	public static function list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
 		global $context;
 
 		// select records by distance to the target point, with a limit to 5,000 km
@@ -504,7 +504,7 @@ Class Locations {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -562,7 +562,7 @@ Class Locations {
 	 *
 	 * @see locations/map_on_google.php
 	 */
-	public static function &list_users_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_users_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -571,7 +571,7 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -608,7 +608,7 @@ Class Locations {
 	 * @param string object height
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	public static function &map_on_google($items, $scale=null, $width=null, $height=null) {
+	public static function map_on_google($items, $scale=null, $width=null, $height=null) {
 		global $context;
 
 		// default values if not defined in skin
@@ -734,7 +734,7 @@ Class Locations {
 	 *
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	public static function &map_on_google_header($verbose = FALSE) {
+	public static function map_on_google_header($verbose = FALSE) {
 		global $context;
 
 		// we return some text
@@ -911,7 +911,7 @@ Class Locations {
 	 *
 	 * @see locations/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -928,7 +928,7 @@ Class Locations {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
