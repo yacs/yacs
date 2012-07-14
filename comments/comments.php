@@ -869,25 +869,25 @@ Class Comments {
 		$content .= '<input type="radio" name="'.$name.'" value="attention"';
 		if(($type == 'attention') || !trim($type))
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('attention').i18n::s('Attention').BR;
+		$content .='/>'.Comments::get_img('attention').' '.i18n::s('Attention').BR;
 
 		// col 1 - an idea
 		$content .= '<input type="radio" name="'.$name.'" value="idea"';
 		if(($type == 'idea') || ($type == 'suggestion'))
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('idea').i18n::s('A suggestion').BR;
+		$content .='/>'.Comments::get_img('idea').' '.i18n::s('A suggestion').BR;
 
 		// col 1 - a question
 		$content .= '<input type="radio" name="'.$name.'" value="question"';
 		if($type == 'question')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('question').i18n::s('A question').BR;
+		$content .='/>'.Comments::get_img('question').' '.i18n::s('A question').BR;
 
 		// col 1 - like
 		$content .= '<input type="radio" name="'.$name.'" value="like"';
 		if($type == 'like')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('like').i18n::s('I like...');
+		$content .='/>'.Comments::get_img('like').' '.i18n::s('I like...');
 
 		// from column 1 to column 2
 		$content .= '</div>'."\n".'<div style="float: left;">';
@@ -896,25 +896,25 @@ Class Comments {
 		$content .= '<input type="radio" name="'.$name.'" value="warning"';
 		if($type == 'warning')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('warning').i18n::s('Warning!').BR;
+		$content .='/>'.Comments::get_img('warning').' '.i18n::s('Warning!').BR;
 
 		// col 2 - done
 		$content .= '<input type="radio" name="'.$name.'" value="done"';
 		if($type == 'done')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('done').i18n::s('Job has been completed').BR;
+		$content .='/>'.Comments::get_img('done').' '.i18n::s('Job has been completed').BR;
 
 		// col 2 - information
 		$content .= '<input type="radio" name="'.$name.'" value="information"';
 		if($type == 'information')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('information').i18n::s('My two cents').BR;
+		$content .='/>'.Comments::get_img('information').' '.i18n::s('My two cents').BR;
 
 		// col2 - dislike
 		$content .= '<input type="radio" name="'.$name.'" value="dislike"';
 		if($type == 'dislike')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('dislike').i18n::s('I don\'t like...');
+		$content .='/>'.Comments::get_img('dislike').' '.i18n::s('I don\'t like...');
 
 		// end of columns
 		$content .= '</div>'."\n";
