@@ -112,7 +112,7 @@ if(!Surfer::get_id()) {
 	}
 
 	// look for one notification -- script will be be killed if none is available
-	$response =& Notifications::pull();
+	$response = Notifications::pull();
 
 	// encode result in JSON
 	$output = Safe::json_encode($response);

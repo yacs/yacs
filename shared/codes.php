@@ -361,7 +361,7 @@ Class Codes {
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
-			$text =& Smileys::render_smileys($text);
+			$text = Smileys::render_smileys($text);
 
 		// relocate images
 		$text = str_replace('"skins/', '"'.$context['path_to_root'].'skins/', $text);
@@ -604,7 +604,7 @@ Class Codes {
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
-			$output =& Smileys::render_smileys($output);
+			$output = Smileys::render_smileys($output);
 
 		// return by reference
 		return $output;

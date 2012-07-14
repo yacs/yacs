@@ -388,7 +388,6 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -490,6 +489,7 @@ Class Locations {
 
 		// select records by distance to the target point, with a limit to 5,000 km
 		$output =& Locations::list_by_distance($latitude, $longitude, $offset, $count, $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 

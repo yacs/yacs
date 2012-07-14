@@ -420,7 +420,7 @@ if(!isset($item['id'])) {
 
 	// behaviors can change page menu
 	if(is_object($behaviors))
-		$context['page_menu'] =& $behaviors->add_commands('sections/view.php', 'section:'.$item['id'], $context['page_menu']);
+		$context['page_menu'] = $behaviors->add_commands('sections/view.php', 'section:'.$item['id'], $context['page_menu']);
 
 	// remember surfer visit
 	Surfer::is_visiting(Sections::get_permalink($item), Codes::beautify_title($item['title']), 'section:'.$item['id'], $item['active']);

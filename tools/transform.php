@@ -55,8 +55,8 @@ $context['path_bar'] = array( 'skins/' => i18n::s('Themes'));
 $context['text'] .= '<p>'.DUMMY_TEXT.'</p>'.'<p>'.DUMMY_TEXT.'</p>'.'<p>'.DUMMY_TEXT.'</p>';
 
 // do the transformation
-$data =& xml::load_array($context);
-$text =& xml::transform($data, 'transform.xsl');
+$data = xml::load_array($context);
+$text = xml::transform($data, 'transform.xsl');
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

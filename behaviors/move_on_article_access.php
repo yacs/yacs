@@ -23,7 +23,7 @@ class Move_on_article_access extends Behavior {
 	 * @param array current menu
 	 * @return array updated menu
 	 */
-	function &add_commands($script, $anchor, $menu=array()) {
+	function add_commands($script, $anchor, $menu=array()) {
 		global $context;
 
 		// limit the scope of our check to viewed pages
