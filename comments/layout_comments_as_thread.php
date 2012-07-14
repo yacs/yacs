@@ -42,7 +42,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 
 				// link to user profile -- open links in separate window to enable side browsing of participant profiles
 				if($item['create_id']) {
-					if($user =& Users::get($item['create_id']) && $user['full_name'])
+					if($user = Users::get($item['create_id']) && $user['full_name'])
 						$hover = $user['full_name'];
 					else
 						$hover = NULL;

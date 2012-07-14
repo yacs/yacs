@@ -94,7 +94,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database, if any
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -275,7 +275,7 @@ if(Surfer::is_crawler()) {
 				else {
 
 					// get the new record
-					$item =& Users::get($_REQUEST['id'], TRUE);
+					$item = Users::get($_REQUEST['id'], TRUE);
 
 					// the welcome page
 					$context['page_title'] = i18n::s('Welcome!');

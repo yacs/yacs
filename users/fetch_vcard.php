@@ -47,7 +47,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // reorder tokens of full name on comma
 if(preg_match('/^(.+),\s+(.+)$/', $item['full_name'], $matches))

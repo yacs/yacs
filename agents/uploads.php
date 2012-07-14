@@ -111,7 +111,7 @@ class Uploads {
 
 		// user information
 		if($context['uploads_nick_name']) {
-			if($user =& Users::get($context['uploads_nick_name'])) {
+			if($user = Users::get($context['uploads_nick_name'])) {
 				if(!$fields['create_name'])
 					$fields['create_name'] = $user['nick_name'];
 				if(!$fields['create_id'])

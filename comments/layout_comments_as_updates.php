@@ -47,16 +47,15 @@ Class Layout_comments_as_updates extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// get poster information
+			$poster = array();
 			if($item['create_name']) {
-				if(!$poster =& Users::get($item['create_id'])) {
-					$poster = array();
+				if(!$poster = Users::get($item['create_id'])) {
 					$poster['id'] = 0;
 					$poster['full_name'] = $item['create_name'];
 					$poster['email'] = $item['create_address'];
 				}
 			} else {
-				if(!$poster =& Users::get($item['edit_id'])) {
-					$poster = array();
+				if(!$poster = Users::get($item['edit_id'])) {
 					$poster['id'] = 0;
 					$poster['full_name'] = $item['edit_name'];
 					$poster['email'] = $item['edit_address'];

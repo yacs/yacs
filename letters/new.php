@@ -123,7 +123,7 @@ if(!Surfer::is_associate()) {
 	$context['letter_body'] .= "\n\n\n";
 
 	// append surfer signature, if any
-	if(Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && $user['signature'])
+	if(Surfer::get_id() && ($user = Users::get(Surfer::get_id())) && $user['signature'])
 		$context['letter_body'] .= '<p>-----'.BR.strip_tags($user['signature'].'</p>');
 
 	// the letter suffix

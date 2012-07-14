@@ -54,7 +54,7 @@ Class Users {
 		global $context;
 
 		// retrieve user attributes
-		if(!isset($user['id']) && (!$user =& Users::get($user)))
+		if(!isset($user['id']) && (!$user = Users::get($user)))
 			return FALSE;
 
 		// a valid address is required for e-mail...
@@ -327,7 +327,7 @@ Class Users {
 		global $context;
 
 		// load the record
-		$item =& Users::get($id);
+		$item = Users::get($id);
 		if(!isset($item['id']) || !$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -370,7 +370,7 @@ Class Users {
 	 * @see users/user.php
 	 * @see users/view.php
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -676,7 +676,7 @@ Class Users {
 		$cache[$id] = '';
 
 		// lookup for this user
-		if(($user =& Users::get($id)) && trim($user['signature']))
+		if(($user = Users::get($id)) && trim($user['signature']))
 			$cache[$id] = "\n\n-----\n".$user['signature'];
 
 		// return the cached value
@@ -1318,7 +1318,7 @@ Class Users {
 				return NULL;
 
 			// retrieve the shadow record
-			$item =& Users::get($fields['id']);
+			$item = Users::get($fields['id']);
 		}
 
 		// bad credentials
@@ -1388,7 +1388,7 @@ Class Users {
 		global $context;
 
 		// the profile already exists
-		if($item =& Users::get($name))
+		if($item = Users::get($name))
 			return $item;
 
 		// guess a shadow profile
@@ -1450,7 +1450,7 @@ Class Users {
 		}
 
 		// the e-mail address already exists
-		if($item =& Users::get($user['email']))
+		if($item = Users::get($user['email']))
 			return $item;
 
 		// add a random number of 4 digits to make nick name as unique as possible
@@ -1774,7 +1774,7 @@ Class Users {
 		global $context;
 
 		// load the record
-		$item =& Users::get($fields['id']);
+		$item = Users::get($fields['id']);
 		if(!isset($item['id']) || !$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -1808,7 +1808,7 @@ Class Users {
 			$fields['nick_name'] = trim($fields['nick_name']);
 
 			// nick_name may be already used
-			if(($used =& Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
+			if(($used = Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
 				Logger::error(i18n::s('Another member already has this nick name. Please select a different one.'));
 				return FALSE;
 			}
@@ -2159,7 +2159,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// limit the scope of the request
@@ -2191,7 +2191,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	public static function &stat_present() {
+	public static function stat_present() {
 		global $context;
 
 		// limit the scope of the request

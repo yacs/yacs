@@ -70,7 +70,7 @@ if(Surfer::is_crawler()) {
 	Visits::track($anchor->get_reference(), $anchor->get_active());
 
 	// return an updated list of current visitors, to be used in AJAX
-	$output =& Visits::list_users_at_anchor($anchor->get_reference());
+	$output = Visits::list_users_at_anchor($anchor->get_reference());
 
 	// ensure we are producing some text -- open links in separate pages
 	if(is_array($output))

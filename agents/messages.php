@@ -498,7 +498,7 @@ class Messages {
 		$granted = FALSE;
 
 		// maybe the sender has been recorded
-		$user =& Users::get($post_sender);
+		$user = Users::get($post_sender);
 
 		// the address is in the list of allowed addresses, including anyone
 		if($allowed && preg_match('/\b('.preg_quote($post_sender, '/').'|anyone)\b/i', $allowed)) {

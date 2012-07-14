@@ -3254,7 +3254,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[next='.$id.']';
 
 			else {
@@ -3431,7 +3431,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Users::get($id))
+			if(!$item = Users::get($id))
 				$output = '[user='.$id.']';
 
 			else {
