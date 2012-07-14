@@ -913,7 +913,7 @@ function render_skin($with_last_modified=TRUE) {
 
 		// cache dynamic boxes for performance, and if the database can be accessed
 		$cache_id = 'shared/global.php#render_skin#navigation';
-		if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
+		if((!$text = Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
 
 			// navigation boxes in cache
 			global $global_navigation_box_index;

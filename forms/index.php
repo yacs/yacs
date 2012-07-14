@@ -60,7 +60,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 	
 	// page main content
 	$cache_id = 'forms/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 	
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;

@@ -73,7 +73,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'links/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
 		switch($context['root_articles_layout']) {
@@ -111,7 +111,7 @@ if(Surfer::is_associate()) {
 
 // page extra content
 $cache_id = 'links/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most popular links
 	if($items = Links::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))

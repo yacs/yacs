@@ -59,7 +59,7 @@ $context['page_title'] = i18n::s('Information channels');
 
 // page main content
 $cache_id = 'feeds/index.php#text';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// tabbed panels
 	$panels = array();

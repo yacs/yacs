@@ -690,7 +690,7 @@
 
 		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// an array of tabs
 			$site_bar = array();

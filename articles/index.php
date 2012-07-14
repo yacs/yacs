@@ -94,7 +94,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'articles/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;
@@ -137,7 +137,7 @@ if($stats['count'] > $items_per_page) {
 
 // page extra information
 $cache_id = 'articles/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most popular articles, if this server is well populated
 	if($stats['count'] > $items_per_page) {

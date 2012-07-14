@@ -125,7 +125,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 	// cache the directory
 	$cache_id = 'collections/browse.php?path='.$id;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// the description is set at the collection index page
 		if($item['collection_description'])

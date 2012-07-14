@@ -109,7 +109,7 @@ if(!isset($item['id'])) {
 
 	// get the list from the cache, if possible
 	$cache_id = 'categories/feed.php?id='.$item['id'].'#channel';
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// loads feeding parameters
 		Safe::load('parameters/feeds.include.php');

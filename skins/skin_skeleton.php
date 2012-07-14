@@ -2777,7 +2777,7 @@ Class Skin_Skeleton {
 		if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
 
 			$cache_id = $script.'#referrals';
-			if(!$output =& Cache::get($cache_id)) {
+			if(!$output = Cache::get($cache_id)) {
 
 				// box content in a sidebar box
 				include_once $context['path_to_root'].'agents/referrals.php';

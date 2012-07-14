@@ -49,7 +49,7 @@ if($stats['count'])
 
 // page main content
 $cache_id = 'dates/index.php#text';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// get and draw upcoming events with links to global calendars
 	if($items =& Dates::list_future(0, 200, 'links'))
@@ -84,7 +84,7 @@ if((!isset($context['skins_general_without_feed']) || ($context['skins_general_w
 
 // page extra information
 $cache_id = 'dates/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

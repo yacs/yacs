@@ -106,7 +106,7 @@ if($page > 10) {
 
 	// page main content
 	$cache_id = 'sections/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
 		include_once 'layout_sections_as_yahoo.php';
@@ -186,7 +186,7 @@ if(Surfer::is_associate()) {
 
 // display extra information
 $cache_id = 'sections/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// see also
 	$lines = array();

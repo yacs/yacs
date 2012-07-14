@@ -15,7 +15,7 @@
  * $cache_id = 'my_module/index.php#items_by_date';
  *
  * // retrieve the information from cache if possible
- * if(!$text =& Cache::get($cache_id)) {
+ * if(!$text = Cache::get($cache_id)) {
  *
  *	 // else build the page dynamically
  *	 $result = Items::list_by_date();
@@ -174,7 +174,7 @@ Class Cache {
 	 * @param string the id of the text to be retrieved
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// return by reference
@@ -234,7 +234,7 @@ Class Cache {
 	 * @param string target file path and name
 	 * @return string a suitable name for the temporary directory, or NULL
 	 */
-	public static function &hash($id) {
+	public static function hash($id) {
 		global $context;
 
 		$output = NULL;
