@@ -306,7 +306,7 @@ elseif(!$permitted) {
 	if(!strncmp($anchor->get_reference(), 'category:', 9)) {
 
 		// current list of category members
-		if($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) {
+		if($users =& Members::list_users_by_name_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) {
 
 			// browse the list
 			$new_users = array();
