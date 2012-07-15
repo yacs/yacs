@@ -2899,7 +2899,12 @@ Class Codes {
 
 			// load the record from the database
 			if(!$item = Files::get($id))
-				$output = '[download='.$id.']';
+
+				// file does not exist anymore
+				if((isset($attributes[1]) && $attributes[1]))
+					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+				else
+					$output = '[download='.$id.']';
 
 			else {
 
@@ -2913,9 +2918,17 @@ Class Codes {
 					$prefix .= RESTRICTED_FLAG;
 
 				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
+				if(isset($attributes[1]) && $attributes[1]) {
+					$text .= $attributes[1];
+
+					// this may describe a previous file, which has been replaced
+					if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
+						$text .= ' <p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+						$output = $prefix.$text.$suffix;
+						return $output;
+					}
+
+				} else
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// flag files uploaded recently
@@ -2942,15 +2955,20 @@ Class Codes {
 
 			// load the record from the database --ensure we get a fresh copy of the record, not a cached one
 			if(!$item = Files::get($id, TRUE))
-				$output = '[file='.$id.']';
+
+				// file does not exist anymore
+				if((isset($attributes[1]) && $attributes[1]))
+					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+				else
+					$output = '[file='.$id.']';
 
 			else {
 
 				// maybe we want to illustrate this file
-				if(!$output = Files::interact($item)) {
+				if((($item['edit_action'] != 'file:create') && isset($attributes[1]) && $attributes[1]) || (!$output = Files::interact($item))) {
 
 					// label for this file
-					$prefix = $text = $suffix = '';
+					$output = $prefix = $text = $suffix = '';
 
 					// signal restricted and private files
 					if($item['active'] == 'N')
@@ -2959,9 +2977,17 @@ Class Codes {
 						$prefix .= RESTRICTED_FLAG;
 
 					// ensure we have a label for this link
-					if(isset($attributes[1]))
+					if(isset($attributes[1]) && $attributes[1]) {
 						$text .= $attributes[1];
-					else
+
+						// this may describe a previous file, which has been replaced
+						if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
+							$text .= '<p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+							$output = $prefix.$text.$suffix;
+							return $output;
+						}
+
+					} else
 						$text .= Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 					// flag files uploaded recently
