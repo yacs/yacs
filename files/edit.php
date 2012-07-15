@@ -241,6 +241,14 @@ if(Surfer::is_crawler()) {
 		// save in the database
 		Files::post($_REQUEST);
 
+		// log record creation
+		if(!$item['id']) {
+			$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
+			$link = $context['url_to_home'].$context['url_to_root'].Files::get_url($_REQUEST['id']);
+			$description = sprintf(i18n::c('%s at %s'), $_REQUEST['file_name'], '<a href="'.$link.'">'.$link.'</a>');
+			Logger::notify('files/edit.php', $label, $description);
+		}
+
 	// a file has been uploaded
 	} elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 		$file_path = Files::get_path($_REQUEST['anchor']);
@@ -259,14 +267,25 @@ if(Surfer::is_crawler()) {
 				$action = 'file:upload';
 
 			// several files have been added
-			if(is_array($uploaded))
+			if(is_array($uploaded)) {
+				$compact_list = Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact');
 				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'
-					.Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact');
+					.$compact_list;
+
+				// log multiple upload
+				$label = sprintf(i18n::c('New files in %s'), strip_tags($anchor->get_title()));
+				Logger::notify('files/edit.php', $label, $compact_list);
 
 			// one file has been added
-			elseif($item =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+			} elseif($item =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $item['id']);
+
+				// log single upload
+				$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
+				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+				$description = sprintf(i18n::c('%s at %s'), $item['file_name'], '<a href="'.$link.'">'.$link.'</a>');
+				Logger::notify('files/edit.php', $label, $description);
 
 				// use this file record
 				$_REQUEST['id'] = $item['id'];
@@ -317,14 +336,6 @@ if(Surfer::is_crawler()) {
 			// clear cache
 			Files::clear($_REQUEST);
 
-			// log the submission by a non-associate
-			if(!Surfer::is_associate() && is_object($anchor)) {
-				$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
-							$link = $context['url_to_home'].$context['url_to_root'].Files::get_url($_REQUEST['id']);
-				$description = sprintf(i18n::c('%s at %s'), $_REQUEST['file_name'], '<a href="'.$link.'">'.$link.'</a>');
-				Logger::notify('files/edit.php', $label, $description);
-			}
-
 		// process several files
 		} else {
 
@@ -333,14 +344,6 @@ if(Surfer::is_crawler()) {
 				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
 				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
 				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
-
-			// log the submission by a non-associate
-			if(!Surfer::is_associate() && is_object($anchor)) {
-				$label = sprintf(i18n::c('New files in %s'), strip_tags($anchor->get_title()));
-				$link = $context['url_to_home'].$context['url_to_root'].Files::get_url($id);
-				$description = sprintf(i18n::c('%s at %s'), $name, '<a href="'.$link.'">'.$link.'</a>');
-				Logger::notify('files/edit.php', $label, $description);
-			}
 
 		}
 
