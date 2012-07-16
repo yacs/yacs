@@ -519,7 +519,8 @@ elseif(!$permitted) {
 					$template = i18n::s('Editors of %s');
 
 				// display assigned users with unlink buttons
-				$inherited .= Skin::build_box(sprintf($template, $parent->get_title()), Skin::build_list($items, 'compact'), 'folded');
+				if($items)
+					$inherited .= Skin::build_box(sprintf($template, $parent->get_title()), Skin::build_list($items, 'compact'), 'folded');
 
 			}
 
