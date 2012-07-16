@@ -456,6 +456,10 @@ elseif(!$permitted) {
 				$items = array();
 				foreach($users as $id => $user) {
 
+					// accept only editors at private spaces --in case the space would be on watching list
+					if($anchor->is_hidden() && !$user['editor'])
+						continue;
+
 					// make an url
 					$url = Users::get_permalink($user);
 

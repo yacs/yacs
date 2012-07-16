@@ -1277,8 +1277,8 @@ Class Section extends Anchor {
 			// poster name
 			$surfer = Surfer::get_name();
 
-			// mail message
-			$mail = array('subject' => '', 'message' => '', 'headers' => '');
+			// mail message --restricted in case of provate content
+			$mail = array('subject' => '', 'message' => '', 'headers' => '', 'restricted' => FALSE);
 
 			// message subject
 			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
@@ -1286,6 +1286,10 @@ Class Section extends Anchor {
 			// a comment has been added to a page in this section
 			if($action == 'article:comment') {
 				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
+
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
 
 					// mail subject
 					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
@@ -1314,6 +1318,10 @@ Class Section extends Anchor {
 			} elseif($action == 'article:create') {
 				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
+
 					// message subject
 					$mail['subject'] = sprintf(i18n::c('%s: %s'),
 						ucfirst(strip_tags($this->item['title'])),
@@ -1330,6 +1338,10 @@ Class Section extends Anchor {
 			// a file has been added to a page in this section
 			} elseif($action == 'article:file') {
 				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
+
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
 
 					// mail subject
 					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
@@ -1357,6 +1369,10 @@ Class Section extends Anchor {
 			} elseif($action == 'article:publish') {
 				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
+
 					// message subject
 					$mail['subject'] = sprintf(i18n::c('%s: %s'),
 						ucfirst(strip_tags($this->item['title'])),
@@ -1381,6 +1397,10 @@ Class Section extends Anchor {
 			} elseif($action == 'article:update') {
 				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
 
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
+
 					// mail subject
 					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
 
@@ -1402,6 +1422,10 @@ Class Section extends Anchor {
 			// a file has been added to the section
 			} else if($action == 'file:create') {
 				if(($target = Files::get($origin, TRUE)) && $target['id']) {
+
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
 
 					// mail content
 					$mail['content'] = Files::build_notification($target);
@@ -1427,6 +1451,10 @@ Class Section extends Anchor {
 			} elseif($action == 'section:create') {
 				if(($target = Sections::get($origin, TRUE)) && $target['id']) {
 
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
+
 					// mail content
 					$mail['content'] = Sections::build_notification($target, 'create');
 
@@ -1438,6 +1466,10 @@ Class Section extends Anchor {
 			// a section has been updated
 			} elseif($action == 'section:update') {
 				if(($target = Sections::get($origin, TRUE)) && $target['id']) {
+
+					// private item, therefore we should consider editors only
+					if($target['active'] == 'N')
+						$mail['restricted'] = TRUE;
 
 					// mail content
 					$mail['content'] = Sections::build_notification($target, 'update');
@@ -1477,6 +1509,10 @@ Class Section extends Anchor {
 			// message to watchers
 			$mail['message'] = Mailer::build_notification($mail['content'], 1);
 
+			// this is a private section, therefore we should consider editors only
+			if($this->get_active() == 'N')
+				$mail['restricted'] = TRUE;
+
 			// scope of notifications is the originating page, and its parent section, and forwarded section upwards
 			if(!strncmp($action, 'article:', strlen('article:')) && ($action != 'article:create') && ($action != 'article:publish')) {
 
@@ -1498,7 +1534,7 @@ Class Section extends Anchor {
 
 				// users assigned to this section only
 				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
+				if($mail['restricted'] && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
 					foreach($editors as $editor)
 						if(strpos($editor, 'user:') === 0)
 							$restricted[] = substr($editor, strlen('user:'));
@@ -1516,7 +1552,7 @@ Class Section extends Anchor {
 
 					// users assigned only to parent section
 					$restricted = NULL;
-					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
+					if($mail['restricted'] && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
 						foreach($editors as $editor)
 							if(strpos($editor, 'user:') === 0)
 								$restricted[] = substr($editor, strlen('user:'));
@@ -1536,7 +1572,7 @@ Class Section extends Anchor {
 
 				// autorized users
 				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
+				if($mail['restricted'] && ($editors =& Members::list_anchors_for_member($containers))) {
 					foreach($editors as $editor)
 						if(strpos($editor, 'user:') === 0)
 							$restricted[] = substr($editor, strlen('user:'));
