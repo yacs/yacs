@@ -1155,6 +1155,18 @@ class Issue extends Overlay {
 		case 'insert':
 			$comments[] = i18n::s('Page has been created');
 
+			// set host owner, if any
+			if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != Surfer::get_id())) {
+				$fields = array();
+				$fields['owner_id'] = $user['id'];
+				$this->anchor->set_values($fields);
+
+				Members::assign('user:'.$user['id'], $this->anchor->get_reference());
+				Members::assign($this->anchor->get_reference(), 'user:'.$user['id']);
+
+				$comments[] = sprintf(i18n::s('Owner has been changed to %s'), Skin::build_link(Users::get_permalink($user), $user['full_name']));
+			}
+
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
 				."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
 				."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
