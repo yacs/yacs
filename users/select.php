@@ -77,11 +77,11 @@ elseif(!$permitted) {
 
 	// watchers of a page
 	if(!strncmp($anchor->get_reference(), 'article:', 8))
-		$users = Articles::list_watchers_by_posts($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
+		$users = Articles::list_watchers_by_name($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
 
 	// watchers of a section
 	elseif(!strncmp($anchor->get_reference(), 'section:', 8))
-		$users = Sections::list_watchers_by_posts($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
+		$users = Sections::list_watchers_by_name($anchor->item, 0, 5*USERS_LIST_SIZE, 'raw');
 
 	else {
 		$anchors = array($anchor->get_reference());
@@ -99,7 +99,7 @@ elseif(!$permitted) {
 					$restricted[] = substr($editor, strlen('user:'));
 		}
 
-		$users = Members::list_watchers_by_posts_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted);
+		$users = Members::list_watchers_by_name_for_anchor($anchors, 0, 5*USERS_LIST_SIZE, 'raw', $restricted);
 
 	}
 	// the current list of watchers

@@ -196,7 +196,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 // send message to all watchers
-} elseif(!$recipients = Articles::list_watchers_by_posts($item, 0, 1000, 'mail')) {
+} elseif(!$recipients = Articles::list_watchers_by_name($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form

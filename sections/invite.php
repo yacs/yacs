@@ -365,7 +365,7 @@ if(Surfer::is_crawler()) {
 			// else invitation should be extended to watchers
 			} else {
 
-				if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 1000, $layout))
+				if($watchers = Members::list_watchers_by_name_for_anchor($parent->get_reference(), 0, 1000, $layout))
 					$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
 
 			}
