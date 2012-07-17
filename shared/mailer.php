@@ -801,7 +801,7 @@ class Mailer {
 	 *
 	 * This function allows for individual posts, textual and HTML messages, and attached files.
 	 *
-	 * For this to work, e-mail services have to be explicitly activated in the
+	 * For this to work, e-mail service has to be explicitly activated in the
 	 * main configuration panel, at [script]control/configure.php[/script].
 	 *
 	 * You can refer to local images in HTML parts, and the function will automatically attach these
