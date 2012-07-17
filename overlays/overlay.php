@@ -252,6 +252,21 @@ class Overlay {
 	}
 
 	/**
+	 * text to be inserted into a mail notification
+	 *
+	 * This function is called to generate notifications sent to watchers when an item
+	 * is either created or edited.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function get_diff_text($host=NULL) {
+		return $this->get_view_text($host);
+	}
+
+	/**
 	 * text to be inserted aside
 	 *
 	 * To be overloaded into derived class
@@ -469,6 +484,11 @@ class Overlay {
 		// small details
 		case 'details':
 			$text =& $this->get_details_text($host);
+			return $text;
+
+		// diff from a previous version, for e-mail notifications
+		case 'diff':
+			$text = $this->get_diff_text($host);
 			return $text;
 
 		// extra side of the page

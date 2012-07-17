@@ -129,6 +129,21 @@ class Event extends Overlay {
 	}
 
 	/**
+	 * text to be inserted into a mail notification
+	 *
+	 * This function is useless for this overlay since notifications refer to
+	 * .ics data that are attached to them.
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function get_diff_text($host=NULL) {
+		return '';
+	}
+
+	/**
 	 * get label for event details
 	 *
 	 * @return string text to be displayed, or NULL

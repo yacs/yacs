@@ -672,7 +672,7 @@ Class Articles {
 
 		// get text related to the overlay, if any
 		if(is_object($overlay))
-			$content .= $overlay->get_text('view', $item);
+			$content .= $overlay->get_text('diff', $item);
 
 		// filter description, if necessary
 		if(is_object($overlay))
