@@ -41,7 +41,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		$text .= Skin::table_prefix('grid');
 
 		// table headers
-		$main = '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_section_rows(this);" />';
+		$main = '<input type="checkbox" class="row_selector" onclick="cascade_selection_to_all_section_rows(this);" />';
 		$cells = array($main, i18n::s('Section'), i18n::s('Rank'));
 		$text .= Skin::table_row($cells, 'header');
 
@@ -202,7 +202,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		}
 
 		// select all rows
-		$cells = array('<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_section_rows(this);" />', i18n::s('Select all/none'), '');
+		$cells = array('<input type="checkbox" class="row_selector" onclick="cascade_selection_to_all_section_rows(this);" />', i18n::s('Select all/none'), '');
 		$text .= Skin::table_row($cells, $count++);
 
 		// table suffix
