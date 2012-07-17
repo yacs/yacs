@@ -191,9 +191,9 @@ Class Layout_articles_as_last extends Layout_interface {
 				// last contributor
 				$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
 				$flag = '';
-				if($item['create_date'] >= $context['fresh'])
+				if($comment['create_date'] >= $context['fresh'])
 					$flag = NEW_FLAG;
-				elseif($item['edit_date'] >= $context['fresh'])
+				elseif($comment['edit_date'] >= $context['fresh'])
 					$flag = UPDATED_FLAG;
 				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
 
