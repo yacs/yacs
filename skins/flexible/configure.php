@@ -488,7 +488,7 @@ elseif(!Surfer::is_associate()) {
 				$checked = ' checked="checked"';
 				$text .= JS_PREFIX."$('#".$sample."').css({'textAlign': '".$value."'});".JS_SUFFIX;
 			}
-			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$value.'" onchange="$(\'#'.$sample.'\').css({\'textAlign\': this.value})"'.$checked.' />'.$value.' ';
+			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$value.'" onclick="$(\'#'.$sample.'\').css({\'textAlign\': this.value})"'.$checked.' />'.$value.' ';
 		}
 
 		return $text;
@@ -509,7 +509,7 @@ elseif(!Surfer::is_associate()) {
 			$text .= JS_PREFIX."$('#".$sample."').css({'background': 'transparent'});".JS_SUFFIX;
 		}
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'.i18n::s('Transparent').'</div></div>'
-			.'<input type="radio" name="'.$name.'" value="transparent"'.$checked.' onchange="$(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
+			.'<input type="radio" name="'.$name.'" value="transparent"'.$checked.' onclick="$(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
 
 		// referenced several times
 		static $count;
@@ -533,7 +533,7 @@ elseif(!Surfer::is_associate()) {
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'
 			.'<input class="color {hash:true,required:false}" name="'.$name.'_color" size="10" value="'.encode_field($fixed_color).'" maxlength="12"  onchange="$(\'#'.$name.'_handle\').attr(\'checked\', \'checked\'); $(\'#'.$name.'_handle\').value=this.value; $(\'#'.$sample.'\').css({\'background\': this.value})" id="background_fixed_color_'.$count.'" />'
 			.'</div></div>'
-			.'<input type="radio" name="'.$name.'" value="'.$fixed_color.'"'.$checked.' id="'.$name.'_handle" onchange="this.value = $(\'#background_fixed_color_'.$count.'\').value; $(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
+			.'<input type="radio" name="'.$name.'" value="'.$fixed_color.'"'.$checked.' id="'.$name.'_handle" onclick="this.value = $(\'#background_fixed_color_'.$count.'\').value; $(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
 
 		// break between images
 		$text .= '<br clear="left" />';
@@ -554,7 +554,7 @@ elseif(!Surfer::is_associate()) {
 					$text .= JS_PREFIX."$('#".$sample."').css({'background': '".$fixed_color." ".Image::as_background($context['url_to_root'].$path.'/'.$item)."'});".JS_SUFFIX;
 				}
 				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent '.Image::as_background($context['url_to_root'].$path.'/'.$item).'">&nbsp;</div>'
-					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onchange="this.value = $(\'#background_fixed_color_'.$count.'\').value + \' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'\'; $(\'#'.$sample.'\').css({\'background\': this.value})" />'
+					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onclick="this.value = $(\'#background_fixed_color_'.$count.'\').value + \' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'\'; $(\'#'.$sample.'\').css({\'background\': this.value})" />'
 					.' '.Skin::build_link('skins/display.php?id='.urlencode($path.'/'.$item), '*', 'open').'</div>';
 			}
 			Safe::closedir($dir);
@@ -637,7 +637,7 @@ elseif(!Surfer::is_associate()) {
 		if($toggle)
 			$to_toggle = '$(\'#'.$toggle.'\').css({\'display\': \'inline\'})';
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'.i18n::s('None').'</div></div>'
-			.'<input type="radio" name="'.$name.'" value="none"'.$checked.' onchange="$(\'#'.$sample.'\').css({\'display\': \'none\'});'.$to_toggle.'" /></div>';
+			.'<input type="radio" name="'.$name.'" value="none"'.$checked.' onclick="$(\'#'.$sample.'\').css({\'display\': \'none\'});'.$to_toggle.'" /></div>';
 
 		// scan files
 		if($dir = Safe::opendir($path)) {
@@ -658,7 +658,7 @@ elseif(!Surfer::is_associate()) {
 					$text .= JS_PREFIX."$('#".$sample."').src = '".$context['url_to_root'].$path.'/'.$item."';$('#".$sample."').css({'display': 'inline'});".$to_toggle.JS_SUFFIX;
 				}
 				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent url('.$context['url_to_root'].$path.'/'.$item.') no-repeat">&nbsp;</div>'
-					.'<input type="radio" name="'.$name.'" value="'.$context['url_to_root'].$path.'/'.$item.'"'.$checked.' onchange="$(\'#'.$sample.'\').src = \''.$context['url_to_home'].$context['url_to_root'].$path.'/'.$item.'\';$(\'#'.$sample.'\').css({\'display\': \'inline\'});'.$to_toggle.'" /></div>';
+					.'<input type="radio" name="'.$name.'" value="'.$context['url_to_root'].$path.'/'.$item.'"'.$checked.' onclick="$(\'#'.$sample.'\').src = \''.$context['url_to_home'].$context['url_to_root'].$path.'/'.$item.'\';$(\'#'.$sample.'\').css({\'display\': \'inline\'});'.$to_toggle.'" /></div>';
 			}
 			Safe::closedir($dir);
 
@@ -715,7 +715,7 @@ elseif(!Surfer::is_associate()) {
 				$checked = ' checked="checked"';
 				$text .= JS_PREFIX.'$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": "'.$actual_value.'"});});'.JS_SUFFIX;
 			}
-			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$actual_value.'" onchange="$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": this.value});})"'.$checked.' />'.$value.' ';
+			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$actual_value.'" onclick="$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": this.value});})"'.$checked.' />'.$value.' ';
 		}
 
 		return $text;
@@ -1002,7 +1002,7 @@ elseif(!Surfer::is_associate()) {
 				$checked = ' checked="checked"';
 				$text .= JS_PREFIX.'$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});'.JS_SUFFIX;
 			}
-			$items[] = '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="'.$item.'"'.$checked.' onchange="$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});" /></td>'
+			$items[] = '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="'.$item.'"'.$checked.' onclick="$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});" /></td>'
 				.'<td class="east">'.$tabs.'</td></tr>'."\n";
 		}
 		Safe::closedir($dir);
