@@ -928,22 +928,8 @@ Class Articles {
 			return NULL;
 		$user_id = SQL::escape($user_id);
 
-		// select among active and restricted items
-		$where = "(articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where .= ')';
+		// limit the scope of the request
+		$where = Articles::get_sql_where();
 
 		// list only published articles
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
@@ -955,8 +941,30 @@ Class Articles {
 			$where .= " AND ((articles.expiry_date is NULL) "
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
-		// look for watched pages through sub-queries
-		$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+		// the list of watched sections
+		$watched_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			."	FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('sections')." AS sections)"
+			." WHERE (members.member = 'user:".SQL::escape($user_id)."')"
+			."	AND (members.anchor LIKE 'section:%')"
+			."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
+
+		// the list of forwarding sections
+		$forwarding_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			." FROM ".$watched_sections." AS anchors"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (sections.anchor = anchors.target) AND (sections.options LIKE '%forward_notifications%')"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
+
+		// look for pages in watched sections
+		$query = "(SELECT articles.id FROM (".$watched_sections." UNION ".$forwarding_sections.") AS anchors"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.anchor = anchors.target)"
+			."	AND ".$where.") UNION ";
+
+		// look for watched pages
+		$query .= "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE (articles.id = ids.target)"
 			."	AND ".$where.")";
@@ -2208,8 +2216,30 @@ Class Articles {
 		// order these pages
 		$order = Articles::_get_order($order);
 
-		// look for watched pages through sub-queries
-		$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+		// the list of watched sections
+		$watched_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			."	FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('sections')." AS sections)"
+			." WHERE (members.member = 'user:".SQL::escape($user_id)."')"
+			."	AND (members.anchor LIKE 'section:%')"
+			."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
+
+		// the list of forwarding sections
+		$forwarding_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			." FROM ".$watched_sections." AS anchors"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (sections.anchor = anchors.target) AND (sections.options LIKE '%forward_notifications%')"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
+
+		// look for pages in watched sections
+		$query = "(SELECT articles.* FROM (".$watched_sections." UNION ".$forwarding_sections.") AS anchors"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.anchor = anchors.target)"
+			."	AND ".$where.") UNION ";
+
+		// look for watched pages
+		$query .= "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE (articles.id = ids.target)"
 			."	AND ".$where.")";
