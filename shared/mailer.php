@@ -87,6 +87,7 @@ class Mailer {
 			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
 			'/class="grid"/i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
 			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
+			'/\/>/i' => '>',														// <br /> -> <br>, <hr /> -> <hr>, etc.
 			'/<scr'.'ipt[^>]*?>(.*?)<\/scr'.'ipt>/i' => '',							// remove scripts
 			'/<sty'.'le[^>]*?>(.*?)<\/sty'.'le>/i' => '');							// remove style rules
 
