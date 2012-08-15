@@ -121,7 +121,7 @@ if(Surfer::is_crawler()) {
 	} else {
 
 		// update anchors and forward notifications
-		$anchor->touch('article:create', $_REQUEST['id'], TRUE, TRUE);
+		$anchor->touch('article:create', $_REQUEST['id']);
 
 		// message to the query poster
 		$context['page_title'] = i18n::s('Your query has been registered');
