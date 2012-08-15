@@ -605,15 +605,13 @@ Class Articles {
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
+	 * @param string either 'apply', 'create', 'publish' or 'update'
 	 * @param array attributes of the item
-	 * @param string either 'create', 'publish' or 'update'
+	 * @param object overlay of the item, if any
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item, $action='create') {
+	public static function build_notification($action='create', $item, $overlay=NULL) {
 		global $context;
-
-		// get the related overlay, if any
-		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// sanity check
 		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
@@ -1598,10 +1596,6 @@ Class Articles {
 		// exact match, return TRUE
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
-
-		// look in overlay, if any
-		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && ($result = $overlay->get_value($option)))
-			return $result;
 
 		// check in anchor
 		if(is_object($anchor) && ($result = $anchor->has_option($option)))
