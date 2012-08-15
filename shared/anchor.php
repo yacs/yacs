@@ -1076,6 +1076,10 @@ class Anchor {
 		if(!isset($this->item['id']))
 			return FALSE;
 
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
+			return TRUE;
+
 		// section is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
 			return TRUE;
