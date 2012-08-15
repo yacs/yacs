@@ -466,78 +466,92 @@ Class Files {
 	/**
 	 * build a notification for a new file upload
 	 *
-	 * This function builds a mail message that displays:
+	 * If action is 'upload', this function builds a mail message that features:
 	 * - an image of the uploader (if possible)
 	 * - a headline mentioning the upload
 	 * - a button linked to the file page
 	 * - a link to the containing page
 	 * - the full history of all file modifications
 	 *
+	 * If action is 'multiple', then the function will use $item['message'] and
+	 * $item['anchor'] to shape the full notification message.
+	 *
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
+	 * @param string either 'upload' or 'multiple'
 	 * @param array attributes of the new item
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item) {
+	public static function build_notification($action='upload', $item) {
 		global $context;
 
-		// headline
-		$headline = sprintf(i18n::c('A file has been added by %s'), Surfer::get_link());
+		// are we processing one or several items?
+		switch($action) {
 
-		// several components in this message
-		$details = array();
+		case 'multiple': // several files have been uploaded at once
 
-		// make it visual
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-			$details[] = '<img src="'.$context['url_to_home'].$item['thumbnail_url'].'" />';
-		else
-			$details[] = '<img src="'.$context['url_to_home'].$context['url_to_root'].Files::get_icon_url($item['file_name']).'" />';
+			// headline
+			$headline = sprintf(i18n::c('Several files have been added by %s'), Surfer::get_link());
 
-		// other details
-		if($item['title'])
-			$details[] = $item['title'];
-		if($item['file_name'])
-			$details[] = $item['file_name'];
-		if($item['file_size'])
-			$details[] = $item['file_size'].' bytes';
+			// the list of uploaded files is provided by caller
+			$message = $item['message'];
 
-		if(is_array($details))
-			$message = '<p>'.implode(BR, $details)."</p>\n";
+			break;
 
-		// start the notification
+		case 'upload': // one file has been uploaded
+		default:
+
+			// headline
+			$headline = sprintf(i18n::c('A file has been added by %s'), Surfer::get_link());
+
+			// several components in this message
+			$details = array();
+
+			// make it visual
+			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+				$details[] = '<img src="'.$context['url_to_home'].$item['thumbnail_url'].'" />';
+			else
+				$details[] = '<img src="'.$context['url_to_home'].$context['url_to_root'].Files::get_icon_url($item['file_name']).'" />';
+
+			// other details
+			if($item['title'])
+				$details[] = $item['title'];
+			if($item['file_name'])
+				$details[] = $item['file_name'];
+			if($item['file_size'])
+				$details[] = $item['file_size'].' bytes';
+
+			if(is_array($details))
+				$message = '<p>'.implode(BR, $details)."</p>\n";
+
+			break;
+
+		}
+
+		// shape the notification
 		$text = Skin::build_mail_content($headline, $message);
 
 		// a set of links
 		$menu = array();
 
 		// link to the file
-		$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
-		$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
+		if(isset($item['id'])) {
+			$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+			$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
+		}
 
 		// link to the container
 		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {
 			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), ($action=='multiple'));
 		}
 
 		// finalize links
 		$text .= Skin::build_mail_menu($menu);
 
 		// file history
-		if($description = trim($item['description'])) {
-
-			// transform the definition list
-			$replacements = array('/<dl class="comments"[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> -> <table>
-				'|</a>|i' => '</a><br>',											// line break after links
-				'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td valign="top" width="130"><font size="-1">\\1</font></td>',	// <dt> ... </dt> -> <tr><td> ... </td>
-				'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td valign="top">\\1</td></tr>',					// <dd> ... </dd> -> <tr><td> ... </td>
-				'/on(click|keypress)="([^"]+?)"/i' => '',
-				'/<script[^>]*?>(.*?)<\/script>/i' => '',
-				'/<style[^>]*?>(.*?)<\/style>/i' => '');
-
-			// text/html part
-			$description = preg_replace(array_keys($replacements), array_values($replacements), $description);
+		if(isset($item['description']) && ($description = trim($item['description']))) {
 
 			// finalize file history
 			$text .= '<p> </p>'
@@ -3106,7 +3120,7 @@ Class Files {
 						return FALSE;
 					}
 
-				// one singe file has been uploaded
+				// one single file has been uploaded
 				} else
 					$context['uploaded_files'] = array( $file_name );
 
