@@ -510,6 +510,47 @@ Class Article extends Anchor {
 	}
 
 	/**
+	 * list all items in the watching context
+	 *
+	 * For articles, the watching context is limited by default to the page itself,
+	 * and to its parent container. If the container has option 'forward_notifications',
+	 * then the context is extended to its parent too. The forwarding is recursive
+	 * until no option 'forward_notifications' is found.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	private function get_watched_context($action) {
+		global $context;
+
+		// notifications should be sent to watchers of these containers
+		$containers = array();
+
+		// i am a container
+		$containers[] = $this->get_reference();
+
+		// look at my parents
+		$handle = $this->get_parent();
+		while($handle && ($container = Anchors::get($handle))) {
+
+			// add watchers of this level
+			$containers[] = $handle;
+
+			// should we forward notifications upwards
+			if(!$container->has_option('forward_notifications', FALSE))
+				break;
+
+			// add watchers of next level
+			$handle = $container->get_parent();
+		}
+
+		// by default, limit to direct watchers of this anchor
+		return $containers;
+	}
+
+	/**
 	 * check that the surfer is an editor of an article
 	 *
 	 * An anonymous surfer is considered as an editor if he has provided the secret handle.

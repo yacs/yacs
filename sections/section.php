@@ -775,6 +775,50 @@ Class Section extends Anchor {
 	}
 
 	/**
+	 * list all items in the watching context
+	 *
+	 * If the action is related to the creation of a published page, or to the publication
+	 * of a draft page, then all containing sections up to the content tree are included
+	 * in the wathing context.
+	 *
+	 * In other cases, the watching context is limited by default to the section itself,
+	 * and to its parent container. If the container has option 'forward_notifications',
+	 * then the context is extended to its parent too. The forwarding is recursive
+	 * until no option 'forward_notifications' is found.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	private function get_watched_context($action) {
+		global $context;
+
+		// a published page has been created
+		if(($action == 'article:create') || ($action == 'article:publish'))
+			return $this->get_focus();
+
+		// notifications should be sent to watchers of these containers
+		$containers = array();
+		$handle = $this->get_reference();
+		while($handle && ($container = Anchors::get($handle))) {
+
+			// add watchers of this level
+			$containers[] = $handle;
+
+			// should we forward notifications upwards
+			if(!$container->has_option('forward_notifications', FALSE))
+				break;
+
+			// add watchers of next level
+			$handle = $container->get_parent();
+		}
+
+		// by default, limit to direct watchers of this anchor
+		return $containers;
+	}
+
+	/**
 	 * check that an option has been set for this section
 	 *
 	 * This function is used to control, from the anchor, the behaviour of linked items.

@@ -136,6 +136,45 @@ class Anchor {
 	var $anchor;
 
 	/**
+	 * alert watchers of this anchor
+	 *
+	 * @param array message attributes, such as 'subject', 'message', 'headers'
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @param boolean TRUE if access to the target object is restricted, FALSE otherwise
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
+	function alert_watchers($mail, $action=NULL, $restricted=FALSE) {
+		global $context;
+
+		// do not notify watchers if overlay prevents it
+		if(is_object($this->overlay) && !$this->overlay->should_notify_watchers())
+			return FALSE;
+
+		// list all items in the watching context
+		$containers = $this->get_watched_context($action);
+
+		// finalize the message
+		$mail['message'] = Mailer::build_notification($mail['notification'], 1);
+
+		// allow for message threading
+		if(!isset($mail['headers']))
+			$mail['headers'] = Mailer::set_thread($this->get_reference());
+
+		// we are private, so consider only watchers who are also editors
+		if($this->item['active'] == 'N')
+			$restricted = TRUE;
+
+		// list editors if access is restricted
+		$editors = NULL;
+		if($restricted)
+			$editors = Members::list_editors_for_member($this->get_focus(), 0, 10000, 'ids');
+
+		// do the job
+		return Users::alert_watchers($containers, $mail, $editors);
+
+	}
+
+	/**
 	 * maximise access rights
 	 *
 	 * @param string checked from child (e.g., 'Y', 'R', or 'N')
@@ -689,6 +728,26 @@ class Anchor {
 	 */
 	function get_values() {
 		return $this->item;
+	}
+
+	/**
+	 * list all items in the watching context
+	 *
+	 * Items that are included in the watching context are not always the same.
+	 * For example, when the action is the creation of an article in a section,
+	 * all sections up to the top of the content tree are included in the watching context.
+	 * However, when an article is updated, the scope is limited to the containing section.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	private function get_watched_context($action) {
+		global $context;
+
+		// by default, limit to direct watchers of this anchor
+		return $this->get_reference();
 	}
 
 	/**
