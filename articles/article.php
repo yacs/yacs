@@ -772,10 +772,6 @@ Class Article extends Anchor {
 	 * - On location creation, some code is inserted in the description field to display location name inline
 	 * - On table creation, some code is inserted in the description field to display the table inline
 	 *
-	 * Moreover, on any change that impact the edition date (i.e., not in silent mode),
-	 * a message is sent to the article creator, if different from the current surfer
-	 * and a message is sent to watchers as well.
-	 *
 	 * @see articles/article.php
 	 * @see articles/edit.php
 	 * @see shared/anchor.php
@@ -783,10 +779,8 @@ Class Article extends Anchor {
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// we make extensive use of comments below
@@ -1050,106 +1044,6 @@ Class Article extends Anchor {
 			SQL::query($query);
 		}
 
-		// do not signal the change to watchers if the page is on draft mode
-		if(!isset($this->item['publish_date']) ||  ($this->item['publish_date'] <= NULL_DATE)) {
-			$to_watchers = FALSE;
-			$to_followers = FALSE;
-		}
-
-		// do not forward this to followers if the page is private
-		if($this->item['active'] == 'N')
-			$to_followers = FALSE;
-
-		// send alert only on new stuff
-		if(preg_match('/:create$/i', $action) || !strcmp($action, 'file:upload')) {
-
-			// poster name
-			$surfer = Surfer::get_name();
-
-			// mail message
-			$mail = array('subject' => '', 'message' => '', 'headers' => '');
-
-			// mail subject
-			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
-
-			// nothing to use
-			if(!$origin)
-				$mail['content'] = '';
-
-			// a file has been added to the page, or a file has been refreshed
-			elseif(($action == 'file:create') || ($action == 'file:upload')){
-				if(($target = Files::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Files::build_notification($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread($this->get_reference());
-
-				}
-
-			// a comment has been added to the page
-			} else if($action == 'comment:create') {
-				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Comments::build_notification($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread($this->get_reference());
-
-				}
-
-			// something else has been added to the page
-			} else {
-
-				// headline
-				$headline  = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_link());
-
-				// message main content
-				$mail['content'] = Skin::build_mail_content($headline);
-
-				// call for action
-				$title = sprintf(i18n::c('%s in %s'), ucfirst(Anchors::get_action_label($action)), strip_tags($this->item['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
-				$menu = array(Skin::build_mail_button($link, $title, TRUE));
-				$mail['content'] .= Skin::build_mail_menu($menu);
-
-				// threads messages
-				$mail['headers'] = Mailer::set_thread($this->get_reference());
-
-			}
-
-			// wrap the full message
-			$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-			// we only have mail address of page creator
-			if(!$this->item['create_id'] && $this->item['create_address'])
-				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
-
-			// do not notify watchers if overlay prevents it
-			if(is_object($this->overlay) && !$this->overlay->should_notify_watchers($mail))
-				$to_watchers = FALSE;
-
-			// alert watchers
-			if($to_watchers)
-				Users::alert_watchers('article:'.$this->item['id'], $mail);
-
-			// do not notify followers if overlay prevents it
-			if(is_object($this->overlay) && !$this->overlay->should_notify_followers($mail))
-				$to_followers = FALSE;
-
-			// alert connexions, except on private pages
-			if(Surfer::get_id() && $to_followers) {
-
-				// message to connexions
-				$mail['message'] = Mailer::build_notification($mail['content'], 2);
-
-				// alert connexions
-				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-			}
-		}
-
 		// add this page to the watch list of the contributor, on any action
 		if(Surfer::get_id())
 			Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
@@ -1165,20 +1059,8 @@ Class Article extends Anchor {
 			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards
-		if(is_object($this->anchor)) {
-
-			// notify the full contribution to section watcher
-			if($action == 'comment:create')
-				$action = 'article:comment';
-
-			// notify file upload to section watcher
-			elseif(($action == 'file:create') || ($action == 'file:upload'))
-				$action = 'article:file';
-
-			// propagate to parent only if target is the article
-			if(!strncmp($action, 'article:', strlen('article:')))
-				$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
-		}
+		if(is_object($this->anchor))
+			$this->anchor->touch('article:update', $this->item['id'], TRUE);
 
 	}
 
