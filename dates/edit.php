@@ -127,7 +127,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$context['text'] .= '<p>'.i18n::s('The date has been saved.').'</p>';
 
 		// touch the related anchor
-		$anchor->touch('date:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+		$anchor->touch('date:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Dates::clear($_REQUEST);
