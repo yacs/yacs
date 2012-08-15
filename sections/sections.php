@@ -518,15 +518,13 @@ Class Sections {
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
+	 * @param string either 'apply', 'create' or 'update'
 	 * @param array attributes of the item
-	 * @param string either 'create' or 'update'
+	 * @param object overlay of the item, if any
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item, $action='create') {
+	public static function build_notification($action, $item, $overlay=NULL) {
 		global $context;
-
-		// get the related overlay, if any
-		$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 		// get the main anchor
 		$anchor = Anchors::get($item['anchor']);
