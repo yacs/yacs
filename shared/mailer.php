@@ -67,6 +67,9 @@ class Mailer {
 		$text = str_replace(' href="/', ' href="'.$context['url_to_home'].'/', $text);
 		$text = str_replace(' src="/', ' src="'.$context['url_to_home'].'/', $text);
 
+		// remove invisible tags, such as scripts, etc.
+		$text = xml::strip_invisible_tags($text);
+
 		// one element per type
 		$message = array();
 

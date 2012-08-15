@@ -83,14 +83,14 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 
 			if($introduction)
 				$text .= '		<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-'.Feeds::encode_text($introduction)."</div></summary>\n";
+'.xml::strip_invisible_tags($introduction)."</div></summary>\n";
 			else
 				$text .= '		<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
 '."</div></summary>\n";
 
 			if($description)
 				$text .= '		<content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-'.Feeds::encode_text($description)."</div></content>\n";
+'.xml::strip_invisible_tags($description)."</div></content>\n";
 
 			if(intval($time))
 				$text .= '		<updated>'.gmdate('Y-m-d\TH:i:s\Z', intval($time))."</updated>\n";

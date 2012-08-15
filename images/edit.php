@@ -72,7 +72,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../shared/zipfile.php';
 include_once 'image.php';	// image processing
 include_once 'images.php';
