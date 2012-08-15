@@ -237,8 +237,14 @@ Class Comments {
 		// a set of links
 		$menu = array();
 
+		// flat thread of contributions if possible
+		if(isset($item['previous_id']) && $item['previous_id'])
+			$previous_id = $item['previous_id'];
+		else
+			$previous_id = $item['id'];
+
 		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'reply');
+		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($previous_id, 'reply');
 		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
 		// link to the container
