@@ -79,6 +79,36 @@ class xml {
 	}
 
 	/**
+	 * strip invisible HTML tags
+	 *
+	 * @param string the text to filter
+	 * @return string the resulting text
+	 */
+	public static function strip_invisible_tags($text) {
+
+		// remove invisible tags
+		$text = preg_replace(array(
+			'#<applet[^>]*?>.*?</applet>#siu',
+			'#<comment[^>]*?>.*?</comment>#siu',
+            '#<embed[^>]*?>.*?</embed>#siu',
+			'#<head[^>]*?>.*?</head>#siu',
+            '#<link[^>]*?>.*?</link>#siu',
+            '#<listing[^>]*?>.*?</listing>#siu',
+            '#<meta[^>]*?>.*?</meta>#siu',
+            '#<noembed[^>]*?>.*?</noembed>#siu',
+            '#<noframes[^>]*?>.*?</noframes>#siu',
+            '#<noscript[^>]*?>.*?</noscript>#siu',
+            '#<object[^>]*?>.*?</object>#siu',
+            '#<plaintext[^>]*?>.*?</plaintext>#siu',
+            '#<script[^>]*?>.*?</script>#siu',
+            '#<style[^>]*?>.*?</style>#siu',
+            '#<xmp[^>]*?>.*?</xmp>#siu'), '', $text);
+
+		return $text;
+
+	}
+
+	/**
 	 * transform some XML data
 	 *
 	 * [php]

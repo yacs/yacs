@@ -28,7 +28,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../comments/comments.php';	// initiate the wall
 
 // the maximum number of personal sections per user

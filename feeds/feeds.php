@@ -66,30 +66,6 @@ class Feeds {
 	}
 
 	/**
-	 * suppress invisible HTML tags
-	 *
-	 * @param string submitted text
-	 * @return string filtered text
-	 */
-	public static function encode_text($text) {
-
-		// remove blank blocks
-		$text = preg_replace(array('@<comment[^>]*?>.*?</comment>@siu',
-            '@<embed[^>]*?.*?</embed>@siu',
-            '@<link[^>]*?>.*?</link>@siu',
-            '@<listing[^>]*?>.*?</listing>@siu',
-            '@<meta[^>]*?>.*?</meta>@siu',
-            '@<noscript[^>]*?.*?</noscript>@siu',
-            '@<object[^>]*?.*?</object>@siu',
-            '@<plaintext[^>]*?.*?</plaintext>@siu',
-            '@<script[^>]*?.*?</script>@siu',
-            '@<xmp[^>]*?.*?</xmp>@siu'), '', $text);
-
-		return $text;
-
-	}
-
-	/**
 	 * get current news from this server
 	 *
 	 * Actually, this function lists most recent published articles.

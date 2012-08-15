@@ -11,7 +11,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';
 
 // load localized strings -- see i18n/i18n.php for more information on internationalization and localization in YACS
 i18n::bind('tools');

@@ -291,6 +291,9 @@ $context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/'
 // the http library
 include_once $context['path_to_root'].'shared/http.php';
 
+// the xml/html library
+include_once $context['path_to_root'].'shared/xml.php';
+
 // the safe library
 include_once $context['path_to_root'].'shared/safe.php';
 
