@@ -41,48 +41,72 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// else display the updated page
 		} else {
 
-			// the overlay may have already notified persons involved
-			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
-			if(is_object($overlay) && !$overlay->should_notify_watchers())
-				$with_watchers = FALSE;
+			// log page modification
+			$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
+			Logger::notify('articles/edit_as_simple.php', $label, $description);
 
 			// touch the related anchor, but only if the page has been published
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$anchor->touch('article:update', $_REQUEST['id'],
-					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					$with_watchers);
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
 
-			// add this page to poster watch list
+				// notification to send by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+				$mail['notification'] = Articles::build_notification('update', $_REQUEST);
+				$mail['headers'] = Mailer::set_thread('article:'.$_REQUEST['id']);
+
+				// the overlay may have already notified persons involved
+				$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
+				if(is_object($overlay) && !$overlay->should_notify_watchers())
+					$with_watchers = FALSE;
+
+				// send to watchers of this page, and to watchers upwards
+				if($with_watchers && ($handle = new Article())) {
+					$handle->load_by_content($_REQUEST, $anchor);
+					$handle->alert_watchers($mail, 'article:update');
+				}
+
+				// send to followers of this user
+				if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+					&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+						$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+						Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+				}
+
+				// update anchors
+				$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			}
+
+			// cascade changes on access rights
+			if($_REQUEST['active'] != $item['active'])
+				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
+
+			// add this page to surfer watch list
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
 			// the page has been modified
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
-			// list persons that have been notified
-			if($recipients = Mailer::build_recipients('article:'.$item['id'])) {
-
-				$context['text'] .= $recipients;
-
-				// follow-up commands
-				$follow_up = i18n::s('What do you want to do now?');
-				$menu = array();
-				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
-				if(Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
-				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				$follow_up .= Skin::build_list($menu, 'menu_bar');
-				$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-				// log page modification
-				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('articles/edit.php', $label, $description);
-
 			// display the updated page
-			} else
+			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
 				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+
+			// list persons that have been notified
+			$context['text'] .= $recipients;
+
+			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
+			$menu = array();
+			$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
+			if(Surfer::may_upload())
+				$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
+			if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
+				$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
+			$follow_up .= Skin::build_list($menu, 'menu_bar');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 		}
 
 
@@ -158,13 +182,25 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// touch the related anchor, but only if the page has been published
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
-			// don't notify the creation of an event
-			$with_watchers = TRUE;
-			if(is_object($overlay) && !$overlay->should_notify_watchers())
-				$with_watchers = FALSE;
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($_REQUEST['title']));
+			$mail['notification'] = Articles::build_notification('create', $_REQUEST);
+			$mail['headers'] = Mailer::set_thread('article:'.$_REQUEST['id']);
 
-			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
+			// the overlay may have already notified persons involved
+			if(!is_object($overlay) || $overlay->should_notify_watchers())
+				$anchor->alert_watchers($mail, 'article:create', ($_REQUEST['active'] == 'N'));
+
+			// send to followers of this user
+			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// update anchors
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 			// advertise public pages
 			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {

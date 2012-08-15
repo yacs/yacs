@@ -293,7 +293,7 @@ if(!isset($item['id'])) {
 		// prepare the mail message
 		$to = Mailer::encode_recipient($requested['email'], $requested['full_name']);
 		$subject = sprintf(i18n::c('%s: %s'), i18n::c('Request'), strip_tags($item['title']));
-		$message = Articles::build_notification($item, 'apply');
+		$message = Articles::build_notification('apply', $item, $overlay);
 		$headers = Mailer::set_thread('article:'.$item['id']);
 
 		// allow for skinnable template
