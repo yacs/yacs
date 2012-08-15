@@ -203,7 +203,7 @@ Class Comments {
 	/**
 	 * build a notification for a new comment
 	 *
-	 * This function builds a mail message that displays:
+	 * This function builds a mail message that features:
 	 * - an image of the contributor (if possible)
 	 * - a headline mentioning the contribution
 	 * - the full content of the new comment
@@ -216,7 +216,7 @@ Class Comments {
 	 * @param array attributes of the new item
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item) {
+	public static function build_notification($item) {
 		global $context;
 
 		// sanity check
@@ -230,6 +230,10 @@ Class Comments {
 
 		// content
 		$content = Codes::beautify($item['description']);
+
+		// this is an approval
+		if($item['type'] == 'approval')
+			$content = Skin::build_block(i18n::s('You have provided your approval'), 'note').$content;
 
 		// shape these
 		$text = Skin::build_mail_content($headline, $content);

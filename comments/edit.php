@@ -281,11 +281,25 @@ if(Surfer::is_crawler()) {
 	// reward the poster for new posts
 	} elseif(!isset($item['id']) || ($item['id'] != $_REQUEST['id'])) {
 
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), ($_REQUEST['type'] == 'approval')?i18n::c('Approval'):i18n::c('Contribution'), strip_tags($anchor->get_title()));
+		$mail['notification'] = Comments::build_notification($_REQUEST);
+
+		// send to anchor watchers
+		if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+			$anchor->alert_watchers($mail, $action);
+
+		// send to followers of this user
+		if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+			&& Surfer::get_id() && !$anchor->is_hidden()) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
+
 		// touch the related anchor
 		$anchor->touch('comment:create', $_REQUEST['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Comments::clear($_REQUEST);
@@ -360,9 +374,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		$anchor->touch('comment:update', $item['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Comments::clear($_REQUEST);
