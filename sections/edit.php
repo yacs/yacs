@@ -216,12 +216,32 @@ if(Surfer::is_crawler()) {
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('section:'.$item['id'], $_REQUEST['active']);
 
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+			$mail['notification'] = Sections::build_notification('update', $_REQUEST);
+			$mail['headers'] = Mailer::set_thread('section:'.$_REQUEST['id']);
+
 			// notify watchers of the updated section and of its parent
-			if($updated = Anchors::get('section:'.$item['id']))
-				$updated->touch('section:update', $item['id'],
-					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-					isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			if($handle = new Section()) {
+				$handle->load_by_content($_REQUEST, $anchor);
+
+				// send to watchers of this anchor and upwards
+				if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+					$handle->alert_watchers($mail, 'section:update', ($_REQUEST['active'] == 'N'));
+
+			}
+
+			// send to followers of this user
+			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// touch the related anchor
+			if(is_object($anchor))
+				$anchor->touch('section:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 			// the section has been modified
 			$context['text'] .= '<p>'.i18n::s('The section has been successfully updated.').'</p>';
@@ -263,12 +283,29 @@ if(Surfer::is_crawler()) {
 		if(is_object($overlay))
 			$overlay->remember('insert', $_REQUEST, 'section:'.$_REQUEST['id']);
 
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($_REQUEST['title']));
+		$mail['notification'] = Sections::build_notification('create', $_REQUEST);
+		$mail['headers'] = Mailer::set_thread('section:'.$_REQUEST['id']);
+
 		// touch the related anchor
-		if(is_object($anchor))
-			$anchor->touch('section:create', $_REQUEST['id'],
-				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+		if(is_object($anchor)) {
+
+			// send to watchers of this anchor
+			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+				$anchor->alert_watchers($mail, 'section:create', ($_REQUEST['active'] == 'N'));
+
+			// update anchors
+			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		}
+
+		// send to followers of this user
+		if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+			&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
