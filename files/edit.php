@@ -268,17 +268,29 @@ if(Surfer::is_crawler()) {
 			// several files have been added
 			if(is_array($uploaded)) {
 				$compact_list = Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact');
-				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'
-					.$compact_list;
+				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'.$compact_list;
 
 				// log multiple upload
 				$label = sprintf(i18n::c('New files in %s'), strip_tags($anchor->get_title()));
 				Logger::notify('files/edit.php', $label, $compact_list);
 
+				// push the list of uploaded files to the notification
+				$attributes = array();
+				$attributes['message'] = '<p>'.i18n::s('Following files have been added:').'</p>'.$compact_list;
+				$attributes['anchor'] = $anchor->get_reference();
+
+				// notification to send by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($anchor->get_title()));
+				$mail['notification'] = Files::build_notification('multiple', $attributes);
+
 			// one file has been added
 			} elseif($item =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $item['id']);
+
+				// use this file record
+				$_REQUEST['id'] = $item['id'];
 
 				// log single upload
 				$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
@@ -286,10 +298,24 @@ if(Surfer::is_crawler()) {
 				$description = sprintf(i18n::c('%s at %s'), $item['file_name'], '<a href="'.$link.'">'.$link.'</a>');
 				Logger::notify('files/edit.php', $label, $description);
 
-				// use this file record
-				$_REQUEST['id'] = $item['id'];
+				// notification to send by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($anchor->get_title()));
+				$mail['notification'] = Files::build_notification('upload', $_REQUEST);
 
 			}
+
+			// send to anchor watchers
+			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+				$anchor->alert_watchers($mail, $action, ($_REQUEST['active'] == 'N'));
+
+			// send to followers of this user
+			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
 		}
 
 	// update a record about an uploaded file
@@ -327,10 +353,7 @@ if(Surfer::is_crawler()) {
 			Activities::post('file:'.$_REQUEST['id'], 'upload');
 
 			// touch the related anchor
-			$anchor->touch($action, $_REQUEST['id'],
-				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 			// clear cache
 			Files::clear($_REQUEST);
@@ -339,10 +362,7 @@ if(Surfer::is_crawler()) {
 		} else {
 
 			// touch the related anchor
-			$anchor->touch('file:create', NULL,
-				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			$anchor->touch('file:create', NULL, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		}
 
@@ -365,10 +385,7 @@ if(Surfer::is_crawler()) {
 	} else {
 
 		// touch the related anchor
-		$anchor->touch('file:update', $_REQUEST['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+		$anchor->touch('file:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Files::clear($_REQUEST);
