@@ -81,7 +81,7 @@ include_once '../links/links.php';
 include_once '../locations/locations.php';
 include_once 'visits.php';
 
-Safe::define('SECTIONS_PER_PAGE', 10);
+Safe::define('SECTIONS_PER_PAGE', 30);
 Safe::define('ARTICLES_PER_PAGE', 30);
 
 // look for the id
@@ -137,11 +137,10 @@ if($zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
@@ -280,10 +279,10 @@ if(!isset($item['id'])) {
 			$details[] = i18n::s('Subscriber');
 
 		elseif($item['capability'] == '?') {
-			$details[] = EXPIRED_FLAG.i18n::s('Suspended');
+			$details[] = EXPIRED_FLAG.i18n::s('Blocked');
 
 			// also make it clear to community member
-			Skin::error('This person has been suspended and cannot authenticate anymore.');
+			Skin::error('This person has been blocked and cannot authenticate anymore.');
 		}
 
 		// the number of posts
@@ -320,7 +319,7 @@ if(!isset($item['id'])) {
 	//
 	$stream = '';
 
-	// contributed articles
+	// my pages
 	//
 
 	// the list of contributed articles if not at another follow-up page
@@ -382,55 +381,12 @@ if(!isset($item['id'])) {
 
 	}
 
-	// the list of recent contributed files if not at another follow-up page
-// 	if(!$zoom_type) {
-//
-// 		// build a complete box
-// 		$box['text'] = '';
-//
-// 		// avoid links to this page
-// 		include_once '../files/layout_files_as_simple.php';
-// 		$layout = new Layout_files_as_simple();
-// 		if(is_object($layout))
-// 			$layout->set_variant('user:'.$item['id']);
-//
-// 		// list files by date
-// 		$items = Files::list_by_date_for_author($item['id'], 0, 30, $layout);
-// 		if(is_array($items))
-// 			$items = Skin::build_list($items, 'compact');
-//
-// 		// layout the columns
-// 		$box['text'] .= $items;
-//
-// 		// actually render the html for the section
-// 		if($box['text'])
-// 			$stream .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'contributed_files');
-//
-// 	}
-
-	// the list of contributed links if not at another follow-up page
-// 	if(!$zoom_type) {
-//
-// 		// build a complete box
-// 		$box['text'] = '';
-//
-// 		// list links by date
-// 		$items = Links::list_by_date_for_author($item['id'], 0, 20, 'simple');
-//
-// 		// actually render the html for the section
-// 		if(is_array($items))
-// 			$box['text'] .= Skin::build_list($items, 'compact');
-// 		if($box['text'])
-// 			$stream .= Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'contributed_links');
-//
-// 	}
-
 	// in a separate panel
 	if(trim($stream))
 		$panels[] = array('stream', i18n::s('My pages'), 'stream', $stream);
 
 	//
-	// the sections of choice
+	// my sections
 	//
 	$sections = '';
 
@@ -526,7 +482,7 @@ if(!isset($item['id'])) {
 			} elseif(isset($item['click_date']) && ($item['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
 				// show place of last click
-				if(isset($item['click_anchor']) && ($anchor =& Anchors::get($item['click_anchor'])))
+				if(isset($item['click_anchor']) && ($anchor = Anchors::get($item['click_anchor'])))
 					$visited = array_merge($visited, array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $anchor->get_title())));
 
 			}
@@ -586,7 +542,7 @@ if(!isset($item['id'])) {
 		// agent, if any
 		if(isset($item['vcard_agent']) && $item['vcard_agent']) {
 			$text .= '</p><p>';
-			if($agent =& Users::get($item['vcard_agent']))
+			if($agent = Users::get($item['vcard_agent']))
 				$text .= sprintf(i18n::s('%s: %s'), i18n::s('Alternate contact'), Skin::build_link(Users::get_permalink($agent), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
 			else
 				$text .= sprintf(i18n::s('%s: %s'), i18n::s('Alternate contact'), $item['vcard_agent']);
@@ -745,7 +701,7 @@ if(!isset($item['id'])) {
 		// the command to post a new file
 		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload()) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'span');
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], FILES_UPLOAD_IMG.i18n::s('Add a file'), 'span');
 		}
 
 		if(count($menu))

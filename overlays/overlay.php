@@ -103,12 +103,14 @@ class Overlay {
 	/**
 	 * allow or block operations
 	 *
-	 * @param string the kind of item to handle ('decision', ...)
+	 * @see overlays/petition.php
+	 *
+	 * @param string the kind of item to handle ('approval', ...)
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */
 	function allows($type, $action) {
-		return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -242,12 +244,26 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_details_text($host=NULL, $options=NULL) {
+	function &get_details_text($host=NULL) {
 		$text = '';
 		return $text;
+	}
+
+	/**
+	 * text to be inserted into a mail notification
+	 *
+	 * This function is called to generate notifications sent to watchers when an item
+	 * is either created or edited.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function get_diff_text($host=NULL) {
+		return $this->get_view_text($host);
 	}
 
 	/**
@@ -256,10 +272,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL, $options=NULL) {
+	function &get_extra_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -354,10 +369,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL, $options=NULL) {
+	function &get_list_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -368,10 +382,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_description($host=NULL, $options=NULL) {
+	function &get_live_description($host=NULL) {
 		$text = $host['description'];
 		return $text;
 	}
@@ -382,10 +395,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL, $options=NULL) {
+	function &get_live_introduction($host=NULL) {
 		$text = $host['introduction'];
 		return $text;
 	}
@@ -396,10 +408,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL, $options=NULL) {
+	function &get_live_title($host=NULL) {
 		$text = $host['title'];
 		return $text;
 	}
@@ -460,51 +471,55 @@ class Overlay {
 	 *
 	 * @param string the variant code
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($variant='view', $host=NULL, $options=NULL) {
+	function &get_text($variant='view', $host=NULL) {
 		switch($variant) {
 
 		// live description
 		case 'description':
-			$text =& $this->get_live_description($host, $options);
+			$text =& $this->get_live_description($host);
 			return $text;
 
 		// small details
 		case 'details':
-			$text =& $this->get_details_text($host, $options);
+			$text =& $this->get_details_text($host);
+			return $text;
+
+		// diff from a previous version, for e-mail notifications
+		case 'diff':
+			$text = $this->get_diff_text($host);
 			return $text;
 
 		// extra side of the page
 		case 'extra':
-			$text =& $this->get_extra_text($host, $options);
+			$text =& $this->get_extra_text($host);
 			return $text;
 
 		// live introduction
 		case 'introduction':
-			$text =& $this->get_live_introduction($host, $options);
+			$text =& $this->get_live_introduction($host);
 			return $text;
 
 		// container is one item of a list
 		case 'list':
-			$text =& $this->get_list_text($host, $options);
+			$text =& $this->get_list_text($host);
 			return $text;
 
 		// live title
 		case 'title':
-			$text =& $this->get_live_title($host, $options);
+			$text =& $this->get_live_title($host);
 			return $text;
 
 		// at the bottom of the page, after the description field
 		case 'trailer':
-			$text =& $this->get_trailer_text($host, $options);
+			$text =& $this->get_trailer_text($host);
 			return $text;
 
 		// full page of the container
 		case 'view':
 		default:
-			$text =& $this->get_view_text($host, $options);
+			$text =& $this->get_view_text($host);
 			return $text;
 		}
 	}
@@ -515,10 +530,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL, $options=NULL) {
+	function &get_trailer_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -565,10 +579,9 @@ class Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL, $options=NULL) {
+	function &get_view_text($host=NULL) {
 		$text = '';
 		foreach($this->attributes as $label => $value) {
 			$text .= '<p>'.$label.': '.$value."</p>\n";
@@ -601,7 +614,7 @@ class Overlay {
 	 *
 	 * [php]
 	 * // get the record from the database
-	 * $item =& Articles::get($id);
+	 * $item = Articles::get($id);
 	 *
 	 * // extract overlay data from $item['overlay']
 	 * $overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -764,6 +777,24 @@ class Overlay {
 	}
 
 	/**
+	 * embed embeddable files or not?
+	 *
+	 * By default, when an embeddable file is attached to a page, a yacs code is placed
+	 * in the description field of this page to feature the new file.
+	 * To prevent this behaviour in some pages, you can program the overlay to return
+	 * FALSE to this function call.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see overlays/embed.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay
+	 */
+	function should_embed_files() {
+		return TRUE;
+	}
+
+	/**
 	 * notify followers or not?
 	 *
 	 * This function is used in articles/publish.php to prevent notification of followers.
@@ -795,6 +826,26 @@ class Overlay {
 		return TRUE;
 	}
 
+	/**
+	 * make a shallow copy of attributes
+	 *
+	 * This function allows to detect changes when content of an overlay is modified.
+	 *
+	 */
+	function snapshot() {
+
+		// to be compared with $this->attributes
+		$this->snapshot = array();
+
+		// shallow copy should be enough
+		foreach($this->attributes as $name => $value) {
+			if(is_object($value))
+				$this->snapshot[$name] = clone $value;
+			else
+				$this->snapshot[$name] = $value;
+		}
+
+	}
 }
 
 ?>

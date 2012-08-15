@@ -50,7 +50,6 @@ Class Layout_articles_as_freemind extends Layout_interface {
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$nodes = 0; // number of nodes processed so far
 		$stack = 0; // branch depth
 		while($item = SQL::fetch($result)) {
@@ -59,7 +58,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Articles::get_permalink($item);

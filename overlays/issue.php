@@ -97,15 +97,17 @@ class Issue extends Overlay {
 		$text = '<span style="background-color: '.self::get_color_value('green').';"> <input type="radio" name="color" value="green"';
 		if($color == 'green')
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('under control').' </span>'
-			.' <span style="background-color: '.self::get_color_value('orange').';"> <input type="radio" name="color" value="orange"';
+		$text .= '/> '.i18n::s('Situation is under control').' </span>'
+			.BR
+			.'<span style="background-color: '.self::get_color_value('orange').';"> <input type="radio" name="color" value="orange"';
 		if($color == 'orange')
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('abnormal resources are required')
-			.' </span> <span style="background-color: '.self::get_color_value('red').';"> <input type="radio" name="color" value="red"';
+		$text .= '/> '.i18n::s('Exceptional effort is required').' </span>'
+			.BR
+			.'<span style="background-color: '.self::get_color_value('red').';"> <input type="radio" name="color" value="red"';
 		if($color == 'red')
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('stop everything else').'&nbsp;</span>';
+		$text .= '/> '.i18n::s('This is our first priority').'&nbsp;</span>';
 		return $text;
 	}
 
@@ -121,13 +123,13 @@ class Issue extends Overlay {
 		switch($color) {
 		case 'green':
 		default:
-			return i18n::s('Green');
+			return '<span style="background-color: '.self::get_color_value('green').';">'.i18n::s('Situation is under control').'</span>';
 
 		case 'orange':
-			return i18n::s('Orange');
+			return '<span style="background-color: '.self::get_color_value('orange').';">'.i18n::s('Exceptional effort is required').'</span>';
 
 		case 'red':
-			return i18n::s('Red');
+			return '<span style="background-color: '.self::get_color_value('red').';">'.i18n::s('This is our first priority').'</span>';
 
 		}
 
@@ -158,6 +160,13 @@ class Issue extends Overlay {
 	}
 
 	/**
+	 * streamline the user interface as much as possible
+	 */
+	function get_edit_as_simple_value() {
+		return TRUE;
+	}
+
+	/**
 	 * build the list of fields for one overlay
 	 *
 	 * The current status, and the related status date are proposed
@@ -174,7 +183,7 @@ class Issue extends Overlay {
 		$fields = array();
 
 		// capture of initial data
-		if(!isset($this->attributes['type'])) {
+		if(!isset($host['id'])) {
 			$this->attributes['type'] = 'incident';
 
 			$label = i18n::s('Workflow');
@@ -488,10 +497,9 @@ class Issue extends Overlay {
 	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL, $options=NULL) {
+	function &get_list_text($host=NULL) {
 
 		// show progress
 		$text = BR.self::get_progress_value();
@@ -796,18 +804,40 @@ class Issue extends Overlay {
 		// only associates and page owners can change the status
 		if(($variant == 'edit') && isset($this->anchor) && $this->anchor->is_owned()) {
 
-			// type
-			if(!isset($this->attributes['type']))
-				$this->attributes['type'] = 'incident';
+			// a table of fields
+			$fields = array();
+
+			// owner
+			$label = i18n::s('Owner');
+			if(isset($host['owner_id']) && ($user = Users::get($host['owner_id'])))
+				$value = $user['nick_name'];
+			else
+				$value = '';
+			$input = '<input type="text" name="owner" id="owner" value ="'.encode_field($value).'" size="25" maxlength="32" />';
+			$hint = i18n::s('Type some letters of the name and select in the list');
+			$fields[] = array($label, $input, $hint);
+
+			$tracking .= JS_PREFIX
+				.'$(function() { Yacs.autocomplete_names("owner",true); });'."\n" // enable owner autocompletion
+				.JS_SUFFIX;
+
+			// priority
+			$label = i18n::s('Priority');
 			if(!isset($this->attributes['color']))
 				$this->attributes['color'] = 'green';
-			$tracking .= '<div>'.i18n::s('Workflow')
-				.' <select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select></div>'
-				.'<div style="margin-top: 0.5em;" >'.i18n::s('Color').' '.self::get_color_as_radio_buttons($this->attributes['color']).'</div>';
+			$input = self::get_color_as_radio_buttons($this->attributes['color']);
+			$fields[] = array($label, $input);
 
-			// for easy detection of changes
-			$tracking .= '<input type="hidden" name="previous_type" value="'.$this->attributes['type'].'" />'
-				.'<input type="hidden" name="previous_color" value="'.$this->attributes['color'].'" />';
+			// type
+			$label = i18n::s('Workflow');
+			if(!isset($this->attributes['type']))
+				$this->attributes['type'] = 'incident';
+			$input = '<select name="type" id="type">'.self::get_type_options($this->attributes['type']).'</select>';
+			$fields[] = array($label, $input);
+
+			// format these fields
+			$tracking .= Skin::build_form($fields);
+			$fields = array();
 
 			// to represent transitions from one step to the next one
 			Skin::define_img('NEXT_STEP', 'overlays/next_step.gif', 'V');
@@ -900,21 +930,6 @@ class Issue extends Overlay {
 				$checked = 'checked="checked"';
 			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:solution" '.$checked.' />&nbsp;'.$this->get_status_label('cancelled:solution').'</p></div>';
 
-			// for easy detection of status change
-			$tracking .= '<input type="hidden" name="previous_status" value="'.$this->attributes['status'].'" />';
-
-			// owner
-			if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id'])))
-				$value = $user['nick_name'];
-			else
-				$value = '';
-			$tracking .= '<div class="bottom">'.i18n::s('Owner')
-				.' <input type="text" name="owner" id="owner" value ="'.encode_field($value).'" size="25" maxlength="32" />'
-				.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
-			$context['page_footer'] .= JS_PREFIX
-				.'// enable owner autocompletion'."\n"
-				.'$(document).ready( function() { Yacs.autocomplete_names("owner",true); });  '."\n"
-				.JS_SUFFIX;
 		}
 
 		// finalize this tab
@@ -1012,6 +1027,19 @@ class Issue extends Overlay {
 
 		$rows = array();
 
+		// this page has an explicit owner
+		if(isset($host['owner_id']) && ($user = Users::get($host['owner_id']))) {
+
+			// allow for click-to-call
+			$click_to_call = Users::get_click_to_call($user);
+
+			// display information on the owner
+			$rows[] = array(i18n::s('Owner'), Users::get_link($user['full_name'], NULL, $user['id']).' '.$click_to_call);
+		}
+
+		// show progress
+		$rows[] = array(i18n::s('Progress'), self::get_progress_value());
+
 		// type
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
 
@@ -1019,15 +1047,19 @@ class Issue extends Overlay {
 		$history = self::get_history();
 		$rows[] = array(i18n::s('Status'), self::get_status_label($this->attributes['status']).$history);
 
-		// build a link to the owner page, if any
-		if(isset($host['owner_id']) && ($user =& Users::get($host['owner_id'])))
-			$rows[] = array(i18n::s('Owner'), Users::get_link($user['full_name'], NULL, $user['id']));
-
-		// show progress
-		$rows[] = array(i18n::s('Progress'), self::get_progress_value());
-
 		$text = Skin::table(NULL, $rows, 'grid');
 		return $text;
+	}
+
+	/**
+	 * initialize this instance
+	 *
+	 */
+	function initialize() {
+
+		$this->attributes['status'] = 'on-going:suspect';
+		$this->attributes['type'] = 'incident';
+
 	}
 
 	/**
@@ -1057,9 +1089,6 @@ class Issue extends Overlay {
 
 		$this->attributes['color'] = isset($fields['color']) ? $fields['color'] : 'green';
 		$this->attributes['owner'] = isset($fields['owner']) ? $fields['owner'] : '';
-		$this->attributes['previous_color'] = isset($fields['previous_color']) ? $fields['previous_color'] : 'green';
-		$this->attributes['previous_status'] = isset($fields['previous_status']) ? $fields['previous_status'] : 'on-going:suspect';
-		$this->attributes['previous_type'] = isset($fields['previous_type']) ? $fields['previous_type'] : 'incident';
 		$this->attributes['status'] = isset($fields['status']) ? $fields['status'] : 'on-going:suspect';
 		$this->attributes['type'] = isset($fields['type']) ? $fields['type'] : 'incident';
 		$this->attributes['create_date'] = isset($fields['create_date']) ? Surfer::to_GMT($fields['create_date']) : NULL_DATE;
@@ -1113,7 +1142,7 @@ class Issue extends Overlay {
 		if(!isset($this->attributes['close_date']) || ($this->attributes['close_date'] <= NULL_DATE))
 			$this->attributes['close_date'] = NULL_DATE;
 
-		// if a comment has to be appended as well
+		// add a notification to the anchor page
 		$comments = array();
 
 		// build the update query
@@ -1124,14 +1153,27 @@ class Issue extends Overlay {
 			break;
 
 		case 'insert':
+			$comments[] = i18n::s('Page has been created');
+
+			// set host owner, if any
+			if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != Surfer::get_id())) {
+				$fields = array();
+				$fields['owner_id'] = $user['id'];
+				$this->anchor->set_values($fields);
+
+				Members::assign('user:'.$user['id'], $this->anchor->get_reference());
+				Members::assign($this->anchor->get_reference(), 'user:'.$user['id']);
+
+				$comments[] = sprintf(i18n::s('Owner has been changed to %s'), Skin::build_link(Users::get_permalink($user), $user['full_name']));
+			}
 
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
 				."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
 				."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
-				."color='".SQL::escape($this->attributes['color'])."', \n"
-				."status='".SQL::escape($this->attributes['status'])."', \n"
+				."color='".SQL::escape(isset($this->attributes['color'])?$this->attributes['color']:'green')."', \n"
+				."status='".SQL::escape(isset($this->attributes['status'])?$this->attributes['status']:'on-going:suspect')."', \n"
 				."title='".SQL::escape($this->attributes['anchor_title'])."', \n"
-				."type='".SQL::escape($this->attributes['type'])."', \n"
+				."type='".SQL::escape(isset($this->attributes['type'])?$this->attributes['type']:'incident')."', \n"
 				."create_name='".SQL::escape(isset($this->attributes['create_name']) ? $this->attributes['create_name'] : $this->attributes['edit_name'])."', \n"
 				."create_id=".SQL::escape(isset($this->attributes['create_id']) ? $this->attributes['create_id'] : $this->attributes['edit_id']).", \n"
 				."create_address='".SQL::escape(isset($this->attributes['create_address']) ? $this->attributes['create_address'] : $this->attributes['edit_address'])."', \n"
@@ -1145,10 +1187,6 @@ class Issue extends Overlay {
 				."analysis_date='".SQL::escape(isset($this->attributes['analysis_date']) ? $this->attributes['analysis_date'] : NULL_DATE)."', \n"
 				."resolution_date='".SQL::escape(isset($this->attributes['resolution_date']) ? $this->attributes['resolution_date'] : NULL_DATE)."', \n"
 				."close_date='".SQL::escape(isset($this->attributes['close_date']) ? $this->attributes['close_date'] : NULL_DATE)."'";
-
-
-				$comments[] = i18n::s('Page has been created');
-
 			break;
 
 		case 'update':
@@ -1157,12 +1195,12 @@ class Issue extends Overlay {
 			if(is_callable(array($this->anchor, 'is_owned')) && $this->anchor->is_owned()) {
 
 				// detect type modification
-				if($this->attributes['type'] != $this->attributes['previous_type'])
+				if($this->attributes['type'] != $this->snapshot['type'])
 					$comments[] = sprintf(i18n::s('Workflow has been changed to "%s"'), $this->get_type_label($this->attributes['type']));
 
 				// detect color modification
-				if($this->attributes['color'] != $this->attributes['previous_color'])
-					$comments[] = sprintf(i18n::s('Color has been changed to "%s"'), $this->get_color_label($this->attributes['color']));
+				if($this->attributes['color'] != $this->snapshot['color'])
+					$comments[] = $this->get_color_label($this->attributes['color']);
 
 				// change host owner, if any
 				if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != $this->anchor->get_value('owner_id'))) {
@@ -1191,7 +1229,8 @@ class Issue extends Overlay {
 					."close_date='".SQL::escape(isset($this->attributes['close_date']) ? $this->attributes['close_date'] : NULL_DATE)."', \n";
 
 				// detect status modification
-				if($this->attributes['status'] != $this->attributes['previous_status']) {
+				if($this->attributes['status'] != $this->snapshot['status']) {
+					$comments[] = $this->get_status_label($this->attributes['status']);
 
 					// depending of new status
 					switch($this->attributes['status']) {
@@ -1201,8 +1240,6 @@ class Issue extends Overlay {
 						$query .= "create_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."create_id=".SQL::escape($this->attributes['edit_id']).", \n"
 							."create_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// problem has been validated
@@ -1211,8 +1248,6 @@ class Issue extends Overlay {
 						$query .= "qualification_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."qualification_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."qualification_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// cause has been identified
@@ -1221,8 +1256,6 @@ class Issue extends Overlay {
 						$query .= "analysis_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."analysis_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."analysis_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// solution has been achieved
@@ -1231,8 +1264,6 @@ class Issue extends Overlay {
 						$query .= "resolution_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."resolution_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."resolution_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 
 					// ending the issue
@@ -1241,8 +1272,6 @@ class Issue extends Overlay {
 						$query .= "close_name='".SQL::escape($this->attributes['edit_name'])."', \n"
 							."close_id='".SQL::escape($this->attributes['edit_id'])."', \n"
 							."close_address='".SQL::escape($this->attributes['edit_address'])."', \n";
-
-						$comments[] = $this->get_status_label($this->attributes['status']);
 						break;
 					}
 
@@ -1257,6 +1286,10 @@ class Issue extends Overlay {
 					." WHERE anchor LIKE '".SQL::escape($this->attributes['anchor_reference'])."'";
 
 			}
+
+			// ensure that this change has been recorded
+			if(!$comments)
+				$comments[] = i18n::s('Page has been edited');
 
 			break;
 		}
@@ -1285,7 +1318,7 @@ class Issue extends Overlay {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

@@ -114,7 +114,7 @@ class Event extends Overlay {
 		global $context;
 
 		// capture chairman's id
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
 			$value = $user['nick_name'];
 		else
 			$value = '';
@@ -122,11 +122,25 @@ class Event extends Overlay {
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		// append the script used for autocompletion
 		$context['page_footer'] .= JS_PREFIX
-			.'// enable chairman autocompletion'."\n"
-			.'$(document).ready( function() { Yacs.autocomplete_names("chairman",true); });  '."\n"
+			.'$(function() { Yacs.autocomplete_names("chairman",true); });'."\n" // enable chairman autocompletion
 			.JS_SUFFIX;
 		// done
 		return $input;
+	}
+
+	/**
+	 * text to be inserted into a mail notification
+	 *
+	 * This function is useless for this overlay since notifications refer to
+	 * .ics data that are attached to them.
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function get_diff_text($host=NULL) {
+		return '';
 	}
 
 	/**
@@ -501,25 +515,6 @@ class Event extends Overlay {
 		// method
 		$text .= 'METHOD:'.$method.CRLF;
 
-		// yacs uses dates in UTC
-		$text .= 'BEGIN:VTIMEZONE'.CRLF
-			.'TZID:/GMT'.CRLF
-			.'BEGIN:DAYLIGHT'.CRLF
-			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20750407T030000Z;BYMONTH=3D4;BYDAY=3D-1SU'.CRLF
-			.'TZNAME:Universal Coordinated Time'.CRLF
-			.'TZOFFSETTO:+0000'.CRLF
-			.'TZOFFSETFROM:+0000'.CRLF
-			.'DTSTART:19910401T030000'.CRLF
-			.'END:DAYLIGHT'.CRLF
-			.'BEGIN:STANDARD'.CRLF
-			.'RRULE:FREQ=3DYEARLY;UNTIL=3D20751031T010000Z;BYMONTH=3D10;BYDAY=3D-1SU'.CRLF
-			.'TZNAME:Universal Coordinated Time'.CRLF
-			.'TZOFFSETTO:+0000'.CRLF
-			.'TZOFFSETFROM:+0000'.CRLF
-			.'DTSTART:19911025T010000'.CRLF
-			.'END:STANDARD'.CRLF
-			.'END:VTIMEZONE'.CRLF;
-
 		// begin event
 		$text .= 'BEGIN:VEVENT'.CRLF;
 
@@ -533,13 +528,13 @@ class Event extends Overlay {
 
 		// the event spans limited time --duration is expressed in minutes
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440)) {
-			$text .= 'DTSTART;TZID=/GMT:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).CRLF;
-			$text .= 'DTEND;TZID=/GMT:'.gmdate('Ymd\THis', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
+			$text .= 'DTSTART:'.str_replace(array('-', ' ', ':'), array('', 'T', ''), $this->attributes['date_stamp']).'Z'.CRLF;
+			$text .= 'DTEND:'.gmdate('Ymd\THis\Z', SQL::strtotime($this->attributes['date_stamp'])+($this->attributes['duration']*60)).CRLF;
 
 		// a full-day event
 		} elseif(isset($this->attributes['date_stamp'])) {
-			$text .= 'DTSTART;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
-			$text .= 'DTEND;TZID=/GMT;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
+			$text .= 'DTSTART;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])).CRLF;
+			$text .= 'DTEND;VALUE=DATE:'.date('Ymd', SQL::strtotime($this->attributes['date_stamp'])+86400).CRLF;
 		}
 
 		// url to view the date
@@ -564,9 +559,9 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).'\n';
 
 		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
-		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user =& Users::get($owner)))
+		elseif(($owner = $this->anchor->get_value('owner_id')) && ($user = Users::get($owner)))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name']).'\n';
 
 		// location
@@ -702,7 +697,7 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
 
 		// build a link to the chairman page, if any
-		if(isset($this->attributes['chairman']) && ($user =& Users::get($this->attributes['chairman'])))
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
 			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
 
 		// meeting has been cancelled
@@ -1143,7 +1138,11 @@ class Event extends Overlay {
 		$rows = array();
 
 		// initialize feed-back to end-user
-		$this->feed_back = array('message' => '', 'status' => array(), 'menu' => array(), 'reload_this_page' => FALSE);;
+		$this->feed_back = array('message' => '',
+			'status' => array(),	// several lines to report on meeting status
+			'menu' => array(),		// invite, enroll, confirm, ...
+			'commands' => array(),	// start, join, stop, ...
+			'reload_this_page' => FALSE);;
 
 		// maybe a bare instance
 		if(!isset($this->attributes['status']))
@@ -1186,11 +1185,12 @@ class Event extends Overlay {
 
 			}
 
+			// signal that the event is over
+			$this->feed_back['status'][] = i18n::s('Event is over');
+
 			// display the follow-up message
 			if(isset($this->attributes['follow_up_message']) && $this->attributes['follow_up_message'])
-				$this->feed_back['status'][] = Codes::render($this->attributes['follow_up_message']);
-			else
-				$this->feed_back['status'][] = i18n::s('Event is over');
+				$this->feed_back['message'] .= Codes::render($this->attributes['follow_up_message']);
 
 		// possible transition to state 'stopped'
 		} else
@@ -1240,10 +1240,6 @@ class Event extends Overlay {
 		} else
 			$this->transition_to_created();
 
-		// finalize feed-back
-		if($this->feed_back['message'])
-			$rows[] = array($this->get_message_label(), $this->feed_back['message']);
-
 		// event details
 		if($details = $this->get_event_details_text())
 			$rows[] = array($this->get_event_details_label(), $details);
@@ -1279,7 +1275,7 @@ class Event extends Overlay {
 
 		// build a link to the owner page, if any
 		if(isset($this->attributes['chairman']) && $this->attributes['chairman']) {
-			if($user =& Users::get($this->attributes['chairman']))
+			if($user = Users::get($this->attributes['chairman']))
 				$label = Users::get_link($user['full_name'], NULL, $user['id']);
 			else
 				$label = $this->attributes['chairman'];
@@ -1317,8 +1313,16 @@ class Event extends Overlay {
 			$rows[] = array(i18n::s('Status'), $status);
 		}
 
+		// display commands to page owner
+		if(count($this->feed_back['commands']))
+			$rows[] = array('', Skin::finalize_list($this->feed_back['commands'], 'menu_bar'));
+
 		// format text in a table
 		$text = Skin::table(NULL, $rows, 'grid');
+
+		// finalize feed-back
+		if($this->feed_back['message'])
+			$text .= Skin::build_box($this->get_message_label(), $this->feed_back['message']);
 
 		// allow for extensions
 		if(is_callable(array($this, 'get_view_text_extension')))
@@ -1575,9 +1579,7 @@ class Event extends Overlay {
 					$subject = sprintf('%s: %s', i18n::c('Cancellation'), strip_tags($this->anchor->get_title()));
 
 					// headline
-					$headline = sprintf(i18n::c('%s has cancelled %s'),
-						'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
-						$this->anchor->get_title());
+					$headline = sprintf(i18n::c('%s has cancelled %s'), Surfer::get_link(), $this->anchor->get_title());
 
 					// message to reader
 					$message = $this->get_invite_default_message('CANCEL');
@@ -1586,7 +1588,7 @@ class Event extends Overlay {
 					$message = Skin::build_mail_content($headline, $message);
 
 					// threads messages
-					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+					$headers = Mailer::set_thread($this->anchor->get_reference());
 
 					// get attachment from the overlay
 					$attachments = $this->get_invite_attachments('CANCEL');
@@ -1628,7 +1630,7 @@ class Event extends Overlay {
 
 			// reload the anchor through the cache to reflect the update
 			if($reference)
-				$this->anchor =& Anchors::get($reference, TRUE);
+				$this->anchor = Anchors::get($reference, TRUE);
 
 			// send a confirmation message to event creator
 			$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$reference."')";
@@ -1672,7 +1674,7 @@ class Event extends Overlay {
 					$message .= Skin::build_mail_menu($menu);
 
 					// threads messages
-					$headers = Mailer::set_thread('', $this->anchor->get_reference());
+					$headers = Mailer::set_thread($this->anchor->get_reference());
 
 					// get attachment from the overlay
 					$attachments = $this->get_invite_attachments('PUBLISH');
@@ -1688,7 +1690,7 @@ class Event extends Overlay {
 
 			// reload the anchor through the cache to reflect the update
 			if($reference)
-				$this->anchor =& Anchors::get($reference, TRUE);
+				$this->anchor = Anchors::get($reference, TRUE);
 
 			// no need to notify watchers after the date planned for the event, nor if the event has been initiated
 			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmstrftime('%Y-%m-%d %H:%M'))
@@ -1729,8 +1731,7 @@ class Event extends Overlay {
 						$subject = sprintf(i18n::c('Updated: %s'), strip_tags($this->anchor->get_title()));
 
 						// headline
-						$headline = sprintf(i18n::c('%s has updated %s'),
-							'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+						$headline = sprintf(i18n::c('%s has updated %s'), Surfer::get_link(),
 							'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 						// message to reader
@@ -1750,7 +1751,7 @@ class Event extends Overlay {
 						$message .= Skin::build_mail_menu($menu);
 
 						// threads messages
-						$headers = Mailer::set_thread('', $this->anchor->get_reference());
+						$headers = Mailer::set_thread($this->anchor->get_reference());
 
 						// get attachment from the overlay
 						$attachments = $this->get_invite_attachments('PUBLISH');
@@ -1811,7 +1812,7 @@ class Event extends Overlay {
 			return NULL;
 
 		// get the containing page
-		$container =& Anchors::get($anchor);
+		$container = Anchors::get($anchor);
 
 		// handle dates
 		include_once $context['path_to_root'].'dates/dates.php';
@@ -2080,7 +2081,7 @@ class Event extends Overlay {
 			return;
 
 		// initiate the meeting one hour in advance
-		if(($this->minutes_before_start > 0) && ($this->minutes_before_start <= 60)) {
+		if($this->minutes_before_start <= 60) {
 
 			// move to the 'lobby' status and refresh the page
 			$fields = array('status' => 'lobby');
@@ -2158,7 +2159,7 @@ class Event extends Overlay {
 					$type = 'button';
 
 				// add the button
-				$this->feed_back['menu'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
+				$this->feed_back['commands'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
 			}
 
 			// else remind the owner to do something
@@ -2301,25 +2302,26 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 				// display the button to stop the meeting
 				if($this->with_stop_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('stop'), i18n::s('Stop the meeting'), 'span');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('stop'), i18n::s('Stop the meeting'),
+						$this->with_join_button()?'span':'button');
 
 			// enrolment is not required
 			} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'none')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 			// surfer has been fully enrolled
 			} elseif(($enrolment = enrolments::get_record($this->anchor->get_reference())) && ($enrolment['approved'] == 'Y')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['menu'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
 
 			}
 		}

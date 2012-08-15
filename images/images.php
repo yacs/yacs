@@ -209,7 +209,7 @@ Class Images {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'files', 'images', 'sections', 'users');
@@ -237,7 +237,7 @@ Class Images {
 		global $context;
 
 		// load the row
-		$item =& Images::get($id);
+		$item = Images::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has been found.'));
 			return FALSE;
@@ -359,7 +359,7 @@ Class Images {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -374,7 +374,7 @@ Class Images {
 	 * @param int the id of the image
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -626,7 +626,7 @@ Class Images {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -698,7 +698,7 @@ Class Images {
 		}
 
 		// get the anchor
-		if(!$anchor =& Anchors::get($fields['anchor'])) {
+		if(!$anchor = Anchors::get($fields['anchor'])) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -767,7 +767,7 @@ Class Images {
 
 		// nothing done
 		} else {
-			Logger::error(i18n::s('No image has been uploaded.'));
+			Logger::error(i18n::s('No image has been added.'));
 			return FALSE;
 		}
 
@@ -817,7 +817,7 @@ Class Images {
 	 *
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -835,7 +835,7 @@ Class Images {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items

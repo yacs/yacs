@@ -17,7 +17,7 @@
  * - 'polls' -- create a section for polls
  * - 'recipes' -- create a book of cooking recipes
  * - 'servers' -- sample hosts to be pinged, etc. ([script]servers/populate.php[/script])
- * - 'vote' -- create one vote, or one poll
+ * - 'petition' -- create one petition, or one poll
  * - 'wiki' -- create a wiki
  *
  * If no parameter has been set, the script displays a form to make the surfer select among available options.
@@ -1651,8 +1651,8 @@ if(!$permitted) {
 } elseif($action == 'test') {
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'tools/populate.php');
 
-// create a vote or a poll
-} elseif($action == 'vote') {
+// create a petition or a poll
+} elseif($action == 'petition') {
 
 	// page title
 	$context['page_title'] = i18n::s('Add a page');
@@ -1665,13 +1665,8 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="vote" />';
+			.'<input type="hidden" name="action" value="petition" />';
 		$fields = array();
-
-		// vote
-		$label = i18n::s('Vote');
-		$input = '<input type="radio" name="type" value="vote" checked="checked" /> '.i18n::s('The best way to formalize collective decisions. Every voter can expressed a Yes or No, and comment its ballot.');
-		$fields[] = array($label, $input);
 
 		// petition
 		$label = i18n::s('Petition');
@@ -1863,7 +1858,7 @@ if(!$permitted) {
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'" id="main_form">'."\n";
 
 	// sollicitate users for feed-back
-	$context['text'] .= '<p><input type="radio" name="action" value="vote" /> '.i18n::s('Sollicitate users input -- create one single vote, a petition, or a poll').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="petition" /> '.i18n::s('Sollicitate users input -- create a petition, or a poll').'</p>'."\n";
 
 	// create a forum
 	$context['text'] .= '<p><input type="radio" name="action" value="forum" /> '.i18n::s('Add a forum -- let people interact').'</p>'."\n";

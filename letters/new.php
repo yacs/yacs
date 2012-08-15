@@ -123,7 +123,7 @@ if(!Surfer::is_associate()) {
 	$context['letter_body'] .= "\n\n\n";
 
 	// append surfer signature, if any
-	if(Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && $user['signature'])
+	if(Surfer::get_id() && ($user = Users::get(Surfer::get_id())) && $user['signature'])
 		$context['letter_body'] .= '<p>-----'.BR.strip_tags($user['signature'].'</p>');
 
 	// the letter suffix
@@ -334,7 +334,7 @@ if(!Surfer::is_associate()) {
 		$context['root_featured_count'] = 7;
 
 	// the category used to assign featured pages
-	$anchor =& Categories::get(i18n::c('featured'));
+	$anchor = Categories::get(i18n::c('featured'));
 	if(isset($anchor['id']) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
 
 		// scan each article

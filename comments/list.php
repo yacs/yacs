@@ -67,7 +67,7 @@ $id = strip_tags($id);
 // get the anchor
 $anchor = NULL;
 if($id)
-	$anchor =& Anchors::get($id);
+	$anchor = Anchors::get($id);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
@@ -135,7 +135,7 @@ if(!is_object($anchor)) {
 
 	// cache the section
 	$cache_id = 'comments/list.php?id='.$anchor->get_reference().'#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// get a layout from anchor
 		$layout =& Comments::get_layout($anchor);
@@ -154,11 +154,6 @@ if(!is_object($anchor)) {
 		$offset = ($page - 1) * $items_per_page;
 		if(is_object($layout) && method_exists($layout, 'set_offset'))
 			$layout->set_offset($offset);
-
-		// reverse order
-		$reverted = FALSE;
-		if(is_object($anchor) && $anchor->has_option('comments_as_wall'))
-			$reverted = TRUE;
 
 		// build a complete box
 		$box['bar'] = array();
@@ -182,7 +177,7 @@ if(!is_object($anchor)) {
 				Skin::navigate($anchor->get_url('comments'), $prefix, $count, $items_per_page, $page, FALSE));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, $reverted);
+			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, TRUE);
 
 			// actually render the html
 			if(is_array($items))

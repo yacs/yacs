@@ -3,9 +3,6 @@
  * change parameters for users
  *
  * @todo capture a list of e-mail to be notified when a new person registers (prepare for baby-sitting)
- * @todo allow for automatic lock of pages after some idle time
- * @todo add a parameter to limit total uploads by one user (UncleJam) -- give a positive number of bytes, and stop accepting files at zero
- * @todo add a set of predefined javascript links for pre-defined profiles
  *
  * This script will let you modify following parameters:
  *
@@ -23,6 +20,11 @@
  * [*] [code]users_maximum_managed_sections[/code] - The maximum number of
  * sections that one member can create on his own. The default value is 0, which
  * means that users are prevented to extend their web space.
+ *
+ * [*] [code]users_trusted_hosts[/code] - Private content is exposed to requests
+ * coming from these network addresses. This can be used for intranet servers
+ * either to index full content from crawling engine, or to allow auditors to
+ * perform transverse analysis of content.
  *
  * [*] [code]users_with_anonymous_comments[/code] - If explicitly set to 'Y',
  * yacs will allow anonymous surfers to post comments to any public page.
@@ -319,6 +321,14 @@ elseif(!Surfer::is_associate()) {
 	$input .= '/> '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
 	$fields[] = array($label, $input);
 
+	// trusted hosts
+	if(!isset($context['users_trusted_hosts']))
+		$context['users_trusted_hosts'] = '127.0.0.1 localhost';
+	$label = i18n::s('Trusted hosts');
+	$input = '<textarea name="users_trusted_hosts" id="users_trusted_hosts" cols="40" rows="2">'.encode_field($context['users_trusted_hosts']).'</textarea>';
+	$hint = i18n::s('Private content will be exposed to requests coming from these network addresses');
+	$fields[] = array($label, $input, $hint);
+
 	// build the form
 	$authentication .= Skin::build_form($fields);
 	$fields = array();
@@ -559,6 +569,8 @@ elseif(!Surfer::is_associate()) {
 	$content .= '$context[\'users_maximum_managed_sections\']=\''.addcslashes($_REQUEST['users_maximum_managed_sections'], "\\'")."';\n";
 	if(isset($_REQUEST['users_overlay']))
 		$content .= '$context[\'users_overlay\']=\''.addcslashes($_REQUEST['users_overlay'], "\\'")."';\n";
+	if(isset($_REQUEST['users_trusted_hosts']))
+		$content .= '$context[\'users_trusted_hosts\']=\''.addcslashes($_REQUEST['users_trusted_hosts'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_avatars']))
 		$content .= '$context[\'users_with_avatars\']=\''.addcslashes($_REQUEST['users_with_avatars'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_anonymous_comments']))

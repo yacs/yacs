@@ -28,16 +28,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -111,8 +110,8 @@ if(Surfer::is_crawler()) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// headline
-	$headline = sprintf(i18n::c('%s has notified you from %s'),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+	$headline = sprintf(i18n::c('%s is notifying you from %s'),
+		Surfer::get_link(),
 		'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages
@@ -132,8 +131,8 @@ if(Surfer::is_crawler()) {
 		// clean the provided string
 		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
-		// look for a user with this nick name
-		if(!$user =& Users::lookup($recipient))
+		// look for a user with this address
+		if(!$user = Users::lookup($recipient))
 			continue;
 
 		// this person has no valid email address
@@ -176,7 +175,7 @@ if(Surfer::is_crawler()) {
 		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'article:'.$item['id']);
+		$headers = Mailer::set_thread('article:'.$item['id']);
 
 		// post message for this recipient
 		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers))
@@ -197,7 +196,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 // send message to all watchers
-} elseif(!$recipients = Articles::list_watchers_by_posts($item, 0, 1000, 'mail')) {
+} elseif(!$recipients = Articles::list_watchers_by_name($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form

@@ -34,7 +34,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Dates::get($id);
+$item = Dates::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -47,9 +47,9 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -127,13 +127,13 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$context['text'] .= '<p>'.i18n::s('The date has been saved.').'</p>';
 
 		// touch the related anchor
-		$anchor->touch('date:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, TRUE);
+		$anchor->touch('date:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Dates::clear($_REQUEST);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');

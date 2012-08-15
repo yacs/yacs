@@ -12,6 +12,17 @@
 Class Layout_sections_as_titles extends Layout_interface {
 
 	/**
+	 * the preferred number of items for this layout
+	 *
+	 * The compact format of this layout allows a high number of items to be listed
+	 *
+	 * @return int the optimised count of items fro this layout
+	 */
+	function items_per_page() {
+		return 1000;
+	}
+
+	/**
 	 * list sections
 	 *
 	 * @param resource the SQL result
@@ -52,7 +63,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			}
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);
@@ -271,7 +282,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			// use tipsy on hover
 			$content = '<a href="'.$context['url_to_root'].$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>'
 				.JS_PREFIX
-				.'$(document).ready(function() {'."\n"
+				.'$(function() {'."\n"
 				.'	$("a#titles_'.$item['id'].'").each(function() {'."\n"
 				.'		$(this).tipsy({fallback: \'<div style="text-align: left;">'.str_replace(array("'", "\n"), array('"', '<br />'), $hover).'</div>\','."\n"
 				.	'		 html: true,'."\n"

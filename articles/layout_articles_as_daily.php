@@ -60,7 +60,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 		// build a list of articles
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// three components per box
@@ -73,7 +72,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// permalink
 			$url = Articles::get_permalink($item);
@@ -151,7 +150,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
 				// list files by date (default) or by title (option files_by_title)
-				if(Articles::has_option('files_by_title', $anchor, $item))
+				if(Articles::has_option('files_by', $anchor, $item) == 'title')
 					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
 				else
 					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
@@ -170,19 +169,18 @@ Class Layout_articles_as_daily extends Layout_interface {
 
 			// info on related files
 			if($count)
-				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_discussion', sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// comment
-			if(Comments::allow_creation($anchor, $item))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'span');
+			$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 			// trackback
 			if(Links::allow_trackback())

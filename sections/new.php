@@ -28,7 +28,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../comments/comments.php';	// initiate the wall
 
 // the maximum number of personal sections per user
@@ -97,7 +96,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// put all groups at the same place
-	if(!($anchor =& Sections::get('groups'))) {
+	if(!($anchor = Sections::get('groups'))) {
 
 		$fields = array();
 		$fields['nick_name'] = 'groups';
@@ -117,7 +116,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// retrieve the new section
-		$anchor =& Sections::get('groups');
+		$anchor = Sections::get('groups');
 
 	}
 
@@ -127,7 +126,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['articles_templates'] = 'simple_template';
 		$_REQUEST['content_options'] = 'with_extra_profile with_neighbours';
 		$_REQUEST['options'] = 'with_extra_profile';
-		$_REQUEST['locked'] = 'Y'; // no direct contributions
+		$_REQUEST['locked'] = 'Y'; // only editors can contribute
 
 	// we are creating a project
 	} elseif(isset($_REQUEST['space_type']) && ($_REQUEST['space_type'] == 'project')) {
@@ -139,7 +138,7 @@ if(Surfer::is_crawler()) {
 	// default is to create a group
 	} else {
 		$_REQUEST['articles_layout'] = 'yabb';
-		$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall view_as_tabs with_neighbours';
+		$_REQUEST['content_options'] = 'with_extra_profile auto_publish view_as_tabs with_neighbours';
 		$_REQUEST['options'] = 'view_as_tabs';
 		$_REQUEST['space_type'] = 'group'; // just to be sure...
 	}
@@ -228,7 +227,7 @@ if(Surfer::is_crawler()) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'yabb';
-			$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
+			$fields['content_options'] = 'auto_publish with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
 			$fields['options'] = 'forward_notifications';
@@ -242,7 +241,7 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'tagged';
 			$fields['articles_templates'] = 'simple_template';
-			$fields['content_options'] = 'articles_by_title auto_publish comments_as_wall members_edit view_as_wiki with_neighbours';
+			$fields['content_options'] = 'articles_by_title auto_publish members_edit view_as_wiki with_neighbours';
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Information pages');
 			$fields['options'] = 'forward_notifications';
@@ -257,7 +256,7 @@ if(Surfer::is_crawler()) {
 				$fields['active_set'] = 'N';
 				$fields['anchor'] = 'section:'.$_REQUEST['id'];
 				$fields['articles_layout'] = 'yabb';
-				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours members_edit';
+				$fields['content_options'] = 'auto_publish with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
 				$fields['home_panel'] = 'none'; // not mentioned at the home page
 				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly
@@ -286,7 +285,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');

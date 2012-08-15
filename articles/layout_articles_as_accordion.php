@@ -44,14 +44,13 @@ Class Layout_articles_as_accordion extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// one box per page
 			$box = array('title' => '', 'text' => '');
@@ -79,7 +78,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact');
@@ -100,7 +99,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact', Articles::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact', TRUE)) {
 
 				// mention the number of items in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));
@@ -110,7 +109,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 					$prefix = $suffix = '';
 					if(is_array($label)) {
 						$prefix = $label[0];
-						$suffix = $label[2];
+						$suffix = rtrim(Codes::strip(' '.$label[2]), '- ');
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label, 'comment').$suffix;

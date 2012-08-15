@@ -162,7 +162,7 @@ if(Surfer::is_crawler()) {
 	if(isset($credentials[0]) && ($credentials[0] == 'edit')) {
 
 		// get an anchor
-		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
+		if(!isset($credentials[1]) || (!$anchor = Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// retrieve poster attributes
@@ -241,7 +241,7 @@ if(Surfer::is_crawler()) {
 	} elseif(isset($credentials[0]) && ($credentials[0] == 'visit')) {
 
 		// get an anchor
-		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
+		if(!isset($credentials[1]) || (!$anchor = Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// visitor id or email address
@@ -331,8 +331,7 @@ if(Surfer::is_crawler()) {
 		// a link to the user profile
 		$cells = array();
 		$cells[] = i18n::s('Your profile');
-		$url = Surfer::get_permalink();
-		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
+		$cells[] = 'left='.Surfer::get_link();
 		$information .= Skin::table_row($cells, $lines++);
 
 		// the email field
@@ -419,7 +418,7 @@ if(Surfer::is_crawler()) {
 		Logger::error(i18n::s('Failed authentication'), FALSE);
 
 		// help surfer to recover
-		if($items =& Users::search($name, 0, 7, 'password')) {
+		if($items =& Users::search($name, 1.0, 7, 'password')) {
 			// display candidate profiles
 			if(is_array($items))
 				$items =& Skin::build_list($items, 'decorated');

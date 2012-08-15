@@ -15,7 +15,7 @@
  * $cache_id = 'my_module/index.php#items_by_date';
  *
  * // retrieve the information from cache if possible
- * if(!$text =& Cache::get($cache_id)) {
+ * if(!$text = Cache::get($cache_id)) {
  *
  *	 // else build the page dynamically
  *	 $result = Items::list_by_date();
@@ -108,7 +108,7 @@ Class Cache {
 	 *
 	 * @param mixed the topic(s) to be deleted; if NULL, clear all cache entries
 	 */
-	function clear($topic=NULL) {
+	public static function clear($topic=NULL) {
 		global $context;
 
 		// always disable cache when server is not switched on
@@ -174,7 +174,7 @@ Class Cache {
 	 * @param string the id of the text to be retrieved
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// return by reference
@@ -234,7 +234,7 @@ Class Cache {
 	 * @param string target file path and name
 	 * @return string a suitable name for the temporary directory, or NULL
 	 */
-	function &hash($id) {
+	public static function hash($id) {
 		global $context;
 
 		$output = NULL;
@@ -248,7 +248,7 @@ Class Cache {
 	 *
 	 * Call this function when some generated content is specific to one surfer.
 	 */
-	function poison() {
+	public static function poison() {
 		global $context;
 		$context['cache_has_been_poisoned'] = TRUE;
 	}
@@ -260,7 +260,7 @@ Class Cache {
 	 *
 	 * @param string extension of files to purge
 	 */
-	function purge($type='*') {
+	public static function purge($type='*') {
 		global $context;
 
 		// delete files cached by yacs
@@ -289,7 +289,7 @@ Class Cache {
 	 * @param string the topic related to this item
 	 * @param int the maximum time before expiration, in seconds
 	 */
-	function put($id, &$text, $topic='global', $duration=1200) {
+	public static function put($id, &$text, $topic='global', $duration=1200) {
 		global $context;
 
 		// maybe we don't have to cache
@@ -333,7 +333,7 @@ Class Cache {
 	/**
 	 * create tables for the cache
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

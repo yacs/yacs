@@ -26,7 +26,7 @@ class Smileys {
 	 * called from within a preg_replace_callback() in Smileys::render_smileys()
 	 *
 	 */
-	function parse_match($matches) {
+	public static function parse_match($matches) {
 		global $context;
 
 		// target tag
@@ -47,7 +47,7 @@ class Smileys {
 	 * @param string the input text
 	 * @return the tansformed text
 	 */
-	function &render_smileys($text) {
+	public static function render_smileys($text) {
 		global $context;
 
 		// no content on HEAD request --see scripts/validate.php

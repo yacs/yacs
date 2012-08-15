@@ -37,11 +37,10 @@ Class Layout_articles_as_tabs extends Layout_interface {
 		$panels = array();
 
 		// process all items in the list
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -97,7 +96,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 
 				// list files by date (default) or by title (option files_by_title)
 				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-				if(Articles::has_option('files_by_title', $anchor, $item))
+				if(Articles::has_option('files_by', $anchor, $item) == 'title')
 					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
 				else
 					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
@@ -111,7 +110,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 				// the command to post a new file
 				if(Files::allow_creation($anchor, $item, 'article')) {
 					Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-					$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
+					$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 				}
 
 			}
@@ -143,9 +142,6 @@ Class Layout_articles_as_tabs extends Layout_interface {
 			// no layout yet
 			$layout = NULL;
 
-			// we have a wall, or not
-			$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
-
 			// label to create a comment
 			$add_label = '';
 			if(is_object($overlay))
@@ -175,7 +171,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 			$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 			// feed the wall
-			if(Comments::allow_creation($anchor, $item) && $reverted)
+			if(Comments::allow_creation($anchor, $item))
 				$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 			// a navigation bar for these comments
@@ -184,7 +180,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 					$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 				// list comments by date
-				$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
+				$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 				// actually render the html
 				if(is_array($items))
@@ -196,17 +192,6 @@ Class Layout_articles_as_tabs extends Layout_interface {
 				$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index));
-			}
-
-			// new comments are allowed
-			if(Comments::allow_creation($anchor, $item) && !$reverted) {
-				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-				$box['bar'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment')));
-
-				// also feature this command at the top
-				if($count > 20)
-					$box['prefix_bar'] = array_merge($box['prefix_bar'], array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment'))));
-
 			}
 
 			// ensure that the surfer can change content

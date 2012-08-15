@@ -67,7 +67,7 @@
  * - 'recipient' - id of the target community member
  * - 'type' = 'hello'
  * - 'nick_name' - short name of the surfer that is requesting some direct contact
- * - 'address' - a web link to browse, if accepted by receiving party (optional)
+ * - 'address' - a web address to browse, if accepted by receiving party (optional)
  * - 'message' - less than 200 characters submitted by originator
  *
  *
@@ -146,7 +146,7 @@ Class Notifications {
 	 *
 	 * @see users/heartbit.php
 	 */
-	public static function &pull() {
+	public static function pull() {
 		global $context;
 
 		// return by reference
@@ -256,28 +256,6 @@ Class Notifications {
 		$indexes['INDEX edit_date'] = "(edit_date)";
 
 		return SQL::setup_table('notifications', $fields, $indexes);
-	}
-
-	/**
-	 * get some statistics
-	 *
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see control/index.php
-	 */
-	public static function &stat() {
-		global $context;
-
-		// only consider recent presence records
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 180);
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(notifications.edit_date) as oldest_date, MAX(notifications.edit_date) as newest_date"
-			." FROM ".SQL::table_name('notifications')." AS notifications"
-			." WHERE (notifications.edit_date >= '".SQL::escape($threshold)."')";
-
-		$output = SQL::query_first($query);
-		return $output;
 	}
 
 }

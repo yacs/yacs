@@ -44,7 +44,6 @@ Class Layout_sections_as_accordion extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$family = '';
 		while($item = SQL::fetch($result)) {
 
@@ -61,7 +60,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// one box per section
 			$box = array('title' => '', 'text' => '');
@@ -113,7 +112,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			}
 
 			// info on related files
-			if(Sections::has_option('files_by_title', $anchor, $item))
+			if(Sections::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -134,7 +133,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', TRUE)) {
 
 				// mention the number of sections in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));

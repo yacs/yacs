@@ -26,7 +26,7 @@ Class Section extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -220,7 +220,7 @@ Class Section extends Anchor {
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
 	 */
-	function get_neighbours($type, &$item) {
+	function get_neighbours($type, $item) {
 		global $context;
 
 		// no item bound
@@ -385,7 +385,7 @@ Class Section extends Anchor {
 	 * the path bar has to mention the section. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -400,7 +400,7 @@ Class Section extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -510,7 +510,6 @@ Class Section extends Anchor {
 
 		// use overlay data, if any
 		if(!$text) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
 			if(is_object($overlay))
 				$text .= $overlay->get_text('list', $this->item);
@@ -634,7 +633,7 @@ Class Section extends Anchor {
 
 			// get the parent
 			if(!isset($this->anchor))
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// ask parent level
 			if(is_object($this->anchor))
@@ -692,15 +691,11 @@ Class Section extends Anchor {
 
 		// list of files
 		case 'files':
-			if($this->has_option('view_as_tabs', FALSE))
-				return $this->get_url().'#_attachments';
-			return Sections::get_permalink($this->item).'#files';
+			return $this->get_url().'#_attachments';
 
 		// list of links
 		case 'links':
-			if($this->has_option('view_as_tabs', FALSE))
-				return $this->get_url().'#_attachments';
-			return Sections::get_permalink($this->item).'#links';
+			return $this->get_url().'#_attachments';
 
 		// the permalink page
 		case 'view':
@@ -780,6 +775,50 @@ Class Section extends Anchor {
 	}
 
 	/**
+	 * list all items in the watching context
+	 *
+	 * If the action is related to the creation of a published page, or to the publication
+	 * of a draft page, then all containing sections up to the content tree are included
+	 * in the wathing context.
+	 *
+	 * In other cases, the watching context is limited by default to the section itself,
+	 * and to its parent container. If the container has option 'forward_notifications',
+	 * then the context is extended to its parent too. The forwarding is recursive
+	 * until no option 'forward_notifications' is found.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	private function get_watched_context($action) {
+		global $context;
+
+		// a published page has been created
+		if(($action == 'article:create') || ($action == 'article:publish'))
+			return $this->get_focus();
+
+		// notifications should be sent to watchers of these containers
+		$containers = array();
+		$handle = $this->get_reference();
+		while($handle && ($container = Anchors::get($handle))) {
+
+			// add watchers of this level
+			$containers[] = $handle;
+
+			// should we forward notifications upwards
+			if(!$container->has_option('forward_notifications', FALSE))
+				break;
+
+			// add watchers of next level
+			$handle = $container->get_parent();
+		}
+
+		// by default, limit to direct watchers of this anchor
+		return $containers;
+	}
+
+	/**
 	 * check that an option has been set for this section
 	 *
 	 * This function is used to control, from the anchor, the behaviour of linked items.
@@ -829,7 +868,6 @@ Class Section extends Anchor {
 		// options that are not cascaded to sub-sections, because there is no way to revert from this setting
 		$screened = '/(articles_by_publication' 	// no way to revert from this
 			.'|articles_by_title'
-			.'|comments_as_wall'
 			.'|files_by_title'
 			.'|forward_notifications'
 			.'|links_by_title'
@@ -851,7 +889,7 @@ Class Section extends Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->has_option($option, $leaf);
@@ -869,7 +907,7 @@ Class Section extends Anchor {
 	 * web site, he/she should be able to edit all articles in this section.
 	 * you can use following code to check that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * if($anchor->is_assigned() {
 	 *	 ...
 	 * }
@@ -930,7 +968,7 @@ Class Section extends Anchor {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// check for ownership
 			if(is_object($this->anchor))
@@ -966,7 +1004,7 @@ Class Section extends Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor =& Anchors::get($this->item['anchor']);
+					$this->anchor = Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && !$this->anchor->is_viewable())
 					return $this->is_public_cache = FALSE;
@@ -992,7 +1030,7 @@ Class Section extends Anchor {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Sections::get($id, $mutable);
+		$this->item = Sections::get($id, $mutable);
 	}
 
 	/**
@@ -1040,11 +1078,12 @@ Class Section extends Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
+
+		// we make extensive use of comments below
+		include_once $context['path_to_root'].'comments/comments.php';
 
 		// don't go further on import
 		if(preg_match('/import$/i', $action))
@@ -1074,20 +1113,45 @@ Class Section extends Anchor {
 		} elseif($action == 'comment:create') {
 
 			// purge oldest comments
-			include_once $context['path_to_root'].'comments/comments.php';
 			Comments::purge_for_anchor('section:'.$this->item['id']);
 
-		// a new file has been attached
-		} elseif(($action == 'file:create')) {
+		// file upload
+		} elseif(($action == 'file:create') || ($action == 'file:upload')) {
 
-			// identify specific files
+			// actually, several files have been added
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
+			if(!$origin) {
+				$fields = array();
+				$fields['anchor'] = 'section:'.$this->item['id'];
+				$fields['description'] = i18n::s('Several files have been added');
+				$fields['type'] = 'notification';
+				Comments::post($fields);
 
-				// give it to the Flash player
-				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
-					$label = '[embed='.$origin.']';
+			// one file has been added
+			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin, TRUE))) {
 
+				// this file is eligible for being embedded in the page
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
+
+					// the overlay may prevent embedding
+					if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+
+					// else use a yacs code to implement the embedded object
+					else
+						$label = '[embed='.$origin.']';
+
+				// else add a comment to take note of the upload
+				} elseif(Comments::allow_creation(NULL, $this->item, 'section')) {
+					$fields = array();
+					$fields['anchor'] = 'section:'.$this->item['id'];
+					if($action == 'file:create')
+						$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
+					else
+						$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
+					Comments::post($fields);
+
+				}
 
 			}
 
@@ -1139,7 +1203,7 @@ Class Section extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -1159,7 +1223,7 @@ Class Section extends Anchor {
 		// set an existing image as the section icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -1175,7 +1239,7 @@ Class Section extends Anchor {
 		// set an existing image as the section thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				// use the thumbnail for large files, or the image itself for smaller files
 				if($image['image_size'] > $context['thumbnail_threshold'])
@@ -1194,7 +1258,7 @@ Class Section extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				// use the thumbnail for large files, or the image itself for smaller files
 				if($image['image_size'] > $context['thumbnail_threshold'])
@@ -1235,308 +1299,12 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
-		// get the related overlay, if any
-		$overlay = NULL;
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		if(isset($this->item['overlay']))
-			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
-
-		// do not notify watchers if overlay prevents it
-		if(is_object($overlay) && !$overlay->should_notify_watchers())
-			$to_watchers = FALSE;
-
-		// do not forward this to followers if the page is private
-		if($this->item['active'] == 'N')
-			$to_followers = FALSE;
-
-		// send alerts on new item, or on article modification, or on section modification
-		if(preg_match('/:create$/i', $action)
-			|| !strncmp($action, 'article:', strlen('article:')) || !strncmp($action, 'section:', strlen('section:'))) {
-
-			// poster name
-			$surfer = Surfer::get_name();
-
-			// mail message
-			$mail = array('subject' => '', 'message' => '', 'headers' => '');
-
-			// message subject
-			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
-
-			// a comment has been added to a page in this section
-			if($action == 'article:comment') {
-				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
-
-					// mail subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
-
-					// look for the last comment
-					include_once $context['path_to_root'].'comments/comments.php';
-					if($comment = Comments::get_newest_for_anchor('article:'.$origin)) {
-
-						// mail content
-						$mail['content'] = Comments::build_notification($comment);
-
-						// threads messages
-						$mail['headers'] = Mailer::set_thread('comment:'.$comment['id'], 'article:'.$target['id']);
-
-						// message to watchers
-						$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-						// special case of article watchers
-						if($to_watchers)
-							Users::alert_watchers('article:'.$target['id'], $mail);
-
-					}
-				}
-
-			// an article has been added to the section
-			} elseif($action == 'article:create') {
-				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
-
-					// message subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'),
-						ucfirst(strip_tags($this->item['title'])),
-						ucfirst(strip_tags($target['title'])));
-
-					// mail content
-					$mail['content'] = Articles::build_notification($target, 'create');
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('article:'.$target['id'], $this->get_reference());
-
-				}
-
-			// a file has been added to a page in this section
-			} elseif($action == 'article:file') {
-				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
-
-					// mail subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
-
-					// look for the last upload
-					if($file = Files::get_newest_for_anchor('article:'.$origin)) {
-
-						// mail content
-						$mail['content'] = Files::build_notification($file);
-
-						// threads messages
-						$mail['headers'] = Mailer::set_thread('file:'.$file['id'], 'article:'.$target['id']);
-
-						// message to watchers
-						$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-						// special case of article watchers
-						if($to_watchers)
-							Users::alert_watchers('article:'.$target['id'], $mail);
-
-					}
-				}
-
-			// an article has been published
-			} elseif($action == 'article:publish') {
-				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
-
-					// message subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'),
-						ucfirst(strip_tags($this->item['title'])),
-						ucfirst(strip_tags($target['title'])));
-
-					// mail content
-					$mail['content'] = Articles::build_notification($target, 'publish');
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
-
-					// message to watchers
-					$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-					// special case of article watchers, if any
-					if($to_watchers)
-						Users::alert_watchers('article:'.$target['id'], $mail);
-
-				}
-
-			// an article has been updated
-			} elseif($action == 'article:update') {
-				if(($target = Articles::get($origin, TRUE)) && $target['id']) {
-
-					// mail subject
-					$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($target['title']));
-
-					// mail content
-					$mail['content'] = Articles::build_notification($target, 'update');
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('', 'article:'.$target['id']);
-
-					// message to watchers
-					$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-					// special case of article watchers
-					if($to_watchers)
-						Users::alert_watchers('article:'.$target['id'], $mail);
-
-				}
-
-			// a file has been added to the section
-			} else if($action == 'file:create') {
-				if(($target = Files::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Files::build_notification($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
-
-				}
-
-			// a comment has been added to the section
-			} else if($action == 'comment:create') {
-				include_once $context['path_to_root'].'comments/comments.php';
-				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Comments::build_notification($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
-
-				}
-
-			// a section has been added to the section
-			} elseif($action == 'section:create') {
-				if(($target = Sections::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Sections::build_notification($target, 'create');
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('', $this->get_reference());
-
-				}
-
-			// a section has been updated
-			} elseif($action == 'section:update') {
-				if(($target = Sections::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Sections::build_notification($target, 'update');
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('', 'section:'.$target['id']);
-
-					// message to watchers
-					$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-					// special case of section watchers
-					if($to_watchers)
-						Users::alert_watchers('section:'.$target['id'], $mail);
-
-				}
-
-			// something else has been added to the section
-			} else {
-
-				// headline
-				$headline  = sprintf(i18n::c('%s by %s'),
-					Anchors::get_action_label($action),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
-
-				// start the notification
-				$mail['content'] = Skin::build_mail_content($headline);
-
-				// call for action
-				$title = sprintf(i18n::c('%s in %s'), ucfirst(Anchors::get_action_label($action)), strip_tags($this->item['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
-				$menu = array(Skin::build_mail_button($link, $title, TRUE));
-				$mail['content'] .= Skin::build_mail_menu($menu);
-
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
-
-			}
-
-			// message to watchers
-			$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-			// scope of notifications is the originating page, and its parent section
-			if(!strncmp($action, 'article:', strlen('article:')) && ($action != 'article:create') && ($action != 'article:publish')) {
-
-				// we are the parent section
-				$containers = array($this->get_reference());
-
-				// forward notifications to grand-parent section too
-				if(preg_match('/\bforward_notifications\b/i', $this->item['options']) && ($parent = $this->item['anchor']))
-					$containers[] = $this->item['anchor'];
-
-				// users assigned to this section only
-				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
-					foreach($editors as $editor)
-						if(strpos($editor, 'user:') === 0)
-							$restricted[] = substr($editor, strlen('user:'));
-				}
-
-				// alert watchers of this section
-				if($to_watchers)
-					Users::alert_watchers($containers, $mail, $restricted);
-
-			// scope of notification is the originating section, and its parent section
-			} elseif(!strncmp($action, 'section:', strlen('section:')) && ($action != 'section:create')) {
-
-				// we will re-use the message sent to section watchers
-				if(isset($mail['message']) && ($container = $this->get_parent())) {
-
-					// users assigned only to parent section
-					$restricted = NULL;
-					if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($this->get_focus()))) {
-						foreach($editors as $editor)
-							if(strpos($editor, 'user:') === 0)
-								$restricted[] = substr($editor, strlen('user:'));
-					}
-
-					// alert all watchers at once
-					if($to_watchers)
-						Users::alert_watchers($container, $mail, $restricted);
-
-				}
-
-			// alert watchers of all sections upwards
-			} else {
-
-				// the path of containers to this item
-				$containers = $this->get_focus();
-
-				// autorized users
-				$restricted = NULL;
-				if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
-					foreach($editors as $editor)
-						if(strpos($editor, 'user:') === 0)
-							$restricted[] = substr($editor, strlen('user:'));
-				}
-
-				// alert all watchers at once
-				if($to_watchers)
-					Users::alert_watchers($containers, $mail, $restricted);
-
-				// alert connections, except on private pages
-				if(Surfer::get_id() && $to_followers && ($this->item['active'] != 'N')) {
-
-					// message to connections
-					$mail['message'] = Mailer::build_notification($mail['content'], 2);
-
-					// alert connections
-					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-				}
-			}
-		}
-
 		// always clear the cache, even on no update
 		Sections::clear($this->item);
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))

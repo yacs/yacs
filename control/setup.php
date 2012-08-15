@@ -16,7 +16,6 @@
  * - [script]categories/categories.php[/script]
  * - [script]comments/comments.php[/script]
  * - [script]dates/dates.php[/script]
- * - [script]decisions/decisions.php[/script]
  * - [script]files/files.php[/script]
  * - [script]forms/forms.php[/script]
  * - [script]images/images.php[/script]
@@ -79,9 +78,6 @@
 
 // include the global declarations
 include_once '../shared/global.php';
-
-// include explicitly some libraries
-include_once '../overlays/overlay.php';
 
 // what to do
 $action = '';
@@ -161,7 +157,6 @@ function send_body() {
 		echo Users::setup();
 
 		// create tables for activities
-		include_once '../users/activities.php';
 		echo Activities::setup();
 
 		// create tables for notifications
@@ -203,10 +198,6 @@ function send_body() {
 		// create tables for comments
 		include_once '../comments/comments.php';
 		echo Comments::setup();
-
-		// create tables for decisions
-		include_once '../decisions/decisions.php';
-		echo Decisions::setup();
 
 		// create tables for categories
 		echo Categories::setup();

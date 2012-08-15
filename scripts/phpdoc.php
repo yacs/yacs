@@ -372,7 +372,8 @@ class PhpDoc {
 		foreach($this->comments as $script => $comment) {
 
 			// extract first directory from path information
-			$path = array_shift(preg_split('/\//', dirname($script)));
+			$elements = preg_split('/\//', dirname($script));
+			$path = array_shift($elements);
 
 			// build links to view the documentation
 			if($context['with_friendly_urls'] == 'Y') {
@@ -390,7 +391,6 @@ class PhpDoc {
 			}
 
 			// extract first directory from path information
-			$path = array_shift(preg_split('/\//', dirname($script)));
 			if($path && ($path != '.') && ($path != $previous_path)) {
 				if($index)
 					$index .= "</ul><p></p></dd>\n";
@@ -529,12 +529,12 @@ class PhpDoc {
 	}
 
 	/**
-	 * get one comment
+	 * get one documentation snippet
 	 *
-	 * @param string the name of the comment to fetch
+	 * @param string the name of the snippet to fetch
 	 * @return the resulting $row array, with at least keys: 'name', 'anchor' and 'content'
 	 */
-	function &get($name) {
+	public static function get($name) {
 		global $context;
 
 		// select among available items
@@ -650,7 +650,7 @@ class PhpDoc {
 	/**
 	 * delete all documentation pages
 	 */
-	function purge() {
+	public static function purge() {
 		global $context;
 
 		// purge the old documentation
@@ -662,7 +662,7 @@ class PhpDoc {
 	/**
 	 * create a table for the php documentation
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

@@ -107,18 +107,21 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()) {
 // browse the directory
 else {
 	while(($item = Safe::readdir($dir)) !== FALSE) {
-	
-		// skip some files
-		if($item[0] == '.')
+
+		// script name has to start with a number --actually, a date
+		if(($item[0] < '0') || ($item[0] > '9'))
 			continue;
 
-		// do not execute twins, to ensure scripts are ran only once
+		// we only consider php scripts, of course
+		if((strlen($item) < 5) || (substr($item, -4) != '.php'))
+			continue;
+
+		// do not execute twins, to ensure that scripts are ran only once
 		if(file_exists($context['path_to_root'].'scripts/run_once/'.$item.'.done'))
 			continue;
 
-		// remember any php script found here
-		if(preg_match('/\.php$/i', $item))
-			$scripts[] = $item;
+		// ok, we have to execute this one
+		$scripts[] = $item;
 
 	}
 

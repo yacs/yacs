@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'tables.php';
 
 // look for the id
@@ -37,7 +36,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Tables::get($id);
+$item = Tables::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -49,9 +48,9 @@ if(!isset($target_anchor) && isset($context['arguments'][1]))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and owners can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
@@ -225,7 +224,7 @@ if($with_form) {
 		.BR."\n".'<input type="radio" name="with_zoom" value="Y"';
 	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('First column provides a web link');
+	$input .= '/> '.i18n::s('First column provides a web address');
 	$fields[] = array($label, $input);
 
 	// the description

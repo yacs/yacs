@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-21 16:38+0100\n"
+"POT-Creation-Date: 2012-05-22 15:19+0200\n"
 "PO-Revision-Date: 2011-12-21 16:40+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -20,9 +20,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Language: English\n"
 
-#: actions/accept.php:95
-#: actions/delete.php:82
-#: actions/edit.php:115
+#: actions/accept.php:95 actions/delete.php:82 actions/edit.php:115
 #: actions/view.php:124
 #, php-format
 msgid "%s: %s"
@@ -32,39 +30,30 @@ msgstr "%s: %s"
 msgid "Accept"
 msgstr "Accept"
 
-#: actions/accept.php:110
-#: actions/check.php:28
-#: actions/delete.php:91
-#: actions/edit.php:128
-#: actions/edit.php:139
-#: actions/index.php:63
-#: actions/list.php:114
-#: actions/list.php:119
-#: actions/view.php:87
+#: actions/accept.php:110 actions/check.php:28 actions/delete.php:91
+#: actions/edit.php:128 actions/edit.php:139 actions/index.php:63
+#: actions/list.php:114 actions/list.php:119 actions/view.php:87
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: actions/accept.php:125
-#: actions/edit.php:331
+#: actions/accept.php:125 actions/edit.php:330
 msgid "On-going"
 msgstr "On-going"
 
-#: actions/accept.php:129
-#: actions/edit.php:335
-#: actions/view.php:136
+#: actions/accept.php:129 actions/edit.php:334 actions/view.php:136
 msgid "Completed"
 msgstr "Completed"
 
-#: actions/accept.php:133
-#: actions/edit.php:339
-#: actions/view.php:137
+#: actions/accept.php:133 actions/edit.php:338 actions/view.php:137
 msgid "Rejected"
 msgstr "Rejected"
 
 #: actions/accept.php:139
 #, php-format
-msgid "<p>The following action has been flagged with the status:</p><p><b>%s</b></p>"
-msgstr "<p>The following action has been flagged with the status:</p><p><b>%s</b></p>"
+msgid ""
+"<p>The following action has been flagged with the status:</p><p><b>%s</b></p>"
+msgstr ""
+"<p>The following action has been flagged with the status:</p><p><b>%s</b></p>"
 
 #: actions/actions.php:63
 msgid "No item has the provided id."
@@ -75,14 +64,11 @@ msgstr "No item has the provided id."
 msgid "Unknown status %s"
 msgstr "Unknown status %s"
 
-#: actions/actions.php:644
-#: actions/edit.php:372
+#: actions/actions.php:644 actions/edit.php:371
 msgid "No title has been provided."
 msgstr "No title has been provided."
 
-#: actions/actions.php:650
-#: actions/edit.php:144
-#: actions/list.php:103
+#: actions/actions.php:650 actions/edit.php:144 actions/list.php:103
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -90,19 +76,13 @@ msgstr "No anchor has been found."
 msgid "actions"
 msgstr "actions"
 
-#: actions/check.php:23
-#: actions/index.php:100
+#: actions/check.php:23 actions/index.php:100
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: actions/check.php:31
-#: actions/check.php:85
-#: actions/delete.php:78
-#: actions/edit.php:111
-#: actions/index.php:58
-#: actions/list.php:80
-#: actions/list.php:86
-#: actions/view.php:68
+#: actions/check.php:31 actions/check.php:85 actions/delete.php:78
+#: actions/edit.php:111 actions/index.php:58 actions/list.php:80
+#: actions/list.php:86 actions/view.php:68
 msgid "Actions"
 msgstr "Actions"
 
@@ -111,8 +91,7 @@ msgstr "Actions"
 msgid "Analyzing table %s..."
 msgstr "Analyzing table %s..."
 
-#: actions/check.php:57
-#: actions/check.php:78
+#: actions/check.php:57 actions/check.php:78
 #, php-format
 msgid "%d records have been processed"
 msgstr "%d records have been processed"
@@ -143,8 +122,7 @@ msgstr "Look for orphan records"
 msgid "Start"
 msgstr "Start"
 
-#: actions/delete.php:82
-#: actions/view.php:216
+#: actions/delete.php:82 actions/view.php:216
 msgid "Delete"
 msgstr "Delete"
 
@@ -160,40 +138,33 @@ msgstr "Yes, I want to delete this action"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: actions/delete.php:147
-#: actions/view.php:132
+#: actions/delete.php:147 actions/view.php:132
 msgid "Action is on-going"
 msgstr "Action is on-going"
 
-#: actions/delete.php:152
-#: actions/view.php:144
+#: actions/delete.php:152 actions/view.php:144
 msgid "Action has been completed"
 msgstr "Action has been completed"
 
-#: actions/delete.php:157
-#: actions/view.php:155
+#: actions/delete.php:157 actions/view.php:155
 msgid "Action has been rejected"
 msgstr "Action has been rejected"
 
-#: actions/delete.php:166
-#: actions/view.php:172
+#: actions/delete.php:166 actions/view.php:172
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: actions/delete.php:170
-#: actions/view.php:176
+#: actions/delete.php:170 actions/view.php:176
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
 
-#: actions/edit.php:115
-#: actions/view.php:207
+#: actions/edit.php:115 actions/view.php:207
 msgid "Edit"
 msgstr "Edit"
 
-#: actions/edit.php:117
-#: actions/list.php:97
+#: actions/edit.php:117 actions/list.php:97
 msgid "Add an action"
 msgstr "Add an action"
 
@@ -209,8 +180,7 @@ msgstr "Thank you for your contribution"
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: actions/edit.php:207
-#: actions/view.php:190
+#: actions/edit.php:207 actions/view.php:190
 msgid "Back to main page"
 msgstr "Back to main page"
 
@@ -218,8 +188,7 @@ msgstr "Back to main page"
 msgid "Edit the action"
 msgstr "Edit the action"
 
-#: actions/edit.php:216
-#: actions/edit.php:233
+#: actions/edit.php:216 actions/edit.php:232
 #, php-format
 msgid "New action: %s"
 msgstr "New action: %s"
@@ -229,88 +198,102 @@ msgstr "New action: %s"
 msgid "%s is requesting your contribution"
 msgstr "%s is requesting your contribution"
 
-#: actions/edit.php:223
-msgid "The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay."
-msgstr "The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay."
+#: actions/edit.php:222
+msgid ""
+"The following action has been added to your to-do list. Please process it as "
+"soon as possible to ensure minimal delay."
+msgstr ""
+"The following action has been added to your to-do list. Please process it as "
+"soon as possible to ensure minimal delay."
 
-#: actions/edit.php:249
+#: actions/edit.php:248
 #, php-format
 msgid "New action for %s"
 msgstr "New action for %s"
 
-#: actions/edit.php:279
-msgid "You can use actions to notify immediately other members of new things to do. Actions are sent by email where possible. Else they are listed at login time."
-msgstr "You can use actions to notify immediately other members of new things to do. Actions are sent by email where possible. Else they are listed at login time."
+#: actions/edit.php:278
+msgid ""
+"You can use actions to notify immediately other members of new things to do. "
+"Actions are sent by email where possible. Else they are listed at login time."
+msgstr ""
+"You can use actions to notify immediately other members of new things to do. "
+"Actions are sent by email where possible. Else they are listed at login time."
 
-#: actions/edit.php:283
+#: actions/edit.php:282
 #, php-format
 msgid "Action assigned to: %s"
 msgstr "Action assigned to: %s"
 
-#: actions/edit.php:295
+#: actions/edit.php:294
 msgid "Posted by"
 msgstr "Posted by"
 
-#: actions/edit.php:302
+#: actions/edit.php:301
 msgid "Edited by"
 msgstr "Edited by"
 
-#: actions/edit.php:308
+#: actions/edit.php:307
 msgid "Title"
 msgstr "Title"
 
-#: actions/edit.php:310
+#: actions/edit.php:309
 msgid "Be straigthforward"
 msgstr "Be straigthforward"
 
-#: actions/edit.php:314
+#: actions/edit.php:313
 msgid "Description"
 msgstr "Description"
 
-#: actions/edit.php:321
-#: actions/view.php:124
+#: actions/edit.php:320 actions/view.php:124
 msgid "Target address"
 msgstr "Target address"
 
-#: actions/edit.php:323
+#: actions/edit.php:322
 msgid "The URL of the target page for this action, if any"
 msgstr "The URL of the target page for this action, if any"
 
-#: actions/edit.php:327
+#: actions/edit.php:326
 msgid "Status"
 msgstr "Status"
 
-#: actions/edit.php:346
+#: actions/edit.php:345
 msgid "Submit"
 msgstr "Submit"
 
-#: actions/edit.php:346
+#: actions/edit.php:345
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: actions/edit.php:349
+#: actions/edit.php:348
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: actions/edit.php:386
+#: actions/edit.php:385
 msgid "Help"
 msgstr "Help"
 
-#: actions/edit.php:387
+#: actions/edit.php:386
 #, php-format
-msgid "<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>"
-msgstr "<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>"
+msgid ""
+"<p>If possible, describe the whole action in its title. The description "
+"field should be used for additional non-essentiel details.</p><p>%s and %s "
+"are available to enhance text rendering.</p><p>Use the target field to "
+"designate the main web resource involved in the action.</p>"
+msgstr ""
+"<p>If possible, describe the whole action in its title. The description "
+"field should be used for additional non-essentiel details.</p><p>%s and %s "
+"are available to enhance text rendering.</p><p>Use the target field to "
+"designate the main web resource involved in the action.</p>"
 
-#: actions/edit.php:387
+#: actions/edit.php:386
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: actions/edit.php:387
+#: actions/edit.php:386
 msgid "smileys"
 msgstr "smileys"
 
-#: actions/index.php:71
-#: actions/list.php:175
+#: actions/index.php:71 actions/list.php:175
 #, php-format
 msgid "%d action"
 msgid_plural "%d actions"
@@ -341,8 +324,7 @@ msgstr "Completed actions"
 msgid "Rejected actions"
 msgstr "Rejected actions"
 
-#: actions/view.php:148
-#: actions/view.php:159
+#: actions/view.php:148 actions/view.php:159
 msgid "Reset"
 msgstr "Reset"
 
@@ -411,7 +393,6 @@ msgstr "Reset"
 #~ msgstr "Posts are not allowed anymore here."
 
 #~ msgid "1&nbsp;action"
-
 #~ msgid_plural "%d&nbsp;actions"
 #~ msgstr[0] "1&nbsp;action"
 #~ msgstr[1] "%d actions"

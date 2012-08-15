@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -40,7 +39,7 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -50,7 +49,7 @@ if(isset($item['overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors can do what they want on items anchored here
 if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())

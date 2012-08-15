@@ -5,12 +5,6 @@
  * This layout features definition lists to structure comments, and add
  * style information to distinguish between surfer contributions and others.
  *
- * Post of new comments may have been explicitly prevented in anchor (option '[code]no_comments[/code]').
- * Otherwise commands to post new comments are added if the surfer has been authenticated,
- * or if anonymous comments are allowed (parameter '[code]users_with_anonymous_comments[/code]' set to 'Y'),
- * of if teasers have been enabled (parameter '[code]users_without_teasers[/code]' not set to 'Y').
- * Both global parameters are set in [script]users/configure.php[/script]).
- *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -48,7 +42,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 
 				// link to user profile -- open links in separate window to enable side browsing of participant profiles
 				if($item['create_id']) {
-					if($user =& Users::get($item['create_id']) && $user['full_name'])
+					if($user = Users::get($item['create_id']) && $user['full_name'])
 						$hover = $user['full_name'];
 					else
 						$hover = NULL;

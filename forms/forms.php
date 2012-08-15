@@ -64,7 +64,7 @@ Class Forms {
 	 * @param int the id of the form, or its nick name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -127,7 +127,7 @@ Class Forms {
 	 *
 	 * @see forms/index.php
 	 */
-	public static function &list_by_title($offset=0, $count=10, $variant='full') {
+	public static function list_by_title($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// select among active and restricted items
@@ -143,7 +143,7 @@ Class Forms {
 			.' ORDER BY forms.title, forms.edit_date DESC LIMIT '.$offset.','.$count;
 
 		// the list of forms
-		$output =& Forms::list_selected(SQL::query($query), $variant);
+		$output = Forms::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -163,7 +163,7 @@ Class Forms {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_for_name($name, $exception=NULL, $layout='compact') {
+	public static function list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
 		// gather constraints
@@ -179,7 +179,7 @@ Class Forms {
 			." WHERE (forms.nick_name LIKE '".SQL::escape($name)."')".$where
 			." ORDER BY forms.title LIMIT 100";
 
-		$output =& Forms::list_selected(SQL::query($query), $layout);
+		$output = Forms::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -194,7 +194,7 @@ Class Forms {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -263,7 +263,7 @@ Class Forms {
 		$fields['title'] = strip_tags($fields['title'], '<br>');
 
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -381,7 +381,7 @@ Class Forms {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among active and restricted items

@@ -49,6 +49,111 @@
 Class Files {
 
 	/**
+	 * add to the history of a file
+	 *
+	 * @param array previous attributes of this file, including its history
+	 * @param string new information to be remembered
+	 * @return string new content of the history field
+	 */
+	public static function add_to_history($item, $version) {
+		global $context;
+
+		// we return some text
+		$text = '';
+
+		// used to expand the history field
+		if(!defined('MARKER'))
+			define('MARKER', '<!-- insert point -->');
+
+		// ensure we have a marker to insert history in the description field
+		if(!isset($item['description']))
+			$text = '<dl class="comments">'.MARKER.'</dl>';
+		elseif(!strpos($item['description'], MARKER))
+			$text = '<dl class="comments">'.MARKER.'</dl><div>'.$item['description'].'</div>';
+		else
+			$text = $item['description'];
+
+		// remove active links that were used in previous versions of yacs
+		$text = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $text);
+
+		// sanity check
+		if(!$version)
+			return $text;
+
+		// shape the new element
+		$version = '<dt>'.sprintf(i18n::s('%s %s'), Surfer::get_link(), Skin::build_date($context['now'], 'plain')).'</dt>'
+			.'<dd>'.$version.'</dd>';
+
+		// the new history attribute
+		$text = str_replace(MARKER, MARKER.$version, $text);
+
+		// job done
+		return $text;
+
+	}
+
+	/**
+	 * check if a file can be accessed
+	 *
+	 * This function returns TRUE if the item can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target file
+	 * @param object an instance of the Anchor interface, if any
+	 * @return boolean TRUE or FALSE
+	 */
+	public static function allow_access($item, $anchor) {
+		global $context;
+
+		// surfer is an associate
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// surfer has uploaded this file
+		if(isset($item['create_id']) && Surfer::is($item['create_id']))
+			return TRUE;
+
+		// the file is anchored to the profile of this member
+		if(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+			return TRUE;
+
+		// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
+		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('file', 'fetch'))
+			return TRUE;
+
+		// anonymous surfer has provided the secret handle
+		if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+			return TRUE;
+
+		// surfer is an editor
+		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
+			return TRUE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			return FALSE;
+		if(is_object($anchor) && $anchor->is_hidden())
+			return FALSE;
+
+		// surfer is logged
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// container is restricted
+		if(isset($item['active']) && ($item['active'] == 'R'))
+			return FALSE;
+		if(is_object($anchor) && !$anchor->is_public())
+			return FALSE;
+
+		// public page
+		return TRUE;
+	}
+
+	/**
 	 * check if new files can be added
 	 *
 	 * This function returns TRUE if files can be added to some place,
@@ -202,7 +307,7 @@ Class Files {
 	}
 
 	/**
-	 * check if a comment can be modified
+	 * check if a file can be modified
 	 *
 	 * This function returns TRUE if the file can be modified,
 	 * and FALSE otherwise.
@@ -361,79 +466,92 @@ Class Files {
 	/**
 	 * build a notification for a new file upload
 	 *
-	 * This function builds a mail message that displays:
+	 * If action is 'upload', this function builds a mail message that features:
 	 * - an image of the uploader (if possible)
 	 * - a headline mentioning the upload
 	 * - a button linked to the file page
 	 * - a link to the containing page
 	 * - the full history of all file modifications
 	 *
+	 * If action is 'multiple', then the function will use $item['message'] and
+	 * $item['anchor'] to shape the full notification message.
+	 *
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
+	 * @param string either 'upload' or 'multiple'
 	 * @param array attributes of the new item
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item) {
+	public static function build_notification($action='upload', $item) {
 		global $context;
 
-		// headline
-		$headline = sprintf(i18n::c('A file has been uploaded by %s'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+		// are we processing one or several items?
+		switch($action) {
 
-		// several components in this message
-		$details = array();
+		case 'multiple': // several files have been uploaded at once
 
-		// make it visual
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-			$details[] = '<img src="'.$context['url_to_home'].$item['thumbnail_url'].'" />';
-		else
-			$details[] = '<img src="'.$context['url_to_home'].$context['url_to_root'].Files::get_icon_url($item['file_name']).'" />';
+			// headline
+			$headline = sprintf(i18n::c('Several files have been added by %s'), Surfer::get_link());
 
-		// other details
-		if($item['title'])
-			$details[] = $item['title'];
-		if($item['file_name'])
-			$details[] = $item['file_name'];
-		if($item['file_size'])
-			$details[] = $item['file_size'].' bytes';
+			// the list of uploaded files is provided by caller
+			$message = $item['message'];
 
-		if(is_array($details))
-			$message = '<p>'.implode(BR, $details)."</p>\n";
+			break;
 
-		// start the notification
+		case 'upload': // one file has been uploaded
+		default:
+
+			// headline
+			$headline = sprintf(i18n::c('A file has been added by %s'), Surfer::get_link());
+
+			// several components in this message
+			$details = array();
+
+			// make it visual
+			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+				$details[] = '<img src="'.$context['url_to_home'].$item['thumbnail_url'].'" />';
+			else
+				$details[] = '<img src="'.$context['url_to_home'].$context['url_to_root'].Files::get_icon_url($item['file_name']).'" />';
+
+			// other details
+			if($item['title'])
+				$details[] = $item['title'];
+			if($item['file_name'])
+				$details[] = $item['file_name'];
+			if($item['file_size'])
+				$details[] = $item['file_size'].' bytes';
+
+			if(is_array($details))
+				$message = '<p>'.implode(BR, $details)."</p>\n";
+
+			break;
+
+		}
+
+		// shape the notification
 		$text = Skin::build_mail_content($headline, $message);
 
 		// a set of links
 		$menu = array();
 
 		// link to the file
-		$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
-		$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
+		if(isset($item['id'])) {
+			$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+			$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
+		}
 
 		// link to the container
 		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {
 			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), ($action=='multiple'));
 		}
 
 		// finalize links
 		$text .= Skin::build_mail_menu($menu);
 
 		// file history
-		if($description = trim($item['description'])) {
-
-			// transform the definition list
-			$replacements = array('/<dl class="comments"[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> -> <table>
-				'|</a>|i' => '</a><br>',											// line break after links
-				'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td valign="top" width="130"><font size="-1">\\1</font></td>',	// <dt> ... </dt> -> <tr><td> ... </td>
-				'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td valign="top">\\1</td></tr>',					// <dd> ... </dd> -> <tr><td> ... </td>
-				'/on(click|keypress)="([^"]+?)"/i' => '', 							// remove onclick="..." and onkeypress="..." attributes
-				'/<script[^>]*?>(.*?)<\/script>/i' => '',							// remove <script> ... </script> --Javascript considered as spam
-				'/<style[^>]*?>(.*?)<\/style>/i' => '');							// remove <style> ... </style> --use inline style instead
-
-			// text/html part
-			$description = preg_replace(array_keys($replacements), array_values($replacements), $description);
+		if(isset($item['description']) && ($description = trim($item['description']))) {
 
 			// finalize file history
 			$text .= '<p> </p>'
@@ -504,12 +622,7 @@ Class Files {
 			return NULL;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// ids to avoid
 		if($avoid)
@@ -704,7 +817,7 @@ Class Files {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -817,6 +930,7 @@ Class Files {
 				'bz2' => $files_icons_url.'zip_icon.gif',
 				'cer' => $files_icons_url.'security_icon.png',
 				'css' => $files_icons_url.'html_icon.gif',
+				'csv' => $files_icons_url.'excel_icon.gif',
 				'divx' => $files_icons_url.'film_icon.gif',
 				'dll' => $files_icons_url.'exe_icon.gif',
 				'doc' => $files_icons_url.'word_icon.gif',
@@ -971,10 +1085,9 @@ Class Files {
 	 * We don't use the internal function from PHP library, which has proven to be boggus.
 	 *
 	 * @param string the file name
-	 * @param boolean force download
 	 * @return a string describing the MIME type
 	 */
-	public static function get_mime_type($name, $download=FALSE) {
+	public static function get_mime_type($name) {
 		global $context;
 
 		// get the list of supported extensions
@@ -1038,6 +1151,7 @@ Class Files {
 				'cer' => 'application/x-x509-ca-cert',	// a X509 certificate
 				'chm' => 'application/octet-stream',		// windows help file
 				'css' => 'text/css',
+				'csv' => 'text/csv',
 				'divx' => 'video/vnd.divx ',
 				'dll' => 'application/octet-stream',
 				'doc' => 'application/msword',
@@ -1249,11 +1363,7 @@ Class Files {
 			return $item;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		if($order == 'date') {
 			$match = "files.edit_date > '".SQL::escape($item['edit_date'])."'";
@@ -1266,7 +1376,7 @@ Class Files {
 
 		// query the database
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND ".$where
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
 			return NULL;
@@ -1299,7 +1409,7 @@ Class Files {
 	 * get permanent address
 	 *
 	 * @param array page attributes
-	 * @return string the permalink
+	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
 		$output = Files::get_url($item['id'], 'view', $item['file_name']);
@@ -1326,11 +1436,7 @@ Class Files {
 			return $item;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// depending on selected sequence
 		if($order == 'date') {
@@ -1344,7 +1450,7 @@ Class Files {
 
 		// query the database
 		$query = "SELECT id, file_name FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND ".$where
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
 			return NULL;
@@ -1356,6 +1462,31 @@ Class Files {
 		// return url of the first item of the list
 		$item = SQL::fetch($result);
 		return Files::get_permalink($item);
+	}
+
+	/**
+	 * restrict the scope of SQL query
+	 *
+	 * @return string to be inserted into a SQL statement
+	 */
+	private static function get_sql_where() {
+
+		// display active items
+		$where = "files.active='Y'";
+
+		// add restricted items to members and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
+			$where .= " OR files.active='R'";
+
+		// include hidden items for associates and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_empowered('S') || Surfer::is_trusted() || Surfer::is_teased())
+			$where .= " OR files.active='N'";
+
+		// end of active filter
+		$where = '('.$where.')';
+
+		// job done
+		return $where;
 	}
 
 	/**
@@ -1458,7 +1589,7 @@ Class Files {
 			fclose($handle);
 			return '?';
 		}
-//		if($context['with_debug'] == 'Y')
+		if($context['with_debug'] == 'Y')
 			Logger::remember('files/files.php', 'CLAMAV <-', $reply, 'debug');
 
 		// file has been infected!
@@ -1509,6 +1640,11 @@ Class Files {
 		else
 			$counter++;
 
+		// display explicit title, if any
+		$title = '';
+		if($item['title'])
+			$title = '<p>'.Skin::strip($item['title']).'</p>';
+
 		// several ways to play flash
 		switch(strtolower(substr($item['file_name'], -3))) {
 
@@ -1530,6 +1666,7 @@ Class Files {
 
 				// combine the two in a single object
 				return '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.$title
 					.JS_PREFIX
 					.'var params = {};'."\n"
 					.'params.base = "'.dirname($mp3_url).'/";'."\n"
@@ -1538,7 +1675,7 @@ Class Files {
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX.BR."\n";
+					.JS_SUFFIX."\n";
 
 			}
 
@@ -1554,6 +1691,7 @@ Class Files {
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div><br />'."\n"
+				.$title
 				.JS_PREFIX
 				.'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
@@ -1594,6 +1732,7 @@ Class Files {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.$title
 					.JS_PREFIX
 					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
@@ -1609,7 +1748,8 @@ Class Files {
 					.'	<param value="true" name="allowFullScreen" />'."\n"
 					.'	<param value="always" name="allowscriptaccess" />'."\n"
 					.'	<a href="'.$url.'">No video playback capabilities, please download the file</a>'."\n"
-					.'</object>'."\n";
+					.'</object>'."\n"
+					.$title;
 
 			}
 
@@ -1629,7 +1769,7 @@ Class Files {
 			$src = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$icon = '<img src="'.$src.'" width="'.$image_information[0].'" height="'.$image_information[1].'" alt="" style="padding: 3px"/>'.BR;
-			return Skin::build_link(Files::get_download_url($item), $icon, 'basic');
+			return Skin::build_link(Files::get_download_url($item), $icon, 'basic').$title;
 		}
 
 
@@ -1645,8 +1785,23 @@ Class Files {
 		if($icon) {
 			$icon = '<img src="'.$icon.'" alt="" style="padding: 3px"/>';
 
-			// ensure we have a label for this link
-			$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+			// label for this file
+			$text = '';
+
+			// signal restricted and private files
+			if($item['active'] == 'N')
+				$text .= PRIVATE_FLAG;
+			elseif($item['active'] == 'R')
+				$text .= RESTRICTED_FLAG;
+
+			// use file name, or regular title
+			$text .= Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+			// flag files uploaded recently
+			if($item['create_date'] >= $context['fresh'])
+				$text .= NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$text .= UPDATED_FLAG;
 
 			// make a link to the target page
 			$url = Files::get_download_url($item);
@@ -1810,12 +1965,7 @@ Class Files {
 				."WHERE ";
 
 		// limit the scope of the request
-		$query .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$query .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$query .= " OR files.active='N'";
-		$query .= ")";
+		$query .= Files::get_sql_where();
 
 		// list freshest files
 		$query .= " ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
@@ -1866,12 +2016,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// ids to avoid
 		if($avoid)
@@ -1957,15 +2102,8 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-
-		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND (".$where.")"
+			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND ".Files::get_sql_where()
 			." ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -2007,12 +2145,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request
-		$where .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where .= ")";
+		$where .= Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files ".$where
@@ -2043,11 +2176,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
@@ -2075,11 +2204,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
@@ -2115,12 +2240,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request
-		$where .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where .= ")";
+		$where .= Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT files.* FROM ".SQL::table_name('files')." AS files ".$where
@@ -2165,12 +2285,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// ids to avoid
 		if($avoid)
@@ -2249,17 +2364,38 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = Files::get_sql_where();
 
 		// list items attached directly to this anchor
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
 			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
 			." ORDER BY edit_date DESC, files.title LIMIT ".$offset.','.$count;
+
+		// the list of files
+		$output =& Files::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list files for given anchor and name
+	 *
+	 * @param string the anchor
+	 * @param mixed file name, or an array of file names
+	 * @param string the list variant, if any
+	 * @return NULL on error, else the laid out list
+	 */
+	public static function &list_for_anchor_and_name($anchor, $name, $variant='embeddable') {
+		global $context;
+
+		// several files
+		if(is_array($name))
+			$where = "files.file_name IN ('".join("', '", $name)."')";
+		else
+			$where = "files.file_name='".SQL::escape($name)."'";
+
+		// list items attached directly to this anchor
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
 
 		// the list of files
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -2281,7 +2417,7 @@ Class Files {
 	 * @see skins/skin_skeleton.php
 	 * @see files/fetch_all.php
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -2351,11 +2487,8 @@ Class Files {
 		} else
 			$where = "WHERE ";
 
-		// limit the scope of the request - hidden files are never listed here
-		$where .= "(files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		$where .= ")";
+		// limit the scope of the request
+		$where .= Files::get_sql_where();
 
 		// the list of files
 		$query = "SELECT files.* FROM ".SQL::table_name('files')." AS files ".$where
@@ -2382,16 +2515,16 @@ Class Files {
 		global $context;
 
 		// no anchor reference
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// protect access from anonymous users
 		if(!isset($fields['active_set']))
@@ -2407,10 +2540,14 @@ Class Files {
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
 			$fields['create_date'] = $fields['edit_date'];
 
+		// make the file name searchable on initial post
+		if(!isset($fields['id']) && !isset($fields['keywords']) && isset($fields['file_name']) && ($fields['file_name'] != 'none'))
+				$fields['keywords'] = ' '.str_replace(array('%20', '_', '.', '-'), ' ', $fields['file_name']);
+
 		// columns updated
 		$query = array();
 
-		// update the existing record
+		// update an existing record
 		if(isset($fields['id'])) {
 
 			// id cannot be empty
@@ -2525,12 +2662,12 @@ Class Files {
 	 * - file is restricted (active='N'), but surfer is an associate
 	 *
 	 * @param string searched tokens
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $variant='search') {
+	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -2540,22 +2677,43 @@ Class Files {
 		}
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR files.active='N'";
-		$where = '('.$where.')';
+		$where = "active='Y'";
 
-		// match
-		$match = "MATCH(title, source, description, keywords) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
+		if(Surfer::is_logged() || Surfer::is_teased())
+			$where .= " OR active='R'";
+
+		if(Surfer::is_associate() || Surfer::is_teased())
+			$where .= " OR active='N'";
+
+		else {
+
+			// files attached to managed sections
+			if($my_sections = Surfer::assigned_sections()) {
+				$where .= " OR anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+				// files attached to pages in managed sections
+				$where .= " OR anchor IN (SELECT CONCAT('article:', id) FROM ".SQL::table_name('articles')."  WHERE anchor IN ('section:".join("', 'section:", $my_sections)."'))";
+			}
+
+			// files attached to managed articles
+			if($my_articles = Surfer::assigned_articles())
+				$where .= " OR anchor IN ('article:".join("', 'article:", $my_articles)."')";
+
+		}
+
+		// how to compute the score for files
+		$score = "(MATCH(title, source, keywords)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of files
-		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE ".$where." AND $match"
-			." ORDER BY files.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *, ".$score." AS score FROM ".SQL::table_name('files')." AS files"
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+			."  AND (".$where.")"
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
+		// do the query
 		$output =& Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
@@ -2612,7 +2770,7 @@ Class Files {
 		$indexes['INDEX file_size'] 	= "(file_size)";
 		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']		= "full_text(title, source, description, keywords)";
+		$indexes['FULLTEXT INDEX']		= "full_text(title, source, keywords)";
 
 		return SQL::setup_table('files', $fields, $indexes);
 	}
@@ -2624,7 +2782,7 @@ Class Files {
 	 *
 	 * @see files/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// limit the scope of the request
@@ -2650,7 +2808,7 @@ Class Files {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -2658,17 +2816,13 @@ Class Files {
 			return NULL;
 
 		// limit the scope of the request
-		$where = "files.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR files.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR files.active='N'";
+		$where = Files::get_sql_where();
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			.", SUM(file_size) as total_size"
 			." FROM ".SQL::table_name('files')." AS files"
-			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND (".$where.")";
+			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
 
 		$output = SQL::query_first($query);
 		return $output;
@@ -2818,17 +2972,16 @@ Class Files {
 	 * This function processes files from the temporary directory, and put them at their definitive
 	 * place.
 	 *
-	 *
 	 * It returns FALSE if there is a disk error, or if some virus has been detected, or if
 	 * the operation fails for some other reason (e.g., file size).
 	 *
 	 * @param array usually, $_FILES['upload']
 	 * @param string target location for the file
 	 * @param mixed reference to the target anchor, of a function to parse every file individually
-	 * @return mixed actual file name or embedding string if everything went fine, FALSE if an error has occured
+	 * @return mixed file name or array of file names or FALSE if an error has occured
 	 */
 	public static function upload($input, $file_path, $target=NULL) {
-		global $context, $_FILES, $_REQUEST;
+		global $context, $_REQUEST;
 
 		// do we have a file?
 		if(!isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
@@ -2883,8 +3036,8 @@ Class Files {
 		elseif(!$input['size'])
 			Logger::error(i18n::s('No file has been transmitted.'));
 
-		// check provided upload name
-		elseif(!Safe::is_uploaded_file($file_upload))
+		// are there some risk to move this file?
+		elseif($file_path && !Safe::is_uploaded_file($file_upload))
 			Logger::error(i18n::s('Possible file attack.'));
 
 		// process uploaded data
@@ -2899,18 +3052,24 @@ Class Files {
 				$file_path .= '/';
 
 			// move the uploaded file
-			if(!Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
+			if($file_path && !Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
 				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
 			// continue the processing
 			else {
 
-				// check viruses
+				// process the file where it is
+				if(!$file_path) {
+					$file_path = str_replace($context['path_to_root'], '', dirname($file_upload));
+					$file_name = basename($file_upload);
+				}
+
+				// check against viruses
 				$result = Files::has_virus($context['path_to_root'].$file_path.'/'.$file_name);
 
 				// no virus has been found in this file
 				if($result == 'N')
-					$context['text'] .= Skin::build_block(i18n::s('No virus has been found in this file.'), 'note');
+					$context['text'] .= Skin::build_block(i18n::s('No virus has been found.'), 'note');
 
 				// this file has been infected!
 				if($result == 'Y') {
@@ -2923,48 +3082,143 @@ Class Files {
 
 				}
 
-				// this will be filtered by umask anyway
-				Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
+				// explode a .zip file
+				include_once $context['path_to_root'].'shared/zipfile.php';
+				if(preg_match('/\.zip$/i', $file_name) && isset($_REQUEST['explode_files'])) {
+					$zipfile = new zipfile();
 
-				// invoke post-processing function
-				if($target && is_callable($target)) {
-					call_user_func($target, $file_name, $context['path_to_root'].$file_path);
+					// check files extracted from the archive file
+					function explode_callback($name) {
+						global $context;
 
-				// we have to update an anchor page
-				} elseif($target && is_string($target)) {
+						// reject all files put in sub-folders
+						if(($path = substr($name, strlen($context['uploaded_path'].'/'))) && (strpos($path, '/') !== FALSE))
+							Safe::unlink($name);
 
-					// update an existing record for this anchor
-					if($match =& Files::get_by_anchor_and_name($target, $file_name))
-						$fields = $match;
+						// we only want to preserve authorized extensions
+						elseif(!Files::is_authorized($name))
+							Safe::unlink($name);
 
-					// create a new file record
-					else {
+						// ok, this one is fine
+						else {
+
+							// make it easy to download
+							$ascii = utf8::to_ascii(basename($name));
+							Safe::rename($name, $context['uploaded_path'].'/'.$ascii);
+
+							// remember this name
+							$context['uploaded_files'][] = $ascii;
+
+						}
+					}
+
+					// extract archive components and save them in mentioned directory
+					$context['uploaded_files'] = array();
+					$context['uploaded_path'] = $file_path;
+					if(!$count = $zipfile->explode($context['path_to_root'].$file_path.'/'.$file_name, $file_path, '', 'explode_callback')) {
+						Logger::error(sprintf('Nothing has been extracted from %s.', $file_name));
+						return FALSE;
+					}
+
+				// one single file has been uploaded
+				} else
+					$context['uploaded_files'] = array( $file_name );
+
+				// ensure we know the surfer
+				Surfer::check_default_editor($_REQUEST);
+
+				// post-process all uploaded files
+				foreach($context['uploaded_files'] as $file_name) {
+
+					// this will be filtered by umask anyway
+					Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
+
+					// invoke post-processing function
+					if($target && is_callable($target)) {
+						call_user_func($target, $file_name, $context['path_to_root'].$file_path);
+
+					// we have to update an anchor page
+					} elseif($target && is_string($target)) {
 						$fields = array();
+
+						// update a file with the same name for this anchor
+						if($matching =& Files::get_by_anchor_and_name($target, $file_name))
+							$fields['id'] = $matching['id'];
+
+						// update an existing record
+						elseif(isset($input['id']) && ($matching = Files::get($input['id']))) {
+							$fields['id'] = $matching['id'];
+
+							// silently delete the previous version of the file
+							if(isset($matching['file_name']))
+								Safe::unlink($file_path.'/'.$matching['file_name']);
+
+						}
+
+						// prepare file record
 						$fields['file_name'] = $file_name;
 						$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
 						$fields['file_href'] = '';
 						$fields['anchor'] = $target;
+
+						// change title
+						if(isset($_REQUEST['title']))
+							$fields['title'] = $_REQUEST['title'];
+
+						// change has been documented
+						if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
+							$_REQUEST['version'] = '';
+						else
+							$_REQUEST['version'] = ' - '.$_REQUEST['version'];
+
+						// always remember file uploads, for traceability
+						$_REQUEST['version'] = $fields['file_name'].' ('.Skin::build_number($fields['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+
+						// add to file history
+						$fields['description'] = Files::add_to_history($matching, $_REQUEST['version']);
+
+						// if this is an image, maybe we can derive a thumbnail for it?
+						if(Files::is_image($file_name)) {
+
+							include_once $context['path_to_root'].'images/image.php';
+							Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.'thumbs/'.$file_name);
+
+							if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
+								$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
+						}
+
+						// change active_set
+						if(isset($_REQUEST['active_set']))
+							$fields['active_set'] = $_REQUEST['active_set'];
+
+						// change source
+						if(isset($_REQUEST['source']))
+							$fields['source'] = $_REQUEST['source'];
+
+						// change keywords
+						if(isset($_REQUEST['keywords']))
+							$fields['keywords'] = $_REQUEST['keywords'];
+
+						// change alternate_href
+						if(isset($_REQUEST['alternate_href']))
+							$fields['alternate_href'] = $_REQUEST['alternate_href'];
+
+						// create the record in the database
+						if(!$fields['id'] = Files::post($fields))
+							return FALSE;
+
+						// record surfer activity
+						Activities::post('file:'.$fields['id'], 'upload');
+
 					}
 
-					// if this is an image, maybe we can derive a thumbnail for it?
-					if(Files::is_image($file_name)) {
-
-						include_once $context['path_to_root'].'images/image.php';
-						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.'thumbs/'.$file_name);
-
-						if(file_exists($context['path_to_root'].$file_path.'thumbs/'.$file_name))
-							$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].$file_path.'thumbs/'.rawurlencode($file_name);
-					}
-
-					// create the record in the database, and allow for direct access from containing item
-					if($fields['id'] = Files::post($fields))
-						return "\n[file=".$fields['id'].']';
-					else
-						return FALSE;
 				}
 
 				// so far so good
-				return $file_name;
+				if(count($context['uploaded_files']) == 1)
+					return $context['uploaded_files'][0];
+				else
+					return $context['uploaded_files'];
 
 			}
 

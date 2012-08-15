@@ -30,12 +30,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -101,8 +101,8 @@ if(Surfer::is_crawler()) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// headline
-	$headline = sprintf(i18n::c('%s has notified you from %s'),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+	$headline = sprintf(i18n::c('%s is notifying you from %s'),
+		Surfer::get_link(),
 		'<a href="'.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages
@@ -130,7 +130,7 @@ if(Surfer::is_crawler()) {
 	$message .= Skin::build_mail_menu($menu);
 
 	// threads messages
-	$headers = Mailer::set_thread('', 'category:'.$item['id']);
+	$headers = Mailer::set_thread('category:'.$item['id']);
 
 	// send the message
 	if(Mailer::notify(Surfer::from(), $to, $subject, $message, $headers)) {

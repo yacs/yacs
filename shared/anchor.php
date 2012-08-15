@@ -77,7 +77,7 @@
  *
  * [php]
  * // get an anchor (an article, a section, etc.)
- * $anchor =& Anchors::get('article:123');
+ * $anchor = Anchors::get('article:123');
  *
  * // show the path bar
  * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
@@ -134,6 +134,45 @@ class Anchor {
 
 	// its related anchor, if any
 	var $anchor;
+
+	/**
+	 * alert watchers of this anchor
+	 *
+	 * @param array message attributes, such as 'subject', 'message', 'headers'
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @param boolean TRUE if access to the target object is restricted, FALSE otherwise
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
+	function alert_watchers($mail, $action=NULL, $restricted=FALSE) {
+		global $context;
+
+		// do not notify watchers if overlay prevents it
+		if(is_object($this->overlay) && !$this->overlay->should_notify_watchers())
+			return FALSE;
+
+		// list all items in the watching context
+		$containers = $this->get_watched_context($action);
+
+		// finalize the message
+		$mail['message'] = Mailer::build_notification($mail['notification'], 1);
+
+		// allow for message threading
+		if(!isset($mail['headers']))
+			$mail['headers'] = Mailer::set_thread($this->get_reference());
+
+		// we are private, so consider only watchers who are also editors
+		if($this->item['active'] == 'N')
+			$restricted = TRUE;
+
+		// list editors if access is restricted
+		$editors = NULL;
+		if($restricted)
+			$editors = Members::list_editors_for_member($this->get_focus(), 0, 10000, 'ids');
+
+		// do the job
+		return Users::alert_watchers($containers, $mail, $editors);
+
+	}
 
 	/**
 	 * maximise access rights
@@ -243,7 +282,7 @@ class Anchor {
 
 		// get the parent
 		if(!$this->anchor && isset($this->item['anchor']))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$text = '';
@@ -298,7 +337,7 @@ class Anchor {
 	 * For example, if you are displaying a thread related to an article,
 	 * you can display at the top of the page the article icon with the following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * if($icon = $anchor->get_icon_url())
 	 *	 $context['text'] .= '<img src="'.$icon.'" alt="" />';
 	 * [/php]
@@ -395,7 +434,7 @@ class Anchor {
 	 * the path bar has to mention the section. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -463,7 +502,7 @@ class Anchor {
 	 * an anchor. For example, a thread item can have a neat text, coming from the
 	 * anchor, to introduce it:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['text'] .= $anchor->get_prefix('thread');
 	 * [/php]
 	 *
@@ -493,7 +532,7 @@ class Anchor {
 	 * This function is used to retrieve a reference to be placed into the database.
 	 * For example:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
@@ -525,7 +564,7 @@ class Anchor {
 	 * an anchor. For example, a thread item can have a neat text, coming from the
 	 * anchor, to conclude the page:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['text'] .= $anchor->get_suffix('thread');
 	 * [/php]
 	 *
@@ -617,7 +656,7 @@ class Anchor {
 	 * you will use the title of the article as the general page title.
 	 * You can use following code to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['page_title'] = $anchor->get_title();
 	 * [/php]
 	 *
@@ -627,7 +666,7 @@ class Anchor {
 	 */
 	function get_title() {
 		if($this->item)
-			return str_replace('& ', '&amp; ', $this->item['title']);
+			return trim(str_replace('& ', '&amp; ', $this->item['title']));
 		return $this->get_reference();
 	}
 
@@ -649,7 +688,7 @@ class Anchor {
 	 * For example, if you are displaying a thread related to an article,
 	 * you can add a link to display the article with the following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['text'] .= '<a href="'.$anchor->get_url().'">'.i18n::s('Back').'</a>';
 	 * [/php]
 	 *
@@ -692,6 +731,26 @@ class Anchor {
 	}
 
 	/**
+	 * list all items in the watching context
+	 *
+	 * Items that are included in the watching context are not always the same.
+	 * For example, when the action is the creation of an article in a section,
+	 * all sections up to the top of the content tree are included in the watching context.
+	 * However, when an article is updated, the scope is limited to the containing section.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	private function get_watched_context($action) {
+		global $context;
+
+		// by default, limit to direct watchers of this anchor
+		return $this->get_reference();
+	}
+
+	/**
 	 * check if an anchor implements a given layout
 	 *
 	 * To be overloaded into derived class, if necessary
@@ -711,7 +770,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->has_layout($option);
@@ -732,7 +791,7 @@ class Anchor {
 	 * For example, the layout of a thread may vary from one section to another.
 	 * To check that, you can use following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * if($anchor->option('with_thread_alternate_layout') {
 	 *	 ...
 	 * } else {
@@ -744,7 +803,7 @@ class Anchor {
 	 * For example, if the options field has been set with the value 'variant_red_background',
 	 * the variant can be retrieved from anchored items with the following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * if($variant = $anchor->option('variant') {
 	 *	 load_skin($variant);
 	 * } else {
@@ -782,7 +841,7 @@ class Anchor {
 			return $matches[1];
 
 		// exact match, return TRUE
-		if(isset($this->item['options']) && preg_match('/\b'.$option.'\b/i', $this->item['options']))
+		if(isset($this->item['options']) && (strpos($this->item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// climb the anchoring chain
@@ -790,7 +849,7 @@ class Anchor {
 
 			// cache requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// ask the anchor
 			if(is_object($this->anchor))
@@ -827,7 +886,7 @@ class Anchor {
 	 * web site, he/she should be able to edit all articles in this section.
 	 * you can use following code to check that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * if($anchor->is_assigned() {
 	 *	 ...
 	 * }
@@ -879,7 +938,7 @@ class Anchor {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// check for ownership
 			if(is_object($this->anchor))
@@ -948,7 +1007,7 @@ class Anchor {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// test strict ownership
 			if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
@@ -981,7 +1040,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor) && !$this->anchor->is_public())
 				return FALSE;
@@ -1016,6 +1075,10 @@ class Anchor {
 		// we need some data to proceed
 		if(!isset($this->item['id']))
 			return FALSE;
+
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
+			return TRUE;
 
 		// section is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
@@ -1058,11 +1121,8 @@ class Anchor {
 
 		// get the related overlay, if any
 		$this->overlay = NULL;
-		if(isset($this->item['overlay'])) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
+		if(isset($this->item['overlay']))
 			$this->overlay = Overlay::load($this->item, $this->get_reference());
-		}
-
 
 	}
 
@@ -1107,7 +1167,7 @@ class Anchor {
 	 * For example, if a thread is linked to a section, one update of this thread
 	 * will be considered as an update of the section itself.
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $anchor->touch('thread:update');
 	 * [/php]
 	 *
@@ -1135,10 +1195,8 @@ class Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		return;
 	}
 

@@ -53,8 +53,6 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		$others = array();
 		$item_count = 0;
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// permalink
@@ -138,7 +136,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the icon to put aside
 		$icon = '';
@@ -202,7 +200,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
@@ -215,7 +213,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
 		$text .= Skin::finalize_list($details, 'menu');
@@ -239,7 +237,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the icon to put aside
 		$icon = '';
@@ -303,7 +301,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
@@ -316,7 +314,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
 		$text .= Skin::finalize_list($details, 'menu');
@@ -340,7 +338,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// use the title to label the link
 		if(is_object($overlay))
@@ -383,7 +381,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
@@ -396,7 +394,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
 		$suffix .= Skin::finalize_list($details, 'menu');

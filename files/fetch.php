@@ -53,7 +53,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
-include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -81,7 +80,7 @@ $item = Files::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -89,20 +88,12 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// public access is allowed
-if(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetch.php', 'file:'.$item['id']))
+	$permitted = FALSE;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// associates, editors and readers can view the page
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// check access rights
+elseif(Files::allow_access($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -388,7 +379,7 @@ if(!isset($item['id']) || !$item['id']) {
 			}
 
 			// serve the right type
-			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
 
 			// suggest a name for the saved file
 			$file_name = utf8::to_ascii($item['file_name']);

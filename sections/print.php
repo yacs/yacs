@@ -24,12 +24,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
@@ -242,30 +242,8 @@ if(Surfer::is_crawler()) {
 	// the comments section
 	//
 
-	// layout as defined in options
-	if($item['articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} elseif($item['articles_layout'] == 'jive') {
-		include_once '../comments/layout_comments_as_jive.php';
-		$layout = new Layout_comments_as_jive();
-
-	} elseif($item['articles_layout'] == 'manual') {
-		include_once '../comments/layout_comments_as_manual.php';
-		$layout = new Layout_comments_as_manual();
-
-	} elseif($item['articles_layout'] == 'yabb') {
-		include_once '../comments/layout_comments_as_yabb.php';
-		$layout = new Layout_comments_as_yabb();
-
-	// layout as defined by general parameter
-	} elseif($context['root_articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} else
-		$layout = 'no_anchor';
+	// layout for printed comments
+	$layout = 'no_anchor';
 
 	// the maximum number of comments per page
 	if(is_object($layout))

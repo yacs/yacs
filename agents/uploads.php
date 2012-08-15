@@ -111,7 +111,7 @@ class Uploads {
 
 		// user information
 		if($context['uploads_nick_name']) {
-			if($user =& Users::get($context['uploads_nick_name'])) {
+			if($user = Users::get($context['uploads_nick_name'])) {
 				if(!$fields['create_name'])
 					$fields['create_name'] = $user['nick_name'];
 				if(!$fields['create_id'])
@@ -136,7 +136,7 @@ class Uploads {
 		// the anchor
 		if(!$fields['anchor'] && $context['uploads_anchor'])
 			$fields['anchor'] = $context['uploads_anchor'];
-		$anchor =& Anchors::get($fields['anchor']);
+		$anchor = Anchors::get($fields['anchor']);
 
 		// post a page
 		$fields['id'] = Articles::post($fields);

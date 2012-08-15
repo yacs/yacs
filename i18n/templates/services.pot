@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:30+0100\n"
+"POT-Creation-Date: 2012-05-26 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 #: services/blog.php:1451 services/blog.php:1463 services/blog.php:1467
 #: services/blog.php:1471 services/blog.php:1545 services/blog.php:1549
 #: services/blog.php:1553 services/blog.php:1748 services/check.php:57
-#: services/check.php:62 services/configure.php:77 services/proxy.php:21
+#: services/check.php:62 services/configure.php:83 services/proxy.php:21
 #: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr ""
@@ -133,217 +133,233 @@ msgstr ""
 msgid "No anchor has been found."
 msgstr ""
 
-#: services/configure.php:65 services/configure.php:218
-#: services/configure.php:303
+#: services/configure.php:71 services/configure.php:232
+#: services/configure.php:319
 msgid "Control Panel"
 msgstr ""
 
-#: services/configure.php:68
+#: services/configure.php:74
 #, php-format
 msgid "%s: %s"
 msgstr ""
 
-#: services/configure.php:68 services/index.php:98
+#: services/configure.php:74 services/index.php:98
 msgid "Configure"
 msgstr ""
 
-#: services/configure.php:68 services/configure.php:222
-#: services/configure.php:302
+#: services/configure.php:74 services/configure.php:236
+#: services/configure.php:318
 msgid "Web services"
 msgstr ""
 
-#: services/configure.php:89
+#: services/configure.php:95
 msgid "Google API key"
 msgstr ""
 
-#: services/configure.php:93
+#: services/configure.php:99
 #, php-format
 msgid "To integrate Google Maps to your server, %s and enter it here"
 msgstr ""
 
-#: services/configure.php:93
+#: services/configure.php:99
 msgid "http://www.google.com/apis/maps/signup.html"
 msgstr ""
 
-#: services/configure.php:93 services/configure.php:109
+#: services/configure.php:99 services/configure.php:115
+#: services/configure.php:137
 msgid "apply for a key"
 msgstr ""
 
-#: services/configure.php:97
+#: services/configure.php:103
 msgid "Google Analytics"
 msgstr ""
 
-#: services/configure.php:101
+#: services/configure.php:107
 #, php-format
 msgid ""
 "To monitor your server with Google Analytics, %s and enter your account here"
 msgstr ""
 
-#: services/configure.php:101
+#: services/configure.php:107
 msgid "http://www.google-analytics.com/"
 msgstr ""
 
-#: services/configure.php:101 services/configure.php:131
+#: services/configure.php:107 services/configure.php:145
 msgid "register"
 msgstr ""
 
-#: services/configure.php:105
+#: services/configure.php:111
 msgid "Opentok API key"
 msgstr ""
 
-#: services/configure.php:109
+#: services/configure.php:115
 #, php-format
 msgid "To integrate Opentok services to your server, %s and enter it here"
 msgstr ""
 
-#: services/configure.php:109
+#: services/configure.php:115
 msgid "http://www.tokbox.com/opentok/api/documentation/gettingstarted"
 msgstr ""
 
-#: services/configure.php:113
+#: services/configure.php:119
 msgid "Opentok API secret"
 msgstr ""
 
-#: services/configure.php:120
+#: services/configure.php:126
 msgid "Opentok API URL"
 msgstr ""
 
-#: services/configure.php:127
+#: services/configure.php:133
+msgid "Orange Business Services API key"
+msgstr ""
+
+#: services/configure.php:137
+#, php-format
+msgid ""
+"To integrate Orange Business Services (OBS) API into your server, %s and "
+"enter it here"
+msgstr ""
+
+#: services/configure.php:137
+msgid "http://api.orange.com/"
+msgstr ""
+
+#: services/configure.php:141
 msgid "Twilio account SID"
 msgstr ""
 
-#: services/configure.php:131
+#: services/configure.php:145
 #, php-format
 msgid "To integrate Twilio to your server, %s and enter SID here"
 msgstr ""
 
-#: services/configure.php:131
+#: services/configure.php:145
 msgid "http://www.twilio.com/"
 msgstr ""
 
-#: services/configure.php:135
+#: services/configure.php:149
 msgid "Twilio authentication token"
 msgstr ""
 
-#: services/configure.php:144
+#: services/configure.php:158
 msgid "Providers"
 msgstr ""
 
-#: services/configure.php:147
+#: services/configure.php:161
 msgid "Debug blog services"
 msgstr ""
 
-#: services/configure.php:151
+#: services/configure.php:165
 msgid ""
 "Copy network packets sent and received by services/blog.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:152 services/configure.php:161
-#: services/configure.php:170 services/configure.php:179
-#: services/configure.php:188 services/configure.php:197
+#: services/configure.php:166 services/configure.php:175
+#: services/configure.php:184 services/configure.php:193
+#: services/configure.php:202 services/configure.php:211
 msgid "Use this option only for troubleshooting"
 msgstr ""
 
-#: services/configure.php:156
+#: services/configure.php:170
 msgid "Debug commenting services"
 msgstr ""
 
-#: services/configure.php:160
+#: services/configure.php:174
 msgid ""
 "Copy network packets sent and received by comments/post.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:165
+#: services/configure.php:179
 msgid "Debug calls of web services"
 msgstr ""
 
-#: services/configure.php:169
+#: services/configure.php:183
 msgid ""
 "Copy network packets sent and received by services/call.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:174
+#: services/configure.php:188
 msgid "Debug ping services"
 msgstr ""
 
-#: services/configure.php:178
+#: services/configure.php:192
 msgid ""
 "Copy network packets sent and received by services/ping.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:183
+#: services/configure.php:197
 msgid "Debug remote procedure calls"
 msgstr ""
 
-#: services/configure.php:187
+#: services/configure.php:201
 msgid ""
 "Copy network packets sent and received by services/json_rpc.php and by "
 "services/xml_rpc.php in temporary/debug.txt"
 msgstr ""
 
-#: services/configure.php:192
+#: services/configure.php:206
 msgid "Debug pingback and trackback services"
 msgstr ""
 
-#: services/configure.php:196
+#: services/configure.php:210
 msgid ""
 "Copy network packets sent and received by links/trackback.php in temporary/"
 "debug.txt"
 msgstr ""
 
-#: services/configure.php:203
+#: services/configure.php:217
 msgid "Debugging"
 msgstr ""
 
-#: services/configure.php:214
+#: services/configure.php:228
 msgid "Submit"
 msgstr ""
 
-#: services/configure.php:214
+#: services/configure.php:228
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: services/configure.php:233
+#: services/configure.php:247
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: services/configure.php:277
+#: services/configure.php:293
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: services/configure.php:280
+#: services/configure.php:296
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 
-#: services/configure.php:285
+#: services/configure.php:301
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: services/configure.php:291
+#: services/configure.php:307
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: services/configure.php:297
+#: services/configure.php:313
 msgid "Configuration parameters"
 msgstr ""
 
-#: services/configure.php:300
+#: services/configure.php:316
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: services/configure.php:304
+#: services/configure.php:320
 msgid "Configure again"
 msgstr ""
 

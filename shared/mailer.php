@@ -11,7 +11,7 @@
  * message per recipient. This feature is important to preserve confidentiality, and to pass
  * through spam filters.
  *
- * This script is conforming to the Simple Mail Transfer Protocol (SMTP), including
+ * This script is a native implementation of the Simple Mail Transfer Protocol (SMTP), including
  * extensions related to security and authentication. If openssl is available, it can connect
  * to mail servers using the SSL/TLS protocol. For authentication, CRAM-MD5, LOGIN and PLAIN
  * mechanisms are provided. Alternatively, authentication can also be done using POP3 before
@@ -27,7 +27,7 @@
  *
  * @link http://en.wikipedia.org/wiki/MIME Multipurpose Internet Mail Extensions (MIME)
  *
- * The number of messages transmitted every hour is limited, and exceeding messages
+ * The number of messages transmitted every hour can be capped. Exceeding messages
  * are queued in the database. When this happens, actual posts to the mail
  * server are processed in the background. Therefore bursts of mail messages are
  * shaped to accomodate for limitations set by many Internet service providers.
@@ -67,6 +67,9 @@ class Mailer {
 		$text = str_replace(' href="/', ' href="'.$context['url_to_home'].'/', $text);
 		$text = str_replace(' src="/', ' src="'.$context['url_to_home'].'/', $text);
 
+		// remove invisible tags, such as scripts, etc.
+		$text = xml::strip_invisible_tags($text);
+
 		// one element per type
 		$message = array();
 
@@ -81,15 +84,15 @@ class Mailer {
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
 
 		// transform the text/html part
-		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 					// <dl> ... </dl> -> <table> ... </table>
-			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',	// <dt> ... </dt> -> <tr><td> ... </td>
+		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> ... </dl> -> <table> ... </table>
+			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',						// <dt> ... </dt> -> <tr><td> ... </td>
 			'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td>\\1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
-//			'/<table([^>]*?)>/i' => '<table \\1 border="1" cellspacing="0" cellpadding="10">',	 // improve rendering of tables
 			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
 			'/class="grid"/i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
 			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
-			'/<script[^>]*?>(.*?)<\/script>/i' => '',								// remove <script> ... </script> --Javascript considered as spam
-			'/<style[^>]*?>(.*?)<\/style>/i' => '');								// remove <style> ... </style> --use inline style instead
+			'/\/>/i' => '>',														// <br /> -> <br>, <hr /> -> <hr>, etc.
+			'/<scr'.'ipt[^>]*?>(.*?)<\/scr'.'ipt>/i' => '',							// remove scripts
+			'/<sty'.'le[^>]*?>(.*?)<\/sty'.'le>/i' => '');							// remove style rules
 
 		// text/html part
 		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
@@ -131,8 +134,7 @@ class Mailer {
 
 		case 2: // you are watching the poster
 			$text .= '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
-				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name()))
-				.'</a></p>';
+				.'<p>'.Surfer::get_link().'</p>';
 			break;
 
 		}
@@ -146,9 +148,10 @@ class Mailer {
 	 *
 	 * This is useful to list all persons notified after a post for example.
 	 *
+	 * @param string the reference of the notifying item, if any
 	 * @return mixed text to be integrated into the page
 	 */
-	public static function build_recipients() {
+	public static function build_recipients($reference='') {
 		global $context;
 
 		// nothing to show
@@ -158,6 +161,10 @@ class Mailer {
 		// title mentions number of recipients
 		$count = count($context['mailer_recipients']);
 		$title = sprintf(i18n::ns('%d person has been notified', '%d persons have been notified', $count), $count);
+
+		// remember the number of notifications sent from this anchor
+		if($reference)
+			Activities::post($reference, 'notify', $count);
 
 		// return the bare list
 		if(!$title)
@@ -798,7 +805,7 @@ class Mailer {
 	 *
 	 * This function allows for individual posts, textual and HTML messages, and attached files.
 	 *
-	 * For this to work, e-mail services have to be explicitly activated in the
+	 * For this to work, e-mail service has to be explicitly activated in the
 	 * main configuration panel, at [script]control/configure.php[/script].
 	 *
 	 * You can refer to local images in HTML parts, and the function will automatically attach these
@@ -829,7 +836,7 @@ class Mailer {
 	 * [php]
 	 * $message = array();
 	 * $message['text/plain; charset=utf-8'] = 'This is a plain message';
-	 * $message['text/html'] = '<html><head><title>Hello</title><body>This is an HTML message</body></html>';
+	 * $message['text/html'] = '<html><head><body>This is an HTML message</body></html>';
 	 * Mailer::post($from, $to, $subject, $message);
 	 * [/php]
 	 *
@@ -927,7 +934,7 @@ class Mailer {
 
 		// Message-ID: header --helps to avoid spam filters
 		if(!preg_match('/^Message-ID: /im', $headers))
-			$headers .= M_EOL.'Message-ID: <'.time().'@'.$context['host_name'].'>';
+			$headers .= M_EOL.'Message-ID: <uniqid.'.uniqid().'@'.$context['host_name'].'>';
 
 		// MIME-Version: header
 		if(!preg_match('/^MIME-Version: /im', $headers))
@@ -1394,21 +1401,13 @@ class Mailer {
 	 *
 	 * @link http://www.jwz.org/doc/threading.html message threading
 	 *
-	 * @param string unique id for this message
 	 * @param string thread context for this message
 	 * @return array headers to be used by Mailer::post()
 	 */
-	public static function set_thread($this_id=NULL, $parent_id=NULL) {
+	public static function set_thread($parent_id=NULL) {
 		global $context;
 
 		$headers = array();
-
-		// just help to overcome spam filters
-		if(!$this_id)
-			$this_id = 'object';
-
-		// Message-ID: header
-		$headers[] = 'Message-ID: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $this_id).'.'.time().'@'.$context['host_name'].'>';
 
 		// In-Reply-To: header
 		if($parent_id) {

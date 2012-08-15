@@ -15,6 +15,17 @@
 Class Layout_sections_as_inline extends Layout_interface {
 
 	/**
+	 * the preferred number of items for this layout
+	 *
+	 * The compact format of this layout allows a high number of items to be listed
+	 *
+	 * @return int the optimised count of items fro this layout
+	 */
+	function items_per_page() {
+		return 1000;
+	}
+
+	/**
 	 * list sections
 	 *
 	 * @param resource the SQL result
@@ -40,14 +51,13 @@ Class Layout_sections_as_inline extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);
@@ -106,7 +116,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// info on related files
-			if(Sections::has_option('files_by_title', $anchor, $item))
+			if(Sections::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -122,7 +132,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', TRUE)) {
 				foreach($items as $url => $label) {
 					$prefix = $suffix = '';
 					if(is_array($label)) {

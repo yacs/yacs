@@ -32,7 +32,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -141,8 +141,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	} else {
 
 		// headline
-		$headline = sprintf(i18n::c('%s has sent a message to you'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
+		$headline = sprintf(i18n::c('%s has sent a message to you'), Surfer::get_link());
 
 		// assemble main content of this message
 		$message = Skin::build_mail_content($headline, $message);
@@ -162,7 +161,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'user:'.$item['id']);
+		$headers = Mailer::set_thread('user:'.$item['id']);
 
 		// send the message
 		if(Mailer::notify($from, $to, $subject, $message, $headers)) {

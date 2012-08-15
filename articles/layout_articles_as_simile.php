@@ -65,14 +65,13 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$default_href = NULL;
 
 			// process all items in the list
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			while($item = SQL::fetch($result)) {
 
 				// get the related overlay
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// get the anchor
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 				// start
 				if($item['publish_date'] > $item['create_date'])
@@ -133,11 +132,11 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$details = array();
 
 				// info on related comments
-				if($count = Comments::count_for_anchor('article:'.$item['id'], FALSE))
+				if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 					$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// info on related files
-				if($count = Files::count_for_anchor('article:'.$item['id'], FALSE))
+				if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 					$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 				// info on related links

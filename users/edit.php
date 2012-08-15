@@ -11,7 +11,7 @@
  * On registration YACS attempts to stop robots by generating a random string and by asking user to type it.
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * This script attempts to validate the new or updated user description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
@@ -79,10 +79,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
 
@@ -95,11 +93,10 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database, if any
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'user:'.$item['id']);
 elseif(isset($context['users_overlay']) && $context['users_overlay'])
@@ -180,6 +177,9 @@ if(Surfer::is_crawler()) {
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
+
+		// allow for change detection
+		$overlay->snapshot();
 
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
@@ -274,7 +274,7 @@ if(Surfer::is_crawler()) {
 				else {
 
 					// get the new record
-					$item =& Users::get($_REQUEST['id'], TRUE);
+					$item = Users::get($_REQUEST['id'], TRUE);
 
 					// the welcome page
 					$context['page_title'] = i18n::s('Welcome!');
@@ -362,7 +362,7 @@ if($with_form) {
 		$input .= '<input type="radio" name="capability" value="?"';
 		if(isset($item['capability']) && ($item['capability'] == '?'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Suspended')."\n";
+		$input .= ' /> '.i18n::s('Blocked')."\n";
 		$fields[] = array($label, $input);
 	}
 
@@ -445,7 +445,8 @@ if($with_form) {
 	// phone number
 	$label = i18n::s('Phone number');
 	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" />';
-	$fields[] = array($label, $input);
+	$hint = i18n::s('Enter phone number in international format, starting with country code');
+	$fields[] = array($label, $input, $hint);
 
 	// alternate number
 	$label = i18n::s('Alternate number');
@@ -483,8 +484,7 @@ if($with_form) {
 
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
-		.'// enable autocompletion for user names'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("vcard_agent",true); });  '."\n"
+		.'$(function() { Yacs.autocomplete_names("vcard_agent",true); });'."\n" // enable autocompletion for user names
 		.JS_SUFFIX;
 
 	// instant messaging
@@ -742,14 +742,14 @@ if($with_form) {
 		// locations are reserved to authenticated members
 		if(Locations::allow_creation(NULL, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$items = Locations::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 		// tables are reserved to associates
 		if(Tables::allow_creation(NULL, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$items = Tables::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
@@ -856,7 +856,7 @@ if($with_form) {
 	 		.'$("#first_name").focus();'."\n"
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
+		.'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});  '."\n"
 		.JS_SUFFIX;

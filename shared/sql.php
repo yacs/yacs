@@ -52,7 +52,7 @@ Class SQL {
 			if(($handle = mysql_connect($host, $user, $password)) && !mysql_select_db($database, $handle))
 				$handle = FALSE;
 		} else
-			exit('no support for MySQL'.BR);
+			exit('no support for MySQL');
 
 		// end of job
 		return $handle;
@@ -913,9 +913,10 @@ Class SQL {
 	 * @param string the name of the table to setup
 	 * @param array of $field_name => $field_declaration
 	 * @param array of $index_name => $index_declaration
+	 * @param array of SQL statements to be executed
 	 * @return a text string to print
 	 */
-	public static function setup_table($table, $fields, $indexes) {
+	public static function setup_table($table, $fields, $indexes, $statements=NULL) {
 		global $context;
 
 		// sanity check
@@ -1016,7 +1017,7 @@ Class SQL {
 
 			}
 
-			// silently optimize table
+			// optimize the table
 			$query = "OPTIMIZE TABLE ".SQL::table_name($table);
 			if( ($result = SQL::query($query))
 				&& ($row = SQL::fetch($result))
@@ -1024,6 +1025,21 @@ Class SQL {
 
 				$text .= ' '.i18n::s('and optimized');
 				SQL::free($result);
+
+			}
+
+			// add views, eventually
+			if($statements && is_array($statements)) {
+
+				// process each statement in sequence
+				foreach($statements as $statement) {
+
+					// detect errors, if any
+					if(SQL::query($statement) === FALSE)
+						$text .= '<p>'.sprintf(i18n::s('ERROR for the table %s'), $table).BR.$statement.BR.SQL::error().'</p>';
+
+				}
+
 
 			}
 

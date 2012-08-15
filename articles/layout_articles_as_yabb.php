@@ -47,18 +47,21 @@ Class Layout_articles_as_yabb extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
+		// page size for comments
+		include_once $context['path_to_root'].'comments/layout_comments_as_updates.php';
+		$layout = new Layout_comments_as_updates();
+
 		// build a list of articles
 		$rows = array();
-		include_once $context['path_to_root'].'comments/layout_comments_as_yabb.php';
+
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Articles::get_permalink($item);
@@ -132,9 +135,6 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			// insert overlay data, if any
 			if(is_object($overlay))
 				$suffix .= $overlay->get_text('list', $item);
-
-			// page size for comments
-			$layout = new Layout_comments_as_yabb();
 
 			// shortcuts to comments pages
 			if(isset($item['comments_count']) && ($pages = (integer)ceil($item['comments_count'] / $layout->items_per_page())) && ($pages > 1)) {

@@ -30,8 +30,7 @@
  * Accepted calls:
  * - invite.php/&lt;id&gt;
  * - invite.php?id=&lt;id&gt;
- * - invite.php/&lt;id&gt;
- * - invite.php?id=&lt;id&gt;
+ * - invite.php?id=&lt;id&gt;&amp;invited=&lt;invited_id&gt;
  *
  * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -53,16 +52,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -187,7 +185,7 @@ if(Surfer::is_crawler()) {
 		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
 		// look for a user with this nick name
-		if(!$user =& Users::lookup($recipient)) {
+		if(!$user = Users::lookup($recipient)) {
 
 			// skip this recipient
 			if($recipient)
@@ -220,7 +218,7 @@ if(Surfer::is_crawler()) {
 
 		// headline
 		$headline = sprintf(i18n::c('%s has invited you to %s'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			Surfer::get_link(),
 			'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>');
 
 		// build the full message
@@ -265,7 +263,7 @@ if(Surfer::is_crawler()) {
 			$context['url_to_root'].Users::get_login_url('visit', 'article:'.$item['id'], $user['id'], $item['handle']), $message);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'article:'.$item['id']);
+		$headers = Mailer::set_thread('article:'.$item['id']);
 
 		// get attachments from the overlay, if any
 		$attachments = NULL;
@@ -345,28 +343,35 @@ if(Surfer::is_crawler()) {
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
 		$layout->set_variant('unchecked');
 
-	// list also selectable groups of people
-	$handle = $item['anchor'];
-	while($handle && ($parent = Anchors::get($handle))) {
-		$handle = $parent->get_parent();
+	// pre-invite someone
+	$invited = '';
+	if(isset($_REQUEST['invited']) && ($user = Users::get($_REQUEST['invited'])))
+		$invited = $user['nick_name'];
 
-		// invitation to a private page should be limited to editors
-		if($item['active'] == 'N') {
+	// list selectable groups of people
+	else {
+		$handle = $item['anchor'];
+		while($handle && ($parent = Anchors::get($handle))) {
+			$handle = $parent->get_parent();
 
-			if($editors = Members::list_editors_for_member($parent->get_reference(), 0, 1000, $layout))
-				$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
+			// invitation to a private page should be limited to editors
+			if($item['active'] == 'N') {
 
-		// else invitation should be extended to watchers
-		} else {
+				if($editors = Members::list_editors_for_member($parent->get_reference(), 0, 1000, $layout))
+					$input .= Skin::build_box(sprintf(i18n::s('Invite editors of %s'), $parent->get_title()), Skin::build_list($editors, 'compact'), 'folded');
 
-			if($watchers = Members::list_watchers_by_posts_for_anchor($parent->get_reference(), 0, 1000, $layout))
-				$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
+			// else invitation should be extended to watchers
+			} else {
 
+				if($watchers = Members::list_watchers_by_name_for_anchor($parent->get_reference(), 0, 1000, $layout))
+					$input .= Skin::build_box(sprintf(i18n::s('Invite watchers of %s'), $parent->get_title()), Skin::build_list($watchers, 'compact'), 'folded');
+
+			}
 		}
 	}
 
 	// add some names manually
-	$input .= Skin::build_box(i18n::s('Invite some persons'), '<textarea name="to" id="names" rows="3" cols="50"></textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
+	$input .= Skin::build_box(i18n::s('Invite some persons'), '<textarea name="to" id="names" rows="3" cols="50">'.$invited.'</textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>', 'unfolded');
 
 	// combine all these elements
 	$fields[] = array($label, $input);
@@ -415,7 +420,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// get a copy of the sent message
-	$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" /> '.i18n::s('Send me a copy of this message.').'</p>';
+	$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
@@ -446,12 +451,10 @@ if(Surfer::is_crawler()) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#names").focus() });'."\n"
-		."\n"
-		."\n"
-		.'// enable names autocompletion'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("names"); });  '."\n"
+		.'$(function() {'."\n"
+		.'	$("#names").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("names");'."\n" // enable names autocompletion
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// help message

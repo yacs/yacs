@@ -38,7 +38,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'biggest')) {
 
 	if(!$text = Images::list_by_size(0, 30, 'full'))
-		$context['text'] .=  '<p>'.i18n::s('No image has been uploaded yet.').'</p>';
+		$context['text'] .=  '<p>'.i18n::s('No image has been added.').'</p>';
 
 	// we have an array to format
 	if(is_array($text))
@@ -76,7 +76,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// look only in articles
-			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article =& Articles::get($matches[1]))) {
+			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article = Articles::get($matches[1]))) {
 
 				// check that the description has a reference to this image, or that the image is either an icon or a thumbnail
 				if(!preg_match('/\[image='.$row['id'].'.*\]/', $article['description'])

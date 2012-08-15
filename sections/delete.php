@@ -32,7 +32,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -43,7 +42,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -53,7 +52,7 @@ if(isset($item['overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // owners associate-like capabilities
 if(Sections::is_owned($item, $anchor) || Surfer::is_associate())

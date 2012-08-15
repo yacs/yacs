@@ -37,10 +37,10 @@ elseif(isset($_REQUEST['anchor']))
 $anchor = strip_tags($anchor);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the anchor as well
-$anchor =& Anchors::get($anchor);
+$anchor = Anchors::get($anchor);
 
 // load the skin
 load_skin('categories');

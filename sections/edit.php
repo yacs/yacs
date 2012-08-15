@@ -25,10 +25,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
 
@@ -41,14 +39,14 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any --use request first, because anchor can change
 $anchor = NULL;
 if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -154,7 +152,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// overlay may have changed
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
@@ -181,6 +179,9 @@ if(Surfer::is_crawler()) {
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
+
+		// allow for change detection
+		$overlay->snapshot();
 
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
@@ -215,18 +216,38 @@ if(Surfer::is_crawler()) {
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('section:'.$item['id'], $_REQUEST['active']);
 
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+			$mail['notification'] = Sections::build_notification('update', $_REQUEST);
+			$mail['headers'] = Mailer::set_thread('section:'.$_REQUEST['id']);
+
 			// notify watchers of the updated section and of its parent
-			if($updated = Anchors::get('section:'.$item['id']))
-				$updated->touch('section:update', $item['id'],
-					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-					isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			if($handle = new Section()) {
+				$handle->load_by_content($_REQUEST, $anchor);
+
+				// send to watchers of this anchor and upwards
+				if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+					$handle->alert_watchers($mail, 'section:update', ($_REQUEST['active'] == 'N'));
+
+			}
+
+			// send to followers of this user
+			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// touch the related anchor
+			if(is_object($anchor))
+				$anchor->touch('section:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 			// the section has been modified
 			$context['text'] .= '<p>'.i18n::s('The section has been successfully updated.').'</p>';
 
 			// list persons that have been notified
-			if($recipients = Mailer::build_recipients()) {
+			if($recipients = Mailer::build_recipients('section:'.$item['id'])) {
 
 				$context['text'] .= $recipients;
 
@@ -235,7 +256,7 @@ if(Surfer::is_crawler()) {
 				$menu = array();
 				$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the section')));
 				if(preg_match('/\bwith_files\b/i', $_REQUEST['options']) && Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a file')));
 				$follow_up .= Skin::build_list($menu, 'menu_bar');
 				$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -262,18 +283,35 @@ if(Surfer::is_crawler()) {
 		if(is_object($overlay))
 			$overlay->remember('insert', $_REQUEST, 'section:'.$_REQUEST['id']);
 
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($_REQUEST['title']));
+		$mail['notification'] = Sections::build_notification('create', $_REQUEST);
+		$mail['headers'] = Mailer::set_thread('section:'.$_REQUEST['id']);
+
 		// touch the related anchor
-		if(is_object($anchor))
-			$anchor->touch('section:create', $_REQUEST['id'],
-				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+		if(is_object($anchor)) {
+
+			// send to watchers of this anchor
+			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+				$anchor->alert_watchers($mail, 'section:create', ($_REQUEST['active'] == 'N'));
+
+			// update anchors
+			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		}
+
+		// send to followers of this user
+		if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+			&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
 		// get the new item
-		$section =& Anchors::get('section:'.$_REQUEST['id'], TRUE);
+		$section = Anchors::get('section:'.$_REQUEST['id'], TRUE);
 
 		// reward the poster for new posts
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -281,7 +319,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients('section:'.$_REQUEST['id']);
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -290,7 +328,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		if(is_object($anchor))
@@ -480,8 +518,8 @@ if($with_form) {
 	$keywords[] = '<a>auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
 	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to change content');
 	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to change content');
-	$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a>no_comments</a> - '.i18n::s('Disallow post of new comments');
+	$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 	$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
 	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
@@ -508,7 +546,7 @@ if($with_form) {
 		.'	var target = $("#content_options");'."\n"
 		.'	target.val(target.val() + " " + keyword);'."\n"
 		.'}'."\n"
-		.'$(document).ready(function() {'."\n"
+		.'$(function() {'."\n"
 		.'	$("#content_options_list a").bind("click",function(){'."\n"
 		.'		append_to_content_options($(this).text());'."\n"
 		.'	}).css("cursor","pointer");'."\n"
@@ -1058,12 +1096,12 @@ if($with_form) {
 	$keywords[] = '<a>articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank');
 	$keywords[] = '<a>with_deep_news</a> - '.i18n::s('List recent pages from sub-sections');
 	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
+	$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
 	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a>with_extra_profile</a> - '.i18n::s('Display profile of section owner');
 	$keywords[] = '<a>with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
-	$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 	$keywords[] = '<a>view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
@@ -1071,6 +1109,7 @@ if($with_form) {
 	$keywords[] = '<a>no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
 	$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
 	$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
+	$keywords[] = '<a>forward_notifications</a> - '.i18n::s('Alert watchers of containing section');
 	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
@@ -1079,7 +1118,7 @@ if($with_form) {
 		.'	var target = $("#options");'."\n"
 		.'	target.val(target.val() + " " + keyword);'."\n"
 		.'}'."\n"
-		.'$(document).ready(function() {'."\n"
+		.'$(function() {'."\n"
 		.'	$("#options_list a").bind("click",function(){'."\n"
 		.'		append_to_options($(this).text());'."\n"
 		.'	}).css("cursor","pointer");'."\n"
@@ -1245,7 +1284,7 @@ if($with_form) {
 		.'$("#index_title").focus();'."\n"
 		."\n"
 		.'// enable tags autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
+		.'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
 		.'});  '."\n"
 		.JS_SUFFIX;

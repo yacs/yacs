@@ -291,6 +291,9 @@ $context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/'
 // the http library
 include_once $context['path_to_root'].'shared/http.php';
 
+// the xml/html library
+include_once $context['path_to_root'].'shared/xml.php';
+
 // the safe library
 include_once $context['path_to_root'].'shared/safe.php';
 
@@ -308,9 +311,9 @@ if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_errors','1');
 	Safe::ini_set('display_startup_errors','1');
 	Safe::ini_set('allow_call_time_pass_reference','0');
-// 	if(defined('E_STRICT'))
-// 		$level = E_ALL | E_STRICT;
-// 	else
+ 	if(defined('E_STRICT'))
+ 		$level = E_ALL | E_STRICT;
+ 	else
 		$level = E_ALL;
 } else
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
@@ -541,7 +544,7 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
  * @param string some text to be encoded
  * @return the string to be displayed
  */
-function &encode_field($text) {
+function encode_field($text) {
 	global $context;
 
 	// not a string
@@ -577,7 +580,7 @@ function &encode_field($text) {
  * @param string a web reference to check
  * @return a clean string
  */
-function &encode_link($link) {
+function encode_link($link) {
 
 	// suppress invalid chars, if any
 	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', str_replace(' ', '%20', $link)), ' _');
@@ -635,6 +638,7 @@ if(!defined('NO_MODEL_PRELOAD')) {
 	include_once $context['path_to_root'].'files/files.php';
 	include_once $context['path_to_root'].'sections/sections.php';
 	include_once $context['path_to_root'].'users/users.php';
+	include_once $context['path_to_root'].'users/activities.php';
 
 	// load users parameters -- see users/configure.php
 	Safe::load('parameters/users.include.php');
@@ -653,6 +657,10 @@ if(!defined('NO_MODEL_PRELOAD')) {
 	include_once $context['path_to_root'].'shared/anchors.php';
 
 }
+
+// the overlay interface
+if(!defined('NO_MODEL_PRELOAD'))
+	include_once $context['path_to_root'].'overlays/overlay.php';
 
 // the library for membership
 if(!defined('NO_MODEL_PRELOAD'))
@@ -908,7 +916,7 @@ function render_skin($with_last_modified=TRUE) {
 
 		// cache dynamic boxes for performance, and if the database can be accessed
 		$cache_id = 'shared/global.php#render_skin#navigation';
-		if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
+		if((!$text = Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
 
 			// navigation boxes in cache
 			global $global_navigation_box_index;
@@ -1243,16 +1251,26 @@ function render_skin($with_last_modified=TRUE) {
 //		$metas[] = '<script type="text/javascript" src="http://staging.tokbox.com/v0.91/js/TB.min.js"></script>';
 		$metas[] = '<script type="text/javascript" src="http://static.opentok.com/v0.91/js/TB.min.js"></script>';
 
-
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
 // 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
 
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
+	$context['page_footer'] .= JS_PREFIX;
+
+	// a reference to the data we are at (e.g., 'article:123')
 	if(isset($context['current_item']) && $context['current_item'])
-		$context['page_footer'] .= JS_PREFIX
-			.'	Yacs.current_item = "'.$context['current_item'].'";'."\n"
-			.JS_SUFFIX;
+		$context['page_footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
+	else
+		$context['page_footer'] .= '	Yacs.current_item = "";'."\n";
+
+	// some indication at what we are doing (e.g., 'edit')
+	if(isset($context['current_action']) && $context['current_action'])
+		$context['page_footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
+	else
+		$context['page_footer'] .= '	Yacs.current_action = "";'."\n";
+
+	$context['page_footer'] .= JS_SUFFIX;
 
 	// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))

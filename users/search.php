@@ -44,13 +44,6 @@ if(isset($_REQUEST['search']))
 if(preg_match('/^(chercher|search)/i', $search))
 	$search = '';
 
-// which page should be displayed
-if(isset($_REQUEST['page']))
-	$page = $_REQUEST['page'];
-else
-	$page = 1;
-$page = max(1,intval($page));
-
 // minimum size for any search token - depends of mySQL setup
 $query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
 if(!defined('MINIMUM_TOKEN_SIZE') && ($row = SQL::query_first($query)) && ($row['Value'] > 0))
@@ -130,9 +123,8 @@ $no_result = TRUE;
 $box = array();
 $box['title'] = '';
 $box['text'] = '';
-$offset = ($page - 1) * USERS_PER_PAGE;
 $cap = 0;
-if($items = Users::search($search, $offset, USERS_PER_PAGE + 1)) {
+if($items = Users::search($search, 1.0, USERS_PER_PAGE + 1, 'full')) {
 
 	// link to next page if greater than USERS_PER_PAGE
 	$cap = count($items);
@@ -143,22 +135,10 @@ if($items = Users::search($search, $offset, USERS_PER_PAGE + 1)) {
 
 
 }
-$cap += $offset;
 
 // we have found some articles
 if($cap || ($page > 1))
 	$no_result = FALSE;
-
-// navigation commands for articles
-$box['bar'] = array();
-if($cap > USERS_PER_PAGE)
-	$box['bar'] = array('_count' => i18n::s('Results'));
-elseif($cap)
-	$box['bar'] = array('_count' => sprintf(i18n::ns('%d result', '%d results', $cap), $cap));
-$home = 'users/search.php?search='.urlencode($search);
-$prefix = $home.'&page=';
-if(($navigate = Skin::navigate($home, $prefix, $cap, USERS_PER_PAGE, $page)) && @count($navigate))
-	$box['bar'] += $navigate;
 
 // actually render the html
 if(@count($box['bar']))

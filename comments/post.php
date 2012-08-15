@@ -102,7 +102,7 @@ $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // a straightforward implementation of the Comment API
 if(isset($_SERVER['CONTENT_TYPE']) && ($_SERVER['CONTENT_TYPE'] == 'text/xml')) {
@@ -229,7 +229,7 @@ if(Surfer::is_crawler()) {
 
 		// if user name and/or password are provided, authentication has to be correct
 		$user = array();
-		if($name && !$password && (!$user =& Users::get($name)))
+		if($name && !$password && (!$user = Users::get($name)))
 			$response = array('faultCode' => 49, 'faultString' => 'Unknown user name');
 
 		elseif($name && $password && (!$user = Users::login($name, $password)))

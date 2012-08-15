@@ -5,6 +5,7 @@ include_once 'meeting.php';
  * meet on a BigBlueButton server
  *
  * This overlay integrates meeting facility provided by a BigBlueButton server.
+ * It is adapted to the BigBlueButton API version 0.8.
  *
  * @link http://bigbluebutton.org/
  *
@@ -14,6 +15,7 @@ include_once 'meeting.php';
  * The overlays drives the back-end service using the regular BigBlueButton API. This enables
  * a very high level of integration into yacs:
  * - Meeting is started and stopped by page owner, using buttons on yacs page.
+ * - If files have been added to the page prior the meeting, they are uploaded automatically to the web conference
  * - Names of participants are those used into the yacs server, and people don't have to enter their
  * identity or credentials to join the meeting after they have been authenticated by yacs.
  * - Details of the meeting (title, schedule, chairman) are displayed into the chat area.
@@ -40,6 +42,30 @@ include_once 'meeting.php';
 class BBB_Meeting extends Meeting {
 
 	/**
+	 * allow or block operations
+	 *
+	 * @param string the kind of item to handle
+	 * @param string the foreseen operation ('edit', 'new', ...)
+	 * @return TRUE if the operation is accepted, FALSE otherwise
+	 */
+	function allows($type, $action) {
+		global $context;
+
+		// we filter only file downloads
+		if($type != 'file')
+			return TRUE;
+		if($action != 'fetch')
+			return TRUE;
+
+		// reject download if caller is not bigbluebutton server
+		if(isset($_SERVER['HTTP_HOST']) && isset($context['bbb_server']) && ($_SERVER['HTTP_HOST'] == $context['bbb_server']))
+			return TRUE;
+
+		// blocked
+		return FALSE;
+	}
+
+	/**
 	 * build a secured link to the server
 	 *
 	 * @param string the API action (e.g., 'create', 'join', 'end')
@@ -48,10 +74,6 @@ class BBB_Meeting extends Meeting {
 	 */
 	function build_link($action, $parameters) {
 		global $context;
-
-		// default host
-		if(!isset($context['bbb_server']) || !$context['bbb_server'])
-			$context['bbb_server'] = $context['host_name'];
 
 		// default salt
 		if(!isset($context['bbb_salt']))
@@ -179,7 +201,7 @@ class BBB_Meeting extends Meeting {
 			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes'))."\n";
 
 		// build a link to the owner page, if any
-		if(is_object($this->anchor) && ($user =& Users::get($this->anchor->get_value('owner_id'))))
+		if(is_object($this->anchor) && ($user = Users::get($this->anchor->get_value('owner_id'))))
 			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name'])."\n";
 
 		// welcome message
@@ -189,11 +211,43 @@ class BBB_Meeting extends Meeting {
 		if(is_callable(array($this->anchor, 'get_url')))
 			$parameters[] = 'logoutURL='.urlencode($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url());
 
+		// should we record this session?
+		if($this->with_session_recording()) {
+			$parameters[] = 'record=true';
+			$parameters[] = 'duration=125'; // 2 hours max per recording
+		}
+
 		// link to create the meeting
 		$url = $this->build_link('create', $parameters);
 
+		// list most recent files that have been attached to this page
+		$headers = NULL;
+		$body = NULL;
+		if(is_object($this->anchor) && ($files = Files::list_by_date_for_anchor($this->anchor->get_reference(), 0, 5, 'raw'))) {
+			$headers = array("Content-Type: text/xml");
+
+			// instruct the presentation module to pre-load these files
+			$body = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+				.'<modules>'."\n"
+				.'	<module name="presentation">'."\n";
+
+			// list web address of each file
+			foreach($files as $file)
+				$body .= "\t\t".'<document'
+					.' url="'.$context['url_to_home'].$context['url_to_root'].utf8::to_xml(Files::get_url($file['id'], 'fetch', $file['file_name'])).'"'
+					.' name="'.utf8::to_xml($file['file_name']).'"'
+					.' />'."\n";
+
+			// end of the list of files
+			$body .= '   </module>'."\n"
+				.'</modules>'."\n";
+
+		}
+
 		// do create the meeting
-		if(($response = http::proceed($url)) && ($xml = simplexml_load_string($response)) && ($xml->returncode == 'SUCCESS')) {
+		if(($response = http::proceed_natively($url, $headers, $body, 'overlays/bbb_meeting.php'))
+				&& ($xml = simplexml_load_string($response))
+				&& ($xml->returncode == 'SUCCESS')) {
 
 			// parameters to join the meeting
 			$parameters = array();
@@ -247,6 +301,56 @@ class BBB_Meeting extends Meeting {
 	}
 
 	/**
+	 * display available recording, if any
+	 *
+	 * This function retrieves the list of available recordings from the BBB server,
+	 * and displays it to the surfer.
+	 */
+	function get_view_text_extension() {
+		global $context;
+
+		// parameters to list recordings
+		$parameters = array();
+		$parameters[] = 'meetingID='.urlencode($this->attributes['id']);
+
+		// link to list recordings
+		$url = $this->build_link('getRecordings', $parameters);
+
+		// query the BBB back-end
+		if(($response = http::proceed_natively($url, NULL, NULL, 'overlays/bbb_meeting.php'))
+				&& ($xml = simplexml_load_string($response))
+				&& ($xml->returncode == 'SUCCESS')) {
+
+				// ok, we have some recording available
+				if($recordings = $xml->recordings->children()) {
+
+					// enumerate recordings, but use only the first one
+					foreach($recordings as $name => $node) {
+
+						// sanity checks
+						if($name != 'recording')
+							continue;
+
+						if(!isset($node->playback))
+							continue;
+						if(!isset($node->playback->format))
+							continue;
+						if(!isset($node->playback->format->url))
+							continue;
+
+						// a button to start the replay in a separate window
+						$menu = array();
+						$menu[] = Skin::build_link((string)$node->playback->format->url, 'Play the presentation', 'tee');
+						return Skin::build_box('Presentation', Skin::finalize_list($menu, 'menu_bar'));
+					}
+
+				}
+
+		}
+
+	}
+
+	/**
 	 * initialize this instance
 	 *
 	 * @see overlays/bbb_meetings/configure.php
@@ -258,6 +362,10 @@ class BBB_Meeting extends Meeting {
 
 		// load current parameters, if any
 		Safe::load('parameters/overlays.bbb_meetings.include.php');
+
+		// default host
+		if(!isset($context['bbb_server']) || !$context['bbb_server'])
+			$context['bbb_server'] = $context['host_name'];
 
 	}
 
@@ -311,6 +419,16 @@ class BBB_Meeting extends Meeting {
 	function with_automatic_stop() {
 		return FALSE;
 	}
+
+	/**
+	 * should we record this session?
+	 *
+	 * @return boolean TRUE or FALSE
+	 */
+	function with_session_recording() {
+		return FALSE;
+	}
+
 }
 
 ?>

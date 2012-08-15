@@ -239,7 +239,6 @@ Class Links {
 			return;
 
 		// record the activity
-		include_once $context['path_to_root'].'users/activities.php';
 		Activities::post($url, 'click');
 
 		// do not record clicks driving to search engines
@@ -414,7 +413,7 @@ Class Links {
 	 * @see links/delete.php
 	 * @see links/edit.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -749,7 +748,7 @@ Class Links {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -910,7 +909,7 @@ Class Links {
 		}
 
 		// locate the anchor object for this text, we need its url
-		$anchor =& Anchors::get($anchor);
+		$anchor = Anchors::get($anchor);
 		if(!is_object($anchor))
 			return;
 
@@ -919,7 +918,7 @@ Class Links {
 
 		// find blog name for anchor
 		if($parent = $anchor->get_value('anchor')) {
-			$blog =& Anchors::get($parent);
+			$blog = Anchors::get($parent);
 			if(is_object($blog))
 				$blog_name = $blog->get_title();
 		}
@@ -1283,39 +1282,6 @@ Class Links {
 	}
 
 	/**
-	 * search for some keywords in all links
-	 *
-	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see search.php
-	 */
-	public static function &search($pattern, $offset=0, $count=50, $variant='search') {
-		global $context;
-
-		// sanity check
-		if(!$pattern = trim($pattern)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// match
-		$match = "MATCH(title, link_url, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// the list of links
-		$query = "SELECT * FROM ".SQL::table_name('links')." AS links "
-			." WHERE $match "
-			." ORDER BY links.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
-
-		$output =& Links::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * create tables for links
 	 *
 	 * @see control/setup.php
@@ -1363,7 +1329,7 @@ Class Links {
 	 *
 	 * @see links/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -1408,7 +1374,7 @@ Class Links {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -1444,13 +1410,13 @@ Class Links {
 
 			// article link
 			case 'article':
-				if($item =& Articles::get($matches[2]))
+				if($item = Articles::get($matches[2]))
 					return array(Articles::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// section link
 			case 'section':
-				if($item =& Sections::get($matches[2]))
+				if($item = Sections::get($matches[2]))
 					return array(Sections::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
@@ -1463,19 +1429,19 @@ Class Links {
 			// image link
 			case 'image':
 				include_once $context['path_to_root'].'images/images.php';
-				if($item =& Images::get($matches[2]))
+				if($item = Images::get($matches[2]))
 					return array(Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
 				return array('', $text, '');
 
 			// category link
 			case 'category':
-				if($item =& Categories::get($matches[2]))
+				if($item = Categories::get($matches[2]))
 					return array(Categories::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// user link
 			case 'user':
-				if($item =& Users::get($matches[2]))
+				if($item = Users::get($matches[2]))
 					return array(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name']);
 				return array('', $text, '');
 

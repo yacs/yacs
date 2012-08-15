@@ -64,14 +64,13 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$others = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Articles::get_permalink($item);
@@ -163,7 +162,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the url to view this item
 		$url = Articles::get_permalink($item);
@@ -217,7 +216,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// if this article has a specific icon, use it
 		if($item['icon_url'])
 			$icon = $item['icon_url'];
-		elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+		elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 			$icon = $anchor->get_icon_url();
 
 		// if we have a valid image
@@ -283,7 +282,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
@@ -297,7 +296,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			// the command to post a new file, if allowed
 			if(Files::allow_creation($anchor, $item, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$box['bar'] += array( $link => i18n::s('Upload a file') );
+				$box['bar'] += array( $link => i18n::s('Add a file') );
 			}
 
 			if(is_array($box['bar']))
@@ -326,7 +325,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$this->menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
+			$this->menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 		// new files are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_files')
@@ -338,7 +337,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 					$link = 'files/edit.php/article/'.$item['id'];
 				else
 					$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$this->menu[] = Skin::build_link($link, i18n::s('Upload a file'), 'span');
+				$this->menu[] = Skin::build_link($link, i18n::s('Add a file'), 'span');
 			}
 
 		}

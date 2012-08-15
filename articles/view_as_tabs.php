@@ -217,30 +217,29 @@ elseif(isset($item['introduction']) && trim($item['introduction']))
 if(defined('DIGG'))
 	$context['text'] .= '</div>';
 
-// get text related to the overlay, if any
-if(is_object($overlay))
-	$context['text'] .= $overlay->get_text('view', $item);
-
-// description has been formatted in articles/view.php
-if(isset($context['page_description']))
-	$context['text'] .= $context['page_description'];
-
-// the owner profile, if any, at the end of the page
-if(isset($owner['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
-
-// add trailer information from the overlay, if any
-if(is_object($overlay))
-	$context['text'] .= $overlay->get_text('trailer', $item);
-
-// add trailer information from this item, if any
-if(isset($item['trailer']) && trim($item['trailer']))
-	$context['text'] .= Codes::beautify($item['trailer']);
-
 //
 // panels
 //
 $panels = array();
+
+//
+// information tab
+//
+$information = '';
+
+// get text related to the overlay, if any
+if(is_object($overlay))
+	$information .= $overlay->get_text('view', $item);
+
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$information .= $context['page_description'];
+
+// display in a separate panel
+if($information) {
+	$label = i18n::s('Information');
+	$panels[] = array('information', $label, 'information_panel', $information);
+}
 
 //
 // append tabs from the overlay, if any -- they have been captured in articles/view.php
@@ -268,9 +267,6 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 // on-going conversation
 } else {
 
-	// we have a wall, or not
-	$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
-
 	// get a layout for these comments
 	$layout =& Comments::get_layout($anchor, $item);
 
@@ -293,8 +289,12 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(Comments::allow_creation($anchor, $item) && $reverted)
+	if(Comments::allow_creation($anchor, $item))
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
+	else {
+		$bar = array(Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'button'));
+		$box['text'] .= Skin::finalize_list($bar, 'menu_bar');
+	}
 
 	// a navigation bar for these comments
 	if($count = Comments::count_for_anchor('article:'.$item['id'])) {
@@ -302,7 +302,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// list comments by date
-		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 		// actually render the html
 		if(is_array($items))
@@ -314,12 +314,6 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 		$box['bottom'] += Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE);
 
-
-		// new comments are allowed
-		if(Comments::allow_creation($anchor, $item) && !$reverted) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-			$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
-		}
 	}
 
 	// build a box
@@ -358,7 +352,7 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 		$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 	// list files by date (default) or by title (option files_by_title)
-	if(Articles::has_option('files_by_title', $anchor, $item))
+	if(Articles::has_option('files_by', $anchor, $item) == 'title')
 		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
 	else
 		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
@@ -372,7 +366,7 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 	// the command to post a new file
 	if(Files::allow_creation($anchor, $item, 'article')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
+		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 	}
 
 }
@@ -440,7 +434,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
 
 	// list editors of this page, and of parent sections
-	if($items = Articles::list_editors_by_login($item, 0, 1000, 'watch')) {
+	if($items = Articles::list_editors_by_name($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
 			$owner_state = '';
 			if($user_id == $item['owner_id'])
@@ -454,6 +448,9 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	// watchers
 	if($items = Articles::list_watchers_by_posts($item, 0, 1000, 'watch')) {
 		foreach($items as $user_id => $user_label) {
+
+			// this is a true participant to the item
+			$users_count += 1;
 
 			// add the checkmark to existing row
 			if(isset($rows[$user_id]))
@@ -472,8 +469,8 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	}
 
 	// count
-	if($count = count($rows))
-		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $count), $count));
+	if($users_count)
+		$box['bar'] += array('_count' => sprintf(i18n::ns('%d participant', '%d participants', $users_count), $users_count));
 
 	// add to the watch list -- $in_watch_list is set in sections/view.php
 	if(Surfer::get_id() && !$in_watch_list) {
@@ -496,7 +493,7 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	// manage editors, for owners
 	if(Articles::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
 		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
-		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
+		$box['bar'] += array(Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage participants'));
 
 	// leave this page, for editors
 	} elseif(Articles::is_assigned($item['id'])) {
@@ -514,10 +511,6 @@ if(is_object($anchor) && (!$zoom_type || ($zoom_type == 'users'))) {
 	// actually render the html
 	$users .= Skin::build_content(NULL, NULL, $box['text'], $box['bar']);
 
-	// slight correction
-	if(count($rows) > $users_count)
-		$users_count = count($rows);
-
 }
 
 // display in a separate panel
@@ -528,11 +521,26 @@ if($users) {
 	$panels[] = array('users', $label, 'users_panel', $users);
 }
 
-
 //
 // assemble all tabs
 //
 $context['text'] .= Skin::build_tabs($panels);
+
+//
+// bottom of the page
+//
+
+// the owner profile, if any, at the end of the page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
+
+// add trailer information from the overlay, if any
+if(is_object($overlay))
+	$context['text'] .= $overlay->get_text('trailer', $item);
+
+// add trailer information from this item, if any
+if(isset($item['trailer']) && trim($item['trailer']))
+	$context['text'] .= Codes::beautify($item['trailer']);
 
 // buttons to display previous and next pages, if any
 if(isset($neighbours) && $neighbours)
@@ -562,7 +570,7 @@ if(Comments::allow_creation($anchor, $item)) {
 // add a file, if upload is allowed
 if(Files::allow_creation($anchor, $item, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 }
 
 // add a link

@@ -48,11 +48,10 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
@@ -174,7 +173,7 @@ if(!isset($item['id'])) {
 
 	// the list of followers
 	$followers = '';
-	if($items = Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 1000, 'compact')) {
+	if($items = Members::list_watchers_by_name_for_anchor('user:'.$item['id'], 0, 1000, 'compact')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
 		if(Surfer::get_id() == $item['id'])

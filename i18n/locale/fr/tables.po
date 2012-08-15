@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:25+0100\n"
-"PO-Revision-Date: 2010-05-27 10:24+0100\n"
+"POT-Creation-Date: 2012-04-28 00:24+0200\n"
+"PO-Revision-Date: 2012-04-28 01:15+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -15,35 +15,58 @@ msgstr ""
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: tables/check.php:21 tables/check.php:32 tables/check.php:91
-#: tables/check.php:147 tables/delete.php:62 tables/edit.php:78
-#: tables/fetch_as_csv.php:56 tables/fetch_as_json.php:53
-#: tables/fetch_as_png.php:56 tables/fetch_as_raw.php:55
-#: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:60
+#: tables/check.php:21
+#: tables/check.php:32
+#: tables/check.php:91
+#: tables/check.php:147
+#: tables/delete.php:62
+#: tables/edit.php:78
+#: tables/fetch_as_csv.php:56
+#: tables/fetch_as_json.php:53
+#: tables/fetch_as_png.php:56
+#: tables/fetch_as_raw.php:55
+#: tables/fetch_as_xml.php:57
+#: tables/import.php:18
+#: tables/index.php:60
 #: tables/view.php:70
 msgid "Tables"
 msgstr "Tables"
 
-#: tables/check.php:24 tables/index.php:101
+#: tables/check.php:24
+#: tables/index.php:101
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: tables/check.php:29 tables/delete.php:74 tables/edit.php:97
-#: tables/edit.php:122 tables/fetch_as_csv.php:67 tables/fetch_as_csv.php:82
-#: tables/fetch_as_json.php:64 tables/fetch_as_json.php:79
-#: tables/fetch_as_png.php:65 tables/fetch_as_png.php:80
-#: tables/fetch_as_raw.php:64 tables/fetch_as_raw.php:79
-#: tables/fetch_as_xml.php:68 tables/fetch_as_xml.php:83 tables/import.php:26
-#: tables/import.php:35 tables/index.php:65 tables/view.php:95
+#: tables/check.php:29
+#: tables/delete.php:74
+#: tables/edit.php:97
+#: tables/edit.php:122
+#: tables/fetch_as_csv.php:67
+#: tables/fetch_as_csv.php:82
+#: tables/fetch_as_json.php:64
+#: tables/fetch_as_json.php:79
+#: tables/fetch_as_png.php:65
+#: tables/fetch_as_png.php:80
+#: tables/fetch_as_raw.php:64
+#: tables/fetch_as_raw.php:79
+#: tables/fetch_as_xml.php:68
+#: tables/fetch_as_xml.php:83
+#: tables/import.php:26
+#: tables/import.php:35
+#: tables/index.php:65
+#: tables/view.php:95
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération."
 
-#: tables/check.php:39 tables/check.php:98
+#: tables/check.php:39
+#: tables/check.php:98
 #, php-format
 msgid "Analyzing table %s..."
 msgstr "Analyse de la table %s ..."
 
-#: tables/check.php:59 tables/check.php:84 tables/check.php:118
+#: tables/check.php:59
+#: tables/check.php:84
+#: tables/check.php:118
 #: tables/check.php:140
 #, php-format
 msgid "%d records have been processed"
@@ -54,11 +77,13 @@ msgstr "%d enregistrements ont été traités"
 msgid "Unused: %s"
 msgstr "Inutilisé : %s"
 
-#: tables/check.php:73 tables/check.php:129
+#: tables/check.php:73
+#: tables/check.php:129
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: tables/check.php:88 tables/check.php:144
+#: tables/check.php:88
+#: tables/check.php:144
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -96,11 +121,14 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to delete this table"
 msgstr "Oui, je veux supprimer cette table"
 
-#: tables/delete.php:103 tables/edit.php:244
+#: tables/delete.php:103
+#: tables/edit.php:244
 msgid "Cancel"
 msgstr "Annuler"
 
-#: tables/delete.php:138 tables/layout_tables.php:104 tables/view.php:129
+#: tables/delete.php:138
+#: tables/layout_tables.php:104
+#: tables/view.php:129
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -113,7 +141,9 @@ msgstr "Modifier une table"
 msgid "Add a table"
 msgstr "Ajouter une table"
 
-#: tables/edit.php:102 tables/tables.php:982 tables/tables.php:988
+#: tables/edit.php:102
+#: tables/tables.php:982
+#: tables/tables.php:988
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -159,25 +189,23 @@ msgid "First column refers to time"
 msgstr "La première colonne fournit une information temporelle"
 
 #: tables/edit.php:228
-msgid "First column provides a web link"
-msgstr "La première colonne contient un lien web"
+msgid "First column provides a web address"
+msgstr "La première colonne contient une adresse web"
 
 #: tables/edit.php:232
 msgid "Description"
 msgstr "Description"
 
 #: tables/edit.php:234
-msgid ""
-"As this field may be searched by surfers, please choose adequate searchable "
-"words"
-msgstr ""
-"Ce champ étant indexé pour les recherches, pensez à soigner votre formulation"
+msgid "As this field may be searched by surfers, please choose adequate searchable words"
+msgstr "Ce champ étant indexé pour les recherches, pensez à soigner votre formulation"
 
 #: tables/edit.php:242
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: tables/edit.php:242 tables/import.php:231
+#: tables/edit.php:242
+#: tables/import.php:231
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -194,10 +222,8 @@ msgid "Please type a valid SQL query."
 msgstr "Merci d'indiquer une requête SQL valide"
 
 #: tables/edit.php:285
-msgid ""
-"Please ensure you are using a compliant and complete SQL SELECT statement."
-msgstr ""
-"Assurez-vous de fournir une commande MySQL SELECT correcte et complète."
+msgid "Please ensure you are using a compliant and complete SQL SELECT statement."
+msgstr "Assurez-vous de fournir une commande MySQL SELECT correcte et complète."
 
 #: tables/edit.php:286
 #, php-format
@@ -249,7 +275,8 @@ msgstr "Panneau de contrôle"
 msgid "No table name has been provided."
 msgstr "Aucun nom de table n'a été indiqué."
 
-#: tables/import.php:82 tables/import.php:86
+#: tables/import.php:82
+#: tables/import.php:86
 msgid "Nothing has been received."
 msgstr "Rien n'a été reçu."
 
@@ -278,8 +305,7 @@ msgid "%d SQL statements have been processed in %.2f seconds."
 msgstr "%d ordres SQL ont été traités en %.2f secondes."
 
 #: tables/import.php:191
-msgid ""
-"This script allows for the upload of data to some table of the database."
+msgid "This script allows for the upload of data to some table of the database."
 msgstr "Ce script charge le contenu d'une table de la base de données."
 
 #: tables/import.php:201
@@ -343,15 +369,8 @@ msgid "Import data"
 msgstr "Importation de données"
 
 #: tables/import.php:237
-msgid ""
-"When you will click on the button the server will be immediately requested "
-"to proceed. However, because of the so many things to do on the back-end, "
-"you may have to wait for minutes before getting a response displayed. Thank "
-"you for your patience."
-msgstr ""
-"Le serveur sera sollicité dès votre clic sur le bouton. Toutefois, l'ampleur "
-"des traitements à effectuer peut induire un temps de réponse assez long, "
-"jusqu'à quelques minutes. Merci de votre patience."
+msgid "When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience."
+msgstr "Le serveur sera sollicité dès votre clic sur le bouton. Toutefois, l'ampleur des traitements à effectuer peut induire un temps de réponse assez long, jusqu'à quelques minutes. Merci de votre patience."
 
 #: tables/index.php:73
 #, php-format
@@ -376,7 +395,8 @@ msgstr "Pages récentes"
 msgid "details"
 msgstr "détails"
 
-#: tables/layout_tables.php:110 tables/tables.php:313
+#: tables/layout_tables.php:110
+#: tables/tables.php:313
 msgid "edit"
 msgstr "modifier"
 
@@ -504,6 +524,7 @@ msgstr "Supprimer"
 #~ msgstr "Une table %s a été créée."
 
 #~ msgid "1&nbsp;table"
+
 #~ msgid_plural "%d&nbsp;tables"
 #~ msgstr[0] "1&nbsp;table"
 #~ msgstr[1] "%d&nbsp;tables"

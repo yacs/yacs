@@ -84,11 +84,11 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 	$context['text'] .= '<p>'.i18n::s('Please indicate a nick name to look for.')."</p>\n";
 
 // short link to some article
-} elseif(!strncmp($id, 'a~', 2) && ($item =& Articles::get(restore_number(substr($id, 2))))) {
+} elseif(!strncmp($id, 'a~', 2) && ($item = Articles::get(restore_number(substr($id, 2))))) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 
 // short link to some section
-} elseif(!strncmp($id, 's~', 2) && ($item =& Sections::get(restore_number(substr($id, 2))))) {
+} elseif(!strncmp($id, 's~', 2) && ($item = Sections::get(restore_number(substr($id, 2))))) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
 
 // look in sections
@@ -107,7 +107,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in categories
-} elseif(($item =& Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
+} elseif(($item = Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item));
 
 // look in articles
@@ -126,7 +126,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in forms
-} elseif($items =& Forms::list_for_name($id, NULL, 'full')) {
+} elseif($items = Forms::list_for_name($id, NULL, 'full')) {
 
 		// only one page has this name
 		if(count($items) == 1) {
@@ -141,7 +141,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in user profiles
-} elseif($item =& Users::get($id)) {
+} elseif($item = Users::get($id)) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
 
 // not found

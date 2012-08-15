@@ -13,7 +13,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id --actually, a reference
 $id = NULL;
@@ -24,7 +23,7 @@ elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the anchor
-$anchor =& Anchors::get($id);
+$anchor = Anchors::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;

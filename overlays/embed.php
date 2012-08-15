@@ -3,7 +3,7 @@
  * embed some object in the page
  *
  * This overlay is aiming to facilitate the sharing of YouTube videos, Slideshare presentations
- * and the like. It captures a web link and translate it to HTML through the oEmbed protocol.
+ * and the like. It captures a web address and translate it to HTML through the oEmbed protocol.
  *
  * @author Bernard Paques
  * @reference
@@ -31,22 +31,32 @@ class Embed extends Overlay {
 		// a surfer is sharing something
 		if(!isset($host['id'])) {
 
-			// what has to be shared?
-			$input = '<select name="embed_type" id="embed_type">'
-				.'<option value="href" selected="selected">'.i18n::s('Paste the address of a web page that you have visited').'</option>';
+			// share a link
+			Skin::define_img('EMBED_HREF_IMG', 'thumbnails/video.gif');
+			$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#share_href\').attr(\'checked\', \'checked\').trigger(\'change\'); return false;">'.EMBED_HREF_IMG.'</a>'
+				.BR.'<input type="radio" name="embed_type" id="share_href" value="href" checked="checked" />'.i18n::s('a web address').'</div>';
 
-			// most users, but not always all, are entitled to upload files
-			if(Surfer::may_upload())
-				$input .= '<option value="upload">'.i18n::s('Upload a file').'</option>';
+			// share a file
+			$cell2 = '';
+			if(Surfer::may_upload()) {
+				Skin::define_img('EMBED_UPLOAD_IMG', 'thumbnails/download.gif');
+				$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#share_upload\').attr(\'checked\', \'checked\').trigger(\'change\'); return false;">'.EMBED_UPLOAD_IMG.'</a>'
+					.BR.'<input type="radio" name="embed_type" id="share_upload" value="upload" />'.i18n::s('a file').'</div>';
+			}
 
-			// the degraded usage is to not use advanced capabilities of this overlay
-			$input .= '<option value="none">'.i18n::s('Document an idea or a sugggestion in the description field below').'</option>'
-				.'</select>';
+			// share an idea
+			Skin::define_img('EMBED_NONE_IMG', 'thumbnails/information.gif');
+			$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#share_none\').attr(\'checked\', \'checked\').trigger(\'change\'); return false;">'.EMBED_NONE_IMG.'</a>'
+				.BR.'<input type="radio" name="embed_type" id="share_none" value="none" />'.i18n::s('some information').'</div>';
+
+			// three controls in a row
+			$input = Skin::layout_horizontally($cell1, $cell2, $cell3);
 
 			// sharing a web address
-			$input .= '<div id="embed_a_link" style="padding: 0.5em 0 1em 0;">'
+			$input .= '<div id="embed_a_link" style="padding: 1em 0 1em 0;">'
+				.i18n::s('Paste the address of a web page that you have visited').BR
 				.'<input type="text" name="embed_href" id="embed_href" size="60" width="100%" value="" maxlength="255" />'
-				.'<p class="details">'.sprintf(i18n::s('Following sites are recognized automatically: %s'),
+				.'<p class="details">'.sprintf(i18n::s('Some sites are recognized automatically: %s'),
 					'<span id="provider_ticker" style="">'
 					.'<span>YouTube</span>'
 					.'<span>DailyMotion</span>'
@@ -71,7 +81,7 @@ class Embed extends Overlay {
 				.'</p>'
 				.'</div>'
 				.JS_PREFIX
-				.'$(document).ready(function() {'."\n"
+				.'$(function() {'."\n"
 				.'	var obj = $("#provider_ticker");'."\n"
 				.'	var list = obj.children();'."\n"
 				.'	list.not(":first").hide();'."\n"
@@ -85,31 +95,30 @@ class Embed extends Overlay {
 				.'			second_li.fadeIn();'."\n"
 				.'			first_li.remove().appendTo(obj);'."\n"
 				.'		});'."\n"
-				.'	}, 3000);'."\n"
+				.'	}, 2000);'."\n"
 				.'});'."\n"
 				.JS_SUFFIX;
 
 			// uploading a file
 			if(Surfer::may_upload())
-				$input .= '<div id="embed_a_file" style="display: none; padding: 0.5em 0 1em 0;">'
+				$input .= '<div id="embed_a_file" style="display: none; padding: 1em 0 1em 0;">'
 					.'<input type="file" name="upload" id="upload" size="30" />'
 					.'<p class="details">'.sprintf(i18n::s('Select a file of less than %s'), $context['file_maximum_size'].i18n::s('bytes')).'</p>'
 					.'</div>';
 
 			// change the display on selection
 			$input .= JS_PREFIX
-				.'$(document).ready(function() {'."\n"
-				.'	$("#embed_type").change(function() {'."\n"
-				.'		var current = $("#embed_type").val();'."\n"
-				.'		if(current == "href") {'."\n"
+				.'$(function() {'."\n"
+				.'	$("input[name=embed_type]").change(function() {'."\n"
+				.'		if($("#share_href").attr("checked")) {'."\n"
 				.'			$("#embed_a_link").slideDown();'."\n"
 				.'			$("#embed_a_file").slideUp();'."\n"
 				.'		}'."\n"
-				.'		if(current == "upload") {'."\n"
+				.'		if($("#share_upload").attr("checked")) {'."\n"
 				.'			$("#embed_a_link").slideUp();'."\n"
 				.'			$("#embed_a_file").slideDown();'."\n"
 				.'		}'."\n"
-				.'		if(current == "none") {'."\n"
+				.'		if($("#share_none").attr("checked")) {'."\n"
 				.'			$("#embed_a_link").slideUp();'."\n"
 				.'			$("#embed_a_file").slideUp();'."\n"
 				.'		}'."\n"
@@ -122,19 +131,12 @@ class Embed extends Overlay {
 			;
 
 		// display the address of the embedded object
-		elseif($this->attributes['embed_type'] == 'href') {
-
+		elseif(($this->attributes['embed_type'] == 'href') && trim($this->attributes['embed_href']))
 			$input .= $this->attributes['embed_href'];
 
-		// display file details
-		} elseif($this->attributes['embed_type'] == 'upload') {
-
-			$input .= $this->attributes['embed_name'];
-
-		}
-
 		// a complex field
-		$fields[] = array($label, $input);
+		if($input)
+			$fields[] = array($label, $input);
 
 		return $fields;
 	}
@@ -149,7 +151,8 @@ class Embed extends Overlay {
 		$text = '';
 
 		// if we have a valid thumbnail, use it as a link to the anchor page
-		if(isset($this->attributes['thumbnail_url']) && isset($this->attributes['thumbnail_width']) && isset($this->attributes['thumbnail_height'])) {
+		if(isset($this->attributes['thumbnail_url']) && trim($this->attributes['thumbnail_url'])
+			&& isset($this->attributes['thumbnail_width']) && isset($this->attributes['thumbnail_height'])) {
 
 			$text .= '<div style="margin: 0.3em auto">'
 				.Skin::build_link($this->anchor->get_url(), '<img src="'.$this->attributes['thumbnail_url'].'" width="'.$this->attributes['thumbnail_width'].'" height="'.$this->attributes['thumbnail_height'].'" alt="" />', 'basic')
@@ -185,6 +188,10 @@ class Embed extends Overlay {
 				if(!isset($this->attributes['url']))
 					$this->attributes['url'] = $this->attributes['embed_href'];
 
+				// empty url
+				if(!trim($this->attributes['url']))
+					return $text;
+
 				// what has to be embedded?
 				switch($this->attributes['type']) {
 
@@ -205,7 +212,7 @@ class Embed extends Overlay {
 						.'</div>'
 						.JS_PREFIX
 						.'// load the link in a scaled-down iframe'."\n"
-						.'$(document).ready(function() {'."\n"
+						.'$(function() {'."\n"
 						.'	$("a.tipsy_showme").each(function() {'."\n"
 						.'		$(this).tipsy({fallback: \'<div class="tipsy_thumbnail"><iframe class="tipsy_iframe" src="\'+$(this).attr("href")+\'" /></div>\','."\n"
 						.	'		 html: true,'."\n"
@@ -238,16 +245,15 @@ class Embed extends Overlay {
 				}
 				break;
 
-			// a file has been shared
+			// a file has been shared -- laid out with other files
 			case 'upload':
-				if($this->attributes['embed_id'])
-					$text .= Codes::render_object('file', $this->attributes['embed_id']);
 				break;
 
 			}
 		}
 
-		$text = '<div style="margin: 1em 0 2em 0">'.$text.'</div>';
+		if($text)
+			$text = '<div style="margin: 1em 0 2em 0">'.$text.'</div>';
 		return $text;
 	}
 
@@ -434,6 +440,9 @@ class Embed extends Overlay {
 	function remember($action, $host, $reference) {
 		global $context;
 
+		// set default values for this editor
+		Surfer::check_default_editor($this->attributes);
+
 		// add a notification to the anchor page
 		$comments = array();
 
@@ -447,7 +456,7 @@ class Embed extends Overlay {
 			if($this->attributes['embed_type'] == 'href') {
 
 				// ask some oEmbed provider to tell us more about this
-				if($fields = $this->oembed($this->attributes['embed_href'])) {
+				if($this->attributes['embed_href'] && ($fields = $this->oembed($this->attributes['embed_href']))) {
 
 					// we do want a photo, right?
 					if(preg_match('/\.(gif|jpg|jpeg|png)$/i', $this->attributes['embed_href']))
@@ -485,7 +494,7 @@ class Embed extends Overlay {
 						$label = $this->attributes['embed_href'];
 
 						// fetch page title if possible
-						if($content = http::proceed($this->attributes['embed_href'])) {
+						if($this->attributes['embed_href'] && ($content = http::proceed($this->attributes['embed_href']))) {
 							if(preg_match('/<title>(.*)<\/title>/siU', $content, $matches))
 								$label = trim(strip_tags(preg_replace('/\s+/', ' ', $matches[1])));
 						}
@@ -502,20 +511,7 @@ class Embed extends Overlay {
 					}
 				}
 
-			// embed a file that has been uploaded
-			} elseif($this->attributes['embed_type'] == 'upload') {
-
-				// retrieve the newest file entry
-				if($file = Files::get_newest_for_anchor($reference)) {
-					$fields = array();
-					$fields['id'] = $host['id'];
-					$fields['embed_id'] = $file['id'];
-					$this->set_values($fields);
-
-					// notify this contribution
-					$comments[] = sprintf(i18n::s('%s has shared a file'), Surfer::get_name());
-				}
-
+			// uploaded files are turned to comments automatically in articles/article.php
 			}
 		}
 
@@ -532,6 +528,17 @@ class Embed extends Overlay {
 		// job done
 		return TRUE;
 
+	}
+
+	/**
+	 * we don't want to embed uploaded files in description field
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay
+	 */
+	function should_embed_files() {
+		return FALSE;
 	}
 
 }

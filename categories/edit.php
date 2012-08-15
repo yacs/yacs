@@ -3,7 +3,7 @@
  * create a new category or edit an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * This script attempts to validate the new or updated category description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
@@ -37,7 +37,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once 'categories.php';
 
@@ -53,14 +52,14 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any --use request first, because anchor can change
 $anchor = NULL;
 if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -68,7 +67,6 @@ if(!isset($item['active']) && is_object($anchor))
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']) && $item['overlay_id'])
@@ -165,6 +163,9 @@ if(Surfer::is_crawler()) {
 	// when the page has been overlaid
 	if(is_object($overlay)) {
 
+		// allow for change detection
+		$overlay->snapshot();
+
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
 
@@ -209,6 +210,9 @@ if(Surfer::is_crawler()) {
 	// when the page has been overlaid
 	if(is_object($overlay)) {
 
+		// allow for change detection
+		$overlay->snapshot();
+
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
 
@@ -227,7 +231,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE, FALSE);
+			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Categories::clear($_REQUEST);
@@ -241,7 +245,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// get the new item
-		$category =& Anchors::get('category:'.$_REQUEST['id'], TRUE);
+		$category = Anchors::get('category:'.$_REQUEST['id'], TRUE);
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -250,7 +254,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $category->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(!preg_match('/\bno_links\b/i', $category->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -797,7 +801,7 @@ if($with_form) {
 		.'	var target = $("#options");'."\n"
 		.'	target.val(target.val() + " " + keyword);'."\n"
 		.'}'."\n"
-		.'$(document).ready(function() {'."\n"
+		.'$(function() {'."\n"
 		.'	$("#options_list a").bind("click",function(){'."\n"
 		.'		append_to_options($(this).text());'."\n"
 		.'	}).css("cursor","pointer");'."\n"

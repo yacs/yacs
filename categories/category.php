@@ -46,7 +46,7 @@ Class Category extends Anchor {
 	 * the path bar has to mention the category. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -61,7 +61,7 @@ Class Category extends Anchor {
 			return NULL;
 
 		// the parent level
-		$anchor =& Anchors::get($this->item['anchor']);
+		$anchor = Anchors::get($this->item['anchor']);
 		if(is_object($anchor))
 			$top_bar = $anchor->get_path_bar();
 		else
@@ -144,7 +144,7 @@ Class Category extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Categories::get($id, $mutable);
+		$this->item = Categories::get($id, $mutable);
 	}
 
 	/**
@@ -153,12 +153,10 @@ Class Category extends Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -210,7 +208,7 @@ Class Category extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -230,7 +228,7 @@ Class Category extends Anchor {
 		// set an existing image as the category icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -244,7 +242,7 @@ Class Category extends Anchor {
 		// set an existing image as the category thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			}
@@ -256,7 +254,7 @@ Class Category extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -300,11 +298,11 @@ Class Category extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('category:update', $this->item['id'], TRUE, $to_watchers, $to_followers);
+			$this->anchor->touch('category:update', $this->item['id'], TRUE);
 
 	}
 

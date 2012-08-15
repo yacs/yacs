@@ -425,7 +425,7 @@ class Referrals {
 	 *
 	 * @see control/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items

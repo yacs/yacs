@@ -39,7 +39,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
-include_once '../overlays/overlay.php';
 include_once '../servers/servers.php'; // servers to be advertised
 
 // look for the id
@@ -51,7 +50,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -61,7 +60,7 @@ if(isset($item['overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // surfer can proceed
 if(Articles::allow_publication($anchor, $item)) {
@@ -100,6 +99,11 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id'])) {
 	include '../error.php';
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // publication is not available to everybody
 } elseif(!$permitted) {
 
@@ -131,9 +135,21 @@ if(Surfer::is_crawler()) {
 	// post-processing tasks
 	else {
 
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('publish', $item);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
 		// allow the anchor to prevent notifications of watchers
 		if(is_object($overlay) && !$overlay->should_notify_watchers())
 			$_REQUEST['notify_watchers'] = 'N';
+
+		// send to watchers of this page, and to watchers upwards
+		if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y') && ($handle = new Article())) {
+			$handle->load_by_content($item, $anchor);
+			$handle->alert_watchers($mail, 'article:publish', ($item['active'] == 'N'));
+		}
 
 		// never notify followers on private pages
 		if(isset($item['active']) && ($item['active'] == 'N'))
@@ -143,18 +159,21 @@ if(Surfer::is_crawler()) {
 		elseif(is_object($overlay) && !$overlay->should_notify_followers())
 			$_REQUEST['notify_followers'] = 'N';
 
-		// touch the section
-		if(is_object($anchor)) {
-			$anchor->touch('article:publish', $item['id'], FALSE,
-				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+		// send to followers of this user
+		if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+			&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
 		}
+
+		// update anchors
+		$anchor->touch('article:publish', $item['id'], FALSE);
 
 		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients('article:'.$item['id']);
 
 		// trackback option
 		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {
@@ -249,7 +268,7 @@ if($with_form) {
 	// advertise public pages
 	$ping_option = FALSE;
 	$trackback_option = FALSE;
-	if(is_object($anchor) && $anchor->is_public()
+	if($anchor->is_public()
 			&& (isset($item['active']) && ($item['active'] == 'Y')) ) {
 		$ping_option = TRUE;
 		$trackback_option = TRUE;

@@ -22,7 +22,6 @@
 include_once '../shared/global.php';
 include_once '../comments/comments.php';
 include_once '../links/links.php';
-include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -33,12 +32,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -127,7 +126,7 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option files_by_title)
 	$items = array();
-	if(Articles::has_option('files_by_title', $anchor, $item))
+	if(Articles::has_option('files_by', $anchor, $item) == 'title')
 		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 	else
 		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');

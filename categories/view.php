@@ -128,16 +128,15 @@ if($zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']))
@@ -584,7 +583,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($items, 'decorated');
 
 			// navigation commands for files
-			$home =& Categories::get_permalink($item);
+			$home = Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'files');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
@@ -594,7 +593,7 @@ if(!isset($item['id'])) {
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
 		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
+			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 		}
 
 		// actually render the html for the section
@@ -902,7 +901,7 @@ if(!isset($item['id'])) {
 		// add a file, if upload is allowed
 		if(Files::allow_creation($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 		}
 
 		// comment this page if anchor does not prevent it

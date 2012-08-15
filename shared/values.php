@@ -29,7 +29,7 @@ Class Values {
 	 * @param string the id of the value to be removed
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// database update; do not report on any error
@@ -49,7 +49,7 @@ Class Values {
 	 * @param string an optional default value
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	function &get($id, $default_value=NULL) {
+	public static function get($id, $default_value=NULL) {
 		global $context;
 
 		// get one attribute of the record
@@ -69,7 +69,7 @@ Class Values {
 	 * @param string an optional default value
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	function &get_record($id, $default_value=NULL) {
+	public static function get_record($id, $default_value=NULL) {
 		global $context;
 
 		// sanity check
@@ -101,7 +101,7 @@ Class Values {
 	 * @param string the id of the value to be retrieved
 	 * @return string modification date, or '0000-00-00'
 	 */
-	function &get_stamp($id) {
+	public static function get_stamp($id) {
 		global $context;
 
 		// get one attribute of the record
@@ -119,7 +119,7 @@ Class Values {
 	 * @param string the id of this item
 	 * @param string the related value
 	 */
-	function set($id, $value='') {
+	public static function set($id, $value='') {
 		global $context;
 
 		// suppress existing content, if any
@@ -142,7 +142,7 @@ Class Values {
 	/**
 	 * create table for values
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();

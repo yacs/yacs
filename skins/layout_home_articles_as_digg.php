@@ -55,14 +55,13 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		$item_count = 0;
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// permalink
 			$url = Articles::get_permalink($item);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -158,7 +157,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
@@ -172,7 +171,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
+				$menu = array_merge($menu, array( $url.'#_attachments' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
 			if(Links::allow_trackback())
@@ -204,7 +203,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		SQL::free($result);
 
 		// add links to archives
-		$anchor =& Categories::get(i18n::c('monthly'));
+		$anchor = Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($items, 'menu_bar'));
 

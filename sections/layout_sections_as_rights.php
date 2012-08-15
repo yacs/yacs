@@ -54,14 +54,13 @@ Class Layout_sections_as_rights extends Layout_interface {
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = sections::get_permalink($item);
@@ -145,9 +144,6 @@ Class Layout_sections_as_rights extends Layout_interface {
 			if($item['tags'])
 				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'section:'.$item['id']).'</span>';
 
-			// dates
-//			$update = '<span class="details">'.join(BR, Sections::build_dates($anchor, $item)).'</span>';
-
 			// watcher
 			if(Sections::is_watched($item['id'], $this->layout_variant))
 				$watcher = CHECKED_IMG;
@@ -161,7 +157,6 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output
-//			$cells = array($summary, $update, $watcher, $editor, $owner);
 			$cells = array($summary, $watcher, $editor, $owner);
 
 			// append this row
@@ -173,7 +168,6 @@ Class Layout_sections_as_rights extends Layout_interface {
 		SQL::free($result);
 
 		// headers
-//		$headers = array(i18n::s('Section'), i18n::s('Dates'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
 		$headers = array(i18n::s('Section'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
 
 		// return a sortable table

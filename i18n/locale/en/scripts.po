@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 14:25+0100\n"
+"POT-Creation-Date: 2012-05-13 23:27+0200\n"
 "PO-Revision-Date: 2010-05-12 16:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: scripts/browse.php:62 scripts/build.php:83 scripts/build.php:98
-#: scripts/build.php:422 scripts/check.php:32 scripts/check.php:51
+#: scripts/build.php:415 scripts/check.php:32 scripts/check.php:51
 #: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
 #: scripts/configure.php:167 scripts/fetch.php:62 scripts/index.php:99
 #: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:74
@@ -94,7 +94,7 @@ msgid "Enable remote servers to update from this reference store."
 msgstr "Enable remote servers to update from this reference store."
 
 #: scripts/build.php:128 scripts/update.php:212 scripts/validate.php:72
-#: scripts/validate.php:206
+#: scripts/validate.php:200
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Suppressing the footprints file to disable remote updates..."
 msgstr "Suppressing the footprints file to disable remote updates..."
 
-#: scripts/build.php:150 scripts/build.php:230 scripts/validate.php:81
+#: scripts/build.php:150 scripts/build.php:223 scripts/validate.php:81
 msgid "Listing files..."
 msgstr "Listing files..."
 
@@ -138,50 +138,50 @@ msgstr "%d scripts have been found."
 msgid "Copying files..."
 msgstr "Copying files..."
 
-#: scripts/build.php:178
+#: scripts/build.php:171
 #, php-format
 msgid "%s is not a reference script"
 msgstr "%s is not a reference script"
 
-#: scripts/build.php:190 scripts/update.php:148
+#: scripts/build.php:183 scripts/update.php:148
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible to create path %s."
 
-#: scripts/build.php:194
+#: scripts/build.php:187
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible to copy file %s."
 
-#: scripts/build.php:216
+#: scripts/build.php:209
 #, php-format
 msgid "%d reference scripts have been copied."
 msgstr "%d reference scripts have been copied."
 
-#: scripts/build.php:220
+#: scripts/build.php:213
 msgid "Purging the documentation pages..."
 msgstr "Purging the documentation pages..."
 
-#: scripts/build.php:235
+#: scripts/build.php:228
 #, php-format
 msgid "%d files have been found."
 msgstr "%d files have been found."
 
-#: scripts/build.php:239
+#: scripts/build.php:232
 msgid "Building documentation pages..."
 msgstr "Building documentation pages..."
 
-#: scripts/build.php:262
+#: scripts/build.php:255
 #, php-format
 msgid "*** %s has no documentation block"
 msgstr "*** %s has no documentation block"
 
-#: scripts/build.php:281
+#: scripts/build.php:274
 #, php-format
 msgid "%d scripts have been parsed."
 msgstr "%d scripts have been parsed."
 
-#: scripts/build.php:334
+#: scripts/build.php:327
 #, php-format
 msgid ""
 "The file %s has not been generated and the reference store can only be used "
@@ -190,27 +190,27 @@ msgstr ""
 "The file %s has not been generated and the reference store can only be used "
 "for test purpose."
 
-#: scripts/build.php:338 scripts/stage.php:236 scripts/stage.php:313
+#: scripts/build.php:331 scripts/stage.php:236 scripts/stage.php:313
 #: scripts/update.php:140 scripts/update.php:165
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible to write to %s."
 
-#: scripts/build.php:342
+#: scripts/build.php:335
 #, php-format
 msgid "Meta data have been saved in %s"
 msgstr "Meta data have been saved in %s"
 
-#: scripts/build.php:353
+#: scripts/build.php:346
 msgid "On-going archive preparation..."
 msgstr "On-going archive preparation..."
 
-#: scripts/build.php:419 scripts/run_once.php:200 scripts/validate.php:198
+#: scripts/build.php:412 scripts/run_once.php:200 scripts/validate.php:192
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: scripts/build.php:426
+#: scripts/build.php:419
 msgid "The reference store has been rebuilt"
 msgstr "The reference store has been rebuilt"
 
@@ -490,7 +490,7 @@ msgstr "Generating script documentation, please wait..."
 
 #: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
 #: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
-#: scripts/scripts.php:219 scripts/scripts.php:673 scripts/scripts.php:679
+#: scripts/scripts.php:219 scripts/scripts.php:676 scripts/scripts.php:682
 #: scripts/stage.php:174 scripts/stage.php:303 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
@@ -719,10 +719,6 @@ msgstr ""
 msgid "update process"
 msgstr "update process"
 
-#: scripts/update_header.php:26
-msgid "This script will change running scripts at your server."
-msgstr "This script will change running scripts at your server."
-
 #: scripts/update.php:79
 msgid ""
 "Scripts of your server are now updated from the staging store. Please do not "
@@ -825,6 +821,10 @@ msgid ""
 msgstr ""
 "Yes, I have checked every item and want to update scripts on this server"
 
+#: scripts/update_header.php:26
+msgid "This script will change running scripts at your server."
+msgstr "This script will change running scripts at your server."
+
 #: scripts/upload.php:105
 #, php-format
 msgid "Error while processing %s."
@@ -874,35 +874,35 @@ msgstr ""
 "All reference scripts are included, to show evidence of possible syntax "
 "errors."
 
-#: scripts/validate.php:90
+#: scripts/validate.php:92
 msgid "Including reference scripts..."
 msgstr "Including reference scripts..."
 
-#: scripts/validate.php:134 scripts/validate.php:140
+#: scripts/validate.php:128 scripts/validate.php:134
 #, php-format
 msgid "%s has no readable content."
 msgstr "%s has no readable content."
 
-#: scripts/validate.php:166
+#: scripts/validate.php:160
 #, php-format
 msgid "inclusion of %s"
 msgstr "inclusion of %s"
 
-#: scripts/validate.php:183
+#: scripts/validate.php:177
 #, php-format
 msgid "%d files have been included."
 msgstr "%d files have been included."
 
-#: scripts/validate.php:187
+#: scripts/validate.php:181
 msgid "Following scripts have to be included separately:"
 msgstr "Following scripts have to be included separately:"
 
-#: scripts/validate.php:193
+#: scripts/validate.php:187
 #, php-format
 msgid "%d files to be checked manually."
 msgstr "%d files to be checked manually."
 
-#: scripts/validate.php:202
+#: scripts/validate.php:196
 msgid "If no error has popped up, build the reference set >>"
 msgstr "If no error has popped up, build the reference set >>"
 

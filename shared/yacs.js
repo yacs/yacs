@@ -195,7 +195,7 @@ var Yacs = {
 			success: function(response) {
 				if(typeof callBack == 'function') {
 					if(response.error) {
-						callBack(response.error);
+						callBack(response);
 					} else if(response.result) {
 						callBack(response.result);
 					} else {
@@ -719,14 +719,6 @@ var Yacs = {
 		// detect Flash on client side
 		Yacs.detectFlash();
 
-		// pre-load the spinning image used during ajax updates
-		Yacs.spinningImage = new Image();
-		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
-
-		// pre-load the image used at the working overlay
-		Yacs.workingImage = new Image();
-		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
-
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
 		$('button').each(function() {
 			var buttonType = String($(this).attr('type'));
@@ -735,9 +727,14 @@ var Yacs = {
 			}
 		});
 
-		// show the tip
+		// show tips
 		$('a[title].tip').each(function() {
 			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+		});
+
+		// close all tooltips on tabbing, etc
+		$("body").bind("yacs", function(e) {
+			$('a.tip,input.tip,textarea.tip').each(function() { $(this).tipsy("hide"); });
 		});
 
 		// load the link in a scaled-down iframe
@@ -755,9 +752,42 @@ var Yacs = {
 			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
+		// stick some div to the top
+		var handle = $('div.stickyHeader');
+		if(handle && handle.offset())
+			Yacs.stickyHeader = handle.offset().top;
+
+		// adjust stickies on load
+		Yacs.positionStickies();
+
+		// adjust position on scrolling and on resize
+		$(window).scroll(Yacs.positionStickies).resize(Yacs.positionStickies);
+
 		// on-demand headers
 		$('.onDemandTools').each(function() {
 			Yacs.addOnDemandTools($(this));
+		});
+
+		// identify all elements that should be tiled
+		$('.floating_box').addClass('tile');
+		$('div.description .thumbnail_image').addClass('tile');
+
+		// create groups of adjacent tiles
+		var siblingsLast = null;
+		$('.tile').each(function(){
+
+			// head of a group of tiles
+			if(!siblingsLast)
+				siblingsLast = $(this).nextUntil(':not(.tile)').andSelf().wrapAll('<div class="tiler" />').last();
+
+			// tail of the group
+			if( $(this).is(siblingsLast) )
+				siblingsLast = null;
+		});
+
+		// do the tiling
+		$('.tiler').masonry({
+			itemSelector: '.tile'
 		});
 
 		// prepare for a nice slideshow
@@ -850,6 +880,26 @@ var Yacs = {
 
 		// allow for additional handling of this window
 		return window_handle;
+	},
+
+	/**
+	 * adjust sticky header and footer
+	 */
+	positionStickies: function() {
+
+		// adjust sticking header
+		var wt = $(window).scrollTop();
+		$('div.stickyHeader').each(function() {
+			var mt = Yacs.stickyHeader;
+			$(this).css({'position': (wt>mt) ? 'fixed' : 'static', 'top': (wt>mt) ? '0px' : ''});
+		});
+
+		// adjust sticking footer
+		$('div.stickyFooter').each(function() {
+			$(this).css({position: "absolute",
+				top: ($(window).scrollTop()+$(window).height()-$(this).outerHeight())+"px"});
+		});
+
 	},
 
 	/**
@@ -1147,7 +1197,7 @@ var Yacs = {
 		// start an ajax transaction
 		Yacs.subscribeAjax = $.ajax(url_to_root + 'users/heartbit.php', {
 			type: 'get',
-			data: { },
+			data: {'reference': Yacs.current_item, 'action': Yacs.current_action},
 			dataType: "json",
 			success: Yacs.subscribeSuccess,
 			error: Yacs.subscribeFailure
@@ -1187,9 +1237,6 @@ var Yacs = {
 		Yacs.subscribeAjax = null;
 
 	},
-
-	// remember polling rate
-	subscribeRate: "fast",
 
 	// on-going timer, if any
 	subscribeTimer: 0,
@@ -1415,6 +1462,8 @@ var Yacs = {
 			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 		}
 
+		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
+		$('body').trigger('yacs');
 	},
 
 	/**
@@ -1629,9 +1678,12 @@ var Yacs = {
 		$.ajax($.extend({
 			url: address,
 			dataType: 'html',
-			timeout: 3000,
+			timeout: 30000,
 			success: function(data) {
-			  $('#'+panel).html(data);
+			  $('#'+panel).hide().html(data).show(400);
+			},
+			error: function(xhr, message) {
+			  $('#'+panel).text(message);
 			}}, args));
 
 	},
@@ -1712,3 +1764,15 @@ var Yacs = {
 
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
+
+// this can be done right now
+
+// pre-load the spinning image used during ajax updates
+Yacs.spinningImage = new Image();
+Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
+
+// pre-load the image used at the working overlay
+Yacs.workingImage = new Image();
+Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
+
+

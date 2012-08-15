@@ -6,12 +6,6 @@
  * directly to previous and next neighbours.
  * This is displayed as a sidebar box in the extra panel.
  *
- * Post of new comments may have been explicitly prevented in anchor (option '[code]no_comments[/code]').
- * Otherwise commands to post new comments are added if the surfer has been authenticated,
- * or if anonymous comments are allowed (parameter '[code]users_with_anonymous_comments[/code]' set to 'Y'),
- * of if teasers have been enabled (parameter '[code]users_without_teasers[/code]' not set to 'Y').
- * Both global parameters are set in [script]users/configure.php[/script]).
- *
  * Where applicable, a link is added on page bottom to incitate people to reply to the displayed comment.
  *
  * The extra panel also features top popular referrals in a sidebar box, if applicable.
@@ -44,12 +38,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -136,7 +130,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::neighbours($neighbours, 'slideshow');
 
 	// link to the previous comment in thread, if any
-	if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))
+	if($item['previous_id'] && ($previous = Comments::get($item['previous_id'])))
 		$context['text'] .= ' <p>'.sprintf(i18n::s('Comment inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).'</p>';
 
 	// display the full comment

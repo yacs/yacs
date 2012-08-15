@@ -54,7 +54,7 @@ Class Users {
 		global $context;
 
 		// retrieve user attributes
-		if(!isset($user['id']) && (!$user =& Users::get($user)))
+		if(!isset($user['id']) && (!$user = Users::get($user)))
 			return FALSE;
 
 		// a valid address is required for e-mail...
@@ -100,7 +100,7 @@ Class Users {
 	 * @param array users assigned to the reference, if any
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert_watchers($references, $mail, $restricted=NULL) {
+	public static function alert_watchers($references, $mail, $restricted=NULL) {
 		global $context;
 
 		// ensure we have an array of references
@@ -327,7 +327,7 @@ Class Users {
 		global $context;
 
 		// load the record
-		$item =& Users::get($id);
+		$item = Users::get($id);
 		if(!isset($item['id']) || !$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -356,7 +356,6 @@ Class Users {
 	 *
 	 * @see agents/messages/php
 	 * @see articles/view.php
-	 * @see comments/layout_comments_as_yabb.php
 	 * @see links/edit.php
 	 * @see services/blog.php
 	 * @see shared/codes.php
@@ -371,7 +370,7 @@ Class Users {
 	 * @see users/user.php
 	 * @see users/view.php
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -427,11 +426,94 @@ Class Users {
 			$output['is_present'] = FALSE;
 
 		// save in cache
-		if(isset($output['id']))
+		if(isset($output['id']) && (count($cache) < 1000))
 			$cache[ $output['id'] ] = $output;
 
 		// return by reference
 		return $output;
+	}
+
+	/**
+	 * enable direct telephony service
+	 *
+	 * @param array of attributes for the first person to be called
+	 * @return string interactive form plus related AJAX code, or an empty string
+	 */
+	public static function get_click_to_call($item) {
+		global $context;
+
+		// to be put in resulting page
+		$text = '';
+
+		// this user profile has a phone number and we can use the OBS back-end
+		if((Surfer::get_id() != $item['id']) && $item['phone_number'] && isset($context['obs_api_key'])) {
+
+			// allow for several controls in the same page
+			$id = uniqid();
+
+			Skin::define_img('PHONE_IMG', 'pagers/phone.gif');
+			Skin::define_img('SPINNER_IMG', 'ajax/ajax_spinner.gif');
+			$text .= ' <div id="a_'.$id.'" style="display: inline;">'
+				.	'<button onclick="ClickToCall.start(\'#b_'.$id.'\'); return false;">'.sprintf(i18n::s('Click to call %s'), ucfirst($item['nick_name'])).PHONE_IMG.'</button>'
+				.	' <input type="text" id="b_'.$id.'" style="display: none;" value="'.Surfer::get_phone_number().'" />'
+				.'</div>'
+				.'<span id="d_'.$id.'" style="display: none;">'
+				.	SPINNER_IMG.i18n::s('Calling...')
+				.'</span>'
+				.'<span id="e_'.$id.'" style="display: none;">'
+				.	'<button onclick="ClickToCall.stop(\'#b_'.$id.'\'); return false;">'.i18n::s('Stop the call').'</button>'
+				.'</span>'
+				.'<span id="f_'.$id.'" style="display: none;">'
+				.	SPINNER_IMG.i18n::s('Stopping the call...')
+				.'</span>'
+				.JS_PREFIX
+				."\n"
+				.'var ClickToCall = {'."\n"
+				."\n"
+				.'	start: function(id) {'."\n"
+
+				.'		if(!$(id).is(":visible")) {'."\n"
+				.'			$(id).show("slide", '
+								.'{ direction: "right" }, '
+								.'500, '
+								.'function() { $(id).focus().tipsy({fallback: "'.i18n::s('Your phone number in international format, starting with country code').'", gravity: "w", fade: true}).tipsy("show") });'."\n"
+				.'			$(id).focus();'."\n"
+				.'			return;'."\n"
+				.'		}'."\n"
+
+				.'		if(!$(id).val()) {'."\n"
+				.'			$(id).focus();'."\n"
+				.'			return;'."\n"
+				.'		}'."\n"
+
+				.'		$(id).tipsy("hide");'."\n"
+				.'		$("#a_'.$id.'").hide();'."\n"
+				.'		$("#d_'.$id.'").show("slide", { direction: "right" }, 100);'."\n"
+
+				.'		Yacs.call( { method: "obs.call", params: { user: '.$item['id'].', number: $(id).val() }, id: 123 }, '
+							.'function(s) { $("#d_'.$id.'").hide(); '
+								.'if(s.message) { alert(s.message);$("#a_'.$id.'").show("slide", { direction: "right" }, 500);$(id).focus(); } '
+								.'else { ClickToCall.call_id = s.call_id; $("#e_'.$id.'").show("slide", { direction: "right" }, 500); } } '
+				.'		);'."\n"
+
+				.'	},'."\n"
+				."\n"
+				.'	stop: function(id) {'."\n"
+
+				.'		$("#e_'.$id.'").hide("slide", { direction: "left" }, 500);'."\n"
+				.'		$("#f_'.$id.'").show("slide", { direction: "right" }, 500);'."\n"
+				.'		Yacs.call( { method: "obs.release", params: { call_id: ClickToCall.call_id }, id: 123 }, '
+							.'function(s) { $("#f_'.$id.'").hide("slide", { direction: "left" }, 500); '
+								.'if(s.message) {alert(s.message);} $("#a_'.$id.'").show("slide", { direction: "right" }, 500); } );'."\n"
+
+				.'	}'."\n"
+				."\n"
+				.'}'."\n"
+				.JS_SUFFIX;
+		}
+
+		// job done
+		return $text;
 	}
 
 	/**
@@ -480,11 +562,8 @@ Class Users {
 	/**
 	 * build a pretty link to a user page
 	 *
-	 * YACS has been designed to track people who submit or change information, and this small function
-	 * is aiming to shape tracking data.
-	 *
-	 * Most of the time it will build a nice link to the user profile of the involved community member.
-	 * At other time it will link to the external server that has provided published information.
+	 * Most of the time this function will build a nice link to the user profile at this server.
+	 * At other time it may feature either a link to another server, or an e-mail address.
 	 *
 	 * Pseudo code:
 	 * [snippet]
@@ -509,16 +588,14 @@ Class Users {
 	 *
 	 * @see feeds/feeds.php
 	 */
-	function get_link($name, $email, $id, $new_window=FALSE, $hover=NULL) {
+	public static function get_link($name, $email, $id, $new_window=FALSE, $hover=NULL) {
 		global $context;
 
 		if(!$name)
 			$name = i18n::s('(unknown)');
 
-		$name = ucfirst($name);
-
 		if(($id > 0) && ($url = Users::get_url($id, 'view', $name)))
-			return Skin::build_link($url, $name, 'user', $hover, $new_window);
+			return Skin::build_link($context['url_to_home'].$context['url_to_root'].$url, $name, 'user', $hover, $new_window);
 		elseif(!Surfer::may_mail())
 			return $name;
 		elseif(preg_match('/@/', $email))
@@ -538,7 +615,7 @@ Class Users {
 	 * @param string salt to be used for the hash
 	 * @return string the link to be authenticated
 	 */
-	function get_login_url($command, $reference, $name, $salt) {
+	public static function get_login_url($command, $reference, $name, $salt) {
 		global $context;
 
 		// build a signed
@@ -569,9 +646,9 @@ Class Users {
 	 * get permanent address
 	 *
 	 * @param array page attributes
-	 * @return string the permalink
+	 * @return string the permanent web address to this item, relative to the installation path
 	 */
-	function get_permalink($item) {
+	public static function get_permalink($item) {
 		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
 		return $output;
 	}
@@ -582,7 +659,7 @@ Class Users {
 	 * @param int user id
 	 * @param string his signature, or ''
 	 */
-	function get_signature($id) {
+	public static function get_signature($id) {
 		global $context;
 
 		if(!$id)
@@ -599,7 +676,7 @@ Class Users {
 		$cache[$id] = '';
 
 		// lookup for this user
-		if(($user =& Users::get($id)) && trim($user['signature']))
+		if(($user = Users::get($id)) && trim($user['signature']))
 			$cache[$id] = "\n\n-----\n".$user['signature'];
 
 		// return the cached value
@@ -623,7 +700,7 @@ Class Users {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// track something -- the id has to be an anchor (e.g., 'article:15')
@@ -678,7 +755,7 @@ Class Users {
 	 * @see services/blog.php
 	 * @see tables/edit.php
 	 */
-	function increment_posts($id) {
+	public static function increment_posts($id) {
 		global $context;
 
 		// sanity check
@@ -714,7 +791,7 @@ Class Users {
 	 *
 	 * @see letters/new.php
 	 */
-	function &list_associates_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function &list_associates_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -758,7 +835,7 @@ Class Users {
 	 * @see users/index.php
 	 * @see users/review.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='compact') {
+	public static function &list_by_date($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -789,7 +866,7 @@ Class Users {
 	 *
 	 * @see users/review.php
 	 */
-	function &list_by_login_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_login_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// limit the scope of the request
@@ -801,7 +878,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (".$where.") AND (users.login_date > '2000-01-01')"
+			." WHERE (".$where.") AND (users.login_date > NULL_DATE)"
 			." ORDER BY users.login_date, users.nick_name LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
@@ -819,7 +896,7 @@ Class Users {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_name($offset=0, $count=10, $variant='full') {
+	public static function &list_by_name($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -850,7 +927,7 @@ Class Users {
 	 *
 	 * @see users/review.php
 	 */
-	function &list_by_post_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_post_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// limit the scope of the request
@@ -863,7 +940,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where." AND (users.post_date > '2000-01-01')"
+			." WHERE ".$where." AND (users.post_date > NULL_DATE)"
 			." ORDER BY users.post_date, users.nick_name LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
@@ -897,7 +974,7 @@ Class Users {
 	 * @see letters/new.php
 	 * @see users/index.php
 	 */
-	function &list_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function &list_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -910,7 +987,7 @@ Class Users {
 
 		// protect the privacy of e-mail boxes and never send messages to locked users
 		if($variant == 'address')
-			$where .= " AND (users.with_newsletters='Y') AND (users.capability != '?')";
+			$where .= " AND (users.with_newsletters='Y') AND (users.capability IN ('S', 'M', 'A'))";
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
@@ -918,6 +995,56 @@ Class Users {
 			." ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		return $output;
+	}
+
+	/**
+	 * list these users
+	 *
+	 * The first parameter can be either a string containing several ids or nick
+	 * names separated by commas, or it can be an array of ids or nick names.
+	 *
+	 * The second parameter can be either a string accepted by Users::list_selected(),
+	 * or an instance of the Layout interface.
+	 *
+	 * @param mixed a list of ids or nick names
+	 * @param mixed the layout to apply
+	 * @return string to be inserted into the resulting page
+	 */
+	public static function &list_for_ids($ids, $layout='select') {
+		global $context;
+
+		// turn a string to an array
+		if(!is_array($ids))
+			$ids = preg_split('/[\s,]+/', (string)$ids);
+
+		// check every id
+		$queries = array();
+		foreach($ids as $id) {
+
+			// we need some id
+			if(!$id)
+				continue;
+
+			// look by id or by nick name
+			if(is_numeric($id))
+				$queries[] = "SELECT * FROM ".SQL::table_name('users')." WHERE (id = ".SQL::escape($id).")";
+			else
+				$queries[] = "SELECT * FROM ".SQL::table_name('users')." WHERE (nick_name LIKE '".SQL::escape($id)."')";
+
+		}
+
+		// no valid id has been found
+		if(!count($queries)) {
+			$output = NULL;
+			return $output;
+		}
+
+		// return pages in the order of argument received
+		$query = "(".join(') UNION (', $queries).")";
+
+		// query and layout
+		$output =& Users::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -940,7 +1067,7 @@ Class Users {
 	 *
 	 * @see letters/new.php
 	 */
-	function &list_members_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function &list_members_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -956,7 +1083,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ((users.capability='A') OR (users.capability='M')) AND (".$where.")"
+			." WHERE (users.capability IN ('M', 'A')) AND (".$where.")"
 			." ORDER BY users.posts DESC, users.nick_name"
 			." LIMIT ".$offset.','.$count;
 
@@ -977,7 +1104,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	function &list_present($offset=0, $count=10, $variant='compact') {
+	public static function &list_present($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -1011,7 +1138,7 @@ Class Users {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1111,7 +1238,7 @@ Class Users {
 	 * @see users/login.php
 	 * @see services/blog.php
 	 */
-	function login($name, $password) {
+	public static function login($name, $password) {
 		global $context;
 
 		// using the last resort password
@@ -1191,7 +1318,7 @@ Class Users {
 				return NULL;
 
 			// retrieve the shadow record
-			$item =& Users::get($fields['id']);
+			$item = Users::get($fields['id']);
 		}
 
 		// bad credentials
@@ -1257,11 +1384,11 @@ Class Users {
 	 * @param string the name looked for, or a mail address, or a complex RFC 822 recipient address
 	 * @return array either the found profile, or NULL
 	 */
-	function lookup($name) {
+	public static function lookup($name) {
 		global $context;
 
 		// the profile already exists
-		if($item =& Users::get($name))
+		if($item = Users::get($name))
 			return $item;
 
 		// guess a shadow profile
@@ -1323,7 +1450,7 @@ Class Users {
 		}
 
 		// the e-mail address already exists
-		if($item =& Users::get($user['email']))
+		if($item = Users::get($user['email']))
 			return $item;
 
 		// add a random number of 4 digits to make nick name as unique as possible
@@ -1363,7 +1490,7 @@ Class Users {
 	 * @see users/populate.php
 	 * @see query.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// nick_name is required
@@ -1456,7 +1583,7 @@ Class Users {
 
 		// protect from hackers
 		if(isset($fields['avatar_url']))
-			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
+			$fields['avatar_url'] = encode_link($fields['avatar_url']);
 		$query[] = "avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."'";
 
 		if(!isset($fields['birth_date']) || !$fields['birth_date'])
@@ -1643,11 +1770,11 @@ Class Users {
 	 * @see users/password.php
 	 * @see users/select_avatar.php
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// load the record
-		$item =& Users::get($fields['id']);
+		$item = Users::get($fields['id']);
 		if(!isset($item['id']) || !$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -1681,7 +1808,7 @@ Class Users {
 			$fields['nick_name'] = trim($fields['nick_name']);
 
 			// nick_name may be already used
-			if(($used =& Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
+			if(($used = Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
 				Logger::error(i18n::s('Another member already has this nick name. Please select a different one.'));
 				return FALSE;
 			}
@@ -1692,7 +1819,7 @@ Class Users {
 
 			// protect from hackers
 			if(isset($fields['avatar_url']))
-				$fields['avatar_url'] =& encode_link($fields['avatar_url']);
+				$fields['avatar_url'] = encode_link($fields['avatar_url']);
 
 			// set default values
 			if(!isset($fields['active']) || !$fields['active'])
@@ -1833,7 +1960,7 @@ Class Users {
 					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 			// enable threading
-			$headers = Mailer::set_thread('', 'user:'.$item['id']);
+			$headers = Mailer::set_thread('user:'.$item['id']);
 
 			// post the confirmation message
 			Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
@@ -1852,20 +1979,43 @@ Class Users {
 	 * search for some keywords in all users
 	 *
 	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 *
 	 * @see search.php
 	 */
-	function &search($pattern, $offset=0, $count=50, $variant='decorated') {
+	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
 		if(!$pattern = trim($pattern)) {
 			$output = NULL;
 			return $output;
+		}
+
+		// make it a proper boolean search
+		if($pattern[0] != '+') {
+
+			$tokens = preg_split('/[\s,]+/', $pattern);
+			if(@count($tokens)) {
+				$pattern = '';
+				foreach($tokens as $token) {
+
+					// already here (repeated word)
+					if(strpos($pattern, $token) !== FALSE)
+						continue;
+
+					// re-enforce boolean mode
+					if(($token[0] != '+') && ($token[0] != '+') && ($token[0] != '~'))
+						$token = '+'.$token;
+
+					// keep this token
+					$pattern .= $token.' ';
+				}
+				$pattern = trim($pattern).'*';
+			}
 		}
 
 		// limit the scope of the request
@@ -1876,27 +2026,33 @@ Class Users {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
-		// do not show suspended users, except to associates
+		// do not show blocked users, except to associates
 		if(!Surfer::is_associate())
-			$where .= " AND (users.capability != '?')";
+			$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
-		// match
-		$match = '';
-		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-//			$match .= "MATCH(nick_name, full_name, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
-			$match .= "((nick_name LIKE '%".SQL::escape($word['value'])."%')"
-				." OR (full_name LIKE '%".SQL::escape($word['value'])."%')"
-				." OR (email LIKE '%".SQL::escape($word['value'])."%'))";
-		}
+		// how to compute the score for users
+		$score = "(MATCH(nick_name, full_name, introduction, description) "
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of users
-		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where." AND (".$match.")"
-			." ORDER BY users.login_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *,"
+
+			// compute the score
+			." ".$score." AS score"
+
+			// matching users
+			." FROM ".SQL::table_name('users')." AS users"
+
+			// score < offset and score > 0
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0.0)"
+
+			// other constraints
+			." AND ".$where
+
+			// packaging
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
@@ -1907,7 +2063,7 @@ Class Users {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -2003,7 +2159,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// limit the scope of the request
@@ -2035,7 +2191,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	function &stat_present() {
+	public static function stat_present() {
 		global $context;
 
 		// limit the scope of the request
@@ -2067,7 +2223,7 @@ Class Users {
 	 *
 	 * @see users/validate.php
 	 */
-	function validate($id) {
+	public static function validate($id) {
 		global $context;
 
 		// sanity check

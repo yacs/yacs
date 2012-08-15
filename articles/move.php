@@ -30,16 +30,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -64,7 +63,7 @@ if($destination && is_object($anchor)) {
 }
 
 // load the target section, by id , or with a full reference
-$destination =& Anchors::get($destination);
+$destination = Anchors::get($destination);
 
 // clear the tab we are in, if any
 if(is_object($anchor))

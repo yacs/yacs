@@ -32,7 +32,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -142,7 +142,7 @@ if(Surfer::is_crawler()) {
 		else
 			$suffix = i18n::s('(do not wish to receive newsletters)');
 
-		$context['text'] .= '<p>'.sprintf(i18n::s($label), Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
+		$context['text'] .= '<p>'.sprintf($label, Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
 	}
 
 	// the introduction text

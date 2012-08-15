@@ -43,7 +43,7 @@ $item = Files::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the surfer can proceed
 if(Files::allow_deletion($item, $anchor)) {
@@ -110,7 +110,7 @@ if(!isset($item['id'])) {
 		Files::clear($item);
 
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#files');
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments');
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'files/');
 	}

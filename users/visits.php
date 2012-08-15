@@ -31,7 +31,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return TRUE on recent visit, FALSE otherwise
 	 */
-	function check_user_at_anchor($user_id, $anchor, $timeout=259200) {
+	public static function check_user_at_anchor($user_id, $anchor, $timeout=259200) {
 		global $context;
 
 		// sanity check
@@ -62,7 +62,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of links, or NULL
 	 */
-	function &list_for_user($user, $count=3, $timeout=259200) {
+	public static function list_for_user($user, $count=3, $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -79,7 +79,7 @@ Class Visits {
 		$where = "visits.active='Y'";
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR visits.active='R'";
-		if(Surfer::is_associate())
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$where .= " OR visits.active='N'";
 
 		// select matching links
@@ -100,7 +100,7 @@ Class Visits {
 		while($item = SQL::fetch($result)) {
 
 			// identify the visited page
-			if(!$anchor =& Anchors::get($item['anchor']))
+			if(!$anchor = Anchors::get($item['anchor']))
 				continue;
 
 			// ensure this one is visible
@@ -124,44 +124,6 @@ Class Visits {
 	}
 
 	/**
-	 * list present users, based on last visits
-	 *
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the maximum size of the returned list
-	 * @param string the list variant, if any
-	 * @param int maximum age of visit, in seconds
-	 * @return array a compact list of user profiles
-	 */
-	function &list_users($offset=0, $count=30, $layout='compact', $timeout=259200) {
-		global $context;
-
-		// return by reference
-		$output = NULL;
-
-		// limit the scope of the request
-		$where = "users.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR users.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR users.active='N'";
-
-		// only consider recent presence records
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - $timeout);
-
-		// list matching users
-		$query = "SELECT users.*, visits.edit_date as visit_date FROM ".SQL::table_name('visits')." AS visits"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (visits.user_id = users.id)"
-			."	AND (visits.edit_date >= '".SQL::escape($threshold)."')"
-			."	AND (".$where.")"
-			." ORDER BY users.nick_name LIMIT ".$offset.','.$count;
-
-		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $layout);
-		return $output;
-	}
-
-	/**
 	 * list users present at some anchor
 	 *
 	 * @param string the anchor of the visited page (e.g., 'article:12')
@@ -171,7 +133,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of user profiles
 	 */
-	function &list_users_at_anchor($anchor, $offset=0, $count=30, $layout='compact', $timeout=259200) {
+	public static function list_users_at_anchor($anchor, $offset=0, $count=30, $layout='compact', $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -212,7 +174,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return TRUE if the user is present, FALSE otherwise
 	 */
-	function prove_presence_of($user, $timeout=3600) {
+	public static function prove_presence_of($user, $timeout=3600) {
 		global $context;
 
 		// sanity check
@@ -242,7 +204,7 @@ Class Visits {
 	 * @see shared/surfer.php
 	 * @see users/logout.php
 	 */
-	function purge_for_user($user_id) {
+	public static function purge_for_user($user_id) {
 		global $context;
 
 		if(!$user_id)
@@ -257,7 +219,7 @@ Class Visits {
 	/**
 	 * create table for visits
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -278,71 +240,13 @@ Class Visits {
 	}
 
 	/**
-	 * get some statistics
-	 *
-	 * @param int maximum age of visit, in seconds
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see control/index.php
-	 */
-	function &stat($timeout=259200) {
-		global $context;
-
-		// only consider recent presence records
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - $timeout);
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(visits.edit_date) as oldest_date, MAX(visits.edit_date) as newest_date"
-			." FROM ".SQL::table_name('visits')." AS visits"
-			." WHERE (visits.edit_date >= '".SQL::escape($threshold)."')";
-
-		$output = SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for one anchor
-	 *
-	 * @param the selected anchor (e.g., 'category:12')
-	 * @param int maximum age of visit, in seconds
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 */
-	function &stat_for_anchor($anchor, $timeout=259200) {
-		global $context;
-
-		// sanity check
-		if(!$anchor)
-			return $output;
-
-		// only consider recent presence records
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - $timeout);
-
-		// limit the scope of the request
-		$where = "visits.active='Y'";
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR visits.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR visits.active='N'";
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(visits.edit_date) as oldest_date, MAX(visits.edit_date) as newest_date"
-			." FROM ".SQL::table_name('visits')." AS visits"
-			." WHERE (visits.anchor LIKE '".SQL::escape($anchor)."')"
-			."	AND (visits.edit_date >= '".SQL::escape($threshold)."')"
-			."	AND (".$where.")";
-
-		$output = SQL::query_first($query);
-		return $output;
-	}
-
-	/**
 	 * remember visit at some page
 	 *
 	 * @param string the anchor of the visited page (e.g., 'article:12')
 	 * @param string level of visibility for this anchor (e.g., 'Y', 'R' or 'N')
 	 * @return boolean TRUE on success, FALSE otherwise
 	**/
-	function track($anchor, $active='Y') {
+	public static function track($anchor, $active='Y') {
 		global $context;
 
 		// ensure regular operation of the server

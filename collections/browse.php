@@ -125,7 +125,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 	// cache the directory
 	$cache_id = 'collections/browse.php?path='.$id;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// the description is set at the collection index page
 		if($item['collection_description'])
@@ -440,7 +440,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		else
 			$link = 'collections/upload.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
 
-		$context['page_tools'][] = Skin::build_link($link, i18n::s('Upload a file'));
+		$context['page_tools'][] = Skin::build_link($link, i18n::s('Add a file'));
 	}
 
 	// general help

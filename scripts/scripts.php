@@ -639,7 +639,10 @@ class Scripts {
 				} elseif(preg_match('/\.php$/i', $node) && is_readable($target_translated)) {
 
 					// append the script to the list
-					$files[] = array($path, $node);
+					if($path)
+						$files[] = $path.'/'.$node;
+					else
+						$files[] = $node;
 
 					// animate the screen
 					if($verbose)

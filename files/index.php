@@ -83,12 +83,12 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'files/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// the list of files
 		$offset = ($page - 1) * $items_per_page;
 		if(!$text = Files::list_by_date($offset, $items_per_page, 'full'))
-			$text = '<p>'.i18n::s('No file has been uploaded yet.').'</p>';
+			$text = '<p>'.i18n::s('No file has been added yet.').'</p>';
 
 		// we have an array to format
 		if(is_array($text))
@@ -116,7 +116,7 @@ $context['components']['channels'] = Skin::build_box($title, $label, 'channels')
 
 // page extra content
 $cache_id = 'files/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most popular files
 	if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact')) {

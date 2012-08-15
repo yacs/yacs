@@ -29,7 +29,6 @@ Class Article extends Anchor {
 		global $context;
 
 		// cache the overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		if(!isset($this->overlay) && isset($this->item['overlay']))
 			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 
@@ -37,8 +36,8 @@ Class Article extends Anchor {
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
 			return $this->overlay->allows($type, $action);
 
-		// allowed
-		return TRUE;
+		// blocked by default
+		return FALSE;
 	}
 
 	/**
@@ -53,7 +52,7 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -248,7 +247,7 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -271,7 +270,7 @@ Class Article extends Anchor {
 	 * This function is used to retrieve a reference to be placed into the database.
 	 * For example:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
@@ -356,7 +355,6 @@ Class Article extends Anchor {
 
 		// use overlay data, if any
 		if(!$text) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(!isset($this->overlay) && isset($this->item['overlay']))
 				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 			if(is_object($this->overlay))
@@ -474,9 +472,6 @@ Class Article extends Anchor {
 		// view comments
 		case 'comments':
 			// variants that start at the article page
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_discussion';
-
 			if($this->has_option('view_as_chat'))
 				return $this->get_url().'#comments';
 
@@ -484,25 +479,21 @@ Class Article extends Anchor {
 			if($this->has_layout('alistapart'))
 				return Comments::get_url($this->get_reference(), 'list');
 
-			// layouts that start at the article page
-			return Articles::get_permalink($this->item);
+			// layouts that start at the article page --assume we have at least one comment, on a tab
+			return Articles::get_permalink($this->item).'#_discussion';
 
 		// list of files
 		case 'files':
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_attachments';
-			return Articles::get_permalink($this->item).'#files';
+			return $this->get_url().'#_attachments';
 
 		// list of links
 		case 'links':
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_attachments';
-			return Articles::get_permalink($this->item).'#links';
+			return $this->get_url().'#_attachments';
 
 		// jump to parent page
 		case 'parent':
 			if(!isset($this->anchor))
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			return $this->anchor->get_url();
 
@@ -516,6 +507,47 @@ Class Article extends Anchor {
 
 		}
 
+	}
+
+	/**
+	 * list all items in the watching context
+	 *
+	 * For articles, the watching context is limited by default to the page itself,
+	 * and to its parent container. If the container has option 'forward_notifications',
+	 * then the context is extended to its parent too. The forwarding is recursive
+	 * until no option 'forward_notifications' is found.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	private function get_watched_context($action) {
+		global $context;
+
+		// notifications should be sent to watchers of these containers
+		$containers = array();
+
+		// i am a container
+		$containers[] = $this->get_reference();
+
+		// look at my parents
+		$handle = $this->get_parent();
+		while($handle && ($container = Anchors::get($handle))) {
+
+			// add watchers of this level
+			$containers[] = $handle;
+
+			// should we forward notifications upwards
+			if(!$container->has_option('forward_notifications', FALSE))
+				break;
+
+			// add watchers of next level
+			$handle = $container->get_parent();
+		}
+
+		// by default, limit to direct watchers of this anchor
+		return $containers;
 	}
 
 	/**
@@ -575,7 +607,7 @@ Class Article extends Anchor {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// check for ownership
 			if(is_object($this->anchor))
@@ -658,7 +690,7 @@ Class Article extends Anchor {
 		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/\\1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
 
 		// text contains an implicit anchor to an article or to a section
-// 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor =& Anchors::get($matches[1].':'.$matches[2])))
+// 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor = Anchors::get($matches[1].':'.$matches[2])))
 // 			$this->item['anchor'] = $anchor->get_reference();
 
 		return $this->item;
@@ -781,10 +813,6 @@ Class Article extends Anchor {
 	 * - On location creation, some code is inserted in the description field to display location name inline
 	 * - On table creation, some code is inserted in the description field to display the table inline
 	 *
-	 * Moreover, on any change that impact the edition date (i.e., not in silent mode),
-	 * a message is sent to the article creator, if different from the current surfer
-	 * and a message is sent to watchers as well.
-	 *
 	 * @see articles/article.php
 	 * @see articles/edit.php
 	 * @see shared/anchor.php
@@ -792,11 +820,12 @@ Class Article extends Anchor {
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
+
+		// we make extensive use of comments below
+		include_once $context['path_to_root'].'comments/comments.php';
 
 		// don't go further on import
 		if(preg_match('/import$/i', $action))
@@ -816,10 +845,11 @@ Class Article extends Anchor {
 			return;
 		}
 
-		// sanity check
-		if(!$origin) {
-			logger::remember('articles/article.php', 'unexpected NULL origin at touch()');
-			return;
+		// get the related overlay, if any
+		if(!isset($this->overlay)) {
+			$this->overlay = NULL;
+			if(isset($this->item['overlay']))
+				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 		}
 
 		// components of the query
@@ -829,31 +859,56 @@ Class Article extends Anchor {
 		if($action == 'comment:create') {
 
 			// purge oldest comments
-			include_once $context['path_to_root'].'comments/comments.php';
 			Comments::purge_for_anchor('article:'.$this->item['id']);
 
-		// a new file has been attached
-		} elseif(($action == 'file:create')) {
+		// file upload
+		} elseif(($action == 'file:create') || ($action == 'file:upload')) {
 
-			// identify specific files
+			// actually, several files have been added
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin))) {
+			if(!$origin) {
+				$fields = array();
+				$fields['anchor'] = 'article:'.$this->item['id'];
+				$fields['description'] = i18n::s('Several files have been added');
+				$fields['type'] = 'notification';
+				Comments::post($fields);
 
-				// give it to the Flash player
-				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
-					$label = '[embed='.$origin.']';
+			// one file has been added
+			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin, TRUE))) {
+
+				// this file is eligible for being embedded in the page
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
+
+					// the overlay may prevent embedding
+					if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+
+					// else use a yacs code to implement the embedded object
+					else
+						$label = '[embed='.$origin.']';
+
+				// else add a comment to take note of the upload
+				} else {
+					$fields = array();
+					$fields['anchor'] = 'article:'.$this->item['id'];
+					if($action == 'file:create')
+						$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
+					else
+						$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
+					Comments::post($fields);
+
+				}
 
 			}
 
 			// we are in some interactive thread
-			if($this->has_option('view_as_chat')) {
+			if($origin && $this->has_option('view_as_chat')) {
 
 				// default is to download the file
 				if(!$label)
 					$label = '[download='.$origin.']';
 
 				// this is the first contribution to the thread
-				include_once $context['path_to_root'].'comments/comments.php';
 				if(!$comment = Comments::get_newest_for_anchor('article:'.$this->item['id'])) {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
@@ -876,12 +931,12 @@ Class Article extends Anchor {
 				Comments::post($fields);
 
 			// include flash videos in a regular page
-			} elseif($label)
+			} elseif($origin && $label)
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
 		// suppress references to a deleted file
-		} elseif($action == 'file:delete') {
+		} elseif(($action == 'file:delete') && $origin) {
 
 			// suppress reference in main description field
 			$text = Codes::delete_embedded($this->item['description'], 'download', $origin);
@@ -892,7 +947,7 @@ Class Article extends Anchor {
 			$query[] = "description = '".SQL::escape($text)."'";
 
 		// append a reference to a new image to the description
-		} elseif($action == 'image:create') {
+		} elseif(($action == 'image:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
@@ -918,7 +973,7 @@ Class Article extends Anchor {
 				$silently = TRUE;
 
 		// suppress a reference to an image that has been deleted
-		} elseif($action == 'image:delete') {
+		} elseif(($action == 'image:delete') && $origin) {
 
 			// suppress reference in main description field
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
@@ -943,7 +998,7 @@ Class Article extends Anchor {
 			}
 
 		// set an existing image as the article icon
-		} elseif($action == 'image:set_as_icon') {
+		} elseif(($action == 'image:set_as_icon') && $origin) {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
@@ -956,7 +1011,7 @@ Class Article extends Anchor {
 			}
 
 		// set an existing image as the article thumbnail
-		} elseif($action == 'image:set_as_thumbnail') {
+		} elseif(($action == 'image:set_as_thumbnail') && $origin) {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image = Images::get($origin)) {
 
@@ -974,7 +1029,7 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// append a new image, and set it as the article thumbnail
-		} elseif($action == 'image:set_as_both') {
+		} elseif(($action == 'image:set_as_both') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
@@ -996,21 +1051,21 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// add a reference to a location in the article description
-		} elseif($action == 'location:create') {
+		} elseif(($action == 'location:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'location', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [location='.$origin.']')."'";
 
 		// suppress a reference to a location that has been deleted
-		} elseif($action == 'location:delete') {
+		} elseif(($action == 'location:delete') && $origin) {
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'location', $origin))."'";
 
 		// add a reference to a new table in the article description
-		} elseif($action == 'table:create') {
+		} elseif(($action == 'table:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description']."\n".'[table='.$origin.']'."\n")."'";
 
 		// suppress a reference to a table that has been deleted
-		} elseif($action == 'table:delete') {
+		} elseif(($action == 'table:delete') && $origin) {
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
@@ -1030,111 +1085,6 @@ Class Article extends Anchor {
 			SQL::query($query);
 		}
 
-		// do not signal the change to watchers if the page is on draft mode
-		if(!isset($this->item['publish_date']) ||  ($this->item['publish_date'] <= NULL_DATE)) {
-			$to_watchers = FALSE;
-			$to_followers = FALSE;
-		}
-
-		// do not forward this to followers if the page is private
-		if($this->item['active'] == 'N')
-			$to_followers = FALSE;
-
-		// send alert only on new stuff
-		if(preg_match('/:create$/i', $action)) {
-
-			// poster name
-			$surfer = Surfer::get_name();
-
-			// mail message
-			$mail = array('subject' => '', 'message' => '', 'headers' => '');
-
-			// mail subject
-			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
-
-			// a file has been added to the page
-			if($action == 'file:create') {
-				if(($target = Files::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Files::build_notification($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
-
-				}
-
-			// a comment has been added to the page
-			} else if($action == 'comment:create') {
-				include_once $context['path_to_root'].'comments/comments.php';
-				if(($target = Comments::get($origin, TRUE)) && $target['id']) {
-
-					// mail content
-					$mail['content'] = Comments::build_notification($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
-
-				}
-
-			// something else has been added to the page
-			} else {
-
-				// headline
-				$headline  = sprintf(i18n::c('%s by %s'),
-					Anchors::get_action_label($action),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>');
-
-				// message main content
-				$mail['content'] = Skin::build_mail_content($headline);
-
-				// call for action
-				$title = sprintf(i18n::c('%s in %s'), ucfirst(Anchors::get_action_label($action)), strip_tags($this->item['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
-				$menu = array(Skin::build_mail_button($link, $title, TRUE));
-				$mail['content'] .= Skin::build_mail_menu($menu);
-
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
-
-			}
-
-			// wrap the full message
-			$mail['message'] = Mailer::build_notification($mail['content'], 1);
-
-			// we only have mail address of page creator
-			if(!$this->item['create_id'] && $this->item['create_address'])
-				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
-
-			// get the related overlay, if any
-			$overlay = NULL;
-			include_once $context['path_to_root'].'overlays/overlay.php';
-			if(isset($this->item['overlay']))
-				$overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
-
-			// do not notify watchers if overlay prevents it
-			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
-				$to_watchers = FALSE;
-
-			// alert watchers
-			if($to_watchers)
-				Users::alert_watchers('article:'.$this->item['id'], $mail);
-
-			// do not notify followers if overlay prevents it
-			if(is_object($overlay) && !$overlay->should_notify_followers($mail))
-				$to_followers = FALSE;
-
-			// alert connexions, except on private pages
-			if(Surfer::get_id() && $to_followers) {
-
-				// message to connexions
-				$mail['message'] = Mailer::build_notification($mail['content'], 2);
-
-				// alert connexions
-				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-			}
-		}
-
 		// add this page to the watch list of the contributor, on any action
 		if(Surfer::get_id())
 			Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
@@ -1147,23 +1097,11 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards
-		if(is_object($this->anchor)) {
-
-			// notify the full contribution to section watcher
-			if($action == 'comment:create')
-				$action = 'article:comment';
-
-			// notify the full contribution to section watcher
-			elseif($action == 'file:create')
-				$action = 'article:file';
-
-			// propagate to parent only if target is the article
-			if(!strncmp($action, 'article:', strlen('article:')))
-				$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
-		}
+		if(is_object($this->anchor))
+			$this->anchor->touch('article:update', $this->item['id'], TRUE);
 
 	}
 

@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'forms.php';
 
 // look for the id
@@ -37,14 +36,14 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Forms::get($id);
+$item = Forms::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -173,7 +172,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// update an existing form
 	if(isset($item['id'])) {
@@ -423,8 +422,7 @@ if($with_form) {
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#title").focus() });'."\n"
+		.'$(function() { $("#title").focus() });'."\n" // set the focus on first form field
 		."\n"
 		.JS_SUFFIX."\n";
 
@@ -459,8 +457,8 @@ if($with_form) {
 	// the script used to restore previous state
 	if(isset($item['content']) && $item['content']) {
 		$context['page_footer'] .= JS_PREFIX
-			.'// restore fields of the form'."\n"
-			.'$(document).ready( function() { Forms.fromJSON("#form_panel", '.utf8::encode($item['content']).') });'."\n"
+			.'// restore form fields'."\n"
+			.'$(function() { Forms.fromJSON("#form_panel", '.utf8::encode($item['content']).') });'."\n"
 			.JS_SUFFIX."\n";
 	}
 

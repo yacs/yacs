@@ -261,7 +261,7 @@ Class Locations {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -282,7 +282,7 @@ Class Locations {
 	 * @see locations/view.php
 	 * @see shared/codes.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -351,7 +351,7 @@ Class Locations {
 	 *
 	 * @see locations/index.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -359,7 +359,7 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -375,7 +375,7 @@ Class Locations {
 	 * @see articles/edit.php
 	 * @see users/edit.php
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -388,29 +388,7 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list newest locations for one author
-	 *
-	 * @param int the id of the author of the location
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
-		global $context;
-
-		// limit the scope of the request
-		$query = "SELECT * FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.edit_id = ".SQL::escape($author_id).")"
-			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
-
-		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -428,7 +406,7 @@ Class Locations {
 	 *
 	 * @see locations/view.php
 	 */
-	public static function &list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
+	public static function list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
 		global $context;
 
 		// select records by distance to the target point, with a limit to 5,000 km
@@ -443,53 +421,7 @@ Class Locations {
 			." LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list nearest locations to one anchor
-	 *
-	 * This function is similar to [code]list_by_distance()[/code],
-	 * except that it looks for a location for the given anchor first.
-	 *
-	 * @param string a reference to the target anchor (eg, 'article:123')
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see locations/view.php
-	 */
-	public static function &list_by_distance_for_anchor($anchor, $offset=0, $count=20, $variant='compact') {
-		global $context;
-
-		// look for a location for this anchor
-		$query = "SELECT latitude, longitude FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.anchor LIKE '".SQL::escape($anchor)."') "
-			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT 0, 1";
-		if(!$result = SQL::query($query)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// empty list
-		if(!SQL::count($result)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// the first item of the list provides latitude and longitude
-		$item = SQL::fetch($result);
-		if(@count($item) != 2) {
-			$output = NULL;
-			return $output;
-		}
-		$latitude = trim($item['latitude'], ' ,');
-		$longitude = $item['longitude'];
-
-		// select records by distance to the target point, with a limit to 5,000 km
-		$output =& Locations::list_by_distance($latitude, $longitude, $offset, $count, $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -504,7 +436,7 @@ Class Locations {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -562,7 +494,7 @@ Class Locations {
 	 *
 	 * @see locations/map_on_google.php
 	 */
-	public static function &list_users_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_users_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -571,7 +503,7 @@ Class Locations {
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
-		$output =& Locations::list_selected(SQL::query($query), $variant);
+		$output = Locations::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -608,7 +540,7 @@ Class Locations {
 	 * @param string object height
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	public static function &map_on_google($items, $scale=null, $width=null, $height=null) {
+	public static function map_on_google($items, $scale=null, $width=null, $height=null) {
 		global $context;
 
 		// default values if not defined in skin
@@ -650,11 +582,6 @@ Class Locations {
 			.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
 			.'</div>'."\n";
 
-		// create this map
-		$text .= JS_PREFIX
-			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
-			.'	var map = new GMap2($("#'.$handle.'")[0]);'."\n";
-
 		// frame the map
 		$latitudes = $longitudes = 0.00;
 		$index = 0;
@@ -667,10 +594,15 @@ Class Locations {
 		// center point
 		$latitude_middle = $latitudes / max(1, $index);
 		$longitude_middle = $longitudes / max(1, $index);
-		$text .= '	map.setCenter(new GLatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")), '.$scale.');'."\n";
 
-		$text .= '	map.addControl(new GSmallMapControl());'."\n"
-			.'	map.addControl(new GMapTypeControl());'."\n";
+		// create this map
+		$text .= JS_PREFIX
+			.'var mapOptions = {'."\n"
+			.'	zoom: 13,'."\n"
+			.'	center: new google.maps.LatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")),'."\n"
+			.'	mapTypeId: google.maps.MapTypeId.ROADMAP'."\n"
+			.'};'."\n"
+			.'var map = new google.maps.Map($("#'.$handle.'")[0], mapOptions);'."\n";
 
 		// add all markers
 		$index = 1;
@@ -688,7 +620,7 @@ Class Locations {
 				$description .= Codes::beautify($item['description']);
 
 			// use anchor information
-			if(isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor'])) && is_object($anchor)) {
+			if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor'])) && is_object($anchor)) {
 
 				// insert thumbnail, if any
 				if($icon = $anchor->get_thumbnail_url())
@@ -705,20 +637,25 @@ Class Locations {
 				$icon = 'iconBlue';
 
 			// add one marker for this item
-			$text .= '	var point = new GLatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
-				.'	var marker'.$map_index.$index.' = new GMarker(point, '.$icon.');'."\n"
-				.'	GEvent.addListener(marker'.$map_index.$index.', "click", function() {'."\n"
-				.'		marker'.$map_index.$index.'.openInfoWindowHtml("'.addcslashes($description, '\'\\"'."\n\r").'");'."\n"
+			$text .= '	var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
+				.'	var marker'.$map_index.$index.' = new google.maps.Marker({ position: point, map: map });'."\n"
+				.'	var infoWindow = new google.maps.InfoWindow();'."\n"
+				.'google.maps.event.addDomListener(marker'.$map_index.$index.', "click", function() {'."\n"
+				.'	infoWindow.setContent("'.addcslashes($description, '\'\\"'."\n\r").'");'."\n"
+				.'	infoWindow.open(map, marker'.$map_index.$index.');'."\n"
 				.'	});'."\n"
-				.'	map.addOverlay(marker'.$map_index.$index.');'."\n";
+				.'$("body").bind("yacs", function(e) {'."\n"
+				.'	google.maps.event.trigger(map, "resize");'."\n"
+				.'	map.setZoom( map.getZoom() );'."\n"
+				.'	map.setCenter(point);'."\n"
+				.'});'."\n";
 
 			// next index
 			$index++;
 		}
 
 		// the postamble
-		$text .= '}'."\n"
-			.JS_SUFFIX;
+		$text .= JS_SUFFIX;
 
 		// job done
 		return $text;
@@ -729,7 +666,7 @@ Class Locations {
 	 *
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	public static function &map_on_google_header($verbose = FALSE) {
+	public static function map_on_google_header($verbose = FALSE) {
 		global $context;
 
 		// we return some text
@@ -741,33 +678,27 @@ Class Locations {
 			return $text;
 		$fused = TRUE;
 
-		// no capability to create an image
-		if(!isset($context['google_api_key']) || !$context['google_api_key']) {
-			Logger::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
-			return $text;
-		}
-
 		// load the google library
-		$text .= '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'"></script>'."\n";
+		$text .= '<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>'."\n";
 
 		// load some icons from Google
 		$text .= JS_PREFIX
-			.'if(typeof GIcon != "undefined") {'."\n"
-			.'	var iconBlue = new GIcon();'."\n"
+			.'if(typeof google.maps.Icon != "undefined") {'."\n"
+			.'	var iconBlue = new google.maps.Icon();'."\n"
 			.'	iconBlue.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";'."\n"
 			.'	iconBlue.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";'."\n"
-			.'	iconBlue.iconSize = new GSize(12, 20);'."\n"
-			.'	iconBlue.shadowSize = new GSize(22, 20);'."\n"
-			.'	iconBlue.iconAnchor = new GPoint(6, 20);'."\n"
-			.'	iconBlue.infoWindowAnchor = new GPoint(5, 1);'."\n"
+			.'	iconBlue.iconSize = new google.maps.Size(12, 20);'."\n"
+			.'	iconBlue.shadowSize = new google.maps.Size(22, 20);'."\n"
+			.'	iconBlue.iconAnchor = new google.maps.Point(6, 20);'."\n"
+			.'	iconBlue.infoWindowAnchor = new google.maps.Point(5, 1);'."\n"
 			."\n"
-			.'	var iconRed = new GIcon();'."\n"
+			.'	var iconRed = new google.maps.Icon();'."\n"
 			.'	iconRed.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";'."\n"
 			.'	iconRed.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";'."\n"
-			.'	iconRed.iconSize = new GSize(12, 20);'."\n"
-			.'	iconRed.shadowSize = new GSize(22, 20);'."\n"
-			.'	iconRed.iconAnchor = new GPoint(6, 20);'."\n"
-			.'	iconRed.infoWindowAnchor = new GPoint(5, 1);'."\n"
+			.'	iconRed.iconSize = new google.maps.Size(12, 20);'."\n"
+			.'	iconRed.shadowSize = new google.maps.Size(22, 20);'."\n"
+			.'	iconRed.iconAnchor = new google.maps.Point(6, 20);'."\n"
+			.'	iconRed.infoWindowAnchor = new google.maps.Point(5, 1);'."\n"
 			.'}'
 			.JS_SUFFIX;
 
@@ -912,7 +843,7 @@ Class Locations {
 	 *
 	 * @see locations/index.php
 	 */
-	public static function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -929,7 +860,7 @@ Class Locations {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items

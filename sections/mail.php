@@ -26,12 +26,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // check surfer capability
 if(Sections::allow_message($item, $anchor))
@@ -104,8 +104,8 @@ if(Surfer::is_crawler()) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// headline
-	$headline = sprintf(i18n::c('%s has notified you from %s'),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+	$headline = sprintf(i18n::c('%s is notifying  you from %s'),
+		Surfer::get_link(),
 		'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages
@@ -126,7 +126,7 @@ if(Surfer::is_crawler()) {
 		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
 		// look for a user with this nick name
-		if(!$user =& Users::lookup($recipient))
+		if(!$user = Users::lookup($recipient))
 			continue;
 
 		// this person has no valid email address
@@ -169,7 +169,7 @@ if(Surfer::is_crawler()) {
 		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$headers = Mailer::set_thread('', 'section:'.$item['id']);
+		$headers = Mailer::set_thread('section:'.$item['id']);
 
 		// post message for this recipient
 		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers))
@@ -190,7 +190,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 // recipients are watchers of this section (including parent sections)
-} elseif(!$recipients = Sections::list_watchers_by_posts($item, 0, 1000, 'mail')) {
+} elseif(!$recipients = Sections::list_watchers_by_name($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form

@@ -442,7 +442,7 @@ html > body .ibox { display:inline-block; } /* inline boxes that work on IE6 -- 
 
 div.menu_bar,
 p.assistant_bar { /* an horizontal menu of commands */
-	margin: 1em 0 1em 0;
+	margin: 0.5em 0 1em 0;
 	padding: 3px 0 3px 0;
 	font-weight: normal;
 	line-height: 2em; /* because of large padded links */
@@ -918,6 +918,12 @@ div.menu_bar .button button:hover { /* hover a button */
 	text-decoration: none;
 }
 
+a.button.wide { /* a button spanning most of the available space */
+	display: block;
+	width: 98%;
+	text-align: center;
+}
+
 @media screen { /* not on printers */
 
 	#main_panel a.category { /* the image near a link to a category -- [category=id], [category=id, label] */
@@ -1110,7 +1116,7 @@ table.decorated tbody tr { /* vertical alignment */
 table.decorated tbody tr td.content { /* the cell with content */
 	border: none;
 	margin: 0;
-	padding: 6px 6px 1em 6px;
+	padding: 6px;
 	position: static;
 }
 
@@ -1336,6 +1342,16 @@ table.wide { /* a table that takes as much space as possible horizontally */
 	margin: 1px;
 }
 
+table.wide tbody tr td,
+table.wide tbody tr.even td,
+table.wide tbody tr.odd td,
+table.wide tbody tr th,
+table.wide thead tr th { /* a cell in a grid */
+	border: 2px ridge #bfbfbf;
+	padding: 0.5em;
+	position: static; /* specially for firefox 8 */
+}
+
 
 
 /*************************
@@ -1487,7 +1503,34 @@ dl.newsfeed_item dd img {
 	padding: 0.5em; /* some space between images and text around */
 }
 
+.tweet {
+	background: #fff;
+	margin: 4px 0;
+	width: 500px;
+	padding: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
 
+.tweet img {
+	float: left;
+	margin: 0 8px 4px 0;
+}
+
+.tweet .text {
+	margin: 0;
+}
+
+.tweet .time a {
+	font-size: 80%;
+	color: #888;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.tweet .time a:hover {
+	text-decoration: underline;
+}
 
 /*************************
  * styles demonstrated into help page codes/misc.php
@@ -1962,48 +2005,20 @@ ul.collections { /* a list of collections, in [collections] */
 }
 
 /**
- * comments in a manual
+ * comments in a wall
  *
- * @see comments/layout_comments_as_manual.php
+ * @see comments/layout_comments_as_updates.php
  */
 
-dl.manual_comments { /* to list comments in a manual */
-	margin: 0 1em 0 0;
-	padding: 0;
+.comment.approval  > p:first-of-type {		/* an approval */
+	background-color: yellow;
+	font-weight: bold;
+	padding: 0.5em 1em;
 }
 
-dl.manual_comments dd { /* body of one note */
-	margin: 0 0 1em 0;
-	padding: 0.3em 1em 1em 1em;
-}
-
-dl.manual_comments dd.odd {
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-	border-bottom: 1px solid #daa;
-}
-
-dl.manual_comments dd.even {
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
-	border-bottom: 1px solid #aaf;
-}
-
-dl.manual_comments dt { /* header of one note */
-	margin: 1em 0 0 0;
-	padding: 1em 1em 2px 1em;
-}
-
-dl.manual_comments dt.odd {
-	border-top: 1px solid #daa;
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-}
-
-dl.manual_comments dt.even {
-	border-top: 1px solid #aaf;
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
+.author.notification,
+.comment.notification { /* a notification */
+	font-style: italic;
 }
 
 /**
@@ -2016,8 +2031,8 @@ dl.wiki_comments { /* to list comments in a wiki */
 }
 
 dl.wiki_comments dd { /* body of one note */
-	margin: 0 0 2em 4px;
-	padding: 0.5em 1em 0.5em 1em;
+	margin: 0 0 1em 0;
+	padding: 0.5em;
 }
 
 dl.wiki_comments dd.odd {
@@ -2030,7 +2045,7 @@ dl.wiki_comments dd.even {
 
 dl.wiki_comments dt { /* header of one note */
 	margin: 0;
-	padding: 0 0 2px 0;
+	padding: 0 0 0 0;
 	display: inline;
 	margin-right: auto;
 }
@@ -2732,10 +2747,9 @@ div.recent div.east { /* the second newest item */
 
 dl.floating_box { /* float to the left */
 	float: left;
-	display: table-cell;
-	margin-right: 2em;
 	text-align: center;
 	padding: 6px;
+	width: 20em;
 }
 
 dl.floating_box:hover {
@@ -2867,7 +2881,7 @@ div.icon img { /* main image of an article, or of some section -- $context[page_
 div.bottom { /* bottom -- the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
-	padding-top: 4px;
+	padding-top: 0.8em; /* because of Done buttons */
    	width: 80%; /* same width as div#tabs_bar */
 }
 
@@ -2986,8 +3000,7 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 	float: left;
 	margin-right: 8px;
 	text-align: center;
-	height: 150px;	 /* to align with actual thumbnail height set in configuration panel for skins */
-	width: 120px;	/* to align with actual thumbnail width set in configuration panel for skins */
+	width: 80px;	/* to align with actual thumbnail width set in configuration panel for skins */
 	overflow: auto;
 }
 
@@ -3143,6 +3156,7 @@ div.top { /* poster information, when placed at page top */
  */
 
 div#tabs_bar {
+	clear: both; /* because of floating images inserted before tabs */
 	position: relative;
 	margin: 2em 0 1em 0;
 	padding: 0 0 0 0.5em;
@@ -3192,7 +3206,7 @@ div#tabs_panels {
 	padding: 2px 0;
 	margin: 1em 0 0 0;
 	min-height: 200px;
-	overflow: auto;
+	overflow: none;
 	position: relative; /* we have absolute positioning inside! */
 }
 

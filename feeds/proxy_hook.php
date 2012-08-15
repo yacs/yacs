@@ -31,7 +31,7 @@ $hooks[] = array(
 
 class Proxy_hook {
 
-	function serve($parameters) {
+	public static function serve($parameters) {
 		global $context;
 
 		// the output of this function

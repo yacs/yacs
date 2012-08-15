@@ -209,7 +209,7 @@ Class rss_Codec extends Codec {
 	 * @param allowed html tags
 	 * @return a clean string
 	 */
-	function clean($label, $allowed='') {
+	public static function clean($label, $allowed='') {
 		// strip all yacs codes
 		$label = preg_replace(array('/\[(.*?)\]/s', '/\[\/(.*?)\]/s'), ' ', $label);
 
@@ -243,7 +243,7 @@ Class rss_Codec extends Codec {
 	 * @param mixed the parameter to encode
 	 * @return some XML
 	 */
-	function encode(&$values) {
+	public static function encode(&$values) {
 		global $context;
 
 		// ensure we have a channel title

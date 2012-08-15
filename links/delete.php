@@ -38,12 +38,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Links::get($id);
+$item = Links::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates and authenticated editors can do what they want
 if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))
@@ -102,7 +102,7 @@ if(!isset($item['id'])) {
 		Links::clear($item);
 
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links');
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments');
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'links/');
 	}

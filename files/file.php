@@ -26,7 +26,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -130,7 +130,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -230,14 +230,12 @@ Class File extends Anchor {
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see files/file.php
 	 * @see files/edit.php
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -281,7 +279,7 @@ Class File extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -301,7 +299,7 @@ Class File extends Anchor {
 		// set an existing image as the file icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -316,7 +314,7 @@ Class File extends Anchor {
 		// set an existing image as the file thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -332,7 +330,7 @@ Class File extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -367,11 +365,11 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('file:update', $this->item['id'], TRUE, $to_watchers, $to_followers);
+			$this->anchor->touch('file:update', $this->item['id'], TRUE);
 
 	}
 

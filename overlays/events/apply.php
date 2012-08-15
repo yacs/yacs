@@ -14,7 +14,6 @@
 // common definitions and initial processing
 include_once '../../shared/global.php';
 include_once '../../shared/enrolments.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id --actually, a reference
 $id = NULL;
@@ -25,7 +24,7 @@ elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the anchor
-$anchor =& Anchors::get($id);
+$anchor = Anchors::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -131,13 +130,13 @@ elseif(!Surfer::get_id()) {
 		// user has confirmed participation
 		if($overlay->get_value('enrolment') == 'none')
 			$headline = sprintf(i18n::c('%s has confirmed participation to %s'),
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+				Surfer::get_link(),
 				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// user is asking for an invitation
 		else
 			$headline = sprintf(i18n::c('%s would like to be enrolled to %s'),
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+				Surfer::get_link(),
 				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// help the chairman

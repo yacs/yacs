@@ -124,7 +124,7 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 
 	// look up the database to find the list of users
 	$cache_id = 'users/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * USERS_PER_PAGE;
@@ -165,7 +165,7 @@ if($items = Users::list_present(0, 200, 'compact'))
 
 // page extra content
 $cache_id = 'users/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of newest users
 	if($items = Users::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))

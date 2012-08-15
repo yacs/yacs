@@ -88,12 +88,12 @@ if(!Surfer::is_associate()) {
 
 	// page main content
 	$cache_id = 'images/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * IMAGES_PER_PAGE;
 		if(!$text = Images::list_by_date($offset, IMAGES_PER_PAGE, 'full'))
-			$context['text'] .= '<p>'.i18n::s('No image has been uploaded yet.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('No image has been added.').'</p>';
 
 		// we have an array to format
 		if(is_array($text))
@@ -112,7 +112,7 @@ if(Surfer::is_associate())
 
 // page extra content
 $cache_id = 'images/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// sidebar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

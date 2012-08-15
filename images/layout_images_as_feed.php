@@ -35,7 +35,7 @@ Class Layout_images_as_feed extends Layout_interface {
 
 			// get the anchor for this image
 			if($item['anchor'])
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 			// url to view the image
 			$url = $context['url_to_home'].$context['url_to_root'].Images::get_url($item['id']);

@@ -274,7 +274,7 @@ if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'
 //
 
 // lookup a named page
-if($cover_page =& Articles::get('cover'))
+if($cover_page = Articles::get('cover'))
 	;
 elseif($anchor = Sections::lookup('covers'))
 	$cover_page =& Articles::get_newest_for_anchor($anchor);
@@ -307,7 +307,7 @@ if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] !=
 
 // save some database requests
 $cache_id = 'index.php#text';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// the prefix hook
 	if(is_callable(array('Hooks', 'include_scripts')))
@@ -351,7 +351,7 @@ if(!$text =& Cache::get($cache_id)) {
 						@array_splice($items, COMPACT_LIST_SIZE);
 
 						// link to the category page
-						$url =& Categories::get_permalink($attributes);
+						$url = Categories::get_permalink($attributes);
 						$items[$url] = i18n::s('More pages').MORE_IMG;
 					}
 
@@ -366,7 +366,7 @@ if(!$text =& Cache::get($cache_id)) {
 						@array_splice($items, COMPACT_LIST_SIZE);
 
 						// link to the category page
-						$url =& Categories::get_permalink($attributes);
+						$url = Categories::get_permalink($attributes);
 						$items[$url] = i18n::s('More links').MORE_IMG;
 					}
 
@@ -384,7 +384,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$box = array();
 
 				// sanity check
-				if(!$section =& Anchors::get($anchor))
+				if(!$section = Anchors::get($anchor))
 					continue;
 
 				// link to the section page from box title
@@ -448,7 +448,7 @@ if(!$text =& Cache::get($cache_id)) {
 	if(isset($context['root_sections_at_home']) && ((int)$context['root_sections_at_home'] > 0)) {
 
 		// get the item from the database --do not cast to int, because of following UTF-8 to unicode conversion
-		$target_section =& Sections::get($context['root_sections_at_home']);
+		$target_section = Sections::get($context['root_sections_at_home']);
 
 	}
 
@@ -578,10 +578,8 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// get the overlay for content of this section, if any
 		$content_overlay = NULL;
-		if(isset($target_section['content_overlay'])) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
+		if(isset($target_section['content_overlay']))
 			$content_overlay = Overlay::bind($target_section['content_overlay']);
-		}
 
 		// delegate rendering to the overlay, where applicable
 		if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$target_section['id']))) {
@@ -697,12 +695,12 @@ if(Surfer::is_associate()) {
 	if(($section = Sections::get('extra_boxes')) && isset($section['id']))
 		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Extra boxes'), 'basic');
 	if(($section = Sections::get('navigation_boxes')) && isset($section['id']))
-		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section['id']), i18n::s('Navigation boxes'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Navigation boxes'), 'basic');
 }
 
 // save some database requests
 $cache_id = 'index.php#extra_news';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// show featured articles -- set in configure.php
 	if(isset($context['root_featured_layout']) && ($context['root_featured_layout'] != 'none')) {
@@ -712,7 +710,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$context['root_featured_count'] = 7;
 
 		// the category used to assign featured pages
-		$anchor =& Categories::get(i18n::c('featured'));
+		$anchor = Categories::get(i18n::c('featured'));
 		if($anchor['id'] && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
 
 			// link to the category page from the box title
@@ -802,7 +800,7 @@ $context['components']['news'] = $text;
 
 // save some database requests
 $cache_id = 'index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// list extra boxes
 	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra_boxes')) {
@@ -827,7 +825,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$box = array();
 
 			// sanity check
-			if(!$section =& Anchors::get($anchor))
+			if(!$section = Anchors::get($anchor))
 				continue;
 
 			// link to the section page from box title
@@ -926,7 +924,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// show last poll, if any
 	if(isset($context['home_with_recent_poll']) && ($context['home_with_recent_poll'] == 'Y')) {
 
-		$anchor =& Anchors::get('section:polls');
+		$anchor = Anchors::get('section:polls');
 		if(is_object($anchor) && ($item =& Articles::get_newest_for_anchor($anchor->get_reference()))) {
 
 			// build a box
@@ -945,7 +943,6 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// get the related overlay, if any
 			$overlay = NULL;
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(isset($item['overlay']))
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -991,7 +988,7 @@ if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['wi
 
 // save some database requests
 $cache_id = 'index.php#navigation';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// list most recent peering servers
 	if(isset($context['home_with_peering_servers']) && ($context['home_with_peering_servers'] == 'Y')) {

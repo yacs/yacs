@@ -2,7 +2,7 @@
 /**
  * the database abstraction layer for membership
  *
- * In YACS, membership is a link between one anchor and some related element.
+ * In yacs, membership is a link between one anchor and some related element.
  * Both the anchor and the element are designated by a reference made of a type, a colon character ':',
  * and an id, like for example 'section:123'.
  *
@@ -26,6 +26,20 @@
  * Editorial responsibilities are given to editors by assigning sections (members) to users (anchors).
  * Assignment is implemented in sections/select.php, and used in scripts related to sections.
  *
+ * [subtitle]Summary of assignments[/subtitle]
+ *
+ * The list below is a summary of the various options for membership.
+ * The first column is an example of reference used for the anchor.
+ * The second column is an example of reference used for the member attributes.
+ * The third columns describes the semantic of such an assignment.
+ *
+ * - anchor='article:123' and member='user:456' - user 456 is watching the article 123
+ * - anchor='user:456' and member='article:123' - user 456 is an editor of the article 123
+ * - anchor='section:123' and member='user:456' - user 456 is watching the section 123
+ * - anchor='user:456' and member='section:123' - user 456 is an editor of the section 123
+ * - anchor='category:123' and member='user:456' - user 456 is a member of category 123
+ * - anchor='user:123' and member='user:456' - user 456 is following user 123
+ *
  * [title]Sample calls[/title]
  *
  * [php]
@@ -42,10 +56,10 @@
  * // to get the list of anchors for one member, ordered by id
  * Members::list_anchors_for_member($member);
  *
- * // to get ordered categories linked with some member
+ * // to get ordered categories linked to some member
  * Members::list_categories_by_title_for_member($member, $offset, $count, $variant);
  *
- * // to get ordered sections linked with some member
+ * // to get ordered sections linked to some member
  * Members::list_sections_by_title_for_anchor($anchor, $offset, $count, $variant);
  * [/php]
  *
@@ -70,7 +84,7 @@ Class Members {
 	 * @see sections/select.php
 	 * @see services/blog.php
 	**/
-	function assign($anchor, $member, $father=NULL) {
+	public static function assign($anchor, $member, $father=NULL) {
 		global $context;
 
 		// anchor cannot be empty
@@ -129,7 +143,7 @@ Class Members {
 	 * @see articles/layout_articles_as_jive.php
 	 * @see users/track.php
 	**/
-	function check($anchor, $member) {
+	public static function check($anchor, $member) {
 		global $context;
 
 		// sanity check
@@ -174,7 +188,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	function count_articles_for_anchor($anchor) {
+	public static function count_articles_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -219,7 +233,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	function count_sections_for_anchor($anchor) {
+	public static function count_sections_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -254,7 +268,7 @@ Class Members {
 	 *
 	 * @see categories/view.php
 	 */
-	function count_users_for_anchor($anchor, $with_me=TRUE) {
+	public static function count_users_for_anchor($anchor, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -296,7 +310,7 @@ Class Members {
 	 *
 	 * @see sections/view_as_tabs.php
 	 */
-	function count_users_for_member($member, $with_me=TRUE) {
+	public static function count_users_for_member($member, $with_me=TRUE) {
 		global $context;
 
 		// several anchors
@@ -339,7 +353,7 @@ Class Members {
 	 * @param string the target reference
 	 * @return int the number of duplicated records
 	 */
-	function duplicate_for($reference_from, $reference_to) {
+	public static function duplicate_for($reference_from, $reference_to) {
 		global $context;
 
 		// nothing done yet
@@ -403,7 +417,7 @@ Class Members {
 	 * @param string the member id (e.g., 'file:23')
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function free($anchor, $member) {
+	public static function free($anchor, $member) {
 		global $context;
 
 		// anchor cannot be empty
@@ -434,7 +448,7 @@ Class Members {
 	 * @param the maximum size of the returned list
 	 * @return an array of members anchors
 	 */
-	function &list_anchors_for_member($member, $offset=0, $count=500) {
+	public static function &list_anchors_for_member($member, $offset=0, $count=500) {
 		global $context;
 
 		// we return an array
@@ -500,7 +514,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -603,7 +617,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -667,7 +681,7 @@ Class Members {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -732,7 +746,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see services/blog.php
 	 */
-	function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -780,7 +794,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
+	public static function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// return by reference
@@ -831,7 +845,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function list_editors_for_member($member, $offset=0, $count=7, $variant='comma5') {
+	public static function list_editors_for_member($member, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
 		// several references
@@ -851,11 +865,11 @@ Class Members {
 
 		// the list of users
 		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
 			."	AND (".$where.")"
-			." GROUP BY users.id ORDER BY users.login_date DESC LIMIT ".$offset.','.$count;
+			." GROUP BY users.id ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -884,7 +898,7 @@ Class Members {
 	 *
 	 * @see sections/select.php
 	 */
-	function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
+	public static function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// display active and restricted items
@@ -933,7 +947,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -945,7 +959,7 @@ Class Members {
 
 		// the list of users
 		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability = 'S')"
 			."	AND (".$where.")"
@@ -957,16 +971,60 @@ Class Members {
 	}
 
 	/**
+	 * list all users that are either watcher or editor of a given reference
+	 *
+	 * @param string the target reference (e.g., 'section:123')
+	 * @return NULL on error, else a set of (user_id, is_watcher, is_editor) rows
+	 */
+	public static function &list_users_by_name_for_reference($reference, $variant="raw") {
+		global $context;
+
+		// the list of watchers
+		$w_query = "(SELECT member_id AS w_id, 1 AS watcher FROM ".SQL::table_name('members')
+				." WHERE (anchor LIKE '".SQL::escape($reference)."') AND (member LIKE 'user:%'))";
+
+		// the list of editors
+		$e_query = "(SELECT SUBSTRING(anchor, 6) AS e_id, 1 AS editor FROM ".SQL::table_name('members')
+				." WHERE (member LIKE '".SQL::escape($reference)."') and (anchor like 'user:%'))";
+
+		// full outer join is done by union of left outer join and of right outer join
+		$query = "((SELECT IFNULL(w_id, e_id) AS user_id, watcher, editor FROM ".$w_query." AS w LEFT OUTER JOIN ".$e_query." AS e ON w.w_id = e.e_id)"
+			." UNION "
+			."(SELECT IFNULL(w_id, e_id) AS user_id, watcher, editor FROM ".$w_query." AS w RIGHT OUTER JOIN ".$e_query." AS e ON w.w_id = e.e_id))";
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
+		// now list matching users
+		$query = "SELECT users.*, x.watcher, x.editor FROM ".$query." AS x"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." ON (users.id = user_id) WHERE ".$where
+			." ORDER BY users.full_name, users.nick_name";
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * list users assigned to an anchor ordered by name
 	 *
-	 * @param the target anchor
+	 * @param string the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
 	 * @param string an id to avoid, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -981,13 +1039,16 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
 		// avoid this one
 		if($to_avoid)
-			$where .= " AND (users.id != '".SQL::escape($to_avoid)."')";
+			$where .= " AND (users.id != ".SQL::escape($to_avoid).")";
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1011,7 +1072,7 @@ Class Members {
 	 *
 	 * @see categories/view.php
 	 */
-	function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1034,13 +1095,16 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where .= ')';
 
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
 		// avoid this one
 		if($to_avoid)
 			$where .= " AND (users.id != '".SQL::escape($to_avoid)."')";
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1063,7 +1127,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
+	public static function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
 		global $context;
 
 		// return by reference
@@ -1109,6 +1173,9 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
 		// only include users who want to receive mail messages
 		if($variant == 'mail')
 			$where .= " AND (without_messages != 'Y')";
@@ -1151,7 +1218,7 @@ Class Members {
 
 		// the list of users -- never list banned users
 		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1190,7 +1257,7 @@ Class Members {
 
 		// the list of users -- never list banned users
 		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
@@ -1205,7 +1272,7 @@ Class Members {
 	/**
 	 * create tables for members
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1240,7 +1307,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see users/track.php
 	**/
-	function toggle($anchor, $member, $father=NULL) {
+	public static function toggle($anchor, $member, $father=NULL) {
 		global $context;
 
 		// anchor cannot be empty
@@ -1298,7 +1365,7 @@ Class Members {
 	 *
 	 * @param string the suppressed reference
 	 */
-	function unlink_for_reference($reference) {
+	public static function unlink_for_reference($reference) {
 		global $context;
 
 		// delete all uses of this reference

@@ -5,6 +5,7 @@
  * Comments can be used either to attach short notes to content, or to support discussion threading.
  *
  * Yacs supports following comment types:
+ * - approval - a special type used to capture decision points
  * - attention - it's worth the reading
  * - dislike - thumbs down - I dislike it
  * - done - job has been completed
@@ -202,7 +203,7 @@ Class Comments {
 	/**
 	 * build a notification for a new comment
 	 *
-	 * This function builds a mail message that displays:
+	 * This function builds a mail message that features:
 	 * - an image of the contributor (if possible)
 	 * - a headline mentioning the contribution
 	 * - the full content of the new comment
@@ -215,7 +216,7 @@ Class Comments {
 	 * @param array attributes of the new item
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item) {
+	public static function build_notification($item) {
 		global $context;
 
 		// sanity check
@@ -224,11 +225,15 @@ Class Comments {
 
 		// headline
 		$headline = sprintf(i18n::c('%s has contributed to %s'),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			Surfer::get_link(),
 			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// content
 		$content = Codes::beautify($item['description']);
+
+		// this is an approval
+		if($item['type'] == 'approval')
+			$content = Skin::build_block(i18n::s('You have provided your approval'), 'note').$content;
 
 		// shape these
 		$text = Skin::build_mail_content($headline, $content);
@@ -236,8 +241,14 @@ Class Comments {
 		// a set of links
 		$menu = array();
 
+		// flat thread of contributions if possible
+		if(isset($item['previous_id']) && $item['previous_id'])
+			$previous_id = $item['previous_id'];
+		else
+			$previous_id = $item['id'];
+
 		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'reply');
+		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($previous_id, 'reply');
 		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
 		// link to the container
@@ -276,10 +287,37 @@ Class Comments {
 	}
 
 	/**
+	 * count approvals for one anchor
+	 *
+	 * @param string the selected anchor (e.g., 'article:12')
+	 * @param int the surfer who is providing approval
+	 * @return int the resulting count, or NULL on error
+	 */
+	public static function count_approvals_for_anchor($anchor, $user_id=NULL) {
+		global $context;
+
+		// sanity check
+		if(!$anchor)
+			return NULL;
+		$where = "(comments.anchor LIKE '".SQL::escape($anchor)."')";
+
+		// id of requesting user
+		if($user_id)
+			$where .= " AND (comments.create_id = ".$user_id.")";
+
+		// select among available items
+		$query = "SELECT COUNT(id) as count"
+			." FROM ".SQL::table_name('comments')." AS comments "
+			." WHERE ".$where;
+
+		return SQL::query_scalar($query);
+	}
+
+	/**
 	 * count records for one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'article:12')
-	 * @param boolean TRUE if this can be optionnally avoided
+	 * @param boolean TRUE if this can be optionally avoided
 	 * @return int the resulting count, or NULL on error
 	 */
 	public static function count_for_anchor($anchor, $optional=FALSE) {
@@ -393,7 +431,7 @@ Class Comments {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -412,7 +450,7 @@ Class Comments {
 	 * @see comments/edit.php
 	 * @see comments/view.php
 	 */
-	public static function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -451,14 +489,18 @@ Class Comments {
 		// option to add a file
 		if(Surfer::may_upload()) {
 
-			// intput field to appear on demand
-			$text .= '<p id="comment_upload" class="details" style="display: none;"><input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
-			.'<input type="hidden" name="file_type" value="upload" /></p>';
+			// input field to appear on demand
+			$text .= '<p id="comment_upload" class="details" style="display: none;">'
+				.'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+				. ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+				.'<input type="hidden" name="file_type" value="upload" /></p>'
+				.'<div id="upload_option" style="display: none;" >'
+				.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+				.'</div>';
 
 			// the command to add a file
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
 		}
 
 		// the submit button
@@ -481,15 +523,26 @@ Class Comments {
 	 * @param the type ('suggestion', etc.')
 	 * @return a suitable HTML element
 	 *
-	 * @see comments/layout_comments_as_daily.php
-	 * @see comments/layout_comments_as_jive.php
-	 * @see comments/layout_comments_as_manual.php
-	 * @see comments/layout_comments_as_yabb.php
 	 * @see skins/skin_skeleton.php
 	 */
 	public static function get_img($type) {
 		global $context;
 		switch($type) {
+
+		// approval
+		case 'approval':
+
+			// use skin declaration if any
+			if(!defined('APPROVAL_IMG')) {
+
+				// else use default image file
+				$file = 'skins/_reference/comments/yes.gif';
+				if($size = Safe::GetImageSize($context['path_to_root'].$file))
+					define('APPROVAL_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
+				else
+					define('APPROVAL_IMG', '');
+			}
+			return APPROVAL_IMG;
 
 		// it's worth the reading
 		case 'attention':
@@ -507,6 +560,21 @@ Class Comments {
 					define('ATTENTION_IMG', '');
 			}
 			return ATTENTION_IMG;
+
+		// denial
+		case 'denial':
+
+			// use skin declaration if any
+			if(!defined('DENIAL_IMG')) {
+
+				// else use default image file
+				$file = 'skins/_reference/comments/no.gif';
+				if($size = Safe::GetImageSize($context['path_to_root'].$file))
+					define('DENIAL_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" />');
+				else
+					define('DENIAL_IMG', '');
+			}
+			return DENIAL_IMG;
 
 		// job has been completed
 		case 'done':
@@ -630,48 +698,8 @@ Class Comments {
 	public static function &get_layout($anchor, $item=NULL) {
 		global $context;
 
-		// a wall
-		if((is_object($anchor) && $anchor->has_option('comments_as_wall'))) {
-			include_once '../comments/layout_comments_as_updates.php';
-			$layout = new Layout_comments_as_updates();
-
-		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_updates.php';
-			$layout = new Layout_comments_as_updates();
-
-		// a wiki
-		} elseif((is_object($anchor) && $anchor->has_option('view_as_wiki'))) {
-			include_once '../comments/layout_comments_as_wiki.php';
-			$layout = new Layout_comments_as_wiki();
-
-		} elseif(isset($item['options']) && preg_match('/\bview_as_wiki\b/', $item['options'])) {
-			include_once '../comments/layout_comments_as_wiki.php';
-			$layout = new Layout_comments_as_wiki();
-
-		// layout is defined in anchor
-		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
-			include_once '../comments/layout_comments_as_daily.php';
-			$layout = new Layout_comments_as_daily();
-
-		} elseif(is_object($anchor) && $anchor->has_layout('jive')) {
-			include_once '../comments/layout_comments_as_jive.php';
-			$layout = new Layout_comments_as_jive();
-
-		} elseif(is_object($anchor) && $anchor->has_layout('manual')) {
-			include_once '../comments/layout_comments_as_manual.php';
-			$layout = new Layout_comments_as_manual();
-
-		} elseif(is_object($anchor) && $anchor->has_layout('yabb')) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout = new Layout_comments_as_yabb();
-
-		// regular case
-		} else {
-			include_once '../comments/layout_comments.php';
-			$layout = new Layout_comments();
-		}
-
-		// job done
+		include_once '../comments/layout_comments_as_updates.php';
+		$layout = new Layout_comments_as_updates();
 		return $layout;
 	}
 
@@ -851,25 +879,25 @@ Class Comments {
 		$content .= '<input type="radio" name="'.$name.'" value="attention"';
 		if(($type == 'attention') || !trim($type))
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('attention').i18n::s('Attention').BR;
+		$content .='/>'.Comments::get_img('attention').' '.i18n::s('Attention').BR;
 
 		// col 1 - an idea
 		$content .= '<input type="radio" name="'.$name.'" value="idea"';
 		if(($type == 'idea') || ($type == 'suggestion'))
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('idea').i18n::s('A suggestion').BR;
+		$content .='/>'.Comments::get_img('idea').' '.i18n::s('A suggestion').BR;
 
 		// col 1 - a question
 		$content .= '<input type="radio" name="'.$name.'" value="question"';
 		if($type == 'question')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('question').i18n::s('A question').BR;
+		$content .='/>'.Comments::get_img('question').' '.i18n::s('A question').BR;
 
 		// col 1 - like
 		$content .= '<input type="radio" name="'.$name.'" value="like"';
 		if($type == 'like')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('like').i18n::s('I like...');
+		$content .='/>'.Comments::get_img('like').' '.i18n::s('I like...');
 
 		// from column 1 to column 2
 		$content .= '</div>'."\n".'<div style="float: left;">';
@@ -878,30 +906,76 @@ Class Comments {
 		$content .= '<input type="radio" name="'.$name.'" value="warning"';
 		if($type == 'warning')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('warning').i18n::s('Warning!').BR;
+		$content .='/>'.Comments::get_img('warning').' '.i18n::s('Warning!').BR;
 
 		// col 2 - done
 		$content .= '<input type="radio" name="'.$name.'" value="done"';
 		if($type == 'done')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('done').i18n::s('Job has been completed').BR;
+		$content .='/>'.Comments::get_img('done').' '.i18n::s('Job has been completed').BR;
 
 		// col 2 - information
 		$content .= '<input type="radio" name="'.$name.'" value="information"';
 		if($type == 'information')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('information').i18n::s('My two cents').BR;
+		$content .='/>'.Comments::get_img('information').' '.i18n::s('My two cents').BR;
 
 		// col2 - dislike
 		$content .= '<input type="radio" name="'.$name.'" value="dislike"';
 		if($type == 'dislike')
 			$content .= ' checked="checked"';
-		$content .='/>'.Comments::get_img('dislike').i18n::s('I don\'t like...');
+		$content .='/>'.Comments::get_img('dislike').' '.i18n::s('I don\'t like...');
 
 		// end of columns
 		$content .= '</div>'."\n";
 
 		return $content;
+	}
+
+	/**
+	* build a small form to reply to a comment
+	*
+	* @param array attributes of the comment to be replied
+	* @param string the place to come back when complete
+	* @return string the HTML tags to put in the page
+	*/
+	public static function get_reply_form($item, $follow_up='comments') {
+		global $context;
+
+		// the form to post a comment
+		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" id="comment_form"><div style="margin: 1em 0;">';
+
+		// use the right editor, maybe wysiwyg
+		$text .= Surfer::get_editor('description', '', TRUE);
+
+		// bottom commands
+		$menu = array();
+
+		// option to add a file
+		if(Surfer::may_upload()) {
+
+			// input field to appear on demand
+			$text .= '<p id="comment_upload" class="details" style="display: none;"><input type="file" name="upload" size="30" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+			.'<input type="hidden" name="file_type" value="upload" /></p>';
+
+			// the command to add a file
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+		}
+
+		// the submit button
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+		// finalize the form
+		$text .= '<input type="hidden" name="anchor" value="'.$item['anchor'].'" />'
+			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
+			.'<input type="hidden" name="notify_watchers" value="Y" />'
+			.Skin::finalize_list($menu, 'menu_bar')
+			.'</div></form>';
+
+		// done
+		return $text;
 	}
 
 	/**
@@ -961,6 +1035,16 @@ Class Comments {
 	 */
 	public static function get_url($id, $action='view') {
 		global $context;
+
+		// add an approval comment -- the id has to be an anchor (e.g., 'article:15')
+		if($action == 'approve') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'comments/approve.php/'.str_replace(':', '/', $id);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'comments/approve.php/'.str_replace(':', '/', $id);
+			else
+				return 'comments/approve.php?anchor='.urlencode($id);
+		}
 
 		// add a comment -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'comment') {
@@ -1034,7 +1118,7 @@ Class Comments {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|promote|thread|view)$/', $action))
-			return 'comments/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
+			return 'comments/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('comments', 'comment'), $action, $id);
@@ -1119,6 +1203,11 @@ Class Comments {
 	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
 		global $context;
 
+		// show main comments, or all?
+		$where = '';
+		if(is_object($variant) && is_callable(array($variant, 'can_handle_cascaded_items')) && $variant->can_handle_cascaded_items())
+			$where = " AND (comments.previous_id = 0)";
+
 		// the wall or a forum
 		if($reverse)
 			$reverse = 'DESC';
@@ -1127,7 +1216,7 @@ Class Comments {
 
 		// the list of comments
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
+			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."')".$where
 			." ORDER BY comments.create_date ".$reverse." LIMIT ".$offset.','.$count;
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
@@ -1188,12 +1277,13 @@ Class Comments {
 	}
 
 	/**
-	 * list next comments in thread
+	 * list replies to a comment
 	 *
 	 * @param int the id of the main comment
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
+	 * @see comments/layout_comments_as_updates.php
 	 * @see comments/view.php
 	 */
 	public static function &list_next($id, $variant='date') {
@@ -1202,7 +1292,7 @@ Class Comments {
 		// the list of comments
 		$query = "SELECT comments.* FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE previous_id = ".SQL::escape($id)
-			." ORDER BY comments.create_date LIMIT 0,50";
+			." ORDER BY comments.create_date LIMIT 0,100";
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
 		return $output;
@@ -1219,7 +1309,7 @@ Class Comments {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1326,19 +1416,8 @@ Class Comments {
 	public static function &list_threads_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// provide published pages to anonymous surfers
 		if(!Surfer::is_logged()) {
@@ -1448,19 +1527,8 @@ Class Comments {
 	public static function &list_threads_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// provide published pages to anonymous surfers
 		if(!Surfer::is_logged()) {
@@ -1528,8 +1596,12 @@ Class Comments {
 	public static function post(&$fields) {
 		global $context;
 
-		// no comment
-		if(!$fields['description']) {
+		// ensure this item has a type
+		if(!isset($fields['type']))
+			$fields['type'] = 'attention';
+
+		// comment is mandatory, except for approvals
+		if(!$fields['description'] && ($fields['type'] != 'approval')) {
 			Logger::error(i18n::s('No comment has been transmitted.'));
 			return FALSE;
 		}
@@ -1541,14 +1613,15 @@ Class Comments {
 		}
 
 		// get the anchor
-		if(!$anchor =& Anchors::get($fields['anchor'])) {
+		if(!$anchor = Anchors::get($fields['anchor'])) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
-		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
+			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -1565,7 +1638,7 @@ Class Comments {
 
 			// update the existing record
 			$query = "UPDATE ".SQL::table_name('comments')." SET "
-				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
+				."type='".SQL::escape($fields['type'])."', "
 				."description='".SQL::escape($fields['description'])."'";
 
 			// maybe another anchor
@@ -1594,7 +1667,7 @@ Class Comments {
 				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1), "
 				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1), "
 				."previous_id='".SQL::escape(isset($fields['previous_id']) ? $fields['previous_id'] : 0)."', "
-				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
+				."type='".SQL::escape($fields['type'])."', "
 				."description='".SQL::escape($fields['description'])."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
 				."create_id=".SQL::escape($fields['edit_id']).", "
@@ -1725,40 +1798,6 @@ Class Comments {
 	}
 
 	/**
-	 * search for some keywords in all comments
-	 *
-	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see search.php
-	 * @see services/search.php
-	 */
-	public static function &search($pattern, $offset=0, $count=30, $variant='search') {
-		global $context;
-
-		// sanity check
-		if(!$pattern = trim($pattern)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// match
-		$match = "MATCH(description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// the list of comments
-		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE ".$match
-			." ORDER BY comments.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
-
-		$output =& Comments::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * create tables for comments
 	 *
 	 * @see control/setup.php
@@ -1801,35 +1840,6 @@ Class Comments {
 	}
 
 	/**
-	 * get some statistics
-	 *
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see comments/index.php
-	 */
-	public static function &stat() {
-		global $context;
-
-		// if not associate, restrict to comments at public published not expired pages
-		if(!Surfer::is_associate())
-			$query = "SELECT COUNT(*) as count, MIN(comments.create_date) as oldest_date, MAX(comments.create_date) as newest_date FROM ".SQL::table_name('articles')." AS articles"
-				." LEFT JOIN ".SQL::table_name('comments')." AS comments"
-				."	ON ((comments.anchor_type LIKE 'article') AND (comments.anchor_id = articles.id))"
-				." WHERE (articles.active='Y')"
-				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
-
-		// the list of comments
-		else
-			$query = "SELECT COUNT(*) as count, MIN(comments.create_date) as oldest_date, MAX(comments.create_date) as newest_date FROM ".SQL::table_name('comments')." AS comments ";
-
-		// select among available items
-		$output = SQL::query_first($query);
-		return $output;
-	}
-
-	/**
 	 * get some statistics for one anchor
 	 *
 	 * @param the selected anchor (e.g., 'article:12')
@@ -1851,7 +1861,7 @@ Class Comments {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	public static function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -1874,7 +1884,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	public static function &stat_threads() {
+	public static function stat_threads() {
 		global $context;
 
 		// a dynamic where clause
@@ -1900,7 +1910,8 @@ Class Comments {
 			."	AND ".$where;
 
 		// select among available items
-		$output = SQL::count(SQL::query($query));
+		$result = SQL::query($query);
+		$output = SQL::count($result);
 		return $output;
 	}
 

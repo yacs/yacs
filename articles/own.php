@@ -27,12 +27,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -89,7 +89,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['email'], $user['id'])).'</p>';
 
 	// name current owner
-	} elseif(isset($item['owner_id']) && ($owner =& Users::get($item['owner_id']))) {
+	} elseif(isset($item['owner_id']) && ($owner = Users::get($item['owner_id']))) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($owner['full_name'], $owner['email'], $owner['id'])).'</p>';
 
 	}
@@ -108,11 +108,10 @@ if(Surfer::is_crawler()) {
 	// enable autocompletion
 	$context['text'] .= JS_PREFIX
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#name").focus() });'."\n"
-		."\n"
-		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() { Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); }); });  '."\n"
+		.'$(function() {'."\n"
+		.'	$("#name").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); });'."\n" // enable name autocompletion
+		.'});'."\n"
 		.JS_SUFFIX;
 
 

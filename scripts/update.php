@@ -257,6 +257,10 @@ elseif(!Surfer::is_associate()) {
 		if(!preg_match('/\.php$/', $file))
 			continue;
 
+		// maybe the script has already been executed -- never expect an exact copy
+		if(is_readable($context['path_to_root'].$file.'.done'))
+			continue;
+
 		// is the current file version ok?
 		if(is_readable($context['path_to_root'].$file) && ($result = Scripts::hash($file))) {
 
@@ -265,10 +269,6 @@ elseif(!Surfer::is_associate()) {
 				continue;
 
 		}
-
-		// maybe the script has already been executed -- never expect an exact copy
-		if(is_readable($context['path_to_root'].$file.'.done') && ($result = Scripts::hash($file.'.done')))
-			continue;
 
 		// we should have an updated file in the staging directory
 		if(!is_readable($context['path_to_root'].'scripts/staging/'.$file)) {

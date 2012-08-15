@@ -142,18 +142,15 @@
  * [*] [code]manual[/code]
  *
  * @see articles/layout_articles_as_manual.php
- * @see comments/layout_comments_as_manual.php
  *
  * [*] [code]jive[/code]
  *
  * @see articles/layout_articles_as_jive.php
- * @see comments/layout_comments_as_jive.php
  *
  * [*] [code]yabb[/code] - This section acts a threaded forum, or bulletin board.
  * Each article is a topic. Comments are attached to articles to build a straightforward threaded system.
  *
  * @see articles/layout_articles_as_yabb.php
- * @see comments/layout_comments_as_yabb.php
  *
  *
  * [title]Handling sections at the index page[/title]
@@ -274,6 +271,10 @@ Class Sections {
 		if(isset($item['id']) && Sections::is_assigned($item['id']))
 			return TRUE;
 		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
 			return TRUE;
 
 		// container is hidden
@@ -517,19 +518,16 @@ Class Sections {
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
+	 * @param string either 'apply', 'create' or 'update'
 	 * @param array attributes of the item
-	 * @param string either 'create' or 'update'
+	 * @param object overlay of the item, if any
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification(&$item, $action='create') {
+	public static function build_notification($action, $item, $overlay=NULL) {
 		global $context;
 
-		// get the related overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		$overlay = Overlay::load($item, 'section:'.$item['id']);
-
 		// get the main anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// compute page title
 		if(is_object($overlay))
@@ -539,6 +537,9 @@ Class Sections {
 
 		// headline template
 		switch($action) {
+		case 'apply':
+			$template = i18n::c('%s is requesting access to %s');
+			break;
 		case 'create':
 			$template = i18n::c('%s has created section %s');
 			break;
@@ -549,14 +550,20 @@ Class Sections {
 
 		// headline
 		$headline = sprintf($template,
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.Surfer::get_name().'</a>',
+			Surfer::get_link(),
 			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$title.'</a>');
 
 		// panel content
 		$content = '';
 
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$title = PRIVATE_FLAG.$title;
+		elseif($item['active'] == 'R')
+			$title = RESTRICTED_FLAG.$title;
+
 		// insert page title
-		$content .= '<h2><span>'.$title.'</span></h2>';
+		$content .= '<h3><span>'.$title.'</span></h3>';
 
 		// insert anchor prefix
 		if(is_object($anchor))
@@ -635,21 +642,40 @@ Class Sections {
 			$content .= '<hr align="left" size=1" width="150">'
 				.'<p style="margin: 3px 0;">'.sprintf(i18n::c('This section has %s'), join(', ', $details)).'</p>';
 
+		// assemble main content of this message
 		$text = Skin::build_mail_content($headline, $content);
 
 		// a set of links
 		$menu = array();
 
-		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
-		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
-			$label = i18n::c('View the section');
-		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+		// request access to the item
+		if($action == 'apply') {
 
-		// link to the container
-		if(is_object($anchor)) {
-			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'invite', Surfer::get_id());
+			$label = sprintf(i18n::c('Invite %s to participate'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to user profile
+			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, FALSE);
+
+		// invite to visit the item
+		} else {
+
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+				$label = i18n::c('View the section');
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to the container
+			if(is_object($anchor)) {
+				$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+				$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+			}
+
 		}
 
 		// finalize links
@@ -787,16 +813,12 @@ Class Sections {
 		if(!$user_id)
 			return NULL;
 
-		// limit the scope of the request
+		// limit the scope of the request for watched sections --that are not also managed
 		$where = "(sections.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR sections.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR sections.active='N'";
-
-		// include assigned sections
-		if($my_sections = Surfer::assigned_sections($user_id))
-			$where .= " OR sections.id IN (".join(', ', $my_sections).")";
 
 		$where .= ')';
 
@@ -814,14 +836,12 @@ Class Sections {
 		// include sections assigned to this surfer
 		if($these_items = Surfer::assigned_sections($user_id))
 			$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE sections.id IN (".join(', ', $these_items).")"
-				."	AND ".$where.")"
+				." WHERE sections.id IN (".join(', ', $these_items)."))"
 				." UNION ".$query;
 
 		// include sections owned by this surfer
 		$query = "(SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE sections.owner_id = ".$user_id
-			."	AND ".$where.")"
+			." WHERE sections.owner_id = ".$user_id.")"
 			." UNION ".$query;
 
 		// count records
@@ -840,7 +860,7 @@ Class Sections {
 		global $context;
 
 		// load the row
-		$item =& Sections::get($id);
+		$item = Sections::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -943,7 +963,7 @@ Class Sections {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -959,7 +979,7 @@ Class Sections {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -996,7 +1016,7 @@ Class Sections {
 		$output = SQL::query_first($query);
 
 		// save in cache
-		if(!$mutable && isset($output['id']))
+		if(isset($output['id']) && (count($cache) < 1000))
 			$cache[$id] = $output;
 
 		// return by reference
@@ -1087,8 +1107,8 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
-		// include hidden sections for associates
-		if(Surfer::is_associate())
+		// include hidden sections for associates, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$active .= " OR sections.active='N'";
 
 		// end of filter on active field
@@ -1173,8 +1193,8 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
-		// include hidden sections for associates
-		if(Surfer::is_associate())
+		// include hidden sections for associates, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$active .= " OR sections.active='N'";
 
 		// end of filter on active field
@@ -1220,7 +1240,7 @@ Class Sections {
 		global $context;
 
 		// look for a 'default' section
-		if($item =& Sections::get('default'))
+		if($item = Sections::get('default'))
 			return $item['id'];
 
 		// look only at top level
@@ -1531,11 +1551,12 @@ Class Sections {
 	 * get permanent address
 	 *
 	 * @param array page attributes
-	 * @return string the permalink
+	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
-		return $output;
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+		return Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
@@ -1592,35 +1613,11 @@ Class Sections {
 
 		// list sections at the same level as parent
 		$family = '';
-		if(isset($item['anchor']) && ($granparent =& Anchors::get($item['anchor']))) {
+		if(isset($item['anchor']) && ($granparent = Anchors::get($item['anchor']))) {
 
-			// list everything to associates
-			if(Surfer::is_associate())
-				$where = " AND (sections.active IN ('Y', 'R', 'N')";
-
-			// list unlocked sections
-			else {
-
-				// display active items
-				$where = " AND ((sections.active='Y')";
-
-				// add restricted items to logged members, or if teasers are allowed
-				if(Surfer::is_logged() || Surfer::is_teased())
-					$where .= " OR (sections.active='R')";
-
-			}
-
-			// include managed sections for editors
-			if($my_sections = Surfer::assigned_sections()) {
-				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-			}
-
-			// end of scope
-			$where .= ")";
-
+			// limit to accessible scope
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (anchor LIKE '".$item['anchor']."')".$where
+				." WHERE (anchor LIKE '".$item['anchor']."') AND ".sections::get_sql_where()
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result = SQL::query($query)) {
 
@@ -1659,21 +1656,8 @@ Class Sections {
 				$family .= '<input type="radio" name="anchor" value="" '.((!isset($item['id']))?'checked="checked"':'').' /> '.i18n::s('Top of the content tree').BR
 					.'<div style="margin: 0 0 0 3em">';
 
-			// list everything to associates
-			if(Surfer::is_associate())
-				$where = " AND (sections.active IN ('Y', 'R', 'N')";
-
-			// list unlocked sections
-			else {
-
-				// display active items
-				$where = " AND ((sections.active='Y')";
-
-				// add restricted items to logged members, or if teasers are allowed
-				if(Surfer::is_logged() || Surfer::is_teased())
-					$where .= " OR (sections.active='R')";
-
-			}
+			// restrict to accessible scope
+			$where = sections::get_sql_where();
 
 			// always mention current and parent sections
 			if($me)
@@ -1681,18 +1665,9 @@ Class Sections {
 			if($current)
 				$where .= " OR (sections.id=".$current.")";
 
-			// include managed sections for editors
-			if($my_sections = Surfer::assigned_sections()) {
-				$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-			}
-
-			// end of scope
-			$where .= ")";
-
 			// list regular sections first
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where
+				." WHERE (sections.anchor='' OR sections.anchor IS NULL) AND (".$where.")"
 				." AND (sections.index_map = 'Y')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
 			if($result = SQL::query($query)) {
@@ -1770,6 +1745,40 @@ Class Sections {
 		return $output;
 	}
 
+	/**
+	 * restrict the scope of SQL query
+	 *
+	 * @return string to be inserted into a SQL statement
+	 */
+	private static function get_sql_where() {
+
+		// display active items
+		$where = "sections.active='Y'";
+
+		// add restricted items to members and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
+			$where .= " OR sections.active='R'";
+
+		// include hidden items for associates and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_trusted() || Surfer::is_teased())
+			$where .= " OR sections.active='N'";
+
+		// include private items that the surfer can access
+		else {
+
+			// include content from managed sections
+			if($my_sections = Surfer::assigned_sections())
+				$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')"
+					." OR sections.id IN (".join(", ", $my_sections).")";
+
+		}
+
+		// end of active filter
+		$where = '('.$where.')';
+
+		// job done
+		return $where;
+	}
 
 	public static function &get_tree() {
 		global $context;
@@ -1908,6 +1917,14 @@ Class Sections {
 				return 'files/feed.php?anchor='.urlencode('section:'.$id);
 		}
 
+		// invite someone to participate
+		if($action == 'invite') {
+			if($name)
+				return 'sections/invite.php?id='.urlencode($id).'&amp;invited='.urlencode($name);
+			else
+				return 'sections/invite.php?id='.urlencode($id);
+		}
+
 		// the prefix for managing content
 		if($action == 'manage') {
 			if($name)
@@ -1941,13 +1958,17 @@ Class Sections {
 		if(!$option)
 			return FALSE;
 
-		// option check for this page
+		// 'variant' matches with 'variant_red_background', return 'red_background'
+		if(isset($item['options']) && preg_match('/\b'.$option.'_(.+?)\b/i', $item['options'], $matches))
+			return $matches[1];
+
+		// exact match, return TRUE
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// check in anchor
-		if(is_object($anchor) && $anchor->has_option($option))
-			return TRUE;
+		if(is_object($anchor) && ($result = $anchor->has_option($option)))
+			return $result;
 
 		// sorry
 		return FALSE;
@@ -2109,56 +2130,6 @@ Class Sections {
 	}
 
 	/**
-	 * list sections assigned to one surfer
-	 *
-	 * Only sections matching following criteria are returned:
-	 * - section is visible (active='Y')
-	 * - or section is restricted (active='R'), but surfer is a logged user
-	 * - or section is hidden (active='N'), but surfer is an associate
-	 *
-	 * @param int surfer id
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 */
-	public static function &list_assigned_by_title($surfer_id, $offset=0, $count=20, $variant='full') {
-		global $context;
-
-		// obviously we need some assigned sections
-		if(!$assigned = Surfer::assigned_sections($surfer_id)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// limit the query to one level
-		$where = "(sections.id = ".join(" OR sections.id = ", $assigned).")";
-
-		// display active items
-		$where .= " AND (sections.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// list hidden sections to associates and to editors
-		if(is_callable(array('Surfer', 'is_empowered')) && Surfer::is_empowered())
-			$where .= " OR sections.active='N'";
-
-		// end of scope
-		$where .= ")";
-
-		// list sections
-		$query = "SELECT sections.*"
-			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".$where
-			." ORDER BY sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
-
-		$output =& Sections::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * list all editors of a section
 	 *
 	 * This function lists editors of this section, or of any parent section.
@@ -2170,7 +2141,7 @@ Class Sections {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	public static function list_editors_by_login($item, $offset=0, $count=7, $variant='comma5') {
+	public static function list_editors_by_name($item, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
 		// this page itself
@@ -2193,45 +2164,6 @@ Class Sections {
 
 		// list users assigned to any of these anchors
 		return Members::list_editors_for_member($anchors, $offset, $count, $variant);
-	}
-
-	/**
-	 * apply a layout to one section
-	 *
-	 * Only sections matching following criteria are returned:
-	 * - related section is visible (active='Y')
-	 * - related section is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - related section is hidden (active='N'), but the surfer is an associate or an editor,
-	 *
-	 * @param int id of the target section
-	 * @param string the list variant, if any
-	 * @return NULL on error, else the outcome of the layout
-	 */
-	public static function &list_for_id($id, $variant='compact') {
-		global $context;
-
-		// select among active items
-		$where = "sections.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// add hidden items to associates, editors and readers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// bracket OR statements
-		$where = '('.$where.')';
-
-		// sections by title
-		$query = "SELECT sections.*"
-			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (sections.id = LIKE '".SQL::escape($name)."') AND ".$where;
-
-		$output =& Sections::list_selected(SQL::query($query), $variant);
-		return $output;
 	}
 
 	/**
@@ -2284,17 +2216,12 @@ Class Sections {
 	public static function &list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
-		// limit the scope of the request
+		// limit the scope of the request for watched sections --that are not also managed
 		$where = "(sections.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR sections.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR sections.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections($user_id))
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-
 		$where .= ')';
 
 		// strip dead sections
@@ -2311,14 +2238,12 @@ Class Sections {
 		// include sections assigned to this surfer
 		if($these_items = Surfer::assigned_sections($user_id))
 			$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE sections.id IN (".join(', ', $these_items).")"
-				."	AND ".$where.")"
+				." WHERE sections.id IN (".join(', ', $these_items)."))"
 				." UNION ".$query;
 
 		// include sections owned by this surfer
 		$query = "(SELECT sections.* FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE sections.owner_id = ".$user_id
-			."	AND ".$where.")"
+			." WHERE sections.owner_id = ".$user_id.")"
 			." UNION ".$query;
 
 		// finalize the query
@@ -2357,29 +2282,14 @@ Class Sections {
 
 		// limit the query to one level
 		if(is_array($anchor))
-			$where = "(sections.anchor LIKE '".join("' OR sections.anchor LIKE '", $anchor)."')";
+			$where = "(sections.anchor IN ('".join("', '", $anchor)."'))";
 		elseif($anchor)
 			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
 		else
 			$where = "(sections.anchor='' OR sections.anchor IS NULL)";
 
-		// display active items
-		$where .= " AND (sections.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// include managed sections
-		if(Surfer::is_associate())
-			$where .= " OR sections.active='N'";
-		elseif($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// end of scope
-		$where .= ")";
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
 
 		// limit to regular sections
 		$where .= " AND (sections.index_panel LIKE 'main')";
@@ -2410,6 +2320,14 @@ Class Sections {
 			$silent = TRUE;
 		else
 			$silent = FALSE;
+
+		static $depth;
+		if(!isset($depth))
+			$depth = 0;
+		$depth++;
+		$output = '';
+		if(($variant == 'freemind') && ($depth > 3))
+			return $output;
 
 		// provide context to layout
 		$layout =& Sections::get_layout($variant);
@@ -2442,25 +2360,8 @@ Class Sections {
 		// limit the scope to one section
 		$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
 
-		// display active items
-		$where .= " AND (sections.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// list hidden sections to associates, editors and subscribers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// end of scope
-		$where .= ')';
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
 
 		// non-associates will have only live sections
 		if(!Surfer::is_associate()) {
@@ -2510,18 +2411,17 @@ Class Sections {
 	public static function &list_inactive_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
 		global $context;
 
-		// only for associates and editors
-		if(!Surfer::is_empowered())
-			return NULL;
-
 		// limit the query to one level
 		if($anchor)
 			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
 		else
 			$where = "(sections.anchor='' OR sections.anchor is NULL)";
 
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
+
 		// display everything if no sub-section is laid out in parent section
-		if($anchor && ($parent =& Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
+		if($anchor && ($parent = Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
 			;
 
 		// only inactive sections have to be displayed
@@ -2567,7 +2467,7 @@ Class Sections {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	public static function &list_selected(&$result, $variant='full') {
+	public static function &list_selected($result, $variant='full') {
 		global $context;
 
 		// no result
@@ -2588,6 +2488,75 @@ Class Sections {
 		// do the job
 		$output = $layout->layout($result);
 		return $output;
+	}
+
+	/**
+	 * list watchers of a section in alphabetical order
+	 *
+	 * If the section is public or restricted to any member, the full list of persons watching this
+	 * specific section, or any parent section, is provided.
+	 *
+	 * For example, if the root section A contains a section B, which contains section C, and if
+	 * C is public, the function looks for persons assigned either to A, to B or to C.
+	 *
+	 * If the section is private, then the function looks for any private parent, and list all
+	 * persons watching one of these sections.
+	 *
+	 * For example, if the root section A is public, and if it contains a section B that is private,
+	 * and if B contains section C, the function looks for persons assigned either to B or to C.
+	 * This is because watchers of section A may not be entitled to watch content of B nor of C.
+	 *
+	 * @param array attributes of the watched section
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	public static function list_watchers_by_name($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this section itself
+		$anchors = array( 'section:'.$item['id'] );
+
+		// there is at least a parent section
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// this section is private, list only hidden parent sections
+			if($item['active'] == 'N') {
+
+				// parent is hidden
+				if($anchor->is_hidden()) {
+					$anchors[] = $anchor->get_reference();
+
+					// look for grand parents
+					$handle = $anchor->get_parent();
+					while($handle && ($parent = Anchors::get($handle))) {
+						if(!$parent->is_hidden())
+							break;
+						$anchors[] = $handle;
+						$handle = $parent->get_parent();
+					}
+				}
+
+			// else list all parent sections
+			} else {
+
+				// add parent section
+				$anchors[] = $anchor->get_reference();
+
+				// look for all grand parents
+				$handle = $anchor->get_parent();
+				while($handle && ($parent = Anchors::get($handle))) {
+					$anchors[] = $handle;
+					$handle = $parent->get_parent();
+				}
+
+			}
+
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_name_for_anchor($anchors, $offset, $count, $variant);
 	}
 
 	/**
@@ -2718,14 +2687,14 @@ Class Sections {
 		global $context;
 
 		// the section already exists
-		if($item =& Sections::get($nick_name))
+		if($item = Sections::get($nick_name))
 			return 'section:'.$item['id'];
 
 		// attempt to create a default item
 		Sections::post_default($nick_name);
 
 		// do the check again
-		if($item =& Sections::get($nick_name))
+		if($item = Sections::get($nick_name))
 			return 'section:'.$item['id'];
 
 		// tough luck
@@ -2790,9 +2759,9 @@ Class Sections {
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
@@ -2848,7 +2817,7 @@ Class Sections {
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -2954,7 +2923,7 @@ Class Sections {
 		global $context;
 
 		// the section already exists
-		if($item =& Sections::get($nick_name))
+		if($item = Sections::get($nick_name))
 			return '';
 
 		// use the provided model for this item
@@ -2998,9 +2967,9 @@ Class Sections {
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
@@ -3054,7 +3023,7 @@ Class Sections {
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -3155,7 +3124,7 @@ Class Sections {
 		if(isset($fields['active_set'])) {
 
 			// cascade anchor access rights
-			if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+			if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 				$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 			else
 				$fields['active'] = $fields['active_set'];
@@ -3282,7 +3251,7 @@ Class Sections {
 			return i18n::s('No item has the provided id.');
 
 		// load section attributes
-		if(!$item =& Sections::get($id))
+		if(!$item = Sections::get($id))
 			return i18n::s('No item has the provided id.');
 
 		// locate the new skin
@@ -3321,12 +3290,12 @@ Class Sections {
 	 * search for some keywords in all sections
 	 *
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+	public static function &search($pattern, $offset=1.0, $count=50, $layout='search') {
 		global $context;
 
 		$output =& Sections::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -3340,14 +3309,18 @@ Class Sections {
 	 *
 	 * @see search.php
 	 *
+	 * Modification dates are taken into account to prefer freshest information.
+	 *
+	 * @link http://www.artfulcode.net/articles/full-text-searching-mysql/
+	 *
 	 * @param int the id of the section to look in
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
+	public static function &search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
 		global $context;
 
 		// sanity check
@@ -3355,6 +3328,9 @@ Class Sections {
 			$output = NULL;
 			return $output;
 		}
+
+		// limit the scope of the request
+		$where = Sections::get_sql_where();
 
 		// search is restricted to one section
 		$sections_where = '';
@@ -3395,48 +3371,37 @@ Class Sections {
 			$anchors[] = $section_id;
 
 			// the full set of sections searched
-			$sections_where = "sections.id IN (".str_replace('section:', '', join(", ", $anchors)).")";
+			$where .= " AND (sections.id IN (".str_replace('section:', '', join(", ", $anchors))."))";
 
 		}
-
-		// select among active sections
-		if($sections_where)
-			$sections_where = " AND (".$sections_where.")";
-
-		// select among active sections
-		$where = "sections.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR sections.active='R'";
-
-		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feed'))
-			;
-		elseif(Surfer::is_associate())
-			$where .= " OR sections.active='N'";
-
-		// include managed pages for editors
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		$where = "(".$where.")";
 
 		// only consider live sections
 		$where .= " AND ((sections.expiry_date is NULL) "
 				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 
-		// match
-		$match = " AND MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
+		// how to compute the score for sections
+		$score = "(MATCH(title, introduction, description)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of articles
-		$query = "SELECT sections.*"
+		$query = "SELECT sections.*,"
+
+			// compute the score
+			." ".$score." AS score"
+
+			// matching sections
 			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (".$where.")".$sections_where.$match
-			." ORDER BY sections.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+
+			// score < offset and score > 0
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+
+			// other constraints
+			." AND (".$where.")"
+
+			// packaging
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Sections::list_selected(SQL::query($query), $layout);
 		return $output;
@@ -3549,7 +3514,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	public static function &stat_for_anchor($anchor = '') {
+	public static function stat_for_anchor($anchor = '') {
 		global $context;
 
 		// limit the query to one level

@@ -189,7 +189,7 @@ class DimDim_Meeting extends Meeting {
 					$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes'))."\n";
 
 				// build a link to the owner page, if any
-				if(is_object($this->anchor) && ($user =& Users::get($this->anchor->get_value('owner_id'))))
+				if(is_object($this->anchor) && ($user = Users::get($this->anchor->get_value('owner_id'))))
 					$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name'])."\n";
 
 				// welcome message

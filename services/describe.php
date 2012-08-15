@@ -42,7 +42,7 @@ if(!$id)
 	$id = Sections::get_default();
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // load a skin engine
 load_skin('services');

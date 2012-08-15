@@ -50,12 +50,12 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // get the item from the database
-$item =& Actions::get($id);
+$item = Actions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // maybe this anonymous surfer is allowed to handle the anchor of this item
 if(is_object($anchor) && Surfer::may_handle($anchor->get_handle()))

@@ -36,12 +36,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Forms::get($id);
+$item = Forms::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -111,7 +111,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// let define a new id
 	unset($_REQUEST['id']);
@@ -240,7 +240,6 @@ if(Surfer::is_crawler()) {
 	Surfer::track($_REQUEST);
 
 	// store structured data in an overlay
-	include_once '../overlays/overlay.php';
 	$overlay = Overlay::bind('form');
 	$overlay->parse_once($attributes);
 
@@ -344,7 +343,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');

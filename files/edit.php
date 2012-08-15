@@ -42,7 +42,7 @@
  * - associates uploads are flagged according to the input form
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * Accepted calls:
  * - edit.php upload a file and create an article to host it
@@ -68,7 +68,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
+include_once '../images/image.php';
 include_once '../images/images.php';
 include_once 'files.php';
 
@@ -86,11 +86,11 @@ $item = Files::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']))
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($context['arguments'][1]))
-	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
+	$anchor = Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -99,7 +99,7 @@ if(!isset($item['active']) && is_object($anchor))
 // get parent of the anchor too
 $parent = NULL;
 if(is_object($anchor) && ($parent = $anchor->get_parent()))
-	$parent =& Anchors::get($parent);
+	$parent = Anchors::get($parent);
 
 // we are allowed to add a new file
 if(!isset($item['id']) && is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type()))
@@ -206,10 +206,13 @@ if(Surfer::is_crawler()) {
 		Versions::save($item, 'file:'.$item['id']);
 	}
 
-	// just an update of the record
+	// assume this is just an update of the record
 	$action = 'file:update';
 
-	// a reference has been posted --process it first, to not take file upload into account, if any
+	// true when several files are uploaded at once
+	$exploded = FALSE;
+
+	// this record is a reference to an external file -- do not take upload into account, if any
 	if(isset($_REQUEST['file_href']) && $_REQUEST['file_href']) {
 
 		// protect from hackers -- encode_link() would introduce &amp;
@@ -222,110 +225,120 @@ if(Surfer::is_crawler()) {
 		// ensure we have a file name
 		$_REQUEST['file_name'] = utf8::to_ascii(str_replace('%20', ' ', basename($_REQUEST['file_href'])));
 
-		// always remember file uploads, for traceability
+		// change has been documented
 		if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
 			$_REQUEST['version'] = '';
 		else
 			$_REQUEST['version'] = ' - '.$_REQUEST['version'];
 
+		// always remember file uploads, for traceability
 		$_REQUEST['version'] = $_REQUEST['file_name'].' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')'.$_REQUEST['version'];
+
+		// add to file history
+		$_REQUEST['description'] = Files::add_to_history($item, $_REQUEST['version']);
+
+		// save in the database
+		Files::post($_REQUEST);
+
+		// log record creation
+		if(!$item['id']) {
+			$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
+			$link = $context['url_to_home'].$context['url_to_root'].Files::get_url($_REQUEST['id']);
+			$description = sprintf(i18n::c('%s at %s'), $_REQUEST['file_name'], '<a href="'.$link.'">'.$link.'</a>');
+			Logger::notify('files/edit.php', $label, $description);
+		}
 
 	// a file has been uploaded
 	} elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
-
-		// remember file size
-		$_REQUEST['file_size'] = $_FILES['upload']['size'];
-
-		// move the file to the right place
 		$file_path = Files::get_path($_REQUEST['anchor']);
-		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
-			$_REQUEST['file_name'] = $file_name;
+
+		// update an existing file record
+		if(isset($item['id']))
+			$_FILES['upload']['id'] = $item['id'];
+
+		// attach some file
+		if($uploaded = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
 
 			// actually, a new file
-			$action = 'file:create';
-
-			// always remember file uploads, for traceability
-			if(!isset($_REQUEST['version']) || !$_REQUEST['version'])
-				$_REQUEST['version'] = '';
+			if(!isset($item['id']))
+				$action = 'file:create';
 			else
-				$_REQUEST['version'] = $_REQUEST['version'].' - ';
+				$action = 'file:upload';
 
-			$_REQUEST['version'] .= $file_name.' ('.Skin::build_number($_REQUEST['file_size'], i18n::s('bytes')).')';
+			// several files have been added
+			if(is_array($uploaded)) {
+				$compact_list = Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact');
+				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'.$compact_list;
 
-			// maybe this file has already been uploaded for this anchor
-			if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
+				// log multiple upload
+				$label = sprintf(i18n::c('New files in %s'), strip_tags($anchor->get_title()));
+				Logger::notify('files/edit.php', $label, $compact_list);
 
-				// if yes, switch to the matching record (and forget the record fetched previously, if any)
-				$_REQUEST['id'] = $match['id'];
-				$item = $match;
+				// push the list of uploaded files to the notification
+				$attributes = array();
+				$attributes['message'] = '<p>'.i18n::s('Following files have been added:').'</p>'.$compact_list;
+				$attributes['anchor'] = $anchor->get_reference();
+
+				// notification to send by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($anchor->get_title()));
+				$mail['notification'] = Files::build_notification('multiple', $attributes);
+
+			// one file has been added
+			} elseif($item =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
+					.Codes::render_object('file', $item['id']);
+
+				// use this file record
+				$_REQUEST['id'] = $item['id'];
+
+				// log single upload
+				$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
+				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+				$description = sprintf(i18n::c('%s at %s'), $item['file_name'], '<a href="'.$link.'">'.$link.'</a>');
+				Logger::notify('files/edit.php', $label, $description);
+
+				// notification to send by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($anchor->get_title()));
+				$mail['notification'] = Files::build_notification('upload', $_REQUEST);
+
 			}
 
-			// silently delete the previous file if the name has changed
-			if(isset($item['file_name']) && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
-				Safe::unlink($file_path.'/'.$item['file_name']);
+			// send to anchor watchers
+			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+				$anchor->alert_watchers($mail, $action, ($_REQUEST['active'] == 'N'));
+
+			// send to followers of this user
+			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
 
 		}
 
-		// we have a real file, not a reference
-		$_REQUEST['file_href'] = '';
+	// update a record about an uploaded file
+	} elseif(isset($_REQUEST['id'])) {
+
+		// change has been documented
+		if(isset($_REQUEST['version']) && $_REQUEST['version'])
+			$_REQUEST['description'] = Files::add_to_history($item, $_REQUEST['version']);
+
+		// save in the database
+		Files::post($_REQUEST);
 
 	// nothing has been posted
-	} elseif(!isset($_REQUEST['id']))
+	} else
 		Logger::error(i18n::s('No file has been transmitted.'));
-
-	// feed history
-	if(isset($_REQUEST['version']) && $_REQUEST['version']) {
-
-		define('MARKER', '<!-- insert point -->');
-
-		// ensure we have a marker
-		if(!isset($item['description']))
-			$_REQUEST['description'] = '<dl class="comments">'.MARKER.'</dl>';
-		elseif(!strpos($item['description'], MARKER))
-			$_REQUEST['description'] = '<dl class="comments">'.MARKER.'</dl><div>'.$item['description'].'</div>';
-		else
-			$_REQUEST['description'] = $item['description'];
-
-		// remove active links that were used previously
-		$_REQUEST['description'] = preg_replace('/on(click|keypress)="([^"]+?)"/i', '', $_REQUEST['description']);
-
-		// ensure we know the surfer
-		Surfer::check_default_editor($_REQUEST);
-
-		// shape the new element
-		$version = '<dt>'.sprintf(i18n::s('%s %s'), Users::get_link($_REQUEST['edit_name'], $_REQUEST['edit_address'], $_REQUEST['edit_id']), Skin::build_date($_REQUEST['edit_date'], 'plain')).'</dt>'
-			.'<dd>'.$_REQUEST['version'].'</dd>';
-
-		// keep it for history
-		$_REQUEST['description'] = str_replace(MARKER, MARKER.$version, $_REQUEST['description']);
-	}
-
-	// make the file name searchable on initial post
-	if(!isset($_REQUEST['id']) && isset($_REQUEST['file_name']))
-		$_REQUEST['keywords'] .= ' '.str_replace(array('%20', '_', '.', '-'), ' ', $_REQUEST['file_name']);
 
 	// an error has already been encoutered
 	if(count($context['error'])) {
 		$item = $_REQUEST;
-
-	// do not show the form, since browser may have not transmitted anchor information
-
-	// update the record in the database
-	} elseif(!$_REQUEST['id'] = Files::post($_REQUEST)) {
-		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// reward the poster for new posts, or for actual upload
-	} elseif(!isset($item['id']) || ($action == 'file:create')) {
-
-		// touch the related anchor
-		$anchor->touch('file:create', $_REQUEST['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
-
-		// clear cache
-		Files::clear($_REQUEST);
+	} elseif(!isset($item['id']) || ($action == 'file:create') || ($action == 'file:upload')) {
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -333,66 +346,55 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
-		// the action
-		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
+		// only one file
+		if(isset($_REQUEST['id'])) {
 
-		// show file attributes
-		$attributes = array();
+			// record surfer activity
+			Activities::post('file:'.$_REQUEST['id'], 'upload');
 
-		// make it visual
-		if(isset($_REQUEST['thumbnail_url']) && $_REQUEST['thumbnail_url'])
-			$attributes[] = '<img src="'.$_REQUEST['thumbnail_url'].'" />';
-		else
-			$attributes[] = '<img src="'.$context['url_to_root'].Files::get_icon_url($_REQUEST['file_name']).'" />';
+			// touch the related anchor
+			$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
-		// other details
-		if($_REQUEST['file_name'])
-			$attributes[] = $_REQUEST['file_name'];
-		if($_REQUEST['file_size'])
-			$attributes[] = $_REQUEST['file_size'].' bytes';
+			// clear cache
+			Files::clear($_REQUEST);
 
-		if(is_array($attributes))
-			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
+		// process several files
+		} else {
+
+			// touch the related anchor
+			$anchor->touch('file:create', NULL, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		}
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 
-		// follow-up commands -- do not use #files, because of thread layout, etc.
+		// follow-up commands -- do not use #_attachments, because of thread layout, etc.
 		$menu = array();
 		if(is_object($anchor))
 			$menu = array_merge($menu, array($anchor->get_url('files') => i18n::s('Back to main page')));
-		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(is_object($anchor) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.$anchor->get_reference() => i18n::s('Upload another file')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
-		// log the submission of a new file by a non-associate
-		if(!Surfer::is_associate() && is_object($anchor)) {
-			$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
-                        $link = $context['url_to_home'].$context['url_to_root'].Files::get_url($_REQUEST['id']);
-			$description = sprintf(i18n::c('%s at %s'), $_REQUEST['file_name'], '<a href="'.$link.'">'.$link.'</a>');
-			Logger::notify('files/edit.php', $label, $description);
-		}
-
 	// forward to the updated page
 	} else {
 
 		// touch the related anchor
-		$anchor->touch('file:update', $_REQUEST['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+		$anchor->touch('file:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Files::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
+
+		// record surfer activity
+		Activities::post('file:'.$_REQUEST['id'], 'upload');
 
 		// forward to the anchor page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
@@ -439,9 +441,13 @@ if($with_form) {
 		if(Surfer::may_upload()) {
 
 			// an upload entry
-			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" />&nbsp;'.i18n::s('Upload a file').'</dt>'
-				.'<dd><input type="file" name="upload" id="upload" size="30" onchange="$(\'input:radio[name=file_type]:nth(0)\').attr(\'checked\', true);$(\'#file_href\').val(\'\');" />'
-				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')</dd>'."\n";
+			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" onclick="$(\'#href_panel\').slideUp();$(\'#upload_panel\').slideDown();" />&nbsp;'.i18n::s('Add a file').' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'.'</dt>'
+				.'<dd id="upload_panel">'
+				.	'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+				.	'<div id="upload_option" style="display: none;" >'
+				.		'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+				.	'</div>'
+				.'</dd>'."\n";
 
 			// or
 			$input .= '<dt><div style="margin: 1em">-- '.i18n::s('or').' --</div></dt>';
@@ -449,10 +455,11 @@ if($with_form) {
 		}
 
 		// a reference
-		$input .= '<dt><input type="radio" name="file_type" value="href" />&nbsp;'.i18n::s('Share an existing reference (ftp://, http://, ...)').'</dt>'
-			.'<dd><input type="text" name="file_href" id="file_href" size="45" value="'.encode_field(isset($item['file_href'])?$item['file_href']:'').'" maxlength="255" onfocus="$(\'input:radio[name=file_type]:nth(1)\').attr(\'checked\', true);" />';
-		$input .= BR.i18n::s('File size')
-			.' <input type="text" name="file_size" size="12" value="'.encode_field(isset($item['file_size'])?$item['file_size']:'').'" maxlength="12" /> '.i18n::s('bytes')
+		$input .= '<dt><input type="radio" name="file_type" value="href" onclick="$(\'#href_panel\').slideDown();$(\'#upload_panel\').slideUp();" />&nbsp;'.i18n::s('Share a reference to a file (ftp://, http://, ...)').'</dt>'
+			.'<dd id="href_panel" style="display: none;">'
+			.	'<input type="text" name="file_href" id="file_href" size="45" value="'.encode_field(isset($item['file_href'])?$item['file_href']:'').'" maxlength="255" />'
+			.	BR.i18n::s('File size')
+			.		' <input type="text" name="file_size" size="12" value="'.encode_field(isset($item['file_size'])?$item['file_size']:'').'" maxlength="12" /> '.i18n::s('bytes')
 			.'</dd>'."\n";
 
 		$input .= '</dl>';
@@ -475,12 +482,7 @@ if($with_form) {
 		$details = array();
 
 		// file name
-		if(isset($item['file_name']) && $item['file_name'])
-			$details[] = $item['file_name'];
-
-		// file uploader
-		if(isset($item['create_name']))
-			$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+		$name = str_replace('_', ' ', $item['file_name']);
 
 		// downloads and file size
 		$other_details = array();
@@ -489,7 +491,14 @@ if($with_form) {
 		if(isset($item['file_size']) && ($item['file_size'] > 1))
 			$other_details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
 		if(count($other_details))
-			$details[] = join(', ', $other_details);
+			$name .= '  ('.join(', ', $other_details).')';
+
+		// the file itself
+		$details[] = $name;
+
+		// file uploader
+		if(isset($item['create_name']))
+			$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
 
 		if(count($details))
 			$input .= ucfirst(implode(BR, $details)).BR.BR;
@@ -498,7 +507,7 @@ if($with_form) {
 		if(Surfer::may_upload()) {
 
 			// refresh the file
-			$input .= i18n::s('Select another file to replace the current one').BR
+			$input .= '<span class="details">'.i18n::s('Select another file to replace the current one').'</span>'.BR
 				.'<input type="file" name="upload" id="upload" size="30" />'
 				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'."\n";
 
@@ -527,7 +536,7 @@ if($with_form) {
 	$label = i18n::s('History');
 	$input = '<span class="details">'.i18n::s('What is new in this file?').'</span>'.BR.'<textarea name="version" rows="3" cols="50"></textarea>';
 	if(isset($item['description']))
-		$input .= Skin::build_block($item['description'], 'description');
+		$input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -567,10 +576,6 @@ if($with_form) {
 		$hint = Skin::build_active_set_hint($anchor);
 		$fields[] = array($label, $input, $hint);
 	}
-
-	// append fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
 
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_member()) {
@@ -635,8 +640,8 @@ if($with_form) {
 	$hint = i18n::s('Paste here complicated peer-to-peer href (ed2k, torrent, etc.)');
 	$fields[] = array($label, $input, $hint);
 
-	// add a folded box
-	$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
+	// append fields
+	$text .= Skin::build_form($fields);
 	$fields = array();
 
 	// display in a separate panel

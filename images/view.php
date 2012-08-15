@@ -46,12 +46,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Images::get($id);
+$item = Images::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -141,7 +141,7 @@ if(!isset($item['id'])) {
 
 		// retrieve information from cache, if any
 		$cache_id = 'images/view.php?id='.$item['id'].'#navigation';
-		if($data =& Cache::get($cache_id))
+		if($data = Cache::get($cache_id))
 			$data = Safe::unserialize($data);
 
 		// build information from the database

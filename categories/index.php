@@ -72,7 +72,7 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'categories/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// do it the Yahoo! style
 		include_once '../categories/layout_categories_as_yahoo.php';
@@ -141,7 +141,7 @@ if(Surfer::is_associate()) {
 
 // display extra information
 $cache_id = 'categories/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// see also
 	$links = array('categories/cloud.php' => i18n::s('Cloud of tags'),

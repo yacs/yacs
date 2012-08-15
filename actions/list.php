@@ -46,7 +46,7 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
@@ -128,7 +128,7 @@ if(!is_object($anchor)) {
 
 		// cache the section
 		$cache_id = 'actions/list.php?anchor='.$target_anchor.'#on-going';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// query the database and layout that stuff
 			$box['bar'] = array();
@@ -159,7 +159,7 @@ if(!is_object($anchor)) {
 
 	// cache the section
 	$cache_id = 'actions/list.php?anchor='.$target_anchor.'#completed#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// section title
 		$box['bar'] = array();
@@ -212,7 +212,7 @@ if(!is_object($anchor)) {
 
 		// cache the section
 		$cache_id = 'actions/list.php?anchor='.$target_anchor.'#rejected';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// query the database and layout that stuff
 			$box['bar'] = array();

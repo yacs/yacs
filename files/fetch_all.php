@@ -56,12 +56,12 @@ $id = strip_tags($id);
 // get the related item, if any
 $item = array();
 if(($type == 'article') && $id)
-	$item =& Articles::get($id);
+	$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;

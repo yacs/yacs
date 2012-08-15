@@ -7,7 +7,7 @@
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  * Also, sample smilies are displayed, and may be used to introduce related codes into the description field.
  *
  * This script attempts to validate the new or updated article description against a standard PHP XML parser.
@@ -106,11 +106,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../behaviors/behaviors.php';	// input validation
-include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../links/links.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../servers/servers.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
@@ -132,24 +130,24 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($_REQUEST['section']) && $_REQUEST['section'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['section']);
+	$anchor = Anchors::get('section:'.$_REQUEST['section']);
 elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['blogid']);
+	$anchor = Anchors::get('section:'.$_REQUEST['blogid']);
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
-	$anchor =& Anchors::get($_SESSION['anchor_reference']);
+	$anchor = Anchors::get($_SESSION['anchor_reference']);
 
 // the default is to create a thread
 if(!is_object($anchor) && !isset($item['id']) && ($reference = Sections::lookup('threads')))
-	$anchor =& Anchors::get($reference);
+	$anchor = Anchors::get($reference);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -203,6 +201,10 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
+
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'article:'.$item['id'];
 
 // path to this page
 $context['path_bar'] = Surfer::get_path_bar($anchor);
@@ -280,6 +282,14 @@ if(Surfer::is_crawler()) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
+// page has been assigned to another person during the last 5 minutes
+} elseif(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])
+	&& (SQL::strtotime($item['assign_date'])+5*60 >= time())) {
+
+	// permission denied to authenticated user
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('This page is currently edited by %s. You have to wait for a new version to be released.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id'])), 'caution');
+
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -287,7 +297,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
@@ -326,6 +336,9 @@ if(Surfer::is_crawler()) {
 	// when the page has been overlaid
 	if(is_object($overlay)) {
 
+		// allow for change detection
+		$overlay->snapshot();
+
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
 
@@ -360,6 +373,12 @@ if(Surfer::is_crawler()) {
 	} elseif(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
+	} elseif(is_object($overlay) && $overlay->get_value('edit_as_simple')) {
+		include 'edit_as_simple.php';
+		return;
+	} elseif(is_object($overlay) && $overlay->get_value('edit_as_thread')) {
+		include 'edit_as_thread.php';
+		return;
 	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
 		include 'edit_as_'.$deputy.'.php';
 		return;
@@ -385,52 +404,72 @@ if(Surfer::is_crawler()) {
 		// else display the updated page
 		} else {
 
-			// the overlay may have already notified persons involved
-			$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
-			if(is_object($overlay) && !$overlay->should_notify_watchers())
-				$with_watchers = FALSE;
+			// log page modification
+			$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
+			Logger::notify('articles/edit.php', $label, $description);
 
 			// touch the related anchor, but only if the page has been published
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$anchor->touch('article:update', $_REQUEST['id'],
-					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					$with_watchers);
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
+
+				// notification to send by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
+				$mail['notification'] = Articles::build_notification('update', $_REQUEST);
+				$mail['headers'] = Mailer::set_thread('article:'.$_REQUEST['id']);
+
+				// the overlay may have already notified persons involved
+				$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
+				if(is_object($overlay) && !$overlay->should_notify_watchers())
+					$with_watchers = FALSE;
+
+				// send to watchers of this page, and to watchers upwards
+				if($with_watchers && ($handle = new Article())) {
+					$handle->load_by_content($_REQUEST, $anchor);
+					$handle->alert_watchers($mail, 'article:update');
+				}
+
+				// send to followers of this user
+				if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+					&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+						$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+						Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+				}
+
+				// update anchors
+				$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			}
 
 			// cascade changes on access rights
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
 
-			// add this page to poster watch list
+			// add this page to surfer watch list
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
 			// the page has been modified
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
-			// list persons that have been notified
-			if($recipients = Mailer::build_recipients()) {
-
-				$context['text'] .= $recipients;
-
-				// follow-up commands
-				$follow_up = i18n::s('What do you want to do now?');
-				$menu = array();
-				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
-				if(Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
-				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				$follow_up .= Skin::build_list($menu, 'menu_bar');
-				$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-				// log page modification
-				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('articles/edit.php', $label, $description);
-
 			// display the updated page
-			} else
+			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
 				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+
+			// list persons that have been notified
+			$context['text'] .= $recipients;
+
+			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
+			$menu = array();
+			$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
+			if(Surfer::may_upload())
+				$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
+			if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
+				$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
+			$follow_up .= Skin::build_list($menu, 'menu_bar');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 		}
 
 
@@ -441,45 +480,6 @@ if(Surfer::is_crawler()) {
 
 	// successful post
 	} else {
-
-		// update the overlay, with the new article id --don't stop on error
-		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
-
-		// increment the post counter of the surfer
-		if(Surfer::get_id())
-			Users::increment_posts(Surfer::get_id());
-
-		// touch the related anchor, but only if the page has been published
-		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
-
-			// don't notify the creation of an event
-			$with_watchers = TRUE;
-			if(is_object($overlay) && !$overlay->should_notify_watchers())
-				$with_watchers = FALSE;
-
-			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
-
-			// advertise public pages
-			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
-
-				// pingback, if any
-				Links::ping($_REQUEST['description'], 'article:'.$_REQUEST['id']);
-
-				// ping servers
-				Servers::notify($anchor->get_url());
-
-			}
-
-			// 'publish' hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $_REQUEST['id']);
-
-		}
-
-		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -500,8 +500,58 @@ if(Surfer::is_crawler()) {
 		else
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
+		// update the overlay, with the new article id --don't stop on error
+		if(is_object($overlay))
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
+
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
+
+		// touch the related anchor, but only if the page has been published
+		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
+
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($_REQUEST['title']));
+			$mail['notification'] = Articles::build_notification('create', $_REQUEST);
+			$mail['headers'] = Mailer::set_thread('article:'.$_REQUEST['id']);
+
+			// the overlay may have already notified persons involved
+			if(!is_object($overlay) || $overlay->should_notify_watchers())
+				$anchor->alert_watchers($mail, 'article:create', ($_REQUEST['active'] == 'N'));
+
+			// send to followers of this user
+			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
+					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// update anchors
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			// advertise public pages
+			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
+
+				// pingback, if any
+				Links::ping($_REQUEST['description'], 'article:'.$_REQUEST['id']);
+
+				// ping servers
+				Servers::notify($anchor->get_url());
+
+			}
+
+			// 'publish' hook
+			if(is_callable(array('Hooks', 'include_scripts')))
+				Hooks::include_scripts('publish', $_REQUEST['id']);
+
+		}
+
+		// get the new item
+		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
+
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients();
+		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
 
 		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
@@ -511,7 +561,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if((!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'publish') => i18n::s('Publish the page')));
 		if(is_object($anchor) && Surfer::is_empowered())
@@ -549,7 +599,7 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
 
 	// ensure we are not duplicating outside regular templates
-	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
+	if((!$templates = Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
 		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		die(i18n::s('You are not allowed to perform this operation.'));
 	}
@@ -665,14 +715,6 @@ if($with_form) {
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
-	// hardcoded
-//	if(!isset($item['id']))
-//		$suffix[] = '<input type="checkbox" name="option_hardcoded" value="Y" /> '.i18n::s('Preserve carriage returns and newlines.');
-
-	// do not apply implicit transformations
-//	if(!isset($item['id']))
-//		$suffix[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('Avoid implicit transformations (links, lists, ...), but process yacs codes as usual.');
-
 	// validate page content
 	if(Surfer::is_associate())
 		$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
@@ -752,19 +794,21 @@ if($with_form) {
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#title").focus() });'."\n"
-		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'$(function() {'."\n"
+		.'	$("#title").focus();'."\n" // set the focus on first form field
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n" // enable autocompletion
 		.'});'."\n"
 		.JS_SUFFIX;
+
 	// branch to another script to display form fields, tabs, etc
 	//
 	$branching = '';
 	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php'))
 		$branching = $matches[0].'.php';
+	elseif(is_object($overlay) && $overlay->get_value('edit_as_simple'))
+		$branching = 'edit_as_simple.php';
+	elseif(is_object($overlay) && $overlay->get_value('edit_as_thread'))
+		$branching = 'edit_as_thread.php';
 	elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php'))
 		$branching = 'edit_as_'.$deputy.'.php';
 
@@ -1265,6 +1309,26 @@ if($with_form) {
 	unset($_SESSION['pasted_source']);
 	unset($_SESSION['pasted_text']);
 	unset($_SESSION['pasted_title']);
+
+	// assign the page to the surfer
+	if(isset($item['id']) && Surfer::get_id()) {
+		$query = "UPDATE ".SQL::table_name('articles')." SET "
+			." assign_name = '".SQL::escape(Surfer::get_name())."',"
+			." assign_id = ".SQL::escape(Surfer::get_id()).","
+			." assign_address = '".SQL::escape(Surfer::get_email_address())."',"
+			." assign_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'"
+			." WHERE (id  = ".SQL::escape($item['id']).")";
+
+		// do not stop on error
+		SQL::query($query);
+
+		// for subsequent heartbits
+		$_SESSION['assigned'] = $item['id'];
+
+		// current item
+		$context['current_action'] = 'edit';
+
+	}
 
 }
 

@@ -44,7 +44,7 @@ load_skin('query');
 $context['page_title'] = i18n::s('Help');
 
 // get a section for queries
-if(!$anchor =& Anchors::get('section:queries')) {
+if(!$anchor = Anchors::get('section:queries')) {
 	$fields = array();
 	$fields['nick_name'] = 'queries';
 	$fields['title'] =& i18n::c('Queries');
@@ -57,7 +57,7 @@ if(!$anchor =& Anchors::get('section:queries')) {
 
 	// reference the new section
 	if($fields['id'] = Sections::post($fields, FALSE))
-		$anchor =& Anchors::get('section:'.$fields['id']);
+		$anchor = Anchors::get('section:'.$fields['id']);
 }
 $_REQUEST['anchor'] = $anchor->get_reference();
 
@@ -78,7 +78,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
@@ -121,7 +121,7 @@ if(Surfer::is_crawler()) {
 	} else {
 
 		// update anchors and forward notifications
-		$anchor->touch('article:create', $_REQUEST['id'], TRUE, TRUE);
+		$anchor->touch('article:create', $_REQUEST['id']);
 
 		// message to the query poster
 		$context['page_title'] = i18n::s('Your query has been registered');
@@ -129,7 +129,7 @@ if(Surfer::is_crawler()) {
 		// use the secret handle to access the query
 		$link = '';
 		$status = '';
-		if($item =& Articles::get($_REQUEST['id'])) {
+		if($item = Articles::get($_REQUEST['id'])) {
 
 			// ensure the article has a private handle
 			if(!isset($item['handle']) || !$item['handle']) {
@@ -189,7 +189,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the article back
-		$article =& Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// log the query submission
 		if(is_object($article)) {

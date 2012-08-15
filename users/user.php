@@ -203,7 +203,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_path_bar() {
+	function get_path_bar() {
 
 		// load localized strings
 		i18n::bind('users');
@@ -307,11 +307,12 @@ Class User extends Anchor {
 	 * @return TRUE if the surfer is browsing his/her own profile
 	 *
 	 * @param int optional reference to some user profile
+	 * @param boolean TRUE to climb the list of containers up to the top
 	 * @return TRUE or FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_assigned($user_id=NULL) {
+	function is_assigned($user_id=NULL, $cascade=TRUE) {
 
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
@@ -334,7 +335,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_owned($user_id=NULL, $strict=FALSE) {
+	function is_owned($user_id=NULL, $strict=FALSE) {
 		global $context;
 
 		// id of requesting user
@@ -365,7 +366,7 @@ Class User extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Users::get($id, $mutable);
+		$this->item = Users::get($id, $mutable);
 	}
 
 	/**
@@ -374,12 +375,10 @@ Class User extends Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -424,7 +423,7 @@ Class User extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['avatar_url'] == $url)
@@ -440,7 +439,7 @@ Class User extends Anchor {
 		// set an existing image as the user avatar
 		} elseif($action == 'image:set_as_avatar') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "avatar_url = '".SQL::escape($url)."'";
 			}
@@ -449,7 +448,7 @@ Class User extends Anchor {
 		// set an existing image as the user thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "avatar_url = '".SQL::escape($url)."'";
 			}

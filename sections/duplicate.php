@@ -29,16 +29,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
@@ -117,7 +116,7 @@ if(!isset($item['id'])) {
 		}
 
 		// get the new item
-		$section =& Anchors::get('section:'.$item['id'], TRUE);
+		$section = Anchors::get('section:'.$item['id'], TRUE);
 
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 

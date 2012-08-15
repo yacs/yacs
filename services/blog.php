@@ -492,7 +492,7 @@ elseif(isset($context['arguments'][0]))
 $main_id = strip_tags($main_id);
 
 // at the moment, do not send utf-8 to w.bloggar -- keep unicode entities as-is
-if(preg_match('/w\.bloggar/', $_SERVER['HTTP_USER_AGENT']))
+if(isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/w\.bloggar/', $_SERVER['HTTP_USER_AGENT']))
 	$context['charset'] = 'iso-8859-15';
 
 // load a skin engine
@@ -512,6 +512,11 @@ $codec = new xml_rpc_Codec();
 
 // regular decoding
 if(isset($raw_data) && $raw_data) {
+
+	// fix malformed XML-RPC requests (i.e. missing tag <value> in each param)
+	if(strpos($raw_data, '<param><string>'))
+		$raw_data = str_replace(array('<param>', '</param>'), array('<param><value>', '</value></param>'), $raw_data);
+
 	// parse xml parameter
 	$result = $codec->import_request($raw_data);
 	$status = @$result[0];
@@ -554,8 +559,8 @@ else {
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -599,8 +604,8 @@ else {
 		list($ignored_appkey, $postid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -705,8 +710,8 @@ else {
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -786,7 +791,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -855,7 +860,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $type) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -897,7 +902,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		else {
-			$item =& Users::get($username);
+			$item = Users::get($username);
 			if($item['id'])
 				$response = array(
 					'userid' => (string)$item['id'],
@@ -970,7 +975,7 @@ else {
 
 			// provide default section
 			if(!$response && ($default_id = Sections::get_default())) {
-				if($section =& Anchors::get('section:'.$default_id)) {
+				if($section = Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
 						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
@@ -988,7 +993,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1098,7 +1103,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $template, $type) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1132,8 +1137,8 @@ else {
 		list($postid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -1289,8 +1294,8 @@ else {
 		list($postid, $username, $password) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -1363,7 +1368,7 @@ else {
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1435,8 +1440,12 @@ else {
 	case 'metaWeblog.newMediaObject':
 		list($blogid, $username, $password, $content) = $parameters['params'];
 
+		// use default section for this post
+		if($blogid == 1)
+			$blogid = Sections::get_default();
+
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1525,8 +1534,12 @@ else {
 	case 'metaWeblog.newPost':
 		list($blogid, $username, $password, $content, $publish) = $parameters['params'];
 
+		// use default section for this post
+		if($blogid == 1)
+			$blogid = Sections::get_default();
+
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1729,7 +1742,7 @@ else {
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
