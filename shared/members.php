@@ -463,7 +463,7 @@ Class Members {
 			$where = "(member LIKE '".SQL::escape($member)."')";
 
 		// the list of members
-		$query = "SELECT anchor FROM ".SQL::table_name('members')
+		$query = "SELECT DISTINCT anchor FROM ".SQL::table_name('members')
 			." WHERE ".$where
 			." ORDER BY anchor LIMIT ".$offset.','.$count;
 		if(!$result = SQL::query($query))
@@ -476,9 +476,6 @@ Class Members {
 		// build an array of ids
 		while($row = SQL::fetch($result))
 			$anchors[] = $row['anchor'];
-
-		// ensure each anchor is represented only once
-		$anchors = array_unique($anchors);
 
 		// return the list of ids linked to this member
 		return $anchors;
