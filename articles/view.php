@@ -1091,7 +1091,7 @@ if(!isset($item['id'])) {
 		}
 
 		// some files have been attached to this page
-		if(($page == 1) && ($count > 5)) {
+		if(($page == 1) && ($count > 3)) {
 
 			// the command to download all files
 			$link = 'files/fetch_all.php?anchor='.urlencode('article:'.$item['id']);
