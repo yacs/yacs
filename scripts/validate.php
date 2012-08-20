@@ -99,8 +99,9 @@ function send_body() {
 		global $finalizing_fuse;
 		$finalizing_fuse = FALSE;
 
-		// take care of dependances
+		// take care of dependancies
 		include_once '../behaviors/behavior.php';
+		include_once '../services/codec.php';
 		include_once '../users/authenticator.php';
 
 		// analyse each script
