@@ -233,7 +233,7 @@ if(Surfer::is_crawler()) {
                $description .= '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
-		Logger::notify('forms/edit.php', $label, $description);
+		Logger::notify('forms/edit.php: '.$label, $description);
 
 	}
 

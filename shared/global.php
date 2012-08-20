@@ -419,7 +419,7 @@ elseif(isset($_SERVER['REQUEST_URI']) && preg_match('/\.php$/', $_SERVER['REQUES
 
 // which script are we executing?
 if(($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']))
-	Logger::remember($context['script_url'], 'run', '', 'debug');
+	Logger::remember($context['script_url'].': run', '', 'debug');
 
 //
 // decode script parameters passed in URL
@@ -1460,7 +1460,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// remember cron tick
 	if($context['with_debug'] == 'Y')
-		Logger::remember('cron.php', 'tick', '', 'debug');
+		Logger::remember('cron.php: tick', '', 'debug');
 
 	// trigger background processing -- capture the output and don't send it back to the browser
 	$context['cron_text'] = Hooks::include_scripts('tick');

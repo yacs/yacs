@@ -397,7 +397,7 @@ if(Surfer::is_crawler()) {
 			$label = sprintf(i18n::c('New image in %s'), strip_tags($anchor->get_title()));
                         $link = $context['url_to_home'].$context['url_to_root'].Images::get_url($_REQUEST['id']);
 			$description = sprintf(i18n::s('%s at %s'), $_REQUEST['image_name']."\n", '<a href="'.$link.'">'.$link.'</a>');
-			Logger::notify('images/edit.php', $label, $description);
+			Logger::notify('images/edit.php: '.$label, $description);
 		}
 
 	// update an existing image

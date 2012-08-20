@@ -338,7 +338,7 @@ if(Surfer::is_crawler()) {
                                 $link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments';
 				$description = $_REQUEST['link_url']."\n"
 					.sprintf(i18n::c('at %s'),'<a href="'.$link.'">'.$link.'</a>');
-				Logger::notify('links/edit.php', $label, $description);
+				Logger::notify('links/edit.php: '.$label, $description);
 			}
 		}
 

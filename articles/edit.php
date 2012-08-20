@@ -407,7 +407,7 @@ if(Surfer::is_crawler()) {
 			// log page modification
 			$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
 			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-			Logger::notify('articles/edit.php', $label, $description);
+			Logger::notify('articles/edit.php: '.$label, $description);
 
 			// touch the related anchor, but only if the page has been published
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {

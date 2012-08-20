@@ -83,7 +83,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p><strong>'.i18n::s('The server has been switched OFF. Switch it back on as soon as possible.').'</strong>'.BR."\n";
 
 		// remember the change
-		Logger::remember('scripts/update.php', i18n::c('The server has been switched off.'));
+		Logger::remember('scripts/update.php: '.i18n::c('The server has been switched off.'));
 	}
 
 	// purge the scripts/run_once directory from previous content

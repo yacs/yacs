@@ -754,7 +754,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), 'parameters/hooks.include.php');
-			Logger::remember('control/scan.php', $label);
+			Logger::remember('control/scan.php: '.$label);
 
 		}
 

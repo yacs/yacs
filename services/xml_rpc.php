@@ -73,7 +73,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/xml_rpc.php', 'xml_rpc request', rawurldecode($raw_data), 'debug');
+	Logger::remember('services/xml_rpc.php: xml_rpc request', rawurldecode($raw_data), 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
@@ -102,7 +102,7 @@ if(!$raw_data) {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-		Logger::remember('services/xml_rpc.php', 'xml_rpc '.$parameters['methodName'], $parameters['params'], 'debug');
+		Logger::remember('services/xml_rpc.php: xml_rpc '.$parameters['methodName'], $parameters['params'], 'debug');
 
 	// depending on method name
 	if(is_callable(array('Hooks', 'serve_scripts')))
@@ -113,7 +113,7 @@ if(!$raw_data) {
 if(!isset($response)) {
 	$response = array('faultCode' => 1, 'faultString' => 'Do not know how to process '.$parameters['methodName']);
 	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-		Logger::remember('services/xml_rpc.php', 'xml_rpc unsupported methodName '.$parameters['methodName'], $parameters, 'debug');
+		Logger::remember('services/xml_rpc.php: xml_rpc unsupported methodName '.$parameters['methodName'], $parameters, 'debug');
 }
 
 // encode the response as an XML snippet
@@ -132,7 +132,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // save the response if debug mode
 if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/xml_rpc.php', 'xml_rpc response', $response, 'debug');
+	Logger::remember('services/xml_rpc.php: xml_rpc response', $response, 'debug');
 
 // the post-processing hook
 finalize_page();

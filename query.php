@@ -197,7 +197,7 @@ if(Surfer::is_crawler()) {
 			$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
                         $description = '<a href="'.$link.'">'.$link.'</a>'
 				."\n\n".$article->get_teaser('basic');
-			Logger::notify('query.php', $label, $description);
+			Logger::notify('query.php: '.$label, $description);
 		}
 
 	}

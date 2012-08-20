@@ -69,7 +69,7 @@ Class Atom_Codec extends Codec {
 		if(!xml_parse($parser, $data)) {
 
 			if($context['with_debug'] == 'Y')
-				Logger::remember('services/atom_codec.php', 'invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
+				Logger::remember('services/atom_codec.php: invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
 
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))
 				.' at line '.xml_get_current_line_number($parser));

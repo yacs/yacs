@@ -179,7 +179,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
                         $link = $context['url_to_home'].$context['url_to_root'].Locations::get_url($_REQUEST['id']);
 			$description = $_REQUEST['geo_place_name']."\n"
 				.sprintf(i18n::c('at %s'), '<a href="'.$link.'">'.$link.'</a>');
-			Logger::notify('locations/edit.php', $label, $description);
+			Logger::notify('locations/edit.php: '.$label, $description);
 		}
 
 	// update of an existing location

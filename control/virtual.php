@@ -84,7 +84,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been deleted'), $file);
-		Logger::remember('control/virtual.php', $label);
+		Logger::remember('control/virtual.php: '.$label);
 
 	}
 
@@ -163,7 +163,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been created'), $target);
-		Logger::remember('control/virtual.php', $label);
+		Logger::remember('control/virtual.php: '.$label);
 
 	}
 

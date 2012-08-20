@@ -81,7 +81,7 @@ if(!Surfer::is_associate()) {
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), '.htaccess');
-			Logger::remember('control/htaccess/index.php', $label);
+			Logger::remember('control/htaccess/index.php: '.$label);
 
 		}
 

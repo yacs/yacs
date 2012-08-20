@@ -127,7 +127,7 @@ if(Surfer::is_crawler()) {
 
 	// save the request if debug mode
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-		Logger::remember('links/trackback.php', 'trackback request', $_REQUEST, 'debug');
+		Logger::remember('links/trackback.php: trackback request', $_REQUEST, 'debug');
 
 	// do we have a valid target to track?
 	if(!$anchor || !is_object($anchor))
@@ -225,7 +225,7 @@ if(Surfer::is_crawler()) {
 
 		// save the response if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/trackback.php', 'trackback response', $response, 'debug');
+			Logger::remember('links/trackback.php: trackback response', $response, 'debug');
 
 		// send the response
 		Safe::header('Content-Type: text/xml');

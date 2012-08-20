@@ -125,7 +125,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
-	Logger::remember('services/ping.php', 'ping request', $raw_data, 'debug');
+	Logger::remember('services/ping.php: ping request', $raw_data, 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
@@ -154,9 +154,9 @@ if(!$raw_data) {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
-		Logger::remember('services/ping.php', 'ping '.$parameters['methodName'], $parameters['params'], 'debug');
+		Logger::remember('services/ping.php: ping '.$parameters['methodName'], $parameters['params'], 'debug');
 	elseif(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y') && ($parameters['methodName'] == 'pingback.ping'))
-		Logger::remember('services/ping.php', 'ping '.$parameters['methodName'], $parameters['params'], 'debug');
+		Logger::remember('services/ping.php: ping '.$parameters['methodName'], $parameters['params'], 'debug');
 
 	// depending on method name
 	switch($parameters['methodName']) {
@@ -283,7 +283,7 @@ if(!$raw_data) {
 			include_once $context['path_to_root'].'servers/servers.php';
 			$response = Servers::ping(strip_tags($label), $url);
 			if($response) {
-				Logger::remember('services/ping.php', 'failing ping', $response, 'debug');
+				Logger::remember('services/ping.php: failing ping', $response, 'debug');
 				$response = array('flerror' => 1, 'message' => $response);
 			} else
 				$response = array('flerror' => 0, 'message' => 'Thanks for the ping');
@@ -293,7 +293,7 @@ if(!$raw_data) {
 
 	default:
 		$response = array('faultCode' => 1, 'faultString' => 'Do not know how to process '.$parameters['methodName']);
-		Logger::remember('services/ping.php', 'ping unsupported methodName', $parameters, 'debug');
+		Logger::remember('services/ping.php: ping unsupported methodName', $parameters, 'debug');
 	}
 }
 
@@ -315,9 +315,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // save the response if debug mode
 if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
-	Logger::remember('services/ping.php', 'ping response', $response, 'debug');
+	Logger::remember('services/ping.php: ping response', $response, 'debug');
 elseif(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y') && ($parameters['methodName'] == 'pingback.ping'))
-	Logger::remember('services/ping.php', 'ping response', $response, 'debug');
+	Logger::remember('services/ping.php: ping response', $response, 'debug');
 
 // the post-processing hook
 finalize_page();

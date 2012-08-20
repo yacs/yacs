@@ -68,7 +68,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/json_rpc.php', 'json_rpc request', rawurldecode($raw_data), 'debug');
+	Logger::remember('services/json_rpc.php: json_rpc request', rawurldecode($raw_data), 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
@@ -107,7 +107,7 @@ if(empty($raw_data)) {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-		Logger::remember('services/json_rpc.php', 'json_rpc '.$parameters['method'], $parameters['params'], 'debug');
+		Logger::remember('services/json_rpc.php: json_rpc '.$parameters['method'], $parameters['params'], 'debug');
 
 	// sanitize parameters
 	if(!isset($parameters['params']))
@@ -121,7 +121,7 @@ if(empty($raw_data)) {
 	if($response['result'] === NULL) {
 		$response['error'] = array('code' => -32601, 'message' => 'Method not found "'.$parameters['method'].'"');
 		if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-			Logger::remember('services/json_rpc.php', 'json_rpc unsupported method '.$parameters['method'], NULL, 'debug');
+			Logger::remember('services/json_rpc.php: json_rpc unsupported method '.$parameters['method'], NULL, 'debug');
 
 	// error passed in result
 	} elseif(is_array($response['result']) && !empty($response['result']['code']) && !empty($response['result']['message'])) {
@@ -156,7 +156,7 @@ else {
 
 	// save the response if debug mode
 	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-		Logger::remember('services/json_rpc.php', 'json_rpc response', $response, 'debug');
+		Logger::remember('services/json_rpc.php: json_rpc response', $response, 'debug');
 
 }
 

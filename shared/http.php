@@ -427,8 +427,8 @@ class http {
 
 		// sanity check
 		if(!is_callable('curl_init')) {
-			if($debug && ($context['with_debug'] == 'Y'))
-				Logger::remember($debug, 'CURL is not implemented"', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: CURL is not implemented"', '', 'debug');
 			return FALSE;
 		}
 

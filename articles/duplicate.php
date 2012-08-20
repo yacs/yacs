@@ -168,7 +168,7 @@ if(!isset($item['id'])) {
 		$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
 
 		// notify sysops
-		Logger::notify('articles/duplicate.php', $label, $description);
+		Logger::notify('articles/duplicate.php: '.$label, $description);
 
 	}
 

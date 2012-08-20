@@ -203,7 +203,7 @@ class Mailer {
 		$request = 'QUIT';
 		fputs($context['mail_handle'], $request.CRLF);
 		if($context['debug_mail'] == 'Y')
-			Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+			Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 		// purge transmission queue
 		Mailer::parse_response($context['mail_handle'], 221);
@@ -281,7 +281,7 @@ class Mailer {
 
 		// ensure that we can support tls communications
 		if(isset($server) && !strncmp($server, 'ssl://', 6) && is_callable('extension_loaded') && !extension_loaded('openssl')) {
-			logger::remember('shared/mailer.php', 'Load the OpenSSL extension to support secured transmissions to mail server '.$server);
+			logger::remember('shared/mailer.php: Load the OpenSSL extension to support secured transmissions to mail server '.$server);
 			return FALSE;
 		}
 
@@ -300,8 +300,8 @@ class Mailer {
 				// open a network connection
 				if(!$handle = Safe::fsockopen($server, $pop3_port, $errno, $errstr, 10)) {
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'fsockopen:', $errstr.' ('.$errno.')', 'debug');
-					Logger::remember('shared/mailer.php', sprintf('Impossible to connect to %s', $server.':'.$pop3_port));
+						Logger::remember('shared/mailer.php: fsockopen:', $errstr.' ('.$errno.')', 'debug');
+					Logger::remember('shared/mailer.php: '.sprintf('Impossible to connect to %s', $server.':'.$pop3_port));
 					return FALSE;
 				}
 
@@ -310,16 +310,16 @@ class Mailer {
 
 				// get server banner
 				if(($reply = fgets($handle)) === FALSE) {
-					Logger::remember('shared/mailer.php', 'Impossible to get banner of '.$server);
+					Logger::remember('shared/mailer.php: Impossible to get banner of '.$server);
 					fclose($handle);
 					return FALSE;
 				}
 				if($context['debug_mail'] == 'Y')
-					Logger::remember('shared/mailer.php', 'POP <-', $reply, 'debug');
+					Logger::remember('shared/mailer.php: POP <-', $reply, 'debug');
 
 				// expecting an OK
 				if(strncmp($reply, '+OK', 3)) {
-					Logger::remember('shared/mailer.php', 'Mail service is closed at '.$server, $reply);
+					Logger::remember('shared/mailer.php: Mail service is closed at '.$server, $reply);
 					fclose($handle);
 					return FALSE;
 				}
@@ -328,19 +328,19 @@ class Mailer {
 				$request = 'USER '.$context['mail_account'];
 				fputs($handle, $request.CRLF);
 				if($context['debug_mail'] == 'Y')
-					Logger::remember('shared/mailer.php', 'POP ->', $request, 'debug');
+					Logger::remember('shared/mailer.php: POP ->', $request, 'debug');
 
 				// expecting an OK
 				if(($reply = fgets($handle)) === FALSE) {
-					Logger::remember('shared/mailer.php', 'No reply to USER command at '.$server);
+					Logger::remember('shared/mailer.php: No reply to USER command at '.$server);
 					fclose($handle);
 					return FALSE;
 				}
 				if($context['debug_mail'] == 'Y')
-					Logger::remember('shared/mailer.php', 'POP <-', $reply, 'debug');
+					Logger::remember('shared/mailer.php: POP <-', $reply, 'debug');
 
 				if(strncmp($reply, '+OK', 3)) {
-					Logger::remember('shared/mailer.php', 'Unknown account '.$context['mail_account'].' at '.$server, $reply);
+					Logger::remember('shared/mailer.php: Unknown account '.$context['mail_account'].' at '.$server, $reply);
 					fclose($handle);
 					return FALSE;
 				}
@@ -349,19 +349,19 @@ class Mailer {
 				$request = 'PASS '.$context['mail_password'];
 				fputs($handle, $request.CRLF);
 				if($context['debug_mail'] == 'Y')
-					Logger::remember('shared/mailer.php', 'POP ->', $request, 'debug');
+					Logger::remember('shared/mailer.php: POP ->', $request, 'debug');
 
 				// expecting an OK
 				if(($reply = fgets($handle)) === FALSE) {
-					Logger::remember('shared/mailer.php', 'No reply to PASS command at '.$server);
+					Logger::remember('shared/mailer.php: No reply to PASS command at '.$server);
 					fclose($handle);
 					return FALSE;
 				}
 				if($context['debug_mail'] == 'Y')
-					Logger::remember('shared/mailer.php', 'POP <-', $reply, 'debug');
+					Logger::remember('shared/mailer.php: POP <-', $reply, 'debug');
 
 				if(strncmp($reply, '+OK', 3)) {
-					Logger::remember('shared/mailer.php', 'Invalid password for account '.$account.' at '.$server, $reply);
+					Logger::remember('shared/mailer.php: Invalid password for account '.$account.' at '.$server, $reply);
 					fclose($handle);
 					return FALSE;
 				}
@@ -377,8 +377,8 @@ class Mailer {
 			// open a network connection
 			if(!$handle = Safe::fsockopen($server, $port, $errno, $errstr, 10)) {
 				if($context['debug_mail'] == 'Y')
-					Logger::remember('shared/mailer.php', 'fsockopen:', $errstr.' ('.$errno.')', 'debug');
-				Logger::remember('shared/mailer.php', sprintf('Impossible to connect to %s', $server.':'.$port));
+					Logger::remember('shared/mailer.php: fsockopen:', $errstr.' ('.$errno.')', 'debug');
+				Logger::remember('shared/mailer.php: '.sprintf('Impossible to connect to %s', $server.':'.$port));
 				return FALSE;
 			}
 
@@ -387,7 +387,7 @@ class Mailer {
 
 			// get server banner
 			if(($response = Mailer::parse_response($handle, 220)) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Impossible to get banner of '.$server);
+				Logger::remember('shared/mailer.php: Impossible to get banner of '.$server);
 				fclose($handle);
 				return FALSE;
 			}
@@ -399,11 +399,11 @@ class Mailer {
 				$request = 'HELO '.$context['host_name'];
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
-				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+				Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 			// expecting a welcome message
 			if(($response = Mailer::parse_response($handle, 250)) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command EHLO has been rejected at '.$server);
+				Logger::remember('shared/mailer.php: Command EHLO has been rejected at '.$server);
 				fclose($handle);
 				return FALSE;
 			}
@@ -418,9 +418,9 @@ class Mailer {
 					$request = 'AUTH CRAM-MD5';
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+						Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 					if(($response = Mailer::parse_response($handle, 334)) === FALSE) {
-						Logger::remember('shared/mailer.php', 'Command AUTH has been rejected at '.$server);
+						Logger::remember('shared/mailer.php: Command AUTH has been rejected at '.$server);
 						fclose($handle);
 						return FALSE;
 					}
@@ -443,7 +443,7 @@ class Mailer {
 					$request = base64_encode($context['mail_account'].' '.$digest);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+						Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 				// LOGIN
 				} elseif(strpos($matches[1], 'LOGIN') !== FALSE) {
@@ -451,9 +451,9 @@ class Mailer {
 					$request = 'AUTH LOGIN';
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+						Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 					if(Mailer::parse_response($handle, 334) === FALSE) {
-						Logger::remember('shared/mailer.php', 'Command AUTH has been rejected at '.$server);
+						Logger::remember('shared/mailer.php: Command AUTH has been rejected at '.$server);
 						fclose($handle);
 						return FALSE;
 					}
@@ -461,9 +461,9 @@ class Mailer {
 					$request = base64_encode($context['mail_account']);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+						Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 					if(Mailer::parse_response($handle, 334) === FALSE) {
-						Logger::remember('shared/mailer.php', 'Command AUTH has been rejected at '.$server);
+						Logger::remember('shared/mailer.php: Command AUTH has been rejected at '.$server);
 						fclose($handle);
 						return FALSE;
 					}
@@ -471,7 +471,7 @@ class Mailer {
 					$request = base64_encode($context['mail_password']);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+						Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 				// PLAIN
 				} elseif(strpos($matches[1], 'PLAIN') !== FALSE) {
@@ -479,13 +479,13 @@ class Mailer {
 					$request = 'AUTH PLAIN '.base64_encode("\0".$context['mail_account']."\0".$context['mail_password']);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
-						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+						Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 				}
 
 				// expecting an OK
 				if(Mailer::parse_response($handle, 235) === FALSE) {
-					Logger::remember('shared/mailer.php', 'Command AUTH has been rejected at '.$server);
+					Logger::remember('shared/mailer.php: Command AUTH has been rejected at '.$server);
 					fclose($handle);
 					return FALSE;
 				}
@@ -780,7 +780,7 @@ class Mailer {
 			if(($line = fgets($handle)) === FALSE)
 				return FALSE;
 			if($context['debug_mail'] == 'Y')
-				Logger::remember('shared/mailer.php', 'SMTP <-', rtrim($line), 'debug');
+				Logger::remember('shared/mailer.php: SMTP <-', rtrim($line), 'debug');
 
 			// get text
 			if($response)
@@ -1164,7 +1164,7 @@ class Mailer {
 			// this e-mail address has already been processed
 			if(in_array($recipient, $context['mailer_recipients'])) {
 				if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
-					Logger::remember('shared/mailer.php', 'Skipping recipient already processed', $recipient, 'debug');
+					Logger::remember('shared/mailer.php: Skipping recipient already processed', $recipient, 'debug');
 				continue;
 
 			// remember this recipient
@@ -1251,7 +1251,7 @@ class Mailer {
 
 			$all_headers = 'Subject: '.$subject."\n".'To: '.$decoded_recipient."\n".$headers;
 
-			Logger::remember('shared/mailer.php', 'sending a message to '.$decoded_recipient, $all_headers."\n\n".$message, 'debug');
+			Logger::remember('shared/mailer.php: sending a message to '.$decoded_recipient, $all_headers."\n\n".$message, 'debug');
 			Safe::file_put_contents('temporary/mailer.process.txt', $all_headers."\n\n".$message);
 		}
 
@@ -1273,11 +1273,11 @@ class Mailer {
 			$request = 'MAIL FROM:<'.$address.'>';
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
-				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+				Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command MAIL FROM has been rejected by server');
+				Logger::remember('shared/mailer.php: Command MAIL FROM has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1286,11 +1286,11 @@ class Mailer {
 			$request = 'RCPT TO:<'.$actual_recipient.'>';
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
-				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+				Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command RCPT TO has been rejected by server');
+				Logger::remember('shared/mailer.php: Command RCPT TO has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1299,11 +1299,11 @@ class Mailer {
 			$request = 'DATA';
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
-				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+				Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 354) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Command DATA has been rejected by server');
+				Logger::remember('shared/mailer.php: Command DATA has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1324,11 +1324,11 @@ class Mailer {
 			// actual post
 			fputs($handle, $request);
 			if($context['debug_mail'] == 'Y')
-				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
+				Logger::remember('shared/mailer.php: SMTP ->', $request, 'debug');
 
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
-				Logger::remember('shared/mailer.php', 'Message has been rejected by server');
+				Logger::remember('shared/mailer.php: Message has been rejected by server');
 				Mailer::close();
 				return 0;
 			}
@@ -1339,15 +1339,15 @@ class Mailer {
 			// submit the post
 			if(!@mail($actual_recipient, $subject, $message, $headers)) {
 				if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
-					Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
+					Logger::remember('shared/mailer.php: '.sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
 				elseif($context['with_debug'] == 'Y')
-					Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
+					Logger::remember('shared/mailer.php: '.sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
 				return 0;
 			}
 
 		// don't know how to send messages
 		} else {
-			Logger::remember('shared/mailer.php', i18n::s('E-mail has not been enabled on this system.'));
+			Logger::remember('shared/mailer.php: '.i18n::s('E-mail has not been enabled on this system.'));
 			return 0;
 		}
 
@@ -1357,7 +1357,7 @@ class Mailer {
 
 		// job done
 		if($context['debug_mail'] == 'Y')
-			Logger::remember('shared/mailer.php', 'one message has been transmitted to '.$decoded_recipient, $decoded_subject, 'debug');
+			Logger::remember('shared/mailer.php: one message has been transmitted to '.$decoded_recipient, $decoded_subject, 'debug');
 		return 1;
 
 	}

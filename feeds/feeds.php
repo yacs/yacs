@@ -133,7 +133,7 @@ class Feeds {
 
 		// stop here if no host
 		if(!isset($items['host']) || !$items['host']) {
-			Logger::remember('feeds/feeds.php', 'No valid host at '.$feed_url);
+			Logger::remember('feeds/feeds.php: No valid host at '.$feed_url);
 			return NULL;
 		}
 
@@ -314,7 +314,7 @@ class Feeds {
 					$fields['title'] = i18n::c('External News');
 					$fields['description'] = i18n::c('Received from feeding servers');
 					if(!$fields['id'] = Sections::post($fields)) {
-						Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
+						Logger::remember('feeds/feeds.php: Impossible to add a section.');
 						return;
 					}
 					$anchor = 'section:'.$fields['id'];
@@ -329,14 +329,14 @@ class Feeds {
 				// link has to be valid
 				if(!isset($item['link']) || !($item['title'].$item['description'])) {
 					if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-						Logger::remember('feeds/feeds.php', 'feed item is invalid', $item, 'debug');
+						Logger::remember('feeds/feeds.php: feed item is invalid', $item, 'debug');
 					continue;
 				}
 
 				// skip banned servers
 				if($banned_pattern && preg_match($banned_pattern, $item['link'])) {
 					if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-						Logger::remember('feeds/feeds.php', 'feed host has been banned', $item['link'], 'debug');
+						Logger::remember('feeds/feeds.php: feed host has been banned', $item['link'], 'debug');
 					continue;
 				}
 
@@ -363,7 +363,7 @@ class Feeds {
 
 				// save link in the database
 				if(!Links::post($fields))
-					Logger::remember('feeds/feeds.php', 'Impossible to save feed link: '.Logger::error_pop());
+					Logger::remember('feeds/feeds.php: Impossible to save feed link: '.Logger::error_pop());
 			}
 
 			// one feed has been processed

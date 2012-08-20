@@ -1913,7 +1913,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), $parameters_file);
-		Logger::remember('skins/flexible/configure.php', $label);
+		Logger::remember('skins/flexible/configure.php: '.$label);
 
 	}
 
@@ -2370,7 +2370,7 @@ elseif(!Surfer::is_associate()) {
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), $styles_file);
-			Logger::remember('skins/flexible/configure.php', $label);
+			Logger::remember('skins/flexible/configure.php: '.$label);
 
 		}
 	}
