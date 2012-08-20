@@ -171,45 +171,16 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
-		// touch the related anchor, but only if the page has been published
+		// do whatever is necessary on page publication
 		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
-			// notification to send by e-mail
-			$mail = array();
-			$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($_REQUEST['title']));
-			$mail['notification'] = Articles::build_notification('create', $_REQUEST);
-			$mail['headers'] = Mailer::set_thread('article:'.$_REQUEST['id']);
+			Articles::finalize_publication($anchor, $_REQUEST, $overlay,
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
-			// the overlay may have already notified persons involved
-			if(!is_object($overlay) || $overlay->should_notify_watchers())
-				$anchor->alert_watchers($mail, 'article:create', ($_REQUEST['active'] == 'N'));
-
-			// send to followers of this user
-			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
-				&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
-					$mail['message'] = Mailer::build_notification($mail['notification'], 2);
-					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-			}
-
-			// update anchors
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
-
-			// advertise public pages
-			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
-
-				// pingback, if any
-				Links::ping($_REQUEST['description'], 'article:'.$_REQUEST['id']);
-
-				// ping servers
-				Servers::notify($anchor->get_url());
-
-			}
-
-			// 'publish' hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $_REQUEST['id']);
-
-		}
+		// else do whatever is necessary on page submission
+		} else
+			Articles::finalize_submission($anchor, $_REQUEST, $overlay);
 
 		// get the new item
 		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
@@ -232,30 +203,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		// log the creation of a new page
-		if(!Surfer::is_empowered())
-			$label = sprintf(i18n::c('New submission: %s'), strip_tags($article->get_title()));
-		else
-			$label = sprintf(i18n::c('New page: %s'), strip_tags($article->get_title()));
-
-		// poster and target section
-		if(is_object($anchor))
-			$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title())."\n\n";
-		else
-			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name())."\n\n";
-
-		// title and link
-		if($title = $article->get_title())
-			$description .= $title."\n";
-		$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
-
-		// teaser
-		if($teaser = $article->get_teaser('basic'))
-			$description .= "\n\n".$teaser."\n\n";
-
-		// notify sysops
-		Logger::notify('articles/edit.php', $label, $description);
 
 	}
 
