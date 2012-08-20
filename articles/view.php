@@ -195,14 +195,6 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
-// also load the article as an object
-$article = NULL;
-if(isset($item['id'])) {
-	include_once 'article.php';
-	$article = new Article();
-	$article->load_by_content($item, $anchor);
-}
-
 // get related behaviors, if any
 $behaviors = NULL;
 if(isset($item['id']))
