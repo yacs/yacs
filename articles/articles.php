@@ -655,14 +655,29 @@ Class Articles {
 		// panel content
 		$content = '';
 
+		// more insight on this page
+		$prefix = $suffix = '';
+
+		// signal articles to be published
+		if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+			$prefix .= DRAFT_FLAG;
+
 		// signal restricted and private articles
 		if($item['active'] == 'N')
-			$title = PRIVATE_FLAG.$title;
+			$prefix .= PRIVATE_FLAG;
 		elseif($item['active'] == 'R')
-			$title = RESTRICTED_FLAG.$title;
+			$prefix .= RESTRICTED_FLAG;
+
+		// flag expired articles
+		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+			$prefix .= EXPIRED_FLAG.' ';
+
+		// signal locked articles
+		if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
+			$suffix .= ' '.LOCKED_FLAG;
 
 		// insert page title
-		$content .= '<h3><span>'.$title.'</span></h3>';
+		$content .= '<h3><span>'.$prefix.$title.$suffix.'</span></h3>';
 
 		// insert anchor prefix
 		if(is_object($anchor))
@@ -699,22 +714,74 @@ Class Articles {
 		// attachment details
 		$details = array();
 
+		// avoid first file in list if mentioned in last comment
+		$file_offset = 0;
+
+		// comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
+
+			// get last contribution for this page
+			if($comment = Comments::get_newest_for_anchor('article:'.$item['id'])) {
+
+				if(preg_match('/\[(download|file)=/', $comment['description']))
+					$file_offset++;
+
+				// bars around the last contribution
+				$bottom_menu = array();
+
+				// last contributor
+				$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
+				$flag = '';
+				if($comment['create_date'] >= $context['fresh'])
+					$flag = NEW_FLAG;
+				elseif($comment['edit_date'] >= $context['fresh'])
+					$flag = UPDATED_FLAG;
+				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
+
+				// gather pieces
+				$pieces = array();
+
+				// last contribution, and user signature
+				$pieces[] = ucfirst(trim($comment['description'])).Users::get_signature($comment['create_id']);
+
+				// bottom
+				if($bottom_menu)
+					$pieces[] = '<div>'.ucfirst(trim(Skin::finalize_list($bottom_menu, 'menu'))).'</div>';
+
+				// put all pieces together
+				$content .= '<div>'."\n"
+					.join("\n", $pieces)
+					.'</div>'."\n";
+
+			}
+
+			// count comments
+			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
+		}
+
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
-			// the actual list of files attached to this article
-			if(Articles::has_option('files_by', $anchor, $item) == 'title')
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
-			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
+			// most recent files attached to this page
+			if($items = Files::list_by_date_for_anchor('article:'.$item['id'], $file_offset, 3, 'dates')) {
+
+				// more files than listed
+				$more = '';
+				if($count > 3)
+					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
+
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+
+				$items = '<div>'.$more.$items.'</div>';
+			}
 
 			// wrap it with some header
-			if(is_array($items))
-				$items = Skin::build_list($items);
 			if($items)
 				$content .= '<h3><span>'.i18n::c('Files').'</span></h3>'.$items;
 
-			// details to be displayed at page bottom
+			// count files
 			$details[] = sprintf(i18n::nc('%d file', '%d files', $count), $count);
 		}
 
@@ -722,11 +789,6 @@ Class Articles {
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = sprintf(i18n::nc('%d link', '%d links', $count), $count);
-
-		// comments
-		include_once $context['path_to_root'].'comments/comments.php';
-		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
 
 		// describe attachments
 		if(count($details))
