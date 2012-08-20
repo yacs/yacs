@@ -331,16 +331,11 @@ if(Surfer::is_crawler()) {
 
 		}
 
-		// if poster is a registered user
-		if(Surfer::get_id()) {
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
 
-			// increment the post counter of the surfer
-			Users::increment_posts(Surfer::get_id());
-
-			// add this page to watch list
-			Members::assign('article:'.$_REQUEST['id'], 'user:'.Surfer::get_id());
-
-		}
+		// do whatever is necessary on page publication
+		Articles::finalize_publication($anchor, $_REQUEST, $overlay);
 
 		// get the new item
 		$article = Anchors::get('article:'.$_REQUEST['id']);
@@ -360,19 +355,6 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		// log the creation of a new page
-		$label = sprintf(i18n::c('New page: %s'), strip_tags($article->get_title()));
-
-		// poster and target section
-		$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title());
-
-		// title and link
-		$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
-                $description .= "\n\n".'<a href="'.$link.'">'.$link.'</a>'."\n\n";
-
-		// notify sysops
-		Logger::notify('forms/view.php', $label, $description);
 
 	}
 
