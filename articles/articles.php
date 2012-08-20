@@ -1116,6 +1116,156 @@ Class Articles {
 	}
 
 	/**
+	 * do whatever is necessary when a page has been published
+	 *
+	 * This function:
+	 * - logs the publication
+	 * - sends notification to watchers and to followers
+	 * - "touches" the container of the page,
+	 * - ping referred pages remotely (via the pingback protocol)
+	 * - ping selected servers, if any
+	 * - and triggers the hook 'publish'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 * @param boolean TRUE if dates should be left unchanged, FALSE otherwise
+	 * @param boolean TRUE if followers should be notified, FALSE otherwise
+	 */
+	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
+		global $context;
+
+		// log page publication
+		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('publish', $item);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watcherss
+		if(!is_object($overlay) || $overlay->should_notify_watchers())
+			$anchor->alert_watchers($mail, 'article:publish', ($item['active'] == 'N'));
+
+		// never notify followers on private pages
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			$with_followers = FALSE;
+
+		// allow the overlay to prevent notifications of followers
+		if(is_object($overlay) && !$overlay->should_notify_followers())
+			$with_followers = FALSE;
+
+		// send to followers of this user
+		if($with_followers && Surfer::get_id()) {
+			$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+			Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
+
+		// update anchors
+		$anchor->touch('article:publish', $item['id'], $silently);
+
+		// advertise public pages
+		if(isset($item['active']) && ($item['active'] == 'Y')) {
+
+			// expose links within the page
+			$raw = '';
+			if(isset($item['introduction']))
+				$raw .= $item['introduction'];
+			if(isset($item['source']))
+				$raw .= ' '.$item['source'];
+			if(isset($item['description']))
+				$raw .= ' '.$item['description'];
+
+			// pingback to referred links, if any
+			Links::ping($raw, 'article:'.$item['id']);
+
+			// ping servers, if any
+			Servers::notify($anchor->get_url());
+
+		}
+
+		// 'publish' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('publish', $item['id']);
+
+	}
+
+	/**
+	 * do whatever is necessary when a page has been submitted
+	 *
+	 * This function:
+	 * - logs the submission
+	 * - sends notification to owners that are also watchers
+	 * - "touches" the container of the page,
+	 * - and triggers the hook 'submit'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 */
+	public static function finalize_submission($anchor, $item, $overlay=NULL) {
+		global $context;
+
+		// log page submission
+		$label = sprintf(i18n::c('Submission: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('submit', $item);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watcherss
+		if(!is_object($overlay) || $overlay->should_notify_watchers()) {
+
+			// look for anchor owner, and climb upwards
+
+			// send mail to each owner
+//			$anchor->alert_watchers($mail, 'article:submit', ($item['active'] == 'N'));
+
+		}
+
+		// update anchors
+		$anchor->touch('article:submit', $item['id']);
+
+		// 'publish' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('submit', $item['id']);
+
+	}
+
+	/**
 	 * get one article by id, nick name or by handle
 	 *
 	 * @param int the id of the article
