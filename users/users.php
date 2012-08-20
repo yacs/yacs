@@ -53,6 +53,10 @@ Class Users {
 	public static function alert($user, $mail) {
 		global $context;
 
+		// sanity check
+		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']) || !$mail['message'])
+			return FALSE;
+
 		// retrieve user attributes
 		if(!isset($user['id']) && (!$user = Users::get($user)))
 			return FALSE;
@@ -63,10 +67,6 @@ Class Users {
 
 		// ensure poster wants alerts
 		if(isset($user['without_alerts']) && ($user['without_alerts'] == 'Y'))
-			return FALSE;
-
-		// sanity check
-		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']))
 			return FALSE;
 
 		// the list of users notified during overall script execution

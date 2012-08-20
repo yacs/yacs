@@ -1091,7 +1091,7 @@ Class Skin_Skeleton {
 		$text = '';
 		if($variant)
 			$text = ' <span class="flag">'.$variant.'</span> ';
-		 return $text;
+		return $text;
 	}
 
 	/**

@@ -510,7 +510,7 @@ if(is_array($items)) {
 }
 
 // display this aside the thread
-if($items.$invite)
+if($items || $invite)
 	$text .= Skin::build_box(i18n::s('Files'), '<div id="thread_files_panel">'.$items.'</div>'.$invite, 'boxes', 'files');
 
 // links
