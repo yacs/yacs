@@ -1788,7 +1788,7 @@ Class Skin_Skeleton {
 		case 'button':
 
 			// always stay in the same window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" '.$attributes.'><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button tip" '.$attributes.'><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1807,7 +1807,7 @@ Class Skin_Skeleton {
 			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// always open in a separate window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button tip" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1992,7 +1992,7 @@ Class Skin_Skeleton {
 
 		case 'tee': // like button, but also reload the current page and go to another window
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"'.$attributes.'>'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button tip" onclick="window.open(this.href); window.location.reload(); return false;"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'idle user':

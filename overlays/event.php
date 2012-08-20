@@ -2328,7 +2328,9 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'),
+						$this->with_new_window()?'tee':'button',
+						i18n::s('Meeting has started!'));
 
 				// display the button to stop the meeting
 				if($this->with_stop_button())
@@ -2340,14 +2342,18 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'),
+						$this->with_new_window()?'tee':'button',
+						i18n::s('Meeting has started!'));
 
 			// surfer has been fully enrolled
 			} elseif(($enrolment = enrolments::get_record($this->anchor->get_reference())) && ($enrolment['approved'] == 'Y')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'),
+						$this->with_new_window()?'tee':'button',
+						i18n::s('Meeting has started!'));
 
 			}
 		}
