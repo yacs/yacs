@@ -98,7 +98,12 @@ class Overlay {
 	/**
 	 * attributes specific to this overlay
 	 */
-	var $attributes;
+	var $attributes = array();
+
+	/**
+	 * previous version of attributes, when overlay content is updated
+	 */
+	var $snapshot = array();
 
 	/**
 	 * allow or block operations
