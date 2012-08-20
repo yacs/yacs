@@ -2030,10 +2030,10 @@ Class Users {
 		if(!Surfer::is_associate())
 			$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
-		// how to compute the score for users
+		// how to compute the score for users --use login date instead of modification date
 		$score = "(MATCH(nick_name, full_name, introduction, description) "
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), login_date))))";
 
 		// the list of users
 		$query = "SELECT *,"
