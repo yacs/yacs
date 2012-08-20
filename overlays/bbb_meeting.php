@@ -245,7 +245,7 @@ class BBB_Meeting extends Meeting {
 		}
 
 		// do create the meeting
-		if(($response = http::proceed_natively($url, $headers, $body, 'overlays/bbb_meeting.php'))
+		if(($response = http::proceed_natively($url, $headers, $body))
 				&& ($xml = simplexml_load_string($response))
 				&& ($xml->returncode == 'SUCCESS')) {
 
@@ -317,7 +317,7 @@ class BBB_Meeting extends Meeting {
 		$url = $this->build_link('getRecordings', $parameters);
 
 		// query the BBB back-end
-		if(($response = http::proceed_natively($url, NULL, NULL, 'overlays/bbb_meeting.php'))
+		if(($response = http::proceed_natively($url))
 				&& ($xml = simplexml_load_string($response))
 				&& ($xml->returncode == 'SUCCESS')) {
 

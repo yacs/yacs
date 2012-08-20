@@ -142,7 +142,7 @@ class Chat_meeting extends Meeting {
 			$parameters['location'] = $_SERVER['REMOTE_ADDR'];
 
 			// get a new session id
-			if($response = http::proceed_natively($url, $headers, $parameters, 'overlays/chat_meeting.php')) {
+			if($response = http::proceed_natively($url, $headers, $parameters)) {
 
 				// invalid xml response
 				if(!$xml = @simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA)) {

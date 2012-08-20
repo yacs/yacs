@@ -119,7 +119,7 @@ class Etherpad_Meeting extends Meeting {
 		$data['padId'] = $this->attributes['meeting_id'];
 
 		// do create the meeting
-		if($response = http::proceed($url, NULL, $data, 'overlays/etherpad_meeting.php')) {
+		if($response = http::proceed($url, NULL, $data)) {
 
 			// link to import data
 			$url = 'http://'.$this->get_hostname().'/ep/pad/impexp/import';
@@ -143,7 +143,7 @@ class Etherpad_Meeting extends Meeting {
 				.'-----------------------------955793517264236671351016652--'."\n";
 
 			// don't stop on error
-			http::proceed($url, $headers, $data, 'overlays/etherpad_meeting.php');
+			http::proceed($url, $headers, $data);
 
 		}
 

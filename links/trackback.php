@@ -138,7 +138,7 @@ if(Surfer::is_crawler()) {
 		$response = array('faultCode' => 1, 'faultString' => 'The source has already been registered');
 
 	// read the source file
-	elseif(($content = http::proceed($source, '', '', 'links/trackback.php')) === FALSE)
+	elseif(($content = http::proceed($source)) === FALSE)
 		$response = array('faultCode' => 1, 'faultString' => 'Cannot read source address '.$source);
 
 	// we have to find a reference to the target here

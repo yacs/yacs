@@ -15,15 +15,14 @@ Class Link {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param string optional data to send
-	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	function fetch($url, $headers='', $data='', $debug='', $cookie='') {
+	function fetch($url, $headers='', $data='', $cookie='') {
 		global $context;
 
 		// use the http library
-		return http::proceed($url, $headers, $data, $debug, $cookie);
+		return http::proceed($url, $headers, $data, $cookie);
 
 	}
 

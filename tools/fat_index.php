@@ -61,7 +61,7 @@ if(isset($_REQUEST['reference']) && strlen($_REQUEST['reference'])) {
 	$reference = $_REQUEST['reference'];
 
 	// fetch the object through the web
-	if(!$input = http::proceed($reference, '', '', 'tools/fat_index.php', $cookie)) {
+	if(!$input = http::proceed($reference, '', '', $cookie)) {
 
 		// the standard way to localize string throughout YACS is to invoke i18n::s() -- see i18n/i18n.php
 		Logger::error(sprintf(i18n::s('error while fetching %s'), $reference).' ('.http::get_error().')');
