@@ -908,8 +908,8 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where
-			." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+			." WHERE (".$where.")"
+			." ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;

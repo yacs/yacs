@@ -160,7 +160,7 @@ Class Visits {
 			."	AND (visits.anchor LIKE '".SQL::escape($anchor)."')"
 			."	AND (visits.edit_date >= '".SQL::escape($threshold)."')"
 			."	AND (".$where.")"
-			." ORDER BY users.nick_name LIMIT ".$offset.','.$count;
+			." ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $layout);
