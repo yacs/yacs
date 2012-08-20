@@ -667,22 +667,9 @@ else {
 				else {
 					$response = TRUE;
 
-					// if the page has been published
-					if($fields['publish_date'] > NULL_DATE) {
-
-						// advertise public pages
-						if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
-
-							// pingback, if any
-							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-
-						}
-
-						// 'publish' hook
-						if(is_callable(array('Hooks', 'include_scripts')))
-							Hooks::include_scripts('publish', $item['id']);
-
-					}
+					// do whatever is necessary on page publication
+					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+						Articles::finalize_publication($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
@@ -1059,22 +1046,9 @@ else {
 				// one post more for this user
 				Users::increment_posts($user['id']);
 
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if($section->is_public()) {
-
-						// pingback, if any
-						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
-
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $fields['id']);
-
-				}
+				// do whatever is necessary on page publication
+				if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+					Articles::finalize_publication($section, $fields);
 
 				// list the article in categories
 				$keywords = '';
@@ -1215,21 +1189,9 @@ else {
 				else {
 					$response = TRUE;
 
-					// if the page has been published
-					if($fields['publish_date'] > NULL_DATE) {
-
-						// advertise public pages
-						if($anchor->is_public() && ($item['active'] == 'Y')) {
-
-							// pingback, if any
-							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-						}
-
-						// 'publish' hook
-						if(is_callable(array('Hooks', 'include_scripts')))
-							Hooks::include_scripts('publish', $item['id']);
-
-					}
+					// do whatever is necessary on page publication
+					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+						Articles::finalize_publication($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
@@ -1624,30 +1586,9 @@ else {
 				// increment the post counter of the surfer
 				Users::increment_posts($user['id']);
 
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if($section->is_public()) {
-
-						// places to look for references
-						$to_be_parsed = '';
-						if(isset($fields['introduction']))
-							$to_be_parsed .= $fields['introduction'].' ';
-						if(isset($fields['source']))
-							$to_be_parsed .= $fields['source'].' ';
-						if(isset($fields['description']))
-							$to_be_parsed .= $fields['description'].' ';
-
-						// pingback, if any
-						Links::ping($to_be_parsed, 'article:'.$fields['id']);
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $fields['id']);
-
-				}
+				// do whatever is necessary on page publication
+				if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+					Articles::finalize_publication($section, $fields);
 
 				// add tags to this page
 				$keywords = '';
