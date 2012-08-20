@@ -160,6 +160,39 @@ class Issue extends Overlay {
 	}
 
 	/**
+	 * display content in an e-mail notification
+	 *
+	 * Everything is in a separate panel
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function get_diff_text($host=NULL) {
+
+		// we will return a table
+		$rows = array();
+
+		// this page has an explicit owner
+		if(isset($host['owner_id']) && ($user = Users::get($host['owner_id']))) {
+
+			// display information on the owner
+			$rows[] = array(i18n::s('Owner'), Users::get_link($user['full_name'], NULL, $user['id']));
+		}
+
+		// show progress
+		$rows[] = array(i18n::s('Progress'), $this->get_progress_text());
+
+		// type
+		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
+
+		// the status and history
+		$rows[] = array(i18n::s('Status'), self::get_status_label($this->attributes['status']).self::get_history());
+
+		// job done
+		return Skin::table(NULL, $rows, 'grid');
+	}
+
+	/**
 	 * streamline the user interface as much as possible
 	 */
 	function get_edit_as_simple_value() {
@@ -502,7 +535,7 @@ class Issue extends Overlay {
 	function &get_list_text($host=NULL) {
 
 		// show progress
-		$text = BR.self::get_progress_value();
+		$text = BR.$this->get_progress_text();
 
 		return $text;
 	}
@@ -536,12 +569,11 @@ class Issue extends Overlay {
 	}
 
 	/**
-	 * provide issue progress
+	 * document issue status
 	 *
-	 * @param mixed default value
-	 * @return string current issue type
+	 * @return string to be returned to browser
 	 */
-	function get_progress_value($default=NULL) {
+	function get_progress_text() {
 		global $context;
 
 		// based on status
@@ -595,8 +627,15 @@ class Issue extends Overlay {
 		else
 			$extra = '';
 
-		// return
-		return '<img src="'.$context['url_to_root'].'skins/_reference/overlays/percent-'.$meter.$extra.'.png" alt="'.$meter.'%" />';
+		// link to an image
+		$text = '<img src="'.$context['url_to_root'].'skins/_reference/overlays/percent-'.$meter.$extra.'.png" alt="'.$meter.'%" />';
+
+		// flag change, if any
+		if(isset($this->snapshot['status']) && ($this->snapshot['status'] != $this->attributes['status']))
+			$text .= Skin::build_flag('updated');
+
+		// job done
+		return $text;
 	}
 
 	/**
@@ -1012,9 +1051,6 @@ class Issue extends Overlay {
 	}
 
 	/**
-	 * provide a value specific to this overlay
-	 *
-	/**
 	 * display content of main panel
 	 *
 	 * Everything is in a separate panel
@@ -1038,7 +1074,7 @@ class Issue extends Overlay {
 		}
 
 		// show progress
-		$rows[] = array(i18n::s('Progress'), self::get_progress_value());
+		$rows[] = array(i18n::s('Progress'), $this->get_progress_text());
 
 		// type
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
