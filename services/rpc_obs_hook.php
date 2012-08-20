@@ -115,7 +115,7 @@ class RPC_OBS {
 		$url = self::build_obs_link('call/createCall', $data);
 
 		// do create the call
-		if(!$response = http::proceed_natively($url, NULL, NULL, 'services/rpc_obs_hook.php'))
+		if(!$response = http::proceed_natively($url))
 			return array('code' => -32603, 'message' => 'Unable to query the OBS API');
 
 		// ensure we receive correct xml
@@ -175,7 +175,7 @@ class RPC_OBS {
 		$url = self::build_obs_link('call/releaseCall', $data);
 
 		// do release the call
-		if(!$response = http::proceed_natively($url, NULL, NULL, 'services/rpc_obs_hook.php'))
+		if(!$response = http::proceed_natively($url))
 			return array('code' => -32603, 'message' => 'Unable to query the OBS API');
 
 		// ensure we receive correct xml

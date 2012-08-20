@@ -892,7 +892,7 @@ Class Links {
 			}
 
 			// skip invalid links
-			if(($content = http::proceed($url, '', '', 'links/links.php')) === FALSE) {
+			if(($content = http::proceed($url)) === FALSE) {
 				$links_skipped[] = $url;
 				continue;
 			}

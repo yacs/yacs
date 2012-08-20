@@ -101,7 +101,7 @@ class DimDim_Meeting extends Meeting {
 		$data = array('request' => Safe::json_encode($parameters));
 
 		// do authenticate
-		if($response = http::proceed($url, $headers, $data, 'overlays/dimdim_meeting.php')) {
+		if($response = http::proceed($url, $headers, $data)) {
 
 			// successful authentication
 			$output = Safe::json_decode($response);
@@ -142,7 +142,7 @@ class DimDim_Meeting extends Meeting {
 		$data = array('request' => Safe::json_encode($parameters));
 
 		// do authenticate
-		if($response = http::proceed($url, '', $data, 'overlays/dimdim_meeting.php')) {
+		if($response = http::proceed($url, '', $data)) {
 
 			// successful authentication
 			$output = Safe::json_decode($response);
@@ -203,7 +203,7 @@ class DimDim_Meeting extends Meeting {
 				$data = array('request' => Safe::json_encode($parameters));
 
 				// do the transaction
-				if($response = http::proceed($url, $headers, $data, 'overlays/dimdim_meeting.php')) {
+				if($response = http::proceed($url, $headers, $data)) {
 
 					// successful transaction
 					$output = Safe::json_decode($response);

@@ -218,7 +218,7 @@ if(!$raw_data) {
 			$response = 48;
 
 		// check that the source actually has a link to us
-		elseif(($content = http::proceed($source, '', '', 'services/ping.php')) === FALSE)
+		elseif(($content = http::proceed($source)) === FALSE)
 			$response = 16;
 
 		// we have to found a reference to the target here
@@ -275,7 +275,7 @@ if(!$raw_data) {
 			$response = array('flerror' => 1, 'message' => 'We don\'t accept local references '.$url);
 
 		// check we can read the given address, or the same with an additional '/'
-		elseif((($content = http::proceed($url, '', '', 'services/ping.php')) === FALSE) && (($content = http::proceed($url.'/', '', '', 'services/ping.php')) === FALSE))
+		elseif((($content = http::proceed($url)) === FALSE) && (($content = http::proceed($url.'/')) === FALSE))
 			$response = array('flerror' => 1, 'message' => 'Cannot read source address '.$url);
 
 		// create or update a server entry
