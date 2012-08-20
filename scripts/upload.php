@@ -48,7 +48,7 @@ elseif(!Surfer::is_associate()) {
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 		// nothing has been uploaded
-		if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
+		if(!isset($_FILES['upload']['name']) || !$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
 			Logger::error(i18n::s('Nothing has been received.'));
 
 		// a file has been uploaded
