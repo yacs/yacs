@@ -2245,7 +2245,7 @@ class Event extends Overlay {
 			$this->feed_back['status'][] = i18n::s('Registration is managed by page owner');
 
 		// spread the word
-		if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] != 'manual')) {
+		if(isset($this->anchor) && ($this->anchor->is_owned())) {
 			$label = i18n::s('Invite participants');
 			$this->feed_back['menu'][] = Skin::build_link($this->anchor->get_url('invite'), $label, 'span');
 
