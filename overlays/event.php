@@ -2191,8 +2191,9 @@ class Event extends Overlay {
 				."\n"
 				.'}'."\n"
 				."\n"
-				.'// wait for meeting start'."\n"
-				.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 30000);'."\n"
+				.'// reload the page when it changes, or when meeting is started'."\n"
+				.'Lobby.subscribe();'."\n"
+				.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 20000);'."\n"
 				.JS_SUFFIX;
 
 		}
