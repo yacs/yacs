@@ -151,7 +151,7 @@ function send_body() {
 
 			// log script inclusion on development host
 			if($context['with_debug'] == 'Y')
-				logger::remember('scripts/validate.php', 'inclusion of '.$file, '', 'debug');
+				logger::remember('scripts/validate.php: inclusion of '.$file, '', 'debug');
 
 			// include the script and display any error
 			$included_files += 1;

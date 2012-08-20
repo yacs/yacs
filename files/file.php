@@ -248,7 +248,7 @@ Class File extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('files/file.php', 'unexpected NULL origin at touch()');
+			logger::remember('files/file.php: unexpected NULL origin at touch()');
 			return;
 		}
 

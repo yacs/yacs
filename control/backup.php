@@ -330,7 +330,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 	// remember this in log as well
-	Logger::remember('control/backup.php', 'The database has been saved');
+	Logger::remember('control/backup.php: The database has been saved');
 
 	// do not allow for regular rendering
 	exit;
@@ -366,7 +366,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -474,7 +474,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -578,7 +578,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 

@@ -183,7 +183,7 @@ Class Call {
 
 		// save the request if debug mode
 		if(isset($context['debug_call']) && ($context['debug_call'] == 'Y'))
-			Logger::remember('services/call.php', 'Call::invoke() request', str_replace("\r\n", "\n", $request), 'debug');
+			Logger::remember('services/call.php: Call::invoke() request', str_replace("\r\n", "\n", $request), 'debug');
 
 		// submit the request
 		fputs($handle, $request);
@@ -209,7 +209,7 @@ Class Call {
 
 		// save the response if debug mode
 		if(isset($context['debug_call']) && ($context['debug_call'] == 'Y'))
-			Logger::remember('services/call.php', 'Call::invoke() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
+			Logger::remember('services/call.php: Call::invoke() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
 
 		// decode the result
 		return $codec->import_response($content, $headers, $parameters);
@@ -286,7 +286,7 @@ Class Call {
 
 		// save the request if debug mode
 		if($context['debug_call'] == 'Y')
-			Logger::remember('services/call.php', 'Call::list_resources() request', str_replace("\r\n", "\n", $request), 'debug');
+			Logger::remember('services/call.php: Call::list_resources() request', str_replace("\r\n", "\n", $request), 'debug');
 
 		// submit the request
 		fputs($handle, $request);
@@ -312,7 +312,7 @@ Class Call {
 
 		// save the response if debug mode
 		if($context['debug_call'] == 'Y')
-			Logger::remember('services/call.php', 'Call::list_resources() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
+			Logger::remember('services/call.php: Call::list_resources() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
 
 		// we understand only text responses
 		if(!preg_match('/^Content-Type: text/m', $headers))

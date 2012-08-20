@@ -263,7 +263,7 @@ if(Surfer::is_crawler()) {
 				// log page modification
 				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
 				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('sections/edit.php', $label, $description);
+				Logger::notify('sections/edit.php: '.$label, $description);
 
 			// display the updated page
 			} else
@@ -347,7 +347,7 @@ if(Surfer::is_crawler()) {
                 $link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
                 $description .= "\n\n".$section->get_teaser('basic')
 			."\n\n".'<a href="'.$link.'">'.$link.'</a>';
-		Logger::notify('sections/edit.php', $label, $description);
+		Logger::notify('sections/edit.php: '.$label, $description);
 
 	}
 

@@ -104,7 +104,7 @@ if(!isset($item['id'])) {
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
 		$description = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
-		Logger::remember('sections/delete.php', $label, $description);
+		Logger::remember('sections/delete.php: '.$label, $description);
 
 		// this can appear anywhere
 		Cache::clear();

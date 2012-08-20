@@ -231,7 +231,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -383,7 +383,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -535,7 +535,7 @@ if(!$permitted) {
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-			Logger::remember('help/populate.php', $label);
+			Logger::remember('help/populate.php: '.$label);
 
 			// splash
 			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
@@ -789,7 +789,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
+		Logger::remember('help/populate.php: content assistant has created new content');
 
 	}
 
@@ -945,7 +945,7 @@ if(!$permitted) {
 		}
 
 		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
+		Logger::remember('help/populate.php: content assistant has created new content');
 
 	}
 
@@ -1094,7 +1094,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
+		Logger::remember('help/populate.php: content assistant has created new content');
 
 	}
 
@@ -1229,7 +1229,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1339,7 +1339,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1458,7 +1458,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1577,7 +1577,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1642,7 +1642,7 @@ if(!$permitted) {
 			echo Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1843,7 +1843,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}

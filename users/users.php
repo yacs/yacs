@@ -193,7 +193,7 @@ Class Users {
 
 		// log failing basic authentication
 		if(is_callable(array('Logger', 'remember')))
-			Logger::remember('users/users.php', 'Failed basic authentication', 'User: '.$_SERVER['PHP_AUTH_USER']."\n".'Password: '.$_SERVER['PHP_AUTH_PW']);
+			Logger::remember('users/users.php: Failed basic authentication', 'User: '.$_SERVER['PHP_AUTH_USER']."\n".'Password: '.$_SERVER['PHP_AUTH_PW']);
 
 		// tough luck
 		return NULL;
@@ -1245,7 +1245,7 @@ Class Users {
 		if(isset($context['last_resort_password']) && (strlen(trim($context['last_resort_password'])) >= 1) && ($password == $context['last_resort_password'])) {
 
 			// this is an event to remember
-			Logger::remember('users/users.php', i18n::c('lrp has logged in'), i18n::c('Login using the last resort password'));
+			Logger::remember('users/users.php: '.i18n::c('lrp has logged in'), i18n::c('Login using the last resort password'));
 
 			// a fake associate
 			$user = array();
@@ -1692,7 +1692,7 @@ Class Users {
 
 		// remember the id of the new item
 		if(!$fields['id'] = SQL::get_last_id($context['users_connection'])) {
-			logger::remember('users/users.php', 'unable to retrieve id of new record');
+			logger::remember('users/users.php: unable to retrieve id of new record');
 			return FALSE;
 		}
 

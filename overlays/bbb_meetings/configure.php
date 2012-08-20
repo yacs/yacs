@@ -117,7 +117,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/overlays.bbb_meetings.include.php');
-		Logger::remember('overlays/bbb_meetings/configure.php', $label);
+		Logger::remember('overlays/bbb_meetings/configure.php: '.$label);
 
 		// display updated parameters
 		$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folded');

@@ -1041,14 +1041,14 @@ Class Links {
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Links::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
+				Logger::remember('links/links.php: Links::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
 			return FALSE;
 		}
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30)) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Links::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
+				Logger::remember('links/links.php: Links::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
 			return FALSE;
 		}
 
@@ -1079,7 +1079,7 @@ Class Links {
 
 		// save the request if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/links.php', 'Links::ping_as_trackback() request', str_replace("\r\n", "\n", $request), 'debug');
+			Logger::remember('links/links.php: Links::ping_as_trackback() request', str_replace("\r\n", "\n", $request), 'debug');
 
 		// submit the request
 		fputs($handle, $request);
@@ -1090,7 +1090,7 @@ Class Links {
 
 		// save the response if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/links.php', 'Links::ping_as_trackback() response', $code.'...', 'debug');
+			Logger::remember('links/links.php: Links::ping_as_trackback() response', $code.'...', 'debug');
 
 		// check HTTP status
 		if(!preg_match('/^HTTP\/[0-9\.]+ 200/', $code))
@@ -1098,7 +1098,7 @@ Class Links {
 
 		// successful trackback
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/links.php', 'Links::ping_as_trackback() success', $broker[1], 'debug');
+			Logger::remember('links/links.php: Links::ping_as_trackback() success', $broker[1], 'debug');
 		return TRUE;
 	}
 

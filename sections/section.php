@@ -1095,7 +1095,7 @@ Class Section extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('sections/section.php', 'unexpected NULL origin at touch()');
+			logger::remember('sections/section.php: unexpected NULL origin at touch()');
 			return;
 		}
 

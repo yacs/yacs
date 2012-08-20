@@ -180,7 +180,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('%d SQL statements have been processed in %.2f seconds.'), $queries, $time).'</p>';
 
 		// remember this in log as well
-		Logger::remember('tables/import.php', 'Data has been imported into '.$_REQUEST['table_name'], $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('tables/import.php: Data has been imported into '.$_REQUEST['table_name'], $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 

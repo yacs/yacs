@@ -234,7 +234,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/feeds.flash.include.php');
-		Logger::remember('feeds/configure.php', $label);
+		Logger::remember('feeds/configure.php: '.$label);
 
 	}
 

@@ -169,7 +169,7 @@ Class Category extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('categories/category.php', 'unexpected NULL origin at touch()');
+			logger::remember('categories/category.php: unexpected NULL origin at touch()');
 			return;
 		}
 

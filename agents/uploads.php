@@ -161,7 +161,7 @@ class Uploads {
 		// load parameters for uploads
 		Safe::load('parameters/agents.include.php');
 		if(!$context['uploads_nick_name']) {
-			Logger::remember('agents/upload.php', 'no parameters, skipping '.$file);
+			Logger::remember('agents/upload.php: no parameters, skipping '.$file);
 			return;
 		}
 
@@ -256,7 +256,7 @@ class Uploads {
 			foreach($files as $file) {
 
 				// help the webmaster
-				Logger::remember('agents/upload.php', 'processing '.$file);
+				Logger::remember('agents/upload.php: processing '.$file);
 
 				// create articles
 				Uploads::process_handx_weblog($file);

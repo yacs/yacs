@@ -111,7 +111,7 @@ if(Surfer::is_crawler()) {
 		$fields['sections_layout'] = 'directory';
 		$fields['title'] = i18n::c('Groups');
 		if(!$fields['id'] = Sections::post($fields, FALSE)) {
-			Logger::remember('sections/new.php', 'Impossible to add a section.');
+			Logger::remember('sections/new.php: Impossible to add a section.');
 			return;
 		}
 

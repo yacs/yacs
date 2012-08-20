@@ -182,7 +182,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/letters.include.php');
-		Logger::remember('letters/configure.php', $label);
+		Logger::remember('letters/configure.php: '.$label);
 
 	}
 

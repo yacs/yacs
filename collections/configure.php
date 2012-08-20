@@ -289,7 +289,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-		Logger::remember('collections/configure.php', $label);
+		Logger::remember('collections/configure.php: '.$label);
 
 	}
 

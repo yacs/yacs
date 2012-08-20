@@ -503,7 +503,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog request', $raw_data, 'debug');
+	Logger::remember('services/blog.php: blog request', $raw_data, 'debug');
 
 // load the adequate codec
 include_once 'codec.php';
@@ -535,7 +535,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 // nothing to parse
 if(!isset($parameters) || !is_array($parameters) || !count($parameters) || !isset($parameters['methodName']) || !$parameters['methodName']) {
 	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-		Logger::remember('services/blog.php', 'blog request', 'nothing to process', 'debug');
+		Logger::remember('services/blog.php: blog request', 'nothing to process', 'debug');
 
 	$response = array('faultCode' => -32700, 'faultString' => 'Empty request, please retry');
 
@@ -548,7 +548,7 @@ else {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-		Logger::remember('services/blog.php', 'blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
+		Logger::remember('services/blog.php: blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
 
 	// depending on method name
 	switch($parameters['methodName']) {
@@ -1799,7 +1799,7 @@ else {
 
 	default:
 		$response = array('faultCode' => -32601, 'faultString' => sprintf(i18n::s('Do not know how to process %s'), $parameters['methodName']));
-		Logger::remember('services/blog.php', 'unsupported methodName', $parameters['methodName'], 'debug');
+		Logger::remember('services/blog.php: unsupported methodName', $parameters['methodName'], 'debug');
 	}
 }
 
@@ -1821,7 +1821,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // save the response if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog response', $response, 'debug');
+	Logger::remember('services/blog.php: blog response', $response, 'debug');
 
 	// something has been buffered
 	if(is_callable('ob_get_length') && ob_get_length()) {

@@ -147,7 +147,7 @@ if(!isset($item['id'])) {
                 $description = '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
-		Logger::notify('sections/duplicate.php', $label, $description);
+		Logger::notify('sections/duplicate.php: '.$label, $description);
 
 	}
 

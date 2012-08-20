@@ -361,7 +361,7 @@ if(Surfer::is_crawler()) {
 		$description = '<a href="'.$link.'">'.$link.'</a>';
 
 		// notify sysops
-		Logger::notify('comments/edit.php', $label, $description);
+		Logger::notify('comments/edit.php: '.$label, $description);
 
 	// update of an existing comment
 	} else {
