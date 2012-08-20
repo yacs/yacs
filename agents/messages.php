@@ -1338,44 +1338,20 @@ class Messages {
 			// increment the post counter of the surfer
 			Users::increment_posts($user['id']);
 
+			// do whatever is necessary on page creation
+			if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE))
+				Articles::finalize_publication($section, $entry_fields);
+			else
+				Articles::finalize_submission($section, $entry_fields);
+
 			// get the new item
 			$article = Anchors::get($anchor);
-
-			// if the page has been published
-			if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE)) {
-
-				// advertise public pages
-				if(is_object($section) && $section->is_public()) {
-
-					// text to be indexed
-					$text = '';
-
-					if(isset($entry_fields['introduction']))
-						$text .= $entry_fields['introduction'].' ';
-					if(isset($entry_fields['source']))
-						$text .= $entry_fields['source'].' ';
-					if(isset($entry_fields['description']))
-						$text .= $entry_fields['description'];
-
-					// pingback, if any
-					if($text) {
-						include_once $context['path_to_root'].'links/links.php';
-						Links::ping($text, $anchor);
-					}
-
-				}
-
-				// 'publish' hook
-				if(is_callable(array('Hooks', 'include_scripts')))
-					Hooks::include_scripts('publish', $entry_fields['id']);
-
-			}
 
 			// if replies are allowed
 			if(!preg_match('/\bno_reply\b/i', $options)) {
 
 				// let the sender know about his post
-				if($entry_fields['publish_date'])
+				if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE))
 					$splash = i18n::s("The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind.");
 				else
 					$splash = i18n::s("The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available.");
@@ -1392,21 +1368,7 @@ class Messages {
 				Mailer::notify(NULL, $post_sender, 'Re: '.$post_subject, $message, $headers);
 			}
 
-			// log the creation of a new article if not published
-			if(!isset($entry_fields['publish_date']) || $entry_fields['publish_date'] <= NULL_DATE) {
-
-				$label = sprintf(i18n::c('New submission: %s'), strip_tags($entry_fields['title']));
-				if(is_object($section))
-					$description = sprintf(i18n::c('Sent by %s in %s'), $user['nick_name'], $section->get_title());
-				else
-					$description = sprintf(i18n::c('Sent by %s'), $user['nick_name']);
-				if(is_object($article))
-					$description .= "\n\n".$article->get_teaser('basic')
-						."\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
-				Logger::notify('agents/messages.php', $label, $description);
-
-			}
-
+			// reference to the new page
 			return 'article:'.$entry_fields['id'];
 		}
 
