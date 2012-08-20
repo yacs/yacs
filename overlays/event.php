@@ -1426,8 +1426,8 @@ class Event extends Overlay {
 		if(!is_callable(array($this->anchor, 'get_reference')))
 			return;
 
-		// create a comment only on first join
-		if(!isset($_SESSION['event_'.$this->anchor->get_reference()])) {
+		// create a comment only on first join, and if not a robot
+		if(!Surfer::is_crawler() && !isset($_SESSION['event_'.$this->anchor->get_reference()])) {
 
 			// track the new participant
 			include_once $context['path_to_root'].'comments/comments.php';
