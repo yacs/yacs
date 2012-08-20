@@ -794,11 +794,11 @@ Class Section extends Anchor {
 	private function get_watched_context($action) {
 		global $context;
 
-		// a published page has been created
-		if(($action == 'article:create') || ($action == 'article:publish'))
+		// a page has been created, we will look at all sections upwards
+		if(($action == 'article:publish') || ($action == 'article:submit'))
 			return $this->get_focus();
 
-		// notifications should be sent to watchers of these containers
+		// else limit ourselves to watchers of this section, and to forwarding parent sections
 		$containers = array();
 		$handle = $this->get_reference();
 		while($handle && ($container = Anchors::get($handle))) {
@@ -1103,7 +1103,7 @@ Class Section extends Anchor {
 		$query = array();
 
 		// a new page has been added to the section
-		if($action == 'article:create') {
+		if(($action == 'article:publish') || ($action == 'article:submit')) {
 
 			// limit the number of items attached to this section
 			if(isset($this->item['maximum_items']) && ($this->item['maximum_items'] > 10))

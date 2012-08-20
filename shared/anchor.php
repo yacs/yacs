@@ -1172,9 +1172,9 @@ class Anchor {
 	 * [/php]
 	 *
 	 * Following actions have been defined:
-	 * - 'article:create'
-	 * - 'article:update'
 	 * - 'article:publish'
+	 * - 'article:submit'
+	 * - 'article:update'
 	 * - 'section:create'
 	 * - 'section:update'
 	 * - 'file:create'

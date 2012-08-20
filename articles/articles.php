@@ -595,6 +595,12 @@ Class Articles {
 	/**
 	 * build a notification related to an article
 	 *
+	 * The action can be one of the following:
+	 * - 'apply' - surfer would like to get access to the page
+	 * - 'publish' - either a published page has been posted, or a draft page has been published
+	 * - 'submit' - a draft page has been posted
+	 * - 'update' - a page (draft or published) has been modified
+	 *
 	 * This function builds a mail message that displays:
 	 * - an image of the contributor (if possible)
 	 * - a headline mentioning the contribution
@@ -605,12 +611,12 @@ Class Articles {
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
-	 * @param string either 'apply', 'create', 'publish' or 'update'
+	 * @param string either 'apply', 'publish', 'submit' or 'update'
 	 * @param array attributes of the item
 	 * @param object overlay of the item, if any
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification($action='create', $item, $overlay=NULL) {
+	public static function build_notification($action='publish', $item, $overlay=NULL) {
 		global $context;
 
 		// sanity check
@@ -632,11 +638,11 @@ Class Articles {
 			$template = i18n::c('%s is requesting access to %s');
 			$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$title.'</a>';
 			break;
-		case 'create':
+		case 'publish':
 			$template = i18n::c('%s has posted a page in %s');
 			break;
-		case 'publish':
-			$template = i18n::c('%s has published a page in %s');
+		case 'submit':
+			$template = i18n::c('%s has submitted a page in %s');
 			break;
 		case 'update':
 			$template = i18n::c('%s has updated a page in %s');
@@ -2781,7 +2787,7 @@ Class Articles {
 		$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
 		$query[] = "edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
 		$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
-		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:create')."'";
+		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:submit')."'";
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 
 		// reset user assignment, if any

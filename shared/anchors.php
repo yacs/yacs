@@ -321,9 +321,9 @@ class Anchors {
 	 * get the label for an action
 	 *
 	 * Following actions codes have been defined:
-	 * - 'article:create'
-	 * - 'article:update'
 	 * - 'article:publish'
+	 * - 'article:submit'
+	 * - 'article:update'
 	 * - 'article:review'
 	 * - 'section:create'
 	 * - 'section:update'
@@ -354,14 +354,14 @@ class Anchors {
 			return i18n::s('imported');
 
 		switch($action) {
-		case 'article:create':
+		case 'article:publish':
+			return i18n::s('published');
+
+		case 'article:submit':
 			return i18n::s('created');
 
 		case 'article:update':
 			return i18n::s('edited');
-
-		case 'article:publish':
-			return i18n::s('published');
 
 		case 'article:review':
 			return i18n::s('reviewed');
