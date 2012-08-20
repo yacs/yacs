@@ -272,19 +272,22 @@ Class Visits {
 		// delete visit records after 3 days = 3*24*60*60 = 259200
 		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 259200);
 
-		// suppress previous record, if any --do not report on error, if any
-		$query = "DELETE FROM ".SQL::table_name('visits')
-			." WHERE ((anchor LIKE '".SQL::escape($anchor)."') AND (user_id = ".SQL::escape(Surfer::get_id())."))"
-			."	OR (edit_date < '".SQL::escape($threshold)."')";
-		SQL::query($query, TRUE);
-
 		// update the database; do not report on error
-		$query = "INSERT INTO ".SQL::table_name('visits')." SET"
-			." anchor='".SQL::escape($anchor)."',"
+		$query = "UPDATE ".SQL::table_name('visits')." SET"
 			." active='".SQL::escape($active)."',"
-			." user_id='".SQL::escape(Surfer::get_id())."',"
-			." edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
-		SQL::query($query, TRUE);
+			." edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+			." WHERE ((anchor LIKE '".SQL::escape($anchor)."') AND (user_id = ".SQL::escape(Surfer::get_id())."))";
+		if(!SQL::query($query, TRUE)) {
+
+			// no update took place; insert a new record in the database; do not report on error
+			$query = "INSERT INTO ".SQL::table_name('visits')." SET"
+				." anchor='".SQL::escape($anchor)."',"
+				." active='".SQL::escape($active)."',"
+				." user_id='".SQL::escape(Surfer::get_id())."',"
+				." edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+			SQL::query($query, TRUE);
+
+		}
 
 		// job done
 		return TRUE;
