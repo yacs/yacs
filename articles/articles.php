@@ -1334,6 +1334,106 @@ Class Articles {
 	}
 
 	/**
+	 * do whatever is necessary when a page has been updated
+	 *
+	 * This function:
+	 * - logs the update
+	 * - sends notification to watchers and to followers
+	 * - "touches" the container of the page,
+	 * - ping referred pages remotely (via the pingback protocol)
+	 * - ping selected servers, if any
+	 * - and triggers the hook 'update'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 * @param boolean TRUE if dates should be left unchanged, FALSE otherwise
+	 * @param boolean TRUE if watchers should be notified, FALSE otherwise
+	 * @param boolean TRUE if followers should be notified, FALSE otherwise
+	 */
+	public static function finalize_update($anchor, $item, $overlay=NULL, $silently=FALSE, $with_watchers=TRUE, $with_followers=FALSE) {
+		global $context;
+
+		// log page update
+		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+		// proceed only if the page has been published
+		if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
+
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Update'), strip_tags($item['title']));
+			$mail['notification'] = Articles::build_notification('update', $item);
+			$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+			// allow the overlay to prevent notifications of watcherss
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
+
+			// send to watchers of this page, and to watchers upwards
+			if($with_watchers && ($handle = new Article())) {
+				$handle->load_by_content($item, $anchor);
+				$handle->alert_watchers($mail, 'article:update', ($item['active'] == 'N'));
+			}
+
+			// never notify followers on private pages
+			if(isset($item['active']) && ($item['active'] == 'N'))
+				$with_followers = FALSE;
+
+			// allow the overlay to prevent notifications of followers
+			if(is_object($overlay) && !$overlay->should_notify_followers())
+				$with_followers = FALSE;
+
+			// send to followers of this user
+			if($with_followers && Surfer::get_id()) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// update anchors
+			$anchor->touch('article:update', $item['id'], $silently);
+
+			// advertise public pages
+			if(isset($item['active']) && ($item['active'] == 'Y')) {
+
+				// expose links within the page
+				$raw = '';
+				if(isset($item['introduction']))
+					$raw .= $item['introduction'];
+				if(isset($item['source']))
+					$raw .= ' '.$item['source'];
+				if(isset($item['description']))
+					$raw .= ' '.$item['description'];
+
+				// pingback to referred links, if any
+				Links::ping($raw, 'article:'.$item['id']);
+
+				// ping servers, if any
+				Servers::notify($anchor->get_url());
+
+			}
+
+		}
+
+		// 'update' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('update', $item['id']);
+
+	}
+
+	/**
 	 * get one article by id, nick name or by handle
 	 *
 	 * @param int the id of the article
@@ -3089,6 +3189,10 @@ Class Articles {
 
 		// list the article in categories
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+
+		// add this page to surfer watch list
+		if(Surfer::get_id())
+			Members::assign('article:'.$fields['id'], 'user:'.Surfer::get_id());
 
 		// clear the cache
 		Articles::clear($fields);

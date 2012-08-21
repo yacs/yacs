@@ -671,6 +671,10 @@ else {
 					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
 						Articles::finalize_publication($anchor, $fields);
 
+					// else whatever is necessary on page update
+					else
+						Articles::finalize_update($anchor, $fields);
+
 					// list the article in categories
 					$keywords = '';
 					if(isset($fields['tags']))
@@ -1192,6 +1196,10 @@ else {
 					// do whatever is necessary on page publication
 					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
 						Articles::finalize_publication($anchor, $fields);
+
+					// else whatever is necessary on page update
+					else
+						Articles::finalize_update($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
