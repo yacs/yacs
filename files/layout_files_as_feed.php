@@ -74,7 +74,7 @@ Class Layout_files_as_feed extends Layout_interface {
 			}
 
 			// fix image references
-			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
+			$description = preg_replace('#"/([^">]+?)"#', '"'.$context['url_to_home'].'/$1"', $description);
 
 			$introduction = $description;
 

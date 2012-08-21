@@ -437,7 +437,7 @@ Class Utf8 {
 		global $context;
 
 		// transcode all entities from decimal to hexa
-		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('\\1').';'", $utf);
+		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('$1').';'", $utf);
 
 		// job done
 		return $text;

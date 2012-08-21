@@ -165,7 +165,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			continue;
 
 		// strip constraints and keep only engine definition
-		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '\\1', $result['Create Table']);
+		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '$1', $result['Create Table']);
 
 		// split lines
 		$create_query = str_replace('\n', "\n", $create_query);
