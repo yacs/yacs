@@ -209,8 +209,8 @@ Class Atom_Codec extends Codec {
 		$label = preg_replace('/<br\s*\/>/i', "\n", $label);
 
 		// make some room around titles, paragraphs, and divisions
-		$label = preg_replace('/<(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', ' <\\1>', $label);
-		$label = preg_replace('/<\/(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', '</\\1> ', $label);
+		$label = preg_replace('/<(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', ' <$1>', $label);
+		$label = preg_replace('#</(code|div|h1|h2|h3|ol|li|p|pre|ul)>#i', '</$1> ', $label);
 
 		// strip all html tags and encode
 		$label = strip_tags($label, $allowed);

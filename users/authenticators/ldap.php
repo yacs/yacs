@@ -145,8 +145,8 @@ Class Ldap_Authenticator extends Authenticator {
 			$search_dn = $parameters[3];
 
 		// encode provided parameters to avoid LDAP injections
-		$name = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('\\1')", $name);
-		$password = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('\\1')", $password);
+		$name = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('$1')", $name);
+		$password = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('$1')", $password);
 
 		// search expression
 		$search_filter = '';

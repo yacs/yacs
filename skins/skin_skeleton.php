@@ -3419,7 +3419,7 @@ Class Skin_Skeleton {
 		global $context;
 
 		// mention tags used as block boundary, no more -- else execution time will ramp up...
-		$areas = preg_split('/<(blockquote|code|div|dl|h1|h2|h3|noscript|ol|p|pre|script|table|ul)(.*?)>(.*?)<\/\1>/is', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(blockquote|code|div|dl|h1|h2|h3|noscript|ol|p|pre|script|table|ul)([^>]*?)>(.*?)</$1>#is', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// process each pair
 		$text = '';
@@ -5174,7 +5174,7 @@ Class Skin_Skeleton {
 		$text = preg_replace('#<script[^>]*>.*?</script>#is', '', $text);
 
 		// preserve breaks
-		$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+		$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
 
 		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
 		if($allowed_html)

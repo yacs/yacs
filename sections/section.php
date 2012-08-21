@@ -496,7 +496,7 @@ Class Section extends Anchor {
 			if($variant != 'teaser') {
 
 				// preserve breaks
-				$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+				$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
 
 				// strip most html tags
 				$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
@@ -529,13 +529,13 @@ Class Section extends Anchor {
 				$text =& Codes::beautify($text, $this->item['options']);
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
 
 			// strip most html tags
 			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
 
 			// remove new lines after breaks
-			$text = preg_replace('/<(br *\/{0,1})>\n*/i', "<\\1>", $text);
+			$text = preg_replace('#<(br */{0,1})>\n*#i', "<$1>", $text);
 
 		}
 
@@ -550,7 +550,7 @@ Class Section extends Anchor {
 		default:
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
 
 			// strip every html tags
 			$text = strip_tags($text);
@@ -565,7 +565,7 @@ Class Section extends Anchor {
 		case 'hover':
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
 
 			// strip every html tags
 			$text = strip_tags($text);
@@ -588,7 +588,7 @@ Class Section extends Anchor {
 		case 'quote':
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
 
 			// strip most html tags
 			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');

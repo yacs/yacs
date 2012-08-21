@@ -74,25 +74,23 @@ class Mailer {
 		$message = array();
 
 		// text/plain part has no tag anymore
-		$replacements = array('/<a [^>]*?><img [^>]*?><\/a>/i' => '', // suppress clickable images
-			"/<a href=\"([^\"]+?)\"([^>]*?)>\\1<\/a>/i" => "\\1",	// un-twin clickable links
-			'/<a href=\"([^\"]+?)" ([^>]*?)>(.*?)<\/a>/i' => "\\3 \\1", // label and link
-			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "\\2 \\1", 		// label and link too
+		$replacements = array('#<a [^>]*?><img [^>]*?></a>#i' => '', // suppress clickable images
+			"#<a href=\"([^\"]+?)\"([^>]*?)>$1</a>#i" => "$1",	// un-twin clickable links
+			'#<a href="([^"]+?)" ([^>]*?)>(.*?)</a>#i' => "$3 $1", // label and link
+			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "$2 $1", 		// label and link too
 			'/<hr[^>]*?>/i' => "-------\n", 							// horizontal rule
-			'/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td|\/title)>/i' => "<\\1>\n",
+			'#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td|/title)>#i' => "<$1>\n",
 			'/&nbsp;/' => ' ');
 		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
 
 		// transform the text/html part
-		$replacements = array('/<dl[^>]*?>(.*?)<\/dl>/i' => '<table>\\1</table>', 	// <dl> ... </dl> -> <table> ... </table>
-			'/<dt[^>]*?>(.*?)<\/dt>/i' => '<tr><td>\\1</td>',						// <dt> ... </dt> -> <tr><td> ... </td>
-			'/<dd[^>]*?>(.*?)<\/dd>/i' => '<td>\\1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
-			'/<td([^>]*?)>(.*?)<\/td>/i' => '<td\\1><font face="Helvetica, Arial, sans-serif">\\2</font></td>',	 // add <font ... > to <td> ... </td>
-			'/class="grid"/i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
-			'/on(click|keypress)="([^"]+?)"/i' => '', 								// remove onclick="..." and onkeypress="..." attributes
-			'/\/>/i' => '>',														// <br /> -> <br>, <hr /> -> <hr>, etc.
-			'/<scr'.'ipt[^>]*?>(.*?)<\/scr'.'ipt>/i' => '',							// remove scripts
-			'/<sty'.'le[^>]*?>(.*?)<\/sty'.'le>/i' => '');							// remove style rules
+		$replacements = array('#<dl[^>]*?>(.*?)</dl>#siu' => '<table>$1</table>', 	// <dl> ... </dl> -> <table> ... </table>
+			'#<dt[^>]*?>(.*?)</dt>#siu' => '<tr><td>$1</td>',						// <dt> ... </dt> -> <tr><td> ... </td>
+			'#<dd[^>]*?>(.*?)</dd>#siu' => '<td>$1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
+			'#<td([^>]*?)>(.*?)</td>#siu' => '<td$1><font face="Helvetica, Arial, sans-serif">$2</font></td>',	 // add <font ... > to <td> ... </td>
+			'#class="grid"#i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
+			'#on(click|keypress)="([^"]+?)"#i' => '', 								// remove onclick="..." and onkeypress="..." attributes
+			'#/>#i' => '>');							// remove style rules
 
 		// text/html part
 		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
@@ -533,7 +531,7 @@ class Mailer {
 		$text = preg_replace('/=\r?\n/', '', $text);
 
 		// decode single entities
-		$text = preg_replace('/=([A-F0-9]{2})/ie', chr(hexdec('\\1' )), $text);
+		$text = preg_replace('/=([A-F0-9]{2})/ie', "chr(hexdec('$1' ))", $text);
 
 		// decoded string
 		return $text;

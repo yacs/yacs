@@ -155,7 +155,7 @@ class Messages {
 			$text = preg_replace("/=\r?\n/", '', $text);
 
 			// replace encoded characters
-			return preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('\\1'))", $text);
+			return preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('$1'))", $text);
 
 		// base64
 		} elseif(preg_match('/base64/i', $method)) {
@@ -213,7 +213,7 @@ class Messages {
 			$value = $matches[2];
 
 			// remove white space between encoded-words
-			$value = preg_replace('/(=\?[^?]+\?(q|b)\?[^?]*\?=)(\s)+=\?/i', '\1=?', trim($value));
+			$value = preg_replace('/(=\?[^?]+\?(q|b)\?[^?]*\?=)(\s)+=\?/i', '$1=?', trim($value));
 
 			// process every encoded-word
 			while(preg_match('/(=\?([^?]+)\?(q|b)\?([^?]*)\?=)/i', $value, $matches)) {
@@ -1190,7 +1190,7 @@ class Messages {
 		list($server, $account, $password, $allowed, $match, $section, $options, $hooks, $prefix, $suffix) = $context['mail_queue'];
 
 		// preserve breaks
-		$text = preg_replace('/\s*<(br|div|h|p)/is', "\n\n<\\1", $text);
+		$text = preg_replace('/\s*<(br|div|h|p)/is', "\n\n<$1", $text);
 
 		// suppress dangerous html tags
 		$text = strip_tags($text, $context['users_allowed_tags']);

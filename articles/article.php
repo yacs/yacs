@@ -687,7 +687,7 @@ Class Article extends Anchor {
 		$text = $headers.$body;
 
 		// parse embedded fields based on XML tags
-		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/\\1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
+		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/$1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
 
 		// text contains an implicit anchor to an article or to a section
 // 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor = Anchors::get($matches[1].':'.$matches[2])))
