@@ -36,50 +36,15 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// else display the updated page
 		} else {
 
-			// log page modification
-			$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-			Logger::notify('articles/edit_as_simple.php: '.$label, $description);
-
-			// touch the related anchor, but only if the page has been published
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
-
-				// notification to send by e-mail
-				$mail = array();
-				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$mail['notification'] = Articles::build_notification('update', $_REQUEST);
-				$mail['headers'] = Mailer::set_thread('article:'.$_REQUEST['id']);
-
-				// the overlay may have already notified persons involved
-				$with_watchers = isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y');
-				if(is_object($overlay) && !$overlay->should_notify_watchers())
-					$with_watchers = FALSE;
-
-				// send to watchers of this page, and to watchers upwards
-				if($with_watchers && ($handle = new Article())) {
-					$handle->load_by_content($_REQUEST, $anchor);
-					$handle->alert_watchers($mail, 'article:update');
-				}
-
-				// send to followers of this user
-				if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
-					&& Surfer::get_id() && ($_REQUEST['active'] != 'N')) {
-						$mail['message'] = Mailer::build_notification($mail['notification'], 2);
-						Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-				}
-
-				// update anchors
-				$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
-
-			}
+			// do whatever is necessary on page update
+			Articles::finalize_update($anchor, $_REQUEST, $overlay,
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 			// cascade changes on access rights
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
-
-			// add this page to surfer watch list
-			if(Surfer::get_id())
-				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
 			// the page has been modified
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
