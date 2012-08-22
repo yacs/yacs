@@ -176,8 +176,7 @@ elseif(!$permitted) {
 					'<a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.$follower->get_title().'</a>');
 
 				// information
-				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), $follower->get_title(), $context['site_name']).'</p>'
-					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.ucfirst(strip_tags($follower->get_title())).'</a></p>';
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), $follower->get_title(), $context['site_name']).'</p>';
 
 				// assemble main content of this message
 				$message = Skin::build_mail_content($headline, $message);
