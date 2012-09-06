@@ -5177,8 +5177,8 @@ Class Skin_Skeleton {
 
 		}
 
-		// suppress all javascript
-		$text = preg_replace('#<script[^>]*>.*?</script>#is', '', $text);
+		// remove invisible tags, such as scripts, etc.
+		$text = xml::strip_invisible_tags($text);
 
 		// strip most visible tags
 		$text = trim(xml::strip_visible_tags($text, $allowed_html));
