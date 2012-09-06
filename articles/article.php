@@ -522,7 +522,7 @@ Class Article extends Anchor {
 	 * @param string description of the on-going action (e.g., 'file:create')
 	 * @return mixed either a reference (e.g., 'article:123') or an array of references
 	 */
-	private function get_watched_context($action) {
+	protected function get_watched_context($action) {
 		global $context;
 
 		// notifications should be sent to watchers of these containers

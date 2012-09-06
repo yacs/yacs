@@ -373,7 +373,7 @@ class BBB_Meeting extends Meeting {
 	 * initialize passwords for this instance
 	 *
 	 */
-	private function initialize_passwords() {
+	protected function initialize_passwords() {
 		global $context;
 
 		// build moderator and attendees passwords
