@@ -482,12 +482,8 @@ Class Surfer {
 		global $context;
 
 		// read surfer record in database
-		if(($id = Surfer::get_id()) && is_callable(array('Users', 'get')) && ($user = Users::get($id)) && ($url = trim($user['avatar_url']))) {
-			if($url[0] == '/')
-				return $context['url_to_home'].$url;
-			else
-				return $url;
-		}
+		if(($id = Surfer::get_id()) && is_callable(array('Users', 'get')) && ($user = Users::get($id)) && ($url = trim($user['avatar_url'])))
+			return $url;
 
 		// tough luck
 		return NULL;
