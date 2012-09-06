@@ -669,7 +669,7 @@ Class Articles {
 			$prefix .= RESTRICTED_FLAG;
 
 		// flag expired articles
-		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+		if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 			$prefix .= EXPIRED_FLAG.' ';
 
 		// signal locked articles
