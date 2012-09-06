@@ -153,7 +153,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
 
-		// list persons that have been notified
+		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
 
 		// follow-up commands

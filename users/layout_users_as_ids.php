@@ -14,7 +14,7 @@ Class Layout_users_as_ids extends Layout_interface {
 	 * list users
 	 *
 	 * @param resource the SQL result
-	 * @return string the rendered text
+	 * @return array a bare list of item ids
 	 *
 	 * @see skins/layout.php
 	**/
