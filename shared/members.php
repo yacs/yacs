@@ -764,7 +764,9 @@ Class Members {
 				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
 		// the list of categories
-		$query = "SELECT categories.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
+		$query = "SELECT categories.* FROM"
+			." (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members"
+				." WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
 			.", ".SQL::table_name('categories')." AS categories"
 			." WHERE (categories.id = ids.target)"
 			."	AND ".$where
