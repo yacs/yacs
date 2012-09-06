@@ -74,26 +74,52 @@ class Mailer {
 		$message = array();
 
 		// text/plain part has no tag anymore
-		$replacements = array('#<a [^>]*?><img [^>]*?></a>#i' => '', // suppress clickable images
-			"#<a href=\"([^\"]+?)\"([^>]*?)>$1</a>#i" => "$1",	// un-twin clickable links
-			'#<a href="([^"]+?)" ([^>]*?)>(.*?)</a>#i' => "$3 $1", // label and link
-			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "$2 $1", 		// label and link too
-			'/<hr[^>]*?>/i' => "-------\n", 							// horizontal rule
-			'#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td|/title)>#i' => "<$1>\n",
+		$replacements = array(
+
+			// suppress clickable images
+			'#<a [^>]*?><img [^>]*?></a>#i' => '',
+
+			// un-twin clickable links
+			"#<a href=\"([^\"]+?)\"([^>]*?)>$1</a>#i" => "$1",
+
+			// label and link
+			'#<a href="([^"]+?)" ([^>]*?)>(.*?)</a>#i' => "$3 $1",
+			'/<a href=\"([^\"]+?)">(.*?)<\/a>/i' => "$2 $1",
+
+			// horizontal rule
+			'/<hr[^>]*?>/i' => "-------\n",
+
+			// replace non-breaking spaces
 			'/&nbsp;/' => ' ');
-		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
+
+		// text/plain part
+		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(xml::strip_visible_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
 
 		// transform the text/html part
-		$replacements = array('#<dl[^>]*?>(.*?)</dl>#siu' => '<table>$1</table>', 	// <dl> ... </dl> -> <table> ... </table>
-			'#<dt[^>]*?>(.*?)</dt>#siu' => '<tr><td>$1</td>',						// <dt> ... </dt> -> <tr><td> ... </td>
-			'#<dd[^>]*?>(.*?)</dd>#siu' => '<td>$1</td></tr>',						// <dd> ... </dd> -> <tr><td> ... </td>
-			'#<td([^>]*?)>(.*?)</td>#siu' => '<td$1><font face="Helvetica, Arial, sans-serif">$2</font></td>',	 // add <font ... > to <td> ... </td>
-			'#class="grid"#i' => 'border="1" cellspacing="0" cellpadding="10"',		// display grid borders
-			'#on(click|keypress)="([^"]+?)"#i' => '', 								// remove onclick="..." and onkeypress="..." attributes
-			'#/>#i' => '>');							// remove style rules
+		$replacements = array(
+
+			// <dl> ... </dl> -> <table> ... </table>
+			'#<dl[^>]*?>(.*?)</dl>#siu' => '<table>$1</table>',
+
+			// <dt> ... </dt> -> <tr><td> ... </td>
+			'#<dt[^>]*?>(.*?)</dt>#siu' => '<tr><td>'.MAIL_FONT_PREFIX.'$1'.MAIL_FONT_SUFFIX.'</td>',
+
+			// <dd> ... </dd> -> <tr><td> ... </td>
+			'#<dd[^>]*?>(.*?)</dd>#siu' => '<td>'.MAIL_FONT_PREFIX.'$1'.MAIL_FONT_SUFFIX.'</td></tr>',
+
+			// display grid borders
+			'#class="grid"#i' => 'border="1" cellspacing="0" cellpadding="10"',
+
+			// remove onclick="..." and onkeypress="..." attributes
+			'#on(click|keypress)="([^"]+?)"#i' => '',
+
+			// from xhtml terminations back to old singletons
+			'#/>#i' => '>');
 
 		// text/html part
 		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
+
+		logger::debug($message['text/html; charset=utf-8'], 'mailer::build_multipart()');
 
 		// return all parts
 		return $message;

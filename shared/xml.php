@@ -104,6 +104,30 @@ class xml {
             '#<style[^>]*?>.*?</style>#siu',
             '#<xmp[^>]*?>.*?</xmp>#siu'), '', $text);
 
+		// job done
+		return $text;
+
+	}
+
+	/**
+	 * strip visible HTML tags
+	 *
+	 * @param string the text to filter
+	 * @param string the set of tags that should be preserved
+	 * @return string the resulting text
+	 */
+	public static function strip_visible_tags($text, $allowed='<a><b><br><i><img><strong><u>') {
+
+		// insert hard newlines before we remove html tags
+		$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
+
+		// strip html tags
+		$text = strip_tags($text, $allowed);
+
+		// remove new lines after HTML breaks
+		$text = preg_replace('#<(br */{0,1})>\n*#i', "<$1>", $text);
+
+		// job done
 		return $text;
 
 	}
