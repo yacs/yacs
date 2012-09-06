@@ -531,19 +531,24 @@ Class Article extends Anchor {
 		// i am a container
 		$containers[] = $this->get_reference();
 
-		// look at my parents
-		$handle = $this->get_parent();
-		while($handle && ($container = Anchors::get($handle))) {
+		// if the page has been published
+		if($this->item['publish_date'] > NULL_DATE) {
 
-			// add watchers of this level
-			$containers[] = $handle;
+			// look at my parents
+			$handle = $this->get_parent();
+			while($handle && ($container = Anchors::get($handle))) {
 
-			// should we forward notifications upwards
-			if(!$container->has_option('forward_notifications', FALSE))
-				break;
+				// add watchers of this level
+				$containers[] = $handle;
 
-			// add watchers of next level
-			$handle = $container->get_parent();
+				// should we forward notifications upwards
+				if(!$container->has_option('forward_notifications', FALSE))
+					break;
+
+				// add watchers of next level
+				$handle = $container->get_parent();
+			}
+
 		}
 
 		// by default, limit to direct watchers of this anchor
