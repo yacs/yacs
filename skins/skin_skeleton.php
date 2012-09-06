@@ -2281,7 +2281,7 @@ Class Skin_Skeleton {
 					.	'<td align="left" valign="middle" width="9%"><img src="'.$url.'" alt="" title="avatar"></td>'
 					.	'<td width="1%"> </td>'
 					.	'<td align="left" valign="middle" width="90%">'
-					.		'<font color="navy" face="Helvetica, Arial, sans-serif" size="+1">'
+					.		'<font face="Helvetica, Arial, sans-serif" color="navy" size="+1">'
 					.		$headline
 					.		'</font>'
 					.	'</td>'
@@ -2291,7 +2291,7 @@ Class Skin_Skeleton {
 				$text .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">'
 					.'<tr valign="middle">'
 					.	'<td align="left" valign="middle" width="100%">'
-					.		'<font color="navy" face="Helvetica, Arial, sans-serif" size="+1">'
+					.		'<font face="Helvetica, Arial, sans-serif" color="navy" size="+1">'
 					.		$headline
 					.		'</font>'
 					.	'</td>'
@@ -4222,6 +4222,13 @@ Class Skin_Skeleton {
 
 		// the HTML used to signal a locked page
 		Skin::define_img('LOCKED_FLAG', 'tools/locked.gif', '%');
+
+		// the HTML tags within notification messages
+		if(!defined('MAIL_FONT_PREFIX'))
+			define('MAIL_FONT_PREFIX', '<font face="Helvetica, Arial, sans-serif">');
+
+		if(!defined('MAIL_FONT_SUFFIX'))
+			define('MAIL_FONT_SUFFIX', '</font>');
 
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
 		Skin::define_img('MAP_IMG', 'layouts/map.gif', DECORATED_IMG, '*', $options);

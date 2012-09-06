@@ -61,7 +61,7 @@ class Mailer {
 		global $context;
 
 		// make a full html entity --body attributes are ignored most of the time
-		$text = '<html><body><font face="Helvetica, Arial, sans-serif">'.$text.'</font></body></html>';
+		$text = '<html><body>'.MAIL_FONT_PREFIX.$text.MAIL_FONT_SUFFIX.'</body></html>';
 
 		// change links to include host name
 		$text = str_replace(' href="/', ' href="'.$context['url_to_home'].'/', $text);
