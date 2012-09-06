@@ -492,15 +492,9 @@ Class Section extends Anchor {
 
 			}
 
-			// preserve HTML
-			if($variant != 'teaser') {
-
-				// preserve breaks
-				$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
-
-				// strip most html tags
-				$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
-			}
+			// remove most html
+			if($variant != 'teaser')
+				$text = xml::strip_visible_tags($text);
 
 			// combine with description
 			if($variant == 'quote')
@@ -528,14 +522,8 @@ Class Section extends Anchor {
 			if(is_callable(array('Codes', 'beautify')))
 				$text =& Codes::beautify($text, $this->item['options']);
 
-			// preserve breaks
-			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
-
-			// strip most html tags
-			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
-
-			// remove new lines after breaks
-			$text = preg_replace('#<(br */{0,1})>\n*#i', "<$1>", $text);
+			// remove most html
+			$text = xml::strip_visible_tags($text);
 
 		}
 
@@ -549,11 +537,8 @@ Class Section extends Anchor {
 		case 'basic':
 		default:
 
-			// preserve breaks
-			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
-
-			// strip every html tags
-			$text = strip_tags($text);
+			// remove most html
+			$text = xml::strip_visible_tags($text);
 
 			// limit the number of words
 			$text =& Skin::cap($text, 70);
@@ -564,11 +549,8 @@ Class Section extends Anchor {
 		// some text for pop-up panels
 		case 'hover':
 
-			// preserve breaks
-			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
-
-			// strip every html tags
-			$text = strip_tags($text);
+			// remove most html
+			$text = xml::strip_visible_tags($text);
 
 			// limit the number of words
 			$text =& Skin::strip($text, 70);
@@ -587,11 +569,8 @@ Class Section extends Anchor {
 		// quote this
 		case 'quote':
 
-			// preserve breaks
-			$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
-
-			// strip most html tags
-			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
+			// remove most html
+			$text = xml::strip_visible_tags($text);
 
 			// limit the number of words
 			$text =& Skin::cap($text, 300);

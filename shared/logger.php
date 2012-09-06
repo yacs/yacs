@@ -315,12 +315,9 @@ class Logger {
 		$value = str_replace("\r", '', $value);
 
 		// log simple messages
-		if($strip_tags) {
-			$replacements = array('#<a href="([^"]*?)">(.*?)</a>#i' => "$2 $1",
-				'#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td|/title)>#i' => "<$1>\n",
-				'/&nbsp;/' => ' ');
-			$value = trim(strip_tags(preg_replace(array_keys($replacements), array_values($replacements), $value)));
-		} else
+		if($strip_tags)
+			$value = trim(xml::strip_visible_tags(xml::strip_invisible_tags($value)));
+		else
 			$value = trim($value);
 
 		// ensure proper encoding

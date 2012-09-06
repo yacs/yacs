@@ -5173,14 +5173,8 @@ Class Skin_Skeleton {
 		// suppress all javascript
 		$text = preg_replace('#<script[^>]*>.*?</script>#is', '', $text);
 
-		// preserve breaks
-		$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
-
-		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
-		if($allowed_html)
-			$text = trim(strip_tags($text, $allowed_html));
-		else
-			$text = trim(strip_tags($text));
+		// strip most visible tags
+		$text = trim(xml::strip_visible_tags($text, $allowed_html));
 
 		// count overall words
 		$overall = count(preg_split("/[ \t,\.;\?!]+/", $text, -1, PREG_SPLIT_NO_EMPTY));
