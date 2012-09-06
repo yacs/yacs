@@ -26,7 +26,7 @@ class Logger {
 	public static function debug($value='', $label=NULL) {
 		global $context;
 
-		// ensure we have a string --preserve HTML
+		// ensure we have a string --preserve native string
 		$value = Logger::to_string($value, FALSE);
 
 		// stamp the line
@@ -251,7 +251,6 @@ class Logger {
 
 			// stamp the line
 			$line = gmdate('Y-m-d H:i:s')."\t"
-				.$script."\t"
 				.$label.' '.$description;
 
 		// event saved for later review
@@ -274,7 +273,6 @@ class Logger {
 			// make a line
 			$line = gmdate('Y-m-d H:i:s')."\t"
 				.$name."\t"
-				.$script."\t"
 				.preg_replace($from, $to, strip_tags($label))."\t"
 				.preg_replace($from, $to, $description);
 
