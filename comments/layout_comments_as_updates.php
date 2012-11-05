@@ -146,7 +146,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 			// float the menu on the right
 			if(count($menu))
-				$text = '<div style="float: right">'.Skin::finalize_list($menu, 'menu').'</div>'.$text;
+				$text = '<div style="text-align: right">'.Skin::finalize_list($menu, 'menu').'</div>'.$text;
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
