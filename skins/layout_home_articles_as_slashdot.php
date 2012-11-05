@@ -59,7 +59,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 		while($item = SQL::fetch($result)) {
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// get the anchor
 			$anchor = Anchors::get($item['anchor']);
