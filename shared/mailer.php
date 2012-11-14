@@ -104,7 +104,7 @@ class Mailer {
 			// <dt> ... </dt> -> <tr><td> ... </td>
 			'#<dt[^>]*?>(.*?)</dt>#siu' => '<tr><td>'.MAIL_FONT_PREFIX.'$1'.MAIL_FONT_SUFFIX.'</td>',
 
-			// <dd> ... </dd> -> <tr><td> ... </td>
+			// <dd> ... </dd> -> <td> ... </td></tr>
 			'#<dd[^>]*?>(.*?)</dd>#siu' => '<td>'.MAIL_FONT_PREFIX.'$1'.MAIL_FONT_SUFFIX.'</td></tr>',
 
 			// display grid borders
@@ -118,8 +118,6 @@ class Mailer {
 
 		// text/html part
 		$message['text/html; charset=utf-8'] = preg_replace(array_keys($replacements), array_values($replacements), $text);
-
-		logger::debug($message['text/html; charset=utf-8'], 'mailer::build_multipart()');
 
 		// return all parts
 		return $message;
