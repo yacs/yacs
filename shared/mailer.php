@@ -541,28 +541,6 @@ class Mailer {
 	}
 
 	/**
-	 * decode a quoted printable string
-	 *
-	 * @link http://en.wikipedia.org/wiki/Quoted-printable
-	 *
-	 * @param string the encoded string
-	 * @return string the original string
-	 */
-	public static function decode_from_quoted_printable($text) {
-		global $context;
-
-		// remove soft line breaks
-		$text = preg_replace('/=\r?\n/', '', $text);
-
-		// decode single entities
-		$text = preg_replace('/=([A-F0-9]{2})/ie', "chr(hexdec('$1' ))", $text);
-
-		// decoded string
-		return $text;
-
-	}
-
-	/**
 	 * encode message recipient
 	 *
 	 * @param string the original recipient mail address
@@ -621,56 +599,6 @@ class Mailer {
 
 		// done
 		return $text;
-	}
-
-	/**
-	 * adapt content to legacy transmission pipes
-	 *
-	 * @link http://en.wikipedia.org/wiki/Quoted-printable
-	 *
-	 * @param string the original string
-	 * @return string the encoded string
-	 */
-	public static function encode_to_quoted_printable($text) {
-		global $context;
-
-		// split lines
-		$lines = preg_split("/\r?\n/", $text);
-
-		// encoding all lines
-		$text = '';
-		foreach($lines as $line) {
-
-			// encoded line
-			$encoded = '';
-
-			// one char at a time
-			$len = strlen($line);
-			for($index = 0; $index <= $len - 1; $index++) {
-				$char = substr($line, $index, 1);
-				$code = ord($char);
-
-				// encode this char
-				if(($code < 32) || ($code == 61) || ($code > 126))
-					$char = '='.strtoupper(dechex($code));
-
-				// insert a soft newline to break a long line
-				if((strlen($encoded)+strlen($char)) >= 76) {
-					$text .= $encoded.'='.CRLF;
-					$encoded = '';
-				}
-
-				// append the encoded char
-				$encoded .= $char;
-			}
-
-			// update the output buffer
-			$text .= $encoded.CRLF;
-		}
-
-		// encoded string
-		return $text;
-
 	}
 
 	/**
@@ -1034,7 +962,7 @@ class Mailer {
 			// quote textual entities
 			if(!strncmp($type, 'text/', 5)) {
 				$content_encoding = 'quoted-printable';
-				$part = Mailer::encode_to_quoted_printable($part);
+				$part = quoted_printable_encode($part);
 
 			// encode everything else
 			} else {
@@ -1133,7 +1061,7 @@ class Mailer {
 				// transfer textual entities as they are
 				if(!strncmp($type, 'text/', 5)) {
 					$body .= M_EOL.'Content-Transfer-Encoding: quoted-printable'
-						.M_EOL.M_EOL.Mailer::encode_to_quoted_printable($content);
+						.M_EOL.M_EOL.quoted_printable_encode($content);
 
 				// encode everything else
 				} else {
