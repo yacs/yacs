@@ -307,7 +307,7 @@ if(Surfer::is_crawler()) {
 
 			// send to anchor watchers
 			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
-				$anchor->alert_watchers($mail, $action, ($_REQUEST['active'] == 'N'));
+				$anchor->alert_watchers($mail, $action, (isset($_REQUEST['active']) && ($_REQUEST['active'] == 'N')));
 
 			// send to followers of this user
 			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
