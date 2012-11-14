@@ -86,9 +86,6 @@ class xml {
 	 */
 	public static function strip_invisible_tags($text) {
 
-		// change non-breaking spaces (aka, UTF-8 encoding for &nbsp; entities)
-		$text = str_replace("\xc2\xa0", ' ', $text);
-
 		// remove invisible tags
 		$text = preg_replace(array(
 			'#<applet[^>]*?>.*?</applet>#siu',
