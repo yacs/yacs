@@ -40,6 +40,7 @@
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
 include_once '../servers/servers.php'; // servers to be advertised
+include_once '../articles/article.php'; // servers to be advertised
 
 // look for the id
 $id = NULL;

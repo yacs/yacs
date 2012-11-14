@@ -3304,6 +3304,9 @@ Class Articles {
 		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
 
+		if(isset($fields['rating_sum']))
+			$query[] = "rating_sum='".SQL::escape($fields['rating_sum'])."'";
+
 		// nothing to update
 		if(!count($query))
 			return TRUE;

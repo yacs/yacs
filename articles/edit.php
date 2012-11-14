@@ -112,6 +112,7 @@ include_once '../locations/locations.php';
 include_once '../servers/servers.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
+include_once '../articles/article.php';
 
 // allow for direct login
 if(isset($_REQUEST['account']) && isset($_REQUEST['password'])) {
