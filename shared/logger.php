@@ -312,15 +312,15 @@ class Logger {
 		// stick to simple line returns
 		$value = str_replace("\r", '', $value);
 
+		// ensure proper encoding
+		if(is_callable(array('utf8', 'encode')))
+			$value = utf8::from_unicode(utf8::encode($value));
+
 		// log simple messages
 		if($strip_tags)
 			$value = trim(xml::strip_visible_tags(xml::strip_invisible_tags($value)));
 		else
 			$value = trim($value);
-
-		// ensure proper encoding
-		if(is_callable(array('utf8', 'encode')))
-			$value = utf8::from_unicode(utf8::encode($value));
 
 		// return a clean string
 		return $value;
