@@ -93,7 +93,7 @@ class Mailer {
 			'/&nbsp;/' => ' ');
 
 		// text/plain part
-		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(xml::strip_visible_tags(preg_replace(array_keys($replacements), array_values($replacements), $text)), ENT_QUOTES, 'UTF-8'))));
+		$message['text/plain; charset=utf-8'] = utf8::from_unicode(utf8::encode(trim(html_entity_decode(xml::strip_visible_tags(preg_replace(array_keys($replacements), array_values($replacements), $text), ''), ENT_QUOTES, 'UTF-8'))));
 
 		// transform the text/html part
 		$replacements = array(
