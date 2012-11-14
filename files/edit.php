@@ -301,7 +301,7 @@ if(Surfer::is_crawler()) {
 				// notification to send by e-mail
 				$mail = array();
 				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($anchor->get_title()));
-				$mail['notification'] = Files::build_notification('upload', $_REQUEST);
+				$mail['notification'] = Files::build_notification('upload', $item);
 
 			}
 
