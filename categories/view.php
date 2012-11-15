@@ -974,7 +974,7 @@ if(!isset($item['id'])) {
 
 		// internal search
 		$label = sprintf(i18n::s('Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s'), Codes::beautify('[search='.$item['keywords'].']'));
-		$content .= Skin::build_box(i18n::s('Internal search'), $label, 'extra');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Internal search'), $label, 'extra');
 
 		// external search
 		$content = '<p>'.sprintf(i18n::s('Search for %s at:'), $item['keywords']).' ';
