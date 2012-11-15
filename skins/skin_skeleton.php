@@ -3081,11 +3081,18 @@ Class Skin_Skeleton {
 				continue;
 			if($category = Categories::get_by_keyword($tag)) {
 
-				// add background color to distinguish this category against others
-				if(isset($category['background_color']) && $category['background_color'])
-					$tag = '<span style="background-color: '.$category['background_color'].'; padding: 0 3px 0 3px;">'.$tag.'</span>';
+				// get category visibility and check surfer rights
+				$active = $category['active'];
+				if($active=='Y' || ($active=='R' && Surfer::is_member()) || ($active=='N' && Surfer::is_associate()) ) {
 
-				$text .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
+					// add background color to distinguish this category against others
+					if(isset($category['background_color']) && $category['background_color'])
+						$tag = '<span style="background-color: '.$category['background_color'].'; padding: 0 3px 0 3px;">'.$tag.'</span>';
+
+					$text .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
+
+				} else // do not show the tag for this category
+					$text .= '';
 			} else
 				$text .= $tag.' ';
 		}
