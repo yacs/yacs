@@ -161,7 +161,7 @@ function send_body() {
 					break;
 
 				// remember this as an event
-				Logger::remember('scripts/run_once.php', sprintf(i18n::c('script %s has been executed'), $item));
+				Logger::remember('scripts/run_once.php: '.sprintf(i18n::c('script %s has been executed'), $item));
 
 				// where scripts actually are
 				$actual_item = str_replace('//', '/', $context['path_to_root'].'scripts/run_once/'.$item);

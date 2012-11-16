@@ -245,7 +245,7 @@ if(Surfer::is_crawler()) {
 			$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
 			$link = $context['url_to_home'].$context['url_to_root'].Files::get_url($_REQUEST['id']);
 			$description = sprintf(i18n::c('%s at %s'), $_REQUEST['file_name'], '<a href="'.$link.'">'.$link.'</a>');
-			Logger::notify('files/edit.php', $label, $description);
+			Logger::notify('files/edit.php: '.$label, $description);
 		}
 
 	// a file has been uploaded
@@ -272,7 +272,7 @@ if(Surfer::is_crawler()) {
 
 				// log multiple upload
 				$label = sprintf(i18n::c('New files in %s'), strip_tags($anchor->get_title()));
-				Logger::notify('files/edit.php', $label, $compact_list);
+				Logger::notify('files/edit.php: '.$label, $compact_list);
 
 				// push the list of uploaded files to the notification
 				$attributes = array();
@@ -296,18 +296,18 @@ if(Surfer::is_crawler()) {
 				$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
 				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
 				$description = sprintf(i18n::c('%s at %s'), $item['file_name'], '<a href="'.$link.'">'.$link.'</a>');
-				Logger::notify('files/edit.php', $label, $description);
+				Logger::notify('files/edit.php: '.$label, $description);
 
 				// notification to send by e-mail
 				$mail = array();
 				$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($anchor->get_title()));
-				$mail['notification'] = Files::build_notification('upload', $_REQUEST);
+				$mail['notification'] = Files::build_notification('upload', $item);
 
 			}
 
 			// send to anchor watchers
 			if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
-				$anchor->alert_watchers($mail, $action, ($_REQUEST['active'] == 'N'));
+				$anchor->alert_watchers($mail, $action, (isset($_REQUEST['active']) && ($_REQUEST['active'] == 'N')));
 
 			// send to followers of this user
 			if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')

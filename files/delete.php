@@ -105,7 +105,7 @@ if(!isset($item['id'])) {
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
 		$description = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
-		Logger::remember('files/delete.php', $label, $description);
+		Logger::remember('files/delete.php: '.$label, $description);
 
 		Files::clear($item);
 

@@ -133,7 +133,7 @@ else {
 
 	// log outcome of script execution in debug mode
 	if($context['with_debug'] == 'Y')
-		Logger::remember('cron.php', 'tick processing', $context['cron_text'], 'debug');
+		Logger::remember('cron.php: tick processing', $context['cron_text'], 'debug');
 
 }
 
@@ -168,7 +168,7 @@ else {
 
 	// log outcome of script execution in debug mode
 	if($context['with_debug'] == 'Y')
-		Logger::remember('cron.php', 'hourly processing', $context['text'], 'debug');
+		Logger::remember('cron.php: hourly processing', $context['text'], 'debug');
 
 }
 

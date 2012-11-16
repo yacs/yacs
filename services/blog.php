@@ -503,7 +503,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog request', $raw_data, 'debug');
+	Logger::remember('services/blog.php: blog request', $raw_data, 'debug');
 
 // load the adequate codec
 include_once 'codec.php';
@@ -535,7 +535,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 // nothing to parse
 if(!isset($parameters) || !is_array($parameters) || !count($parameters) || !isset($parameters['methodName']) || !$parameters['methodName']) {
 	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-		Logger::remember('services/blog.php', 'blog request', 'nothing to process', 'debug');
+		Logger::remember('services/blog.php: blog request', 'nothing to process', 'debug');
 
 	$response = array('faultCode' => -32700, 'faultString' => 'Empty request, please retry');
 
@@ -548,7 +548,7 @@ else {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-		Logger::remember('services/blog.php', 'blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
+		Logger::remember('services/blog.php: blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
 
 	// depending on method name
 	switch($parameters['methodName']) {
@@ -667,22 +667,13 @@ else {
 				else {
 					$response = TRUE;
 
-					// if the page has been published
-					if($fields['publish_date'] > NULL_DATE) {
+					// do whatever is necessary on page publication
+					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+						Articles::finalize_publication($anchor, $fields);
 
-						// advertise public pages
-						if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
-
-							// pingback, if any
-							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-
-						}
-
-						// 'publish' hook
-						if(is_callable(array('Hooks', 'include_scripts')))
-							Hooks::include_scripts('publish', $item['id']);
-
-					}
+					// else whatever is necessary on page update
+					else
+						Articles::finalize_update($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
@@ -1059,22 +1050,9 @@ else {
 				// one post more for this user
 				Users::increment_posts($user['id']);
 
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if($section->is_public()) {
-
-						// pingback, if any
-						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
-
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $fields['id']);
-
-				}
+				// do whatever is necessary on page publication
+				if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+					Articles::finalize_publication($section, $fields);
 
 				// list the article in categories
 				$keywords = '';
@@ -1215,21 +1193,13 @@ else {
 				else {
 					$response = TRUE;
 
-					// if the page has been published
-					if($fields['publish_date'] > NULL_DATE) {
+					// do whatever is necessary on page publication
+					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+						Articles::finalize_publication($anchor, $fields);
 
-						// advertise public pages
-						if($anchor->is_public() && ($item['active'] == 'Y')) {
-
-							// pingback, if any
-							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-						}
-
-						// 'publish' hook
-						if(is_callable(array('Hooks', 'include_scripts')))
-							Hooks::include_scripts('publish', $item['id']);
-
-					}
+					// else whatever is necessary on page update
+					else
+						Articles::finalize_update($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
@@ -1624,30 +1594,9 @@ else {
 				// increment the post counter of the surfer
 				Users::increment_posts($user['id']);
 
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if($section->is_public()) {
-
-						// places to look for references
-						$to_be_parsed = '';
-						if(isset($fields['introduction']))
-							$to_be_parsed .= $fields['introduction'].' ';
-						if(isset($fields['source']))
-							$to_be_parsed .= $fields['source'].' ';
-						if(isset($fields['description']))
-							$to_be_parsed .= $fields['description'].' ';
-
-						// pingback, if any
-						Links::ping($to_be_parsed, 'article:'.$fields['id']);
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $fields['id']);
-
-				}
+				// do whatever is necessary on page publication
+				if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+					Articles::finalize_publication($section, $fields);
 
 				// add tags to this page
 				$keywords = '';
@@ -1858,7 +1807,7 @@ else {
 
 	default:
 		$response = array('faultCode' => -32601, 'faultString' => sprintf(i18n::s('Do not know how to process %s'), $parameters['methodName']));
-		Logger::remember('services/blog.php', 'unsupported methodName', $parameters['methodName'], 'debug');
+		Logger::remember('services/blog.php: unsupported methodName', $parameters['methodName'], 'debug');
 	}
 }
 
@@ -1880,7 +1829,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // save the response if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog response', $response, 'debug');
+	Logger::remember('services/blog.php: blog response', $response, 'debug');
 
 	// something has been buffered
 	if(is_callable('ob_get_length') && ob_get_length()) {

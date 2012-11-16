@@ -159,7 +159,7 @@ if(Surfer::is_crawler()) {
 
 				// debug
 				if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-					Logger::remember('servers/test.php', 'item', $item, 'debug');
+					Logger::remember('servers/test.php: item', $item, 'debug');
 
 				// link has to be valid
 				if(!$item['link'] || !($item['title'].$item['description'])) {

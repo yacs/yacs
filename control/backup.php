@@ -165,7 +165,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			continue;
 
 		// strip constraints and keep only engine definition
-		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '\\1', $result['Create Table']);
+		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '$1', $result['Create Table']);
 
 		// split lines
 		$create_query = str_replace('\n', "\n", $create_query);
@@ -330,7 +330,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 	// remember this in log as well
-	Logger::remember('control/backup.php', 'The database has been saved');
+	Logger::remember('control/backup.php: The database has been saved');
 
 	// do not allow for regular rendering
 	exit;
@@ -366,7 +366,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -474,7 +474,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -578,7 +578,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 

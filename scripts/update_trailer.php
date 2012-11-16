@@ -96,6 +96,6 @@ Safe::rename($context['path_to_root'].'footprints.php', $context['path_to_root']
 Safe::copy($context['path_to_root'].'scripts/staging/footprints.php', $context['path_to_root'].'footprints.php');
 
 // remember this as a significant event --i18n::s does not exist before 6.12
-Logger::remember('scripts/update_trailer.php', 'update trailer has been executed');
+Logger::remember('scripts/update_trailer.php: update trailer has been executed');
 
 ?>

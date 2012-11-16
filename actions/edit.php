@@ -246,7 +246,7 @@ if(Surfer::is_crawler()) {
 		if(!Surfer::is_associate()) {
 			$label = sprintf(i18n::c('New action for %s'), strip_tags($anchor->get_title()));
 			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']).'">'.$_REQUEST['title'].'</a>';
-			Logger::notify('actions/edit.php', $label, $description);
+			Logger::notify('actions/edit.php: '.$label, $description);
 		}
 
 	// update of an existing action

@@ -120,8 +120,8 @@ if(Surfer::is_crawler()) {
 	// post-processing
 	} else {
 
-		// update anchors and forward notifications
-		$anchor->touch('article:create', $_REQUEST['id']);
+		// do whatever is necessary on page publication
+		Articles::finalize_publication($anchor, $_REQUEST);
 
 		// message to the query poster
 		$context['page_title'] = i18n::s('Your query has been registered');
@@ -197,7 +197,7 @@ if(Surfer::is_crawler()) {
 			$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
                         $description = '<a href="'.$link.'">'.$link.'</a>'
 				."\n\n".$article->get_teaser('basic');
-			Logger::notify('query.php', $label, $description);
+			Logger::notify('query.php: '.$label, $description);
 		}
 
 	}

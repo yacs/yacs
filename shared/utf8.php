@@ -21,14 +21,11 @@ Class Utf8 {
 	 */
 	public static function &encode($input) {
 
-		// transcode explicit unicode entities %u2019 -> &#8217;
+		// transcode explicit unicode entities e.g., %u2019 -> &#8217;
 		$output = preg_replace('/%u([0-9a-z]{4})/ise', "'&#'.hexdec('$1').';'", $input);
 
-		// transcode HTML entities to Unicode entities
+		// transcode HTML entities to Unicode entities e.g., &nbsp; -> &#160;
 		$output =& utf8::transcode($output);
-
-		// translate everything, including ISO8859-1 chars, to utf-8
-// 		$output = utf8_encode($output);
 
 		// return the translated string
 		return $output;
@@ -437,7 +434,7 @@ Class Utf8 {
 		global $context;
 
 		// transcode all entities from decimal to hexa
-		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('\\1').';'", $utf);
+		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('$1').';'", $utf);
 
 		// job done
 		return $text;

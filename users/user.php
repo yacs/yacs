@@ -391,7 +391,7 @@ Class User extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('users/user.php', 'unexpected NULL origin at touch()');
+			logger::remember('users/user.php: unexpected NULL origin at touch()');
 			return;
 		}
 

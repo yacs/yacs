@@ -224,7 +224,7 @@ if($id) {
 
 	// get the reference footprints -- reference server have to be installed at the root
 	$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script=footprints.php';
-	if(($content = http::proceed($url, '', '', 'scripts/stage.php')) === FALSE) {
+	if(($content = http::proceed($url)) === FALSE) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to get %s. Please %s again.'), $url, '<a href="configure.php">'.i18n::s('configure').'</a>')."</p>\n";
 
 		// forward to the index page
@@ -299,7 +299,7 @@ if($id) {
 
 				// get the file -- reference server have to be installed at the root
 				$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script='.$file;
-				if(!$content = http::proceed($url, '', '', 'scripts/stage.php')) {
+				if(!$content = http::proceed($url)) {
 					$context['text'] .= sprintf(i18n::s('Impossible to read %s.'), $url).BR."\n";
 					$errors++;
 					continue;

@@ -438,7 +438,7 @@ class Safe {
 
 			// help on development machine
 			if($context['with_debug'] == 'Y')
-				Logger::remember('shared/safe.php', 'Can not add HTTP header', 'Headers already sent in '.$file.' on line '.$line, 'debug');
+				Logger::remember('shared/safe.php: Can not add HTTP header', 'Headers already sent in '.$file.' on line '.$line, 'debug');
 
 			// don't call header(), this would raise an error
 			return;

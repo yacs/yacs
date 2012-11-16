@@ -997,7 +997,7 @@ Class i18n {
 		else {
 			$text = $name;
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				logger::remember('i18n/i18n.php: '.$name.' is not localized', '', 'debug');
 
 		}
 
@@ -1038,7 +1038,7 @@ Class i18n {
 			Safe::closedir($dir);
 
 		} else
-			logger::remember('i18n/i18n.php', 'Impossible to browse directory i18n/locale');
+			logger::remember('i18n/i18n.php: Impossible to browse directory i18n/locale');
 
 		// done
 		return $locales;
@@ -1102,7 +1102,7 @@ Class i18n {
 
 			// log information on development platform
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', 'Impossible to load '.$path, '', 'debug');
+				logger::remember('i18n/i18n.php: Impossible to load '.$path, '', 'debug');
 
 			// we've got a problem
 			return FALSE;
@@ -1122,7 +1122,7 @@ Class i18n {
 		else {
 			// log information on development platform
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', 'bad magic number in '.$path, '', 'debug');
+				logger::remember('i18n/i18n.php: bad magic number in '.$path, '', 'debug');
 
 			// we've got a problem
 			return FALSE;
@@ -1243,7 +1243,7 @@ Class i18n {
 
 			// log information on development platform
 			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				logger::remember('i18n/i18n.php: '.$name.' is not localized', '', 'debug');
 
 			// degrade to provided string
 			$text = $name;

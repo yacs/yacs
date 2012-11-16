@@ -275,7 +275,7 @@ function send_body() {
 
 		// remember the change
 		$label = i18n::c('The database has been optimised');
-		Logger::remember('control/setup.php', $label);
+		Logger::remember('control/setup.php: '.$label);
 
 	// ask for confirmation
 	} else {

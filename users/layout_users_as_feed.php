@@ -61,7 +61,7 @@ Class Layout_users_as_feed extends Layout_interface {
 			$description = Skin::cap($description, 300);
 
 			// fix image references
-			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
+			$description = preg_replace('#"/([^">]+?)"#', '"'.$context['url_to_home'].'/$1"', $description);
 
 			// other rss fields
 			$extensions = array();

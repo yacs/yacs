@@ -155,7 +155,7 @@ class Messages {
 			$text = preg_replace("/=\r?\n/", '', $text);
 
 			// replace encoded characters
-			return preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('\\1'))", $text);
+			return preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('$1'))", $text);
 
 		// base64
 		} elseif(preg_match('/base64/i', $method)) {
@@ -213,7 +213,7 @@ class Messages {
 			$value = $matches[2];
 
 			// remove white space between encoded-words
-			$value = preg_replace('/(=\?[^?]+\?(q|b)\?[^?]*\?=)(\s)+=\?/i', '\1=?', trim($value));
+			$value = preg_replace('/(=\?[^?]+\?(q|b)\?[^?]*\?=)(\s)+=\?/i', '$1=?', trim($value));
 
 			// process every encoded-word
 			while(preg_match('/(=\?([^?]+)\?(q|b)\?([^?]*)\?=)/i', $value, $matches)) {
@@ -316,7 +316,7 @@ class Messages {
 
 		// split headers and body
 		if(!$position = strpos($entity, "\n\n")) {
-			Logger::remember('agents/messages.php', 'Can not split header and body', $entity);
+			Logger::remember('agents/messages.php: Can not split header and body', $entity);
 			return NULL;
 		}
 
@@ -371,14 +371,14 @@ class Messages {
 
 			// look for the boundary
 			if(!preg_match('/boundary="*([a-zA-Z0-9\'\(\)\+_,-\.\/:=\?]+)"*\s*/i', $content_type, $matches)) {
-				Logger::remember('agents/messages.php', 'No multipart boundary in '.$content_type, $content_type);
+				Logger::remember('agents/messages.php: No multipart boundary in '.$content_type, $content_type);
 				return NULL;
 			}
 
 			// split entities
 			$entities = explode('--'.$matches[1], $content);
 			if(@count($entities) < 3) {
-				Logger::remember('agents/messages.php', 'Empty multipart message', $content);
+				Logger::remember('agents/messages.php: Empty multipart message', $content);
 				return NULL;
 			}
 
@@ -425,7 +425,7 @@ class Messages {
 
 		// unknown type
 		} else {
-			Logger::remember('agents/messages.php', 'Do not know how to process type '.$content_type);
+			Logger::remember('agents/messages.php: Do not know how to process type '.$content_type);
 			return NULL;
 		}
 
@@ -462,14 +462,14 @@ class Messages {
 
 		// split headers and body
 		if(!$position = strpos($entity, "\n\n")) {
-			Logger::remember('agents/messages.php', 'Can not split header and body', $entity);
+			Logger::remember('agents/messages.php: Can not split header and body', $entity);
 			return NULL;
 		}
 		$message_headers = substr($entity, 0, $position);
 
 		// security match
 		if($match && !preg_match('/'.preg_quote($match, '/').'/i', $message_headers)) {
-			Logger::remember('agents/messages.php', 'Message does not match /'.preg_quote($match, '/').'/');
+			Logger::remember('agents/messages.php: Message does not match /'.preg_quote($match, '/').'/');
 			return NULL;
 		}
 
@@ -490,7 +490,7 @@ class Messages {
 
 		// no poster
 		if(!$post_sender) {
-			Logger::remember('agents/messages.php', 'No poster address');
+			Logger::remember('agents/messages.php: No poster address');
 			return NULL;
 		}
 
@@ -514,7 +514,7 @@ class Messages {
 
 		// the poster has to be recorded in the database
 		} elseif(!$user['id']) {
-			Logger::remember('agents/messages.php', 'Unknown poster address '.$post_sender);
+			Logger::remember('agents/messages.php: Unknown poster address '.$post_sender);
 			return NULL;
 
 		// maybe subscribers are allowed to post here
@@ -527,7 +527,7 @@ class Messages {
 
 		// else the poster has to be an associate
 		elseif($user['capability'] != 'A') {
-			Logger::remember('agents/messages.php', 'Poster '.$post_sender.' is not allowed to contribute by e-mail');
+			Logger::remember('agents/messages.php: Poster '.$post_sender.' is not allowed to contribute by e-mail');
 			return NULL;
 		}
 
@@ -565,7 +565,7 @@ class Messages {
 
 		// no anchor to use
 		if(!$anchor) {
-			Logger::remember('agents/messages.php', 'No anchor has been found');
+			Logger::remember('agents/messages.php: No anchor has been found');
 			return NULL;
 		}
 
@@ -635,13 +635,13 @@ class Messages {
 
 		// ensure that we can support tls communications
 		if(isset($server) && !strncmp($server, 'ssl://', 6) && is_callable('extension_loaded') && !extension_loaded('openssl')) {
-			Logger::remember('agents/messages.php', 'Load the OpenSSL extension to support secured transmissions to mail server '.$server);
+			Logger::remember('agents/messages.php: Load the OpenSSL extension to support secured transmissions to mail server '.$server);
 			return 0;
 		}
 
 		// open a network connection
 		if(!$handle = Safe::fsockopen($server, $port, $errno, $errstr, 10)) {
-			Logger::remember('agents/messages.php', sprintf('Impossible to connect to %s', $server));
+			Logger::remember('agents/messages.php: '.sprintf('Impossible to connect to %s', $server));
 			return 0;
 		}
 
@@ -650,16 +650,16 @@ class Messages {
 
 		// get server banner
 		if(($reply = fgets($handle)) === FALSE) {
-			Logger::remember('agents/messages.php', 'Impossible to get banner of '.$server);
+			Logger::remember('agents/messages.php: Impossible to get banner of '.$server);
 			fclose($handle);
 			return 0;
 		}
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
+			Logger::remember('agents/messages.php: POP <-', rtrim($reply), 'debug');
 
 		// expecting an OK
 		if(strncmp($reply, '+OK', 3)) {
-			Logger::remember('agents/messages.php', 'Mail service is closed at '.$server, rtrim($reply));
+			Logger::remember('agents/messages.php: Mail service is closed at '.$server, rtrim($reply));
 			fclose($handle);
 			return 0;
 		}
@@ -675,26 +675,26 @@ class Messages {
 
 			// the digest
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP stamp', $stamp.$password, 'debug');
+				Logger::remember('agents/messages.php: POP stamp', $stamp.$password, 'debug');
 			$hash = md5($stamp.$password);
 
 			// send user name and hash
 			$request = 'APOP '.$account.' '.$hash;
 			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+				Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 			// expecting an OK
 			if(($reply = fgets($handle)) === FALSE) {
-				Logger::remember('agents/messages.php', 'No reply to APOP command at '.$server);
+				Logger::remember('agents/messages.php: No reply to APOP command at '.$server);
 				fclose($handle);
 				return 0;
 			}
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
+				Logger::remember('agents/messages.php: POP <-', rtrim($reply), 'debug');
 
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Impossible to authenticate account '.$account.' at '.$server, rtrim($reply));
+				Logger::remember('agents/messages.php: Impossible to authenticate account '.$account.' at '.$server, rtrim($reply));
 			} else
 				$authenticated = TRUE;
 
@@ -707,19 +707,19 @@ class Messages {
 			$request = 'USER '.$account;
 			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+				Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 			// expecting an OK
 			if(($reply = fgets($handle)) === FALSE) {
-				Logger::remember('agents/messages.php', 'No reply to USER command at '.$server);
+				Logger::remember('agents/messages.php: No reply to USER command at '.$server);
 				fclose($handle);
 				return 0;
 			}
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
+				Logger::remember('agents/messages.php: POP <-', rtrim($reply), 'debug');
 
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Unknown account '.$account.' at '.$server, rtrim($reply));
+				Logger::remember('agents/messages.php: Unknown account '.$account.' at '.$server, rtrim($reply));
 				fclose($handle);
 				return 0;
 			}
@@ -728,19 +728,19 @@ class Messages {
 			$request = 'PASS '.$password;
 			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+				Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 			// expecting an OK
 			if(($reply = fgets($handle)) === FALSE) {
-				Logger::remember('agents/messages.php', 'No reply to PASS command at '.$server);
+				Logger::remember('agents/messages.php: No reply to PASS command at '.$server);
 				fclose($handle);
 				return 0;
 			}
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
+				Logger::remember('agents/messages.php: POP <-', rtrim($reply), 'debug');
 
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Invalid password for account '.$account.' at '.$server, rtrim($reply));
+				Logger::remember('agents/messages.php: Invalid password for account '.$account.' at '.$server, rtrim($reply));
 				fclose($handle);
 				return 0;
 			}
@@ -750,16 +750,16 @@ class Messages {
 		$request = 'STAT';
 		fputs($handle, $request.CRLF);
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+			Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 		// expecting an OK
 		if(($reply = fgets($handle)) === FALSE) {
-			Logger::remember('agents/messages.php', 'No reply to STAT command at '.$server);
+			Logger::remember('agents/messages.php: No reply to STAT command at '.$server);
 			fclose($handle);
 			return 0;
 		}
 		if(strncmp($reply, '+OK', 3)) {
-			Logger::remember('agents/messages.php', 'Rejected command STAT at '.$server, 'reply="'.rtrim($reply).'"');
+			Logger::remember('agents/messages.php: Rejected command STAT at '.$server, 'reply="'.rtrim($reply).'"');
 			fclose($handle);
 			return 0;
 		}
@@ -767,7 +767,7 @@ class Messages {
 		// evaluate queue size
 		$tokens = explode(' ', $reply);
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
+			Logger::remember('agents/messages.php: POP <-', rtrim($reply), 'debug');
 		$queue_size = @$tokens[1];
 
 		// nothing to do
@@ -787,16 +787,16 @@ class Messages {
 			$request = 'RETR '.$index;
 			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+				Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 			// expecting an OK
 			if(($reply = fgets($handle)) === FALSE) {
-				Logger::remember('agents/messages.php', 'No reply to RETR command at '.$server);
+				Logger::remember('agents/messages.php: No reply to RETR command at '.$server);
 				fclose($handle);
 				return ($index-1);
 			}
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Rejected command RETR at '.$server, rtrim($reply));
+				Logger::remember('agents/messages.php: Rejected command RETR at '.$server, rtrim($reply));
 				fclose($handle);
 				return ($index-1);
 			}
@@ -825,13 +825,13 @@ class Messages {
 			$request = 'DELE '.$index;
 			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+				Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 			// expecting an OK
 			if(($reply = fgets($handle)) === FALSE)
-				Logger::remember('agents/messages.php', 'No reply to DELE command at '.$server);
+				Logger::remember('agents/messages.php: No reply to DELE command at '.$server);
 			elseif(strncmp($reply, '+OK', 3))
-				Logger::remember('agents/messages.php', 'Rejected command DELE at '.$server, rtrim($reply));
+				Logger::remember('agents/messages.php: Rejected command DELE at '.$server, rtrim($reply));
 
 			// file the message if in debug mode
 			if(($context['debug_messages'] == 'Y') && Safe::make_path('temporary/agents'))
@@ -846,16 +846,16 @@ class Messages {
 		$request = 'QUIT';
 		fputs($handle, $request.CRLF);
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
+			Logger::remember('agents/messages.php: POP ->', $request, 'debug');
 
 		// expecting an OK
 		if(($reply = fgets($handle)) === FALSE)
-			Logger::remember('agents/messages.php', 'No reply to QUIT command at '.$server);
+			Logger::remember('agents/messages.php: No reply to QUIT command at '.$server);
 		elseif(strncmp($reply, '+OK', 3))
-			Logger::remember('agents/messages.php', 'Rejected command QUIT at '.$server, rtrim($reply));
+			Logger::remember('agents/messages.php: Rejected command QUIT at '.$server, rtrim($reply));
 
 		if($queue_size > 0)
-			Logger::remember('agents/messages.php', $queue_size.' message(s) have been processed from '.$server);
+			Logger::remember('agents/messages.php: '.$queue_size.' message(s) have been processed from '.$server);
 		fclose($handle);
 		return $queue_size;
 
@@ -920,13 +920,13 @@ class Messages {
 
 		// sanity check
 		if(!$file_name) {
-			Logger::remember('agents/messages.php', 'No name to use for submitted file');
+			Logger::remember('agents/messages.php: No name to use for submitted file');
 			return NULL;
 		}
 
 		// we don't accept all extensions
 		if(!Files::is_authorized($file_name)) {
-			Logger::remember('agents/messages.php', 'Rejected file type for '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: Rejected file type for '.$file_path.$file_name);
 			return NULL;
 		}
 
@@ -935,20 +935,20 @@ class Messages {
 
 		// sanity check
 		if($file_size < 7) {
-			Logger::remember('agents/messages.php', 'Short file skipped');
+			Logger::remember('agents/messages.php: Short file skipped');
 			return NULL;
 		}
 
 		// sanity check
 		if(!$anchor) {
-			Logger::remember('agents/messages.php', 'No anchor to use for submitted file', $file_name);
+			Logger::remember('agents/messages.php: No anchor to use for submitted file', $file_name);
 			return NULL;
 		}
 
 		// get anchor data -- this is a mutable object
 		$host = Anchors::get($anchor, TRUE);
 		if(!is_object($host)) {
-			Logger::remember('agents/messages.php', 'Unknown anchor '.$anchor);
+			Logger::remember('agents/messages.php: Unknown anchor '.$anchor);
 			return NULL;
 		}
 
@@ -956,18 +956,18 @@ class Messages {
 		list($anchor_type, $anchor_id) = explode(':', $anchor, 2);
 		$file_path = 'files/'.$anchor_type.'/'.$anchor_id;
 		if(!Safe::make_path($file_path)) {
-			Logger::remember('agents/messages.php', 'Impossible to create '.$file_path);
+			Logger::remember('agents/messages.php: Impossible to create '.$file_path);
 			return NULL;
 		}
 		$file_path = $context['path_to_root'].$file_path.'/';
 
 		// save the entity in the file system
 		if(!$file = Safe::fopen($file_path.$file_name, 'wb')) {
-			Logger::remember('agents/messages.php', 'Impossible to open '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: Impossible to open '.$file_path.$file_name);
 			return NULL;
 		}
 		if(fwrite($file, $content) === FALSE) {
-			Logger::remember('agents/messages.php', 'Impossible to write to '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: Impossible to write to '.$file_path.$file_name);
 			return NULL;
 		}
 		fclose($file);
@@ -986,11 +986,11 @@ class Messages {
 
 		// create a file record in the database
 		if(!$item['id'] = Files::post($item)) {
-			Logger::remember('agents/messages.php', Logger::error_pop());
+			Logger::remember('agents/messages.php: '.Logger::error_pop());
 			return NULL;
 		}
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'Messages::submit_file()', $item, 'debug');
+			Logger::remember('agents/messages.php: Messages::submit_file()', $item, 'debug');
 
 		return 'file:'.$item['id'];
 	}
@@ -1056,7 +1056,7 @@ class Messages {
 
 		// sanity check
 		if(!$file_name) {
-			Logger::remember('agents/messages.php', 'No file name to use for submitted image');
+			Logger::remember('agents/messages.php: No file name to use for submitted image');
 			return NULL;
 		}
 
@@ -1065,42 +1065,42 @@ class Messages {
 
 		// sanity check
 		if($file_size < 7) {
-			Logger::remember('agents/messages.php', 'Short image skipped', $file_name);
+			Logger::remember('agents/messages.php: Short image skipped', $file_name);
 			return NULL;
 		}
 
 		// sanity check
 		if(!$anchor) {
-			Logger::remember('agents/messages.php', 'No anchor to use for submitted image', $file_name);
+			Logger::remember('agents/messages.php: No anchor to use for submitted image', $file_name);
 			return NULL;
 		}
 
 		// get anchor data -- this is a mutable object
 		$host = Anchors::get($anchor, TRUE);
 		if(!is_object($host)) {
-			Logger::remember('agents/messages.php', 'Unknown anchor '.$anchor, $file_name);
+			Logger::remember('agents/messages.php: Unknown anchor '.$anchor, $file_name);
 			return NULL;
 		}
 
 		// create target folders
 		$file_path = Files::get_path($anchor, 'images');
 		if(!Safe::make_path($file_path)) {
-			Logger::remember('agents/messages.php', 'Impossible to create '.$file_path);
+			Logger::remember('agents/messages.php: Impossible to create '.$file_path);
 			return NULL;
 		}
 		if(!Safe::make_path($file_path.'/thumbs')) {
-			Logger::remember('agents/messages.php', 'Impossible to create '.$file_path.'/thumbs');
+			Logger::remember('agents/messages.php: Impossible to create '.$file_path.'/thumbs');
 			return NULL;
 		}
 		$file_path = $context['path_to_root'].$file_path.'/';
 
 		// save the entity in the file system
 		if(!$file = Safe::fopen($file_path.$file_name, 'wb')) {
-			Logger::remember('agents/messages.php', 'Impossible to open '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: Impossible to open '.$file_path.$file_name);
 			return NULL;
 		}
 		if(fwrite($file, $content) === FALSE) {
-			Logger::remember('agents/messages.php', 'Impossible to write to '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: Impossible to write to '.$file_path.$file_name);
 			return NULL;
 		}
 		fclose($file);
@@ -1108,14 +1108,14 @@ class Messages {
 		// get image information
 		if(!$image_information = Safe::GetImageSize($file_path.$file_name)) {
 			Safe::unlink($file_path.$file_name);
-			Logger::remember('agents/messages.php', 'No image information in '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: No image information in '.$file_path.$file_name);
 			return NULL;
 		}
 
 		// we accept only gif, jpeg and png
 		if(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3)) {
 			Safe::unlink($file_path.$file_name);
-			Logger::remember('agents/messages.php', 'Rejected image type for '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: Rejected image type for '.$file_path.$file_name);
 			return NULL;
 		}
 
@@ -1125,7 +1125,7 @@ class Messages {
 		// do not stop on error
 		include_once $context['path_to_root'].'images/image.php';
 		if(!Image::shrink($file_path.$file_name, $file_path.$thumbnail_name, FALSE, FALSE))
-			Logger::remember('agents/messages.php', 'No thumbnail has been created for '.$file_path.$file_name);
+			Logger::remember('agents/messages.php: No thumbnail has been created for '.$file_path.$file_name);
 
 		// resize the image where applicable
 		if(Image::adjust($file_path.$file_name, FALSE))
@@ -1157,11 +1157,11 @@ class Messages {
 		// create an image record in the database
 		include_once $context['path_to_root'].'images/images.php';
 		if(!$item['id'] = Images::post($item)) {
-			Logger::remember('agents/messages.php', 'Impossible to save image '.$item['image_name']);
+			Logger::remember('agents/messages.php: Impossible to save image '.$item['image_name']);
 			return NULL;
 		}
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'Messages::submit_image()', $item, 'debug');
+			Logger::remember('agents/messages.php: Messages::submit_image()', $item, 'debug');
 
 		// insert the image in the anchor page
 		$host->touch('image:create', $item['id'], TRUE);
@@ -1190,7 +1190,7 @@ class Messages {
 		list($server, $account, $password, $allowed, $match, $section, $options, $hooks, $prefix, $suffix) = $context['mail_queue'];
 
 		// preserve breaks
-		$text = preg_replace('/\s*<(br|div|h|p)/is', "\n\n<\\1", $text);
+		$text = preg_replace('/\s*<(br|div|h|p)/is', "\n\n<$1", $text);
 
 		// suppress dangerous html tags
 		$text = strip_tags($text, $context['users_allowed_tags']);
@@ -1282,13 +1282,13 @@ class Messages {
 
 			// insert comment in the database
 			if(!$entry_fields['id'] = Comments::post($entry_fields)) {
-				Logger::remember('agents/messages.php', Logger::error_pop());
+				Logger::remember('agents/messages.php: '.Logger::error_pop());
 				return NULL;
 			}
 
 			// debug, if required to do so
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'Messages::submit_page() as a comment', $entry_fields, 'debug');
+				Logger::remember('agents/messages.php: Messages::submit_page() as a comment', $entry_fields, 'debug');
 
 			// increment the post counter of the surfer
 			Users::increment_posts($user['id']);
@@ -1325,57 +1325,33 @@ class Messages {
 
 			// save in the database
 			if(!$entry_fields['id'] = Articles::post($entry_fields)) {
-				Logger::remember('agents/messages.php', Logger::error_pop());
+				Logger::remember('agents/messages.php: '.Logger::error_pop());
 				return NULL;
 			}
 
 			// debugging log
 			if(isset($context['debug_messages']) && ($context['debug_messages'] == 'Y')) {
 				$entry_fields['description'] = substr($entry_fields['description'], 0, 1024);
-				Logger::remember('agents/messages.php', 'Messages::submit_page() as an article', $entry_fields, 'debug');
+				Logger::remember('agents/messages.php: Messages::submit_page() as an article', $entry_fields, 'debug');
 			}
 
 			// increment the post counter of the surfer
 			Users::increment_posts($user['id']);
 
+			// do whatever is necessary on page creation
+			if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE))
+				Articles::finalize_publication($section, $entry_fields);
+			else
+				Articles::finalize_submission($section, $entry_fields);
+
 			// get the new item
 			$article = Anchors::get($anchor);
-
-			// if the page has been published
-			if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE)) {
-
-				// advertise public pages
-				if(is_object($section) && $section->is_public()) {
-
-					// text to be indexed
-					$text = '';
-
-					if(isset($entry_fields['introduction']))
-						$text .= $entry_fields['introduction'].' ';
-					if(isset($entry_fields['source']))
-						$text .= $entry_fields['source'].' ';
-					if(isset($entry_fields['description']))
-						$text .= $entry_fields['description'];
-
-					// pingback, if any
-					if($text) {
-						include_once $context['path_to_root'].'links/links.php';
-						Links::ping($text, $anchor);
-					}
-
-				}
-
-				// 'publish' hook
-				if(is_callable(array('Hooks', 'include_scripts')))
-					Hooks::include_scripts('publish', $entry_fields['id']);
-
-			}
 
 			// if replies are allowed
 			if(!preg_match('/\bno_reply\b/i', $options)) {
 
 				// let the sender know about his post
-				if($entry_fields['publish_date'])
+				if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE))
 					$splash = i18n::s("The page received by e-mail has been successfully published. Please review it now to ensure that it reflects your mind.");
 				else
 					$splash = i18n::s("The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available.");
@@ -1392,21 +1368,7 @@ class Messages {
 				Mailer::notify(NULL, $post_sender, 'Re: '.$post_subject, $message, $headers);
 			}
 
-			// log the creation of a new article if not published
-			if(!isset($entry_fields['publish_date']) || $entry_fields['publish_date'] <= NULL_DATE) {
-
-				$label = sprintf(i18n::c('New submission: %s'), strip_tags($entry_fields['title']));
-				if(is_object($section))
-					$description = sprintf(i18n::c('Sent by %s in %s'), $user['nick_name'], $section->get_title());
-				else
-					$description = sprintf(i18n::c('Sent by %s'), $user['nick_name']);
-				if(is_object($article))
-					$description .= "\n\n".$article->get_teaser('basic')
-						."\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
-				Logger::notify('agents/messages.php', $label, $description);
-
-			}
-
+			// reference to the new page
 			return 'article:'.$entry_fields['id'];
 		}
 

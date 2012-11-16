@@ -84,7 +84,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the request if debug mode
 if($raw_data && isset($context['debug_comment']) && ($context['debug_comment'] == 'Y'))
-	Logger::remember('comments/post.php', 'comments post request', $raw_data, 'debug');
+	Logger::remember('comments/post.php: comments post request', $raw_data, 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
@@ -250,7 +250,7 @@ if(Surfer::is_crawler()) {
 
 			// save the request if debug mode
 			if($context['debug_comment'] == 'Y')
-				Logger::remember('comments/post.php', 'comments post item', $fields, 'debug');
+				Logger::remember('comments/post.php: comments post item', $fields, 'debug');
 
 			// save in the database
 			if(!$fields['id'] = Comments::post($fields))
@@ -294,7 +294,7 @@ if(Surfer::is_crawler()) {
 
 	// save the response if debug mode
 	if($context['debug_comment'] == 'Y')
-		Logger::remember('comments/post.php', 'comments post response', $response, 'debug');
+		Logger::remember('comments/post.php: comments post response', $response, 'debug');
 
 	// send the response
 	Safe::header('Content-Type: text/xml');

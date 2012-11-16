@@ -98,8 +98,7 @@ if(!$item['id']) {
 				$headline = sprintf(i18n::c('%s is following you'), Surfer::get_link());
 
 				// information
-				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), Surfer::get_name(), $context['site_name']).'</p>'
-					.'<p>'.Surfer::get_link().'</p>';
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), Surfer::get_name(), $context['site_name']).'</p>';
 
 				// assemble main content of this message
 				$message = Skin::build_mail_content($headline, $message);

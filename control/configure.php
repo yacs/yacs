@@ -899,7 +899,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/control.include.php');
-		Logger::remember('control/configure.php', $label);
+		Logger::remember('control/configure.php: '.$label);
 
 	}
 

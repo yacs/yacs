@@ -627,7 +627,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/users.include.php');
-		Logger::remember('users/configure.php', $label);
+		Logger::remember('users/configure.php: '.$label);
 
 	}
 

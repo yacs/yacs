@@ -311,12 +311,8 @@ if(Surfer::is_crawler()) {
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// state clearly that this is an approval
-		if($_REQUEST['type'] == 'approval') {
-
-			if(!isset($item['id']))
-				$context['text'] .= Skin::build_block(i18n::s('You have provided your approval'), 'note');
-
-		}
+		if($_REQUEST['type'] == 'approval')
+			$context['text'] .= Skin::build_block(i18n::s('You have provided your approval'), 'note');
 
 		// actual content
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
@@ -357,11 +353,11 @@ if(Surfer::is_crawler()) {
 
 		// log the submission of a new comment
 		$label = sprintf(i18n::c('%s: %s'), $author, strip_tags($anchor->get_title()));
-                $link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
+        $link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
 		$description = '<a href="'.$link.'">'.$link.'</a>';
 
 		// notify sysops
-		Logger::notify('comments/edit.php', $label, $description);
+		Logger::notify('comments/edit.php: '.$label, $description);
 
 	// update of an existing comment
 	} else {
@@ -510,7 +506,7 @@ if($with_form) {
 				$input .= '<p class="details">'.i18n::s('It is not your first approval for this page.').'</p>';
 
 			// change page title too
-			$context['page_title'] = sprintf(i18n::s('Approval: %s'), $anchor->get_title());
+			$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Approval'), $anchor->get_title());
 
 		// else select a regular type
 		} else {

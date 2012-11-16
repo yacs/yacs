@@ -132,10 +132,10 @@ if(!isset($item['id'])) {
 	foreach($items as $id => $attributes) {
 
 		// read file content
-		if($content = Safe::file_get_contents($file_path.$attributes['file_name'], 'rb')) {
+		if($content = Safe::file_get_contents($file_path.'/'.$attributes['file_name'], 'rb')) {
 
 			// add the binary data
-			$zipfile->deflate($attributes['file_name'], Safe::filemtime($file_path.$attributes['file_name']), $content);
+			$zipfile->deflate($attributes['file_name'], Safe::filemtime($file_path.'/'.$attributes['file_name']), $content);
 		}
 	}
 

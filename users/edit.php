@@ -320,7 +320,7 @@ if(Surfer::is_crawler()) {
 					}
 					$link = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
                                         $description = '<a href="'.$link.'">'.$link.'</a>';
-					Logger::notify('users/edit.php', $label, $description);
+					Logger::notify('users/edit.php: '.$label, $description);
 				}
 			}
 		}

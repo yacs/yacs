@@ -362,7 +362,7 @@ class Scripts {
 
 
 		// locate pre-formatted areas
-		$areas = preg_split('/<(code|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|pre)>(.*?)</$1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$output = array();

@@ -127,7 +127,7 @@ if(Surfer::is_crawler()) {
 
 	// save the request if debug mode
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-		Logger::remember('links/trackback.php', 'trackback request', $_REQUEST, 'debug');
+		Logger::remember('links/trackback.php: trackback request', $_REQUEST, 'debug');
 
 	// do we have a valid target to track?
 	if(!$anchor || !is_object($anchor))
@@ -138,7 +138,7 @@ if(Surfer::is_crawler()) {
 		$response = array('faultCode' => 1, 'faultString' => 'The source has already been registered');
 
 	// read the source file
-	elseif(($content = http::proceed($source, '', '', 'links/trackback.php')) === FALSE)
+	elseif(($content = http::proceed($source)) === FALSE)
 		$response = array('faultCode' => 1, 'faultString' => 'Cannot read source address '.$source);
 
 	// we have to find a reference to the target here
@@ -225,7 +225,7 @@ if(Surfer::is_crawler()) {
 
 		// save the response if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/trackback.php', 'trackback response', $response, 'debug');
+			Logger::remember('links/trackback.php: trackback response', $response, 'debug');
 
 		// send the response
 		Safe::header('Content-Type: text/xml');
