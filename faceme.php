@@ -71,7 +71,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 //	$parameters['p2p.preference'] = 'enabled';
 
 	// get a new session id
-	if(!$response = http::proceed_natively($url, $headers, $parameters, 'faceme.php'))
+	if(!$response = http::proceed_natively($url, $headers, $parameters))
 		Logger::error(sprintf('OpenTok: %s', 'response is not valid XML'));
 
 	// invalid xml response

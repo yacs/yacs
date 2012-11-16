@@ -195,14 +195,6 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
-// also load the article as an object
-$article = NULL;
-if(isset($item['id'])) {
-	include_once 'article.php';
-	$article = new Article();
-	$article->load_by_content($item, $anchor);
-}
-
 // get related behaviors, if any
 $behaviors = NULL;
 if(isset($item['id']))
@@ -1091,7 +1083,7 @@ if(!isset($item['id'])) {
 		}
 
 		// some files have been attached to this page
-		if(($page == 1) && ($count > 5)) {
+		if(($page == 1) && ($count > 3)) {
 
 			// the command to download all files
 			$link = 'files/fetch_all.php?anchor='.urlencode('article:'.$item['id']);

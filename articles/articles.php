@@ -595,6 +595,12 @@ Class Articles {
 	/**
 	 * build a notification related to an article
 	 *
+	 * The action can be one of the following:
+	 * - 'apply' - surfer would like to get access to the page
+	 * - 'publish' - either a published page has been posted, or a draft page has been published
+	 * - 'submit' - a draft page has been posted
+	 * - 'update' - a page (draft or published) has been modified
+	 *
 	 * This function builds a mail message that displays:
 	 * - an image of the contributor (if possible)
 	 * - a headline mentioning the contribution
@@ -605,12 +611,12 @@ Class Articles {
 	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
 	 * e-mail client software can afford.
 	 *
-	 * @param string either 'apply', 'create', 'publish' or 'update'
+	 * @param string either 'apply', 'publish', 'submit' or 'update'
 	 * @param array attributes of the item
 	 * @param object overlay of the item, if any
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification($action='create', $item, $overlay=NULL) {
+	public static function build_notification($action='publish', $item, $overlay=NULL) {
 		global $context;
 
 		// sanity check
@@ -632,11 +638,11 @@ Class Articles {
 			$template = i18n::c('%s is requesting access to %s');
 			$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$title.'</a>';
 			break;
-		case 'create':
+		case 'publish':
 			$template = i18n::c('%s has posted a page in %s');
 			break;
-		case 'publish':
-			$template = i18n::c('%s has published a page in %s');
+		case 'submit':
+			$template = i18n::c('%s has submitted a page in %s');
 			break;
 		case 'update':
 			$template = i18n::c('%s has updated a page in %s');
@@ -649,14 +655,29 @@ Class Articles {
 		// panel content
 		$content = '';
 
+		// more insight on this page
+		$prefix = $suffix = '';
+
+		// signal articles to be published
+		if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+			$prefix .= DRAFT_FLAG;
+
 		// signal restricted and private articles
 		if($item['active'] == 'N')
-			$title = PRIVATE_FLAG.$title;
+			$prefix .= PRIVATE_FLAG;
 		elseif($item['active'] == 'R')
-			$title = RESTRICTED_FLAG.$title;
+			$prefix .= RESTRICTED_FLAG;
+
+		// flag expired articles
+		if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+			$prefix .= EXPIRED_FLAG.' ';
+
+		// signal locked articles
+		if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
+			$suffix .= ' '.LOCKED_FLAG;
 
 		// insert page title
-		$content .= '<h3><span>'.$title.'</span></h3>';
+		$content .= '<h3><span>'.$prefix.$title.$suffix.'</span></h3>';
 
 		// insert anchor prefix
 		if(is_object($anchor))
@@ -693,22 +714,74 @@ Class Articles {
 		// attachment details
 		$details = array();
 
+		// avoid first file in list if mentioned in last comment
+		$file_offset = 0;
+
+		// comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
+
+			// get last contribution for this page
+			if($comment = Comments::get_newest_for_anchor('article:'.$item['id'])) {
+
+				if(preg_match('/\[(download|file)=/', $comment['description']))
+					$file_offset++;
+
+				// bars around the last contribution
+				$bottom_menu = array();
+
+				// last contributor
+				$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
+				$flag = '';
+				if($comment['create_date'] >= $context['fresh'])
+					$flag = NEW_FLAG;
+				elseif($comment['edit_date'] >= $context['fresh'])
+					$flag = UPDATED_FLAG;
+				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
+
+				// gather pieces
+				$pieces = array();
+
+				// last contribution, and user signature
+				$pieces[] = ucfirst(trim($comment['description'])).Users::get_signature($comment['create_id']);
+
+				// bottom
+				if($bottom_menu)
+					$pieces[] = '<div>'.ucfirst(trim(Skin::finalize_list($bottom_menu, 'menu'))).'</div>';
+
+				// put all pieces together
+				$content .= '<div>'."\n"
+					.join("\n", $pieces)
+					.'</div>'."\n";
+
+			}
+
+			// count comments
+			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
+		}
+
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
-			// the actual list of files attached to this article
-			if(Articles::has_option('files_by', $anchor, $item) == 'title')
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
-			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
+			// most recent files attached to this page
+			if($items = Files::list_by_date_for_anchor('article:'.$item['id'], $file_offset, 3, 'dates')) {
+
+				// more files than listed
+				$more = '';
+				if($count > 3)
+					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
+
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+
+				$items = '<div>'.$more.$items.'</div>';
+			}
 
 			// wrap it with some header
-			if(is_array($items))
-				$items = Skin::build_list($items);
 			if($items)
 				$content .= '<h3><span>'.i18n::c('Files').'</span></h3>'.$items;
 
-			// details to be displayed at page bottom
+			// count files
 			$details[] = sprintf(i18n::nc('%d file', '%d files', $count), $count);
 		}
 
@@ -716,11 +789,6 @@ Class Articles {
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 			$details[] = sprintf(i18n::nc('%d link', '%d links', $count), $count);
-
-		// comments
-		include_once $context['path_to_root'].'comments/comments.php';
-		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
 
 		// describe attachments
 		if(count($details))
@@ -1113,6 +1181,256 @@ Class Articles {
 
 		// number of duplicated records
 		return $count;
+	}
+
+	/**
+	 * do whatever is necessary when a page has been published
+	 *
+	 * This function:
+	 * - logs the publication
+	 * - sends notification to watchers and to followers
+	 * - "touches" the container of the page,
+	 * - ping referred pages remotely (via the pingback protocol)
+	 * - ping selected servers, if any
+	 * - and triggers the hook 'publish'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 * @param boolean TRUE if dates should be left unchanged, FALSE otherwise
+	 * @param boolean TRUE if followers should be notified, FALSE otherwise
+	 */
+	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
+		global $context;
+
+		// log page publication
+		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('publish', $item);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watcherss
+		if(!is_object($overlay) || $overlay->should_notify_watchers())
+			$anchor->alert_watchers($mail, 'article:publish', ($item['active'] == 'N'));
+
+		// never notify followers on private pages
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			$with_followers = FALSE;
+
+		// allow the overlay to prevent notifications of followers
+		if(is_object($overlay) && !$overlay->should_notify_followers())
+			$with_followers = FALSE;
+
+		// send to followers of this user
+		if($with_followers && Surfer::get_id()) {
+			$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+			Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
+
+		// update anchors
+		$anchor->touch('article:publish', $item['id'], $silently);
+
+		// advertise public pages
+		if(isset($item['active']) && ($item['active'] == 'Y')) {
+
+			// expose links within the page
+			$raw = '';
+			if(isset($item['introduction']))
+				$raw .= $item['introduction'];
+			if(isset($item['source']))
+				$raw .= ' '.$item['source'];
+			if(isset($item['description']))
+				$raw .= ' '.$item['description'];
+
+			// pingback to referred links, if any
+			Links::ping($raw, 'article:'.$item['id']);
+
+			// ping servers, if any
+			Servers::notify($anchor->get_url());
+
+		}
+
+		// 'publish' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('publish', $item['id']);
+
+	}
+
+	/**
+	 * do whatever is necessary when a page has been submitted
+	 *
+	 * This function:
+	 * - logs the submission
+	 * - sends notification to owners that are also watchers
+	 * - "touches" the container of the page,
+	 * - and triggers the hook 'submit'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 */
+	public static function finalize_submission($anchor, $item, $overlay=NULL) {
+		global $context;
+
+		// log page submission
+		$label = sprintf(i18n::c('Submission: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('submit', $item);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watcherss
+		if(!is_object($overlay) || $overlay->should_notify_watchers()) {
+
+			// look for anchor owner, and climb upwards
+
+			// send mail to each owner
+//			$anchor->alert_watchers($mail, 'article:submit', ($item['active'] == 'N'));
+
+		}
+
+		// update anchors
+		$anchor->touch('article:submit', $item['id']);
+
+		// 'publish' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('submit', $item['id']);
+
+	}
+
+	/**
+	 * do whatever is necessary when a page has been updated
+	 *
+	 * This function:
+	 * - logs the update
+	 * - sends notification to watchers and to followers
+	 * - "touches" the container of the page,
+	 * - ping referred pages remotely (via the pingback protocol)
+	 * - ping selected servers, if any
+	 * - and triggers the hook 'update'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 * @param boolean TRUE if dates should be left unchanged, FALSE otherwise
+	 * @param boolean TRUE if watchers should be notified, FALSE otherwise
+	 * @param boolean TRUE if followers should be notified, FALSE otherwise
+	 */
+	public static function finalize_update($anchor, $item, $overlay=NULL, $silently=FALSE, $with_watchers=TRUE, $with_followers=FALSE) {
+		global $context;
+
+		// log page update
+		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+		// proceed only if the page has been published
+		if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
+
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Update'), strip_tags($item['title']));
+			$mail['notification'] = Articles::build_notification('update', $item);
+			$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+			// allow the overlay to prevent notifications of watcherss
+			if(is_object($overlay) && !$overlay->should_notify_watchers())
+				$with_watchers = FALSE;
+
+			// send to watchers of this page, and to watchers upwards
+			if($with_watchers && ($handle = new Article())) {
+				$handle->load_by_content($item, $anchor);
+				$handle->alert_watchers($mail, 'article:update', ($item['active'] == 'N'));
+			}
+
+			// never notify followers on private pages
+			if(isset($item['active']) && ($item['active'] == 'N'))
+				$with_followers = FALSE;
+
+			// allow the overlay to prevent notifications of followers
+			if(is_object($overlay) && !$overlay->should_notify_followers())
+				$with_followers = FALSE;
+
+			// send to followers of this user
+			if($with_followers && Surfer::get_id()) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// update anchors
+			$anchor->touch('article:update', $item['id'], $silently);
+
+			// advertise public pages
+			if(isset($item['active']) && ($item['active'] == 'Y')) {
+
+				// expose links within the page
+				$raw = '';
+				if(isset($item['introduction']))
+					$raw .= $item['introduction'];
+				if(isset($item['source']))
+					$raw .= ' '.$item['source'];
+				if(isset($item['description']))
+					$raw .= ' '.$item['description'];
+
+				// pingback to referred links, if any
+				Links::ping($raw, 'article:'.$item['id']);
+
+				// ping servers, if any
+				Servers::notify($anchor->get_url());
+
+			}
+
+		}
+
+		// 'update' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('update', $item['id']);
+
 	}
 
 	/**
@@ -2631,7 +2949,7 @@ Class Articles {
 		$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
 		$query[] = "edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
 		$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
-		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:create')."'";
+		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:submit')."'";
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 
 		// reset user assignment, if any
@@ -2871,6 +3189,10 @@ Class Articles {
 
 		// list the article in categories
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+
+		// add this page to surfer watch list
+		if(Surfer::get_id())
+			Members::assign('article:'.$fields['id'], 'user:'.Surfer::get_id());
 
 		// clear the cache
 		Articles::clear($fields);

@@ -1570,7 +1570,7 @@ Class Files {
 		$server = 'localhost';
 		if(!$handle = Safe::fsockopen($server, 3310, $errno, $errstr, 1)) {
 			if($context['with_debug'] == 'Y')
-				Logger::remember('files/files.php', 'Unable to connect to CLAMAV daemon', '', 'debug');
+				Logger::remember('files/files.php: Unable to connect to CLAMAV daemon', '', 'debug');
 			return '?';
 		}
 
@@ -1581,20 +1581,20 @@ Class Files {
 		$request = 'SCAN '.$file;
 		fputs($handle, $request.CRLF);
 		if($context['with_debug'] == 'Y')
-			Logger::remember('files/files.php', 'CLAMAV ->', $request, 'debug');
+			Logger::remember('files/files.php: CLAMAV ->', $request, 'debug');
 
 		// expecting an OK
 		if(($reply = fgets($handle)) === FALSE) {
-			Logger::remember('files/files.php', 'No reply to SCAN command at '.$server);
+			Logger::remember('files/files.php: No reply to SCAN command at '.$server);
 			fclose($handle);
 			return '?';
 		}
 		if($context['with_debug'] == 'Y')
-			Logger::remember('files/files.php', 'CLAMAV <-', $reply, 'debug');
+			Logger::remember('files/files.php: CLAMAV <-', $reply, 'debug');
 
 		// file has been infected!
 		if(!stripos($reply, ': ok')) {
-			Logger::remember('files/files.php', 'Infected upload by '.Surfer::get_name());
+			Logger::remember('files/files.php: Infected upload by '.Surfer::get_name());
 			fclose($handle);
 			return 'Y';
 		}
@@ -1766,7 +1766,7 @@ Class Files {
 			&& ($image_information[0] <= 600)) {
 
 			// provide a direct link to it!
-			$src = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+			$src = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$icon = '<img src="'.$src.'" width="'.$image_information[0].'" height="'.$image_information[1].'" alt="" style="padding: 3px"/>'.BR;
 			return Skin::build_link(Files::get_download_url($item), $icon, 'basic').$title;

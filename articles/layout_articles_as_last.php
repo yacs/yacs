@@ -80,6 +80,10 @@ Class Layout_articles_as_last extends Layout_interface {
 			// flag expired articles
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
 				$prefix .= EXPIRED_FLAG.' ';
+			elseif($item['create_date'] >= $context['fresh'])
+				$suffix .= NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$suffix .= UPDATED_FLAG;
 
 			// signal locked articles
 			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
@@ -103,49 +107,22 @@ Class Layout_articles_as_last extends Layout_interface {
 			// some details about this page
 			$details = array();
 
-			// the creator of this article
-			if($item['create_name']) {
-				$starter = sprintf(i18n::s('Started by %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']));
+			// page starter and date
+			if($item['create_name'])
+				$details[] = sprintf(i18n::s('Started by %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']))
+					.' '.Skin::build_date($item['create_date']);
 
-				// page has not been modified still page creation
-				$date = '';
-				if($item['edit_date'] && ($item['edit_action'] != 'article:update')) {
-					$date = ' '.Skin::build_date($item['create_date']);
+			// page last modification
+			if($item['edit_date'] && ($item['edit_action'] == 'article:update') && $item['edit_name'])
+				$details[] = Anchors::get_action_label($item['edit_action'])
+					.' '.sprintf(i18n::s('by %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']))
+					.' '.Skin::build_date($item['edit_date']);
 
-					// flag fresh new pages
-					if($item['create_date'] >= $context['fresh'])
-						$date .= NEW_FLAG;
+			// friends
+			if($friends =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5', $item['create_id']))
+				$details[] = sprintf(i18n::s('with %s'), $friends);
 
-				}
-
-				$details[] = $starter.$date;
-			}
-
-			// the last editor
-			if($item['edit_date'] && !in_array($item['edit_action'], array('article:create', 'comment:create', 'file:create'))) {
-
-				// find a name, if any
-				$user = '';
-				if($item['edit_name']) {
-
-					// label the action
-					if(isset($item['edit_action']))
-						$user .= Anchors::get_action_label($item['edit_action']).' ';
-
-					// name of last editor
-					$user .= sprintf(i18n::s('by %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']));
-				}
-
-				// flag new items
-				$flag = '';
-				if($item['create_date'] >= $context['fresh'])
-					$flag = NEW_FLAG;
-				elseif($item['edit_date'] >= $context['fresh'])
-					$flag = UPDATED_FLAG;
-				$details[] = $user.' '.Skin::build_date($item['edit_date']).$flag;
-			}
-
-			// poster details
+			// people details
 			if($details)
 				$text .= '<p class="details">'.join(', ', $details)."</p>\n";
 
@@ -162,19 +139,9 @@ Class Layout_articles_as_last extends Layout_interface {
 			if(is_object($overlay))
 				$text .= $overlay->get_text('list', $item);
 
-			$top_menu = array();
-
-			// friends
-			if($friends =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5', $item['create_id']))
-				$top_menu[] = sprintf(i18n::s('with %s'), $friends);
-
 			// info on related comments
 			if(($count = Comments::count_for_anchor('article:'.$item['id'])) > 1)
-				$top_menu[] = sprintf(i18n::s('%d contributions, including:'), $count);
-
-			// top
-			if($top_menu)
-				$text .= '<div style="margin: 1em 0;">'.ucfirst(trim(Skin::finalize_list($top_menu, 'menu'))).'</div>';
+				$text .= '<div style="margin-top: 1em;"><p class="details">'.sprintf(i18n::s('%d contributions, including:'), $count).'</p></div>';
 
 			// avoid first file if mentioned in last contribution
 			$file_offset = 0;

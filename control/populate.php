@@ -875,7 +875,7 @@ if(!$permitted) {
 	}
 
 	// an associate account has been created
-	Logger::remember('control/populate.php', 'database has been populated');
+	Logger::remember('control/populate.php: database has been populated');
 
 }
 

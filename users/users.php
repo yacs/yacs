@@ -53,6 +53,10 @@ Class Users {
 	public static function alert($user, $mail) {
 		global $context;
 
+		// sanity check
+		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']) || !$mail['message'])
+			return FALSE;
+
 		// retrieve user attributes
 		if(!isset($user['id']) && (!$user = Users::get($user)))
 			return FALSE;
@@ -63,10 +67,6 @@ Class Users {
 
 		// ensure poster wants alerts
 		if(isset($user['without_alerts']) && ($user['without_alerts'] == 'Y'))
-			return FALSE;
-
-		// sanity check
-		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']))
 			return FALSE;
 
 		// the list of users notified during overall script execution
@@ -193,7 +193,7 @@ Class Users {
 
 		// log failing basic authentication
 		if(is_callable(array('Logger', 'remember')))
-			Logger::remember('users/users.php', 'Failed basic authentication', 'User: '.$_SERVER['PHP_AUTH_USER']."\n".'Password: '.$_SERVER['PHP_AUTH_PW']);
+			Logger::remember('users/users.php: Failed basic authentication', 'User: '.$_SERVER['PHP_AUTH_USER']."\n".'Password: '.$_SERVER['PHP_AUTH_PW']);
 
 		// tough luck
 		return NULL;
@@ -908,8 +908,8 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where
-			." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+			." WHERE (".$where.")"
+			." ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
@@ -1245,7 +1245,7 @@ Class Users {
 		if(isset($context['last_resort_password']) && (strlen(trim($context['last_resort_password'])) >= 1) && ($password == $context['last_resort_password'])) {
 
 			// this is an event to remember
-			Logger::remember('users/users.php', i18n::c('lrp has logged in'), i18n::c('Login using the last resort password'));
+			Logger::remember('users/users.php: '.i18n::c('lrp has logged in'), i18n::c('Login using the last resort password'));
 
 			// a fake associate
 			$user = array();
@@ -1692,7 +1692,7 @@ Class Users {
 
 		// remember the id of the new item
 		if(!$fields['id'] = SQL::get_last_id($context['users_connection'])) {
-			logger::remember('users/users.php', 'unable to retrieve id of new record');
+			logger::remember('users/users.php: unable to retrieve id of new record');
 			return FALSE;
 		}
 
@@ -2030,10 +2030,10 @@ Class Users {
 		if(!Surfer::is_associate())
 			$where .= " AND (users.capability IN ('S', 'M', 'A'))";
 
-		// how to compute the score for users
+		// how to compute the score for users --use login date instead of modification date
 		$score = "(MATCH(nick_name, full_name, introduction, description) "
 			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
-			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), login_date))))";
 
 		// the list of users
 		$query = "SELECT *,"

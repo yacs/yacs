@@ -132,7 +132,7 @@ Class SQL {
 			// statement cannot be explained
 			$query2 = 'EXPLAIN '.$query;
 			if(!$result = SQL::query($query2, TRUE, $connection)) {
-				Logger::remember('shared/sql.php', 'SQL::explain', SQL::error()."\n\n".$query, 'debug');
+				Logger::remember('shared/sql.php: SQL::explain', SQL::error()."\n\n".$query, 'debug');
 				return $result;
 			}
 
@@ -154,13 +154,13 @@ Class SQL {
 			}
 
 			// remember the outcome --special label split for debug
-			Logger::remember('shared/sql.php', 'SQL:'.':debug', $query."\n\n".$header."\n".$text, 'debug');
+			Logger::remember('shared/sql.php: SQL:'.':debug', $query."\n\n".$header."\n".$text, 'debug');
 
 		// other statement
 		} else {
 
 			// remember the query itself --sepcial label split for debug
-			Logger::remember('shared/sql.php', 'SQL:'.':debug', $query, 'debug');
+			Logger::remember('shared/sql.php: SQL:'.':debug', $query, 'debug');
 
 		}
 
@@ -762,7 +762,7 @@ Class SQL {
 			// flag slow requests
 			$duration = (get_micro_time() - $query_stamp);
 			if(($duration >= 0.5) && ($context['with_debug'] == 'Y'))
-				Logger::remember('shared/sql.php', 'SQL::query() slow request', $duration."\n\n".$query, 'debug');
+				Logger::remember('shared/sql.php: SQL::query() slow request', $duration."\n\n".$query, 'debug');
 
 			// return the set of selected rows
 			return $result;
@@ -781,7 +781,7 @@ Class SQL {
 
 			// log the error at development host
 			if($context['with_debug'] == 'Y')
-				Logger::remember('shared/sql.php', 'SQL::query()', SQL::error($connection)."\n\n".$query, 'debug');
+				Logger::remember('shared/sql.php: SQL::query()', SQL::error($connection)."\n\n".$query, 'debug');
 
 		}
 

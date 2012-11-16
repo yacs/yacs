@@ -326,7 +326,7 @@ Class Versions {
 	 *
 	 * Save previous version of some object in the database.
 	 * It is recommended to call Versions::are_different() before calling Versions::save(), to
-	 * ensure that something change has taken place.
+	 * ensure that some change has taken place.
 	 * This function populates the error context, where applicable.
 	 *
 	 * @param array an array of fields
@@ -353,11 +353,6 @@ Class Versions {
 
 		// versioning date
 		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// delete previous versions for this day
-// 		$query = "DELETE FROM ".SQL::table_name('versions')
-// 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (edit_date LIKE '".substr($versioning_date, 0, 10)."%')";
-// 		SQL::query($query);
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('versions')." SET "

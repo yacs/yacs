@@ -333,7 +333,7 @@ class Embed extends Overlay {
 			$endpoint .= '?'.implode('&', $parameters);
 
 		// else try to auto-detect an endpoint
-		} elseif($content = http::proceed_natively($url, '', '', 'shared/oembed.php')) {
+		} elseif($content = http::proceed_natively($url)) {
 
 			// it is not necessary to look at page content
 			$content = substr($content, 0, stripos($content, '</head>'));
@@ -369,7 +369,7 @@ class Embed extends Overlay {
 		}
 
 		// do the transaction
-		if(!$response = http::proceed_natively($endpoint, '', '', 'shared/oembed.php')) {
+		if(!$response = http::proceed_natively($endpoint)) {
 			$result['type'] = 'error';
 			return $result;
 

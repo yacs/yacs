@@ -134,11 +134,10 @@ class http {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param string optional data to send
-	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	public static function proceed($url, $headers='', $data='', $debug='', $cookie='') {
+	public static function proceed($url, $headers='', $data='', $cookie='') {
 		global $context;
 
 		// target content
@@ -146,11 +145,11 @@ class http {
 
 		// advanced and optimized download
 		if(is_callable('curl_init'))
-			$body = http::proceed_using_curl($url, $headers, $data, $debug, $cookie);
+			$body = http::proceed_using_curl($url, $headers, $data, $cookie);
 
 		// plan B, in case curl has not done the job properly
 		if(!$body)
-			$body = http::proceed_natively($url, $headers, $data, $debug, $cookie);
+			$body = http::proceed_natively($url, $headers, $data, $cookie);
 
 		// compensate for network time
 		Safe::set_time_limit(30);
@@ -174,18 +173,17 @@ class http {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param mixed optional data to send
-	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @param int to manage a maximum number of redirections
 	 * @return the actual content, of FALSE on error
 	 */
-	public static function proceed_natively($url, $headers='', $data='', $debug='', $cookie='', $limit=3) {
+	public static function proceed_natively($url, $headers='', $data='', $cookie='', $limit=3) {
 		global $context;
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			if($debug && ($context['with_debug'] == 'Y'))
-				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 
@@ -290,8 +288,8 @@ class http {
 
 		// open a network connection -- wait for up to 10 seconds for the TCP connection
 		if(!$handle && (!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10))) {
-			if($debug && ($context['with_debug'] == 'Y'))
-				Logger::remember($debug, sprintf('Impossible to connect to %s.', $host.':'.$port), '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: '.sprintf('Impossible to connect to %s.', $host.':'.$port), '', 'debug');
 			return FALSE;
 		}
 
@@ -314,8 +312,8 @@ class http {
 
 		// finalize the request
 		$request .= $headers.CRLF.$data;
-		if($debug && ($context['with_debug'] == 'Y'))
-			Logger::remember($debug, 'http request', $request, 'debug');
+		if($context['with_debug'] == 'Y')
+			Logger::remember('shared/http.php: http request', $request, 'debug');
 
 		// submit the request
 		fwrite($handle, $request);
@@ -359,9 +357,9 @@ class http {
 				return FALSE;
 			}
 
-			if($debug && ($context['with_debug'] == 'Y'))
-				Logger::remember($debug, 'redirecting to '.$matches[1], '', 'debug');
-			return http::proceed_natively($matches[1], $headers, $data, $debug, $cookie, $limit);
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: redirecting to '.$matches[1], '', 'debug');
+			return http::proceed_natively($matches[1], $headers, $data, $cookie, $limit);
 
 		}
 
@@ -396,8 +394,8 @@ class http {
 			$handles[$host][$port] = $handle;
 
 		// log the response
-		if($debug && ($context['with_debug'] == 'Y'))
-			Logger::remember($debug, 'http response', http::get_headers()."\n\n".$body, 'debug');
+		if($context['with_debug'] == 'Y')
+			Logger::remember('shared/http.php: http response', http::get_headers()."\n\n".$body, 'debug');
 
 		// return the fetched object
 		return $body;
@@ -414,24 +412,23 @@ class http {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param string optional data to send
-	 * @param the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	public static function proceed_using_curl($url, $headers='', $data='', $debug='', $cookie='') {
+	public static function proceed_using_curl($url, $headers='', $data='', $cookie='') {
 		global $context;
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			if($debug && ($context['with_debug'] == 'Y'))
-				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 
 		// sanity check
 		if(!is_callable('curl_init')) {
-			if($debug && ($context['with_debug'] == 'Y'))
-				Logger::remember($debug, 'CURL is not implemented"', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: CURL is not implemented"', '', 'debug');
 			return FALSE;
 		}
 

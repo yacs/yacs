@@ -1426,8 +1426,8 @@ class Event extends Overlay {
 		if(!is_callable(array($this->anchor, 'get_reference')))
 			return;
 
-		// create a comment only on first join
-		if(!isset($_SESSION['event_'.$this->anchor->get_reference()])) {
+		// create a comment only on first join, and if not a robot
+		if(!Surfer::is_crawler() && !isset($_SESSION['event_'.$this->anchor->get_reference()])) {
 
 			// track the new participant
 			include_once $context['path_to_root'].'comments/comments.php';
@@ -2152,14 +2152,39 @@ class Event extends Overlay {
 			// display the button to start the meeting
 			if($this->with_start_button()) {
 
-				// reload this page and go to a new one
+				// refresh the page if a comment is posted by someone waiting in the lobby
+				$lobby = JS_PREFIX
+					.'var Lobby = {'."\n"
+					."\n"
+					.'	url: "'.$context['url_to_home'].$context['url_to_root'].'services/check.php?id='.$this->anchor->get_reference().'",'."\n"
+					.'	timestamp: 0,'."\n"
+					."\n"
+					.'	subscribe: function() {'."\n"
+					.'		$.get(Lobby.url, { "timestamp" : this.timestamp },'."\n"
+					.'		function(response) {'."\n"
+					.'			if(Lobby.timestamp == 0)'."\n"
+					.'				Lobby.timestamp = response["timestamp"];'."\n"
+					.'			else if(Lobby.timestamp != response["timestamp"])'."\n"
+					.'				window.location.reload(true);'."\n"
+					.'		}, "json");'."\n"
+					.'	}'."\n"
+					."\n"
+					.'}'."\n"
+					."\n"
+					.'// reload the page when it changes, or when meeting is started'."\n"
+					.'Lobby.subscribe();'."\n"
+					.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 20000);'."\n"
+					.JS_SUFFIX;
+
+				// reload this page and go to a new one, or just follow the link
 				if($this->with_new_window())
 					$type = 'tee';
 				else
 					$type = 'button';
 
 				// add the button
-				$this->feed_back['commands'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
+				$this->feed_back['commands'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type).$lobby;
+
 			}
 
 			// else remind the owner to do something
@@ -2191,8 +2216,9 @@ class Event extends Overlay {
 				."\n"
 				.'}'."\n"
 				."\n"
-				.'// wait for meeting start'."\n"
-				.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 30000);'."\n"
+				.'// reload the page when it changes, or when meeting is started'."\n"
+				.'Lobby.subscribe();'."\n"
+				.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 20000);'."\n"
 				.JS_SUFFIX;
 
 		}
@@ -2219,7 +2245,7 @@ class Event extends Overlay {
 			$this->feed_back['status'][] = i18n::s('Registration is managed by page owner');
 
 		// spread the word
-		if(!isset($this->attributes['enrolment']) || ($this->attributes['enrolment'] != 'manual')) {
+		if(isset($this->anchor) && ($this->anchor->is_owned())) {
 			$label = i18n::s('Invite participants');
 			$this->feed_back['menu'][] = Skin::build_link($this->anchor->get_url('invite'), $label, 'span');
 
@@ -2302,7 +2328,9 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'),
+						$this->with_new_window()?'tee':'button',
+						i18n::s('Meeting has started!'));
 
 				// display the button to stop the meeting
 				if($this->with_stop_button())
@@ -2314,14 +2342,18 @@ class Event extends Overlay {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'),
+						$this->with_new_window()?'tee':'button',
+						i18n::s('Meeting has started!'));
 
 			// surfer has been fully enrolled
 			} elseif(($enrolment = enrolments::get_record($this->anchor->get_reference())) && ($enrolment['approved'] == 'Y')) {
 
 				// join the meeting
 				if($this->with_join_button())
-					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'), $this->with_new_window()?'tee':'button');
+					$this->feed_back['commands'][] = Skin::build_link($this->get_url('join'), i18n::s('Join the meeting'),
+						$this->with_new_window()?'tee':'button',
+						i18n::s('Meeting has started!'));
 
 			}
 		}

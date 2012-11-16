@@ -144,26 +144,10 @@ class Uploads {
 		// increment the post counter of the surfer
 		Users::increment_posts($user['id']);
 
-		// if the page has been published
-		if($fields['publish_date'] > NULL_DATE) {
+		// do whatever is necessary on page publication
+		if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+			Articles::finalize_publication($anchor, $fields);
 
-			// advertise public pages
-			if(is_object($anchor) && $anchor->is_public()) {
-
-				// pingback, if any
-				include_once $context['path_to_root'].'links/links.php';
-				Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
-
-			}
-
-			// 'publish' hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $fields['id']);
-
-		}
-
-		// ready for next submission
-		$fields = array();
 	}
 
 	/**
@@ -177,7 +161,7 @@ class Uploads {
 		// load parameters for uploads
 		Safe::load('parameters/agents.include.php');
 		if(!$context['uploads_nick_name']) {
-			Logger::remember('agents/upload.php', 'no parameters, skipping '.$file);
+			Logger::remember('agents/upload.php: no parameters, skipping '.$file);
 			return;
 		}
 
@@ -272,7 +256,7 @@ class Uploads {
 			foreach($files as $file) {
 
 				// help the webmaster
-				Logger::remember('agents/upload.php', 'processing '.$file);
+				Logger::remember('agents/upload.php: processing '.$file);
 
 				// create articles
 				Uploads::process_handx_weblog($file);

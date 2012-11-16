@@ -522,7 +522,7 @@ Class Article extends Anchor {
 	 * @param string description of the on-going action (e.g., 'file:create')
 	 * @return mixed either a reference (e.g., 'article:123') or an array of references
 	 */
-	private function get_watched_context($action) {
+	protected function get_watched_context($action) {
 		global $context;
 
 		// notifications should be sent to watchers of these containers
@@ -531,19 +531,24 @@ Class Article extends Anchor {
 		// i am a container
 		$containers[] = $this->get_reference();
 
-		// look at my parents
-		$handle = $this->get_parent();
-		while($handle && ($container = Anchors::get($handle))) {
+		// if the page has been published
+		if($this->item['publish_date'] > NULL_DATE) {
 
-			// add watchers of this level
-			$containers[] = $handle;
+			// look at my parents
+			$handle = $this->get_parent();
+			while($handle && ($container = Anchors::get($handle))) {
 
-			// should we forward notifications upwards
-			if(!$container->has_option('forward_notifications', FALSE))
-				break;
+				// add watchers of this level
+				$containers[] = $handle;
 
-			// add watchers of next level
-			$handle = $container->get_parent();
+				// should we forward notifications upwards
+				if(!$container->has_option('forward_notifications', FALSE))
+					break;
+
+				// add watchers of next level
+				$handle = $container->get_parent();
+			}
+
 		}
 
 		// by default, limit to direct watchers of this anchor
@@ -687,7 +692,7 @@ Class Article extends Anchor {
 		$text = $headers.$body;
 
 		// parse embedded fields based on XML tags
-		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/\\1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
+		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/$1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
 
 		// text contains an implicit anchor to an article or to a section
 // 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor = Anchors::get($matches[1].':'.$matches[2])))

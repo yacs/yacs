@@ -77,7 +77,7 @@ class Referrals {
 		} else {
 
 			// ensure the referer is accessible
-			if(($content = http::proceed($referer, '', '', 'agents/referrals.php')) === FALSE)
+			if(($content = http::proceed($referer)) === FALSE)
 				return;
 
 			// we have to find a reference to ourself in this page

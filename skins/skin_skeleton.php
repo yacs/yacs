@@ -1091,7 +1091,7 @@ Class Skin_Skeleton {
 		$text = '';
 		if($variant)
 			$text = ' <span class="flag">'.$variant.'</span> ';
-		 return $text;
+		return $text;
 	}
 
 	/**
@@ -1788,7 +1788,7 @@ Class Skin_Skeleton {
 		case 'button':
 
 			// always stay in the same window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" '.$attributes.'><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button tip" '.$attributes.'><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1807,7 +1807,7 @@ Class Skin_Skeleton {
 			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// always open in a separate window
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button tip" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
 
 			break;
 
@@ -1992,7 +1992,7 @@ Class Skin_Skeleton {
 
 		case 'tee': // like button, but also reload the current page and go to another window
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); window.location.reload(); return false;"'.$attributes.'>'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button tip" onclick="window.open(this.href); window.location.reload(); return false;"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'idle user':
@@ -2281,7 +2281,7 @@ Class Skin_Skeleton {
 					.	'<td align="left" valign="middle" width="9%"><img src="'.$url.'" alt="" title="avatar"></td>'
 					.	'<td width="1%"> </td>'
 					.	'<td align="left" valign="middle" width="90%">'
-					.		'<font color="navy" face="Helvetica, Arial, sans-serif" size="+1">'
+					.		'<font face="Helvetica, Arial, sans-serif" color="navy" size="+1">'
 					.		$headline
 					.		'</font>'
 					.	'</td>'
@@ -2291,7 +2291,7 @@ Class Skin_Skeleton {
 				$text .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">'
 					.'<tr valign="middle">'
 					.	'<td align="left" valign="middle" width="100%">'
-					.		'<font color="navy" face="Helvetica, Arial, sans-serif" size="+1">'
+					.		'<font face="Helvetica, Arial, sans-serif" color="navy" size="+1">'
 					.		$headline
 					.		'</font>'
 					.	'</td>'
@@ -3426,7 +3426,7 @@ Class Skin_Skeleton {
 		global $context;
 
 		// mention tags used as block boundary, no more -- else execution time will ramp up...
-		$areas = preg_split('/<(blockquote|code|div|dl|h1|h2|h3|noscript|ol|p|pre|script|table|ul)(.*?)>(.*?)<\/\1>/is', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(blockquote|code|div|dl|h1|h2|h3|noscript|ol|p|pre|script|table|ul)([^>]*?)>(.*?)</$1>#is', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// process each pair
 		$text = '';
@@ -4229,6 +4229,13 @@ Class Skin_Skeleton {
 
 		// the HTML used to signal a locked page
 		Skin::define_img('LOCKED_FLAG', 'tools/locked.gif', '%');
+
+		// the HTML tags within notification messages
+		if(!defined('MAIL_FONT_PREFIX'))
+			define('MAIL_FONT_PREFIX', '<font face="Helvetica, Arial, sans-serif">');
+
+		if(!defined('MAIL_FONT_SUFFIX'))
+			define('MAIL_FONT_SUFFIX', '</font>');
 
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
 		Skin::define_img('MAP_IMG', 'layouts/map.gif', DECORATED_IMG, '*', $options);
@@ -5177,17 +5184,11 @@ Class Skin_Skeleton {
 
 		}
 
-		// suppress all javascript
-		$text = preg_replace('#<script[^>]*>.*?</script>#is', '', $text);
+		// remove invisible tags, such as scripts, etc.
+		$text = xml::strip_invisible_tags($text);
 
-		// preserve breaks
-		$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
-
-		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
-		if($allowed_html)
-			$text = trim(strip_tags($text, $allowed_html));
-		else
-			$text = trim(strip_tags($text));
+		// strip most visible tags
+		$text = trim(xml::strip_visible_tags($text, $allowed_html));
 
 		// count overall words
 		$overall = count(preg_split("/[ \t,\.;\?!]+/", $text, -1, PREG_SPLIT_NO_EMPTY));

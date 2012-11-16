@@ -463,7 +463,7 @@ Class Members {
 			$where = "(member LIKE '".SQL::escape($member)."')";
 
 		// the list of members
-		$query = "SELECT anchor FROM ".SQL::table_name('members')
+		$query = "SELECT DISTINCT anchor FROM ".SQL::table_name('members')
 			." WHERE ".$where
 			." ORDER BY anchor LIMIT ".$offset.','.$count;
 		if(!$result = SQL::query($query))
@@ -476,9 +476,6 @@ Class Members {
 		// build an array of ids
 		while($row = SQL::fetch($result))
 			$anchors[] = $row['anchor'];
-
-		// ensure each anchor is represented only once
-		$anchors = array_unique($anchors);
 
 		// return the list of ids linked to this member
 		return $anchors;
@@ -767,7 +764,9 @@ Class Members {
 				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
 		// the list of categories
-		$query = "SELECT categories.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
+		$query = "SELECT categories.* FROM"
+			." (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members"
+				." WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
 			.", ".SQL::table_name('categories')." AS categories"
 			." WHERE (categories.id = ids.target)"
 			."	AND ".$where
@@ -963,7 +962,7 @@ Class Members {
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability = 'S')"
 			."	AND (".$where.")"
-			." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+			." GROUP BY users.id ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);

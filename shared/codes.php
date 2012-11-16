@@ -513,7 +513,7 @@ Class Codes {
 			array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'), $text);
 
 		// locate pre-formatted areas
-		$areas = preg_split('/<(code|escape|list|php|snippet|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</$1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$index = 0;
@@ -781,7 +781,7 @@ Class Codes {
 		}
 
 		// also fix broken img tags, if any
-		$text = preg_replace('/\<(img[^\<\/]+)\>/i', '<\\1 />', $text);
+		$text = preg_replace('#<(img[^</]+)>#i', '<$1 />', $text);
 
 		// remove slashes added by preg_replace -- only for double quotes
 		$text = str_replace('\"', '"', $text);
@@ -890,7 +890,7 @@ Class Codes {
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
 		// prevent wysiwyg editors to bracket our own tags
-		$text = preg_replace('/^<p>(\[.+\])<\/p>$/m', '\\1', $text);
+		$text = preg_replace('#^<p>(\[.+\])</p>$#m', '$1', $text);
 
  		// initialize only once
 		static $pattern;
@@ -1044,7 +1044,7 @@ Class Codes {
 				'/\[toq\]\n*/ise',							// [toq] (table of questions)
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
-				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise',	// [header1]...[/header1] ... [header5]...[/header5]
+				'#\[(header[1-5])\](.*?)\[/$1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
 				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
 				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
 				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
@@ -1124,9 +1124,9 @@ Class Codes {
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [authenticated]...[/authenticated]
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [restricted]...[/restricted]
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
-				"Codes::render_redirect('\\1')",									// [redirect=<link>]
-				"Codes::render_execute('\\1')",										// [execute=<name>]
-				"Codes::render_parameter('\\1')",									// [parameter=<name>]
+				"Codes::render_redirect('$1')",									// [redirect=<link>]
+				"Codes::render_execute('$1')",										// [execute=<name>]
+				"Codes::render_parameter('$1')",									// [parameter=<name>]
 				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
 				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
 				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
@@ -1138,8 +1138,8 @@ Class Codes {
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
 				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
-				'<code>\\1</code>', 												// ##...##
-				'<code>\\1</code>', 												// [code]...[/code]
+				'<code>$1</code>', 												// ##...##
+				'<code>$1</code>', 												// [code]...[/code]
 				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
 				"Skin::build_block(Codes::fix_tags('$1'), 'quote')",				// [quote]...[/quote]
 				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folded=title]...[/folded]
@@ -1163,35 +1163,35 @@ Class Codes {
 				"Skin::build_block(Codes::fix_tags('$1'), 'right')",				// [right]...[/right]
 				"Skin::build_block(Codes::fix_tags('$1'), 'decorated')",			// [decorated]...[/decorated]
 				"Skin::build_block(Codes::fix_tags('$2'), '$1')", 					// [style=variant]...[/style]
-				'<acronym title="\\1">\\2</acronym>',								// [hint=help]...[/hint]
+				'<acronym title="$1">$2</acronym>',									// [hint=help]...[/hint]
 				"Skin::build_block(Codes::fix_tags('$1'), 'tiny')",					// [tiny]...[/tiny]
 				"Skin::build_block(Codes::fix_tags('$1'), 'small')",				// [small]...[/small]
 				"Skin::build_block(Codes::fix_tags('$1'), 'big')",					// [big]...[/big]
 				"Skin::build_block(Codes::fix_tags('$1'), 'huge')",					// [huge]...[/huge]
-				'<sub>\\1</sub>',													// [subscript]...[/subscript]
-				'<sup>\\1</sup>',													// [superscript]...[/superscript]
-				'<ins>\\1</ins>',													// ++...++
+				'<sub>$1</sub>',													// [subscript]...[/subscript]
+				'<sup>$1</sup>',													// [superscript]...[/superscript]
+				'<ins>$1</ins>',													// ++...++
 				"HORIZONTAL_RULER", 												// [---], [___]
 				"HORIZONTAL_RULER", 												// ----
-				'<ins>\\1</ins>',													// [inserted]...[/inserted]
-				' <del>\\1</del>',													// --...--
-				'<del>\\1</del>',													// [deleted]...[/deleted]
-				'<b>\\1</b>',														// **...**
-				'<b>\\1</b>',														// [b]...[/b]
-				' <i>\\1</i>',														// //...//
-				'<i>\\1</i>',														// [i]...[/i]
-				'<span style="text-decoration: underline">\\1</span>',				// __...__
-				'<span style="text-decoration: underline">\\1</span>',				// [u]...[/u]
-				'<span style="color: \\1">\\2</span>',								// [color]...[/color]
+				'<ins>$1</ins>',													// [inserted]...[/inserted]
+				' <del>$1</del>',													// --...--
+				'<del>$1</del>',													// [deleted]...[/deleted]
+				'<b>$1</b>',														// **...**
+				'<b>$1</b>',														// [b]...[/b]
+				' <i>$1</i>',														// //...//
+				'<i>$1</i>',														// [i]...[/i]
+				'<span style="text-decoration: underline">$1</span>',				// __...__
+				'<span style="text-decoration: underline">$1</span>',				// [u]...[/u]
+				'<span style="color: $1">$2</span>',								// [color]...[/color]
 				"NEW_FLAG", 														// [new]
 				"POPULAR_FLAG", 													// [popular]
-				"Skin::build_flag('\\1')",											// [flag=....]
-				"Skin::build_flag('\\1')",											// [flag]...[/flag]
+				"Skin::build_flag('$1')",											// [flag=....]
+				"Skin::build_flag('$1')",											// [flag]...[/flag]
 				"Codes::render_list(Codes::fix_tags('$1'), NULL)",					// [list]...[/list]
 				"Codes::render_list(Codes::fix_tags('$2'), '$1')",					// [list=?]...[/list]
 				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
-				'<li>\\1</li>', 													// [li]...[/li]
+				'<li>$1</li>', 														// [li]...[/li]
 				"Codes::render_chart(Codes::fix_tags('$2'), '$1')",					// [chart=<width>, <height>, <params>]...[/chart]
 				"Codes::render_embed(Codes::fix_tags('$1'))",						// [embed=<id>, <width>, <height>, <params>]
 				"Codes::render_embed(Codes::fix_tags('$1'))",						// [flash=<id>, <width>, <height>, <params>] -- obsoleted by 'embed'
@@ -1244,8 +1244,8 @@ Class Codes {
 				"Codes::render_iframe(Codes::fix_tags('$2'), '$1')",				// [iframe=<width>, <height>]<url>[/iframe]
 				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
 				"Codes::render_table_of('questions')",								// [toq]
-				'[header1]\\1[/header1]',											// [title]...[/title]
-				'[header2]\\1[/header2]',											// [subtitle]...[/subtitle]
+				'[header1]$1[/header1]',											// [title]...[/title]
+				'[header2]$1[/header2]',											// [subtitle]...[/subtitle]
 				"Codes::render_title(Codes::fix_tags('$2'), '$1')",					// [header1]...[/header1] ... [header5]...[/header5]
 				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
 				"Codes::render_title(Codes::fix_tags('$2'), 'header5')",			// ======...====== level 5 header
@@ -4632,7 +4632,7 @@ Class Codes {
 		global $context;
 
 		// suppress pairing codes
-		$output = preg_replace('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', '${2}', $text);
+		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/$1\]#s', '${2}', $text);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)

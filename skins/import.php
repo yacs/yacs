@@ -25,9 +25,9 @@ Class Import {
 			.'class Sk'.'in extends Skin_skeleton {'."\n";
 
 		// fix images relative path
-		$template = preg_replace('/src="(.+?)"/ie', "'src=\"'.fix_relative('\\1', '$directory').'\"'", $template);
-		$template = preg_replace('/background="(.+?)"/ie', "'background=\"'.fix_relative('\\1', '$directory').'\"'", $template);
-		$template = preg_replace('/url\((.+?)\)/ie', "'url('.fix_relative('\\1', '$directory').')'", $template);
+		$template = preg_replace('/src="(.+?)"/ie', "'src=\"'.fix_relative('$1', '$directory').'\"'", $template);
+		$template = preg_replace('/background="(.+?)"/ie', "'background=\"'.fix_relative('$1', '$directory').'\"'", $template);
+		$template = preg_replace('/url\((.+?)\)/ie', "'url('.fix_relative('$1', '$directory').')'", $template);
 
 		// <$BlogArchiveFileName$>
 		$from = '/<\$BlogArchiveFileName\$>/i';

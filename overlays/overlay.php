@@ -98,7 +98,12 @@ class Overlay {
 	/**
 	 * attributes specific to this overlay
 	 */
-	var $attributes;
+	var $attributes = array();
+
+	/**
+	 * previous version of attributes, when overlay content is updated
+	 */
+	var $snapshot = array();
 
 	/**
 	 * allow or block operations
@@ -192,7 +197,7 @@ class Overlay {
 
 		// houston, we've got a problem -- Logger::error() is buggy here
 		if($context['with_debug'] == 'Y')
-			Logger::remember('overlays/overlay.php', 'overlay::bind() unknown overlay type', $type, 'debug');
+			Logger::remember('overlays/overlay.php: overlay::bind() unknown overlay type', $type, 'debug');
 		return NULL;
 	}
 
