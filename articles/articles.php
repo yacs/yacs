@@ -2036,8 +2036,9 @@ Class Articles {
 			return TRUE;
 
 		// page has not been created yet, section is not private, and surfer is member --not subscriber
-		if(!$strict && !isset($item['id']) && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden())
-			return TRUE;
+		// Alexis => desactivated cause it's rejected later
+		//if(!$strict && !isset($item['id']) && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden())
+		//	return TRUE;
 
 		// page is not private, and surfer is editor --not subscriber-- of parent container
 		if(!$strict && isset($item['active']) && ($item['active'] != 'N') && Surfer::is_member() && is_object($anchor) && $anchor->is_assigned($user_id))
