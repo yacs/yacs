@@ -507,8 +507,8 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// the description
-		$label = i18n::s('Description');
-		$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
+		$label = '';
+		$input = Skin::build_box(i18n::s('Description'),Surfer::get_editor('description', isset($item['description'])?$item['description']:''),'folded');
 		$fields[] = array($label, $input);
 
 		// the source
@@ -586,7 +586,7 @@ if($with_form) {
 
 		// add a folded box
 		if(count($fields)) {
-			$context['text'] .= Skin::build_box(i18n::s('Options'), Skin::build_form($fields), 'folded');
+			$context['text'] .= '<h3>'.i18n::s('Options')."</h3>\n".Skin::build_form($fields);
 			$fields = array();
 		}
 
