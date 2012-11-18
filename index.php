@@ -286,8 +286,13 @@ elseif($anchor = Sections::lookup('covers'))
 if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
 	$context['page_title'] = $cover_page['title'];
 
+
+// define this constant in theme's skin.php to bypass mobile version
+if(!defined('MOBILES_USE_IUI'))
+	define('MOBILES_USE_IUI', true);
+
 // use mobile version
-if(!Surfer::is_desktop()) {
+if(!Surfer::is_desktop() && MOBILES_USE_IUI) {
 	include 'index_on_mobile.php';
 	return;
 }
