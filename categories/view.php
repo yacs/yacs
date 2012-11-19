@@ -537,9 +537,11 @@ if(!isset($item['id'])) {
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $count, ARTICLES_PER_PAGE, $zoom_index));
 
-		// list items by date (default) or by title (option 'articles_by_title')
+		// list items by date (default) or by title (option 'articles_by_title') or by rating_sum (option article_by_rating)
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
-		if(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
+		if(isset($order) && preg_match('/\barticles_by_rating\b/i', $order))
+			$items =& Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+		elseif(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
 			$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
 		else
 			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
