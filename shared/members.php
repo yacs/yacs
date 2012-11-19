@@ -662,6 +662,74 @@ Class Members {
 	}
 
 	/**
+	 * list the articles by rating sum related to a given category or to any other anchor
+	 *
+	 * Actually list articles by rating sum, then by date. Note that articles are never ranked into a category list.
+	 *
+	 * Only articles matching following criteria are returned:
+	 * - article is visible (active='Y')
+	 * - article is restricted (active='R'), but surfer is a logged user
+	 * - article is restricted (active='N'), but surfer is an associate
+	 * - article has been officially published
+	 * - an expiry date has not been defined, or is not yet passed
+	 *
+	 * @param the target anchor
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see categories/print.php
+	 * @see categories/view.php
+	 */
+	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+		global $context;
+
+		// locate where we are
+		if(!$variant)
+			$variant = $anchor;
+
+		// limit the scope of the request
+		$where = "(articles.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR articles.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR articles.active='N'";
+
+		// include managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		$where .= ")";
+
+		// see only published articles in categories
+		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			." AND (articles.publish_date < '".$context['now']."')";
+
+		// only consider live articles
+		$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
+
+		// the list of articles
+		$query = "SELECT articles.*"
+			." FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('articles')." AS articles)"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'article')"
+			."	AND (articles.id = members.member_id)"
+			."	AND ".$where
+			." ORDER BY rating_sum, edit_date DESC LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Articles::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * build the site cloud
 	 *
 	 * This function lists tags based on their popularity.

@@ -786,6 +786,7 @@ if($with_form) {
 
 	$keywords = array();
 	$keywords[] = '<a>articles_by_title</a> - '.i18n::s('Sort pages by title');
+	$keywords[] = '<a>articles_by_rating</a> - '.i18n::s('Sort pages by rating sum');
 	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
