@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-13 23:27+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2010-05-12 16:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -94,7 +94,7 @@ msgid "Enable remote servers to update from this reference store."
 msgstr "Enable remote servers to update from this reference store."
 
 #: scripts/build.php:128 scripts/update.php:212 scripts/validate.php:72
-#: scripts/validate.php:200
+#: scripts/validate.php:201
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -205,7 +205,7 @@ msgstr "Meta data have been saved in %s"
 msgid "On-going archive preparation..."
 msgstr "On-going archive preparation..."
 
-#: scripts/build.php:412 scripts/run_once.php:200 scripts/validate.php:192
+#: scripts/build.php:412 scripts/run_once.php:203 scripts/validate.php:193
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
@@ -288,7 +288,7 @@ msgid "Tabular"
 msgstr "Tabular"
 
 #: scripts/configure.php:40 scripts/configure.php:97 scripts/configure.php:168
-#: scripts/run_once.php:88 scripts/run_once.php:205 scripts/run_once.php:210
+#: scripts/run_once.php:88 scripts/run_once.php:208 scripts/run_once.php:213
 msgid "Control Panel"
 msgstr "Control Panel"
 
@@ -500,19 +500,19 @@ msgstr "Impossible to read %s."
 msgid "Run one-time scripts"
 msgstr "Run one-time scripts"
 
-#: scripts/run_once.php:161
+#: scripts/run_once.php:164
 #, php-format
 msgid "script %s has been executed"
 msgstr "script %s has been executed"
 
-#: scripts/run_once.php:193
+#: scripts/run_once.php:196
 #, php-format
 msgid "%d script has been executed"
 msgid_plural "%d scripts have been executed"
 msgstr[0] "%d script has been executed"
 msgstr[1] "%d scripts have been executed"
 
-#: scripts/run_once.php:195
+#: scripts/run_once.php:198
 msgid "No script has been executed"
 msgstr "No script has been executed"
 
@@ -878,31 +878,31 @@ msgstr ""
 msgid "Including reference scripts..."
 msgstr "Including reference scripts..."
 
-#: scripts/validate.php:128 scripts/validate.php:134
+#: scripts/validate.php:129 scripts/validate.php:135
 #, php-format
 msgid "%s has no readable content."
 msgstr "%s has no readable content."
 
-#: scripts/validate.php:160
+#: scripts/validate.php:161
 #, php-format
 msgid "inclusion of %s"
 msgstr "inclusion of %s"
 
-#: scripts/validate.php:177
+#: scripts/validate.php:178
 #, php-format
 msgid "%d files have been included."
 msgstr "%d files have been included."
 
-#: scripts/validate.php:181
+#: scripts/validate.php:182
 msgid "Following scripts have to be included separately:"
 msgstr "Following scripts have to be included separately:"
 
-#: scripts/validate.php:187
+#: scripts/validate.php:188
 #, php-format
 msgid "%d files to be checked manually."
 msgstr "%d files to be checked manually."
 
-#: scripts/validate.php:196
+#: scripts/validate.php:197
 msgid "If no error has popped up, build the reference set >>"
 msgstr "If no error has popped up, build the reference set >>"
 

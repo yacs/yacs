@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-17 23:12+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -106,63 +106,63 @@ msgstr "vendredi"
 msgid "saturday"
 msgstr "samedi"
 
-#: dates/dates.php:511
+#: dates/dates.php:493
 msgid "January"
 msgstr "Janvier"
 
-#: dates/dates.php:512
+#: dates/dates.php:494
 msgid "February"
 msgstr "Février"
 
-#: dates/dates.php:513
+#: dates/dates.php:495
 msgid "March"
 msgstr "Mars"
 
-#: dates/dates.php:514
+#: dates/dates.php:496
 msgid "April"
 msgstr "Avril"
 
-#: dates/dates.php:515
+#: dates/dates.php:497
 msgid "May"
 msgstr "Mai"
 
-#: dates/dates.php:516
+#: dates/dates.php:498
 msgid "June"
 msgstr "Juin"
 
-#: dates/dates.php:517
+#: dates/dates.php:499
 msgid "July"
 msgstr "Juillet"
 
-#: dates/dates.php:518
+#: dates/dates.php:500
 msgid "August"
 msgstr "Août"
 
-#: dates/dates.php:519
+#: dates/dates.php:501
 msgid "September"
 msgstr "Septembre"
 
-#: dates/dates.php:520
+#: dates/dates.php:502
 msgid "October"
 msgstr "Octobre"
 
-#: dates/dates.php:521
+#: dates/dates.php:503
 msgid "November"
 msgstr "Novembre"
 
-#: dates/dates.php:522
+#: dates/dates.php:504
 msgid "December"
 msgstr "Décembre"
 
-#: dates/dates.php:1125 dates/edit.php:226
+#: dates/dates.php:1013 dates/edit.php:226
 msgid "Please provide a date."
 msgstr "Merci d'indiquer une date."
 
-#: dates/dates.php:1131 dates/edit.php:91
+#: dates/dates.php:1019 dates/edit.php:91
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: dates/dates.php:1143
+#: dates/dates.php:1031
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

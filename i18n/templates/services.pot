@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 08:20+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,67 +17,67 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: services/blog.php:563 services/blog.php:608 services/blog.php:714
-#: services/blog.php:797 services/blog.php:866 services/blog.php:897
-#: services/blog.php:928 services/blog.php:999 services/blog.php:1109
-#: services/blog.php:1141 services/blog.php:1256 services/blog.php:1298
-#: services/blog.php:1374 services/blog.php:1447 services/blog.php:1537
-#: services/blog.php:1666 services/blog.php:1701 services/blog.php:1740
-#: services/blog.php:1792
+#: services/blog.php:568 services/blog.php:613 services/blog.php:710
+#: services/blog.php:793 services/blog.php:862 services/blog.php:893
+#: services/blog.php:924 services/blog.php:995 services/blog.php:1092
+#: services/blog.php:1124 services/blog.php:1231 services/blog.php:1273
+#: services/blog.php:1349 services/blog.php:1426 services/blog.php:1520
+#: services/blog.php:1628 services/blog.php:1663 services/blog.php:1702
+#: services/blog.php:1754
 #, php-format
 msgid "Please register at %s before blogging"
 msgstr ""
 
-#: services/blog.php:567 services/blog.php:612 services/blog.php:718
-#: services/blog.php:1145 services/blog.php:1302
+#: services/blog.php:572 services/blog.php:617 services/blog.php:714
+#: services/blog.php:1128 services/blog.php:1277
 #, php-format
 msgid "Unknown postid %s at %s"
 msgstr ""
 
-#: services/blog.php:584 services/blog.php:632 services/blog.php:722
-#: services/blog.php:755 services/blog.php:805 services/blog.php:874
-#: services/blog.php:1007 services/blog.php:1011 services/blog.php:1015
-#: services/blog.php:1117 services/blog.php:1121 services/blog.php:1164
-#: services/blog.php:1306 services/blog.php:1339 services/blog.php:1382
-#: services/blog.php:1451 services/blog.php:1463 services/blog.php:1467
-#: services/blog.php:1471 services/blog.php:1545 services/blog.php:1549
-#: services/blog.php:1553 services/blog.php:1748 services/check.php:57
+#: services/blog.php:589 services/blog.php:637 services/blog.php:718
+#: services/blog.php:751 services/blog.php:801 services/blog.php:870
+#: services/blog.php:1003 services/blog.php:1007 services/blog.php:1011
+#: services/blog.php:1100 services/blog.php:1104 services/blog.php:1147
+#: services/blog.php:1281 services/blog.php:1314 services/blog.php:1357
+#: services/blog.php:1430 services/blog.php:1442 services/blog.php:1446
+#: services/blog.php:1450 services/blog.php:1528 services/blog.php:1532
+#: services/blog.php:1536 services/blog.php:1710 services/check.php:57
 #: services/check.php:62 services/configure.php:83 services/proxy.php:21
 #: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: services/blog.php:588
+#: services/blog.php:593
 #, php-format
 msgid "Impossible to delete record of postid %s"
 msgstr ""
 
-#: services/blog.php:660 services/blog.php:1208
+#: services/blog.php:665 services/blog.php:1191
 #, php-format
 msgid "Impossible to update record of postid %s"
 msgstr ""
 
-#: services/blog.php:801 services/blog.php:870 services/blog.php:1003
-#: services/blog.php:1113 services/blog.php:1378 services/blog.php:1459
-#: services/blog.php:1541 services/blog.php:1744
+#: services/blog.php:797 services/blog.php:866 services/blog.php:999
+#: services/blog.php:1096 services/blog.php:1353 services/blog.php:1438
+#: services/blog.php:1524 services/blog.php:1706
 #, php-format
 msgid "Unknown blog %s at %s"
 msgstr ""
 
-#: services/blog.php:911
+#: services/blog.php:907
 msgid "Unknown user name"
 msgstr ""
 
-#: services/blog.php:1455
+#: services/blog.php:1434
 msgid "No file data has been received."
 msgstr ""
 
-#: services/blog.php:1483
+#: services/blog.php:1462
 #, php-format
 msgid "Impossible to save content of file %s"
 msgstr ""
 
-#: services/blog.php:1847
+#: services/blog.php:1809
 #, php-format
 msgid "Do not know how to process %s"
 msgstr ""
