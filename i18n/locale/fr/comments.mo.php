@@ -18,7 +18,6 @@ $context['l10n']['fr']['Add a comment']='Ajouter un commentaire';
 $context['l10n']['fr']['Add a file']='Ajouter un fichier';
 $context['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $context['l10n']['fr']['Anonymous comment']='Commentaire anonyme';
-$context['l10n']['fr']['Approval: %s']='Approbation : %s';
 $context['l10n']['fr']['Attention']='Important';
 $context['l10n']['fr']['Back to main page']='Retour à la page principale';
 $context['l10n']['fr']['Cancel']='Annuler';

@@ -30,7 +30,6 @@ $context['l10n']['fr']['%s by %s %s']='%s par %s %s';
 $context['l10n']['fr']['%s has created section %s']='%s a créé la section %s';
 $context['l10n']['fr']['%s has invited you to %s']='%s vous a invité à %s';
 $context['l10n']['fr']['%s has updated section %s']='%s a modifié la section %s';
-$context['l10n']['fr']['%s in %s']='%s dans %s';
 $context['l10n']['fr']['%s is notifying  you from %s']='%s vous écrit depuis %s';
 $context['l10n']['fr']['%s is requesting access to %s']='%s demande l\'accès à %s';
 $context['l10n']['fr']['%s: %s']='%s : %s';

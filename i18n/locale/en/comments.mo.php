@@ -18,7 +18,6 @@ $context['l10n']['en']['Add a comment']='Add a comment';
 $context['l10n']['en']['Add a file']='Add a file';
 $context['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $context['l10n']['en']['Anonymous comment']='Anonymous comment';
-$context['l10n']['en']['Approval: %s']='Approval: %s';
 $context['l10n']['en']['Attention']='Attention';
 $context['l10n']['en']['Back to main page']='Back to main page';
 $context['l10n']['en']['Cancel']='Cancel';
