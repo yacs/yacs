@@ -187,6 +187,7 @@ $context['l10n']['fr']['Meeting']='Réunion';
 $context['l10n']['fr']['Meeting has been cancelled.']='La réunion a été annulée.';
 $context['l10n']['fr']['Meeting has not started yet']='La réunion n\'a pas encore commencé';
 $context['l10n']['fr']['Meeting has started']='La réunion a commencé';
+$context['l10n']['fr']['Meeting has started!']='La réunion a commencé';
 $context['l10n']['fr']['Meeting is over']='La réunion est terminée';
 $context['l10n']['fr']['Meeting is under preparation']='La réunion est en préparation';
 $context['l10n']['fr']['Meeting location']='Lieu de la réunion';

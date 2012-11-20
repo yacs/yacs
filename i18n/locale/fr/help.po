@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-21 22:11+0100\n"
-"PO-Revision-Date: 2010-09-29 15:48+0100\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"PO-Revision-Date: 2012-07-13 18:37+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: \n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharsu: utf-8\n"
 "X-Poedit-Language: French\n"
 
-#: help/index.php:253 help/populate.php:1921
+#: help/index.php:253 help/populate.php:1916
 msgid "Help"
 msgstr "Aide"
 
@@ -192,7 +192,7 @@ msgstr "Codes divers"
 #: help/populate.php:381 help/populate.php:549 help/populate.php:787
 #: help/populate.php:941 help/populate.php:1092 help/populate.php:1227
 #: help/populate.php:1254 help/populate.php:1337 help/populate.php:1456
-#: help/populate.php:1575 help/populate.php:1641 help/populate.php:1846
+#: help/populate.php:1575 help/populate.php:1641 help/populate.php:1841
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
@@ -232,13 +232,13 @@ msgstr "Point d'ancrage"
 
 #: help/populate.php:112 help/populate.php:258 help/populate.php:579
 #: help/populate.php:816 help/populate.php:1120 help/populate.php:1367
-#: help/populate.php:1486 help/populate.php:1720
+#: help/populate.php:1486 help/populate.php:1715
 msgid "-- Root level"
 msgstr "-- Niveau de base"
 
 #: help/populate.php:113 help/populate.php:259 help/populate.php:580
 #: help/populate.php:817 help/populate.php:1121 help/populate.php:1368
-#: help/populate.php:1487 help/populate.php:1721
+#: help/populate.php:1487 help/populate.php:1716
 msgid "Please carefully select a parent section, if any"
 msgstr "Choisissez une section de niveau supérieur, si besoin"
 
@@ -255,7 +255,7 @@ msgstr "Mon blog"
 #: help/populate.php:680 help/populate.php:823 help/populate.php:885
 #: help/populate.php:991 help/populate.php:1046 help/populate.php:1127
 #: help/populate.php:1182 help/populate.php:1299 help/populate.php:1416
-#: help/populate.php:1535 help/populate.php:1727 help/populate.php:1782
+#: help/populate.php:1535 help/populate.php:1722 help/populate.php:1777
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
@@ -264,7 +264,7 @@ msgstr "Merci d'indiquer un titre significatif."
 #: help/populate.php:638 help/populate.php:656 help/populate.php:827
 #: help/populate.php:859 help/populate.php:995 help/populate.php:1021
 #: help/populate.php:1131 help/populate.php:1277 help/populate.php:1378
-#: help/populate.php:1497 help/populate.php:1731
+#: help/populate.php:1497 help/populate.php:1726
 msgid "Introduction"
 msgstr "Introduction"
 
@@ -274,13 +274,13 @@ msgstr "La meilleure place pour m'exprimer"
 
 #: help/populate.php:125 help/populate.php:592 help/populate.php:829
 #: help/populate.php:997 help/populate.php:1133 help/populate.php:1279
-#: help/populate.php:1380 help/populate.php:1499 help/populate.php:1733
+#: help/populate.php:1380 help/populate.php:1499 help/populate.php:1728
 msgid "Appears at site map, near section title"
 msgstr "Apparaît sur la carte du site, près du titre de la section"
 
 #: help/populate.php:129 help/populate.php:275 help/populate.php:455
 #: help/populate.php:596 help/populate.php:833 help/populate.php:1001
-#: help/populate.php:1137 help/populate.php:1737
+#: help/populate.php:1137 help/populate.php:1732
 msgid "Description"
 msgstr "Description"
 
@@ -289,91 +289,91 @@ msgid "A description of what this blog is about."
 msgstr "Une description du sujet de ce blog"
 
 #: help/populate.php:131 help/populate.php:277 help/populate.php:835
-#: help/populate.php:1139 help/populate.php:1739
+#: help/populate.php:1139 help/populate.php:1734
 msgid "Give a hint to interested people"
 msgstr "Pour guider les surfeurs intéressés"
 
-#: help/populate.php:135 help/populate.php:1743
+#: help/populate.php:135 help/populate.php:1738
 msgid "Contribution"
 msgstr "Contributeurs"
 
-#: help/populate.php:136 help/populate.php:1746
+#: help/populate.php:136 help/populate.php:1741
 msgid "Only associates and owners can contribute."
 msgstr "Contribution restreinte aux associés et aux propriétaires."
 
-#: help/populate.php:137 help/populate.php:1745
+#: help/populate.php:137 help/populate.php:1740
 msgid "Any authenticated member can contribute."
 msgstr "Tout membre authentifié peut contribuer."
 
 #: help/populate.php:141 help/populate.php:1150 help/populate.php:1384
-#: help/populate.php:1503 help/populate.php:1750
+#: help/populate.php:1503 help/populate.php:1745
 msgid "Access"
 msgstr "Accès"
 
 #: help/populate.php:142 help/populate.php:1151 help/populate.php:1385
-#: help/populate.php:1504 help/populate.php:1751
+#: help/populate.php:1504 help/populate.php:1746
 msgid "Public - Everybody, including anonymous surfers"
 msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
 #: help/populate.php:143 help/populate.php:1152 help/populate.php:1386
-#: help/populate.php:1505 help/populate.php:1752
+#: help/populate.php:1505 help/populate.php:1747
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
 #: help/populate.php:144 help/populate.php:1153 help/populate.php:1387
-#: help/populate.php:1506 help/populate.php:1753
+#: help/populate.php:1506 help/populate.php:1748
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
 #: help/populate.php:148 help/populate.php:1157 help/populate.php:1391
-#: help/populate.php:1510 help/populate.php:1757
+#: help/populate.php:1510 help/populate.php:1752
 msgid "Front page"
 msgstr "Page d'accueil"
 
 #: help/populate.php:149 help/populate.php:1158 help/populate.php:1392
-#: help/populate.php:1511 help/populate.php:1758
+#: help/populate.php:1511 help/populate.php:1753
 msgid "Content of this section should be:"
 msgstr "Le contenu de cette section est :"
 
 #: help/populate.php:150 help/populate.php:1159 help/populate.php:1393
-#: help/populate.php:1512 help/populate.php:1759
+#: help/populate.php:1512 help/populate.php:1754
 msgid "displayed in the main panel"
 msgstr "affiché dans la zone principale"
 
 #: help/populate.php:151 help/populate.php:1160 help/populate.php:1394
-#: help/populate.php:1513 help/populate.php:1760
+#: help/populate.php:1513 help/populate.php:1755
 msgid "listed in the main panel, in a gadget box"
 msgstr "listé dans la zone principale, dans une boîte gadget"
 
 #: help/populate.php:152 help/populate.php:1161 help/populate.php:1395
-#: help/populate.php:1514 help/populate.php:1761
+#: help/populate.php:1514 help/populate.php:1756
 msgid "listed on page side, in an extra box"
 msgstr "listé sur le côté de la page, dans une boîte extra"
 
 #: help/populate.php:153 help/populate.php:1162 help/populate.php:1396
-#: help/populate.php:1515 help/populate.php:1762
+#: help/populate.php:1515 help/populate.php:1757
 msgid "not displayed at the front page"
 msgstr "invisible sur la page d'accueil"
 
 #: help/populate.php:161 help/populate.php:311 help/populate.php:465
 #: help/populate.php:668 help/populate.php:873 help/populate.php:1034
 #: help/populate.php:1170 help/populate.php:1287 help/populate.php:1404
-#: help/populate.php:1523 help/populate.php:1770
+#: help/populate.php:1523 help/populate.php:1765
 msgid "Add content"
 msgstr "Ajouter du contenu"
 
 #: help/populate.php:161 help/populate.php:311 help/populate.php:465
 #: help/populate.php:668 help/populate.php:873 help/populate.php:1034
 #: help/populate.php:1170 help/populate.php:1287 help/populate.php:1404
-#: help/populate.php:1523 help/populate.php:1691 help/populate.php:1770
-#: help/populate.php:1913
+#: help/populate.php:1523 help/populate.php:1686 help/populate.php:1765
+#: help/populate.php:1908
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
 #: help/populate.php:208 help/populate.php:372 help/populate.php:541
 #: help/populate.php:780 help/populate.php:932 help/populate.php:1085
 #: help/populate.php:1218 help/populate.php:1328 help/populate.php:1447
-#: help/populate.php:1566 help/populate.php:1821
+#: help/populate.php:1566 help/populate.php:1816
 msgid "Congratulations, you have shared new content."
 msgstr "Félicitations, votre contribution a bien été enregistrée."
 
@@ -400,7 +400,7 @@ msgstr ""
 #: help/populate.php:783 help/populate.php:935 help/populate.php:1088
 #: help/populate.php:1221 help/populate.php:1250 help/populate.php:1331
 #: help/populate.php:1450 help/populate.php:1569 help/populate.php:1635
-#: help/populate.php:1840
+#: help/populate.php:1835
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
@@ -410,7 +410,7 @@ msgstr "Accéder au nouveau blog"
 
 #: help/populate.php:227 help/populate.php:379 help/populate.php:939
 #: help/populate.php:1225 help/populate.php:1335 help/populate.php:1454
-#: help/populate.php:1573 help/populate.php:1844
+#: help/populate.php:1573 help/populate.php:1839
 msgid "Add an image"
 msgstr "Ajouter une image"
 
@@ -418,7 +418,7 @@ msgstr "Ajouter une image"
 #: help/populate.php:786 help/populate.php:940 help/populate.php:1091
 #: help/populate.php:1226 help/populate.php:1253 help/populate.php:1336
 #: help/populate.php:1455 help/populate.php:1574 help/populate.php:1640
-#: help/populate.php:1845
+#: help/populate.php:1840
 msgid "Launch the Content Assistant again"
 msgstr "Relancer l'Assistant de Contenu"
 
@@ -482,7 +482,7 @@ msgid "Title"
 msgstr "Titre"
 
 #: help/populate.php:308 help/populate.php:870 help/populate.php:1031
-#: help/populate.php:1603 help/populate.php:1691
+#: help/populate.php:1603 help/populate.php:1686
 msgid "Start"
 msgstr "Démarrer"
 
@@ -637,7 +637,7 @@ msgid "File collections"
 msgstr "Collections de fichiers"
 
 #: help/populate.php:560 help/populate.php:1105 help/populate.php:1241
-#: help/populate.php:1351 help/populate.php:1470 help/populate.php:1930
+#: help/populate.php:1351 help/populate.php:1470 help/populate.php:1925
 msgid "Add a section"
 msgstr "Ajouter une section"
 
@@ -750,7 +750,7 @@ msgstr ""
 "Poster ici les articles qui apparaîtront individuellement dans des boîtes "
 "extra, sur le côté de l'index de la section parente"
 
-#: help/populate.php:665 help/populate.php:1913
+#: help/populate.php:665 help/populate.php:1908
 msgid "Next step"
 msgstr "Etape suivante"
 
@@ -1065,7 +1065,7 @@ msgstr ""
 msgid "Servers"
 msgstr "Serveurs"
 
-#: help/populate.php:1658 help/populate.php:1933
+#: help/populate.php:1658 help/populate.php:1928
 msgid "Add a page"
 msgstr "Ajouter une page"
 
@@ -1078,22 +1078,10 @@ msgstr ""
 "vous ?"
 
 #: help/populate.php:1672
-msgid "Vote"
-msgstr "Vote"
-
-#: help/populate.php:1673
-msgid ""
-"The best way to formalize collective decisions. Every voter can expressed a "
-"Yes or No, and comment its ballot."
-msgstr ""
-"La meilleure façon de formaliser des décisions collectives. Chaque votant "
-"peut exprimer un Oui ou un Non, et commenter sa propre décision."
-
-#: help/populate.php:1677
 msgid "Petition"
 msgstr "Pétition"
 
-#: help/populate.php:1678
+#: help/populate.php:1673
 msgid ""
 "Ideal to express a broad support of some idea. Every signature can be "
 "commented."
@@ -1101,11 +1089,11 @@ msgstr ""
 "Idéal pour faire exprimer un consensus large sur une idée. Chaque signature "
 "peut-être commentée."
 
-#: help/populate.php:1682
+#: help/populate.php:1677
 msgid "Poll"
 msgstr "Sondage"
 
-#: help/populate.php:1683
+#: help/populate.php:1678
 msgid ""
 "The quickest way to identify trends. Any surfer can select among offered "
 "options, and YACS will sum up all clicks."
@@ -1113,11 +1101,11 @@ msgstr ""
 "La façon la plus rapide pour dégager des tendances. Les surfeurs choisissent "
 "l'une des options proposées, et YACS comptabilise les clics."
 
-#: help/populate.php:1704
+#: help/populate.php:1699
 msgid "Add a wiki"
 msgstr "Ajouter un wiki"
 
-#: help/populate.php:1710
+#: help/populate.php:1705
 msgid ""
 "With YACS, each wiki is an independant section, with options to limit the "
 "number of contributors or readers. Each post in a wiki may feature images, "
@@ -1128,7 +1116,7 @@ msgstr ""
 "wiki peut comporter des images, des photos, des fichiers, des commentaires "
 "ou des liens web."
 
-#: help/populate.php:1711
+#: help/populate.php:1706
 msgid ""
 "You can either create one general-purpose wiki, or run this script several "
 "time and create a set of more specialised wikis."
@@ -1136,32 +1124,32 @@ msgstr ""
 "Vous pouvez créer un wiki plutôt généraliste, ou bien, en exécutant ce "
 "script plusieurs fois, créer plusieurs wikis plus spécialisés."
 
-#: help/populate.php:1719
+#: help/populate.php:1714
 msgid "Wiki anchor"
 msgstr "Point d'ancrage"
 
-#: help/populate.php:1725
+#: help/populate.php:1720
 msgid "Wiki Title"
 msgstr "Titre du wiki"
 
-#: help/populate.php:1726
+#: help/populate.php:1721
 msgid "Our wiki"
 msgstr "Notre wiki"
 
-#: help/populate.php:1732
+#: help/populate.php:1727
 msgid "Our collaborative place"
 msgstr "Notre espace de travail collaboratif"
 
-#: help/populate.php:1738
+#: help/populate.php:1733
 msgid "A description of what information is developed at this wiki."
 msgstr "Une description du sujet développé sur ce wiki."
 
-#: help/populate.php:1744
+#: help/populate.php:1739
 msgid "Anyone, including anonymous surfer, may contribute to this wiki."
 msgstr ""
 "Tout le monde, y compris les surfeurs anonymes, peut contribuer à ce wiki."
 
-#: help/populate.php:1826
+#: help/populate.php:1821
 msgid ""
 "Any surfer is allowed to contribute anonymously to this wiki. Internet "
 "robots are prevented to submit new posts, however you should continuously "
@@ -1171,7 +1159,7 @@ msgstr ""
 "devriez surveiller le contenu de votre wiki régulièrement pour éviter tout "
 "contenu inapproprié."
 
-#: help/populate.php:1830
+#: help/populate.php:1825
 msgid ""
 "Any authenticated member of the community is allowed to contribute to this "
 "wiki. You should control community membership to avoid unappropriate "
@@ -1180,7 +1168,7 @@ msgstr ""
 "Tout membre authentifié est autorisé à contribuer librement. Contrôlez "
 "soigneusement les nouveaux membres pour éviter tout contenu inapproprié."
 
-#: help/populate.php:1834
+#: help/populate.php:1829
 msgid ""
 "You have selected to implement a private wiki. Assign individual members as "
 "editors of this wiki to enable contributions beyond associates."
@@ -1189,11 +1177,11 @@ msgstr ""
 "comme éditeurs de ce wiki pour élargir les contributions au-delà des "
 "associés."
 
-#: help/populate.php:1842
+#: help/populate.php:1837
 msgid "Access the new wiki"
 msgstr "Accéder au nouveau wiki"
 
-#: help/populate.php:1860
+#: help/populate.php:1855
 msgid ""
 "This script will help to structure content for your server. Please select "
 "below the action you would like to perform.Depending on your choice, the "
@@ -1203,46 +1191,44 @@ msgstr ""
 "ci-dessous l'action à effectuer. En fonction de votre choix, l'assistant "
 "pourra être amené à demander des paramètres complémentaires."
 
-#: help/populate.php:1866
-msgid ""
-"Sollicitate users input -- create one single vote, a petition, or a poll"
-msgstr ""
-"Solliciter les utilisateurs -- créer un vote, une pétition, ou un sondage"
+#: help/populate.php:1861
+msgid "Sollicitate users input -- create a petition, or a poll"
+msgstr "Solliciter les utilisateurs -- créer une pétition, ou un sondage"
 
-#: help/populate.php:1869
+#: help/populate.php:1864
 msgid "Add a forum -- let people interact"
 msgstr "Ajouter un forum de discussion -- et laisser les personnes interagir"
 
-#: help/populate.php:1872
+#: help/populate.php:1867
 msgid "Add a blog -- and share your feeling, your findings, your soul"
 msgstr ""
 "Ajouter un blog -- et partager vos envies, vos impressions, vos découvertes"
 
-#: help/populate.php:1875
+#: help/populate.php:1870
 msgid "Add a wiki -- to support collaborative work in a team of peers"
 msgstr ""
 "Ajouter un wiki -- et faciliter le travail en équipe sur un projet donné"
 
-#: help/populate.php:1878
+#: help/populate.php:1873
 msgid "Post original work -- in a section that will feature author's profiles"
 msgstr ""
 "Publier des originaux -- dans une section qui présente les profils des "
 "auteurs."
 
-#: help/populate.php:1881
+#: help/populate.php:1876
 msgid ""
 "Add an electronic book, or a manual -- actually, a structured set of pages"
 msgstr ""
 "Ajouter un livre électronique -- en fait, une liste structurée de pages"
 
-#: help/populate.php:1884
+#: help/populate.php:1879
 msgid ""
 "Add a composite section -- with scrolling news, plus gadget and extra boxes"
 msgstr ""
 "Ajouter une section complexe -- avec des nouvelles défilantes, plus des "
 "boîtes gadget et extra"
 
-#: help/populate.php:1887
+#: help/populate.php:1882
 msgid ""
 "Add a section for polls -- the most recent is active; previous polls are "
 "still listed"
@@ -1250,7 +1236,7 @@ msgstr ""
 "Ajouter une section pour les sondages -- le plus récent est actif, les "
 "précédents sont toujours listés"
 
-#: help/populate.php:1891
+#: help/populate.php:1886
 msgid ""
 "Add a section for partners -- the special people or sites that are "
 "supporting your site"
@@ -1258,18 +1244,18 @@ msgstr ""
 "Ajouter une section pour les partenaires -- les serveurs et personnes qui "
 "sont favorables à votre site"
 
-#: help/populate.php:1894
+#: help/populate.php:1889
 msgid "Add a cookbook -- cooking recipes, the French secret to happiness"
 msgstr ""
 "Ajouter un livre de recettes -- le secret du bonheur, au moins pour les "
 "français"
 
-#: help/populate.php:1897
+#: help/populate.php:1892
 msgid "Add a directory of links -- a small version of Yahoo!, or of DMOZ"
 msgstr ""
 "Ajouter un répertoire de liens -- une version miniature de Yahoo! ou de DMOZ"
 
-#: help/populate.php:1900
+#: help/populate.php:1895
 msgid ""
 "Add a collection -- and share available files, enable audio and video on-"
 "demand, and slideshows"
@@ -1277,7 +1263,7 @@ msgstr ""
 "Ajouter une collection -- et partager les fichiers disponibles, autoriser "
 "audio et vidéo à la demande, ainsi que les diaporamas"
 
-#: help/populate.php:1903
+#: help/populate.php:1898
 msgid ""
 "Add sample server profiles -- ping well-known news aggregator and become "
 "famous"
@@ -1285,7 +1271,7 @@ msgstr ""
 "Ajouter quelques serveurs -- pour avertir les aggrégateurs les plus fameux "
 "de vos publications"
 
-#: help/populate.php:1906
+#: help/populate.php:1901
 msgid ""
 "Add basic items -- in case you would need to replay some steps of the setup "
 "process"
@@ -1293,18 +1279,18 @@ msgstr ""
 "Ajouter les éléments de base -- pour répéter certaines étapes de "
 "l'installation initiale si besoin"
 
-#: help/populate.php:1910
+#: help/populate.php:1905
 msgid "Add sample items -- for test purpose"
 msgstr "Ajouter des exemples -- seulement pour faire des tests"
 
-#: help/populate.php:1919
+#: help/populate.php:1914
 msgid ""
 "Turn any regular section to a photo album by adding images to posted pages."
 msgstr ""
 "Transformez n'importe quelle section ordinaire en album photo en ajoutant "
 "des images aux pages qui y sont postées."
 
-#: help/populate.php:1920
+#: help/populate.php:1915
 msgid ""
 "YACS creates weekly and monthly archives automatically. No specific action "
 "is required to create these."
@@ -1312,19 +1298,29 @@ msgstr ""
 "YACS crée les archives hebdomadaires et mensuelles automatiquement. Vous "
 "n'avez rien à faire de particulier pour cela."
 
-#: help/populate.php:1925
+#: help/populate.php:1920
 msgid "Of course, you may also use regular editors to create simple items:"
 msgstr ""
 "Bien sûr, vous pouvez utiliser les formulaires habituels pour les cas "
 "simples :"
 
-#: help/populate.php:1931
+#: help/populate.php:1926
 msgid "Add a category"
 msgstr "Ajouter une catégorie"
 
-#: help/populate.php:1937
+#: help/populate.php:1932
 msgid "Shortcuts"
 msgstr "Raccourcis"
+
+#~ msgid "Vote"
+#~ msgstr "Vote"
+
+#~ msgid ""
+#~ "The best way to formalize collective decisions. Every voter can expressed "
+#~ "a Yes or No, and comment its ballot."
+#~ msgstr ""
+#~ "La meilleure façon de formaliser des décisions collectives. Chaque votant "
+#~ "peut exprimer un Oui ou un Non, et commenter sa propre décision."
 
 #~ msgid "Selected shortcuts"
 #~ msgstr "Raccourcis"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 08:20+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: tables/check.php:21 tables/check.php:32 tables/check.php:91
-#: tables/check.php:147 tables/delete.php:62 tables/edit.php:78
+#: tables/check.php:147 tables/delete.php:62 tables/edit.php:77
 #: tables/fetch_as_csv.php:56 tables/fetch_as_json.php:53
 #: tables/fetch_as_png.php:56 tables/fetch_as_raw.php:55
 #: tables/fetch_as_xml.php:57 tables/import.php:18 tables/index.php:60
@@ -31,8 +31,8 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: tables/check.php:29 tables/delete.php:74 tables/edit.php:97
-#: tables/edit.php:122 tables/fetch_as_csv.php:67 tables/fetch_as_csv.php:82
+#: tables/check.php:29 tables/delete.php:74 tables/edit.php:96
+#: tables/edit.php:121 tables/fetch_as_csv.php:67 tables/fetch_as_csv.php:82
 #: tables/fetch_as_json.php:64 tables/fetch_as_json.php:79
 #: tables/fetch_as_png.php:65 tables/fetch_as_png.php:80
 #: tables/fetch_as_raw.php:64 tables/fetch_as_raw.php:79
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Yes, I want to delete this table"
 msgstr ""
 
-#: tables/delete.php:103 tables/edit.php:244
+#: tables/delete.php:103 tables/edit.php:243
 msgid "Cancel"
 msgstr ""
 
@@ -108,121 +108,121 @@ msgstr ""
 msgid "edited by %s %s"
 msgstr ""
 
-#: tables/edit.php:82
+#: tables/edit.php:81
 msgid "Edit a table"
 msgstr ""
 
-#: tables/edit.php:84
+#: tables/edit.php:83
 msgid "Add a table"
 msgstr ""
 
-#: tables/edit.php:102 tables/tables.php:982 tables/tables.php:988
+#: tables/edit.php:101 tables/tables.php:954 tables/tables.php:960
 msgid "No anchor has been found."
 msgstr ""
 
-#: tables/edit.php:127
+#: tables/edit.php:126
 msgid "This page has been locked."
 msgstr ""
 
-#: tables/edit.php:184
+#: tables/edit.php:183
 #, php-format
 msgid "In: %s"
 msgstr ""
 
-#: tables/edit.php:199
+#: tables/edit.php:198
 msgid "Posted by"
 msgstr ""
 
-#: tables/edit.php:204
+#: tables/edit.php:203
 msgid "Title"
 msgstr ""
 
-#: tables/edit.php:206
+#: tables/edit.php:205
 msgid "Please provide a meaningful title."
 msgstr ""
 
-#: tables/edit.php:210
+#: tables/edit.php:209
 msgid "SQL Query"
 msgstr ""
 
-#: tables/edit.php:212
+#: tables/edit.php:211
 msgid "The SELECT command submitted to the database"
 msgstr ""
 
-#: tables/edit.php:216
+#: tables/edit.php:215
 msgid "First column"
 msgstr ""
 
-#: tables/edit.php:220
+#: tables/edit.php:219
 msgid "First column contains useful data"
 msgstr ""
 
-#: tables/edit.php:224
+#: tables/edit.php:223
 msgid "First column refers to time"
 msgstr ""
 
-#: tables/edit.php:228
+#: tables/edit.php:227
 msgid "First column provides a web address"
 msgstr ""
 
-#: tables/edit.php:232
+#: tables/edit.php:231
 msgid "Description"
 msgstr ""
 
-#: tables/edit.php:234
+#: tables/edit.php:233
 msgid ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
 msgstr ""
 
-#: tables/edit.php:242
+#: tables/edit.php:241
 msgid "Submit"
 msgstr ""
 
-#: tables/edit.php:242 tables/import.php:231
+#: tables/edit.php:241 tables/import.php:231
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: tables/edit.php:249
+#: tables/edit.php:248
 msgid "Do not change modification date of the main page."
 msgstr ""
 
-#: tables/edit.php:252
+#: tables/edit.php:251
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: tables/edit.php:271
+#: tables/edit.php:270
 msgid "Please type a valid SQL query."
 msgstr ""
 
-#: tables/edit.php:285
+#: tables/edit.php:284
 msgid ""
 "Please ensure you are using a compliant and complete SQL SELECT statement."
 msgstr ""
 
-#: tables/edit.php:286
+#: tables/edit.php:285
 #, php-format
 msgid "For more information check the %s."
 msgstr ""
 
-#: tables/edit.php:286
+#: tables/edit.php:285
 msgid "MySQL reference page"
 msgstr ""
 
-#: tables/edit.php:287
+#: tables/edit.php:286
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: tables/edit.php:287
+#: tables/edit.php:286
 msgid "YACS codes"
 msgstr ""
 
-#: tables/edit.php:287
+#: tables/edit.php:286
 msgid "smileys"
 msgstr ""
 
-#: tables/edit.php:288
+#: tables/edit.php:287
 msgid "Help"
 msgstr ""
 
@@ -387,11 +387,11 @@ msgstr ""
 msgid "Error in table query %s"
 msgstr ""
 
-#: tables/tables.php:976
+#: tables/tables.php:948
 msgid "Please add some SQL query."
 msgstr ""
 
-#: tables/tables.php:1004
+#: tables/tables.php:976
 msgid "No item has the provided id."
 msgstr ""
 

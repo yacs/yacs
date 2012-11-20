@@ -163,6 +163,7 @@ $context['l10n']['fr']['Share']='Partager';
 $context['l10n']['fr']['Site map']='Carte du site';
 $context['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers par titre (et non par date)';
 $context['l10n']['fr']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Trier les liens par titre (et non par date)';
+$context['l10n']['fr']['Sort pages by rating sum']='Trier les pages par note';
 $context['l10n']['fr']['Sort pages by title']='Trier les pages par titre';
 $context['l10n']['fr']['Special categories']='Catégories spéciales';
 $context['l10n']['fr']['Start']='Commencer';

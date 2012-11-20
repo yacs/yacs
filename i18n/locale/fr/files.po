@@ -2,26 +2,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-25 22:53+0200\n"
-"PO-Revision-Date: 2012-05-22 15:25+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"PO-Revision-Date: 2012-11-20 23:59+0100\n"
+"Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: files/check.php:23 files/check.php:34 files/check.php:90
 #: files/configure.php:44 files/configure.php:150 files/configure.php:224
-#: files/delete.php:68 files/edit.php:131 files/feed.php:108
-#: files/fetch.php:126 files/fetch_all.php:99 files/index.php:58
+#: files/delete.php:68 files/edit.php:130 files/feed.php:108
+#: files/fetch.php:114 files/fetch_all.php:99 files/index.php:58
 #: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
-#: files/stream.php:124 files/thread.php:60 files/thread.php:63
-#: files/view.php:125
+#: files/stream.php:112 files/thread.php:60 files/thread.php:63
+#: files/view.php:113
 msgid "Files"
 msgstr "Fichiers"
 
@@ -30,10 +28,10 @@ msgid "Maintenance"
 msgstr "Maintenance"
 
 #: files/check.php:31 files/configure.php:53 files/delete.php:81
-#: files/edit.php:150 files/edit.php:180 files/feed.php:124
-#: files/fetch.php:159 files/fetch_all.php:116 files/files.php:2973
-#: files/index.php:68 files/list.php:88 files/list.php:93 files/stream.php:151
-#: files/thread.php:68 files/view.php:158
+#: files/edit.php:149 files/edit.php:179 files/feed.php:124
+#: files/fetch.php:147 files/fetch_all.php:116 files/files.php:3013
+#: files/index.php:68 files/list.php:88 files/list.php:93 files/stream.php:139
+#: files/thread.php:68 files/view.php:146
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -69,8 +67,8 @@ msgstr "Merci de choisir l'opération à effectuer."
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: files/check.php:105 files/view.php:380 files/view.php:400
-#: files/view.php:414 files/view.php:431 files/view.php:451
+#: files/check.php:105 files/view.php:368 files/view.php:388
+#: files/view.php:402 files/view.php:419 files/view.php:439
 msgid "Start"
 msgstr "Commencer"
 
@@ -78,8 +76,9 @@ msgstr "Commencer"
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: files/configure.php:44 files/delete.php:72 files/fetch.php:247
-#: files/fetch.php:266 files/files.php:487
+#: files/configure.php:44 files/delete.php:72 files/edit.php:284
+#: files/edit.php:303 files/fetch.php:235 files/fetch.php:254
+#: files/files.php:562
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
@@ -156,11 +155,11 @@ msgstr "Extensions"
 msgid "Storage"
 msgstr "Rangement"
 
-#: files/configure.php:142 files/edit.php:639
+#: files/configure.php:142 files/edit.php:658
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: files/configure.php:142 files/edit.php:639
+#: files/configure.php:142 files/edit.php:658
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -234,7 +233,7 @@ msgstr "Configurer de nouveau"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: files/delete.php:87 files/edit.php:186 files/edit.php:394
+#: files/delete.php:87 files/edit.php:185 files/edit.php:413
 #, php-format
 msgid ""
 "This file has been reserved by %s %s, and it is likely that an updated "
@@ -243,12 +242,12 @@ msgstr ""
 "Ce fichier a été réservé par %s %s, et une nouvelle version sera mise à "
 "disposition bientôt."
 
-#: files/delete.php:91 files/edit.php:189 files/fetch.php:260
-#: files/fetch.php:280
+#: files/delete.php:91 files/edit.php:188 files/fetch.php:248
+#: files/fetch.php:268
 msgid "Done"
 msgstr "Terminé"
 
-#: files/delete.php:92 files/fetch.php:247
+#: files/delete.php:92 files/fetch.php:235
 msgid "Release reservation"
 msgstr "Annuler la réservation"
 
@@ -265,11 +264,11 @@ msgstr "L'action n'a pas été confirmée."
 msgid "Yes, I want to delete this file"
 msgstr "Oui, je veux réellement supprimer ce fichier"
 
-#: files/delete.php:129 files/edit.php:641 files/fetch.php:291
+#: files/delete.php:129 files/edit.php:660 files/fetch.php:279
 msgid "Cancel"
 msgstr "Annuler"
 
-#: files/delete.php:150 files/edit.php:512 files/view.php:336
+#: files/delete.php:150 files/edit.php:531 files/view.php:324
 msgid "Title"
 msgstr "Titre"
 
@@ -277,7 +276,7 @@ msgstr "Titre"
 msgid "Description"
 msgstr "Description"
 
-#: files/delete.php:171 files/edit.php:607 files/view.php:293
+#: files/delete.php:171 files/edit.php:626 files/view.php:281
 msgid "Source"
 msgstr "Source"
 
@@ -285,7 +284,7 @@ msgstr "Source"
 msgid "Actual file"
 msgstr "Nom du fichier"
 
-#: files/delete.php:180 files/edit.php:442 files/edit.php:503
+#: files/delete.php:180 files/edit.php:461 files/edit.php:522
 msgid "File size"
 msgstr "Taille du fichier"
 
@@ -298,9 +297,9 @@ msgstr "%d  octets"
 msgid "Downloads"
 msgstr "Téléchargements"
 
-#: files/delete.php:185 files/edit.php:471 files/layout_files.php:128
+#: files/delete.php:185 files/edit.php:490 files/layout_files.php:128
 #: files/layout_files_as_hits.php:60 files/layout_files_as_search.php:100
-#: files/view.php:232
+#: files/view.php:220
 msgid "downloads"
 msgstr "téléchargements"
 
@@ -316,12 +315,12 @@ msgstr "Mis à jour par"
 msgid "Last action"
 msgstr "Dernière action"
 
-#: files/delete.php:208 files/delete.php:210 files/edit.php:555
-#: files/view.php:246 files/view.php:250
+#: files/delete.php:208 files/delete.php:210 files/edit.php:574
+#: files/view.php:234 files/view.php:238
 msgid "Access"
 msgstr "Accès"
 
-#: files/delete.php:208 files/view.php:250
+#: files/delete.php:208 files/view.php:238
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
@@ -334,154 +333,158 @@ msgid ""
 "Following items are attached to this record and will be deleted as well."
 msgstr "Les éléments suivants vont aussi être supprimés."
 
-#: files/edit.php:135 files/edit.php:137
+#: files/edit.php:134 files/edit.php:136
 #, php-format
 msgid "Update: %s"
 msgstr "Modifier : %s"
 
-#: files/edit.php:139 files/edit.php:425 files/list.php:156 files/list.php:168
+#: files/edit.php:138 files/edit.php:444 files/list.php:156 files/list.php:168
 msgid "Add a file"
 msgstr "Ajouter un fichier"
 
-#: files/edit.php:155 files/edit.php:289 files/files.php:2989
-#: files/files.php:2993 files/files.php:2997
+#: files/edit.php:154 files/edit.php:333 files/files.php:3029
+#: files/files.php:3033 files/files.php:3037
 msgid "No file has been transmitted."
 msgstr "Aucun fichier n'a été transmis."
 
-#: files/edit.php:160 files/fetch.php:146 files/files.php:2481
+#: files/edit.php:159 files/fetch.php:134 files/files.php:2519
 #: files/list.php:77 files/thread.php:73
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: files/edit.php:194 files/files.php:2977
+#: files/edit.php:193 files/files.php:3017
 msgid "This type of file is not allowed."
 msgstr "Ce type de fichier n'est pas autorisé."
 
-#: files/edit.php:236 files/edit.php:425 files/edit.php:443 files/edit.php:457
-#: files/edit.php:473 files/edit.php:493 files/edit.php:504
-#: files/files.php:3134 files/layout_files.php:132
-#: files/layout_files_as_search.php:104 files/view.php:234
+#: files/edit.php:235 files/edit.php:444 files/edit.php:462 files/edit.php:476
+#: files/edit.php:492 files/edit.php:512 files/edit.php:523
+#: files/files.php:3175 files/layout_files.php:132
+#: files/layout_files_as_search.php:104 files/view.php:222
 msgid "bytes"
 msgstr "octets"
 
-#: files/edit.php:263
-msgid "Following files have been added:"
-msgstr "Les fichiers suivants ont été ajoutés :"
-
-#: files/edit.php:268
-msgid "Following file has been added:"
-msgstr "Le fichier suivant a été ajouté :"
-
-#: files/edit.php:303
-msgid "Thank you for your contribution"
-msgstr "Merci de votre contribution"
-
-#: files/edit.php:322
+#: files/edit.php:245 files/edit.php:296
 #, php-format
 msgid "New file in %s"
 msgstr "Nouveau fichier dans %s"
 
-#: files/edit.php:324 files/edit.php:341
+#: files/edit.php:247 files/edit.php:298
 #, php-format
 msgid "%s at %s"
 msgstr "%s à %s"
 
-#: files/edit.php:339
+#: files/edit.php:271 files/edit.php:279
+msgid "Following files have been added:"
+msgstr "Les fichiers suivants ont été ajoutés :"
+
+#: files/edit.php:274
 #, php-format
 msgid "New files in %s"
 msgstr "Nouveaux fichiers dans %s"
 
-#: files/edit.php:351
+#: files/edit.php:284 files/edit.php:303
+msgid "Contribution"
+msgstr "Contribution"
+
+#: files/edit.php:289
+msgid "Following file has been added:"
+msgstr "Le fichier suivant a été ajouté :"
+
+#: files/edit.php:347
+msgid "Thank you for your contribution"
+msgstr "Merci de votre contribution"
+
+#: files/edit.php:373
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: files/edit.php:356 files/list.php:161 files/list.php:171
+#: files/edit.php:378 files/list.php:161 files/list.php:171
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: files/edit.php:358
+#: files/edit.php:380
 msgid "Upload another file"
 msgstr "Ajouter un autre fichier"
 
-#: files/edit.php:412 files/view.php:239
+#: files/edit.php:431 files/view.php:227
 msgid "File"
 msgstr "Fichier"
 
-#: files/edit.php:429
+#: files/edit.php:448
 msgid "Extract files from the archive"
 msgstr "Extraire les fichiers de l'archive"
 
-#: files/edit.php:434
+#: files/edit.php:453
 msgid "or"
 msgstr "ou"
 
-#: files/edit.php:439
+#: files/edit.php:458
 msgid "Share a reference to a file (ftp://, http://, ...)"
 msgstr "Partager l'adresse d'un fichier (ftp://, http://, ...)"
 
-#: files/edit.php:482
+#: files/edit.php:501
 #, php-format
 msgid "posted by %s %s"
 msgstr "posté par %s %s"
 
-#: files/edit.php:491
+#: files/edit.php:510
 msgid "Select another file to replace the current one"
 msgstr "Choisir un fichier de remplacement"
 
-#: files/edit.php:501
+#: files/edit.php:520
 msgid "Existing reference (ftp://, http://, ...)"
 msgstr "Référence existante (ftp://, http://, ...)"
 
-#: files/edit.php:517 files/files.php:487 files/view.php:281
+#: files/edit.php:536 files/files.php:562 files/view.php:269
 msgid "History"
 msgstr "Historique"
 
-#: files/edit.php:518
+#: files/edit.php:537
 msgid "What is new in this file?"
 msgstr "Quoi de neuf dans ce fichier ?"
 
-#: files/edit.php:520 files/view.php:277
+#: files/edit.php:539 files/view.php:265
 msgid "More information"
 msgstr "Plus d'informations"
 
-#: files/edit.php:529
+#: files/edit.php:548
 msgid "Information"
 msgstr "Information"
 
-#: files/edit.php:538
+#: files/edit.php:557
 msgid "Submit the new item, and you will be able to add resources afterwards."
 msgstr ""
 "Créez le nouvel élément, et vous pourrez ajouter des ressources par la suite."
 
-#: files/edit.php:542
+#: files/edit.php:561
 msgid "Images"
 msgstr "Images"
 
-#: files/edit.php:546
+#: files/edit.php:565
 msgid "Resources"
 msgstr "Ressources"
 
-#: files/edit.php:563
+#: files/edit.php:582
 msgid "Image"
 msgstr "Image"
 
-#: files/edit.php:570 files/edit.php:594
+#: files/edit.php:589 files/edit.php:613
 msgid "Change"
 msgstr "Changer"
 
-#: files/edit.php:572
+#: files/edit.php:591
 msgid "Image to be displayed in the panel aside the page."
 msgstr "Image à afficher dans un panneau sur le côté de la page."
 
-#: files/edit.php:573 files/edit.php:597 files/view.php:885
+#: files/edit.php:592 files/edit.php:616 files/view.php:873
 msgid "Add an image"
 msgstr "Ajouter une image"
 
-#: files/edit.php:587
+#: files/edit.php:606
 msgid "Thumbnail"
 msgstr "Vignette"
 
-#: files/edit.php:596
+#: files/edit.php:615
 msgid ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
@@ -489,48 +492,48 @@ msgstr ""
 "Téléverser une petite image pour illustrer cette page au niveau de son "
 "parent."
 
-#: files/edit.php:609
+#: files/edit.php:628
 msgid "If you have got this file from outside source, please describe it here"
 msgstr ""
 "Si vous avez obtenu ce fichier de sources extérieures, merci de l'indiquer "
 "ici"
 
-#: files/edit.php:613 files/view.php:298
+#: files/edit.php:632 files/view.php:286
 msgid "Keywords"
 msgstr "Mots-clés"
 
-#: files/edit.php:615
+#: files/edit.php:634
 msgid ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
 msgstr ""
 "Ce champ étant indexé pour les recherches, pensez à soigner votre formulation"
 
-#: files/edit.php:619
+#: files/edit.php:638
 msgid "Alternate link"
 msgstr "Lien alternatif"
 
-#: files/edit.php:621
+#: files/edit.php:640
 msgid "Paste here complicated peer-to-peer href (ed2k, torrent, etc.)"
 msgstr "Coller ici la référence P2P (ed2k, torrent, etc.)"
 
-#: files/edit.php:630
+#: files/edit.php:649
 msgid "Options"
 msgstr "Options"
 
-#: files/edit.php:651
+#: files/edit.php:670
 msgid "Notify watchers"
 msgstr "Alerter les observateurs"
 
-#: files/edit.php:655
+#: files/edit.php:674
 msgid "Notify my followers"
 msgstr "Alerter mes abonnés"
 
-#: files/edit.php:662
+#: files/edit.php:681
 msgid "Do not change modification date of the main page."
 msgstr "Ne pas changer la date de modification de la page principale."
 
-#: files/edit.php:665
+#: files/edit.php:684
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
@@ -547,26 +550,26 @@ msgstr "Fichiers à %s"
 msgid "Most recent public files"
 msgstr "Les fichiers publics partagés récemment"
 
-#: files/fetch.php:141
+#: files/fetch.php:129
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: files/fetch.php:253
+#: files/fetch.php:241
 msgid ""
 "You have released this file, and other surfers can reserve it for revision."
 msgstr ""
 "Vous avez annulé la réservation de ce fichier, et les autres surfeurs "
 "peuvent le réserver à leur tour."
 
-#: files/fetch.php:257 files/fetch.php:277 files/fetch_all.php:182
+#: files/fetch.php:245 files/fetch.php:265 files/fetch_all.php:182
 msgid "Operation has failed."
 msgstr "L'opération a échoué."
 
-#: files/fetch.php:266
+#: files/fetch.php:254
 msgid "Reserve"
 msgstr "Réserver"
 
-#: files/fetch.php:273
+#: files/fetch.php:261
 #, php-format
 msgid ""
 "You have reserved this file, and you are encouraged to %s as soon as "
@@ -575,15 +578,15 @@ msgstr ""
 "Vous avez réservé ce fichier, et nous comptons sur vous pour %s ou pour %s "
 "dès que possible."
 
-#: files/fetch.php:273 files/view.php:213
+#: files/fetch.php:261 files/view.php:201
 msgid "upload an updated version"
 msgstr "télécharger une version mise à jour"
 
-#: files/fetch.php:273 files/layout_files.php:167 files/view.php:213
+#: files/fetch.php:261 files/layout_files.php:167 files/view.php:201
 msgid "release reservation"
 msgstr "annuler la réservation"
 
-#: files/fetch.php:286 files/view.php:217
+#: files/fetch.php:274 files/view.php:205
 #, php-format
 msgid ""
 "This file has been assigned to %s %s, and it is likely that an updated "
@@ -592,15 +595,15 @@ msgstr ""
 "Ce fichier a été assigné à %s %s, et une nouvelle version sera mise à "
 "disposition bientôt."
 
-#: files/fetch.php:290
+#: files/fetch.php:278
 msgid "Download this file"
 msgstr "Télécharger ce fichier"
 
-#: files/fetch.php:476
+#: files/fetch.php:464
 msgid "You are requesting the following file:"
 msgstr "Vous avez demandé le fichier suivant :"
 
-#: files/fetch.php:481
+#: files/fetch.php:469
 msgid ""
 "The download should start automatically within seconds. Else hit the "
 "provided link to trigger it manually."
@@ -626,30 +629,35 @@ msgstr "Image %d de %d"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: files/files.php:425
+#: files/files.php:495
+#, php-format
+msgid "Several files have been added by %s"
+msgstr "Plusieurs fichiers ont été ajoutés par %s"
+
+#: files/files.php:506
 #, php-format
 msgid "A file has been added by %s"
 msgstr "Un fichier a été ajouté par %s"
 
-#: files/files.php:455
+#: files/files.php:541
 msgid "View file details"
 msgstr "Voir les détails du fichier"
 
-#: files/files.php:581 files/files.php:2517
+#: files/files.php:651 files/files.php:2555
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: files/files.php:701
+#: files/files.php:771
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible de créer le chemin %s."
 
-#: files/files.php:717
+#: files/files.php:787
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible de copier le fichier %s"
 
-#: files/files.php:2607
+#: files/files.php:2645
 msgid ""
 "Nothing has been received. Ensure you are below size limits set for this "
 "server."
@@ -657,24 +665,24 @@ msgstr ""
 "Rien n'a été reçu. Vérifier que vous respectez les limitations de taille de "
 "ce serveur."
 
-#: files/files.php:2981 files/files.php:2985
+#: files/files.php:3021 files/files.php:3025
 msgid "The size of this file is over limit."
 msgstr "La taille du fichier dépasse la limite autorisée."
 
-#: files/files.php:3001
+#: files/files.php:3041
 msgid "Possible file attack."
 msgstr "Possibilité d'une attaque sur le fichier."
 
-#: files/files.php:3016
+#: files/files.php:3056
 #, php-format
 msgid "Impossible to move the upload file to %s."
 msgstr "Impossible de déplacer le fichier vers %s."
 
-#: files/files.php:3032
+#: files/files.php:3072
 msgid "No virus has been found."
 msgstr "Aucun virus n'a été trouvé."
 
-#: files/files.php:3040
+#: files/files.php:3080
 msgid "This file has been infected by a virus and has been rejected!"
 msgstr "Ce fichier est infecté par un virus et a été rejeté !"
 
@@ -715,7 +723,7 @@ msgid "Get the file"
 msgstr "Obtenir une copie de ce fichier"
 
 #: files/layout_files.php:122 files/layout_files_as_search.php:96
-#: files/view.php:272
+#: files/view.php:260
 #, php-format
 msgid "shared by %s %s"
 msgstr "partagé par %s %s"
@@ -736,7 +744,7 @@ msgid "reserved by you %s"
 msgstr "réservé par vous %s"
 
 #: files/layout_files.php:156 files/layout_files_as_search.php:113
-#: files/view.php:263
+#: files/view.php:251
 #, php-format
 msgid "reserved by %s %s"
 msgstr "réservé par %s %s"
@@ -745,7 +753,7 @@ msgstr "réservé par %s %s"
 msgid "reserve"
 msgstr "réserver"
 
-#: files/layout_files.php:163 files/view.php:853
+#: files/layout_files.php:163 files/view.php:841
 msgid "Prevent other persons from changing this file until you update it"
 msgstr ""
 "Empêcher d'autres personnes de modifier ce fichier pendant que vous le "
@@ -772,7 +780,7 @@ msgstr "supprimer"
 msgid "By %s"
 msgstr "Par %s"
 
-#: files/layout_files_as_embeddable.php:89 files/view.php:192
+#: files/layout_files_as_embeddable.php:89 files/view.php:180
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -807,11 +815,11 @@ msgstr "Fichiers les moins téléchargés"
 msgid "%d items in the list of noise words"
 msgstr "%d entrées dans la liste des mots à ne pas considérer"
 
-#: files/stream.php:257 files/stream.php:287 files/stream.php:334
+#: files/stream.php:245 files/stream.php:275 files/stream.php:322
 msgid "Close"
 msgstr "Fermer"
 
-#: files/stream.php:379
+#: files/stream.php:367
 msgid "Do not know how to stream this file type"
 msgstr "Impossible de streamer ce type de fichier"
 
@@ -819,12 +827,12 @@ msgstr "Impossible de streamer ce type de fichier"
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: files/view.php:201
+#: files/view.php:189
 #, php-format
 msgid "Use following codes to reference this item: %s"
 msgstr "Codes pour référencer ce fichier : %s"
 
-#: files/view.php:213
+#: files/view.php:201
 #, php-format
 msgid ""
 "You have reserved this file %s, and you are encouraged to %s as soon as "
@@ -833,44 +841,44 @@ msgstr ""
 "Vous avez réservé ce fichier %s, et nous comptons sur vous pour %s ou pour "
 "%s dès que possible."
 
-#: files/view.php:246
+#: files/view.php:234
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
-#: files/view.php:260 files/view.php:269
+#: files/view.php:248 files/view.php:257
 msgid "you"
 msgstr "vous"
 
-#: files/view.php:332
+#: files/view.php:320
 msgid "Artist"
 msgstr "Artiste"
 
-#: files/view.php:340
+#: files/view.php:328
 msgid "Genre"
 msgstr "Genre"
 
-#: files/view.php:344
+#: files/view.php:332
 msgid "Duration"
 msgstr "Durée"
 
-#: files/view.php:354
+#: files/view.php:342
 msgid "Bitrate"
 msgstr "Débit"
 
-#: files/view.php:372 files/view.php:392
+#: files/view.php:360 files/view.php:380
 msgid "This file may be accessed on-demand."
 msgstr "Ce fichier est accessible à la demande."
 
-#: files/view.php:376 files/view.php:396 files/view.php:444
+#: files/view.php:364 files/view.php:384 files/view.php:432
 msgid "Play"
 msgstr "Jouer"
 
-#: files/view.php:410 files/view.php:427
+#: files/view.php:398 files/view.php:415
 #, php-format
 msgid "Browse %s"
 msgstr "Naviguer %s"
 
-#: files/view.php:423 files/view.php:440
+#: files/view.php:411 files/view.php:428
 msgid ""
 "This file allows for interactions over the web. Click on the link if some "
 "Flash player has been installed."
@@ -878,20 +886,20 @@ msgstr ""
 "Ce format de fichier autorise les interactions à travers le web. Cliquez sur "
 "le lien si votre machine dispose de Flash."
 
-#: files/view.php:521
+#: files/view.php:509
 msgid "download"
 msgid_plural "downloads"
 msgstr[0] "téléchargement"
 msgstr[1] "téléchargements"
 
-#: files/view.php:521
+#: files/view.php:509
 #, php-format
 msgid ", including %d authenticated person: %s"
 msgid_plural ", including %d authenticated persons: %s"
 msgstr[0] ", y compris %d personne authentifiée : %s"
 msgstr[1] ", y compris %d personnes authentifiées : %s"
 
-#: files/view.php:531
+#: files/view.php:519
 #, php-format
 msgid ""
 "You are about to download a small video. To take the most of it we recommend "
@@ -900,15 +908,15 @@ msgstr ""
 "Vous êtes sur le point de télécharger un petit film. Pour l'écouter dans de "
 "bonnes conditions, nous vous recommandons d'utiliser %s (open source)."
 
-#: files/view.php:531 files/view.php:565 files/view.php:576 files/view.php:643
+#: files/view.php:519 files/view.php:553 files/view.php:564 files/view.php:631
 msgid "http://www.videolan.org/vlc/"
 msgstr "http://www.videolan.org/vlc/"
 
-#: files/view.php:531 files/view.php:565 files/view.php:643
+#: files/view.php:519 files/view.php:553 files/view.php:631
 msgid "VLC media player"
 msgstr "VLC media player"
 
-#: files/view.php:537
+#: files/view.php:525
 #, php-format
 msgid ""
 "You are about to download a Postscript file. %s is a popular rendering "
@@ -918,15 +926,15 @@ msgstr ""
 "logiciels populaires pour le rendu visuel (gratuit pour les utilisations non-"
 "commerciales)."
 
-#: files/view.php:537
+#: files/view.php:525
 msgid "http://www.cs.wisc.edu/~ghost/"
 msgstr "http://www.cs.wisc.edu/~ghost/"
 
-#: files/view.php:537
+#: files/view.php:525
 msgid "Ghostscript, Ghostview and GSview"
 msgstr "Ghostscript, Ghostview et GSview"
 
-#: files/view.php:550
+#: files/view.php:538
 #, php-format
 msgid ""
 "You are about to download an archive file. Popular software to handle such "
@@ -936,23 +944,23 @@ msgstr ""
 "logiciels sont à votre disposition pour manipuler de tels fichiers, comme %s "
 "(logiciel libre) et %s (graticiel)."
 
-#: files/view.php:550
+#: files/view.php:538
 msgid "http://www.7-zip.org/"
 msgstr "http://www.7-zip.org/"
 
-#: files/view.php:550
+#: files/view.php:538
 msgid "7-zip"
 msgstr "7-zip"
 
-#: files/view.php:550
+#: files/view.php:538
 msgid "www.ultimatezip.com"
 msgstr "www.ultimatezip.com"
 
-#: files/view.php:550
+#: files/view.php:538
 msgid "ultimatezip"
 msgstr "ultimatezip"
 
-#: files/view.php:565
+#: files/view.php:553
 #, php-format
 msgid ""
 "You are about to download a sound or music file. To take the most of it we "
@@ -962,15 +970,15 @@ msgstr ""
 "dans de bonnes conditions, nous vous recommandons d'utiliser %s (open "
 "source) ou à défaut %s (freeware)."
 
-#: files/view.php:565 files/view.php:643
+#: files/view.php:553 files/view.php:631
 msgid "www.winamp.com"
 msgstr "www.winamp.com"
 
-#: files/view.php:565 files/view.php:643
+#: files/view.php:553 files/view.php:631
 msgid "Winamp"
 msgstr "Winamp"
 
-#: files/view.php:576
+#: files/view.php:564
 #, php-format
 msgid ""
 "You are about to download a movie file. To take the most of it please check "
@@ -980,27 +988,27 @@ msgstr ""
 "de bonnes conditions vous pouvez utiliser %s (open source) ou à défaut le %s "
 "(gratuit)."
 
-#: files/view.php:576
+#: files/view.php:564
 msgid " VLC media player"
 msgstr " VLC media player"
 
-#: files/view.php:576
+#: files/view.php:564
 msgid "www.divx.com"
 msgstr "www.divx.com"
 
-#: files/view.php:576
+#: files/view.php:564
 msgid "Divx Player"
 msgstr "Divx Player"
 
-#: files/view.php:580
+#: files/view.php:568
 msgid "You are about to download a AWK script file."
 msgstr "Vous êtes sur le point de télécharger un script AWK."
 
-#: files/view.php:584
+#: files/view.php:572
 msgid "You are about to download a X.509 certificate."
 msgstr "Vous êtes sur le point de télécharger un certificat X.509."
 
-#: files/view.php:592
+#: files/view.php:580
 #, php-format
 msgid ""
 "You are about to download a Microsoft Word document. If you do not have this "
@@ -1012,29 +1020,29 @@ msgstr ""
 "visualiseur correspondant à partir du %s. Ou bien vous pouvez préférer "
 "employer la solution gratuite développée par %s."
 
-#: files/view.php:592 files/view.php:647 files/view.php:673 files/view.php:746
-#: files/view.php:750 files/view.php:786 files/view.php:790 files/view.php:797
+#: files/view.php:580 files/view.php:635 files/view.php:661 files/view.php:734
+#: files/view.php:738 files/view.php:774 files/view.php:778 files/view.php:785
 msgid "www.microsoft.com"
 msgstr "www.microsoft.com"
 
-#: files/view.php:592 files/view.php:647 files/view.php:673 files/view.php:746
-#: files/view.php:750 files/view.php:786 files/view.php:790 files/view.php:797
+#: files/view.php:580 files/view.php:635 files/view.php:661 files/view.php:734
+#: files/view.php:738 files/view.php:774 files/view.php:778 files/view.php:785
 msgid "Microsoft web server"
 msgstr "serveur de Microsoft"
 
-#: files/view.php:592 files/view.php:700 files/view.php:746 files/view.php:797
+#: files/view.php:580 files/view.php:688 files/view.php:734 files/view.php:785
 msgid "www.openoffice.org"
 msgstr "www.openoffice.org"
 
-#: files/view.php:592 files/view.php:746 files/view.php:797
+#: files/view.php:580 files/view.php:734 files/view.php:785
 msgid "Open Office web server"
 msgstr "La fondation Open Office"
 
-#: files/view.php:597
+#: files/view.php:585
 msgid "You are about to download an executable file."
 msgstr "Vous êtes sur le point de télécharger un programme exécutable."
 
-#: files/view.php:611
+#: files/view.php:599
 #, php-format
 msgid ""
 "You are about to download an image file. Popular software to handle such "
@@ -1044,23 +1052,23 @@ msgstr ""
 "à votre disposition pour manipuler de tels fichiers, comme %s (shareware) et "
 "%s (freeware)."
 
-#: files/view.php:611 files/view.php:739
+#: files/view.php:599 files/view.php:727
 msgid "www.acdsee.com"
 msgstr "www.acdsee.com"
 
-#: files/view.php:611 files/view.php:739
+#: files/view.php:599 files/view.php:727
 msgid "Acdsee"
 msgstr "Acdsee"
 
-#: files/view.php:611 files/view.php:739
+#: files/view.php:599 files/view.php:727
 msgid "www.xnview.com"
 msgstr "www.xnview.com"
 
-#: files/view.php:611 files/view.php:739
+#: files/view.php:599 files/view.php:727
 msgid "xnview"
 msgstr "xnview"
 
-#: files/view.php:618
+#: files/view.php:606
 msgid ""
 "You are about to download a web page. This HTML document will be displayed "
 "within your browser as usual."
@@ -1068,11 +1076,11 @@ msgstr ""
 "Vous êtes sur le point de télécharger une page web. Ce document HTML sera "
 "affiché directement dans votre navigateur."
 
-#: files/view.php:622
+#: files/view.php:610
 msgid "You are about to download a RFC822 message."
 msgstr "Vous êtes sur le point de télécharger un message RFC822."
 
-#: files/view.php:626
+#: files/view.php:614
 #, php-format
 msgid ""
 "You are about to download a Google Desktop gadget. Obviously this would "
@@ -1081,15 +1089,15 @@ msgstr ""
 "Vous êtes sur le point de télécharger un gadget Google Desktop. "
 "Manifestement pour l'utiliser vous aurez besoin de  %s."
 
-#: files/view.php:626
+#: files/view.php:614
 msgid "http://desktop.google.com/"
 msgstr "http://desktop.google.com/"
 
-#: files/view.php:626
+#: files/view.php:614
 msgid "Google Desktop"
 msgstr "Google Desktop"
 
-#: files/view.php:630
+#: files/view.php:618
 #, php-format
 msgid ""
 "You are about to download a set of GPS points. To handle it, you may have to "
@@ -1098,28 +1106,28 @@ msgstr ""
 "Vous êtes sur le point de télécharger des points GPS. Pour les manipuler, "
 "vous pouvez avoir besoin d'%s."
 
-#: files/view.php:630
+#: files/view.php:618
 msgid "http://www.easygps.com/"
 msgstr "http://www.easygps.com/"
 
-#: files/view.php:630
+#: files/view.php:618
 msgid "EasyGPS"
 msgstr "EasyGPS"
 
-#: files/view.php:634 files/view.php:773
+#: files/view.php:622 files/view.php:761
 #, php-format
 msgid "You are about to download some %s document."
 msgstr "Vous êtes sur le point de télécharger un document au format %s."
 
-#: files/view.php:634
+#: files/view.php:622
 msgid "http://en.wikipedia.org/wiki/LaTeX"
 msgstr "http://en.wikipedia.org/wiki/LaTeX"
 
-#: files/view.php:634
+#: files/view.php:622
 msgid "LaTeX"
 msgstr "LaTeX"
 
-#: files/view.php:643
+#: files/view.php:631
 #, php-format
 msgid ""
 "You are about to download a playlist. To take the most of it please check "
@@ -1129,7 +1137,7 @@ msgstr ""
 "de bonnes conditions vous pouvez utiliser %s (open source) ou à défaut %s "
 "(gratuit)."
 
-#: files/view.php:647
+#: files/view.php:635
 #, php-format
 msgid ""
 "You are about to download a Microsoft Access document. If you do not have "
@@ -1139,32 +1147,32 @@ msgstr ""
 "Access. Si vous n'avez pas ce logiciel, vous pouvez obtenir plus "
 "d'informations sur le %s."
 
-#: files/view.php:651 files/view.php:660
+#: files/view.php:639 files/view.php:648
 #, php-format
 msgid "You are about to download a %s file."
 msgstr "Vous êtes sur le point de télécharger un fichier %s."
 
-#: files/view.php:651
+#: files/view.php:639
 msgid "http://freemind.sourceforge.net/wiki/index.php/Main_Page"
 msgstr "http://freemind.sourceforge.net/wiki/index.php/Main_Page"
 
-#: files/view.php:651
+#: files/view.php:639
 msgid "Freemind"
 msgstr "Freemind"
 
-#: files/view.php:660
+#: files/view.php:648
 msgid "http://www.mindjet.com/"
 msgstr "http://www.mindjet.com/"
 
-#: files/view.php:660
+#: files/view.php:648
 msgid "MindManager"
 msgstr "MindManager"
 
-#: files/view.php:664 files/view.php:730
+#: files/view.php:652 files/view.php:718
 msgid "You are about to download a set of translated strings."
 msgstr "Vous êtes sur le point de télécharger une traduction."
 
-#: files/view.php:669
+#: files/view.php:657
 #, php-format
 msgid ""
 "You are about to download a movie film. To use it, you may download the free "
@@ -1174,15 +1182,15 @@ msgstr ""
 "l'utiliser, vous pouvez obtenir gratuitement le visualiseur QuickTime à "
 "partir du %s."
 
-#: files/view.php:669
+#: files/view.php:657
 msgid "www.apple.com"
 msgstr "www.apple.com"
 
-#: files/view.php:669
+#: files/view.php:657
 msgid "Apple web server"
 msgstr "serveur d'Apple"
 
-#: files/view.php:673
+#: files/view.php:661
 #, php-format
 msgid ""
 "You are about to download a Microsoft Project document. If you do not have "
@@ -1192,7 +1200,7 @@ msgstr ""
 "Project. Si vous n'avez pas ce logiciel, vous pouvez obtenir plus "
 "d'informations sur le %s."
 
-#: files/view.php:700
+#: files/view.php:688
 #, php-format
 msgid ""
 "You are about to download an OpenDocument document or a StarOffice document. "
@@ -1203,15 +1211,15 @@ msgstr ""
 "Si vous n'avez pas de logiciel capable de le traiter, vous pouvez obtenir "
 "plus d'informations sur le %s."
 
-#: files/view.php:700
+#: files/view.php:688
 msgid "OpenOffice web server"
 msgstr "serveur d'OpenOffice"
 
-#: files/view.php:705
+#: files/view.php:693
 msgid "You are about to download a PKCS#12 certificate."
 msgstr "Vous êtes sur le point de télécharger un certificat PKCS#12."
 
-#: files/view.php:709
+#: files/view.php:697
 #, php-format
 msgid ""
 "You are about to download captured network packets in pcap format. To handle "
@@ -1222,15 +1230,15 @@ msgstr ""
 "Pour les manipuler, vous pouvez avoir à installer %s, qui a succédé à "
 "Ethereal comme meilleur logiciel ouvert pour l'analyse de traffic réseau."
 
-#: files/view.php:709
+#: files/view.php:697
 msgid "http://www.wireshark.org/"
 msgstr "http://www.wireshark.org/"
 
-#: files/view.php:709
+#: files/view.php:697
 msgid "Wireshark"
 msgstr "Wireshark"
 
-#: files/view.php:713
+#: files/view.php:701
 #, php-format
 msgid ""
 "You are about to download a podcast subscription file. To handle it, you may "
@@ -1239,21 +1247,21 @@ msgstr ""
 "Vous êtes sur le point de télécharger un fil de souscription podcast. Pour "
 "les manipuler, vous pouvez avoir besoin de %s."
 
-#: files/view.php:713
+#: files/view.php:701
 msgid "http://www.apple.com/"
 msgstr "http://www.apple.com/"
 
-#: files/view.php:713
+#: files/view.php:701
 msgid "iTunes"
 msgstr "iTunes"
 
-#: files/view.php:718
+#: files/view.php:706
 msgid "You are about to download a file for your Palm OS handheld device."
 msgstr ""
 "Vous êtes sur le point de télécharger un fichier pour votre équipement Palm "
 "OS."
 
-#: files/view.php:722
+#: files/view.php:710
 #, php-format
 msgid ""
 "You are about to download a PDF document. To use it, we recommend you to use "
@@ -1265,33 +1273,33 @@ msgstr ""
 "A défaut, vous pouvez obtenir gratuitement le lecteur Acrobat Reader à "
 "partir du  %s. "
 
-#: files/view.php:722
+#: files/view.php:710
 msgid "www.foxitsoftware.com"
 msgstr "www.foxitsoftware.com"
 
-#: files/view.php:722
+#: files/view.php:710
 msgid "Foxit Reader"
 msgstr "Foxit Reader"
 
-#: files/view.php:722
+#: files/view.php:710
 msgid "www.adobe.com"
 msgstr "www.adobe.com"
 
-#: files/view.php:722 files/view.php:761
+#: files/view.php:710 files/view.php:749
 msgid "Adobe web server"
 msgstr "serveur d'Adobe"
 
-#: files/view.php:726
+#: files/view.php:714
 msgid "You are about to download a message signed by PGP."
 msgstr "Vous êtes sur le point de télécharger un message signé par PGP."
 
-#: files/view.php:734
+#: files/view.php:722
 msgid "You are about to download a template of strings to be translated."
 msgstr ""
 "Vous êtes sur le point de télécharger un fichier texte structuré pour "
 "traduire des chaînes."
 
-#: files/view.php:739
+#: files/view.php:727
 #, php-format
 msgid ""
 "You are about to download a Photoshop image file. Popular software to handle "
@@ -1301,7 +1309,7 @@ msgstr ""
 "logiciels sont à votre disposition pour manipuler de tels fichiers, comme %s "
 "(shareware) et %s (freeware)."
 
-#: files/view.php:746
+#: files/view.php:734
 #, php-format
 msgid ""
 "You are about to download a Microsoft Powerpoint document. If you do not "
@@ -1313,7 +1321,7 @@ msgstr ""
 "le visualiseur correspondant à partir du %s. Ou bien vous pouvez préférer "
 "employer la solution gratuite développée par %s."
 
-#: files/view.php:750
+#: files/view.php:738
 #, php-format
 msgid ""
 "You are about to download a Microsoft Publisher document. If you do not have "
@@ -1323,11 +1331,11 @@ msgstr ""
 "Publisher. Si vous n'avez pas ce logiciel, vous pouvez obtenir plus "
 "d'informations sur le %s."
 
-#: files/view.php:754
+#: files/view.php:742
 msgid "You are about to download a Real Audio file."
 msgstr "Vous êtes sur le point de télécharger un fichier Real Audio."
 
-#: files/view.php:761
+#: files/view.php:749
 #, php-format
 msgid ""
 "You are about to download a Shockwave Flash file. A player is available for "
@@ -1336,7 +1344,7 @@ msgstr ""
 "Vous êtes sur le point de télécharger un fichier Shockwave Flash. Un "
 "interpréteur est disponible gratuitement sur le %s."
 
-#: files/view.php:761
+#: files/view.php:749
 msgid ""
 "http://www.adobe.com/shockwave/download/index.cgi?"
 "P1_Prod_Version=ShockwaveFlash"
@@ -1344,7 +1352,7 @@ msgstr ""
 "http://www.adobe.com/shockwave/download/index.cgi?"
 "P1_Prod_Version=ShockwaveFlash"
 
-#: files/view.php:765
+#: files/view.php:753
 #, php-format
 msgid ""
 "You are about to download an %s file. Open Workbench is an open source "
@@ -1355,27 +1363,27 @@ msgstr ""
 "logiciel libre destiné à la gestion de projet. Il est une alternative "
 "gratuite à des programmes tels que Microsoft Project."
 
-#: files/view.php:765
+#: files/view.php:753
 msgid "http://www.openworkbench.org/"
 msgstr "http://www.openworkbench.org/"
 
-#: files/view.php:765
+#: files/view.php:753
 msgid "Open Workbench"
 msgstr "Open Workbench"
 
-#: files/view.php:769
+#: files/view.php:757
 msgid "You are about to download some SQL commands."
 msgstr "Vous êtes sur le point de télécharger quelques commandes SQL."
 
-#: files/view.php:773
+#: files/view.php:761
 msgid "http://en.wikipedia.org/wiki/TeX"
 msgstr "http://en.wikipedia.org/wiki/TeX"
 
-#: files/view.php:773
+#: files/view.php:761
 msgid "TeX"
 msgstr "TeX"
 
-#: files/view.php:778
+#: files/view.php:766
 #, php-format
 msgid ""
 "You are about to download some %s file. This format is used to document %s "
@@ -1384,27 +1392,27 @@ msgstr ""
 "Vous êtes sur le point de télécharger un document au format %s, utilisé pour "
 "la documentation des projets %s."
 
-#: files/view.php:778
+#: files/view.php:766
 msgid "http://www.gnu.org/software/texinfo/texinfo.html"
 msgstr "http://www.gnu.org/software/texinfo/texinfo.html"
 
-#: files/view.php:778
+#: files/view.php:766
 msgid "Texinfo"
 msgstr "Texinfo"
 
-#: files/view.php:778
+#: files/view.php:766
 msgid "http://www.gnu.org/"
 msgstr "http://www.gnu.org/"
 
-#: files/view.php:778
+#: files/view.php:766
 msgid "GNU"
 msgstr "GNU"
 
-#: files/view.php:782
+#: files/view.php:770
 msgid "You are about to download some text."
 msgstr "Vous êtes sur le point de télécharger un peu de texte."
 
-#: files/view.php:786
+#: files/view.php:774
 #, php-format
 msgid ""
 "You are about to download a Microsoft Visio document. If you do not have "
@@ -1414,7 +1422,7 @@ msgstr ""
 "Si vous n'avez pas ce logiciel, vous pouvez obtenir plus d'informations sur "
 "le %s."
 
-#: files/view.php:790
+#: files/view.php:778
 #, php-format
 msgid ""
 "You are about to download a Microsoft Write document. If you do not have "
@@ -1424,7 +1432,7 @@ msgstr ""
 "Si vous n'avez pas ce logiciel, vous pouvez obtenir plus d'informations sur "
 "le %s."
 
-#: files/view.php:797
+#: files/view.php:785
 #, php-format
 msgid ""
 "You are about to download a Microsoft Excel document. If you do not have "
@@ -1436,16 +1444,16 @@ msgstr ""
 "visualiseur correspondant à partir du %s. Ou bien vous pouvez préférer "
 "employer la solution gratuite développée par %s."
 
-#: files/view.php:809
+#: files/view.php:797
 msgid "Get a copy of this file"
 msgstr "Obtenir une copie de ce fichier"
 
-#: files/view.php:819
+#: files/view.php:807
 #, php-format
 msgid "Download %s"
 msgstr "Télécharger %s"
 
-#: files/view.php:831
+#: files/view.php:819
 #, php-format
 msgid ""
 "If you have installed some Overnet, Emule, or Edonkey client software, you "
@@ -1454,11 +1462,11 @@ msgstr ""
 "Si vous avez installé Overnet, Emule, ou Edonkey, vous pouvez aussi cliquer "
 "sur le lien ed2k suivant : %s"
 
-#: files/view.php:831 files/view.php:835
+#: files/view.php:819 files/view.php:823
 msgid "Download from peers"
 msgstr "Téléchargez en peer-to-peer"
 
-#: files/view.php:835
+#: files/view.php:823
 #, php-format
 msgid ""
 "If you have installed some BitTorrent client software, you may prefer click "
@@ -1467,12 +1475,12 @@ msgstr ""
 "Si vous avez installé un client compatible BitTorrent, vous pouvez aussi "
 "cliquer sur le lien .torrent suivant : %s"
 
-#: files/view.php:839
+#: files/view.php:827
 #, php-format
 msgid "You may prefer to use the following link: %s"
 msgstr "Vous pouvez aussi cliquez sur le lien suivant : %s"
 
-#: files/view.php:844
+#: files/view.php:832
 msgid ""
 "While every care has been taken to ensure that files published on this "
 "server have not been infected by any known virus, please always use and "
@@ -1484,11 +1492,11 @@ msgstr ""
 "d'activer sur votre ordinateur un logiciel anti-virus ad hoc pour obtenir "
 "une protection optimale."
 
-#: files/view.php:856
+#: files/view.php:844
 msgid "Reserve this file if you are intended to change its content"
 msgstr "Réservez ce fichier si vous souhaitez modifier son contenu"
 
-#: files/view.php:859
+#: files/view.php:847
 msgid ""
 "Other surfers will be warned that you are working on it, until you upload a "
 "new version or release the reservation."
@@ -1497,23 +1505,23 @@ msgstr ""
 "jusqu'à la mise à jour d'une nouvelle version, ou l'annulation de la "
 "réservation."
 
-#: files/view.php:880
+#: files/view.php:868
 msgid "Update this file"
 msgstr "Modifier ce fichier"
 
-#: files/view.php:880
+#: files/view.php:868
 msgid "Press [e] to edit"
 msgstr "Appuyer sur [e] pour modifier"
 
-#: files/view.php:893
+#: files/view.php:881
 msgid "Versions"
 msgstr "Versions"
 
-#: files/view.php:899
+#: files/view.php:887
 msgid "Delete this file"
 msgstr "Supprimer ce fichier"
 
-#: files/view.php:911
+#: files/view.php:899
 msgid "Navigation"
 msgstr "Navigation"
 

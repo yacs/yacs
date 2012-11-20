@@ -163,6 +163,7 @@ $context['l10n']['en']['Share']='Share';
 $context['l10n']['en']['Site map']='Site map';
 $context['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title (and not by date)';
 $context['l10n']['en']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Sort links by title (and not by date)';
+$context['l10n']['en']['Sort pages by rating sum']='Sort pages by rating sum';
 $context['l10n']['en']['Sort pages by title']='Sort pages by title';
 $context['l10n']['en']['Special categories']='Special categories';
 $context['l10n']['en']['Start']='Start';
