@@ -412,7 +412,7 @@ Class Utf8 {
 		$text = str_replace($utf_entities, $safe_entities, $utf);
 
 		// turn invalid chars to dashes (for proper indexation by Google)
-		$text = preg_replace("/[^a-zA-Z_\d\.\-".preg_quote($options, '/')."]+/i", '-', $text);
+		$text = preg_replace("#[^a-zA-Z_\d\.\-".preg_quote($options, '#')."]+#i", '-', $text);
 
 		// compact dashes
 		$text = str_replace(array('-----', '----', '---', '--'), '-', $text);

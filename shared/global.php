@@ -72,9 +72,9 @@ if(!defined('FILENAME_SAFE_ALPHABET'))
 if(!defined('PRINTABLE_SAFE_ALPHABET'))
 	define('PRINTABLE_SAFE_ALPHABET', ' !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~');
 
-// options to utf8::to_ascii() for URLs and web links
+// options to utf8::to_ascii() for the encoding of individual component of URLs and web links
 if(!defined('URL_SAFE_ALPHABET'))
-	define('URL_SAFE_ALPHABET', '-_.~');  // used to be '=:()<>"[]'
+	define('URL_SAFE_ALPHABET', '-_.~');  // all of these chars will be turned to '-'
 
 // pattern for valid email recipients
 if(!defined('VALID_RECIPIENT'))

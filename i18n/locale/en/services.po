@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-13 23:27+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2012-05-13 23:29+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -20,106 +20,67 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: services/blog.php:563
-#: services/blog.php:608
-#: services/blog.php:714
-#: services/blog.php:797
-#: services/blog.php:866
-#: services/blog.php:897
-#: services/blog.php:928
-#: services/blog.php:999
-#: services/blog.php:1109
-#: services/blog.php:1141
-#: services/blog.php:1256
-#: services/blog.php:1298
-#: services/blog.php:1374
-#: services/blog.php:1447
-#: services/blog.php:1537
-#: services/blog.php:1666
-#: services/blog.php:1701
-#: services/blog.php:1740
-#: services/blog.php:1792
+#: services/blog.php:568 services/blog.php:613 services/blog.php:710
+#: services/blog.php:793 services/blog.php:862 services/blog.php:893
+#: services/blog.php:924 services/blog.php:995 services/blog.php:1092
+#: services/blog.php:1124 services/blog.php:1231 services/blog.php:1273
+#: services/blog.php:1349 services/blog.php:1426 services/blog.php:1520
+#: services/blog.php:1628 services/blog.php:1663 services/blog.php:1702
+#: services/blog.php:1754
 #, php-format
 msgid "Please register at %s before blogging"
 msgstr "Please register at %s before blogging"
 
-#: services/blog.php:567
-#: services/blog.php:612
-#: services/blog.php:718
-#: services/blog.php:1145
-#: services/blog.php:1302
+#: services/blog.php:572 services/blog.php:617 services/blog.php:714
+#: services/blog.php:1128 services/blog.php:1277
 #, php-format
 msgid "Unknown postid %s at %s"
 msgstr "Unknown postid %s at %s"
 
-#: services/blog.php:584
-#: services/blog.php:632
-#: services/blog.php:722
-#: services/blog.php:755
-#: services/blog.php:805
-#: services/blog.php:874
-#: services/blog.php:1007
-#: services/blog.php:1011
-#: services/blog.php:1015
-#: services/blog.php:1117
-#: services/blog.php:1121
-#: services/blog.php:1164
-#: services/blog.php:1306
-#: services/blog.php:1339
-#: services/blog.php:1382
-#: services/blog.php:1451
-#: services/blog.php:1463
-#: services/blog.php:1467
-#: services/blog.php:1471
-#: services/blog.php:1545
-#: services/blog.php:1549
-#: services/blog.php:1553
-#: services/blog.php:1748
-#: services/check.php:57
-#: services/check.php:62
-#: services/configure.php:83
-#: services/proxy.php:21
+#: services/blog.php:589 services/blog.php:637 services/blog.php:718
+#: services/blog.php:751 services/blog.php:801 services/blog.php:870
+#: services/blog.php:1003 services/blog.php:1007 services/blog.php:1011
+#: services/blog.php:1100 services/blog.php:1104 services/blog.php:1147
+#: services/blog.php:1281 services/blog.php:1314 services/blog.php:1357
+#: services/blog.php:1430 services/blog.php:1442 services/blog.php:1446
+#: services/blog.php:1450 services/blog.php:1528 services/blog.php:1532
+#: services/blog.php:1536 services/blog.php:1710 services/check.php:57
+#: services/check.php:62 services/configure.php:83 services/proxy.php:21
 #: services/proxy.php:26
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: services/blog.php:588
+#: services/blog.php:593
 #, php-format
 msgid "Impossible to delete record of postid %s"
 msgstr "Impossible to delete record of postid %s"
 
-#: services/blog.php:660
-#: services/blog.php:1208
+#: services/blog.php:665 services/blog.php:1191
 #, php-format
 msgid "Impossible to update record of postid %s"
 msgstr "Impossible to update record of postid %s"
 
-#: services/blog.php:801
-#: services/blog.php:870
-#: services/blog.php:1003
-#: services/blog.php:1113
-#: services/blog.php:1378
-#: services/blog.php:1459
-#: services/blog.php:1541
-#: services/blog.php:1744
+#: services/blog.php:797 services/blog.php:866 services/blog.php:999
+#: services/blog.php:1096 services/blog.php:1353 services/blog.php:1438
+#: services/blog.php:1524 services/blog.php:1706
 #, php-format
 msgid "Unknown blog %s at %s"
 msgstr "Unknown blog %s at %s"
 
-#: services/blog.php:911
+#: services/blog.php:907
 msgid "Unknown user name"
 msgstr "Unknown user name"
 
-#: services/blog.php:1455
+#: services/blog.php:1434
 msgid "No file data has been received."
 msgstr "No file data has been received."
 
-#: services/blog.php:1483
+#: services/blog.php:1462
 #, php-format
 msgid "Impossible to save content of file %s"
 msgstr "Impossible to save content of file %s"
 
-#: services/blog.php:1847
+#: services/blog.php:1809
 #, php-format
 msgid "Do not know how to process %s"
 msgstr "Do not know how to process %s"
@@ -128,53 +89,47 @@ msgstr "Do not know how to process %s"
 msgid "Sample blog client"
 msgstr "Sample blog client"
 
-#: services/blog_test.php:42
-#: services/ping_test.php:75
-#: services/ping_test.php:102
-#: services/rpc_echo_hook_test.php:32
+#: services/blog_test.php:42 services/ping_test.php:75
+#: services/ping_test.php:102 services/rpc_echo_hook_test.php:32
 #: services/xml_rpc_drupal.login_hook_test.php:36
 msgid "Server address"
 msgstr "Server address"
 
-#: services/blog_test.php:44
-#: services/ping_test.php:77
-#: services/ping_test.php:104
-#: services/rpc_echo_hook_test.php:34
+#: services/blog_test.php:44 services/ping_test.php:77
+#: services/ping_test.php:104 services/rpc_echo_hook_test.php:34
 #: services/xml_rpc_drupal.login_hook_test.php:38
 msgid "Go"
 msgstr "Go"
 
-#: services/blog_test.php:45
-#: services/ping_test.php:78
-#: services/ping_test.php:105
-#: services/rpc_echo_hook_test.php:35
+#: services/blog_test.php:45 services/ping_test.php:78
+#: services/ping_test.php:105 services/rpc_echo_hook_test.php:35
 #: services/xml_rpc_drupal.login_hook_test.php:39
 msgid "The name or the IP address of the yacs server"
 msgstr "The name or the IP address of the yacs server"
 
-#: services/blog_test.php:47
-#: services/xml_rpc_drupal.login_hook_test.php:41
+#: services/blog_test.php:47 services/xml_rpc_drupal.login_hook_test.php:41
 msgid "User name"
 msgstr "User name"
 
-#: services/blog_test.php:50
-#: services/xml_rpc_drupal.login_hook_test.php:44
+#: services/blog_test.php:50 services/xml_rpc_drupal.login_hook_test.php:44
 msgid "User password"
 msgstr "User password"
 
 #: services/blog_test.php:531
 #, php-format
-msgid "Go to the %s and check debug mode for <code>call</code> has been set, if you want to record HTTP requests and responses."
-msgstr "Go to the %s and check debug mode for <code>call</code> has been set, if you want to record HTTP requests and responses."
+msgid ""
+"Go to the %s and check debug mode for <code>call</code> has been set, if you "
+"want to record HTTP requests and responses."
+msgstr ""
+"Go to the %s and check debug mode for <code>call</code> has been set, if you "
+"want to record HTTP requests and responses."
 
-#: services/blog_test.php:531
-#: services/rpc_echo_hook_test.php:99
+#: services/blog_test.php:531 services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 msgid "configuration panel for services"
 msgstr "configuration panel for services"
 
-#: services/blog_test.php:532
-#: services/rpc_echo_hook_test.php:100
+#: services/blog_test.php:532 services/rpc_echo_hook_test.php:100
 #: services/xml_rpc_drupal.login_hook_test.php:88
 msgid "Help"
 msgstr "Help"
@@ -183,8 +138,7 @@ msgstr "Help"
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: services/configure.php:71
-#: services/configure.php:232
+#: services/configure.php:71 services/configure.php:232
 #: services/configure.php:319
 msgid "Control Panel"
 msgstr "Control Panel"
@@ -194,13 +148,11 @@ msgstr "Control Panel"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: services/configure.php:74
-#: services/index.php:98
+#: services/configure.php:74 services/index.php:98
 msgid "Configure"
 msgstr "Configure"
 
-#: services/configure.php:74
-#: services/configure.php:236
+#: services/configure.php:74 services/configure.php:236
 #: services/configure.php:318
 msgid "Web services"
 msgstr "Web services"
@@ -218,8 +170,7 @@ msgstr "To integrate Google Maps to your server, %s and enter it here"
 msgid "http://www.google.com/apis/maps/signup.html"
 msgstr "http://www.google.com/apis/maps/signup.html"
 
-#: services/configure.php:99
-#: services/configure.php:115
+#: services/configure.php:99 services/configure.php:115
 #: services/configure.php:137
 msgid "apply for a key"
 msgstr "apply for a key"
@@ -230,15 +181,16 @@ msgstr "Google Analytics"
 
 #: services/configure.php:107
 #, php-format
-msgid "To monitor your server with Google Analytics, %s and enter your account here"
-msgstr "To monitor your server with Google Analytics, %s and enter your account here"
+msgid ""
+"To monitor your server with Google Analytics, %s and enter your account here"
+msgstr ""
+"To monitor your server with Google Analytics, %s and enter your account here"
 
 #: services/configure.php:107
 msgid "http://www.google-analytics.com/"
 msgstr "http://www.google-analytics.com/"
 
-#: services/configure.php:107
-#: services/configure.php:145
+#: services/configure.php:107 services/configure.php:145
 msgid "register"
 msgstr "register"
 
@@ -269,8 +221,12 @@ msgstr "Orange Business Services API key"
 
 #: services/configure.php:137
 #, php-format
-msgid "To integrate Orange Business Services (OBS) API into your server, %s and enter it here"
-msgstr "To integrate Orange Business Services (OBS) API into your server, %s and enter it here"
+msgid ""
+"To integrate Orange Business Services (OBS) API into your server, %s and "
+"enter it here"
+msgstr ""
+"To integrate Orange Business Services (OBS) API into your server, %s and "
+"enter it here"
 
 #: services/configure.php:137
 msgid "http://api.orange.com/"
@@ -302,15 +258,16 @@ msgid "Debug blog services"
 msgstr "Debug blog services"
 
 #: services/configure.php:165
-msgid "Copy network packets sent and received by services/blog.php in temporary/debug.txt"
-msgstr "Copy network packets sent and received by services/blog.php in temporary/debug.txt"
+msgid ""
+"Copy network packets sent and received by services/blog.php in temporary/"
+"debug.txt"
+msgstr ""
+"Copy network packets sent and received by services/blog.php in temporary/"
+"debug.txt"
 
-#: services/configure.php:166
-#: services/configure.php:175
-#: services/configure.php:184
-#: services/configure.php:193
-#: services/configure.php:202
-#: services/configure.php:211
+#: services/configure.php:166 services/configure.php:175
+#: services/configure.php:184 services/configure.php:193
+#: services/configure.php:202 services/configure.php:211
 msgid "Use this option only for troubleshooting"
 msgstr "Use this option only for troubleshooting"
 
@@ -319,40 +276,60 @@ msgid "Debug commenting services"
 msgstr "Debug commenting services"
 
 #: services/configure.php:174
-msgid "Copy network packets sent and received by comments/post.php in temporary/debug.txt"
-msgstr "Copy network packets sent and received by comments/post.php in temporary/debug.txt"
+msgid ""
+"Copy network packets sent and received by comments/post.php in temporary/"
+"debug.txt"
+msgstr ""
+"Copy network packets sent and received by comments/post.php in temporary/"
+"debug.txt"
 
 #: services/configure.php:179
 msgid "Debug calls of web services"
 msgstr "Debug calls of web services"
 
 #: services/configure.php:183
-msgid "Copy network packets sent and received by services/call.php in temporary/debug.txt"
-msgstr "Copy network packets sent and received by services/call.php in temporary/debug.txt"
+msgid ""
+"Copy network packets sent and received by services/call.php in temporary/"
+"debug.txt"
+msgstr ""
+"Copy network packets sent and received by services/call.php in temporary/"
+"debug.txt"
 
 #: services/configure.php:188
 msgid "Debug ping services"
 msgstr "Debug ping services"
 
 #: services/configure.php:192
-msgid "Copy network packets sent and received by services/ping.php in temporary/debug.txt"
-msgstr "Copy network packets sent and received by services/ping.php in temporary/debug.txt"
+msgid ""
+"Copy network packets sent and received by services/ping.php in temporary/"
+"debug.txt"
+msgstr ""
+"Copy network packets sent and received by services/ping.php in temporary/"
+"debug.txt"
 
 #: services/configure.php:197
 msgid "Debug remote procedure calls"
 msgstr "Debug remote procedure calls"
 
 #: services/configure.php:201
-msgid "Copy network packets sent and received by services/json_rpc.php and by services/xml_rpc.php in temporary/debug.txt"
-msgstr "Copy network packets sent and received by services/json_rpc.php and by services/xml_rpc.php in temporary/debug.txt"
+msgid ""
+"Copy network packets sent and received by services/json_rpc.php and by "
+"services/xml_rpc.php in temporary/debug.txt"
+msgstr ""
+"Copy network packets sent and received by services/json_rpc.php and by "
+"services/xml_rpc.php in temporary/debug.txt"
 
 #: services/configure.php:206
 msgid "Debug pingback and trackback services"
 msgstr "Debug pingback and trackback services"
 
 #: services/configure.php:210
-msgid "Copy network packets sent and received by links/trackback.php in temporary/debug.txt"
-msgstr "Copy network packets sent and received by links/trackback.php in temporary/debug.txt"
+msgid ""
+"Copy network packets sent and received by links/trackback.php in temporary/"
+"debug.txt"
+msgstr ""
+"Copy network packets sent and received by links/trackback.php in temporary/"
+"debug.txt"
 
 #: services/configure.php:217
 msgid "Debugging"
@@ -372,13 +349,21 @@ msgstr "You are not allowed to perform this operation in demonstration mode."
 
 #: services/configure.php:293
 #, php-format
-msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
-msgstr "ERROR: Impossible to write to the file %s. The configuration has not been saved."
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
 
 #: services/configure.php:296
 #, php-format
-msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
-msgstr "To actually change the configuration, please copy and paste following lines by yourself in file %s."
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
 
 #: services/configure.php:301
 #, php-format
@@ -407,8 +392,14 @@ msgid "Back-end services"
 msgstr "Back-end services"
 
 #: services/index.php:37
-msgid "This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API)."
-msgstr "This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API)."
+msgid ""
+"This index page lists the main services that you can use in the background. "
+"Connect your blogging software, RSS news feeder, or other web sites to this "
+"server through following Application Programming Interfaces (API)."
+msgstr ""
+"This index page lists the main services that you can use in the background. "
+"Connect your blogging software, RSS news feeder, or other web sites to this "
+"server through following Application Programming Interfaces (API)."
 
 #: services/index.php:40
 msgid "Blogging interface"
@@ -418,25 +409,17 @@ msgstr "Blogging interface"
 msgid "Support popular blogging software such as w.bloggar."
 msgstr "Support popular blogging software such as w.bloggar."
 
-#: services/index.php:45
-#: services/index.php:57
-#: services/index.php:68
-#: services/index.php:80
-#: services/index.php:91
+#: services/index.php:45 services/index.php:57 services/index.php:68
+#: services/index.php:80 services/index.php:91
 msgid "URL:"
 msgstr "URL:"
 
-#: services/index.php:46
-#: services/index.php:58
-#: services/index.php:69
-#: services/index.php:81
-#: services/index.php:92
+#: services/index.php:46 services/index.php:58 services/index.php:69
+#: services/index.php:81 services/index.php:92
 msgid "Documentation:"
 msgstr "Documentation:"
 
-#: services/index.php:47
-#: services/index.php:70
-#: services/index.php:82
+#: services/index.php:47 services/index.php:70 services/index.php:82
 msgid "Specifications:"
 msgstr "Specifications:"
 
@@ -444,13 +427,11 @@ msgstr "Specifications:"
 msgid "Generic JSON-RPC interface"
 msgstr "Generic JSON-RPC interface"
 
-#: services/index.php:54
-#: services/index.php:88
+#: services/index.php:54 services/index.php:88
 msgid "Bound to hooked back-end scripts"
 msgstr "Bound to hooked back-end scripts"
 
-#: services/index.php:59
-#: services/index.php:93
+#: services/index.php:59 services/index.php:93
 msgid "Specification:"
 msgstr "Specification:"
 
@@ -514,8 +495,12 @@ msgstr "Message"
 #: services/rpc_echo_hook_test.php:99
 #: services/xml_rpc_drupal.login_hook_test.php:87
 #, php-format
-msgid "Go to the %s and check debug mode for <code>rpc</code> has been set, if you want to record HTTP requests and responses."
-msgstr "Go to the %s and check debug mode for <code>rpc</code> has been set, if you want to record HTTP requests and responses."
+msgid ""
+"Go to the %s and check debug mode for <code>rpc</code> has been set, if you "
+"want to record HTTP requests and responses."
+msgstr ""
+"Go to the %s and check debug mode for <code>rpc</code> has been set, if you "
+"want to record HTTP requests and responses."
 
 #: services/search.php:87
 #, php-format

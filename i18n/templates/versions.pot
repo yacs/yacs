@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 08:20+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "List versions"
 msgstr ""
 
-#: versions/list.php:90 versions/restore.php:80 versions/versions.php:366
+#: versions/list.php:90 versions/restore.php:80 versions/versions.php:343
 msgid "No anchor has been found."
 msgstr ""
 
@@ -75,12 +75,12 @@ msgstr ""
 msgid "The page has been successfully restored."
 msgstr ""
 
-#: versions/versions.php:322
+#: versions/versions.php:299
 #, php-format
 msgid "Unknown anchor %s"
 msgstr ""
 
-#: versions/versions.php:332
+#: versions/versions.php:309
 msgid "Impossible to restore the previous version."
 msgstr ""
 

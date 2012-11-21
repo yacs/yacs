@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 08:20+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: configure.php:129 index.php:690
+#: configure.php:129 index.php:695
 msgid "Configure"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: configure.php:270 index.php:694
+#: configure.php:270 index.php:699
 msgid "Gadget boxes"
 msgstr ""
 
@@ -294,7 +294,7 @@ msgstr ""
 msgid "Do not list featured pages."
 msgstr ""
 
-#: configure.php:422 index.php:789
+#: configure.php:422 index.php:794
 msgid "News"
 msgstr ""
 
@@ -355,11 +355,11 @@ msgstr ""
 msgid "Side panel"
 msgstr ""
 
-#: configure.php:512 panel.php:77 query.php:261 search.php:124
+#: configure.php:512 panel.php:77 query.php:261 search.php:121
 msgid "Submit"
 msgstr ""
 
-#: configure.php:512 panel.php:77 query.php:261 search.php:124
+#: configure.php:512 panel.php:77 query.php:261 search.php:121
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -467,7 +467,7 @@ msgstr ""
 msgid "the site front page"
 msgstr ""
 
-#: error.php:133 go.php:163 query.php:163 search.php:115
+#: error.php:133 go.php:163 query.php:163 search.php:112
 msgid "Search"
 msgstr ""
 
@@ -647,7 +647,7 @@ msgstr ""
 msgid "Nick name"
 msgstr ""
 
-#: go.php:174 search.php:152
+#: go.php:174 search.php:149
 msgid "Please type something to search for"
 msgstr ""
 
@@ -660,101 +660,101 @@ msgstr ""
 msgid "search engine"
 msgstr ""
 
-#: index.php:344 index.php:894
+#: index.php:349 index.php:899
 msgid "View the category"
 msgstr ""
 
-#: index.php:355 index.php:413 index.php:868 index.php:916
+#: index.php:360 index.php:418 index.php:873 index.php:921
 msgid "More pages"
 msgstr ""
 
-#: index.php:370 index.php:655
+#: index.php:375 index.php:660
 msgid "More links"
 msgstr ""
 
-#: index.php:391 index.php:422 index.php:832 index.php:878
+#: index.php:396 index.php:427 index.php:837 index.php:883
 msgid "View the section"
 msgstr ""
 
-#: index.php:486 index.php:560
+#: index.php:491 index.php:565
 #, php-format
 msgid "Warning: No script exists for the customized layout %s"
 msgstr ""
 
-#: index.php:601
+#: index.php:606
 msgid "No page to display."
 msgstr ""
 
-#: index.php:603
+#: index.php:608
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr ""
 
-#: index.php:603 setup.php:335
+#: index.php:608 setup.php:335
 msgid "Content Assistant"
 msgstr ""
 
-#: index.php:612 index.php:967 query.php:161
+#: index.php:617 index.php:972 query.php:161
 msgid "All pages"
 msgstr ""
 
-#: index.php:623 index.php:970
+#: index.php:628 index.php:975
 msgid "Recent Pages"
 msgstr ""
 
-#: index.php:637
+#: index.php:642
 msgid "Recent files"
 msgstr ""
 
-#: index.php:640
+#: index.php:645
 msgid "Files"
 msgstr ""
 
-#: index.php:652
+#: index.php:657
 msgid "Recent links"
 msgstr ""
 
-#: index.php:692
+#: index.php:697
 msgid "Cover page"
 msgstr ""
 
-#: index.php:696
+#: index.php:701
 msgid "Extra boxes"
 msgstr ""
 
-#: index.php:698
+#: index.php:703
 msgid "Navigation boxes"
 msgstr ""
 
-#: index.php:713
+#: index.php:718
 msgid "featured"
 msgstr ""
 
-#: index.php:717 index.php:725
+#: index.php:722 index.php:730
 msgid "Featured pages"
 msgstr ""
 
-#: index.php:938
+#: index.php:943
 msgid "Polls"
 msgstr ""
 
-#: index.php:997
+#: index.php:1002
 msgid "Peers"
 msgstr ""
 
-#: index.php:1003
+#: index.php:1008
 msgid "Popular Pages"
 msgstr ""
 
-#: index.php:1009
+#: index.php:1014
 msgid "Popular Files"
 msgstr ""
 
-#: index.php:1016
+#: index.php:1021
 msgid "Popular Links"
 msgstr ""
 
-#: index.php:1022
+#: index.php:1027
 msgid "Random Pages"
 msgstr ""
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Page content"
 msgstr ""
 
-#: query.php:44 query.php:324 search.php:377
+#: query.php:44 query.php:324 search.php:374
 msgid "Help"
 msgstr ""
 
@@ -955,36 +955,36 @@ msgstr ""
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
-#: search.php:113
+#: search.php:110
 #, php-format
 msgid "Search: %s"
 msgstr ""
 
-#: search.php:122
+#: search.php:119
 msgid "You are searching for"
 msgstr ""
 
-#: search.php:125
+#: search.php:122
 msgid "Type one or several words."
 msgstr ""
 
-#: search.php:129
+#: search.php:126
 msgid "Search in"
 msgstr ""
 
-#: search.php:134
+#: search.php:131
 msgid "-- All sections"
 msgstr ""
 
-#: search.php:135
+#: search.php:132
 msgid "Look in all or only one section."
 msgstr ""
 
-#: search.php:242
+#: search.php:239
 msgid "Get more results"
 msgstr ""
 
-#: search.php:265
+#: search.php:262
 #, php-format
 msgid ""
 "<p>No page has been found. This will happen with very short words (less than "
@@ -993,51 +993,51 @@ msgid ""
 "words and to suppress \"noise\" words.</p>"
 msgstr ""
 
-#: search.php:268
+#: search.php:265
 msgid "Results"
 msgstr ""
 
-#: search.php:280
+#: search.php:277
 msgid "Search all of the Internet"
 msgstr ""
 
-#: search.php:287
+#: search.php:284
 msgid "Google"
 msgstr ""
 
-#: search.php:291
+#: search.php:288
 msgid "Bing"
 msgstr ""
 
-#: search.php:295
+#: search.php:292
 msgid "Yahoo!"
 msgstr ""
 
-#: search.php:299
+#: search.php:296
 msgid "Ask Jeeves"
 msgstr ""
 
-#: search.php:302
+#: search.php:299
 msgid "Extended search"
 msgstr ""
 
-#: search.php:314
+#: search.php:311
 msgid "At partner sites"
 msgstr ""
 
-#: search.php:364
+#: search.php:361
 msgid "Remember this search"
 msgstr ""
 
-#: search.php:368
+#: search.php:365
 msgid "Search in all sections"
 msgstr ""
 
-#: search.php:372
+#: search.php:369
 msgid "Look for a named page"
 msgstr ""
 
-#: search.php:377
+#: search.php:374
 msgid ""
 "This search engine only display pages that have all words in it. <p>Also, "
 "only exact matches will be listed. Therefore \"category\" and \"categories\" "
@@ -1045,15 +1045,15 @@ msgid ""
 "different results.</p>"
 msgstr ""
 
-#: search.php:382
+#: search.php:379
 msgid "Matching pages"
 msgstr ""
 
-#: search.php:383
+#: search.php:380
 msgid "Monitor"
 msgstr ""
 
-#: search.php:389
+#: search.php:386
 msgid "Recent searches"
 msgstr ""
 

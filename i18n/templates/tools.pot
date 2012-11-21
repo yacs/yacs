@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 08:20+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:35
 #: tools/koowy.php:33 tools/populate.php:114 tools/populate.php:136
-#: tools/transform.php:29 tools/update_thumbs_url.php:40
+#: tools/stickies.php:22 tools/transform.php:28 tools/update_thumbs_url.php:40
 #: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr ""
@@ -103,7 +103,8 @@ msgid "Click on the button to remember some on-line activity"
 msgstr ""
 
 #: tools/ajax.php:62 tools/embed.php:25 tools/hello.php:25
-#: tools/populate.php:408 tools/populate.php:1665 tools/transform.php:32
+#: tools/populate.php:408 tools/populate.php:1665 tools/stickies.php:25
+#: tools/transform.php:31
 msgid "Hello world"
 msgstr ""
 
@@ -886,15 +887,15 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: tools/transform.php:35 tools/transform.php:36
+#: tools/transform.php:34 tools/transform.php:35
 msgid "navigation"
 msgstr ""
 
-#: tools/transform.php:39 tools/transform.php:40
+#: tools/transform.php:38 tools/transform.php:39
 msgid "extra"
 msgstr ""
 
-#: tools/transform.php:46 tools/transform.php:52
+#: tools/transform.php:45 tools/transform.php:51
 msgid "Themes"
 msgstr ""
 
