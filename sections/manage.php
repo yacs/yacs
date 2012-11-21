@@ -170,7 +170,7 @@ if(isset($_REQUEST['selected_sections']) && ($count = @count($_REQUEST['selected
 
 	// a hint on non-listed pages
 	if($delta = $count - count($items))
-		$items[] = sprintf(i18n::ns('%d other page has been selected', '%d other pages have been selected', $delta), $delta);
+		$items[] = sprintf(i18n::ns('%d other section has been selected', '%d other sections have been selected', $delta), $delta);
 
 	// a limited compact list
 	$selected_sections .= Skin::finalize_list($items, 'compact');
@@ -312,7 +312,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been associated with %s.', '%d pages have been associated with %s.', $count),
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been associated with %s.', '%d sections have been associated with %s.', $count),
 			$count, Skin::build_link($destination->get_url(), $destination->get_title(), 'category')).'</p>';
 
 		// follow-up commands
@@ -420,7 +420,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($item);
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been deleted.', '%d pages have been deleted.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been deleted.', '%d sections have been deleted.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -658,7 +658,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been duplicated.', '%d pages have been duplicated.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been duplicated.', '%d sections have been duplicated.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -738,7 +738,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($item);
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been locked.', '%d pages have been locked.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been locked.', '%d sections have been locked.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -862,7 +862,7 @@ if(Surfer::is_crawler()) {
 		Cache::clear(array($item, $destination->get_reference()));
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been moved to %s.', '%d pages have been moved to %s.', $count),
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been moved to %s.', '%d sections have been moved to %s.', $count),
 			$count, Skin::build_link($destination->get_url(), $destination->get_title(), 'section')).'</p>';
 
 		// follow-up commands
@@ -1019,7 +1019,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($item);
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been unlocked.', '%d pages have been unlocked.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been unlocked.', '%d sections have been unlocked.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
