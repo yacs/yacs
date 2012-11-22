@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2012-11-22 09:33+0100\n"
 "PO-Revision-Date: 2012-11-20 23:58+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -752,63 +752,63 @@ msgstr "Nuage d'étiquettes"
 msgid "Popular"
 msgstr "Hit-Parade"
 
-#: categories/layout_categories.php:70
 #: categories/layout_categories_as_search.php:71
 #: categories/layout_categories_as_yahoo.php:75
+#: categories/layout_categories.php:70
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
 msgstr[0] "%d catégorie"
 msgstr[1] "%d catégories"
 
-#: categories/layout_categories.php:74
 #: categories/layout_categories_as_search.php:75
-#: categories/layout_categories_as_yahoo.php:80 categories/view.php:466
+#: categories/layout_categories_as_yahoo.php:80
+#: categories/layout_categories.php:74 categories/view.php:466
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
 msgstr[0] "%d section"
 msgstr[1] "%d sections"
 
-#: categories/layout_categories.php:78
 #: categories/layout_categories_as_search.php:79
-#: categories/layout_categories_as_yahoo.php:86 categories/view.php:532
+#: categories/layout_categories_as_yahoo.php:86
+#: categories/layout_categories.php:78 categories/view.php:532
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: categories/layout_categories.php:82
 #: categories/layout_categories_as_search.php:83
-#: categories/layout_categories_as_yahoo.php:92 categories/view.php:576
+#: categories/layout_categories_as_yahoo.php:92
+#: categories/layout_categories.php:82 categories/view.php:576
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d fichier"
 msgstr[1] "%d fichiers"
 
-#: categories/layout_categories.php:86
 #: categories/layout_categories_as_search.php:87
-#: categories/layout_categories_as_yahoo.php:98 categories/view.php:673
+#: categories/layout_categories_as_yahoo.php:98
+#: categories/layout_categories.php:86 categories/view.php:673
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] "%d lien"
 msgstr[1] "%d liens"
 
-#: categories/layout_categories.php:90
 #: categories/layout_categories_as_search.php:91
-#: categories/layout_categories_as_yahoo.php:104 categories/view.php:627
+#: categories/layout_categories_as_yahoo.php:104
+#: categories/layout_categories.php:90 categories/view.php:627
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
 msgstr[0] "%d commentaire"
 msgstr[1] "%d commentaires"
 
-#: categories/layout_categories.php:94
 #: categories/layout_categories_as_search.php:95
-#: categories/layout_categories_as_yahoo.php:110 categories/view.php:831
+#: categories/layout_categories_as_yahoo.php:110
+#: categories/layout_categories.php:94 categories/view.php:831
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
