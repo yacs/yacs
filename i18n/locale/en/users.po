@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2012-11-22 09:33+0100\n"
 "PO-Revision-Date: 2012-06-28 14:38+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -43,7 +43,7 @@ msgstr "Request is invalid."
 #: users/login.php:156 users/mail.php:73 users/mail.php:92 users/mail.php:103
 #: users/notifications.php:158 users/password.php:69 users/password.php:74
 #: users/password.php:156 users/print.php:65 users/print.php:80
-#: users/select.php:70 users/select_avatar.php:76 users/select_avatar.php:89
+#: users/select_avatar.php:76 users/select_avatar.php:89 users/select.php:70
 #: users/track.php:60 users/track.php:65 users/transfer.php:46
 #: users/validate.php:51 users/view.php:207 users/visit.php:59
 msgid "You are not allowed to perform this operation."
@@ -71,7 +71,7 @@ msgstr "Configure"
 #: users/element.php:94 users/feed.php:75 users/fetch_vcard.php:76
 #: users/index.php:76 users/leave.php:42 users/login.php:402 users/mail.php:61
 #: users/password.php:54 users/review.php:33 users/review.php:68
-#: users/select.php:61 users/select_avatar.php:67 users/track.php:46
+#: users/select_avatar.php:67 users/select.php:61 users/track.php:46
 #: users/transfer.php:37 users/user.php:212 users/validate.php:43
 #: users/view.php:179
 msgid "People"
@@ -419,7 +419,7 @@ msgid "Submission"
 msgstr "Submission"
 
 #: users/configure.php:519 users/edit.php:779 users/mail.php:227
-#: users/password.php:256 users/select.php:271 users/select_avatar.php:126
+#: users/password.php:256 users/select_avatar.php:126 users/select.php:271
 msgid "Submit"
 msgstr "Submit"
 
@@ -606,18 +606,18 @@ msgstr "New subscriber: %s"
 msgid "Capability"
 msgstr "Capability"
 
-#: users/edit.php:353 users/layout_users.php:97
-#: users/layout_users_as_search.php:92 users/view.php:273
+#: users/edit.php:353 users/layout_users_as_search.php:92
+#: users/layout_users.php:97 users/view.php:273
 msgid "Associate"
 msgstr "Associate"
 
-#: users/edit.php:357 users/layout_users.php:101
-#: users/layout_users_as_search.php:96 users/view.php:276
+#: users/edit.php:357 users/layout_users_as_search.php:96
+#: users/layout_users.php:101 users/view.php:276
 msgid "Member"
 msgstr "Member"
 
-#: users/edit.php:361 users/layout_users.php:99
-#: users/layout_users_as_search.php:94 users/view.php:279
+#: users/edit.php:361 users/layout_users_as_search.php:94
+#: users/layout_users.php:99 users/view.php:279
 msgid "Subscriber"
 msgstr "Subscriber"
 
@@ -1095,35 +1095,6 @@ msgstr "Newest Members"
 msgid "View the category"
 msgstr "View the category"
 
-#: users/layout_users.php:105 users/layout_users_as_password.php:77
-#: users/layout_users_as_search.php:100 users/view.php:298
-#, php-format
-msgid "registered %s"
-msgstr "registered %s"
-
-#: users/layout_users.php:113 users/layout_users_as_password.php:81
-#: users/layout_users_as_search.php:108 users/view.php:294
-#, php-format
-msgid "last login %s"
-msgstr "last login %s"
-
-#: users/layout_users.php:115 users/layout_users_as_password.php:83
-#: users/layout_users_as_search.php:110
-msgid "no login"
-msgstr "no login"
-
-#: users/layout_users.php:122 users/layout_users_as_password.php:87
-#: users/layout_users_as_search.php:117
-#, php-format
-msgid "last post %s"
-msgstr "last post %s"
-
-#: users/layout_users.php:127 users/layout_users_as_password.php:91
-#: users/layout_users_as_search.php:122 users/print.php:93 users/view.php:290
-#, php-format
-msgid "%d posts"
-msgstr "%d posts"
-
 #: users/layout_users_as_compact.php:86
 #, php-format
 msgid "and %d other person"
@@ -1138,6 +1109,35 @@ msgstr "and many more persons"
 #: users/layout_users_as_mail.php:50
 msgid "Select all/none"
 msgstr "Select all/none"
+
+#: users/layout_users_as_password.php:77 users/layout_users_as_search.php:100
+#: users/layout_users.php:105 users/view.php:298
+#, php-format
+msgid "registered %s"
+msgstr "registered %s"
+
+#: users/layout_users_as_password.php:81 users/layout_users_as_search.php:108
+#: users/layout_users.php:113 users/view.php:294
+#, php-format
+msgid "last login %s"
+msgstr "last login %s"
+
+#: users/layout_users_as_password.php:83 users/layout_users_as_search.php:110
+#: users/layout_users.php:115
+msgid "no login"
+msgstr "no login"
+
+#: users/layout_users_as_password.php:87 users/layout_users_as_search.php:117
+#: users/layout_users.php:122
+#, php-format
+msgid "last post %s"
+msgstr "last post %s"
+
+#: users/layout_users_as_password.php:91 users/layout_users_as_search.php:122
+#: users/layout_users.php:127 users/print.php:93 users/view.php:290
+#, php-format
+msgid "%d posts"
+msgstr "%d posts"
 
 #: users/layout_users_as_password.php:97
 msgid "Authenticate with this profile"
@@ -1173,8 +1173,8 @@ msgstr ""
 "The operation has completed, and you have no specific access rights to %s."
 
 #: users/leave.php:77 users/mail.php:181 users/password.php:184
-#: users/select.php:134 users/select.php:544 users/select.php:729
-#: users/select_avatar.php:203 users/track.php:83 users/transfer.php:84
+#: users/select_avatar.php:203 users/select.php:134 users/select.php:544
+#: users/select.php:729 users/track.php:83 users/transfer.php:84
 msgid "Done"
 msgstr "Done"
 
@@ -1654,6 +1654,66 @@ msgstr ""
 "This search engine only display pages that have all words in it. Also, only "
 "exact matches will be listed."
 
+#: users/select_avatar.php:71
+#, php-format
+msgid "Select a picture for %s"
+msgstr "Select a picture for %s"
+
+#: users/select_avatar.php:106
+#, php-format
+msgid "Current picture: %s"
+msgstr "Current picture: %s"
+
+#: users/select_avatar.php:108
+msgid "No picture has been set for this profile."
+msgstr "No picture has been set for this profile."
+
+#: users/select_avatar.php:125
+msgid "Press to select a local file"
+msgstr "Press to select a local file"
+
+#: users/select_avatar.php:127
+msgid "Select a .png, .gif or .jpeg image."
+msgstr "Select a .png, .gif or .jpeg image."
+
+#: users/select_avatar.php:127
+msgid "bytes"
+msgstr "bytes"
+
+#: users/select_avatar.php:139
+msgid "Upload an image"
+msgstr "Upload an image"
+
+#: users/select_avatar.php:153
+msgid "Click on one image below to make it your new picture."
+msgstr "Click on one image below to make it your new picture."
+
+#: users/select_avatar.php:178
+msgid "Use the library"
+msgstr "Use the library"
+
+#: users/select_avatar.php:189
+#, php-format
+msgid "Your are using your %s as current picture."
+msgstr "Your are using your %s as current picture."
+
+#: users/select_avatar.php:189 users/select_avatar.php:193
+msgid "gravatar"
+msgstr "gravatar"
+
+#: users/select_avatar.php:193
+#, php-format
+msgid "I have a %s and %s"
+msgstr "I have a %s and %s"
+
+#: users/select_avatar.php:193
+msgid "would like to use it"
+msgstr "would like to use it"
+
+#: users/select_avatar.php:196
+msgid "Use a gravatar"
+msgstr "Use a gravatar"
+
 #: users/select.php:76
 #, php-format
 msgid "Watchers of %s"
@@ -1786,66 +1846,6 @@ msgstr "Persons assigned to %s"
 #: users/select.php:721
 msgid "Following editors inherit from assignments at parent containers"
 msgstr "Following editors inherit from assignments at parent containers"
-
-#: users/select_avatar.php:71
-#, php-format
-msgid "Select a picture for %s"
-msgstr "Select a picture for %s"
-
-#: users/select_avatar.php:106
-#, php-format
-msgid "Current picture: %s"
-msgstr "Current picture: %s"
-
-#: users/select_avatar.php:108
-msgid "No picture has been set for this profile."
-msgstr "No picture has been set for this profile."
-
-#: users/select_avatar.php:125
-msgid "Press to select a local file"
-msgstr "Press to select a local file"
-
-#: users/select_avatar.php:127
-msgid "Select a .png, .gif or .jpeg image."
-msgstr "Select a .png, .gif or .jpeg image."
-
-#: users/select_avatar.php:127
-msgid "bytes"
-msgstr "bytes"
-
-#: users/select_avatar.php:139
-msgid "Upload an image"
-msgstr "Upload an image"
-
-#: users/select_avatar.php:153
-msgid "Click on one image below to make it your new picture."
-msgstr "Click on one image below to make it your new picture."
-
-#: users/select_avatar.php:178
-msgid "Use the library"
-msgstr "Use the library"
-
-#: users/select_avatar.php:189
-#, php-format
-msgid "Your are using your %s as current picture."
-msgstr "Your are using your %s as current picture."
-
-#: users/select_avatar.php:189 users/select_avatar.php:193
-msgid "gravatar"
-msgstr "gravatar"
-
-#: users/select_avatar.php:193
-#, php-format
-msgid "I have a %s and %s"
-msgstr "I have a %s and %s"
-
-#: users/select_avatar.php:193
-msgid "would like to use it"
-msgstr "would like to use it"
-
-#: users/select_avatar.php:196
-msgid "Use a gravatar"
-msgstr "Use a gravatar"
 
 #: users/track.php:51
 msgid "Watch list"

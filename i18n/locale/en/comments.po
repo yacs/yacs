@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2012-11-22 09:33+0100\n"
 "PO-Revision-Date: 2012-11-20 23:54+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -438,18 +438,6 @@ msgstr[1] "%d threads"
 msgid "Recent pages"
 msgstr "Recent pages"
 
-#: comments/layout_comments.php:54 comments/layout_comments_as_updates.php:83
-msgid "View this comment"
-msgstr "View this comment"
-
-#: comments/layout_comments.php:72 comments/layout_comments_as_replies.php:65
-msgid "edit"
-msgstr "edit"
-
-#: comments/layout_comments.php:73 comments/layout_comments_as_replies.php:66
-msgid "delete"
-msgstr "delete"
-
 #: comments/layout_comments_as_excerpt.php:47
 msgid "anonymous"
 msgstr "anonymous"
@@ -458,6 +446,14 @@ msgstr "anonymous"
 #, php-format
 msgid "on %s"
 msgstr "on %s"
+
+#: comments/layout_comments_as_replies.php:65 comments/layout_comments.php:72
+msgid "edit"
+msgstr "edit"
+
+#: comments/layout_comments_as_replies.php:66 comments/layout_comments.php:73
+msgid "delete"
+msgstr "delete"
 
 #: comments/layout_comments_as_replies.php:81
 #, php-format
@@ -470,6 +466,10 @@ msgstr "modified by %s"
 #: comments/view.php:208 comments/view.php:221
 msgid "Edit"
 msgstr "Edit"
+
+#: comments/layout_comments_as_updates.php:83 comments/layout_comments.php:54
+msgid "View this comment"
+msgstr "View this comment"
 
 #: comments/layout_comments_as_updates.php:112
 #: comments/layout_comments_as_updates.php:124 comments/view.php:230
