@@ -125,7 +125,7 @@ elseif(!isset($item['id'])) {
 	if(Articles::put_attributes($fields)) {
 
 		// only when comments are allowed
-		if(!Articles::has_option('no_comments', $anchor, $item) {
+		if(!Articles::has_option('no_comments', $anchor, $item)) {
 
 			// add a comment to make the move explicit
 			include_once $context['path_to_root'].'comments/comments.php';
