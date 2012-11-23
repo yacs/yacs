@@ -1335,7 +1335,7 @@ class Issue extends Overlay {
 			SQL::query($query);
 
 		// add a comment
-		if($comments) {
+		if($comments && !$this->anchor->has_option('no_comments')) {
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
 			$fields['anchor'] = $this->attributes['anchor_reference'];

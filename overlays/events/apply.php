@@ -167,7 +167,7 @@ elseif(!Surfer::get_id()) {
 	}
 
 	// socialize self-applications
-	if($overlay->get_value('enrolment') == 'none') {
+	if(($overlay->get_value('enrolment') == 'none') && !$this->anchor->has_option('no_comments')) {
 		include_once $context['path_to_root'].'comments/comments.php';
 		$fields = array();
 		$fields['anchor'] = $anchor->get_reference();

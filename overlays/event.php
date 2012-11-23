@@ -1426,8 +1426,8 @@ class Event extends Overlay {
 		if(!is_callable(array($this->anchor, 'get_reference')))
 			return;
 
-		// create a comment only on first join, and if not a robot
-		if(!Surfer::is_crawler() && !isset($_SESSION['event_'.$this->anchor->get_reference()])) {
+		// create a comment only on first join, and if not a robot, and if comments are allowed
+		if(!isset($_SESSION['event_'.$this->anchor->get_reference()]) && !Surfer::is_crawler() && !$this->anchor->has_option('no_comments')) {
 
 			// track the new participant
 			include_once $context['path_to_root'].'comments/comments.php';
@@ -1468,7 +1468,7 @@ class Event extends Overlay {
 		// track the beginning of event enrolment but only when users are asking for some invitation
 		if($this->attributes['enrolment'] == 'validate') {
 			include_once $context['path_to_root'].'comments/comments.php';
-			if(is_callable(array($this->anchor, 'get_reference'))) {
+			if(is_callable(array($this->anchor, 'get_reference')) && !$this->anchor->has_option('no_comments')) {
 				$fields = array();
 				$fields['anchor'] = $this->anchor->get_reference();
 				$fields['description'] = sprintf(i18n::s('%s has open enrolment to the event'), Surfer::get_name());
@@ -2015,7 +2015,7 @@ class Event extends Overlay {
 
 		// track the beginning of the meeting
 		include_once $context['path_to_root'].'comments/comments.php';
-		if(is_callable(array($this->anchor, 'get_reference'))) {
+		if(is_callable(array($this->anchor, 'get_reference')) && !$this->anchor->has_option('no_comments')) {
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
 			$fields['description'] = sprintf(i18n::s('%s has started the meeting'), Surfer::get_name());
@@ -2038,7 +2038,7 @@ class Event extends Overlay {
 
 		// track the end of the meeting
 		include_once $context['path_to_root'].'comments/comments.php';
-		if(is_callable(array($this->anchor, 'get_reference'))) {
+		if(is_callable(array($this->anchor, 'get_reference')) && !$this->anchor->has_option('no_comments')) {
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
 			$fields['description'] = sprintf(i18n::s('%s has stopped the meeting'), Surfer::get_name());
