@@ -233,10 +233,6 @@ Class SQL {
 		if(!is_string($text))
 			$text = (string)$text;
 
-		// store binary Unicode, if possible
-		if(isset($context['database_is_utf8']) && $context['database_is_utf8'] && is_callable('utf8', 'from_unicode'))
-			$text = utf8::from_unicode($text);
-
 		// we do need a connection to the database
 		if(!isset($context['connection']) || !$context['connection'])
 			return $text;
