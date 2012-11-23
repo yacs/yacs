@@ -124,12 +124,17 @@ elseif(!isset($item['id'])) {
 	// do the change
 	if(Articles::put_attributes($fields)) {
 
-		// add a comment to make the move explicit
-		include_once $context['path_to_root'].'comments/comments.php';
-		$fields = array();
-		$fields['anchor'] = 'article:'.$item['id'];
-		$fields['description'] = sprintf(i18n::s('Moved by %s from %s to %s'), Surfer::get_name(), $anchor->get_title(), $destination->get_title());
-		Comments::post($fields);
+		// only when comments are allowed
+		if(!Articles::has_option('no_comments', $anchor, $item) {
+
+			// add a comment to make the move explicit
+			include_once $context['path_to_root'].'comments/comments.php';
+			$fields = array();
+			$fields['anchor'] = 'article:'.$item['id'];
+			$fields['description'] = sprintf(i18n::s('Moved by %s from %s to %s'), Surfer::get_name(), $anchor->get_title(), $destination->get_title());
+			Comments::post($fields);
+
+		}
 
 		// update previous container
 		Cache::clear($anchor->get_reference());

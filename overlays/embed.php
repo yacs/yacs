@@ -527,8 +527,9 @@ class Embed extends Overlay {
 			}
 		}
 
-		// add a comment
-		if($comments) {
+		// add a comment if allowed
+		if($comments && !$this->anchor->has_option('no_comments')) {
+
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
 			$fields['anchor'] = $reference;
