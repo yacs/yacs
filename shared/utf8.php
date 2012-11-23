@@ -56,24 +56,27 @@ Class Utf8 {
 	 * This function is triggered by the YACS handler during page rendering.
 	 * It is aiming to transcode HTML Unicode entities (eg, &amp;#8364;) back to actual UTF-8 encoding (eg, €).
 	 *
-	 * @param string a string with a mix of UTF-8 and of HTML Unicode entities
-	 * @return an UTF-8 string
+	 * @param mixed a string with a mix of UTF-8 and of HTML Unicode entities, or an array
+	 * @return an UTF-8 mixed
 	 */
-	public static function &from_unicode($text) {
+	public static function &from_unicode($input) {
 		global $context;
 
-		// sanity check
-		if(!is_string($text))
-			return $text;
+		// transcode arrays as well
+		if(is_array($input)) {
+			utf8::from_unicode_recursively($input);
+			$output = $input;
+			return $output;
+		}
 
 		// translate Unicode entities
-		$areas = preg_split('/&[#u](\d+);/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$text = '';
+		$output = '';
 		$index = 0;
+		$areas = preg_split('/&[#u](\d+);/', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
 		foreach($areas as $area) {
 			switch($index%2) {
 			case 0: // before entity
-				$text .= $area;
+				$output .= $area;
 				break;
 			case 1: // the entity itself
 
@@ -83,7 +86,7 @@ Class Utf8 {
 				// one byte
 				if($unicode < 0x7F) {
 
-					$text .= chr($unicode);
+					$output .= chr($unicode);
 
 				// forbidden elements
 				} elseif($unicode < 0x0A0) {
@@ -92,19 +95,19 @@ Class Utf8 {
 				// two bytes
 				} elseif($unicode < 0x800) {
 
-					$text .= chr( 0xC0 +  ( ( $unicode - ( $unicode % 0x40 ) ) / 0x40 ) );
-					$text .= chr( 0x80 + ( $unicode % 0x40 ) );
+					$output .= chr( 0xC0 +  ( ( $unicode - ( $unicode % 0x40 ) ) / 0x40 ) );
+					$output .= chr( 0x80 + ( $unicode % 0x40 ) );
 
 				// three bytes
 				} elseif($unicode < 0x10000) {
 
-					$text .= chr( 0xE0 + ( ( $unicode - ( $unicode % 0x1000 ) ) / 0x1000 ) );
-					$text .= chr( 0x80 + ( ( ( $unicode % 0x1000 ) - ( $unicode % 0x40 ) ) / 0x40 ) );
-					$text .= chr( 0x80 + ( $unicode % 0x40 ) );
+					$output .= chr( 0xE0 + ( ( $unicode - ( $unicode % 0x1000 ) ) / 0x1000 ) );
+					$output .= chr( 0x80 + ( ( ( $unicode % 0x1000 ) - ( $unicode % 0x40 ) ) / 0x40 ) );
+					$output .= chr( 0x80 + ( $unicode % 0x40 ) );
 
 				// more bytes, keep it as it is...
 				} else
-					$text .= '&#'.$unicode.';';
+					$output .= '&#'.$unicode.';';
 
 				break;
 			}
@@ -112,7 +115,31 @@ Class Utf8 {
 		}
 
 		// the updated string
-		return $text;
+		return $output;
+	}
+
+	/**
+	 * transcode arrays recursively
+	 *
+	 * @param array the variable to convert
+	 * @return converted object (which is also the input array)
+	 */
+	public static function from_unicode_recursively(&$input) {
+		global $context;
+
+		// sanity check
+		if(!is_array($input))
+			return utf8::from_unicode($input);
+
+		// process all attributes
+		foreach($input as $name => $value) {
+			if(is_array($value))
+				$input[$name] = utf8::from_unicode_recursively($value);
+			else
+				$input[$name] = utf8::from_unicode($value);
+		}
+		return $input;
+
 	}
 
 	/**
@@ -510,7 +537,7 @@ Class Utf8 {
 	 *
 	 * @link http://www.evolt.org/article/A_Simple_Character_Entity_Chart/17/21234/ A Simple Character Entity Chart
 	 *
-	 * @param string the original UTF-8 string
+	 * @param mixed the original UTF-8 string, or an array
 	 * @return a string acceptable in an ISO-8859-1 storage system (ie., PHP4 + MySQL 3)
 	 */
 	public static function &to_unicode($input) {
