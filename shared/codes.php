@@ -1516,7 +1516,7 @@ Class Codes {
 		if($users = Activities::list_at($url, array('click', 'fetch'), 50, 'comma')) {
 
 			$count = Activities::count_at($url, array('click', 'fetch'));
-			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $users);
+			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $url);
 
 		} else
 			$text .= i18n::s('No authenticated person has used this link yet');
