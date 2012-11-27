@@ -515,7 +515,7 @@ Class Codes {
 			array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'), $text);
 
 		// locate pre-formatted areas
-		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</$1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</\1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$index = 0;
@@ -1046,7 +1046,7 @@ Class Codes {
 				'/\[toq\]\n*/ise',							// [toq] (table of questions)
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
-				'#\[(header[1-5])\](.*?)\[/$1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
+				'#\[(header[1-5])\](.*?)\[/\1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
 				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
 				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
 				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
@@ -4634,7 +4634,7 @@ Class Codes {
 		global $context;
 
 		// suppress pairing codes
-		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/$1\]#s', '${2}', $text);
+		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/\1\]#s', '${2}', $text);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)
