@@ -99,7 +99,7 @@ class Event extends Overlay {
 		}
 
 		// how to update the calendar?
-		$text .= '<div><p>'.i18n::s('Use the file attached to update your calendar.').'</p></div>';
+		$text .= '<div><p>'.i18n::c('Use the file attached to update your calendar.').'</p></div>';
 
 		// done
 		return $text;
