@@ -1211,16 +1211,6 @@ Class Articles {
 	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
 		global $context;
 
-		// log page publication
-		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
-		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-		if(is_object($anchor))
-			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
-		else
-			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
-		Logger::notify('articles/articles.php: '.$label, $description);
-
 		// notification to send by e-mail
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
@@ -1272,6 +1262,16 @@ Class Articles {
 		if(is_callable(array('Hooks', 'include_scripts')))
 			Hooks::include_scripts('publish', $item['id']);
 
+		// log page publication
+		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
 	}
 
 	/**
@@ -1298,16 +1298,6 @@ Class Articles {
 	public static function finalize_submission($anchor, $item, $overlay=NULL) {
 		global $context;
 
-		// log page submission
-		$label = sprintf(i18n::c('Submission: %s'), strip_tags($item['title']));
-		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-		if(is_object($anchor))
-			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
-		else
-			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
-		Logger::notify('articles/articles.php: '.$label, $description);
-
 		// notification to send by e-mail
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
@@ -1330,6 +1320,16 @@ Class Articles {
 		// 'publish' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			Hooks::include_scripts('submit', $item['id']);
+
+		// log page submission
+		$label = sprintf(i18n::c('Submission: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
 
@@ -1361,13 +1361,6 @@ Class Articles {
 	 */
 	public static function finalize_update($anchor, $item, $overlay=NULL, $silently=FALSE, $with_watchers=TRUE, $with_followers=FALSE) {
 		global $context;
-
-		// log page update
-		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
-		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
-		Logger::notify('articles/articles.php: '.$label, $description);
 
 		// proceed only if the page has been published
 		if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
@@ -1430,6 +1423,13 @@ Class Articles {
 		// 'update' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			Hooks::include_scripts('update', $item['id']);
+
+		// log page update
+		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
 
