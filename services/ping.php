@@ -115,7 +115,10 @@
  * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
  */
 include_once '../shared/global.php';
+include_once 'codec.php';
+include_once 'xml_rpc_codec.php';
 include_once '../links/links.php';
+include_once '../servers/servers.php';
 
 // load a skin engine
 load_skin('services');
@@ -132,8 +135,6 @@ if($context['charset'] == 'utf-8')
 	$raw_data = utf8::encode($raw_data);
 
 // load the adequate codec
-include_once 'codec.php';
-include_once 'xml_rpc_codec.php';
 $codec = new xml_rpc_Codec();
 
 // parse xml parameters
@@ -165,7 +166,6 @@ if(!$raw_data) {
 	case 'monitor.ping':
 
 		// caller has been banned
-		include_once $context['path_to_root'].'servers/servers.php';
 		if($_SERVER['REMOTE_HOST'] && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_monitor'] != 'Y')))
 			$response = array('faultCode' => 49, 'faultString' => 'Access denied');
 
@@ -203,7 +203,6 @@ if(!$raw_data) {
 			$anchor = 'category:'.$matches[1];
 
 		// caller has been banned
-		include_once $context['path_to_root'].'servers/servers.php';
 		if(isset($_SERVER['REMOTE_HOST']) && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
 			$response = 49;
 
@@ -266,7 +265,6 @@ if(!$raw_data) {
 		list($label, $url) = $parameters['params'];
 
 		// caller has been banned
-		include_once $context['path_to_root'].'servers/servers.php';
 		if($_SERVER['REMOTE_HOST'] && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
 			$response = array('flerror' => 49, 'message' => 'Access denied');
 
@@ -280,7 +278,6 @@ if(!$raw_data) {
 
 		// create or update a server entry
 		else {
-			include_once $context['path_to_root'].'servers/servers.php';
 			$response = Servers::ping(strip_tags($label), $url);
 			if($response) {
 				Logger::remember('services/ping.php: failing ping', $response, 'debug');

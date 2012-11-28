@@ -14,6 +14,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -256,7 +258,6 @@ if(Surfer::is_crawler()) {
 	$box['text'] = '';
 
 	// list comments by date
-	include_once '../comments/comments.php';
 	$items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, $items_per_page, $layout);
 
 	// actually render the html
@@ -274,7 +275,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list links by date (default) or by title (option :links_by_title:)
-	include_once '../links/links.php';
 	if(preg_match('/\blinks_by_title\b/i', $item['options']))
 		$items = Links::list_by_title_for_anchor('section:'.$item['id'], 0, 70);
 	else

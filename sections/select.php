@@ -28,6 +28,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // find the target anchor in path args (e.g., http:.../sections/select.php?anchor=article:15)
 $anchor = NULL;
@@ -103,8 +105,6 @@ if(Surfer::is_crawler()) {
 	if($sections) {
 
 		// browse the list
-		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'links/links.php';
 		foreach($sections as $id => $section) {
 
 			// get the related overlay, if any

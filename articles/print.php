@@ -14,6 +14,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -81,7 +83,6 @@ if(Surfer::is_crawler()) {
 
 	// display the source, if any
 	if(isset($item['source']) && $item['source']) {
-		include_once '../links/links.php';
 		if($attributes = Links::transform_reference($item['source'])) {
 			list($link, $title, $description) = $attributes;
 			$item['source'] = $title;
@@ -132,7 +133,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list immutable comments by date
-	include_once '../comments/comments.php';
 	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
 
 	// actually list items
@@ -144,7 +144,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list links by date (default) or by title (option links_by_title)
-	include_once '../links/links.php';
 	$items = array();
 	if(Articles::has_option('links_by_title', $anchor, $item))
 		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
