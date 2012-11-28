@@ -175,59 +175,59 @@ class PhpDoc {
 		if(isset($comment) && is_array($comment) && @count($comment)) {
 			foreach($comment as $line) {
 
-				// &#64;param type whatever
+				// documenting a parameter
 				if(preg_match('/@param\s+(.+)$/i', $line, $matches))
 					$types[] = $matches[1];
 
-				// &#64;return type whatever
+				// documenting return value
 				elseif(preg_match('/@return\s+(.+)$/i', $line, $matches))
 					$result = $matches[1];
 
-				// &#64;see url label
+				// referring to another script
 				elseif(preg_match('/@see\s+(.+?)\s+(.+)$/i', $line, $matches))
 					$links[] = '[script='.$matches[2].']'.trim($matches[1]).'[/script]';
 
-				// &#64;see url
+				// referring to another script
 				elseif(preg_match('/@see\s+(.+?)$/i', $line, $matches))
 					$links[] = '[script]'.trim($matches[1]).'[/script]';
 
-				// &#64;license url label
+				// licensing the code
 				elseif(preg_match('/@license\s+(.+?)\s+(.+)$/i', $line, $matches)) {
 					$licenses[] = '[link='.$matches[2].']'.trim($matches[1]).'[/link]';
 					$this->licenses[trim($matches[1])][] = $script;
 
-				// &#64;license url
+				// licensing the code
 				} elseif(preg_match('/@license\s+(.+)$/i', $line, $matches)) {
 					$licenses[] = '[link]'.trim($matches[1]).'[/link]';
 					$this->licenses[trim($matches[1])][] = $script;
 
-				// &#64;link url label
+				// referring to a web link
 				} elseif(preg_match('/@link\s+(.+?)\s+(.+)$/i', $line, $matches))
 					$links[] = '[link='.$matches[2].']'.trim($matches[1]).'[/link]';
 
-				// &#64;link url
+				// referring to a web link
 				elseif(preg_match('/@link\s+(.+)$/i', $line, $matches))
 					$links[] = '[link]'.trim($matches[1]).'[/link]';
 
-				// &#64;todo any text
+				// mentioning something to do here
 				elseif(preg_match('/@todo\s+(.+)$/i', $line, $matches)) {
 					$todos[] = $matches[1];
 					$this->todos[$script][] = $matches[1];
 				}
 
-				// &#64;author any text
+				// naming a contributor
 				elseif(preg_match('/@author\s+(.+)$/i', $line, $matches)) {
 					$authors[] = trim($matches[1]);
 					$this->authors[trim($matches[1])][] = $script;
 				}
 
-				// &#64;tester any text
+				// naming a tester
 				elseif(preg_match('/@tester\s+(.+)$/i', $line, $matches)) {
 					$testers[] = trim($matches[1]);
 					$this->testers[trim($matches[1])][] = $script;
 				}
 
-				// &#64;reference
+				// flagging a core file of yacs
 				elseif(preg_match('/@reference/i', $line, $matches))
 					$subsequent_lines .= '<p>This script is a reference file of this system.</p>';
 
@@ -299,7 +299,7 @@ class PhpDoc {
 		// subsequent lines
 		$text .= $subsequent_lines;
 
-		// &#64;link
+		// link
 		if(count($links)) {
 			$text .= '<p>'.i18n::s('See also:')."\n";
 			foreach($links as $link)
@@ -307,7 +307,7 @@ class PhpDoc {
 			$text .= "</p>\n";
 		}
 
-		// &#64;license
+		// license
 		if(count($licenses)) {
 			$text .= '<p>'.i18n::s('License:');
 			foreach($licenses as $license)
@@ -315,7 +315,7 @@ class PhpDoc {
 			$text .= "</p>\n";
 		}
 
-		// &#64;author
+		// author
 		if(count($authors)) {
 			$text .= '<p>'.i18n::s('Authors:')."\n";
 			foreach($authors as $author)
@@ -323,7 +323,7 @@ class PhpDoc {
 			$text .= "</p>\n";
 		}
 
-		// &#64;tester
+		// tester
 		if(count($testers)) {
 			$text .= '<p>'.i18n::s('Testers:')."\n";
 			foreach($testers as $tester)
@@ -331,7 +331,7 @@ class PhpDoc {
 			$text .= "</p>\n";
 		}
 
-		// &#64;todo
+		// todo
 		if(count($todos)) {
 			$text .= '<p>'.i18n::s('On the to-do list:')."\n";
 			foreach($todos as $todo)
