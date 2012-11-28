@@ -1217,8 +1217,8 @@ Class Articles {
 		$mail['notification'] = Articles::build_notification('publish', $item);
 		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
 
-		// allow the overlay to prevent notifications of watcherss
-		if(!is_object($overlay) || $overlay->should_notify_watchers())
+		// allow the overlay to prevent notifications of watchers
+		if(!is_object($overlay) || $overlay->should_notify_watchers($mail))
 			$anchor->alert_watchers($mail, 'article:publish', ($item['active'] == 'N'));
 
 		// never notify followers on private pages
@@ -1303,22 +1303,36 @@ Class Articles {
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
 		$mail['notification'] = Articles::build_notification('submit', $item);
+		$mail['message'] = Mailer::build_notification($mail['notification'], 1);
 		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
 
 		// allow the overlay to prevent notifications of watcherss
-		if(!is_object($overlay) || $overlay->should_notify_watchers()) {
+		if(!is_object($overlay) || $overlay->should_notify_watchers($mail)) {
 
 			// look for anchor owner, and climb upwards
+			$owners = array();
+			$handle = $anchor->get_reference();
+			while($handle && ($container = Anchors::get($handle))) {
 
-			// send mail to each owner
-//			$anchor->alert_watchers($mail, 'article:submit', ($item['active'] == 'N'));
+				// consider owner of this level
+				if(($owner_id = $container->get_value('owner_id')) && ($owner = Users::get($owner_id))) {
+
+					// notify this owner, but not if he is the surfer
+					if(Surfer::get_id() != $owner_id)
+						Users::alert($owner, $mail);
+
+				}
+
+				// move to upper level
+				$handle = $container->get_parent();
+			}
 
 		}
 
 		// update anchors
 		$anchor->touch('article:submit', $item['id']);
 
-		// 'publish' hook
+		// 'submit' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			Hooks::include_scripts('submit', $item['id']);
 
@@ -1373,7 +1387,7 @@ Class Articles {
 			$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
 
 			// allow the overlay to prevent notifications of watcherss
-			if(is_object($overlay) && !$overlay->should_notify_watchers())
+			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
 				$with_watchers = FALSE;
 
 			// send to watchers of this page, and to watchers upwards
