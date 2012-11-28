@@ -61,6 +61,10 @@ Class Users {
 		if(!isset($user['id']) && (!$user = Users::get($user)))
 			return FALSE;
 
+		// skip banned users
+		if(isset($user['capability']) && ($user['capability'] == '?'))
+			return FALSE;
+
 		// a valid address is required for e-mail...
 		if(!isset($user['email']) || !$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
 			return FALSE;
@@ -116,17 +120,12 @@ Class Users {
 				// check every watcher
 				foreach($items as $id => $watcher) {
 
-					// skip banned users
-					if($watcher['capability'] == '?')
-						continue;
-
 					// skip current surfer
 					if(Surfer::get_id() && (Surfer::get_id() == $id))
 						continue;
 
-					// ensure this surfer wants to be alerted
-					if($watcher['without_alerts'] != 'Y')
-						Users::alert($watcher, $mail);
+					// notify this watcher
+					Users::alert($watcher, $mail);
 				}
 			}
 		}

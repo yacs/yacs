@@ -136,6 +136,9 @@ if(Surfer::is_crawler()) {
 	// post-processing tasks
 	else {
 
+		// reflect in memory what has been saved in database
+		$item['publish_date'] = $_REQUEST['publish_date'];
+
 		// send to watchers of this page, and to watchers upwards
 		$watching_context = new Article();
 		$watching_context->load_by_content($item, $anchor);
