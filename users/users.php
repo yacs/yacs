@@ -1634,7 +1634,7 @@ Class Users {
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
 		$query[] = "irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."'";
 		$query[] = "jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."'";
-		$query[] = "language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."'";
+		$query[] = "language='".SQL::escape(isset($fields['language']) ? $fields['language'] : 'none')."'";
 		$query[] = "msn_address='".SQL::escape(isset($fields['msn_address']) ? $fields['msn_address'] : '')."'";
 		$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
 		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
@@ -1887,7 +1887,7 @@ Class Users {
 				."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."', "
 				."irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."', "
 				."jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."', "
-				."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."', "
+				."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : 'none')."', "
 				."msn_address='".SQL::escape(isset($fields['msn_address']) ? $fields['msn_address'] : '')."', "
 				."nick_name='".SQL::escape($fields['nick_name'])."', "
 				."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."', "

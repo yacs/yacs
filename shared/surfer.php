@@ -1440,7 +1440,7 @@ Class Surfer {
 		// save session attributes
 		$_SESSION['surfer_id'] = isset($fields['id'])?$fields['id']:'';
 
-		$_SESSION['surfer_language'] = isset($fields['language'])?$fields['language']:'';
+		$_SESSION['surfer_language'] = isset($fields['language'])?$fields['language']:'none';
 
 		if(isset($fields['full_name']) && $fields['full_name'])
 			$_SESSION['surfer_name'] = $fields['full_name'];
