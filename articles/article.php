@@ -542,7 +542,7 @@ Class Article extends Anchor {
 				$containers[] = $handle;
 
 				// should we forward notifications upwards
-				if(!$container->has_option('forward_notifications', FALSE))
+				if(($action != 'article:publish') && !$container->has_option('forward_notifications', FALSE))
 					break;
 
 				// add watchers of next level
