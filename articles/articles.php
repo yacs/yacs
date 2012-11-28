@@ -1251,6 +1251,7 @@ Class Articles {
 				$raw .= ' '.$item['description'];
 
 			// pingback to referred links, if any
+			include_once $context['path_to_root'].'links/links.php';
 			Links::ping($raw, 'article:'.$item['id']);
 
 			// ping servers, if any
@@ -1411,6 +1412,7 @@ Class Articles {
 					$raw .= ' '.$item['description'];
 
 				// pingback to referred links, if any
+				include_once $context['path_to_root'].'links/links.php';
 				Links::ping($raw, 'article:'.$item['id']);
 
 				// ping servers, if any
