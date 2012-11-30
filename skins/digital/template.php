@@ -116,7 +116,7 @@ echo '<div id="main_panel">'."\n";
 
 // display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
 if($context['skin_variant'] != 'home')
-	Page::bread_crumbs(2);
+	Page::bread_crumbs(0);
 
 // display main content
 Page::content();
