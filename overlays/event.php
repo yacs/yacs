@@ -80,6 +80,10 @@ class Event extends Overlay {
 	function filter_invite_message($text) {
 		global $context;
 
+		// sanity check
+		if(!isset($this->attributes['enrolment']))
+			$this->attributes['enrolment'] = 'none';
+
 		switch($this->attributes['enrolment']) {
 
 		case 'manual': // call for review
@@ -728,6 +732,10 @@ class Event extends Overlay {
 	 */
 	function get_invite_roles() {
 		global $context;
+
+		// sanity check
+		if(!isset($this->attributes['enrolment']))
+			$this->attributes['enrolment'] = 'none';
 
 		switch($this->attributes['enrolment']) {
 		case 'manual':
