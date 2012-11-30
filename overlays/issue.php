@@ -1192,7 +1192,7 @@ class Issue extends Overlay {
 			$comments[] = i18n::s('Page has been created');
 
 			// set host owner, if any
-			if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != Surfer::get_id())) {
+			if(isset($this->attributes['owner']) && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != Surfer::get_id())) {
 				$fields = array();
 				$fields['owner_id'] = $user['id'];
 				$this->anchor->set_values($fields);
