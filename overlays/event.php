@@ -688,17 +688,17 @@ class Event extends Overlay {
 		$text = '';
 
 		if($value = $this->anchor->get_title())
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Duration'), $this->attributes['duration'].' '.i18n::c('minutes')).BR;
 
 		// build a link to the chairman page, if any
 		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
 
 		// meeting has been cancelled
 		if($method == 'CANCEL')
@@ -734,8 +734,8 @@ class Event extends Overlay {
 			return '';
 		case 'none':
 		default:
-			return '<p><input type="radio" name="force_enrolment" value="N" /> '.i18n::s('to review this event and confirm their participation')
-				.BR.'<input type="radio" name="force_enrolment" value="Y" checked="checked" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and confirm their participation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
 			break;
 		case 'validate':
 			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and ask for an invitation')
