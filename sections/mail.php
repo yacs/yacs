@@ -2,6 +2,9 @@
 /**
  * send a message to section watchers
  *
+ * This script localize string of the user interface as usual. However, content of the
+ * default invitation is localized according to server/community main settings.
+ *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
@@ -144,7 +147,7 @@ if(Surfer::is_crawler()) {
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $recipient) !== FALSE) {
-			$message = '<hr /><p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
+			$message = '<hr /><p>'.i18n::c('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
 		}
 
 		// assemble main content of this message
@@ -206,14 +209,14 @@ if(Surfer::is_crawler()) {
 
 	// the subject
 	$label = i18n::s('Message title');
-	$title = sprintf(i18n::s('Notification: %s'), $item['title']);
+	$title = sprintf(i18n::c('Notification: %s'), $item['title']);
 	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
 	// default message content
-	$content = '<p>'.i18n::s('Can you review the following page and contribute to it where applicable?').'</p>'
+	$content = '<p>'.i18n::c('Can you review the following page and contribute to it where applicable?').'</p>'
 		.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>'
-		.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
+		.'<p>'.i18n::c('Please let me thank you for your involvement.').'</p>'
 		.'<p>'.Surfer::get_name().'</p>';
 
 	// the message
