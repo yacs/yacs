@@ -34,7 +34,7 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 
 			// automatic notification
 			if($item['type'] == 'notification')
-				$text .= '<dd style="font-style: italic; font-size: smaller;">'.ucfirst(trim(Codes::beautify($item['description'])))
+				$text .= '<dd style="font-style: italic; font-size: smaller;">'.ucfirst(trim($item['description']))
 					.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>';
 
 			// regular comment
@@ -48,7 +48,7 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 
 				// expand a definition list
 				$text .= '<dt>'.$label.'</dt>'
-					.'<dd>'.Codes::beautify($item['description'])
+					.'<dd>'.$item['description']
 						.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>'."\n";
 
 			}
@@ -57,6 +57,9 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 		// finalize the definition list
 		if($text)
 			$text = '<dl class="comments">'.$text.'</dl>';
+
+		// process yacs codes at once
+		$text = Codes::beautify($text);
 
 		// end of processing
 		SQL::free($result);

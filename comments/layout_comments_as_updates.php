@@ -142,7 +142,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 				$text .= Users::get_signature($item['create_id']);
 
 			// format and display
-			$text = ucfirst(trim(Codes::beautify($text)))."\n";
+			$text = ucfirst(trim($text));
 
 			// float the menu on the right
 			if(count($menu))
@@ -239,6 +239,9 @@ Class Layout_comments_as_updates extends Layout_interface {
 			$count++;
 		}
 		$output .= '</table>';
+
+		// process yacs codes
+		$output = Codes::beautify($output);
 
 		return $output;
 	}
