@@ -74,7 +74,7 @@ Class Layout_comments_as_replies extends Layout_interface {
 			$text .= '<dd class="'.$class.'" id="comment_'.$item['id'].'">';
 
 			// the comment itself
-			$text .= ucfirst(trim(Codes::beautify($item['description'].Users::get_signature($item['create_id']))));
+			$text .= ucfirst(trim($item['description'].Users::get_signature($item['create_id'])));
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
@@ -87,6 +87,9 @@ Class Layout_comments_as_replies extends Layout_interface {
 
 		// end of the list
 		$text .= '</dl>';
+
+		// process yacs codes
+		$text = Codes::beautify($text);
 
 		// end of processing
 		SQL::free($result);

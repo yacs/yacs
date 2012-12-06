@@ -35,7 +35,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 
 			// automatic notification
 			if($item['type'] == 'notification')
-				$text = '<dd class="thread_other" style="font-style: italic;">'.ucfirst(trim(Codes::beautify($item['description']))).'</dd>'.$text;
+				$text = '<dd class="thread_other" style="font-style: italic;">'.ucfirst(trim($item['description'])).'</dd>'.$text;
 
 			// regular comment
 			else {
@@ -71,7 +71,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 				$stamp = ' <div style="float: right; font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic', i18n::s('Edit')).'</div>';
 
 				// package everything --change order to get oldest first
-				$text = '<dt'.$style.'>'.$author.'</dt><dd'.$style.'>'.$stamp.ucfirst(trim(Codes::beautify($item['description']))).'</dd>'.$text;
+				$text = '<dt'.$style.'>'.$author.'</dt><dd'.$style.'>'.$stamp.ucfirst(trim($item['description'])).'</dd>'.$text;
 			}
 		}
 
@@ -81,6 +81,10 @@ Class Layout_comments_as_thread extends Layout_interface {
 		// finalize the returned definition list
 		if($text)
 			$text = '<dl>'.$text.'</dl>';
+
+		// process yacs codes
+		$text = Codes::beautify($text);
+
 		return $text;
 	}
 }
