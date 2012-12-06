@@ -542,7 +542,7 @@ Class Article extends Anchor {
 				$containers[] = $handle;
 
 				// should we forward notifications upwards
-				if(!$container->has_option('forward_notifications', FALSE))
+				if(($action != 'article:publish') && !$container->has_option('forward_notifications', FALSE))
 					break;
 
 				// add watchers of next level
@@ -872,11 +872,18 @@ Class Article extends Anchor {
 			// actually, several files have been added
 			$label = '';
 			if(!$origin) {
-				$fields = array();
-				$fields['anchor'] = 'article:'.$this->item['id'];
-				$fields['description'] = i18n::s('Several files have been added');
-				$fields['type'] = 'notification';
-				Comments::post($fields);
+
+				// only when comments are allowed
+				if(!Articles::has_option('no_comments', $this->anchor, $this->item)) {
+
+					// remember this as an automatic notification
+					$fields = array();
+					$fields['anchor'] = 'article:'.$this->item['id'];
+					$fields['description'] = i18n::s('Several files have been added');
+					$fields['type'] = 'notification';
+					Comments::post($fields);
+
+				}
 
 			// one file has been added
 			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin, TRUE))) {
@@ -894,13 +901,20 @@ Class Article extends Anchor {
 
 				// else add a comment to take note of the upload
 				} else {
-					$fields = array();
-					$fields['anchor'] = 'article:'.$this->item['id'];
-					if($action == 'file:create')
-						$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
-					else
-						$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
-					Comments::post($fields);
+
+					// only when comments are allowed
+					if(!Articles::has_option('no_comments', $this->anchor, $this->item)) {
+
+						// remember this as an automatic notification
+						$fields = array();
+						$fields['anchor'] = 'article:'.$this->item['id'];
+						if($action == 'file:create')
+							$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
+						else
+							$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
+						Comments::post($fields);
+
+					}
 
 				}
 
@@ -932,8 +946,9 @@ Class Article extends Anchor {
 
 				}
 
-				// actual creation in the database, but silently
-				Comments::post($fields);
+				// only when comments are allowed
+				if(!Articles::has_option('no_comments', $this->anchor, $this->item))
+					Comments::post($fields);
 
 			// include flash videos in a regular page
 			} elseif($origin && $label)

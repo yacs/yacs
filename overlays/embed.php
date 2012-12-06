@@ -262,8 +262,12 @@ class Embed extends Overlay {
 	 *
 	 * @link http://oembed.com/ the specification of the oEmbed protocol
 	 *
+	 * The strategy to find oEmbed data is the following:
+	 * - list of well-known services (e.g., slideshare, ...)
+	 * - sense the target url in case an oEmbed endpoint is provided
+	 * - submit the url to http://www.noembed.com/
+	 *
 	 * The array returned reflects the outcome of the oEmbed transaction.
-	 * If no provider has been found, the type is set to 'unknown'.
 	 * If a network error takes place, the type is set to 'error'.
 	 *
 	 * @param string the address of the object to embed
@@ -279,35 +283,35 @@ class Embed extends Overlay {
 		$endpoints = array();
 
 		// type: video
-		$endpoints['http://www\.youtube\.com/watch\?'] = 'http://www.youtube.com/oembed';
+		$endpoints['https?://(www\.)?youtube\.com/watch\?'] = 'http://www.youtube.com/oembed';
 		$endpoints['http://youtu\.be/'] = 'http://www.youtube.com/oembed';
-		$endpoints['http://vimeo\.com/'] = 'http://vimeo.com/api/oembed.json';
+		$endpoints['https?://(www\.)?vimeo\.com/'] = 'http://vimeo.com/api/oembed.json';
 		$endpoints['http://revision3\.com/'] = 'http://revision3.com/api/oembed/';
-		$endpoints['http://www\.5min\.com/video/'] = 'http://api.5min.com/oembed.json';
-		$endpoints['http://dotsub\.com/view/'] = 'http://dotsub.com/services/oembed';
-		$endpoints['http://www\.hulu\.com/watch/'] = 'http://www.hulu.com/api/oembed.json';
-		$endpoints['http://[^\.]+\.dailymotion\.com/'] = 'http://www.dailymotion.com/api/oembed/';
+		$endpoints['http://(www\.)?5min\.com/video/'] = 'http://api.5min.com/oembed.json';
+		$endpoints['http://(www\.)?dotsub\.com/view/'] = 'http://dotsub.com/services/oembed';
+		$endpoints['https?://(www\.)?hulu\.com/watch/'] = 'http://www.hulu.com/api/oembed.json';
+		$endpoints['https?://(www\.)?dailymotion\.com/'] = 'http://www.dailymotion.com/services/oembed/';
 		$endpoints['http://[^\.]+\.blip\.tv/'] = 'http://blip.tv/oembed/';
 		$endpoints['http://blip\.tv/'] = 'http://blip.tv/oembed/';
-		$endpoints['http://www\.viddler\.com/'] = 'http://lab.viddler.com/services/oembed/';
+		$endpoints['https?://(www\.)?viddler\.com/'] = 'http://lab.viddler.com/services/oembed/';
 
 		// type: photo (or file)
-		$endpoints['http://www\.flickr\.com/'] = 'http://www.flickr.com/services/oembed/';
+		$endpoints['https?://(www\.)?flickr\.com/'] = 'http://www.flickr.com/services/oembed/';
 		$endpoints['http://flic\.kr/'] = 'http://www.flickr.com/services/oembed/';
 		$endpoints['http://[^\.]+\.deviantart\.com/'] = 'http://backend.deviantart.com/oembed';
 		$endpoints['http://yfrog\.'] = 'http://www.yfrog.com/api/oembed';
-		$endpoints['http://[^\.]+\.smugmug\.com/'] = 'http://api.smugmug.com/services/oembed/';
-		$endpoints['http://[^\.]+\.photobucket\.com/'] = 'http://smedia.photobucket.com/oembed';
+		$endpoints['https?://(www\.)?smugmug\.com/'] = 'http://api.smugmug.com/services/oembed/';
+		$endpoints['http://[^\.]+\.photobucket\.com/'] = 'http://photobucket.com/oembed';
 
 		// type: rich
-		$endpoints['https://[^\.]+\.twitter\.com/'] = 'https://api.twitter.com/1/statuses/oembed.json';
-		$endpoints['https://twitter\.com/'] = 'https://api.twitter.com/1/statuses/oembed.json';
+		$endpoints['https?://[^\.]+\.twitter\.com/.+?/status(es)?/'] = 'https://api.twitter.com/1/statuses/oembed.json';
+		$endpoints['https?://twitter\.com/.+?/status(es)?/'] = 'https://api.twitter.com/1/statuses/oembed.json';
 		$endpoints['http://official\.fm/'] = 'http://official.fm/services/oembed.json';
 		$endpoints['http://soundcloud\.com/'] = 'http://soundcloud.com/oembed';
 		$endpoints['http://rd\.io/'] = 'http://www.rdio.com/api/oembed/';
 
-		$endpoints['http://www\.slideshare\.net/'] = 'http://www.slideshare.net/api/oembed/2';
-		$endpoints['http://[^\.]+\.scribd\.com/'] = 'http://www.scribd.com/services/oembed';
+		$endpoints['https?://(www\.)?slideshare\.net/'] = 'http://www.slideshare.net/api/oembed/2';
+		$endpoints['https?://(www\.)?scribd\.com/'] = 'http://www.scribd.com/services/oembed';
 
 		// look at each providers
 		$endpoint = null;
@@ -362,10 +366,18 @@ class Embed extends Overlay {
 			}
 		}
 
-		// no provider has been found
+		// if no provider has been found, submit this url to noembed.com
 		if(!$endpoint) {
-			$result['type'] = 'unknown';
-			return $result;
+
+			// prepare the oEmbed request
+			$parameters = array();
+			$parameters[] = 'url='.urlencode($url);
+			$parameters[] = 'maxwidth=500';
+			$parameters[] = 'format=json';
+
+			// encode provided data, if any
+			$endpoint = 'http://noembed.com/embed?'.implode('&', $parameters);
+
 		}
 
 		// do the transaction
@@ -515,8 +527,9 @@ class Embed extends Overlay {
 			}
 		}
 
-		// add a comment
-		if($comments) {
+		// add a comment if allowed
+		if($comments && !$this->anchor->has_option('no_comments')) {
+
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
 			$fields['anchor'] = $reference;

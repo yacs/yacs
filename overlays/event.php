@@ -80,6 +80,10 @@ class Event extends Overlay {
 	function filter_invite_message($text) {
 		global $context;
 
+		// sanity check
+		if(!isset($this->attributes['enrolment']))
+			$this->attributes['enrolment'] = 'none';
+
 		switch($this->attributes['enrolment']) {
 
 		case 'manual': // call for review
@@ -99,7 +103,7 @@ class Event extends Overlay {
 		}
 
 		// how to update the calendar?
-		$text .= '<div><p>'.i18n::s('Use the file attached to update your calendar.').'</p></div>';
+		$text .= '<div><p>'.i18n::c('Use the file attached to update your calendar.').'</p></div>';
 
 		// done
 		return $text;
@@ -688,17 +692,17 @@ class Event extends Overlay {
 		$text = '';
 
 		if($value = $this->anchor->get_title())
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 
 		// dates
 		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
 		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes')).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Duration'), $this->attributes['duration'].' '.i18n::c('minutes')).BR;
 
 		// build a link to the chairman page, if any
 		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
-			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
 
 		// meeting has been cancelled
 		if($method == 'CANCEL')
@@ -729,13 +733,17 @@ class Event extends Overlay {
 	function get_invite_roles() {
 		global $context;
 
+		// sanity check
+		if(!isset($this->attributes['enrolment']))
+			$this->attributes['enrolment'] = 'none';
+
 		switch($this->attributes['enrolment']) {
 		case 'manual':
 			return '';
 		case 'none':
 		default:
-			return '<p><input type="radio" name="force_enrolment" value="N" /> '.i18n::s('to review this event and confirm their participation')
-				.BR.'<input type="radio" name="force_enrolment" value="Y" checked="checked" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
+			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and confirm their participation')
+				.BR.'<input type="radio" name="force_enrolment" value="Y" /> '.i18n::s('to be notified of their enrolment').'</p><hr>';
 			break;
 		case 'validate':
 			return '<p><input type="radio" name="force_enrolment" value="N" checked="checked" /> '.i18n::s('to review this event and ask for an invitation')
@@ -1426,8 +1434,8 @@ class Event extends Overlay {
 		if(!is_callable(array($this->anchor, 'get_reference')))
 			return;
 
-		// create a comment only on first join, and if not a robot
-		if(!Surfer::is_crawler() && !isset($_SESSION['event_'.$this->anchor->get_reference()])) {
+		// create a comment only on first join, and if not a robot, and if comments are allowed
+		if(!isset($_SESSION['event_'.$this->anchor->get_reference()]) && !Surfer::is_crawler() && !$this->anchor->has_option('no_comments')) {
 
 			// track the new participant
 			include_once $context['path_to_root'].'comments/comments.php';
@@ -1468,7 +1476,7 @@ class Event extends Overlay {
 		// track the beginning of event enrolment but only when users are asking for some invitation
 		if($this->attributes['enrolment'] == 'validate') {
 			include_once $context['path_to_root'].'comments/comments.php';
-			if(is_callable(array($this->anchor, 'get_reference'))) {
+			if(is_callable(array($this->anchor, 'get_reference')) && !$this->anchor->has_option('no_comments')) {
 				$fields = array();
 				$fields['anchor'] = $this->anchor->get_reference();
 				$fields['description'] = sprintf(i18n::s('%s has open enrolment to the event'), Surfer::get_name());
@@ -2015,7 +2023,7 @@ class Event extends Overlay {
 
 		// track the beginning of the meeting
 		include_once $context['path_to_root'].'comments/comments.php';
-		if(is_callable(array($this->anchor, 'get_reference'))) {
+		if(is_callable(array($this->anchor, 'get_reference')) && !$this->anchor->has_option('no_comments')) {
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
 			$fields['description'] = sprintf(i18n::s('%s has started the meeting'), Surfer::get_name());
@@ -2038,7 +2046,7 @@ class Event extends Overlay {
 
 		// track the end of the meeting
 		include_once $context['path_to_root'].'comments/comments.php';
-		if(is_callable(array($this->anchor, 'get_reference'))) {
+		if(is_callable(array($this->anchor, 'get_reference')) && !$this->anchor->has_option('no_comments')) {
 			$fields = array();
 			$fields['anchor'] = $this->anchor->get_reference();
 			$fields['description'] = sprintf(i18n::s('%s has stopped the meeting'), Surfer::get_name());

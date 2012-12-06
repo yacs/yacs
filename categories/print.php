@@ -22,6 +22,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'categories.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -163,7 +164,6 @@ if(Surfer::is_crawler()) {
 	$section = Skin::build_block(i18n::s('See also'), 'title');
 
 	// list links by date (default) or by title (option :links_by_title:)
-	include_once '../links/links.php';
 	if(preg_match('/\blinks_by_title\b/i', $item['options']))
 		$items = Links::list_by_title_for_anchor('category:'.$item['id'], 0, 50);
 	else

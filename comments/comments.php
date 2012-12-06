@@ -59,7 +59,7 @@ Class Comments {
 		// only in articles
 		if($variant == 'article') {
 
-			// 'no files' option
+			// 'no_comments' option
 			if(Articles::has_option('no_comments', $anchor, $item))
 				return FALSE;
 

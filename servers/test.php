@@ -27,6 +27,7 @@
 include_once '../shared/global.php';
 include_once 'servers.php';
 include_once '../feeds/feeds.php';	// to read feeds
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -144,7 +145,6 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.sprintf(i18n::s('%d elements have been read'), count($news))."</p>\n";
 
 			// list banned hosts
-			include_once $context['path_to_root'].'servers/servers.php';
 			$banned_pattern = Servers::get_banned_pattern();
 
 			// where links should be anchored
@@ -153,7 +153,6 @@ if(Surfer::is_crawler()) {
 				$reference = $anchor->get_reference();
 
 			// process retrieved links
-			include_once $context['path_to_root'].'links/links.php';
 			$context['text'] .= '<ul>'."\n";
 			foreach($news as $item) {
 

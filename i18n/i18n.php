@@ -723,7 +723,7 @@ Class i18n {
 		$languages =& i18n::get_languages();
 
 		// engage surfer
-		$text .= '<option value="none">'.i18n::s('Select a language')."</option>\n";
+		$text .= '<option value="none">'.i18n::s('Use browser settings')."</option>\n";
 
 		// current language setting
 		if($current == $context['language'])

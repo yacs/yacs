@@ -487,6 +487,7 @@ Class Codes {
 				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
+				"|\n[ \t]*-(\s+)|i",		/* - list item > */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
 				"#([\n\t ])(mailto:|)([a-z0-9_\-\.\~]+?)@([a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)([\n\t ]*)#ie" /* mail address*/
@@ -502,6 +503,7 @@ Class Codes {
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
 				BR."$1:$2",
+				BR."-$1",
 				BR.">$1",
 				BR."|$1",
 				"'$1'.Skin::build_link('mailto:$3@$4', '$3@$4', 'email').'$5'"
@@ -513,7 +515,7 @@ Class Codes {
 			array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'), $text);
 
 		// locate pre-formatted areas
-		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</$1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</\1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$index = 0;
@@ -1044,7 +1046,7 @@ Class Codes {
 				'/\[toq\]\n*/ise',							// [toq] (table of questions)
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
-				'#\[(header[1-5])\](.*?)\[/$1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
+				'#\[(header[1-5])\](.*?)\[/\1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
 				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
 				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
 				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
@@ -1514,7 +1516,7 @@ Class Codes {
 		if($users = Activities::list_at($url, array('click', 'fetch'), 50, 'comma')) {
 
 			$count = Activities::count_at($url, array('click', 'fetch'));
-			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $users);
+			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $url);
 
 		} else
 			$text .= i18n::s('No authenticated person has used this link yet');
@@ -4632,7 +4634,7 @@ Class Codes {
 		global $context;
 
 		// suppress pairing codes
-		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/$1\]#s', '${2}', $text);
+		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/\1\]#s', '${2}', $text);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)
