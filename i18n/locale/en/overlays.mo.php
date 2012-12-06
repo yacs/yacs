@@ -138,6 +138,7 @@ $context['l10n']['en']['e2b64adc863b7d00d47fadf6dd34ec0d']='Enrolment has been c
 $context['l10n']['en']['c9f09ebf391610f7051573e567f7cd53']='Enrolment has not been opened yet';
 $context['l10n']['en']['Enrolment is open']='Enrolment is open';
 $context['l10n']['en']['Enter a valid %s account']='Enter a valid %s account';
+$context['l10n']['en']['Event has been cancelled.']='Meeting has been cancelled.';
 $context['l10n']['en']['Event has not started yet']='Event has not started yet';
 $context['l10n']['en']['Event has started']='Event has started';
 $context['l10n']['en']['Event is over']='Event is over';
