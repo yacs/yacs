@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:38+0100\n"
+"POT-Creation-Date: 2012-12-06 21:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: images/check.php:23 images/check.php:34 images/check.php:107
 #: images/check.php:163 images/delete.php:80 images/edit.php:138
-#: images/index.php:62 images/view.php:97
+#: images/index.php:62 images/view.php:98
 msgid "Images"
 msgstr ""
 
@@ -31,7 +31,7 @@ msgstr ""
 #: images/check.php:31 images/delete.php:92 images/edit.php:157
 #: images/edit.php:182 images/index.php:67 images/set_as_icon.php:65
 #: images/set_as_icon.php:80 images/set_as_thumbnail.php:63
-#: images/set_as_thumbnail.php:78 images/view.php:118
+#: images/set_as_thumbnail.php:78 images/view.php:119
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -110,12 +110,12 @@ msgstr ""
 msgid "bytes"
 msgstr ""
 
-#: images/delete.php:163 images/layout_images.php:103 images/view.php:224
+#: images/delete.php:163 images/layout_images.php:103 images/view.php:223
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
 
-#: images/delete.php:180 images/view.php:211
+#: images/delete.php:180 images/view.php:210
 #, php-format
 msgid "Source: %s"
 msgstr ""
@@ -325,7 +325,7 @@ msgid ""
 "more or less useless in this case."
 msgstr ""
 
-#: images/edit.php:630 images/view.php:250
+#: images/edit.php:630 images/view.php:249
 msgid "Help"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "In %s"
 msgstr ""
 
-#: images/layout_images.php:114 images/view.php:238
+#: images/layout_images.php:114 images/view.php:237
 msgid "Update this image"
 msgstr ""
 
@@ -434,7 +434,7 @@ msgstr ""
 msgid "Set as page thumbnail"
 msgstr ""
 
-#: images/layout_images.php:128 images/view.php:244
+#: images/layout_images.php:128 images/view.php:243
 msgid "Delete this image"
 msgstr ""
 
@@ -446,26 +446,26 @@ msgstr ""
 msgid "Operation has failed."
 msgstr ""
 
-#: images/view.php:220
+#: images/view.php:219
 #, php-format
 msgid "%d bytes"
 msgstr ""
 
-#: images/view.php:232
+#: images/view.php:231
 msgid "Back to main page"
 msgstr ""
 
-#: images/view.php:238
+#: images/view.php:237
 msgid "Press [e] to edit"
 msgstr ""
 
-#: images/view.php:249
+#: images/view.php:248
 msgid ""
 "To save this image on your hard drive, drag the mouse above the image and "
 "use the right button. A contextual pop-up menu should appear. Select the "
 "adequate command depending on the browser used."
 msgstr ""
 
-#: images/view.php:256
+#: images/view.php:255
 msgid "Thumbnail"
 msgstr ""

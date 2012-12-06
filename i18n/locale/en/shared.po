@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
 "PO-Revision-Date: 2012-07-13 18:33+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -194,58 +194,58 @@ msgstr "Last edition"
 msgid "Related items"
 msgstr "Related items"
 
-#: shared/codes.php:1517
+#: shared/codes.php:1519
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d named person has followed the link: %s"
 msgstr[1] "%d named persons have followed the link: %s"
 
-#: shared/codes.php:1520
+#: shared/codes.php:1522
 msgid "No authenticated person has used this link yet"
 msgstr "No authenticated person has used this link yet"
 
-#: shared/codes.php:1541
+#: shared/codes.php:1543
 msgid "No item has been found."
 msgstr "No item has been found."
 
-#: shared/codes.php:1585
+#: shared/codes.php:1587
 msgid "Access collection"
 msgstr "Access collection"
 
-#: shared/codes.php:1646
+#: shared/codes.php:1648
 msgid "Filter"
 msgstr "Filter"
 
-#: shared/codes.php:1769
+#: shared/codes.php:1771
 msgid "Play in a separate window"
 msgstr "Play in a separate window"
 
-#: shared/codes.php:2005 shared/codes.php:2267
+#: shared/codes.php:2007 shared/codes.php:2269
 msgid "Browse this map with Freemind"
 msgstr "Browse this map with Freemind"
 
-#: shared/codes.php:2195 shared/codes.php:2207
+#: shared/codes.php:2197 shared/codes.php:2209
 msgid "Full-size"
 msgstr "Full-size"
 
-#: shared/codes.php:2401
+#: shared/codes.php:2403
 msgid "Your browser does not accept iframes"
 msgstr "Your browser does not accept iframes"
 
-#: shared/codes.php:2882
+#: shared/codes.php:2884
 msgid "View this comment"
 msgstr "View this comment"
 
-#: shared/codes.php:2905 shared/codes.php:2961
+#: shared/codes.php:2907 shared/codes.php:2963
 msgid "[this file has been deleted]"
 msgstr "[this file has been deleted]"
 
-#: shared/codes.php:2926 shared/codes.php:2985
+#: shared/codes.php:2928 shared/codes.php:2987
 msgid "[this file has been replaced]"
 msgstr "[this file has been replaced]"
 
-#: shared/codes.php:4493
+#: shared/codes.php:4495
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
@@ -358,41 +358,41 @@ msgstr "PDF export created by YACS"
 msgid "Redirecting to %s"
 msgstr "Redirecting to %s"
 
-#: shared/sql.php:425
+#: shared/sql.php:421
 #, php-format
 msgid "Impossible to connect to %s."
 msgstr "Impossible to connect to %s."
 
-#: shared/sql.php:556 shared/zipfile.php:192
+#: shared/sql.php:552 shared/zipfile.php:192
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible to read %s."
 
-#: shared/sql.php:729 shared/sql.php:731
+#: shared/sql.php:725 shared/sql.php:727
 msgid "Connection to the database has been lost"
 msgstr "Connection to the database has been lost"
 
-#: shared/sql.php:996
+#: shared/sql.php:992
 msgid "The table"
 msgstr "The table"
 
-#: shared/sql.php:1000
+#: shared/sql.php:996
 msgid "has been created"
 msgstr "has been created"
 
-#: shared/sql.php:1002
+#: shared/sql.php:998
 msgid "has been updated"
 msgstr "has been updated"
 
-#: shared/sql.php:1015
+#: shared/sql.php:1011
 msgid "and analyzed"
 msgstr "and analyzed"
 
-#: shared/sql.php:1026
+#: shared/sql.php:1022
 msgid "and optimized"
 msgstr "and optimized"
 
-#: shared/sql.php:1039 shared/sql.php:1050
+#: shared/sql.php:1035 shared/sql.php:1046
 #, php-format
 msgid "ERROR for the table %s"
 msgstr "ERROR for the table %s"
