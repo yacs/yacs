@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:33+0100\n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
 "PO-Revision-Date: 2012-11-21 00:00+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -35,7 +35,7 @@ msgstr "La requête est invalide."
 #: users/heartbit.php:40 users/index.php:90 users/leave.php:51
 #: users/login.php:156 users/mail.php:73 users/mail.php:92 users/mail.php:103
 #: users/notifications.php:158 users/password.php:69 users/password.php:74
-#: users/password.php:156 users/print.php:65 users/print.php:80
+#: users/password.php:156 users/print.php:66 users/print.php:81
 #: users/select_avatar.php:76 users/select_avatar.php:89 users/select.php:70
 #: users/track.php:60 users/track.php:65 users/transfer.php:46
 #: users/validate.php:51 users/view.php:207 users/visit.php:59
@@ -48,7 +48,7 @@ msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
 #: users/configure.php:147 users/delete.php:69 users/password.php:60
-#: users/password.php:62 users/print.php:125 users/print.php:129
+#: users/password.php:62 users/print.php:126 users/print.php:130
 #: users/search.php:85 users/view.php:519 users/view.php:523
 #: users/view.php:546 users/view.php:548 users/view.php:625
 #, php-format
@@ -384,7 +384,7 @@ msgstr "Seuls les associés peuvent envoyer des images ou des fichiers."
 msgid "No upload is accepted."
 msgstr "Aucun téléchargement n'est accepté."
 
-#: users/configure.php:473 users/edit.php:740 users/print.php:159
+#: users/configure.php:473 users/edit.php:740 users/print.php:160
 #: users/view.php:711
 msgid "Files"
 msgstr "Fichiers"
@@ -542,7 +542,7 @@ msgid "Please prove you are not a robot."
 msgstr "Merci de prouver que vous n'êtes pas un robot."
 
 #: users/edit.php:280 users/login.php:227 users/login.php:315
-#: users/users.php:1712
+#: users/users.php:1711
 msgid "Welcome!"
 msgstr "Bienvenue !"
 
@@ -632,7 +632,7 @@ msgstr "Souscripteur"
 msgid "Blocked"
 msgstr "Bloqué"
 
-#: users/edit.php:371 users/password.php:215 users/print.php:125
+#: users/edit.php:371 users/password.php:215 users/print.php:126
 msgid "Full name"
 msgstr "Nom et prénom(s)"
 
@@ -716,7 +716,7 @@ msgstr ""
 msgid "Alternate number"
 msgstr "Autre numéro"
 
-#: users/edit.php:470 users/print.php:129
+#: users/edit.php:470 users/print.php:130
 msgid "Web address"
 msgstr "Adresse web"
 
@@ -837,11 +837,11 @@ msgstr "Accès"
 msgid "Public - Everybody, including anonymous surfers"
 msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
-#: users/edit.php:618 users/print.php:114 users/view.php:618
+#: users/edit.php:618 users/print.php:115 users/view.php:618
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
-#: users/edit.php:622 users/print.php:116 users/view.php:620
+#: users/edit.php:622 users/print.php:117 users/view.php:620
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
@@ -1007,7 +1007,7 @@ msgstr "* signale les champs obligatoires"
 msgid "Help"
 msgstr "Aide"
 
-#: users/element.php:105 users/users.php:332 users/users.php:1779
+#: users/element.php:105 users/users.php:331 users/users.php:1778
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -1141,7 +1141,7 @@ msgid "last post %s"
 msgstr "dernier envoi %s"
 
 #: users/layout_users_as_password.php:91 users/layout_users_as_search.php:122
-#: users/layout_users.php:127 users/print.php:93 users/view.php:290
+#: users/layout_users.php:127 users/print.php:94 users/view.php:290
 #, php-format
 msgid "%d posts"
 msgstr "%d contributions"
@@ -1483,22 +1483,22 @@ msgstr "Modification : %s"
 msgid "From %s:"
 msgstr "De %s :"
 
-#: users/password.php:106 users/users.php:1709 users/users.php:1950
+#: users/password.php:106 users/users.php:1708 users/users.php:1949
 #, php-format
 msgid "Your account at %s"
 msgstr "Votre enregistrement à %s"
 
-#: users/password.php:109 users/users.php:1713
+#: users/password.php:109 users/users.php:1712
 #, php-format
 msgid "This message relates to your account at %s."
 msgstr "Ce message fait référence à votre compte à %s."
 
-#: users/password.php:113 users/users.php:1717 users/users.php:1955
+#: users/password.php:113 users/users.php:1716 users/users.php:1954
 #, php-format
 msgid "Your nick name is %s"
 msgstr "Votre pseudo est %s"
 
-#: users/password.php:117 users/users.php:1722
+#: users/password.php:117 users/users.php:1721
 msgid ""
 "Record this message and use the following link to authenticate to the site "
 "at any time:"
@@ -1506,7 +1506,7 @@ msgstr ""
 "Conservez ce message et utilisez le lien qui suit pour vous authentifier sur "
 "le site :"
 
-#: users/password.php:121 users/users.php:1726
+#: users/password.php:121 users/users.php:1725
 msgid ""
 "Caution: This hyperlink contains your login credentials encrypted. Please be "
 "aware anyone who uses this link will have full access to your account."
@@ -1515,12 +1515,12 @@ msgstr ""
 "confidentialité de ce message pour éviter que quelqu'un puisse l'utiliser et "
 "accèder à votre compte."
 
-#: users/password.php:124 users/users.php:1738 users/users.php:1957
+#: users/password.php:124 users/users.php:1737 users/users.php:1956
 #, php-format
 msgid "On-line help is available at %s"
 msgstr "Une aide en ligne est disponible à l'adresse %s"
 
-#: users/password.php:126 users/users.php:1740 users/users.php:1959
+#: users/password.php:126 users/users.php:1739 users/users.php:1958
 #, php-format
 msgid "Thank you for your interest into %s."
 msgstr "Merci de votre intérêt pour %s."
@@ -1570,12 +1570,12 @@ msgstr ""
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: users/print.php:97
+#: users/print.php:98
 #, php-format
 msgid "Registered %s"
 msgstr "Enregistré %s"
 
-#: users/print.php:103
+#: users/print.php:104
 msgid ""
 "As an associate of this community, this user has unlimited rights (and "
 "duties) on this server."
@@ -1583,13 +1583,13 @@ msgstr ""
 "Associé de cette communauté, avec des droits (et des devoirs) avancés sur ce "
 "serveur."
 
-#: users/print.php:106
+#: users/print.php:107
 msgid "Member of this community, with contribution rights to this server."
 msgstr ""
 "Membre de cette communauté, avec la possibilité de contribuer au contenu du "
 "serveur."
 
-#: users/print.php:109
+#: users/print.php:110
 msgid ""
 "Subscriber of this community, allowed to browse public pages and to receive "
 "e-mail newsletters."
@@ -1597,16 +1597,16 @@ msgstr ""
 "Abonné à cette communauté ; autorisé à naviguer sur les pages publiques et à "
 "recevoir les lettres d'informations électroniques."
 
-#: users/print.php:133
+#: users/print.php:134
 #, php-format
 msgid "E-mail address: %s %s"
 msgstr "Adresse e-mail : %s %s"
 
-#: users/print.php:143
+#: users/print.php:144
 msgid "(do not wish to receive newsletters)"
 msgstr "(ne souhaite pas recevoir les lettres d'information)"
 
-#: users/print.php:173 users/view.php:866
+#: users/print.php:174 users/view.php:866
 msgid "See also"
 msgstr "Voir aussi"
 
@@ -2007,80 +2007,80 @@ msgstr "Suivante"
 msgid "Location %d of %d"
 msgstr "Emplacement %d de %d"
 
-#: users/users.php:457
+#: users/users.php:456
 #, php-format
 msgid "Click to call %s"
 msgstr "Cliquez pour appeler %s"
 
-#: users/users.php:461
+#: users/users.php:460
 msgid "Calling..."
 msgstr "Appel ..."
 
-#: users/users.php:464
+#: users/users.php:463
 msgid "Stop the call"
 msgstr "Arrêter l'appel"
 
-#: users/users.php:467
+#: users/users.php:466
 msgid "Stopping the call..."
 msgstr "Arrêt de l'appel ..."
 
-#: users/users.php:479
+#: users/users.php:478
 msgid "Your phone number in international format, starting with country code"
 msgstr ""
 "Votre numéro de téléphone au format international, en commençant par le code "
 "pays"
 
-#: users/users.php:595
+#: users/users.php:594
 msgid "(unknown)"
 msgstr "(inconnu)"
 
-#: users/users.php:1248
+#: users/users.php:1247
 msgid "lrp has logged in"
 msgstr "lrp s'est signé"
 
-#: users/users.php:1248
+#: users/users.php:1247
 msgid "Login using the last resort password"
 msgstr "Authentification utilisant le mot de passe de dernier ressort"
 
-#: users/users.php:1275 users/users.php:1335
+#: users/users.php:1274 users/users.php:1334
 msgid "Wait for one hour to recover from too many failed authentications."
 msgstr "Attendez une heure avant de vous authentifier à nouveau."
 
-#: users/users.php:1308
+#: users/users.php:1307
 msgid "Authenticated externally."
 msgstr "Authentifiés extérieurement."
 
-#: users/users.php:1337
+#: users/users.php:1336
 msgid "You have 1 grace authentication attempt."
 msgstr "Vous pouvez tenter de vous authentifier encore 1 fois."
 
-#: users/users.php:1346
+#: users/users.php:1345
 msgid "You have 2 grace authentication attempts."
 msgstr "Vous pouvez tenter de vous authentifier encore 2 fois."
 
-#: users/users.php:1498 users/users.php:1803
+#: users/users.php:1497 users/users.php:1802
 msgid "Please indicate a nick name."
 msgstr "Merci d'indiquer un surnom."
 
-#: users/users.php:1517 users/users.php:1812
+#: users/users.php:1516 users/users.php:1811
 msgid ""
 "Another member already has this nick name. Please select a different one."
 msgstr ""
 "Un autre membre a déjà sélectionné ce surnom. Merci d'en choisir un autre."
 
-#: users/users.php:1527
+#: users/users.php:1526
 msgid "Please indicate a password."
 msgstr "Merci d'indiquer un mot de passe."
 
-#: users/users.php:1730
+#: users/users.php:1729
 msgid "Click on the link below to activate your new account."
 msgstr "Cliquez sur le lien ci-dessous pour activer votre compte."
 
-#: users/users.php:1791
+#: users/users.php:1790
 msgid "New password has to be confirmed."
 msgstr "Le nouveau mot de passe doit être confirmé."
 
-#: users/users.php:1953
+#: users/users.php:1952
 #, php-format
 msgid ""
 "This message has been automatically sent to you to confirm a change of your "
@@ -2089,7 +2089,7 @@ msgstr ""
 "Ce message vous a été envoyé automatiquement pour confirmer votre nouvel "
 "enregistrement sur %s."
 
-#: users/users.php:1956
+#: users/users.php:1955
 #, php-format
 msgid "Authenticate with password %s"
 msgstr "Mot de passe %s"

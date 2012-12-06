@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:38+0100\n"
+"POT-Creation-Date: 2012-12-06 21:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: links/check.php:56 links/check.php:67 links/check.php:160
 #: links/check.php:267 links/check.php:376 links/check.php:432
 #: links/click.php:89 links/delete.php:79 links/edit.php:187
-#: links/index.php:48 links/trackback.php:114
+#: links/index.php:48 links/trackback.php:115
 msgid "Links"
 msgstr ""
 
@@ -31,7 +31,7 @@ msgstr ""
 
 #: links/check.php:64 links/click.php:97 links/delete.php:91
 #: links/edit.php:223 links/edit.php:243 links/index.php:58
-#: links/trackback.php:123 links/trackback.php:246
+#: links/trackback.php:124 links/trackback.php:247
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -192,7 +192,7 @@ msgstr ""
 msgid "Please prove you are not a robot."
 msgstr ""
 
-#: links/edit.php:317 links/trackback.php:205
+#: links/edit.php:317 links/trackback.php:206
 msgid "Thank you for your contribution"
 msgstr ""
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: links/edit.php:459 links/trackback.php:360
+#: links/edit.php:459 links/trackback.php:361
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -306,11 +306,11 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: links/edit.php:502 links/trackback.php:338
+#: links/edit.php:502 links/trackback.php:339
 msgid "Submit"
 msgstr ""
 
-#: links/edit.php:502 links/trackback.php:338
+#: links/edit.php:502 links/trackback.php:339
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: links/edit.php:528 links/trackback.php:353
+#: links/edit.php:528 links/trackback.php:354
 msgid "Please type a valid link."
 msgstr ""
 
@@ -355,7 +355,7 @@ msgstr ""
 msgid "smileys"
 msgstr ""
 
-#: links/edit.php:567 links/trackback.php:397
+#: links/edit.php:567 links/trackback.php:398
 msgid "Help"
 msgstr ""
 
@@ -423,107 +423,107 @@ msgstr ""
 msgid "No item has the provided id."
 msgstr ""
 
-#: links/trackback.php:118
+#: links/trackback.php:119
 #, php-format
 msgid "Reference: %s"
 msgstr ""
 
-#: links/trackback.php:241
+#: links/trackback.php:242
 msgid "No resource to track back."
 msgstr ""
 
-#: links/trackback.php:254
+#: links/trackback.php:255
 msgid ""
 "At any place of this site, use the following code to reference the target "
 "page:"
 msgstr ""
 
-#: links/trackback.php:258
+#: links/trackback.php:259
 msgid "Internal reference"
 msgstr ""
 
-#: links/trackback.php:272
+#: links/trackback.php:273
 msgid ""
 "We suggest you to cut and paste the following piece of text to reference "
 "this page:"
 msgstr ""
 
-#: links/trackback.php:276
+#: links/trackback.php:277
 msgid "Permanent address (permalink):"
 msgstr ""
 
-#: links/trackback.php:287
+#: links/trackback.php:288
 msgid "Other address:"
 msgid_plural "Other addresses:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: links/trackback.php:291
+#: links/trackback.php:292
 msgid "External reference"
 msgstr ""
 
-#: links/trackback.php:299
+#: links/trackback.php:300
 msgid ""
 "You can use the form below to manually trackback any of your pages to this "
 "site. Of course, use this capability only if your weblogging software is not "
 "able to do it automatically."
 msgstr ""
 
-#: links/trackback.php:306
+#: links/trackback.php:307
 msgid "your_server/your_page"
 msgstr ""
 
-#: links/trackback.php:307
+#: links/trackback.php:308
 msgid "Referencing address"
 msgstr ""
 
-#: links/trackback.php:309
+#: links/trackback.php:310
 msgid "The remote address that is referencing content at this site"
 msgstr ""
 
-#: links/trackback.php:313
+#: links/trackback.php:314
 msgid "Its title"
 msgstr ""
 
-#: links/trackback.php:315
+#: links/trackback.php:316
 msgid "The title of your page"
 msgstr ""
 
-#: links/trackback.php:319
+#: links/trackback.php:320
 msgid "Excerpt or description"
 msgstr ""
 
-#: links/trackback.php:321
+#: links/trackback.php:322
 msgid ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
 msgstr ""
 
-#: links/trackback.php:325
+#: links/trackback.php:326
 msgid "Blog name or section"
 msgstr ""
 
-#: links/trackback.php:327
+#: links/trackback.php:328
 msgid "To complement the excerpt"
 msgstr ""
 
-#: links/trackback.php:367
+#: links/trackback.php:368
 msgid "You must type an excerpt of the referencing page."
 msgstr ""
 
-#: links/trackback.php:374
+#: links/trackback.php:375
 msgid "You must name the originating blog."
 msgstr ""
 
-#: links/trackback.php:388
+#: links/trackback.php:389
 msgid "Trackback address:"
 msgstr ""
 
-#: links/trackback.php:392
+#: links/trackback.php:393
 msgid "Trackback"
 msgstr ""
 
-#: links/trackback.php:395
+#: links/trackback.php:396
 #, php-format
 msgid ""
 "This server supports the %s created by Ben Trott and Mena Trott. Please note "
@@ -531,10 +531,10 @@ msgid ""
 "published page."
 msgstr ""
 
-#: links/trackback.php:395
+#: links/trackback.php:396
 msgid "trackback specification"
 msgstr ""
 
-#: links/trackback.php:396
+#: links/trackback.php:397
 msgid "You can use this form to manually trackback your pages to this site."
 msgstr ""

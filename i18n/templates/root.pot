@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:38+0100\n"
+"POT-Creation-Date: 2012-12-06 21:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1064,7 +1064,7 @@ msgstr ""
 #: setup.php:96
 #, php-format
 msgid ""
-"ERROR: YACS requires at least PHP version 5.1. The server runs version %s."
+"ERROR: YACS requires at least PHP version 5.3. The server runs version %s."
 msgstr ""
 
 #: setup.php:98
