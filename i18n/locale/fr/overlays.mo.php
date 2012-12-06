@@ -138,6 +138,7 @@ $context['l10n']['fr']['e2b64adc863b7d00d47fadf6dd34ec0d']='Tout visiteur peut s
 $context['l10n']['fr']['c9f09ebf391610f7051573e567f7cd53']='Les inscriptions ne sont pas encore ouvertes.';
 $context['l10n']['fr']['Enrolment is open']='Les inscriptions sont ouvertes';
 $context['l10n']['fr']['Enter a valid %s account']='Utiliser un compte %s valide';
+$context['l10n']['fr']['Event has been cancelled.']='La réunion a été annulée.';
 $context['l10n']['fr']['Event has not started yet']='L\'événement n\'a pas encore commencé';
 $context['l10n']['fr']['Event has started']='L\'événement est en cours';
 $context['l10n']['fr']['Event is over']='L\'événement est terminé';
