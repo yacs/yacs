@@ -105,6 +105,54 @@ class Day extends Event {
 	}
 
 	/**
+	 * get invitation default message
+	 *
+	 * This is put in the invitation form.
+	 *
+	 * @see articles/invite.php
+	 *
+	 * @param string 'PUBLISH' or 'CANCEL'
+	 * @return string to be put in the web form
+	 */
+	function get_invite_default_message($method='PUBLISH') {
+		global $context;
+
+		// to be displayed into the web form for this invitation
+		$text = '';
+
+		if($value = $this->anchor->get_title())
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
+
+		// dates
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], 'day')).BR;
+
+		// build a link to the chairman page, if any
+		if(isset($this->attributes['chairman']) && ($user = Users::get($this->attributes['chairman'])))
+			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Chairman'), Users::get_link($user['full_name'], NULL, $user['id'])).BR;
+
+		// event has been cancelled
+		if($method == 'CANCEL')
+			$text .= '<div><p>'.i18n::c('Event has been cancelled.').'</p></div>';
+
+		// regular message
+		else {
+
+			// copy content of the introduction field, if any
+			if($value = $this->anchor->get_value('introduction'))
+				$text .= '<div>'.Codes::beautify('<p>'.$value.'</p>').'</div>';
+
+			// copy the induction message, if any
+			if(isset($this->attributes['induction_message']))
+				$text .= '<div>'.Codes::render($this->attributes['induction_message']).'</div>';
+
+		}
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * display a live title
 	 *
 	 * @see overlays/overlay.php
@@ -132,7 +180,7 @@ class Day extends Event {
 	}
 
 	/**
-	 * text to be displayed to page owner for the start of the meeting
+	 * text to be displayed to page owner for the start of the event
 	 *
 	 * @see overlays/event.php
 	 *
@@ -177,7 +225,7 @@ class Day extends Event {
 	}
 
 	/**
-	 * retrieve meeting specific parameters
+	 * retrieve event specific parameters
 	 *
 	 * @see overlays/event.php
 	 *

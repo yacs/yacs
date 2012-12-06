@@ -147,7 +147,7 @@ class Anchor {
 		global $context;
 
 		// do not notify watchers if overlay prevents it
-		if(is_object($this->overlay) && !$this->overlay->should_notify_watchers())
+		if(is_object($this->overlay) && !$this->overlay->should_notify_watchers($mail))
 			return FALSE;
 
 		// list all items in the watching context

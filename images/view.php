@@ -36,6 +36,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'images.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -173,7 +174,6 @@ if(!isset($item['id'])) {
 	if($item['link_url']) {
 
 		// transform local references, if any
-		include_once $context['path_to_root'].'/links/links.php';
 		$attributes = Links::transform_reference($item['link_url']);
 		if($attributes[0])
 			$link = $attributes[0];
@@ -202,7 +202,6 @@ if(!isset($item['id'])) {
 		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
 			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
 		else {
-			include_once '../links/links.php';
 			if($attributes = Links::transform_reference($item['source'])) {
 				list($link, $title, $description) = $attributes;
 				$item['source'] = Skin::build_link($link, $title);

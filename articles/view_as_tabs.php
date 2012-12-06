@@ -291,10 +291,6 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	// feed the wall
 	if(Comments::allow_creation($anchor, $item))
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
-	else {
-		$bar = array(Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'button'));
-		$box['text'] .= Skin::finalize_list($bar, 'menu_bar');
-	}
 
 	// a navigation bar for these comments
 	if($count = Comments::count_for_anchor('article:'.$item['id'])) {

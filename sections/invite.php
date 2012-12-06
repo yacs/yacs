@@ -16,6 +16,9 @@
  * - get_invite_default_message() - to adapt the message to page content
  * - invite() - remember the id of some invitee (e.g., for event enrolment)
  *
+ * This script localize string of the user interface as usual. However, content of the
+ * default invitation is localized according to server/community main settings.
+ *
  * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
  *
  * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
@@ -226,12 +229,12 @@ if(Surfer::is_crawler()) {
 			$message = '<div>'.$_REQUEST['message'].'</div>';
 
 		else
-			$message = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
+			$message = '<p>'.i18n::c('I would like to invite you to the following page.').'</p>'
 				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>';
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $user['email']) !== FALSE) {
-			$message = '<hr /><p>'.i18n::s('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
+			$message = '<hr /><p>'.i18n::c('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
 		}
 
 		// allow the overlay to filter message content
@@ -384,7 +387,7 @@ if(Surfer::is_crawler()) {
 		$title = $overlay->get_live_title($item);
 	else
 		$title = $item['title'];
-	$title = sprintf(i18n::s('Invitation: %s'), $title);
+	$title = sprintf(i18n::c('Invitation: %s'), $title);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
@@ -393,9 +396,9 @@ if(Surfer::is_crawler()) {
 	if(is_callable(array($overlay, 'get_invite_default_message')))
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
-		$content = '<p>'.i18n::s('I would like to invite you to the following page.').'</p>'
+		$content = '<p>'.i18n::c('I would like to invite you to the following page.').'</p>'
 			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>'
-			.'<p>'.i18n::s('Please let me thank you for your involvement.').'</p>'
+			.'<p>'.i18n::c('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 
 	// the message

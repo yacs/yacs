@@ -1192,7 +1192,7 @@ class Issue extends Overlay {
 			$comments[] = i18n::s('Page has been created');
 
 			// set host owner, if any
-			if($this->attributes['owner'] && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != Surfer::get_id())) {
+			if(isset($this->attributes['owner']) && ($user = Users::get($this->attributes['owner'])) && ($user['id'] != Surfer::get_id())) {
 				$fields = array();
 				$fields['owner_id'] = $user['id'];
 				$this->anchor->set_values($fields);
@@ -1335,7 +1335,7 @@ class Issue extends Overlay {
 			SQL::query($query);
 
 		// add a comment
-		if($comments) {
+		if($comments && !$this->anchor->has_option('no_comments')) {
 			include_once $context['path_to_root'].'comments/comments.php';
 			$fields = array();
 			$fields['anchor'] = $this->attributes['anchor_reference'];

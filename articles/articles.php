@@ -1211,24 +1211,14 @@ Class Articles {
 	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
 		global $context;
 
-		// log page publication
-		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
-		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-		if(is_object($anchor))
-			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
-		else
-			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
-		Logger::notify('articles/articles.php: '.$label, $description);
-
 		// notification to send by e-mail
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
 		$mail['notification'] = Articles::build_notification('publish', $item);
 		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
 
-		// allow the overlay to prevent notifications of watcherss
-		if(!is_object($overlay) || $overlay->should_notify_watchers())
+		// allow the overlay to prevent notifications of watchers
+		if(!is_object($overlay) || $overlay->should_notify_watchers($mail))
 			$anchor->alert_watchers($mail, 'article:publish', ($item['active'] == 'N'));
 
 		// never notify followers on private pages
@@ -1261,6 +1251,7 @@ Class Articles {
 				$raw .= ' '.$item['description'];
 
 			// pingback to referred links, if any
+			include_once $context['path_to_root'].'links/links.php';
 			Links::ping($raw, 'article:'.$item['id']);
 
 			// ping servers, if any
@@ -1271,6 +1262,16 @@ Class Articles {
 		// 'publish' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			Hooks::include_scripts('publish', $item['id']);
+
+		// log page publication
+		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
 
@@ -1298,6 +1299,43 @@ Class Articles {
 	public static function finalize_submission($anchor, $item, $overlay=NULL) {
 		global $context;
 
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('submit', $item);
+		$mail['message'] = Mailer::build_notification($mail['notification'], 1);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watcherss
+		if(!is_object($overlay) || $overlay->should_notify_watchers($mail)) {
+
+			// look for anchor owner, and climb upwards
+			$owners = array();
+			$handle = $anchor->get_reference();
+			while($handle && ($container = Anchors::get($handle))) {
+
+				// consider owner of this level
+				if(($owner_id = $container->get_value('owner_id')) && ($owner = Users::get($owner_id))) {
+
+					// notify this owner, but not if he is the surfer
+					if(Surfer::get_id() != $owner_id)
+						Users::alert($owner, $mail);
+
+				}
+
+				// move to upper level
+				$handle = $container->get_parent();
+			}
+
+		}
+
+		// update anchors
+		$anchor->touch('article:submit', $item['id']);
+
+		// 'submit' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('submit', $item['id']);
+
 		// log page submission
 		$label = sprintf(i18n::c('Submission: %s'), strip_tags($item['title']));
 		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
@@ -1307,29 +1345,6 @@ Class Articles {
 			$description = sprintf(i18n::c('Sent by %s'), $poster);
 		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
-
-		// notification to send by e-mail
-		$mail = array();
-		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
-		$mail['notification'] = Articles::build_notification('submit', $item);
-		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
-
-		// allow the overlay to prevent notifications of watcherss
-		if(!is_object($overlay) || $overlay->should_notify_watchers()) {
-
-			// look for anchor owner, and climb upwards
-
-			// send mail to each owner
-//			$anchor->alert_watchers($mail, 'article:submit', ($item['active'] == 'N'));
-
-		}
-
-		// update anchors
-		$anchor->touch('article:submit', $item['id']);
-
-		// 'publish' hook
-		if(is_callable(array('Hooks', 'include_scripts')))
-			Hooks::include_scripts('submit', $item['id']);
 
 	}
 
@@ -1362,13 +1377,6 @@ Class Articles {
 	public static function finalize_update($anchor, $item, $overlay=NULL, $silently=FALSE, $with_watchers=TRUE, $with_followers=FALSE) {
 		global $context;
 
-		// log page update
-		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
-		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
-		Logger::notify('articles/articles.php: '.$label, $description);
-
 		// proceed only if the page has been published
 		if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
 
@@ -1379,7 +1387,7 @@ Class Articles {
 			$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
 
 			// allow the overlay to prevent notifications of watcherss
-			if(is_object($overlay) && !$overlay->should_notify_watchers())
+			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
 				$with_watchers = FALSE;
 
 			// send to watchers of this page, and to watchers upwards
@@ -1418,6 +1426,7 @@ Class Articles {
 					$raw .= ' '.$item['description'];
 
 				// pingback to referred links, if any
+				include_once $context['path_to_root'].'links/links.php';
 				Links::ping($raw, 'article:'.$item['id']);
 
 				// ping servers, if any
@@ -1430,6 +1439,13 @@ Class Articles {
 		// 'update' hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			Hooks::include_scripts('update', $item['id']);
+
+		// log page update
+		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
+		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
 
