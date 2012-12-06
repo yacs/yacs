@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
 "PO-Revision-Date: 2010-09-29 15:15+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -36,13 +36,13 @@ msgstr "Configure"
 #: servers/configure.php:38 servers/configure.php:83 servers/configure.php:145
 #: servers/delete.php:44 servers/edit.php:49 servers/index.php:58
 #: servers/ping.php:23 servers/ping.php:71 servers/populate.php:69
-#: servers/test.php:71 servers/view.php:73
+#: servers/test.php:72 servers/view.php:73
 msgid "Servers"
 msgstr "Servers"
 
 #: servers/configure.php:47 servers/delete.php:56 servers/edit.php:68
 #: servers/edit.php:77 servers/index.php:68 servers/ping.php:31
-#: servers/ping.php:40 servers/test.php:79 servers/test.php:94
+#: servers/ping.php:40 servers/test.php:80 servers/test.php:95
 #: servers/view.php:92
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
@@ -120,32 +120,32 @@ msgid "Yes, I want to suppress this server"
 msgstr "Yes, I want to suppress this server"
 
 #: servers/delete.php:98 servers/edit.php:130 servers/layout_servers.php:76
-#: servers/test.php:105 servers/view.php:113
+#: servers/test.php:106 servers/view.php:113
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
 
-#: servers/delete.php:102 servers/edit.php:163 servers/test.php:109
+#: servers/delete.php:102 servers/edit.php:163 servers/test.php:110
 #: servers/view.php:117
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Community - Access is granted to any identified surfer"
 
-#: servers/delete.php:106 servers/edit.php:167 servers/test.php:113
+#: servers/delete.php:106 servers/edit.php:167 servers/test.php:114
 #: servers/view.php:121
 msgid "Private - Access is restricted to selected persons"
 msgstr "Private - Access is restricted to selected persons"
 
-#: servers/delete.php:113 servers/test.php:124 servers/view.php:133
+#: servers/delete.php:113 servers/test.php:125 servers/view.php:133
 #, php-format
 msgid "Main URL: %s"
 msgstr "Main URL: %s"
 
-#: servers/delete.php:117 servers/test.php:134
+#: servers/delete.php:117 servers/test.php:135
 #, php-format
 msgid "Feed URL: %s"
 msgstr "Feed URL: %s"
 
-#: servers/delete.php:121 servers/test.php:199
+#: servers/delete.php:121 servers/test.php:198
 #, php-format
 msgid "Related to %s"
 msgstr "Related to %s"
@@ -480,11 +480,11 @@ msgstr "Ping the cloud"
 msgid "Populate"
 msgstr "Populate"
 
-#: servers/layout_servers.php:59 servers/test.php:213 servers/view.php:215
+#: servers/layout_servers.php:59 servers/test.php:212 servers/view.php:215
 msgid "Edit"
 msgstr "Edit"
 
-#: servers/layout_servers.php:60 servers/test.php:214 servers/view.php:216
+#: servers/layout_servers.php:60 servers/test.php:213 servers/view.php:216
 msgid "Delete"
 msgstr "Delete"
 
@@ -568,40 +568,40 @@ msgstr "No title has been provided."
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
-#: servers/test.php:74
+#: servers/test.php:75
 msgid "Feed test"
 msgstr "Feed test"
 
-#: servers/test.php:128
+#: servers/test.php:129
 msgid "No feed url has been configured for this server profile."
 msgstr "No feed url has been configured for this server profile."
 
-#: servers/test.php:138
+#: servers/test.php:139
 msgid "Nothing to read from this feed."
 msgstr "Nothing to read from this feed."
 
-#: servers/test.php:144
+#: servers/test.php:145
 #, php-format
 msgid "%d elements have been read"
 msgstr "%d elements have been read"
 
-#: servers/test.php:166
+#: servers/test.php:165
 msgid "Empty item!"
 msgstr "Empty item!"
 
-#: servers/test.php:181
+#: servers/test.php:180
 msgid "the target server is banned"
 msgstr "the target server is banned"
 
-#: servers/test.php:184
+#: servers/test.php:183
 msgid "this link exists in the database"
 msgstr "this link exists in the database"
 
-#: servers/test.php:187
+#: servers/test.php:186
 msgid "this link has not been inserted in the database yet"
 msgstr "this link has not been inserted in the database yet"
 
-#: servers/test.php:207
+#: servers/test.php:206
 msgid "Back to main page"
 msgstr "Back to main page"
 

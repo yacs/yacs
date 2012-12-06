@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
-"PO-Revision-Date: 2009-03-11 00:01+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
+"PO-Revision-Date: 2012-12-06 21:21+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -272,7 +272,8 @@ msgstr "Dominica"
 msgid "Dominican Republic"
 msgstr "Dominican Republic"
 
-#: i18n/i18n.php:249 i18n/i18n.php:250
+#: i18n/i18n.php:249
+#: i18n/i18n.php:250
 msgid "East Timor"
 msgstr "East Timor"
 
@@ -1565,8 +1566,8 @@ msgid "zulu"
 msgstr "zulu"
 
 #: i18n/i18n.php:726
-msgid "Select a language"
-msgstr "Select a language"
+msgid "Use browser settings"
+msgstr "Use browser settings"
 
 #: i18n/test.php:17
 msgid "Test i18n"
@@ -1586,35 +1587,23 @@ msgstr "This is a simple label, according to user preference"
 
 #: i18n/test.php:32
 #, php-format
-msgid ""
-"This string, using surfer language, allows for argument reordering: %2$s %1$s"
-msgstr ""
-"This string, using surfer language, allows for argument reordering: %2$s %1$s"
+msgid "This string, using surfer language, allows for argument reordering: %2$s %1$s"
+msgstr "This string, using surfer language, allows for argument reordering: %2$s %1$s"
 
-#: i18n/test.php:35 i18n/test.php:38 i18n/test.php:55 i18n/test.php:58
+#: i18n/test.php:35
+#: i18n/test.php:38
+#: i18n/test.php:55
+#: i18n/test.php:58
 #, php-format
 msgid "There is %d item"
 msgid_plural "There are %d items"
 msgstr[0] "There is %d item"
 msgstr[1] "There are %d items"
 
-#: i18n/test.php:41 i18n/test.php:61
-msgid ""
-"<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
-"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
-"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
-"consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit "
-"esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat "
-"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
-"est laborum.</p>"
-msgstr ""
-"<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
-"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
-"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
-"consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit "
-"esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat "
-"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
-"est laborum.</p>"
+#: i18n/test.php:41
+#: i18n/test.php:61
+msgid "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+msgstr "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
 
 #: i18n/test.php:46
 msgid "Translation to community language"
@@ -1626,12 +1615,11 @@ msgstr "This is a simple label, according to community preference"
 
 #: i18n/test.php:52
 #, php-format
-msgid ""
-"This string, using community language, allows for argument reordering: %2$s "
-"%1$s"
-msgstr ""
-"This string, using community language, allows for argument reordering: %2$s "
-"%1$s"
+msgid "This string, using community language, allows for argument reordering: %2$s %1$s"
+msgstr "This string, using community language, allows for argument reordering: %2$s %1$s"
+
+#~ msgid "Select a language"
+#~ msgstr "Select a language"
 
 #~ msgid "Select a time zone"
 #~ msgstr "Select a time zone"

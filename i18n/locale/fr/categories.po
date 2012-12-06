@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:33+0100\n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
 "PO-Revision-Date: 2012-11-20 23:58+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -67,7 +67,7 @@ msgstr ""
 #: categories/category.php:68 categories/check.php:27 categories/check.php:38
 #: categories/check.php:95 categories/check.php:151 categories/check.php:261
 #: categories/delete.php:61 categories/edit.php:100 categories/feed.php:85
-#: categories/index.php:61 categories/mail.php:55 categories/print.php:69
+#: categories/index.php:61 categories/mail.php:55 categories/print.php:70
 #: categories/select.php:58 categories/view.php:176 categories/view.php:782
 msgid "Categories"
 msgstr "Catégories"
@@ -79,7 +79,7 @@ msgstr "Maintenance"
 #: categories/check.php:35 categories/delete.php:76
 #: categories/describe.php:111 categories/edit.php:126 categories/edit.php:146
 #: categories/feed.php:105 categories/index.php:69 categories/mail.php:63
-#: categories/mail.php:83 categories/print.php:78 categories/print.php:93
+#: categories/mail.php:83 categories/print.php:79 categories/print.php:94
 #: categories/select.php:69 categories/select.php:85
 #: categories/set_as_thumbnail.php:58 categories/set_as_thumbnail.php:73
 #: categories/set_keyword.php:44 categories/set_keyword.php:53
@@ -176,7 +176,7 @@ msgstr "Index de l'aide"
 msgid "Contact"
 msgstr "Contact"
 
-#: categories/cloud.php:55 categories/index.php:152 categories/print.php:163
+#: categories/cloud.php:55 categories/index.php:152 categories/print.php:164
 msgid "See also"
 msgstr "Voir aussi"
 
@@ -379,7 +379,7 @@ msgstr "alistapart - Dernier article dans son intégralité"
 msgid "Do not list pages"
 msgstr "Ne pas lister les pages"
 
-#: categories/edit.php:443 categories/print.php:129 categories/view.php:559
+#: categories/edit.php:443 categories/print.php:130 categories/view.php:559
 msgid "Pages"
 msgstr "Pages"
 
@@ -482,7 +482,7 @@ msgstr ""
 msgid "Images"
 msgstr "Images"
 
-#: categories/edit.php:624 categories/print.php:146 categories/view.php:607
+#: categories/edit.php:624 categories/print.php:147 categories/view.php:607
 msgid "Files"
 msgstr "Fichiers"
 
@@ -878,7 +878,7 @@ msgstr "Envoyer"
 msgid "Message content can not be empty"
 msgstr "Le corps du message ne peut pas être vide."
 
-#: categories/print.php:112
+#: categories/print.php:113
 msgid "Related categories"
 msgstr "Catégories associées"
 
