@@ -44,13 +44,13 @@ if(!strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 load_skin('comments');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -59,18 +59,18 @@ if(Surfer::is_crawler()) {
 	die(i18n::s('No anchor has been found.'));
 
 // the anchor has to be viewable by this surfer
-} elseif(is_object($anchor) && !$anchor->is_viewable()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+} elseif(!$anchor->is_viewable()) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // robots cannot contribute
 } elseif(isset($_REQUEST['message']) && Surfer::may_be_a_robot()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // this anchor does not accept contributions
 } elseif(isset($_REQUEST['message']) && is_object($anchor) && !Comments::allow_creation($anchor)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // a new contribution has been submitted
@@ -83,7 +83,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// append to previous comment during 10 minutes
 	$continuity_limit = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
@@ -95,7 +95,7 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = $_REQUEST['message'];
 
 	// this is a continuated contribution from this authenticated surfer
-	} elseif(Surfer::get_id() && (isset($item['create_id']) && (Surfer::get_id() == $item['create_id'])) && ($continuity_limit < $item['edit_date'])) {
+	} elseif(($item['type'] != 'notification') && Surfer::get_id() && (isset($item['create_id']) && (Surfer::get_id() == $item['create_id'])) && ($continuity_limit < $item['edit_date'])) {
 		$item['description'] .= BR.$_REQUEST['message'];
 		$fields = $item;
 
@@ -113,8 +113,8 @@ if(Surfer::is_crawler()) {
 		die(i18n::s('Your contribution has not been posted.'));
 	}
 
-	// touch the related anchor
-	$anchor->touch('comment:create', $fields['id']);
+	// touch the related anchor, but don't notify watchers
+	$anchor->touch('comment:thread', $fields['id']);
 
 	// clear cache
 	Comments::clear($fields);
@@ -135,7 +135,7 @@ if(Surfer::is_crawler()) {
 
 		// we were waiting for changes, and this is an internal error
 		if($pending && !headers_sent())
-			header('Status: 504 Gateway Timeout', TRUE, 504);
+			http::no_content();
 	}
 
 	// attempt to manage timeouts properly
@@ -147,6 +147,21 @@ if(Surfer::is_crawler()) {
 
 	// shutdown is not an error anymore
 	$pending = FALSE;
+
+	// ensure that the conversation is on-going
+	$status = 'started';
+	if($anchor->get_value('locked') == 'Y')
+		$status = 'stopped';
+	else {
+		$fields = array();
+		$fields['id'] = $anchor->get_value('id');
+		$fields['overlay'] = $anchor->get_value('overlay');
+		if($overlay = Overlay::load($fields, $anchor->get_reference()))
+			$status = $overlay->get_value('status', 'started');
+	}
+
+	// provide page status
+	$response['status'] = $status;
 
 	// encode result in JSON
 	$output = Safe::json_encode($response);

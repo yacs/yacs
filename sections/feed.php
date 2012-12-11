@@ -67,12 +67,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
@@ -101,7 +101,7 @@ if(!isset($item['id']) || !$item['id']) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the section
@@ -109,7 +109,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// get the list from the cache, if possible
 	$cache_id = 'sections/feed.php?id='.$item['id'].'#channel';
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// loads feeding parameters
 		Safe::load('parameters/feeds.include.php');
@@ -179,7 +179,7 @@ if(!isset($item['id']) || !$item['id']) {
 	// suggest a name on download
 	if(!headers_sent()) {
 		$file_name = utf8::to_ascii($context['site_name'].'.section.'.$item['id'].'.rss.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

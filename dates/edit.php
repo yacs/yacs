@@ -34,7 +34,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Dates::get($id);
+$item = Dates::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -47,9 +47,9 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -71,7 +71,7 @@ else
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -82,7 +82,7 @@ if(Surfer::is_crawler()) {
 elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	&& !Surfer::is_associate() && is_object($anchor) && !$anchor->is_assigned()) {
 
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -92,7 +92,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
@@ -133,7 +133,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		Dates::clear($_REQUEST);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -233,11 +233,11 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("date").focus();'."\n"
+		.'$("#date").focus();'."\n"
 		.JS_SUFFIX;
 
 	// general help on this form
-	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

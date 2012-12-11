@@ -19,7 +19,7 @@
  * - [code]Behavior()[/code] -- create an instance from scratch
  *
  * The interface itself is made of following member functions,
- * that have to be overloaded into derivated classes:
+ * that have to be overloaded into derived classes:
  * - [code]allow()[/code] -- check access permission
  *
  * How do behaviors compare to overlays?
@@ -45,7 +45,7 @@ class Behavior {
 	 * @param array current menu
 	 * @return array updated menu
 	 */
-	function &add_commands($script, $anchor, $menu=array()) {
+	function add_commands($script, $anchor, $menu=array()) {
 		return $menu;
 	}
 
@@ -66,7 +66,7 @@ class Behavior {
 	 *
 	 * This function is invoked by behavior loader to allow for transmission of run-time parameters.
 	 *
-	 * To be overloaded in derivated class.
+	 * To be overloaded in derived class.
 	 *
 	 * @param string behavior parameter
 	 */

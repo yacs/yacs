@@ -7,7 +7,6 @@
  * @todo allow for pre-defined lists of recipients (Jan)
  * @todo automate the process (Jan)
  * @todo help: explain that one message will be sent per recipient
- * @todo allow for embedded images http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1
  *
  * This script fills a form to prepare the letter, then send it by e-mail to targeted recipients.
  *
@@ -15,8 +14,6 @@
  * - of digests - YACS list published articles since the previous digest
  * - of release - YACS lists featured pages
  * - of announcement - type any text and hit the submit button
- *
- * @todo allow for embedded images http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1
  *
  * This script builds a digest of most recent articles, and it's up to the writer to change its content
  * based on previous sending.
@@ -32,14 +29,6 @@
  *
  * Note that once a letter has been sent it becomes a standard article
  * in the 'letters' section, and can be edited via usual tools for articles.
- *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Messages are sent using utf-8, and are base64-encoded.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
  *
  * This page can only be used by associates.
  *
@@ -110,17 +99,17 @@ if(!isset($context['letter_reply_to']) || !$context['letter_reply_to'])
 
 // restrictions: for associates only
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('E-mail has not been activated on this system.'));
 
 // no post account
 } elseif((!isset($context['mail_from']) || !$context['mail_from']) && (!isset($context['letter_reply_to']) || !$context['letter_reply_to'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(sprintf(i18n::s('No account to post the letter. Please %s.'), Skin::build_link('letters/configure.php', i18n::s('configure one'))));
 
 // prepare some announcement
@@ -128,18 +117,18 @@ if(!Surfer::is_associate()) {
 
 	// the letter prefix
 	if($context['letter_prefix'])
-		$context['letter_body'] .= $context['letter_prefix']."\n";
+		$context['letter_body'] .= '<div>'.$context['letter_prefix'].'</div>';
 
 	// body is free
 	$context['letter_body'] .= "\n\n\n";
 
 	// append surfer signature, if any
-	if(Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && $user['signature'])
-		$context['letter_body'] .= "\n-----\n".strip_tags($user['signature']);
+	if(Surfer::get_id() && ($user = Users::get(Surfer::get_id())) && $user['signature'])
+		$context['letter_body'] .= '<p>-----'.BR.strip_tags($user['signature'].'</p>');
 
 	// the letter suffix
 	if($context['letter_suffix'])
-		$context['letter_body'] .= "\n".$context['letter_suffix'];
+		$context['letter_body'] .= '<div>'.$context['letter_suffix'].'</div>';
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
@@ -155,9 +144,8 @@ if(!Surfer::is_associate()) {
 
 	// the letter content
 	$label = i18n::s('Content');
-	$input = '<textarea name="letter_body" id="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII at the moment');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('letter_body', $context['letter_body']);
+	$fields[] = array($label, $input);
 
 	// letter recipients
 	$label = i18n::s('Recipients');
@@ -190,13 +178,6 @@ if(!Surfer::is_associate()) {
 		.'			return false;'."\n"
 		.'		}'."\n"
 		."\n"
-		.'		// letter_body is mandatory'."\n"
-		.'		if(!container.letter_body.value) {'."\n"
-		.'			alert("'.i18n::s('Please add something to your message.').'");'."\n"
-		.'			Yacs.stopWorking();'."\n"
-		.'			return false;'."\n"
-		.'		}'."\n"
-		."\n"
 		.'		// successful check'."\n"
 		.'		return true;'."\n"
 		.'	}'."\n"
@@ -210,7 +191,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter prefix
 	if($context['letter_prefix'])
-		$context['letter_body'] .= $context['letter_prefix']."\n";
+		$context['letter_body'] .= '<div>'.$context['letter_prefix'].'</div>';
 
 	// get the date of previous newsletter
 	$digest_stamp = Values::get('letters.digest.stamp', NULL_DATE);
@@ -240,22 +221,28 @@ if(!Surfer::is_associate()) {
 			}
 
 			// format the title
-			$text .= $context['title_prefix'].$label.$context['title_suffix']."\n";
+			$text .= $context['title_prefix'].'<a href="'.$url.'">'.$label.'</a>'.$context['title_suffix'].BR;
 
-			// introduction
-			if($introduction)
-				$text .= ucfirst(trim(strip_tags(preg_replace('/\s+/', ' ', Codes::beautify($introduction)))))."\n";
+			// small details
+			$text .= '<span style="color: #ccc; font-size: 0.8em;">';
 
 			// author
 			if($author)
-				$text .= sprintf(i18n::c('By %s'), $author)."\n";
+				$text .= sprintf(i18n::c('By %s'), $author).' ';
 
 			// publication time
 			if($time)
-				$text .= Skin::build_date($time, 'no_hour', $context['preferred_language'])."\n";
+				$text .= Skin::build_date($time, 'no_hour', $context['preferred_language']);
 
-			// link to the page
-			$text .= $url."\n";
+			// end of details
+			$text .= '</span>'.BR;
+
+			// introduction
+			if($introduction)
+				$text .= Codes::beautify($introduction).BR;
+
+			// extra space
+			$text .= BR;
 
 			// save it in section slot
 			if(isset($slots[$section]))
@@ -270,13 +257,13 @@ if(!Surfer::is_associate()) {
 
 		// populate letter
 		foreach($slots as $section => $text)
-			$context['letter_body'] .= $section."\n".$text."\n";
+			$context['letter_body'] .= '<h2>'.$section.'</h2>'.BR.$text.BR;
 
 	}
 
 	// the letter suffix
 	if($context['letter_suffix'])
-		$context['letter_body'] .= "\n".$context['letter_suffix'];
+		$context['letter_body'] .= '<div>'.$context['letter_suffix'].'</div>';
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
@@ -293,8 +280,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter content
 	$label = i18n::s('Content');
-	$input = '<textarea name="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII at the moment');
+	$input = Surfer::get_editor('letter_body', $context['letter_body']);
 	$fields[] = array($label, $input, $hint);
 
 	// letter recipients
@@ -328,13 +314,6 @@ if(!Surfer::is_associate()) {
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	// letter_body is mandatory'."\n"
-		.'	if(!container.letter_body.value) {'."\n"
-		.'		alert("'.i18n::s('Please add something to your message.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
 		.'	// successful check'."\n"
 		.'	return true;'."\n"
 		.'}'."\n"
@@ -348,14 +327,14 @@ if(!Surfer::is_associate()) {
 
 	// the letter prefix
 	if($context['letter_prefix'])
-		$context['letter_body'] .= $context['letter_prefix']."\n";
+		$context['letter_body'] .= '<div>'.$context['letter_prefix'].'</div>';
 
 	// re-use parameter for featured pages at the front page
 	if(!isset($context['root_featured_count']) || ($context['root_featured_count'] < 1))
 		$context['root_featured_count'] = 7;
 
 	// the category used to assign featured pages
-	$anchor =& Categories::get(i18n::c('featured'));
+	$anchor = Categories::get(i18n::c('featured'));
 	if(isset($anchor['id']) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
 
 		// scan each article
@@ -377,22 +356,25 @@ if(!Surfer::is_associate()) {
 			}
 
 			// format the title
-			$context['letter_body'] .= $context['title_prefix'].$label.$context['title_suffix']."\n";
+			$context['letter_body'] .= $context['title_prefix'].'<a href="'.$url.'">'.$label.'</a>'.$context['title_suffix']."\n";
 
-			// introduction
-			if($introduction)
-				$context['letter_body'] .= ucfirst(trim(strip_tags(preg_replace('/\s+/', ' ', Codes::beautify($introduction)))))."\n";
+			// small details
+			$context['letter_body'] .= '<span style="color: #ccc; font-size: 0.8em;">';
 
 			// author
 			if($author)
-				$context['letter_body'] .= sprintf(i18n::c('By %s'), $author)."\n";
+				$context['letter_body'] .= sprintf(i18n::c('By %s'), $author).' ';
 
 			// publication time
 			if($time)
-				$context['letter_body'] .= Skin::build_date($time, 'no_hour', $context['preferred_language'])."\n";
+				$context['letter_body'] .= Skin::build_date($time, 'no_hour', $context['preferred_language']);
 
-			// link to the page
-			$context['letter_body'] .= $url."\n";
+			// end of details
+			$context['letter_body'] .= '</span>'.BR;
+
+			// introduction
+			if($introduction)
+				$context['letter_body'] .= Codes::beautify($introduction).BR;
 
 		}
 
@@ -400,7 +382,7 @@ if(!Surfer::is_associate()) {
 
 	// the letter suffix
 	if($context['letter_suffix'])
-		$context['letter_body'] .= "\n".$context['letter_suffix'];
+		$context['letter_body'] .= '<div>'.$context['letter_suffix'].'</div>';
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
@@ -416,8 +398,7 @@ if(!Surfer::is_associate()) {
 
 	// letter content
 	$label = i18n::s('Content');
-	$input = '<textarea name="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII at the moment');
+	$input = Surfer::get_editor('letter_body', $context['letter_body']);
 	$fields[] = array($label, $input, $hint);
 
 	// letter recipients
@@ -451,13 +432,6 @@ if(!Surfer::is_associate()) {
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	// letter_body is mandatory'."\n"
-		.'	if(!container.letter_body.value) {'."\n"
-		.'		alert("'.i18n::s('Please add something to your message.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
 		.'	// successful check'."\n"
 		.'	return true;'."\n"
 		.'}'."\n"
@@ -468,7 +442,7 @@ if(!Surfer::is_associate()) {
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // handle posted data
@@ -511,8 +485,7 @@ if(!Surfer::is_associate()) {
 	if(($_REQUEST['letter_recipients'] == 'custom') && isset($_REQUEST['mail_to']))
 		$label = $_REQUEST['mail_to'];
 	$fields['introduction'] = sprintf(i18n::c('Sent %s to&nbsp;"%s"'), Skin::build_date(time(), 'full', $context['preferred_language']), $label);
-	$fields['description'] = preg_replace("/^http:\/\/.*?$/mi", '<a href="\\0">\\0</a>', $_REQUEST['letter_body']);
-	$fields['description'] = str_replace("\n", BR, $fields['description']);
+	$fields['description'] = $_REQUEST['letter_body'];
 	$fields['publish_name'] = Surfer::get_name();
 	$fields['publish_id'] = Surfer::get_id();
 	$fields['publish_address'] = Surfer::get_email_address();
@@ -521,9 +494,9 @@ if(!Surfer::is_associate()) {
 
 	// from: from configuration files
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
-		$from = $context['site_name'].' <'.$context['letter_reply_to'].'>';
+		$from = $context['letter_reply_to'];
 	elseif(isset($context['mail_from']) && $context['mail_from'])
-		$from = $context['site_name'].' <'.$context['mail_from'].'>';
+		$from = $context['mail_from'];
 	else
 		$from = $context['site_name'];
 
@@ -571,7 +544,7 @@ if(!Surfer::is_associate()) {
 			else {
 				if(preg_match('/,/', $label))
 					$label = implode(' ', array_reverse(preg_split("/[\s,]+/", $label)));
-				$to[] = '"'.$label.'" <'.$address.'>';
+				$to[] = Mailer::encode_recipient($address, $label);
 
 			}
 
@@ -581,8 +554,11 @@ if(!Surfer::is_associate()) {
 	// subject
 	$subject = $_REQUEST['letter_title'];
 
-	// the message itself
-	$message = $_REQUEST['letter_body'];
+	// enable yacs codes in messages
+	$text = Codes::beautify($_REQUEST['letter_body']);
+
+	// preserve tagging as much as possible
+	$message = Mailer::build_multipart($text);
 
 	// reply-to: from the letters configuration file
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
@@ -604,8 +580,12 @@ if(!Surfer::is_associate()) {
 
 	// do the job
 	if($recipients_processed) {
-		$recipients_ok = Mailer::post($from, $to, $subject, $message);
+		$recipients_ok = Mailer::post($from, $to, $subject, $message, NULL, $headers);
 		Mailer::close();
+
+		// we may have more recipients than expected
+		if($recipients_ok > $recipients_processed)
+			$recipients_processed = $recipients_ok;
 
 		// reports on error
 		$recipients_errors = $recipients_processed - $recipients_ok;
@@ -618,6 +598,22 @@ if(!Surfer::is_associate()) {
 
 	// report on counters
 	$context['text'] .= BR."\n";
+
+	// list of recipients
+	if($recipients_processed == 0)
+		$context['text'] .= i18n::s('No recipient has been processed.').BR."\n";
+	elseif($recipients_processed == 1)
+		$context['text'] .= i18n::s('One recipient has been processed.').BR."\n";
+	else
+		$context['text'] .= sprintf(i18n::s('%d recipients have been processed'), $recipients_processed).BR."\n";
+
+	// invalid addresses
+	if($recipients_skipped == 1)
+		$context['text'] .= i18n::s('One invalid address has been skipped.').BR."\n";
+	elseif($recipients_skipped > 1)
+		$context['text'] .= sprintf(i18n::s('%d invalid addresses have been skipped'), $recipients_skipped).BR."\n";
+
+	// transmitted messages
 	if($recipients_ok == 0)
 		$context['text'] .= i18n::s('No letter has been transmitted.').BR."\n";
 	elseif($recipients_ok == 1)
@@ -625,26 +621,12 @@ if(!Surfer::is_associate()) {
 	else
 		$context['text'] .= sprintf(i18n::s('%d letters have been transmitted.'), $recipients_ok).BR."\n";
 
-	if($recipients_errors == 0)
-		$context['text'] .= i18n::s('No transmission error has been encountered.').BR."\n";
-	elseif($recipients_errors == 1)
+	// transmission errors, if any
+	if($recipients_errors == 1)
 		$context['text'] .= i18n::s('One transmission error has been encountered.').BR."\n";
-	else
+	elseif($recipients_errors > 1)
 		$context['text'] .= sprintf(i18n::s('%d transmission errors have been encountered.'), $recipients_errors).BR."\n";
 
-	if($recipients_skipped == 0)
-		$context['text'] .= i18n::s('No invalid address has been skipped.').BR."\n";
-	elseif($recipients_skipped == 1)
-		$context['text'] .= i18n::s('One invalid address has been skipped.').BR."\n";
-	else
-		$context['text'] .= sprintf(i18n::s('%d invalid addresses have been skipped'), $recipients_skipped).BR."\n";
-
-	if($recipients_processed == 0)
-		$context['text'] .= i18n::s('No recipient has been processed.').BR."\n";
-	elseif($recipients_processed == 1)
-		$context['text'] .= i18n::s('One recipient has been processed.').BR."\n";
-	else
-		$context['text'] .= sprintf(i18n::s('%d recipients have been processed'), $recipients_processed).BR."\n";
 
 	// save digest stamp, if any
 	if(isset($_REQUEST['digest_stamp']) && ($_REQUEST['digest_stamp'] > NULL_DATE))

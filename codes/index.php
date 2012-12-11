@@ -2,8 +2,6 @@
 /**
  * the index page for formatting codes
  *
- * @todo document images, etc.
- *
  * @author Bernard Paques
  * @author GnapZ
  * @reference

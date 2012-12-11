@@ -4,7 +4,7 @@
  *
  * This is a special layout used to build a newsfeed.
  *
- * @todo insert page tags as item categories
+ * @link http://georss.org/Main_Page GeoRSS
  *
  * @see articles/articles.php
  * @see feeds/feeds.php
@@ -25,7 +25,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -38,14 +38,14 @@ Class Layout_articles_as_feed extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		include_once $context['path_to_root'].'locations/locations.php';
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// provide an absolute link
 			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
@@ -61,15 +61,15 @@ Class Layout_articles_as_feed extends Layout_interface {
 
 			// the section
 			$section = '';
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 				$section = ucfirst(trim(strip_tags(Codes::beautify_title($anchor->get_title()))));
 
 			// the icon to use
 			$icon = '';
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
-				$icon = $anchor->get_thumbnail_url();
+			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])) && is_callable($anchor, 'get_bullet_url'))
+				$icon = $anchor->get_bullet_url();
 			if($icon)
 				$icon = $context['url_to_home'].$context['url_to_home'].$icon;
 
@@ -104,6 +104,10 @@ Class Layout_articles_as_feed extends Layout_interface {
 
 			// other rss fields
 			$extensions = array();
+
+			// the geolocation for this page, if any
+			if($location = Locations::locate_anchor('article:'.$item['id']))
+				$extensions[] = '<georss:point>'.str_replace(',', ' ', $location).'</georss:point>';
 
 			// url for comments
 			if(is_object($anchor))

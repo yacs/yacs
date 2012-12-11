@@ -15,6 +15,17 @@
 Class Layout_sections_as_inline extends Layout_interface {
 
 	/**
+	 * the preferred number of items for this layout
+	 *
+	 * The compact format of this layout allows a high number of items to be listed
+	 *
+	 * @return int the optimised count of items fro this layout
+	 */
+	function items_per_page() {
+		return 1000;
+	}
+
+	/**
 	 * list sections
 	 *
 	 * @param resource the SQL result
@@ -22,7 +33,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -40,17 +51,16 @@ Class Layout_sections_as_inline extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -81,23 +91,10 @@ Class Layout_sections_as_inline extends Layout_interface {
 			$box = array('title' => '', 'text' => '');
 
 			// add a direct link to the section
-			$box['title'] = $prefix.$title.$suffix.'&nbsp;'.Skin::build_link($url, MORE_IMG, 'basic');
+			$box['title'] = $prefix.Skin::build_link($url, $title, 'basic').$suffix;
 
 			// box content
 			$elements = array();
-
-			// list related sections, if any
-			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
-				foreach($items as $url => $label) {
-					$prefix = $suffix = '';
-					if(is_array($label)) {
-						$prefix = $label[0];
-						$suffix = $label[2];
-						$label = $label[1];
-					}
-					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
-				}
-			}
 
 			// info on related articles
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -119,7 +116,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// info on related files
-			if(Sections::has_option('files_by_title', $anchor, $item))
+			if(Sections::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -135,7 +132,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', TRUE)) {
 				foreach($items as $url => $label) {
 					$prefix = $suffix = '';
 					if(is_array($label)) {
@@ -144,6 +141,19 @@ Class Layout_sections_as_inline extends Layout_interface {
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label, 'comment').$suffix;
+				}
+			}
+
+			// list related sections, if any
+			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+				foreach($items as $url => $label) {
+					$prefix = $suffix = '';
+					if(is_array($label)) {
+						$prefix = $label[0];
+						$suffix = $label[2];
+						$label = $label[1];
+					}
+					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
 				}
 			}
 

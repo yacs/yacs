@@ -18,6 +18,7 @@
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Alain Lesage (Lasares)
+ * @author Alexis Raimbault
  * @tester Olivier
  * @tester Arioch
  * @tester Fernand Le Chien
@@ -43,7 +44,7 @@ if(is_callable('session_cache_limiter'))
 if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 	session_start();
 
-// used in many technical specifications
+// used to end lines in many technical specifications
 if(!defined('CRLF'))
 	define('CRLF', "\x0D\x0A");
 
@@ -51,7 +52,7 @@ if(!defined('CRLF'))
 if(!defined('FORBIDDEN_IN_NAMES'))
 	define('FORBIDDEN_IN_NAMES', '/[<>{}\(\)]+/');
 
-// default value for path filtering in forms -- ../ and \
+// default value for path filtering in forms -- ../
 if(!defined('FORBIDDEN_IN_PATHS'))
 	define('FORBIDDEN_IN_PATHS', '/\.{2,}\//');
 
@@ -63,9 +64,21 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\^\,+%\?=\-\[\]*]+/');
 
+// options to utf8::to_ascii() for file names
+if(!defined('FILENAME_SAFE_ALPHABET'))
+	define('FILENAME_SAFE_ALPHABET', ' !"#$%&\'()*+,-.;<=>?@[]^_{|}~');
+
+// options to utf8::to_ascii() for printable chars
+if(!defined('PRINTABLE_SAFE_ALPHABET'))
+	define('PRINTABLE_SAFE_ALPHABET', ' !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~');
+
+// options to utf8::to_ascii() for the encoding of individual component of URLs and web links
+if(!defined('URL_SAFE_ALPHABET'))
+	define('URL_SAFE_ALPHABET', '-_.~');  // all of these chars will be turned to '-'
+
 // pattern for valid email recipients
 if(!defined('VALID_RECIPIENT'))
-	define('VALID_RECIPIENT', '/^[*+!\.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
+	define('VALID_RECIPIENT', '/^[*+!\.&#$Â¦\'\\%\/0-9a-z^_`{}=?~:-]+@([0-9a-z-]+\.)+[0-9a-z]{2,4}$/i');
 
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
@@ -112,6 +125,12 @@ $context['content_type'] = 'text/html';
 // these will be updated if GEOPIP has been installed
 $context['country'] = 'N/A';
 $context['country_code'] = '--';
+
+// list of containers of the current page (e.g., array('section:123', 'section:456'))
+$context['current_focus'] = array();
+
+// handle of the current page (e.g., 'article:123')
+$context['current_item'] = NULL;
 
 // where developers can add debugging messages --one string per row
 $context['debug'] = array();
@@ -161,7 +180,7 @@ $context['page_date'] = '';
 // page details (complementary information about the page)
 $context['page_details'] = '';
 
-// additional content for the page footer --cache restriction
+// additional content for the page footer
 $context['page_footer'] = '';
 
 // additional meta-information to be put in page header
@@ -207,13 +226,13 @@ $context['site_revisit_after'] = 2;
 $context['site_slogan'] = '';
 
 // components to put in the extra panel --see skins/configure.php
-$context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
+$context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours categories bookmarklets servers download referrals visited';
 
 // components to put in the main panel --see skins/configure.php
-$context['skins_main_components'] = 'title error text tags details bar';
+$context['skins_main_components'] = 'title bar error text tags details';
 
 // components to put in the side panel --see skins/configure.php
-$context['skins_navigation_components'] = 'menu user navigation';
+$context['skins_navigation_components'] = 'user menu contextual navigation';
 
 // minimize CPU used by rendering engine --see skins/configure.php
 $context['skins_with_details'] = 'N';
@@ -272,6 +291,9 @@ $context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/'
 // the http library
 include_once $context['path_to_root'].'shared/http.php';
 
+// the xml/html library
+include_once $context['path_to_root'].'shared/xml.php';
+
 // the safe library
 include_once $context['path_to_root'].'shared/safe.php';
 
@@ -289,9 +311,9 @@ if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_errors','1');
 	Safe::ini_set('display_startup_errors','1');
 	Safe::ini_set('allow_call_time_pass_reference','0');
-// 	if(defined('E_STRICT'))
-// 		$level = E_ALL | E_STRICT;
-// 	else
+ 	if(defined('E_STRICT'))
+ 		$level = E_ALL | E_STRICT;
+ 	else
 		$level = E_ALL;
 } else
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
@@ -397,7 +419,7 @@ elseif(isset($_SERVER['REQUEST_URI']) && preg_match('/\.php$/', $_SERVER['REQUES
 
 // which script are we executing?
 if(($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']))
-	Logger::remember($context['script_url'], 'run', '', 'debug');
+	Logger::remember($context['script_url'].': run', '', 'debug');
 
 //
 // decode script parameters passed in URL
@@ -522,8 +544,12 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
  * @param string some text to be encoded
  * @return the string to be displayed
  */
-function &encode_field($text) {
+function encode_field($text) {
 	global $context;
+
+	// not a string
+	if(!is_string($text))
+		return $text;
 
 	// encode special chars
 	$text = htmlspecialchars($text);
@@ -554,10 +580,10 @@ function &encode_field($text) {
  * @param string a web reference to check
  * @return a clean string
  */
-function &encode_link($link) {
+function encode_link($link) {
 
 	// suppress invalid chars, if any
-	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $link), ' _');
+	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', str_replace(' ', '%20', $link)), ' _');
 
 	// transform & to &amp;
 	$output = str_replace('&', '&amp;', $output);
@@ -612,6 +638,7 @@ if(!defined('NO_MODEL_PRELOAD')) {
 	include_once $context['path_to_root'].'files/files.php';
 	include_once $context['path_to_root'].'sections/sections.php';
 	include_once $context['path_to_root'].'users/users.php';
+	include_once $context['path_to_root'].'users/activities.php';
 
 	// load users parameters -- see users/configure.php
 	Safe::load('parameters/users.include.php');
@@ -630,6 +657,10 @@ if(!defined('NO_MODEL_PRELOAD')) {
 	include_once $context['path_to_root'].'shared/anchors.php';
 
 }
+
+// the overlay interface
+if(!defined('NO_MODEL_PRELOAD'))
+	include_once $context['path_to_root'].'overlays/overlay.php';
 
 // the library for membership
 if(!defined('NO_MODEL_PRELOAD'))
@@ -659,7 +690,7 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 
 // use special skin for handhelds
 if(!Surfer::is_desktop())
-	$context['skin'] = 'skins/_mobile.php';
+	$context['skin'] = 'skins/_mobile';
 
 // start with a default skin
 elseif(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
@@ -676,52 +707,6 @@ if(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 // the layout for the home page is used at several places
 if(!isset($context['root_articles_layout']) || !$context['root_articles_layout'])
 	$context['root_articles_layout'] = 'daily';
-
-/**
- * integrate yacs start of page
- *
- * This function may be used to integrate the YACS rendering engine into another software.
- * Look at [script]tools/embed.php[/script] for an example of how to use this function.
- */
-function embed_yacs_prefix() {
-	global $context;
-
-	// limit the output to the prefix only
-	$context['embedded'] = 'prefix';
-
-	// load the skin
-	load_skin();
-
-	// render page header
-	render_skin();
-
-}
-
-/**
- * integrate yacs end of page
- *
- * This function may be used to integrate the YACS rendering engine into another software.
- * Look at [script]tools/embed.php[/script] for an example of how to use this function.
- */
-function embed_yacs_suffix() {
-	global $context;
-
-	// no content on HEAD request
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
-		return;
-
-	// limit the output to the suffix only
-	$context['embedded'] = 'suffix';
-
-	// reload a template for footer rendering
-	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))
-		include $context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php';
-
-	// else reuse the original template for footer rendering
-	elseif(is_readable($context['path_to_root'].$context['skin'].'/template.php'))
-		include $context['path_to_root'].$context['skin'].'/template.php';
-
-}
 
 /**
  * load a skin
@@ -876,6 +861,9 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 function render_skin($with_last_modified=TRUE) {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
 
+	// tools for js and css declaration
+	include_once 'js_css.php';
+
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
 	if(isset($rendering_fuse))
@@ -923,86 +911,81 @@ function render_skin($with_last_modified=TRUE) {
 		$context['skin_variant'] = 'fake';
 	}
 
-	// don't do this on second rendering phase
-	if(!isset($context['embedded']) || ($context['embedded'] != 'suffix')) {
+	// navigation - navigation boxes
+	if(file_exists($context['path_to_root'].'parameters/switch.on')) {
 
-		// navigation - navigation boxes
-		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
+		// cache dynamic boxes for performance, and if the database can be accessed
+		$cache_id = 'shared/global.php#render_skin#navigation';
+		if((!$text = Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
 
-			// cache dynamic boxes for performance, and if the database can be accessed
-			$cache_id = 'shared/global.php#render_skin#navigation';
-			if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
+			// navigation boxes in cache
+			global $global_navigation_box_index;
+			if(!isset($global_navigation_box_index))
+				$global_navigation_box_index = 20;
+			else
+				$global_navigation_box_index += 20;
 
-				// navigation boxes in cache
-				global $global_navigation_box_index;
-				if(!isset($global_navigation_box_index))
-					$global_navigation_box_index = 20;
-				else
-					$global_navigation_box_index += 20;
+			// the maximum number of boxes is a global parameter
+			if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
+				$context['site_navigation_maximum'] = 7;
 
-				// the maximum number of boxes is a global parameter
-				if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
-					$context['site_navigation_maximum'] = 7;
+			// navigation boxes from the dedicated section
+			$anchor = Sections::lookup('navigation_boxes');
 
-				// navigation boxes from the dedicated section
-				$anchor = Sections::lookup('navigation_boxes');
+			if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
 
-				if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
+				// one box per article
+				foreach($rows as $title => $attributes)
+					$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
 
-					// one box per article
-					foreach($rows as $title => $attributes)
-						$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
-
-					// cap the total number of navigation boxes
-					$context['site_navigation_maximum'] -= count($rows);
-				}
-
-				// navigation boxes made from categories
-				if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
-
-					// one box per category
-					foreach($categories as $id => $attributes) {
-
-						// box title
-						$label = Skin::strip($attributes['title']);
-
-						// link to the category page from box title
-						if(is_callable(array('i18n', 's')))
-							$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
-
-						// list sub categories
-						$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
-
-						// list linked articles
-						include_once $context['path_to_root'].'links/links.php';
-						if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
-							if($items)
-								$items = array_merge($items, $articles);
-							else
-								$items = $articles;
-
-						// else list links
-						} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
-							if($items)
-								$items = array_merge($items, $links);
-							else
-								$items = $links;
-						}
-
-						// display what has to be displayed
-						if($items)
-							$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
-
-					}
-				}
-
-				// save on requests
-				Cache::put($cache_id, $text, 'various');
-
+				// cap the total number of navigation boxes
+				$context['site_navigation_maximum'] -= count($rows);
 			}
-			$context['navigation'] .= $text;
-		}
 
+			// navigation boxes made from categories
+			if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
+
+				// one box per category
+				foreach($categories as $id => $attributes) {
+
+					// box title
+					$label = Skin::strip($attributes['title']);
+
+					// link to the category page from box title
+					if(is_callable(array('i18n', 's')))
+						$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
+
+					// list sub categories
+					$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
+
+					// list linked articles
+					include_once $context['path_to_root'].'links/links.php';
+					if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+						if($items)
+							$items = array_merge($items, $articles);
+						else
+							$items = $articles;
+
+					// else list links
+					} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+						if($items)
+							$items = array_merge($items, $links);
+						else
+							$items = $links;
+					}
+
+					// display what has to be displayed
+					if($items)
+						$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
+
+				}
+			}
+
+			// save on requests
+			Cache::put($cache_id, $text, 'various');
+
+		}
+		$context['navigation'] .= $text;
 
 		// finalize page context
 		if(is_callable(array('Skin', 'finalize_context')))
@@ -1093,18 +1076,23 @@ function render_skin($with_last_modified=TRUE) {
 			if(is_callable(array('Surfer', 'get_name')))
 				hash_update($h, Surfer::get_name());
 
+			// afford content negociation
+			if(isset($_SERVER['HTTP_ACCEPT_ENCODING']))
+				hash_update($h, $_SERVER['HTTP_ACCEPT_ENCODING']);
+
 			// hash content to create the etag string
 			$etag = '"'.hash_final($h).'"';
 
 		}
 
-		// manage web cache
-		$stamp = $context['page_date'];
+		// provide stamp in the expected format
+		$stamp = NULL;
 		if(isset($context['cache_has_been_poisoned']) || !$with_last_modified)
-			$stamp = NULL;
+			;
+		elseif($context['page_date'] && is_callable(array('SQL', 'strtotime')))
+			$stamp = gmdate('D, d M Y H:i:s', SQL::strtotime($context['page_date'])).' GMT';
 		if(http::validate($stamp, $etag))
 			return;
-
 
 	}
 
@@ -1112,12 +1100,11 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 		return;
 
-	// we support Dublin Core too
-	$context['page_header'] .= '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />'."\n";
+	// more meta information
+	$metas = array();
 
-	// normalize customized components of the head
-	if(isset($context['site_head']))
-		$context['page_header'] .= $context['site_head']."\n";
+	// we support Dublin Core too
+	$metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" '.EOT;
 
 	// page title
 	$page_title = ucfirst(strip_tags($context['page_title']));
@@ -1129,88 +1116,92 @@ function render_skin($with_last_modified=TRUE) {
 	}
 	$context['page_header'] .= "</title>\n";
 	if($page_title)
-		$context['page_header'] .= '<meta name="DC.title" content="'.encode_field($page_title).'" />'."\n";
+		$metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" '.EOT;
 
 	// set icons for this site
 	if($context['site_icon']) {
-		$context['page_header'] .= '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />'."\n"
-			.'<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />'."\n";
+		$metas[] = '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" '.EOT;
+		$metas[] = '<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" '.EOT;
 	}
 
 	// a meta-link to our help page
-	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />'."\n";
+	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" '.EOT;
 
-	// page description
-	if(isset($context['page_description']) && $context['page_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n"
-			.'<meta name="DC.description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n";
-	elseif(isset($context['site_description']) && $context['site_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n"
-			.'<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n";
+	// page meta description
+	if(isset($context['page_meta']) && $context['page_meta']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" '.EOT;
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" '.EOT;
+	} elseif(isset($context['site_description']) && $context['site_description']) {
+		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" '.EOT;
+		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" '.EOT;
+	}
 
 	// page copyright
 	if(isset($context['site_copyright']) && $context['site_copyright'])
-		$context['page_header'] .= '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />'."\n";
+		$metas[] = '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" '.EOT;
 
 	// page author
-	if(isset($context['page_author']) && $context['page_author'])
-		$context['page_header'] .= '<meta name="author" content="'.encode_field($context['page_author']).'" />'."\n"
-			.'<meta name="DC.author" content="'.encode_field($context['page_author']).'" />'."\n";
+	if(isset($context['page_author']) && $context['page_author']) {
+		$metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" '.EOT;
+		$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" '.EOT;
+	}
 
 	// page publisher
-	if(isset($context['page_publisher']) && $context['page_publisher'])
-		$context['page_header'] .= '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />'."\n"
-			.'<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />'."\n";
+	if(isset($context['page_publisher']) && $context['page_publisher']) {
+		$metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" '.EOT;
+		$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" '.EOT;
+	}
 
 	// page keywords
-	if(isset($context['site_keywords']) && $context['site_keywords'])
-		$context['page_header'] .= '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />'."\n"
-			.'<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />'."\n";
+	if(isset($context['site_keywords']) && $context['site_keywords']) {
+		$metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" '.EOT;
+		$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" '.EOT;
+	}
 
 	// page date
 	if($context['page_date'])
-		$context['page_header'] .= '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />'."\n";
+		$metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" '.EOT;
 
 	// page language
 	if($context['page_language'])
-		$context['page_header'] .= '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />'."\n";
+		$metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" '.EOT;
 
 	// revisit-after
 	if(!isset($context['site_revisit_after']))
 		;
 	elseif($context['site_revisit_after'] == 1)
-		$context['page_header'] .= '<meta name="revisit-after" content="1 day" />'."\n";
+		$metas[] = '<meta name="revisit-after" content="1 day" '.EOT;
 	elseif($context['site_revisit_after'])
-		$context['page_header'] .= '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />'."\n";
+		$metas[] = '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" '.EOT;
 
 	// no Microsoft irruption in our pages
-	$context['page_header'] .= '<meta name="MSSmartTagsPreventParsing" content="TRUE" />'."\n";
+	$metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" '.EOT;
 
 	// suppress awful hovering toolbar on images in IE
-	$context['page_header'] .= '<meta http-equiv="imagetoolbar" content="no" />'."\n";
+	$metas[] = '<meta http-equiv="imagetoolbar" content="no" '.EOT;
 
 	// lead robots
-	$context['page_header'] .= '<meta name="robots" content="index,follow" />'."\n";
+	$metas[] = '<meta name="robots" content="index,follow" '.EOT;
 
 	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
-	$context['page_header'] .= JS_PREFIX
+	$metas[] = JS_PREFIX
 		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
-		.JS_SUFFIX."\n";
+		.JS_SUFFIX;
 
-	// activate tinyMCE, if available -- before prototype and scriptaculous
+	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
+		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
 			.JS_PREFIX
 			.'	tinyMCE.init({'."\n"
 			.'		mode : "textareas",'."\n"
 			.'		theme : "advanced",'."\n"
 			.'		editor_selector : "tinymce",'."\n"
-			.'		languages : "fr",'."\n"
+			.'		language : "fr",'."\n"
 			.'		disk_cache : false,'."\n"
 			.'		relative_urls : false,'."\n"
-			.'		remove_script_host : true,'."\n"
+			.'		remove_script_host : false,'."\n"
 			.'		document_base_url : "'.$context['url_to_home'].$context['url_to_root'].'",'."\n"
 			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,searchreplace,paste,directionality,fullscreen,visualchars",'."\n"
 			.'		theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,formatselect,fontselect,fontsizeselect",'."\n"
@@ -1225,39 +1216,72 @@ function render_skin($with_last_modified=TRUE) {
 			.'		template_external_list_url : "example_template_list.js",'."\n"
 			.'		use_native_selects : true,'."\n"
 			.'		debug : false	});'."\n"
-			.JS_SUFFIX."\n";
+			.JS_SUFFIX;
 
 	}
 
-	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of Event.observe(window, "load", ... in $context['text']
-	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n";
+	// javascript libraries files to declare in header of page
+	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['header']))
+	    $context['page_header'] .= $context['javascript']['header'];
+
+	// jquery-ui stylesheet
+	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" media="all" '.EOT."\n";
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>';
 
-	// activate SIMILE timeline, if available
+	// activate SIMILE timeline, if required
 	if(isset($context['javascript']['timeline']))
-		$context['page_header'] .= '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>';
 
-	// activate SIMILE timeplot, if available
+	// activate SIMILE timeplot, if required
 	if(isset($context['javascript']['timeplot']))
-		$context['page_header'] .= '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>';
 
-	// activate SIMILE exhibit, if available
+	// activate SIMILE exhibit, if required
 	if(isset($context['javascript']['exhibit']))
-		$context['page_header'] .= '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>'."\n";
+		$metas[] = '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>';
+
+	// activate OpenTok, if required
+	if(isset($context['javascript']['opentok']))
+//		$metas[] = '<script type="text/javascript" src="http://staging.tokbox.com/v0.91/js/TB.min.js"></script>';
+		$metas[] = '<script type="text/javascript" src="http://static.opentok.com/v0.91/js/TB.min.js"></script>';
 
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
-// 		$context['page_header'] .= '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>'."\n";
+// 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
 
-	// activate AJAX client library
-	if(file_exists($context['path_to_root'].'shared/yacs.js'))
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>'."\n";
+	// provide a page reference to Javascript --e.g., for reporting activity from this page
+	$context['page_footer'] .= JS_PREFIX;
 
-	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";
+	// a reference to the data we are at (e.g., 'article:123')
+	if(isset($context['current_item']) && $context['current_item'])
+		$context['page_footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
+	else
+		$context['page_footer'] .= '	Yacs.current_item = "";'."\n";
+
+	// some indication at what we are doing (e.g., 'edit')
+	if(isset($context['current_action']) && $context['current_action'])
+		$context['page_footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
+	else
+		$context['page_footer'] .= '	Yacs.current_action = "";'."\n";
+
+	$context['page_footer'] .= JS_SUFFIX;
+
+	// insert headers (and maybe, include more javascript files)
+	if(isset($context['site_head']))
+		$metas[] = $context['site_head'];
+
+	// javascript libraries files to declare in footer of page, plus YACS ajax library
+	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
+
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['footer']))
+		$context['page_footer'] .= $context['javascript']['footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
@@ -1267,8 +1291,8 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['calendar']) && (file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js'))) {
 
 		// load the skin
-		$context['page_header'] .= "\t".'<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";
-		$context['page_header'] .= "\t".'<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" />'."\n";
+		$context['page_header'] .= '<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" '.EOT."\n";
+		$context['page_header'] .= '<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" '.EOT."\n";
 
 		// use the compressed version if it's available
 		if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin'))
@@ -1293,15 +1317,21 @@ function render_skin($with_last_modified=TRUE) {
 	// activate google analytics, if configured
 	if(isset($context['google_analytics_account']) && $context['google_analytics_account']) {
 
-		$context['page_footer'] .= '<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>'."\n"
-			.JS_PREFIX
-			.'try {'."\n"
-			.'var pageTracker = _gat._getTracker('.$context['google_analytics_account'].');'."\n"
-			.'pageTracker._trackPageview();'."\n"
-			.'} catch(err) {}'."\n"
-			.JS_SUFFIX."\n";
-
+		$context['page_header'] .= '<script type="text/javascript">'."\n"
+			."\t".'var _gaq = _gaq || [];'."\n"
+			."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
+			."\t".'_gaq.push([\'_trackPageview\']);'."\n"
+			."\t\n"
+			."\t".'(function() {'."\n"
+			."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
+			."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
+			."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
+			."\t".'})();'."\n"
+			.'</script>'."\n";
 	}
+
+	// insert one tabulation before each header line
+	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
@@ -1334,6 +1364,10 @@ function render_skin($with_last_modified=TRUE) {
 		if($context['site_name'] && isset($context['skin_variant']) && ($context['skin_variant'] != 'home'))
 			echo ' - '.$context['site_name'];
 		echo '</title>';
+
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
 
 		echo "</head>\n<body>\n";
 
@@ -1426,7 +1460,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// remember cron tick
 	if($context['with_debug'] == 'Y')
-		Logger::remember('cron.php', 'tick', '', 'debug');
+		Logger::remember('cron.php: tick', '', 'debug');
 
 	// trigger background processing -- capture the output and don't send it back to the browser
 	$context['cron_text'] = Hooks::include_scripts('tick');
@@ -1621,6 +1655,10 @@ function yacs_handler($content) {
  */
 function reduce_number($number) {
 
+	// safety test
+	if(!is_callable('bcscale'))
+		return $number;
+
 	// 62 digits
 	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
 
@@ -1646,6 +1684,10 @@ function reduce_number($number) {
  * @param int associated number
  */
 function restore_number($number) {
+
+	// safety test
+	if(!is_callable('bcscale'))
+		return $number;
 
 	// 62 digits
 	$digits = '1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
@@ -1709,13 +1751,13 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = str_replace(array(' ', '..', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name))));
+		$name = strtolower(utf8::to_ascii(trim($name), URL_SAFE_ALPHABET));
 
 	// do not fool rewriting, just in case alternate name would be put in title
 	if(isset($name))
 		$name = preg_replace('/([a-z_]+)-([0-9]+)$/', '', $name);
 
-	// remove dashes
+	// remove dashes at both ends
 	if(isset($name))
 		$name = trim($name, '-');
 
@@ -1823,6 +1865,18 @@ function normalize_shortcut($id, $with_prefix=FALSE) {
 
 	// job done
 	return $link;
+}
+
+/**
+ * proxy some URL through the yacs server
+ *
+ * @param string target URL, maybe from another server
+ * @return string proxied URL
+ */
+function proxy($url) {
+	global $context;
+
+	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
 }
 
 ?>

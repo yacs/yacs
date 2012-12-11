@@ -38,7 +38,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // manage the upload
@@ -48,7 +48,7 @@ elseif(!Surfer::is_associate()) {
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 		// nothing has been uploaded
-		if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
+		if(!isset($_FILES['upload']['name']) || !$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
 			Logger::error(i18n::s('Nothing has been received.'));
 
 		// a file has been uploaded
@@ -130,7 +130,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('This script allows you to upload an archive file and to extract its content to patch running scripts. Please note that any file may be modified during the process, therefore the need to trust the patch provider, and to carefully select a patch adapted to your current situation.')."</p>\n";
 
 		// the form to post an file
-		$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 
 		// the file
 		$context['text'] .= '<input type="file" name="upload" id="focus" size="30" />'
@@ -145,7 +145,7 @@ elseif(!Surfer::is_associate()) {
 		// the script used for form handling at the browser
 		$context['text'] .= JS_PREFIX
 			.'// set the focus on first form field'."\n"
-			.'$("focus").focus();'."\n"
+			.'$("#focus").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	}

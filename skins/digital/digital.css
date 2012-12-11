@@ -141,7 +141,11 @@ img { /* a standard image */
 }
 
 input[type="password"],
-input[type="text"] { /* change form elements */
+input[type="text"],
+textarea { /* change form elements */
+	font-family: Arial, sans-serif;
+	font-size: 1em;
+	font-weight: normal;
 	color: black;
 	background-color: white;
 	border: #26a solid 1px;
@@ -351,6 +355,18 @@ body#sections #extra_panel dl dt { /* enhance box titles on wider panels */
 /*	list-style: none; */
 }
 
+#main_panel ul.compact { /* a compact list in main panel */
+	list-style-position : outside;
+	list-style-type : none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+#main_panel ul.compact li {
+	background-image: none;
+	padding-left: 0;
+}
+
 #side_panel { /* navigation information */
 	margin: 0;
 	padding: 0;
@@ -422,7 +438,7 @@ p#crumbs { /* path to this page -- see template script */
 	font-size: 0.8em;
 	font-weight: normal;
 	padding: 0;
-	margin: 0 0 20px 0;
+	margin: 4px 0 20px 0;
 }
 
 p#crumbs a {
@@ -630,8 +646,10 @@ dl#user_menu ul { /* commands that apply to this user -- see template script */
 
 a.button,
 a.button:visited,
-p.menu_bar a.button,
-p.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
+div.menu_bar a.button,
+div.menu_bar a.button:visited,
+p.assistant_bar .button,
+p.assistant_bar .button:visited { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
 	display: -moz-inline-box; /* mandatory for firefox 2 */
 	display: inline-block;
 	cursor: pointer;
@@ -642,6 +660,7 @@ p.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[
 	color: #2e523b;
 	line-height: 0;
 	background: transparent url('images/button_yellow.png') no-repeat 0 0;
+	border-radius: none;
 	height: 30px;
 	margin: 0 6px 0 0;
 	padding: 0 10px 0 0;
@@ -649,7 +668,8 @@ p.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[
 }
 
 a.button span,
-p.menu_bar a.button span {
+div.menu_bar a.button span,
+p.assistant_bar .button button {
 	display: inline-block;
 	cursor: pointer;
 	border: none;
@@ -663,63 +683,29 @@ p.menu_bar a.button span {
 	background: transparent url('images/button_yellow.png') no-repeat 100% 0;
 	height: 30px;
 	margin: 0 -16px 0 10px;
-	padding: 8px 20px 0 10px;
+	padding: 8px 20px 8px 10px;
 	vertical-align: middle;
 }
 
-
-span.button { /* a button in a form */
-	display: -moz-inline-box; /* mandatory for firefox 2 */
-	display: inline-block;
-	cursor: pointer;
-	border: none;
-	font-size: 0;
-	font-style: normal;
-	text-decoration: none;
-	color: #2e523b;
-	line-height: 0;
-	background: transparent url('images/button_yellow.png') no-repeat 0 0;
-	height: 30px;
-	margin: 0 6px 0 0;
-	padding: 0 10px 0 0;
-	vertical-align: middle;
-}
-
-span.button button {
-	display: -moz-inline-box;
-	display: inline-block;
-	cursor: pointer;
-	border: none;
-	font-family: "Arial" !important;
-	font-size: 12px !important;
-	font-style: normal;
-	white-space: nowrap;
-	letter-spacing: 0 !important;
-	color: #222;
-	line-height: 16px;
-	background: transparent url('images/button_yellow.png') no-repeat 100% 0;
-	height: 30px;
-	margin: 0 -16px 0 10px;
-	padding: 0 20px 0 10px;
-}
 
 a.button:hover,
-span.button:hover,
-p.menu_bar a.button:hover,
-p.menu_bar span.button:hover {
+div.menu_bar a.button:hover,
+p.assistant_bar .button:hover {
+	box-shadow: none;
+	background: transparent url('images/button_yellow.png') no-repeat 0 0;
 	background-position: 0 -60px;
 	color:#222;
 	text-decoration:none;
 }
 
 a.button:hover span,
-span.button:hover button,
-p.menu_bar a.button:hover span,
-p.menu_bar span.button:hover button {
+div.menu_bar a.button:hover span,
+p.assistant_bar .button:hover button {
+	background: transparent url('images/button_yellow.png') no-repeat 0 0;
 	background-position: 100% -60px;
 }
 
-a.button:active span, span.button:focus button {
+a.button:active span {
 	color:#444;
 }
 
@@ -773,7 +759,6 @@ table.calendar td.spot {
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .extra_box ul { /* a list in the side panel */
@@ -856,7 +841,6 @@ dl dd a.menu_2 {
 }
 
 div.odd { /* stacked with div.even */
-	padding: 0.5em 0;
 }
 
 #main_panel td.odd { /* one row out of two, but only in the main panel */

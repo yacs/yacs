@@ -19,16 +19,13 @@ Class Utf8 {
 	 * @param string the original string
 	 * @return a UTF-8 encoded string
 	 */
-	function &encode(&$input) {
+	public static function &encode($input) {
 
-		// transcode explicit unicode entities %u2019 -> &#8217;
+		// transcode explicit unicode entities e.g., %u2019 -> &#8217;
 		$output = preg_replace('/%u([0-9a-z]{4})/ise', "'&#'.hexdec('$1').';'", $input);
 
-		// transcode HTML entities to Unicode entities
+		// transcode HTML entities to Unicode entities e.g., &nbsp; -> &#160;
 		$output =& utf8::transcode($output);
-
-		// translate everything, including ISO8859-1 chars, to utf-8
-// 		$output = utf8_encode($output);
 
 		// return the translated string
 		return $output;
@@ -41,7 +38,7 @@ Class Utf8 {
 	 * @param string a complex string using ISO8859 entities
 	 * @return a UTF-8 string
 	 */
-	function &from_iso8859($text) {
+	public static function &from_iso8859($text) {
 
 		// iso-8859-15 + Microsoft extensions cp1252
 		list($iso_entities, $unicode_entities) = Utf8::get_iso8859();
@@ -59,24 +56,27 @@ Class Utf8 {
 	 * This function is triggered by the YACS handler during page rendering.
 	 * It is aiming to transcode HTML Unicode entities (eg, &amp;#8364;) back to actual UTF-8 encoding (eg, €).
 	 *
-	 * @param string a string with a mix of UTF-8 and of HTML Unicode entities
-	 * @return an UTF-8 string
+	 * @param mixed a string with a mix of UTF-8 and of HTML Unicode entities, or an array
+	 * @return an UTF-8 mixed
 	 */
-	function &from_unicode($text) {
+	public static function &from_unicode($input) {
 		global $context;
 
-		// sanity check
-		if(!is_string($text))
-			return $text;
+		// transcode arrays as well
+		if(is_array($input)) {
+			utf8::from_unicode_recursively($input);
+			$output = $input;
+			return $output;
+		}
 
 		// translate Unicode entities
-		$areas = preg_split('/&[#u](\d+);/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$text = '';
+		$output = '';
 		$index = 0;
+		$areas = preg_split('/&[#u](\d+);/', $input, -1, PREG_SPLIT_DELIM_CAPTURE);
 		foreach($areas as $area) {
 			switch($index%2) {
 			case 0: // before entity
-				$text .= $area;
+				$output .= $area;
 				break;
 			case 1: // the entity itself
 
@@ -86,7 +86,7 @@ Class Utf8 {
 				// one byte
 				if($unicode < 0x7F) {
 
-					$text .= chr($unicode);
+					$output .= chr($unicode);
 
 				// forbidden elements
 				} elseif($unicode < 0x0A0) {
@@ -95,19 +95,19 @@ Class Utf8 {
 				// two bytes
 				} elseif($unicode < 0x800) {
 
-					$text .= chr( 0xC0 +  ( ( $unicode - ( $unicode % 0x40 ) ) / 0x40 ) );
-					$text .= chr( 0x80 + ( $unicode % 0x40 ) );
+					$output .= chr( 0xC0 +  ( ( $unicode - ( $unicode % 0x40 ) ) / 0x40 ) );
+					$output .= chr( 0x80 + ( $unicode % 0x40 ) );
 
 				// three bytes
 				} elseif($unicode < 0x10000) {
 
-					$text .= chr( 0xE0 + ( ( $unicode - ( $unicode % 0x1000 ) ) / 0x1000 ) );
-					$text .= chr( 0x80 + ( ( ( $unicode % 0x1000 ) - ( $unicode % 0x40 ) ) / 0x40 ) );
-					$text .= chr( 0x80 + ( $unicode % 0x40 ) );
+					$output .= chr( 0xE0 + ( ( $unicode - ( $unicode % 0x1000 ) ) / 0x1000 ) );
+					$output .= chr( 0x80 + ( ( ( $unicode % 0x1000 ) - ( $unicode % 0x40 ) ) / 0x40 ) );
+					$output .= chr( 0x80 + ( $unicode % 0x40 ) );
 
 				// more bytes, keep it as it is...
 				} else
-					$text .= '&#'.$unicode.';';
+					$output .= '&#'.$unicode.';';
 
 				break;
 			}
@@ -115,7 +115,31 @@ Class Utf8 {
 		}
 
 		// the updated string
-		return $text;
+		return $output;
+	}
+
+	/**
+	 * transcode arrays recursively
+	 *
+	 * @param array the variable to convert
+	 * @return converted object (which is also the input array)
+	 */
+	public static function from_unicode_recursively(&$input) {
+		global $context;
+
+		// sanity check
+		if(!is_array($input))
+			return utf8::from_unicode($input);
+
+		// process all attributes
+		foreach($input as $name => $value) {
+			if(is_array($value))
+				$input[$name] = utf8::from_unicode_recursively($value);
+			else
+				$input[$name] = utf8::from_unicode($value);
+		}
+		return $input;
+
 	}
 
 	/**
@@ -128,7 +152,7 @@ Class Utf8 {
 	 *
 	 * @return ISO 8859 transcoding arrays
 	 */
-	function get_iso8859() {
+	public static function get_iso8859() {
 
 		// iso-8859-15 + Microsoft extensions cp1252 -- initialize tables only once
 		static $iso_entities, $unicode_entities;
@@ -269,10 +293,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $iso_entity => $unicode_entity) {
-				$iso_entities[] = $iso_entity;
-				$unicode_entities[] = $unicode_entity;
-			}
+			$iso_entities = array_keys($codes);
+			$unicode_entities = array_values($codes);
 		}
 
 		// here are the tables
@@ -308,6 +330,11 @@ Class Utf8 {
 	 * $text = utf8::to_ascii($text, ' ');
 	 * [/php]
 	 *
+	 * You can use following constants depending on application:
+	 * - FILENAME_SAFE_ALPHABET
+	 * - PRINTABLE_SAFE_ALPHABET
+	 * - URL_SAFE_ALPHABET
+	 *
 	 * @param string a complex string using HTML entities
 	 * @param string optional characters to accept
 	 * @return a US-ASCII string
@@ -320,11 +347,12 @@ Class Utf8 {
 	 * @see files/fetch.php
 	 * @see files/fetch_all.php
 	 * @see images/edit.php
+	 * @see shared/global.php
 	 * @see tables/fetch_as_csv.php
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	function &to_ascii($utf, $options='') {
+	public static function &to_ascii($utf, $options=FILENAME_SAFE_ALPHABET) {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
@@ -403,20 +431,18 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $utf_entity => $safe_entity) {
-				$utf_entities[] = $utf_entity;
-				$safe_entities[] = $safe_entity;
-			}
+			$utf_entities = array_keys($codes);
+			$safe_entities = array_values($codes);
 		}
 
 		// transcode iso 8859 chars to safer ascii entities
 		$text = str_replace($utf_entities, $safe_entities, $utf);
 
 		// turn invalid chars to dashes (for proper indexation by Google)
-		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);
+		$text = preg_replace("#[^a-zA-Z_\d\.\-".preg_quote($options, '#')."]+#i", '-', $text);
 
 		// compact dashes
-		$text = preg_replace('/-+/', '-', $text);
+		$text = str_replace(array('-----', '----', '---', '--'), '-', $text);
 
 		// done
 		return $text;
@@ -431,11 +457,11 @@ Class Utf8 {
 	 * @param string a complex string using unicode entities
 	 * @return a transcoded string
 	 */
-	function &to_hex($utf) {
+	public static function &to_hex($utf) {
 		global $context;
 
 		// transcode all entities from decimal to hexa
-		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('\\1').';'", $utf);
+		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('$1').';'", $utf);
 
 		// job done
 		return $text;
@@ -454,7 +480,7 @@ Class Utf8 {
 	 *
 	 * @see feeds/flash/slashdot.php
 	 */
-	function &to_iso8859(&$utf, $options='') {
+	public static function &to_iso8859($utf, $options='') {
 
 		// iso-8859-15 + Microsoft extensions cp1252
 		list($iso_entities, $unicode_entities) = Utf8::get_iso8859();
@@ -511,10 +537,10 @@ Class Utf8 {
 	 *
 	 * @link http://www.evolt.org/article/A_Simple_Character_Entity_Chart/17/21234/ A Simple Character Entity Chart
 	 *
-	 * @param string the original UTF-8 string
+	 * @param mixed the original UTF-8 string, or an array
 	 * @return a string acceptable in an ISO-8859-1 storage system (ie., PHP4 + MySQL 3)
 	 */
-	function &to_unicode(&$input) {
+	public static function &to_unicode($input) {
 		global $context;
 
 		// transcode arrays as well
@@ -611,7 +637,7 @@ Class Utf8 {
 	 * @param array the variable to convert
 	 * @return converted object (which is also the input array)
 	 */
-	function to_unicode_recursively(&$input) {
+	public static function to_unicode_recursively(&$input) {
 		global $context;
 
 		// sanity check
@@ -630,6 +656,62 @@ Class Utf8 {
 	}
 
 	/**
+	 * transcode multi-byte characters to XML representation
+	 *
+	 * This function is aiming to escape XML character entity references, namely: ", &, ', < and > characters.
+	 *
+	 * @link http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
+	 *
+	 * Multi-byte UTF-8 entities are not transformed, since it is assumed that the output
+	 * will be encoded in UTF-8 anyway.
+	 *
+	 * If the input is a string, it is not modified. If it is an array, it is transformed.
+	 * @param mixes the original UTF-8 string, or array of named values
+	 * @return a string acceptable in an XML snippet
+	 */
+	public static function &to_xml($input) {
+		global $context;
+
+		// transcode arrays as well
+		if(is_array($input)) {
+			utf8::to_xml_recursively($input);
+			$output = $input;
+			return $output;
+		}
+
+		// escape all xml predefined entities
+		$output = str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), $input);
+
+		// return the translated string
+		return $output;
+
+	}
+
+	/**
+	 * transcode arrays recursively
+	 *
+	 * @param array the variable to convert
+	 * @return converted object (which is also the input array)
+	 */
+	public static function to_xml_recursively(&$input) {
+		global $context;
+
+		// sanity check
+		if(!is_array($input))
+			return utf8::to_xml($input);
+
+		// process all attributes
+		foreach($input as $name => $value) {
+			if(is_array($value))
+				$input[$name] = utf8::to_xml_recursively($value);
+			else
+				$input[$name] = utf8::to_xml($value);
+		}
+		return $input;
+
+	}
+
+	/**
 	 * transcode unicode entities to/from HTML entities
 	 *
 	 * Also, this function transforms HTML entities into their equivalent Unicode entities.
@@ -642,7 +724,7 @@ Class Utf8 {
 	 * @param boolean TRUE to transcode to Unicode, FALSE to transcode to HTML
 	 * @return a transcoded string
 	 */
-	function &transcode(&$input, $to_unicode=TRUE) {
+	public static function &transcode($input, $to_unicode=TRUE) {
 
 		// initialize tables only once
 		static $html_entities, $unicode_entities;
@@ -902,10 +984,8 @@ Class Utf8 {
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $unicode_entity => $html_entity) {
-				$unicode_entities[] = $unicode_entity;
-				$html_entities[] = $html_entity;
-			}
+			$unicode_entities = array_keys($codes);
+			$html_entities = array_values($codes);
 		}
 
 		// transcode HTML entities to Unicode

@@ -7,7 +7,7 @@
  *
  * Users that have only a shadow user profile are invited to go to the origin server.
  *
- * To avoid replay attacks YACS generates a random string and asks end user to type it.
+ * To avoid replay attacks YACS generates a random string and asks anonymous users to type it.
  *
  * This page also helps to recover from lost password. Non-authenticated users
  * can provide their nick name, and a message is sent to the related e-mail
@@ -34,7 +34,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get existing user data, if any
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // is this is a shadow record?
 $origin = '';
@@ -65,12 +65,12 @@ else
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // we are using an external authenticator
 } elseif(isset($context['users_authenticator']) && $context['users_authenticator']) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no user id has been provided
@@ -106,25 +106,28 @@ if(Surfer::is_crawler()) {
 		$subject = sprintf(i18n::s('Your account at %s'), strip_tags($context['site_name']));
 
 		// top of the message
-		$message = sprintf(i18n::s('This message relates to your account at %s.'), strip_tags($context['site_name']))."\n"
-			."\n".$context['url_to_home'].$context['url_to_root']."\n";
+		$message = '<p>'.sprintf(i18n::s('This message relates to your account at %s.'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 		// mention nick name
-		$message .= "\n".sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])."\n";
+		$message .= '<p>'.sprintf(i18n::s('Your nick name is %s'), $item['nick_name']).'</p>';
 
 		// direct link to login page --see users/login.php
-		$message .= "\n".i18n::s('Record this message and use the following link to authenticate to the site at any time:')."\n"
-			."\n".$context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $id, rand(1000, 9999), $item['handle'])."\n";
+		$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('login', $id, rand(1000, 9999), $item['handle']);
+		$message .= '<p>'.i18n::s('Record this message and use the following link to authenticate to the site at any time:').'</p>'
+			.'<p><a href="'.$link.'">'.$link.'</a></p>';
 
 		// caution note
-		$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";
+		$message .= '<p>'.i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.').'</p>';
 
 		// bottom of the message
-		$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
-			."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
+		$message .= '<p>'.sprintf(i18n::s('On-line help is available at %s'),
+			'<a href="'.$context['url_to_home'].$context['url_to_root'].'help/'.'">'.$context['url_to_home'].$context['url_to_root'].'help/'.'</a>').'</p>'
+			.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 		// enable threading
-		$headers = Mailer::set_thread('', 'user:'.$item['id']);
+		$headers = Mailer::set_thread('user:'.$item['id']);
 
 		// post the confirmation message
 		Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
@@ -149,7 +152,7 @@ if(Surfer::is_crawler()) {
 
 	// restrictions: anyone can modify its own profile; associates can modify everything
 	if(($item['id'] != Surfer::get_id()) && !Surfer::is_associate()) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// passwords have to be confirmed
@@ -236,7 +239,7 @@ if($with_form) {
 
 		// append the script used for data checking on the browser
 		$context['page_footer'] .= JS_PREFIX
-			.'$("password").focus();'."\n"
+			.'$("#password").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	}

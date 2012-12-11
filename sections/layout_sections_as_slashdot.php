@@ -11,12 +11,12 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	/**
 	 * the preferred number of items for this layout
 	 *
-	 * @return 10
+	 * @return 50
 	 *
 	 * @see skins/layout.php
 	 */
 	function items_per_page() {
-		return 10;
+		return 50;
 	}
 
 	/**
@@ -27,7 +27,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -49,14 +49,17 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
-				$text .= '<tr class="'.$class_title.'"><td class="family">'.$family.'&nbsp;</td></tr>'."\n";
+				// show the family
+				$text .= Skin::table_suffix()
+					.'<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
+					.Skin::table_prefix('wide');
+
 			}
 
 			// document this section
@@ -64,13 +67,13 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// permalink
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -80,9 +83,9 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// this is another row of the output
 			$text .= '<tr class="'.$class_title.'"><th>'.$prefix.Skin::build_link($url, $title, 'basic', i18n::s('View the section')).$suffix.'</th></tr>'."\n";
@@ -100,13 +103,13 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			if($article['id']) {
 
 				// permalink
-				$url =& Articles::get_permalink($article);
+				$url = Articles::get_permalink($article);
 
 				// get the anchor
-				$anchor =& Anchors::get($article['anchor']);
+				$anchor = Anchors::get($article['anchor']);
 
 				// get the related overlay, if any
-				$overlay = Overlay::load($article);
+				$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 				// use the title to label the link
 				if(is_object($overlay))
@@ -116,19 +119,19 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 				// signal restricted and private articles
 				if($article['active'] == 'N')
-					$prefix .= PRIVATE_FLAG.' ';
+					$prefix .= PRIVATE_FLAG;
 				elseif($article['active'] == 'R')
-					$prefix .= RESTRICTED_FLAG.' ';
+					$prefix .= RESTRICTED_FLAG;
 
 				// the icon to put aside
 				if($article['thumbnail_url'])
 					$icon = $article['thumbnail_url'];
 
 				// the icon to put aside
-				if(!$icon && is_object($anchor))
-					$icon = $anchor->get_thumbnail_url();
+				if(!$icon && is_callable(array($anchor, 'get_bullet_url')))
+					$icon = $anchor->get_bullet_url();
 				if($icon)
-					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 				// the introductory text
 				if($article['introduction'])
@@ -177,7 +180,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 				// this is another row of the output
 				$text .= '<tr class="'.$class_detail.'"><td>'
-					.'<h2 class="top"><span>'.Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')).'</span></h2>'
+					.'<h3 class="top"><span>'.Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')).'</span></h3>'
 					.'<div class="content">'.$icon.$content.'</div>'
 					.'</td></tr>'."\n";
 

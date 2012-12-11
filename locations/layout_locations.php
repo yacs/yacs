@@ -22,12 +22,11 @@ Class Layout_locations extends Layout_interface {
 	 * - 'no_author' to list items attached to one user prolocation
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -40,7 +39,7 @@ Class Layout_locations extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -76,7 +75,7 @@ Class Layout_locations extends Layout_interface {
 			$details = array();
 
 			// item poster
-			if($variant != 'no_author') {
+			if(isset($this->layout_variant) && ($this->layout_variant != 'no_author')) {
 				if($item['edit_name'])
 					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
@@ -84,7 +83,7 @@ Class Layout_locations extends Layout_interface {
 				$details[] = Anchors::get_action_label($item['edit_action']);
 
 			// show an anchor location
-			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(isset($this->layout_variant) && ($this->layout_variant != 'no_anchor') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));

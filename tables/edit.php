@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'tables.php';
 
 // look for the id
@@ -37,7 +36,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Tables::get($id);
+$item = Tables::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -49,9 +48,9 @@ if(!isset($target_anchor) && isset($context['arguments'][1]))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and owners can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
@@ -93,7 +92,7 @@ if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -118,12 +117,12 @@ if(Surfer::is_crawler()) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
@@ -202,13 +201,13 @@ if($with_form) {
 
 	// the title
 	$label = i18n::s('Title');
-	$input = '<textarea name="title" id="title" rows="2" cols="50">'.encode_field($item['title']).'</textarea>';
+	$input = '<textarea name="title" id="title" rows="2" cols="50">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
 	$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
 
 	// the query
 	$label = i18n::s('SQL Query');
-	$input = '<textarea name="query" rows="15" cols="50">'.encode_field($item['query']).'</textarea>';
+	$input = '<textarea name="query" rows="15" cols="50">'.encode_field(isset($item['query']) ? $item['query'] : '').'</textarea>';
 	$hint = i18n::s('The SELECT command submitted to the database');
 	$fields[] = array($label, $input, $hint);
 
@@ -225,12 +224,12 @@ if($with_form) {
 		.BR."\n".'<input type="radio" name="with_zoom" value="Y"';
 	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('First column provides a web link');
+	$input .= '/> '.i18n::s('First column provides a web address');
 	$fields[] = array($label, $input);
 
 	// the description
 	$label = i18n::s('Description');
-	$input = '<textarea name="description" rows="5" cols="50">'.encode_field($item['description']).'</textarea>';
+	$input = '<textarea name="description" rows="5" cols="50">'.encode_field(isset($item['description']) ? $item['description'] : '').'</textarea>';
 	$hint = i18n::s('As this field may be searched by surfers, please choose adequate searchable words');
 	$fields[] = array($label, $input, $hint);
 
@@ -278,13 +277,13 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// the help panel
 	$help = '<p>'.i18n::s('Please ensure you are using a compliant and complete SQL SELECT statement.').'</p>'
 		.'<p>'.sprintf(i18n::s('For more information check the %s.'), Skin::build_link('http://dev.mysql.com/doc/mysql/en/select.html', i18n::s('MySQL reference page'), 'external')).'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

@@ -29,18 +29,17 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -64,7 +63,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!Sections::is_owned($item, $anchor)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // action is confirmed
@@ -92,15 +91,15 @@ if(!isset($item['id'])) {
 	$item['title'] = sprintf(i18n::s('Copy of %s'), $item['title']);
 	$item['index_title'] = $item['title'];
 
-	// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
-	$overlay = Overlay::load($item);
-
 	// create a new page
 	if($item['id'] = Sections::post($item, FALSE)) {
 
+		// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+		$overlay = Overlay::load($item, 'section:'.$item['id']);
+
 		// post an overlay, with the new section id
 		if(is_object($overlay))
-			$overlay->remember('insert', $item);
+			$overlay->remember('insert', $item, 'section:'.$item['id']);
 
 		// duplicate all related items, images, etc.
 		Anchors::duplicate_related_to($original_anchor, 'section:'.$item['id']);
@@ -117,7 +116,7 @@ if(!isset($item['id'])) {
 		}
 
 		// get the new item
-		$section =& Anchors::get('section:'.$item['id'], TRUE);
+		$section = Anchors::get('section:'.$item['id'], TRUE);
 
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
@@ -144,10 +143,11 @@ if(!isset($item['id'])) {
 		// title and link
 		if($title = $section->get_title())
 			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].$section->get_url()."\n\n";
+		$link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
+                $description = '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
-		Logger::notify('sections/duplicate.php', $label, $description);
+		Logger::notify('sections/duplicate.php: '.$label, $description);
 
 	}
 
@@ -179,7 +179,7 @@ if(!isset($item['id'])) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
 	// the title of the action

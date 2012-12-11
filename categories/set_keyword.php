@@ -40,7 +40,7 @@ if(!$root_category = Categories::lookup('keywords')) {
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a valid category to host keywords
@@ -49,7 +49,7 @@ if(Surfer::is_crawler()) {
 
 // operation is restricted to members
 elseif(!Surfer::is_member()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a keyword
@@ -57,7 +57,7 @@ elseif(!Surfer::is_member()) {
 	Logger::error(i18n::s('No keyword to search for.'));
 
 // search in articles
-elseif(!$articles = Articles::search($search, 0, 50, 'raw')) {
+elseif(!$articles = Articles::search($search, 1.0, 50, 'raw')) {
 	Logger::error(i18n::s('No item has been found.'));
 
 // create a category for this keyword if none exists yet
@@ -68,7 +68,7 @@ elseif(!$articles = Articles::search($search, 0, 50, 'raw')) {
 	$fields['title'] = ucfirst($search);
 	if($fields['id'] = Categories::post($fields)) {
 		Categories::clear($fields);
-		$category =& Categories::get($fields['id']);
+		$category = Categories::get($fields['id']);
 	}
 }
 

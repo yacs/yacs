@@ -107,7 +107,7 @@ First installation of YACS
    Make sure to preserve the directory structure of YACS.
 
 3. (optional) If you are running Apache, you may upload the provided .htaccess
-   file to your server, or a derivated version, to further secure access to your
+   file to your server, or a derived version, to further secure access to your
    server, to implement nice error pages, etc.
 
 4. YACS requires adequate rights to write files in this structure. An adequate

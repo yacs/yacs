@@ -46,7 +46,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -72,7 +72,7 @@ if(isset($item['nick_name']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -85,7 +85,7 @@ elseif(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the avatar has been changed
@@ -103,7 +103,7 @@ elseif(!isset($item['id'])) {
 
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
-	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="" style="avatar" />').'</p>'."\n";
 else
 	$context['text'] .= '<p>'.i18n::s('No picture has been set for this profile.').'</p>';
 
@@ -115,7 +115,7 @@ if(!count($context['error']) && isset($item['id'])) {
 	if(Images::allow_creation(NULL, $item, 'user')) {
 
 		// the form to post an image
-		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'images/edit.php" id="main_form"><div>'
+		$text = '<form method="post" action="'.$context['url_to_root'].'images/edit.php" id="main_form" enctype="multipart/form-data"><div>'
 			.'<input type="hidden" name="anchor" value="user:'.$item['id'].'" />'
 			.'<input type="hidden" name="action" value="set_as_avatar" />';
 
@@ -132,7 +132,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		// the script used for form handling at the browser
 		$text .= JS_PREFIX
 			.'// set the focus on first form field'."\n"
-			.'$("upload").focus();'."\n"
+			.'$("#upload").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 

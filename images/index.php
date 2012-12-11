@@ -4,7 +4,6 @@
  *
  * @todo search for images (Alainderieux)
  * @todo allow for import from inbox/images (olivier)
- * @todo allow for flash uploads (viviane)
  * @todo list and suppress images attached to an article images/list.php
  *
  * For a comprehensive description of images, you should check the database abstraction script
@@ -64,7 +63,7 @@ $context['page_title'] = i18n::s('Images');
 
 // this page is really only for associates
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
@@ -89,12 +88,12 @@ if(!Surfer::is_associate()) {
 
 	// page main content
 	$cache_id = 'images/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * IMAGES_PER_PAGE;
 		if(!$text = Images::list_by_date($offset, IMAGES_PER_PAGE, 'full'))
-			$context['text'] .= '<p>'.i18n::s('No image has been uploaded yet.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('No image has been added.').'</p>';
 
 		// we have an array to format
 		if(is_array($text))
@@ -113,7 +112,7 @@ if(Surfer::is_associate())
 
 // page extra content
 $cache_id = 'images/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// sidebar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

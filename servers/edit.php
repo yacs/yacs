@@ -3,7 +3,7 @@
  * set a new server or update an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * This script attempts to validate the new or updated article description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
@@ -26,7 +26,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'servers.php';
 
 // look for the id
@@ -38,7 +37,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Servers::get($id);
+$item = Servers::get($id);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -65,7 +64,7 @@ if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -74,7 +73,7 @@ if(Surfer::is_crawler()) {
 
 // associates only
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
@@ -157,11 +156,11 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers')
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers')
 		.BR.'<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons')
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer')
 		.BR.'<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
@@ -338,13 +337,13 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Use this page to describe network interactions with a peering server, part of the cloud we are in.').'</p>'
 		.'<p>'.i18n::s('Edit general-purpose attributes in the overview area.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>'
 		.'<p>'.i18n::s('Then configure and trigger web services that we will use remotely.').'</p>'
 		.'<p>'.i18n::s('Also, uncheck web services that we should not provide to the target server.').'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');

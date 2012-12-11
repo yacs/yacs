@@ -4,6 +4,8 @@
  *
  * This is a special layout used to build a RSS feed of new pages, with full content.
  *
+ * @link http://georss.org/Main_Page GeoRSS
+ *
  * @see articles/articles.php
  * @see articles/feed.php
  *
@@ -23,7 +25,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -36,14 +38,14 @@ Class Layout_articles_as_contents extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		include_once $context['path_to_root'].'locations/locations.php';
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// provide an absolute link
 			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
@@ -59,14 +61,14 @@ Class Layout_articles_as_contents extends Layout_interface {
 
 			// the section
 			$section = '';
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 				$section = ucfirst($anchor->get_title());
 
 			// the icon to use
 			$icon = '';
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
 				$icon = $context['url_to_home'].$context['url_to_home'].$icon;
@@ -84,15 +86,6 @@ Class Layout_articles_as_contents extends Layout_interface {
 				if(isset($item['edit_name']) && trim($item['edit_name']))
 					$author .= ' ('.$item['edit_name'].')';
 			}
-
-			// some introductory text for this article --this is not related to the description field
-			$article = new Article();
-			$article->load_by_content($item);
-			$introduction = $article->get_teaser('teaser');
-
-			// warns on restricted access
-			if($item['active'] != 'Y')
-				$introduction = '['.i18n::c('Restricted to members').'] '.$introduction;
 
 			// the article content
 			$description = '';
@@ -115,6 +108,10 @@ Class Layout_articles_as_contents extends Layout_interface {
 			// other rss fields
 			$extensions = array();
 
+			// the geolocation for this page, if any
+			if($location = Locations::locate_anchor('article:'.$item['id']))
+				$extensions[] = '<georss:point>'.str_replace(',', ' ', $location).'</georss:point>';
+
 			// url for comments
 			$extensions[] = '<comments>'.encode_link($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments')).'</comments>';
 
@@ -132,7 +129,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 			$extensions[] = '<trackback:ping>'.encode_link($context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor='.urlencode('article:'.$item['id']))."</trackback:ping>"; // no trackback:about;
 
 			// list all components for this item
-			$items[$url] = array($time, $title, $author, $section, $icon, $introduction, $description, $extensions);
+			$items[$url] = array($time, $title, $author, $section, $icon, NULL, $description, $extensions);
 
 		}
 

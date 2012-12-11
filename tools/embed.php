@@ -15,27 +15,34 @@ include_once '../shared/global.php';
 // load localized strings -- see i18n/i18n.php for more information on internationalization and localization in YACS
 i18n::bind('tools');
 
-// the path to this page
+// load the skin
+load_skin('tools');
+
+// path to this page
 $context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
 
-// let YACS start the page
-embed_yacs_prefix();
+// page title
+$context['page_title'] = i18n::s('Hello world');
 
-// no content on HEAD request
-if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'HEAD')) {
+// render the page
+render_skin();
 
-	// display page title
-	echo '<h1>'.i18n::s('Hello world').'</h1>';
+// most skin templates call send_meta() to echo customized tags in the <head> tag
+function send_meta() {
+	global $context;
 
-	// display page content
-	echo '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-		.' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-		.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-		.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
+	// you can generate something directly, or include any other script able to echo meta tags
+	echo "\t".'<meta name="embedded" content="by tools/embed.php" />'."\n";
 
 }
 
-// let YACS end the page
-embed_yacs_suffix();
+// most skin templates call send_body(), which can execute any code and generate any output
+function send_body() {
+	global $context;
+
+	// load another script that will generate some text
+	include 'echo.php';
+
+}
 
 ?>

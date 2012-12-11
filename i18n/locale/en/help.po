@@ -1,0 +1,3746 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"PO-Revision-Date: 2012-07-13 18:32+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"XRoedit-SourceCharset: utf-8\n"
+
+#: help/index.php:253 help/populate.php:1916
+msgid "Help"
+msgstr "Help"
+
+#: help/index.php:257
+#, php-format
+msgid "Edited %s"
+msgstr "Edited %s"
+
+#: help/index.php:264
+msgid "Where to look for information?"
+msgstr "Where to look for information?"
+
+#: help/index.php:266
+#, php-format
+msgid "%s and change it if you like."
+msgstr "%s and change it if you like."
+
+#: help/index.php:266
+msgid "Review your profile"
+msgstr "Review your profile"
+
+#: help/index.php:267
+#, php-format
+msgid "%s of this site."
+msgstr "%s of this site."
+
+#: help/index.php:267
+msgid "Go to the front page"
+msgstr "Go to the front page"
+
+#: help/index.php:268
+msgid "Site map"
+msgstr "Site map"
+
+#: help/index.php:269
+msgid "Categories"
+msgstr "Categories"
+
+#: help/index.php:270
+#, php-format
+msgid "Index of most recent %1$s, %2$s, %3$s and %4$s"
+msgstr "Index of most recent %1$s, %2$s, %3$s and %4$s"
+
+#: help/index.php:270
+msgid "pages"
+msgstr "pages"
+
+#: help/index.php:270
+msgid "files"
+msgstr "files"
+
+#: help/index.php:270
+msgid "threads"
+msgstr "threads"
+
+#: help/index.php:270
+msgid "people"
+msgstr "people"
+
+#: help/index.php:271
+msgid "Full-text search"
+msgstr "Full-text search"
+
+#: help/index.php:273
+#, php-format
+msgid "%s to access more material, and to receive our newsletters"
+msgstr "%s to access more material, and to receive our newsletters"
+
+#: help/index.php:273
+msgid "Register"
+msgstr "Register"
+
+#: help/index.php:280
+msgid "How to format text in pages?"
+msgstr "How to format text in pages?"
+
+#: help/index.php:281
+msgid ""
+"<p>To ease the production of text YACS has a little code interpreter. You "
+"will find in pages listed below descriptions of these codes, but also "
+"examples of their visual rendering on your system.</p>"
+msgstr ""
+"<p>To ease the production of text YACS has a little code interpreter. You "
+"will find in pages listed below descriptions of these codes, but also "
+"examples of their visual rendering on your system.</p>"
+
+#: help/index.php:283
+msgid "Smileys available at this system"
+msgstr "Smileys available at this system"
+
+#: help/index.php:284
+#, php-format
+msgid "%s (bold, underline, ...)"
+msgstr "%s (bold, underline, ...)"
+
+#: help/index.php:284
+msgid "In-line"
+msgstr "In-line"
+
+#: help/index.php:285
+#, php-format
+msgid "%s (and shortcuts, buttons, ...)"
+msgstr "%s (and shortcuts, buttons, ...)"
+
+#: help/index.php:285
+msgid "Links"
+msgstr "Links"
+
+#: help/index.php:286
+#, php-format
+msgid "%s (with bullets, numbered, ...)"
+msgstr "%s (with bullets, numbered, ...)"
+
+#: help/index.php:286
+msgid "Lists"
+msgstr "Lists"
+
+#: help/index.php:287
+#, php-format
+msgid "%s (indentation, script, quote, ...)"
+msgstr "%s (indentation, script, quote, ...)"
+
+#: help/index.php:287
+msgid "Blocks"
+msgstr "Blocks"
+
+#: help/index.php:288
+#, php-format
+msgid "%s (with headers, with grids, use CSV data, ...)"
+msgstr "%s (with headers, with grids, use CSV data, ...)"
+
+#: help/index.php:288
+msgid "Tables"
+msgstr "Tables"
+
+#: help/index.php:289
+#, php-format
+msgid "%s (and table of content)"
+msgstr "%s (and table of content)"
+
+#: help/index.php:289
+msgid "Titles and questions"
+msgstr "Titles and questions"
+
+#: help/index.php:290
+#, php-format
+msgid "%s (updates, content, ...)"
+msgstr "%s (updates, content, ...)"
+
+#: help/index.php:290
+msgid "Dynamic queries"
+msgstr "Dynamic queries"
+
+#: help/index.php:291
+#, php-format
+msgid "%s (twitter, calendar, ...)"
+msgstr "%s (twitter, calendar, ...)"
+
+#: help/index.php:291
+msgid "Widgets"
+msgstr "Widgets"
+
+#: help/index.php:292
+#, php-format
+msgid "%s (charts, ...)"
+msgstr "%s (charts, ...)"
+
+#: help/index.php:292
+msgid "Miscellaneous codes"
+msgstr "Miscellaneous codes"
+
+#: help/populate.php:72 help/populate.php:89 help/populate.php:229
+#: help/populate.php:381 help/populate.php:549 help/populate.php:787
+#: help/populate.php:941 help/populate.php:1092 help/populate.php:1227
+#: help/populate.php:1254 help/populate.php:1337 help/populate.php:1456
+#: help/populate.php:1575 help/populate.php:1641 help/populate.php:1841
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: help/populate.php:75
+msgid "Content Assistant"
+msgstr "Content Assistant"
+
+#: help/populate.php:86
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: help/populate.php:96
+msgid "Add a blog"
+msgstr "Add a blog"
+
+#: help/populate.php:102
+msgid ""
+"With YACS, each blog is an independant section, usually featuring one main "
+"contributor on some topic. Each post in a blog may include images, photos, "
+"files, comments, trackbacks and related links."
+msgstr ""
+"With YACS, each blog is an independant section, usually featuring one main "
+"contributor on some topic. Each post in a blog may include images, photos, "
+"files, comments, trackbacks and related links."
+
+#: help/populate.php:103
+msgid ""
+"You can either create one general-purpose blog, or run this script several "
+"time and create a set of more specialised blogs."
+msgstr ""
+"You can either create one general-purpose blog, or run this script several "
+"time and create a set of more specialised blogs."
+
+#: help/populate.php:111
+msgid "Blog anchor"
+msgstr "Blog anchor"
+
+#: help/populate.php:112 help/populate.php:258 help/populate.php:579
+#: help/populate.php:816 help/populate.php:1120 help/populate.php:1367
+#: help/populate.php:1486 help/populate.php:1715
+msgid "-- Root level"
+msgstr "-- Root level"
+
+#: help/populate.php:113 help/populate.php:259 help/populate.php:580
+#: help/populate.php:817 help/populate.php:1121 help/populate.php:1368
+#: help/populate.php:1487 help/populate.php:1716
+msgid "Please carefully select a parent section, if any"
+msgstr "Please carefully select a parent section, if any"
+
+#: help/populate.php:117
+msgid "Blog Title"
+msgstr "Blog Title"
+
+#: help/populate.php:118
+msgid "My Blog"
+msgstr "My Blog"
+
+#: help/populate.php:119 help/populate.php:173 help/populate.php:265
+#: help/populate.php:323 help/populate.php:483 help/populate.php:586
+#: help/populate.php:680 help/populate.php:823 help/populate.php:885
+#: help/populate.php:991 help/populate.php:1046 help/populate.php:1127
+#: help/populate.php:1182 help/populate.php:1299 help/populate.php:1416
+#: help/populate.php:1535 help/populate.php:1722 help/populate.php:1777
+msgid "Please provide a meaningful title."
+msgstr "Please provide a meaningful title."
+
+#: help/populate.php:123 help/populate.php:269 help/populate.php:297
+#: help/populate.php:449 help/populate.php:590 help/populate.php:620
+#: help/populate.php:638 help/populate.php:656 help/populate.php:827
+#: help/populate.php:859 help/populate.php:995 help/populate.php:1021
+#: help/populate.php:1131 help/populate.php:1277 help/populate.php:1378
+#: help/populate.php:1497 help/populate.php:1726
+msgid "Introduction"
+msgstr "Introduction"
+
+#: help/populate.php:124
+msgid "The best place to express myself"
+msgstr "The best place to express myself"
+
+#: help/populate.php:125 help/populate.php:592 help/populate.php:829
+#: help/populate.php:997 help/populate.php:1133 help/populate.php:1279
+#: help/populate.php:1380 help/populate.php:1499 help/populate.php:1728
+msgid "Appears at site map, near section title"
+msgstr "Appears at site map, near section title"
+
+#: help/populate.php:129 help/populate.php:275 help/populate.php:455
+#: help/populate.php:596 help/populate.php:833 help/populate.php:1001
+#: help/populate.php:1137 help/populate.php:1732
+msgid "Description"
+msgstr "Description"
+
+#: help/populate.php:130
+msgid "A description of what this blog is about."
+msgstr "A description of what this blog is about."
+
+#: help/populate.php:131 help/populate.php:277 help/populate.php:835
+#: help/populate.php:1139 help/populate.php:1734
+msgid "Give a hint to interested people"
+msgstr "Give a hint to interested people"
+
+#: help/populate.php:135 help/populate.php:1738
+msgid "Contribution"
+msgstr "Contribution"
+
+#: help/populate.php:136 help/populate.php:1741
+msgid "Only associates and owners can contribute."
+msgstr "Only associates and owners can contribute."
+
+#: help/populate.php:137 help/populate.php:1740
+msgid "Any authenticated member can contribute."
+msgstr "Any authenticated member can contribute."
+
+#: help/populate.php:141 help/populate.php:1150 help/populate.php:1384
+#: help/populate.php:1503 help/populate.php:1745
+msgid "Access"
+msgstr "Access"
+
+#: help/populate.php:142 help/populate.php:1151 help/populate.php:1385
+#: help/populate.php:1504 help/populate.php:1746
+msgid "Public - Everybody, including anonymous surfers"
+msgstr "Public - Everybody, including anonymous surfers"
+
+#: help/populate.php:143 help/populate.php:1152 help/populate.php:1386
+#: help/populate.php:1505 help/populate.php:1747
+msgid "Community - Access is granted to any identified surfer"
+msgstr "Community - Access is granted to any identified surfer"
+
+#: help/populate.php:144 help/populate.php:1153 help/populate.php:1387
+#: help/populate.php:1506 help/populate.php:1748
+msgid "Private - Access is restricted to selected persons"
+msgstr "Private - Access is restricted to selected persons"
+
+#: help/populate.php:148 help/populate.php:1157 help/populate.php:1391
+#: help/populate.php:1510 help/populate.php:1752
+msgid "Front page"
+msgstr "Front page"
+
+#: help/populate.php:149 help/populate.php:1158 help/populate.php:1392
+#: help/populate.php:1511 help/populate.php:1753
+msgid "Content of this section should be:"
+msgstr "Content of this section should be:"
+
+#: help/populate.php:150 help/populate.php:1159 help/populate.php:1393
+#: help/populate.php:1512 help/populate.php:1754
+msgid "displayed in the main panel"
+msgstr "displayed in the main panel"
+
+#: help/populate.php:151 help/populate.php:1160 help/populate.php:1394
+#: help/populate.php:1513 help/populate.php:1755
+msgid "listed in the main panel, in a gadget box"
+msgstr "listed in the main panel, in a gadget box"
+
+#: help/populate.php:152 help/populate.php:1161 help/populate.php:1395
+#: help/populate.php:1514 help/populate.php:1756
+msgid "listed on page side, in an extra box"
+msgstr "listed on page side, in an extra box"
+
+#: help/populate.php:153 help/populate.php:1162 help/populate.php:1396
+#: help/populate.php:1515 help/populate.php:1757
+msgid "not displayed at the front page"
+msgstr "not displayed at the front page"
+
+#: help/populate.php:161 help/populate.php:311 help/populate.php:465
+#: help/populate.php:668 help/populate.php:873 help/populate.php:1034
+#: help/populate.php:1170 help/populate.php:1287 help/populate.php:1404
+#: help/populate.php:1523 help/populate.php:1765
+msgid "Add content"
+msgstr "Add content"
+
+#: help/populate.php:161 help/populate.php:311 help/populate.php:465
+#: help/populate.php:668 help/populate.php:873 help/populate.php:1034
+#: help/populate.php:1170 help/populate.php:1287 help/populate.php:1404
+#: help/populate.php:1523 help/populate.php:1686 help/populate.php:1765
+#: help/populate.php:1908
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: help/populate.php:208 help/populate.php:372 help/populate.php:541
+#: help/populate.php:780 help/populate.php:932 help/populate.php:1085
+#: help/populate.php:1218 help/populate.php:1328 help/populate.php:1447
+#: help/populate.php:1566 help/populate.php:1816
+msgid "Congratulations, you have shared new content."
+msgstr "Congratulations, you have shared new content."
+
+#: help/populate.php:213
+msgid ""
+"Assign at least one member as editor of this blog to enable contributions. "
+"Please remind that associates can always contribute at any place."
+msgstr ""
+"Assign at least one member as editor of this blog to enable contributions. "
+"Please remind that associates can always contribute at any place."
+
+#: help/populate.php:217
+msgid ""
+"Any authenticated member of the community is allowed to contribute to this "
+"blog. You should control community membership to avoid unappropriate "
+"material."
+msgstr ""
+"Any authenticated member of the community is allowed to contribute to this "
+"blog. You should control community membership to avoid unappropriate "
+"material."
+
+#: help/populate.php:223 help/populate.php:375 help/populate.php:544
+#: help/populate.php:783 help/populate.php:935 help/populate.php:1088
+#: help/populate.php:1221 help/populate.php:1250 help/populate.php:1331
+#: help/populate.php:1450 help/populate.php:1569 help/populate.php:1635
+#: help/populate.php:1835
+msgid "What do you want to do now?"
+msgstr "What do you want to do now?"
+
+#: help/populate.php:225
+msgid "Access the new blog"
+msgstr "Access the new blog"
+
+#: help/populate.php:227 help/populate.php:379 help/populate.php:939
+#: help/populate.php:1225 help/populate.php:1335 help/populate.php:1454
+#: help/populate.php:1573 help/populate.php:1839
+msgid "Add an image"
+msgstr "Add an image"
+
+#: help/populate.php:228 help/populate.php:380 help/populate.php:548
+#: help/populate.php:786 help/populate.php:940 help/populate.php:1091
+#: help/populate.php:1226 help/populate.php:1253 help/populate.php:1336
+#: help/populate.php:1455 help/populate.php:1574 help/populate.php:1640
+#: help/populate.php:1840
+msgid "Launch the Content Assistant again"
+msgstr "Launch the Content Assistant again"
+
+#: help/populate.php:243
+msgid "Add a book"
+msgstr "Add a book"
+
+#: help/populate.php:249
+msgid "With YACS, a book is an hierarchy of sections and of pages."
+msgstr "With YACS, a book is an hierarchy of sections and of pages."
+
+#: help/populate.php:257
+msgid "Book anchor"
+msgstr "Book anchor"
+
+#: help/populate.php:263
+msgid "Book Title"
+msgstr "Book Title"
+
+#: help/populate.php:264
+msgid "User Manual"
+msgstr "User Manual"
+
+#: help/populate.php:270
+msgid "With reader notes"
+msgstr "With reader notes"
+
+#: help/populate.php:271
+msgid "Appears at site map, near book title"
+msgstr "Appears at site map, near book title"
+
+#: help/populate.php:276
+msgid ""
+"This book is electronic, meaning its content dynamically evolves over time. "
+"Moreover, notes may be added to each page by readers."
+msgstr ""
+"This book is electronic, meaning its content dynamically evolves over time. "
+"Moreover, notes may be added to each page by readers."
+
+#: help/populate.php:285 help/populate.php:1011
+msgid "Up to 8 sections"
+msgstr "Up to 8 sections"
+
+#: help/populate.php:287
+msgid ""
+"Add as many sections you need. You will be able to add new sections "
+"afterwards."
+msgstr ""
+"Add as many sections you need. You will be able to add new sections "
+"afterwards."
+
+#: help/populate.php:291 help/populate.php:1017
+#, php-format
+msgid "Section #%d"
+msgstr "Section #%d"
+
+#: help/populate.php:293 help/populate.php:616 help/populate.php:634
+#: help/populate.php:652 help/populate.php:855
+msgid "Title"
+msgstr "Title"
+
+#: help/populate.php:308 help/populate.php:870 help/populate.php:1031
+#: help/populate.php:1603 help/populate.php:1686
+msgid "Start"
+msgstr "Start"
+
+#: help/populate.php:377
+msgid "Access the new book"
+msgstr "Access the new book"
+
+#: help/populate.php:401
+msgid "Add a collection"
+msgstr "Add a collection"
+
+#: help/populate.php:407
+msgid "YACS may turn your web site to a straightforward media server."
+msgstr "YACS may turn your web site to a straightforward media server."
+
+#: help/populate.php:408
+msgid ""
+"Define a collection to publicly share some directory of the server hard "
+"drive. Then YACS will build nice index pages to list available files, and "
+"allow for immediate download. Where applicable, files will also be streamed "
+"to workstations through automatic playlists."
+msgstr ""
+"Define a collection to publicly share some directory of the server hard "
+"drive. Then YACS will build nice index pages to list available files, and "
+"allow for immediate download. Where applicable, files will also be streamed "
+"to workstations through automatic playlists."
+
+#: help/populate.php:414
+#, php-format
+msgid ""
+"This assistant is aiming to help you create your very first collection. "
+"Since some collection has already been defined, please use %s and add a new "
+"definition."
+msgstr ""
+"This assistant is aiming to help you create your very first collection. "
+"Since some collection has already been defined, please use %s and add a new "
+"definition."
+
+#: help/populate.php:414
+msgid "the dedicated configuration panel"
+msgstr "the dedicated configuration panel"
+
+#: help/populate.php:425
+msgid "Collection nick name"
+msgstr "Collection nick name"
+
+#: help/populate.php:426
+msgid "my_collection"
+msgstr "my_collection"
+
+#: help/populate.php:427
+msgid ""
+"Prepended to the path of each file of the collection. Short and meaningful"
+msgstr ""
+"Prepended to the path of each file of the collection. Short and meaningful"
+
+#: help/populate.php:431
+msgid "Label"
+msgstr "Label"
+
+#: help/populate.php:432
+msgid "My Collection"
+msgstr "My Collection"
+
+#: help/populate.php:433
+msgid ""
+"Used at index pages, and at the top of each page generated for this "
+"collection"
+msgstr ""
+"Used at index pages, and at the top of each page generated for this "
+"collection"
+
+#: help/populate.php:437
+msgid "Path prefix"
+msgstr "Path prefix"
+
+#: help/populate.php:439
+#, php-format
+msgid "Local access to files; YACS installation directory is at \"%s\""
+msgstr "Local access to files; YACS installation directory is at \"%s\""
+
+#: help/populate.php:443
+msgid "URL prefix"
+msgstr "URL prefix"
+
+#: help/populate.php:445
+msgid ""
+"The ftp:// or http:// address used to access the collection, pointing to the "
+"same place than the path prefix"
+msgstr ""
+"The ftp:// or http:// address used to access the collection, pointing to the "
+"same place than the path prefix"
+
+#: help/populate.php:450
+msgid "Public files to download"
+msgstr "Public files to download"
+
+#: help/populate.php:451
+msgid "To be used at the front page and on the collections index page"
+msgstr "To be used at the front page and on the collections index page"
+
+#: help/populate.php:456
+msgid ""
+"Click on file names to transfer them to your workstation, or to start a "
+"Video-on-demand session."
+msgstr ""
+"Click on file names to transfer them to your workstation, or to start a "
+"Video-on-demand session."
+
+#: help/populate.php:457
+msgid "To be inserted in the index page of this collection"
+msgstr "To be inserted in the index page of this collection"
+
+#: help/populate.php:477
+msgid "You must name this collection."
+msgstr "You must name this collection."
+
+#: help/populate.php:522
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+
+#: help/populate.php:525
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+
+#: help/populate.php:528
+msgid "Configuration parameters"
+msgstr "Configuration parameters"
+
+#: help/populate.php:537
+#, php-format
+msgid "%s has been updated"
+msgstr "%s has been updated"
+
+#: help/populate.php:546
+msgid "Access the new collection"
+msgstr "Access the new collection"
+
+#: help/populate.php:547
+msgid "File collections"
+msgstr "File collections"
+
+#: help/populate.php:560 help/populate.php:1105 help/populate.php:1241
+#: help/populate.php:1351 help/populate.php:1470 help/populate.php:1925
+msgid "Add a section"
+msgstr "Add a section"
+
+#: help/populate.php:566
+msgid "YACS allows for composite section index pages."
+msgstr "YACS allows for composite section index pages."
+
+#: help/populate.php:567
+msgid ""
+"Use this assistant to create one main section, plus companion components, to "
+"better suit your needs. Of course, sections can be changed, deleted or added "
+"individually afterwards."
+msgstr ""
+"Use this assistant to create one main section, plus companion components, to "
+"better suit your needs. Of course, sections can be changed, deleted or added "
+"individually afterwards."
+
+#: help/populate.php:575
+msgid "Section"
+msgstr "Section"
+
+#: help/populate.php:578 help/populate.php:1119 help/populate.php:1366
+#: help/populate.php:1485
+msgid "Section anchor"
+msgstr "Section anchor"
+
+#: help/populate.php:584 help/populate.php:989 help/populate.php:1125
+#: help/populate.php:1271 help/populate.php:1372 help/populate.php:1491
+msgid "Section title"
+msgstr "Section title"
+
+#: help/populate.php:598
+msgid "Appears at the section index page"
+msgstr "Appears at the section index page"
+
+#: help/populate.php:606
+msgid "Companion sections"
+msgstr "Companion sections"
+
+#: help/populate.php:608
+msgid ""
+"Add one or several specialized sub-sections, depending of your requirements. "
+"It is safe to create all suggested sections, even if you do not need them "
+"right now."
+msgstr ""
+"Add one or several specialized sub-sections, depending of your requirements. "
+"It is safe to create all suggested sections, even if you do not need them "
+"right now."
+
+#: help/populate.php:611
+msgid "Side news"
+msgstr "Side news"
+
+#: help/populate.php:613
+msgid ""
+"Add a companion section to post articles that will appear in the news panel "
+"of the parent section"
+msgstr ""
+"Add a companion section to post articles that will appear in the news panel "
+"of the parent section"
+
+#: help/populate.php:617
+msgid "Flashy news"
+msgstr "Flashy news"
+
+#: help/populate.php:621
+msgid ""
+"Post here articles that will appear in the news panel of the parent section"
+msgstr ""
+"Post here articles that will appear in the news panel of the parent section"
+
+#: help/populate.php:629 help/populate.php:635
+msgid "Gadget boxes"
+msgstr "Gadget boxes"
+
+#: help/populate.php:631
+msgid ""
+"Add a companion section to post articles that will appear in individual "
+"gadget boxes"
+msgstr ""
+"Add a companion section to post articles that will appear in individual "
+"gadget boxes"
+
+#: help/populate.php:639
+msgid ""
+"Post here articles that will appear in individual gadget boxes, in the "
+"middle of the index page of the parent section"
+msgstr ""
+"Post here articles that will appear in individual gadget boxes, in the "
+"middle of the index page of the parent section"
+
+#: help/populate.php:647 help/populate.php:653
+msgid "Extra boxes"
+msgstr "Extra boxes"
+
+#: help/populate.php:649
+msgid ""
+"Add a companion section to post articles that will appear in individual "
+"extra boxes"
+msgstr ""
+"Add a companion section to post articles that will appear in individual "
+"extra boxes"
+
+#: help/populate.php:657
+msgid ""
+"Post here articles that will appear in individual extra boxes, aside the "
+"index of the parent section"
+msgstr ""
+"Post here articles that will appear in individual extra boxes, aside the "
+"index of the parent section"
+
+#: help/populate.php:665 help/populate.php:1908
+msgid "Next step"
+msgstr "Next step"
+
+#: help/populate.php:721
+msgid "sample"
+msgstr "sample"
+
+#: help/populate.php:722
+msgid "This is a sample scrolling news."
+msgstr "This is a sample scrolling news."
+
+#: help/populate.php:745
+msgid "Gadget box"
+msgstr "Gadget box"
+
+#: help/populate.php:746
+msgid "This is a sample gadget box."
+msgstr "This is a sample gadget box."
+
+#: help/populate.php:769
+msgid "Sample box"
+msgstr "Sample box"
+
+#: help/populate.php:770
+msgid "This is a sample extra box."
+msgstr "This is a sample extra box."
+
+#: help/populate.php:785 help/populate.php:1223 help/populate.php:1333
+#: help/populate.php:1452 help/populate.php:1571
+msgid "Access the new section"
+msgstr "Access the new section"
+
+#: help/populate.php:800
+msgid "Add a forum"
+msgstr "Add a forum"
+
+#: help/populate.php:806
+msgid ""
+"A forum is made of one or several discussion boards, which are aiming to "
+"support threads of interaction between community members. Each topic started "
+"in a discussion board may feature images, photos, files, and related links."
+msgstr ""
+"A forum is made of one or several discussion boards, which are aiming to "
+"support threads of interaction between community members. Each topic started "
+"in a discussion board may feature images, photos, files, and related links."
+
+#: help/populate.php:807
+msgid ""
+"You can either create one general-purpose discussion board, or a set of more "
+"specialised boards."
+msgstr ""
+"You can either create one general-purpose discussion board, or a set of more "
+"specialised boards."
+
+#: help/populate.php:815
+msgid "Forum anchor"
+msgstr "Forum anchor"
+
+#: help/populate.php:821
+msgid "Forum Title"
+msgstr "Forum Title"
+
+#: help/populate.php:822
+msgid "Forum"
+msgstr "Forum"
+
+#: help/populate.php:828
+msgid "Post your brand new ideas here!"
+msgstr "Post your brand new ideas here!"
+
+#: help/populate.php:834
+msgid ""
+"Registered members of this site may start a thread on any subject here. Use "
+"this forum either to ask for support, or to share new ideas with other "
+"members of the community. Pages posted in the forum benefit from the full "
+"power of YACS, including the ability to create polls, to upload files and to "
+"attach links."
+msgstr ""
+"Registered members of this site may start a thread on any subject here. Use "
+"this forum either to ask for support, or to share new ideas with other "
+"members of the community. Pages posted in the forum benefit from the full "
+"power of YACS, including the ability to create polls, to upload files and to "
+"attach links."
+
+#: help/populate.php:843
+msgid "Up to 8 boards"
+msgstr "Up to 8 boards"
+
+#: help/populate.php:845
+msgid ""
+"You will be able to enhance these boards, or to add new boards, afterwards."
+msgstr ""
+"You will be able to enhance these boards, or to add new boards, afterwards."
+
+#: help/populate.php:849
+#, php-format
+msgid "Board #%d"
+msgstr "Board #%d"
+
+#: help/populate.php:851
+msgid "Family"
+msgstr "Family"
+
+#: help/populate.php:853
+msgid ""
+"Repeat the same string in successive boards that have to be grouped in the "
+"forum."
+msgstr ""
+"Repeat the same string in successive boards that have to be grouped in the "
+"forum."
+
+#: help/populate.php:937
+msgid "Check the new forum"
+msgstr "Check the new forum"
+
+#: help/populate.php:956
+msgid "Add a directory of links"
+msgstr "Add a directory of links"
+
+#: help/populate.php:964
+msgid "Bookmarks"
+msgstr "Bookmarks"
+
+#: help/populate.php:965
+msgid "Shared links of interest"
+msgstr "Shared links of interest"
+
+#: help/populate.php:966
+msgid ""
+"This section, and related sub-sections, lists links submitted by "
+"authenticated persons."
+msgstr ""
+"This section, and related sub-sections, lists links submitted by "
+"authenticated persons."
+
+#: help/populate.php:977
+msgid "YACS lets people share bookmarks and favorites quite easily."
+msgstr "YACS lets people share bookmarks and favorites quite easily."
+
+#: help/populate.php:978
+msgid ""
+"Use this assistant to initialize the tree of sections used to classify links "
+"at your site. Of course, sections can be changed, deleted or added "
+"individually afterwards."
+msgstr ""
+"Use this assistant to initialize the tree of sections used to classify links "
+"at your site. Of course, sections can be changed, deleted or added "
+"individually afterwards."
+
+#: help/populate.php:986
+msgid "Top section"
+msgstr "Top section"
+
+#: help/populate.php:1003
+msgid "To introduce the list of sections below"
+msgstr "To introduce the list of sections below"
+
+#: help/populate.php:1013
+msgid ""
+"Add as many sections you need. We suggest to declare an even number of "
+"sections."
+msgstr ""
+"Add as many sections you need. We suggest to declare an even number of "
+"sections."
+
+#: help/populate.php:1090
+msgid "Access the directory"
+msgstr "Access the directory"
+
+#: help/populate.php:1111
+msgid ""
+"Use YACS to publish pages you have carefully crafted, and look at your name "
+"proudly listed on your work. Each page may feature images, photos, files, "
+"comments and related links."
+msgstr ""
+"Use YACS to publish pages you have carefully crafted, and look at your name "
+"proudly listed on your work. Each page may feature images, photos, files, "
+"comments and related links."
+
+#: help/populate.php:1126
+msgid "Original pages"
+msgstr "Original pages"
+
+#: help/populate.php:1132
+msgid "Read, learn, and react!"
+msgstr "Read, learn, and react!"
+
+#: help/populate.php:1143
+msgid "Author's profile"
+msgstr "Author's profile"
+
+#: help/populate.php:1144
+msgid "Below page title"
+msgstr "Below page title"
+
+#: help/populate.php:1145
+msgid "At page bottom"
+msgstr "At page bottom"
+
+#: help/populate.php:1146
+msgid "On page side"
+msgstr "On page side"
+
+#: help/populate.php:1247
+msgid "A section already exists for partners."
+msgstr "A section already exists for partners."
+
+#: help/populate.php:1252
+msgid "View the section"
+msgstr "View the section"
+
+#: help/populate.php:1262
+msgid "Partners are listed at the front page, in a scrollable area."
+msgstr "Partners are listed at the front page, in a scrollable area."
+
+#: help/populate.php:1263
+msgid "Change the value of the ranking field to prioritize partners."
+msgstr "Change the value of the ranking field to prioritize partners."
+
+#: help/populate.php:1272
+msgid "Partners"
+msgstr "Partners"
+
+#: help/populate.php:1273
+msgid "Adapt the title to the kinds of partnership you are developing"
+msgstr "Adapt the title to the kinds of partnership you are developing"
+
+#: help/populate.php:1278
+msgid "They are trusting us"
+msgstr "They are trusting us"
+
+#: help/populate.php:1357
+msgid ""
+"With YACS, polls are ordinary articles that have extended attributes to "
+"handle votes and to display bar graphs."
+msgstr ""
+"With YACS, polls are ordinary articles that have extended attributes to "
+"handle votes and to display bar graphs."
+
+#: help/populate.php:1358
+msgid ""
+"You can either create a single polling section, or run this script several "
+"time and create a set of more specialised sections."
+msgstr ""
+"You can either create a single polling section, or run this script several "
+"time and create a set of more specialised sections."
+
+#: help/populate.php:1373
+msgid "Polls"
+msgstr "Polls"
+
+#: help/populate.php:1374
+msgid ""
+"Use either a global name (eg, \"the voting machine\") or, narrow it and "
+"create multiple sections"
+msgstr ""
+"Use either a global name (eg, \"the voting machine\") or, narrow it and "
+"create multiple sections"
+
+#: help/populate.php:1379
+msgid "The current active poll, plus previous ones"
+msgstr "The current active poll, plus previous ones"
+
+#: help/populate.php:1476
+msgid ""
+"With YACS, recipes are ordinary articles that have some extended attributes "
+"such as the list of ingredients, or the number of people to serve, etc."
+msgstr ""
+"With YACS, recipes are ordinary articles that have some extended attributes "
+"such as the list of ingredients, or the number of people to serve, etc."
+
+#: help/populate.php:1477
+msgid ""
+"You can either create only one section to host every cooking recipe posted "
+"at your site, or run this script several time and create a set of more "
+"specialised sections."
+msgstr ""
+"You can either create only one section to host every cooking recipe posted "
+"at your site, or run this script several time and create a set of more "
+"specialised sections."
+
+#: help/populate.php:1493
+msgid ""
+"Use either a global name (eg, \"the family cookbook\") or, narrow it and "
+"create multiple sections (eg, \"Famous starters\", \"Main dishes\", ...)"
+msgstr ""
+"Use either a global name (eg, \"the family cookbook\") or, narrow it and "
+"create multiple sections (eg, \"Famous starters\", \"Main dishes\", ...)"
+
+#: help/populate.php:1589
+msgid "Add server profiles"
+msgstr "Add server profiles"
+
+#: help/populate.php:1595
+msgid ""
+"This script adds some public servers to be pinged when content is added to "
+"your server. Do not trigger this if your host is not visible from the "
+"Internet."
+msgstr ""
+"This script adds some public servers to be pinged when content is added to "
+"your server. Do not trigger this if your host is not visible from the "
+"Internet."
+
+#: help/populate.php:1639
+msgid "Servers"
+msgstr "Servers"
+
+#: help/populate.php:1658 help/populate.php:1928
+msgid "Add a page"
+msgstr "Add a page"
+
+#: help/populate.php:1664
+msgid ""
+"This script will create one single page to capture collective feed-back. "
+"What kind of support are you looking for?"
+msgstr ""
+"This script will create one single page to capture collective feed-back. "
+"What kind of support are you looking for?"
+
+#: help/populate.php:1672
+msgid "Petition"
+msgstr "Petition"
+
+#: help/populate.php:1673
+msgid ""
+"Ideal to express a broad support of some idea. Every signature can be "
+"commented."
+msgstr ""
+"Ideal to express a broad support of some idea. Every signature can be "
+"commented."
+
+#: help/populate.php:1677
+msgid "Poll"
+msgstr "Poll"
+
+#: help/populate.php:1678
+msgid ""
+"The quickest way to identify trends. Any surfer can select among offered "
+"options, and YACS will sum up all clicks."
+msgstr ""
+"The quickest way to identify trends. Any surfer can select among offered "
+"options, and YACS will sum up all clicks."
+
+#: help/populate.php:1699
+msgid "Add a wiki"
+msgstr "Add a wiki"
+
+#: help/populate.php:1705
+msgid ""
+"With YACS, each wiki is an independant section, with options to limit the "
+"number of contributors or readers. Each post in a wiki may feature images, "
+"photos, files, comments, trackbacks and related links."
+msgstr ""
+"With YACS, each wiki is an independant section, with options to limit the "
+"number of contributors or readers. Each post in a wiki may feature images, "
+"photos, files, comments, trackbacks and related links."
+
+#: help/populate.php:1706
+msgid ""
+"You can either create one general-purpose wiki, or run this script several "
+"time and create a set of more specialised wikis."
+msgstr ""
+"You can either create one general-purpose wiki, or run this script several "
+"time and create a set of more specialised wikis."
+
+#: help/populate.php:1714
+msgid "Wiki anchor"
+msgstr "Wiki anchor"
+
+#: help/populate.php:1720
+msgid "Wiki Title"
+msgstr "Wiki Title"
+
+#: help/populate.php:1721
+msgid "Our wiki"
+msgstr "Our wiki"
+
+#: help/populate.php:1727
+msgid "Our collaborative place"
+msgstr "Our collaborative place"
+
+#: help/populate.php:1733
+msgid "A description of what information is developed at this wiki."
+msgstr "A description of what information is developed at this wiki."
+
+#: help/populate.php:1739
+msgid "Anyone, including anonymous surfer, may contribute to this wiki."
+msgstr "Anyone, including anonymous surfer, may contribute to this wiki."
+
+#: help/populate.php:1821
+msgid ""
+"Any surfer is allowed to contribute anonymously to this wiki. Internet "
+"robots are prevented to submit new posts, however you should continuously "
+"review content to avoid unappropriate material."
+msgstr ""
+"Any surfer is allowed to contribute anonymously to this wiki. Internet "
+"robots are prevented to submit new posts, however you should continuously "
+"review content to avoid unappropriate material."
+
+#: help/populate.php:1825
+msgid ""
+"Any authenticated member of the community is allowed to contribute to this "
+"wiki. You should control community membership to avoid unappropriate "
+"material."
+msgstr ""
+"Any authenticated member of the community is allowed to contribute to this "
+"wiki. You should control community membership to avoid unappropriate "
+"material."
+
+#: help/populate.php:1829
+msgid ""
+"You have selected to implement a private wiki. Assign individual members as "
+"editors of this wiki to enable contributions beyond associates."
+msgstr ""
+"You have selected to implement a private wiki. Assign individual members as "
+"editors of this wiki to enable contributions beyond associates."
+
+#: help/populate.php:1837
+msgid "Access the new wiki"
+msgstr "Access the new wiki"
+
+#: help/populate.php:1855
+msgid ""
+"This script will help to structure content for your server. Please select "
+"below the action you would like to perform.Depending on your choice, the "
+"assistant may ask for additional parameters on successive panels."
+msgstr ""
+"This script will help to structure content for your server. Please select "
+"below the action you would like to perform.Depending on your choice, the "
+"assistant may ask for additional parameters on successive panels."
+
+#: help/populate.php:1861
+msgid "Sollicitate users input -- create a petition, or a poll"
+msgstr "Sollicitate users input -- create a petition, or a poll"
+
+#: help/populate.php:1864
+msgid "Add a forum -- let people interact"
+msgstr "Add a forum -- let people interact"
+
+#: help/populate.php:1867
+msgid "Add a blog -- and share your feeling, your findings, your soul"
+msgstr "Add a blog -- and share your feeling, your findings, your soul"
+
+#: help/populate.php:1870
+msgid "Add a wiki -- to support collaborative work in a team of peers"
+msgstr "Add a wiki -- to support collaborative work in a team of peers"
+
+#: help/populate.php:1873
+msgid "Post original work -- in a section that will feature author's profiles"
+msgstr "Post original work -- in a section that will feature author's profiles"
+
+#: help/populate.php:1876
+msgid ""
+"Add an electronic book, or a manual -- actually, a structured set of pages"
+msgstr ""
+"Add an electronic book, or a manual -- actually, a structured set of pages"
+
+#: help/populate.php:1879
+msgid ""
+"Add a composite section -- with scrolling news, plus gadget and extra boxes"
+msgstr ""
+"Add a composite section -- with scrolling news, plus gadget and extra boxes"
+
+#: help/populate.php:1882
+msgid ""
+"Add a section for polls -- the most recent is active; previous polls are "
+"still listed"
+msgstr ""
+"Add a section for polls -- the most recent is active; previous polls are "
+"still listed"
+
+#: help/populate.php:1886
+msgid ""
+"Add a section for partners -- the special people or sites that are "
+"supporting your site"
+msgstr ""
+"Add a section for partners -- the special people or sites that are "
+"supporting your site"
+
+#: help/populate.php:1889
+msgid "Add a cookbook -- cooking recipes, the French secret to happiness"
+msgstr "Add a cookbook -- cooking recipes, the French secret to happiness"
+
+#: help/populate.php:1892
+msgid "Add a directory of links -- a small version of Yahoo!, or of DMOZ"
+msgstr "Add a directory of links -- a small version of Yahoo!, or of DMOZ"
+
+#: help/populate.php:1895
+msgid ""
+"Add a collection -- and share available files, enable audio and video on-"
+"demand, and slideshows"
+msgstr ""
+"Add a collection -- and share available files, enable audio and video on-"
+"demand, and slideshows"
+
+#: help/populate.php:1898
+msgid ""
+"Add sample server profiles -- ping well-known news aggregator and become "
+"famous"
+msgstr ""
+"Add sample server profiles -- ping well-known news aggregator and become "
+"famous"
+
+#: help/populate.php:1901
+msgid ""
+"Add basic items -- in case you would need to replay some steps of the setup "
+"process"
+msgstr ""
+"Add basic items -- in case you would need to replay some steps of the setup "
+"process"
+
+#: help/populate.php:1905
+msgid "Add sample items -- for test purpose"
+msgstr "Add sample items -- for test purpose"
+
+#: help/populate.php:1914
+msgid ""
+"Turn any regular section to a photo album by adding images to posted pages."
+msgstr ""
+"Turn any regular section to a photo album by adding images to posted pages."
+
+#: help/populate.php:1915
+msgid ""
+"YACS creates weekly and monthly archives automatically. No specific action "
+"is required to create these."
+msgstr ""
+"YACS creates weekly and monthly archives automatically. No specific action "
+"is required to create these."
+
+#: help/populate.php:1920
+msgid "Of course, you may also use regular editors to create simple items:"
+msgstr "Of course, you may also use regular editors to create simple items:"
+
+#: help/populate.php:1926
+msgid "Add a category"
+msgstr "Add a category"
+
+#: help/populate.php:1932
+msgid "Shortcuts"
+msgstr "Shortcuts"
+
+#~ msgid "Vote"
+#~ msgstr "Vote"
+
+#~ msgid ""
+#~ "The best way to formalize collective decisions. Every voter can expressed "
+#~ "a Yes or No, and comment its ballot."
+#~ msgstr ""
+#~ "The best way to formalize collective decisions. Every voter can expressed "
+#~ "a Yes or No, and comment its ballot."
+
+#~ msgid "Selected shortcuts"
+#~ msgstr "Selected shortcuts"
+
+#~ msgid "Use the %s to populate this server."
+#~ msgstr "Use the %s to populate this server."
+
+#~ msgid "%s. Some people would say 'a new blog'."
+#~ msgstr "%s. Some people would say 'a new blog'."
+
+#~ msgid "%s. Or call it a 'blog entry' if you prefer."
+#~ msgstr "%s. Or call it a 'blog entry' if you prefer."
+
+#~ msgid "%s, the central place to manage this server."
+#~ msgstr "%s, the central place to manage this server."
+
+#~ msgid "How to contribute?"
+#~ msgstr "How to contribute?"
+
+#~ msgid ""
+#~ "<p>You will have to be registered and authenticated to submit new "
+#~ "articles. Then browse any section, or use your user menu, to post new "
+#~ "material.</p>"
+#~ msgstr ""
+#~ "<p>You will have to be registered and authenticated to submit new "
+#~ "articles. Then browse any section, or use your user menu, to post new "
+#~ "material.</p>"
+
+#~ msgid "%s to be authenticated at each visit"
+#~ msgstr "%s to be authenticated at each visit"
+
+#~ msgid "%s that will be published on this site"
+#~ msgstr "%s that will be published on this site"
+
+#~ msgid ""
+#~ "While you're browsing, don't hesitate to comment visited pages, to send "
+#~ "images or files, or to share some interesting link you may have"
+#~ msgstr ""
+#~ "While you're browsing, don't hesitate to comment visited pages, to send "
+#~ "images or files, or to share some interesting link you may have"
+
+#~ msgid "%s to publish them"
+#~ msgstr "%s to publish them"
+
+#~ msgid "Review submitted articles"
+#~ msgstr "Review submitted articles"
+
+#~ msgid ""
+#~ "<p>To install following bookmarklets, right-click over them and add them "
+#~ "to your bookmarks. Then recall them at any time while browsing the "
+#~ "Internet, to add content to this site.</p>"
+#~ msgstr ""
+#~ "<p>To install following bookmarklets, right-click over them and add them "
+#~ "to your bookmarks. Then recall them at any time while browsing the "
+#~ "Internet, to add content to this site.</p>"
+
+#~ msgid "Blog at %s"
+#~ msgstr "Blog at %s"
+
+#~ msgid "Bookmark at %s"
+#~ msgstr "Bookmark at %s"
+
+#~ msgid ""
+#~ "If your browser supports side panels and javascript, click on the "
+#~ "following link to %s."
+#~ msgstr ""
+#~ "If your browser supports side panels and javascript, click on the "
+#~ "following link to %s."
+
+#~ msgid "add a blogging panel"
+#~ msgstr "add a blogging panel"
+
+#~ msgid ""
+#~ "The panel has been added. You may have to ask your browser to make it "
+#~ "visible (Ctrl-B for Firefox)."
+#~ msgstr ""
+#~ "The panel has been added. You may have to ask your browser to make it "
+#~ "visible (Ctrl-B for Firefox)."
+
+#~ msgid ""
+#~ "Your browser do not support side panel. Do you want to upgrade to Mozilla "
+#~ "Firefox?"
+#~ msgstr ""
+#~ "Your browser do not support side panel. Do you want to upgrade to Mozilla "
+#~ "Firefox?"
+
+#~ msgid ""
+#~ "If you are running Internet Explorer under Windows, click on the "
+#~ "following link to %s triggered on right-click. Accept registry updates, "
+#~ "and restart the browser afterwards."
+#~ msgstr ""
+#~ "If you are running Internet Explorer under Windows, click on the "
+#~ "following link to %s triggered on right-click. Accept registry updates, "
+#~ "and restart the browser afterwards."
+
+#~ msgid "add a contextual bookmarklet"
+#~ msgstr "add a contextual bookmarklet"
+
+#~ msgid "Get the source code?"
+#~ msgstr "Get the source code?"
+
+#~ msgid "Server software"
+#~ msgstr "Server software"
+
+#~ msgid "YACS %s and %s"
+#~ msgstr "YACS %s and %s"
+
+#~ msgid "authors"
+#~ msgstr "authors"
+
+#~ msgid "testers"
+#~ msgstr "testers"
+
+#~ msgid "%s LGPL and variations"
+#~ msgstr "%s LGPL and variations"
+
+#~ msgid "Licenses"
+#~ msgstr "Licenses"
+
+#~ msgid "Contribute to the development"
+#~ msgstr "Contribute to the development"
+
+#~ msgid "Not satisfied yet?"
+#~ msgstr "Not satisfied yet?"
+
+#~ msgid "Use the %s to ask for help"
+#~ msgstr "Use the %s to ask for help"
+
+#~ msgid "query form"
+#~ msgstr "query form"
+
+#~ msgid "Browse %s to look for additional support"
+#~ msgstr "Browse %s to look for additional support"
+
+#~ msgid "Search at Google"
+#~ msgstr "Search at Google"
+
+#~ msgid "%s (sections, updates, ...)"
+#~ msgstr "%s (sections, updates, ...)"
+
+#~ msgid ""
+#~ "Review provided information and go to the bottom of the page to move "
+#~ "forward."
+#~ msgstr ""
+#~ "Review provided information and go to the bottom of the page to move "
+#~ "forward."
+
+#~ msgid "Sections"
+#~ msgstr "Sections"
+
+#~ msgid "Pages"
+#~ msgstr "Pages"
+
+#~ msgid "Configure the page factory"
+#~ msgstr "Configure the page factory"
+
+#~ msgid "Check the updated Site Map"
+#~ msgstr "Check the updated Site Map"
+
+#~ msgid "Visibility"
+#~ msgstr "Visibility"
+
+#~ msgid "Anyone may read pages posted here"
+#~ msgstr "Anyone may read pages posted here"
+
+#~ msgid "Access is restricted to associates and editors"
+#~ msgstr "Access is restricted to associates and editors"
+
+#~ msgid "Browse www.yacs.fr"
+#~ msgstr "Browse www.yacs.fr"
+
+#~ msgid "Browse yetanothercommunitysystem.com"
+#~ msgstr "Browse yetanothercommunitysystem.com"
+
+#~ msgid "Add an article"
+#~ msgstr "Add an article"
+
+#~ msgid "%s on this site"
+#~ msgstr "%s on this site"
+
+#~ msgid "Articles"
+#~ msgstr "Articles"
+
+#~ msgid "Check the new section"
+#~ msgstr "Check the new section"
+
+#~ msgid "Backup/restore the database"
+#~ msgstr "Backup/restore the database"
+
+#~ msgid "Restoring the database..."
+#~ msgstr "Restoring the database..."
+
+#~ msgid "%d SQL statements have been processed in %.2f seconds."
+#~ msgstr "%d SQL statements have been processed in %.2f seconds."
+
+#~ msgid "Reindex tables and optimize data storage"
+#~ msgstr "Reindex tables and optimize data storage"
+
+#~ msgid "Nothing has been received."
+#~ msgstr "Nothing has been received."
+
+#~ msgid "Possible file attack."
+#~ msgstr "Possible file attack."
+
+#~ msgid "Purge of files and images..."
+#~ msgstr "Purge of files and images..."
+
+#~ msgid ""
+#~ "%d files and images have been deleted from the file system in %.2f "
+#~ "seconds."
+#~ msgstr ""
+#~ "%d files and images have been deleted from the file system in %.2f "
+#~ "seconds."
+
+#~ msgid "Updating the database..."
+#~ msgstr "Updating the database..."
+
+#~ msgid "No statement has been uploaded."
+#~ msgstr "No statement has been uploaded."
+
+#~ msgid "%d records have been processed"
+#~ msgstr "%d records have been processed"
+
+#~ msgid "Listing all files..."
+#~ msgstr "Listing all files..."
+
+#~ msgid "%d files have been found."
+#~ msgstr "%d files have been found."
+
+#~ msgid "On-going archive preparation..."
+#~ msgstr "On-going archive preparation..."
+
+#~ msgid "No file have been found."
+#~ msgstr "No file have been found."
+
+#~ msgid "Listing all images..."
+#~ msgstr "Listing all images..."
+
+#~ msgid "%d images have been found."
+#~ msgstr "%d images have been found."
+
+#~ msgid "No image have been found."
+#~ msgstr "No image have been found."
+
+#~ msgid "Listing all files of the current skin..."
+#~ msgstr "Listing all files of the current skin..."
+
+#~ msgid "No item has been found."
+#~ msgstr "No item have been found."
+
+#~ msgid "Please select below the operation to perform."
+#~ msgstr "Please select below the operation to perform."
+
+#~ msgid "Backup database content"
+#~ msgstr "Backup database content"
+
+#~ msgid ""
+#~ "This script will generate SQL statements necessary to rebuild your "
+#~ "database from scratch. Please file it at your computer for backup purpose."
+#~ msgstr ""
+#~ "This script will generate SQL statements necessary to rebuild your "
+#~ "database from scratch. Please file it at your computer for backup purpose."
+
+#~ msgid ""
+#~ "Since the full content of your database will be downloaded, you would "
+#~ "like to %s it before proceeding."
+#~ msgstr ""
+#~ "Since the full content of your database will be downloaded, you would "
+#~ "like to %s it before proceeding."
+
+#~ msgid "purge"
+#~ msgstr "purge"
+
+#~ msgid "Yes, I want to download database content"
+#~ msgstr "Yes, I want to download database content"
+
+#~ msgid "Consider only tables with the prefix %s"
+#~ msgstr "Consider only tables with the prefix %s"
+
+#~ msgid "Skip transient data and minimize size of backup file"
+#~ msgstr "Skip transient data and minimize size of backup file"
+
+#~ msgid ""
+#~ "When you will click on the button the server will be immediately "
+#~ "requested to proceed. However, because of the so many things to do on the "
+#~ "back-end, you may have to wait for minutes before getting a response "
+#~ "displayed. Thank you for your patience."
+#~ msgstr ""
+#~ "When you will click on the button the server will be immediately "
+#~ "requested to proceed. However, because of the so many things to do on the "
+#~ "back-end, you may have to wait for minutes before getting a response "
+#~ "displayed. Thank you for your patience."
+
+#~ msgid ""
+#~ "Use this script to upload and process a set of SQL statements. WARNING!!! "
+#~ "If you upload a backup file existing data will be destroyed prior the "
+#~ "restauration."
+#~ msgstr ""
+#~ "Use this script to upload and process a set of SQL statements. WARNING!!! "
+#~ "If you upload a backup file existing data will be destroyed prior the "
+#~ "restauration."
+
+#~ msgid "Select the file to upload"
+#~ msgstr "Select the file to upload"
+
+#~ msgid "bytes"
+#~ msgstr "bytes"
+
+#~ msgid "or use the following file from directory %s:"
+#~ msgstr "or use the following file from directory %s:"
+
+#~ msgid "Restore %s"
+#~ msgstr "Restore %s"
+
+#~ msgid "Apply these SQL statements"
+#~ msgstr "Apply these SQL statements"
+
+#~ msgid "Delete files and images related to previous database content"
+#~ msgstr "Delete files and images related to previous database content"
+
+#~ msgid "Update database content"
+#~ msgstr "Update database content"
+
+#~ msgid ""
+#~ "Type one or several SQL statements below to change the content of the "
+#~ "database. WARNING!!! Be sure to understand the conceptual data model "
+#~ "before proceeding, else you would corrupt database content."
+#~ msgstr ""
+#~ "Type one or several SQL statements below to change the content of the "
+#~ "database. WARNING!!! Be sure to understand the conceptual data model "
+#~ "before proceeding, else you would corrupt database content."
+
+#~ msgid "UPDATE commands separated by ;"
+#~ msgstr "UPDATE commands separated by ;"
+
+#~ msgid "Backup data"
+#~ msgstr "Backup data"
+
+#~ msgid ""
+#~ "Use this script to download archives of all files, images, parameters or "
+#~ "current skin. Please file them at your computer for backup purpose."
+#~ msgstr ""
+#~ "Use this script to download archives of all files, images, parameters or "
+#~ "current skin. Please file them at your computer for backup purpose."
+
+#~ msgid "Yes, I want to download files"
+#~ msgstr "Yes, I want to download files"
+
+#~ msgid "Press [f] to save files"
+#~ msgstr "Press [f] to save files"
+
+#~ msgid "Yes, I want to download images"
+#~ msgstr "Yes, I want to download images"
+
+#~ msgid "Press [i] to save images"
+#~ msgstr "Press [i] to save images"
+
+#~ msgid "Yes, I want to download parameter files"
+#~ msgstr "Yes, I want to download parameter files"
+
+#~ msgid "Press [p] to save parameters"
+#~ msgstr "Press [p] to save parameters"
+
+#~ msgid "Yes, I want to download the current skin"
+#~ msgstr "Yes, I want to download the current skin"
+
+#~ msgid "Press [k] to save the skin"
+#~ msgstr "Press [k] to save the skin"
+
+#~ msgid "Update file permissions"
+#~ msgstr "Update file permissions"
+
+#~ msgid "Listing all running PHP scripts..."
+#~ msgstr "Listing all running PHP scripts..."
+
+#~ msgid "%d scripts have been found."
+#~ msgstr "%d scripts have been found."
+
+#~ msgid "Updating file permissions..."
+#~ msgstr "Updating file permissions..."
+
+#~ msgid "%d files have been updated."
+#~ msgstr "%d files have been updated."
+
+#~ msgid "Script terminated in %.2f seconds."
+#~ msgstr "Script terminated in %.2f seconds."
+
+#~ msgid "chmod %s has been applied to scripts"
+#~ msgstr "chmod %s has been applied to scripts"
+
+#~ msgid ""
+#~ "You are about to chmod(%d) all running scripts of this server. Are you "
+#~ "sure?"
+#~ msgstr ""
+#~ "You are about to chmod(%d) all running scripts of this server. Are you "
+#~ "sure?"
+
+#~ msgid "Yes, I do want to change permissions of running scripts"
+#~ msgstr "Yes, I do want to change permissions of running scripts"
+
+#~ msgid ""
+#~ "You are considered temporarily as an associate, with specific rights on "
+#~ "this server. Please do not close your browser until the end of the "
+#~ "configuration."
+#~ msgstr ""
+#~ "You are considered temporarily as an associate, with specific rights on "
+#~ "this server. Please do not close your browser until the end of the "
+#~ "configuration."
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configure: %s"
+
+#~ msgid "System parameters"
+#~ msgstr "System parameters"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be displayed nor changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be displayed nor changed in this mode."
+
+#~ msgid ""
+#~ "Following parameters may be provided by your Internet Service Provider "
+#~ "(ISP), or by some database manager. If you manage your own server, the "
+#~ "database should have been created before moving forward. You may check "
+#~ "the %s file for further information."
+#~ msgstr ""
+#~ "Following parameters may be provided by your Internet Service Provider "
+#~ "(ISP), or by some database manager. If you manage your own server, the "
+#~ "database should have been created before moving forward. You may check "
+#~ "the %s file for further information."
+
+#~ msgid "readme.txt"
+#~ msgstr "readme.txt"
+
+#~ msgid "Database server name"
+#~ msgstr "Database server name"
+
+#~ msgid "Login name"
+#~ msgstr "Login name"
+
+#~ msgid "Login password"
+#~ msgstr "Login password"
+
+#~ msgid "Database name"
+#~ msgstr "Database name"
+
+#~ msgid "Prefix for table names"
+#~ msgstr "Prefix for table names"
+
+#~ msgid ""
+#~ "To share user information among several YACS servers configure below "
+#~ "parameters specific to the table of users. Else keep fields empty."
+#~ msgstr ""
+#~ "To share user information among several YACS servers configure below "
+#~ "parameters specific to the table of users. Else keep fields empty."
+
+#~ msgid "Database server that hosts user information"
+#~ msgstr "Database server that hosts user information"
+
+#~ msgid "Name of database that contains user information"
+#~ msgstr "Name of database that contains user information"
+
+#~ msgid "Prefix for the users table"
+#~ msgstr "Prefix for the users table"
+
+#~ msgid "Custom storage of user information"
+#~ msgstr "Custom storage of user information"
+
+#~ msgid ""
+#~ "If you do not know what following parameters mean, please use default "
+#~ "values for safety."
+#~ msgstr ""
+#~ "If you do not know what following parameters mean, please use default "
+#~ "values for safety."
+
+#~ msgid "Community language"
+#~ msgstr "Community language"
+
+#~ msgid "Language detection"
+#~ msgstr "Language detection"
+
+#~ msgid ""
+#~ "Attempt to adapt the interface to the language indicated by the browser."
+#~ msgstr ""
+#~ "Attempt to adapt the interface to the language indicated by the browser."
+
+#~ msgid "Stick to the preferred language selected above."
+#~ msgstr "Stick to the preferred language selected above."
+
+#~ msgid "Page compression"
+#~ msgstr "Page compression"
+
+#~ msgid ""
+#~ "Do not try to compress transmitted data. The web engine already does it."
+#~ msgstr ""
+#~ "Do not try to compress transmitted data. The web engine already does it."
+
+#~ msgid "Compress content (gzip) transmitted to user agents when possible."
+#~ msgstr "Compress content (gzip) transmitted to user agents when possible."
+
+#~ msgid "Rendering cache"
+#~ msgstr "Rendering cache"
+
+#~ msgid "Cache computed elements to speed up rendering."
+#~ msgstr "Cache computed elements to speed up rendering."
+
+#~ msgid "Compute all page elements."
+#~ msgstr "Compute all page elements."
+
+#~ msgid "Background processing"
+#~ msgstr "Background processing"
+
+#~ msgid "Add background processing at the end of page rendering."
+#~ msgstr "Add background processing at the end of page rendering."
+
+#~ msgid "The server launches cron.php on its own"
+#~ msgstr "The server launches cron.php on its own"
+
+#~ msgid "see sample %s"
+#~ msgstr "see sample %s"
+
+#~ msgid "Default masks"
+#~ msgstr "Default masks"
+
+#~ msgid "Mask for files"
+#~ msgstr "Mask for files"
+
+#~ msgid "Mask for directories"
+#~ msgstr "Mask for directories"
+
+#~ msgid "Verbosity"
+#~ msgstr "Verbosity"
+
+#~ msgid "Verbosity should be kept to a minimum (normal operation)."
+#~ msgstr "Verbosity should be kept to a minimum (normal operation)."
+
+#~ msgid "Provide as much information as possible (development server)."
+#~ msgstr "Provide as much information as possible (development server)."
+
+#~ msgid "Server name"
+#~ msgstr "Server name"
+
+#~ msgid "Accept all web requests."
+#~ msgstr "Accept all web requests."
+
+#~ msgid "Redirect to this server name if another name is used in request."
+#~ msgstr "Redirect to this server name if another name is used in request."
+
+#~ msgid "Path (URL) to root directory"
+#~ msgstr "Path (URL) to root directory"
+
+#~ msgid "URL generation"
+#~ msgstr "URL generation"
+
+#~ msgid "This system does not support the mapping of args in the URL."
+#~ msgstr "This system does not support the mapping of args in the URL."
+
+#~ msgid "Help search engines to index more pages."
+#~ msgstr "Help search engines to index more pages."
+
+#~ msgid "test link"
+#~ msgstr "test link"
+
+#~ msgid ""
+#~ "Rewriting rules have been activated (in <code>.htaccess</code>) to "
+#~ "support pretty references."
+#~ msgstr ""
+#~ "Rewriting rules have been activated (in <code>.htaccess</code>) to "
+#~ "support pretty references."
+
+#~ msgid "Web security"
+#~ msgstr "Web security"
+
+#~ msgid "Redirect all non-secured requests to https."
+#~ msgstr "Redirect all non-secured requests to https."
+
+#~ msgid "Web cache"
+#~ msgstr "Web cache"
+
+#~ msgid ""
+#~ "Set HTTP headers to enable private caching and to ask for every page "
+#~ "revalidation."
+#~ msgstr ""
+#~ "Set HTTP headers to enable private caching and to ask for every page "
+#~ "revalidation."
+
+#~ msgid "No cache management. Default settings of the PHP engine apply."
+#~ msgstr "No cache management. Default settings of the PHP engine apply."
+
+#~ msgid ""
+#~ "Public content may be processed by web crawlers and news aggregators."
+#~ msgstr ""
+#~ "Public content may be processed by web crawlers and news aggregators."
+
+#~ msgid "This server can not be reached from the Internet."
+#~ msgstr "This server can not be reached from the Internet."
+
+#~ msgid "Outbound requests"
+#~ msgstr "Outbound requests"
+
+#~ msgid ""
+#~ "This server uses the web for syndication, for pings or for other "
+#~ "activities."
+#~ msgstr ""
+#~ "This server uses the web for syndication, for pings or for other "
+#~ "activities."
+
+#~ msgid "Prevent this server to connect to others."
+#~ msgstr "Prevent this server to connect to others."
+
+#~ msgid "Proxy address or name"
+#~ msgstr "Proxy address or name"
+
+#~ msgid "Proxy account"
+#~ msgstr "Proxy account"
+
+#~ msgid "Proxy password"
+#~ msgstr "Proxy password"
+
+#~ msgid "Proxy settings"
+#~ msgstr "Proxy settings"
+
+#~ msgid "Global switch"
+#~ msgstr "Global switch"
+
+#~ msgid "This system is not configured to send e-mail messages."
+#~ msgstr "This system is not configured to send e-mail messages."
+
+#~ msgid "Use below parameters to handle electronic mail messages."
+#~ msgstr "Use below parameters to handle electronic mail messages."
+
+#~ msgid "SMTP server (if blank, use php.ini)"
+#~ msgstr "SMTP server (if blank, use php.ini)"
+
+#~ msgid "POP3 server used for authentication"
+#~ msgstr "POP3 server used for authentication"
+
+#~ msgid "POP3 account"
+#~ msgstr "POP3 account"
+
+#~ msgid "POP3 password"
+#~ msgstr "POP3 password"
+
+#~ msgid "Messages encoding"
+#~ msgstr "Messages encoding"
+
+#~ msgid ""
+#~ "Transform messages using base64 encoding to ensure that only 7-bit ASCII "
+#~ "entities are transmitted."
+#~ msgstr ""
+#~ "Transform messages using base64 encoding to ensure that only 7-bit ASCII "
+#~ "entities are transmitted."
+
+#~ msgid ""
+#~ "Do not transform bytes and assume proper transmission of 8-bit entities "
+#~ "end-to-end."
+#~ msgstr ""
+#~ "Do not transform bytes and assume proper transmission of 8-bit entities "
+#~ "end-to-end."
+
+#~ msgid "Source address for electronic mail (From:)"
+#~ msgstr "Source address for electronic mail (From:)"
+
+#~ msgid "Maximum of outbound messages per hour"
+#~ msgstr "Maximum of outbound messages per hour"
+
+#~ msgid "Recipients of system events"
+#~ msgstr "Recipients of system events"
+
+#~ msgid "Debug mail services"
+#~ msgstr "Debug mail services"
+
+#~ msgid ""
+#~ "List messages sent electronically in the file temporary/debug.txt. Use "
+#~ "this option only for troubleshooting."
+#~ msgstr ""
+#~ "List messages sent electronically in the file temporary/debug.txt. Use "
+#~ "this option only for troubleshooting."
+
+#~ msgid "Check %s to manage and preview all available styles."
+#~ msgstr "Check %s to manage and preview all available styles."
+
+#~ msgid "the index page of skins"
+#~ msgstr "the index page of skins"
+
+#~ msgid "Database"
+#~ msgstr "Database"
+
+#~ msgid "System"
+#~ msgstr "System"
+
+#~ msgid "Network"
+#~ msgstr "Network"
+
+#~ msgid "Mail"
+#~ msgstr "Mail"
+
+#~ msgid "Skin"
+#~ msgstr "Skin"
+
+#~ msgid "Submit"
+#~ msgstr "Submit"
+
+#~ msgid "Skins"
+#~ msgstr "Skins"
+
+#~ msgid ""
+#~ "ERROR: Unsuccessful connection to the database. Please check lines below "
+#~ "and <a href=\"configure.php\">configure again</a>."
+#~ msgstr ""
+#~ "ERROR: Unsuccessful connection to the database. Please check lines below "
+#~ "and <a href=\"configure.php\">configure again</a>."
+
+#~ msgid "The following configuration has been saved into the file %s."
+#~ msgstr "The following configuration has been saved into the file %s."
+
+#~ msgid ""
+#~ "Review provided information if you wish, then click on the button at the "
+#~ "bottom of the page to move forward."
+#~ msgstr ""
+#~ "Review provided information if you wish, then click on the button at the "
+#~ "bottom of the page to move forward."
+
+#~ msgid "Look for software extensions"
+#~ msgstr "Look for software extensions"
+
+#~ msgid "Where do you want to go now?"
+#~ msgstr "Where do you want to go now?"
+
+#~ msgid "Configure again"
+#~ msgstr "Configure again"
+
+#~ msgid "Import data from an existing database"
+#~ msgstr "Import data from an existing database"
+
+#~ msgid ""
+#~ "Please indicate below the parameters for the input database. At the "
+#~ "moment this script is able to process phpwebsite databases."
+#~ msgstr ""
+#~ "Please indicate below the parameters for the input database. At the "
+#~ "moment this script is able to process phpwebsite databases."
+
+#~ msgid "Server"
+#~ msgstr "Server"
+
+#~ msgid "User"
+#~ msgstr "User"
+
+#~ msgid "Password"
+#~ msgstr "Password"
+
+#~ msgid "Web address"
+#~ msgstr "Web address"
+
+#~ msgid "Yes, I want to read data from this source"
+#~ msgstr "Yes, I want to read data from this source"
+
+#~ msgid ""
+#~ "If you have cleaned your database before this import session, have you "
+#~ "cleaned related files (attachments and images) as well?"
+#~ msgstr ""
+#~ "If you have cleaned your database before this import session, have you "
+#~ "cleaned related files (attachments and images) as well?"
+
+#~ msgid "Impossible to connect to %s."
+#~ msgstr "Impossible to connect to %s."
+
+#~ msgid "Too many successive errors. Aborted"
+#~ msgstr "Too many successive errors. Aborted"
+
+#~ msgid "%d users have been processed. Finished"
+#~ msgstr "%d users have been processed. Finished"
+
+#~ msgid "%d sections have been processed. Finished"
+#~ msgstr "%d sections have been processed. Finished"
+
+#~ msgid "%d articles have been processed. Finished"
+#~ msgstr "%d articles have been processed. Finished"
+
+#~ msgid "%d categories have been processed. Finished"
+#~ msgstr "%d categories have been processed. Finished"
+
+#~ msgid "%d members have been processed. Finished"
+#~ msgstr "%d members have been processed. Finished"
+
+#~ msgid "Impossible to read %s."
+#~ msgstr "Impossible to read %s."
+
+#~ msgid "Impossible to write to %s."
+#~ msgstr "Impossible to write to %s."
+
+#~ msgid "%d image descriptors have been processed. Finished"
+#~ msgstr "%d image descriptors have been processed. Finished"
+
+#~ msgid "%d file descriptors have been processed. Finished"
+#~ msgstr "%d file descriptors have been processed. Finished"
+
+#~ msgid "%d links have been processed. Finished"
+#~ msgstr "%d links have been processed. Finished"
+
+#~ msgid "Contact:"
+#~ msgstr "Contact:"
+
+#~ msgid "Address:"
+#~ msgstr "Address:"
+
+#~ msgid "Phone number:"
+#~ msgstr "Phone number:"
+
+#~ msgid "Fax number:"
+#~ msgstr "Fax number:"
+
+#~ msgid "Mail address:"
+#~ msgstr "Mail address:"
+
+#~ msgid "Web server:"
+#~ msgstr "Web server:"
+
+#~ msgid "Import some articles from a csv file"
+#~ msgstr "Import some articles from a csv file"
+
+#~ msgid "The size of this file is over PHP settings in php.ini file."
+#~ msgstr "The size of this file is over PHP settings in php.ini file."
+
+#~ msgid "The size of this file is over html form limit."
+#~ msgstr "The size of this file is over html form limit."
+
+#~ msgid "The transfer of this file was interrupted."
+#~ msgstr "The transfer of this file was interrupted."
+
+#~ msgid "This file is empty."
+#~ msgstr "This file is empty."
+
+#~ msgid "The file %s (of %d bytes) has been properly transmitted."
+#~ msgstr "The file %s (of %d bytes) has been properly transmitted."
+
+#~ msgid ""
+#~ "Error found during copy of %s on server. The inbox/import folder must "
+#~ "exist on the server."
+#~ msgstr ""
+#~ "Error found during copy of %s on server. The inbox/import folder must "
+#~ "exist on the server."
+
+#~ msgid "An empty file has been transmitted."
+#~ msgstr "An empty file has been transmitted."
+
+#~ msgid "File not found! Import canceled."
+#~ msgstr "File not found! Import canceled."
+
+#~ msgid "Step 1 : Transfer of csv file"
+#~ msgstr "Step 1 : Transfer of csv file"
+
+#~ msgid "Import local csv file:"
+#~ msgstr "Import local csv file:"
+
+#~ msgid "or import this csv file:"
+#~ msgstr "or import this csv file:"
+
+#~ msgid "(from inbox/import server folder)"
+#~ msgstr "(from inbox/import server folder)"
+
+#~ msgid "Number of lines to display for test:"
+#~ msgstr "Number of lines to display for test:"
+
+#~ msgid "Send file"
+#~ msgstr "Send file"
+
+#~ msgid "Step 1 has been completed."
+#~ msgstr "Step 1 has been completed."
+
+#~ msgid "Restart step 1"
+#~ msgstr "Restart step 1"
+
+#~ msgid "Step 2 : Read csv file information"
+#~ msgstr "Step 2 : Read csv file information"
+
+#~ msgid "Field delimitor:"
+#~ msgstr "Field delimitor:"
+
+#~ msgid "Field separator:"
+#~ msgstr "Field separator:"
+
+#~ msgid "Data description line number in csv:"
+#~ msgstr "Data description line number in csv:"
+
+#~ msgid "Data start line number in csv:"
+#~ msgstr "Data start line number in csv:"
+
+#~ msgid "Overlay used during the import:"
+#~ msgstr "Overlay used during the import:"
+
+#~ msgid "Read csv file information"
+#~ msgstr "Read csv file information"
+
+#~ msgid "Step 2 has been completed."
+#~ msgstr "Step 2 has been completed."
+
+#~ msgid "Restart step 2"
+#~ msgstr "Restart step 2"
+
+#~ msgid "Step 3 : Test import"
+#~ msgstr "Step 3 : Test import"
+
+#~ msgid "Language"
+#~ msgstr "Language"
+
+#~ msgid "Test import"
+#~ msgstr "Test import"
+
+#~ msgid "Step 3 has been completed."
+#~ msgstr "Step 3 has been completed."
+
+#~ msgid "Restart step 3"
+#~ msgstr "Restart step 3"
+
+#~ msgid "Step 4 : Import data"
+#~ msgstr "Step 4 : Import data"
+
+#~ msgid "Import data"
+#~ msgstr "Import data"
+
+#~ msgid "Step 4 has been completed."
+#~ msgstr "Step 4 has been completed."
+
+#~ msgid "Please configure your server"
+#~ msgstr "Please configure your server"
+
+#~ msgid ""
+#~ "No configuration file has been found. If you are installing a brand new "
+#~ "server, follow the link below to create one."
+#~ msgstr ""
+#~ "No configuration file has been found. If you are installing a brand new "
+#~ "server, follow the link below to create one."
+
+#~ msgid "Jump to the installation page"
+#~ msgstr "Jump to the installation page"
+
+#~ msgid "Else follow the link below to load the configuration form."
+#~ msgstr "Else follow the link below to load the configuration form."
+
+#~ msgid "Jump to the configuration page"
+#~ msgstr "Jump to the configuration page"
+
+#~ msgid "No access to the database server"
+#~ msgstr "No access to the database server"
+
+#~ msgid ""
+#~ "Impossible to connect to the database server mentioned in your "
+#~ "configuration file. Please follow the link to check connection parameters."
+#~ msgstr ""
+#~ "Impossible to connect to the database server mentioned in your "
+#~ "configuration file. Please follow the link to check connection parameters."
+
+#~ msgid "Please create a database"
+#~ msgstr "Please create a database"
+
+#~ msgid ""
+#~ "Impossible to access the database mentioned in your configuration file. "
+#~ "Please create a database, or follow the link to change the configuration "
+#~ "file."
+#~ msgstr ""
+#~ "Impossible to access the database mentioned in your configuration file. "
+#~ "Please create a database, or follow the link to change the configuration "
+#~ "file."
+
+#~ msgid "Go to the configuration page to change database parameters"
+#~ msgstr "Go to the configuration page to change database parameters"
+
+#~ msgid "Please configure software extensions"
+#~ msgstr "Please configure software extensions"
+
+#~ msgid ""
+#~ "No configuration file for extensions has been found. If you are "
+#~ "installing a brand new server, follow the link to create one."
+#~ msgstr ""
+#~ "No configuration file for extensions has been found. If you are "
+#~ "installing a brand new server, follow the link to create one."
+
+#~ msgid "Please create tables"
+#~ msgstr "Please create tables"
+
+#~ msgid ""
+#~ "The database is currently empty. Please follow the link to create tables "
+#~ "of the database."
+#~ msgstr ""
+#~ "The database is currently empty. Please follow the link to create tables "
+#~ "of the database."
+
+#~ msgid "Create tables in the database"
+#~ msgstr "Create tables in the database"
+
+#~ msgid "Please populate tables"
+#~ msgstr "Please populate tables"
+
+#~ msgid ""
+#~ "The user table is currently empty. Please follow the link to populate the "
+#~ "database."
+#~ msgstr ""
+#~ "The user table is currently empty. Please follow the link to populate the "
+#~ "database."
+
+#~ msgid "Jump to the populate page"
+#~ msgstr "Jump to the populate page"
+
+#~ msgid "Please configure the skin of your server"
+#~ msgstr "Please configure the skin of your server"
+
+#~ msgid ""
+#~ "No configuration file has been found for the skin of your server. If you "
+#~ "are installing a brand new server, follow the link to create one."
+#~ msgstr ""
+#~ "No configuration file has been found for the skin of your server. If you "
+#~ "are installing a brand new server, follow the link to create one."
+
+#~ msgid "Page factory"
+#~ msgstr "Page factory"
+
+#~ msgid ""
+#~ "The server is currently switched off. All users are redirected to the "
+#~ "closed page."
+#~ msgstr ""
+#~ "The server is currently switched off. All users are redirected to the "
+#~ "closed page."
+
+#~ msgid "Switch the server on again"
+#~ msgstr "Switch the server on again"
+
+#~ msgid ""
+#~ "The server is running in demonstration mode, and restrictions apply, even "
+#~ "to associates."
+#~ msgstr ""
+#~ "The server is running in demonstration mode, and restrictions apply, even "
+#~ "to associates."
+
+#~ msgid ""
+#~ "The following table reports on current content of this server. Click on "
+#~ "any link to get more details."
+#~ msgstr ""
+#~ "The following table reports on current content of this server. Click on "
+#~ "any link to get more details."
+
+#~ msgid "Table"
+#~ msgstr "Table"
+
+#~ msgid "Records"
+#~ msgstr "Records"
+
+#~ msgid "First record"
+#~ msgstr "First record"
+
+#~ msgid "Last record"
+#~ msgstr "Last record"
+
+#~ msgid "unknown or empty table"
+#~ msgstr "unknown or empty table"
+
+#~ msgid "Images"
+#~ msgstr "Images"
+
+#~ msgid "Locations"
+#~ msgstr "Locations"
+
+#~ msgid "Comments in %s"
+#~ msgstr "Comments in %s"
+
+#~ msgid "Comments"
+#~ msgstr "Comments"
+
+#~ msgid "Decisions"
+#~ msgstr "Decisions"
+
+#~ msgid "Forms"
+#~ msgstr "Forms"
+
+#~ msgid "Users"
+#~ msgstr "Users"
+
+#~ msgid "Notifications"
+#~ msgstr "Notifications"
+
+#~ msgid "Messages"
+#~ msgstr "Messages"
+
+#~ msgid "messages"
+#~ msgstr "messages"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Dates"
+#~ msgstr "Dates"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Counters"
+#~ msgstr "Counters"
+
+#~ msgid "Profiles"
+#~ msgstr "Profiles"
+
+#~ msgid "Versions"
+#~ msgstr "Versions"
+
+#~ msgid "Members of..."
+#~ msgstr "Members of..."
+
+#~ msgid "Values"
+#~ msgstr "Values"
+
+#~ msgid "Cache"
+#~ msgstr "Cache"
+
+#~ msgid "PHP documentation"
+#~ msgstr "PHP documentation"
+
+#~ msgid "%d tables and %d records in %sbytes"
+#~ msgstr "%d tables and %d records in %sbytes"
+
+#~ msgid "(%sbytes data, %sbytes index, %sbytes unused)"
+#~ msgstr "(%sbytes data, %sbytes index, %sbytes unused)"
+
+#~ msgid "Overview"
+#~ msgstr "Overview"
+
+#~ msgid ""
+#~ "%s - select a section and type some text, then add images, files and links"
+#~ msgstr ""
+#~ "%s - select a section and type some text, then add images, files and links"
+
+#~ msgid "%s - fill pre-defined fields, then add images, files and links"
+#~ msgstr "%s - fill pre-defined fields, then add images, files and links"
+
+#~ msgid "%s - create blogs, wikis, forums, and more"
+#~ msgstr "%s - create blogs, wikis, forums, and more"
+
+#~ msgid "%s, including: %s, %s, %s and %s"
+#~ msgstr "%s, including: %s, %s, %s and %s"
+
+#~ msgid "Global pages"
+#~ msgstr "Global pages"
+
+#~ msgid "the cover page"
+#~ msgstr "the cover page"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Privacy statement"
+#~ msgstr "Privacy statement"
+
+#~ msgid "%s - scripts to enhance articles and user profiles"
+#~ msgstr "%s - scripts to enhance articles and user profiles"
+
+#~ msgid "Overlays"
+#~ msgstr "Overlays"
+
+#~ msgid "%s - scripts to enhance sections"
+#~ msgstr "%s - scripts to enhance sections"
+
+#~ msgid "Behaviors"
+#~ msgstr "Behaviors"
+
+#~ msgid "%s - broadcast digests and announcements by e-mail"
+#~ msgstr "%s - broadcast digests and announcements by e-mail"
+
+#~ msgid "%s - articles waiting for publication, pending requests"
+#~ msgstr "%s - articles waiting for publication, pending requests"
+
+#~ msgid "Review queue"
+#~ msgstr "Review queue"
+
+#~ msgid "%s - shared directories and files"
+#~ msgstr "%s - shared directories and files"
+
+#~ msgid "%s - all feeds available (RSS, ATOM)"
+#~ msgstr "%s - all feeds available (RSS, ATOM)"
+
+#~ msgid "Information channels"
+#~ msgstr "Information channels"
+
+#~ msgid "%s - connect remote computers through XML-RPC or REST"
+#~ msgstr "%s - connect remote computers through XML-RPC or REST"
+
+#~ msgid "Web services"
+#~ msgstr "Web services"
+
+#~ msgid "%s - codes you can use to beautify your pages"
+#~ msgstr "%s - codes you can use to beautify your pages"
+
+#~ msgid "Codes"
+#~ msgstr "Codes"
+
+#~ msgid "Smileys"
+#~ msgstr "Smileys"
+
+#~ msgid "%s - some avatars you may choose for your user profile"
+#~ msgstr "%s - some avatars you may choose for your user profile"
+
+#~ msgid "Avatars"
+#~ msgstr "Avatars"
+
+#~ msgid ""
+#~ "%s - at the moment, only for people that are migrating from phpwebsite"
+#~ msgstr ""
+#~ "%s - at the moment, only for people that are migrating from phpwebsite"
+
+#~ msgid "Import"
+#~ msgstr "Import"
+
+#~ msgid "%s - import articles from a csv file"
+#~ msgstr "%s - import articles from a csv file"
+
+#~ msgid "Import CSV"
+#~ msgstr "Import CSV"
+
+#~ msgid "%s - learn about your visitors"
+#~ msgstr "%s - learn about your visitors"
+
+#~ msgid "Content Management"
+#~ msgstr "Content Management"
+
+#~ msgid "Blogging tools"
+#~ msgstr "Blogging tools"
+
+#~ msgid ""
+#~ "Please %s to benefit from all contribution tools provided by this site."
+#~ msgstr ""
+#~ "Please %s to benefit from all contribution tools provided by this site."
+
+#~ msgid "authenticate"
+#~ msgstr "authenticate"
+
+#~ msgid ""
+#~ "Registration is FREE and offers great benefits. %s if you are not yet a "
+#~ "member of %s."
+#~ msgstr ""
+#~ "Registration is FREE and offers great benefits. %s if you are not yet a "
+#~ "member of %s."
+
+#~ msgid "Click here to register"
+#~ msgstr "Click here to register"
+
+#~ msgid "Express yourself"
+#~ msgstr "Express yourself"
+
+#~ msgid "Content"
+#~ msgstr "Content"
+
+#~ msgid ""
+#~ "Click on following links to review or change parameters of this server."
+#~ msgstr ""
+#~ "Click on following links to review or change parameters of this server."
+
+#~ msgid "%s - configure database, security and other essential parameters"
+#~ msgstr "%s - configure database, security and other essential parameters"
+
+#~ msgid "%s - define permissions given to people"
+#~ msgstr "%s - define permissions given to people"
+
+#~ msgid "%s - select and configure building blocks for the front page"
+#~ msgstr "%s - select and configure building blocks for the front page"
+
+#~ msgid "%s - change meta-information, etc."
+#~ msgstr "%s - change meta-information, etc."
+
+#~ msgid "%s - select and test skins available at this server"
+#~ msgstr "%s - select and test skins available at this server"
+
+#~ msgid "%s - to change rendering of dynamic Flash objects"
+#~ msgstr "%s - to change rendering of dynamic Flash objects"
+
+#~ msgid "Flash"
+#~ msgstr "Flash"
+
+#~ msgid "%s - enhance information provided through RSS"
+#~ msgstr "%s - enhance information provided through RSS"
+
+#~ msgid "%s - to share and stream existing directories and files"
+#~ msgstr "%s - to share and stream existing directories and files"
+
+#~ msgid ""
+#~ "%s - to extend accepted types and to make uploaded files available from "
+#~ "FTP"
+#~ msgstr ""
+#~ "%s - to extend accepted types and to make uploaded files available from "
+#~ "FTP"
+
+#~ msgid "%s - change parameters for back-end services"
+#~ msgstr "%s - change parameters for back-end services"
+
+#~ msgid "%s - ban spamming hosts"
+#~ msgstr "%s - ban spamming hosts"
+
+#~ msgid "%s - for incoming messages and files"
+#~ msgstr "%s - for incoming messages and files"
+
+#~ msgid "%s - change the reference server used for software updates"
+#~ msgstr "%s - change the reference server used for software updates"
+
+#~ msgid "Configuration"
+#~ msgstr "Configuration"
+
+#~ msgid "%s - the safety tool; also useful to submit bulk SQL statements"
+#~ msgstr "%s - the safety tool; also useful to submit bulk SQL statements"
+
+#~ msgid "Backup/Restore"
+#~ msgstr "Backup/Restore"
+
+#~ msgid ""
+#~ "%s - check the database structure; also optimize data tables and update "
+#~ "index"
+#~ msgstr ""
+#~ "%s - check the database structure; also optimize data tables and update "
+#~ "index"
+
+#~ msgid "Database maintenance"
+#~ msgstr "Database maintenance"
+
+#~ msgid "%s - clear the cache or delete what can be safely deleted"
+#~ msgstr "%s - clear the cache or delete what can be safely deleted"
+
+#~ msgid "Purge"
+#~ msgstr "Purge"
+
+#~ msgid "%s - shut the server down, or fire it up again"
+#~ msgstr "%s - shut the server down, or fire it up again"
+
+#~ msgid "Switch"
+#~ msgstr "Switch"
+
+#~ msgid "%s - some upgrades are waiting for execution"
+#~ msgstr "%s - some upgrades are waiting for execution"
+
+#~ msgid "Run once"
+#~ msgstr "Run once"
+
+#~ msgid "%s - this server shares a reference store for remote updates"
+#~ msgstr "%s - this server shares a reference store for remote updates"
+
+#~ msgid "%s - check for software updates"
+#~ msgstr "%s - check for software updates"
+
+#~ msgid "%s - review and setup YACS hooking pieces of software"
+#~ msgstr "%s - review and setup YACS hooking pieces of software"
+
+#~ msgid "Extensions"
+#~ msgstr "Extensions"
+
+#~ msgid "%s - change permissions of script files"
+#~ msgstr "%s - change permissions of script files"
+
+#~ msgid "Permissions"
+#~ msgstr "Permissions"
+
+#~ msgid "%s - compress Javascript files"
+#~ msgstr "%s - compress Javascript files"
+
+#~ msgid "JSmin"
+#~ msgstr "JSmin"
+
+#~ msgid "System Management"
+#~ msgstr "System Management"
+
+#~ msgid "System overview"
+#~ msgstr "System overview"
+
+#~ msgid "Server time zone"
+#~ msgstr "Server time zone"
+
+#~ msgid "hour"
+#~ msgid_plural "hours"
+#~ msgstr[0] "hour"
+#~ msgstr[1] "hours"
+
+#~ msgid "Memory"
+#~ msgstr "Memory"
+
+#~ msgid "%s - operation summary"
+#~ msgstr "%s - operation summary"
+
+#~ msgid "%s - check a lot of styles used by YACS"
+#~ msgstr "%s - check a lot of styles used by YACS"
+
+#~ msgid "Skin test page"
+#~ msgstr "Skin test page"
+
+#~ msgid "%s - phpinfo() and more"
+#~ msgstr "%s - phpinfo() and more"
+
+#~ msgid "Run-time information"
+#~ msgstr "Run-time information"
+
+#~ msgid "%s - validate browser and server behaviors"
+#~ msgstr "%s - validate browser and server behaviors"
+
+#~ msgid "System test page"
+#~ msgstr "System test page"
+
+#~ msgid "See also"
+#~ msgstr "See also"
+
+#~ msgid "Modules"
+#~ msgstr "Modules"
+
+#~ msgid "yacs"
+#~ msgstr "yacs"
+
+#~ msgid "phpinfo()"
+#~ msgstr "phpinfo()"
+
+#~ msgid "SQL"
+#~ msgstr "SQL"
+
+#~ msgid "Information on YACS run-time"
+#~ msgstr "Information on YACS run-time"
+
+#~ msgid "Included files"
+#~ msgstr "Included files"
+
+#~ msgid "Variables"
+#~ msgstr "Variables"
+
+#~ msgid "Constants"
+#~ msgstr "Constants"
+
+#~ msgid "Information on PHP"
+#~ msgstr "Information on PHP"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "PHP parameters cannot be displayed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "PHP parameters cannot be displayed in this mode."
+
+#~ msgid "Calls to phpinfo() are not allowed on this server."
+#~ msgstr "Calls to phpinfo() are not allowed on this server."
+
+#~ msgid "Information on SQL run-time"
+#~ msgstr "Information on SQL run-time"
+
+#~ msgid "YACS uses the improved MySQL PHP extension."
+#~ msgstr "YACS uses the improved MySQL PHP extension."
+
+#~ msgid "YACS saves data using UTF8 character set."
+#~ msgstr "YACS saves data using UTF8 character set."
+
+#~ msgid "YACS saves data Unicode entities encoded in ASCII character set."
+#~ msgstr "YACS saves data Unicode entities encoded in ASCII character set."
+
+#~ msgid "SQL status"
+#~ msgstr "SQL status"
+
+#~ msgid "SQL variables"
+#~ msgstr "SQL variables"
+
+#~ msgid "Supported charsets"
+#~ msgstr "Supported charsets"
+
+#~ msgid "Information on images support"
+#~ msgstr "Information on images support"
+
+#~ msgid "Please activate the GD module, else YACS can not resize images."
+#~ msgstr "Please activate the GD module, else YACS can not resize images."
+
+#~ msgid "GIF support is enabled"
+#~ msgstr "GIF support is enabled"
+
+#~ msgid "GIF support is NOT enabled"
+#~ msgstr "GIF support is NOT enabled"
+
+#~ msgid "JPG support is enabled"
+#~ msgstr "JPG support is enabled"
+
+#~ msgid "PNG support is enabled"
+#~ msgstr "PNG support is enabled"
+
+#~ msgid "Please select among available commands:"
+#~ msgstr "Please select among available commands:"
+
+#~ msgid "%s, to learn more about YACS run-time."
+#~ msgstr "%s, to learn more about YACS run-time."
+
+#~ msgid "YACS"
+#~ msgstr "YACS"
+
+#~ msgid "%s, to know everything about PHP runtime at this server."
+#~ msgstr "%s, to know everything about PHP runtime at this server."
+
+#~ msgid "PhpInfo"
+#~ msgstr "PhpInfo"
+
+#~ msgid "%s, to get run-time parameters of the SQL engine."
+#~ msgstr "%s, to get run-time parameters of the SQL engine."
+
+#~ msgid "%s, to understand image support at this site."
+#~ msgstr "%s, to understand image support at this site."
+
+#~ msgid "Compress Javascript files"
+#~ msgstr "Compress Javascript files"
+
+#~ msgid "Compressing Javascript files..."
+#~ msgstr "Compressing Javascript files..."
+
+#~ msgid "jsmin has been applied to Javascript files"
+#~ msgstr "jsmin has been applied to Javascript files"
+
+#~ msgid ""
+#~ "You are about to apply jsmin to Javascript files of this server. Are you "
+#~ "sure?"
+#~ msgstr ""
+#~ "You are about to apply jsmin to Javascript files of this server. Are you "
+#~ "sure?"
+
+#~ msgid "Yes, I do want to compress Javascript files"
+#~ msgstr "Yes, I do want to compress Javascript files"
+
+#~ msgid "New associate"
+#~ msgstr "New associate"
+
+#~ msgid ""
+#~ "Please indicate below the name and password you will use to authenticate "
+#~ "to this server."
+#~ msgstr ""
+#~ "Please indicate below the name and password you will use to authenticate "
+#~ "to this server."
+
+#~ msgid ""
+#~ "DO NOT FORGET THIS LOGIN!! There is no default administrative login "
+#~ "created when YACS is installed, so if you lose your login, you will have "
+#~ "to purge the database and trigger the setup script again."
+#~ msgstr ""
+#~ "DO NOT FORGET THIS LOGIN!!  There is no default administrative login "
+#~ "created when YACS is installed, so if you lose your login, you will have "
+#~ "to purge the database and trigger the setup script again."
+
+#~ msgid "Nick name"
+#~ msgstr "Nick name"
+
+#~ msgid "Please carefully select a meaningful nick name."
+#~ msgstr "Please carefully select a meaningful nick name."
+
+#~ msgid ""
+#~ "We recommend at least 4 letters, two digits, and a punctuation sign - in "
+#~ "any order"
+#~ msgstr ""
+#~ "We recommend at least 4 letters, two digits, and a punctuation sign - in "
+#~ "any order"
+
+#~ msgid "Password confirmation"
+#~ msgstr "Password confirmation"
+
+#~ msgid "You must provide a nick name."
+#~ msgstr "You must provide a nick name."
+
+#~ msgid "You must provide a password."
+#~ msgstr "You must provide a password."
+
+#~ msgid "You must confirm the password."
+#~ msgstr "You must confirm the password."
+
+#~ msgid "Add basic items"
+#~ msgstr "Add basic items"
+
+#~ msgid ""
+#~ "Congratulations, one associate profile %s has been created with the "
+#~ "password %s"
+#~ msgstr ""
+#~ "Congratulations, one associate profile %s has been created with the "
+#~ "password %s"
+
+#~ msgid "Check the new associate profile"
+#~ msgstr "Check the new associate profile"
+
+#~ msgid "Select an avatar"
+#~ msgstr "Select an avatar"
+
+#~ msgid "Deleting %s"
+#~ msgstr "Deleting %s"
+
+#~ msgid "Deleting agents data..."
+#~ msgstr "Deleting agents data..."
+
+#~ msgid "Purge again"
+#~ msgstr "Purge again"
+
+#~ msgid "Deleting previous versions of scripts..."
+#~ msgstr "Deleting previous versions of scripts..."
+
+#~ msgid "%d files have been deleted"
+#~ msgstr "%d files have been deleted"
+
+#~ msgid "Deleting all cached items..."
+#~ msgstr "Deleting all cached items..."
+
+#~ msgid "Deleting debug data..."
+#~ msgstr "Deleting debug data..."
+
+#~ msgid "Deleting log data..."
+#~ msgstr "Deleting log data..."
+
+#~ msgid "Recovering overhead space from the database..."
+#~ msgstr "Recovering overhead space from the database..."
+
+#~ msgid "Deleting the documentation pages..."
+#~ msgstr "Deleting the documentation pages..."
+
+#~ msgid "Deleting the reference repository..."
+#~ msgstr "Deleting the reference repository..."
+
+#~ msgid "Deleting referall data..."
+#~ msgstr "Deleting referall data..."
+
+#~ msgid "Deleting scripts data..."
+#~ msgstr "Deleting scripts data..."
+
+#~ msgid "Please select below the purge to perform."
+#~ msgstr "Please select below the purge to perform."
+
+#~ msgid "Purge the cache. Delete all cached items from the database"
+#~ msgstr "Purge the cache. Delete all cached items from the database"
+
+#~ msgid ""
+#~ "Purge previous versions of scripts. Delete all files with the suffix .php."
+#~ "bak"
+#~ msgstr ""
+#~ "Purge previous versions of scripts. Delete all files with the suffix .php."
+#~ "bak"
+
+#~ msgid "Recover overhead disk space from the database."
+#~ msgstr "Recover overhead disk space from the database."
+
+#~ msgid ""
+#~ "Delete the repository of reference scripts and related documentation. "
+#~ "This can be rebuild from the scripts index page"
+#~ msgstr ""
+#~ "Delete the repository of reference scripts and related documentation. "
+#~ "This can be rebuild from the scripts index page"
+
+#~ msgid "Delete file temporary/debug.txt to purge debug data."
+#~ msgstr "Delete file temporary/debug.txt to purge debug data."
+
+#~ msgid ""
+#~ "Purge accounting data on user agents and browsers from the database. "
+#~ "These will be recreated progressively during future browsing."
+#~ msgstr ""
+#~ "Purge accounting data on user agents and browsers from the database. "
+#~ "These will be recreated progressively during future browsing."
+
+#~ msgid ""
+#~ "Delete all referrals from the database. These will be recreated "
+#~ "progressively during future browsing. You may prefer to %s."
+#~ msgstr ""
+#~ "Delete all referrals from the database. These will be recreated "
+#~ "progressively during future browsing. You may prefer to %s."
+
+#~ msgid "check referrals"
+#~ msgstr "check referrals"
+
+#~ msgid ""
+#~ "Purge script performance data from the database. These will be recreated "
+#~ "progressively during future browsing."
+#~ msgstr ""
+#~ "Purge script performance data from the database. These will be recreated "
+#~ "progressively during future browsing."
+
+#~ msgid "Delete file temporary/log.txt to purge events data."
+#~ msgstr "Delete file temporary/log.txt to purge events data."
+
+#~ msgid "Scan scripts for software extensions"
+#~ msgstr "Scan scripts for software extensions"
+
+#~ msgid "Hook %s has been included"
+#~ msgstr "Hook %s has been included"
+
+#~ msgid "%d directories have been scanned."
+#~ msgstr "%d directories have been scanned."
+
+#~ msgid "Bad hook:"
+#~ msgstr "Bad hook:"
+
+#~ msgid "Script does not exist:"
+#~ msgstr "Script does not exist:"
+
+#~ msgid "*** undefined label"
+#~ msgstr "*** undefined label"
+
+#~ msgid "identifier: %s"
+#~ msgstr "identifier: %s"
+
+#~ msgid "script: %s"
+#~ msgstr "script: %s"
+
+#~ msgid "source: %s"
+#~ msgstr "source: %s"
+
+#~ msgid "function: %s"
+#~ msgstr "function: %s"
+
+#~ msgid "service: %s"
+#~ msgstr "service: %s"
+
+#~ msgid "link: %s"
+#~ msgstr "link: %s"
+
+#~ msgid "Bad hook type %s to %s for %s"
+#~ msgstr "Bad hook type %s to %s for %s"
+
+#~ msgid "Review hooks in the following list and uncheck unwanted extensions."
+#~ msgstr "Review hooks in the following list and uncheck unwanted extensions."
+
+#~ msgid "Linking hooks"
+#~ msgstr "Linking hooks"
+
+#~ msgid "Including hooks"
+#~ msgstr "Including hooks"
+
+#~ msgid "Client hooks"
+#~ msgstr "Client hooks"
+
+#~ msgid "Service hooks"
+#~ msgstr "Service hooks"
+
+#~ msgid "Yes, I want to (re)build the set of hooks"
+#~ msgstr "Yes, I want to (re)build the set of hooks"
+
+#~ msgid ""
+#~ "Following hooks have been detected and integrated into the file "
+#~ "parameters/hooks.include.php"
+#~ msgstr ""
+#~ "Following hooks have been detected and integrated into the file "
+#~ "parameters/hooks.include.php"
+
+#~ msgid "Disabling extension %s"
+#~ msgstr "Disabling extension %s"
+
+#~ msgid "Linking hook %s for %s"
+#~ msgstr "Linking hook %s for %s"
+
+#~ msgid "Including hook %s for %s"
+#~ msgstr "Including hook %s for %s"
+
+#~ msgid "Calling hook for %s"
+#~ msgstr "Calling hook for %s"
+
+#~ msgid "Serving hook %s for %s"
+#~ msgstr "Serving hook %s for %s"
+
+#~ msgid "Hooks have been compiled in parameters/hooks.include.php"
+#~ msgstr "Hooks have been compiled in parameters/hooks.include.php"
+
+#~ msgid "Hooks have been listed in parameters/hooks.xml"
+#~ msgstr "Hooks have been listed in parameters/hooks.xml"
+
+#~ msgid "Update the database schema"
+#~ msgstr "Update the database schema"
+
+#~ msgid "This script will scan your php scripts to install software hooks."
+#~ msgstr "This script will scan your php scripts to install software hooks."
+
+#~ msgid "Current content of parameters/hooks.include.php"
+#~ msgstr "Current content of parameters/hooks.include.php"
+
+#~ msgid "You have associate privilege"
+#~ msgstr "You have associate privilege"
+
+#~ msgid "The server has been switched off."
+#~ msgstr "The server has been switched off."
+
+#~ msgid "The server has been switched on."
+#~ msgstr "The server has been switched on."
+
+#~ msgid "Run one-time scripts and go to the Control Panel"
+#~ msgstr "Run one-time scripts and go to the Control Panel"
+
+#~ msgid "Initialize the database"
+#~ msgstr "Initialize the database"
+
+#~ msgid "The database has been optimised"
+#~ msgstr "The database has been optimised"
+
+#~ msgid ""
+#~ "This script will check the structure of the database and optimize data "
+#~ "storage:"
+#~ msgstr ""
+#~ "This script will check the structure of the database and optimize data "
+#~ "storage:"
+
+#~ msgid "Missing tables will be created, if necessary."
+#~ msgstr "Missing tables will be created, if necessary."
+
+#~ msgid "Some columns may be created or converted if their type has evolved."
+#~ msgstr "Some columns may be created or converted if their type has evolved."
+
+#~ msgid "All indexes will be (re)built."
+#~ msgstr "All indexes will be (re)built."
+
+#~ msgid "Data files will be optimized as well."
+#~ msgstr "Data files will be optimized as well."
+
+#~ msgid "Ensure the database structure is accurate"
+#~ msgstr "Ensure the database structure is accurate"
+
+#~ msgid "Main Switch"
+#~ msgstr "Main Switch"
+
+#~ msgid ""
+#~ "The server has been successfully switched on. Pages are provided normally "
+#~ "to surfers."
+#~ msgstr ""
+#~ "The server has been successfully switched on. Pages are provided normally "
+#~ "to surfers."
+
+#~ msgid ""
+#~ "The server is currently switched on. Pages are provided normally to "
+#~ "surfers."
+#~ msgstr ""
+#~ "The server is currently switched on. Pages are provided normally to "
+#~ "surfers."
+
+#~ msgid ""
+#~ "The server has NOT been switched on successfully. Please rename the file "
+#~ "parameters/switch.off to parameters/switch.on."
+#~ msgstr ""
+#~ "The server has NOT been switched on successfully. Please rename the file "
+#~ "parameters/switch.off to parameters/switch.on."
+
+#~ msgid ""
+#~ "The server has been switched OFF. Switch it back on as soon as possible. "
+#~ "Keep your browser session open to do it, you would not be able to login "
+#~ "again if you close it. In case of trouble you can manually rename the "
+#~ "file <code>parameters/switch.off</code> to <code>parameters/switch.on</"
+#~ "code>."
+#~ msgstr ""
+#~ "The server has been switched OFF. Switch it back on as soon as possible. "
+#~ "Keep your browser session open to do it, you would not be able to login "
+#~ "again if you close it. In case of trouble you can manually rename the "
+#~ "file <code>parameters/switch.off</code> to <code>parameters/switch.on</"
+#~ "code>."
+
+#~ msgid ""
+#~ "Impossible to rename the file parameters/switch.on to parameters/switch."
+#~ "off. Do it yourself manually if you like."
+#~ msgstr ""
+#~ "Impossible to rename the file parameters/switch.on to parameters/switch."
+#~ "off. Do it yourself manually if you like."
+
+#~ msgid "Switch on"
+#~ msgstr "Switch on"
+
+#~ msgid "You are about to open the server again. Are you sure?"
+#~ msgstr "You are about to open the server again. Are you sure?"
+
+#~ msgid "Yes, I do want to switch this server on"
+#~ msgstr "Yes, I do want to switch this server on"
+
+#~ msgid "You are about to close the server. Are you sure?"
+#~ msgstr "You are about to close the server. Are you sure?"
+
+#~ msgid "Yes, I do want to switch this server off"
+#~ msgstr "Yes, I do want to switch this server off"
+
+#~ msgid "Option: redirect requests to the following address"
+#~ msgstr "Option: redirect requests to the following address"
+
+#~ msgid "Option: contact information, such as an email address"
+#~ msgstr "Option: contact information, such as an email address"
+
+#~ msgid "The test page"
+#~ msgstr "The test page"
+
+#~ msgid "A more complex GET test"
+#~ msgstr "A more complex GET test"
+
+#~ msgid "A complex POST test"
+#~ msgstr "A complex POST test"
+
+#~ msgid "A self-referencing POST test"
+#~ msgstr "A self-referencing POST test"
+
+#~ msgid "Submitted request:"
+#~ msgstr "Submitted request:"
+
+#~ msgid "Script args:"
+#~ msgstr "Script args:"
+
+#~ msgid "Cookies sent by the browser:"
+#~ msgstr "Cookies sent by the browser:"
+
+#~ msgid "Session data:"
+#~ msgstr "Session data:"
+
+#~ msgid ""
+#~ "Session variables are stored correctly if the counter increments on page "
+#~ "reload: %s"
+#~ msgstr ""
+#~ "Session variables are stored correctly if the counter increments on page "
+#~ "reload: %s"
+
+#~ msgid "Global YACS variables:"
+#~ msgstr "Global YACS variables:"
+
+#~ msgid "Server attributes:"
+#~ msgstr "Server attributes:"
+
+#~ msgid "System environment:"
+#~ msgstr "System environment:"
+
+#~ msgid "Browser GMT offset:"
+#~ msgstr "Browser GMT offset:"
+
+#~ msgid "hour(s)"
+#~ msgstr "hour(s)"
+
+#~ msgid "Server GMT offset:"
+#~ msgstr "Server GMT offset:"
+
+#~ msgid "ob_list_handlers() cannot be invoked"
+#~ msgstr "ob_list_handlers() cannot be invoked"
+
+#~ msgid "Output handlers:"
+#~ msgstr "Output handlers:"
+
+#~ msgid "user/group of this script:"
+#~ msgstr "user/group of this script:"
+
+#~ msgid "Impossible to retrieve user/group of this script."
+#~ msgstr "Impossible to retrieve user/group of this script."
+
+#~ msgid "user/group of this process:"
+#~ msgstr "user/group of this process:"
+
+#~ msgid "Impossible to retrieve user/group of this process."
+#~ msgstr "Impossible to retrieve user/group of this process."
+
+#~ msgid "Virtual hosts"
+#~ msgstr "Virtual hosts"
+
+#~ msgid "No configuration file has been found for this virtual host."
+#~ msgstr "No configuration file has been found for this virtual host."
+
+#~ msgid "The configuration file cannot be deleted."
+#~ msgstr "The configuration file cannot be deleted."
+
+#~ msgid "The configuration file for virtual host %s has been deleted."
+#~ msgstr "The configuration file for virtual host %s has been deleted."
+
+#~ msgid "%s has been deleted"
+#~ msgstr "%s has been deleted"
+
+#~ msgid "Manage virtual hosts"
+#~ msgstr "Manage virtual hosts"
+
+#~ msgid ""
+#~ "The target file %s may have been corrupted. Please check file content "
+#~ "manually, and revert to the backup file, with the extension .bak, if "
+#~ "necessary."
+#~ msgstr ""
+#~ "The target file %s may have been corrupted. Please check file content "
+#~ "manually, and revert to the backup file, with the extension .bak, if "
+#~ "necessary."
+
+#~ msgid "The target file %s has been successfully updated."
+#~ msgstr "The target file %s has been successfully updated."
+
+#~ msgid "View the configuration file"
+#~ msgstr "View the configuration file"
+
+#~ msgid "The configuration file cannot be created."
+#~ msgstr "The configuration file cannot be created."
+
+#~ msgid "The configuration file for virtual host %s has been created."
+#~ msgstr "The configuration file for virtual host %s has been created."
+
+#~ msgid "%s has been created"
+#~ msgstr "%s has been created"
+
+#~ msgid "Configured virtual hosts"
+#~ msgstr "Configured virtual hosts"
+
+#~ msgid "Including news update on tick"
+#~ msgstr "Including news update on tick"
+
+#~ msgid "Edit parameters"
+#~ msgstr "Edit parameters"
+
+#~ msgid "Posts to this blog should be:"
+#~ msgstr "Posts to this blog should be:"
+
+#~ msgid "Congratulations, one blog has been added to your site."
+#~ msgstr "Congratulations, one blog has been added to your site."
+
+#~ msgid "Congratulations, one electronic book has been added to your site."
+#~ msgstr "Congratulations, one electronic book has been added to your site."
+
+#~ msgid "Congratulations, one collection has been added to your site."
+#~ msgstr "Congratulations, one collection has been added to your site."
+
+#~ msgid ""
+#~ "Congratulations, a new feature-rich section has been added to your site."
+#~ msgstr ""
+#~ "Congratulations, a new feature-rich section has been added to your site."
+
+#~ msgid ""
+#~ "Congratulations, your site has been structured to host a directory of web "
+#~ "links. Review each section individually to enhance it, to add images, etc."
+#~ msgstr ""
+#~ "Congratulations, your site has been structured to host a directory of web "
+#~ "links. Review each section individually to enhance it, to add images, etc."
+
+#~ msgid "listed in a gadget box, in the main panel"
+#~ msgstr "listed in a gadget box, in the main panel"
+
+#~ msgid "listed in an extra box, on page side"
+#~ msgstr "listed in an extra box, on page side"
+
+#~ msgid "Congratulations, one new section has been added to your site."
+#~ msgstr "Congratulations, one new section has been added to your site."
+
+#~ msgid ""
+#~ "Congratulations, one section dedicated to partners has been added to your "
+#~ "site."
+#~ msgstr ""
+#~ "Congratulations, one section dedicated to partners has been added to your "
+#~ "site."
+
+#~ msgid ""
+#~ "Normally, YACS only display a panel for the most recent poll at the front "
+#~ "page. To depart from this standard behaviour you can specify if polls "
+#~ "should be:"
+#~ msgstr ""
+#~ "Normally, YACS only display a panel for the most recent poll at the front "
+#~ "page. To depart from this standard behaviour you can specify if polls "
+#~ "should be:"
+
+#~ msgid ""
+#~ "not displayed at the front page - use the Control Panel for Skins to "
+#~ "ensure the most recent poll is displayed"
+#~ msgstr ""
+#~ "not displayed at the front page - use the Control Panel for Skins to "
+#~ "ensure the most recent poll is displayed"
+
+#~ msgid ""
+#~ "Congratulations, one section specialized in polls has been added to your "
+#~ "site."
+#~ msgstr ""
+#~ "Congratulations, one section specialized in polls has been added to your "
+#~ "site."
+
+#~ msgid "Published recipes should be:"
+#~ msgstr "Published recipes should be:"
+
+#~ msgid ""
+#~ "Congratulations, one section specialized in cooking recipes has been "
+#~ "added to your site."
+#~ msgstr ""
+#~ "Congratulations, one section specialized in cooking recipes has been "
+#~ "added to your site."
+
+#~ msgid "Posts to this wiki should be:"
+#~ msgstr "Posts to this wiki should be:"
+
+#~ msgid "Congratulations, one wiki has been added to your site."
+#~ msgstr "Congratulations, one wiki has been added to your site."
+
+#~ msgid "the menu"
+#~ msgstr "the menu"
+
+#~ msgid "the about page"
+#~ msgstr "the about page"
+
+#~ msgid "You must set a name to this user."
+#~ msgstr "You must set a name to this user."
+
+#~ msgid "You must type a password for this user."
+#~ msgstr "You must type a password for this user."
+
+#~ msgid "%s - run-time reports"
+#~ msgstr "%s - run-time reports"
+
+#~ msgid "System information"
+#~ msgstr "System information"
+
+#~ msgid ""
+#~ "%s - low-level information related to this server and to your browser"
+#~ msgstr ""
+#~ "%s - low-level information related to this server and to your browser"
+
+#~ msgid "Add sample content"
+#~ msgstr "Add sample content"
+
+#~ msgid ""
+#~ "This script adds various records, including sections, categories, "
+#~ "articles, comments and tables, to the database. We recommend you to "
+#~ "proceed if you are discovering YACS and wish to learn by example."
+#~ msgstr ""
+#~ "This script adds various records, including sections, categories, "
+#~ "articles, comments and tables, to the database. We recommend you to "
+#~ "proceed if you are discovering YACS and wish to learn by example."
+
+#~ msgid ""
+#~ "If you have a running server, it could be a better choice to go back and "
+#~ "to consider other options of the Content Assistant."
+#~ msgstr ""
+#~ "If you have a running server, it could be a better choice to go back and "
+#~ "to consider other options of the Content Assistant."
+
+#~ msgid ""
+#~ "Add sample records -- add sections, categories, and articles to your "
+#~ "site, and learn by example"
+#~ msgstr ""
+#~ "Add sample records -- add sections, categories, and articles to your "
+#~ "site, and learn by example"
+
+#~ msgid "Tips"
+#~ msgstr "Tips"
+
+#~ msgid "Most important modules at this site:"
+#~ msgstr "Most important modules at this site:"
+
+#~ msgid "Tools"
+#~ msgstr "Tools"
+
+#~ msgid "Internet visibility"
+#~ msgstr "Internet visibility"
+
+#~ msgid "Maintenance"
+#~ msgstr "Maintenance"
+
+#~ msgid "Information feeds"
+#~ msgstr "Information feeds"
+
+#~ msgid "Back to the control panel"
+#~ msgstr "Back to the control panel"
+
+#~ msgid "Main Configuration Panel"
+#~ msgstr "Main Configuration Panel"
+
+#~ msgid "AJAX acceleration"
+#~ msgstr "AJAX acceleration"
+
+#~ msgid "Workstations poll the server periodically to get fresh information."
+#~ msgstr "Workstations poll the server periodically to get fresh information."
+
+#~ msgid ""
+#~ "The server pushes fresh information as soon as possible, using AJAX COMET "
+#~ "principles. This setting will require more TCP resources than the "
+#~ "previous one."
+#~ msgstr ""
+#~ "The server pushes fresh information as soon as possible, using AJAX COMET "
+#~ "principles. This setting will require more TCP resources than the "
+#~ "previous one."
+
+#~ msgid "Inbound HTTP parameters"
+#~ msgstr "Inbound HTTP parameters"
+
+#~ msgid "Please select a skin. This can be changed and configured later on."
+#~ msgstr "Please select a skin. This can be changed and configured later on."
+
+#~ msgid "All skins"
+#~ msgstr "All skins"
+
+#~ msgid "Jump to the skin configuration page"
+#~ msgstr "Jump to the skin configuration page"
+
+#~ msgid "Collections"
+#~ msgstr "Collections"
+
+#~ msgid "Syndication"
+#~ msgstr "Syndication"
+
+#~ msgid "Usage information"
+#~ msgstr "Usage information"
+
+#~ msgid "Rendering"
+#~ msgstr "Rendering"
+
+#~ msgid "%s - options for background processing"
+#~ msgstr "%s - options for background processing"
+
+#~ msgid "Agents"
+#~ msgstr "Agents"
+
+#~ msgid "Upgrade"
+#~ msgstr "Upgrade"
+
+#~ msgid "Scripts"
+#~ msgstr "Scripts"
+
+#~ msgid "Feeds"
+#~ msgstr "Feeds"
+
+#~ msgid "Services"
+#~ msgstr "Services"
+
+#~ msgid "Configure the rendering engine"
+#~ msgstr "Configure the rendering engine"
+
+#~ msgid "See collections index page"
+#~ msgstr "See collections index page"
+
+#~ msgid "check the list of servers"
+#~ msgstr "check the list of servers"
+
+#~ msgid "Select another skin"
+#~ msgstr "Select another skin"
+
+#~ msgid "Database parameters"
+#~ msgstr "Database parameters"
+
+#~ msgid "Outbound mail parameters"
+#~ msgstr "Outbound mail parameters"
+
+#~ msgid "Skin of the server"
+#~ msgstr "Skin of the server"
+
+#~ msgid "Save parameters"
+#~ msgstr "Save parameters"
+
+#~ msgid "Save"
+#~ msgstr "Save"
+
+#~ msgid "Update files in the reference repository instead of regular files"
+#~ msgstr "Update files in the reference repository instead of regular files"
+
+#~ msgid "Anyone may read this blog"
+#~ msgstr "Anyone may read this blog"
+
+#~ msgid "Anyone may read these polls"
+#~ msgstr "Anyone may read these polls"
+
+#~ msgid "Anyone may read these cooking recipes"
+#~ msgstr "Anyone may read these cooking recipes"
+
+#~ msgid "Anyone may read this wiki"
+#~ msgstr "Anyone may read this wiki"
+
+#~ msgid "label: %s"
+#~ msgstr "label: %s"
+
+#~ msgid "Create a page"
+#~ msgstr "Create a page"
+
+#~ msgid "Creation of basic items in the database"
+#~ msgstr "Creation of basic items in the database"
+
+#~ msgid "New blog"
+#~ msgstr "New blog"
+
+#~ msgid "Create a blog"
+#~ msgstr "Create a blog"
+
+#~ msgid "Creation of a new blog"
+#~ msgstr "Creation of a new blog"
+
+#~ msgid "New electronic book"
+#~ msgstr "New electronic book"
+
+#~ msgid "Create the book"
+#~ msgstr "Create the book"
+
+#~ msgid "Creation of a new book"
+#~ msgstr "Creation of a new book"
+
+#~ msgid "Creation of a new collection"
+#~ msgstr "Creation of a new collection"
+
+#~ msgid "A composite section"
+#~ msgstr "A composite section"
+
+#~ msgid "Create new sections"
+#~ msgstr "Create new sections"
+
+#~ msgid "Creation of a composite section"
+#~ msgstr "Creation of a composite section"
+
+#~ msgid "Create the forum"
+#~ msgstr "Create the forum"
+
+#~ msgid "Creation of a new forum"
+#~ msgstr "Creation of a new forum"
+
+#~ msgid "Create the directory of links"
+#~ msgstr "Create the directory of links"
+
+#~ msgid "Creation of a directory of links"
+#~ msgstr "Creation of a directory of links"
+
+#~ msgid "Post original work"
+#~ msgstr "Post original work"
+
+#~ msgid "Creation of a new section to publish original work"
+#~ msgstr "Creation of a new section to publish original work"
+
+#~ msgid "New section for partners"
+#~ msgstr "New section for partners"
+
+#~ msgid "Creation of a section for partners"
+#~ msgstr "Creation of a section for partners"
+
+#~ msgid "New section for polls"
+#~ msgstr "New section for polls"
+
+#~ msgid "Create a section for polls"
+#~ msgstr "Create a section for polls"
+
+#~ msgid "Creation of a polling section"
+#~ msgstr "Creation of a polling section"
+
+#~ msgid "New section for cooking recipes"
+#~ msgstr "New section for cooking recipes"
+
+#~ msgid "Create a book for recipes"
+#~ msgstr "Create a book for recipes"
+
+#~ msgid "Creation of a cookbook"
+#~ msgstr "Creation of a cookbook"
+
+#~ msgid "Sollicite users for their input"
+#~ msgstr "Sollicite users for their input"
+
+#~ msgid "New wiki"
+#~ msgstr "New wiki"
+
+#~ msgid "Create a wiki"
+#~ msgstr "Create a wiki"
+
+#~ msgid "Creation of a new wiki"
+#~ msgstr "Creation of a new wiki"
+
+#~ msgid "Write a new page"
+#~ msgstr "Write a new page"
+
+#~ msgid "Post a photo"
+#~ msgstr "Post a photo"
+
+#~ msgid "Share a file"
+#~ msgstr "Share a file"
+
+#~ msgid "Current Working Directory:"
+#~ msgstr "Current Working Directory:"
+
+#~ msgid "Edit again"
+#~ msgstr "Edit again"
+
+#~ msgid ""
+#~ "Also, use following shortcuts to access data gathered by YACS agents:"
+#~ msgstr ""
+#~ "Also, use following shortcuts to access data gathered by YACS agents:"
+
+#~ msgid "%s - Who is driving traffic to us?"
+#~ msgstr "%s - Who is driving traffic to us?"
+
+#~ msgid "%s - What are the keywords used to come to us?"
+#~ msgstr "%s - What are the keywords used to come to us?"
+
+#~ msgid "Searches"
+#~ msgstr "Searches"
+
+#~ msgid "%s - Stats about user agents."
+#~ msgstr "%s - Stats about user agents."
+
+#~ msgid "Browsers"
+#~ msgstr "Browsers"
+
+#~ msgid "%s including minimum, maximum, and average response times."
+#~ msgstr "%s including minimum, maximum, and average response times."
+
+#~ msgid "Script performance"
+#~ msgstr "Script performance"
+
+#~ msgid "%s - the log of system events."
+#~ msgstr "%s - the log of system events."
+
+#~ msgid "Events"
+#~ msgstr "Events"
+
+#~ msgid "No file has been uploaded"
+#~ msgstr "No file has been uploaded"
+
+#, fuzzy
+#~ msgid "Only authenticated members can contribute."
+#~ msgstr "Only logged members can contribute."
+
+#~ msgid "Zero bytes transmitted"
+#~ msgstr "Zero bytes transmitted"
+
+#~ msgid "Can not read from %s"
+#~ msgstr "Can not read from %s"
+
+#~ msgid "Can not write to %s"
+#~ msgstr "Can not write to %s"
+
+#~ msgid "Impossible to update the file parameters/hooks.include.php"
+#~ msgstr "Impossible to update the file parameters/hooks.include.php"
+
+#~ msgid "Impossible to update the file parameters/hooks.xml"
+#~ msgstr "Impossible to update the file parameters/hooks.xml"
+
+#~ msgid "Impossible to open the file parameters/switch.include.php."
+#~ msgstr "Impossible to open the file parameters/switch.include.php."
+
+#~ msgid "Back to the skins index"
+#~ msgstr "Back to the skins index"
+
+#~ msgid ""
+#~ "You can also upload any text file containing SQL statements to achieve "
+#~ "bulk changes of your database."
+#~ msgstr ""
+#~ "You can also upload any text file containing SQL statements to achieve "
+#~ "bulk changes of your database."
+
+#~ msgid "Save changes"
+#~ msgstr "Save changes"
+
+#~ msgid "Name or address of the database server"
+#~ msgstr "Name or address of the database server"
+
+#~ msgid ""
+#~ "A comma-separated list of mail recipients that will receive system events"
+#~ msgstr ""
+#~ "A comma-separated list of mail recipients that will receive system events"
+
+#~ msgid "Save the configuration"
+#~ msgstr "Save the configuration"
+
+#~ msgid "UTF8 storage"
+#~ msgstr "UTF8 storage"
+
+#~ msgid "Database overview"
+#~ msgstr "Database overview"
+
+#~ msgid "Upgrade Assistant"
+#~ msgstr "Upgrade Assistant"
+
+#~ msgid "Test page"
+#~ msgstr "Test page"
+
+#~ msgid "Browser and server information"
+#~ msgstr "Browser and server information"

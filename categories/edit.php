@@ -3,7 +3,7 @@
  * create a new category or edit an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * This script attempts to validate the new or updated category description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
@@ -30,7 +30,7 @@
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Alexis Raimbault
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -38,7 +38,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../images/images.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'categories.php';
 
 // load jscolor library
@@ -53,14 +52,14 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any --use request first, because anchor can change
 $anchor = NULL;
 if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -68,9 +67,8 @@ if(!isset($item['active']) && is_object($anchor))
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']) && $item['overlay_id'])
 	$overlay = Overlay::bind($item['overlay_id']);
 elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
@@ -78,8 +76,8 @@ elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 elseif(isset($_SESSION['variant']) && $_SESSION['variant']) {
 	$overlay = Overlay::bind($_SESSION['variant']);
 	unset($_SESSION['variant']);
-} elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay('categories_overlay')))
-	$overlay = Overlay::bind($overlay_class);
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('categories_overlay');
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -124,7 +122,7 @@ if(isset($_REQUEST['expiry_date']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -144,7 +142,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
@@ -165,6 +163,9 @@ if(Surfer::is_crawler()) {
 	// when the page has been overlaid
 	if(is_object($overlay)) {
 
+		// allow for change detection
+		$overlay->snapshot();
+
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
 
@@ -175,7 +176,7 @@ if(Surfer::is_crawler()) {
 
 	// display the form on error
 	if(($error = Categories::put($_REQUEST))
-			|| (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
+			|| (is_object($overlay) && !$overlay->remember('update', $_REQUEST, 'category:'.$_REQUEST['id']))) {
 		Logger::error($error);
 		$item = $_REQUEST;
 		$with_form = TRUE;
@@ -209,6 +210,9 @@ if(Surfer::is_crawler()) {
 	// when the page has been overlaid
 	if(is_object($overlay)) {
 
+		// allow for change detection
+		$overlay->snapshot();
+
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
 
@@ -218,7 +222,7 @@ if(Surfer::is_crawler()) {
 	}
 	// display the form on error
 	if((!$_REQUEST['id'] = Categories::post($_REQUEST))
-			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, $_REQUEST['id']))) {
+			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, 'category:'.$_REQUEST['id']))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -241,7 +245,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// get the new item
-		$category =& Anchors::get('category:'.$_REQUEST['id'], TRUE);
+		$category = Anchors::get('category:'.$_REQUEST['id'], TRUE);
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -250,7 +254,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $category->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(!preg_match('/\bno_links\b/i', $category->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -266,7 +270,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form to edit a category
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
 	//
@@ -287,7 +291,7 @@ if($with_form) {
 
 	// the introduction
 	$label = i18n::s('Introduction');
-	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
 	$hint = i18n::s('Appears in list of categories near the title');
 	$fields[] = array($label, $input, $hint);
 
@@ -311,63 +315,9 @@ if($with_form) {
 	$text .= Skin::build_form($fields);
 	$fields = array();
 
-	// layouts for the category page
-	//
-	$label = i18n::s('Layout');
-	if(!isset($item['categories_count']) || ($item['categories_count'] < 1))
-		$item['categories_count'] = 5;
-	$input = sprintf(i18n::s('List up to %s sub-categories with the following layout:'), '<input type="text" name="categories_count" value="'.encode_field($item['categories_count']).'" size="2" />').BR;
-	$custom_layout = '';
-	if(!isset($item['categories_layout']) || !$item['categories_layout'])
-		$item['categories_layout'] = 'decorated';
-	elseif(!preg_match('/(compact|cloud|decorated|inline|yahoo|none)/', $item['categories_layout'])) {
-		$custom_layout = $item['categories_layout'];
-		$item['categories_layout'] = 'custom';
-	}
-	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
-	if($item['categories_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
-	if($item['categories_layout'] == 'yahoo')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yahoo - List these categories on two columns, like Yahoo!');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="inline"';
-	if($item['categories_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List categories and related pages');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
-	if($item['categories_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
-	if($item['categories_layout'] == 'cloud')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('clouds - List sub-categories as clouds.');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
-	if($item['categories_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_categories_layout\').checked=1" />');
-	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
-	if($item['categories_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list categories');
-	$fields[] = array($label, $input);
-
-	// append fields
-	$text .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
-	$fields = array();
-
 	// layout for  related sections
 	$label = i18n::s('Layout');
-	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
-		$item['sections_count'] = SECTIONS_PER_PAGE;
-	$input = sprintf(i18n::s('List up to %s sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
+	$input = '';
 	$custom_layout = '';
 	if(!isset($item['sections_layout']) || !$item['sections_layout'])
 		$item['sections_layout'] = 'map';
@@ -418,7 +368,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />')
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />')
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -482,7 +432,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />');
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -514,7 +464,7 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="users_layout" value="custom" id="custom_users_layout"';
 	if($item['users_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="users_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_users_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="users_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_users_layout\').attr(\'checked\', \'checked\')" />');
 	$input .= BR.'<input type="radio" name="users_layout" value="none"';
 	if($item['users_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -525,97 +475,58 @@ if($with_form) {
 	$text .= Skin::build_box(i18n::s('Persons'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
-	// trailer information
-	$label = i18n::s('Trailer');
-	$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
-	$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
-	$fields[] = array($label, $input, $hint);
-
-	// extra information
-	$label = i18n::s('Extra');
-	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
-	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
-	$fields[] = array($label, $input, $hint);
-
-	// append fields
-	$text .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
-	$fields = array();
-
-	// display in a separate panel
-	if($text)
-		$panels[] = array('information', i18n::s('Index page'), 'information_panel', $text);
-
+	// layouts for sub-categories
 	//
-	// attachments tab
-	//
-	$text = '';
-
-	// the icon url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Image');
-
-		// show the current icon
-		$input = '';
-		if(isset($item['icon_url']) && $item['icon_url']) {
-			$input .= '<img src="'.preg_replace('/\/images\/category\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$value = '';
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$value = $item['icon_url'];
-		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
+	$label = i18n::s('Layout');
+	if(!isset($item['categories_count']) || ($item['categories_count'] < 1))
+		$item['categories_count'] = 5;
+	$input = sprintf(i18n::s('List up to %s sub-categories with the following layout:'), '<input type="text" name="categories_count" value="'.encode_field($item['categories_count']).'" size="2" />').BR;
+	$custom_layout = '';
+	if(!isset($item['categories_layout']) || !$item['categories_layout'])
+		$item['categories_layout'] = 'decorated';
+	elseif(!preg_match('/(compact|cloud|decorated|inline|yahoo|none)/', $item['categories_layout'])) {
+		$custom_layout = $item['categories_layout'];
+		$item['categories_layout'] = 'custom';
 	}
+	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
+	if($item['categories_layout'] == 'decorated')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Thumbnail');
+	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
+	if($item['categories_layout'] == 'yahoo')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('yahoo - List these categories on two columns, like Yahoo!');
 
-		// show the current thumbnail
-		$input = '';
-		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
-			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-			$command = i18n::s('Add an image');
-		}
+	$input .= BR.'<input type="radio" name="categories_layout" value="inline"';
+	if($item['categories_layout'] == 'inline')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('inline - List categories and related pages');
 
-		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
-		$fields[] = array($label, $input);
-	}
+	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
+	if($item['categories_layout'] == 'compact')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('compact - A compact list');
 
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
+	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
+	if($item['categories_layout'] == 'cloud')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('clouds - List sub-categories as clouds.');
 
-	// splash message for new items
-	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
-
-	// the list of images
-	elseif($items = Images::list_by_date_for_anchor('category:'.$item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
-
-	// this category
-	//
-
-	// fields related to this category
-	$text .= Skin::build_form($fields);
-	$fields = array();
+	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
+	if($item['categories_layout'] == 'custom')
+		$input .= ' checked="checked"';
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_categories_layout\').attr(\'checked\', \'checked\')" />');
+	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
+	if($item['categories_layout'] == 'none')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not list categories');
+	$fields[] = array($label, $input);
 
 	// categories overlay
 	$label = i18n::s('Category overlay');
 	$input = '<input type="text" name="categories_overlay" size="20" value="'.encode_field(isset($item['categories_overlay']) ? $item['categories_overlay'] : '').'" maxlength="128" />';
-	$hint = sprintf(i18n::s('Script used to %s this category'), Skin::build_link('overlays/', i18n::s('overlay'), 'help'));
+	$hint = sprintf(i18n::s('Script used to %s this category'), Skin::build_link('overlays/', i18n::s('overlay'), 'open'));
 	$fields[] = array($label, $input, $hint);
 
 	// the prefix
@@ -630,13 +541,93 @@ if($with_form) {
 // 	$hint = i18n::s('To be inserted at the bottom of related pages.');
 // 	$fields[] = array($label, $input, $hint);
 
-	// sub-categories
+	// append fields
 	$text .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
+	$fields = array();
+
+	// trailer information
+	$label = i18n::s('Trailer');
+	$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
+	$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
+	$fields[] = array($label, $input, $hint);
+
+	// the icon url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Image');
+		$input = '';
+		$hint = '';
+
+		// show the current icon
+		if(isset($item['icon_url']) && $item['icon_url']) {
+			$input .= '<img src="'.preg_replace('/\/images\/category\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$hint .= i18n::s('Image to be displayed in the panel aside the page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$value = '';
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$value = $item['icon_url'];
+		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// extra information
+	$label = i18n::s('Extra');
+	$input = Surfer::get_editor('extra', isset($item['extra'])?$item['extra']:'');
+	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
+	$fields[] = array($label, $input, $hint);
+
+	// append fields
+	$text .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('information', i18n::s('Index page'), 'information_panel', $text);
+
+	//
+	// resources tab
+	//
+	$text = '';
+
+	// splash message for new items
+	if(!isset($item['id']))
+		$text .= '<p>'.i18n::s('Submit the new item, and you will be able to add resources afterwards.').'</p>';
+
+	// resources attached to this anchor
+	else {
+
+		// images
+		$box = '';
+		if(Images::allow_creation($anchor, $item, 'category')) {
+			$menu = array( 'images/edit.php?anchor='.urlencode('category:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Images::list_by_date_for_anchor('category:'.$item['id']))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Images'), $box, 'folded');
+
+		// files
+		$box = '';
+		if(Files::allow_creation($anchor, $item, 'category')) {
+			$menu = array( 'files/edit.php?anchor='.urlencode('category:'.$item['id']) => i18n::s('Add a file') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+		}
+		if($items = Files::list_embeddable_for_anchor('category:'.$item['id'], 0, 50))
+			$box .= Skin::build_list($items, 'decorated');
+		if($box)
+			$text .= Skin::build_box(i18n::s('Files'), $box, 'folded');
+
+	}
+
+	// display in a separate panel
+	if($text)
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	//
 	// options tab
@@ -645,34 +636,8 @@ if($with_form) {
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
 	$label = i18n::s('Access');
-
-	// maybe a public page
-	$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
-	if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-
-	// maybe a restricted page
-	$input .= '<input type="radio" name="active_set" value="R"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'R'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
-
-	// or a hidden page
-	$input .= '<input type="radio" name="active_set" value="N"';
-	if(isset($item['active_set']) && ($item['active_set'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
-
-	// combine this with inherited access right
-	if(is_object($anchor) && $anchor->is_hidden())
-		$hint = i18n::s('Parent is private, and this will be re-enforced anyway');
-	elseif(is_object($anchor) && !$anchor->is_public())
-		$hint = i18n::s('Parent is not public, and this will be re-enforced anyway');
-	else
-		$hint = i18n::s('Who is allowed to access?');
-
-	// expand the form
+	$input = Skin::build_active_set_input($item);
+	$hint = Skin::build_active_set_hint($anchor);
 	$fields[] = array($label, $input, $hint);
 
 	// append fields
@@ -719,6 +684,28 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 	} elseif(is_object($anchor))
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Thumbnail');
+		$input = '';
+		$hint = '';
+
+		// show the current thumbnail
+		$input = '';
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />'.BR;
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$hint .= i18n::s('Upload a small image to illustrate this page when it is listed into parent page.');
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// append fields
 	$parent .= Skin::build_form($fields);
@@ -795,24 +782,32 @@ if($with_form) {
 
 	// rendering options
 	$label = i18n::s('Rendering');
-	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-		.JS_PREFIX
-		.'function append_to_options(keyword) {'."\n"
-		.'	var target = $("options");'."\n"
-		.'	target.value = target.value + " " + keyword;'."\n"
-		.'}'."\n"
-		.JS_SUFFIX;
+	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
+
 	$keywords = array();
-	$keywords[] = '<a onclick="append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
-	$keywords[] = '<a onclick="append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
-	$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-	$keywords[] = '<a onclick="append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
-	$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-	$keywords[] = '<a onclick="append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread');
+	$keywords[] = '<a>articles_by_title</a> - '.i18n::s('Sort pages by title');
+	$keywords[] = '<a>articles_by_rating</a> - '.i18n::s('Sort pages by rating sum');
+	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
+	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
+	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+	$keywords[] = '<a>with_comments</a> - '.i18n::s('The index page itself is a thread');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
+
+	$context['page_footer'] .= JS_PREFIX
+		.'function append_to_options(keyword) {'."\n"
+		.'	var target = $("#options");'."\n"
+		.'	target.val(target.val() + " " + keyword);'."\n"
+		.'}'."\n"
+		.'$(function() {'."\n"
+		.'	$("#options_list a").bind("click",function(){'."\n"
+		.'		append_to_options($(this).text());'."\n"
+		.'	}).css("cursor","pointer");'."\n"
+		.'});'
+		.JS_SUFFIX;
 
 	// associates can change the overlay --complex interface
 	if(Surfer::is_associate() && Surfer::has_all()) {
@@ -929,40 +924,20 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// detect changes in form'."\n"
-		.'func'.'tion detectChanges() {'."\n"
-		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		.'}'."\n"
-		."\n"
-		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'// disable editor selection on change in form'."\n"
+                .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+                .'      $("#preferred_editor").attr("disabled",true);'."\n"
+                .'});'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		.JS_SUFFIX;
 
 	// content of the help box
 	$help = '';
 
 	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

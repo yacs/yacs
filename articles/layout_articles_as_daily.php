@@ -47,7 +47,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -58,55 +58,51 @@ Class Layout_articles_as_daily extends Layout_interface {
 			return $text;
 
 		// build a list of articles
-		$box['content'] = '';
-		$box['title'] = '';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
+
+			// three components per box
+			$box = array();
+			$box['date'] = '';
+			$box['title'] = '';
+			$box['content'] = '';
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// permalink
-			$url =& Articles::get_permalink($item);
-
-			// what's the date today?
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$current_date = substr($item['publish_date'], 0, 10);
-			else
-				$current_date = DRAFT_FLAG.i18n::s('not published');
-
-			// very first box
-			if(!isset($previous_date)) {
-				$text .= '<div class="newest">'."\n";
-				$in_north = TRUE;
-				$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'publishing')."</p>\n";
-				$previous_date = $current_date;
-			}
-
-			// not the same publication date
-			if($previous_date != $current_date) {
-				if($in_north)
-					$text .= '</div>'.BR.BR."\n";
-				$in_north = FALSE;
-				if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-					$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'publishing')."</p>\n";
-				$previous_date = $current_date;
-			}
-
-			// always flag articles to be published
-			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE))
-				$text .= '<p class="date">'.$current_date."</p>\n";
+			$url = Articles::get_permalink($item);
 
 			// make a live title
 			if(is_object($overlay))
 				$box['title'] .= Codes::beautify_title($overlay->get_text('title', $item));
 			else
-				$box['title'] = Codes::beautify_title($item['title']);
+				$box['title'] .= Codes::beautify_title($item['title']);
+
+			// make a clickable title
+			$box['title'] = Skin::build_link($url, $box['title'], 'basic');
+
+			// signal restricted and private articles
+			if($item['active'] == 'N')
+				$box['title'] = PRIVATE_FLAG.$box['title'];
+			elseif($item['active'] == 'R')
+				$box['title'] = RESTRICTED_FLAG.$box['title'];
+
+			// flag articles updated recently
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+				$box['title'] .= EXPIRED_FLAG;
+			elseif($item['create_date'] >= $context['fresh'])
+				$box['title'] .= NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$box['title'] .= UPDATED_FLAG;
+
+			// what's the date of publication?
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+				$box['date'] .= Skin::build_date($item['publish_date'], 'publishing');
 
 			// the icon to put aside - never use anchor images
 			if($item['icon_url'])
@@ -115,43 +111,27 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// details
 			$details = array();
 
-			// flag articles updated recently
-			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
-				$details[] = EXPIRED_FLAG;
-			elseif($item['create_date'] >= $context['fresh'])
-				$details[] = NEW_FLAG;
-			elseif($item['edit_date'] >= $context['fresh'])
-				$detaisl[] = UPDATED_FLAG;
+			// rating
+			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
+				$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
-			// publication hour
-// 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-// 				$details[] = Skin::build_time($item['publish_date']);
-
-			// signal restricted and private articles
-			if($item['active'] == 'N')
-				$details[] = PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
-				$details[] = RESTRICTED_FLAG;
+			// show details
+			if(count($details))
+				$box['content'] .= '<p class="details">'.implode(' ~ ', $details).'</p>'."\n";
 
 			// list categories by title, if any
 			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
+				$tags = array();
 				foreach($items as $id => $attributes) {
 
 					// add background color to distinguish this category against others
 					if(isset($attributes['background_color']) && $attributes['background_color'])
 						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
 
-					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
+					$tags[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 				}
+				$box['content'] .= '<p class="tags">'.implode(' ', $tags).'</p>';
 			}
-
-			// rating
-			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
-
-			// show details
-			if(count($details))
-				$box['content'] .= '<p class="details">'.implode(' ~ ', $details).'</p>'."\n";
 
 			// the introduction text, if any
 			if(is_object($overlay))
@@ -170,7 +150,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
 				// list files by date (default) or by title (option files_by_title)
-				if(Articles::has_option('files_by_title', $anchor, $item))
+				if(Articles::has_option('files_by', $anchor, $item) == 'title')
 					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
 				else
 					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
@@ -188,37 +168,36 @@ Class Layout_articles_as_daily extends Layout_interface {
 			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'span');
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
+			if($count)
+				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_discussion', sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// comment
-			if(Comments::allow_creation($anchor, $item))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'span');
+			$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 			// trackback
 			if(Links::allow_trackback())
 				$menu[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'span');
 
-			// a menu bar, but flushed to the right
+			// a menu bar
 			if(count($menu))
-				$box['content'] .= '<p class="menu_bar right" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</p>\n";
+				$box['content'] .= '<div class="menu_bar" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</div>\n";
 
-			$text .= Skin::build_box($box['title'], $box['content'], 'header1', 'article_'.$item['id']);
-			$box['content'] = '';
-			$box['title'] = '';
+			// build a simple box for this post
+			$text .= '<div class="post">'
+				.'<div class="date">'.$box['date'].'</div>'
+				.'<h2><span>'.$box['title'].'</span></h2>'
+				.'<div class="content">'.$box['content'].'</div>'
+				.'</div>';
+
 		}
-
-		// close the on-going box
-		if($in_north)
-			$text .= '</div>'."\n";
 
 		// end of processing
 		SQL::free($result);

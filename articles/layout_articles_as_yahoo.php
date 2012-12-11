@@ -23,7 +23,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -40,17 +40,16 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 		// first, build an array of articles
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -112,7 +111,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 			else
 				$introduction .= $item['introduction'];
 			if($introduction)
-				$suffix .= ' '.Codes::beautify_introduction($introduction);
+				$suffix .= ' - '.Codes::beautify_introduction($introduction);
 
 			// append details to the suffix
 			if(count($details))
@@ -157,7 +156,13 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 
 			// layout details
 			if(count($details))
-				$suffix .= BR.'<span class="small">'.YAHOO_ITEM_PREFIX.implode(YAHOO_ITEM_SUFFIX.YAHOO_ITEM_PREFIX, $details).YAHOO_ITEM_SUFFIX."</span>\n";
+				foreach($details as $line) {
+					$suffix .= '<div>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
+			}
+
+			// display all tags
+			if($item['tags'])
+				$suffix .= '<p class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 			// put the actual icon in the left column
 			if(isset($item['thumbnail_url']))

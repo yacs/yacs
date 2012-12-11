@@ -28,7 +28,7 @@ Class Layout_images extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -44,7 +44,7 @@ Class Layout_images extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -59,7 +59,7 @@ Class Layout_images extends Layout_interface {
 				$suffix .= Skin::strip($item['title'], 10).BR;
 
 			// there is an anchor
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 
 				// codes to embed this image
 				if($this->layout_variant == $anchor->get_reference()) {

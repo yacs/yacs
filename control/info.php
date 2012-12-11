@@ -54,7 +54,7 @@ if(Surfer::is_associate()) {
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -147,11 +147,11 @@ if(!Surfer::is_associate()) {
 
 		// 'SHOW STATUS'
 		$query = "SHOW STATUS";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$content .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
 			}
 			$content .= "</table>\n";
@@ -160,11 +160,11 @@ if(!Surfer::is_associate()) {
 
 		// 'SHOW VARIABLES'
 		$query = "SHOW VARIABLES";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$content .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
 			}
 			$content .= "</table>\n";
@@ -173,11 +173,11 @@ if(!Surfer::is_associate()) {
 
 		// 'SHOW CHARACTER SET'
 		$query = "SHOW CHARACTER SET";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$content .= '<tr><td>'.$row['Charset'].'</td><td>'.$row['Description']."</td></tr>\n";
 			}
 			$content .= "</table>\n";

@@ -217,7 +217,7 @@ $scanned = array('', 'agents', 'articles', 'categories', 'control', 'feeds', 'fi
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
 
 	// prevent access to this script
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -650,7 +650,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			.'class Hooks {'."\n\n";
 
 		// start the linking function
-		$content .= "\t".'function link_scripts($id, $variant=\'list\') {'."\n"
+		$content .= "\t".'public static function link_scripts($id, $variant=\'list\') {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$links = array();'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -689,7 +689,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
 
 		// start the including function
-		$content .= "\t".'function include_scripts($id, $parameters=NULL) {'."\n"
+		$content .= "\t".'public static function include_scripts($id, $parameters=NULL) {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$text = \'\';'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -710,7 +710,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t\t}\n\n\t\t".'return $text;'."\n\n\t}\n\n";
 
 		// start the calling function
-		$content .= "\t".'function call_scripts($id, $parameters, $variant=\'XML-RPC\') {'."\n"
+		$content .= "\t".'public static function call_scripts($id, $parameters, $variant=\'XML-RPC\') {'."\n"
 			."\t\t".'global $local, $context;'."\n"
 			."\t\t".'include_once $context[\'path_to_root\'].\'services/call.php\';'."\n\n"
 			."\t\t".'$result = array();'."\n\n"
@@ -727,7 +727,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
 
 		// start the serving function
-		$content .= "\t".'function serve_scripts($id, $parameters) {'."\n"
+		$content .= "\t".'public static function serve_scripts($id, $parameters) {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$result = NULL;'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -754,7 +754,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), 'parameters/hooks.include.php');
-			Logger::remember('control/scan.php', $label);
+			Logger::remember('control/scan.php: '.$label);
 
 		}
 
@@ -780,7 +780,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// if the server has been switched off, update the database schema
 	if(file_exists('../parameters/switch.off')) {
 		$context['text'] .= Skin::build_block('<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
-			.Skin::build_submit_button(i18n::s('Update the database schema'))."\n"
+			.Skin::build_submit_button(i18n::s('Database maintenance'))."\n"
 			.'<input type="hidden" name="action" value="build" />'."\n"
 			.'</p></form>', 'bottom');
 
@@ -799,7 +799,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// or back to the control panel
 	} else {
-		$menu = array('control/' => i18n::s('Control Panel'));
+		$menu = array('control/' => i18n::s('Control Panel'), 'control/setup.php' => i18n::s('Database maintenance'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	}
 
@@ -818,7 +818,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// the script used for form handling at the browser
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
 	// this may take several minutes

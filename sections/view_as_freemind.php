@@ -30,12 +30,12 @@ if($id == 'all')
 	$id = NULL;
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
@@ -67,7 +67,7 @@ if($id && !isset($item['id'])) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display data
@@ -79,8 +79,8 @@ if($id && !isset($item['id'])) {
 	else
 		$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
 
-	// load the full library
-	$script = 'included/browser/library.js';
+	// allow to load Flash objects
+	$script = 'included/browser/js_header/swfobject.js';
 
 	// page preamble
 	$text = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"

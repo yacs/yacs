@@ -35,7 +35,7 @@ $track = strip_tags($track);
 
 // get the item from the database
 $item = NULL;
-$anchor =& Anchors::get($track);
+$anchor = Anchors::get($track);
 if(is_object($anchor))
 	$item = $anchor->item;
 
@@ -56,12 +56,12 @@ if(!$item['id']) {
 
 // operation is restricted to logged users
 } elseif(!Surfer::get_id()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // you cannot watch yourself
 } elseif($track == 'user:'.Surfer::get_id()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // toggle membership status
@@ -73,7 +73,7 @@ if(!$item['id']) {
 
 	// successful operation reflected into page title
 	if(!strncmp($track, 'user:', 5))
-		$context['page_title'] = i18n::s('Your contacts have been updated');
+		$context['page_title'] = i18n::s('The list of persons that you follow has been updated');
 	else
 		$context['page_title'] = i18n::s('Your watch list has been updated');
 
@@ -93,18 +93,37 @@ if(!$item['id']) {
 
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags(Surfer::get_name()));
-				$message = sprintf(i18n::c('%s will receive notifications when you will create new public content at %s'), Surfer::get_name(), $context['site_name'])
-					."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-					."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+
+				// headline
+				$headline = sprintf(i18n::c('%s is following you'), Surfer::get_link());
+
+				// information
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), Surfer::get_name(), $context['site_name']).'</p>';
+
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+				$menu[] = Skin::build_mail_button($link, ucfirst(strip_tags(Surfer::get_name())), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
+
+				// enable threading
+				$headers = Mailer::set_thread('user:'.$item['id']);
 
 				// sent by the server
-				Mailer::post(NULL, $user['email'], $subject, $message);
+				Mailer::notify(NULL, $user['email'], $subject, $message, $headers);
 			}
 
 			// feed-back to poster
 			$context['text'] .= '<p>'.sprintf(i18n::s('You have been connected to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		// we are tracking a page
 		} else {
@@ -115,7 +134,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.i18n::s('The page has been added to your watch list. You will receive electronic messages to warn you on each future update.')."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		}
 
@@ -127,7 +146,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.sprintf(i18n::s('You are not connected to %s anymore.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		// we are tracking a page
 		} else {
@@ -138,7 +157,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.i18n::s('The page has been removed from your watch list. You won\'t receive any message about it anymore.')."</p>\n";
 
-			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind')));
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind'), 'span');
 
 		}
 
@@ -151,13 +170,13 @@ if(!$item['id']) {
 	// check the watch list
 	if(Surfer::get_id()) {
 		if(!strncmp($track, 'user:', 5))
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_connections', i18n::s('My contacts'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_followers', i18n::s('My followers'), 'span');
 		else
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'span');
 	}
 
 	// follow-up commands
-	$context['text'] .= Skin::build_list($menu, 'assistant_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 }
 

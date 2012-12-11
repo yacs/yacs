@@ -2,9 +2,7 @@
 /**
  * the index page for categories
  *
- * @todo categorize images (NickR)
  * @todo categorize files (NickR)
- * @todo categorize users
  *
  * Any article can be associated to a variable number of categories.
  *
@@ -67,14 +65,14 @@ $stats = Categories::stat_for_anchor(NULL);
 
 // stop hackers
 if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
 
 	// page main content
 	$cache_id = 'categories/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// do it the Yahoo! style
 		include_once '../categories/layout_categories_as_yahoo.php';
@@ -143,7 +141,7 @@ if(Surfer::is_associate()) {
 
 // display extra information
 $cache_id = 'categories/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// see also
 	$links = array('categories/cloud.php' => i18n::s('Cloud of tags'),

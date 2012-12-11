@@ -1,0 +1,779 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
+"PO-Revision-Date: 2010-09-29 15:53+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: servers/configure.php:35 servers/configure.php:79 servers/configure.php:146
+msgid "Control Panel"
+msgstr "Panneau de contrôle"
+
+#: servers/configure.php:38
+#, php-format
+msgid "%s: %s"
+msgstr "%s : %s"
+
+#: servers/configure.php:38 servers/index.php:108
+msgid "Configure"
+msgstr "Configuration"
+
+#: servers/configure.php:38 servers/configure.php:83 servers/configure.php:145
+#: servers/delete.php:44 servers/edit.php:49 servers/index.php:58
+#: servers/ping.php:23 servers/ping.php:71 servers/populate.php:69
+#: servers/test.php:72 servers/view.php:73
+msgid "Servers"
+msgstr "Serveurs"
+
+#: servers/configure.php:47 servers/delete.php:56 servers/edit.php:68
+#: servers/edit.php:77 servers/index.php:68 servers/ping.php:31
+#: servers/ping.php:40 servers/test.php:80 servers/test.php:95
+#: servers/view.php:92
+msgid "You are not allowed to perform this operation."
+msgstr "Vous n'êtes pas autorisé à faire cette opération."
+
+#: servers/configure.php:61
+msgid "Servers to be banned"
+msgstr "Serveurs à bannir"
+
+#: servers/configure.php:63
+msgid "Links and referrals from these servers will be dropped"
+msgstr "Ne pas tenir compte des liens envoyés par ces serveurs"
+
+#: servers/configure.php:75 servers/edit.php:307
+msgid "Submit"
+msgstr "Enregistrer"
+
+#: servers/configure.php:75 servers/edit.php:307
+msgid "Press [s] to submit data"
+msgstr "Appuyer sur [s] pour envoyer les informations"
+
+#: servers/configure.php:100
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr ""
+"Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
+
+#: servers/configure.php:120
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas "
+"été sauvegardée."
+
+#: servers/configure.php:123
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"Pour changer la configuration, merci de copier et de coller les lignes "
+"suivantes dans le fichier %s :"
+
+#: servers/configure.php:128
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "La configuration suivante a été enregistrée dans le fichier %s."
+
+#: servers/configure.php:134
+#, php-format
+msgid "%s has been updated"
+msgstr "%s a été mis à jour"
+
+#: servers/configure.php:140
+msgid "Configuration parameters"
+msgstr "Paramètres de configuration"
+
+#: servers/configure.php:143
+msgid "Where do you want to go now?"
+msgstr "Où voulez-vous aller à présent ?"
+
+#: servers/configure.php:147
+msgid "Configure again"
+msgstr "Configurer de nouveau"
+
+#: servers/delete.php:47
+msgid "Delete a server"
+msgstr "Effacer un serveur"
+
+#: servers/delete.php:69
+msgid "The action has not been confirmed."
+msgstr "L'action n'a pas été confirmée."
+
+#: servers/delete.php:78
+msgid "Yes, I want to suppress this server"
+msgstr "Oui, je veux supprimer ce serveur"
+
+#: servers/delete.php:98 servers/edit.php:130 servers/layout_servers.php:76
+#: servers/test.php:106 servers/view.php:113
+#, php-format
+msgid "edited by %s %s"
+msgstr "mis à jour par %s %s"
+
+#: servers/delete.php:102 servers/edit.php:163 servers/test.php:110
+#: servers/view.php:117
+msgid "Community - Access is granted to any identified surfer"
+msgstr "Communauté - Accès autorisé à toute personne identifiée"
+
+#: servers/delete.php:106 servers/edit.php:167 servers/test.php:114
+#: servers/view.php:121
+msgid "Private - Access is restricted to selected persons"
+msgstr "Privé - Accès limité à quelques personnes"
+
+#: servers/delete.php:113 servers/test.php:125 servers/view.php:133
+#, php-format
+msgid "Main URL: %s"
+msgstr "Adresse principale : %s"
+
+#: servers/delete.php:117 servers/test.php:135
+#, php-format
+msgid "Feed URL: %s"
+msgstr "Les nouveautés : %s"
+
+#: servers/delete.php:121 servers/test.php:198
+#, php-format
+msgid "Related to %s"
+msgstr "Attaché à %s"
+
+#: servers/delete.php:124 servers/view.php:136
+msgid "Services accessed remotely"
+msgstr "Services distants utilisés"
+
+#: servers/delete.php:128
+#, php-format
+msgid "News published at this server will be fetched periodically from %s"
+msgstr "Lire périodiquement les nouveautés publiées par ce serveur à %s"
+
+#: servers/delete.php:130 servers/view.php:145
+msgid "Do not check news from this server."
+msgstr "Ne pas tenir compte des nouvelles publiées sur ce serveur"
+
+#: servers/delete.php:134 servers/view.php:150
+#, php-format
+msgid ""
+"This server has to be pinged on updates, by using XML-RPC calls "
+"<code>weblogUpdates.ping</code> at %s"
+msgstr ""
+"Transmettre un 'ping' à ce serveur lors des mises à jour, par appel XML-RPC "
+"de <code>weblogUpdates.ping</code> à %s"
+
+#: servers/delete.php:136 servers/view.php:152
+msgid "Updates are not transmitted to this server."
+msgstr "Ne pas avertir ce serveur des mises à jour."
+
+#: servers/delete.php:140 servers/view.php:157
+#, php-format
+msgid ""
+"This server has to be polled, by using XML-RPC calls <code>monitor.ping</"
+"code> at %s"
+msgstr ""
+"Vérifier périodiquement le fonctionnement de ce serveur, par appel XML-RPC "
+"de de <code>monitor.ping</code> à %s"
+
+#: servers/delete.php:142 servers/view.php:159
+msgid "Do not poll this server to check its state."
+msgstr "Ne pas vérifier périodiquement le fonctionnement de ce serveur"
+
+#: servers/delete.php:146 servers/view.php:164
+#, php-format
+msgid "This server has to be included into searches, by using REST calls at %s"
+msgstr ""
+"Inclure ce serveur dans les recherches distribuées par appel REST de %s"
+
+#: servers/delete.php:148 servers/view.php:166
+msgid "Do not submit search requests to this server."
+msgstr "Ne pas transmettre de demande de recherche à ce serveur"
+
+#: servers/delete.php:151 servers/view.php:170
+msgid "Allowed queries from this server"
+msgstr "Services autorisés pour ce serveur"
+
+#: servers/delete.php:155
+#, php-format
+msgid ""
+"This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+"code>) at %s"
+msgstr ""
+"Ce serveur est autorisé à signaler les mises à jour (<code>weblogUpdates."
+"ping</code>) à %s"
+
+#: servers/delete.php:157 servers/view.php:176
+msgid "This server is not allowed to advertise changes."
+msgstr "Ce serveur n'est pas autorisé à signaler les mises à jour."
+
+#: servers/delete.php:161 servers/view.php:188
+#, php-format
+msgid ""
+"This server is allowed to submit monitoring requests (<code>monitor.ping</"
+"code>) at %s"
+msgstr ""
+"Ce serveur est autorisé à soumettre des requêtes de surveillance "
+"(<code>monitor.ping</code>) à %s"
+
+#: servers/delete.php:163 servers/view.php:190
+msgid "This server is not allowed to submit monitoring requests."
+msgstr "Ce serveur n'est pas autorisé à soumettre des requêtes de surveillance"
+
+#: servers/delete.php:167 servers/view.php:181
+#, php-format
+msgid "This server is allowed to submit search requests at %s"
+msgstr "Ce serveur est autorisé à soumettre des requêtes de recherche à %s"
+
+#: servers/delete.php:169 servers/view.php:183
+msgid "This server is not allowed to submit search requests."
+msgstr "Ce serveur n'est pas autorisé à soumettre des requêtes de recherche."
+
+#: servers/delete.php:175 servers/view.php:197
+msgid "Server description"
+msgstr "Description de ce serveur"
+
+#: servers/edit.php:53
+msgid "Edit a server profile"
+msgstr "Modifier un serveur"
+
+#: servers/edit.php:55
+msgid "Add a server profile"
+msgstr "Ajouter un serveur"
+
+#: servers/edit.php:133
+msgid "Overview"
+msgstr "Généralités"
+
+#: servers/edit.php:136
+msgid "Title"
+msgstr "Titre"
+
+#: servers/edit.php:138
+msgid "Label used to list this server profile"
+msgstr "Utilisé dans la liste de serveurs"
+
+#: servers/edit.php:142
+msgid "Network address"
+msgstr "Adresse réseau"
+
+#: servers/edit.php:144
+msgid "The web or email address to be used for a human being"
+msgstr ""
+"L'adresse web ou courriel utilisée pour la consultation par des humains"
+
+#: servers/edit.php:148
+msgid "Description"
+msgstr "Description"
+
+#: servers/edit.php:155
+msgid "Access"
+msgstr "Accès"
+
+#: servers/edit.php:159
+msgid "Public - Everybody, including anonymous surfers"
+msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
+
+#: servers/edit.php:175
+msgid "Web services used from this server"
+msgstr "Services distants utilisés"
+
+#: servers/edit.php:178
+msgid "Feed"
+msgstr "Feed"
+
+#: servers/edit.php:182
+msgid "Do not read news from this server"
+msgstr "Ne pas lire les nouvelles de ce serveur"
+
+#: servers/edit.php:188
+#, php-format
+msgid "Aggregate news from this server by reading the XML feed at %s"
+msgstr ""
+"Aggréger les nouvelles de ce site par lecture du fil XML à l'adresse %s"
+
+#: servers/edit.php:202
+msgid "External News"
+msgstr "Nouvelles du monde"
+
+#: servers/edit.php:203
+msgid "Received from feeding servers"
+msgstr "Les informations transmises par les autres serveurs"
+
+#: servers/edit.php:215
+#, php-format
+msgid "and store data in section %s"
+msgstr "et ranger les données dans la section %s"
+
+#: servers/edit.php:219 servers/edit.php:279
+msgid "Ping"
+msgstr "Ping"
+
+#: servers/edit.php:223
+msgid "Do not advertise our changes to this remote server"
+msgstr "Rester silencieux vis à vis de ce serveur distant"
+
+#: servers/edit.php:229
+#, php-format
+msgid ""
+"On publication, submit XML-RPC call of <code>weblogUpdates.ping</code> at %s"
+msgstr ""
+"Lors de la publication, envoyer un appel XML-RPC de <code>weblogUpdates."
+"ping</code> à l'adresse %s"
+
+#: servers/edit.php:233 servers/edit.php:287
+msgid "Search"
+msgstr "Recherche"
+
+#: servers/edit.php:237
+msgid "Do not extend searches to this server"
+msgstr "Ne pas inclure ce serveur dans les recherches distribuées"
+
+#: servers/edit.php:243
+#, php-format
+msgid "Submit search queries to this server, by REST calls at %s"
+msgstr "Rechercher sur ce serveur, par appel REST de l'adresse %s"
+
+#: servers/edit.php:247 servers/edit.php:295
+msgid "Monitor"
+msgstr "Surveillance"
+
+#: servers/edit.php:251
+msgid "Do not monitor this server"
+msgstr "Ne pas surveiller ce serveur"
+
+#: servers/edit.php:257
+#, php-format
+msgid "Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s"
+msgstr ""
+"Envoyer périodiquement des requêtes XML-RPC de <code>monitor.ping</code> à "
+"l'adresse %s"
+
+#: servers/edit.php:265
+msgid "Processing of queries received from this server"
+msgstr "Services autorisés pour ce serveur"
+
+#: servers/edit.php:268
+msgid ""
+"Remote calls are allowed by default. Uncheck boxes below to ban this server "
+"if necessary."
+msgstr ""
+"Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous "
+"pour invalider un serveur indélicat en cas de besoin."
+
+#: servers/edit.php:272
+msgid "Host name"
+msgstr "Nom de machine"
+
+#: servers/edit.php:274
+msgid "Checked on each server request to us"
+msgstr "Vérification à chaque requête transmise"
+
+#: servers/edit.php:283
+#, php-format
+msgid ""
+"Accept and process advertisements (<code>weblogUpdates.ping</code>) "
+"transmitted by this server to %s"
+msgstr ""
+"Accepter et traiter les mises à jour (<code>weblogUpdates.ping</code>) "
+"envoyées par ce serveur à %s"
+
+#: servers/edit.php:283 servers/view.php:174
+msgid "the ping interface"
+msgstr "notre interface ping"
+
+#: servers/edit.php:291
+#, php-format
+msgid "Accept and process search requests submitted by this server to %s"
+msgstr ""
+"Accepter et traiter les requêtes de recherche envoyées par ce serveur à %s"
+
+#: servers/edit.php:291 servers/view.php:181
+msgid "the search interface"
+msgstr "notre interface de recherche"
+
+#: servers/edit.php:299
+#, php-format
+msgid ""
+"Allow this server to poll us regularly (<code>monitor.ping</code>) at %s"
+msgstr ""
+"Autoriser ce serveur à nous interroger régulièrement  (<code>monitor.ping</"
+"code>) à %s"
+
+#: servers/edit.php:299 servers/view.php:188
+msgid "the XML-RPC interface"
+msgstr "notre interface XML-RPC"
+
+#: servers/edit.php:311
+msgid "Do not change modification date."
+msgstr "Ne pas changer la date de modification."
+
+#: servers/edit.php:314
+msgid "Ensure this post is valid XHTML."
+msgstr "Vérifier que le contenu est du XHTML valide."
+
+#: servers/edit.php:330
+msgid "Please provide a meaningful title."
+msgstr "Merci d'indiquer un titre significatif."
+
+#: servers/edit.php:344
+msgid ""
+"Use this page to describe network interactions with a peering server, part "
+"of the cloud we are in."
+msgstr ""
+"Utilisez cette page pour paramétrer les interactions avec l'un des serveurs "
+"participant à notre communauté."
+
+#: servers/edit.php:345
+msgid "Edit general-purpose attributes in the overview area."
+msgstr "La section Généralités regroupe les informations descriptives."
+
+#: servers/edit.php:346
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "Utilisez %s et %s pour embellir le texte."
+
+#: servers/edit.php:346
+msgid "YACS codes"
+msgstr "codes YACS"
+
+#: servers/edit.php:346
+msgid "smileys"
+msgstr "emoticons"
+
+#: servers/edit.php:347
+msgid "Then configure and trigger web services that we will use remotely."
+msgstr ""
+"Puis configurez et activez les services web que nous déclencherons à "
+"distance."
+
+#: servers/edit.php:348
+msgid ""
+"Also, uncheck web services that we should not provide to the target server."
+msgstr ""
+"Enfin, vous pouvez désactiver certains services que nous fournissons "
+"habituellement."
+
+#: servers/edit.php:349
+msgid "Help"
+msgstr "Aide"
+
+#: servers/index.php:63
+#, php-format
+msgid "%d server"
+msgid_plural "%d servers"
+msgstr[0] "%d serveur"
+msgstr[1] "%d serveurs"
+
+#: servers/index.php:91 servers/ping.php:68
+msgid "No server has been created yet."
+msgstr "Aucun serveur n'a été créé."
+
+#: servers/index.php:106
+msgid "Add a server"
+msgstr "Ajouter un serveur"
+
+#: servers/index.php:107 servers/ping.php:26
+msgid "Ping the cloud"
+msgstr "Avertir les serveurs"
+
+#: servers/index.php:109
+msgid "Populate"
+msgstr "Peupler les serveurs"
+
+#: servers/layout_servers.php:59 servers/test.php:212 servers/view.php:215
+msgid "Edit"
+msgstr "Modifier"
+
+#: servers/layout_servers.php:60 servers/test.php:213 servers/view.php:216
+msgid "Delete"
+msgstr "Supprimer"
+
+#: servers/ping.php:48
+msgid "Servers that have been notified"
+msgstr "Personnes notifiées"
+
+#: servers/ping.php:81
+msgid ""
+"This script will ping (<code>weblogUpdates.ping</code>) every server "
+"configured to be part of our cloud. Normally, the publication script does "
+"this automatically. However, no ping occurs for pages submitted by XML-RPC "
+"or by e-mail. Therefore, you should launch this script at least once per "
+"month to ensure everybody knows about this site."
+msgstr ""
+"Ce script va avertir (<code>weblogUpdates.ping</code>) tous les serveurs "
+"configuré pour faire partie de votre \"nuage\". Normalement, le script de "
+"publication fait ceci automatiquement. Cependant, il n'y a pas "
+"d'avertissement pour les articles envoyés par XML-RPC ou par email. Lancez "
+"ce script au moins une fois par mois pour être sûr que tout le monde connait "
+"votre site."
+
+#: servers/ping.php:86
+msgid "Yes, I want to ping the cloud"
+msgstr "Oui, je veux avertir le nuage"
+
+#: servers/populate.php:72
+msgid "Content Assistant"
+msgstr "Assistant de contenu"
+
+#: servers/populate.php:89
+msgid ""
+"If your server has been installed on an intranet and is not visible from the "
+"Internet, please delete these profiles to avoid unnecessary requests back "
+"and forth. Your site will not be referenced anyway."
+msgstr ""
+"Si votre serveur a été installé sur un intranet et n'est pas visible depuis "
+"l'Internet, merci d'effacer les profils listés ci-dessous pour éviter des "
+"requêtes inutiles. Votre site ne sera pas référencé de toutes façons."
+
+#: servers/populate.php:95 servers/populate.php:118 servers/populate.php:141
+#: servers/populate.php:164 servers/populate.php:186 servers/populate.php:209
+#, php-format
+msgid "An entry already exists for server %s"
+msgstr "Un enregistrement existe déjà pour le serveur %s"
+
+#: servers/populate.php:98 servers/populate.php:121
+msgid "Another famous blogs aggregator"
+msgstr "Un autre consolidateur de blog célèbre"
+
+#: servers/populate.php:111 servers/populate.php:134 servers/populate.php:157
+#: servers/populate.php:179 servers/populate.php:202 servers/populate.php:225
+#, php-format
+msgid "A record has been created for server %s"
+msgstr "Un enregistrement a été créé pour le serveur %s"
+
+#: servers/populate.php:144
+msgid "The famous pinging gateway"
+msgstr "Le distributeur de ping"
+
+#: servers/populate.php:189
+msgid "Do you Yahoo?"
+msgstr "Etes-vous Yahoo ?"
+
+#: servers/populate.php:207
+msgid "www.yacs.fr"
+msgstr "www.yacs.fr"
+
+#: servers/populate.php:212
+msgid "The origin server for the YACS system"
+msgstr "Le serveur d'origine du système YACS"
+
+#: servers/populate.php:233
+msgid "Back to servers"
+msgstr "Retour aux serveurs"
+
+#: servers/servers.php:547
+msgid "No title has been provided."
+msgstr "Aucun titre n'a été fourni."
+
+#: servers/servers.php:608
+msgid "No item has the provided id."
+msgstr "Identifiant inconnu."
+
+#: servers/test.php:75
+msgid "Feed test"
+msgstr "Test de fil de nouvelles"
+
+#: servers/test.php:129
+msgid "No feed url has been configured for this server profile."
+msgstr ""
+"Aucune adresse n'a été définie pour la lecture des nouvelles de ce serveur."
+
+#: servers/test.php:139
+msgid "Nothing to read from this feed."
+msgstr "Rien à lire en provenance de ce fil."
+
+#: servers/test.php:145
+#, php-format
+msgid "%d elements have been read"
+msgstr "%d éléments ont été obtenus"
+
+#: servers/test.php:165
+msgid "Empty item!"
+msgstr "Entrée vide !"
+
+#: servers/test.php:180
+msgid "the target server is banned"
+msgstr "Le serveur correspondant est banni"
+
+#: servers/test.php:183
+msgid "this link exists in the database"
+msgstr "ce lien existe dans la base de données"
+
+#: servers/test.php:186
+msgid "this link has not been inserted in the database yet"
+msgstr "ce lien n'a pas encore été créé dans la base de données"
+
+#: servers/test.php:206
+msgid "Back to main page"
+msgstr "Retour à la page principale"
+
+#: servers/view.php:140 servers/view.php:211
+msgid "Test feed"
+msgstr "Tester RSS"
+
+#: servers/view.php:141
+#, php-format
+msgid "News published at this server at %s - %s are fetched periodically"
+msgstr "Lire périodiquement les nouveautés publiées par ce serveur à %s - %s"
+
+#: servers/view.php:143
+#, php-format
+msgid "and aggregated locally at %s"
+msgstr "et aggréger localement à %s"
+
+#: servers/view.php:174
+msgid ""
+"This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+"code>) at %"
+msgstr ""
+"Ce serveur est autorisé à signaler les mises à jour (<code>weblogUpdates."
+"ping</code>) à %"
+
+#~ msgid "Following web sites have been contacted:"
+#~ msgstr "Les sites suivants ont été contactés :"
+
+#~ msgid "Back to server profile"
+#~ msgstr "Retour au profil de serveur"
+
+#~ msgid "Access is restricted to authenticated members"
+#~ msgstr "Accès restreint aux membres authentifiés"
+
+#~ msgid "Access is restricted to associates"
+#~ msgstr "Accès restreint aux associés"
+
+#~ msgid "Visibility"
+#~ msgstr "Visibilité"
+
+#~ msgid "Anyone may read this profile."
+#~ msgstr "Tout le monde peut lire ce profil."
+
+#~ msgid "RSS Test"
+#~ msgstr "Test RSS"
+
+#~ msgid "www.yetanothercommunitysystem.com"
+#~ msgstr "www.yetanothercommunitysystem.com"
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configurer : %s"
+
+#~ msgid "Referrals"
+#~ msgstr "Références externes"
+
+#~ msgid "Search the World Live Web"
+#~ msgstr "Search the World Live Web"
+
+#~ msgid ""
+#~ "This server has to be pinged on updates, by using XML-RPC calls "
+#~ "<code>weblogUpdates.ping</code> at <code>%s</code>"
+#~ msgstr ""
+#~ "Transmettre un 'ping' à ce serveur lors des mises à jour, par appel XML-"
+#~ "RPC de <code>weblogUpdates.ping</code> à <code>%s</code>"
+
+#~ msgid ""
+#~ "This server has to be polled, by using XML-RPC calls <code>monitor.ping</"
+#~ "code> at <code>%s</code>"
+#~ msgstr ""
+#~ "Vérifier périodiquement le fonctionnement de ce serveur, par appel XML-"
+#~ "RPC de <code>monitor.ping</code> à <code>%s</code>"
+
+#~ msgid ""
+#~ "This server has to be included into searches, by using REST calls at "
+#~ "<code>%s</code>"
+#~ msgstr ""
+#~ "Inclure ce serveur dans les recherches distribuées, par appel REST de "
+#~ "<code>%s</code>"
+
+#~ msgid ""
+#~ "This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+#~ "code>) at <code>%s</code>"
+#~ msgstr ""
+#~ "Ce serveur est autorisé à signaler les mises à jour  (<code>weblogUpdates."
+#~ "ping</code>) à <code>%s</code>"
+
+#~ msgid ""
+#~ "This server is allowed to submit monitoring requests (<code>monitor.ping</"
+#~ "code>) at <code>%s</code>"
+#~ msgstr ""
+#~ "Ce serveur est autorisé à soumettre des requêtes de surveillance "
+#~ "(<code>monitor.ping</code>) à <code>%s</code>"
+
+#~ msgid "This server is allowed to submit search requests at <code>%s</code>"
+#~ msgstr ""
+#~ "Ce serveur est autorisé à soumettre des requêtes de recherche à <code>%s</"
+#~ "code>"
+
+#~ msgid "Access is restricted to authenticated members."
+#~ msgstr "Accès restreint aux membres authentifiés."
+
+#~ msgid "Access is restricted to associates."
+#~ msgstr "Accès restreint aux associés."
+
+#~ msgid "Ping other servers of the cloud"
+#~ msgstr "Avertissement des autres serveurs"
+
+#~ msgid "No server profile to ping! You should configure at least %s"
+#~ msgstr "Aucun serveur à avertir. Vous devriez créer au moins %s"
+
+#~ msgid "some common targets"
+#~ msgstr "quelques profils usuels"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "Cette instance de YACS s'exécute en mode démonstration. Pour des raisons "
+#~ "de sécurité, les paramètres de configuration ne peuvent pas être modifiés "
+#~ "dans ce mode."
+
+#~ msgid "Add default server profiles"
+#~ msgstr "Ajouter les serveurs par défaut"
+
+#~ msgid "Feed test: %s"
+#~ msgstr "Test : %s"
+
+#~ msgid "1&nbsp;server"
+#~ msgid_plural "%d&nbsp;servers"
+#~ msgstr[0] "1&nbsp;serveur"
+#~ msgstr[1] "%d&nbsp;serveurs"
+
+#~ msgid "The configuration panel for servers"
+#~ msgstr "Le panneau de configuration des serveurs"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Aller au panneau de contrôle"
+
+#~ msgid "All server profiles"
+#~ msgstr "Tous les profils de serveurs"
+
+#~ msgid "Add a new server profile"
+#~ msgstr "Définir un  nouveau serveur"
+
+#~ msgid "Create default server profiles"
+#~ msgstr "Création des profils serveurs par défaut"
+
+#~ msgid "Edit again"
+#~ msgstr "Modifier les paramètres"
+
+#~ msgid "Configure servers"
+#~ msgstr "Panneau de configuration"
+
+#~ msgid "Visibility is restricted to logged members."
+#~ msgstr "Visibilité restreinte aux membres authentifiés."
+
+#~ msgid "Visibility is restricted to the associates of the community."
+#~ msgstr "Visibilité restreinte aux associés."
+
+#~ msgid "Restricted to logged members"
+#~ msgstr "Accès restreint aux membres authentifiés"
+
+#~ msgid "edited by %s"
+#~ msgstr "Mis à jour par %s"
+
+#~ msgid "Visibility is restricted to the associates of the community"
+#~ msgstr "Visibilité restreinte aux associés de la communauté"

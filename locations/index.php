@@ -59,7 +59,7 @@ $context['page_title'] = i18n::s('Locations');
 
 // this page is really only for associates
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
@@ -84,7 +84,7 @@ if(!Surfer::is_associate()) {
 
 	// page main content
 	$cache_id = 'locations/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * LOCATIONS_PER_PAGE;
@@ -108,7 +108,7 @@ if(Surfer::is_associate())
 
 // page extra content
 $cache_id = 'locations/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

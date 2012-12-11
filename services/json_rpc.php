@@ -52,7 +52,7 @@
  *
  * @see control/scan.php
  *
- * @link http://groups.google.com/group/json-rpc/web/json-rpc-1-2-proposal JSON-RPC Specification
+ * @link http://en.wikipedia.org/wiki/JSON-RPC
  *
  * @author Bernard Paques
  * @reference
@@ -68,7 +68,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/json_rpc.php', 'json_rpc request', rawurldecode($raw_data), 'debug');
+	Logger::remember('services/json_rpc.php: json_rpc request', rawurldecode($raw_data), 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
@@ -77,51 +77,88 @@ if($context['charset'] == 'utf-8')
 // decode request components -- use rawurldecode() instead urldecode(), else you will loose + signs
 $parameters = Safe::json_decode(rawurldecode($raw_data));
 
+// prepare the response
+$response = array();
+
+// replicate version, if any (JSON-RPC 1.1)
+if(!empty($parameters['version']))
+	$response['version'] = $parameters['version'];
+
+// replicate keyword, if any (JSON-RPC 2.0)
+if(!empty($parameters['jsonrpc']))
+	$response['jsonrpc'] = $parameters['jsonrpc'];
+
+// no result yet
+$response['result'] = NULL;
+
+// no error either
+$response['error'] = NULL;
+
 // nothing to parse
 if(empty($raw_data)) {
-	$response = array('result' => NULL, 'error' => array('code' => -32600, 'message' => 'Empty request, please retry'));
+	$response['error'] = array('code' => -32600, 'message' => 'Invalid Request');
 
 // not a valid request
-} elseif(empty($parameters['method']) || empty($parameters['params'])) {
-	$response = array('result' => NULL, 'error' => array('code' => -32600, 'message' => 'Impossible to parse parameters'));
+} elseif(!$parameters || empty($parameters['method'])) {
+	$response['error'] = array('code' => -32700, 'message' => 'Parse error');
 
 // dispatch the request
 } else {
-	$response = array();
-	$response['jsonrpc'] = '2.0';
 
 	// remember parameters if debug mode
 	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-		Logger::remember('services/json_rpc.php', 'json_rpc '.$parameters['method'], $parameters['params'], 'debug');
+		Logger::remember('services/json_rpc.php: json_rpc '.$parameters['method'], $parameters['params'], 'debug');
+
+	// sanitize parameters
+	if(!isset($parameters['params']))
+		$parameters['params'] = array();
 
 	// depending on method name
 	if(is_callable(array('Hooks', 'serve_scripts')))
 		$response['result'] = Hooks::serve_scripts($parameters['method'], $parameters['params']);
-	else
-		unset($response['result']);
 
 	// unknown method
-	if(!isset($response['result']) || !$response['result']) {
-		unset($response['result']);
-		$response['error'] = array('code' => -32601, 'message' => 'Do not know how to process '.$parameters['method']);
+	if($response['result'] === NULL) {
+		$response['error'] = array('code' => -32601, 'message' => 'Method not found "'.$parameters['method'].'"');
 		if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-			Logger::remember('services/json_rpc.php', 'json_rpc unsupported method '.$parameters['method'], NULL, 'debug');
-	} else
-		unset($response['error']);
+			Logger::remember('services/json_rpc.php: json_rpc unsupported method '.$parameters['method'], NULL, 'debug');
+
+	// error passed in result
+	} elseif(is_array($response['result']) && !empty($response['result']['code']) && !empty($response['result']['message'])) {
+		$response['error'] = $response['result'];
+		$response['result'] = NULL;
+	}
 }
 
 // copy request id in response, if any
 if(empty($parameters['id']))
-	unset($response['id']);
+	$response['id'] = NULL;
 else
 	$response['id'] = $parameters['id'];
 
-// encode the response as a JSON string
-$response = Safe::json_encode($response);
+// do not reply if the sender has sent a notification, and if there is no error
+if(($response['id'] == NULL) && ($response['error'] == NULL))
+	$response = '';
 
-// save the response if debug mode
-if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/json_rpc.php', 'json_rpc response', $response, 'debug');
+// else package a response
+else {
+
+	// JSON-RPC 2.0 requires either some result, or an error, but not both
+	if(isset($response['jsonrpc'])) {
+		if($response['error'] == NULL)
+			unset($response['error']);
+		else
+			unset($response['result']);
+	}
+
+	// encode the response
+	$response = Safe::json_encode($response);
+
+	// save the response if debug mode
+	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
+		Logger::remember('services/json_rpc.php: json_rpc response', $response, 'debug');
+
+}
 
 // handle the output correctly
 render_raw('application/json; charset='.$context['charset']);

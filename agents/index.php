@@ -57,7 +57,7 @@ if(!Surfer::is_logged())
 
 // only associates can use this tool
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // give information
@@ -104,11 +104,11 @@ elseif(!Surfer::is_associate()) {
 	$values = '';
 
 	$query = "SELECT * FROM ".SQL::table_name('values')." ORDER BY id";
-	if(!$result =& SQL::query($query)) {
+	if(!$result = SQL::query($query)) {
 		$values .= Logger::error_pop().BR."\n";
 	} else {
 		$values .= Skin::table_prefix('grid');
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 			$values .= '<tr><td>'.$row['id'].'</td><td>'.str_replace("\n", BR, $row['value']).'</td><td>'.Surfer::from_GMT($row['edit_date'])."</td></tr>\n";
 		}
 		$values .= "</table>\n";
@@ -152,7 +152,7 @@ elseif(!Surfer::is_associate()) {
 
 		// table rows
 		$rows = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$rows[] = array('left='.Skin::build_link($item['referer'], $item['domain'], 'external'), 'left='.Skin::build_number($item['hits']));
 
 		// render the table
@@ -177,7 +177,7 @@ elseif(!Surfer::is_associate()) {
 
 		// table rows
 		$rows = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$rows[] = array('left='.Skin::build_link($item['referer'], $item['keywords'], 'external'), 'left='.Skin::build_number($item['hits']));
 
 		// render the table

@@ -2,8 +2,6 @@
 /**
  * handle internationalization
  *
- * @todo add a library of currencies
- *
  * This library helps to internationalize (i18n) and localize (l10n) strings used throughout the software.
  *
  * YACS leverages the gettext framework, which is the de facto standard for the internationalization of open source software.
@@ -83,7 +81,7 @@ Class i18n {
 	 *
 	 * @param string module name
 	 */
-	function bind($module) {
+	public static function bind($module) {
 		global $context;
 
 		// sanity check
@@ -91,8 +89,8 @@ Class i18n {
 			return;
 
 		// initialization
-		if(!isset($_SESSION['l10n_modules']))
-			$_SESSION['l10n_modules'] = array();
+		if(!isset($context['l10n_modules']))
+			$context['l10n_modules'] = array();
 
 		// ensure all cached modules are accurate on development machine
 		if($context['with_debug'] == 'Y') {
@@ -101,11 +99,11 @@ Class i18n {
 		}
 
 		// this module has already been loaded
-		if(isset($_SESSION['l10n_modules'][$module]))
+		if(isset($context['l10n_modules'][$module]))
 			return;
 
 		// avoid further loading
-		$_SESSION['l10n_modules'][$module] = TRUE;
+		$context['l10n_modules'][$module] = TRUE;
 
 		// load strings according to surfer localization
 		i18n::load($context['language'], $module);
@@ -124,7 +122,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string
 	 */
-	function &c($text) {
+	public static function &c($text) {
 		global $context;
 
 		// sanity check
@@ -138,11 +136,11 @@ Class i18n {
 			$locale = 'en';
 
 		// cache is empty
-		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
+		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]))
 			return $text;
 
 		// provide the localized string
-		$text =& i18n::lookup($_SESSION['l10n'][$locale], $text);
+		$text =& i18n::lookup($context['l10n'][$locale], $text);
 		return $text;
 	}
 
@@ -155,7 +153,7 @@ Class i18n {
 	 * @param string the target language
 	 * @return string the provided text, if surfer language matches the target language, else ''
 	 */
-	function &filter($text, $language) {
+	public static function &filter($text, $language) {
 		global $context;
 
 		// sanity check
@@ -177,7 +175,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	function &get_countries() {
+	public static function &get_countries() {
 
 		// initialize the table only once
 		static $codes;
@@ -449,7 +447,7 @@ Class i18n {
 	 * @param string alternate name and id for the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	function &get_countries_select($current=NULL, $id='country') {
+	public static function &get_countries_select($current=NULL, $id='country') {
 		global $context;
 
 		// all options
@@ -492,7 +490,7 @@ Class i18n {
 	 * @param string the country code
 	 * @return string the related label, or NULL if the code is unknown
 	 */
-	function get_country_label($code='') {
+	public static function get_country_label($code='') {
 		global $context;
 
 		// sanity check
@@ -518,7 +516,7 @@ Class i18n {
 	 * @param string the language code
 	 * @return string the related label, or NULL if the code is unknown
 	 */
-	function get_language_label($code='') {
+	public static function get_language_label($code='') {
 		global $context;
 
 		// sanity check
@@ -545,7 +543,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	function &get_languages() {
+	public static function &get_languages() {
 
 		// initialize the table only once
 		static $codes;
@@ -711,7 +709,7 @@ Class i18n {
 	 * @param string alternate name and id of the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	function &get_languages_select($current=NULL, $id='language') {
+	public static function &get_languages_select($current=NULL, $id='language') {
 		global $context;
 
 		// use surfer language by default
@@ -725,7 +723,7 @@ Class i18n {
 		$languages =& i18n::get_languages();
 
 		// engage surfer
-		$text .= '<option value="none">'.i18n::s('Select a language')."</option>\n";
+		$text .= '<option value="none">'.i18n::s('Use browser settings')."</option>\n";
 
 		// current language setting
 		if($current == $context['language'])
@@ -760,35 +758,11 @@ Class i18n {
 	}
 
 	/**
-	 * provide a localized template
-	 *
-	 * @param string type of the expected template
-	 * @return string text of the template
-	 */
-	function &get_template($id) {
-
-		// depending of the expected template
-		switch($id) {
-
-		case 'mail_notification':
-		default:
-
-			// action, then title and link
-			$text = "%s\n\n%s\n%s";
-			break;
-
-		}
-
-		// job done
-		return $text;
-	}
-
-	/**
 	 * the database of time zones
 	 *
 	 * @return array of ($shift => $label)
 	 */
-	function &get_time_zones() {
+	public static function &get_time_zones() {
 
 		// initialize the table only once
 		static $codes;
@@ -884,7 +858,7 @@ Class i18n {
 	 * @param string original string
 	 * @return string hashed string
 	 */
-	function &hash($text) {
+	private static function &hash($text) {
 
 		if(strlen($text) < 32)
 			$output = $text;
@@ -900,7 +874,7 @@ Class i18n {
 	 * This function analyzes data provided by the browser to automate surfer localization.
 	 *
 	 */
-	function initialize() {
+	public static function initialize() {
 		global $context;
 
 		// user language is explicit
@@ -976,8 +950,12 @@ Class i18n {
 		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
 			$context['language'] = $context['preferred_language'];
 
-		// english is the default
+		// English is the default
 		elseif(!isset($context['language']))
+			$context['language'] = 'en';
+
+		// maybe the target language does not exist --fallback to English
+		elseif(!file_exists($context['path_to_root'].'i18n/locale/'.$context['language'].'/i18n.mo'))
 			$context['language'] = 'en';
 
 		// set the country, if known
@@ -1000,7 +978,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	function &l($strings, $name, $forced='') {
+	public static function &l(&$strings, $name, $forced='') {
 		global $context;
 
 		// sanity check
@@ -1019,7 +997,7 @@ Class i18n {
 		else {
 			$text = $name;
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				logger::remember('i18n/i18n.php: '.$name.' is not localized', '', 'debug');
 
 		}
 
@@ -1034,32 +1012,36 @@ Class i18n {
 	}
 
 	/**
-	 * look for a localized string
+	 * list all available locales
 	 *
-	 * @param array the array containing localized strings
-	 * @param string the label identifying string
-	 * @return string the localized string, if any
+	 * @return array of ($locale => $label)
 	 */
-	function &lookup($strings, $name) {
-		global $context;
+	public static function &list_locales() {
+		global $context, $locales;
 
-		// match on hashed name
-		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
-			$text = $strings[ $hash ];
+		// list of locales
+		$locales = array();
 
-		// no match
-		else {
+		// one directory per locale
+		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
+			while(($item = Safe::readdir($dir)) !== FALSE) {
+				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
+					continue;
 
-			// log information on development platform
-			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				// remember locale
+				$locales[$item] = $item;
 
-			// degrade to provided string
-			$text = $name;
-		}
+				// enhance with manifest file, if any
+				if(is_readable($context['path_to_root'].'i18n/locale/'.$item.'/manifest.php'))
+					include_once $context['path_to_root'].'i18n/locale/'.$item.'/manifest.php';
+			}
+			Safe::closedir($dir);
 
-		// provide the localized string
-		return $text;
+		} else
+			logger::remember('i18n/i18n.php: Impossible to browse directory i18n/locale');
+
+		// done
+		return $locales;
 	}
 
 	/**
@@ -1075,7 +1057,7 @@ Class i18n {
 	 * The function also attempts to create a cached PHP version of the file
 	 * if one does not exists, to speed up subsequent calls.
 	 *
-	 * Loaded strings are all placed into the global array $_SESSION['l10n'] for later use.
+	 * Loaded strings are all placed into the global array $context['l10n'] for later use.
 	 *
 	 * The function does not actually use the gettext PHP extension because of potential weak implementations.
 	 * Instead, it parses directly binary content of the .mo file.
@@ -1086,7 +1068,7 @@ Class i18n {
 	 * @param string target module
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function load($language, $module) {
+	private static function load($language, $module) {
 		global $context;
 
 		// sanity check
@@ -1097,10 +1079,10 @@ Class i18n {
 		$path = 'i18n/locale/'.$language.'/'.$module.'.mo';
 
 		// translations have a global scope
-		if(!isset($_SESSION['l10n']))
-			$_SESSION['l10n'] = array();
-		if(!isset($_SESSION['l10n'][$language]))
-			$_SESSION['l10n'][$language] = array();
+		if(!isset($context['l10n']))
+			$context['l10n'] = array();
+		if(!isset($context['l10n'][$language]))
+			$context['l10n'][$language] = array();
 
 		// load PHP version, if it exists, and if it is fresher than the original
 		$hash = $context['path_to_root'].$path.'.php';
@@ -1120,14 +1102,15 @@ Class i18n {
 
 			// log information on development platform
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', 'Impossible to load '.$path, '', 'debug');
+				logger::remember('i18n/i18n.php: Impossible to load '.$path, '', 'debug');
 
 			// we've got a problem
 			return FALSE;
 		}
 
 		// read magic number
-		$magic = array_shift(unpack('V', fread($handle, 4)));
+		$values = unpack('V', fread($handle, 4));
+		$magic = array_shift($values);
 
 		// byte ordering
 		if($magic == (int)0x0950412de)
@@ -1139,23 +1122,27 @@ Class i18n {
 		else {
 			// log information on development platform
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', 'bad magic number in '.$path, '', 'debug');
+				logger::remember('i18n/i18n.php: bad magic number in '.$path, '', 'debug');
 
 			// we've got a problem
 			return FALSE;
 		}
 
 		// read revision number
-		$revision = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$revision = array_shift($values);
 
 		// read number of strings
-		$number_of_strings = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$number_of_strings = array_shift($values);
 
 		// read offset for table of original strings
-		$original_table_offset = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$original_table_offset = array_shift($values);
 
 		// read offset for table of translated strings
-		$translated_table_offset = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$translated_table_offset = array_shift($values);
 
 		// two integers per string (offset and size)
 		$count = $number_of_strings * 2;
@@ -1201,7 +1188,7 @@ Class i18n {
 
 			// save in memory
 			$hash =& i18n::hash($original);
-			$_SESSION['l10n'][$language][$hash] = $translated;
+			$context['l10n'][$language][$hash] = $translated;
 
 			// escape original string
 			$hash = str_replace('\000', "'.chr(0).'", addcslashes($hash, "\0\\'"));
@@ -1210,25 +1197,25 @@ Class i18n {
 			$translated = str_replace('\000', "'.chr(0).'", addcslashes($translated, "\0\\'"));
 
 			// update cache file, if any
-			if($cache)
-				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
+			if($cache && ($hash != '_headers'))
+				$cache_content .= '$context[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
 		}
 
 		// clean out
 		fclose($handle);
 
 		// look for plural string
-		if(preg_match('/plural-forms: ([^\n]*)\n/i', $_SESSION['l10n'][$language]['_headers'], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
+		if(preg_match('/plural-forms: ([^\n]*)\n/i', $context['l10n'][$language]['_headers'], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
 			$plural = $matches[1];
 		else
 			$plural = 'nplurals=2; plural=(n != 1)';
 
 		// save it in cache as well
-		$_SESSION['l10n'][$language]['_plural'] = $plural;
+		$context['l10n'][$language]['_plural'] = $plural;
 
 		// finalize cache file, if any
 		if($cache) {
-			$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\'_plural\']=\''.addcslashes($plural, "\\'")."';\n".'?>';
+			$cache_content .= '$context[\'l10n\'][\''.$language.'\'][\'_plural\']=\''.addcslashes($plural, "\\'")."';\n".'?>';
 			fwrite($cache, $cache_content);
 			fclose($cache);
 		}
@@ -1238,36 +1225,32 @@ Class i18n {
 	}
 
 	/**
-	 * list all available locales
+	 * look for a localized string
 	 *
-	 * @return array of ($locale => $label)
+	 * @param array the array containing localized strings
+	 * @param string the label identifying string
+	 * @return string the localized string, if any
 	 */
-	function &list_locales() {
-		global $context, $locales;
+	public static function &lookup(&$strings, $name) {
+		global $context;
 
-		// list of locales
-		$locales = array();
+		// match on hashed name
+		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
+			$text = $strings[ $hash ];
 
-		// one directory per locale
-		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
-			while(($item = Safe::readdir($dir)) !== FALSE) {
-				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
-					continue;
+		// no match
+		else {
 
-				// remember locale
-				$locales[$item] = $item;
+			// log information on development platform
+			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
+				logger::remember('i18n/i18n.php: '.$name.' is not localized', '', 'debug');
 
-				// enhance with manifest file, if any
-				if(is_readable($context['path_to_root'].'i18n/locale/'.$item.'/manifest.php'))
-					include_once $context['path_to_root'].'i18n/locale/'.$item.'/manifest.php';
-			}
-			Safe::closedir($dir);
+			// degrade to provided string
+			$text = $name;
+		}
 
-		} else
-			logger::remember('i18n/i18n.php', 'Impossible to browse directory i18n/locale');
-
-		// done
-		return $locales;
+		// provide the localized string
+		return $text;
 	}
 
 	/**
@@ -1280,7 +1263,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	function &nc($singular, $plural, $count) {
+	public static function &nc($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1298,7 +1281,7 @@ Class i18n {
 		$text =& i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
-		if(!isset($_SESSION['l10n']) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
+		if(!isset($context['l10n']) || !is_array($context['l10n'][$locale]) || !array_key_exists($text, $context['l10n'][$locale]) || !array_key_exists('_plural', $context['l10n'][$locale])) {
 			if($count != 1)
 				return $plural;
 			else
@@ -1306,7 +1289,7 @@ Class i18n {
 		}
 
 		// use cached plural definition
-		$plural = $_SESSION['l10n'][$locale]['_plural'];
+		$plural = $context['l10n'][$locale]['_plural'];
 
 		// make a PHP statement out of it
 		$plural = str_replace('nplurals','$total', $plural);
@@ -1321,7 +1304,7 @@ Class i18n {
 			$select = $total - 1;
 
 		// get translated strings
-		$text = $_SESSION['l10n'][$locale][$text];
+		$text = $context['l10n'][$locale][$text];
 
 		// explode and select correct part
 		$parts = explode(chr(0), $text);
@@ -1339,7 +1322,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	function &ns($singular, $plural, $count) {
+	public static function &ns($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1357,7 +1340,7 @@ Class i18n {
 		$text =& i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
-		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
+		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]) || !array_key_exists($text, $context['l10n'][$locale]) || !array_key_exists('_plural', $context['l10n'][$locale])) {
 			if($count != 1)
 				return $plural;
 			else
@@ -1365,7 +1348,7 @@ Class i18n {
 		}
 
 		// use cached plural definition
-		$plural = $_SESSION['l10n'][$locale]['_plural'];
+		$plural = $context['l10n'][$locale]['_plural'];
 
 		// make a PHP statement out of it
 		$plural = str_replace('nplurals','$total', $plural);
@@ -1380,12 +1363,24 @@ Class i18n {
 			$select = $total - 1;
 
 		// get translated strings
-		$text = $_SESSION['l10n'][$locale][$text];
+		$text = $context['l10n'][$locale][$text];
 
 		// explode and select correct part
 		$parts = explode(chr(0), $text);
 		$text = $parts[$select];
 		return $text;
+	}
+
+	/**
+	 * reset localized strings in memory
+	 *
+	 */
+	public static function reset() {
+		global $context;
+
+		if(isset($context['l10n_modules']))
+			unset($context['l10n_modules']);
+
 	}
 
 	/**
@@ -1396,7 +1391,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string, if any
 	 */
-	function &s($text) {
+	public static function &s($text) {
 		global $context;
 
 		// sanity check
@@ -1410,11 +1405,11 @@ Class i18n {
 			$locale = 'en';
 
 		// cache is empty
-		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
+		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]))
 			return $text;
 
 		// provide the localized string
-		$text =& i18n::lookup($_SESSION['l10n'][$locale], $text);
+		$text =& i18n::lookup($context['l10n'][$locale], $text);
 		return $text;
 	}
 
@@ -1426,7 +1421,7 @@ Class i18n {
 	 * @param string the label identifying string
 	 * @return string the localized string, if any
 	 */
-	function &server($name) {
+	public static function &server($name) {
 		global $context, $local;
 
 		$text =& i18n::l($local, $name, $context['preferred_language']);
@@ -1452,7 +1447,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	function &user($name, $forced='') {
+	public static function &user($name, $forced='') {
 		global $local;
 
 		$text =& i18n::l($local, $name, $forced);

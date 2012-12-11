@@ -37,10 +37,10 @@ elseif(isset($_REQUEST['anchor']))
 $anchor = strip_tags($anchor);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the anchor as well
-$anchor =& Anchors::get($anchor);
+$anchor = Anchors::get($anchor);
 
 // load the skin
 load_skin('categories');
@@ -54,7 +54,7 @@ $context['page_title'] = i18n::s('Use an image');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -69,7 +69,7 @@ if(Surfer::is_crawler()) {
 
 // operation is restricted to associates and editors
 } elseif(!Surfer::is_associate() && !$anchor->is_assigned()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // set this image as the anchor thumbnail

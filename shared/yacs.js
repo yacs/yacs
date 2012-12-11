@@ -1,9 +1,13 @@
 /**
  * the YACS AJAX shared library.
  *
- * This file extends prototype, etc., to enhance interactions with the end-user
+ * @link http://andykdocs.de/andykdocs/document/Migrating-from-the-Prototype-JavaScript-Framework-to-jQuery/Prototype-JS-to-jQuery-Migration-Cheat-Sheet-V1-April-2010.html
+ *
+ * This file extends jquery, etc., to enhance interactions with the end-user
  *
  * @author Bernard Paques
+ * @author Christophe Battarel
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -43,18 +47,18 @@ var Yacs = {
 
 		for (i = 0; i < tblEl.rows.length; i++) {
 			rowEl = tblEl.rows[i];
-			Element.removeClassName(rowEl, 'odd');
+			$(rowEl).removeClass('odd');
 			if((i % 2) !== 0) {
-				Element.addClassName(rowEl, 'odd');
+				$(rowEl).addClass('odd');
 			}
 
 			// set style classes on each column
 			for (j = 2; j < tblEl.rows[i].cells.length; j++) {
 				cellEl = rowEl.cells[j];
-				Element.removeClassName(cellEl, 'sorted');
+				$(cellEl).removeClass('sorted');
 				// highlight the one that was sorted
 				if (j == col) {
-					Element.addClassName(cellEl, 'sorted');
+					$(cellEl).addClass('sorted');
 				}
 			}
 		}
@@ -66,13 +70,111 @@ var Yacs = {
 		// set style classes for each column
 		for (i = 0; i < rowEl.cells.length; i++) {
 			cellEl = rowEl.cells[i];
-			Element.removeClassName(cellEl, 'sorted');
+			$(cellEl).removeClass('sorted');
 
 			// highlight the header of the sorted column
 			if (i == col) {
-				Element.addClassName(cellEl, 'sorted');
+				$(cellEl).addClass('sorted');
 			}
 		}
+	},
+
+	/**
+	 * implement multiple entries separated by comma
+	 * autocompletion mecanism from remote php source
+	 *
+	 * build on jquery-ui autocomplete plugin
+	 * @link http://jqueryui.com/demos/autocomplete/#multiple-remote
+	 *
+	 * @param string id of the target element (without '#')
+	 * @param string web service to call (default: '/users/complete.php')
+	 * @param function called back on completion, with new value as parameter
+	 *
+	 */
+	autocomplete_m: function(target, source_url, callback) {
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+		$('#'+target)
+		    // don't navigate away from the field on tab when selecting an item
+		    .bind( "keydown", function( event ) {
+			    if( event.keyCode === $.ui.keyCode.TAB &&
+					    $( this ).data( "autocomplete" ).menu.active ) {
+				    event.preventDefault();
+			    }
+		    })
+		    .autocomplete({
+				source: function( request, response ) {
+					$.getJSON( source_url, {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function() {
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 2 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					if(callback)
+						callback(ui.item.value);
+					return false;
+				}
+		    });
+	},
+
+	/**
+	 * autocomplete a field by querying an AJAX source
+	 *
+	 * @link http://jqueryui.com/demos/autocomplete/#custom-data
+	 *
+	 * @param string id of the target element (without '#')
+	 * @param boolean true if only one value should be set, false if this is a comma-separated list of values
+	 * @param string web service to call (default: '/users/complete.php')
+	 * @param function called back on completion, with new value as parameter
+	 *
+	 * @see users/complete.php
+	 **/
+	autocomplete_names: function(target, unique, source_url, callback) {
+
+		if(!source_url) {
+			source_url = url_to_root + 'users/complete.php';
+		}
+
+	    // use the multiple entries autocomplete exept if unique user required
+	    if(unique) {
+	    	if(callback) {
+				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) { $('#'+target).val(ui.item.value); callback(ui.item.value); }});
+	    	} else {
+				$('#'+target).autocomplete({source:source_url, minLength:2});
+			}
+	    } else
+			Yacs.autocomplete_m(target, source_url, callback);
+
+		// override rendering of items in menu list to show full name and email
+		$('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( "<li></li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
+				.appendTo( ul );
+		};
 	},
 
 	/**
@@ -82,29 +184,31 @@ var Yacs = {
 	call: function(parameters, callBack) {
 
 		// hash encoding to JSON
-		parameters = Object.toJSON(parameters);
+		parameters = $.toJSON(parameters);   // use jquery-json plugin
 
 		// start an ajax transaction
-		var handle = new Ajax.Request(url_to_root + 'services/json_rpc.php', {
-			method: 'post',
-			parameters: parameters,
-			requestHeaders: {Accept: 'application/json'},
-			onSuccess: function(transport) {
-				var response = transport.responseText.evalJSON(true);
+		$.ajax( {
+			url: url_to_root + 'services/json_rpc.php',
+			type: 'post',
+			data: parameters,
+			dataType: "json",
+			success: function(response) {
 				if(typeof callBack == 'function') {
 					if(response.error) {
-						callBack(FALSE);
+						callBack(response);
 					} else if(response.result) {
 						callBack(response.result);
 					} else {
-						callBack(FALSE);
+						callBack(1);
 					}
 				}
 				response = null; // no memory leak
 			},
-			onFailure: function(transport) {
+			error: function(handle, ajaxOptions, thrownError) {
+//				console.log('status: '+handle.statusText);
+//				console.log('error: '+thrownError);
 				if(typeof callBack == 'function') {
-					callBack(FALSE);
+					callBack(0);
 				}
 			}
 		});
@@ -134,16 +238,16 @@ var Yacs = {
 	 */
 	closeModalBox: function() {
 
-		var handle = new Effect.Opacity('modal_content', {duration:0.3, from:1.0, to:0.3, queue: 'end',
-			afterFinish: function(target) {
+		$('#modal_content').fadeTo(0.3, 0.3,
+			function() {
 
 				// clear the content
-				Element.update('modal_content', '');
+				$('#modal_content').html('');
 
 				// mask the modal box
-				Element.setStyle('modal_panel', { display: 'none' });
+				$('#modal_panel').css('display', 'none');
 
-			} });
+			} );
 	},
 
 	/**
@@ -323,42 +427,39 @@ var Yacs = {
 		if(!Yacs.modalOverlay) {
 
 			var objContent = document.createElement("div");
-			objContent.setAttribute('id','modal_content');
-			Element.update(objContent, '<img src="'+Yacs.spinningImage.src+'" />');
+			$(objContent).attr('id','modal_content');
+			$(objContent).html('<img src="'+Yacs.spinningImage.src+'" />');
 
 			var objCentered = document.createElement("div");
-			objCentered.setAttribute('id','modal_centered');
-//			objCentered.setStyle({ visibility: 'hidden' });
-			objCentered.appendChild(objContent);
+			$(objCentered).attr('id','modal_centered');
+//			objCentered.css({ visibility: 'hidden' });
+			$(objCentered).append(objContent);
 
 			Yacs.modalOverlay = document.createElement("div");
-			Yacs.modalOverlay.setAttribute('id','modal_panel');
-			Yacs.modalOverlay.onclick = function() {};	// you have to click in the box to close the modal box
-			Yacs.modalOverlay.appendChild(objCentered);
+			$(Yacs.modalOverlay).attr('id','modal_panel');
+			$(Yacs.modalOverlay).click(function() {});	// you have to click in the box to close the modal box
+			$(Yacs.modalOverlay).append(objCentered);
 
 			var objBody = document.getElementsByTagName("body").item(0);
-			objBody.appendChild(Yacs.modalOverlay);
-
-			// just to fix a bug on first image rendering for Internet Explorer 7...
-			var fix = new Effect.MoveBy('modal_centered', 0, 0, {duration: 0.0});
+			$(objBody).append(Yacs.modalOverlay);
 
 		// ensure containers are visible to compute box size
 		} else {
-			Element.setStyle('modal_panel', { display: 'block' });
+			$('#modal_panel').css('display', 'block');
 		}
 
 		// paint or repaint box content
-		var handle = new Effect.Opacity('modal_content', {duration:0.1, from:1.0, to:0.3, queue: 'end',
-			afterFinish: function(target) {
+		$('#modal_content').fadeTo(0.1, 0.3,
+			function() {
 
 				// update the content
 				Yacs.updateModalBox(boxContent);
 
 				// display the updated box
-				Element.setStyle('modal_content', { visibility: 'visible' });
-				var opacity = new Effect.Opacity('modal_content', {duration:0.3, from:0.5, to:1.0, queue: 'end'});
+				$('#modal_content').css('visibility', 'visible');
+				$('#modal_content').fadeTo(0.3, 1.0);
 
-			} });
+			});
 
 
 
@@ -482,7 +583,7 @@ var Yacs = {
 	 * @param handle to the item to expand
 	 */
 	growPanel: function(handle) {
-		Element.setStyle(handle, {height: '10em'});
+		$(handle).css('height', '10em');
 	},
 
 	/**
@@ -553,53 +654,52 @@ var Yacs = {
 
 	/**
 	 * prepare for mouse hovering
+	 *
+	 * @param mixed id of the object to equip, or a reference to it
+	 *
+	 * @see forms/forms.js
+	 * @see tools/ajax.php
 	 */
-	addOnDemandTools: function(handle, option) {
-		handle = $(handle);
+	addOnDemandTools: function(handle) {
+
+		if(typeof handle != "object")
+	        handle = $("#" + handle);
 
 		var prefix = '';
-		if(handle.hasClassName('sortable')) {
+		if(handle.hasClass('sortable')) {
 			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
 		}
+
 		var suffix = '<span class="onHoverRight">';
-		if(handle.hasClassName('mutable')) {
-			suffix += '<a href="#" onclick="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
+		if(handle.hasClass('mutable')) {
+			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+ Yacs.identify(handle) +'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-		var here = new Element.insert(handle, { top: suffix + prefix });
+		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle) +'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
 
-		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
-		handle.onmouseover = function () { Yacs.mouseOver(this); return false; };
+		handle.prepend(suffix + prefix);
 
-		handle = null; // no memory leak
-
+		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
+		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
 	},
 
 	/**
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
-		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
-		nodes.each(function (node) { Element.setStyle(node, { visibility: 'hidden' }); });
-
-		nodes = null; // no memory leak
+		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+			.css('visibility', 'hidden');
 	},
 
 	/**
 	 * mouse is coming on top of some element
 	 */
 	mouseOver: function(handle) {
-		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
-		nodes.each(function (node) { Element.setStyle(node, { visibility: 'visible' }); });
-
-		nodes = null; // no memory leak
+		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
+			.css('visibility', 'visible');
 	},
 
 	toggleProperties: function(handle) {
-		var nodes = $(handle).select('.properties');
-		nodes.each(function (node) { var handle = new Effect.toggle(node, 'slide'); });
-
-		nodes = null; // no memory leak
+        $(handle).children('.properties').toggle('slide');
 	},
 
 	/**
@@ -619,35 +719,79 @@ var Yacs = {
 		// detect Flash on client side
 		Yacs.detectFlash();
 
-		// pre-load the spinning image used during ajax updates
-		Yacs.spinningImage = new Image();
-		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
-
-		// pre-load the image used at the working overlay
-		Yacs.workingImage = new Image();
-		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
-
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-		var buttons = $$('button');
-		for(var index = 0; index < buttons.length; index++) {
-			var button = buttons[index];
-			var buttonType = String(button.getAttribute('type'));
-			if(buttonType.toLowerCase().match('submit') && !Element.hasClassName(button, 'no_spin_on_click')) {
-				button.onclick = Yacs.startWorking;
+		$('button').each(function() {
+			var buttonType = String($(this).attr('type'));
+			if(buttonType.toLowerCase().match('submit') && !$(this).hasClass('no_spin_on_click')) {
+				$(this).click(Yacs.startWorking);
 			}
+		});
 
-			button = null; // no memory leak
-		}
+		// show tips
+		$('a[title].tip').each(function() {
+			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+		});
+
+		// close all tooltips on tabbing, etc
+		$("body").bind("yacs", function(e) {
+			$('a.tip,input.tip,textarea.tip').each(function() { $(this).tipsy("hide"); });
+		});
+
+		// load the link in a scaled-down iframe
+		$('a.tipsy_preview').each(function() {
+			$(this).tipsy({fallback: '<div class="tipsy_thumbnail"><iframe class="tipsy_iframe" src="'+$(this).attr('href')+'" /></div>',
+				html: true,
+				gravity: $.fn.tipsy.autoWE,
+				fade: true,
+				offset: 8,
+				opacity: 1.0});
+		});
+
+		// beautify links titles in menu bars
+		$('.menu_bar a[title]').each(function() {
+			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true});
+		});
+
+		// stick some div to the top
+		var handle = $('div.stickyHeader');
+		if(handle && handle.offset())
+			Yacs.stickyHeader = handle.offset().top;
+
+		// adjust stickies on load
+		Yacs.positionStickies();
+
+		// adjust position on scrolling and on resize
+		$(window).scroll(Yacs.positionStickies).resize(Yacs.positionStickies);
 
 		// on-demand headers
-		var nodes = $$('.onDemandTools');
-		for(index = 0; index < nodes.length; index++) {
-			var node = nodes[index];
-			Yacs.addOnDemandTools(node, { });
-		}
+		$('.onDemandTools').each(function() {
+			Yacs.addOnDemandTools($(this));
+		});
+
+		// identify all elements that should be tiled
+		$('.floating_box').addClass('tile');
+		$('div.description .thumbnail_image').addClass('tile');
+
+		// create groups of adjacent tiles
+		var siblingsLast = null;
+		$('.tile').each(function(){
+
+			// head of a group of tiles
+			if(!siblingsLast)
+				siblingsLast = $(this).nextUntil(':not(.tile)').andSelf().wrapAll('<div class="tiler" />').last();
+
+			// tail of the group
+			if( $(this).is(siblingsLast) )
+				siblingsLast = null;
+		});
+
+		// do the tiling
+		$('.tiler').masonry({
+			itemSelector: '.tile'
+		});
 
 		// prepare for a nice slideshow
-		var anchors = $$('a.image_show');
+		var anchors = $('.image_show');
 		for(index = 0; index < anchors.length; index++) {
 			var anchor = anchors[index];
 			anchor.onclick = Yacs.clickImage;
@@ -662,10 +806,10 @@ var Yacs = {
 		}
 
 		// slow down notifications on window blur
-		Event.observe(window, 'blur', Yacs.looseFocus);
+		$(window).blur(Yacs.looseFocus);
 
 		// back to normal rate on focus
-		Event.observe(window, 'focus', Yacs.getFocus);
+		$(window).focus(Yacs.getFocus);
 
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
@@ -702,7 +846,7 @@ var Yacs = {
 		};
 
 		// use provided options, if any
-		Object.extend(this.options, options || {});
+		$.extend(this.options, options || {});
 
 		// sanity check
 		if(this.options.normal) {
@@ -736,6 +880,26 @@ var Yacs = {
 
 		// allow for additional handling of this window
 		return window_handle;
+	},
+
+	/**
+	 * adjust sticky header and footer
+	 */
+	positionStickies: function() {
+
+		// adjust sticking header
+		var wt = $(window).scrollTop();
+		$('div.stickyHeader').each(function() {
+			var mt = Yacs.stickyHeader;
+			$(this).css({'position': (wt>mt) ? 'fixed' : 'static', 'top': (wt>mt) ? '0px' : ''});
+		});
+
+		// adjust sticking footer
+		$('div.stickyFooter').each(function() {
+			$(this).css({position: "absolute",
+				top: ($(window).scrollTop()+$(window).height()-$(this).outerHeight())+"px"});
+		});
+
 	},
 
 	/**
@@ -778,13 +942,14 @@ var Yacs = {
 
 			// adjust image size to viewport dimensions
 			var scale = 1.0;
-			if((loader.width > 1) && (loader.width + 30 > document.viewport.getWidth())) {
-				scale = (document.viewport.getWidth() - 30) / loader.width;
+			if((loader.width > 1) && (loader.width + 30 > $(window).width())) {
+				scale = ($(window).width() - 30) / loader.width;
 				loader.height*= scale;
 				loader.width *= scale;
 			}
-			if((loader.height > 1) && (loader.height + 110 > document.viewport.getHeight())) { // take title and buttons into account
-				scale = (document.viewport.getHeight() - 110) / loader.height;
+
+			if((loader.height > 1) && (loader.height + 110 > $(window).height())) { // take title and buttons into account
+				scale = ($(window).height() - 110) / loader.height;
 				loader.height*= scale;
 				loader.width *= scale;
 			}
@@ -802,37 +967,37 @@ var Yacs = {
 			Yacs.previousImageWidth = loader.width;
 
 			// rescale on size change
-			if((yDelta !== 0) && (xDelta !== 0) && $('modal_image_panel')) {
+			if((yDelta !== 0) && (xDelta !== 0) && $('#modal_image_panel')) {
 
 				// previous image -- <div id="modal_image_panel"><img ...
-				var previousImage = $('modal_image_panel').down();
+				var previousImage = $('#modal_image_panel').children('img');
 
 				// current height and width
-				var currentHeight = Element.getHeight(previousImage);
-				var currentWidth = Element.getWidth(previousImage);
+				var currentHeight = previousImage.height();
+				var currentWidth = previousImage.width();
 
 				// compute scaling factors
 				var yScale = ((currentHeight + yDelta) / currentHeight) * 100;
 				var xScale = ((currentWidth + xDelta) / currentWidth) * 100;
 
 				// scaling previous image makes ugly things
-				var opacity = new Effect.Opacity('modal_content', {duration:0.1, from:1.0, to:0.0});
-				Element.setStyle('modal_content', { visibility: 'hidden' });
+				$('#modal_content').fadeTo(0.1, 0.0);
+				$('#modal_content').css('visibility', 'hidden');
 
 				// adjust the overall size
 				if(yDelta !== 0) {
-					var effect = new Effect.Scale(previousImage, yScale, {scaleX: false, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'vertical', percent: yScale, duration: 400, queue: 'end'});
 				}
 				if(xDelta !== 0) {
-					var effect2 = new Effect.Scale(previousImage, xScale, {scaleY: false, duration: 0.4, queue: 'end'});
+				    previousImage.effect("scale", {direction: 'horizontal', percent: xScale, duration: 400, queue: 'end'});
 				}
 			}
 
 			// image title -- <a><span><img title="" ...
-			var imageTitle = Element.down(anchor, 'img').getAttribute('title');
+			var imageTitle = $(anchor).find('img').attr('title');
 
 			// image href
-			var imageReference = '<div id="modal_image_panel"><img src="'+anchor.getAttribute('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
+			var imageReference = '<div id="modal_image_panel"><img src="'+$(anchor).attr('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
 
 			// a neighbour on the left
 			if(anchor.previousAnchor) {
@@ -847,7 +1012,7 @@ var Yacs = {
 
 				// do not wait for user click to load the image
 				var nextLoader = new Image();
-				nextLoader.src = anchor.nextAnchor.getAttribute('href');
+				nextLoader.src = $(anchor.nextAnchor).attr('href');
 
 			} else {
 				Yacs.modalCallNext = null;
@@ -865,7 +1030,7 @@ var Yacs = {
 		};
 
 		// actual pre-load
-		loader.src = anchor.getAttribute('href');
+		loader.src = $(anchor).attr('href');
 
 	},
 
@@ -881,15 +1046,15 @@ var Yacs = {
 	slidePanel: function(handle, down_href, up_href, onLeft, down) {
 
 		// align to the parent container
-		var container = Element.up(handle);
-		Element.setStyle(container, {position: 'relative'});
+		var container = $(handle).parent();
+		$(container).css({position: 'relative', zIndex: 100});
 
 		// the panel to slide
-		var panel = Element.next(handle, '.panel');
+		var panel = $(handle).next('.panel');
 
 		// align the sliding panel
 		if((onLeft !== true) && (onLeft !== false)) {
-			onLeft = (Element.getWidth(panel) > (Element.cumulativeOffset(container).left + Element.getWidth(handle)));
+			onLeft = ($(panel).width() > ($(container).offset().left + $(handle).width()));
 		}
 
 		if((down !== true) && (down !== false)) {
@@ -898,40 +1063,40 @@ var Yacs = {
 
 		// do the alignment
 		if(onLeft && down) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', top: '100%', left: 0});
 
 		}
 		if(onLeft && !down) {
-			Element.setStyle(panel, {position: 'absolute', bottom: container.getHeight() + 'px', left: 0});
+			$(panel).css({position: 'absolute', bottom: '100%', left: 0});
 
 		}
 		if(!onLeft && down) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', top: '100%', right: 0});
 		}
 		if(!onLeft && !down) {
-			Element.setStyle(panel, {position: 'absolute', bottom: container.getHeight() + 'px', right: 0});
+			$(panel).css({position: 'absolute', bottom: '100%', right: 0});
 		}
 
 		// display the panel if it is not visible
-		if(panel.style.display == 'none') {
+		if($(panel).css("display") == 'none') {
 
-			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
+			$(panel).css({position: 'relative', zIndex: 200}).slideDown({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.next(Element.down(handle, 'span'), 'img');
+			var icon = $(handle).children('img');
 			if(icon && up_href) {
-				icon.src = up_href;
+				icon.attr('src',up_href);
 			}
 
 		// collapse the panel if it is visible
 		} else {
 
-			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+			$(panel).slideUp({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.next(Element.down(handle, 'span'), 'img');
+			var icon = $(handle).children('img');
 			if(icon && down_href) {
-				icon.src = down_href;
+				icon.attr('src',down_href);
 			}
 
 		}
@@ -948,9 +1113,12 @@ var Yacs = {
 	 */
 	spin: function(panel) {
 
-		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
+		if(Yacs.spinningImage)
+			$(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 	},
+
+	spinningImage: null,
 
 	/**
 	 * load some opaque overlay during back-end processing
@@ -958,7 +1126,7 @@ var Yacs = {
 	startWorking: function() {
 
 		if(Yacs.workingOverlay) {
-			Element.setStyle(Yacs.workingOverlay, { display: 'block' });
+			$(Yacs.workingOverlay).css({ display: 'block' });
 			return true;
 		}
 
@@ -971,20 +1139,20 @@ var Yacs = {
 		// </div>
 
 		var objWorkingImage = document.createElement("img");
-		objWorkingImage.setAttribute('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
+		$(objWorkingImage).attr('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
 
 		var objCentered = document.createElement("div");
-		Element.setStyle(objCentered, { position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
-		objCentered.appendChild(objWorkingImage);
+		$(objCentered).css({ position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
+		$(objCentered).append(objWorkingImage);
 
 		Yacs.workingOverlay = document.createElement("div");
-		Yacs.workingOverlay.setAttribute('id','yacsWorkingOverlay');
-		Element.setStyle(Yacs.workingOverlay, { position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
-		Yacs.workingOverlay.onclick = function() { Element.setStyle(Yacs.workingOverlay, { display: 'none' });};
-		Yacs.workingOverlay.appendChild(objCentered);
+		$(Yacs.workingOverlay).attr('id','yacsWorkingOverlay');
+		$(Yacs.workingOverlay).css({ position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
+		$(Yacs.workingOverlay).click(function() { $(Yacs.workingOverlay).css({ display: 'none' });});
+		$(Yacs.workingOverlay).append(objCentered);
 
 		var objBody = document.getElementsByTagName("body").item(0);
-		objBody.appendChild(Yacs.workingOverlay);
+		$(objBody).append(Yacs.workingOverlay);
 
 		return true;
 	},
@@ -994,9 +1162,9 @@ var Yacs = {
 	 */
 	stopWorking: function() {
 
-		var handle = $('yacsWorkingOverlay');
+		var handle = $('#yacsWorkingOverlay');
 		if(handle) {
-			Element.setStyle(handle, { display: 'none' });
+			$(handle).css({ display: 'none' });
 		}
 
 	},
@@ -1027,12 +1195,12 @@ var Yacs = {
 		}
 
 		// start an ajax transaction
-		Yacs.subscribeAjax = new Ajax.Request(url_to_root + 'users/heartbit.php', {
-			method: 'get',
-			parameters: { },
-			requestHeaders: {Accept: 'application/json'},
-			onSuccess: Yacs.subscribeSuccess,
-			onFailure: Yacs.subscribeFailure
+		Yacs.subscribeAjax = $.ajax(url_to_root + 'users/heartbit.php', {
+			type: 'get',
+			data: {'reference': Yacs.current_item, 'action': Yacs.current_action},
+			dataType: "json",
+			success: Yacs.subscribeSuccess,
+			error: Yacs.subscribeFailure
 		});
 	},
 
@@ -1047,20 +1215,21 @@ var Yacs = {
 
 	},
 
-	subscribeSuccess: function(transport) {
+	subscribeSuccess: function(response) {
 
 		// dispatch received notification
-		var response = transport.responseText.evalJSON(true);
-		switch(response.type) {
-		case 'alert':
-			Yacs.handleAlertNotification(response);
-			break;
-		case 'browse':
-			Yacs.handleBrowseNotification(response);
-			break;
-		case 'hello':
-			Yacs.handleHelloNotification(response);
-			break;
+		if(response) {
+			switch(response.type) {
+			case 'alert':
+				Yacs.handleAlertNotification(response);
+				break;
+			case 'browse':
+				Yacs.handleBrowseNotification(response);
+				break;
+			case 'hello':
+				Yacs.handleHelloNotification(response);
+				break;
+			}
 		}
 
 		// minimum time between two successive notifications
@@ -1068,9 +1237,6 @@ var Yacs = {
 		Yacs.subscribeAjax = null;
 
 	},
-
-	// remember polling rate
-	subscribeRate: "fast",
 
 	// on-going timer, if any
 	subscribeTimer: 0,
@@ -1106,8 +1272,8 @@ var Yacs = {
 		handle.lastColumn = column;
 
 		// hide the table during operations
-		var oldDsply = handle.style.display;
-		handle.style.display = "none";
+		var oldDsply = $(handle).css("display");
+		$(handle).css("display","none");
 
 		// use a selection sort algorithm
 		var tmpEl;
@@ -1157,7 +1323,7 @@ var Yacs = {
 		//	setRanks(handle, column, rev);
 
 		// show the table again
-		handle.style.display = oldDsply;
+		$(handle).css("display", oldDsply);
 
 		return false;
 	},
@@ -1179,8 +1345,8 @@ var Yacs = {
 			Yacs.window_ = win;
 		}
 		var logLine = Yacs.window_.document.createElement("div");
-		logLine.appendChild(Yacs.window_.document.createTextNode('=> ' + message));
-		Yacs.window_.document.body.appendChild(logLine);
+		$(logLine).append(Yacs.window_.document.createTextNode('=> ' + message));
+		$(Yacs.window_.document.body).append(logLine);
 
 	},
 
@@ -1192,8 +1358,8 @@ var Yacs = {
 	 * or, alternatively, just call Skin::build_tabs() from within you PHP code
 	 * to have everything done automatically.
 	 *
-	 * @param tabs A list of tabs related to panels and URLs
-	 * @param args This corresponds to the Ajax options supported in prototype.js
+	 * @param tabs a list of tabs related to panels and URLs
+	 * @param args additional ajax settings given to $.ajax()
 	 *
 	 * @see users/view.php
 	 * @see skins/skin_skeleton.php
@@ -1213,7 +1379,7 @@ var Yacs = {
 			if(tabs.hasOwnProperty(id)) {
 
 				// instrument this tab
-				Event.observe($(id), 'click', Yacs.tabsEvent);
+				$("#"+id).click(Yacs.tabsEvent);
 
 				// we are on first tab
 				if(!Yacs.tabs_current) {
@@ -1222,31 +1388,25 @@ var Yacs = {
 			}
 		}
 
-		// move to the right tab
-//		new PeriodicalExecuter(function(pe) {
+		// where are we?
+		if(window.location.hash.length > 1) {
+			var hash = document.location.hash.substr(1,document.location.hash.length);
 
-			// where are we?
-			if(window.location.hash.length > 1) {
-				var hash = document.location.hash.substr(1,document.location.hash.length);
+			// are we already there?
+			if(Yacs.tabs_current == hash)
+				return;
 
-				// are we already there?
-				if(Yacs.tabs_current == hash)
-					return;
-
-				// change to this tab
-				for(id in tabs) {
-					if(id == hash) {
-						Yacs.tabsDisplay(id);
-						break;
-					}
+			// change to this tab
+			for(id in tabs) {
+				if(id == hash) {
+					Yacs.tabsDisplay(id);
+					break;
 				}
-
-				// wait until next change of hash
-				Yacs.tabs_current = hash;
 			}
 
-//		}, 0.5);
-
+			// wait until next change of hash
+			Yacs.tabs_current = hash;
+		}
 
 	},
 
@@ -1262,19 +1422,21 @@ var Yacs = {
 		for(iterator in Yacs.tabs_list) {
 
 			panel = Yacs.tabs_list[iterator][0];
-			if(id == $(iterator).id) {
+			if(id == iterator) {
 				newCurrent = iterator;
 
 			} else {
 
-				// update the tab
-				$(iterator).className = 'tab-background';
+			    // update the tab
+			    $("#"+iterator).removeClass('tab-foreground');
+			    $("#"+iterator).addClass('tab-background');
 
-				// update the panel
-				if($(panel).style.display != 'none') {
-					new Effect.Fade(panel, {duration:.1, scaleContent:false});
-				}
-				$(panel).className = 'panel-background';
+			    // update the panel
+			    if($("#"+panel).css("display") != 'none') {
+				    $("#"+panel).fadeOut(.1);
+			    }
+			$("#"+panel).removeClass('panel-foreground');
+			$("#"+panel).addClass('panel-background');
 			}
 		}
 
@@ -1282,23 +1444,26 @@ var Yacs = {
 		panel = Yacs.tabs_list[newCurrent][0];
 
 		// remember our state
-		window.location.hash = id;
 		Yacs.tabs_current = id;
 
 		// update the tab
-		$(newCurrent).className = 'tab-foreground';
+		$("#"+newCurrent).removeClass('tab-background');
+		$("#"+newCurrent).addClass('tab-foreground');
 
 		// update the panel
-		if($(panel).style.display == 'none') {
-			new Effect.Appear(panel, {duration:.1, scaleContent:false});
+		if($("#"+panel).css("display") == 'none') {
+			$("#"+panel).fadeIn(.1);
 		}
-		$(panel).className = 'panel-foreground';
+		$("#"+panel).removeClass('panel-background');
+		$("#"+panel).addClass('panel-foreground');
 
 		// load panel content, if necessary
 		if(Yacs.tabs_list[newCurrent].length > 1) {
 			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 		}
 
+		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
+		$('body').trigger('yacs');
 	},
 
 	/**
@@ -1307,7 +1472,7 @@ var Yacs = {
 	tabsEvent: function(e) {
 
 		// target the clicked tab
-		var clicked = Event.element(e);
+		var clicked = this;
 
 		// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
 		if((clicked.tagName == 'a') || (clicked.tagName == 'A')) {
@@ -1323,7 +1488,8 @@ var Yacs = {
 		Yacs.tabsDisplay(clicked.id);
 
 		// do not propagate event
-		Event.stop(e);
+		e.stopPropagation();
+		return false;
 	},
 
 	/**
@@ -1380,15 +1546,18 @@ var Yacs = {
 		var currentSize = allSizes[ current.size ];
 
 		// resize the target container
-		$(current.handle).style.fontsize = currentSize;
+		$(current.handle).css("fontsize", currentSize);
 
 		// also resize poorly inherited items
-		allTags = $(current.handle).getElementsByTagName('div');
-		for(var index = 0; index < allTags.length; index++ ) { allTags[index].style.fontSize = currentSize; }
-		allTags = $(current.handle).getElementsByTagName('td');
-		for(index = 0; index < allTags.length; index++ ) { allTags[index].style.fontSize = currentSize; }
-		allTags = $(current.handle).getElementsByTagName('tr');
-		for(index = 0; index < allTags.length; index++ ) { allTags[index].style.fontSize = currentSize; }
+		$(current.handle + ' div').each(function () {
+		   $(this).css("fontSize", currentSize);
+		});
+		$(current.handle + ' td').each(function () {
+		   $(this).css("fontSize", currentSize);
+		});
+		$(current.handle + ' tr').each(function () {
+		   $(this).css("fontSize", currentSize);
+    	});
 	},
 
 	/**
@@ -1402,41 +1571,33 @@ var Yacs = {
 	toggle_accordion: function(handle, down_href, up_href, accordion) {
 
 		// the toggled panel
-		var toggled = Element.next(handle, '.accordion_content');
+		var toggled = $(handle).next('.accordion_content');
 		var processed = false;
 
-		// close all boxes in the accordion
- 		$$('.'+accordion).each( function(item) {
+                // refold each opened gusset in selected accordion
+                $('.'+accordion).each(function(i,gusset) {
+                    // gusset == this
+                    var panel = $(gusset).children(".accordion_content");
+                    // detect unfolded panel
+                    if(panel.css("display") != 'none') {
+                        // slide up panel
+                        $(panel).slideUp({duration: 'slow', scaleContent:false});
+                        // change icon to unfold visual
+                        $(gusset).find('.handle').attr('src', down_href);
+                        // clicked box has been closed
+						if(toggled == panel) {
+                            processed = true;
+						}
+                    }
+                });
 
- 			var panel = Element.down(item, '.accordion_content');
-			if(panel.style.display != 'none') {
-				new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
-
-				// change the image (if there is an image)
-				var icon = Element.down(item, 'a').down('img');
-				if(icon && down_href) {
-					icon.src = down_href;
-				}
-
-				// clicked box has been closed
-				if(toggled == panel) {
-					processed = true;
-				}
-
-			}
-
- 		} );
-
-		// only extend closed elements that have not been processed during this click
-		if((toggled.style.display == 'none') && !processed) {
-			new Effect.SlideDown(toggled, {duration:.3, scaleContent:false});
-
-			// change the image (if there is an image)
-			var icon = Element.down(handle, 'img');
-			if(icon && up_href) {
-				icon.src = up_href;
-			}
-		}
+                // only extend closed elements that have not been processed (closed) during this click
+                if((toggled.css("display") == 'none') && !processed) {
+                        // slide down panel
+						$(toggled).slideDown({duration: 'slow', scaleContent:false});
+                        // change the image to fold visual
+                        $(handle).find(".handle").attr('src', up_href);
+                }
 
 	},
 
@@ -1450,28 +1611,29 @@ var Yacs = {
 	toggle_folder: function(handle, down_href, up_href) {
 
 		// the panel to slide
-		var panel = Element.next(handle, '.folder_body');
+		var panel = $(handle).next('.folder_body');
 
 		// display the panel if it is not visible
-		if(panel.style.display == 'none') {
+		if(panel.css("display") == 'none') {
 
-			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
+			$(panel).slideDown({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
- 			var icon = Element.down(handle, 'img');
+ 			var icon = $(handle).children('img').first();
  			if(icon && up_href) {
- 				icon.src = up_href;
+ 				icon.attr('src', up_href);
  			}
 
 		// collapse the panel if it is visible
 		} else {
 
-			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+			$(panel).slideUp({duration: 'slow', scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = Element.down(handle, 'img');
+ 			var icon = $(handle).children('img').first();
+
 			if(icon && down_href) {
-				icon.src = down_href;
+				icon.attr('src', down_href);
 			}
 
 		}
@@ -1498,33 +1660,31 @@ var Yacs = {
 	 * update content asynchronously
 	 *
 	 * This function displays a nice spinning image while loading the page.
+	 * Args can be a hash of parameters as specified for jQuery ajax settings.
+	 *
+	 * @link http://api.jquery.com/jQuery.ajax/
 	 *
 	 * @param string id of the target CSS container
 	 * @param string web address to fetch new snippet
-	 * @param mixed additional parameters to transmit to Ajax
+	 * @param mixed additional parameters to ajax call
 	 *
 	 */
 	update: function(panel, address, args) {
 
 		// the spinning image
-		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
-
-		// basic options
-		var options = {
-			asynchronous: true,
-			method: 'get',
-			evalScripts: true
-			};
-
-		// don't use hash from prototype, it would kill our call
-		if(args) {
-			for(key in args) {
-				options[key] = args[key];
-			}
-		}
+		$('#'+panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />');
 
 		// go go go
-		var updater = new Ajax.Updater(panel, address, options);
+		$.ajax($.extend({
+			url: address,
+			dataType: 'html',
+			timeout: 30000,
+			success: function(data) {
+			  $('#'+panel).hide().html(data).show(400);
+			},
+			error: function(xhr, message) {
+			  $('#'+panel).text(message);
+			}}, args));
 
 	},
 
@@ -1538,19 +1698,19 @@ var Yacs = {
 	updateModalBox: function(content) {
 
 		// update box content
-		Element.update('modal_content', content);
+		$('#modal_content').html(content);
 
 		// adjust box size
-		Element.setStyle('modal_content', { width: 'auto', height: 'auto' });
+		$('#modal_content').css({ width: 'auto', height: 'auto' });
 
 		// center the box
 		var yShift, xShift;
-		yShift = Math.floor(((document.viewport.getHeight() - $('modal_centered').offsetHeight) / 2) - $('modal_centered').offsetTop);
-		xShift = Math.floor(((document.viewport.getWidth() - $('modal_centered').offsetWidth) / 2) - $('modal_centered').offsetLeft);
+		yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
+		xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
 
 		// update box position
 		if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
-			var effect = new Effect.MoveBy('modal_centered', yShift, xShift, {duration: 0.2, queue: 'end'});
+			$('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
 		}
 
 	},
@@ -1572,13 +1732,47 @@ var Yacs = {
 	updateOnce: function(panel, address, args) {
 
 		// do nothing if the panel contains something
-		if(!$(panel).innerHTML || ($(panel).innerHTML === '') || ($(panel).innerHTML == '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />')) {
+		if(!$(panel).html() || ($(panel).html() === '') || ($(panel).html('<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />'))) {
 			Yacs.update(panel, address, args);
 		}
 
+	},
+
+	/**
+	 * determine id of an element
+	 *
+	 * @param object the element to consider
+	 * @return string
+	 */
+	identify: function(handle) {
+
+		// use the 'id' attribute, if known
+		if(handle.attr('id'))
+			return handle.attr('id');
+
+		// provide an anonymous id
+		var i = 0;
+		do {
+			i++;
+			var id = 'anonymous_' + i;
+		} while(document.getElementById(id) != null);
+		handle.attr('id', id);
+		return id;
 	}
 
 };
 
 // initialize yacs
-Event.observe(window, "load", Yacs.onWindowLoad);
+$(document).ready(Yacs.onWindowLoad);
+
+// this can be done right now
+
+// pre-load the spinning image used during ajax updates
+Yacs.spinningImage = new Image();
+Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
+
+// pre-load the image used at the working overlay
+Yacs.workingImage = new Image();
+Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
+
+

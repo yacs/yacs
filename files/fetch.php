@@ -2,8 +2,6 @@
 /**
  * download one file
  *
- * @todo allow for download resuming as in http://w-shadow.com/blog/2007/08/12/how-to-force-file-download-with-php/
-
  * By default the script provides content of the target file.
  * Depending of the optional action parameter, behaviour is changed as follows:
  * - 'release' - assignment information is cleared, and no download takes place
@@ -13,18 +11,9 @@
  * File content is provided in pass-through mode most of the time, meaning this
  * script does not unveil the real web path to target file.
  *
- * This script is able to serve partial requests (e.g., from iPhone, iPod a,d iPad) if necessary
+ * This script is able to serve partial requests (e.g., from iPhone, iPod and iPad) if necessary
  *
  * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.1 Byte Ranges
- *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y')
- * - permission denied is the default
- *
- * Moreover, detach operations require the surfer to be an authenticated member.
  *
  * Optionnally, this script also read internal information for some file types,
  * in order to enhance the provided listing.
@@ -55,9 +44,6 @@
  * - fetch.php/12/detach
  * - fetch.php?id=12&action=detach
  *
- * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
- *
  * @author Bernard Paques
  * @author GnapZ
  * @reference
@@ -67,7 +53,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
-include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -90,12 +75,12 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -103,20 +88,12 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// public access is allowed
-if(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetch.php', 'file:'.$item['id']))
+	$permitted = FALSE;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// associates, editors and readers can view the page
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// check access rights
+elseif(Files::allow_access($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -166,7 +143,7 @@ if(!isset($item['id']) || !$item['id']) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // enable remote updates through webDAV
@@ -210,7 +187,7 @@ if(!isset($item['id']) || !$item['id']) {
 		Logger::error('Unexpected Content-Type');
 
 	// not allowed to write
-	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
+	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
 		Safe::header('500 Internal Server Error');
 		Logger::error('Not allowed to write to local file');
 
@@ -237,7 +214,7 @@ if(!isset($item['id']) || !$item['id']) {
 		}
 		fclose($output_handle);
 
-		// update the associate record in the database
+		// also update the database
 		$item['file_size'] = $new_size;
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];
@@ -314,14 +291,15 @@ if(!isset($item['id']) || !$item['id']) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 //actual transfer
 } elseif($item['id'] && $item['anchor']) {
 
 	// increment the count of downloads
-	Files::increment_hits($item['id']);
+	if(!Surfer::is_crawler())
+		Files::increment_hits($item['id']);
 
 	// record surfer activity
 	Activities::post('file:'.$item['id'], 'fetch');
@@ -337,15 +315,12 @@ if(!isset($item['id']) || !$item['id']) {
 		$file_name = utf8::to_ascii($item['file_name']);
 
 		// where the file is located
-		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+		$path = Files::get_path($item['anchor']).'/'.$item['file_name'];
 
 		// file attributes
 		$attributes = array();
 
-		// map the file on the regular web space
-		$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
-		// maybe we will pass the file through
+		// transmit file content
 		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
 			// stream FLV files if required to do so
@@ -403,55 +378,54 @@ if(!isset($item['id']) || !$item['id']) {
 
 			}
 
-			// serve the right type --avoid opening in Word and Excel, this is confusing most end-users
-			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
-//			Safe::header('Content-Type: application/download');
+			// serve the right type
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
 
 			// suggest a name for the saved file
-			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
-			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
-
-			// file size
-			Safe::header('Content-Length: '.$stat['size']);
+			$file_name = utf8::to_ascii($item['file_name']);
+			Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 
 			// we accepted (limited) range requests
 			Safe::header('Accept-Ranges: bytes');
 
 			// provide only a slice of the file
-			if(isset($_SERVER['HTTP_RANGE']) && preg_match('/bytes=([0-9\-]+)?/', $_SERVER['HTTP_RANGE'], $range)) {
+			if(isset($_SERVER['HTTP_RANGE']) && !strncmp('bytes=', $_SERVER['HTTP_RANGE'], 6)) {
 
-				// bytes=0-499 to get the first 500 bytes
-				if(preg_match('/^(\d+)-(\d+)/', $range[1], $matches)) {
-					$offset = intval($matches[1]);
-					$length = intval($matches[2]) - $offset + 1; // bytes=0-0 to get first byte
+				// maybe several ranges
+				$range = substr($_SERVER['HTTP_RANGE'], 6);
 
-				// bytes=9500- to get the last 500 bytes (out of 10000)
-				} elseif(preg_match('/^(\d+)-/', $range[1], $matches)) {
-					$offset = intval($matches[1]);
+				// process only the first range, if several are specified
+				if($position = strpos($range, ','))
+					$range = substr($range, 0, $position);
+
+				// beginning and end of the range
+				list($offset, $end) = explode('-', $range);
+				$offset = intval($offset);
+				if(!$end)
 					$length = $stat['size'] - $offset;
-
-				// bytes=-500 to get the last 500 bytes
-				} elseif(preg_match('/^-(\d+)/', $range[1], $matches)) {
-					$offset = $stat['size'] - intval($matches[1]);
-					$length = $stat['size'] - offset;
-				}
+				else
+					$length = intval($end) - $offset + 1;
 
 				// describe what is returned
 				Safe::header('HTTP/1.1 206 Partial Content');
 				Safe::header('Content-Range: bytes '.$offset .'-'.($offset + $length - 1).'/'.$stat['size']);
 
-				// slice itself
-				fseek($handle, $offset);
-				$slice = fread($handle, $length);
+				// slice size
+				Safe::header('Content-Length: '.$length);
 
 				// actual transmission except on a HEAD request
-				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) {
+					fseek($handle, $offset);
+					$slice = fread($handle, $length);
 					echo $slice;
+				}
 				fclose($handle);
-				return;
 
 			// regular download
 			} else {
+
+				// file size
+				Safe::header('Content-Length: '.$stat['size']);
 
 				// weak validator
 				$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
@@ -467,13 +441,14 @@ if(!isset($item['id']) || !$item['id']) {
 
 			}
 
-			// the post-processing hook, then exit
-			finalize_page(TRUE);
+			// the post-processing hook, then exit even on HEAD
+			finalize_page();
+			return;
 
 		}
 
 		// redirect to the actual file
-		$target_href = $url_prefix.$path;
+		$target_href = $context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 	}
 
 	// let the web server provide the actual file

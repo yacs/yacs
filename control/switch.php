@@ -18,6 +18,9 @@
  *
  * @see control/closed.php
  *
+ * When switching on, the script reset localized strings, in case they would have changed
+ * while the server was off.
+ *
  * @author Bernard Paques
  * @author GnapZ
  * @reference
@@ -43,7 +46,7 @@ $context['page_title'] = i18n::s('Main Switch');
 if(!Surfer::is_associate()) {
 
 	// prevent access to this script
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// back to the control panel
@@ -65,7 +68,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = i18n::c('The server has been switched on.');
-		Logger::remember('control/switch.php', $label);
+		Logger::remember('control/switch.php: '.$label);
 
 	// if the server is currently switched on
 	} elseif(file_exists($context['path_to_root'].'parameters/switch.on')) {
@@ -79,6 +82,10 @@ if(!Surfer::is_associate()) {
 	// back to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+	// reset localized strings to reload those who could have changed during the update
+	if(is_callable(array('i18n', 'reset')))
+		i18n::reset();
 
 // switch off
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'off')) {
@@ -115,7 +122,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = i18n::c('The server has been switched off.');
-		Logger::remember('control/switch.php', $label);
+		Logger::remember('control/switch.php: '.$label);
 
 	// if the server is currently switched off
 	} elseif(file_exists($context['path_to_root'].'parameters/switch.off'))

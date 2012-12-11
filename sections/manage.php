@@ -92,12 +92,12 @@ if($zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // which action?
 $action = NULL;
@@ -133,7 +133,7 @@ if(isset($_REQUEST['selected_articles']) && ($count = @count($_REQUEST['selected
 
 	$items = array();
 	foreach($_REQUEST['selected_articles'] as $dummy => $id) {
-		if($article =& Articles::get($id)) {
+		if($article = Articles::get($id)) {
 			if($bucket-- >= 0)
 				$items[] = Skin::build_link(Articles::get_permalink($article), $article['title'], 'article');
 			$selected_articles .= '<input type="hidden" name="selected_articles[]" value="'.$article['id'].'" />';
@@ -161,7 +161,7 @@ if(isset($_REQUEST['selected_sections']) && ($count = @count($_REQUEST['selected
 
 	$items = array();
 	foreach($_REQUEST['selected_sections'] as $dummy => $id) {
-		if($section =& Sections::get($id)) {
+		if($section = Sections::get($id)) {
 			if($bucket-- >= 0)
 				$items[] = Skin::build_link(Sections::get_permalink($section), $section['title'], 'article');
 			$selected_sections .= '<input type="hidden" name="selected_sections[]" value="'.$section['id'].'" />';
@@ -170,7 +170,7 @@ if(isset($_REQUEST['selected_sections']) && ($count = @count($_REQUEST['selected
 
 	// a hint on non-listed pages
 	if($delta = $count - count($items))
-		$items[] = sprintf(i18n::ns('%d other page has been selected', '%d other pages have been selected', $delta), $delta);
+		$items[] = sprintf(i18n::ns('%d other section has been selected', '%d other sections have been selected', $delta), $delta);
 
 	// a limited compact list
 	$selected_sections .= Skin::finalize_list($items, 'compact');
@@ -197,7 +197,7 @@ else
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -212,7 +212,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'manage')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // associate selected pages
@@ -276,7 +276,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'associate_confirmed') {
 
 	// nothing to do
-	if(!isset($_REQUEST['associate_to']) || (!$destination =& Anchors::get($_REQUEST['associate_to'])))
+	if(!isset($_REQUEST['associate_to']) || (!$destination = Anchors::get($_REQUEST['associate_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
 	// articles
@@ -312,7 +312,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been associated with %s.', '%d pages have been associated with %s.', $count),
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been associated with %s.', '%d sections have been associated with %s.', $count),
 			$count, Skin::build_link($destination->get_url(), $destination->get_title(), 'category')).'</p>';
 
 		// follow-up commands
@@ -420,7 +420,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($item);
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been deleted.', '%d pages have been deleted.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been deleted.', '%d sections have been deleted.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -444,7 +444,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to de-publish
-			if(($article =& Articles::get($id)) && ($article['publish_date'] > NULL_DATE)) {
+			if(($article = Articles::get($id)) && ($article['publish_date'] > NULL_DATE)) {
 
 				$attributes = array();
 				$attributes['id'] = $article['id'];
@@ -536,7 +536,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'duplicate_confirmed') {
 
 	// nothing to do
-	if(!isset($_REQUEST['duplicate_to']) || (!$destination =& Anchors::get($_REQUEST['duplicate_to'])))
+	if(!isset($_REQUEST['duplicate_to']) || (!$destination = Anchors::get($_REQUEST['duplicate_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
 	// articles
@@ -546,7 +546,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to duplicate
-			if($article =& Articles::get($id)) {
+			if($article = Articles::get($id)) {
 
 				// a new id will be allocated
 				$old_id = $article['id'];
@@ -576,10 +576,17 @@ if(Surfer::is_crawler()) {
 				$article['anchor'] = $_REQUEST['duplicate_to'];
 
 				// actual duplication
-				if($new_id = Articles::post($article)) {
+				if($article['id'] = Articles::post($article)) {
+
+					// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+					$overlay = Overlay::load($article, 'article:'.$article['id']);
+
+					// post an overlay, with the new article id
+					if(is_object($overlay))
+						$overlay->remember('insert', $article, 'article:'.$article['id']);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('article:'.$old_id, 'article:'.$new_id);
+					Anchors::duplicate_related_to('article:'.$old_id, 'article:'.$article['id']);
 
 					// stats
 					$count++;
@@ -605,7 +612,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// the section to duplicate
-			if($section =& Sections::get($id)) {
+			if($section = Sections::get($id)) {
 
 				// a new id will be allocated
 				$old_id = $section['id'];
@@ -632,10 +639,17 @@ if(Surfer::is_crawler()) {
 				$section['anchor'] = $_REQUEST['duplicate_to'];
 
 				// actual duplication
-				if($new_id = Sections::post($section, FALSE)) {
+				if($section['id'] = Sections::post($section, FALSE)) {
+
+					// also duplicate the provided overlay, if any -- re-use 'overlay_type' only
+					$overlay = Overlay::load($section, 'section:'.$section['id']);
+
+					// post an overlay, with the new section id
+					if(is_object($overlay))
+						$overlay->remember('insert', $section, 'section:'.$section['id']);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$new_id);
+					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$section['id']);
 
 					// stats
 					$count++;
@@ -644,7 +658,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been duplicated.', '%d pages have been duplicated.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been duplicated.', '%d sections have been duplicated.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -668,7 +682,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// an article to lock
-			if(($article =& Articles::get($id)) && ($article['locked'] != 'Y')) {
+			if(($article = Articles::get($id)) && ($article['locked'] != 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $article['id'];
@@ -708,7 +722,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// an section to lock
-			if(($section =& Sections::get($id)) && ($section['locked'] != 'Y')) {
+			if(($section = Sections::get($id)) && ($section['locked'] != 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $section['id'];
@@ -724,7 +738,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($item);
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been locked.', '%d pages have been locked.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been locked.', '%d sections have been locked.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -800,7 +814,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'move_confirmed') {
 
 	// nothing to do
-	if(!isset($_REQUEST['move_to']) || (!$destination =& Anchors::get($_REQUEST['move_to'])))
+	if(!isset($_REQUEST['move_to']) || (!$destination = Anchors::get($_REQUEST['move_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
 	// articles
@@ -848,7 +862,7 @@ if(Surfer::is_crawler()) {
 		Cache::clear(array($item, $destination->get_reference()));
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been moved to %s.', '%d pages have been moved to %s.', $count),
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been moved to %s.', '%d sections have been moved to %s.', $count),
 			$count, Skin::build_link($destination->get_url(), $destination->get_title(), 'section')).'</p>';
 
 		// follow-up commands
@@ -873,7 +887,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to publish
-			if(($article =& Articles::get($id)) && ($article['publish_date'] <= NULL_DATE)) {
+			if(($article = Articles::get($id)) && ($article['publish_date'] <= NULL_DATE)) {
 
 				if(!Articles::stamp($article['id'], gmstrftime('%Y-%m-%d %H:%M:%S'), ''))
 					$count++;
@@ -949,7 +963,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// an article to lock
-			if(($article =& Articles::get($id)) && ($article['locked'] == 'Y')) {
+			if(($article = Articles::get($id)) && ($article['locked'] == 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $article['id'];
@@ -989,7 +1003,7 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// an section to lock
-			if(($section =& Sections::get($id)) && ($section['locked'] == 'Y')) {
+			if(($section = Sections::get($id)) && ($section['locked'] == 'Y')) {
 
 				$attributes = array();
 				$attributes['id'] = $section['id'];
@@ -1005,7 +1019,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($item);
 
 		// report on results
-		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been unlocked.', '%d pages have been unlocked.', $count), $count).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::ns('%d section has been unlocked.', '%d sections have been unlocked.', $count), $count).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -1061,12 +1075,9 @@ if(Surfer::is_crawler()) {
 		$text .= JS_PREFIX
 			.'function count_selected_articles() {'."\n"
 			.'	var count = 0;'."\n"
-			.'	var checkers = $$("div#articles_panel input[type=\'checkbox\'].row_selector");'."\n"
-			.'	for(var index=0; index < checkers.length; index++) {'."\n"
-			.'		if(checkers[index].checked) {'."\n"
-			.'			count++;'."\n"
-			.'		}'."\n"
-			.'	}'."\n"
+			.'	$("div#articles_panel input[type=\'checkbox\'].row_selector").each('."\n"
+			.'		function() { count++;}'."\n"
+			.'	);'."\n"
 			.'	return count;'."\n"
 			.'}'."\n"
 			."\n"
@@ -1074,14 +1085,14 @@ if(Surfer::is_crawler()) {
 			.'	if(count_selected_articles() < 1) {'."\n"
 			.'		alert("'.i18n::s('No page has been selected.').'");'."\n"
 			.'	} else {'."\n"
-			.'		$("main_form").submit();'."\n"
+			.'		$("#main_form").submit();'."\n"
 			.'	}'."\n"
 			.'}'."\n"
 			."\n"
 			.JS_SUFFIX."\n";
 
 		// a list of commands
-		$options = '<select name="act_on_articles" id="act_on_articles"><option>-- '.i18n::s('Action').'</option>';
+		$options = '<select name="act_on_articles" id="act_on_articles"><option>'.i18n::s('For the selection:').'</option>';
 
 		// categorize selected pages
 		$options .= '<option value="associate_articles">'.i18n::s('Categorize').'</option>';
@@ -1176,12 +1187,9 @@ if(Surfer::is_crawler()) {
 		$text .= JS_PREFIX
 			.'function count_selected_sections() {'."\n"
 			.'	var count = 0;'."\n"
-			.'	var checkers = $$("div#sections_panel input[type=\'checkbox\'].row_selector");'."\n"
-			.'	for(var index=0; index < checkers.length; index++) {'."\n"
-			.'		if(checkers[index].checked) {'."\n"
-			.'			count++;'."\n"
-			.'		}'."\n"
-			.'	}'."\n"
+			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
+			.'		function() { count++;}'."\n"
+			.'	);'."\n"
 			.'	return count;'."\n"
 			.'}'."\n"
 			."\n"
@@ -1189,14 +1197,14 @@ if(Surfer::is_crawler()) {
 			.'	if(count_selected_sections() < 1) {'."\n"
 			.'		alert("'.i18n::s('No section has been selected.').'");'."\n"
 			.'	} else {'."\n"
-			.'		$("main_form").submit();'."\n"
+			.'		$("#main_form").submit();'."\n"
 			.'	}'."\n"
 			.'}'."\n"
 			."\n"
 			.JS_SUFFIX."\n";
 
 		// a list of commands
-		$options = '<select name="act_on_sections" id="act_on_sections"><option>-- '.i18n::s('Action').'</option>';
+		$options = '<select name="act_on_sections" id="act_on_sections"><option>'.i18n::s('For the selection:').'</option>';
 
 		// categorize selected pages
 		$options .= '<option value="associate_sections">'.i18n::s('Categorize').'</option>';

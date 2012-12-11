@@ -2,8 +2,6 @@
 /**
  * the configuration panel for the front page
  *
- * @todo add a textfield for tickers put at the home page
- *
  * This configuration panel manages following parameters:
  *
  * [*] [code]root_cover_at_home[/code] - Either 'full', 'body' or 'none'.
@@ -136,7 +134,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
@@ -251,7 +249,7 @@ elseif(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="root_sections_layout" value="custom" id="custom_sections_layout"';
 	if($context['root_sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />');
 	$fields[] = array($label, $input);
 
 	// use flash to animate recent pages
@@ -300,28 +298,28 @@ elseif(!Surfer::is_associate()) {
 	if($context['root_articles_layout'] == 'daily')
 		$input .= ' checked="checked"';
 	$input .= '/>daily - '.i18n::s('For weblogs and blogmarks.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_daily.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_daily.jpg', i18n::s('Preview'), 'open').BR;
 
 	// newspaper
 	$input .= '<input type="radio" name="root_articles_layout" value="newspaper"';
 	if($context['root_articles_layout'] == 'newspaper')
 		$input .= ' checked="checked"';
 	$input .= '/>newspaper - '.i18n::s('Focus on the last published article, and on the three articles published previously.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'open').BR;
 
 	// hardboiled
 	$input .= '<input type="radio" name="root_articles_layout" value="hardboiled"';
 	if($context['root_articles_layout'] == 'hardboiled')
 		$input .= ' checked="checked"';
 	$input .= '/>hardboiled - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_hardboiled.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_hardboiled.jpg', i18n::s('Preview'), 'open').BR;
 
 	// slashdot
 	$input .= '<input type="radio" name="root_articles_layout" value="slashdot"';
 	if($context['root_articles_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
 	$input .= '/>slashdot - '.i18n::s('List most recent pages equally.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_slashdot.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_slashdot.jpg', i18n::s('Preview'), 'open').BR;
 
 	// digg
 	$input .= '<input type="radio" name="root_articles_layout" value="digg"';
@@ -346,13 +344,13 @@ elseif(!Surfer::is_associate()) {
 	if($context['root_articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
 	$input .= '/>alistapart - '.i18n::s('Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'help').BR;
+		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'open').BR;
 
 	// custom
 	$input .= '<input type="radio" name="root_articles_layout" value="custom" id="custom_articles_layout"';
 	if($context['root_articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />').BR;
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />').BR;
 
 	// no article
 	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';
@@ -529,7 +527,7 @@ elseif(!Surfer::is_associate()) {
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // save updated parameters
@@ -635,7 +633,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/root.include.php');
-		Logger::remember('configure.php', $label);
+		Logger::remember('configure.php: '.$label);
 	}
 
 	// display updated parameters

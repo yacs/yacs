@@ -54,7 +54,7 @@ if($stats['count'])
 
 // stop hackers
 if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
@@ -73,12 +73,12 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'links/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
 		switch($context['root_articles_layout']) {
 			case 'daily':
-				include 'layout_links_as_daily.php';
+				include_once 'layout_links_as_daily.php';
 				$layout = new Layout_links_as_daily();
 				break;
 			default:
@@ -104,14 +104,14 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 // page tools
 if(Surfer::is_associate()) {
-	if($section =& Sections::get('clicks'))
+	if($section = Sections::get('clicks'))
 		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Detected clicks'), 'basic');
 	$context['page_tools'][] = Skin::build_link('links/check.php', i18n::s('Maintenance'), 'basic');
 }
 
 // page extra content
 $cache_id = 'links/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most popular links
 	if($items = Links::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))

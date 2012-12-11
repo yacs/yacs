@@ -48,101 +48,89 @@
 // stop hackers
 defined('YACS') or exit('Script must be included');
 
-// build the prefix only once
-if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
+// add language information, if known
+if(isset($context['page_language']))
+	$language = ' lang="'.$context['page_language'].'" xml:lang="'.$context['page_language'].'" ';
+else
+	$language = '';
 
-	// add language information, if known
-	if(isset($context['page_language']))
-		$language = ' lang="'.$context['page_language'].'" xml:lang="'.$context['page_language'].'" ';
-	else
-		$language = '';
+// xml prefix
+echo '<'.'?xml version="1.0" encoding="'.$context['charset'].'"?'.'>'."\n"
+	.'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n"
+	.'<html '.$language.' xmlns="http://www.w3.org/1999/xhtml">'."\n"
+	.'<head>'."\n";
 
-	// xml prefix
-	echo '<'.'?xml version="1.0" encoding="'.$context['charset'].'"?'.'>'."\n"
-		.'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n"
-		.'<html '.$language.' xmlns="http://www.w3.org/1999/xhtml">'."\n"
-		.'<head>'."\n";
+// give the charset to the w3c validator...
+echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'; charset='.$context['charset'].'" />'."\n";
 
-	// give the charset to the w3c validator...
-	echo "\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'; charset='.$context['charset'].'" />'."\n";
+// we have one style sheet for everything -- media="all" means it is not loaded by Netscape Navigator 4
+echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/joi/joi.css" type="text/css" media="all" />'."\n";
 
-	// we have one style sheet for everything -- media="all" means it is not loaded by Netscape Navigator 4
-	echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/joi/joi.css" type="text/css" media="all" />'."\n";
+// other head directives
+Page::meta();
 
-	// other head directives
-	echo $context['page_header'];
+// end of the header
+echo '</head>'."\n";
 
-	// end of the header
-	echo '</head>'."\n";
+// start the body
+Page::body();
 
-	// start the body
-	Page::body();
+// limit the horizontal size of everything, and center it in the page
+echo '<div id="wrapper">'."\n";
 
-	// limit the horizontal size of everything, and center it in the page
-	echo '<div id="wrapper">'."\n";
+// the header panel comes before everything
+echo '<div id="header_panel">'."\n";
 
-	// the header panel comes before everything
-	echo '<div id="header_panel">'."\n";
+// the site name -- can be replaced, through CSS, by an image -- access key 1
+if($context['site_name'] && is_callable(array('i18n', 's')))
+	echo "\t".'<p id="header_title"><a href="'.$context['url_to_root'].'" title="'.encode_field(i18n::s('Front page')).'" accesskey="1">'.$context['site_name'].'</a></p>'."\n";
 
-	// the site name -- can be replaced, through CSS, by an image -- access key 1
-	if($context['site_name'] && is_callable(array('i18n', 's')))
-		echo "\t".'<p id="header_title"><a href="'.$context['url_to_root'].'" title="'.encode_field(i18n::s('Front page')).'" accesskey="1">'.$context['site_name'].'</a></p>'."\n";
+// site slogan
+if($context['site_slogan'])
+	echo "\t".'<p id="header_slogan">'.$context['site_slogan'].'</p>'."\n";
 
-	// site slogan
-	if($context['site_slogan'])
-		echo "\t".'<p id="header_slogan">'.$context['site_slogan'].'</p>'."\n";
+// end of the header panel
+echo '</div>'."\n";
 
-	// end of the header panel
-	echo '</div>'."\n";
+// the main panel
+echo '<div id="main_panel">'."\n";
 
-	// the main panel
-	echo '<div id="main_panel">'."\n";
+// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
+if($context['skin_variant'] != 'home')
+	Page::bread_crumbs(0);
 
-	// display bread crumbs if not at the front page; if not defined, only the 'Home' link will be displayed
-	if($context['skin_variant'] != 'home')
-		Page::bread_crumbs(0);
+// display main content
+Page::content();
 
-	// display main content
-	Page::content();
+// end of the main panel
+echo '</div>'."\n";
 
-// prefix ends here
-}
+// the side panel
+echo '<div id="side_panel">'."\n";
 
-// build the suffix only once
-if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
+// display side content
+Page::side();
 
-	// end of the main panel
-	echo '</div>'."\n";
+// end of the side panel
+echo '</div>'."\n";
 
-	// the side panel
-	echo '<div id="side_panel">'."\n";
+// the footer panel comes after everything else
+echo '<div id="footer_panel">';
 
-	// display side content
-	Page::side();
+// display standard footer
+Page::footer();
 
-	// end of the side panel
-	echo '</div>'."\n";
+// end of the footer panel
+echo '</div>'."\n";
 
-	// the footer panel comes after everything else
-	echo '<div id="footer_panel">';
+// end of the wrapper
+echo '</div>'."\n";
 
-	// display standard footer
-	Page::footer();
+// insert the dynamic footer, if any, including inline scripts
+echo $context['page_footer'];
 
-	// end of the footer panel
-	echo '</div>'."\n";
-
-	// end of the wrapper
-	echo '</div>'."\n";
-
-	// insert the dynamic footer, if any, including inline scripts
-	echo $context['page_footer'];
-
-	// end of page
-	echo '</body>'."\n"
-		.'</html>';
-
-// suffix ends here
-}
+// end of page
+echo '</body>'."\n"
+	.'</html>';
 
 ?>

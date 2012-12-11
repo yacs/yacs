@@ -145,8 +145,8 @@ Class Ldap_Authenticator extends Authenticator {
 			$search_dn = $parameters[3];
 
 		// encode provided parameters to avoid LDAP injections
-		$name = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('\\1')", $name);
-		$password = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('\\1')", $password);
+		$name = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('$1')", $name);
+		$password = preg_replace('/([^a-zA-Z0-9\' ])/e', "chr(92).bin2hex('$1')", $password);
 
 		// search expression
 		$search_filter = '';
@@ -217,7 +217,7 @@ Class Ldap_Authenticator extends Authenticator {
 				if($argerror) {
 					Logger::error($argerror_s);
 					if($context['with_debug'] == 'Y')
-						Logger::remember('users/authenticators/ldap.php', $argerror_c, '', 'debug');
+						Logger::remember('users/authenticators/ldap.php: '.$argerror_c, '', 'debug');
 					return(FALSE);
 				}
 			}
@@ -227,7 +227,7 @@ Class Ldap_Authenticator extends Authenticator {
 		if(!is_callable('ldap_connect')) {
 			Logger::error(i18n::s('Please activate the LDAP library.'));
 			if($context['with_debug'] == 'Y')
-				Logger::remember('users/authenticators/ldap.php', i18n::c('Please activate the LDAP library.'), '', 'debug');
+				Logger::remember('users/authenticators/ldap.php: '.i18n::c('Please activate the LDAP library.'), '', 'debug');
 			return FALSE;
 		}
 
@@ -235,7 +235,7 @@ Class Ldap_Authenticator extends Authenticator {
 		if(!$handle = @ldap_connect($server, $port)) {
 			Logger::error(sprintf(i18n::s('Impossible to connect to %.'), $server));
 			if($context['with_debug'] == 'Y')
-				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to connect to %.'), $server.':'.$port), '', 'debug');
+				Logger::remember('users/authenticators/ldap.php: '.sprintf(i18n::c('Impossible to connect to %.'), $server.':'.$port), '', 'debug');
 			return FALSE;
 		}
 
@@ -253,7 +253,7 @@ Class Ldap_Authenticator extends Authenticator {
 		else {
 			Logger::error(sprintf(i18n::s('Impossible to bind to LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
 			if($context['with_debug'] == 'Y')
-				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to bind to LDAP server %s.'), $server.' '.$bind_dn.' '.$bind_password), ldap_errno($handle).': '.ldap_error($handle), 'debug');
+				Logger::remember('users/authenticators/ldap.php: '.sprintf(i18n::c('Impossible to bind to LDAP server %s.'), $server.' '.$bind_dn.' '.$bind_password), ldap_errno($handle).': '.ldap_error($handle), 'debug');
 			ldap_close($handle);
 			return FALSE;
 		}
@@ -268,7 +268,7 @@ Class Ldap_Authenticator extends Authenticator {
 		if(!$result = @call_user_func($opt_ldap_search_func, $handle, $search_dn, $search_filter, array('cn'))) {
 			Logger::error(sprintf(i18n::s('Impossible to search in LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
 			if($context['with_debug'] == 'Y')
-				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to search in LDAP server %s.'), $server), ldap_errno($handle).': '.ldap_error($handle), 'debug');
+				Logger::remember('users/authenticators/ldap.php: '.sprintf(i18n::c('Impossible to search in LDAP server %s.'), $server), ldap_errno($handle).': '.ldap_error($handle), 'debug');
 			ldap_close($handle);
 			return FALSE;
 		}
@@ -282,7 +282,7 @@ Class Ldap_Authenticator extends Authenticator {
 
 		// authentication has failed
 		if($context['with_debug'] == 'Y')
-			Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('No match for %s.'), $search_filter), '', 'debug');
+			Logger::remember('users/authenticators/ldap.php: '.sprintf(i18n::c('No match for %s.'), $search_filter), '', 'debug');
 		ldap_free_result($result);
 		ldap_close($handle);
 		return FALSE;

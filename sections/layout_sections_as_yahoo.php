@@ -24,7 +24,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -50,9 +50,8 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$family = '';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
@@ -64,12 +63,12 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 				// show the family
 				$family = $item['family'];
-				$text .= '<h3 class="family">'.$family.'</h3>'."\n";
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n";
 
 			}
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $label = $suffix = $icon = '';
@@ -96,31 +95,6 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// count related sub-elements
 			$related_count = 0;
-
-			// info on related sections
-			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-				if($count > $maximum_items)
-					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
-				elseif(Surfer::is_empowered())
-					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
-				$related_count += $count;
-
-				// add sub-sections
-				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, $maximum_items, 'compact')) {
-					foreach($related as $sub_url => $label) {
-						$sub_prefix = $sub_suffix = $sub_hover = '';
-						if(is_array($label)) {
-							$sub_prefix = $label[0];
-							$sub_suffix = $label[2];
-							if(@$label[5])
-								$sub_hover = $label[5];
-							$label = $label[1];
-						}
-						$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'section', $sub_hover).$sub_suffix;
-					}
-				}
-
-			}
 
 			// info on related articles
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
@@ -228,9 +202,30 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 				$related_count += $count;
 			}
 
-			// rank, for associates and owners
-			if(($item['rank'] != 10000) && Sections::is_owned($item, NULL))
-				$details[] = '{'.$item['rank'].'}';
+			// info on related sections
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+				if($count > $maximum_items)
+					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+				elseif(Surfer::is_empowered())
+					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+				$related_count += $count;
+
+				// add sub-sections
+				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, $maximum_items, 'compact')) {
+					foreach($related as $sub_url => $label) {
+						$sub_prefix = $sub_suffix = $sub_hover = '';
+						if(is_array($label)) {
+							$sub_prefix = $label[0];
+							$sub_suffix = $label[2];
+							if(@$label[5])
+								$sub_hover = $label[5];
+							$label = $label[1];
+						}
+						$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'section', $sub_hover).$sub_suffix;
+					}
+				}
+
+			}
 
 			// introduction
 			if($item['introduction'])
@@ -246,11 +241,8 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// layout details
 			if(count($content)) {
-				$even = TRUE;
-				foreach($content as $line) {
-					$suffix .= '<div class="'.(($even)?'even':'odd').'">'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
-					$even = !$even;
-				}
+				foreach($content as $line)
+					$suffix .= '<div>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
 			}
 
 			// use the title to label the link

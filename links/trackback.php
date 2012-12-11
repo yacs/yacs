@@ -57,7 +57,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once 'links.php';
+include_once '../links/links.php';
 
 // the source url
 $source = NULL;
@@ -99,7 +99,7 @@ $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // load the skin, maybe with a variant
 load_skin('links', $anchor);
@@ -120,7 +120,7 @@ if(is_object($anchor) && ($title = $anchor->get_title()))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -128,9 +128,7 @@ if(Surfer::is_crawler()) {
 
 	// save the request if debug mode
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-		Logger::remember('links/trackback.php', 'trackback request', $_REQUEST, 'debug');
-
-	include_once $context['path_to_root'].'links/link.php';
+		Logger::remember('links/trackback.php: trackback request', $_REQUEST, 'debug');
 
 	// do we have a valid target to track?
 	if(!$anchor || !is_object($anchor))
@@ -141,7 +139,7 @@ if(Surfer::is_crawler()) {
 		$response = array('faultCode' => 1, 'faultString' => 'The source has already been registered');
 
 	// read the source file
-	elseif(($content = Link::fetch($source, '', '', 'links/trackback.php')) === FALSE)
+	elseif(($content = http::proceed($source)) === FALSE)
 		$response = array('faultCode' => 1, 'faultString' => 'Cannot read source address '.$source);
 
 	// we have to find a reference to the target here
@@ -228,7 +226,7 @@ if(Surfer::is_crawler()) {
 
 		// save the response if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/trackback.php', 'trackback response', $response, 'debug');
+			Logger::remember('links/trackback.php: trackback response', $response, 'debug');
 
 		// send the response
 		Safe::header('Content-Type: text/xml');
@@ -245,7 +243,7 @@ if(Surfer::is_crawler()) {
 
 // ensure that access is allowed
 } elseif(is_object($anchor) && !$anchor->is_viewable()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // we have a valid reference, collect other information
@@ -276,7 +274,7 @@ if(Surfer::is_crawler()) {
 		.Skin::build_block(encode_field($summary), 'code');
 
 	// permalink
-	$label = i18n::s('Permament address (permalink):');
+	$label = i18n::s('Permanent address (permalink):');
 	$value = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 	$text .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
 
@@ -384,7 +382,7 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("url").focus();'."\n"
+		.'$("#url").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// trackback link

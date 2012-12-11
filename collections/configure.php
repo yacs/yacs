@@ -60,7 +60,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
@@ -92,11 +92,11 @@ elseif(!Surfer::is_associate()) {
 			$input = '<input type="radio" name="collection_visibilities['.$name.']" value="Y"';
 			if(!isset($visibility) || !$visibility || ($visibility == 'Y'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers');
+			$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="R"';
 			if(isset($visibility) && ($visibility == 'R'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons');
+			$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="N"';
 			if(isset($visibility) && ($visibility == 'N'))
 				$input .= ' checked="checked"';
@@ -156,9 +156,9 @@ elseif(!Surfer::is_associate()) {
 
 	$label = i18n::s('Access');
 	$input = '<input type="radio" name="collection_visibilities[]" value="Y" checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers');
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="R"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons');
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="N"';
 	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 	$fields[] = array($label, $input);
@@ -237,7 +237,7 @@ elseif(!Surfer::is_associate()) {
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // save updated parameters
@@ -289,7 +289,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-		Logger::remember('collections/configure.php', $label);
+		Logger::remember('collections/configure.php: '.$label);
 
 	}
 

@@ -18,7 +18,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// allow for multiple calls
@@ -44,14 +44,23 @@ Class Layout_sections_as_accordion extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		$family = '';
+		while($item = SQL::fetch($result)) {
+
+			// change the family
+			if($item['family'] != $family) {
+				$family = $item['family'];
+
+				// show the family
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n";
+
+			}
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// one box per section
 			$box = array('title' => '', 'text' => '');
@@ -59,19 +68,15 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			// box content
 			$elements = array();
 
-			// start the label with family, if any
-			if($item['family'])
-				$box['title'] = Skin::strip($item['family'], 30).' - ';
-
 			// signal articles to be published
 			if(isset($item['activation_date']) && ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$box['title'] .= DRAFT_FLAG;
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$box['title'] .= PRIVATE_FLAG.' ';
+				$box['title'] .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$box['title'] .= RESTRICTED_FLAG.' ';
+				$box['title'] .= RESTRICTED_FLAG;
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -81,24 +86,6 @@ Class Layout_sections_as_accordion extends Layout_interface {
 
 			// complement the title with interesting details
 			$details = array();
-
-			// list related sections, if any
-			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
-
-				// mention the number of sections in folded title
-				$details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));
-
-				// add one link per item
-				foreach($items as $url => $label) {
-					$prefix = $suffix = '';
-					if(is_array($label)) {
-						$prefix = $label[0];
-						$suffix = $label[2];
-						$label = $label[1];
-					}
-					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
-				}
-			}
 
 			// info on related articles
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -125,7 +112,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			}
 
 			// info on related files
-			if(Sections::has_option('files_by_title', $anchor, $item))
+			if(Sections::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -146,7 +133,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', TRUE)) {
 
 				// mention the number of sections in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));
@@ -182,6 +169,24 @@ Class Layout_sections_as_accordion extends Layout_interface {
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label).$suffix;
+				}
+			}
+
+			// list related sections, if any
+			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+
+				// mention the number of sections in folded title
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));
+
+				// add one link per item
+				foreach($items as $url => $label) {
+					$prefix = $suffix = '';
+					if(is_array($label)) {
+						$prefix = $label[0];
+						$suffix = $label[2];
+						$label = $label[1];
+					}
+					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
 				}
 			}
 

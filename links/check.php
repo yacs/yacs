@@ -60,7 +60,7 @@ $context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
@@ -93,7 +93,6 @@ if(!Surfer::is_associate()) {
 				}
 
 				// the url is valid
-				include_once 'link.php';
 				if($stamp = Link::validate($actual_url)) {
 					$context['text'] .= '.';
 
@@ -284,7 +283,7 @@ if(!Surfer::is_associate()) {
 		if($result = Referrals::list_by_dates($links_offset, CHUNK_SIZE)) {
 
 			// analyze each link
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				list($link, $domain, $keywords) = Referrals::normalize($item['referer']);
 
 				// we suppose the referral is already ok
@@ -387,7 +386,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor, link_url, title FROM ".SQL::table_name('links')
 		." ORDER BY anchor LIMIT 0, 20000";
-	if(!($result =& SQL::query($query))) {
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
@@ -396,7 +395,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -461,7 +460,7 @@ if(!Surfer::is_associate()) {
 
 	// set the focus on the button
 	$context['text'] .= JS_PREFIX
-		.'$("action").focus();'."\n"
+		.'$("#action").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 }

@@ -50,12 +50,12 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // get the item from the database
-$item =& Actions::get($id);
+$item = Actions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // maybe this anonymous surfer is allowed to handle the anchor of this item
 if(is_object($anchor) && Surfer::may_handle($anchor->get_handle()))
@@ -106,7 +106,7 @@ if(!$item['id']) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Actions::get_url($item['id'], 'accept', $action)));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // update the database

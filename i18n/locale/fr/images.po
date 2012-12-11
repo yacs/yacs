@@ -1,0 +1,706 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
+"PO-Revision-Date: 2012-04-28 00:22+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: images/check.php:23 images/check.php:34 images/check.php:107
+#: images/check.php:163 images/delete.php:80 images/edit.php:138
+#: images/index.php:62 images/view.php:98
+msgid "Images"
+msgstr "Images"
+
+#: images/check.php:26 images/index.php:111
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: images/check.php:31 images/delete.php:92 images/edit.php:157
+#: images/edit.php:182 images/index.php:67 images/set_as_icon.php:65
+#: images/set_as_icon.php:80 images/set_as_thumbnail.php:63
+#: images/set_as_thumbnail.php:78 images/view.php:119
+msgid "You are not allowed to perform this operation."
+msgstr "Vous n'êtes pas autorisé à faire cette opération."
+
+#: images/check.php:41 images/images.php:770 images/index.php:96
+msgid "No image has been added."
+msgstr "Aucune image n'a été ajoutée."
+
+#: images/check.php:51 images/check.php:114
+#, php-format
+msgid "Analyzing table %s..."
+msgstr "Analyse de la table %s ..."
+
+#: images/check.php:71 images/check.php:100 images/check.php:134
+#: images/check.php:156
+#, php-format
+msgid "%d records have been processed"
+msgstr "%d enregistrements ont été traités"
+
+#: images/check.php:87
+#, php-format
+msgid "Unused: %s"
+msgstr "Inutilisée : %s"
+
+#: images/check.php:89 images/check.php:145
+msgid "Too many successive errors. Aborted"
+msgstr "Trop d'erreurs successives. Abandon"
+
+#: images/check.php:104 images/check.php:160
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Script terminé en %.2f secondes."
+
+#: images/check.php:143
+#, php-format
+msgid "Orphan: %s"
+msgstr "Orphelin : %s"
+
+#: images/check.php:170
+msgid "Please select the action to perform."
+msgstr "Merci de choisir l'opération à effectuer."
+
+#: images/check.php:176
+msgid "List biggest images"
+msgstr "Lister les plus grosses images"
+
+#: images/check.php:179
+msgid "Look for unused images"
+msgstr "Détecter les images non utilisées"
+
+#: images/check.php:182
+msgid "Look for orphan records"
+msgstr "Détecter les enregistrements orphelins"
+
+#: images/check.php:185
+msgid "Start"
+msgstr "Commencer"
+
+#: images/delete.php:83
+msgid "Delete an image"
+msgstr "Supprimer une image"
+
+#: images/delete.php:112
+msgid "The action has not been confirmed."
+msgstr "L'action n'a pas été confirmée."
+
+#: images/delete.php:119
+msgid "Yes, I want to delete this image"
+msgstr "Oui, je veux supprimer cette image"
+
+#: images/delete.php:121 images/edit.php:600
+msgid "Cancel"
+msgstr "Annuler"
+
+#: images/delete.php:159 images/edit.php:467 images/edit.php:479
+#: images/layout_images.php:99
+msgid "bytes"
+msgstr "octets"
+
+#: images/delete.php:163 images/layout_images.php:103 images/view.php:223
+#, php-format
+msgid "edited by %s %s"
+msgstr "modifié par %s %s"
+
+#: images/delete.php:180 images/view.php:210
+#, php-format
+msgid "Source: %s"
+msgstr "Source : %s"
+
+#: images/edit.php:142
+msgid "Update an image"
+msgstr "Mettre une image à jour"
+
+#: images/edit.php:144
+msgid "Add an image"
+msgstr "Ajouter une image"
+
+#: images/edit.php:162 images/images.php:696 images/images.php:702
+#: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
+msgid "No anchor has been found."
+msgstr "Aucun ancrage n'a été trouvé."
+
+#: images/edit.php:255
+msgid "No file has been transmitted."
+msgstr "Aucune image n'a été transmis."
+
+#: images/edit.php:274
+msgid "Thank you for your contribution"
+msgstr "Merci de votre contribution"
+
+#: images/edit.php:295
+msgid "The image has become the profile picture."
+msgstr "L'image illustre ce profil."
+
+#: images/edit.php:298
+msgid "This has become the thumbnail image of the page."
+msgstr "L'image sera utilisée comme vignette de page."
+
+#: images/edit.php:301
+msgid ""
+"The image has been added, and it also has been set as the page thumbnail."
+msgstr "L'image a été ajoutée ; elle servira aussi de vignette."
+
+#: images/edit.php:304
+msgid "The image has been inserted."
+msgstr "L'image a été insérée."
+
+#: images/edit.php:374
+#, php-format
+msgid "%d image has been processed."
+msgid_plural "%d images have been processed."
+msgstr[0] "%d image a été traitée."
+msgstr[1] "%d images ont été traitées."
+
+#: images/edit.php:376
+msgid "No image has been processed."
+msgstr "Aucune image n'a été traitée."
+
+#: images/edit.php:384
+msgid "What do you want to do now?"
+msgstr "Que voulez-vous faire à présent ?"
+
+#: images/edit.php:386
+msgid "View the page"
+msgstr "Voir la page"
+
+#: images/edit.php:387
+msgid "Edit the page"
+msgstr "Modifier la page"
+
+#: images/edit.php:388
+msgid "Submit another image"
+msgstr "Envoyer une autre image"
+
+#: images/edit.php:397
+#, php-format
+msgid "New image in %s"
+msgstr "Nouvelle image dans %s"
+
+#: images/edit.php:399
+#, php-format
+msgid "%s at %s"
+msgstr "%s à %s"
+
+#: images/edit.php:445
+msgid "Image"
+msgstr "Image"
+
+#: images/edit.php:463
+#, php-format
+msgid "posted by %s %s"
+msgstr "posté par %s %s"
+
+#: images/edit.php:477
+msgid "Select another image to replace the current one"
+msgstr "Choisissez une autre image pour remplacer l'image courante"
+
+#: images/edit.php:478
+msgid "Press to select a local file"
+msgstr "Choisir un fichier local"
+
+#: images/edit.php:483 images/edit.php:487
+msgid "Select a picture to illustrate this user profile."
+msgstr "Choisir une image pour illustrer ce profil utilisateur."
+
+#: images/edit.php:491
+msgid "Select a thumbnail picture for this page."
+msgstr "Choisir une vignette pour cette page."
+
+#: images/edit.php:495
+msgid ""
+"Select a .png, .gif or .jpeg image, or a .zip file containing several images."
+msgstr ""
+"Choisir une image .png, ou .gif ou .jpg, ou une archive .zip contenant "
+"plusieurs images."
+
+#: images/edit.php:505
+msgid "Title"
+msgstr "Titre"
+
+#: images/edit.php:511
+msgid "Description"
+msgstr "Description"
+
+#: images/edit.php:515
+msgid "Source"
+msgstr "Source"
+
+#: images/edit.php:517
+msgid ""
+"If you have got this file from outside sources, please reference these "
+"sources here"
+msgstr ""
+"Si vous avez obtenu ce fichier de sources extérieures, merci de l'indiquer "
+"ici"
+
+#: images/edit.php:554
+msgid "Link"
+msgstr "Lien"
+
+#: images/edit.php:556
+msgid "You can make this image point to any web page if you wish"
+msgstr "Pour faire pointer cette image vers une page web, si vous le souhaitez"
+
+#: images/edit.php:562
+msgid "Image processing"
+msgstr "Traitement de l'image"
+
+#: images/edit.php:563
+msgid "Automatically resize the image if necessary"
+msgstr "Redimensionner l'image si nécessaire"
+
+#: images/edit.php:570
+msgid "Insert a thumbnail"
+msgstr "Utiliser une vignette"
+
+#: images/edit.php:574
+msgid ""
+"Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
+msgstr ""
+"A la place de l'image, mais seulement pour les fichiers importants (plus de "
+"20 Koctets)"
+
+#: images/edit.php:578
+msgid "Always use the thumbnail. Users will click on it to see the full image."
+msgstr ""
+"Toujours. Les utilisateurs cliqueront dessus pour visualiser l'image "
+"agrandie."
+
+#: images/edit.php:582
+msgid ""
+"Never. Response times for surfers using modem links may be degraded on big "
+"images."
+msgstr ""
+"Jamais. Les temps de réponse pour certains utilisateurs sur liaison modem "
+"pourront être dégradés pour des images de grande taille."
+
+#: images/edit.php:589
+msgid "Options"
+msgstr "Options"
+
+#: images/edit.php:598
+msgid "Submit"
+msgstr "Enregistrer"
+
+#: images/edit.php:598
+msgid "Press [s] to submit data"
+msgstr "Appuyer sur [s] pour envoyer les informations"
+
+#: images/edit.php:605
+msgid "Do not change modification date of the main page."
+msgstr "Ne pas changer la date de modification de la page principale."
+
+#: images/edit.php:608
+msgid "Ensure this post is valid XHTML."
+msgstr "Vérifier que le contenu est du XHTML valide."
+
+#: images/edit.php:627
+msgid ""
+"Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
+"clicking on thumbnails people can access full-sized pictures. The title is "
+"visible while the mouse is over the thumbnail. The description and the "
+"source information are displayed along the full-sized picture."
+msgstr ""
+"Les fichiers importants (plus de 20 koctets) sont publiés sous forme de "
+"vignettes. Il faut cliquer sur les vignettes pour accéder aux images "
+"complètes. Le titre est affiché lorsque la souris survole la vignette. La "
+"description et la source sont affichées avec l'image complète."
+
+#: images/edit.php:628
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "Utilisez %s et %s pour embellir le texte."
+
+#: images/edit.php:628
+msgid "YACS codes"
+msgstr "codes YACS"
+
+#: images/edit.php:628
+msgid "smileys"
+msgstr "emoticons"
+
+#: images/edit.php:629
+msgid ""
+"Smaller files are embedded as-is. The description and the source fields are "
+"more or less useless in this case."
+msgstr ""
+"Les fichiers plus petits sont intégrés tels quels dans la page. Inutile de "
+"remplir les champs description et source dans ce cas."
+
+#: images/edit.php:630 images/view.php:249
+msgid "Help"
+msgstr "Aide"
+
+#: images/image.php:35
+#, php-format
+msgid "No image information in %s."
+msgstr "Aucune image valide dans %s"
+
+#: images/image.php:54
+#, php-format
+msgid "No GD support, or unknown image type in %s."
+msgstr "Pas de support GD ou type d'image inconnu dans %s."
+
+#: images/image.php:118
+#, php-format
+msgid "Impossible to adjust image %s."
+msgstr "Impossible d'ajuster l'image %s."
+
+#: images/image.php:132
+#, php-format
+msgid "Cannot write adjusted image to %s."
+msgstr "Impossible d'écrire l'image ajustée %s."
+
+#: images/image.php:196 images/image.php:340
+#, php-format
+msgid "No image information in %s"
+msgstr "Aucune image valide dans %s"
+
+#: images/image.php:215
+#, php-format
+msgid "Unknown image type in %s."
+msgstr "Type d'image inconnu dans %s."
+
+#: images/image.php:275
+#, php-format
+msgid "Cannot copy image to %s"
+msgstr "Impossible de copier vers %s"
+
+#: images/image.php:299
+#, php-format
+msgid "Impossible to skrink image %s"
+msgstr "Impossible de réduire l'image %s"
+
+#: images/image.php:313
+#, php-format
+msgid "Impossible to write to %s."
+msgstr "Impossible d'écrire dans %s."
+
+#: images/image.php:346
+#, php-format
+msgid "Rejected file type %s"
+msgstr "Type de fichier invalide %s"
+
+#: images/images.php:242 images/set_as_icon.php:70
+#: images/set_as_thumbnail.php:68
+msgid "No item has been found."
+msgstr "Aucun élément n'a été trouvé."
+
+#: images/images.php:310
+#, php-format
+msgid "Impossible to create path %s."
+msgstr "Impossible de créer le chemin %s."
+
+#: images/images.php:327
+#, php-format
+msgid "Impossible to copy file %s."
+msgstr "Impossible de copier le fichier %s."
+
+#: images/images.php:718
+msgid "No item has the provided id."
+msgstr "Identifiant inconnu."
+
+#: images/index.php:75
+#, php-format
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] "%d image"
+msgstr[1] "%d images"
+
+#: images/index.php:119
+msgid "Recent pages"
+msgstr "Pages récentes"
+
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr "sélections"
+
+#: images/layout_images.php:86
+#, php-format
+msgid "In %s"
+msgstr "Dans %s"
+
+#: images/layout_images.php:114 images/view.php:237
+msgid "Update this image"
+msgstr "Modifier cette image"
+
+#: images/layout_images.php:119
+msgid "Set as profile picture"
+msgstr "Utiliser comme image de profil"
+
+#: images/layout_images.php:121
+msgid "Set as page image"
+msgstr "Utiliser comme image de page"
+
+#: images/layout_images.php:122
+msgid "Set as page thumbnail"
+msgstr "Comme vignette de page, dans les listes"
+
+#: images/layout_images.php:128 images/view.php:243
+msgid "Delete this image"
+msgstr "Supprimer cette image"
+
+#: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
+msgid "Use an image"
+msgstr "Utiliser une image"
+
+#: images/set_as_icon.php:93 images/set_as_thumbnail.php:91
+msgid "Operation has failed."
+msgstr "Impossible de mener l'opération à son terme"
+
+#: images/view.php:219
+#, php-format
+msgid "%d bytes"
+msgstr "%d  octets"
+
+#: images/view.php:231
+msgid "Back to main page"
+msgstr "Retour à la page principale"
+
+#: images/view.php:237
+msgid "Press [e] to edit"
+msgstr "Appuyer sur [e] pour modifier"
+
+#: images/view.php:248
+msgid ""
+"To save this image on your hard drive, drag the mouse above the image and "
+"use the right button. A contextual pop-up menu should appear. Select the "
+"adequate command depending on the browser used."
+msgstr ""
+"Pour sauver l'image sur votre disque dur tirer la souris au-dessus de "
+"l'image et utiliser le bouton droit. Un menu contextuel devrait apparaître. "
+"Choisir la commande ad hoc pour sauver l'image, en fonction du navigateur "
+"utilisé."
+
+#: images/view.php:255
+msgid "Thumbnail"
+msgstr "Vignette"
+
+#~ msgid "No image has been uploaded yet."
+#~ msgstr "Aucune image n'a été téléchargée"
+
+#~ msgid ""
+#~ "Please upload an image to illustrate this page. To transmit several "
+#~ "images in one single operation, go to %s instead."
+#~ msgstr ""
+#~ "Choisissez une image pour illustrer cette page. Vous pouvez préférer le "
+#~ "%s si vous souhaitez transmettre plusieurs images en une seule opération."
+
+#~ msgid "Bulk upload"
+#~ msgstr "Téléversement multiple"
+
+#~ msgid "This page has been locked."
+#~ msgstr "Cette page a été verrouillée."
+
+#~ msgid "Please provide an archive file."
+#~ msgstr "Merci de choisir le fichier archive à téléverser."
+
+#~ msgid "New images in %s"
+#~ msgstr "Nouvelles images dans %s"
+
+#~ msgid ""
+#~ "To create nice picture albums, upload archive files that combine several "
+#~ "images. In one operation the server will extract each image, resize it if "
+#~ "necessary, create a thumbnail image, and integrate the image into the "
+#~ "page."
+#~ msgstr ""
+#~ "Pour créer des albums photos vous pouvez téléverser plusieurs images à la "
+#~ "fois, en les combinant dans un fichier archive. En une seule opération le "
+#~ "serveur va extraire chaque image, la retailler si nécessaire, créer une "
+#~ "vignette, puis toutes les images seront intégrées dans la page."
+
+#~ msgid "Select a .zip, .tar, .tar.gz or .tgz archive."
+#~ msgstr "Choisir une archive au format .zip, .tar, .tar.gz ou .tgz."
+
+#~ msgid ""
+#~ "When you will click on the button the server will be immediately "
+#~ "requested to proceed. However, because of the so many things to do on the "
+#~ "back-end, you may have to wait for minutes before getting a response "
+#~ "displayed. Thank you for your patience."
+#~ msgstr ""
+#~ "Le serveur sera sollicité dès votre clic sur le bouton. Toutefois, "
+#~ "l'ampleur des traitements à effectuer peut induire un temps de réponse "
+#~ "assez long, jusqu'à quelques minutes. Merci de votre patience."
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Personnes notifiées"
+
+#~ msgid "Size: %s x %s"
+#~ msgstr "Taille : %s x %s"
+
+#~ msgid "Edit"
+#~ msgstr "Modifier"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Update"
+#~ msgstr "Mettre à jour"
+
+#~ msgid "File"
+#~ msgstr "Fichier"
+
+#~ msgid ""
+#~ "This script will create a brand new page for the uploaded file. If you "
+#~ "would like to add an image to an existing page, browse the target page "
+#~ "instead and use the adequate command from the menu."
+#~ msgstr ""
+#~ "Ce script va créer une nouvelle page pour l'image transmise. Si vous "
+#~ "souhaitez compléter une page existante, veuillez plutôt visualiser la "
+#~ "page en question et utiliser la commande ad hoc dans le menu."
+
+#~ msgid "Section"
+#~ msgstr "Section"
+
+#~ msgid "Please carefully select a section for your image"
+#~ msgstr "Choisissez l'emplacement adéquat pour partager votre image"
+
+#~ msgid "Please upload an image to illustrate this page"
+#~ msgstr "Envoyer une image pour illustrer cette page"
+
+#~ msgid "The image has been inserted at the beginning of the page."
+#~ msgstr "L'image a été insérée au début de la page."
+
+#~ msgid "The image has been added at the end of the page."
+#~ msgstr "L'image a été insérée à la fin de la page."
+
+#~ msgid "The image has been set as the new bullet."
+#~ msgstr "L'image servira de puce."
+
+#~ msgid "The image has become the page icon."
+#~ msgstr "L'image a été positionnée comme icône de page."
+
+#~ msgid "Set as list bullet"
+#~ msgstr "Comme puce, dans les listes"
+
+#~ msgid "Advanced options"
+#~ msgstr "Options avancées"
+
+#~ msgid "Set as user avatar"
+#~ msgstr "Comme avatar"
+
+#~ msgid "The size of this file is over limit."
+#~ msgstr "La taille du fichier dépasse la limite autorisée."
+
+#~ msgid "Possible file attack."
+#~ msgstr "Possibilité d'une attaque sur le fichier."
+
+#~ msgid "Impossible to move the upload file to %s"
+#~ msgstr "Impossible de déplacer le fichier vers %s"
+
+#~ msgid "Because of our security policy you are not allowed to list images."
+#~ msgstr ""
+#~ "A cause de nos réglages de sécurité, vous n'êtes pas autorisé à consulter "
+#~ "la liste des images."
+
+#~ msgid "Please browse %s to visualize any image that could be embedded."
+#~ msgstr ""
+#~ "Merci de naviguer sur les %s, y compris les images qu'elles peuvent "
+#~ "contenir."
+
+#~ msgid "pages"
+#~ msgstr "pages"
+
+#~ msgid "Referrals"
+#~ msgstr "Références externes"
+
+#~ msgid "Scanning images table..."
+#~ msgstr "Analyse de la table des images..."
+
+#~ msgid "View the updated page"
+#~ msgstr "Voir la page mise à jour"
+
+#~ msgid "Image transfer has been interrupted."
+#~ msgstr "Le transfet de l'image a été interrompu."
+
+#~ msgid ""
+#~ "It is likely file size goes beyond the limit displayed in upload form. "
+#~ "Nothing has been transmitted for %s"
+#~ msgstr ""
+#~ "Il est probable que la taille du fichier dépasse la limite affichée dans "
+#~ "le formulaire d'envoi. Aucun octet transmis pour %s"
+
+#~ msgid "No file has been transferred. Check maximum file size."
+#~ msgstr ""
+#~ "Aucun fichier n'a été transféré ! Vérifiez la taille maximum à ne pas "
+#~ "dépasser."
+
+#~ msgid ""
+#~ "Please select a smaller image. The size of this image is over limit "
+#~ "mentioned in the form."
+#~ msgstr ""
+#~ "Merci de choisir une image plus petite. Le fichier dépasse la limite "
+#~ "indiquée dans le formulaire."
+
+#~ msgid "Images maintenance"
+#~ msgstr "Maintenance des images"
+
+#~ msgid "Use an image as a bullet"
+#~ msgstr "Utiliser comme puce dans les listes"
+
+#~ msgid "Set an image as the page icon"
+#~ msgstr "Utiliser comme icône de page"
+
+#~ msgid "Set an image as the page thumbnail"
+#~ msgstr "Utiliser comme vignette de page"
+
+#~ msgid "Pick up one image you would like to share"
+#~ msgstr "Choisissez l'image que vous souhaitez partager"
+
+#~ msgid "Image usage"
+#~ msgstr "Utiliser l'image"
+
+#~ msgid "Append at the bottom of user profile"
+#~ msgstr "Ajoutée en bas du profil d'utilisateur"
+
+#~ msgid "Insert at page top"
+#~ msgstr "Ajoutée en haut de page"
+
+#~ msgid "Append at page bottom"
+#~ msgstr "Ajoutée en bas de page"
+
+#~ msgid "Append the image, and also use it as thumbnail"
+#~ msgstr "Ajouter l'image, et l'utiliser aussi comme vignette de page"
+
+#~ msgid "This page has been locked. It cannot be modified anymore."
+#~ msgstr "Cette page a été bloquée. Elle ne peut plus être modifiée."
+
+#~ msgid "Posts are not allowed here."
+#~ msgstr "Les envois ne sont pas autorisés ici."
+
+#~ msgid "File name"
+#~ msgstr "Nom du fichier"
+
+#~ msgid "File size"
+#~ msgstr "Taille du fichier"
+
+#~ msgid "Posted by"
+#~ msgstr "Envoyé par"
+
+#~ msgid "1&nbsp;image"
+#~ msgid_plural "%d&nbsp;images"
+#~ msgstr[0] "1&nbsp;image"
+#~ msgstr[1] "%d&nbsp;images"
+
+#~ msgid "Recent images"
+#~ msgstr "Images récentes"
+
+#~ msgid "published pages"
+#~ msgstr "pages publiées"
+
+#~ msgid "Decorated page: %s"
+#~ msgstr "Page décorée : %s"
+
+#~ msgid "%d records have been processed. Done"
+#~ msgstr "%d enregistrements ont été traités. Traitement terminé"

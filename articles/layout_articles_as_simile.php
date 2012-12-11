@@ -29,7 +29,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -65,14 +65,13 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$default_href = NULL;
 
 			// process all items in the list
-			include_once $context['path_to_root'].'overlays/overlay.php';
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// get the related overlay
-				$overlay = Overlay::load($item);
+				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// get the anchor
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 				// start
 				if($item['publish_date'] > $item['create_date'])
@@ -133,11 +132,11 @@ Class Layout_articles_as_simile extends Layout_interface {
 				$details = array();
 
 				// info on related comments
-				if($count = Comments::count_for_anchor('article:'.$item['id'], FALSE))
+				if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 					$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// info on related files
-				if($count = Files::count_for_anchor('article:'.$item['id'], FALSE))
+				if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 					$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 				// info on related links
@@ -223,8 +222,8 @@ Class Layout_articles_as_simile extends Layout_interface {
 			.'}'."\n"
 			."\n"
 			.'// observe page major events'."\n"
-			.'Event.observe(window, "load", onLoad'.$count.');'."\n"
-			.'Event.observe(window, "resize", onResize'.$count.');'."\n"
+			.'$(document).ready( onLoad'.$count.');'."\n"
+			.'$(window).resize(onResize'.$count.');'."\n"
 			.JS_SUFFIX;
 
 		// end of processing

@@ -18,7 +18,7 @@ Class File extends Anchor {
 	 *
 	 * This function retrieve the id of the top anchor.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a string
 	 */
@@ -26,7 +26,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -130,7 +130,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -212,7 +212,7 @@ Class File extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Files::get($id, $mutable);
+		$this->item = Files::get($id, $mutable);
 	}
 
 	/**
@@ -229,13 +229,13 @@ Class File extends Anchor {
 	 *
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
-	 * @param boolean TRUE to not change the edit date of the file, default is FALSE
+	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
 	 *
 	 * @see files/file.php
 	 * @see files/edit.php
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin, $silently = FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -248,7 +248,7 @@ Class File extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('files/file.php', 'unexpected NULL origin at touch()');
+			logger::remember('files/file.php: unexpected NULL origin at touch()');
 			return;
 		}
 
@@ -257,23 +257,15 @@ Class File extends Anchor {
 
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
-			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
+			// make it the main image for this file
+			include_once $context['path_to_root'].'images/images.php';
+			if(($image = Images::get($origin)) && ($url = Images::get_icon_href($image)))
+				$query[] = "icon_url = '".SQL::escape($url)."'";
 
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
-			}
-
-			// also use it as thumnail if none has been defined yet
-			if(!isset($this->item['thumbnail_url']) || !trim($this->item['thumbnail_url'])) {
-				include_once $context['path_to_root'].'images/images.php';
-				if(($image = Images::get($origin)) && ($url = Images::get_thumbnail_href($image)))
-					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-			}
+			// also use it as thumnail
+			if(($image = Images::get($origin)) && ($url = Images::get_thumbnail_href($image)))
+				$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 
 			// refresh stamp only if file update occurs within 6 hours after last edition
 			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
@@ -287,7 +279,7 @@ Class File extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -307,7 +299,7 @@ Class File extends Anchor {
 		// set an existing image as the file icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -322,7 +314,7 @@ Class File extends Anchor {
 		// set an existing image as the file thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -338,7 +330,7 @@ Class File extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -373,7 +365,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))

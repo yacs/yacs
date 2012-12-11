@@ -135,7 +135,7 @@ if(isset($skin) && Surfer::is_associate())
 $context['page_publisher'] = 'webmaestro again, still through some PHP script';
 
 // page tags
-$context['page_tags'] = i18n::s('tag 1, tag 2');
+$context['page_tags'] = i18n::s('<a>tag 1</a> <a>tag 2</a>');
 
 // $context['page_title'] - the title of the page
 $context['page_title'] = i18n::s('Theme test');
@@ -176,11 +176,8 @@ $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or c
 $panels = array();
 
 // regular panel
-// will be derivated to $context['text'] after codes::beautify()
+// will be derived to $context['text'] after codes::beautify()
 $text = '';
-
-// $context['text']
-$text .= DUMMY_TEXT;
 
 // $context['text'] - introduction
 $text .= Skin::build_block(DUMMY_TEXT, 'introduction');
@@ -199,8 +196,25 @@ $file_id = 1;
 if($item =& Files::get_newest())
 	$file_id = $item['id'];
 
+$compact_items = array('[article='.$article_id.']',
+	'[section='.Sections::get_default().']',
+	'[category=featured]',
+	'[user='.$user_id.']',
+	'[download='.$file_id.']',
+	'[email]foo@bar.com[/email]',
+	'[link=Cisco]http://www.cisco.com/[/link]',
+	'[script]skins/test.php[/script]',
+	Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut'),
+	Skin::strip(DUMMY_TEXT, 7, 'skins/test.php'),
+	RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer'),
+	PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons'),
+	i18n::s('This item is new').NEW_FLAG,
+	i18n::s('This item has been updated').UPDATED_FLAG,
+	DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible') );
+
 // $context['text'] - basic content with links, etc.
 $text .= '[toc]'.DUMMY_TEXT."\n"
+
 	.'<ul>'."\n"
 	.'<li>[article='.$article_id.']</li>'."\n"
 	.'<li>[section='.Sections::get_default().']</li>'."\n"
@@ -212,22 +226,31 @@ $text .= '[toc]'.DUMMY_TEXT."\n"
 	.'<li>[script]skins/test.php[/script]</li>'."\n"
 	.'<li>'.Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut').'</li>'."\n"
 	.'<li>'.Skin::strip(DUMMY_TEXT, 7, 'skins/test.php').'</li>'."\n"
-	.'<li>'.RESTRICTED_FLAG.i18n::s('Community - Access is restricted to authenticated persons').'</li>'."\n"
+	.'<li>'.RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').'</li>'."\n"
 	.'<li>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</li>'."\n"
 	.'<li>'.i18n::s('This item is new').NEW_FLAG.'</li>'."\n"
 	.'<li>'.i18n::s('This item has been updated').UPDATED_FLAG.'</li>'."\n"
 	.'<li>'.DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible').'</li>'."\n"
 	.'</ul>'."\n"
-	.'<p>[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</p>'."\n"
+
 	.'<p>'.DUMMY_TEXT."</p>\n"
+
+	.Skin::finalize_list($compact_items, 'compact')
+
+	.'<p>'.DUMMY_TEXT."</p>\n"
+
+	.'<div class="menu_bar">[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</div>'."\n"
+
+	.'<p>'.DUMMY_TEXT."</p>\n"
+
 	.' [title]'.i18n::s('level 1 title').'[/title] '."\n".DUMMY_TEXT."\n"
-			.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
+	.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
 
 // a sidebar
 $sidebar =& Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
 
 // $context['text'] - section with sidebar box
-$text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.DUMMY_TEXT);
+$text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.'<p>'.DUMMY_TEXT.'</p><p>'.DUMMY_TEXT.'</p>');
 
 // a folded box
 $folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');
@@ -242,7 +265,7 @@ $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s(
 $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
 // page neighbours
-$neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '#', 'index');
+$neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '', '<a class="pager-item">1</a> &nbsp; <a class="pager-current">2</a>');
 
 // $context['text'] - section with neighbours
 $text .= Skin::build_box(i18n::s('with neighbours'), DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));

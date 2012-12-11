@@ -49,7 +49,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
@@ -158,7 +158,7 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("files_extensions").focus();'."\n"
+		.'$("#files_extensions").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// general help on this form
@@ -168,7 +168,7 @@ elseif(!Surfer::is_associate()) {
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // save updated parameters
@@ -211,7 +211,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/files.include.php');
-		Logger::remember('files/configure.php', $label);
+		Logger::remember('files/configure.php: '.$label);
 
 	}
 

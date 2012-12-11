@@ -25,7 +25,7 @@ Class Collections {
 	 * @param string the provided path for the item, including the collection prefix
 	 * @return a set of attributes for this item, including: 'collection', 'relative_path', etc.
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// avoid code injection
@@ -157,7 +157,7 @@ Class Collections {
 	 * @param string the item name
 	 * @return an anchor to the viewing script
 	 */
-	function get_icon_img($name) {
+	public static function get_icon_img($name) {
 		global $context;
 
 		// initialize tables only once
@@ -311,7 +311,7 @@ Class Collections {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// sanity check

@@ -43,10 +43,33 @@ load_skin('query');
 // the title of the page
 $context['page_title'] = i18n::s('Help');
 
+// get a section for queries
+if(!$anchor = Anchors::get('section:queries')) {
+	$fields = array();
+	$fields['nick_name'] = 'queries';
+	$fields['title'] =& i18n::c('Queries');
+	$fields['introduction'] =& i18n::c('Submitted to the webmaster by any surfers');
+	$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
+	$fields['locked'] = 'Y'; // no direct contributions
+	$fields['active_set'] = 'N'; // for associates only
+	$fields['home_panel'] = 'none'; // content is not pushed at the front page
+	$fields['index_map'] = 'N'; // listed only to associates
+
+	// reference the new section
+	if($fields['id'] = Sections::post($fields, FALSE))
+		$anchor = Anchors::get('section:'.$fields['id']);
+}
+$_REQUEST['anchor'] = $anchor->get_reference();
+
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // post a new query
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -55,31 +78,13 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
 	// this is the exact copy of what end users has typed
 	$item = $_REQUEST;
-
-	// get a section for queries
-	if(!$anchor =& Anchors::get('section:queries')) {
-		$fields = array();
-		$fields['nick_name'] = 'queries';
-		$fields['title'] =& i18n::c('Queries');
-		$fields['introduction'] =& i18n::c('Submitted to the webmaster by any surfers');
-		$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
-		$fields['locked'] = 'Y'; // no direct contributions
-		$fields['active_set'] = 'N'; // for associates only
-		$fields['home_panel'] = 'none'; // content is not pushed at the front page
-		$fields['index_map'] = 'N'; // listed only to associates
-
-		// reference the new section
-		if($fields['id'] = Sections::post($fields, FALSE))
-			$anchor =& Anchors::get('section:'.$fields['id']);
-	}
-	$_REQUEST['anchor'] = $anchor->get_reference();
 
 	// from form fields to record columns
 	if(!isset($_REQUEST['edit_id']))
@@ -115,13 +120,16 @@ if(Surfer::is_crawler()) {
 	// post-processing
 	} else {
 
+		// do whatever is necessary on page publication
+		Articles::finalize_publication($anchor, $_REQUEST);
+
 		// message to the query poster
 		$context['page_title'] = i18n::s('Your query has been registered');
 
 		// use the secret handle to access the query
 		$link = '';
 		$status = '';
-		if($item =& Articles::get($_REQUEST['id'])) {
+		if($item = Articles::get($_REQUEST['id'])) {
 
 			// ensure the article has a private handle
 			if(!isset($item['handle']) || !$item['handle']) {
@@ -167,7 +175,7 @@ if(Surfer::is_crawler()) {
 			$subject = sprintf(i18n::s('Your query: %s'), strip_tags($_REQUEST['title']));
 
 			// message body
-			$message = sprintf(i18n::s("Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.\n\nYou can check the status of your query at the following address:\n\n%s\n\nWe would like to thank you for your interest in our web site."), $link);
+			$message = sprintf(i18n::s("<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p><p>You can check the status of your query at the following address:</p><p>%s</p><p>We would like to thank you for your interest in our web site.</p>"), '<a href="'.$link.'">'.$link.'</a>');
 
 			// enable threading
 			if(isset($item['id']))
@@ -181,14 +189,15 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the article back
-		$article =& Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// log the query submission
 		if(is_object($article)) {
 			$label = sprintf(i18n::c('New query: %s'), strip_tags($article->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].$article->get_url()
+			$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
+                        $description = '<a href="'.$link.'">'.$link.'</a>'
 				."\n\n".$article->get_teaser('basic');
-			Logger::notify('query.php', $label, $description);
+			Logger::notify('query.php: '.$label, $description);
 		}
 
 	}
@@ -298,7 +307,7 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("edit_name").focus();'."\n"
+		.'$("#edit_name").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// general help on this form
@@ -307,7 +316,7 @@ if($with_form) {
 		$text .= '<p>'.i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
 	else
 		$text .= '<p>'.i18n::s('Most HTML tags are removed.');
-	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help')).'.</p>';
+	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open')).'.</p>';
 
 	// locate mandatory fields
 	$text .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

@@ -40,12 +40,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
@@ -61,14 +61,14 @@ else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Threads') );
 
 // the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('comments', 'delete_title');
-else
+if(is_object($overlay))
+	$context['page_title'] = $overlay->get_label('delete_title', 'comments');
+if(!$context['page_title'])
 	$context['page_title'] = i18n::s('Delete a comment');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -77,7 +77,7 @@ if(Surfer::is_crawler()) {
 
 // permission denied
 } elseif(!Comments::allow_modification($anchor, $item)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
@@ -105,11 +105,12 @@ else {
 
 	// commands
 	$menu = array();
-	if(is_object($anchor))
-		$label = $anchor->get_label('comments', 'delete_command');
-	else
-		$label = i18n::s('Yes, I want to delete this comment');
-	$menu[] = Skin::build_submit_button($label, NULL, NULL, 'confirmed');
+	$delete_label = '';
+	if(is_object($overlay))
+		$delete_label = $overlay->get_label('delete_confirmation', 'comments');
+	if(!$delete_label)
+		$delete_label = i18n::s('Yes, I want to delete this comment');
+	$menu[] = Skin::build_submit_button($delete_label, NULL, NULL, 'confirmed');
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Comments::get_url($item['id']), i18n::s('Cancel'), 'span');
 
@@ -123,7 +124,7 @@ else {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
 	// display the full comment

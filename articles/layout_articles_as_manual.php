@@ -45,7 +45,7 @@ Class Layout_articles_as_manual extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -57,18 +57,17 @@ Class Layout_articles_as_manual extends Layout_interface {
 
 		// build a list of articles
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$text .= '<ul class="manual">';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -85,9 +84,9 @@ Class Layout_articles_as_manual extends Layout_interface {
 
 			// signal restricted and private articles
 			if(isset($item['active']) && ($item['active'] == 'N'))
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif(isset($item['active']) && ($item['active'] == 'R'))
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
@@ -114,7 +113,7 @@ Class Layout_articles_as_manual extends Layout_interface {
 
 			// rating
 			if($item['rating_count'])
-				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// describe attachments
 			if(count($details))

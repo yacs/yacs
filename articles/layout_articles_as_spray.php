@@ -40,7 +40,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -54,27 +54,22 @@ Class Layout_articles_as_spray extends Layout_interface {
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
-			$id = $type = $summary = $status = $update = $progress = '';
+			$id = $summary = $owner = $type = $status = $update = $progress = '';
 
 			// link to the page
 			$id = Skin::build_link($url, $item['id'], 'basic');
-
-			// type is provided by the overlay
-			if(is_object($overlay))
-				$type = $overlay->get_value('type', '');
 
 			// signal articles to be published
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -82,9 +77,9 @@ Class Layout_articles_as_spray extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$summary .= PRIVATE_FLAG.' ';
+				$summary .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$summary .= RESTRICTED_FLAG.' ';
+				$summary .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the page');
@@ -116,7 +111,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
+			if($count = Files::count_for_anchor('article:'.$item['id'])) {
 				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
 				$details[] = FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count);
 			}
@@ -144,6 +139,14 @@ Class Layout_articles_as_spray extends Layout_interface {
 			if($item['tags'])
 				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
+			// page owner
+			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))
+				$owner = Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+
+			// type is provided by the overlay
+			if(is_object($overlay))
+				$type = $overlay->get_value('type', '');
+
 			// status value
 			if(is_object($overlay))
 				$status = $overlay->get_value('status', '');
@@ -153,7 +156,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 				$progress = $overlay->get_value('progress', '');
 
 			// this is another row of the output
-			$cells = array($id, $type, $summary, $status, $progress);
+			$cells = array($id, $summary, $owner, $type, $status, $progress);
 
 			// append this row
 			$rows[] = $cells;
@@ -164,7 +167,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 		SQL::free($result);
 
 		// headers
-		$headers = array(i18n::s('Number'), i18n::s('Type'), i18n::s('Information'), i18n::s('Status'), i18n::s('Progress'));
+		$headers = array(i18n::s('Number'), i18n::s('Information'), i18n::s('Owner'), i18n::s('Type'), i18n::s('Status'), i18n::s('Progress'));
 
 		// return a sortable table
 		$text .= Skin::table($headers, $rows, 'grid');

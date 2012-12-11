@@ -3,7 +3,6 @@
  * create a new user or edit an existing one
  *
  * @todo on subscriptor application, post a query page when there is no messaging facility (gnapz)
- * @todo derive this to users/subscribe.php
  *
  * This page can be used by anonymous surfers that would like to register, by logged
  * users that are updating their profile, or by associates that declare new users
@@ -12,7 +11,7 @@
  * On registration YACS attempts to stop robots by generating a random string and by asking user to type it.
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * This script attempts to validate the new or updated user description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
@@ -73,16 +72,15 @@
  * @tester J&eacute;r&ocirc;me Douill&eacute;
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Mathieu Favez
+ * @tester Jean-Marc Schwartz
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
 
@@ -95,13 +93,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database, if any
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 elseif(isset($context['users_overlay']) && $context['users_overlay'])
 	$overlay = Overlay::bind($context['users_overlay']);
 
@@ -148,12 +145,12 @@ if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 
 	// registration is not allowed to anonymous surfers
 	if(!isset($item['id']) && !Surfer::is_logged())
@@ -181,6 +178,9 @@ if(Surfer::is_crawler()) {
 	// when the page has been overlaid
 	if(is_object($overlay)) {
 
+		// allow for change detection
+		$overlay->snapshot();
+
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
 
@@ -196,13 +196,9 @@ if(Surfer::is_crawler()) {
 		if(isset($item['capability']) && ($item['capability'] == 'A') && file_exists($context['path_to_root'].'parameters/demo.flag'))
 			$_REQUEST['capability'] = 'A';
 
-		// allow back-referencing from overlay
-		$_REQUEST['self_reference'] = 'user:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Users::get_permalink($item);
-
 		// actual update
 		if(Users::put($_REQUEST)
-			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST))) {
+			&& (!is_object($overlay) || $overlay->remember('update', $_REQUEST, 'user:'.$_REQUEST['id']))) {
 
 			// 'users/edit.php#put' hook
 			if(is_callable(array('Hooks', 'include_scripts')))
@@ -258,12 +254,8 @@ if(Surfer::is_crawler()) {
 		// successful post
 		} else {
 
-			// allow back-referencing from overlay
-			$_REQUEST['self_reference'] = 'user:'.$_REQUEST['id'];
-			$_REQUEST['self_url'] = Users::get_permalink($_REQUEST);
-
 			// post an overlay, with the new user id
-			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST)) {
+			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST, 'user:'.$_REQUEST['id'])) {
 				$item = $_REQUEST;
 				$with_form = TRUE;
 
@@ -282,7 +274,7 @@ if(Surfer::is_crawler()) {
 				else {
 
 					// get the new record
-					$item =& Users::get($_REQUEST['id'], TRUE);
+					$item = Users::get($_REQUEST['id'], TRUE);
 
 					// the welcome page
 					$context['page_title'] = i18n::s('Welcome!');
@@ -326,8 +318,9 @@ if(Surfer::is_crawler()) {
 						$label = sprintf(i18n::c('New subscriber: %s'), $item['nick_name']);
 						break;
 					}
-					$description = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
-					Logger::notify('users/edit.php', $label, $description);
+					$link = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
+                                        $description = '<a href="'.$link.'">'.$link.'</a>';
+					Logger::notify('users/edit.php: '.$label, $description);
 				}
 			}
 		}
@@ -369,7 +362,7 @@ if($with_form) {
 		$input .= '<input type="radio" name="capability" value="?"';
 		if(isset($item['capability']) && ($item['capability'] == '?'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Locked')."\n";
+		$input .= ' /> '.i18n::s('Blocked')."\n";
 		$fields[] = array($label, $input);
 	}
 
@@ -402,7 +395,7 @@ if($with_form) {
 			$label .= ' *';
 		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
 		$hint = '';
-		if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+		if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 			$hint = i18n::s('You will receive a message on this address to activate your membership.');
 		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
 		$fields[] = array($label, $input, $hint);
@@ -452,7 +445,8 @@ if($with_form) {
 	// phone number
 	$label = i18n::s('Phone number');
 	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" />';
-	$fields[] = array($label, $input);
+	$hint = i18n::s('Enter phone number in international format, starting with country code');
+	$fields[] = array($label, $input, $hint);
 
 	// alternate number
 	$label = i18n::s('Alternate number');
@@ -466,7 +460,7 @@ if($with_form) {
 			$label .= ' *';
 		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
 		$hint = '';
-		if(!isset($item['id']) && isset($context['user_with_email_validation']) && ($context['user_with_email_validation'] == 'Y'))
+		if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 			$hint = i18n::s('You will receive a message on this address to activate your membership.');
 		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
 		$fields[] = array($label, $input, $hint);
@@ -480,8 +474,7 @@ if($with_form) {
 
 	// agent
 	$label = i18n::s('Alternate contact');
-	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />'
-		.'<div id="vcard_agent_choice" class="autocomplete"></div>';
+	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />';
 	$hint = i18n::s('Another person who can act on your behalf');
 	$fields[] = array($label, $input, $hint);
 
@@ -491,8 +484,7 @@ if($with_form) {
 
 	// append the script used for data checking on the browser
 	$text .= JS_PREFIX
-		.'// enable autocompletion for user names'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
+		.'$(function() { Yacs.autocomplete_names("vcard_agent",true); });'."\n" // enable autocompletion for user names
 		.JS_SUFFIX;
 
 	// instant messaging
@@ -550,6 +542,24 @@ if($with_form) {
 	//
 	$text = '';
 
+	// the avatar url
+	if(isset($item['id'])) {
+		$label = i18n::s('Picture URL');
+
+		// show the current avatar
+		if(isset($item['avatar_url']) && $item['avatar_url'])
+			$input = '<img src="'.$item['avatar_url'].'" alt="" />'.BR;
+
+		$value = '';
+		if(isset($item['avatar_url']) && $item['avatar_url'])
+			$value = $item['avatar_url'];
+		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+
+		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
+
+		$fields[] = array($label, $input);
+	}
+
 	// from where
 	$label = i18n::s('From');
 	$input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" />';
@@ -572,12 +582,6 @@ if($with_form) {
 	// use the editor if possible
 	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
 	$fields[] = array($label, $input);
-
-	// tags
-	$label = i18n::s('Tags');
-	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
-	$hint = i18n::s('A comma-separated list of keywords');
-	$fields[] = array($label, $input, $hint);
 
 	// birth date
 	$label = i18n::s('Birth date');
@@ -607,11 +611,11 @@ if($with_form) {
 		$input = '<input type="radio" name="active" value="Y"';
 		if(!isset($item['active']) || ($item['active'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Public - Access is granted to anonymous surfers')
+		$input .= ' /> '.i18n::s('Public - Everybody, including anonymous surfers')
 			.BR.'<input type="radio" name="active" value="R"';
 		if(isset($item['active']) && ($item['active'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Community - Access is restricted to authenticated persons')
+		$input .= ' /> '.i18n::s('Community - Access is granted to any identified surfer')
 			.BR.'<input type="radio" name="active" value="N"';
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			$input .= ' checked="checked"';
@@ -698,30 +702,6 @@ if($with_form) {
 	$input .= '</select>';
 	$fields[] = array($label, $input);
 
-	// share screen
-	$label = i18n::s('Share screen');
-	$input = '<input type="radio" name="with_sharing" value="N"';
-	if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Screen is not shared with other people.')
-		.BR.'<input type="radio" name="with_sharing" value="V"';
-	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow remote access using VNC.')
-		.BR.'<input type="radio" name="with_sharing" value="M"';
-	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow remote access with NetMeeting.')."\n";
-	$fields[] = array($label, $input);
-
-	// proxy
-	if(isset($item['login_address'])) {
-		$label = i18n::s('Network address');
-		$input = '<input type="text" name="proxy_address" size="55" value="'.encode_field(isset($item['proxy_address']) ? $item['proxy_address'] : '').'" maxlength="255" />';
-		$hint = sprintf(i18n::s('The network address to be used to reach your workstation, if not %s'), $item['login_address']);
-		$fields[] = array($label, $input, $hint);
-	}
-
 	// form fields in this panel
 	$text .= Skin::build_box(i18n::s('Preferences'), Skin::build_form($fields), 'folded');
 	$fields = array();
@@ -736,27 +716,9 @@ if($with_form) {
  		$panels = array_merge($panels, $more_tabs);
 
 	//
-	// attachments tab
+	// resources tab
 	//
 	$text = '';
-
-	// the avatar url
-	if(isset($item['id'])) {
-		$label = i18n::s('Picture URL');
-
-		// show the current avatar
-		if(isset($item['avatar_url']) && $item['avatar_url'])
-			$input = '<img src="'.$item['avatar_url'].'" alt="" />'.BR;
-
-		$value = '';
-		if(isset($item['avatar_url']) && $item['avatar_url'])
-			$value = $item['avatar_url'];
-		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-
-		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
-
-		$fields[] = array($label, $input);
-	}
 
 	// end of regular fields
 	$text .= Skin::build_form($fields);
@@ -780,14 +742,14 @@ if($with_form) {
 		// locations are reserved to authenticated members
 		if(Locations::allow_creation(NULL, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$items = Locations::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 		// tables are reserved to associates
 		if(Tables::allow_creation(NULL, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'article:'.$item['id']);
+			$items = Tables::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
@@ -803,7 +765,7 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('media', i18n::s('Media'), 'media_panel', $text);
+		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);
@@ -820,15 +782,18 @@ if($with_form) {
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'span');
 
-	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+	// several options to check
+	$suffix = array();
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.').'</p>';
+		$suffix[] = '<input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.');
 
 	// validate page content
-	$context['text'] .= '<p><input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+	$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+
+	// an assistant-like rendering at page bottom
+	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
 
 	// link to privacy statement
 	if(!isset($item['id']) && !Surfer::is_associate())
@@ -877,48 +842,30 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// detect changes in form'."\n"
-		.'func'.'tion detectChanges() {'."\n"
-		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		.'}'."\n"
-		."\n"
-		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'// disable editor selection on change in form'."\n"
+                .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+                .'      $("#preferred_editor").attr("disabled",true);'."\n"
+                .'});'."\n"
 		."\n";
 	if(isset($item['full_name']) && $item['full_name'])
 		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("full_name").focus();'."\n"
+	 		.'$("#full_name").focus();'."\n"
 	 		."\n";
 	else
 		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("first_name").focus();'."\n"
+	 		.'$("#first_name").focus();'."\n"
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+		.'$(function() {'."\n"
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// the help panel
 	$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';
 
 	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

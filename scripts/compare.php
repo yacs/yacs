@@ -47,7 +47,7 @@ else
 
 // only associates can go further
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no script has been provided
@@ -89,7 +89,7 @@ if(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("original").focus();'."\n"
+		.'$("#original").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 // the original script has to be there

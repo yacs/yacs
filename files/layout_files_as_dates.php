@@ -1,6 +1,6 @@
 <?php
 /**
- * layout files as a compact list, with hits count
+ * layout files as a compact list
  *
  * @see files/files.php
  *
@@ -18,7 +18,7 @@ Class Layout_files_as_dates extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -29,36 +29,36 @@ Class Layout_files_as_dates extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// download the file directly
 			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
-
-			// initialize variables
-			$prefix = $suffix = '';
-
-			// flag files that are dead, or created or updated very recently
-			if($item['create_date'] >= $context['fresh'])
-				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $context['fresh'])
-				$suffix .= UPDATED_FLAG;
-
-			// signal restricted and private files
-			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG;
 
 			// file title or file name
 			$label = Codes::beautify_title($item['title']);
 			if(!$label)
 				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
 
-			// with dates
-			$suffix .= ' '.Skin::build_date($item['edit_date']);
+			// initialize variables
+			$prefix = $suffix = '';
+
+			$contributor = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
+			$flag = '';
+			if($item['create_date'] >= $context['fresh'])
+				$flag = NEW_FLAG;
+			elseif($item['edit_date'] >= $context['fresh'])
+				$flag = UPDATED_FLAG;
+
+			$suffix .= '<span class="details"> - '.sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($item['create_date']).$flag.'</span>';
+
+			// signal restricted and private files
+			if(($item['active'] == 'N') && defined('PRIVATE_FLAG'))
+				$prefix .= PRIVATE_FLAG;
+			elseif(($item['active'] == 'R') && defined('RESTRICTED_FLAG'))
+				$prefix .= RESTRICTED_FLAG;
 
 			// list all components for this item
-			$items[$url] = array('', $label, $suffix, 'file', NULL);
+			$items[$url] = array($prefix, $label, $suffix, 'file', NULL);
 
 		}
 

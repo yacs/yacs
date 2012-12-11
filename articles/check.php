@@ -27,7 +27,7 @@ $context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
@@ -46,11 +46,11 @@ if(!Surfer::is_associate()) {
 		." ORDER BY anchor LIMIT 0, 10000";
 
 	// parse the whole list
-	if($result =& SQL::query($query)) {
+	if($result = SQL::query($query)) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -107,7 +107,7 @@ if(!Surfer::is_associate()) {
 
 	// set the focus on the button
 	$context['text'] .= JS_PREFIX
-		.'$("action").focus();'."\n"
+		.'$("#action").focus();'."\n"
 		.JS_SUFFIX;
 
 }

@@ -77,7 +77,7 @@
  *
  * [php]
  * // get an anchor (an article, a section, etc.)
- * $anchor =& Anchors::get('article:123');
+ * $anchor = Anchors::get('article:123');
  *
  * // show the path bar
  * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
@@ -129,8 +129,50 @@ class Anchor {
 	// the related item
 	var $item;
 
+	// its related overlay, if any
+	var $overlay;
+
 	// its related anchor, if any
 	var $anchor;
+
+	/**
+	 * alert watchers of this anchor
+	 *
+	 * @param array message attributes, such as 'subject', 'message', 'headers'
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @param boolean TRUE if access to the target object is restricted, FALSE otherwise
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
+	function alert_watchers($mail, $action=NULL, $restricted=FALSE) {
+		global $context;
+
+		// do not notify watchers if overlay prevents it
+		if(is_object($this->overlay) && !$this->overlay->should_notify_watchers($mail))
+			return FALSE;
+
+		// list all items in the watching context
+		$containers = $this->get_watched_context($action);
+
+		// finalize the message
+		$mail['message'] = Mailer::build_notification($mail['notification'], 1);
+
+		// allow for message threading
+		if(!isset($mail['headers']))
+			$mail['headers'] = Mailer::set_thread($this->get_reference());
+
+		// we are private, so consider only watchers who are also editors
+		if($this->item['active'] == 'N')
+			$restricted = TRUE;
+
+		// list editors if access is restricted
+		$editors = NULL;
+		if($restricted)
+			$editors = Members::list_editors_for_member($this->get_focus(), 0, 10000, 'ids');
+
+		// do the job
+		return Users::alert_watchers($containers, $mail, $editors);
+
+	}
 
 	/**
 	 * maximise access rights
@@ -156,9 +198,9 @@ class Anchor {
 	/**
 	 * get date of last modification
 	 *
-	 * @return array the attribute 'timestamp' contains time of last update
-	 *
 	 * @see services/check.php
+	 *
+	 * @return array the attribute 'timestamp' contains time of last update
 	 */
 	function &check() {
 
@@ -240,7 +282,7 @@ class Anchor {
 
 		// get the parent
 		if(!$this->anchor && isset($this->item['anchor']))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$text = '';
@@ -295,12 +337,12 @@ class Anchor {
 	 * For example, if you are displaying a thread related to an article,
 	 * you can display at the top of the page the article icon with the following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * if($icon = $anchor->get_icon_url())
 	 *	 $context['text'] .= '<img src="'.$icon.'" alt="" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
@@ -308,42 +350,12 @@ class Anchor {
 		 return NULL;
 	}
 
-	 /**
-	  * provide a custom label
-	  *
-	  * @param string the module that is invoking the anchor (e.g., 'comment')
-	  * @param string the target label (e.g., 'edit_title', 'item_name', 'item_names')
-	  * @param string an optional title, if any
-	  * @return string the foreseen label
-	  */
-	 function get_label($variant, $id, $title='') {
-
-		// sanity check
-		if(!$this->item)
-			return FALSE;
-
-		// climb the anchoring chain, if any
-		if(isset($this->item['anchor']) && $this->item['anchor']) {
-
-			// cache anchor
-			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
-
-			if(is_object($this->anchor))
-				return $this->anchor->get_label($variant, $id, $title);
-
-		}
-
-		// no match
-		return 'Impossible to translate '.$id.' for module '.$variant;
-	}
-
 	/**
 	 * get the named url for this anchor
 	 *
 	 * If the anchor as been named, this function returns the related url.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return an url to view the anchor page, or NULL
 	 */
@@ -365,11 +377,11 @@ class Anchor {
 	 * }
 	 * [/php]
 	 *
+	 * @see skins/skin_skeleton.php
+	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array (previous_url, previous_label, next_url, next_label, option_url, option_label)
-	 *
-	 * @see skins/skin_skeleton.php
 	 */
 	function get_neighbours($type, $item) {
 		return array('', '', '', '', '', NULL);
@@ -395,15 +407,16 @@ class Anchor {
 	 * @return a string
 	 */
 	 function get_overlay($name='content_overlay') {
+	 	$overlay = NULL;
 		if($this->item && isset($this->item[$name]))
-			return $this->item[$name];
-		return NULL;
+			$overlay = Overlay::bind($this->item[$name]);
+		return $overlay;
 	 }
 
 	/**
 	 * get the reference of the container of this anchor
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
@@ -421,11 +434,11 @@ class Anchor {
 	 * the path bar has to mention the section. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return an array of $url => $label
 	 */
@@ -489,11 +502,11 @@ class Anchor {
 	 * an anchor. For example, a thread item can have a neat text, coming from the
 	 * anchor, to introduce it:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['text'] .= $anchor->get_prefix('thread');
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string an indication to the anchor of the expected result
 	 * @return a string
@@ -519,11 +532,11 @@ class Anchor {
 	 * This function is used to retrieve a reference to be placed into the database.
 	 * For example:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
@@ -536,7 +549,7 @@ class Anchor {
 	 *
 	 * If the anchor has one, this function returns a minimal url.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return an url to view the anchor page, or NULL
 	 */
@@ -551,11 +564,11 @@ class Anchor {
 	 * an anchor. For example, a thread item can have a neat text, coming from the
 	 * anchor, to conclude the page:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['text'] .= $anchor->get_suffix('thread');
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string an indication to the anchor of the expected result
 	 * @return a string
@@ -606,7 +619,7 @@ class Anchor {
 	/**
 	 * get available templates
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the type of content to be created e.g., 'article', etc.
 	 * @return array a list of models to consider, or NULL
@@ -627,7 +640,7 @@ class Anchor {
 	 * NOT display anchor thumbnails throughout the server. In this case, he/she
 	 * has just to suppress the thumbnail URL in each anchor and that's it.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @return a valid url to be used in an &lt;img&gt; tag
 	 */
@@ -643,17 +656,17 @@ class Anchor {
 	 * you will use the title of the article as the general page title.
 	 * You can use following code to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['page_title'] = $anchor->get_title();
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class if title has a different name
+	 * To be overloaded into derived class if title has a different name
 	 *
 	 * @return a string
 	 */
 	function get_title() {
 		if($this->item)
-			return str_replace('& ', '&amp; ', $this->item['title']);
+			return trim(str_replace('& ', '&amp; ', $this->item['title']));
 		return $this->get_reference();
 	}
 
@@ -675,11 +688,11 @@ class Anchor {
 	 * For example, if you are displaying a thread related to an article,
 	 * you can add a link to display the article with the following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $context['text'] .= '<a href="'.$anchor->get_url().'">'.i18n::s('Back').'</a>';
 	 * [/php]
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an url to view the anchor page
@@ -709,9 +722,38 @@ class Anchor {
 	}
 
 	/**
+	 * get all attributes
+	 *
+	 * @return array all attributes of this instance
+	 */
+	function get_values() {
+		return $this->item;
+	}
+
+	/**
+	 * list all items in the watching context
+	 *
+	 * Items that are included in the watching context are not always the same.
+	 * For example, when the action is the creation of an article in a section,
+	 * all sections up to the top of the content tree are included in the watching context.
+	 * However, when an article is updated, the scope is limited to the containing section.
+	 *
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
+	 */
+	protected function get_watched_context($action) {
+		global $context;
+
+		// by default, limit to direct watchers of this anchor
+		return $this->get_reference();
+	}
+
+	/**
 	 * check if an anchor implements a given layout
 	 *
-	 * To be overloaded into derivated class, if necessary
+	 * To be overloaded into derived class, if necessary
 	 *
 	 * @param string the layout we are looking for
 	 * @return TRUE or FALSE, or the value of the matching option if any
@@ -728,7 +770,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->has_layout($option);
@@ -749,7 +791,7 @@ class Anchor {
 	 * For example, the layout of a thread may vary from one section to another.
 	 * To check that, you can use following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * if($anchor->option('with_thread_alternate_layout') {
 	 *	 ...
 	 * } else {
@@ -761,7 +803,7 @@ class Anchor {
 	 * For example, if the options field has been set with the value 'variant_red_background',
 	 * the variant can be retrieved from anchored items with the following code:
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * if($variant = $anchor->option('variant') {
 	 *	 load_skin($variant);
 	 * } else {
@@ -774,7 +816,7 @@ class Anchor {
 	 * all articles, but also all attached files and images of these articles,
 	 * will feature the skin 'boxes'.
 	 *
-	 * To be overloaded into derivated class, if necessary
+	 * To be overloaded into derived class, if necessary
 	 *
 	 * @param string the option we are looking for
 	 * @param boolean TRUE if coming from content leaf, FALSE if coming from content branch
@@ -799,7 +841,7 @@ class Anchor {
 			return $matches[1];
 
 		// exact match, return TRUE
-		if(isset($this->item['options']) && preg_match('/\b'.$option.'\b/i', $this->item['options']))
+		if(isset($this->item['options']) && (strpos($this->item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// climb the anchoring chain
@@ -807,7 +849,7 @@ class Anchor {
 
 			// cache requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// ask the anchor
 			if(is_object($this->anchor))
@@ -844,7 +886,7 @@ class Anchor {
 	 * web site, he/she should be able to edit all articles in this section.
 	 * you can use following code to check that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * if($anchor->is_assigned() {
 	 *	 ...
 	 * }
@@ -854,7 +896,7 @@ class Anchor {
 	 *
 	 * An anonymous surfer is considered as an editor if he has provided the secret handle.
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
 	 * @param boolean TRUE to climb the list of containers up to the top
@@ -896,7 +938,7 @@ class Anchor {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// check for ownership
 			if(is_object($this->anchor))
@@ -911,7 +953,7 @@ class Anchor {
 	/**
 	 * determine if only selected persons can access this anchor
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @return TRUE or FALSE
 	 */
@@ -930,28 +972,9 @@ class Anchor {
 	}
 
 	/**
-	 * is this an interactive thread?
-	 *
-	 * @return TRUE is this page supports interactions, FALSE otherwise
-	 */
-	function is_interactive() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// section asks for threads
-		if(Articles::has_option('view_as_chat', $this->anchor, $this->item))
-			return TRUE;
-
-		// not an interactive page
-		return FALSE;
-	}
-
-	/**
 	 * check that the surfer owns an anchor
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if attribute has a different name than 'owner_id'.
 	 *
 	 * @param int optional reference to some user profile
 	 * @param boolean FALSE to not cascade the check to parent containers
@@ -975,7 +998,7 @@ class Anchor {
 		if(!$cascade)
 			return FALSE;
 
-		// associates can always do it, except in strict mode
+		// associates can always do it, except if not cascading
 		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
 			return TRUE;
 
@@ -984,7 +1007,7 @@ class Anchor {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			// test strict ownership
 			if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
@@ -1002,7 +1025,7 @@ class Anchor {
 	 * This function is used to enable additional processing steps on public pages only.
 	 * For example, only public pages are pinged on publication.
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @return TRUE or FALSE
 	 */
@@ -1017,7 +1040,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor) && !$this->anchor->is_public())
 				return FALSE;
@@ -1041,7 +1064,7 @@ class Anchor {
 	 *
 	 * This function is used to control the authority delegation from the anchor.
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
@@ -1052,6 +1075,10 @@ class Anchor {
 		// we need some data to proceed
 		if(!isset($this->item['id']))
 			return FALSE;
+
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
+			return TRUE;
 
 		// section is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
@@ -1083,6 +1110,7 @@ class Anchor {
 	 * @param array attributes of the anchor, if any
 	 */
 	function load_by_content($item, $anchor=NULL) {
+		global $context;
 
 		// save attributes of this instance
 		$this->item = $item;
@@ -1090,12 +1118,18 @@ class Anchor {
 		// save attributes of the anchor
 		if($anchor)
 			$this->anchor = $anchor;
+
+		// get the related overlay, if any
+		$this->overlay = NULL;
+		if(isset($this->item['overlay']))
+			$this->overlay = Overlay::load($this->item, $this->get_reference());
+
 	}
 
 	/**
 	 * load the related item
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
@@ -1107,10 +1141,10 @@ class Anchor {
 	/**
 	 * restore a previous version of this anchor
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		return FALSE;
@@ -1120,7 +1154,7 @@ class Anchor {
 	 * change some attributes of an anchor
 	 *
 	 * @param array of (name, value)
-	 * @return TRUE on success, FALSE otherwise
+	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	function set_values($fields) {
 		return FALSE;
@@ -1133,14 +1167,14 @@ class Anchor {
 	 * For example, if a thread is linked to a section, one update of this thread
 	 * will be considered as an update of the section itself.
 	 * [php]
-	 * $anchor =& Anchors::get($thread['anchor']);
+	 * $anchor = Anchors::get($thread['anchor']);
 	 * $anchor->touch('thread:update');
 	 * [/php]
 	 *
 	 * Following actions have been defined:
-	 * - 'article:create'
-	 * - 'article:update'
 	 * - 'article:publish'
+	 * - 'article:submit'
+	 * - 'article:update'
 	 * - 'section:create'
 	 * - 'section:update'
 	 * - 'file:create'
@@ -1153,25 +1187,27 @@ class Anchor {
 	 *
 	 * It is assumed that the surfer (i.e., Surfer::get_name()) is the author of the modification.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
+	 *
+	 * @see articles/article.php
+	 * @see sections/section.php
 	 *
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
-	 * @param boolean TRUE for a silent update
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
+	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
 	 */
-	function touch($action, $origin, $silently = FALSE) {
-		return NULL;
+	function touch($action, $origin=NULL, $silently=FALSE) {
+		return;
 	}
 
 	/**
 	 * transcode some references
 	 *
-	 * To be overloaded into derivated class
-	 *
-	 * @param array of pairs of strings to be used in preg_replace()
+	 * To be overloaded into derived class
 	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 	}

@@ -25,8 +25,8 @@ class Petition extends Overlay {
 	function allows($type, $action) {
 		global $context;
 
-		// we filter only votes
-		if($type != 'decision')
+		// we filter only approvals
+		if($type != 'approval')
 			return TRUE;
 
 		// we filter only new votes
@@ -34,8 +34,7 @@ class Petition extends Overlay {
 			return TRUE;
 
 		// block if this surfer has already voted
-		include_once $context['path_to_root'].'decisions/decisions.php';
-		if(isset($this->attributes['id']) && ($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))) {
+		if(isset($this->attributes['id']) && Surfer::get_id() && Comments::count_approvals_for_anchor($this->anchor->get_reference(), Surfer::get_id())) {
 			Logger::error(i18n::s('You have already signed'));
 			return FALSE;
 		}
@@ -69,8 +68,6 @@ class Petition extends Overlay {
 	 */
 	function &get_details_text($host=NULL) {
 		global $context;
-
-		include_once $context['path_to_root'].'decisions/decisions.php';
 
 		// feed-back to surfer
 		$information = array();
@@ -185,24 +182,26 @@ class Petition extends Overlay {
 		// the target label
 		switch($name) {
 
+		case 'edit_command':
+			return i18n::s('Edit this petition');
+
+		// command to add an item
+		case 'new_command':
+			return i18n::s('Add a petition');
+
 		// page title
 		case 'page_title':
 
 			switch($action) {
 
 			case 'edit':
-				return i18n::s('Edit petition record');
+				return i18n::s('Edit a petition');
 
 			case 'delete':
-				return i18n::s('Delete petition record');
+				return i18n::s('Delete a petition');
 
 			case 'new':
-				return i18n::s('New petition');
-
-			case 'view':
-			default:
-				// use the article title as the page title
-				return NULL;
+				return i18n::s('Add a petition');
 
 			}
 		}
@@ -220,17 +219,11 @@ class Petition extends Overlay {
 	function &get_trailer_text($host=NULL) {
 		global $context;
 
-		include_once $context['path_to_root'].'decisions/decisions.php';
-
 		// the text
 		$text = '';
 
 		// actually, a menu of commands
 		$menu = array();
-
-		// list of all signatures
-		if($label = Decisions::get_results_label_for_anchor('article:'.$this->attributes['id']))
-			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers'));
 
 		// no end date
 		if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
@@ -247,13 +240,9 @@ class Petition extends Overlay {
 		// different for each surfer
 		Cache::poison();
 
-		// get ballot
-		if($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))
-			$menu[] = Skin::build_link(Decisions::get_url($ballot), i18n::s('View your signature'), 'shortcut');
-
 		// link to vote
-		elseif($open && Surfer::is_member())
-			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'decision'), i18n::s('Sign this petition'), 'shortcut');
+		if($open && Surfer::get_id() && Surfer::get_id() && !Comments::count_approvals_for_anchor($this->anchor->get_reference(), Surfer::get_id()))
+			$menu[] = Skin::build_link(Comments::get_url($this->anchor->get_reference(), 'approve'), i18n::s('Sign this petition'), 'shortcut');
 
 		$text = Skin::finalize_list($menu, 'menu_bar');
 		return $text;
@@ -278,7 +267,6 @@ class Petition extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return the updated fields
 	 */
 	function parse_fields($fields) {
 		global $context;
@@ -290,31 +278,28 @@ class Petition extends Overlay {
 		// adjust date from surfer time zone to UTC time zone
 		if(isset($fields['end_date']) && $fields['end_date'])
 			$this->attributes['end_date'] = Surfer::to_GMT($fields['end_date']);
-
-		return $this->attributes;
 	}
 
 	/**
 	 * remember an action once it's done
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($variant, $host) {
+	function remember($action, $host, $reference) {
 		global $context;
 
 		// remember the id of the master record
 		$id = $host['id'];
 
 		// build the update query
-		switch($variant) {
+		switch($action) {
 
 		case 'delete':
-			include_once $context['path_to_root'].'decisions/decisions.php';
-			Decisions::delete_for_anchor('article:'.$this->attributes['id']);
 			break;
 
 		case 'insert':
@@ -324,7 +309,9 @@ class Petition extends Overlay {
 			break;
 		}
 
+		// job done
 		return TRUE;
+
 	}
 
 }

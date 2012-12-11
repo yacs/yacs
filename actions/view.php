@@ -37,12 +37,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Actions::get($id);
+$item = Actions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -56,6 +56,10 @@ load_skin('actions', $anchor);
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
+
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'action:'.$item['id'];
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
@@ -79,7 +83,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Actions::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link

@@ -63,37 +63,11 @@
  * This kind of notification is used to communicate directly between surfers.
  * We are talking here of a very bare communication system, equivalent to SMS.
  *
- * This kind of notification can also be used to establish contact between two
- * on-line surfers:
- *
- * 1. Alice wishes to ask a fast and dirty question to Bob
- *
- * 2. For this purpose she visits the user profile of Bob, and checks contact
- * information provided there. Hopefully, the server reports to Alice that
- * Bob is currently browsing the site, and therefore is probably available
- * for contact.
- *
- * 3. Alice clicks on a link that triggers [script]users/contact.php[/script].
- * This page prepares a 'hello' notification and triggers [script]users/heartbit.php[/script],
- * which insert the notification in the database and fall asleep.
- *
- * 4. One of the asynchronous calls to [script]users/heartbit.php[/script] initiated
- * from Bob's browser wakes up. It pushes the new notification to the browser
- * and purges the database.
- *
- * 5. The YACS AJAX code decodes the notification and presents it to Bob, as a
- * dialog box. Bob may accept or refuse to contact Alice.
- *
- * 6a. When Bob accepts to start a new chat session, he is driven to the
- * web address transmitted in Alice's message.
- *
- * 6b. When Bob denegates the contact, nothing happens
- *
  * All following attributes can be part of a 'hello' notification:
  * - 'recipient' - id of the target community member
  * - 'type' = 'hello'
  * - 'nick_name' - short name of the surfer that is requesting some direct contact
- * - 'address' - a web link to browse, if accepted by receiving party (optional)
+ * - 'address' - a web address to browse, if accepted by receiving party (optional)
  * - 'message' - less than 200 characters submitted by originator
  *
  *
@@ -125,7 +99,6 @@
  * - shared/yacs.js - the AJAX code that manages notifications on browser side
  * - users/notifications.php - the storage engine for transient notifications
  * - users/heartbit.php - receives and pushes notifications
- * - users/contact.php - send a textual notification, or ask for chat
  *
  * @author Bernard Paques
  * @reference
@@ -141,7 +114,7 @@ Class Notifications {
 	 *
 	 * @see users/heartbit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// delete obsoleted notifications
@@ -173,7 +146,7 @@ Class Notifications {
 	 *
 	 * @see users/heartbit.php
 	 */
-	function &pull() {
+	public static function pull() {
 		global $context;
 
 		// return by reference
@@ -181,7 +154,7 @@ Class Notifications {
 
 		// only authenticated surfers can be notified
 		if(!Surfer::get_id()) {
-			Safe::header('Status: 401 Forbidden', TRUE, 401);
+			Safe::header('Status: 401 Unauthorized', TRUE, 401);
 			die(i18n::s('You are not allowed to perform this operation.'));
 		}
 
@@ -196,8 +169,8 @@ Class Notifications {
 			." LIMIT 1";
 
 		// kill the request if there is nothing to return
-		if((!$record =& SQL::query_first($query)) || !isset($record['data'])) {
-			header('Status: 504 Gateway Timeout', TRUE, 504);
+		if((!$record = SQL::query_first($query)) || !isset($record['data'])) {
+			http::no_content();
 			die('Retry');
 		}
 
@@ -268,7 +241,7 @@ Class Notifications {
 	/**
 	 * create table for notifications
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -283,28 +256,6 @@ Class Notifications {
 		$indexes['INDEX edit_date'] = "(edit_date)";
 
 		return SQL::setup_table('notifications', $fields, $indexes);
-	}
-
-	/**
-	 * get some statistics
-	 *
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 *
-	 * @see control/index.php
-	 */
-	function &stat() {
-		global $context;
-
-		// only consider recent presence records
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 180);
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(notifications.edit_date) as oldest_date, MAX(notifications.edit_date) as newest_date"
-			." FROM ".SQL::table_name('notifications')." AS notifications"
-			." WHERE (notifications.edit_date >= '".SQL::escape($threshold)."')";
-
-		$output =& SQL::query_first($query);
-		return $output;
 	}
 
 }

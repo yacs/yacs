@@ -229,7 +229,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
@@ -351,11 +351,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<textarea name="skins_main_components" id="skins_main_components"cols="60" rows="3">'.encode_field($context['skins_main_components']).'</textarea>';
 	$keywords = array();
 	$keywords[] = 'title - '.i18n::s('Page title');
+	$keywords[] = 'bar - '.i18n::s('Page menu, if any');
 	$keywords[] = 'error - '.i18n::s('Error messages, if any');
 	$keywords[] = 'text - '.i18n::s('Page main content');
 	$keywords[] = 'tags - '.i18n::s('Page tags, if any');
 	$keywords[] = 'details - '.i18n::s('Complementary information, if any');
-	$keywords[] = 'bar - '.i18n::s('Page menu, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
 	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
 
@@ -379,7 +379,6 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'channels - '.i18n::s('Commands to stay informed, if any');
 	$keywords[] = 'twins - '.i18n::s('Pages with the same name, if any');
 	$keywords[] = 'neighbours - '.i18n::s('Next and previous, if any');
-	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
 	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
 	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
 	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
@@ -405,9 +404,10 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Navigation boxes are looking similar at all pages');
 	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
 	$keywords = array();
-	$keywords[] = 'menu - '.i18n::s('Site menu');
 	$keywords[] = 'user - '.i18n::s('User menu');
 	$keywords[] = 'extra - '.i18n::s('Include the extra panel, if your skin features a 2-column layout');
+	$keywords[] = 'menu - '.i18n::s('Site menu');
+	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
 	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
 	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
@@ -430,19 +430,19 @@ elseif(!Surfer::is_associate()) {
 	$search = '<p><input type="radio" name="skins_delegate_search" value="N"';
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1" /> '.i18n::s('Process search requests internally, by requesting the back-end database').'</p>';
 
 	// distinguish content from users
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="S"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1"/> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=1" /> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users').'</p>';
 
 	// search extension
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="X"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1"/> '.i18n::s('Extend search results on a separate tab');
+	$search .= ' onclick="$(skins_search_extension).disabled=0; $(skins_search_form).disabled=1" /> '.i18n::s('Extend search results on a separate tab');
 
 	// default to Google customized seach
 	if(!isset($context['skins_search_extension']) || !$context['skins_search_extension'])
@@ -458,7 +458,7 @@ elseif(!Surfer::is_associate()) {
 	$search .= '<p><input type="radio" name="skins_delegate_search" value="Y"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
 		$search .= ' checked="checked"';
-	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
+	$search .= ' onclick="$(skins_search_extension).disabled=1; $(skins_search_form).disabled=0" /> '.i18n::s('Use the following form to delegate search requests');
 
 	// default to Google appliance
 	if(!isset($context['skins_search_form']) || !$context['skins_search_form'])
@@ -654,23 +654,25 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	$images .= '<p class="details">'.i18n::s('YACS uses the GD module of PHP to resize large pictures, and to create thumbnail images.')."</p>\n";
-	
+
 	// google map parameters
 	$gmap = '';
-	if (!isset($context['skins_gmap_default_width']))
-    $context['skins_gmap_default_width'] = '500px';
-	if (!isset($context['skins_gmap_default_height']))
-    $context['skins_gmap_default_height'] = '300px';
+
+	// map size on screen
 	$label = i18n::s('Map Size');
+	if(!isset($context['skins_gmap_default_width']))
+    	$context['skins_gmap_default_width'] = '500px';
+	if(!isset($context['skins_gmap_default_height']))
+    	$context['skins_gmap_default_height'] = '300px';
 	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_gmap_default_width" size="8" value="'.encode_field($context['skins_gmap_default_width']).'" maxlength="10" />')
 		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_gmap_default_height" size="8" value="'.encode_field($context['skins_gmap_default_height']).'" maxlength="10" />');
 	$hint = i18n::s('Width and height of Google Maps.');
 	$fields[] = array($label, $input, $hint);
 
-	if (!isset($context['skins_gmap_default_scale']))
-    $context['skins_gmap_default_scale'] = '5';
-
+	// map scale
 	$label = i18n::s('Map Scale');
+	if(!isset($context['skins_gmap_default_scale']))
+    	$context['skins_gmap_default_scale'] = '5';
 	$input = sprintf(i18n::s('Scale: %s'), '<input type="text" name="skins_gmap_default_scale" size="8" value="'.encode_field($context['skins_gmap_default_scale']).'" maxlength="10" />');
 	$hint = i18n::s('Scale of Google Maps.');
 	$fields[] = array($label, $input, $hint);
@@ -805,7 +807,7 @@ elseif(!Surfer::is_associate()) {
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // save updated parameters
@@ -945,7 +947,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/skins.include.php');
-		Logger::remember('skins/configure.php', $label);
+		Logger::remember('skins/configure.php: '.$label);
 	}
 
 	// display updated parameters

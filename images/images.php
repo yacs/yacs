@@ -27,7 +27,7 @@ Class Images {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -108,6 +108,11 @@ Class Images {
 		// only in user profiles
 		} elseif($variant == 'user') {
 
+			// the item is anchored to the profile of this member
+			if(Surfer::get_id() && is_object($anchor) && !strcmp($anchor->get_reference(), 'user:'.Surfer::get_id()))
+				return TRUE;
+
+			// should not happen...
 			if(isset($item['id']) && Surfer::is($item['id']))
 				return TRUE;
 
@@ -172,7 +177,7 @@ Class Images {
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($anchor, $item) {
+	public static function allow_modification($anchor, $item) {
 		global $context;
 
 		// associates can do what they want
@@ -204,7 +209,7 @@ Class Images {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'files', 'images', 'sections', 'users');
@@ -228,23 +233,23 @@ Class Images {
 	 * @param int the id of the image to delete
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the row
-		$item =& Images::get($id);
+		$item = Images::get($id);
 		if(!$item['id']) {
 			Logger::error(i18n::s('No item has been found.'));
 			return FALSE;
 		}
 
 		// delete the image files silently
-		list($anchor_type, $anchor_id) = explode(':', $item['anchor'], 2);
-		Safe::unlink($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['image_name']);
-		Safe::unlink($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['thumbnail_name']);
-		Safe::rmdir($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs');
-		Safe::rmdir($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id);
-		Safe::rmdir($context['path_to_root'].'images/'.$context['virtual_path'].$anchor_type);
+		$file_path = $context['path_to_root'].Files::get_path($item['anchor'], 'images');
+		Safe::unlink($file_path.'/'.$item['image_name']);
+		Safe::unlink($file_path.'/'.$item['thumbnail_name']);
+		Safe::rmdir($file_path.'/thumbs');
+		Safe::rmdir($file_path);
+		Safe::rmdir(dirname($file_path));
 
 		// delete related items
 		Anchors::delete_related_to('image:'.$id);
@@ -265,17 +270,17 @@ Class Images {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// delete silently all matching images
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Images::delete($row['id']);
 	}
 
@@ -291,47 +296,46 @@ Class Images {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('images')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// create target folders
-			$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_to);
-			if(!Safe::make_path($file_path.'/thumbs'))
-				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path.'/thumbs'));
+			$file_to = $context['path_to_root'].Files::get_path($item['anchor'], 'images');
+			if(!Safe::make_path($file_to.'/thumbs'))
+				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_to.'/thumbs'));
 
-			$file_path = $context['path_to_root'].$file_path.'/';
+			$file_to = $context['path_to_root'].$file_to.'/';
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			$file_from = $context['path_to_root'].Files::get_path($anchor_from, 'images');
+			while($item = SQL::fetch($result)) {
 
 				// sanity check
-				if(!file_exists($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name']))
+				if(!file_exists($context['path_to_root'].$file_from.'/'.$item['image_name']))
 					continue;
 
 				// duplicate image file
-				if(!copy($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name'],
-					$file_path.$item['image_name'])) {
+				if(!copy($context['path_to_root'].$file_from.'/'.$item['image_name'], $file_to.$item['image_name'])) {
 					Logger::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['image_name']));
 					continue;
 				}
 
 				// this will be filtered by umask anyway
-				Safe::chmod($file_path.$item['image_name'], $context['file_mask']);
+				Safe::chmod($file_to.$item['image_name'], $context['file_mask']);
 
 				// copy the thumbnail as well
-				Safe::copy($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['thumbnail_name'],
-					$file_path.$item['thumbnail_name']);
+				Safe::copy($context['path_to_root'].$file_from.'/'.$item['thumbnail_name'], $file_to.$item['thumbnail_name']);
 
 				// this will be filtered by umask anyway
-				Safe::chmod($file_path.$item['thumbnail_name'], $context['file_mask']);
+				Safe::chmod($file_to.$item['thumbnail_name'], $context['file_mask']);
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -355,7 +359,7 @@ Class Images {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -370,7 +374,7 @@ Class Images {
 	 * @param int the id of the image
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -383,7 +387,7 @@ Class Images {
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
 			." WHERE (images.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -394,14 +398,14 @@ Class Images {
 	 * @param string the image name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get_by_anchor_and_name($anchor, $name) {
+	public static function &get_by_anchor_and_name($anchor, $name) {
 		global $context;
 
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."' AND images.image_name='".SQL::escape($name)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -411,22 +415,36 @@ Class Images {
 	 * @param array the image description (i.e., Images::get($id))
 	 * @return string the target href, or FALSE if there is an error
 	 */
-	function get_icon_href($item) {
+	public static function get_icon_href($item) {
 		global $context;
 
 		// sanity check
 		if(!isset($item['anchor']) || !isset($item['image_name']))
 			return FALSE;
 
-		// target name
-		$target = 'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'];
-
 		// file does not exist
-		if(!file_exists($context['path_to_root'].$target))
+		if(!file_exists($context['path_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name']))
 			return FALSE;
 
 		// web address of the image
-		return $context['url_to_root'].$target;
+		return $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.rawurlencode($item['image_name']);
+	}
+
+	/**
+	 * get the newest image for a given anchor
+	 *
+	 * @param string the anchor
+	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
+	 */
+	public static function &get_newest_for_anchor($anchor) {
+		global $context;
+
+		// select among available items
+		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
+			." WHERE images.anchor LIKE '".SQL::escape($anchor)."' ORDER BY images.edit_date DESC LIMIT 0, 1";
+
+		$output = SQL::query_first($query);
+		return $output;
 	}
 
 	/**
@@ -435,22 +453,19 @@ Class Images {
 	 * @param array the image description (i.e., Images::get($id))
 	 * @return string the thumbnail href, or FALSE on error
 	 */
-	function get_thumbnail_href($item) {
+	public static function get_thumbnail_href($item) {
 		global $context;
 
 		// sanity check
 		if(!isset($item['anchor']) || !isset($item['thumbnail_name']))
 			return FALSE;
 
-		// target file name
-		$target = 'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['thumbnail_name'];
-
 		// file does not exist
-		if(!file_exists($context['path_to_root'].$target))
+		if(!file_exists($context['path_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['thumbnail_name']))
 			return FALSE;
 
 		// returns href
-		return $context['url_to_root'].$target;
+		return $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.str_replace('thumbs%2F', 'thumbs/', rawurlencode($item['thumbnail_name']));
 
 	}
 
@@ -470,7 +485,7 @@ Class Images {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// check the target action
@@ -504,7 +519,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -533,7 +548,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -567,7 +582,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// limit the scope of the request
@@ -588,7 +603,7 @@ Class Images {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_size($offset=0, $count=10, $variant='full') {
+	public static function &list_by_size($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -611,7 +626,7 @@ Class Images {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -622,7 +637,7 @@ Class Images {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -654,7 +669,7 @@ Class Images {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -673,7 +688,7 @@ Class Images {
 	 * @param array an array of fields
 	 * @return the id of the image, or FALSE on error
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no anchor reference
@@ -683,7 +698,7 @@ Class Images {
 		}
 
 		// get the anchor
-		if(!$anchor =& Anchors::get($fields['anchor'])) {
+		if(!$anchor = Anchors::get($fields['anchor'])) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -752,7 +767,7 @@ Class Images {
 
 		// nothing done
 		} else {
-			Logger::error(i18n::s('No image has been uploaded.'));
+			Logger::error(i18n::s('No image has been added.'));
 			return FALSE;
 		}
 
@@ -766,7 +781,7 @@ Class Images {
 	/**
 	 * create or alter tables for images
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -802,7 +817,7 @@ Class Images {
 	 *
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
@@ -810,7 +825,7 @@ Class Images {
 			.", SUM(image_size) as total_size"
 			." FROM ".SQL::table_name('images')." AS images";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -820,7 +835,7 @@ Class Images {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $oldest_date, $newest_date, $total_size) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -829,7 +844,7 @@ Class Images {
 			." FROM ".SQL::table_name('images')." AS images "
 			." WHERE images.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

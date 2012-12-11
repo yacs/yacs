@@ -1,0 +1,479 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 21:24+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: services/blog.php:568 services/blog.php:613 services/blog.php:710
+#: services/blog.php:793 services/blog.php:862 services/blog.php:893
+#: services/blog.php:924 services/blog.php:995 services/blog.php:1092
+#: services/blog.php:1124 services/blog.php:1231 services/blog.php:1273
+#: services/blog.php:1349 services/blog.php:1426 services/blog.php:1520
+#: services/blog.php:1628 services/blog.php:1663 services/blog.php:1702
+#: services/blog.php:1754
+#, php-format
+msgid "Please register at %s before blogging"
+msgstr ""
+
+#: services/blog.php:572 services/blog.php:617 services/blog.php:714
+#: services/blog.php:1128 services/blog.php:1277
+#, php-format
+msgid "Unknown postid %s at %s"
+msgstr ""
+
+#: services/blog.php:589 services/blog.php:637 services/blog.php:718
+#: services/blog.php:751 services/blog.php:801 services/blog.php:870
+#: services/blog.php:1003 services/blog.php:1007 services/blog.php:1011
+#: services/blog.php:1100 services/blog.php:1104 services/blog.php:1147
+#: services/blog.php:1281 services/blog.php:1314 services/blog.php:1357
+#: services/blog.php:1430 services/blog.php:1442 services/blog.php:1446
+#: services/blog.php:1450 services/blog.php:1528 services/blog.php:1532
+#: services/blog.php:1536 services/blog.php:1710 services/check.php:57
+#: services/check.php:62 services/configure.php:83 services/proxy.php:21
+#: services/proxy.php:26
+msgid "You are not allowed to perform this operation."
+msgstr ""
+
+#: services/blog.php:593
+#, php-format
+msgid "Impossible to delete record of postid %s"
+msgstr ""
+
+#: services/blog.php:665 services/blog.php:1191
+#, php-format
+msgid "Impossible to update record of postid %s"
+msgstr ""
+
+#: services/blog.php:797 services/blog.php:866 services/blog.php:999
+#: services/blog.php:1096 services/blog.php:1353 services/blog.php:1438
+#: services/blog.php:1524 services/blog.php:1706
+#, php-format
+msgid "Unknown blog %s at %s"
+msgstr ""
+
+#: services/blog.php:907
+msgid "Unknown user name"
+msgstr ""
+
+#: services/blog.php:1434
+msgid "No file data has been received."
+msgstr ""
+
+#: services/blog.php:1462
+#, php-format
+msgid "Impossible to save content of file %s"
+msgstr ""
+
+#: services/blog.php:1809
+#, php-format
+msgid "Do not know how to process %s"
+msgstr ""
+
+#: services/blog_test.php:29
+msgid "Sample blog client"
+msgstr ""
+
+#: services/blog_test.php:42 services/ping_test.php:75
+#: services/ping_test.php:102 services/rpc_echo_hook_test.php:32
+#: services/xml_rpc_drupal.login_hook_test.php:36
+msgid "Server address"
+msgstr ""
+
+#: services/blog_test.php:44 services/ping_test.php:77
+#: services/ping_test.php:104 services/rpc_echo_hook_test.php:34
+#: services/xml_rpc_drupal.login_hook_test.php:38
+msgid "Go"
+msgstr ""
+
+#: services/blog_test.php:45 services/ping_test.php:78
+#: services/ping_test.php:105 services/rpc_echo_hook_test.php:35
+#: services/xml_rpc_drupal.login_hook_test.php:39
+msgid "The name or the IP address of the yacs server"
+msgstr ""
+
+#: services/blog_test.php:47 services/xml_rpc_drupal.login_hook_test.php:41
+msgid "User name"
+msgstr ""
+
+#: services/blog_test.php:50 services/xml_rpc_drupal.login_hook_test.php:44
+msgid "User password"
+msgstr ""
+
+#: services/blog_test.php:531
+#, php-format
+msgid ""
+"Go to the %s and check debug mode for <code>call</code> has been set, if you "
+"want to record HTTP requests and responses."
+msgstr ""
+
+#: services/blog_test.php:531 services/rpc_echo_hook_test.php:99
+#: services/xml_rpc_drupal.login_hook_test.php:87
+msgid "configuration panel for services"
+msgstr ""
+
+#: services/blog_test.php:532 services/rpc_echo_hook_test.php:100
+#: services/xml_rpc_drupal.login_hook_test.php:88
+msgid "Help"
+msgstr ""
+
+#: services/check.php:52
+msgid "No anchor has been found."
+msgstr ""
+
+#: services/configure.php:71 services/configure.php:232
+#: services/configure.php:319
+msgid "Control Panel"
+msgstr ""
+
+#: services/configure.php:74
+#, php-format
+msgid "%s: %s"
+msgstr ""
+
+#: services/configure.php:74 services/index.php:98
+msgid "Configure"
+msgstr ""
+
+#: services/configure.php:74 services/configure.php:236
+#: services/configure.php:318
+msgid "Web services"
+msgstr ""
+
+#: services/configure.php:95
+msgid "Google API key"
+msgstr ""
+
+#: services/configure.php:99
+#, php-format
+msgid "To integrate Google Maps to your server, %s and enter it here"
+msgstr ""
+
+#: services/configure.php:99
+msgid "http://www.google.com/apis/maps/signup.html"
+msgstr ""
+
+#: services/configure.php:99 services/configure.php:115
+#: services/configure.php:137
+msgid "apply for a key"
+msgstr ""
+
+#: services/configure.php:103
+msgid "Google Analytics"
+msgstr ""
+
+#: services/configure.php:107
+#, php-format
+msgid ""
+"To monitor your server with Google Analytics, %s and enter your account here"
+msgstr ""
+
+#: services/configure.php:107
+msgid "http://www.google-analytics.com/"
+msgstr ""
+
+#: services/configure.php:107 services/configure.php:145
+msgid "register"
+msgstr ""
+
+#: services/configure.php:111
+msgid "Opentok API key"
+msgstr ""
+
+#: services/configure.php:115
+#, php-format
+msgid "To integrate Opentok services to your server, %s and enter it here"
+msgstr ""
+
+#: services/configure.php:115
+msgid "http://www.tokbox.com/opentok/api/documentation/gettingstarted"
+msgstr ""
+
+#: services/configure.php:119
+msgid "Opentok API secret"
+msgstr ""
+
+#: services/configure.php:126
+msgid "Opentok API URL"
+msgstr ""
+
+#: services/configure.php:133
+msgid "Orange Business Services API key"
+msgstr ""
+
+#: services/configure.php:137
+#, php-format
+msgid ""
+"To integrate Orange Business Services (OBS) API into your server, %s and "
+"enter it here"
+msgstr ""
+
+#: services/configure.php:137
+msgid "http://api.orange.com/"
+msgstr ""
+
+#: services/configure.php:141
+msgid "Twilio account SID"
+msgstr ""
+
+#: services/configure.php:145
+#, php-format
+msgid "To integrate Twilio to your server, %s and enter SID here"
+msgstr ""
+
+#: services/configure.php:145
+msgid "http://www.twilio.com/"
+msgstr ""
+
+#: services/configure.php:149
+msgid "Twilio authentication token"
+msgstr ""
+
+#: services/configure.php:158
+msgid "Providers"
+msgstr ""
+
+#: services/configure.php:161
+msgid "Debug blog services"
+msgstr ""
+
+#: services/configure.php:165
+msgid ""
+"Copy network packets sent and received by services/blog.php in temporary/"
+"debug.txt"
+msgstr ""
+
+#: services/configure.php:166 services/configure.php:175
+#: services/configure.php:184 services/configure.php:193
+#: services/configure.php:202 services/configure.php:211
+msgid "Use this option only for troubleshooting"
+msgstr ""
+
+#: services/configure.php:170
+msgid "Debug commenting services"
+msgstr ""
+
+#: services/configure.php:174
+msgid ""
+"Copy network packets sent and received by comments/post.php in temporary/"
+"debug.txt"
+msgstr ""
+
+#: services/configure.php:179
+msgid "Debug calls of web services"
+msgstr ""
+
+#: services/configure.php:183
+msgid ""
+"Copy network packets sent and received by services/call.php in temporary/"
+"debug.txt"
+msgstr ""
+
+#: services/configure.php:188
+msgid "Debug ping services"
+msgstr ""
+
+#: services/configure.php:192
+msgid ""
+"Copy network packets sent and received by services/ping.php in temporary/"
+"debug.txt"
+msgstr ""
+
+#: services/configure.php:197
+msgid "Debug remote procedure calls"
+msgstr ""
+
+#: services/configure.php:201
+msgid ""
+"Copy network packets sent and received by services/json_rpc.php and by "
+"services/xml_rpc.php in temporary/debug.txt"
+msgstr ""
+
+#: services/configure.php:206
+msgid "Debug pingback and trackback services"
+msgstr ""
+
+#: services/configure.php:210
+msgid ""
+"Copy network packets sent and received by links/trackback.php in temporary/"
+"debug.txt"
+msgstr ""
+
+#: services/configure.php:217
+msgid "Debugging"
+msgstr ""
+
+#: services/configure.php:228
+msgid "Submit"
+msgstr ""
+
+#: services/configure.php:228
+msgid "Press [s] to submit data"
+msgstr ""
+
+#: services/configure.php:247
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr ""
+
+#: services/configure.php:293
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+
+#: services/configure.php:296
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+
+#: services/configure.php:301
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr ""
+
+#: services/configure.php:307
+#, php-format
+msgid "%s has been updated"
+msgstr ""
+
+#: services/configure.php:313
+msgid "Configuration parameters"
+msgstr ""
+
+#: services/configure.php:316
+msgid "Where do you want to go now?"
+msgstr ""
+
+#: services/configure.php:320
+msgid "Configure again"
+msgstr ""
+
+#: services/index.php:34
+msgid "Back-end services"
+msgstr ""
+
+#: services/index.php:37
+msgid ""
+"This index page lists the main services that you can use in the background. "
+"Connect your blogging software, RSS news feeder, or other web sites to this "
+"server through following Application Programming Interfaces (API)."
+msgstr ""
+
+#: services/index.php:40
+msgid "Blogging interface"
+msgstr ""
+
+#: services/index.php:42
+msgid "Support popular blogging software such as w.bloggar."
+msgstr ""
+
+#: services/index.php:45 services/index.php:57 services/index.php:68
+#: services/index.php:80 services/index.php:91
+msgid "URL:"
+msgstr ""
+
+#: services/index.php:46 services/index.php:58 services/index.php:69
+#: services/index.php:81 services/index.php:92
+msgid "Documentation:"
+msgstr ""
+
+#: services/index.php:47 services/index.php:70 services/index.php:82
+msgid "Specifications:"
+msgstr ""
+
+#: services/index.php:52
+msgid "Generic JSON-RPC interface"
+msgstr ""
+
+#: services/index.php:54 services/index.php:88
+msgid "Bound to hooked back-end scripts"
+msgstr ""
+
+#: services/index.php:59 services/index.php:93
+msgid "Specification:"
+msgstr ""
+
+#: services/index.php:63
+msgid "Ping interface"
+msgstr ""
+
+#: services/index.php:65
+msgid "To spread updates"
+msgstr ""
+
+#: services/index.php:75
+msgid "Search"
+msgstr ""
+
+#: services/index.php:77
+msgid "Build a customised RSS feed based on any keyword"
+msgstr ""
+
+#: services/index.php:86
+msgid "Generic XML-RPC interface"
+msgstr ""
+
+#: services/ping_test.php:30
+msgid "Sample ping client"
+msgstr ""
+
+#: services/ping_test.php:70
+msgid "Test weblogUpdates.ping"
+msgstr ""
+
+#: services/ping_test.php:80
+msgid "Name of the updated server"
+msgstr ""
+
+#: services/ping_test.php:83
+msgid "URI of the updated server"
+msgstr ""
+
+#: services/ping_test.php:97
+msgid "Test pingback.ping"
+msgstr ""
+
+#: services/ping_test.php:107
+msgid "URI of the source page"
+msgstr ""
+
+#: services/ping_test.php:110
+msgid "URI of the target page"
+msgstr ""
+
+#: services/rpc_echo_hook_test.php:20
+#: services/xml_rpc_drupal.login_hook_test.php:23
+msgid "Web service test"
+msgstr ""
+
+#: services/rpc_echo_hook_test.php:37
+msgid "Message"
+msgstr ""
+
+#: services/rpc_echo_hook_test.php:99
+#: services/xml_rpc_drupal.login_hook_test.php:87
+#, php-format
+msgid ""
+"Go to the %s and check debug mode for <code>rpc</code> has been set, if you "
+"want to record HTTP requests and responses."
+msgstr ""
+
+#: services/search.php:87
+#, php-format
+msgid "%s at %s"
+msgstr ""

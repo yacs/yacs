@@ -20,7 +20,7 @@ Class Layout_users_as_watch extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -31,16 +31,16 @@ Class Layout_users_as_watch extends Layout_interface {
 			return $items;
 
 		// build a list of users
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
 
 			// signal restricted and private users
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View profile');
@@ -80,7 +80,7 @@ Class Layout_users_as_watch extends Layout_interface {
 			// use the avatar, if any
 			$icon ='';
 			if(isset($item['avatar_url']) && $item['avatar_url'])
-				$icon = '<a href="'.$url.'"><img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field($hover).'" style="float: left; max-width: 25px; width: expression(this.width > 50 ? 50: true); max-height: 25px; height: expression(this.height > 50 ? 50: true); margin-right: 4px;" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field($hover).'" style="float: left; max-width: 25px; max-height: 25px; margin-right: 4px;" /></a>';
 
 			// list all components for this item --use basic link style to avoid prefix or suffix images, if any
 			$items[ $item['id'] ] = $icon.$label;

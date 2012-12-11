@@ -21,7 +21,7 @@ Class Layout_articles_as_select extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -34,7 +34,7 @@ Class Layout_articles_as_select extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$items = array_merge($items, Layout_articles_as_select::one($item));
 
 		// end of processing
@@ -50,7 +50,7 @@ Class Layout_articles_as_select extends Layout_interface {
 	 *
 	 * @see articles/edit.php
 	**/
-	function &one(&$item) {
+	function one(&$item) {
 		global $context;
 
 		// initialize variables
@@ -63,6 +63,12 @@ Class Layout_articles_as_select extends Layout_interface {
 			$suffix .= NEW_FLAG;
 		elseif($item['edit_date'] >= $context['fresh'])
 			$suffix .= UPDATED_FLAG;
+
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$prefix .= PRIVATE_FLAG;
+		elseif($item['active'] == 'R')
+			$prefix .= RESTRICTED_FLAG;
 
 		// details
 		$details = array();

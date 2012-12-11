@@ -34,15 +34,19 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Dates::get($id);
+$item = Dates::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('dates', $anchor);
+
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'date:'.$item['id'];
 
 // the path to this page
 if(is_object($anchor))

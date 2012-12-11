@@ -37,7 +37,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -47,21 +47,24 @@ Class Layout_articles_as_yabb extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
+		// page size for comments
+		include_once $context['path_to_root'].'comments/layout_comments_as_updates.php';
+		$layout = new Layout_comments_as_updates();
+
 		// build a list of articles
 		$rows = array();
-		include_once $context['path_to_root'].'comments/layout_comments_as_yabb.php';
+
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))
@@ -78,9 +81,9 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag expired articles, and articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
@@ -92,7 +95,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$suffix .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$suffix .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// select an icon for this thread
 			$item['comments_count'] = Comments::count_for_anchor('article:'.$item['id']);
@@ -133,9 +136,6 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			if(is_object($overlay))
 				$suffix .= $overlay->get_text('list', $item);
 
-			// page size for comments
-			$layout = new Layout_comments_as_yabb();
-
 			// shortcuts to comments pages
 			if(isset($item['comments_count']) && ($pages = (integer)ceil($item['comments_count'] / $layout->items_per_page())) && ($pages > 1)) {
 				$suffix .= '<p class="details">Pages ';
@@ -167,7 +167,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// list section and categories in the suffix
 			if(@count($anchors))
-				$suffix .= '<p class="details">'.implode(' ', $anchors).'</p>';
+				$suffix .= '<p class="tags">'.implode(' ', $anchors).'</p>';
 
 			// the creator of this article
 			$starter = '';

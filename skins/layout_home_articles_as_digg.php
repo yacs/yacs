@@ -38,7 +38,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -55,17 +55,16 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		$item_count = 0;
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// next item
 			$item_count += 1;
@@ -80,17 +79,17 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			// the icon to put aside
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 
 			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag articles updated recently
 			if($item['create_date'] >= $context['fresh'])
@@ -110,18 +109,18 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date'], 'publishing');
+			$details[] = Skin::build_date($item['publish_date']);
 
 			// rating
 			$rating_label = '';
 			if($item['rating_count'])
-				$rating_label = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
+				$rating_label = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rating', '%d ratings', $item['rating_count']), $item['rating_count']).' ';
 
 			// add a link to let surfer rate this item
 			if(is_object($anchor) && !$anchor->has_option('without_rating')) {
 				if(!$item['rating_count'])
 					$rating_label .= i18n::s('Rate this page');
-				$rating_label = Skin::build_link(Articles::get_url($item['id'], 'rate'), $rating_label, 'basic', i18n::s('Rate this page'));
+				$rating_label = Skin::build_link(Articles::get_url($item['id'], 'like'), $rating_label, 'basic', i18n::s('Rate this page'));
 			}
 
 			// display current rating, and allow for rating
@@ -151,17 +150,17 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			$menu = array();
 
 			// rate the article
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
+			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'like') => i18n::s('Rate this page') ));
 
 			// read the article
 			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
+			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
 				$link = Comments::get_url('article:'.$item['id'], 'list');
 				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 			}
@@ -171,8 +170,8 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu = array_merge($menu, array( $url.'#_attachments' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
 			if(Links::allow_trackback())
@@ -204,7 +203,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		SQL::free($result);
 
 		// add links to archives
-		$anchor =& Categories::get(i18n::c('monthly'));
+		$anchor = Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($items, 'menu_bar'));
 

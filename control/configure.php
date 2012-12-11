@@ -127,9 +127,6 @@
  * [*] [code]mail_server[/code] - host name or IP address of the server that will process SMTP requests.
  * There is no default value.
  *
- * [*] [code]mail_encoding[/code] - either '8bit' or 'base64'.
- * The default value is 'base64'.
- *
  * [*] [code]mail_from[/code] - the account used to send messages
  * There is no default value.
  *
@@ -178,7 +175,7 @@ include_once '../shared/global.php';
 
 // if we have changed the url to root, consider it right now
 if(isset($_REQUEST['url_to_root']))
-	$context['url_to_root'] =& encode_link($_REQUEST['url_to_root']);
+	$context['url_to_root'] = encode_link($_REQUEST['url_to_root']);
 
 // stop hackers
 if(isset($_REQUEST['value']))
@@ -201,10 +198,7 @@ if(!defined('EOT'))
 	define('EOT', '>');
 
 // if no configuration file or if no database
-$connection = FALSE;
-if(isset($context['database_server']) && isset($context['database_user']) && isset($context['database_password']) && isset($context['database']))
-	$connection =& SQL::connect($context['database_server'], $context['database_user'], $context['database_password'], $context['database']);
-if(!file_exists('../parameters/control.include.php') || !$connection ) {
+if(!file_exists('../parameters/control.include.php') || !isset($context['connection']) || !$context['connection'] ) {
 
 	// consider the current surfer as an associate, but only on first installation
 	if(!Surfer::is_associate() && !file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
@@ -226,7 +220,7 @@ $context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::
 
 // ensure we have an associate
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -235,7 +229,7 @@ if(!Surfer::is_associate()) {
 
 // nothing more in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // display the input form, except if there is only one parameter to change
@@ -407,7 +401,7 @@ if(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="with_cron" value="Y"';
 	if(isset($context['with_cron']) && ($context['with_cron'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help')).')';
+	$input .= '/> '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'open')).')';
 	$fields[] = array($label, $input);
 
 	// file_mask and directory_mask
@@ -470,12 +464,12 @@ if(!Surfer::is_associate()) {
 	if($context['with_friendly_urls'] == 'Y')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
-		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'help').')';
+		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'open').')';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
 	if($context['with_friendly_urls'] == 'R')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
-		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'help').')';
+		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'open').')';
 	$fields[] = array($label, $input);
 
 	// alternate urls
@@ -500,7 +494,7 @@ if(!Surfer::is_associate()) {
 	if(isset($context['with_https']) && ($context['with_https'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Redirect all non-secured requests to https.')
-		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'help').')';
+		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'open').')';
 	$fields[] = array($label, $input);
 
 	// web cache
@@ -627,18 +621,6 @@ if(!Surfer::is_associate()) {
 	if(!isset($context['mail_password']))
 		$context['mail_password'] = '';
 	$input = '<input type="password" name="mail_password" size="45" value="'.encode_field($context['mail_password']).'" maxlength="255" />';
-	$fields[] = array($label, $input);
-
-	// mail encoding
-	$label = i18n::s('Messages encoding');
-	$input = '<input type="radio" name="mail_encoding" value="base64"';
-	if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Use base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
-	$input .= BR.'<input type="radio" name="mail_encoding" value="8bit"';
-	if(isset($context['mail_encoding']) && ($context['mail_encoding'] == '8bit'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not encode messages.');
 	$fields[] = array($label, $input);
 
 	// source address
@@ -827,8 +809,6 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'users_table_prefix\']=\''.addcslashes($_REQUEST['users_table_prefix'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_server']))
 		$content .= '$context[\'mail_server\']=\''.addcslashes($_REQUEST['mail_server'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_encoding']))
-		$content .= '$context[\'mail_encoding\']=\''.addcslashes($_REQUEST['mail_encoding'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from']))
 		$content .= '$context[\'mail_from\']=\''.addcslashes($_REQUEST['mail_from'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from_surfer']))
@@ -886,13 +866,11 @@ if(!Surfer::is_associate()) {
 	$content .= '?>'."\n";
 
 	// silently attempt to create the database if it does not exist
-	if($handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
-		$query = 'CREATE DATABASE IF NOT EXISTS '.SQL::escape($_REQUEST['database']);
-		SQL::query($query, TRUE);
-	}
+	$query = 'CREATE DATABASE IF NOT EXISTS '.SQL::escape($_REQUEST['database']);
+	SQL::query($query, TRUE);
 
 	// alert the end user if we are not able to connect to the database
-	if(!$handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
+	if(!$handle = SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
 
 		Logger::error(i18n::s('ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.'));
 
@@ -921,7 +899,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/control.include.php');
-		Logger::remember('control/configure.php', $label);
+		Logger::remember('control/configure.php: '.$label);
 
 	}
 

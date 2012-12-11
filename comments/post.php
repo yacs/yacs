@@ -84,7 +84,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the request if debug mode
 if($raw_data && isset($context['debug_comment']) && ($context['debug_comment'] == 'Y'))
-	Logger::remember('comments/post.php', 'comments post request', $raw_data, 'debug');
+	Logger::remember('comments/post.php: comments post request', $raw_data, 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
@@ -102,7 +102,7 @@ $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // a straightforward implementation of the Comment API
 if(isset($_SERVER['CONTENT_TYPE']) && ($_SERVER['CONTENT_TYPE'] == 'text/xml')) {
@@ -182,7 +182,7 @@ $context['page_title'] = i18n::s('Comment service');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -229,7 +229,7 @@ if(Surfer::is_crawler()) {
 
 		// if user name and/or password are provided, authentication has to be correct
 		$user = array();
-		if($name && !$password && (!$user =& Users::get($name)))
+		if($name && !$password && (!$user = Users::get($name)))
 			$response = array('faultCode' => 49, 'faultString' => 'Unknown user name');
 
 		elseif($name && $password && (!$user = Users::login($name, $password)))
@@ -250,7 +250,7 @@ if(Surfer::is_crawler()) {
 
 			// save the request if debug mode
 			if($context['debug_comment'] == 'Y')
-				Logger::remember('comments/post.php', 'comments post item', $fields, 'debug');
+				Logger::remember('comments/post.php: comments post item', $fields, 'debug');
 
 			// save in the database
 			if(!$fields['id'] = Comments::post($fields))
@@ -294,7 +294,7 @@ if(Surfer::is_crawler()) {
 
 	// save the response if debug mode
 	if($context['debug_comment'] == 'Y')
-		Logger::remember('comments/post.php', 'comments post response', $response, 'debug');
+		Logger::remember('comments/post.php: comments post response', $response, 'debug');
 
 	// send the response
 	Safe::header('Content-Type: text/xml');

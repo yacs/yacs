@@ -28,7 +28,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../comments/comments.php';	// initiate the wall
 
 // the maximum number of personal sections per user
@@ -64,7 +63,7 @@ $with_form = FALSE;
 $context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Extend my personal web space');
+$context['page_title'] = i18n::s('Create a new web space');
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
@@ -74,7 +73,7 @@ if(isset($_REQUEST['description']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // access denied
@@ -85,7 +84,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('sections/new.php'));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
@@ -96,67 +95,52 @@ if(Surfer::is_crawler()) {
 // post a new section
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// we are creating a group
-	$with_children = FALSE;
-	if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'group')) {
-		$_REQUEST['articles_layout'] = 'yabb';
-		$_REQUEST['options'] = 'view_as_tabs';
-		$_REQUEST['locked'] = 'N'; // allow for group contributions
-		$with_children = TRUE;
+	// put all groups at the same place
+	if(!($anchor = Sections::get('groups'))) {
 
-		// put all groups at the same place
-		if(!($anchor =& Sections::get('groups'))) {
-
-			$fields = array();
-			$fields['nick_name'] = 'groups';
-			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-			$fields['locked'] = 'Y'; // no direct contributions
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
-			$fields['rank'] = 40000; // at the end of the list
-			$fields['title'] = i18n::c('Groups');
-			$fields['options'] = 'no_contextual_menu';
-			$fields['sections_layout'] = 'compact';
-			$fields['articles_layout'] = 'none';
-			if(!$fields['id'] = Sections::post($fields, FALSE)) {
-				Logger::remember('sections/new.php', 'Impossible to add a section.');
-				return;
-			}
-
-			// retrieve the new section
-			$anchor =& Sections::get('groups');
-
+		$fields = array();
+		$fields['nick_name'] = 'groups';
+		$fields['articles_layout'] = 'none';
+		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template, wiki_template';
+		$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+		$fields['home_panel'] = 'none'; // not mentioned at the home page
+		$fields['locked'] = 'Y'; // no direct contributions
+		$fields['options'] = 'no_contextual_menu';
+		$fields['rank'] = 40000; // at the end of the list
+		$fields['sections_layout'] = 'directory';
+		$fields['title'] = i18n::c('Groups');
+		if(!$fields['id'] = Sections::post($fields, FALSE)) {
+			Logger::remember('sections/new.php: Impossible to add a section.');
+			return;
 		}
+
+		// retrieve the new section
+		$anchor = Sections::get('groups');
+
+	}
 
 	// we are creating a blog
-	} else {
+	if(isset($_REQUEST['space_type']) && ($_REQUEST['space_type'] == 'blog')) {
+		$_REQUEST['articles_layout'] = 'daily';
+		$_REQUEST['articles_templates'] = 'simple_template';
+		$_REQUEST['content_options'] = 'with_extra_profile with_neighbours';
 		$_REQUEST['options'] = 'with_extra_profile';
-		$_REQUEST['locked'] = 'Y'; // no direct contributions
+		$_REQUEST['locked'] = 'Y'; // only editors can contribute
 
-		// put all blogs at the same place
-		if(!($anchor =& Sections::get('blogs'))) {
+	// we are creating a project
+	} elseif(isset($_REQUEST['space_type']) && ($_REQUEST['space_type'] == 'project')) {
+		$_REQUEST['articles_layout'] = 'none';
+		$_REQUEST['locked'] = 'Y'; // only section owner can create sub-sections
+		$_REQUEST['options'] = 'view_as_tabs';
+		$_REQUEST['sections_layout'] = 'decorated'; // several sub-sections
 
-			$fields = array();
-			$fields['nick_name'] = 'blogs';
-			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-			$fields['locked'] = 'Y'; // no direct contributions
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
-			$fields['rank'] = 40000; // at the end of the list
-			$fields['title'] = i18n::c('Blogs');
-			$fields['options'] = 'no_contextual_menu';
-			$fields['sections_layout'] = 'compact';
-			$fields['articles_layout'] = 'none';
-			if(!$fields['id'] = Sections::post($fields, FALSE)) {
-				Logger::remember('sections/new.php', 'Impossible to add a section.');
-				return;
-			}
-
-			// retrieve the new section
-			$anchor =& Sections::get('blogs');
-
-		}
-
+	// default is to create a group
+	} else {
+		$_REQUEST['articles_layout'] = 'yabb';
+		$_REQUEST['content_options'] = 'with_extra_profile auto_publish view_as_tabs with_neighbours';
+		$_REQUEST['options'] = 'view_as_tabs';
+		$_REQUEST['space_type'] = 'group'; // just to be sure...
 	}
 
 	// anchor the new section here
@@ -169,9 +153,6 @@ if(Surfer::is_crawler()) {
 
 	// do not break home page layout
 	$_REQUEST['home_panel'] = 'none';
-
-	// make it personal and avoid publishing step
-	$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall with_neighbours';
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
@@ -191,47 +172,120 @@ if(Surfer::is_crawler()) {
 		if(is_object($anchor))
 			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['active']) && ($_REQUEST['active'] != 'Y'));
 
-		// add content if required to do so
-		if($with_children) {
+		// add content to the new group
+		if($_REQUEST['space_type'] == 'group') {
 
 			// a sticky page to define group rules
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
+			$fields['description'] = i18n::c('This is the right place to describe ways of working in this group.');
 			$fields['locked'] = 'Y'; // no direct contributions
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
-			$fields['title'] = i18n::c('Group policy');
-			$fields['description'] = i18n::c('This is the right place to describe ways of working in this group.');
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['rank'] = 1000; // sticky page
+			$fields['title'] = i18n::c('Group policy');
 			Articles::post($fields);
 
 			// a welcome thread
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['home_panel'] = 'none'; // not mentioned at the home page
-			$fields['title'] = sprintf(i18n::c('Welcome to the group "%s"'), $_REQUEST['title']);
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
 			Articles::post($fields);
 
+		}
+
+		// add content to the new project
+		if($_REQUEST['space_type'] == 'project') {
+
+			// a blogging sub-section, to provide news
+			$fields = array();
+			$fields['anchor'] = 'section:'.$_REQUEST['id'];
+			$fields['articles_layout'] = 'daily';
+			$fields['articles_templates'] = 'simple_template';
+			$fields['content_options'] = 'with_neighbours';
+			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['options'] = 'forward_notifications articles_by_publication';
+			$fields['rank'] = 1000;
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/news.gif';
+			$fields['title'] = i18n::c("What is new?");
+			if($id = Sections::post($fields)) {
+
+				// a welcome thread
+				$fields = array();
+				$fields['anchor'] = 'section:'.$id;
+				$fields['home_panel'] = 'none'; // not mentioned at the home page
+				$fields['options'] = 'edit_as_simple';
+				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
+				Articles::post($fields);
+			}
+
+
+			// a yabb sub-section, for team joint activities
+			$fields = array();
+			$fields['anchor'] = 'section:'.$_REQUEST['id'];
+			$fields['articles_layout'] = 'yabb';
+			$fields['content_options'] = 'auto_publish with_neighbours';
+			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['introduction'] = i18n::c('Working together');
+			$fields['options'] = 'forward_notifications';
+			$fields['rank'] = 2000;
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+			$fields['title'] = i18n::c('Activities');
+			Sections::post($fields);
+
+			// a wiki sub-section, for project documentation
+			$fields = array();
+			$fields['anchor'] = 'section:'.$_REQUEST['id'];
+			$fields['articles_layout'] = 'tagged';
+			$fields['articles_templates'] = 'simple_template';
+			$fields['content_options'] = 'articles_by_title auto_publish members_edit view_as_wiki with_neighbours';
+			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['introduction'] = i18n::c('Information pages');
+			$fields['options'] = 'forward_notifications';
+			$fields['rank'] = 3000;
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/information.gif';
+			$fields['title'] = i18n::c('Documentation');
+			Sections::post($fields);
+
+			// a private sub-section, for internal work
+			if($_REQUEST['active'] != 'N') {
+				$fields = array();
+				$fields['active_set'] = 'N';
+				$fields['anchor'] = 'section:'.$_REQUEST['id'];
+				$fields['articles_layout'] = 'yabb';
+				$fields['content_options'] = 'auto_publish with_neighbours members_edit';
+				$fields['introduction'] = i18n::c('Reserved to project members');
+				$fields['home_panel'] = 'none'; // not mentioned at the home page
+				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly
+				$fields['rank'] = 4000;
+				$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+				$fields['title'] = i18n::c('Private activities');
+				Sections::post($fields);
+			}
 		}
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
 		// reward the poster
-		$context['page_title'] = i18n::s('Congratulation, you have successfully extended your web space');
+		$context['page_title'] = i18n::s('Congratulation, you have successfully added a new web space');
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'daily'))
+		if($_REQUEST['space_type'] == 'blog')
 			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new blog')));
+		elseif($_REQUEST['space_type'] == 'project')
+			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new project')));
 		else
 			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new group')));
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -270,35 +324,20 @@ if($with_form) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// layout for related articles
-	$label = i18n::s('Content');
+	$label = i18n::s('Purpose');
 	$input = i18n::s('What are you aiming to create?');
-	$input .= BR.'<input type="radio" name="articles_layout" value="group" checked="checked"';
-	$input .= EOT.i18n::s('A group space');
-	$input .= BR.'<input type="radio" name="articles_layout" value="daily"';
-	$input .= EOT.i18n::s('A blog to share my daily mood, opinions and ideas');
-	$fields[] = array($label, $input);
-
-	// the active flag: Yes/public, Restricted/logged, No/associates
-	$label = i18n::s('Access');
-	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
-	if(!isset($item['active']) || ($item['active'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').' '
-		.BR.'<input type="radio" name="active" value="R"';
-	if(isset($item['active']) && ($item['active'] == 'R'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').' '
-		.BR.'<input type="radio" name="active" value="N"';
-	if(isset($item['active']) && ($item['active'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
+	$input .= BR.'<input type="radio" name="space_type" value="group" checked="checked"';
+	$input .= EOT.i18n::s('A group, for people interested in some topic');
+	$input .= BR.'<input type="radio" name="space_type" value="blog"';
+	$input .= EOT.i18n::s('A blog, to express your thoughts and to lead the pack');
+	$input .= BR.'<input type="radio" name="space_type" value="project"';
+	$input .= EOT.i18n::s('A project, to support teamwork');
 	$fields[] = array($label, $input);
 
 	// the title
 	$label = i18n::s('Title');
 	$input = '<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the introduction
 	$label = i18n::s('Introduction');
@@ -307,9 +346,24 @@ if($with_form) {
 	if(!isset($item['introduction']))
 		$item['introduction'] = i18n::s('What is this new web space about?');
 
-	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
-	$hint = i18n::s('Appears at the site map, near section title');
-	$fields[] = array($label, $input, $hint);
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
+	$fields[] = array($label, $input);
+
+	// the active flag: Yes/public, Restricted/logged, No/associates
+	$label = i18n::s('Access');
+	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
+	if(!isset($item['active']) || ($item['active'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').' '
+		.BR.'<input type="radio" name="active" value="R"';
+	if(isset($item['active']) && ($item['active'] == 'R'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').' '
+		.BR.'<input type="radio" name="active" value="N"';
+	if(isset($item['active']) && ($item['active'] == 'N'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
+	$fields[] = array($label, $input);
 
 	// actually build the form
 	$context['text'] .= Skin::build_form($fields);
@@ -352,51 +406,28 @@ if($with_form) {
 		.'// detect changes in form'."\n"
 		.'func'.'tion detectChanges() {'."\n"
 		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
+		.'	$("form#main_form input").each(function () {'."\n"
+		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
+		.'	});'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
+		.'	$("form#main_form textarea").each(function () {;'."\n"
+		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
+		.'	});'."\n"
 		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
+		.'	$("form#main_form select").each(function () {;'."\n"
+		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
+		.'	});'."\n"
 		.'}'."\n"
 		."\n"
 		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
+		.'$(document).ready( detectChanges);'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// general help on this form
-	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', 'YACS codes', 'help'), Skin::build_link('smileys/', 'smileys', 'help')).'</p>';
-
- 	// change to another editor
-	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
-	$selected = '';
-	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
-	$help .= '</select></p></form>';
-
+	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', 'YACS codes', 'open'), Skin::build_link('smileys/', 'smileys', 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

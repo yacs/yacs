@@ -36,7 +36,7 @@ http::expire(0);
 
 // surfer has to be logged --provide a short response
 if(!Surfer::get_id()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // a new notification has been submitted
@@ -49,7 +49,7 @@ if(!Surfer::get_id()) {
 	$fields['type'] = $_REQUEST['type'];
 
 	if(isset($_REQUEST['address']))
-		$fields['address'] =& encode_link($_REQUEST['address']);
+		$fields['address'] = encode_link($_REQUEST['address']);
 	if(isset($_REQUEST['message']))
 		$fields['message'] = strip_tags($_REQUEST['message']);
 
@@ -99,8 +99,20 @@ if(!Surfer::get_id()) {
 		." WHERE (id = ".SQL::escape(Surfer::get_id()).")";
 	SQL::query($query, FALSE, $context['users_connection']);
 
+	// assign article for more time
+	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'edit')
+		&& isset($_REQUEST['reference']) && !strncmp($_REQUEST['reference'], 'article:', 8)) {
+
+		// refresh record of this article
+		$query = "UPDATE ".SQL::table_name('articles')." SET "
+			." assign_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'"
+			." WHERE (id = ".SQL::escape(substr($_REQUEST['reference'],8)).") AND (assign_id = ".SQL::escape(Surfer::get_id()).")";
+		SQL::query($query);
+
+	}
+
 	// look for one notification -- script will be be killed if none is available
-	$response =& Notifications::pull();
+	$response = Notifications::pull();
 
 	// encode result in JSON
 	$output = Safe::json_encode($response);

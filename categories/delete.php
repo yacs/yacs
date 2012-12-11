@@ -31,12 +31,17 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
+
+// get the related overlay, if any
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'category:'.$item['id']);
 
 // associates and authenticated editors can do what they want
 if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))
@@ -67,7 +72,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
@@ -79,6 +84,11 @@ if(!isset($item['id'])) {
 
 	// attempt to delete
 	if(Categories::delete($item['id'])) {
+
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
+		$description = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+		Logger::remember('categories/delete.php: '.$label, $description);
 
 		// this can appear anywhere
 		Cache::clear();
@@ -113,7 +123,7 @@ else {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
 	// the title of the category

@@ -31,7 +31,7 @@ $hooks[] = array(
 
 class Proxy_hook {
 
-	function serve($parameters) {
+	public static function serve($parameters) {
 		global $context;
 
 		// the output of this function
@@ -49,6 +49,7 @@ class Proxy_hook {
 		// make a string
 		$output['text'] = '';
 		$even = true;
+		$count = 0;
 		foreach($feed->get_items() as $item) {
 
 			// allow for alternate layout
@@ -59,8 +60,8 @@ class Proxy_hook {
 			$even = !$even;
 
 			// box title and details
-			$content = '<dt '.$class.'>'.Skin::build_link($item->get_permalink(), $item->get_title())
-				.BR.'<span class="details">'.Skin::build_date($item->get_date('U')).'</span></dt><dd '.$class.'>';
+			$content = '<dt '.$class.'><h2><span>'.Skin::build_link($item->get_permalink(), $item->get_title()).'</span></h2>'
+				.'<span class="details">'.Skin::build_date($item->get_date('U')).'</span></dt><dd '.$class.'>';
 
 			// box content
 			if(($enclosure = $item->get_enclosure()) && ($thumbnail = $enclosure->get_thumbnail()))

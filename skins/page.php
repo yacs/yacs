@@ -28,7 +28,7 @@
 	 * The class is set to 'extra' if [code]$context['extra'][/code] is not empty.
 	 *
 	 */
-	function body() {
+	public static function body() {
 		global $context;
 
 		// body id is derived from skin variant
@@ -79,7 +79,7 @@
 	 * @param boolean TRUE to display the site slogan when at top level, FALSE otherwise
 	 * @return a string to be send to the browser
 	 */
-	function bread_crumbs($start_level=1, $with_slogan=FALSE) {
+	public static function bread_crumbs($start_level=1, $with_slogan=FALSE) {
 		global $context;
 
 		// add a link to the front page
@@ -107,7 +107,10 @@
 			// fix the layout
 			else
 				echo '<p id="crumbs">&nbsp;</p>';
-		}
+
+		// fix the layout
+		} else
+			echo '<p id="crumbs">&nbsp;</p>';
 
 	}
 
@@ -128,8 +131,11 @@
 	 *
 	 * @see skins/configure.php
 	 */
-	function component($name, $variant='navigation') {
+	public static function component($name, $variant='navigation') {
 		global $context;
+
+		// sanity check
+		$name = trim($name);
 
 		// for component 'foo' we are looking for member function 'echo_foo'  from the skin
 		$from_skin = array('Skin', 'echo_'.$name);
@@ -157,7 +163,7 @@
 
 		// look a named page, but only during regular operation
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-			if($item =& Articles::get($name)) {
+			if($item = Articles::get($name)) {
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), $variant, 'component_'.$name);
 				return TRUE;
 			}
@@ -175,10 +181,10 @@
 	 * for the page factory.
 	 *
 	 * You can override this behavior and pass a hard-coded list of elements to include, with following tokens:
+	 * - 'bar' - page menu bar
 	 * - 'details' - page details, if any
 	 * - 'error' - the error block, if any
 	 * - 'image' - page image, if any
-	 * - 'bar' - page menu bar
 	 * - 'tags' - page tags, if any
 	 * - 'text' - main content area
 	 * - 'title' - page title
@@ -193,7 +199,7 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	function content($names=NULL) {
+	public static function content($names=NULL) {
 		global $context;
 
 		// display the prefix, if any
@@ -238,7 +244,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_bar() {
+	public static function echo_bar() {
 		global $context;
 
 		// commands are listed into $context
@@ -252,7 +258,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_details() {
+	public static function echo_details() {
 		global $context;
 
 		// from $context
@@ -265,7 +271,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_extra() {
+	public static function echo_extra() {
 		global $context;
 
 		// we don't want to create a full extra division
@@ -286,7 +292,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_error() {
+	public static function echo_error() {
 		global $context;
 
 		// delegate this to the skin
@@ -299,7 +305,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_image() {
+	public static function echo_image() {
 		global $context;
 
 		// the URL to use is in $context
@@ -320,14 +326,14 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_menu() {
+	public static function echo_menu() {
 		global $context;
 
 		// ensure normal conditions
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 
 			// use content of a named global page
-			if($item =& Articles::get('menu'))
+			if($item = Articles::get('menu'))
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
 		}
 	}
@@ -337,7 +343,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_tags() {
+	public static function echo_tags() {
 		global $context;
 
 		// tags are listed into $context
@@ -351,7 +357,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_text() {
+	public static function echo_text() {
 		global $context;
 
 		// from $context
@@ -372,8 +378,12 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_title() {
+	public static function echo_title() {
 		global $context;
+
+		// main page title has already been given
+		if(defined('without_page_title'))
+			return;
 
 		// from $context
 		if(isset($context['page_title']) && $context['page_title'])
@@ -386,12 +396,12 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_tools() {
+	public static function echo_tools() {
 		global $context;
 
 		// tools are listed into $context
 		if(isset($context['page_tools']) && (@count($context['page_tools']) > 0))
-			echo Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
+			echo Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'newlines'), 'extra', 'page_tools');
 
 	}
 
@@ -400,14 +410,21 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_user() {
+	public static function echo_user() {
 		global $context;
 
 		// build menu content dynamically
 		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
-			if(Surfer::is_logged())
+			if(Surfer::is_logged()) {
 				$box_title = Surfer::get_name();
-			else
+
+/** not fully integrated yet
+
+				if(($item = Users::get(Surfer::get_id())) && isset($item['avatar_url']) && $item['avatar_url'])
+					$box_title = '<img src="'.$item['avatar_url'].'" alt=" " title="'.encode_field(Surfer::get_name()).'" class="box_title" />'.$box_title;
+
+*/
+			} else
 				$box_title = i18n::s('User login');
 			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu');
 		}
@@ -419,7 +436,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_visited() {
+	public static function echo_visited() {
 		global $context;
 
 		// visited pages are listed in session space
@@ -436,7 +453,7 @@
 	 * @param string hard-coded list of components to put aside
 	 * @param boolean TRUE to generate the div#extra_panel, FALSE otherwise
 	 */
-	function extra_panel($names=NULL, $in_division=TRUE) {
+	public static function extra_panel($names=NULL, $in_division=TRUE) {
 		global $context;
 
 		// use regular parameters
@@ -481,7 +498,7 @@
 	 * @param string footer prefix, if any
 	 * @param string footer suffix, if any
 	 */
-	function footer($prefix='', $suffix='') {
+	public static function footer($prefix='', $suffix='') {
 		global $context;
 
 		// the last paragraph
@@ -493,7 +510,7 @@
 		$details = array();
 
 		// execution time and surfer name, for logged user only (not for indexing robots!)
-		if(is_callable(array('Surfer', 'get_name')) && Surfer::get_name() && is_callable(array('i18n', 's'))) {
+		if(is_callable(array('Surfer', 'get_name')) && is_callable(array('i18n', 's'))) {
 			$execution_time = round(get_micro_time() - $context['start_time'], 2);
 			$details[] = sprintf(i18n::s('page prepared in %.2f seconds for %s'), $execution_time, ucwords(Surfer::get_name()));
 		}
@@ -532,6 +549,21 @@
 	}
 
 	/**
+	 * generate content of the &lt;head&gt; tag
+	 */
+	public static function meta() {
+		global $context;
+
+		// other head directives
+		echo $context['page_header'];
+
+		// display the dynamic header, if any
+		if(is_callable('send_meta'))
+			send_meta();
+
+	}
+
+	/**
 	 * build a header panel with background
 	 *
 	 * This function builds a nice header panel that may include following elements:
@@ -560,7 +592,7 @@
 	 * @param boolean TRUE to display site slogan, FALSE otherwise
 	 * @param boolean TRUE to display tabs, FALSE otherwise
 	 */
-	function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
+	public static function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
 		global $context;
 
 		// put an image in panel background
@@ -608,7 +640,7 @@
 	 *
 	 * @param string hard-coded list of components to put aside
 	 */
-	function side($names=NULL) {
+	public static function side($names=NULL) {
 		global $context;
 
 		// we have no database back-end
@@ -636,7 +668,7 @@
 	/**
 	 * show site tabs
 	 *
-	 * Tabs are derivated by top-level sections of the server.
+	 * Tabs are derived by top-level sections of the server.
 	 *
 	 * Prefix and suffix tabs can be provided as links packaged in arrays of ( $url => array($label_prefix, $label, $label_suffix, $link_class) )
 	 *
@@ -645,7 +677,7 @@
 	 * @param array of links to be used as tabs before the regular set
 	 * @param array of links to be used as tabs after the regular set
 	 */
-	function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL) {
+	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL) {
 		global $context;
 
 		// only for live servers
@@ -658,7 +690,7 @@
 
 		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// an array of tabs
 			$site_bar = array();
@@ -676,7 +708,7 @@
 				$context['root_sections_count_at_home'] = 5;
 
 			// query the database to get dynamic tabs
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'tabs')))
+			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
 				$site_bar = array_merge($site_bar, $items);
 
 			// suffix tabs, if any
@@ -701,7 +733,7 @@
 	 * @param string prefix that applies
 	 * @return string for example: 'tab_home', or 'tab_section_123', or NULL
 	 */
-	function top_focus($prefix='tab_') {
+	public static function top_focus($prefix='tab_') {
 		global $context;
 
 		// not sure there is a focus

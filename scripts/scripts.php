@@ -20,7 +20,7 @@ class Scripts {
 	 * @param int its target size - default is 45
 	 * @return either a sub-string or a padded string
 	 */
-	function &adjust($text, $size=45) {
+	public static function &adjust($text, $size=45) {
 		$text = str_replace(array("\r", "\n"), '', $text);
 		$text_length = strlen($text);
 		if($text_length > $size)
@@ -38,9 +38,12 @@ class Scripts {
 	 * @param int maximm number of lines to consider
 	 * @return an array of ('=', $left, $right) or ('-', $left, '-') or ('+', '-', $right)
 	 */
-	function &compare($old_stream, $new_stream, $maximum=500) {
+	public static function &compare($old_stream, $new_stream, $maximum=500) {
 
 		$start_time = get_micro_time();
+
+		// the resulting sequence
+		$sequence = array();
 
 		// make lists of nodes
 		if(is_array($old_stream))
@@ -52,8 +55,12 @@ class Scripts {
 		else
 			$new_lines = explode("\n", $new_stream);
 
+		// don't count things too many times
+		$old_lines_count = count($old_lines);
+		$new_lines_count = count($new_lines);
+
 		// hash nodes
-		for($i = count($old_lines)-1; $i >= 0; $i--) {
+		for($i = $old_lines_count-1; $i >= 0; $i--) {
 			$old_lines[$i] = rtrim($old_lines[$i]);
 			$old_hash[$i] = md5(strtolower(trim($old_lines[$i])));
 		}
@@ -61,7 +68,7 @@ class Scripts {
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
-		for($j = count($new_lines)-1; $j >= 0; $j--) {
+		for($j = $new_lines_count-1; $j >= 0; $j--) {
 			$new_lines[$j] = rtrim($new_lines[$j]);
 			$new_hash[$j] = md5(strtolower(trim($new_lines[$j])));
 		}
@@ -69,56 +76,82 @@ class Scripts {
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
+		// skip the head of common nodes
+		$head = 0;
+		while(($head < $old_lines_count) && ($head < $new_lines_count)) {
+			if($old_hash[$head] == $new_hash[$head])
+				$head++;
+			else
+				break;
+		}
+
+		// skip the tail of common nodes
+		$tail = 0;
+		$oindex = $old_lines_count;
+		$nindex = $new_lines_count;
+		while((--$oindex > $head) && (--$nindex > $head)) {
+			if($old_hash[$oindex] == $new_hash[$nindex])
+				$tail++;
+			else
+				break;
+		}
+
 		// compute lengths
 		$lengths = array();
 		$lengths[0][0] = 0;
 		$lengths[0][1] = 0;
-		$i_count = min($maximum, count($old_lines));
-		$j_count = min($maximum, count($new_lines));
+		$i_count = min($maximum, $old_lines_count - $head - $tail);
+		$j_count = min($maximum, $new_lines_count - $head - $tail);
 		for($i = $i_count; $i >= 0; $i--) {
-			$lengths[$i][0] = 0;
-			$lengths[$i][1] = 0;
+			$lengths[$i+1][$j_count+1] = 0;
+			$lengths[$i+1][$j_count] = 0;
+			$lengths[$i][$j_count+1] = 0;
 			for($j = $j_count; $j >= 0; $j--) {
 
 				if(($i == $i_count) || ($j == $j_count))
 					$lengths[$i][$j] = 0;
 
-				elseif($old_hash[$i] == $new_hash[$j])
-					$lengths[$i][$j] = 1 + @$lengths[$i+1][$j+1];
+				elseif($old_hash[$i+$head] == $new_hash[$j+$head])
+					$lengths[$i][$j] = 1 + $lengths[$i+1][$j+1];
 
 				else
-					$lengths[$i][$j] = max(@$lengths[$i+1][$j], @$lengths[$i][$j+1]);
+					$lengths[$i][$j] = max($lengths[$i+1][$j], $lengths[$i][$j+1]);
 
 			}
 
-			// ensure enough execution time
-			Safe::set_time_limit(30);
-
 		}
+
+		// ensure enough execution time
+		Safe::set_time_limit(30);
 
 		// parse the resulting matrix
 		$i = $j = 0;
-		while(($i < count($old_lines)) && ($j < count($new_lines))) {
+		while(($i < $old_lines_count) && ($j < $new_lines_count)) {
 
-			// debug and control
-//			echo 'i='.$i.', j='.$j.' L[i,j]='.$lengths[$i][$j]."\n";
-
-			if($old_lines[$i] == $new_lines[$j]) {
+			// same nodes
+			if($old_hash[$i] == $new_hash[$j]) {
 				$sequence[] = array( '=', $old_lines[$i], $new_lines[$j]);
 				$i++;
 				$j++;
 
-			} elseif($lengths[$i+1][$j] >= $lengths[$i][$j+1]) {
+			// one node has been deleted
+			} elseif(isset($lengths[$i-$head+1][$j-$head]) && ($lengths[$i-$head+1][$j-$head] >= $lengths[$i-$head][$j-$head+1])) {
 				$sequence[] = array( '-', $old_lines[$i], '-');
 				$i++;
+
+			// one node has been inserted
 			} else {
 				$sequence[] = array( '+', '-', $new_lines[$j]);
 				$j++;
 			}
 		}
-		while($i < count($old_lines))
+
+		// other nodes that have been removed
+		while($i < $old_lines_count)
 			$sequence[] = array( '-', $old_lines[$i++], '-');
-		while($j < count($new_lines))
+
+		// nodes that have been appended
+		while($j < $new_lines_count)
 			$sequence[] = array( '+', '-', $new_lines[$j++]);
 
 		// return the whole diff sequence
@@ -132,7 +165,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	function diff($original, $updated) {
+	public static function diff($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -170,7 +203,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	function &gdiff($original, $updated) {
+	public static function &gdiff($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -261,7 +294,7 @@ class Scripts {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// sanity check
@@ -285,7 +318,7 @@ class Scripts {
 	 * @param string the path of the target file
 	 * @return an array of ($lines, $hash), or NULL if not part of the reference set
 	 */
-	function hash($file) {
+	public static function hash($file) {
 		global $context;
 
 		// only process php scripts
@@ -324,12 +357,12 @@ class Scripts {
 	 * @param string original content
 	 * @return array the set of tokens
 	 */
-	function &hbreak(&$text) {
+	public static function &hbreak(&$text) {
 		global $context;
 
 
 		// locate pre-formatted areas
-		$areas = preg_split('/<(code|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|pre)>(.*?)</$1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$output = array();
@@ -385,7 +418,7 @@ class Scripts {
 	 * @param string updated content
 	 * @return an ASCII string
 	 */
-	function &hdiff(&$original, &$updated) {
+	public static function &hdiff(&$original, &$updated) {
 		global $context;
 
 		// preserve HTML tags
@@ -413,7 +446,7 @@ class Scripts {
 	 *
 	 * @see scripts/build.php
 	 */
-	function list_files_at($path, $verbose=TRUE, $stripped='', $special=NULL) {
+	public static function list_files_at($path, $verbose=TRUE, $stripped='', $special=NULL) {
 		global $context, $script_count;
 
 		// the list that is returned
@@ -478,8 +511,8 @@ class Scripts {
 						$context['text'] .= '.';
 					if($script_count++ > 50) {
 						$script_count = 0;
-							if($verbose)
-						$context['text'] .= BR."\n";
+						if($verbose)
+							$context['text'] .= BR."\n";
 					}
 				}
 			}
@@ -490,6 +523,52 @@ class Scripts {
 	}
 
 	/**
+	 * load PHP scripts at a certain path
+	 *
+	 * This script is used to load extensions of yacs.
+	 *
+	 * @param string the path to scan, e.g., 'codes/extensions'
+	 *
+	 */
+	public static function load_scripts_at($path) {
+		global $context;
+
+		// relative to yacs installation directory
+		$path_translated = $context['path_to_root'];
+		if($path)
+			$path_translated .= '/'.$path;
+
+		// target directory does exist
+		if($handle = Safe::opendir($path_translated)) {
+
+			// look at all entries there
+			while(($node = Safe::readdir($handle)) !== FALSE) {
+
+				// skip special files
+				if($node[0] == '.')
+					continue;
+
+				// make a real name
+				if($path)
+					$target = $path.'/'.$node;
+				else
+					$target = $node;
+				$target_translated = $path_translated.'/'.$node;
+
+				// process only PHP files
+				if(is_file($target_translated) && preg_match('/\.php$/i', $node) && is_readable($target_translated)) {
+
+					// load the script
+					include_once $target_translated;
+
+				}
+			}
+			Safe::closedir($handle);
+		}
+
+	}
+
+	/**
 	 * list running scripts below a certain path
 	 *
 	 * This script is used to list scripts below the YACS installation path.
@@ -497,14 +576,16 @@ class Scripts {
 	 * Also directory entries named either 'files' or 'images' are not recursively scanned,
 	 * because of the potential high number of uninteresting files they can contain.
 	 *
-	 * Also echo '.' (one per file) and '!' (one per directory) during the scan.
+	 * Also echo '.' (one per file) and '!' (one per directory) during the scan,
+	 * if the verbose parameter is set to TRUE.
 	 *
 	 * @param string the path to scan
+	 * @param boolean TRUE to animate the screen, FALSE to stay silent
 	 * @return an array of file names
 	 *
 	 * @see scripts/build.php
 	 */
-	function list_scripts_at($path) {
+	public static function list_scripts_at($path, $verbose=TRUE) {
 		global $context, $script_count;
 
 		// we want a list of files
@@ -546,23 +627,30 @@ class Scripts {
 					$files = array_merge($files, Scripts::list_scripts_at($target));
 
 					// animate the screen
-					$context['text'] .= '!';
+					if($verbose)
+						$context['text'] .= '!';
 					if($script_count++ > 50) {
 						$script_count = 0;
-						$context['text'] .= BR."\n";
+						if($verbose)
+							$context['text'] .= BR."\n";
 					}
 
 				// scan a file
 				} elseif(preg_match('/\.php$/i', $node) && is_readable($target_translated)) {
 
 					// append the script to the list
-					$files[] = array($path, $node);
+					if($path)
+						$files[] = $path.'/'.$node;
+					else
+						$files[] = $node;
 
 					// animate the screen
-					$context['text'] .= '.';
+					if($verbose)
+						$context['text'] .= '.';
 					if($script_count++ > 50) {
 						$script_count = 0;
-						$context['text'] .= BR."\n";
+						if($verbose)
+							$context['text'] .= BR."\n";
 						Safe::set_time_limit(30);
 					}
 				}
@@ -580,7 +668,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	function merge($original, $updated) {
+	public static function merge($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -621,7 +709,7 @@ class Scripts {
 	 * flag all scripts in scripts/run_once
 	 *
 	 */
-	function purge_run_once() {
+	public static function purge_run_once() {
 		global $context;
 
 		// silently purge pending run-once scripts, if any
@@ -669,7 +757,7 @@ class Scripts {
 	 * @param string updated content
 	 * @return an ASCII string
 	 */
-	function &sdiff(&$original, &$updated) {
+	public static function &sdiff(&$original, &$updated) {
 		global $context;
 
 		// compare the two sequences
@@ -683,11 +771,11 @@ class Scripts {
 			//comment out suppressed lines
 			if($tag == '-') {
 				if(strncmp($left, '<', 1))
-					$text .= '<del>'.$left.'</del> ';
+					$text .= ' <del>'.$left.'</del> ';
 
 			} elseif($tag == '+') {
 				if(strncmp($right, '<', 1))
-					$text .= '<ins>'.$right.'</ins> ';
+					$text .= ' <ins>'.$right.'</ins> ';
 				else
 					$text .= $right.' ';
 
@@ -699,7 +787,7 @@ class Scripts {
 		}
 
 		// recombine added words
-		$text = trim(str_replace(array('</del> <del>', '</ins> <ins>'), ' ', $text));
+		$text = trim(str_replace(array('</del>  <del>', '</ins>  <ins>'), ' ', $text));
 
 		// return the result of the whole comparison
 		return $text;
@@ -713,7 +801,7 @@ class Scripts {
 	 *
 	 * @see scripts/check.php
 	 */
-	function walk_files_at($path, $call_back=NULL) {
+	public static function walk_files_at($path, $call_back=NULL) {
 		global $context, $script_count;
 
 		// sanity check

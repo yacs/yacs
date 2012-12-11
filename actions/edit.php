@@ -9,9 +9,9 @@
  * - the event is logged if the action has not been created by an associate
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
- * This script attempts to validate the new or updated article description against a standard PHP XML parser.
+ * This script attempts to validate the new or updated description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
  *
  * The anchor is always touched silently, and there is no related option displayed in the edit form.
@@ -41,7 +41,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';		// input validation
 include_once 'actions.php';
 
 // look for the id
@@ -53,7 +52,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Actions::get($id);
+$item = Actions::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -66,9 +65,9 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
@@ -124,7 +123,7 @@ if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -135,7 +134,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('actions/edit.php?id='.$id.'&anchor='.$target_anchor));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -145,7 +144,7 @@ if(Surfer::is_crawler()) {
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
@@ -160,7 +159,7 @@ if(Surfer::is_crawler()) {
 	$next = $context['url_to_root'].$anchor->get_url();
 
 	// protect from hackers
-	$_REQUEST['target_url'] =& encode_link($_REQUEST['target_url']);
+	$_REQUEST['target_url'] = encode_link($_REQUEST['target_url']);
 
 	// remember status changes only
 	if($item['status'] && ($item['status'] == $_REQUEST['status'])) {
@@ -198,7 +197,7 @@ if(Surfer::is_crawler()) {
 			.Codes::beautify($_REQUEST['description']);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -215,11 +214,28 @@ if(Surfer::is_crawler()) {
 			// message subject
 			$subject = sprintf(i18n::s('New action: %s'), strip_tags($_REQUEST['title']));
 
-			// message body
-			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
+			// headline
+			$headline = sprintf(i18n::c('%s is requesting your contribution'), Surfer::get_link());
+
+			// message main content
+			$message = '<p>'.i18n::s('The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.').'</p>'
+				.'<div>'.strip_tags($_REQUEST['title']).'</div>'
+				.'<div>'.Codes::beautify($_REQUEST['description']).'</div>';
+			$message = Skin::build_mail_content($headline, $message);
+
+			// several links
+			$menu = array();
+
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']);
+			$title = sprintf(i18n::s('New action: %s'), strip_tags($_REQUEST['title']));
+			$menu[] = Skin::build_mail_button($link, $title, TRUE);
+
+			// wrap the full message
+			$message .= Skin::build_mail_menu($menu);
 
 			// enable threading
-			$headers = Mailer::set_thread('action:'.$_REQUEST['id'], $anchor);
+			$headers = Mailer::set_thread($anchor);
 
 			// actual post - don't stop on error
 			Mailer::notify(Surfer::from(), $to, $subject, $message, $headers);
@@ -229,8 +245,8 @@ if(Surfer::is_crawler()) {
 		// log the submission of a new comment by a non-associate
 		if(!Surfer::is_associate()) {
 			$label = sprintf(i18n::c('New action for %s'), strip_tags($anchor->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']);
-			Logger::notify('actions/edit.php', $label, $description);
+			$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']).'">'.$_REQUEST['title'].'</a>';
+			Logger::notify('actions/edit.php: '.$label, $description);
 		}
 
 	// update of an existing action
@@ -361,12 +377,12 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		.JS_SUFFIX;
 
 	// general help on this form
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'),
-		sprintf(i18n::s('<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')), 'boxes', 'help');
+		sprintf(i18n::s('<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')), 'boxes', 'help');
 
 }
 

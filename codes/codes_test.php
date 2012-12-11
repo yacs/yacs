@@ -31,8 +31,8 @@ if(Surfer::is_associate()) {
 		.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'."\n");
 
 	// to maximize processing time, use only half-side codes
-	define('CODES', '[php][hidden][anonymous] ;)[code][quote]8-)[sidebar=123][caution][center][decorated][tiny][superscript][inserted]'."\n"
-		.'[flag][list][link][script][submenu][email=123][subtitle][snippet][restricted][csv]##[indent][folder][note][right][style]'."\n"
+	define('CODES', '[php][anonymous] ;)[code][quote]8-)[sidebar=123][caution][center][decorated][tiny][superscript][inserted]'."\n"
+		.'[flag][list][link][script][submenu][email=123][subtitle][snippet][csv]##[indent][folder][note][right][style]'."\n"
 		.'[hint][small][big][huge][subscript][deleted][color][image][button][menu][scroller][title]'."\n");
 
 	// a large input

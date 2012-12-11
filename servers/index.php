@@ -64,7 +64,7 @@ if($stats['count'])
 
 // stop hackers
 if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
@@ -83,7 +83,7 @@ if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
 	
 	// seek the database
 	$cache_id = 'servers/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 	
 		// query the database and layout that stuff
 		$offset = ($page - 1) * SERVERS_PER_PAGE;

@@ -50,7 +50,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -83,7 +83,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // send the list of recent contributions by this user
@@ -91,7 +91,7 @@ if(!isset($item['id'])) {
 
 	// get the list from the cache, if possible
 	$cache_id = 'users/feed.php?id='.$item['id'].'#channel';
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// loads feeding parameters
 		Safe::load('parameters/feeds.include.php');
@@ -133,7 +133,7 @@ if(!isset($item['id'])) {
 	// suggest a name on download
 	if(!headers_sent()) {
 		$file_name = utf8::to_ascii($context['site_name'].'.section.'.$item['id'].'.rss.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

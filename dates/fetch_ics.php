@@ -2,20 +2,6 @@
 /**
  * fetch calendar data
  *
- * Example of data formatted by this script:
- * [snippet]
- * BEGIN:VCALENDAR
- * VERSION:2.0
- * FN:Foo Bar
- * N:Bar;Foo
- * NICKNAME:little_foo
- * EMAIL;PREF;INTERNET:foo.bar@acme.com
- * REV:20040922T000712Z
- * END:VCARD
- * [/snippet]
- *
- * @link http://www.imc.org/pdi/vcard-21.txt
- *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
@@ -55,8 +41,8 @@ if(!headers_sent()) {
 
 // suggest a download
 if(!headers_sent()) {
-	$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 5).'.ics');
-	Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+	$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.ics');
+	Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
@@ -64,7 +50,7 @@ http::expire(1800);
 
 // strong validator
 $etag = '"'.md5($text).'"';
-	
+
 // manage web cache
 if(http::validate(NULL, $etag))
 	return;

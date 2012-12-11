@@ -48,13 +48,12 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
 // look for the action
 $action = NULL;
@@ -107,7 +106,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // list actions
@@ -155,7 +154,7 @@ if(!isset($item['id'])) {
 	// manage command
 	if(Surfer::is_associate() || (Surfer::get_id() == $item['id'])) {
 		Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
-		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage contacts'), 'span');
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage followers'), 'span');
 	}
 
 	// build the menu
@@ -168,19 +167,19 @@ if(!isset($item['id'])) {
 			$items = Skin::build_list($items, 'decorated');
 		$watched .= $items;
 	} elseif(Surfer::get_id() == $item['id'])
-		$watched .= '<p>'.i18n::s('Click on the link above to add new contacts.').'</p>';
+		$watched .= '<p>'.i18n::s('Click on the link above to follow someone.').'</p>';
 	else
-		$watched .= '<p>'.sprintf(i18n::s('%s has not yet connected to other persons.'), $item['full_name']).'</p>';
+		$watched .= '<p>'.sprintf(i18n::s('%s is not yet following other persons.'), $item['full_name']).'</p>';
 
 	// the list of followers
 	$followers = '';
-	if($items =& Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 500, 'compact')) {
+	if($items = Members::list_watchers_by_name_for_anchor('user:'.$item['id'], 0, 1000, 'compact')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
 		if(Surfer::get_id() == $item['id'])
-			$followers .= '<p>'.i18n::s('Following persons are connected to you:').'</p>'.$items;
+			$followers .= '<p>'.i18n::s('Persons who follow you:').'</p>'.$items;
 		else
-			$followers .= '<p>'.sprintf(i18n::s('Following persons are connected to %s:'), $item['full_name']).'</p>'.$items;
+			$followers .= '<p>'.sprintf(i18n::s('Persons who follow %s:'), $item['full_name']).'</p>'.$items;
 
 	}
 
@@ -191,7 +190,7 @@ if(!isset($item['id'])) {
 		if(!Members::check('user:'.$item['id'], 'user:'.Surfer::get_id())) {
 			Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
 			$link = Users::get_url('user:'.$item['id'], 'track');
-			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, USERS_WATCH_IMG.sprintf(i18n::s('Connect to %s'), $item['full_name']), 'basic', i18n::s('Add this person to your contacts')).'</p>';
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, USERS_WATCH_IMG.sprintf(i18n::s('Follow %s'), $item['full_name']), 'basic', i18n::s('Be notified of additions from this person')).'</p>';
 		}
 
 	}

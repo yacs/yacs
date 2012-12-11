@@ -2,8 +2,6 @@
 /**
  * handling members of this community
  *
- * @todo create buddy lists (CmputrAce)
- *
  * For a comprehensive description of user profiles, you should check the database abstraction script
  * at [script]users/users.php[/script].
  *
@@ -19,6 +17,10 @@
  * The main menu displays the total number of users.
  * It also has navigation links to page among profiles.
  * Commands are available to associates to either create a new user profile or to review noticeable user profiles.
+ *
+ * If constant USERS_VISIBLE_ANONYMOUSLY is set to FALSE in your skin.php, then the list
+ * of users is shown only to authenticated surfers. This is an efficient way to mask
+ * user profiles from public search engines such as Google.
  *
  * Contact shortcuts are included as well to popular systems such as Twitter, GMail, Skype, Yahoo, MSN, etc...
  *
@@ -74,6 +76,10 @@ load_skin('users');
 if(!defined('USERS_PER_PAGE'))
 	define('USERS_PER_PAGE', 50);
 
+// change the following in your skin.php to prevent visibility of users by anonymous surfers
+if(!defined('USERS_VISIBLE_ANONYMOUSLY'))
+	define('USERS_VISIBLE_ANONYMOUSLY', TRUE);
+
 // the title of the page
 $context['page_title'] = i18n::s('People');
 
@@ -88,7 +94,12 @@ if(is_callable(array('Hooks', 'include_scripts')))
 
 // stop hackers
 if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// stop anonymous surfers if requested to do so
+} elseif(!Surfer::get_id() && !USERS_VISIBLE_ANONYMOUSLY) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
@@ -115,7 +126,7 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 
 	// set the focus on the button
 	$context['text'] .= JS_PREFIX
-		.'$("search").focus();'."\n"
+		.'$("#search").focus();'."\n"
 		.JS_SUFFIX;
 
 
@@ -126,7 +137,7 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 
 	// look up the database to find the list of users
 	$cache_id = 'users/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * USERS_PER_PAGE;
@@ -167,7 +178,7 @@ if($items = Users::list_present(0, 200, 'compact'))
 
 // page extra content
 $cache_id = 'users/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of newest users
 	if($items = Users::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))

@@ -18,7 +18,7 @@ Class Layout_users_as_comma extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -34,7 +34,7 @@ Class Layout_users_as_comma extends Layout_interface {
 		// process all items in the list
 		$count = 0;
 		$items = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the user
 			$url = Users::get_permalink($item);
@@ -70,9 +70,6 @@ Class Layout_users_as_comma extends Layout_interface {
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, $class, NULL, $hover);
 
-			// provide only some results
-			if(++$count >= 4)
-				break;
 		}
 
 		// end of processing
@@ -81,10 +78,7 @@ Class Layout_users_as_comma extends Layout_interface {
 		// turn this to some text
 		$text = Skin::build_list($items, 'comma');
 
-		// some indications on the number of connections
-		if($delta -= $count)
-			$text .= ', ...';
-
+		// done
 		return $text;
 	}
 

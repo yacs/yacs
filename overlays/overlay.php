@@ -1,11 +1,11 @@
 <?php
 /**
- * the overlay interface used by articles
+ * the overlay interface
  *
- * Overlays are a straightforward way to extend YACS content pages.
+ * Overlays are a straightforward way to extend web pages.
  * For example, articles can be transformed to recipes, or to other pages that has to include some structured data.
  *
- * Overlay data is saved along standard articles as a serialized snippet.
+ * Overlay data is saved along standard yacs objects (e.g., articles) as a serialized snippet.
  * The encoding and decoding of this field requires a specialized class.
  *
  * The overlay interface masks these details and offers convenient methods to create, access and save piggy-back data.
@@ -30,33 +30,33 @@
  * // save article and serialized overlay as well
  * $_POST['overlay'] = $overlay->save();
  * $_POST['overlay_id'] = $overlay->get_id();
- * Articles::post($_POST);
+ * $id = Articles::post($_POST);
  *
  * // save overlay state
- * $overlay->remember('insert', $item);
+ * $overlay->remember('insert', $item, 'article:'.$id);
  * [/php]
  *
  * As visible into [script]articles/view.php[/script], an overlay is handled
  * with following calls:
  * [php]
  * // extract overlay data from a record
- * $overlay = Overlay::load($item);
+ * $overlay = Overlay::load($item, 'article:'.$item['id']);
  *
  * // get text related to this instance
  * $text = $overlay->get_text('view');
  *
  * // get additional tabs
- * $text = $overlay->get_tabs('view');
+ * $text = $overlay->get_tabs('view', $item);
  * [/php]
  *
  * Also, post-processing steps can include the removal of the hosting record,
  * as shown in [script]articles/delete.php[/script]
  * [php]
  * // extract overlay data from a record
- * $overlay = Overlay::load($item);
+ * $overlay = Overlay::load($item, 'article:'.$item['id']);
  *
  * // post-processing steps specific to the overlay
- * $overlay->remember('delete', $item);
+ * $overlay->remember('delete', $item, 'article:'.$item['id']);
  * [/php]
  *
  *
@@ -98,17 +98,24 @@ class Overlay {
 	/**
 	 * attributes specific to this overlay
 	 */
-	var $attributes;
+	var $attributes = array();
+
+	/**
+	 * previous version of attributes, when overlay content is updated
+	 */
+	var $snapshot = array();
 
 	/**
 	 * allow or block operations
 	 *
-	 * @param string the kind of item to handle ('decision', ...)
+	 * @see overlays/petition.php
+	 *
+	 * @param string the kind of item to handle ('approval', ...)
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */
 	function allows($type, $action) {
-		return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -132,15 +139,18 @@ class Overlay {
 	 * $overlay = Overlay::bind('day without_past_dates');
 	 * [/php]
 	 *
+	 * This function calls the member function initialize() to allow for additional
+	 * generic initialization steps, if required. Example: loading of an external configuration
+	 * file.
+	 *
 	 * @see articles/edit.php
+	 * @see overlays/day.php
 	 * @see sections/edit.php
 	 *
 	 * @param string overlay type
 	 * @return a brand new instance
-	 *
-	 * @see articles/edit.php
 	 */
-	function bind($type) {
+	final public static function bind($type) {
 		global $context;
 
 		// sanity check
@@ -163,7 +173,7 @@ class Overlay {
 			$type = substr($type, 0, $separator);
 		}
 
-		// reject hooks as well
+		// reject hooks
 		if(preg_match('/hook$/i', $type))
 			return NULL;
 
@@ -178,12 +188,16 @@ class Overlay {
 			$overlay->attributes = array();
 			$overlay->attributes['overlay_type'] = $type;
 			$overlay->attributes['overlay_parameters'] = $parameters;
+
+			// allow for internal initialization of the overlay
+			$overlay->initialize();
+
 			return $overlay;
 		}
 
 		// houston, we've got a problem -- Logger::error() is buggy here
 		if($context['with_debug'] == 'Y')
-			Logger::remember('overlays/overlay.php', 'overlay::bind() unknown overlay type', $type, 'debug');
+			Logger::remember('overlays/overlay.php: overlay::bind() unknown overlay type', $type, 'debug');
 		return NULL;
 	}
 
@@ -201,16 +215,16 @@ class Overlay {
 			$parameters = ' parameters="'.$this->attributes['overlay_parameters'].'"';
 		else
 			$parameters = '';
-		$text =  ' <overlay'.$class.$parameters.'>'."\n";
+		$text =  "\t".'<overlay'.$class.$parameters.'>'."\n";
 		foreach($this->attributes as $label => $value) {
 			if($label == 'overlay_type')
 				continue;
 			if($label == 'overlay_parameters')
 				continue;
 			if(is_array($value)) {
-				$text .=  "\t".' <'.$label.'><array>'."\n";
+				$text .=  "\t\t".' <'.$label.'><array>'."\n";
 				foreach($value as $sub_value) {
-					$text .=  "\t\t".' <item>';
+					$text .=  "\t\t\t".' <item>';
 					if(is_array($sub_value)) {
 						$text .=  '<array>';
 						foreach($sub_value as $sub_sub_value)
@@ -220,11 +234,11 @@ class Overlay {
 						$text .=  encode_field($sub_value);
 					$text .=  '</item>'."\n";
 				}
-				$text .=  "\t".' </array></'.$label.'>'."\n";
+				$text .=  "\t\t".' </array></'.$label.'>'."\n";
 			} else
-				$text .=  "\t".' <'.$label.'>'.encode_field($value).'</'.$label.'>'."\n";
+				$text .=  "\t\t".' <'.$label.'>'.encode_field($value).'</'.$label.'>'."\n";
 		}
-		$text .=  ' </overlay>'."\n";
+		$text .=  "\t".'</overlay>'."\n";
 
 		return $text;
 	}
@@ -232,27 +246,40 @@ class Overlay {
 	/**
 	 * text to be inserted at page bottom
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_details_text($host=NULL, $options=NULL) {
+	function &get_details_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
 
 	/**
-	 * text to be inserted aside
+	 * text to be inserted into a mail notification
 	 *
-	 * To be overloaded into derivated class
+	 * This function is called to generate notifications sent to watchers when an item
+	 * is either created or edited.
+	 *
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL, $options=NULL) {
+	function get_diff_text($host=NULL) {
+		return $this->get_view_text($host);
+	}
+
+	/**
+	 * text to be inserted aside
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_extra_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -260,13 +287,28 @@ class Overlay {
 	/**
 	 * build the list of fields for one overlay
 	 *
-	 * This function is used to create forms aiming to change overlay data.
-	 * To be overloaded into derivated class.
+	 * This function extends the regular form with fields that are specific to the overlay.
 	 *
-	 * @param the hosting attributes
-	 * @return a list of ($label, $input, $hint)
+	 * If $host['id'] is not set, then you can assume that this is the initial capture
+	 * of data, before any record is created.
+	 *
+	 * If $host['id'] has a value, then you should provide the set of fields required
+	 * for an update.
+	 *
+	 * If $this->anchor is an object, then you can call $this->anchor->is_owned() to adapt to
+	 * specific access rules. Else you have to assume that the surfer is creating a new item,
+	 * and that he is the actual owner.
+	 *
+	 * To be overloaded into derived class.
 	 *
 	 * @see articles/edit.php
+	 * @see articles/edit_as_simple.php
+	 * @see articles/edit_as_thread.php
+	 * @see sections/edit.php
+	 * @see users/edit.php
+	 *
+	 * @param the hosting attributes
+	 * @return a list of ($label, $input, $hint) to be integrated into the form.
 	 */
 	function get_fields($host) {
 		return array();
@@ -279,9 +321,11 @@ class Overlay {
 	 * When this information is saved, it can be used later on to retrieve one page
 	 * and its content.
 	 *
-	 * @returns a unique string, or NULL
+	 * To be overloaded into derived class
 	 *
 	 * @see articles/edit.php
+	 *
+	 * @returns a unique string, or NULL
 	 */
 	function get_id() {
 		return NULL;
@@ -292,17 +336,19 @@ class Overlay {
 	 *
 	 * This function changes strings used to describe an overlaid item.
 	 *
-	 * Accepted action codes:
-	 * - 'edit' modification of an existing object
+	 * If the name is a regular attribute label, such as 'title', 'description', 'title_hint',
+	 * then the action code describes the context of the action:
+	 * - 'edit' modification form of an existing object
 	 * - 'delete' deletion form
-	 * - 'new' creation of a new object
-	 * - 'view' rendering of the object
+	 * - 'new' creation form of a new object
+	 * - 'view' regular rendering of the object
 	 *
-	 * To be overloaded into derivated class
+	 * If the name applies to a command, such as 'new_command', then the action string
+	 * describes the context of this command:
+	 * - 'articles' apply to pages
+	 * - 'comments' apply to comments
 	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use, or NULL if no default label has been found
+	 * To be overloaded into derived class
 	 *
 	 * @see articles/delete.php
 	 * @see articles/duplicate.php
@@ -313,6 +359,10 @@ class Overlay {
 	 * @see articles/print.php
 	 * @see articles/view.php
 	 * @see sections/section.php
+	 *
+	 * @param string the target label
+	 * @param string the on-going action
+	 * @return the label to use, or NULL if no default label has been found
 	 */
 	function get_label($name, $action='view') {
 		return NULL;
@@ -321,13 +371,12 @@ class Overlay {
 	/**
 	 * display the content of one overlay in a list
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL, $options=NULL) {
+	function &get_list_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -335,13 +384,12 @@ class Overlay {
 	/**
 	 * display a live description
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_description($host=NULL, $options=NULL) {
+	function &get_live_description($host=NULL) {
 		$text = $host['description'];
 		return $text;
 	}
@@ -349,13 +397,12 @@ class Overlay {
 	/**
 	 * display a live introduction
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL, $options=NULL) {
+	function &get_live_introduction($host=NULL) {
 		$text = $host['introduction'];
 		return $text;
 	}
@@ -363,13 +410,12 @@ class Overlay {
 	/**
 	 * display a live title
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL, $options=NULL) {
+	function &get_live_title($host=NULL) {
 		$text = $host['title'];
 		return $text;
 	}
@@ -380,10 +426,29 @@ class Overlay {
 	 * Display additional information in panels.
 	 *
 	 * Accepted action codes:
-	 * - 'view' - embedded into the main viewing page
-	 * - 'edit' - embedded into the main form page
+	 * - 'view' - embedded into the item viewing page
+	 * - 'edit' - embedded into the item form page
 	 *
-	 * @see overlays/overlay.php
+	 * If $host['id'] is not set, then you can assume that this is the initial capture
+	 * of data, before any record is created.
+	 *
+	 * If $host['id'] has a value, then you should provide the set of fields required
+	 * for an update.
+	 *
+	 * If $this->anchor is an object, then you can call $this->anchor->is_owned() to adapt to
+	 * specific access rules. Else you have to assume that the surfer is creating a new item,
+	 * and that he is the actual owner.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see articles/edit.php
+	 * @see articles/edit_as_simple.php
+	 * @see articles/edit_as_thread.php
+	 * @see articles/view.php
+	 * @see sections/edit.php
+	 * @see sections/view.php
+	 * @see users/edit.php
+	 * @see users/view.php
 	 *
 	 * @param string the on-going action
 	 * @param array the hosting record
@@ -407,55 +472,59 @@ class Overlay {
 	 * - 'trailer' - displayed at the bottom
 	 * - 'view' - in the main viewing panel
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param string the variant code
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($variant='view', $host=NULL, $options=NULL) {
+	function &get_text($variant='view', $host=NULL) {
 		switch($variant) {
 
 		// live description
 		case 'description':
-			$text =& $this->get_live_description($host, $options);
+			$text =& $this->get_live_description($host);
 			return $text;
 
 		// small details
 		case 'details':
-			$text =& $this->get_details_text($host, $options);
+			$text =& $this->get_details_text($host);
+			return $text;
+
+		// diff from a previous version, for e-mail notifications
+		case 'diff':
+			$text = $this->get_diff_text($host);
 			return $text;
 
 		// extra side of the page
 		case 'extra':
-			$text =& $this->get_extra_text($host, $options);
+			$text =& $this->get_extra_text($host);
 			return $text;
 
 		// live introduction
 		case 'introduction':
-			$text =& $this->get_live_introduction($host, $options);
+			$text =& $this->get_live_introduction($host);
 			return $text;
 
 		// container is one item of a list
 		case 'list':
-			$text =& $this->get_list_text($host, $options);
+			$text =& $this->get_list_text($host);
 			return $text;
 
 		// live title
 		case 'title':
-			$text =& $this->get_live_title($host, $options);
+			$text =& $this->get_live_title($host);
 			return $text;
 
 		// at the bottom of the page, after the description field
 		case 'trailer':
-			$text =& $this->get_trailer_text($host, $options);
+			$text =& $this->get_trailer_text($host);
 			return $text;
 
 		// full page of the container
 		case 'view':
 		default:
-			$text =& $this->get_view_text($host, $options);
+			$text =& $this->get_view_text($host);
 			return $text;
 		}
 	}
@@ -463,13 +532,12 @@ class Overlay {
 	/**
 	 * text to come after page description
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL, $options=NULL) {
+	function &get_trailer_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -477,9 +545,9 @@ class Overlay {
 	/**
 	 * retrieve overlay type
 	 *
-	 * @returns string
-	 *
 	 * @see articles/edit.php
+	 *
+	 * @returns string
 	 */
 	function get_type() {
 		return $this->attributes['overlay_type'];
@@ -513,18 +581,35 @@ class Overlay {
 	/**
 	 * display the content of one overlay in main view panel
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @param array the hosting record, if any
-	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL, $options=NULL) {
+	function &get_view_text($host=NULL) {
 		$text = '';
 		foreach($this->attributes as $label => $value) {
 			$text .= '<p>'.$label.': '.$value."</p>\n";
 		}
 		return $text;
+	}
+
+	/**
+	 * initialize this instance
+	 *
+	 * This function is called automatically when an instance is loaded in memory,
+	 * to allow for any complementary setup, such as:
+	 * - load parameters from an external file
+	 * - read data from some sensor
+	 * - build a cache of data useful to the overlay
+	 *
+	 * Warning: this is a low-level function that is called before the settings of
+	 * $this->attributes and of $this->anchor so you can't rely on these variables here.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 */
+	function initialize() {
 	}
 
 	/**
@@ -534,29 +619,29 @@ class Overlay {
 	 *
 	 * [php]
 	 * // get the record from the database
-	 * $item =& Articles::get($id);
+	 * $item = Articles::get($id);
 	 *
 	 * // extract overlay data from $item['overlay']
-	 * $overlay = Overlay::load($item);
+	 * $overlay = Overlay::load($item, 'article:'.$item['id']);
 	 * [/php]
-	 *
-	 * @param array the hosting array
-	 * @param string the attribute which contains overlay data
-	 * @return a restored instance, or NULL
 	 *
 	 * @see articles/delete.php
 	 * @see articles/edit.php
 	 * @see articles/view.php
+	 *
+	 * @param array the hosting array
+	 * @param string reference of the containing page (e.g., 'article:123')
+	 * @return a restored instance, or NULL
 	 */
-	function load($host, $name='overlay') {
+	final public static function load($host, $reference) {
 		global $context;
 
 		// no overlay yet
-		if(!isset($host[$name]) || !$host[$name])
+		if(!isset($host['overlay']) || !$host['overlay'])
 			return NULL;
 
 		// retrieve the content of the overlay
-		if(($attributes = Safe::unserialize($host[$name])) === FALSE)
+		if(($attributes = Safe::unserialize($host['overlay'])) === FALSE)
 			return NULL;
 
 		// restore unicode entities
@@ -577,6 +662,11 @@ class Overlay {
 		$overlay = Overlay::bind($attributes['overlay_type']);
 		if(is_object($overlay)) {
 			$overlay->attributes = $attributes;
+
+			// expose all of the anchor interface to the contained overlay
+			$overlay->anchor = Anchors::get($reference);
+
+			// ready to use!
 			return $overlay;
 		}
 
@@ -587,28 +677,41 @@ class Overlay {
 	/**
 	 * capture form content
 	 *
-	 * This function is used to actually change some overlay data.
+	 * This function allows to save, within the overlay itself, some of the data submitted to a web form.
+	 * You should overload this function, to ensure that selected attributes from $fields are copied
+	 * or initialized in $this->attributes.
 	 *
-	 * To be overloaded into derivated class.
+	 * Content of $this->attributes is automatically serialized and saved into the piggy-backed
+	 * attribute 'overlay' of the hosting record.
 	 *
-	 * @param array data transmitted to the server through a web form
-	 * @param aray of updated attributes
+	 * Example code from overlays/recipe.php for this function:
+	 * [php]
+	 * 	$this->attributes['people'] = isset($fields['people']) ? $fields['people'] : '';
+	 * 	$this->attributes['preparation_time'] = isset($fields['preparation_time']) ? $fields['preparation_time'] : '';
+	 * 	$this->attributes['cooking_time'] = isset($fields['cooking_time']) ? $fields['cooking_time'] : '';
+	 * 	$this->attributes['ingredients'] = isset($fields['ingredients']) ? $fields['ingredients'] : '';
+	 * [/php]
+	 *
+	 * To be overloaded into derived class.
 	 *
 	 * @see articles/edit.php
+	 *
+	 * @param array data transmitted to the server through a web form
 	 */
 	function parse_fields($fields) {
-		return $this->attributes;
 	}
 
 	/**
 	 * render some page component
 	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see sections/view.php
+	 *
 	 * @param string type of component to render, e.g., 'articles'
 	 * @param string anchor reference, such as 'section:123'
 	 * @param int page
 	 * @return mixed some text, or NULL
-	 *
-	 * @see sections/view.php
 	 */
 	function render($type, $reference, $page=1) {
 		return NULL;
@@ -620,16 +723,17 @@ class Overlay {
 	 * This function enables a cascaded synchronization with some external storage facility.
 	 * For example, a secondary table can be created in the database to derive information from some overlay instance.
 	 *
-	 * To be overloaded into derivated class
+	 * To be overloaded into derived class
 	 *
 	 * @see articles/delete.php
 	 * @see articles/edit.php
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
 	 * @param array the hosting record
+	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($variant, $host) {
+	function remember($action, $host, $reference) {
 		return TRUE;
 	}
 
@@ -637,9 +741,9 @@ class Overlay {
 	 * serialize overlay content
 	 *
 	 *
-	 * @return the serialized string
-	 *
 	 * @see articles/edit.php
+	 *
+	 * @return the serialized string
 	 */
 	function save() {
 
@@ -651,6 +755,102 @@ class Overlay {
 
 	}
 
+	/**
+	 * set and store some attributes
+	 *
+	 * Use this function to change some attributes of your overlay, and also
+	 * to serialize data into the original container (article, section, etc.)
+	 *
+	 * @param array of ($name => $value) pairs
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
+
+		// set attributes in memory
+		foreach($fields as $name => $value)
+			$this->attributes[$name] = $value;
+
+		// store this permanently
+		if(is_object($this->anchor)) {
+			$fields = array();
+			$fields['id'] = $this->attributes['id'];
+			$fields['overlay'] = $this->save();
+			$fields['overlay_id'] = $this->get_id();
+			return $this->anchor->set_values($fields);
+		}
+
+	}
+
+	/**
+	 * embed embeddable files or not?
+	 *
+	 * By default, when an embeddable file is attached to a page, a yacs code is placed
+	 * in the description field of this page to feature the new file.
+	 * To prevent this behaviour in some pages, you can program the overlay to return
+	 * FALSE to this function call.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see overlays/embed.php
+	 *
+	 * @return boolean TRUE by default, but can be changed in derived overlay
+	 */
+	function should_embed_files() {
+		return TRUE;
+	}
+
+	/**
+	 * notify followers or not?
+	 *
+	 * This function is used in articles/publish.php to prevent notification of followers.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see articles/publish.php
+	 *
+	 * @return boolean FALSE by default, but can be changed in derived overlay
+	 */
+	function should_notify_followers() {
+		return FALSE;
+	}
+
+	/**
+	 * notify watchers or not?
+	 *
+	 * This function is used in various scripts to prevent notification of watchers.
+	 *
+	 * To be overloaded into derived class
+	 *
+	 * @see articles/edit.php
+	 * @see articles/publish.php
+	 *
+	 * @param array if provided, a notification that can be sent to customised recipients
+	 * @return boolean TRUE by default, but can be changed in derived overlay, such as events
+	 */
+	function should_notify_watchers($mail=NULL) {
+		return TRUE;
+	}
+
+	/**
+	 * make a shallow copy of attributes
+	 *
+	 * This function allows to detect changes when content of an overlay is modified.
+	 *
+	 */
+	function snapshot() {
+
+		// to be compared with $this->attributes
+		$this->snapshot = array();
+
+		// shallow copy should be enough
+		foreach($this->attributes as $name => $value) {
+			if(is_object($value))
+				$this->snapshot[$name] = clone $value;
+			else
+				$this->snapshot[$name] = $value;
+		}
+
+	}
 }
 
 ?>

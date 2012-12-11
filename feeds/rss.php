@@ -2,8 +2,6 @@
 /**
  * provide news in the RSS 2.0 format
  *
- * @todo add geocoded information http://developer.yahoo.com/weather/
- *
  * This script lists newest published articles, providing following information:
  * - title - title of the article
  * - link - absolute url to fetch the article
@@ -149,7 +147,7 @@ render_raw('text/xml; charset='.$context['charset']);
 // suggest a name on download
 if(!headers_sent()) {
 	$file_name = utf8::to_ascii($context['site_name'].'.rss.xml');
-	Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

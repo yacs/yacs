@@ -14,6 +14,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -24,12 +26,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
@@ -44,7 +46,7 @@ if(isset($item['title']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -59,7 +61,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'print')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the section
@@ -79,24 +81,15 @@ if(Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons');
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer');
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons');
 
 	// rank for this section
 	if((intval($item['rank']) != 10000) && Surfer::is_associate())
 		$details[] = sprintf(i18n::s('Rank: %s'), $item['rank']);
-
-	// section editors
-	if(Surfer::is_empowered() && Surfer::is_member()) {
-		if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
-
-		if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
-			$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
-	}
 
 	// signal sections to be activated
 	if(Surfer::is_empowered() && ($item['activation_date'] > $context['now']))
@@ -144,8 +137,6 @@ if(Surfer::is_crawler()) {
 	// the maximum number of sections per page
 	if(is_object($layout))
 		$items_per_page = $layout->items_per_page();
-	elseif(isset($item['sections_count']) && ($item['sections_count'] > 0))
-		$items_per_page = $item['sections_count'];
 	else
 		$items_per_page = SECTIONS_PER_PAGE;
 
@@ -241,9 +232,9 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option :files_by_title:)
 	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 70);
+		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 	else
-		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 70);
+		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 
 	// actually render the html for the section
 	if($items)
@@ -253,30 +244,8 @@ if(Surfer::is_crawler()) {
 	// the comments section
 	//
 
-	// layout as defined in options
-	if($item['articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} elseif($item['articles_layout'] == 'jive') {
-		include_once '../comments/layout_comments_as_jive.php';
-		$layout = new Layout_comments_as_jive();
-
-	} elseif($item['articles_layout'] == 'manual') {
-		include_once '../comments/layout_comments_as_manual.php';
-		$layout = new Layout_comments_as_manual();
-
-	} elseif($item['articles_layout'] == 'yabb') {
-		include_once '../comments/layout_comments_as_yabb.php';
-		$layout = new Layout_comments_as_yabb();
-
-	// layout as defined by general parameter
-	} elseif($context['root_articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} else
-		$layout = 'no_anchor';
+	// layout for printed comments
+	$layout = 'no_anchor';
 
 	// the maximum number of comments per page
 	if(is_object($layout))
@@ -289,7 +258,6 @@ if(Surfer::is_crawler()) {
 	$box['text'] = '';
 
 	// list comments by date
-	include_once '../comments/comments.php';
 	$items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, $items_per_page, $layout);
 
 	// actually render the html
@@ -307,7 +275,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list links by date (default) or by title (option :links_by_title:)
-	include_once '../links/links.php';
 	if(preg_match('/\blinks_by_title\b/i', $item['options']))
 		$items = Links::list_by_title_for_anchor('section:'.$item['id'], 0, 70);
 	else

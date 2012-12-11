@@ -69,7 +69,7 @@ Class Atom_Codec extends Codec {
 		if(!xml_parse($parser, $data)) {
 
 			if($context['with_debug'] == 'Y')
-				Logger::remember('services/atom_codec.php', 'invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
+				Logger::remember('services/atom_codec.php: invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
 
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))
 				.' at line '.xml_get_current_line_number($parser));
@@ -153,8 +153,6 @@ Class Atom_Codec extends Codec {
 
 	function parse_end_element($parser, $element) {
 
-//		logger::debug('[/'.$element.']');
-
 		if($element == 'entry') {
 
 			// transcode to expected labels
@@ -180,8 +178,6 @@ Class Atom_Codec extends Codec {
 	}
 
 	function parse_start_element($parser, $element, $attributes) {
-
-//		logger::debug('['.$element.' '.$attributes.']', 'start');
 
 		$this->current_field = $element;
 		if($element == 'feed')
@@ -213,8 +209,8 @@ Class Atom_Codec extends Codec {
 		$label = preg_replace('/<br\s*\/>/i', "\n", $label);
 
 		// make some room around titles, paragraphs, and divisions
-		$label = preg_replace('/<(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', ' <\\1>', $label);
-		$label = preg_replace('/<\/(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', '</\\1> ', $label);
+		$label = preg_replace('/<(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', ' <$1>', $label);
+		$label = preg_replace('#</(code|div|h1|h2|h3|ol|li|p|pre|ul)>#i', '</$1> ', $label);
 
 		// strip all html tags and encode
 		$label = strip_tags($label, $allowed);
@@ -239,7 +235,7 @@ Class Atom_Codec extends Codec {
 	 * @param mixed the parameter to encode
 	 * @return some XML
 	 */
-	function encode(&$values) {
+	public static function encode(&$values) {
 		global $context;
 
 		// ensure we have a feed title

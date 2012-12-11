@@ -29,7 +29,7 @@ Class Layout_articles extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -46,17 +46,16 @@ Class Layout_articles extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -171,7 +170,7 @@ Class Layout_articles extends Layout_interface {
 
 				// rating
 				if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-					$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+					$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 				// unusual ranks are signaled to associates and owners
 				if(($item['rank'] != 10000) && Articles::is_owned($item, $anchor))
@@ -200,6 +199,10 @@ Class Layout_articles extends Layout_interface {
 			// end of details
 			$suffix .= '</span>';
 
+			// display all tags
+			if($item['tags'])
+				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+
 			// strip empty details
 			$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);
 			$suffix = str_replace('<span class="details"></span>', '', $suffix);
@@ -213,8 +216,8 @@ Class Layout_articles extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// or inherit from the anchor
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 
 			// list all components for this item
 			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);

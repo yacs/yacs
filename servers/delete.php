@@ -30,12 +30,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Servers::get($id);
+$item = Servers::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin
 load_skin('servers');
@@ -52,7 +52,7 @@ if(!isset($item['id'])) {
 
 // deletion is restricted to associates
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
@@ -83,7 +83,7 @@ if($item['id'] && Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// the title of the server
@@ -99,11 +99,11 @@ if($item['id'] && Surfer::is_associate()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons').BR."\n";
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 	// all details
 	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";

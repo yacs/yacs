@@ -59,7 +59,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
-include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -74,12 +73,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -87,24 +86,12 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// public access is allowed
-if(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/stream.php', 'file:'.$item['id']))
+	$permitted = FALSE;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// authenticated users may view their own posts
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
-
-// associates and editors can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// check access rights
+elseif(Files::allow_access($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -148,7 +135,7 @@ if(!$item['id']) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stream this file
@@ -165,7 +152,7 @@ if(!$item['id']) {
 		$file_name = utf8::to_ascii($item['file_name']);
 
 		// where the file is
-		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+		$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 		// redirect to the actual file
 		$target_href = $context['url_to_home'].$context['url_to_root'].$path;
@@ -205,12 +192,13 @@ if(!$item['id']) {
 	case 'm4v':
 	case 'mov':
 	case 'mp4':
-		// we are invoking some flash player
+
+		// embed into a web page
 		$type = '';
 		$mime = 'text/html';
 
-		// load the full library
-		$script = 'included/browser/library.js';
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -236,12 +224,15 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
@@ -264,12 +255,15 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
@@ -291,6 +285,9 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// allow to load Flash objects
+		$script = 'included/browser/js_header/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
@@ -298,13 +295,12 @@ if(!$item['id']) {
 			.'<title>'.$context['page_title'].'</title>'."\n";
 
 		// load the full library
-		$script = 'included/browser/library.js';
 		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
 
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
-		if(isset($context['skin'])) {
+		if(isset($context['skin']) && ($pathnames = Safe::glob($context['path_to_root'].$context['skin'].'/*.js'))) {
 
-			foreach(Safe::glob($context['path_to_root'].$context['skin'].'/*.js') as $name)
+			foreach($pathnames as $name)
 	 			$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$context['skin'].'/'.basename($name).'"></script>'."\n";
 
 		}
@@ -384,7 +380,8 @@ if(!$item['id']) {
 		if(!$fetched) {
 
 			// increment the count of downloads
-			Files::increment_hits($item['id']);
+			if(!Surfer::is_crawler())
+				Files::increment_hits($item['id']);
 
 			// record surfer activity
 			Activities::post('file:'.$item['id'], 'fetch');
@@ -400,7 +397,7 @@ if(!$item['id']) {
 		// suggest a download
 		if(!headers_sent()) {
 			$file_name = utf8::to_ascii($item['file_name'].$type);
-			Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+			Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 		}
 
 		// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

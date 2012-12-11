@@ -68,7 +68,7 @@ Class XML_RPC_Codec extends Codec {
 		if(!xml_parse($parser, $data)) {
 
 			if($context['with_debug'] == 'Y')
-				Logger::remember('services/xml_rpc_codec.php', 'invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
+				Logger::remember('services/xml_rpc_codec.php: invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
 
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))
 				.' at line '.xml_get_current_line_number($parser));
@@ -97,7 +97,7 @@ Class XML_RPC_Codec extends Codec {
 	 * @param type, if any
 	 * @return string some XML
 	 */
-	function encode($parameter, $type='') {
+	public static function encode($parameter, $type='') {
 
 		// a date
 		if($type == 'date') {
@@ -113,7 +113,7 @@ Class XML_RPC_Codec extends Codec {
 
 		// a string --also fix possible errors in HTML image references
 		if($type == 'string')
-			return '<string>'.htmlspecialchars(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
+			return '<string>'.utf8::to_xml(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter)).'</string>';
 
 		// a boolean
 		if($parameter === true || $parameter === false)
@@ -152,7 +152,7 @@ Class XML_RPC_Codec extends Codec {
 
 		// encode strings
 		if(is_string($parameter) && ($parameter = trim($parameter)) && (substr($parameter, 0, 1) != '<'))
-			return '<string>'.htmlspecialchars(trim(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter))).'</string>';
+			return '<string>'.utf8::to_xml(preg_replace('|<img (.+?[^/])>|mi', '<img $1 />', $parameter)).'</string>';
 
 		// do not encode possibly encoded strings
 		return $parameter;
@@ -259,7 +259,8 @@ Class XML_RPC_Codec extends Codec {
 	function export_response($values=NULL, $service=NULL) {
 
 		// request header
-		$xml = '<methodResponse>'."\n";
+		$xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+			.'<methodResponse>'."\n";
 
 		// encode the response
 		if(is_array($values) && isset($values['faultCode']) && $values['faultCode'])
@@ -330,7 +331,7 @@ Class XML_RPC_Codec extends Codec {
 	}
 
 
-	var $stack;
+	private $stack;
 
 	/**
 	 * update the stack on opening tags
@@ -345,6 +346,7 @@ Class XML_RPC_Codec extends Codec {
 	 *
 	 */
 	function parse_tag_open($parser, $tag, $attributes) {
+
 		if(preg_match('/^(methodCall|methodResponse|fault)$/', $tag)) {
 			array_push($this->stack, $tag);
 		} elseif($tag == 'array') {
@@ -359,9 +361,10 @@ Class XML_RPC_Codec extends Codec {
 				array_push($this->stack, ++$index);
 			}
 		}
+
 	}
 
-	var $cdata;
+	private $cdata = '';
 
 	/**
 	 * capture cdata for further processing
@@ -375,9 +378,9 @@ Class XML_RPC_Codec extends Codec {
 			$this->cdata = ltrim($cdata);
 	}
 
-	var $result;
+	private $result = array();
 
-	var $name;
+	private $name = NULL;
 
 	/**
 	 * update the stack on closing tags
@@ -448,7 +451,7 @@ Class XML_RPC_Codec extends Codec {
 		case 'string':
 
 			// transcode to our internal charset, if unicode
-			if($context['charset'] == 'utf-8')
+			if(($context['charset'] == 'utf-8') && isset($this->cdata))
 				$this->cdata = utf8::encode($this->cdata);
 
 			return;
@@ -487,6 +490,7 @@ Class XML_RPC_Codec extends Codec {
 			array_pop($this->stack);
 			array_pop($this->stack);
 		}
+
 	}
 
 }

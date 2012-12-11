@@ -80,7 +80,7 @@ $context['page_title'] = i18n::s('Setup assistant');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // first installation
@@ -90,10 +90,10 @@ if(Surfer::is_crawler()) {
 	$checks = array();
 
 	// ensure we have a minimum version of PHP
-	if(version_compare(phpversion(),'4.3','<')) {
+	if(version_compare(phpversion(),'5.3','<')) {
 
 		// provide instructions
-		Logger::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 4.3. The server runs version %s.'), phpversion()));
+		Logger::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 5.3. The server runs version %s.'), phpversion()));
 
 		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
 
@@ -268,9 +268,9 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= JS_PREFIX
 			.'document.cookie = \'CookiesEnabled=1\';'."\n"
 			.'if((document.cookie == "") && document.getElementById) {'."\n"
-			.'	$("ask_for_cookies").update("'.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'");'."\n"
-			.'	$("ask_for_cookies").style.display = "block";'."\n"
-			.'	$("confirmed").disabled = true;'."\n"
+			.'	$("#ask_for_cookies").update("'.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'");'."\n"
+			.'	$("#ask_for_cookies").style.display = "block";'."\n"
+			.'	$("#confirmed").disabled = true;'."\n"
 			.'}'."\n"
 			.JS_SUFFIX."\n";
 

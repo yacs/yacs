@@ -29,12 +29,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -56,7 +56,7 @@ $context['page_title'] = i18n::s('Lock');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -64,14 +64,14 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Sections::is_owned($item, $anchor)) {
+} elseif(!Sections::is_owned($item, $anchor) && !Surfer::is_associate()) {  
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'lock')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured

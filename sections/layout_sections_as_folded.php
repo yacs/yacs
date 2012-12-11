@@ -2,7 +2,7 @@
 /**
  * layout sections as folded boxes with content
  *
- * With this layout each section is displayed as a folded box listing up to seven related pages.
+ * With this layout each section is displayed as a folded box listing content (sub-sections, pages, ...).
  *
  * @see sections/view.php
  *
@@ -16,6 +16,17 @@
 Class Layout_sections_as_folded extends Layout_interface {
 
 	/**
+	 * the preferred number of items for this layout
+	 *
+	 * The compact format of this layout allows a high number of items to be listed
+	 *
+	 * @return int the optimised count of items fro this layout
+	 */
+	function items_per_page() {
+		return 1000;
+	}
+
+	/**
 	 * list sections
 	 *
 	 * @param resource the SQL result
@@ -23,7 +34,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -42,24 +53,29 @@ Class Layout_sections_as_folded extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		$family = '';
+		while($item = SQL::fetch($result)) {
+
+			// change the family
+			if($item['family'] != $family) {
+				$family = $item['family'];
+
+				// show the family
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n";
+
+			}
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// one box per section
 			$box = array('title' => '', 'text' => '');
 
 			// box content
 			$elements = array();
-
-			// start the label with family, if any
-			if($item['family'])
-				$box['title'] = Skin::strip($item['family'], 30).' - ';
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -68,24 +84,6 @@ Class Layout_sections_as_folded extends Layout_interface {
 				$box['title'] .= Codes::beautify_title($item['title']);
 
 			$details = array();
-
-			// list related sections, if any
-			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
-
-				// mention the number of sections in folded title
-				$details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));
-
-				// add one link per item
-				foreach($items as $url => $label) {
-					$prefix = $suffix = '';
-					if(is_array($label)) {
-						$prefix = $label[0];
-						$suffix = $label[2];
-						$label = $label[1];
-					}
-					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
-				}
-			}
 
 			// info on related articles
 			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
@@ -112,7 +110,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 			}
 
 			// info on related files
-			if(Sections::has_option('files_by_title', $anchor, $item))
+			if(Sections::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -133,7 +131,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', TRUE)) {
 
 				// mention the number of sections in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));
@@ -169,6 +167,24 @@ Class Layout_sections_as_folded extends Layout_interface {
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label).$suffix;
+				}
+			}
+
+			// list related sections, if any
+			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+
+				// mention the number of sections in folded title
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));
+
+				// add one link per item
+				foreach($items as $url => $label) {
+					$prefix = $suffix = '';
+					if(is_array($label)) {
+						$prefix = $label[0];
+						$suffix = $label[2];
+						$label = $label[1];
+					}
+					$elements[] = $prefix.Skin::build_link($url, $label, 'section').$suffix;
 				}
 			}
 

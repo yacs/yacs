@@ -2,9 +2,6 @@
 /**
  * the index page for tables
  *
- * @todo graph it http://www.john-north.com/nathfy/AttC
- * @todo allow for download as CSV to anonymous surfers
- *
  * Within YACS context a table is a SQL statement used to create dynamic lists of records.
  *
  * For a comprehensive description of tables, you should check the database abstraction script
@@ -64,7 +61,7 @@ $context['page_title'] = i18n::s('Tables');
 
 // this page is really only for associates
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
@@ -106,7 +103,7 @@ if(Surfer::is_associate()) {
 
 // page extra content
 $cache_id = 'tables/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

@@ -18,7 +18,7 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -98,21 +98,20 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 				$default_href = NULL;
 
 			// process all items in the list
-			include_once $context['path_to_root'].'overlays/overlay.php';
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// get the related overlay
-				$overlay = Overlay::load($item);
+				$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 				// get the anchor
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 				// this is visual
 				if(isset($item['icon_url']) && $item['icon_url'])
 					$image = $item['icon_url'];
 				elseif(isset($item['thumbnail_url']) && $item['thumbnail_url'])
 					$image = $item['thumbnail_url'];
-				elseif(is_object($anchor) && ($image = $anchor->get_thumbnail_url()))
+				elseif(is_callable(array($anchor, 'get_bullet_url')) && ($image = $anchor->get_bullet_url()))
 					;
 				elseif($default_href)
 					$image = $default_href;
@@ -130,7 +129,7 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 					$title = Codes::beautify_title($item['title']);
 
 				// the url to view this item
-				$url =& Sections::get_permalink($item);
+				$url = Sections::get_permalink($item);
 
 				// add to the list
 				$content .= '	<photo>'."\n"

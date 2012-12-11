@@ -20,7 +20,7 @@ Class Layout_files_as_simple extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -35,10 +35,10 @@ Class Layout_files_as_simple extends Layout_interface {
 			$this->layout_variant = 'full';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// download the file directly
 			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);

@@ -30,18 +30,17 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // the surfer can proceed
 if(Articles::allow_deletion($item, $anchor)) {
@@ -74,7 +73,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
@@ -87,6 +86,11 @@ if(!isset($item['id'])) {
 	// attempt to delete
 	if(Articles::delete($item['id'])) {
 
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
+		$description = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		Logger::remember('articles/delete.php: '.$label, $description);
+
 		// this can appear anywhere
 		Cache::clear();
 
@@ -96,7 +100,7 @@ if(!isset($item['id'])) {
 		elseif($anchor->is_viewable())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		elseif($id = Surfer::get_id())
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'contact'));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id));
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 
@@ -130,7 +134,7 @@ else {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
 	// the title of the action

@@ -14,7 +14,7 @@ Class Forms {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('forms');
@@ -36,7 +36,7 @@ Class Forms {
 	 *
 	 * @see forms/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -64,7 +64,7 @@ Class Forms {
 	 * @param int the id of the form, or its nick name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -85,7 +85,7 @@ Class Forms {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -106,7 +106,7 @@ Class Forms {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// check the target action
@@ -127,7 +127,7 @@ Class Forms {
 	 *
 	 * @see forms/index.php
 	 */
-	function &list_by_title($offset=0, $count=10, $variant='full') {
+	public static function list_by_title($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// select among active and restricted items
@@ -143,7 +143,7 @@ Class Forms {
 			.' ORDER BY forms.title, forms.edit_date DESC LIMIT '.$offset.','.$count;
 
 		// the list of forms
-		$output =& Forms::list_selected(SQL::query($query), $variant);
+		$output = Forms::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -155,33 +155,19 @@ Class Forms {
 	 * This is used by the page locator to offer alternatives when several pages have the same nick names.
 	 * It is also used to link a page to twins, these being, most of the time, translations.
 	 *
-	 * Only forms matching following criteria are returned:
-	 * - form is visible (active='Y')
-	 * - form is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - form is protected (active='N'), but surfer is an associate
+	 * Most matching forms are returned, and we assume that access control to private forms
+	 * is postponed to actual access to these forms.
 	 *
 	 * @param string the nick name
 	 * @param int the id of the current page, which will not be listed
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_name($name, $exception=NULL, $layout='compact') {
+	public static function list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
-		// select among active items
-		$where = "forms.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR forms.active='R'";
-
-		// add hidden items to associates
-		if(Surfer::is_empowered('S'))
-			$where .= " OR forms.active='N'";
-
-		// bracket OR statements
-		$where = '('.$where.')';
+		// gather constraints
+		$where = '';
 
 		// avoid exception, if any
 		if($exception)
@@ -190,10 +176,10 @@ Class Forms {
 		// forms by title -- no more than 100 pages with the same name
 		$query = "SELECT forms.*"
 			." FROM ".SQL::table_name('forms')." AS forms"
-			." WHERE (forms.nick_name LIKE '".SQL::escape($name)."') AND ".$where
+			." WHERE (forms.nick_name LIKE '".SQL::escape($name)."')".$where
 			." ORDER BY forms.title LIMIT 100";
 
-		$output =& Forms::list_selected(SQL::query($query), $layout);
+		$output = Forms::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -208,7 +194,7 @@ Class Forms {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -219,7 +205,7 @@ Class Forms {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -251,7 +237,7 @@ Class Forms {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -264,7 +250,7 @@ Class Forms {
 	 *
 	 * @see forms/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -273,8 +259,11 @@ Class Forms {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -358,7 +347,7 @@ Class Forms {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -392,7 +381,7 @@ Class Forms {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among active and restricted items
@@ -407,7 +396,7 @@ Class Forms {
 			.' FROM '.SQL::table_name('forms').' AS forms'
 			.' WHERE ('.$where.')';
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

@@ -1,0 +1,448 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"PO-Revision-Date: 2010-09-29 14:54+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: letters/configure.php:45 letters/configure.php:121
+#: letters/configure.php:196
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: letters/configure.php:48
+#, php-format
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: letters/configure.php:48 letters/index.php:36
+msgid "Configure"
+msgstr "Configure"
+
+#: letters/configure.php:48 letters/configure.php:125
+#: letters/configure.php:195 letters/index.php:21 letters/new.php:74
+#: letters/new.php:640
+msgid "Newsletters"
+msgstr "Newsletters"
+
+#: letters/configure.php:57 letters/new.php:103
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: letters/configure.php:71
+msgid "Letter title"
+msgstr "Letter title"
+
+#: letters/configure.php:73
+msgid "Used as e-mail subject"
+msgstr "Used as e-mail subject"
+
+#: letters/configure.php:77
+msgid "Letter prefix"
+msgstr "Letter prefix"
+
+#: letters/configure.php:79
+msgid "Several lines of text to introduce your letter"
+msgstr "Several lines of text to introduce your letter"
+
+#: letters/configure.php:83
+msgid "Letter suffix"
+msgstr "Letter suffix"
+
+#: letters/configure.php:85
+msgid "Several lines of text to end your letter"
+msgstr "Several lines of text to end your letter"
+
+#: letters/configure.php:89
+msgid "Title prefix"
+msgstr "Title prefix"
+
+#: letters/configure.php:91
+msgid "Inserted before each title while building the list of recent articles"
+msgstr "Inserted before each title while building the list of recent articles"
+
+#: letters/configure.php:95
+msgid "Title suffix"
+msgstr "Title suffix"
+
+#: letters/configure.php:97
+msgid "Inserted after each title while building the list of recent articles"
+msgstr "Inserted after each title while building the list of recent articles"
+
+#: letters/configure.php:103
+msgid "Mail address to be used on replies"
+msgstr "Mail address to be used on replies"
+
+#: letters/configure.php:105
+msgid ""
+"Normalized format, for example: \"John Ford\" &lt;john.ford@acme.com&gt;"
+msgstr ""
+"Normalized format, for example: \"John Ford\" &lt;john.ford@acme.com&gt;"
+
+#: letters/configure.php:117
+msgid "Submit"
+msgstr "Submit"
+
+#: letters/configure.php:117 letters/new.php:164 letters/new.php:300
+#: letters/new.php:418
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: letters/configure.php:142 letters/new.php:446
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr "You are not allowed to perform this operation in demonstration mode."
+
+#: letters/configure.php:173
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+
+#: letters/configure.php:176
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+
+#: letters/configure.php:181
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "The following configuration has been saved into the file %s."
+
+#: letters/configure.php:184
+#, php-format
+msgid "%s has been updated"
+msgstr "%s has been updated"
+
+#: letters/configure.php:190
+msgid "Configuration parameters"
+msgstr "Configuration parameters"
+
+#: letters/configure.php:193
+msgid "Where do you want to go now?"
+msgstr "Where do you want to go now?"
+
+#: letters/configure.php:197
+msgid "Configure again"
+msgstr "Configure again"
+
+#: letters/index.php:30
+msgid "No letter has been sent yet."
+msgstr "No letter has been sent yet."
+
+#: letters/index.php:35 letters/new.php:77
+msgid "Post a letter"
+msgstr "Post a letter"
+
+#: letters/new.php:108
+msgid "E-mail has not been activated on this system."
+msgstr "E-mail has not been activated on this system."
+
+#: letters/new.php:113
+#, php-format
+msgid "No account to post the letter. Please %s."
+msgstr "No account to post the letter. Please %s."
+
+#: letters/new.php:113
+msgid "configure one"
+msgstr "configure one"
+
+#: letters/new.php:138 letters/new.php:274 letters/new.php:392
+msgid "Title"
+msgstr "Title"
+
+#: letters/new.php:142 letters/new.php:278 letters/new.php:396
+msgid "Used as message subject line"
+msgstr "Used as message subject line"
+
+#: letters/new.php:146 letters/new.php:282 letters/new.php:400
+msgid "Content"
+msgstr "Content"
+
+#: letters/new.php:151 letters/new.php:287 letters/new.php:405
+msgid "Recipients"
+msgstr "Recipients"
+
+#: letters/new.php:152 letters/new.php:288 letters/new.php:406
+msgid "All subscribers of the community"
+msgstr "All subscribers of the community"
+
+#: letters/new.php:153 letters/new.php:289 letters/new.php:407
+msgid "Members only"
+msgstr "Members only"
+
+#: letters/new.php:154 letters/new.php:290 letters/new.php:408
+msgid "Associates only"
+msgstr "Associates only"
+
+#: letters/new.php:155 letters/new.php:291 letters/new.php:409
+msgid "Specific addresses:"
+msgstr "Specific addresses:"
+
+#: letters/new.php:157 letters/new.php:293 letters/new.php:411
+msgid "The recipients that will receive the letter"
+msgstr "The recipients that will receive the letter"
+
+#: letters/new.php:164 letters/new.php:300 letters/new.php:418
+msgid "Send"
+msgstr "Send"
+
+#: letters/new.php:176 letters/new.php:312 letters/new.php:430
+msgid "No title has been provided."
+msgstr "No title has been provided."
+
+#: letters/new.php:231 letters/new.php:366
+#, php-format
+msgid "By %s"
+msgstr "By %s"
+
+#: letters/new.php:337
+msgid "featured"
+msgstr "featured"
+
+#: letters/new.php:460
+msgid "Creating a section for archived letters"
+msgstr "Creating a section for archived letters"
+
+#: letters/new.php:463
+msgid "Archived letters"
+msgstr "Archived letters"
+
+#: letters/new.php:464
+msgid "To remember our previous messages"
+msgstr "To remember our previous messages"
+
+#: letters/new.php:465
+msgid "YACS puts automatically sent letters into this section."
+msgstr "YACS puts automatically sent letters into this section."
+
+#: letters/new.php:478
+msgid "Archiving the new letter"
+msgstr "Archiving the new letter"
+
+#: letters/new.php:487
+#, php-format
+msgid "Sent %s to&nbsp;\"%s\""
+msgstr "Sent %s to&nbsp;\"%s\""
+
+#: letters/new.php:535
+msgid "Error: Invalid address skipped"
+msgstr "Error: Invalid address skipped"
+
+#: letters/new.php:570 letters/new.php:576
+msgid "A message has been sent to:"
+msgstr "A message has been sent to:"
+
+#: letters/new.php:579
+msgid "No recipient has been defined."
+msgstr "No recipient has been defined."
+
+#: letters/new.php:595
+msgid "Error has been encountered while sending the letter."
+msgstr "Error has been encountered while sending the letter."
+
+#: letters/new.php:604
+msgid "No recipient has been processed."
+msgstr "No recipient has been processed."
+
+#: letters/new.php:606
+msgid "One recipient has been processed."
+msgstr "One recipient has been processed."
+
+#: letters/new.php:608
+#, php-format
+msgid "%d recipients have been processed"
+msgstr "%d recipients have been processed"
+
+#: letters/new.php:612
+msgid "One invalid address has been skipped."
+msgstr "One invalid address has been skipped."
+
+#: letters/new.php:614
+#, php-format
+msgid "%d invalid addresses have been skipped"
+msgstr "%d invalid addresses have been skipped"
+
+#: letters/new.php:618
+msgid "No letter has been transmitted."
+msgstr "No letter has been transmitted."
+
+#: letters/new.php:620
+msgid "One letter has been transmitted."
+msgstr "One letter has been transmitted."
+
+#: letters/new.php:622
+#, php-format
+msgid "%d letters have been transmitted."
+msgstr "%d letters have been transmitted."
+
+#: letters/new.php:626
+msgid "One transmission error has been encountered."
+msgstr "One transmission error has been encountered."
+
+#: letters/new.php:628
+#, php-format
+msgid "%d transmission errors have been encountered."
+msgstr "%d transmission errors have been encountered."
+
+#: letters/new.php:637
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Script terminated in %.2f seconds."
+
+#: letters/new.php:647
+msgid ""
+"This script will help you to prepare and to send a electronic message to "
+"community members. Please select below the action you would like to perform. "
+"Depending on your choice, the assistant may ask for additional parameters on "
+"successive panels."
+msgstr ""
+"This script will help you to prepare and to send a electronic message to "
+"community members. Please select below the action you would like to perform. "
+"Depending on your choice, the assistant may ask for additional parameters on "
+"successive panels."
+
+#: letters/new.php:653
+msgid "Send a digest of articles published recently"
+msgstr "Send a digest of articles published recently"
+
+#: letters/new.php:656
+msgid "List featured pages"
+msgstr "List featured pages"
+
+#: letters/new.php:659
+msgid "Send one announcement to community members"
+msgstr "Send one announcement to community members"
+
+#: letters/new.php:662
+msgid "Next step"
+msgstr "Next step"
+
+#: letters/new.php:662
+msgid "Press [s] to continue"
+msgstr "Press [s] to continue"
+
+#~ msgid "No transmission error has been encountered."
+#~ msgstr "No transmission error has been encountered."
+
+#~ msgid "No invalid address has been skipped."
+#~ msgstr "No invalid address has been skipped."
+
+#~ msgid "To let people react to your posts"
+#~ msgstr "To let people react to your posts"
+
+#~ msgid "Use only plain ASCII at the moment"
+#~ msgstr "Use only plain ASCII at the moment"
+
+#~ msgid "Please add something to your message."
+#~ msgstr "Please add something to your message."
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configure: %s"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "mail messages cannot be actually sent in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "mail messages cannot be actually sent in this mode."
+
+#~ msgid "Most recent letters"
+#~ msgstr "Most recent letters"
+
+#~ msgid "Sending the letter to:"
+#~ msgstr "Sending the letter to:"
+
+#~ msgid "No recipient has been defined for this letter."
+#~ msgstr "No recipient has been defined for this letter."
+
+#~ msgid "The configuration panel for letters"
+#~ msgstr "The configuration panel for letters"
+
+#~ msgid ""
+#~ "Letters are built by scanning the database of articles and by using "
+#~ "parameters set in this form. Of course, the result of this automatic "
+#~ "process can be manually edited before the actual post."
+#~ msgstr ""
+#~ "Letters are built by scanning the database of articles and by using "
+#~ "parameters set in this form. Of course, the result of this automatic "
+#~ "process can be manually edited before the actual post."
+
+#~ msgid ""
+#~ "The letter title is appearing in the mailbox of the recipients. It should "
+#~ "be left unchanged for quite long period of time."
+#~ msgstr ""
+#~ "The letter title is appearing in the mailbox of the recipients. It should "
+#~ "be left unchanged for quite long period of time."
+
+#~ msgid ""
+#~ "The letter prefix and suffix should explain in few words the origin of "
+#~ "the letter. They should also describe adequate means to contact you and "
+#~ "to change the subscription to this service."
+#~ msgstr ""
+#~ "The letter prefix and suffix should explain in few words the origin of "
+#~ "the letter. They should also describe adequate means to contact you and "
+#~ "to change the subscription to this service."
+
+#~ msgid ""
+#~ "Other prefixes and suffixes are used to customize the dynamic list of "
+#~ "most recent articles."
+#~ msgstr ""
+#~ "Other prefixes and suffixes are used to customize the dynamic list of "
+#~ "most recent articles."
+
+#~ msgid ""
+#~ "The Reply-To: field is optional. If left blank, the e-mail address of the "
+#~ "person that is preparing the newsletter will be used."
+#~ msgstr ""
+#~ "The Reply-To: field is optional. If left blank, the e-mail address of the "
+#~ "person that is preparing the newsletter will be used."
+
+#~ msgid "Help"
+#~ msgstr "Help"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Go to the Control Panel"
+
+#~ msgid "Edit again"
+#~ msgstr "Edit again"
+
+#~ msgid "Configure letters"
+#~ msgstr "Configure letters"
+
+#~ msgid "Create a new letter"
+#~ msgstr "Create a new letter"
+
+#~ msgid "Published %s"
+#~ msgstr "Published %s"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"

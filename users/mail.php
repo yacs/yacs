@@ -2,25 +2,6 @@
 /**
  * mail a message to a user
  *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the front page of the web server.
- *
- * Senders can select to get a copy of messages.
- *
- * Messages are sent using utf-8, and are base64-encoded.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
- *
- * Restrictions apply on this page:
- * - associates are allowed to move forward
- * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y') and the surfer has been logged
- * - permission denied is the default
- *
  * This script prevents mail when the target surfer has disallowed private messages.
  *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
@@ -51,7 +32,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -81,13 +62,14 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))
-	$context['page_title'] .= sprintf(i18n::s('Mail to %s'), $item['nick_name']);
-else
-	$context['page_title'] .= i18n::s('Send a message');
+	$context['page_title'] .= sprintf(i18n::s('Mail to %s'), $item['full_name']);
+
+// do not provide the form to capture the message
+$with_form = FALSE;
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -96,17 +78,17 @@ if(Surfer::is_crawler()) {
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 
 // user does not accept private messages
 } elseif(isset($item['without_messages']) && ($item['without_messages'] == 'Y')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('This member does not accept e-mail messages.'));
 
 // you are not allowed to mail yourself
 } elseif(Surfer::get_id() && (Surfer::get_id() == $item['id'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -117,12 +99,12 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_url($item['id'], 'mail')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // no recipient has been found
@@ -147,51 +129,66 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// message body
-	$message = '';
-	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+	// enable yacs codes in messages
+	$message = Codes::beautify($_REQUEST['message']);
 
-	// add a tail to the sent message
-	if($message) {
+	// nothing to do
+	if(!$subject || !$message) {
+		Logger::error('Please provide a subject and some text for your message.');
+		$with_form = TRUE;
 
-		// use surfer signature, if any
-		$signature = '';
-		if(($user =& Users::get(Surfer::get_id())) && $user['signature'])
-			$signature = $user['signature'];
+	// do the post
+	} else {
 
-		// else use default signature
-		else
-			$signature = sprintf(i18n::c('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
+		// headline
+		$headline = sprintf(i18n::c('%s has sent a message to you'), Surfer::get_link());
 
-		// transform YACS code, if any
-		if(is_callable('Codes', 'render'))
-			$signature = Codes::render($signature);
+		// assemble main content of this message
+		$message = Skin::build_mail_content($headline, $message);
 
-		// plain text only
-		$signature = trim(strip_tags($signature));
+		// a set of links
+		$menu = array();
 
-		// append the signature
-		if($signature)
-			$message .= "\n\n-----\n".$signature;
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'mail');
+		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
+
+		// link to surfer profile
+		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
+
+		// finalize links
+		$message .= Skin::build_mail_menu($menu);
+
+		// threads messages
+		$headers = Mailer::set_thread('user:'.$item['id']);
+
+		// send the message
+		if(Mailer::notify($from, $to, $subject, $message, $headers)) {
+
+			// feed-back to the sender
+			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
+
+			// signal that a copy has been forwarded as well
+			if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+				$context['text'] .= '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
+
+		}
+		Mailer::close();
+
+		// back to user profile
+		$menu = array();
+		$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Done'), 'button');
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 
 	}
 
-	// send the message
-	if(Mailer::post($from, $to, $subject, $message)) {
-
-		// feed-back to the sender
-		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
-
-		// signal that a copy has been forwarded as well
-		if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
-			$context['text'] .= '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
-
-	}
-	Mailer::close();
+// the default case
+} else
+	$with_form = TRUE;
 
 // display the form
-} else {
+if($with_form) {
 
 	// name
 	if(isset($item['full_name']))
@@ -211,14 +208,12 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// the subject
 	$label = i18n::s('Message title');
 	$input = '<input type="text" name="subject" id="subject" size="70" />';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = '<textarea name="message" rows="15" cols="50"></textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('message', '');
+	$fields[] = array($label, $input);
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
@@ -260,19 +255,12 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	// body is mandatory'."\n"
-		.'	if(!container.message.value) {'."\n"
-		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
 		.'	// successful check'."\n"
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("subject").focus();'."\n"
+		.'$("#subject").focus();'."\n"
 		."\n"
 		.JS_SUFFIX;
 

@@ -53,7 +53,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
@@ -102,7 +102,7 @@ elseif(!Surfer::is_associate()) {
 		$context['letter_reply_to'] = $context['site_email'];
 	$label = i18n::s('Mail address to be used on replies');
 	$input = '<input type="text" name="letter_reply_to" size="50" value="'.encode_field($context['letter_reply_to']).'" maxlength="255" />';
-	$hint = i18n::s('To let people react to your posts');
+	$hint = i18n::s('Normalized format, for example: "John Ford" &lt;john.ford@acme.com&gt;');
 	$fields[] = array($label, $input, $hint);
 
 	// build the form
@@ -133,12 +133,12 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("letter_title").focus();'."\n"
+		.'$("#letter_title").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // save updated parameters
@@ -182,7 +182,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/letters.include.php');
-		Logger::remember('letters/configure.php', $label);
+		Logger::remember('letters/configure.php: '.$label);
 
 	}
 

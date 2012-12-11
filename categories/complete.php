@@ -3,14 +3,12 @@
  * help to complete tags
  *
  * This script is the back-end part in a AJAX architecture. It processes
- * data received in the parameter 'q', look in the database for matching
+ * data received in the parameter 'term', look in the database for matching
  * categories, and return an unordered list of keywords. If an introduction
  * has been set for the keyword, it is provided as well.
  *
- * @link http://wiki.script.aculo.us/scriptaculous/show/Ajax.Autocompleter
- *
  * Accept following invocations:
- * - complete.php
+ * - complete.php?term=abc
  *
  * @author Bernard Paques
  * @reference
@@ -35,39 +33,36 @@ load_skin('categories');
 $context['page_title'] = i18n::s('Complete tags');
 
 // some input is mandatory
-if(!isset($_REQUEST['q']) || !$_REQUEST['q']) {
+if(!isset($_REQUEST['term']) || !$_REQUEST['term']) {
 	Safe::header('Status: 400 Bad Request', TRUE, 400);
 	die(i18n::s('Request is invalid.'));
 }
 
 // just for sanity
-$_REQUEST['q'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['q']);
+$_REQUEST['term'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['term']);
 
 // we return some text
 $output = '';
 
 // look for matching items
-$items = Categories::list_keywords($_REQUEST['q']);
+$items = Categories::list_keywords($_REQUEST['term']);
 
 // build an unordered list
 if(count($items)) {
-	$output .= '<ul>'."\n";
-
+	$output .= '[';
+	$i = 0;
 	foreach($items as $label => $more) {
-		$output .= "\t".'<li>'.$label;
-
-		// append contextual information, if any --specific to scriptaculous
-		if($more)
-			$output .= '<span class="informal details"> -&nbsp;'.Skin::strip($more, 7, NULL, NULL, FALSE).'</span>';
-
-		$output .= '</li>'."\n";
+		if ($i > 0)
+		  $output .= ',';
+		$i++;
+		$output .= '"'.$label.'"';
 	}
 
-	$output .= '</ul>';
+	$output .= ']';
 }
 
 // allow for data compression
-render_raw();
+render_raw('application/json; charset='.$context['charset']);
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

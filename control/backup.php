@@ -103,7 +103,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	&& (file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
 
 	// prevent access to this script
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -161,17 +161,17 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// the string to re-create table structure
 		$query = "SHOW CREATE TABLE ".$table_name;
-		if((!$result =& SQL::query_first($query)) || !isset($result['Create Table']))
+		if((!$result = SQL::query_first($query)) || !isset($result['Create Table']))
 			continue;
 
 		// strip constraints and keep only engine definition
-		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '\\1', $result['Create Table']);
+		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '$1', $result['Create Table']);
 
 		// split lines
 		$create_query = str_replace('\n', "\n", $create_query);
 
 		// build the table creation query
-		$sql = 'DROP TABLE IF EXISTS '.$table_name.";\n\n"
+		$sql = 'DROP TABLE IF EXISTS `'.$table_name."`;\n\n"
 			.$create_query.";\n\n";
 		if($compressed)
 			gzwrite($handle, $sql);
@@ -183,8 +183,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			continue;
 
 		// read all lines
-		$query = "SELECT * FROM $table_name";
-		if(!$result =& SQL::query($query)) {
+		$query = 'SELECT * FROM '.$table_name;
+		if(!$result = SQL::query($query)) {
 			$context['text'] .= Logger::error_pop().BR."\n";
 			continue;
 		}
@@ -192,8 +192,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		//parse the field info first
 		$field_list = '';
 		$index = 0;
-		while($field =& SQL::fetch_field($result)) {
-			$field_list .= $field->name.', ';
+		while($field = SQL::fetch_field($result)) {
+			$field_list .= '`'.$field->name.'`, ';
 
 			$is_numeric = FALSE;
 			switch(strtolower($field->type)) {
@@ -261,7 +261,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		//parse out the table's data and generate the SQL INSERT statements in order to replicate the data itself...
 		while($row = SQL::fetch_row($result)) {
 
-			$sql = 'INSERT INTO '.$table_name.' ('.$field_list.') VALUES (';
+			$sql = 'INSERT INTO `'.$table_name.'` ('.$field_list.') VALUES (';
 
 			for($d=0; $d < count($row); $d++) {
 
@@ -308,7 +308,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	if($compressed) {
 
 		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.$statements.'.gz"');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'.gz"');
 
 		// send gzip file
 		Safe::header('Content-Type: application/x-gzip');
@@ -320,7 +320,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	} else {
 
 		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.$statements.'"');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'"');
 
 		// send sql statements as-is
 		Safe::header('Content-Type: application/octet-stream');
@@ -330,7 +330,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 	// remember this in log as well
-	Logger::remember('control/backup.php', 'The database has been saved');
+	Logger::remember('control/backup.php: The database has been saved');
 
 	// do not allow for regular rendering
 	exit;
@@ -366,7 +366,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -474,7 +474,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -578,7 +578,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -845,7 +845,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// set the focus on the backup button
 	$context['text'] .= JS_PREFIX
-		.'$("go").focus();'."\n"
+		.'$("#go").focus();'."\n"
 		.JS_SUFFIX;
 
 	// this may take several minutes
@@ -858,7 +858,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.i18n::s('Use this script to upload and process a set of SQL statements. WARNING!!! If you upload a backup file existing data will be destroyed prior the restauration.')."</p>\n";
 
 	// the form to restore a file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>'
 		.'<input type="hidden" name="action" value="restore" />';
 
 	// select a file
@@ -923,7 +923,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.i18n::s('Type one or several SQL statements below to change the content of the database. WARNING!!! Be sure to understand the conceptual data model before proceeding, else you would corrupt database content.')."</p>\n";
 
 	// the form to apply statements
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>'
 		.'<input type="hidden" name="action" value="update" />';
 
 	// direct statements

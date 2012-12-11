@@ -2,9 +2,6 @@
 /**
  * describe an article in RDF
  *
- * @todo derive this to support web slices http://en.wikipedia.org/wiki/Web_Slice
- * @todo web slice example at http://blogs.msdn.com/ie/archive/2009/03/03/create-a-dynamic-web-slice-in-5-minutes.aspx
- *
  * This script may be used by crawlers to index pages.
  * Therefore, only partial information is provided here.
  *
@@ -53,12 +50,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -85,7 +82,7 @@ if(!isset($item['id'])) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // describe the article
@@ -135,9 +132,9 @@ if(!isset($item['id'])) {
 
 	// suggest a name on download
 	if(!headers_sent()) {
-		$file_name = Skin::strip($context['page_title'], 20).'.opml.xml';
+		$file_name = Skin::strip($context['page_title']).'.opml.xml';
 		$file_name =& utf8::to_ascii($file_name);
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

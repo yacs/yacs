@@ -48,14 +48,14 @@ if($anchor && !strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // required to format the roster
 load_skin('users');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -70,7 +70,7 @@ if(Surfer::is_crawler()) {
 	Visits::track($anchor->get_reference(), $anchor->get_active());
 
 	// return an updated list of current visitors, to be used in AJAX
-	$output =& Visits::list_users_at_anchor($anchor->get_reference());
+	$output = Visits::list_users_at_anchor($anchor->get_reference());
 
 	// ensure we are producing some text -- open links in separate pages
 	if(is_array($output))

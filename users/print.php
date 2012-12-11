@@ -20,6 +20,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -32,7 +33,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -61,7 +62,7 @@ elseif($item['full_name'])
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -76,7 +77,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_url($item['id'], 'print')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the user profile
@@ -111,7 +112,7 @@ if(Surfer::is_crawler()) {
 	// warns associates if not active
 	if(($item['active'] != 'Y') && Surfer::is_associate()) {
 		if($item['active'] == 'R')
-			$details[] = i18n::s('Community - Access is restricted to authenticated persons');
+			$details[] = i18n::s('Community - Access is granted to any identified surfer');
 		else
 			$details[] = i18n::s('Private - Access is restricted to selected persons');
 	}
@@ -142,7 +143,7 @@ if(Surfer::is_crawler()) {
 		else
 			$suffix = i18n::s('(do not wish to receive newsletters)');
 
-		$context['text'] .= '<p>'.sprintf(i18n::s($label), Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
+		$context['text'] .= '<p>'.sprintf($label, Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
 	}
 
 	// the introduction text
@@ -173,7 +174,6 @@ if(Surfer::is_crawler()) {
 	$section = Skin::build_block(i18n::s('See also'), 'title');
 
 	// list links by date
-	include_once '../links/links.php';
 	if(preg_match('/\blinks_by_title\b/i', $item['options']))
 		$items = Links::list_by_title_for_anchor('user:'.$item['id'], 0, 20, 'no_author');
 	else

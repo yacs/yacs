@@ -65,14 +65,14 @@ Class Http_Authenticator extends Authenticator {
 		// submit credentials to the authenticating server
 		include_once $context['path_to_root'].'services/call.php';
 		// build an HTTP request
-		$request = "POST ".$url." HTTP/1.0\015\012"
-			.'Host: '.$host."\015\012"
-			."Accept-Encoding: gzip\015\012"
-			."User-Agent: YACS (www.yacs.fr)\015\012"
-			."Connection: close\015\012"
-			."Content-Type: application/x-www-form-urlencoded\015\012"
-			."Content-Length: ".strlen($payload)."\015\012"
-			."\015\012"
+		$request = "POST ".$url." HTTP/1.0".CRLF
+			.'Host: '.$host.CRLF
+			."Accept-Encoding: gzip".CRLF
+			."User-Agent: YACS (www.yacs.fr)".CRLF
+			."Connection: close".CRLF
+			."Content-Type: application/x-www-form-urlencoded".CRLF
+			."Content-Length: ".strlen($payload).CRLF
+			.CRLF
 			.$payload;
 
 		// parse the target URL

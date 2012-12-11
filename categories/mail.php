@@ -2,19 +2,6 @@
 /**
  * send a message to category members
  *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the front page of the web server.
- *
- * Senders can select to get a copy of messages.
- *
- * Messages are sent using utf-8, and are base64-encoded.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
- *
  * At the moment only associates are allowed to send messages to categorized
  * people.
  *
@@ -43,12 +30,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -67,12 +54,12 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
-// the title of the page
-$context['page_title'] .= i18n::s('Send a message');
+// page title
+$context['page_title'] .= i18n::s('Notify members');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -81,7 +68,7 @@ if(Surfer::is_crawler()) {
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 
 // permission denied
@@ -92,66 +79,61 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Categories::get_url($item['id'], 'mail')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
-
-	// sender address
-	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = array();
 	foreach($_REQUEST['selected_users'] as $address)
 		$to[] = $address;
 
-	// get a copy
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && $from)
-		$to[] = $from;
-
 	// message subject
 	$subject = '';
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// message body
-	$message = '';
-	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+	// headline
+	$headline = sprintf(i18n::c('%s is notifying you from %s'),
+		Surfer::get_link(),
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'">'.$item['title'].'</a>');
 
-	// add a tail to the sent message
-	if($message) {
+	// enable yacs codes in messages
+	$message = Codes::beautify($_REQUEST['message']);
 
-		// use surfer signature, if any
-		$signature = '';
-		if(($user =& Users::get(Surfer::get_id())) && $user['signature'])
-			$signature = $user['signature'];
+	// assemble main content of this message
+	$message = Skin::build_mail_content($headline, $message);
 
-		// else use default signature
-		else
-			$signature = sprintf(i18n::c('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
+	// a set of links
+	$menu = array();
 
-		// transform YACS code, if any
-		if(is_callable('Codes', 'render'))
-			$signature = Codes::render($signature);
+	// call for action
+	$link = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+	if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'categories', FALSE)))
+		$label = i18n::c('View the category');
+	$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
-		// plain text only
-		$signature = trim(strip_tags($signature));
-
-		// append the signature
-		if($signature)
-			$message .= "\n\n-----\n".$signature;
-
+	// link to the container
+	if(is_object($anchor)) {
+		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
 	}
 
+	// finalize links
+	$message .= Skin::build_mail_menu($menu);
+
+	// threads messages
+	$headers = Mailer::set_thread('category:'.$item['id']);
+
 	// send the message
-	if(Mailer::post($from, $to, $subject, $message)) {
+	if(Mailer::notify(Surfer::from(), $to, $subject, $message, $headers)) {
 
 		// feed-back to the sender
 		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
@@ -178,19 +160,19 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// build a nice list of recipients
-	$context['text'] .= Skin::build_box(i18n::s('Message recipients'), $recipients, 'folded');
+	$label = i18n::s('Message recipients');
+	$input = Skin::build_box(i18n::s('Select recipients'), $recipients, 'folded');
+	$fields[] = array($label, $input);
 
 	// the subject
 	$label = i18n::s('Message title');
 	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($item['title']).'" />';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = '<textarea name="message" rows="15" cols="50">'."\n\n\n\n".$item['title']."\n".$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'</p>');
+	$fields[] = array($label, $input);
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
@@ -209,10 +191,6 @@ if(Surfer::is_crawler()) {
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
-
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
@@ -244,7 +222,7 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("subject").focus();'."\n"
+		.'$("#subject").focus();'."\n"
 		."\n"
 		.JS_SUFFIX;
 

@@ -17,7 +17,7 @@
  * - 'polls' -- create a section for polls
  * - 'recipes' -- create a book of cooking recipes
  * - 'servers' -- sample hosts to be pinged, etc. ([script]servers/populate.php[/script])
- * - 'vote' -- create one vote, or one poll
+ * - 'petition' -- create one petition, or one poll
  * - 'wiki' -- create a wiki
  *
  * If no parameter has been set, the script displays a form to make the surfer select among available options.
@@ -82,7 +82,7 @@ if(!$permitted) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('help/populate.php?action='.$action));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -121,7 +121,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('The best place to express myself')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('The best place to express myself')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -139,8 +139,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -180,7 +180,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -231,7 +231,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -267,7 +267,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('With reader notes')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('With reader notes')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near book title');
 		$fields[] = array($label, $input, $hint);
 
@@ -330,7 +330,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -344,7 +344,7 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'none'; // the preferred layout for books
 		$fields['sections_layout'] = 'inline'; // the preferred layout for books
 		$fields['options'] = 'articles_by_title'; // preserve page ordering over time
-		$fields['content_options'] = 'auto_publish view_as_wiki with_export_tools with_neighbours'; // let surfers convert pages
+		$fields['content_options'] = 'auto_publish view_as_wiki edit_as_simple with_export_tools with_neighbours'; // let surfers convert pages
 		$fields['rank'] = 10000; // default value
 		if($fields['id'] = Sections::post($fields)) {
 
@@ -358,7 +358,7 @@ if(!$permitted) {
 				$sub_section['articles_layout'] = 'manual'; // the preferred layout for books
 				$sub_section['sections_layout'] = 'none'; // the preferred layout for books
 				$sub_section['options'] = 'articles_by_title'; // preserve page ordering over time
-				$sub_section['content_options'] = 'auto_publish view_as_wiki with_export_tools with_neighbours'; // let surfers convert pages
+				$sub_section['content_options'] = 'auto_publish view_as_wiki edit_as_simple with_export_tools with_neighbours'; // let surfers convert pages
 				$sub_section['rank'] = ($index+1); //  preserve order
 				if($sub_section['title'])
 					Sections::post($sub_section, FALSE);
@@ -383,7 +383,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -447,7 +447,7 @@ if(!$permitted) {
 
 			// introduction
 			$label = i18n::s('Introduction');
-			$input = '<textarea name="introduction" cols="40" rows="2">'.encode_field(i18n::c('Public files to download')).'</textarea>';
+			$input = '<textarea name="introduction" cols="40" rows="5">'.encode_field(i18n::c('Public files to download')).'</textarea>';
 			$hint = i18n::s('To be used at the front page and on the collections index page');
 			$fields[] = array($label, $input, $hint);
 
@@ -490,7 +490,7 @@ if(!$permitted) {
 				.'}'."\n"
 				."\n"
 				.'// set the focus on first form field'."\n"
-				.'$("name").focus();'."\n"
+				.'$("#name").focus();'."\n"
 				.JS_SUFFIX."\n";
 
 		}
@@ -535,7 +535,7 @@ if(!$permitted) {
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-			Logger::remember('help/populate.php', $label);
+			Logger::remember('help/populate.php: '.$label);
 
 			// splash
 			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
@@ -687,7 +687,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("main_title").focus();'."\n"
+			.'$("#main_title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create the stuff
@@ -789,7 +789,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
+		Logger::remember('help/populate.php: content assistant has created new content');
 
 	}
 
@@ -825,7 +825,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('Post your brand new ideas here!')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('Post your brand new ideas here!')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -892,7 +892,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -903,9 +903,8 @@ if(!$permitted) {
 		$fields['title'] = $_REQUEST['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
-		$fields['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
+		$fields['articles_layout'] = 'none'; // the preferred layout for discussion boards
 		$fields['sections_layout'] = 'yabb'; // the preferred layout for a forum
-		$fields['content_options'] = 'auto_publish, with_prefix_profile'; // control is a posteriori; show poster avatar, if any
 		$fields['locked'] = 'Y'; // post in discussion boards
 		if($fields['id'] = Sections::post($fields)) {
 
@@ -918,7 +917,7 @@ if(!$permitted) {
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
 				$sub_section['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
-				$sub_section['sections_layout'] = 'yabb'; // the preferred layout for a forum
+				$sub_section['articles_templates'] = 'information_template, question_template';
 				$sub_section['content_options'] = 'auto_publish, with_prefix_profile'; // control is a posteriori; show poster avatar, if any
 				$sub_section['rank'] = ($index+1); //  preserve order
 				if($sub_section['title'])
@@ -946,7 +945,7 @@ if(!$permitted) {
 		}
 
 		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
+		Logger::remember('help/populate.php: content assistant has created new content');
 
 	}
 
@@ -1054,7 +1053,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("main_title").focus();'."\n"
+			.'$("#main_title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create the stuff
@@ -1095,7 +1094,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
+		Logger::remember('help/populate.php: content assistant has created new content');
 
 	}
 
@@ -1130,7 +1129,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('Read, learn, and react!')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('Read, learn, and react!')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1149,8 +1148,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1190,7 +1189,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1230,7 +1229,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1276,7 +1275,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('They are trusting us')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('They are trusting us')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1307,7 +1306,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1340,7 +1339,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1377,14 +1376,14 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('The current active poll, plus previous ones')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('The current active poll, plus previous ones')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1424,7 +1423,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1459,7 +1458,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1496,14 +1495,14 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i"></textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i"></textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1543,7 +1542,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1578,7 +1577,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1643,7 +1642,7 @@ if(!$permitted) {
 			echo Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1652,8 +1651,8 @@ if(!$permitted) {
 } elseif($action == 'test') {
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'tools/populate.php');
 
-// create a vote or a poll
-} elseif($action == 'vote') {
+// create a petition or a poll
+} elseif($action == 'petition') {
 
 	// page title
 	$context['page_title'] = i18n::s('Add a page');
@@ -1666,13 +1665,8 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="vote" />';
+			.'<input type="hidden" name="action" value="petition" />';
 		$fields = array();
-
-		// vote
-		$label = i18n::s('Vote');
-		$input = '<input type="radio" name="type" value="vote" checked="checked" /> '.i18n::s('The best way to formalize collective decisions. Every voter can expressed a Yes or No, and comment its ballot.');
-		$fields[] = array($label, $input);
 
 		// petition
 		$label = i18n::s('Petition');
@@ -1730,7 +1724,7 @@ if(!$permitted) {
 
 		// the introduction
 		$label = i18n::s('Introduction');
-		$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(i18n::c('Our collaborative place')).'</textarea>';
+		$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(i18n::c('Our collaborative place')).'</textarea>';
 		$hint = i18n::s('Appears at site map, near section title');
 		$fields[] = array($label, $input, $hint);
 
@@ -1749,8 +1743,8 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Access');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
@@ -1790,7 +1784,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'$("title").focus();'."\n"
+			.'$("#title").focus();'."\n"
 			.JS_SUFFIX."\n";
 
 	// create a section
@@ -1805,7 +1799,7 @@ if(!$permitted) {
 		$fields['home_panel'] = $_REQUEST['home_panel'];
 		$fields['articles_layout'] = 'tagged'; // the preferred layout for wikis
 		$fields['options'] = 'articles_by_title'; // alphabetical order
-		$fields['content_options'] = 'view_as_wiki auto_publish with_export_tools';
+		$fields['content_options'] = 'view_as_wiki auto_publish edit_as_simple with_export_tools';
 		if($_REQUEST['contribution'] == 'Y')		// anyone can contribute
 			$fields['content_options'] .= ' anonymous_edit';
 		elseif($_REQUEST['contribution'] == 'R')	// only members can contribute
@@ -1849,7 +1843,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
-			Logger::remember('help/populate.php', 'content assistant has created new content');
+			Logger::remember('help/populate.php: content assistant has created new content');
 
 		}
 	}
@@ -1864,7 +1858,7 @@ if(!$permitted) {
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'" id="main_form">'."\n";
 
 	// sollicitate users for feed-back
-	$context['text'] .= '<p><input type="radio" name="action" value="vote" /> '.i18n::s('Sollicitate users input -- create one single vote, a petition, or a poll').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="petition" /> '.i18n::s('Sollicitate users input -- create a petition, or a poll').'</p>'."\n";
 
 	// create a forum
 	$context['text'] .= '<p><input type="radio" name="action" value="forum" /> '.i18n::s('Add a forum -- let people interact').'</p>'."\n";

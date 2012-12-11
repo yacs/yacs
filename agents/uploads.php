@@ -42,7 +42,7 @@ class Uploads {
 	 * @param string the directory to look at
 	 * @return an array of directory entries, or NULL
 	 */
-	function list_files($path) {
+	public static function list_files($path) {
 		global $context;
 
 		// we are looking for files
@@ -87,7 +87,7 @@ class Uploads {
 	 * @param string entry content
 	 * @param time stamp
 	 */
-	function process_handx_entry($text, $stamp=NULL) {
+	public static function process_handx_entry($text, $stamp=NULL) {
 		global $context;
 
 		// parse article content
@@ -111,7 +111,7 @@ class Uploads {
 
 		// user information
 		if($context['uploads_nick_name']) {
-			if($user =& Users::get($context['uploads_nick_name'])) {
+			if($user = Users::get($context['uploads_nick_name'])) {
 				if(!$fields['create_name'])
 					$fields['create_name'] = $user['nick_name'];
 				if(!$fields['create_id'])
@@ -136,7 +136,7 @@ class Uploads {
 		// the anchor
 		if(!$fields['anchor'] && $context['uploads_anchor'])
 			$fields['anchor'] = $context['uploads_anchor'];
-		$anchor =& Anchors::get($fields['anchor']);
+		$anchor = Anchors::get($fields['anchor']);
 
 		// post a page
 		$fields['id'] = Articles::post($fields);
@@ -144,26 +144,10 @@ class Uploads {
 		// increment the post counter of the surfer
 		Users::increment_posts($user['id']);
 
-		// if the page has been published
-		if($fields['publish_date'] > NULL_DATE) {
+		// do whatever is necessary on page publication
+		if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+			Articles::finalize_publication($anchor, $fields);
 
-			// advertise public pages
-			if(is_object($anchor) && $anchor->is_public()) {
-
-				// pingback, if any
-				include_once $context['path_to_root'].'links/links.php';
-				Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
-
-			}
-
-			// 'publish' hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $fields['id']);
-
-		}
-
-		// ready for next submission
-		$fields = array();
 	}
 
 	/**
@@ -171,13 +155,13 @@ class Uploads {
 	 *
 	 * @param string the file to process
 	 */
-	function process_handx_weblog($file) {
+	public static function process_handx_weblog($file) {
 		global $context;
 
 		// load parameters for uploads
 		Safe::load('parameters/agents.include.php');
 		if(!$context['uploads_nick_name']) {
-			Logger::remember('agents/upload.php', 'no parameters, skipping '.$file);
+			Logger::remember('agents/upload.php: no parameters, skipping '.$file);
 			return;
 		}
 
@@ -255,7 +239,7 @@ class Uploads {
 	 * @return a string to be displayed in resulting page, if any
 	 *
 	 */
-	function tick_hook() {
+	public static function tick_hook() {
 		global $context;
 
 		// useless if we don't have a valid database connection
@@ -272,7 +256,7 @@ class Uploads {
 			foreach($files as $file) {
 
 				// help the webmaster
-				Logger::remember('agents/upload.php', 'processing '.$file);
+				Logger::remember('agents/upload.php: processing '.$file);
 
 				// create articles
 				Uploads::process_handx_weblog($file);

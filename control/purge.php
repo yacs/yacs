@@ -31,6 +31,8 @@
  *
  * [*] 'scripts' - All data concerning script execution and performance are deleted.
  *
+ * [*] 'versions' - Old versioning information is deleted.
+ *
  * Of course, scripts thmselves are left untouched.
  * May be useful from time to time to restart a sampling period of time.
  *
@@ -195,7 +197,7 @@ function delete_staging($path) {
 if(!Surfer::is_associate()) {
 
 	// prevent access to this script
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -423,6 +425,25 @@ if(!Surfer::is_associate()) {
 	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
+// delete legacy versioning information
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'versions')) {
+
+	$context['text'] .= '<p>'.i18n::s('Deleting old versions...')."</p>\n";
+
+	// suppress old records
+	$query = "DELETE FROM ".SQL::table_name('versions')." WHERE (DATE_SUB(CURDATE(),INTERVAL 183 DAY) > edit_date)";
+	if(SQL::query($query) === FALSE)
+		$context['text'] .= Logger::error_pop().BR."\n";
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
 // which check?
 } else {
 
@@ -461,6 +482,9 @@ if(!Surfer::is_associate()) {
 
 	// recover overhead from the database
 	$context['text'] .= '<p><input type="radio" name="action" value="overhead" /> '.i18n::s('Recover overhead disk space from the database.').'</p>';
+
+	// purge obsolete versions
+	$context['text'] .= '<p><input type="radio" name="action" value="versions" /> '.i18n::s('Delete versioning information saved more than six months ago. Preserve recent versions.').'</p>';
 
 	// purge reference scripts
 	if(file_exists($context['path_to_reference'].'footprints.php'))

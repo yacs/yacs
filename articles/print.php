@@ -14,7 +14,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -25,18 +26,17 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // load the skin with a specific variant
 load_skin('print');
@@ -51,7 +51,7 @@ if(isset($item['title']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -66,7 +66,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'print')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the article
@@ -83,7 +83,6 @@ if(Surfer::is_crawler()) {
 
 	// display the source, if any
 	if(isset($item['source']) && $item['source']) {
-		include_once '../links/links.php';
 		if($attributes = Links::transform_reference($item['source'])) {
 			list($link, $title, $description) = $attributes;
 			$item['source'] = $title;
@@ -120,10 +119,10 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option files_by_title)
 	$items = array();
-	if(Articles::has_option('files_by_title', $anchor, $item))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+	if(Articles::has_option('files_by', $anchor, $item) == 'title')
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 
 	// actually list items
 	if(count($items))
@@ -134,7 +133,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list immutable comments by date
-	include_once '../comments/comments.php';
 	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
 
 	// actually list items
@@ -146,7 +144,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list links by date (default) or by title (option links_by_title)
-	include_once '../links/links.php';
 	$items = array();
 	if(Articles::has_option('links_by_title', $anchor, $item))
 		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');

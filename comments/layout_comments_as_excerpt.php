@@ -18,7 +18,7 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -30,24 +30,36 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
-			// the title as the label
-			if($item['create_name'])
-				$label = ucfirst($item['create_name']);
-			else
-				$label = i18n::s('anonymous');
+			// automatic notification
+			if($item['type'] == 'notification')
+				$text .= '<dd style="font-style: italic; font-size: smaller;">'.ucfirst(trim($item['description']))
+					.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>';
 
-			// expand a definition list
-			$text .= '<dt>'.$label.'</dt>'
-				.'<dd>'.Codes::beautify($item['description'])
-					.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>'."\n";
+			// regular comment
+			else {
 
+				// the title as the label
+				if($item['create_name'])
+					$label = ucfirst($item['create_name']);
+				else
+					$label = i18n::s('anonymous');
+
+				// expand a definition list
+				$text .= '<dt>'.$label.'</dt>'
+					.'<dd>'.$item['description']
+						.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>'."\n";
+
+			}
 		}
 
 		// finalize the definition list
 		if($text)
 			$text = '<dl class="comments">'.$text.'</dl>';
+
+		// process yacs codes at once
+		$text = Codes::beautify($text);
 
 		// end of processing
 		SQL::free($result);

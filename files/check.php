@@ -27,7 +27,7 @@ $context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
@@ -40,11 +40,11 @@ if(!Surfer::is_associate()) {
 	// scan files
 	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('files')), 'subtitle');
 
-	// scan up to 10000 items
+	// limit the number of scans items
 	$count = 0;
 	$query = "SELECT id, anchor, title FROM ".SQL::table_name('files')."
-		ORDER BY anchor LIMIT 0, 10000";
-	if(!($result =& SQL::query($query))) {
+		ORDER BY anchor LIMIT 0, 500000";
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
@@ -53,7 +53,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -109,7 +109,7 @@ if(!Surfer::is_associate()) {
 
 	// set the focus on the button
 	$context['text'] .= JS_PREFIX
-		.'$("action").focus();'."\n"
+		.'$("#action").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 }

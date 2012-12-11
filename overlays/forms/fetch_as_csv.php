@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -40,17 +39,17 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors can do what they want on items anchored here
 if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
@@ -131,7 +130,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the table in CSV
@@ -193,8 +192,8 @@ if(!isset($item['id'])) {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.csv');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($item['title']).'.csv');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

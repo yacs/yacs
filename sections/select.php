@@ -28,11 +28,13 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // find the target anchor in path args (e.g., http:.../sections/select.php?anchor=article:15)
 $anchor = NULL;
 if(isset($_REQUEST['anchor']))
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor);
@@ -49,7 +51,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -59,7 +61,7 @@ if(Surfer::is_crawler()) {
 
 // security screening
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to assign some sections to this item
@@ -103,19 +105,16 @@ if(Surfer::is_crawler()) {
 	if($sections) {
 
 		// browse the list
-		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		foreach($sections as $id => $section) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($section);
+			$overlay = Overlay::load($section, 'section:'.$id);
 
 			// get parent anchor
-			$parent =& Anchors::get($section['anchor']);
+			$parent = Anchors::get($section['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($section);
+			$url = Sections::get_permalink($section);
 
 			// use the title to label the link
 			if(is_object($overlay))

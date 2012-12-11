@@ -2,9 +2,6 @@
 /**
  * build the reference store for this server
  *
- * @todo add sample configuration scripts
- * @todo produce a .sql file to create database
- *
  * This script behaves as follows:
  * - the script aborts if the user is not an associate
  * - else if this is not a POST, a confirmation form is displayed
@@ -94,7 +91,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
@@ -124,7 +121,7 @@ elseif(!Surfer::is_associate()) {
 
 	// set the focus on the button
 	$context['text'] .= JS_PREFIX
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// this may take several minutes
@@ -136,7 +133,7 @@ elseif(!Surfer::is_associate()) {
 
 // no build in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // just do it
@@ -163,14 +160,7 @@ elseif(!Surfer::is_associate()) {
 
 	// analyse each script
 	$footprints = array();
-	foreach($scripts as $script) {
-
-		// check file content
-		list($module, $name) = $script;
-		if($module)
-			$file = $module.'/'.$name;
-		else
-			$file = $name;
+	foreach($scripts as $file) {
 
 		// silently skip configuration files
 		if(strpos($file, '.include.php'))
@@ -426,7 +416,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember the built
-	Logger::remember('scripts/build.php', i18n::c('The reference store has been rebuilt'));
+	Logger::remember('scripts/build.php: '.i18n::c('The reference store has been rebuilt'));
 }
 
 // render the skin

@@ -51,7 +51,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../links/link.php';
 include_once 'scripts.php';
 
 // parameters for scripts
@@ -122,7 +121,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -225,7 +224,7 @@ if($id) {
 
 	// get the reference footprints -- reference server have to be installed at the root
 	$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script=footprints.php';
-	if(($content = Link::fetch($url, '', '', 'scripts/stage.php')) === FALSE) {
+	if(($content = http::proceed($url)) === FALSE) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to get %s. Please %s again.'), $url, '<a href="configure.php">'.i18n::s('configure').'</a>')."</p>\n";
 
 		// forward to the index page
@@ -300,7 +299,7 @@ if($id) {
 
 				// get the file -- reference server have to be installed at the root
 				$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script='.$file;
-				if(!$content = Link::fetch($url, '', '', 'scripts/stage.php')) {
+				if(!$content = http::proceed($url)) {
 					$context['text'] .= sprintf(i18n::s('Impossible to read %s.'), $url).BR."\n";
 					$errors++;
 					continue;
@@ -376,7 +375,7 @@ if($id) {
 	$context['text'] .= '<p>'.i18n::s('Pick-up and upload the archive file to use for the upgrade.').'</p>';
 
 	// the form to post an file
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" enctype="multipart/form-data"><div>';
 
 	// the file
 	$context['text'] .= '<input type="file" name="upload" id="focus" size="30" />'
@@ -438,28 +437,7 @@ if($id) {
 
 	}
 
-/*
-	// option #3 - on-line staging
-	$context['text'] .= Skin::build_block(i18n::s('Staging individual files'), 'title');
-
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('This script will compare the running scripts with those available on the reference server. Then it will attempt to download updated files in a staging directory. You will then be able to manually review updated scripts before actually using them on your site.').'</p>';
-
-	// the submit button
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.Skin::build_submit_button(sprintf(i18n::s('Yes, I want to stage files from %s'), $context['reference_server']), NULL, NULL, 'confirmed')
-		.'</p></form>'."\n";
-
-	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
-
-	// this may take several minutes
-	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will immediately start to stage updated scripts. However, because of the time requested to complete data exchanges, you may have to wait for minutes before getting a response displayed.').'</p>';
-*/
-	// option #4 - out-of-band staging
+	// option #3 - out-of-band staging
 	$context['text'] .= Skin::build_block(i18n::s('Direct staging'), 'title');
 
 	// upload an archive

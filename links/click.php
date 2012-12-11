@@ -9,9 +9,6 @@
  * Example:
  * [code]links/click.php?url=www.cisco.com[/code]
  *
- * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
- * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
- *
  * @author Bernard Paques
  * @author GnapZ
  * @tester Cyril Blondin
@@ -65,12 +62,12 @@ if($url && !preg_match('/^(\/|\w+:)/i', $url)) {
 $url = rtrim($url, '/');
 
 // get the item from the database
-$item =& Links::get($url);
+$item = Links::get($url);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(is_object($anchor) && !$anchor->is_viewable())
@@ -96,7 +93,7 @@ $context['page_title'] = $url;
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do we have something?

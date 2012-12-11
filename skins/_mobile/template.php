@@ -41,9 +41,6 @@ else
 <!--	<style type="text/css" media="screen">@import "<?php echo $context['url_to_root']; ?>skins/_reference/yacs.css";</style> -->
 	<style type="text/css" media="screen">@import "<?php echo $context['url_to_root']; ?>skins/_mobile/iui/iuix.css";</style>
 	<script type="application/x-javascript" src="<?php echo $context['url_to_root']; ?>skins/_mobile/iui/iuix.js"></script>
-<?php // other components of the head
-echo $context['page_header'];
-?>
 	<meta name="HandheldFriendly" content="True">
 
 </head>

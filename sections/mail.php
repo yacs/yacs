@@ -1,19 +1,9 @@
 <?php
 /**
- * send a message to section participants
+ * send a message to section watchers
  *
- * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
- *
- * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
- *
- * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the site front page.
- *
- * Senders can select to get a copy of messages.
- *
- * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
- *
- * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
+ * This script localize string of the user interface as usual. However, content of the
+ * default invitation is localized according to server/community main settings.
  *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
@@ -39,12 +29,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // check surfer capability
 if(Sections::allow_message($item, $anchor))
@@ -71,11 +61,11 @@ if(isset($item['id']) && $item['title'])
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title'] ));
 
 // page title
-$context['page_title'] = i18n::s('Send a message');
+$context['page_title'] = i18n::s('Notify participants');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -84,7 +74,7 @@ if(Surfer::is_crawler()) {
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 
 // permission denied
@@ -95,84 +85,115 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'mail')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
-
-	// sender address
-	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = array();
 	foreach($_REQUEST['selected_users'] as $address)
 		$to[] = $address;
 
-	// get a copy
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && $from)
-		$to[] = $from;
-
 	// message subject
 	$subject = '';
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// message body
-	$message = '';
-	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+	// headline
+	$headline = sprintf(i18n::c('%s is notifying  you from %s'),
+		Surfer::get_link(),
+		'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a>');
 
-	// add a tail to the sent message
-	if($message) {
+	// enable yacs codes in messages
+	$content = Codes::beautify($_REQUEST['message']);
 
-		// use surfer signature, if any
-		$signature = '';
-		if(($user =& Users::get(Surfer::get_id())) && $user['signature'])
-			$signature = $user['signature'];
+	// avoid duplicates
+	$to = array_unique($to);
 
-		// else use default signature
+	// copy to sender
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
+		$to[] = Surfer::from();
+
+	// process every recipient
+	$actual_names = array();
+	foreach($to as $recipient) {
+
+		// clean the provided string
+		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
+
+		// look for a user with this nick name
+		if(!$user = Users::lookup($recipient))
+			continue;
+
+		// this person has no valid email address
+		if(!$user['email'] || !preg_match(VALID_RECIPIENT, $user['email']))
+			continue;
+
+		// use this email address
+		if($user['full_name'])
+			$recipient = Mailer::encode_recipient($user['email'], $user['full_name']);
 		else
-			$signature = sprintf(i18n::c('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
+			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
-		// transform YACS code, if any
-		if(is_callable('Codes', 'render'))
-			$signature = Codes::render($signature);
+		// basic message
+		$message = $content;
 
-		// plain text only
-		$signature = trim(strip_tags($signature));
+		// change content for message poster
+		if(strpos(Surfer::from(), $recipient) !== FALSE) {
+			$message = '<hr /><p>'.i18n::c('This is a copy of the message you have sent, for your own record.').'</p><p>'.join(', ', $actual_names).'</p><hr />'.$message;
+		}
 
-		// append the signature
-		if($signature)
-			$message .= "\n\n-----\n".$signature;
+		// assemble main content of this message
+		$message = Skin::build_mail_content($headline, $message);
 
-	}
-
-	// send the message
-	if(Mailer::post($from, $to, $subject, $message)) {
-
-		// feed-back to the sender
-		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
-		foreach($to as $address)
-			$context['text'] .= '<li>'.encode_field($address).'</li>'."\n";
-		$context['text'] .= '</ul>'."\n";
-
-		// back to the section page
+		// a set of links
 		$menu = array();
-		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Done'), 'button');
-		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+		// call for action
+		$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
+			$label = i18n::c('View the section');
+		$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+		// link to the container
+		if(is_object($anchor)) {
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		}
+
+		// finalize links
+		$message .= Skin::build_mail_menu($menu);
+
+		// threads messages
+		$headers = Mailer::set_thread('section:'.$item['id']);
+
+		// post message for this recipient
+		if(Mailer::notify(Surfer::from(), $recipient, $subject, $message, $headers))
+			$actual_names[] = htmlspecialchars($recipient);
 
 	}
 	Mailer::close();
 
-// send message to all watchers
-//} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
-} elseif((!$recipients =& Members::list_editors_for_member('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
+	// display the list of actual recipients
+	if($actual_names)
+		$context['text'] .= '<div>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</div>';
+	else
+		$context['text'] .= '<p>'.i18n::s('No message has been sent').'</p>';
+
+	// back to the section page
+	$menu = array();
+	$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+// recipients are watchers of this section (including parent sections)
+} elseif(!$recipients = Sections::list_watchers_by_name($item, 0, 1000, 'mail')) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form
@@ -182,19 +203,26 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// build a nice list of recipients
-	$context['text'] .= Skin::build_box(i18n::s('Message recipients'), $recipients, 'folded');
+	$label = i18n::s('Message recipients');
+	$input = Skin::build_box(i18n::s('Select recipients'), $recipients, 'folded');
+	$fields[] = array($label, $input);
 
 	// the subject
 	$label = i18n::s('Message title');
-	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($item['title']).'" />';
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$title = sprintf(i18n::c('Notification: %s'), $item['title']);
+	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($title).'" />';
+	$fields[] = array($label, $input);
+
+	// default message content
+	$content = '<p>'.i18n::c('Can you review the following page and contribute to it where applicable?').'</p>'
+		.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$item['title'].'</a></p>'
+		.'<p>'.i18n::c('Please let me thank you for your involvement.').'</p>'
+		.'<p>'.Surfer::get_name().'</p>';
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = '<textarea name="message" rows="15" cols="50">'."\n\n\n\n".$item['title']."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
+	$input = Surfer::get_editor('message', $content);
+	$fields[] = array($label, $input);
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
@@ -213,10 +241,6 @@ if(Surfer::is_crawler()) {
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
-
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
@@ -248,7 +272,7 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("subject").focus();'."\n"
+		.'$("#subject").focus();'."\n"
 		."\n"
 		.JS_SUFFIX;
 

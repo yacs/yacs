@@ -40,7 +40,7 @@ $member = strip_tags($member);
 // get the member object, which is supposed to be a container
 $anchor = NULL;
 if($member)
-	$anchor =& Anchors::get($member);
+	$anchor = Anchors::get($member);
 
 // do we have the permission to add new categories?
 if(Categories::allow_creation($anchor))
@@ -65,7 +65,7 @@ else
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -81,7 +81,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Categories::get_url($member, 'select')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to associates some categories to this item
@@ -118,7 +118,7 @@ if(Surfer::is_crawler()) {
 		foreach($categories as $category_id => $attributes) {
 
 			// make an url
-			$url =& Categories::get_permalink($attributes);
+			$url = Categories::get_permalink($attributes);
 
 			// gather information on this category
 			$prefix = $suffix = $type = $icon = '';
@@ -165,9 +165,9 @@ if(Surfer::is_crawler()) {
 				." FROM ".SQL::table_name('categories')." AS categories "
 				." WHERE (".$where.") AND (categories.anchor='category:".$category_id."')"
 				." ORDER BY categories.title";
-			$result =& SQL::query($query);
+			$result = SQL::query($query);
 			$sub_categories = array();
-			while($result && ($option =& SQL::fetch($result)))
+			while($result && ($option = SQL::fetch($result)))
 				$sub_categories['category:'.$option['id']] = $option['title'];
 
 			if(count($sub_categories)) {

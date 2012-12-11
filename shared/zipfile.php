@@ -128,11 +128,6 @@ class zipfile {
 		// file data n
 		$file_record .= $zdata;
 
-		// data descriptor n (exists only if bit 3 of the general purpose bit flag is set)
-//		$file_record .= pack("V",$crc); 				// crc-32						   4 bytes
-//		$file_record .= pack("V",$zdata_length);		// compressed size				   4 bytes
-//		$file_record .= pack("V",$data_length); 		// uncompressed size			   4 bytes
-
 		// add this entry to array
 		$this->file_data .= $file_record;
 
@@ -205,7 +200,7 @@ class zipfile {
 			// full name, as recorded in the archive
 			if(!$name = zip_entry_name($item))
 				continue;
-				
+
 			// sanity check
 			if((strlen($name) < 1) || (($name[0] != '/') && (($name[0] < ' ') || ($name[0] > 'z'))))
 				continue;
@@ -225,11 +220,11 @@ class zipfile {
 				$content = zip_entry_read($item, $size);
 			else
 				$content = '';
-				
+
 			// write the extracted file
 			if(Safe::file_put_contents($path.$name, $content)) {
 				$count++;
-			
+
 				// callback function
 				if($callback)
 					$callback($path.$name);
@@ -296,11 +291,6 @@ class zipfile {
 		// file data n
 		$file_record .= $data;
 
-		// data descriptor n (exists only if bit 3 of the general purpose bit flag is set)
-//		$file_record .= pack("V",$crc); 				// crc-32						   4 bytes
-//		$file_record .= pack("V",$zdata_length);		// compressed size				   4 bytes
-//		$file_record .= pack("V",$data_length); 		// uncompressed size			   4 bytes
-
 		// add this entry to array
 		$this->file_data .= $file_record;
 
@@ -351,11 +341,6 @@ class zipfile {
 
 			// all directory entries
 			$this->directory_data.
-
-			// digital signature
-//			"\x50\x4b\x05\x05". 							// header signature 			   4 bytes	(0x05054b50)
-//			"\x00\x00". 									// size of data 				   2 bytes
-															// signature data (variable size)
 
 			// end of central directory record
 			"\x50\x4b\x05\x06\x00\x00\x00\x00". 			// end of central dir signature    4 bytes	(0x06054b50)

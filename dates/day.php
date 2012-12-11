@@ -46,7 +46,7 @@ $context['page_title'] = ucfirst(Skin::build_date($target, 'day'));
 
 // we do need between 8 and 10 chars
 if((strlen($target) < 8) || (strlen($target) > 10)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // parse the provided parameter
@@ -57,14 +57,14 @@ if((strlen($target) < 8) || (strlen($target) > 10)) {
 
 	// no more than two years difference with now
 	if(abs(mktime(0, 0, 0, $month, $day, $year) - time()) > (31536000 * 2)) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	} else {
 
 		// cache between modifications
 		$cache_id = 'dates/day.php#text#'.$target;
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// draw one day
 			if($items = Dates::list_for_day($year, $month, $day, 'decorated'))
@@ -103,7 +103,7 @@ if((strlen($target) < 8) || (strlen($target) > 10)) {
 
 // side bar with the list of most recent pages
 $cache_id = 'dates/day.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
 		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 

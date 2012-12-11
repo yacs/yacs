@@ -39,7 +39,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -54,17 +54,16 @@ Class Layout_articles_as_digg extends Layout_interface {
 		$item_count = 0;
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// make a live title
 			if(is_object($overlay))
@@ -83,13 +82,12 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$content = $prefix = $label = $suffix = $icon = '';
 
 			// the icon to put aside
-			if($item['thumbnail_url']) {
+			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			} elseif(is_object($anchor)) {
-				$icon = $anchor->get_thumbnail_url();
-			}
+			elseif(is_callable(array($anchor, 'get_bullet_url')))
+				$icon = $anchor->get_bullet_url();
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// rating
 			if($item['rating_count'])
@@ -106,7 +104,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// where the surfer can rate this item
 			else
-				$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+				$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 			// close digg-like area
 			$digg .= '</div>';
@@ -117,9 +115,9 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// signal locked articles
 			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
@@ -159,14 +157,14 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// the publish date
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$details[] = Skin::build_date($item['publish_date'], 'publishing');
+				$details[] = Skin::build_date($item['publish_date']);
 
 			// read the article
 			$details[] = Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
@@ -180,7 +178,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// link to the anchor page
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))

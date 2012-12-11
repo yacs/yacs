@@ -73,7 +73,7 @@ if(!Surfer::is_logged()) {
 
 // only available to site associates
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // provide requested data
@@ -201,7 +201,7 @@ if(!Surfer::is_logged()) {
 	if(!headers_sent()) {
 		$file_name = $context['site_name'].'.events.rss.xml';
 		$file_name =& utf8::to_ascii($file_name);
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

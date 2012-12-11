@@ -1,6 +1,6 @@
 <?php
 /**
- * layout articles as a text of boxes
+ * layout articles as a set of boxes
  *
  * Page nick names are used as box CSS identifiers.
  *
@@ -26,7 +26,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -38,17 +38,16 @@ Class Layout_articles_as_boxes extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -119,7 +118,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 					$parts[] = Codes::beautify_introduction($item['introduction']);
 
 				// get the related overlay, if any
-				$overlay = Overlay::load($item);
+				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// insert overlay data, if any
 				if(is_object($overlay))

@@ -113,7 +113,7 @@ Class Call {
 	 * @see servers/servers.php
 	 * @see services/blog_test.php
 	 */
-	function invoke($url, $service, $parameters = NULL, $variant='XML-RPC') {
+	public static function invoke($url, $service, $parameters = NULL, $variant='XML-RPC') {
 		global $context;
 
 		// submit a raw request
@@ -131,9 +131,9 @@ Class Call {
 
 		// adjust content type
 		if($variant == 'JSON-RPC')
-			$headers = 'Content-Type: application/json'."\015\012";
+			$headers = 'Content-Type: application/json'.CRLF;
 		else
-			$headers = 'Content-Type: text/xml'."\015\012";
+			$headers = 'Content-Type: text/xml'.CRLF;
 
 		// build the request
 		if($raw_request)
@@ -142,7 +142,7 @@ Class Call {
 			$result = $codec->export_request($service, $parameters);
 		if(!$result[0])
 			return array(FALSE, $result[1]);
-		$headers .= 'Content-Length: '.strlen($result[1])."\015\012";
+		$headers .= 'Content-Length: '.strlen($result[1]).CRLF;
 
 		// parse the target URL
 		$items = @parse_url($url);
@@ -174,16 +174,16 @@ Class Call {
 			$path .= '?'.$items['query'];
 
 		// build an HTTP request
-		$request = "POST ".$path." HTTP/1.0\015\012"
-			.'Host: '.$host."\015\012"
-			."Accept-Encoding: gzip\015\012"
-			."User-Agent: YACS (www.yacs.fr)\015\012"
-			."Connection: close\015\012"
-			.$headers."\015\012".$result[1];
+		$request = "POST ".$path." HTTP/1.0".CRLF
+			.'Host: '.$host.CRLF
+			."Accept-Encoding: gzip".CRLF
+			."User-Agent: YACS (www.yacs.fr)".CRLF
+			."Connection: close".CRLF
+			.$headers.CRLF.$result[1];
 
 		// save the request if debug mode
 		if(isset($context['debug_call']) && ($context['debug_call'] == 'Y'))
-			Logger::remember('services/call.php', 'Call::invoke() request', str_replace("\r\n", "\n", $request), 'debug');
+			Logger::remember('services/call.php: Call::invoke() request', str_replace("\r\n", "\n", $request), 'debug');
 
 		// submit the request
 		fputs($handle, $request);
@@ -201,7 +201,7 @@ Class Call {
 		}
 
 		// separate headers from body
-		list($headers, $content) = explode("\015\012\015\012", $response, 2);
+		list($headers, $content) = explode(CRLF.CRLF, $response, 2);
 
 		// uncompress payload if necessary
 		if(preg_match('/Content-Encoding: \s*gzip/i', $headers))
@@ -209,7 +209,7 @@ Class Call {
 
 		// save the response if debug mode
 		if(isset($context['debug_call']) && ($context['debug_call'] == 'Y'))
-			Logger::remember('services/call.php', 'Call::invoke() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
+			Logger::remember('services/call.php: Call::invoke() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
 
 		// decode the result
 		return $codec->import_response($content, $headers, $parameters);
@@ -235,7 +235,7 @@ Class Call {
 	 *
 	 * @see search.php
 	 */
-	function list_resources($url, $parameters = NULL) {
+	public static function list_resources($url, $parameters = NULL) {
 		global $context;
 
 		// encode the request
@@ -246,8 +246,8 @@ Class Call {
 			$data .= urlencode($label).'='.urlencode($value);
 		}
 		$headers = '';
-		$headers .= 'Content-Type: application/x-www-form-urlencoded'."\015\012";
-		$headers .= 'Content-Length: '.strlen($data)."\015\012";
+		$headers .= 'Content-Type: application/x-www-form-urlencoded'.CRLF;
+		$headers .= 'Content-Length: '.strlen($data).CRLF;
 
 		// parse the target URL
 		$items = @parse_url($url);
@@ -277,16 +277,16 @@ Class Call {
 			$path .= '?'.$items['query'];
 
 		// build an HTTP request
-		$request = "POST ".$path." HTTP/1.0\015\012"
-			.'Host: '.$host."\015\012"
-			."Accept-Encoding: gzip\015\012"
-			."User-Agent: YACS (www.yacs.fr)\015\012"
-			."Connection: close\015\012"
-			.$headers."\015\012".$data;
+		$request = "POST ".$path." HTTP/1.0".CRLF
+			.'Host: '.$host.CRLF
+			."Accept-Encoding: gzip".CRLF
+			."User-Agent: YACS (www.yacs.fr)".CRLF
+			."Connection: close".CRLF
+			.$headers.CRLF.$data;
 
 		// save the request if debug mode
 		if($context['debug_call'] == 'Y')
-			Logger::remember('services/call.php', 'Call::list_resources() request', str_replace("\r\n", "\n", $request), 'debug');
+			Logger::remember('services/call.php: Call::list_resources() request', str_replace("\r\n", "\n", $request), 'debug');
 
 		// submit the request
 		fputs($handle, $request);
@@ -304,7 +304,7 @@ Class Call {
 		}
 
 		// separate headers from body
-		list($headers, $content) = explode("\015\012\015\012", $response, 2);
+		list($headers, $content) = explode(CRLF.CRLF, $response, 2);
 
 		// uncompress payload if necessary
 		if(preg_match('/Content-Encoding: \s*gzip/i', $headers))
@@ -312,7 +312,7 @@ Class Call {
 
 		// save the response if debug mode
 		if($context['debug_call'] == 'Y')
-			Logger::remember('services/call.php', 'Call::list_resources() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
+			Logger::remember('services/call.php: Call::list_resources() response', str_replace("\r\n", "\n", $headers."\n\n".$content), 'debug');
 
 		// we understand only text responses
 		if(!preg_match('/^Content-Type: text/m', $headers))

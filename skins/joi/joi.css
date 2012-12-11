@@ -88,7 +88,8 @@ h1 { /* appears only once, with the page title */
 	padding: 0;
 }
 
-h2 { /* appears in the main content panel, to introduce sections of the page -- [title]...[/title], [question]...[/question] */
+h2,
+div.box h2, div.box h2 span { /* appears in the main content panel -- [title]...[/title], [question]...[/question] */
 	clear: left;
 	color: #333;
 	font-weight: bold;
@@ -99,7 +100,8 @@ h2 { /* appears in the main content panel, to introduce sections of the page -- 
 	padding: 0;
 }
 
-h3 { /* a second level of heading in the main panel -- [subtitle]...[/subtitle] */
+h3,
+div.box h3, div.box h3 span { /* a second level of heading in the main panel -- [subtitle]...[/subtitle] */
 	clear: left;
 	color: #333;
 	font-weight: bold;
@@ -116,7 +118,10 @@ img { /* a standard image */
 }
 
 input[type="password"],
-input[type="text"] { /* ensure form fields fit in the layout */
+input[type="text"],
+textarea { /* ensure form fields fit in the layout */
+	font-family: "Century Gothic", Helvetica, sans-serif;
+	font-size: small;
 	color: black;
 	background-color: white;
 	max-width: 300px;
@@ -531,7 +536,6 @@ table.calendar td.spot {
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .highlight1 { /* to locate words looked for, following a search request */
@@ -549,6 +553,10 @@ div.even { /* stacked with div.odd */
 table.jive {
 	max-width: 550px;
 	width: 550px;
+}
+
+div.menu_bar > span.label { /* some text in a menu bar, with no link */
+	background-color: #ddd;
 }
 
 .menu { /* a small inline menu, almost anywhere */

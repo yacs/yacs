@@ -71,7 +71,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	$context['page_title'] = i18n::s('Restricted access');
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -135,7 +135,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 			// provide a valid file name
 			$file_name = utf8::to_ascii($item['node_name']);
-			Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+			Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 
 			// specific to Winamp
 			Safe::header("icy-notice1: this requires winamp<BR>");

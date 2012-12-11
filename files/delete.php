@@ -38,12 +38,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the surfer can proceed
 if(Files::allow_deletion($item, $anchor)) {
@@ -77,7 +77,7 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // file has been reserved
@@ -101,9 +101,16 @@ if(!isset($item['id'])) {
 
 	// if no error, back to the anchor or to the index page
 	if(Files::delete($item['id'])) {
+
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
+		$description = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+		Logger::remember('files/delete.php: '.$label, $description);
+
 		Files::clear($item);
+
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#files');
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments');
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'files/');
 	}
@@ -131,7 +138,7 @@ else {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// use a table for the layout
@@ -200,7 +207,7 @@ else {
 		if($item['active'] == 'N' && Surfer::is_associate())
 			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Private - Access is restricted to selected persons')), $lines++);
 		elseif($item['active'] == 'R' && Surfer::is_member())
-			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Community - Access is restricted to authenticated persons')), $lines++);
+			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Community -Access is granted to any identified surfer')), $lines++);
 	}
 
 	// end of the table

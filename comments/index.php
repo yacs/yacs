@@ -2,8 +2,6 @@
 /**
  * the index page for comments
  *
- * @todo explicit thread dates, like in http://www.sitepoint.com/forums/
- *
  * For a comprehensive description of comments, you should check the database abstraction script
  * at [script]comments/comments.php[/script].
  *
@@ -49,7 +47,7 @@ if($stats['count'])
 
 // stop hackers
 if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
@@ -68,7 +66,7 @@ if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'comments/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// the first comment to list
 		$offset = ($page - 1) * THREADS_PER_PAGE;
@@ -98,7 +96,7 @@ if(Surfer::is_associate())
 
 // page extra information
 $cache_id = 'comments/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

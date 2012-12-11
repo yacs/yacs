@@ -36,6 +36,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'images.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -46,12 +47,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Images::get($id);
+$item = Images::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -86,6 +87,10 @@ load_skin('images', $anchor);
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'image:'.$item['id'];
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
@@ -110,7 +115,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Images::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
@@ -137,7 +142,7 @@ if(!isset($item['id'])) {
 
 		// retrieve information from cache, if any
 		$cache_id = 'images/view.php?id='.$item['id'].'#navigation';
-		if($data =& Cache::get($cache_id))
+		if($data = Cache::get($cache_id))
 			$data = Safe::unserialize($data);
 
 		// build information from the database
@@ -162,14 +167,13 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// build the path to the image file
-	$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'];
-	$img = '<img src="'.$url.'" alt="'.$item['image_name'].'" />';
+	$url = $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['image_name'];
+	$img = '<img src="'.$url.'" alt="" title="'.$item['image_name'].'" />';
 
 	// add an url, if any
 	if($item['link_url']) {
 
 		// transform local references, if any
-		include_once $context['path_to_root'].'/links/links.php';
 		$attributes = Links::transform_reference($item['link_url']);
 		if($attributes[0])
 			$link = $attributes[0];
@@ -198,7 +202,6 @@ if(!isset($item['id'])) {
 		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
 			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
 		else {
-			include_once '../links/links.php';
 			if($attributes = Links::transform_reference($item['source'])) {
 				list($link, $title, $description) = $attributes;
 				$item['source'] = Skin::build_link($link, $title);
@@ -248,7 +251,7 @@ if(!isset($item['id'])) {
 	// thumbnail, in an extra box
 	//
 	if(Surfer::is_associate() && $item['thumbnail_name'] && ($item['thumbnail_name'] != $item['image_name'])) {
-		$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['thumbnail_name'];
+		$url = $context['url_to_root'].Files::get_path($item['anchor'], 'images').'/'.$item['thumbnail_name'];
 		$context['components']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'boxes');
 	}
 

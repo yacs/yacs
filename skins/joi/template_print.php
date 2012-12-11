@@ -39,7 +39,7 @@ defined('YACS') or exit('Script must be included');
 
 	</style>
 <?php // other components of the head
-echo $context['page_header'];
+Page::meta();
 ?>
 </head>
 <body onLoad='javascript:print();'>

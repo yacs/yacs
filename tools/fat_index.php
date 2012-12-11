@@ -23,7 +23,6 @@
  * - and, finally, how to create instructive phpDoc comments like this one
  *
  * @see skins/index.php
- * @see links/link.php
  * @see scripts/phpdoc.php
  *
  * @author Bernard Paques
@@ -31,7 +30,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// ask share/surfer.php to not filter html input
+// ask shared/surfer.php to not filter html input
 // by default YACS allows only associates to submit some HTML
 // but here we would like to accept HTML input from any logged member
 $context['allow_html_input'] = 'Y';
@@ -62,12 +61,10 @@ if(isset($_REQUEST['reference']) && strlen($_REQUEST['reference'])) {
 	$reference = $_REQUEST['reference'];
 
 	// fetch the object through the web
-	// we use the YACS library to do it
-	include_once '../links/link.php';
-	if(!$input = Link::fetch($reference, '', '', 'tools/fat_index.php', $cookie)) {
+	if(!$input = http::proceed($reference, '', '', $cookie)) {
 
 		// the standard way to localize string throughout YACS is to invoke i18n::s() -- see i18n/i18n.php
-		Logger::error(sprintf(i18n::s('error while fetching %s'), $reference).' ('.Link::get_error().')');
+		Logger::error(sprintf(i18n::s('error while fetching %s'), $reference).' ('.http::get_error().')');
 	}
 
 // the user has submitted some content to crunch

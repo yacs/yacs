@@ -2,8 +2,6 @@
 /**
  * the index page for sections
  *
- * @todo allow for a freemind version
- *
  * At any YACS system, each and every page is anchored to one (yes, only one) section.
  * You can view sections as the top-level containers of information published at your site.
  *
@@ -101,14 +99,14 @@ if(is_callable(array('Hooks', 'include_scripts')))
 
 // stop hackers
 if($page > 10) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
 
 	// page main content
 	$cache_id = 'sections/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
 		include_once 'layout_sections_as_yahoo.php';
@@ -188,7 +186,7 @@ if(Surfer::is_associate()) {
 
 // display extra information
 $cache_id = 'sections/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// see also
 	$lines = array();
@@ -199,7 +197,7 @@ if(!$text =& Cache::get($cache_id)) {
 	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'boxes');
 
 	// list monthly publications in an extra box
-	$anchor =& Categories::get(i18n::c('monthly'));
+	$anchor = Categories::get(i18n::c('monthly'));
 	if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact'))) {
 		$text .= Skin::build_box($anchor['title'], Skin::build_list($items, 'compact'), 'boxes')."\n";
 	}

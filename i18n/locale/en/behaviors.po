@@ -1,0 +1,147 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"PO-Revision-Date: 2008-07-07 19:00+0100\n"
+"Last-Translator: Paques, Bernard\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: behaviors/agree_on_file_access.php:34
+#: behaviors/move_on_article_access.php:39
+#: behaviors/move_on_article_access.php:41
+msgid "No anchor has been found."
+msgstr "No anchor has been found."
+
+#: behaviors/agree_on_file_access.php:44
+#: behaviors/move_on_article_access.php:45
+#, php-format
+msgid "No parameter has been provided to %s"
+msgstr "No parameter has been provided to %s"
+
+#: behaviors/agree_on_file_access.php:48
+#, php-format
+msgid "Bad parameter to behavior <code>%s %s</code>"
+msgstr "Bad parameter to behavior <code>%s %s</code>"
+
+#: behaviors/agree_on_file_access.php:51
+msgid ""
+"Before moving forward, please read following text and express yourself at "
+"the end of the page."
+msgstr ""
+"Before moving forward, please read following text and express yourself at "
+"the end of the page."
+
+#: behaviors/agree_on_file_access.php:63
+msgid "Do you agree?"
+msgstr "Do you agree?"
+
+#: behaviors/agree_on_file_access.php:64
+msgid "Yes"
+msgstr "Yes"
+
+#: behaviors/agree_on_file_access.php:65
+msgid "No"
+msgstr "No"
+
+#: behaviors/behaviors.php:183 behaviors/behaviors.php:185
+#: behaviors/behaviors.php:189 behaviors/behaviors.php:191
+#, php-format
+msgid "No behavior %s has been found."
+msgstr "No behavior %s has been found."
+
+#: behaviors/index.php:20
+msgid "Behaviors"
+msgstr "Behaviors"
+
+#: behaviors/index.php:24
+msgid ""
+"Behaviors listed below can be used to customise articles attached to some "
+"sections."
+msgstr ""
+"Behaviors listed below can be used to customise articles attached to some "
+"sections."
+
+#: behaviors/index.php:55
+#, php-format
+msgid ""
+"For example, if you want to apply the behavior <code>foo</code>, go to the "
+"%s , and select a target section, or add a new one."
+msgstr ""
+"For example, if you want to apply the behavior <code>foo</code>, go to the "
+"%s , and select a target section, or add a new one."
+
+#: behaviors/index.php:55
+msgid "site map"
+msgstr "site map"
+
+#: behaviors/index.php:56
+msgid ""
+"In the form used to edit the section, type the keyword <code>foo</code> in "
+"the behavior field, then save changes."
+msgstr ""
+"In the form used to edit the section, type the keyword <code>foo</code> in "
+"the behavior field, then save changes."
+
+#: behaviors/move_on_article_access.php:63
+#, php-format
+msgid "Move to %s"
+msgstr "Move to %s"
+
+#: behaviors/agreements/agree.php:49
+msgid "No item has the provided id."
+msgstr "No item has the provided id."
+
+#: behaviors/agreements/deny.php:28
+msgid "Access has been denied"
+msgstr "Access has been denied"
+
+#: behaviors/agreements/deny.php:31
+msgid ""
+"Your agreement is required to access the target page. Sorry for any "
+"inconvenience."
+msgstr ""
+"Your agreement is required to access the target page. Sorry for any "
+"inconvenience."
+
+#: behaviors/agreements/deny.php:35
+msgid "Back to main page"
+msgstr "Back to main page"
+
+#~ msgid "Your agreement has been recorded."
+#~ msgstr "Your agreement has been recorded."
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Available behaviors"
+#~ msgstr "Available behaviors"
+
+#~ msgid "Back"
+#~ msgstr "Back"
+
+#~ msgid ""
+#~ "No parameter has been provided to behavior <code>agree_on_file_access</"
+#~ "code>."
+#~ msgstr ""
+#~ "No parameter has been provided to behavior <code>agree_on_file_access</"
+#~ "code>."
+
+#~ msgid "Bad script for behavior <code>%s</code>"
+#~ msgstr "Bad script for behavior <code>%s</code>"
+
+#~ msgid "No script for behavior <code>%s</code>"
+#~ msgstr "No script for behavior <code>%s</code>"

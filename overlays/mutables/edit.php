@@ -25,12 +25,11 @@ $context['page_title'] = i18n::s('Change named overlays');
 
 // this is reserved to associates
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // update targeted overlays
 } elseif(isset($_REQUEST['id']) && $_REQUEST['id']) {
-	include_once '../../overlays/overlay.php';
 
 	// change all named overlays
 	$count = 0;
@@ -41,7 +40,7 @@ if(!Surfer::is_associate()) {
 		foreach($ids as $id) {
 
 			// load the page and bind the related overlay
-			if(($item =& Articles::get($id)) && ($overlay = Overlay::load($item)) && is_callable(array($overlay, 'update'))) {
+			if(($item = Articles::get($id)) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && is_callable(array($overlay, 'update'))) {
 				$count++;
 
 				// update provided attributes
@@ -139,7 +138,7 @@ if(!Surfer::is_associate()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'$("id").focus();'."\n"
+		.'$("#id").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 }

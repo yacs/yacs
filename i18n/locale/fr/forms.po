@@ -1,0 +1,459 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Yacs\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"PO-Revision-Date: 2011-03-11 22:53+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: forms/delete.php:43 forms/edit.php:55 forms/index.php:35 forms/view.php:70
+msgid "Forms"
+msgstr "Formulaires"
+
+#: forms/delete.php:47
+#, php-format
+msgid "%s: %s"
+msgstr "%s : %s"
+
+#: forms/delete.php:47 forms/view.php:562
+msgid "Delete"
+msgstr "Supprimer"
+
+#: forms/delete.php:56 forms/edit.php:76 forms/edit.php:93 forms/index.php:45
+#: forms/view.php:82 forms/view.php:102
+msgid "You are not allowed to perform this operation."
+msgstr "Vous n'êtes pas autorisé à faire cette opération."
+
+#: forms/delete.php:69
+msgid "The action has not been confirmed."
+msgstr "L'action n'a pas été confirmée."
+
+#: forms/delete.php:79
+msgid "Yes, I want to suppress this form"
+msgstr "Oui, je veux supprimer ce formulaire"
+
+#: forms/delete.php:80 forms/edit.php:389 forms/view.php:534
+msgid "Cancel"
+msgstr "Annuler"
+
+#: forms/delete.php:101 forms/view.php:381
+#, php-format
+msgid "edited by %s %s"
+msgstr "modifié par %s %s"
+
+#: forms/delete.php:105 forms/edit.php:347 forms/view.php:385
+msgid "Community - Access is granted to any identified surfer"
+msgstr "Communauté - Accès autorisé à toute personne identifiée"
+
+#: forms/delete.php:109 forms/edit.php:353 forms/view.php:389
+msgid "Private - Access is restricted to selected persons"
+msgstr "Privé - Accès limité à quelques personnes"
+
+#: forms/delete.php:116
+#, php-format
+msgid "Related to %s"
+msgstr "Attaché à %s"
+
+#: forms/edit.php:61
+#, php-format
+msgid "Edit: %s"
+msgstr "Modifier : %s"
+
+#: forms/edit.php:63 forms/index.php:82
+msgid "Add a form"
+msgstr "Ajouter un formulaire"
+
+#: forms/edit.php:97
+msgid "Please carefully select a section for your form."
+msgstr "Choisissez où envoyer les formulaires saisis."
+
+#: forms/edit.php:125
+msgid "Your sections"
+msgstr "Vos sections"
+
+#: forms/edit.php:140
+msgid "Regular sections"
+msgstr "Sections normales"
+
+#: forms/edit.php:145
+#, php-format
+msgid "Use the %s to populate this server."
+msgstr "Utilisez l'%s pour peupler ce serveur."
+
+#: forms/edit.php:145
+msgid "Content Assistant"
+msgstr "Assistant de contenu"
+
+#: forms/edit.php:158
+msgid "Other sections"
+msgstr "Autres sections"
+
+#: forms/edit.php:213 forms/view.php:344
+msgid "Thank you for your contribution"
+msgstr "Merci de votre contribution"
+
+#: forms/edit.php:216 forms/view.php:350
+msgid "What do you want to do now?"
+msgstr "Que souhaitez-vous faire maintenant ?"
+
+#: forms/edit.php:218
+msgid "Use the form"
+msgstr "Utiliser le formulaire"
+
+#: forms/edit.php:219
+msgid "Edit again"
+msgstr "Modifier de nouveau"
+
+#: forms/edit.php:224
+#, php-format
+msgid "New form: %s"
+msgstr "Nouveau formulaire : %s"
+
+#: forms/edit.php:227
+#, php-format
+msgid "Sent by %s"
+msgstr "Envoyé par %s"
+
+#: forms/edit.php:261 forms/view.php:458
+msgid "Title"
+msgstr "Titre"
+
+#: forms/edit.php:266 forms/edit.php:411 forms/view.php:460
+msgid "Please provide a meaningful title."
+msgstr "Merci d'indiquer un titre significatif."
+
+#: forms/edit.php:270
+msgid "Introduction"
+msgstr "Introduction"
+
+#: forms/edit.php:275
+msgid "Also complements the title in lists featuring this page"
+msgstr "Complète le titre dans les listes où la page apparait"
+
+#: forms/edit.php:279
+msgid "Usage"
+msgstr "Utilisation"
+
+#: forms/edit.php:287
+msgid "Post processing"
+msgstr "Traitement de cet envoi"
+
+#: forms/edit.php:288 forms/edit.php:395
+msgid "Ensure this post is valid XHTML."
+msgstr "Vérifier que le contenu est du XHTML valide."
+
+#: forms/edit.php:308
+msgid "Add some text"
+msgstr "Ajouter du texte"
+
+#: forms/edit.php:309
+msgid "Add a string input field"
+msgstr "Ajouter un champ de saisie"
+
+#: forms/edit.php:310
+msgid "Add a selection input field"
+msgstr "Ajouter un champ de sélection"
+
+#: forms/edit.php:311
+msgid "Enable file upload"
+msgstr "Faciliter l'envoi de fichier"
+
+#: forms/edit.php:314
+msgid "Use links below to append new fields."
+msgstr "Utilisez les liens ci-dessous pour ajouter de nouveaux champs."
+
+#: forms/edit.php:326
+msgid "Nick name"
+msgstr "Surnom"
+
+#: forms/edit.php:331
+#, php-format
+msgid "To designate a page by its name in the %s"
+msgstr "Pour désigner une page par son nom avec le %s"
+
+#: forms/edit.php:335
+msgid "Access"
+msgstr "Accès"
+
+#: forms/edit.php:341
+msgid "Public - Everybody, including anonymous surfers"
+msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
+
+#: forms/edit.php:360
+msgid "Capture"
+msgstr "Enregistrement"
+
+#: forms/edit.php:361
+msgid "Select below the section to capture this form"
+msgstr "Choisissez ci-dessous la section où placer les formulaires saisis"
+
+#: forms/edit.php:373
+msgid "Information"
+msgstr "Informations"
+
+#: forms/edit.php:374
+msgid "Content"
+msgstr "Contenu"
+
+#: forms/edit.php:375
+msgid "Processing"
+msgstr "Traitement"
+
+#: forms/edit.php:385 forms/view.php:533
+msgid "Submit"
+msgstr "Enregistrer"
+
+#: forms/edit.php:385 forms/view.php:533
+msgid "Press [s] to submit data"
+msgstr "Appuyer sur [s] pour envoyer les informations"
+
+#: forms/edit.php:431
+msgid ""
+"If you paste some existing HTML content and want to avoid the implicit "
+"formatting insert the code <code>[formatted]</code> at the very beginning of "
+"the description field."
+msgstr ""
+"Si vous collez du texte contenant des balises HTML et voulez éviter le "
+"formatage implicite insérez le code <code>[formatted]</code> au tout début "
+"du champ de description."
+
+#: forms/edit.php:432
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "Utilisez %s et %s pour embellir le texte."
+
+#: forms/edit.php:432
+msgid "YACS codes"
+msgstr "les codes YACS"
+
+#: forms/edit.php:432
+msgid "smileys"
+msgstr "les emoticons"
+
+#: forms/edit.php:439
+msgid "TinyMCE"
+msgstr "TinyMCE"
+
+#: forms/edit.php:443
+msgid "FCKEditor"
+msgstr "FCKEditor"
+
+#: forms/edit.php:447
+msgid "Textarea"
+msgstr "Textarea"
+
+#: forms/edit.php:451
+msgid "Help"
+msgstr "Aide"
+
+#: forms/forms.php:258
+msgid "No title has been provided."
+msgstr "Aucun titre n'a été fourni."
+
+#: forms/forms.php:267 forms/view.php:91
+msgid "No anchor has been found."
+msgstr "Aucun ancrage n'a été trouvé."
+
+#: forms/forms.php:283
+msgid "No item has the provided id."
+msgstr "Identifiant inconnu."
+
+#: forms/index.php:40
+#, php-format
+msgid "%d form"
+msgid_plural "%d forms"
+msgstr[0] "%d formulaire"
+msgstr[1] "%d formulaires"
+
+#: forms/layout_forms.php:65
+#, php-format
+msgid "to %s"
+msgstr "vers %s"
+
+#: forms/layout_forms.php:68
+#, php-format
+msgid "edited %s"
+msgstr "modifié %s"
+
+#: forms/layout_forms.php:71
+msgid "edit"
+msgstr "modifier"
+
+#: forms/layout_forms.php:74
+msgid "delete"
+msgstr "supprimer"
+
+#: forms/view.php:131
+msgid "Name"
+msgstr "Nom"
+
+#: forms/view.php:132
+msgid "Email"
+msgstr "Email"
+
+#: forms/view.php:252
+msgid "Please prove you are not a robot."
+msgstr "Merci de prouver que vous n'êtes pas un robot."
+
+#: forms/view.php:283 forms/view.php:287
+msgid "The size of this file is over limit."
+msgstr "La taille du fichier dépasse la limite autorisée."
+
+#: forms/view.php:291 forms/view.php:295 forms/view.php:299
+msgid "No file has been transmitted."
+msgstr "Aucun fichier n'a été transmis."
+
+#: forms/view.php:303
+msgid "Possible file attack."
+msgstr "Possibilité d'une attaque sur le fichier."
+
+#: forms/view.php:307
+#, php-format
+msgid "Impossible to move the upload file to %s."
+msgstr "Impossible de déplacer le fichier vers %s."
+
+#: forms/view.php:347
+msgid ""
+"A new page has been created with submitted data. This will be reviewed by "
+"people in charge."
+msgstr ""
+"Une nouvelle page a été créée avec les informations fournies. Elle va être "
+"traitée dans les plus brefs délais."
+
+#: forms/view.php:353
+msgid "Front page"
+msgstr "Page d'accueil"
+
+#: forms/view.php:355
+msgid "View the page"
+msgstr "Voir la page"
+
+#: forms/view.php:420
+#, php-format
+msgid ""
+"If you have previously registered to this site, please %s. Then the server "
+"will automatically put your name and address in following fields."
+msgstr ""
+"Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur "
+"pourra alors positionner votre nom et votre adresse automatiquement dans les "
+"champs ci-dessous."
+
+#: forms/view.php:420
+msgid "authenticate"
+msgstr "authentifier"
+
+#: forms/view.php:423 forms/view.php:441 forms/view.php:457
+msgid "Your name"
+msgstr "Votre nom"
+
+#: forms/view.php:425
+msgid "Let us a chance to know who you are"
+msgstr "Donnez-nous une chance de savoir qui vous êtes"
+
+#: forms/view.php:429 forms/view.php:446
+msgid "Your e-mail address"
+msgstr "Votre adresse E-mail"
+
+#: forms/view.php:431
+msgid "Put your e-mail address to receive feed-back"
+msgstr "Pour être notifié des réactions"
+
+#: forms/view.php:561
+msgid "Edit"
+msgstr "Modifier"
+
+#~ msgid "New page: %s"
+#~ msgstr "nouvelle page : %s"
+
+#~ msgid "Sent by %s in %s"
+#~ msgstr "Envoyé par %s dans %s"
+
+#~ msgid "Parent is private, and this will be re-enforced anyway"
+#~ msgstr "Le parent est privé, et cette contrainte sera héritée"
+
+#~ msgid "Access is restricted to authenticated members"
+#~ msgstr "Accès restreint aux membres authentifiés"
+
+#~ msgid "Access is restricted to associates"
+#~ msgstr "Accès restreint aux associés"
+
+#~ msgid "Visibility"
+#~ msgstr "Visibilité"
+
+#~ msgid "Anyone may read this form."
+#~ msgstr "Tout le monde peut utiliser ce formulaire."
+
+#~ msgid "Delete: %s"
+#~ msgstr "Supprimer : %s"
+
+#~ msgid "Referrals"
+#~ msgstr "Références externes"
+
+#~ msgid "File transfer has been interrupted."
+#~ msgstr "Le transfert du fichier a été interrompu."
+
+#~ msgid ""
+#~ "It is likely file size goes beyond the limit displayed in upload form. "
+#~ "Nothing has been transmitted for %s."
+#~ msgstr ""
+#~ "Il est probable que la taille du fichier dépasse la limite affichée dans "
+#~ "le formulaire d'envoi. Aucun octet n' a été transmis pour %s."
+
+#~ msgid "The size of this file is over server limit (php.ini)."
+#~ msgstr ""
+#~ "Le fichier dépasse la limite autorisée par le serveur (fichier php.ini)."
+
+#, fuzzy
+#~ msgid "your name"
+#~ msgstr "Votre nom"
+
+#~ msgid "Form submitted by %s %s"
+#~ msgstr "Formulaire envoyé par %s %s"
+
+#~ msgid "Add an image"
+#~ msgstr "Ajouter une image"
+
+#~ msgid "Upload a file"
+#~ msgstr "Ajouter un fichier"
+
+#~ msgid "Add a link"
+#~ msgstr "Ajouter un lien"
+
+#~ msgid "Invite people"
+#~ msgstr "Personnes invitées"
+
+#~ msgid "No regular section has been created yet! Use %s to create one."
+#~ msgstr ""
+#~ "Aucune section ordinaire n'a été crée à ce jour. Utilisez %s pour en "
+#~ "créer une."
+
+#~ msgid "Delete a form"
+#~ msgstr "Supprimer un formulaire"
+
+#~ msgid "Special sections"
+#~ msgstr "Sections spéciales"
+
+#~ msgid "Invite people to review and to contribute"
+#~ msgstr "Inviter des personnes à contribuer"
+
+#~ msgid "1&nbsp;page"
+#~ msgid_plural "%d&nbsp;pages"
+#~ msgstr[0] "1&nbsp;page"
+#~ msgstr[1] "%d&nbsp;pages"
+
+#~ msgid "Advanced options"
+#~ msgstr "Options avancées"

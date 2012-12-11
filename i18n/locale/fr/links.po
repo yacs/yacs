@@ -1,0 +1,711 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
+"PO-Revision-Date: 2010-08-11 17:31+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: links/check.php:56 links/check.php:67 links/check.php:160
+#: links/check.php:267 links/check.php:376 links/check.php:432
+#: links/click.php:89 links/delete.php:79 links/edit.php:187
+#: links/index.php:48 links/trackback.php:115
+msgid "Links"
+msgstr "Liens"
+
+#: links/check.php:59 links/index.php:109
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: links/check.php:64 links/click.php:97 links/delete.php:91
+#: links/edit.php:223 links/edit.php:243 links/index.php:58
+#: links/trackback.php:124 links/trackback.php:247
+msgid "You are not allowed to perform this operation."
+msgstr "Vous n'êtes pas autorisé à faire cette opération."
+
+#: links/check.php:74 links/check.php:167 links/check.php:274
+#: links/check.php:383
+#, php-format
+msgid "Analyzing table %s..."
+msgstr "Analyse de la table %s ..."
+
+#: links/check.php:136 links/check.php:226 links/check.php:353
+msgid "No link to check."
+msgstr "Aucun lien à vérifier."
+
+#: links/check.php:144 links/check.php:234 links/check.php:361
+#, php-format
+msgid "%d links have been processed."
+msgstr "%d liens ont été analysés."
+
+#: links/check.php:148
+msgid "Broken links to review"
+msgstr "Liens cassés à vérifier"
+
+#: links/check.php:153
+msgid "No broken link has been found."
+msgstr "Aucun lien cassé n'a été trouvé."
+
+#: links/check.php:157 links/check.php:264 links/check.php:373
+#: links/check.php:429
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr "Script terminé en %.2f secondes."
+
+#: links/check.php:238
+msgid "Deleted referrals"
+msgstr "Références supprimées"
+
+#: links/check.php:241
+msgid "Following referrals have been deleted:"
+msgstr "Les références suivantes ont été supprimées :"
+
+#: links/check.php:250
+msgid "Following referrals have been banned:"
+msgstr "Les références suivantes ont été bannies :"
+
+#: links/check.php:260
+msgid "No broken referral has been found."
+msgstr "Aucune référence cassée n'a été trouvée."
+
+#: links/check.php:365
+#, php-format
+msgid "%d referrals have been normalized."
+msgstr "%d références ont été normalisées."
+
+#: links/check.php:369
+msgid "All referrals are looking ok."
+msgstr "Toutes les références semblent correctes."
+
+#: links/check.php:403
+#, php-format
+msgid "%d records have been processed."
+msgstr "%d enregistrements ont été traités."
+
+#: links/check.php:412
+#, php-format
+msgid "Orphan: %s"
+msgstr "Orphelin : %s"
+
+#: links/check.php:414
+msgid "Too many successive errors. Aborted"
+msgstr "Trop d'erreurs successives. Abandon"
+
+#: links/check.php:425
+#, php-format
+msgid "%d records have been processed"
+msgstr "%d enregistrements ont été traités"
+
+#: links/check.php:438
+msgid "Please select the action to perform."
+msgstr "Merci de choisir l'opération à effectuer."
+
+#: links/check.php:444
+msgid ""
+"Check links through the Internet. If you click on the button above, the "
+"database will be scanned, and the server will attempt to open each link "
+"through the network. Broken URLS will be reported to you for further "
+"troubleshoting. Note that the program will stop automatically if too many "
+"broken links are found."
+msgstr ""
+"Vérification des liens à travers Internet. Si vous cliquez sur le bouton ci-"
+"dessous, la base de données va être analysée, et le serveur va tenter "
+"d'ouvrir chaque lien à travers le réseau. Les liens cassés vous seront "
+"signalés pour traitement par vos soins. Le programme s'arrêtera de lui-même "
+"si trop de liens cassés sont identifiés."
+
+#: links/check.php:447
+msgid ""
+"Check referrals through the Internet. If you click on the button above, "
+"referrals will be checked through the network. Note that the program will "
+"stop automatically if too many broken links are found."
+msgstr ""
+"Vérification des références à travers Internet. Si vous cliquez sur le "
+"bouton ci-dessous, les références vont être vérifiées à travers le réseau. "
+"Le programme s'arrêtera de lui-même si trop de liens cassés sont identifiés."
+
+#: links/check.php:450
+msgid ""
+"Normalize referrals. Referrals from search engines will be simplified as "
+"much as possible. Also, keywords are extracted for further use."
+msgstr ""
+"Normaliser les références extérieures. Les références provenant des moteurs "
+"de recherche seront simplifiées autant que possible. De plus, les mots-clés "
+"seront extraits pour usage ultérieur."
+
+#: links/check.php:453
+msgid "Look for orphan records"
+msgstr "Détecter les enregistrements orphelins"
+
+#: links/check.php:456
+msgid "Start"
+msgstr "Commencer"
+
+#: links/click.php:101 links/links.php:1126 links/links.php:1235
+msgid "No link URL has been provided."
+msgstr "Aucun lien URL n'a été fourni."
+
+#: links/click.php:114
+msgid "Click has not been recorded."
+msgstr "Les clics n'ont pas été enregistrés."
+
+#: links/delete.php:82
+msgid "Delete a link"
+msgstr "Effacer un lien"
+
+#: links/delete.php:112
+msgid "The action has not been confirmed."
+msgstr "L'action n'a pas été confirmée."
+
+#: links/delete.php:119
+msgid "Yes, I want to delete this link"
+msgstr "Oui, je veux supprimer ce lien"
+
+#: links/delete.php:121 links/edit.php:504
+msgid "Cancel"
+msgstr "Annuler"
+
+#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
+#: links/layout_links.php:76
+#, php-format
+msgid "edited by %s %s"
+msgstr "modifié par %s %s"
+
+#: links/delete.php:158 links/edit.php:556 links/layout_links.php:62
+msgid "clicks"
+msgstr "clics"
+
+#: links/edit.php:191
+msgid "Edit a link"
+msgstr "Modifier un lien"
+
+#: links/edit.php:193
+msgid "Add a link"
+msgstr "Ajouter un lien"
+
+#: links/edit.php:286 links/links.php:1132 links/links.php:1241
+msgid "No anchor has been found."
+msgstr "Aucun ancrage n'a été trouvé."
+
+#: links/edit.php:292
+msgid "Please prove you are not a robot."
+msgstr "Merci de prouver que vous n'êtes pas un robot."
+
+#: links/edit.php:317 links/trackback.php:206
+msgid "Thank you for your contribution"
+msgstr "Merci de votre contribution"
+
+#: links/edit.php:320
+msgid "The link has been successfully recorded."
+msgstr "Le lien a été enregistré"
+
+#: links/edit.php:326
+msgid "What do you want to do now?"
+msgstr "Que voulez-vous faire à présent ?"
+
+#: links/edit.php:329
+msgid "View the page"
+msgstr "Voir la page"
+
+#: links/edit.php:330
+msgid "Submit another link"
+msgstr "Envoyer un autre lien"
+
+#: links/edit.php:337
+#, php-format
+msgid "New link at %s"
+msgstr "Nouveau lien dans %s"
+
+#: links/edit.php:340
+#, php-format
+msgid "at %s"
+msgstr "à %s"
+
+#: links/edit.php:381
+msgid ""
+"This script will add this page to one of the sections listed below. If you "
+"would like to add a link to an existing page, browse the target page instead "
+"and use the adequate command from the menu."
+msgstr ""
+"Ce scritp va ajouter un nouveau lien à l'une des sections ci-dessous. Si "
+"vous souhaitez compléter une page existante, veuillez plutôt visualiser la "
+"page en question et utiliser la commande ad hoc dans le menu."
+
+#: links/edit.php:383 links/edit.php:391
+msgid "Section"
+msgstr "Section"
+
+#: links/edit.php:385 links/edit.php:393
+msgid "Please carefully select a section for your link"
+msgstr "Choisissez l'emplacement adéquat pour partager votre lien"
+
+#: links/edit.php:416
+#, php-format
+msgid ""
+"If you have previously registered to this site, please %s. Then the server "
+"will automatically put your name and address in following fields."
+msgstr ""
+"Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur "
+"pourra alors positionner votre nom et votre adresse automatiquement dans les "
+"champs ci-dessous."
+
+#: links/edit.php:416
+msgid "authenticate"
+msgstr "authentifier"
+
+#: links/edit.php:419
+msgid "Your name"
+msgstr "Votre nom"
+
+#: links/edit.php:421
+msgid "This optional field can be left blank if you wish."
+msgstr "Champ optionnel."
+
+#: links/edit.php:425
+msgid "Your address"
+msgstr "Votre adresse"
+
+#: links/edit.php:427
+msgid "e-mail or web address; this field is optional"
+msgstr "Adresse électronique, ou serveur web ; champ optionnel"
+
+#: links/edit.php:437
+msgid "Web address"
+msgstr "Adresse web"
+
+#: links/edit.php:446
+msgid ""
+"You can either type a plain url (http://) or use [article=&lt;id&gt;] "
+"notation"
+msgstr ""
+"Vous pouvez taper une URL (http://) ou un raccourci (notation [article=&lt;"
+"id&gt;])"
+
+#: links/edit.php:450
+msgid "Title"
+msgstr "Titre"
+
+#: links/edit.php:459 links/trackback.php:361
+msgid "Please provide a meaningful title."
+msgstr "Merci d'indiquer un titre significatif."
+
+#: links/edit.php:463
+msgid "Hovering popup"
+msgstr "Label de survol"
+
+#: links/edit.php:468
+msgid "This will appear near the link when the mouse is placed on top of it"
+msgstr "Ce qui apparaît près du lien lorsque la souris est placée au-dessus"
+
+#: links/edit.php:472
+msgid "Target window"
+msgstr "Fenêtre cible"
+
+#: links/edit.php:476
+msgid "Open a separate window for external links"
+msgstr "Ouvrir une fenêtre séparée pour les liens exterieurs"
+
+#: links/edit.php:480
+msgid "Stay in same window on click"
+msgstr "Ne pas changer de fenêtre pour afficher la page cible"
+
+#: links/edit.php:484
+msgid "Description"
+msgstr "Description"
+
+#: links/edit.php:502 links/trackback.php:339
+msgid "Submit"
+msgstr "Enregistrer"
+
+#: links/edit.php:502 links/trackback.php:339
+msgid "Press [s] to submit data"
+msgstr "Appuyer sur [s] pour envoyer les informations"
+
+#: links/edit.php:509
+msgid "Do not change modification date of the main page."
+msgstr "Ne pas changer la date de modification de la page principale."
+
+#: links/edit.php:512
+msgid "Ensure this post is valid XHTML."
+msgstr "Vérifier que le contenu est du XHTML valide."
+
+#: links/edit.php:528 links/trackback.php:354
+msgid "Please type a valid link."
+msgstr "Merci de fournir une adresse valide"
+
+#: links/edit.php:563
+#, php-format
+msgid ""
+"You can use following shortcuts to link to other pages of this server: %s"
+msgstr ""
+"Vous pouvez utiliser les raccourcis suivants pour créer des liens vers "
+"d'autres pages de ce serveur : %s"
+
+#: links/edit.php:564
+msgid "Please set a meaningful title to be used instead of the link itself."
+msgstr ""
+"Merci d'indiquer un titre significatif, qui sera utilisé en lieu et place du "
+"lien lui-même."
+
+#: links/edit.php:565
+msgid ""
+"Also, take the time to describe the link. This field is fully indexed for "
+"searches."
+msgstr ""
+"Et prenez le temps de décrire votre envoi. Le champ de description est "
+"complètement indexé afin de faciliter les recherches plein texte."
+
+#: links/edit.php:566
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "Utilisez %s et %s pour embellir le texte."
+
+#: links/edit.php:566
+msgid "YACS codes"
+msgstr "codes YACS"
+
+#: links/edit.php:566
+msgid "smileys"
+msgstr "emoticons"
+
+#: links/edit.php:567 links/trackback.php:398
+msgid "Help"
+msgstr "Aide"
+
+#: links/index.php:53
+#, php-format
+msgid "%d link"
+msgid_plural "%d links"
+msgstr[0] "%d lien"
+msgstr[1] "%d liens"
+
+#: links/index.php:92
+msgid "No link has been recorded yet."
+msgstr "Aucun lien n'a été transmis."
+
+#: links/index.php:108
+msgid "Detected clicks"
+msgstr "Liens détectés"
+
+#: links/index.php:118
+msgid "Popular"
+msgstr "Hit-Parade"
+
+#: links/index.php:125
+msgid "View the category"
+msgstr "Voir la catégorie"
+
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr "Modifier"
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr "Supprimer"
+
+#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
+#: links/layout_links.php:83
+#, php-format
+msgid "in %s"
+msgstr "dans %s"
+
+#: links/layout_links.php:88
+msgid "edit"
+msgstr "modifier"
+
+#: links/layout_links.php:89
+msgid "delete"
+msgstr "supprimer"
+
+#: links/links.php:267
+msgid "Clicks"
+msgstr "Clics"
+
+#: links/links.php:268
+msgid "Clicked links are referenced here."
+msgstr "Les liens utilisés sont référencés ici."
+
+#: links/links.php:269
+msgid ""
+"YACS ties automatically external links to this section on use. Therefore, "
+"you will have below a global picture of external sites that are referenced "
+"through your site."
+msgstr ""
+"YACS place les liens externes dans cette section lorsqu'ils sont utlisés. "
+"Vous avez ainsi ci-dessous une bonne visibilité des sites externes accèdés à "
+"travers votre site."
+
+#: links/links.php:1229
+msgid "No item has the provided id."
+msgstr "Identifiant inconnu."
+
+#: links/trackback.php:119
+#, php-format
+msgid "Reference: %s"
+msgstr "Référencer : %s"
+
+#: links/trackback.php:242
+msgid "No resource to track back."
+msgstr "La ressource à lier n'est pas indiquée."
+
+#: links/trackback.php:255
+msgid ""
+"At any place of this site, use the following code to reference the target "
+"page:"
+msgstr ""
+"Nous vous suggérons de copier-coller le texte suivant pour référencer cette "
+"page :"
+
+#: links/trackback.php:259
+msgid "Internal reference"
+msgstr "Référence interne"
+
+#: links/trackback.php:273
+msgid ""
+"We suggest you to cut and paste the following piece of text to reference "
+"this page:"
+msgstr ""
+"Nous vous suggérons de copier-coller le texte suivant pour référencer cette "
+"page :"
+
+#: links/trackback.php:277
+msgid "Permanent address (permalink):"
+msgstr "Adresse permanente (permalink) :"
+
+#: links/trackback.php:288
+msgid "Other address:"
+msgid_plural "Other addresses:"
+msgstr[0] "Autre adresse :"
+msgstr[1] "Autres adresses :"
+
+#: links/trackback.php:292
+msgid "External reference"
+msgstr "Référence externe"
+
+#: links/trackback.php:300
+msgid ""
+"You can use the form below to manually trackback any of your pages to this "
+"site. Of course, use this capability only if your weblogging software is not "
+"able to do it automatically."
+msgstr ""
+"Vous pouvez utiliser le formulaire ci-dessous pour indiquer une de vos pages "
+"qui pointe vers ce site. Bien entendu, ceci concerne avant tout les "
+"utilisateurs de logiciels de weblogging ne le faisant pas automatiquement."
+
+#: links/trackback.php:307
+msgid "your_server/your_page"
+msgstr "votre_serveur/votre_page"
+
+#: links/trackback.php:308
+msgid "Referencing address"
+msgstr "Adresse de référencement"
+
+#: links/trackback.php:310
+msgid "The remote address that is referencing content at this site"
+msgstr "L'adresse distante qui référence quelque information sur ce serveur"
+
+#: links/trackback.php:314
+msgid "Its title"
+msgstr "Son titre"
+
+#: links/trackback.php:316
+msgid "The title of your page"
+msgstr "Le titre de votre page"
+
+#: links/trackback.php:320
+msgid "Excerpt or description"
+msgstr "Extrait ou description"
+
+#: links/trackback.php:322
+msgid ""
+"As this field may be searched by surfers, please choose adequate searchable "
+"words"
+msgstr ""
+"Ce champ étant indexé pour les recherches, pensez à soigner votre formulation"
+
+#: links/trackback.php:326
+msgid "Blog name or section"
+msgstr "Nom de blog ou de section"
+
+#: links/trackback.php:328
+msgid "To complement the excerpt"
+msgstr "Pour compléter l'extrait"
+
+#: links/trackback.php:368
+msgid "You must type an excerpt of the referencing page."
+msgstr "Vous devez indiquer un extrait de lapage de référencement."
+
+#: links/trackback.php:375
+msgid "You must name the originating blog."
+msgstr "Vous devez taper un nom de blog."
+
+#: links/trackback.php:389
+msgid "Trackback address:"
+msgstr "Référencement (trackback) :"
+
+#: links/trackback.php:393
+msgid "Trackback"
+msgstr "Trackback"
+
+#: links/trackback.php:396
+#, php-format
+msgid ""
+"This server supports the %s created by Ben Trott and Mena Trott. Please note "
+"that any %s system attempts to trackback up to seven links from each "
+"published page."
+msgstr ""
+"Ce serveur respecte la %s telle qu'annoncée par Ben et Mena Trott. A ce "
+"sujet, veuillez noter que tout serveur %s utilise le trackback pour "
+"référencer jusqu'à sept liens lors de la publication d'un article."
+
+#: links/trackback.php:396
+msgid "trackback specification"
+msgstr "spécification trackback"
+
+#: links/trackback.php:397
+msgid "You can use this form to manually trackback your pages to this site."
+msgstr ""
+"Vous pouvez utiliser ce formulaire pour lier manuellement vos pages à celles "
+"de ce site."
+
+#~ msgid "Persons that have been notified"
+#~ msgstr "Personnes notifiées"
+
+#~ msgid ""
+#~ "Please feel free to blog about this particular page, and to trackback to "
+#~ "it."
+#~ msgstr "Merci de bloguer cette page, ou de la référencer (trackback)."
+
+#~ msgid "This page has been locked."
+#~ msgstr "Cette page a été verrouillée."
+
+#~ msgid "YACS"
+#~ msgstr "YACS"
+
+#~ msgid "Scanning links by chunks of %d. Please wait..."
+#~ msgstr "Analyse des liens par blocs de %d. Merci de patienter..."
+
+#~ msgid "Scanning links table..."
+#~ msgstr "Analyse de la table des liens..."
+
+#~ msgid "%d clicks"
+#~ msgstr "%d sélections"
+
+#~ msgid "%d click"
+#~ msgid_plural "%d clicks"
+#~ msgstr[0] "%d sélection"
+#~ msgstr[1] "%d sélections"
+
+#~ msgid "Following referrals have been suppressed:"
+#~ msgstr "Les références suivantes ont été supprimées :"
+
+#~ msgid "1 click"
+#~ msgid_plural "%d clicks"
+#~ msgstr[0] "1 clic"
+#~ msgstr[1] "%d clics"
+
+#~ msgid "Thank you very much for your contribution"
+#~ msgstr "Merci beaucoup de votre contribution"
+
+#~ msgid "Links maintenance"
+#~ msgstr "Maintenance des liens"
+
+#~ msgid "Blog and trackback"
+#~ msgstr "Liens croisés"
+
+#~ msgid "Thank you for tracking back."
+#~ msgstr "Merci d'avoir pris le temps d'enrichir cette ressource."
+
+#~ msgid "You must set a referencing web address."
+#~ msgstr "Vous devez indiquer l'adresse mentionnant ce site."
+
+#~ msgid "You must type the title of the referencing page."
+#~ msgstr "Vous devez indiquer le titre de la page de référencement."
+
+#~ msgid "Posts are not allowed anymore here."
+#~ msgstr "Les envois ne sont plus autorisés ici."
+
+#~ msgid "Edited by"
+#~ msgstr "Modifié par"
+
+#~ msgid "Selections"
+#~ msgstr "Sélections"
+
+#~ msgid "Page summary"
+#~ msgstr "Résumé de l'article"
+
+#~ msgid "Drop a link to your page"
+#~ msgstr "Ajouter un lien vers votre page"
+
+#~ msgid "1&nbsp;link"
+#~ msgid_plural "%d&nbsp;links"
+#~ msgstr[0] "1&nbsp;lien"
+#~ msgstr[1] "%d&nbsp;liens"
+
+#~ msgid "1&nbsp;click"
+#~ msgid_plural "%d&nbsp;clicks"
+#~ msgstr[0] "1&nbsp;sélection"
+#~ msgstr[1] "%d&nbsp;sélections"
+
+#~ msgid "Unknown article"
+#~ msgstr "Articel inconnu"
+
+#~ msgid "Unknown section"
+#~ msgstr "Section inconnue"
+
+#~ msgid "Unknown file"
+#~ msgstr "Fichier inconnu"
+
+#~ msgid "Unknown image"
+#~ msgstr "Image inconnue"
+
+#~ msgid "Unknown category"
+#~ msgstr "Catégorie inconnue"
+
+#~ msgid "Unknown user"
+#~ msgstr "Utilisateur inconnu"
+
+#~ msgid "Update a link"
+#~ msgstr "Mettre un lien à jour"
+
+#~ msgid "Clicks: %s"
+#~ msgstr "Clics : %s"
+
+#~ msgid "Referral and target servers are different."
+#~ msgstr "Le référent et la cible sont différents."
+
+#~ msgid "Attachment page: %s"
+#~ msgstr "Page d'attachement : %s"
+
+#~ msgid "%d records have been processed. Done"
+#~ msgstr "%d enregistrements ont été traités. Traitement terminé"
+
+#~ msgid "Post a new link"
+#~ msgstr "Attacher un nouveau lien"
+
+#~ msgid "Last edition by"
+#~ msgstr "Dernière modification par "
+
+#~ msgid "posted by %s"
+#~ msgstr "transmis par %s"
+
+#~ msgid "Submit this link"
+#~ msgstr "Enregistrer le lien"
+
+#~ msgid "Referrals"
+#~ msgstr "Références externes"
+
+#~ msgid "No link anchor has been provided."
+#~ msgstr "Aucune ancre n'a été fournie pour ce lien."
+
+#~ msgid "No link id has been provided."
+#~ msgstr "Aucun identifiant n'a été fourni pour ce lien."

@@ -40,6 +40,7 @@
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
 include_once '../servers/servers.php'; // servers to be advertised
+include_once '../articles/article.php'; // servers to be advertised
 
 // look for the id
 $id = NULL;
@@ -50,12 +51,17 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
+
+// get the related overlay, if any
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // surfer can proceed
 if(Articles::allow_publication($anchor, $item)) {
@@ -87,12 +93,17 @@ if(isset($item['id']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	include '../error.php';
+
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // publication is not available to everybody
 } elseif(!$permitted) {
@@ -102,12 +113,12 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'publish')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // page has already been published
 } elseif(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // publication is confirmed
@@ -125,72 +136,23 @@ if(Surfer::is_crawler()) {
 	// post-processing tasks
 	else {
 
-		// advertise watchers
-		$anchor->touch('article:create', $item['id']);
+		// reflect in memory what has been saved in database
+		$item['publish_date'] = $_REQUEST['publish_date'];
+
+		// send to watchers of this page, and to watchers upwards
+		$watching_context = new Article();
+		$watching_context->load_by_content($item, $anchor);
+
+		// do whatever is necessary on page publication
+		Articles::finalize_publication($watching_context, $item, $overlay,
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified of your post'));
-
-		// trackback option
-		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {
-
-			// expose links within the page
-			$raw = $item['introduction'].' '.$item['source'].' '.$item['description'];
-
-			// pingback & trackback
-			list($links, $advertised, $skipped) = Links::ping($raw, 'article:'.$item['id']);
-
-			// report on processed links
-			if(@count($links)) {
-				$context['text'] .= '<p>'.i18n::s('Following links have been parsed:')."</p>\n";
-
-				$context['text'] .= '<ul>';
-				foreach($links as $link) {
-
-					// the link itself
-					$context['text'] .= '<li>'.Skin::build_link($link);
-
-					// link has been pinged
-					if(is_array($advertised) && in_array($link, $advertised))
-						$context['text'] .= ' ('.i18n::s('advertised').') ';
-
-					$context['text'] .= "</li>\n";
-				}
-				$context['text'] .= "</ul>\n";
-			}
-
-			// report on skipped links
-			if(@count($skipped)) {
-				$context['text'] .= '<p>'.i18n::s('Following links have been skipped:')."</p>\n";
-
-				$context['text'] .= '<ul>';
-				foreach($skipped as $link)
-					$context['text'] .= '<li>'.Skin::build_link($link)."</li>\n";
-				$context['text'] .= "</ul>\n";
-			}
-		}
-
-		// ping option
-		if(isset($_REQUEST['ping_option']) && ($_REQUEST['ping_option'] == 'Y')) {
-
-			// notify servers
-			Servers::notify($anchor->get_url());
-
-			// report on job done
-			$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified of your post'));
-
-		}
-
-		// 'publish' hook
-		if(is_callable(array('Hooks', 'include_scripts')))
-			$context['text'] .= Hooks::include_scripts('publish', $item['id']);
-
-		// touch the related anchor
-		if(is_object($anchor))
-			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+		$context['text'] .= Mailer::build_recipients('article:'.$item['id']);
 
 		// clear the cache
 		Articles::clear($item);
@@ -231,7 +193,7 @@ if($with_form) {
 	// advertise public pages
 	$ping_option = FALSE;
 	$trackback_option = FALSE;
-	if(is_object($anchor) && $anchor->is_public()
+	if($anchor->is_public()
 			&& (isset($item['active']) && ($item['active'] == 'Y')) ) {
 		$ping_option = TRUE;
 		$trackback_option = TRUE;
@@ -298,6 +260,13 @@ if($with_form) {
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 	$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// notify watchers --updating a file, or uploading a new file, should generate a notification
+	$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+
+	// notify people following me
+	if(Surfer::get_id() && !$anchor->is_hidden())
+		$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
 
 	// article id and confirmation
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

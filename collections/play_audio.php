@@ -87,7 +87,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	$context['page_title'] = i18n::s('Restricted access');
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -210,7 +210,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		// suggest a download
 		if(!headers_sent()) {
 			$file_name = utf8::to_ascii($id.'.m3u');
-			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+			Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 		}
 
 		// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

@@ -38,13 +38,12 @@
  * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;comment=&lt;id>] - use comment id in link label
  * - &#91;comment=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;decision=&lt;id>] - use decision id in link label
- * - &#91;decision=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;script]&lt;path/script.php&gt;[/email] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
+ * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
  *
  * @see codes/index.php
  *
@@ -109,6 +108,14 @@ $context['text'] .= '[title]'.i18n::s('External link').' [escape][link]&lt;url&g
 	.'<td>'.i18n::s('You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]').'</td></tr>'
 	.Skin::table_suffix();
 
+// YouTube link
+$context['text'] .= '[title]'.i18n::s('YouTube link').' [escape]http://www.youtube.com/watch?v=Qo7vUdKTlhk[/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape]http://www.youtube.com/watch?v=Qo7vUdKTlhk[/escape]</td>'
+	.'<td>http://www.youtube.com/watch?v=Qo7vUdKTlhk</td></tr>'
+	.Skin::table_suffix();
+
 // [link]url[/link] - internal
 $context['text'] .= '[title]'.i18n::s('Internal link').' [escape][link]&lt;url&gt;[/link][/escape][/title]'
 	.Skin::table_prefix('wide')
@@ -142,7 +149,7 @@ $context['text'] .= '[title]'.i18n::s('Labelled button').' [escape][button=&lt;l
 	.Skin::table_suffix();
 
 // [click=label|url] [clicks=url]
-$context['text'] .= '[title]'.i18n::s('Count clicks').' [escape][click=&lt;label&gt;|&lt;url&gt;] [clicks=&lt;url&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Member clicks').' [escape][click=&lt;label&gt;|&lt;url&gt;] [clicks=&lt;url&gt;][/escape][/title]'
 	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [click=Cisco On Line|http://www.cisco.com] [folded][clicks=http://www.cisco.com][/folded]').'[/escape]</td>'
@@ -293,6 +300,14 @@ $context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&
 	.'<td>'.sprintf(i18n::s('Click to %s'), '[download='.$file_id.', '.i18n::s('download the file').']').'</td></tr>'
 	.Skin::table_suffix();
 
+// [clicks=id]
+$context['text'] .= '[title]'.i18n::s('Member clicks').' [escape][clicks=&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][clicks='.$file_id.'][/escape]</td>'
+	.'<td>[clicks='.$file_id.']</td></tr>'
+	.Skin::table_suffix();
+
 // [action=id]
 $context['text'] .= '[title]'.i18n::s('Action shortcut').' [escape][action=&lt;id&gt;] [action=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('wide')
@@ -307,14 +322,6 @@ $context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [comment=2, this comment]').'[/escape]</td>'
 	.'<td>'.i18n::s('Click to view the page of [comment=2, this comment]').'</td></tr>'
-	.Skin::table_suffix();
-
-// [decision=id]
-$context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&lt;id&gt;] [decision=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [decision=2, this decision]').'[/escape]</td>'
-	.'<td>'.i18n::s('Click to view the page of [decision=2, this decision]').'</td></tr>'
 	.Skin::table_suffix();
 
 // [script]index.php[/script]
@@ -339,6 +346,14 @@ $context['text'] .= '[title]'.i18n::s('Wikipedia').' [escape][wikipedia=keyword]
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'[/escape]</td>'
 	.'<td>'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'</td></tr>'
+	.Skin::table_suffix();
+
+// [proxy]url[/proxy]
+$context['text'] .= '[title]'.i18n::s('Proxy').' [escape][proxy]web address[/proxy][/escape][/title]'
+	.Skin::table_prefix('wide')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][proxy]http://www.google.com/[/proxy][/escape]</td>'
+	.'<td>[proxy]http://www.google.com/[/proxy]</td></tr>'
 	.Skin::table_suffix();
 
 // transform the text

@@ -27,12 +27,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // only strict section owners can proceed
 if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())
@@ -63,7 +63,7 @@ if(isset($item['title']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -78,7 +78,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'own')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do the job
@@ -100,7 +100,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['email'], $user['id'])).'</p>';
 
 	// name current owner
-	} elseif(isset($item['owner_id']) && ($owner =& Users::get($item['owner_id']))) {
+	} elseif(isset($item['owner_id']) && ($owner = Users::get($item['owner_id']))) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($owner['full_name'], $owner['email'], $owner['id'])).'</p>';
 
 	}
@@ -110,19 +110,20 @@ if(Surfer::is_crawler()) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_completer.gif" alt="Working..." /></span>'
-		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'">'
-		.'<input type="hidden" name="action" value="set">'
+		.'<input type="text" name="assigned_name" id="assigned_name" size="45" maxlength="255" />'
+		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'" />'
+		.'<input type="hidden" name="action" value="set" />'
+		.' <input type="submit" id="submit_button" value="'.i18n::s('Submit').'" style="display: none;" />'
 		.'</p></form>'."\n";
 
 	// enable autocompletion
 	$context['text'] .= JS_PREFIX
 		."\n"
-		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("name").focus() });'."\n"
-		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("name", "name_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: ",", afterUpdateElement: function(text, li) { $("ajax_spinner").style.display = "inline"; $("main_form").submit() }, indicator: "ajax_spinner" }); });'."\n"
+		.''."\n"
+		.'$(function() {'."\n"
+		.'	$("#name").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); });'."\n" // enable name autocompletion
+		.'});  '."\n"
 		.JS_SUFFIX;
 
 	// back to the anchor page

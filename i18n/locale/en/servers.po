@@ -1,0 +1,768 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YACS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 20:59+0100\n"
+"PO-Revision-Date: 2010-09-29 15:15+0100\n"
+"Last-Translator: Bernard Paques\n"
+"Language-Team: Bernard Paques\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: servers/configure.php:35 servers/configure.php:79 servers/configure.php:146
+msgid "Control Panel"
+msgstr "Control Panel"
+
+#: servers/configure.php:38
+#, php-format
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: servers/configure.php:38 servers/index.php:108
+msgid "Configure"
+msgstr "Configure"
+
+#: servers/configure.php:38 servers/configure.php:83 servers/configure.php:145
+#: servers/delete.php:44 servers/edit.php:49 servers/index.php:58
+#: servers/ping.php:23 servers/ping.php:71 servers/populate.php:69
+#: servers/test.php:72 servers/view.php:73
+msgid "Servers"
+msgstr "Servers"
+
+#: servers/configure.php:47 servers/delete.php:56 servers/edit.php:68
+#: servers/edit.php:77 servers/index.php:68 servers/ping.php:31
+#: servers/ping.php:40 servers/test.php:80 servers/test.php:95
+#: servers/view.php:92
+msgid "You are not allowed to perform this operation."
+msgstr "You are not allowed to perform this operation."
+
+#: servers/configure.php:61
+msgid "Servers to be banned"
+msgstr "Servers to be banned"
+
+#: servers/configure.php:63
+msgid "Links and referrals from these servers will be dropped"
+msgstr "Links and referrals from these servers will be dropped"
+
+#: servers/configure.php:75 servers/edit.php:307
+msgid "Submit"
+msgstr "Submit"
+
+#: servers/configure.php:75 servers/edit.php:307
+msgid "Press [s] to submit data"
+msgstr "Press [s] to submit data"
+
+#: servers/configure.php:100
+msgid "You are not allowed to perform this operation in demonstration mode."
+msgstr "You are not allowed to perform this operation in demonstration mode."
+
+#: servers/configure.php:120
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+
+#: servers/configure.php:123
+#, php-format
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+
+#: servers/configure.php:128
+#, php-format
+msgid "The following configuration has been saved into the file %s."
+msgstr "The following configuration has been saved into the file %s."
+
+#: servers/configure.php:134
+#, php-format
+msgid "%s has been updated"
+msgstr "%s has been updated"
+
+#: servers/configure.php:140
+msgid "Configuration parameters"
+msgstr "Configuration parameters"
+
+#: servers/configure.php:143
+msgid "Where do you want to go now?"
+msgstr "Where do you want to go now?"
+
+#: servers/configure.php:147
+msgid "Configure again"
+msgstr "Configure again"
+
+#: servers/delete.php:47
+msgid "Delete a server"
+msgstr "Delete a server"
+
+#: servers/delete.php:69
+msgid "The action has not been confirmed."
+msgstr "The action has not been confirmed."
+
+#: servers/delete.php:78
+msgid "Yes, I want to suppress this server"
+msgstr "Yes, I want to suppress this server"
+
+#: servers/delete.php:98 servers/edit.php:130 servers/layout_servers.php:76
+#: servers/test.php:106 servers/view.php:113
+#, php-format
+msgid "edited by %s %s"
+msgstr "edited by %s %s"
+
+#: servers/delete.php:102 servers/edit.php:163 servers/test.php:110
+#: servers/view.php:117
+msgid "Community - Access is granted to any identified surfer"
+msgstr "Community - Access is granted to any identified surfer"
+
+#: servers/delete.php:106 servers/edit.php:167 servers/test.php:114
+#: servers/view.php:121
+msgid "Private - Access is restricted to selected persons"
+msgstr "Private - Access is restricted to selected persons"
+
+#: servers/delete.php:113 servers/test.php:125 servers/view.php:133
+#, php-format
+msgid "Main URL: %s"
+msgstr "Main URL: %s"
+
+#: servers/delete.php:117 servers/test.php:135
+#, php-format
+msgid "Feed URL: %s"
+msgstr "Feed URL: %s"
+
+#: servers/delete.php:121 servers/test.php:198
+#, php-format
+msgid "Related to %s"
+msgstr "Related to %s"
+
+#: servers/delete.php:124 servers/view.php:136
+msgid "Services accessed remotely"
+msgstr "Services accessed remotely"
+
+#: servers/delete.php:128
+#, php-format
+msgid "News published at this server will be fetched periodically from %s"
+msgstr "News published at this server will be fetched periodically from %s"
+
+#: servers/delete.php:130 servers/view.php:145
+msgid "Do not check news from this server."
+msgstr "Do not check news from this server."
+
+#: servers/delete.php:134 servers/view.php:150
+#, php-format
+msgid ""
+"This server has to be pinged on updates, by using XML-RPC calls "
+"<code>weblogUpdates.ping</code> at %s"
+msgstr ""
+"This server has to be pinged on updates, by using XML-RPC calls "
+"<code>weblogUpdates.ping</code> at %s"
+
+#: servers/delete.php:136 servers/view.php:152
+msgid "Updates are not transmitted to this server."
+msgstr "Updates are not transmitted to this server."
+
+#: servers/delete.php:140 servers/view.php:157
+#, php-format
+msgid ""
+"This server has to be polled, by using XML-RPC calls <code>monitor.ping</"
+"code> at %s"
+msgstr ""
+"This server has to be polled, by using XML-RPC calls <code>monitor.ping</"
+"code> at %s"
+
+#: servers/delete.php:142 servers/view.php:159
+msgid "Do not poll this server to check its state."
+msgstr "Do not poll this server to check its state."
+
+#: servers/delete.php:146 servers/view.php:164
+#, php-format
+msgid "This server has to be included into searches, by using REST calls at %s"
+msgstr ""
+"This server has to be included into searches, by using REST calls at %s"
+
+#: servers/delete.php:148 servers/view.php:166
+msgid "Do not submit search requests to this server."
+msgstr "Do not submit search requests to this server."
+
+#: servers/delete.php:151 servers/view.php:170
+msgid "Allowed queries from this server"
+msgstr "Allowed queries from this server"
+
+#: servers/delete.php:155
+#, php-format
+msgid ""
+"This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+"code>) at %s"
+msgstr ""
+"This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+"code>) at %s"
+
+#: servers/delete.php:157 servers/view.php:176
+msgid "This server is not allowed to advertise changes."
+msgstr "This server is not allowed to advertise changes."
+
+#: servers/delete.php:161 servers/view.php:188
+#, php-format
+msgid ""
+"This server is allowed to submit monitoring requests (<code>monitor.ping</"
+"code>) at %s"
+msgstr ""
+"This server is allowed to submit monitoring requests (<code>monitor.ping</"
+"code>) at %s"
+
+#: servers/delete.php:163 servers/view.php:190
+msgid "This server is not allowed to submit monitoring requests."
+msgstr "This server is not allowed to submit monitoring requests."
+
+#: servers/delete.php:167 servers/view.php:181
+#, php-format
+msgid "This server is allowed to submit search requests at %s"
+msgstr "This server is allowed to submit search requests at %s"
+
+#: servers/delete.php:169 servers/view.php:183
+msgid "This server is not allowed to submit search requests."
+msgstr "This server is not allowed to submit search requests."
+
+#: servers/delete.php:175 servers/view.php:197
+msgid "Server description"
+msgstr "Server description"
+
+#: servers/edit.php:53
+msgid "Edit a server profile"
+msgstr "Edit a server profile"
+
+#: servers/edit.php:55
+msgid "Add a server profile"
+msgstr "Add a server profile"
+
+#: servers/edit.php:133
+msgid "Overview"
+msgstr "Overview"
+
+#: servers/edit.php:136
+msgid "Title"
+msgstr "Title"
+
+#: servers/edit.php:138
+msgid "Label used to list this server profile"
+msgstr "Label used to list this server profile"
+
+#: servers/edit.php:142
+msgid "Network address"
+msgstr "Network address"
+
+#: servers/edit.php:144
+msgid "The web or email address to be used for a human being"
+msgstr "The web or email address to be used for a human being"
+
+#: servers/edit.php:148
+msgid "Description"
+msgstr "Description"
+
+#: servers/edit.php:155
+msgid "Access"
+msgstr "Access"
+
+#: servers/edit.php:159
+msgid "Public - Everybody, including anonymous surfers"
+msgstr "Public - Everybody, including anonymous surfers"
+
+#: servers/edit.php:175
+msgid "Web services used from this server"
+msgstr "Web services used from this server"
+
+#: servers/edit.php:178
+msgid "Feed"
+msgstr "Feed"
+
+#: servers/edit.php:182
+msgid "Do not read news from this server"
+msgstr "Do not read news from this server"
+
+#: servers/edit.php:188
+#, php-format
+msgid "Aggregate news from this server by reading the XML feed at %s"
+msgstr "Aggregate news from this server by reading the XML feed at %s"
+
+#: servers/edit.php:202
+msgid "External News"
+msgstr "External News"
+
+#: servers/edit.php:203
+msgid "Received from feeding servers"
+msgstr "Received from feeding servers"
+
+#: servers/edit.php:215
+#, php-format
+msgid "and store data in section %s"
+msgstr "and store data in section %s"
+
+#: servers/edit.php:219 servers/edit.php:279
+msgid "Ping"
+msgstr "Ping"
+
+#: servers/edit.php:223
+msgid "Do not advertise our changes to this remote server"
+msgstr "Do not advertise our changes to this remote server"
+
+#: servers/edit.php:229
+#, php-format
+msgid ""
+"On publication, submit XML-RPC call of <code>weblogUpdates.ping</code> at %s"
+msgstr ""
+"On publication, submit XML-RPC call of <code>weblogUpdates.ping</code> at %s"
+
+#: servers/edit.php:233 servers/edit.php:287
+msgid "Search"
+msgstr "Search"
+
+#: servers/edit.php:237
+msgid "Do not extend searches to this server"
+msgstr "Do not extend searches to this server"
+
+#: servers/edit.php:243
+#, php-format
+msgid "Submit search queries to this server, by REST calls at %s"
+msgstr "Submit search queries to this server, by REST calls at %s"
+
+#: servers/edit.php:247 servers/edit.php:295
+msgid "Monitor"
+msgstr "Monitor"
+
+#: servers/edit.php:251
+msgid "Do not monitor this server"
+msgstr "Do not monitor this server"
+
+#: servers/edit.php:257
+#, php-format
+msgid "Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s"
+msgstr "Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s"
+
+#: servers/edit.php:265
+msgid "Processing of queries received from this server"
+msgstr "Processing of queries received from this server"
+
+#: servers/edit.php:268
+msgid ""
+"Remote calls are allowed by default. Uncheck boxes below to ban this server "
+"if necessary."
+msgstr ""
+"Remote calls are allowed by default. Uncheck boxes below to ban this server "
+"if necessary."
+
+#: servers/edit.php:272
+msgid "Host name"
+msgstr "Host name"
+
+#: servers/edit.php:274
+msgid "Checked on each server request to us"
+msgstr "Checked on each server request to us"
+
+#: servers/edit.php:283
+#, php-format
+msgid ""
+"Accept and process advertisements (<code>weblogUpdates.ping</code>) "
+"transmitted by this server to %s"
+msgstr ""
+"Accept and process advertisements (<code>weblogUpdates.ping</code>) "
+"transmitted by this server to %s"
+
+#: servers/edit.php:283 servers/view.php:174
+msgid "the ping interface"
+msgstr "the ping interface"
+
+#: servers/edit.php:291
+#, php-format
+msgid "Accept and process search requests submitted by this server to %s"
+msgstr "Accept and process search requests submitted by this server to %s"
+
+#: servers/edit.php:291 servers/view.php:181
+msgid "the search interface"
+msgstr "the search interface"
+
+#: servers/edit.php:299
+#, php-format
+msgid ""
+"Allow this server to poll us regularly (<code>monitor.ping</code>) at %s"
+msgstr ""
+"Allow this server to poll us regularly (<code>monitor.ping</code>) at %s"
+
+#: servers/edit.php:299 servers/view.php:188
+msgid "the XML-RPC interface"
+msgstr "the XML-RPC interface"
+
+#: servers/edit.php:311
+msgid "Do not change modification date."
+msgstr "Do not change modification date."
+
+#: servers/edit.php:314
+msgid "Ensure this post is valid XHTML."
+msgstr "Ensure this post is valid XHTML."
+
+#: servers/edit.php:330
+msgid "Please provide a meaningful title."
+msgstr "Please provide a meaningful title."
+
+#: servers/edit.php:344
+msgid ""
+"Use this page to describe network interactions with a peering server, part "
+"of the cloud we are in."
+msgstr ""
+"Use this page to describe network interactions with a peering server, part "
+"of the cloud we are in."
+
+#: servers/edit.php:345
+msgid "Edit general-purpose attributes in the overview area."
+msgstr "Edit general-purpose attributes in the overview area."
+
+#: servers/edit.php:346
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr "%s and %s are available to enhance text rendering."
+
+#: servers/edit.php:346
+msgid "YACS codes"
+msgstr "YACS codes"
+
+#: servers/edit.php:346
+msgid "smileys"
+msgstr "smileys"
+
+#: servers/edit.php:347
+msgid "Then configure and trigger web services that we will use remotely."
+msgstr "Then configure and trigger web services that we will use remotely."
+
+#: servers/edit.php:348
+msgid ""
+"Also, uncheck web services that we should not provide to the target server."
+msgstr ""
+"Also, uncheck web services that we should not provide to the target server."
+
+#: servers/edit.php:349
+msgid "Help"
+msgstr "Help"
+
+#: servers/index.php:63
+#, php-format
+msgid "%d server"
+msgid_plural "%d servers"
+msgstr[0] "%d server"
+msgstr[1] "%d servers"
+
+#: servers/index.php:91 servers/ping.php:68
+msgid "No server has been created yet."
+msgstr "No server has been created yet."
+
+#: servers/index.php:106
+msgid "Add a server"
+msgstr "Add a server"
+
+#: servers/index.php:107 servers/ping.php:26
+msgid "Ping the cloud"
+msgstr "Ping the cloud"
+
+#: servers/index.php:109
+msgid "Populate"
+msgstr "Populate"
+
+#: servers/layout_servers.php:59 servers/test.php:212 servers/view.php:215
+msgid "Edit"
+msgstr "Edit"
+
+#: servers/layout_servers.php:60 servers/test.php:213 servers/view.php:216
+msgid "Delete"
+msgstr "Delete"
+
+#: servers/ping.php:48
+msgid "Servers that have been notified"
+msgstr "Servers that have been notified"
+
+#: servers/ping.php:81
+msgid ""
+"This script will ping (<code>weblogUpdates.ping</code>) every server "
+"configured to be part of our cloud. Normally, the publication script does "
+"this automatically. However, no ping occurs for pages submitted by XML-RPC "
+"or by e-mail. Therefore, you should launch this script at least once per "
+"month to ensure everybody knows about this site."
+msgstr ""
+"This script will ping (<code>weblogUpdates.ping</code>) every server "
+"configured to be part of our cloud. Normally, the publication script does "
+"this automatically. However, no ping occurs for pages submitted by XML-RPC "
+"or by e-mail. Therefore, you should launch this script at least once per "
+"month to ensure everybody knows about this site."
+
+#: servers/ping.php:86
+msgid "Yes, I want to ping the cloud"
+msgstr "Yes, I want to ping the cloud"
+
+#: servers/populate.php:72
+msgid "Content Assistant"
+msgstr "Content Assistant"
+
+#: servers/populate.php:89
+msgid ""
+"If your server has been installed on an intranet and is not visible from the "
+"Internet, please delete these profiles to avoid unnecessary requests back "
+"and forth. Your site will not be referenced anyway."
+msgstr ""
+"If your server has been installed on an intranet and is not visible from the "
+"Internet, please delete these profiles to avoid unnecessary requests back "
+"and forth. Your site will not be referenced anyway."
+
+#: servers/populate.php:95 servers/populate.php:118 servers/populate.php:141
+#: servers/populate.php:164 servers/populate.php:186 servers/populate.php:209
+#, php-format
+msgid "An entry already exists for server %s"
+msgstr "An entry already exists for server %s"
+
+#: servers/populate.php:98 servers/populate.php:121
+msgid "Another famous blogs aggregator"
+msgstr "Another famous blogs aggregator"
+
+#: servers/populate.php:111 servers/populate.php:134 servers/populate.php:157
+#: servers/populate.php:179 servers/populate.php:202 servers/populate.php:225
+#, php-format
+msgid "A record has been created for server %s"
+msgstr "A record has been created for server %s"
+
+#: servers/populate.php:144
+msgid "The famous pinging gateway"
+msgstr "The famous pinging gateway"
+
+#: servers/populate.php:189
+msgid "Do you Yahoo?"
+msgstr "Do you Yahoo?"
+
+#: servers/populate.php:207
+msgid "www.yacs.fr"
+msgstr "www.yacs.fr"
+
+#: servers/populate.php:212
+msgid "The origin server for the YACS system"
+msgstr "The origin server for the YACS system"
+
+#: servers/populate.php:233
+msgid "Back to servers"
+msgstr "Back to servers"
+
+#: servers/servers.php:547
+msgid "No title has been provided."
+msgstr "No title has been provided."
+
+#: servers/servers.php:608
+msgid "No item has the provided id."
+msgstr "No item has the provided id."
+
+#: servers/test.php:75
+msgid "Feed test"
+msgstr "Feed test"
+
+#: servers/test.php:129
+msgid "No feed url has been configured for this server profile."
+msgstr "No feed url has been configured for this server profile."
+
+#: servers/test.php:139
+msgid "Nothing to read from this feed."
+msgstr "Nothing to read from this feed."
+
+#: servers/test.php:145
+#, php-format
+msgid "%d elements have been read"
+msgstr "%d elements have been read"
+
+#: servers/test.php:165
+msgid "Empty item!"
+msgstr "Empty item!"
+
+#: servers/test.php:180
+msgid "the target server is banned"
+msgstr "the target server is banned"
+
+#: servers/test.php:183
+msgid "this link exists in the database"
+msgstr "this link exists in the database"
+
+#: servers/test.php:186
+msgid "this link has not been inserted in the database yet"
+msgstr "this link has not been inserted in the database yet"
+
+#: servers/test.php:206
+msgid "Back to main page"
+msgstr "Back to main page"
+
+#: servers/view.php:140 servers/view.php:211
+msgid "Test feed"
+msgstr "Test feed"
+
+#: servers/view.php:141
+#, php-format
+msgid "News published at this server at %s - %s are fetched periodically"
+msgstr "News published at this server at %s - %s are fetched periodically"
+
+#: servers/view.php:143
+#, php-format
+msgid "and aggregated locally at %s"
+msgstr "and aggregated locally at %s"
+
+#: servers/view.php:174
+msgid ""
+"This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+"code>) at %"
+msgstr ""
+"This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+"code>) at %"
+
+#~ msgid "Following web sites have been contacted:"
+#~ msgstr "Following web sites have been contacted:"
+
+#~ msgid "Back to server profile"
+#~ msgstr "Back to server profile"
+
+#~ msgid "Access is restricted to authenticated members"
+#~ msgstr "Access is restricted to authenticated members"
+
+#~ msgid "Access is restricted to associates"
+#~ msgstr "Access is restricted to associates"
+
+#~ msgid "Visibility"
+#~ msgstr "Visibility"
+
+#~ msgid "Anyone may read this profile."
+#~ msgstr "Anyone may read this profile."
+
+#~ msgid "RSS Test"
+#~ msgstr "RSS Test"
+
+#~ msgid "www.yetanothercommunitysystem.com"
+#~ msgstr "www.yetanothercommunitysystem.com"
+
+#~ msgid "Configure: %s"
+#~ msgstr "Configure: %s"
+
+#~ msgid "Referrals"
+#~ msgstr "Referrals"
+
+#~ msgid "Search the World Live Web"
+#~ msgstr "Search the World Live Web"
+
+#~ msgid ""
+#~ "This server has to be pinged on updates, by using XML-RPC calls "
+#~ "<code>weblogUpdates.ping</code> at <code>%s</code>"
+#~ msgstr ""
+#~ "This server has to be pinged on updates, by using XML-RPC calls "
+#~ "<code>weblogUpdates.ping</code> at <code>%s</code>"
+
+#~ msgid ""
+#~ "This server has to be polled, by using XML-RPC calls <code>monitor.ping</"
+#~ "code> at <code>%s</code>"
+#~ msgstr ""
+#~ "This server has to be polled, by using XML-RPC calls <code>monitor.ping</"
+#~ "code> at <code>%s</code>"
+
+#~ msgid ""
+#~ "This server has to be included into searches, by using REST calls at "
+#~ "<code>%s</code>"
+#~ msgstr ""
+#~ "This server has to be included into searches, by using REST calls at "
+#~ "<code>%s</code>"
+
+#~ msgid ""
+#~ "This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+#~ "code>) at <code>%s</code>"
+#~ msgstr ""
+#~ "This server is allowed to advertise changes (<code>weblogUpdates.ping</"
+#~ "code>) at <code>%s</code>"
+
+#~ msgid ""
+#~ "This server is allowed to submit monitoring requests (<code>monitor.ping</"
+#~ "code>) at <code>%s</code>"
+#~ msgstr ""
+#~ "This server is allowed to submit monitoring requests (<code>monitor.ping</"
+#~ "code>) at <code>%s</code>"
+
+#~ msgid "This server is allowed to submit search requests at <code>%s</code>"
+#~ msgstr "This server is allowed to submit search requests at <code>%s</code>"
+
+#~ msgid "Access is restricted to authenticated members."
+#~ msgstr "Access is restricted to authenticated members."
+
+#~ msgid "Access is restricted to associates."
+#~ msgstr "Access is restricted to associates."
+
+#~ msgid "Ping other servers of the cloud"
+#~ msgstr "Ping other servers of the cloud"
+
+#~ msgid "No server profile to ping! You should configure at least %s"
+#~ msgstr "No server profile to ping! You should configure at least %s"
+
+#~ msgid "some common targets"
+#~ msgstr "some common targets"
+
+#~ msgid ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+#~ msgstr ""
+#~ "This instance of YACS runs in demonstration mode. For security reasons "
+#~ "configuration parameters cannot be changed in this mode."
+
+#~ msgid "Add default server profiles"
+#~ msgstr "Add default server profiles"
+
+#~ msgid "Feed test: %s"
+#~ msgstr "Feed test: %s"
+
+#~ msgid "1&nbsp;server"
+#~ msgid_plural "%d&nbsp;servers"
+#~ msgstr[0] "1&nbsp;server"
+#~ msgstr[1] "%d&nbsp;servers"
+
+#~ msgid "The configuration panel for servers"
+#~ msgstr "The configuration panel for servers"
+
+#~ msgid "Go to the Control Panel"
+#~ msgstr "Go to the Control Panel"
+
+#~ msgid "All server profiles"
+#~ msgstr "All server profiles"
+
+#~ msgid "Add a new server profile"
+#~ msgstr "Add a new server profile"
+
+#~ msgid "Create default server profiles"
+#~ msgstr "Create default server profiles"
+
+#~ msgid "Edit again"
+#~ msgstr "Edit again"
+
+#~ msgid "Configure servers"
+#~ msgstr "Configure servers"
+
+#~ msgid "Visibility is restricted to logged members."
+#~ msgstr "Visibility is restricted to logged members."
+
+#~ msgid "Visibility is restricted to the associates of the community."
+#~ msgstr "Visibility is restricted to the associates of the community."
+
+#~ msgid "Restricted to logged members"
+#~ msgstr "Restricted to logged members"
+
+#~ msgid "edited by %s"
+#~ msgstr "edited by %s"
+
+#~ msgid "Visibility is restricted to the associates of the community"
+#~ msgstr "Visibility is restricted to the associates of the community"

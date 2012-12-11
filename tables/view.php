@@ -39,12 +39,12 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-$item =& Tables::get($id);
+$item = Tables::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -58,6 +58,10 @@ load_skin('tables', $anchor);
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
+
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'table:'.$item['id'];
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
@@ -87,7 +91,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Tables::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link

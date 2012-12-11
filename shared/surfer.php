@@ -47,7 +47,7 @@ Class Surfer {
 	 *
 	 * @param string additional anchor editable during this session
 	 */
-	function add_handle($handle) {
+	public static function add_handle($handle) {
 
 		// sanity check
 		if(!$handle)
@@ -75,7 +75,7 @@ Class Surfer {
 	 * @param int maximum number of articles to return
 	 * @return array ids of managed articles
 	 */
-	function assigned_articles($id=NULL, $maximum=200) {
+	public static function assigned_articles($id=NULL, $maximum=200) {
 		global $context;
 
 		// default to current surfer
@@ -103,10 +103,10 @@ Class Surfer {
 			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 		// submit a silent query because at setup tables don't exist
-		if(($result =& SQL::query($query, TRUE))) {
+		if(($result = SQL::query($query, TRUE))) {
 
 			// build the list
-			while($row =& SQL::fetch($result))
+			while($row = SQL::fetch($result))
 				$cache[ $id ][] = $row['id'];
 
 		}
@@ -128,7 +128,7 @@ Class Surfer {
 	 * @param int maximum number of sections to return
 	 * @return array ids of managed sections
 	 */
-	function assigned_sections($id=NULL, $maximum=200) {
+	public static function assigned_sections($id=NULL, $maximum=200) {
 		global $context;
 
 		// don't look at sub-levels
@@ -169,10 +169,10 @@ Class Surfer {
 				." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 			// submit a silent query because at setup tables don't exist
-			if(($result =& SQL::query($query, TRUE))) {
+			if(($result = SQL::query($query, TRUE))) {
 
 				// build the list
-				while($row =& SQL::fetch($result))
+				while($row = SQL::fetch($result))
 					$cache[ $id ][] = $row['id'];
 
 			}
@@ -188,10 +188,10 @@ Class Surfer {
 
 				// submit a silent query because at setup tables don't exist
 				$level = array();
-				if(($result =& SQL::query($query, TRUE))) {
+				if(($result = SQL::query($query, TRUE))) {
 
 					// build the list
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -205,11 +205,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -223,11 +223,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -241,11 +241,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -259,11 +259,11 @@ Class Surfer {
 					." ORDER BY sections.edit_date DESC LIMIT 0, ".$maximum;
 
 				// submit a silent query because at setup tables don't exist
-				if($level && ($result =& SQL::query($query, TRUE))) {
+				if($level && ($result = SQL::query($query, TRUE))) {
 
 					// build the list
 					$level = array();
-					while($row =& SQL::fetch($result)) {
+					while($row = SQL::fetch($result)) {
 						$cache[ $id ][] = $row['id'];
 						$level[] = $row['id'];
 					}
@@ -289,7 +289,7 @@ Class Surfer {
 	 *
 	 * @see skins/skin_skeleton.php
 	 */
-	function &build_user_menu($type = 'submenu') {
+	public static function &build_user_menu($type = 'submenu') {
 		global $context;
 
 		// surfer is a valid user
@@ -372,7 +372,7 @@ Class Surfer {
 	 * @see tables/tables.php
 	 * @see users/users.php
 	 */
-	function check_default_editor(&$fields) {
+	public static function check_default_editor(&$fields) {
 
 		// surfer is the editor
 		if(!isset($fields['edit_name']) || !trim($fields['edit_name'])) {
@@ -415,7 +415,7 @@ Class Surfer {
 	 *
 	 * @param string new capability of this surfer, '?', 'S', 'M' or 'A'
 	 */
-	function empower($capability='A') {
+	public static function empower($capability='A') {
 		global $context;
 
 		if(($capability == '?') || ($capability == 'S') || ($capability == 'M') || ($capability == 'A'))
@@ -428,13 +428,10 @@ Class Surfer {
 	 *
 	 * @return string "Foo Bar" <foo@acme.com>, or NULL
 	 */
-	function from() {
-
-		$text = '';
+	public static function from() {
 
 		// use surfer full name if possible
-		if($name = Surfer::get_name())
-			$text .= '"'.str_replace('"', '', $name).'" ';
+		$text = '"'.str_replace('"', '', Surfer::get_name()).'" ';
 
 		// add the email address
 		if($address = Surfer::get_email_address())
@@ -462,7 +459,7 @@ Class Surfer {
 	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
 	 * @return string a rewrite of the stamp in the surfer time zone
 	 */
-	function from_GMT($stamp) {
+	public static function from_GMT($stamp) {
 		global $context;
 
 		// sanity check
@@ -474,6 +471,22 @@ Class Surfer {
 
 		// shift to surfer time zone
 		return strftime('%Y-%m-%d %H:%M:%S', $stamp + (Surfer::get_gmt_offset() * 3600));
+	}
+
+	/**
+	 * get the web address of personal avatar, if any
+	 *
+	 * @return string web link to the avatar, or NULL
+	 */
+	public static function get_avatar_url() {
+		global $context;
+
+		// read surfer record in database
+		if(($id = Surfer::get_id()) && is_callable(array('Users', 'get')) && ($user = Users::get($id)) && ($url = trim($user['avatar_url'])))
+			return $url;
+
+		// tough luck
+		return NULL;
 	}
 
 	/**
@@ -490,7 +503,7 @@ Class Surfer {
 	 *
 	 * @return char either 'A', 'M', 'S', 'C' or '?'
 	 */
-	function get_capability() {
+	public static function get_capability() {
 		global $context;
 
 		// flag crawlers to the cache engine
@@ -533,7 +546,7 @@ Class Surfer {
 	 * @param boolean TRUE to grow the control on focus
 	 * @return string to be inserted in the XHTML flow
 	 */
-	function get_editor($name='description', $value='', $spring=FALSE) {
+	public static function get_editor($name='description', $value='', $spring=FALSE) {
 		global $context;
 
 		// returned string
@@ -558,7 +571,7 @@ Class Surfer {
 			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
 
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
+		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
@@ -574,9 +587,22 @@ Class Surfer {
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
 
-		// a textarea that grow on focus
+		// a textarea that grow automatically
 		} elseif($spring) {
-			$text .= '<textarea name="'.$name.'" id="'.$name.'" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);"></textarea>';
+			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
+				.'<textarea name="'.$name.'" id="'.$name.'"'
+				.	' rows="1" cols="50" class="tip" >'
+				.	'</textarea>'."\n"
+				.JS_PREFIX
+				.'$(function(){'
+				.	'$("textarea#'.$name.'").autogrow();'
+				.	'setTimeout(function() {'
+				.		'$("textarea#'.$name.'")'
+				.			'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
+				.			'.tipsy("show");'
+				.	'}, 5000);'
+				.'});'."\n"
+				.JS_SUFFIX;
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
@@ -612,7 +638,7 @@ Class Surfer {
 	 *
 	 * @return string a valid address, or NULL
 	 */
-	function get_email_address() {
+	public static function get_email_address() {
 		global $context;
 
 		// use session data
@@ -629,7 +655,7 @@ Class Surfer {
 	 *
 	 * @see skins/skin_skeleton.php
 	 */
-	function get_gmt_offset() {
+	public static function get_gmt_offset() {
 		global $context;
 
 		// use cookie sent by browser -- see shared/yacs.js
@@ -645,7 +671,7 @@ Class Surfer {
 	 *
 	 * @return a positive integer or 0
 	 */
-	function get_id() {
+	public static function get_id() {
 		global $context;
 
 		// enforce session scope
@@ -660,12 +686,32 @@ Class Surfer {
 	}
 
 	/**
+	 * build a pretty link to the profile page of this surfer
+	 *
+	 * This function is a proxy for Users::get_link(), limited to current surfer.
+	 *
+	 * @return string some text describing this surfer, with a link to get more information
+	 *
+	 * @see users/users.php
+	 */
+	public static function get_link() {
+		global $context;
+
+		return Users::get_link(Surfer::get_name(), Surfer::get_email_address(), Surfer::get_id());
+	}
+
+	/**
 	 * get the name of the current surfer, if known
 	 *
+	 * If the surfer has been authenticated, then its name is provided.
+	 *
+	 * In all other cases the address of the workstation is appended to the name.
+	 * The label can be either retrieved from a cookie, or it's 'anonymous'.
+	 *
 	 * @param string default name
-	 * @return string user short name, or NULL
+	 * @return string the name to qualify this surfer
 	 */
-	function get_name($default = '') {
+	public static function get_name($default = '') {
 		global $context;
 
 		// use session data
@@ -674,18 +720,22 @@ Class Surfer {
 
 		// use cookie
 		if(isset($_COOKIE['surfer_name']) && trim($_COOKIE['surfer_name']))
-			return $_COOKIE['surfer_name'];
+			$name = $_COOKIE['surfer_name'];
 
 		// we have some default string to use
-		if($default)
-			return $default;
-
-		// use network address
-		if(isset($_SERVER['REMOTE_ADDR']) && trim($_SERVER['REMOTE_ADDR']))
-			return $_SERVER['REMOTE_ADDR'];
+		elseif($default)
+			$name =  $default;
 
 		// really anonymous!
-		return i18n::s('anonymous');
+		else
+			$name = i18n::s('anonymous');
+
+		// append network address
+		if(isset($_SERVER['REMOTE_ADDR']) && trim($_SERVER['REMOTE_ADDR']))
+			$name .= '@'.$_SERVER['REMOTE_ADDR'];
+
+		// return this name
+		return $name;
 	}
 
 	/**
@@ -693,7 +743,7 @@ Class Surfer {
 	 *
 	 * @return string web link to the target user profile, or NULL
 	 */
-	function get_path_bar($anchor=NULL, $all_articles=TRUE) {
+	public static function get_path_bar($anchor=NULL, $all_articles=TRUE) {
 
 		// section is visible to this user
 		if(is_object($anchor) && $anchor->is_viewable())
@@ -716,9 +766,24 @@ Class Surfer {
 	 *
 	 * @return string web link to the target user profile, or NULL
 	 */
-	function get_permalink() {
+	public static function get_permalink() {
 		if(Surfer::get_id() && is_callable(array('Users', 'get_url')))
 			return Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+		return NULL;
+	}
+
+	/**
+	 * get the phone number of the current surfer, if known
+	 *
+	 * @return string a valid number, or NULL
+	 */
+	public static function get_phone_number() {
+		global $context;
+
+		// use session data
+		if(isset($_SESSION['surfer_phone_number']))
+			return $_SESSION['surfer_phone_number'];
+
 		return NULL;
 	}
 
@@ -744,7 +809,7 @@ Class Surfer {
 	 *
 	 * @return array to be inserted in the form, or NULL
 	 */
-	function get_robot_stopper() {
+	public static function get_robot_stopper() {
 		global $context;
 
 		// we are sure the surfer is not a robot
@@ -778,7 +843,7 @@ Class Surfer {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	function has_all() {
+	public static function has_all() {
 
 		if(isset($_SESSION['surfer_interface']) && ($_SESSION['surfer_interface'] == 'C'))
 			return TRUE;
@@ -795,7 +860,7 @@ Class Surfer {
 	 *
 	 * @see skins/skin_skeleton.php
 	 */
-	function has_flash() {
+	public static function has_flash() {
 		global $context;
 
 		// use cookie sent by browser -- see shared/yacs.js
@@ -812,7 +877,7 @@ Class Surfer {
 	 * To control that a surfer is the actual creator of one article, following code may be used:
 	 * [php]
 	 * // load the article from the database, including the editors list
-	 * $item =& Articles::get($id);
+	 * $item = Articles::get($id);
 	 *
 	 * // check that the current surfer is a valid editor
 	 * if(Surfer::is($item['create_id']) {
@@ -823,7 +888,7 @@ Class Surfer {
 	 * @param string the id of the original poster
 	 * @return true or false
 	 */
-	function is($id) {
+	public static function is($id) {
 
 		// sanity check
 		if(!$id)
@@ -846,7 +911,7 @@ Class Surfer {
 	 * @param string specific capability, '?', 'M' or 'A'
 	 * @return true or false
 	 */
-	function is_associate($capability='?') {
+	public static function is_associate($capability='?') {
 		global $context;
 
 		// surfer has been empowered for this transaction
@@ -873,7 +938,7 @@ Class Surfer {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	function is_crawler() {
+	public static function is_crawler() {
 
 		// quite often software robots do not declare themselves
 		if(!isset($_SERVER['HTTP_USER_AGENT']))
@@ -930,22 +995,25 @@ Class Surfer {
 	 *
 	 * @return boolean TRUE if a large browser is used, FALSE otherwise
 	 */
-	function is_desktop() {
+	public static function is_desktop() {
 		global $context;
 
-		// parse request headers
-		if(!is_callable('apache_request_headers'))
-			return TRUE;
-		if(!$headers = apache_request_headers())
-			return TRUE;
+		// use header provided by PHP
+		if(isset($_SERVER['HTTP_USER_AGENT']))
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		// look at specific attributes
-		$values = '';
-		foreach($headers as $name => $value)
- 			$values .= $value.' ';
+		// else rely on Apache integration
+		elseif(!is_callable('apache_request_headers'))
+			return TRUE;
+		elseif(!$headers = apache_request_headers())
+			return TRUE;
+		elseif(!isset($headers['User-Agent']))
+			return TRUE;
+		else
+			$user_agent = $headers['User-Agent'];
 
 		// not a desktop, for sure
-		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $values))
+		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $user_agent))
 			return FALSE;
 
 		// we don't know
@@ -958,7 +1026,7 @@ Class Surfer {
 	 * @param string checked capability for this surfer, '?', 'M' or 'A'
 	 * @return true or false
 	 */
-	function is_empowered($capability='A') {
+	public static function is_empowered($capability='A') {
 		global $context;
 
 		// surfer has been empowered for this transaction
@@ -981,7 +1049,7 @@ Class Surfer {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	function is_logged() {
+	public static function is_logged() {
 		global $context;
 
 		// enforce session scope
@@ -991,19 +1059,12 @@ Class Surfer {
 			if(!isset($_SESSION['surfer_capability']))
 				return FALSE;
 
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'A')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'M')
-				return TRUE;
-
-			// surfer has been authenticated as a valid associate
-			if($_SESSION['surfer_capability'] == 'S')
+			// surfer is either an associate, a member, or a subscriber
+			if(in_array($_SESSION['surfer_capability'], array('A', 'M', 'S')))
 				return TRUE;
 
 		}
+
 		return FALSE;
 	}
 
@@ -1015,7 +1076,7 @@ Class Surfer {
 	 * @param string specific capability, '?', 'M' or 'A'
 	 * @return true or false
 	 */
-	function is_member($capability='?') {
+	public static function is_member($capability='?') {
 		global $context;
 
 		// surfer has been empowered for this transaction
@@ -1042,15 +1103,11 @@ Class Surfer {
 	 *
 	 * @return boolean TRUE if links to protected pages should be provided, FALSE otherwise
 	 */
-	function is_teased() {
+	public static function is_teased() {
 		global $context;
 
 		// never tease crawlers
 		if(Surfer::is_crawler())
-			return FALSE;
-
-		// no need to tease logged surfers
-		if(Surfer::is_logged())
 			return FALSE;
 
 		// use global parameter
@@ -1059,6 +1116,35 @@ Class Surfer {
 
 		// suggest registrations
 		return TRUE;
+	}
+
+	/**
+	 * is this a trusted host?
+	 *
+	 * Network addresses of trusted hosts are defined in the configuration panel for users.
+	 * Private content should be exposed to trusted hosts.
+	 *
+	 * @see users/configure.php
+	 *
+	 * @return boolean TRUE if request is coming from a trusted host, FALSE otherwise
+	 */
+	public static function is_trusted() {
+		global $context;
+
+		// no parameter has been set
+		if(!isset($context['users_trusted_hosts']))
+			return FALSE;
+
+		// match the network address
+		if(isset($_SERVER['REMOTE_ADDR']) && (strpos($context['users_trusted_hosts'], $_SERVER['REMOTE_ADDR']) !== FALSE))
+			return TRUE;
+
+		// match the network address
+		if(isset($_SERVER['REMOTE_HOST']) && (strpos($context['users_trusted_hosts'], $_SERVER['REMOTE_HOST']) !== FALSE))
+			return TRUE;
+
+		// not trusted
+		return FALSE;
 	}
 
 	/**
@@ -1072,7 +1158,7 @@ Class Surfer {
 	 * @param string the target anchor, if any
 	 * @param string level of visibility for this anchor (e.g., 'Y', 'R' or 'N')
 	 */
-	function is_visiting($link, $label, $anchor=NULL, $active='Y') {
+	public static function is_visiting($link, $label, $anchor=NULL, $active='Y') {
 		global $context;
 
 		// don't track crawlers
@@ -1141,7 +1227,7 @@ Class Surfer {
 	 *
 	 * @return FALSE if salt and pepper are equals, TRUE otherwise
 	 */
-	function may_be_a_robot() {
+	public static function may_be_a_robot() {
 		global $context;
 
 		// this has already been checked
@@ -1180,7 +1266,7 @@ Class Surfer {
 	 *
 	 * @return TRUE if alowed, FALSE otherwise
 	 */
-	function may_contact($id=NULL) {
+	public static function may_contact($id=NULL) {
 		global $context;
 
 		// associate can always do it
@@ -1211,7 +1297,7 @@ Class Surfer {
 	 * @param string the secret handle
 	 * @return TRUE or FALSE
 	 */
-	function may_handle($handle) {
+	public static function may_handle($handle) {
 
 		// no handle in session
 		if(!isset($_SESSION['surfer_handles']) || !is_array($_SESSION['surfer_handles']))
@@ -1227,7 +1313,7 @@ Class Surfer {
 	 *
 	 * @return TRUE if alowed, FALSE otherwise
 	 */
-	function may_mail() {
+	public static function may_mail() {
 		global $context;
 
 		// email has to be activated
@@ -1257,7 +1343,7 @@ Class Surfer {
 	 * @param string actual capability, for possible impersonation (see services/blog.php)
 	 * @return TRUE if the surfer is allowed to upload files, FALSE otherwise
 	 */
-	function may_upload($capability=NULL) {
+	public static function may_upload($capability=NULL) {
 		global $context;
 
 		// sanity check
@@ -1292,7 +1378,7 @@ Class Surfer {
 	 *
 	 * @link http://fr.php.net/manual/en/function.session-destroy.php PHP: session_destroy
 	 */
-	function reset() {
+	public static function reset() {
 		global $context;
 
 		// if surfer has been authenticated
@@ -1339,7 +1425,8 @@ Class Surfer {
 	 * - $fields['nick_name'] - nick name of the logged surfer
 	 * - $fields['email'] - email address
 	 * - $fields['editor'] - preferred on-line editor
-	 * - $fields['capability'] - 'A'ssociate or 'M'ember
+	 * - $fields['capability'] - 'A'ssociate or 'M'ember or 'S'ubscriber or '?'
+	 * - $fields['phone_number'] - phone number (international format)
 	 *
 	 * We also remember the IP address of the authenticating workstation,
 	 * and the root path of the instance that has validated the surfer.
@@ -1347,13 +1434,13 @@ Class Surfer {
 	 * @param array session attributes
 	 * @param boolean TRUE to remind date of last login in user record
 	 */
-	function set($fields, $update_flag = FALSE) {
+	public static function set($fields, $update_flag = FALSE) {
 		global $context;
 
 		// save session attributes
 		$_SESSION['surfer_id'] = isset($fields['id'])?$fields['id']:'';
 
-		$_SESSION['surfer_language'] = isset($fields['language'])?$fields['language']:'';
+		$_SESSION['surfer_language'] = isset($fields['language'])?$fields['language']:'none';
 
 		if(isset($fields['full_name']) && $fields['full_name'])
 			$_SESSION['surfer_name'] = $fields['full_name'];
@@ -1363,6 +1450,8 @@ Class Surfer {
 			$_SESSION['surfer_name'] = '';
 
 		$_SESSION['surfer_email_address'] = isset($fields['email'])?$fields['email']:'';
+
+		$_SESSION['surfer_phone_number'] = isset($fields['phone_number'])?$fields['phone_number']:'';
 
 		// provide a default capability only to recorded users
 		if(!$_SESSION['surfer_id'])
@@ -1398,12 +1487,6 @@ Class Surfer {
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$_SESSION['workstation_id'] = $_SERVER['REMOTE_ADDR'];
 
-		// screen sharing
-		$_SESSION['with_sharing'] = isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N';
-
-		// an external network address has been defined
-		$_SESSION['proxy_address'] = isset($fields['proxy_address']) ? $fields['proxy_address'] : '';
-
 		// remember the authenticating instance
 		if(isset($context['url_to_root']) && $context['url_to_root'])
 			$_SESSION['server_id'] = $context['url_to_root'];
@@ -1411,11 +1494,60 @@ Class Surfer {
 		// the surfer has been authenticated, do not challenge him anymore
 		$_SESSION['surfer_is_not_a_robot'] = TRUE;
 
-		// remember silently the date of the last login
-		if($update_flag && isset($fields['id'])) {
-			$query = "UPDATE ".SQL::table_name('users')." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."', authenticate_failures=0 WHERE id = ".$fields['id'];
+		// update user record
+		if(isset($fields['id'])) {
+
+			// clear tentatives of authentication
+			$query = array();
+			$query[] = 'authenticate_failures=0';
+
+			// remember the date of login
+			if($update_flag) {
+				$query[] = "login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+				$query[] = "login_address='".$_SERVER['REMOTE_ADDR']."'";
+			}
+
+			// do the update
+			$query = "UPDATE ".SQL::table_name('users')." SET ".implode(', ', $query)." WHERE id = ".$fields['id'];
 			SQL::query($query, FALSE, $context['users_connection']);
 		}
+
+		// set a semi-permanent cookie for user identification
+		if(isset($fields['handle']) && $fields['handle'] && isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+
+			// time of authentication
+			$now = (string)time();
+
+			// token is made of: user id, time of login, gmt offset, salt --salt combines date of login with secret handle
+			$token = $fields['id'].'|'.$now.'|'.Surfer::get_gmt_offset().'|'.md5($now.'|'.$fields['handle']);
+
+			// attempt to set this cookie while answering the current request
+			Surfer::set_cookie('screening', $token);
+
+			// path to this instance			// we will do it again on next transaction, to take care of redirections, if any
+			$_SESSION['surfer_token'] = $token;
+
+		}
+
+	}
+
+	/**
+	 * set a permanent cookie
+	 *
+	 * @param string cookie name
+	 * @param string cookie value
+	 */
+	public static function set_cookie($name, $value) {
+		global $context;
+
+		// assign the cookie to this instance of yacs
+		Safe::setcookie($name, $value, time()+60*60*24*500, $context['url_to_root']);
+
+		// also set cookies used in leading index.php
+		if($home = getenv('YACS_HOME'))
+			Safe::setcookie($name, $value, time()+60*60*24*500, $home.'/');
+		if($context['url_to_root'] == '/yacs/')
+			Safe::setcookie($name, $value, time()+60*60*24*500, '/');
 
 	}
 
@@ -1431,7 +1563,7 @@ Class Surfer {
 	 *
 	 * @param array session attributes
 	 */
-	function track($fields) {
+	public static function track($fields) {
 		global $context;
 
 		// preserve permanent settings
@@ -1457,7 +1589,7 @@ Class Surfer {
 	 * @param string of allowed tags, if any
 	 * @return a clean string or array
 	 */
-	function strip_tags($input, $allowed_tags='') {
+	public static function strip_tags($input, $allowed_tags='') {
 
 		// do it recursively
 		if(is_array($input)) {
@@ -1493,7 +1625,7 @@ Class Surfer {
 	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
 	 * @return string a rewrite of the stamp in the UTC time zone
 	 */
-	function to_GMT($stamp) {
+	public static function to_GMT($stamp) {
 
 		// sanity check
 		if(!isset($stamp) || ($stamp <= NULL_DATE))
@@ -1514,6 +1646,16 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 	Safe::ini_set('session.use_only_cookies', '1');
 	//Safe::ini_set('session.use_trans_sid', '0'); -- don't uncomment !!!
 	Safe::ini_set('url_rewriter.tags', '');
+}
+
+// set the permanent cookie on the transaction that folows the login, in case a redirection would have happened
+if(isset($_SESSION['surfer_token'])) {
+
+	// set it
+	Surfer::set_cookie('screening', $_SESSION['surfer_token']);
+
+	// don't do that again
+	unset($_SESSION['surfer_token']);
 }
 
 // retrieve session data, but not if run from the command line, and not from robot nor spider

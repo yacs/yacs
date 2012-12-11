@@ -35,14 +35,14 @@ $context['page_title'] = $year;
 
 // no more than three years difference with now
 if(abs(mktime(0, 0, 0, 1, 1, $year) - time()) > (31536000 * 3)) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
 
 	// page main content
 	$cache_id = 'dates/year.php#text#'.$year;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// robots cannot navigate
 		if(!Surfer::is_crawler()) {
@@ -83,7 +83,7 @@ if(abs(mktime(0, 0, 0, 1, 1, $year) - time()) > (31536000 * 3)) {
 
 // page extra content
 $cache_id = 'dates/year.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

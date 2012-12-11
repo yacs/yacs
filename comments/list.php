@@ -67,7 +67,7 @@ $id = strip_tags($id);
 // get the anchor
 $anchor = NULL;
 if($id)
-	$anchor =& Anchors::get($id);
+	$anchor = Anchors::get($id);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
@@ -99,8 +99,7 @@ else
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable()) {
-	$title = $anchor->get_title();;
-	$context['page_title'] = $anchor->get_label('comments', 'list_title', $title);
+	$context['page_title'] = $anchor->get_title();
 } else
 	$context['page_title'] = i18n::s('Comments');
 
@@ -117,12 +116,12 @@ if(!is_object($anchor)) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('comments/list.php?id='.$anchor->get_reference()));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop hackers
 } elseif($page > 10) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
@@ -136,7 +135,7 @@ if(!is_object($anchor)) {
 
 	// cache the section
 	$cache_id = 'comments/list.php?id='.$anchor->get_reference().'#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// get a layout from anchor
 		$layout =& Comments::get_layout($anchor);
@@ -156,11 +155,6 @@ if(!is_object($anchor)) {
 		if(is_object($layout) && method_exists($layout, 'set_offset'))
 			$layout->set_offset($offset);
 
-		// reverse order
-		$reverted = FALSE;
-		if(is_object($anchor) && $anchor->has_option('comments_as_wall'))
-			$reverted = TRUE;
-
 		// build a complete box
 		$box['bar'] = array();
 		$box['text'] = '';
@@ -169,9 +163,12 @@ if(!is_object($anchor)) {
 		include_once '../comments/comments.php';
 		if($count = Comments::count_for_anchor($anchor->get_reference())) {
 			if($count > 1) {
-				$box['bar'] += array('_count' => $count.' '.$anchor->get_label('comments', 'count_many'));
-			} elseif($count == 1) {
-				$box['bar'] += array('_count' => '1 '.$anchor->get_label('comments', 'count_one'));
+				$label = '';
+				if(is_object($anchor->overlay))
+					$label = $anchor->overlay->get_label('list_title', 'comments');
+				if(!$label)
+					$label = i18n::s('Comments');
+				$box['bar'] += array('_count' => $count.' '.strtolower($label));
 			}
 
 			// navigation commands for comments
@@ -180,7 +177,7 @@ if(!is_object($anchor)) {
 				Skin::navigate($anchor->get_url('comments'), $prefix, $count, $items_per_page, $page, FALSE));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, $reverted);
+			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, TRUE);
 
 			// actually render the html
 			if(is_array($items))
@@ -193,8 +190,13 @@ if(!is_object($anchor)) {
 		// the command to post a new comment, if this is allowed
 		if(Comments::allow_creation($anchor)) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+			$label = '';
+			if(is_object($anchor->overlay))
+				$label = $anchor->overlay->get_label('new_command', 'comments');
+			if(!$label)
+				$label = i18n::s('Add a comment');
 			$box['bar'] = array_merge($box['bar'],
-				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$anchor->get_label('comments', 'new_command') ));
+				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$label ));
 		}
 
 		// show commands

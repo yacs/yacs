@@ -35,7 +35,7 @@ $id = strip_tags($id);
 // get the anchor
 $anchor = NULL;
 if($id)
-	$anchor =& Anchors::get($id);
+	$anchor = Anchors::get($id);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
@@ -84,12 +84,12 @@ if(!is_object($anchor)) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('files/list.php?id='.$anchor->get_reference()));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop hackers
 } elseif($page > 10) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
@@ -125,10 +125,10 @@ if(!is_object($anchor)) {
 		$context['page_menu'] += Skin::navigate($anchor->get_url('files'), $prefix, $count, $items_per_page, $page, FALSE);
 
 		// list files by date or by title
-		if($anchor->has_option('files_by_title'))
-			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+		if($anchor->has_option('files_by') == 'title')
+			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, $anchor->get_reference());
 		else
-			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $anchor->get_reference());
 
 		// actually render the html
 		if(is_array($items))
@@ -145,10 +145,15 @@ if(!is_object($anchor)) {
 	// page menu
 	//
 
+	// get parent of the anchor too
+	$parent = NULL;
+	if(is_object($anchor) && ($parent = $anchor->get_parent()))
+		$parent =&  Anchors::get($parent);
+
 	// the command to post a new file, if this is allowed
-	if(Files::allow_creation($anchor)) {
+	if(is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type())) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Upload a file'));
+		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Add a file'));
 	}
 
 	// command to go back
@@ -159,8 +164,8 @@ if(!is_object($anchor)) {
 	//
 
 	// the command to post a new file, if this is allowed
-	if(Files::allow_creation($anchor))
-		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Upload a file'));
+	if(is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type()))
+		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Add a file'));
 
 	// back to main page
 	$context['page_tools'][] = Skin::build_link($anchor->get_url(), i18n::s('Back to main page'));

@@ -2,9 +2,6 @@
 /**
  * the posting form as a browser sidebar
  *
- * @todo add an option to make it post bookmarks
- * @link http://quikonnex.com/start/ Channel Viever and Bookmark Server
- *
  * This is a simple form to ease blogger work. Put text here while browsing.
  * Then hit the submit button to push it at your own web site.
  *
@@ -68,7 +65,7 @@ $context['text'] .= '<p>'.i18n::s('Title').BR
 
 // the introduction
 $context['text'] .= '<p>'.i18n::s('Introduction').BR
-	.'<textarea name="introduction" rows="2" cols="20" accesskey="i"></textarea>'
+	.'<textarea name="introduction" rows="3" cols="20" accesskey="i"></textarea>'
 	.'</p>'."\n";
 
 // the description label

@@ -22,6 +22,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
+ * @author Alexis Raimbault
  * @tester Anatoly
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -34,7 +35,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -43,31 +44,42 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			return $output;
 		}
 
-		// layout in a table
-		$text = Skin::table_prefix('yabb');
-
-		// headers
-		$text .= Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
+		// output as a string
+		$text = '';
 
 		// build a list of sections
 		$family = '';
-		while($item =& SQL::fetch($result)) {
+		$first = TRUE;
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
-				$text .= '<tr><td class="family" colspan="3">'.$family.'&nbsp;</td></tr>'."\n";
+				// close last table only if a section has been already listed
+				if(!$first) {
+				    $text .= Skin::table_suffix();
+				}
+				// show the family
+				$text .= '<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
+					.Skin::table_prefix('yabb')
+					.Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
+			} elseif($first) {
+			    $text .= Skin::table_prefix('yabb');
+			    $text .= Skin::table_row(array(i18n::s('Board'), 'center='.i18n::s('Topics'), i18n::s('Last post')), 'header');
 			}
+
+			// done with this case
+			$first = FALSE;
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the section');
@@ -75,7 +87,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title as a link to the page
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
@@ -102,8 +114,8 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators =& Members::list_editors_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
-				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
+			if($moderators = Sections::list_editors_by_name($item, 0, 7, 'comma5'))
+				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), $moderators);
 
 			// children boards
 			if($children =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
@@ -135,7 +147,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 			// get last post
 			$last_post = '--';
-			$article =& Articles::get_newest_for_anchor('section:'.$item['id'], TRUE);
+			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
 			if($article['id']) {
 
 				// flag articles updated recently

@@ -79,12 +79,12 @@ $context['text'] .= '[title]'.i18n::s('Twitter profile').' [escape][twitter=&lt;
 $context['text'] .= '[title]'.i18n::s('Twitter search').' [escape][tsearch=&lt;keyword&gt;][/escape][/title]'
 	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][tsearch=#yacs, 300, 200, subject: \'yacs\'][/escape]</td>'
-	.'<td>[tsearch=#yacs, 300, 200, subject: \'yacs\']</td></tr>'
+	.'<tr><td class="sample">[escape][tsearch=#yacs][/escape]</td>'
+	.'<td>[tsearch=#yacs]</td></tr>'
 	.Skin::table_suffix();
 
 // [iframe]
-$context['text'] .= '[title]'.i18n::s('External page').' [escape][iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('External page').' [escape][iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe][/escape][/title]'
 	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][iframe=500, 320]http://www.cisco.com/[/iframe][/escape]</td>'

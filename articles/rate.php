@@ -42,12 +42,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // look for the rating
 $rating = 0;
@@ -69,17 +69,9 @@ if(is_object($anchor) && !$anchor->is_viewable())
 elseif(is_object($anchor) && $anchor->has_option('without_rating'))
 	$permitted = FALSE;
 
-// surfer is logged
-elseif(Surfer::is_logged())
-	$permitted = TRUE;
-
-// surfer may handle this item
-elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	$permitted = TRUE;
-
-// the default is to disallow access
+// the default is to allow rating
 else
-	$permitted = FALSE;
+	$permitted = TRUE;
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -97,7 +89,7 @@ if(isset($item['title']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -112,13 +104,13 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'rate')));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // a rating has already been registered
 } elseif(isset($_COOKIE['rating_'.$id])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('You have already rated his page.'));
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You have already rated this page.'));
 
 // not a valid rating
 } elseif(($rating < 1 ) || ($rating > 5)) {
@@ -139,19 +131,19 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<input type="hidden" name="referer" value="'.encode_field($_SERVER['HTTP_REFERER']).'" />';
 
 	// give a five
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="$(\'main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
 
 	// give a four
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="4" onclick="$(\'main_form\').submit()" /> '.i18n::s('Good').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="4" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Good').' </div> ';
 
 	// give a three
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="3" onclick="$(\'main_form\').submit()" /> '.i18n::s('Average').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="3" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Average').' </div> ';
 
 	// give a two
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="2" onclick="$(\'main_form\').submit()" /> '.i18n::s('Poor').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="2" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Poor').' </div> ';
 
 	// give a one
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="$(\'main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="$(\'#main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
 
 	$context['text'] .= '<br style="clear: left;" />';
 

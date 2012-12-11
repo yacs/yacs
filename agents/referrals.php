@@ -18,7 +18,7 @@ class Referrals {
 	 *
 	 * @see agents/referrals_hook.php
 	 */
-	function check_request() {
+	public static function check_request() {
 		global $context;
 
 		// don't bother with HEAD requests
@@ -63,7 +63,7 @@ class Referrals {
 		// if a record exists for this url
 		$query = "SELECT id FROM ".SQL::table_name('referrals')." AS referrals"
 			." WHERE referrals.url LIKE '".SQL::escape($url)."' AND referrals.referer LIKE '".SQL::escape($referer)."'";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return;
 
 		// update figures
@@ -77,8 +77,7 @@ class Referrals {
 		} else {
 
 			// ensure the referer is accessible
-			include_once $context['path_to_root'].'links/link.php';
-			if(($content = Link::fetch($referer, '', '', 'agents/referrals.php')) === FALSE)
+			if(($content = http::proceed($referer)) === FALSE)
 				return;
 
 			// we have to find a reference to ourself in this page
@@ -115,7 +114,7 @@ class Referrals {
 	 *
 	 * @see links/check.php
 	 */
-	function delete($referer) {
+	public static function delete($referer) {
 		global $context;
 
 		$query = "DELETE FROM ".SQL::table_name('referrals')." WHERE referer LIKE '".SQL::escape($referer)."'";
@@ -130,7 +129,7 @@ class Referrals {
 	 *
 	 * @see links/check.php
 	 */
-	function list_by_dates($offset=0, $count=10) {
+	public static function list_by_dates($offset=0, $count=10) {
 		global $context;
 
 		// the list of referrals
@@ -151,7 +150,7 @@ class Referrals {
 	 *
 	 * @see agents/index.php
 	 */
-	function list_by_domain($offset=0, $count=10) {
+	public static function list_by_domain($offset=0, $count=10) {
 		global $context;
 
 		// the list of domains
@@ -206,7 +205,7 @@ class Referrals {
 	 * @see users/index.php
 	 * @see users/view.php
 	 */
-	function list_by_hits_for_url($url, $offset=0, $count=10) {
+	public static function list_by_hits_for_url($url, $offset=0, $count=10) {
 		global $context;
 
 		// the front page is a special case
@@ -228,7 +227,7 @@ class Referrals {
 
 		// render a compact list, and including the number of referrals
 		$items = array();
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// hack to make this compliant to XHTML
 			$url = str_replace('&', '&amp;', $row['referer']);
@@ -249,7 +248,7 @@ class Referrals {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 */
-	function list_by_hits($offset=0, $count=10) {
+	public static function list_by_hits($offset=0, $count=10) {
 		global $context;
 
 		// the list of referrals
@@ -257,7 +256,7 @@ class Referrals {
 			." GROUP BY referer"
 			." ORDER BY hits DESC LIMIT ".$offset.', '.$count;
 		if($result = SQL::query($query, $context['connection'])) {
-			while($row =& SQL::fetch($result)) {
+			while($row = SQL::fetch($result)) {
 				$url = $row['referer'];
 				$items[$url] = Skin::build_number($row['hits']);
 			}
@@ -274,7 +273,7 @@ class Referrals {
 	 *
 	 * @see agents/index.php
 	 */
-	function list_by_keywords($offset=0, $count=10) {
+	public static function list_by_keywords($offset=0, $count=10) {
 		global $context;
 
 		// the list of domains
@@ -293,7 +292,7 @@ class Referrals {
 	 * @param string the raw reference
 	 * @return an array( normalized string, search keywords )
 	 */
-	function normalize($link) {
+	public static function normalize($link) {
 		global $context;
 
 		// get the query string, if any
@@ -395,7 +394,7 @@ class Referrals {
 	 *
 	 * @see agents/referrals_hook.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -426,13 +425,13 @@ class Referrals {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('referrals');
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

@@ -18,7 +18,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// allow for multiple calls
@@ -44,14 +44,13 @@ Class Layout_articles_as_accordion extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// one box per page
 			$box = array('title' => '', 'text' => '');
@@ -62,9 +61,9 @@ Class Layout_articles_as_accordion extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$box['title'] .= PRIVATE_FLAG.' ';
+				$box['title'] .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$box['title'] .= RESTRICTED_FLAG.' ';
+				$box['title'] .= RESTRICTED_FLAG;
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -79,7 +78,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if(Articles::has_option('files_by_title', $anchor, $item))
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact');
@@ -100,7 +99,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact', Articles::has_option('comments_as_wall', $anchor, $item))) {
+			if($items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, MAXIMUM_ITEMS_PER_ARTICLE+1, 'compact', TRUE)) {
 
 				// mention the number of items in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));
@@ -110,7 +109,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 					$prefix = $suffix = '';
 					if(is_array($label)) {
 						$prefix = $label[0];
-						$suffix = $label[2];
+						$suffix = rtrim(Codes::strip(' '.$label[2]), '- ');
 						$label = $label[1];
 					}
 					$elements[] = $prefix.Skin::build_link($url, $label, 'comment').$suffix;
@@ -142,19 +141,15 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			// a link to the page
 			$elements[] = Skin::build_link(Articles::get_permalink($item), i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
 
-			// display all tags
-			if($item['tags'])
-				$elements[] = '<span class="details">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
-
 			// complement title
 			if(count($details))
 				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
 
 			// insert introduction, if any
 			if(is_object($overlay))
-				$box['text'] .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+				$box['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
 			elseif(trim($item['introduction']))
-				$box['text'] .= Codes::beautify_introduction($item['introduction']);
+				$box['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 			// no introduction, display article full content
 			else {
@@ -171,6 +166,10 @@ Class Layout_articles_as_accordion extends Layout_interface {
 			// make a full list
 			if(count($elements))
 				$box['text'] .= Skin::finalize_list($elements, 'compact');
+
+			// display all tags
+			if($item['tags'])
+				$box['text'] .= ' <p class="tags" style="margin-bottom: 0">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 			// if we have an icon for this page, use it
 			if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {

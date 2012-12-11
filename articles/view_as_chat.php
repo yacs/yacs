@@ -3,7 +3,7 @@
  * real-time chat facility
  *
  * This script is included into [script]articles/view.php[/script], when the
- * option is set to 'view_as_chat' or 'view_as_thread'.
+ * option is set to 'view_as_chat'.
  *
  * On a regular page, it allows for dynamic conversations involving two people
  * or more. When the page is locked, only a transcript is displayed.
@@ -65,6 +65,15 @@ defined('YACS') or exit('Script must be included');
 if(is_object($anchor))
 	$context['text'] .= $anchor->get_prefix();
 
+// neighbours information
+$neighbours = NULL;
+if(Articles::has_option('with_neighbours', $anchor, $item) && is_object($anchor))
+	$neighbours = $anchor->get_neighbours('article', $item);
+
+// buttons to display previous and next pages, if any
+if($neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
+
 // article rating, if the anchor allows for it, and if no rating has already been registered
 if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_option('rate_as_digg')) {
 
@@ -81,7 +90,7 @@ if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_
 
 	// where the surfer can rate this item
 	else
-		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 	// rendering
 	$context['text'] .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
@@ -92,9 +101,9 @@ if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_
 	define('DIGG', TRUE);
 }
 
-// the poster profile, if any, at the beginning of the first page
-if(isset($poster['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the beginning of the first page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 
 // the introduction text, if any
 if(is_object($overlay))
@@ -106,45 +115,13 @@ else
 if(is_object($overlay))
 	$context['text'] .= $overlay->get_text('view', $item);
 
-// filter description, if necessary
-if(is_object($overlay))
-	$description = $overlay->get_text('description', $item);
-else
-	$description = $item['description'];
+// description has been formatted in articles/view.php
+if(isset($context['page_description']))
+	$context['text'] .= $context['page_description'];
 
-// the beautified description, which is the actual page body
-if($description) {
-
-	// use adequate label
-	if(is_object($overlay) && ($label = $overlay->get_label('description')))
-		$context['text'] .= Skin::build_block($label, 'title');
-
-	// provide only the requested page
-	$pages = preg_split('/\s*\[page\]\s*/is', $description);
-	$page = max(min($page, count($pages)), 1);
-	$description = $pages[ $page-1 ];
-
-	// if there are several pages, remove toc and toq codes
-	if(count($pages) > 1)
-		$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-	// beautify the target page
-	$context['text'] .= Skin::build_block($description, 'description', '', $item['options']);
-
-	// if there are several pages, add navigation commands to browse them
-	if(count($pages) > 1) {
-		$page_menu = array( '_' => i18n::s('Pages') );
-		$home =& Sections::get_permalink($item);
-		$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
-		$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-		$context['text'] .= Skin::build_list($page_menu, 'menu_bar');
-	}
-}
-
-// the poster profile, if any, at the bottom of the page
-if(isset($poster['id']) && is_object($anchor))
-	$context['text'] .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
+// the owner profile, if any, at the bottom of the page
+if(isset($owner['id']) && is_object($anchor))
+	$context['text'] .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
 
 // special layout for digg
 if(defined('DIGG'))
@@ -154,104 +131,67 @@ if(defined('DIGG'))
 // comments - the real-time chatting space
 //
 
+// default status is to allow for interactive chat
+$status = 'chat';
+
+// this can be changed by the overlay
+if(is_object($overlay))
+	$status = $overlay->get_value('comments_layout', 'chat');
+
+// always stop contributions when the page has been locked
+if(isset($item['locked']) && ($item['locked'] == 'Y'))
+	$status = 'excerpt';
+
+// adapt the layout to the current situation
+include_once $context['path_to_root'].'comments/comments.php';
+switch($status) {
+
+// an asynchronous wall
+case 'yabb':
+
+	// some space with previous content
+	$context['text'] .= '<div style="margin-top: 2em;">';
+
+	// get a layout for comments of this item
+	$layout =& Comments::get_layout($anchor, $item);
+	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 100, $layout, isset($comments_prefix));
+	if(is_array($items))
+		$context['text'] .= Skin::build_list($items, 'rows');
+	elseif(is_string($items))
+		$context['text'] .= $items;
+
+	// allow for contribution
+	if(Comments::allow_creation($anchor, $item))
+		$context['text'] .= Comments::get_form('article:'.$item['id']);
+
+	$context ['text'] .= '</div>';
+
+	break;
+
 // conversation is over
-if(isset($item['locked']) && ($item['locked'] == 'Y')) {
+case 'excerpt':
 
 	// display a transcript of past comments
-	include_once $context['path_to_root'].'comments/comments.php';
 	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
 	if(is_array($items))
 		$context['text'] .= Skin::build_list($items, 'rows');
 	elseif(is_string($items))
 		$context['text'] .= $items;
 
+	break;
+
 // on-going conversation
-} else {
+case 'chat':
+default:
 
 	// start of thread wrapper
 	$context['text'] .= '<div id="thread_wrapper">'."\n";
 
 	// text panel
-	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /></div>'."\n";
-
-	// surfer cannot contribute
-	if(!Comments::allow_creation($anchor, $item))
-		;
-
-	// the input panel is where logged surfers can post data
-	elseif(Surfer::is_logged()) {
-		$context['text'] .= '<form method="post" action="#" onsubmit="Comments.contribute($(\'contribution\').value);return false;" id="thread_input_panel">'."\n"
-			.'<textarea rows="2" name="contribution" id="contribution" ></textarea>';
-
-		// user commands
-		$menu = array();
-
-		// the submit button
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit', 'no_spin_on_click');
-
-		// upload a file
-		if(Files::allow_creation($anchor, $item, 'article')) {
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'span');
-		}
-
-		// group other commands in a submenu
-		$submenu = array();
-
-		// augment panel size
-		$submenu[] = '<a href="#" onclick="Comments.showMore(); return false;"><span>'.i18n::s('Show more lines').'</span></a>';
-
-		// go to smileys
-		$submenu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'help');
-
-		// view thread history
-		$submenu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
-
-		// display my VNC session
-		if(isset($_SESSION['with_sharing']) && ($_SESSION['with_sharing'] == 'V')) {
-
-			// use either explicit or implicit address
-			if(isset($_SESSION['proxy_address']) && $_SESSION['proxy_address'])
-				$link = 'http://'.$_SESSION['proxy_address'].':5800';
-			elseif(isset($_SESSION['workstation_id']) && $_SESSION['workstation_id'])
-				$link = 'http://'.$_SESSION['workstation_id'].':5800';
-			else
-				$link = 'http://'.$context['host_name'].':5800';
-
-			// open the link in an external window
-			$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Screen shared by %s'), Surfer::get_name()).'</span></a>';
-
-			// append the command to the menu
-			$submenu[] = '<a href="#" onclick="Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with VNC').'"><span>'.i18n::s('Share screen with VNC').'</span></a>';
-		}
-
-		// share my netmeeting session
-		if(isset($_SESSION['with_sharing']) && ($_SESSION['with_sharing'] == 'M')) {
-
-			// link to the session descriptor
-			$link = $context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'share');
-
-			// open the link in an external window
-			$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Shared screen of %s'), Surfer::get_name()).'</span></a>';
-
-			// append the command to the menu
-			$submenu[] = '<a href="#" onclick="Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with NetMeeting').'"><span>'.i18n::s('Share screen with NetMeeting').'</span></a>';
-		}
-
-		// group commands together
-		$menu[] = Skin::build_box(i18n::s('More'), Skin::finalize_list($submenu, 'compact'), 'sliding');
-
-		// display all commands
-		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
-
-		// an option to submit with the Enter key
-		$context['text'] .= '<input type="checkbox" id="submitOnEnter" checked="checked" /> '.i18n::s('Submit text when Enter is pressed.');
-
-		// end the form
-		$context['text'] .= '</form>'."\n";
+	$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" alt="loading..." /> &nbsp; </div>'."\n";
 
 	// other surfers are invited to authenticate
-	} else {
+	if(!Surfer::get_id()) {
 
 		$context['text'] .= '<div id="thread_input_panel">';
 
@@ -260,36 +200,204 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 
 		// url of this page
 		if(isset($item['id']))
-			$menu = array('users/login.php?url='.urlencode(Articles::get_permalink($item))=> i18n::s('Authenticate or register to contribute to this thread'));
-
-		// view thread history
-		$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
-
-		// augment panel size
-		$menu[] = '<a href="#" onclick="Comments.showMore(); return false;"><span>'.i18n::s('Show more lines').'</span></a>';
+			$menu[] = Skin::build_link('users/login.php?url='.urlencode(Articles::get_permalink($item)), i18n::s('Authenticate or register to contribute to this thread'), 'button');
 
 		// display all commands
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
 		$context['text'] .= '</div>'."\n";
+
+	// surfer cannot contribute
+	} elseif(!Comments::allow_creation($anchor, $item))
+		;
+
+	// the input panel is where logged surfers can post data
+	elseif(Surfer::is_logged()) {
+		$context['text'] .= '<form method="post" action="'.$context['url_to_home'].$context['url_to_root'].'comments/edit.php"'
+				.' onsubmit="Comments.contribute(); return true;"'
+				.' id="thread_input_panel"'
+				.' target="upload_frame"'
+				.' enctype="multipart/form-data">'."\n"
+			.'<textarea rows="1" name="description" id="description" ></textarea>'
+			.'<input type="hidden" name="anchor" value="article:'.$item['id'].'" />'
+			.'<iframe src="#" width="0" height="0" style="display: none;" id="upload_frame" name="upload_frame"></iframe>';
+
+		// commands
+		$menu = array();
+
+		// option to add a file
+		if(Files::allow_creation($anchor, $item, 'article')) {
+
+			// intput field to appear on demand
+			$context['text'] .= '<div id="comment_upload" style="display: none;">'
+				.	'<p class="details">'
+				.		'<input type="file" id="upload" name="upload" size="30" />'
+				.			' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+				.		'<input type="hidden" name="file_type" value="upload" />'
+				.	'</p>'
+				.	'<div id="upload_option" style="display: none;" >'
+				.		'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+				.	'</div>'
+				.'</div>';
+
+			// the command to add a file
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(\'body\').delegate(\'#upload\', \'change\', function(event){if(/\\.zip$/i.test($(\'#upload\').val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}});return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+		}
+
+		// the submit button
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit');
+
+		// go to smileys
+//		$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'open');
+
+		// display all commands
+		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+
+		// end the form
+		$context['text'] .= '</form>'."\n";
 
 	}
 
 	// end of the wrapper
 	$context['text'] .= '</div>'."\n";
+
+	// the AJAX part
+	$context['page_footer'] .= JS_PREFIX
+		."\n"
+		.'var Comments = {'."\n"
+		."\n"
+		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'thread').'",'."\n"
+		.'	timestamp: 0,'."\n"
+		."\n"
+		.'	initialize: function() { },'."\n"
+		."\n"
+		.'	contribute: function() {'."\n"
+		.'		Yacs.startWorking();'."\n"
+		.'		$("#upload_frame").load(Comments.contributed);'."\n"
+		.'		return true;'."\n"
+		.'	},'."\n"
+		."\n"
+		.'	contributed: function() {'."\n"
+		.'		$("#upload_frame").unbind("load");'."\n"
+		.'		$("#comment_upload").slideUp(600);'."\n"
+		.'		$("#upload_option").slideUp();'."\n"
+		.'		$("#upload").replaceWith(\'<input type="file" id="upload" name="upload" size="30" />\');'."\n"
+		.'		$("#description").val("").trigger("change").focus();'."\n"
+		.'		setTimeout(function() {Comments.subscribe(); Yacs.stopWorking();}, 500);'."\n"
+		.'		if((typeof OpenTok == "object") && OpenTok.session)'."\n"
+		.'			OpenTok.signal();'."\n"
+		.'	},'."\n"
+		."\n"
+		.'	keypress: function(event) {'."\n"
+		.'		if(event.which == 13) {'."\n"
+		.'			$("#submit").trigger("click");'."\n"
+		.'			return false;'."\n"
+		.'		}'."\n"
+		.'	},'."\n"
+		."\n"
+		.'	showMore: function() {'."\n"
+		.'		var options = {};'."\n"
+		.'		var newHeight = $("#thread_text_panel").clientHeight + 200;'."\n"
+		.'		options.height =  newHeight + "px";'."\n"
+		.'		options.maxHeight =  newHeight + "px";'."\n"
+		.'		$("#thread_text_panel").css(options);'."\n"
+		.'	},'."\n"
+		."\n"
+		.'	subscribe: function() {'."\n"
+		.'		$.ajax(Comments.url, {'."\n"
+		.'			type: "get",'."\n"
+		.'			dataType: "json",'."\n"
+		.'			data: { "timestamp" : Comments.timestamp },'."\n"
+		.'			success: Comments.updateOnSuccess'."\n"
+		.'		});'."\n"
+		."\n"
+		.'	},'."\n"
+		."\n"
+		.'	subscribeToExtraUpdates: function() {'."\n"
+		.'		$.ajax("'.$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'visit').'", {'."\n"
+		.'			type: "get",'."\n"
+		.'			dataType: "html",'."\n"
+		.'			success: function(data) { $("#thread_roster_panel").html(data); }'."\n"
+		.'		});'."\n"
+		."\n"
+		.'		$.ajax("'.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'thread').'", {'."\n"
+		.'			type: "get",'."\n"
+		.'			dataType: "html",'."\n"
+		.'			success: function(data) { $("#thread_files_panel").html(data); }'."\n"
+		.'		});'."\n"
+		."\n"
+		.'	},'."\n"
+		."\n"
+		.'	updateOnSuccess: function(response) {'."\n"
+		.'		if(!response) return;'."\n"
+		.'		if(response["status"] != "started")'."\n"
+		.'			window.location.reload(true);'."\n"
+		.'		$("#thread_text_panel").html("<div>" + response["items"] + "</div>");'."\n"
+		.'		var div = $("#thread_text_panel")[0];'."\n"
+		.'		var scrollHeight = Math.max(div.scrollHeight, div.clientHeight);'."\n"
+		.'		div.scrollTop = scrollHeight - div.clientHeight;'."\n"
+		.'		if(typeof Comments.windowOriginalTitle != "string")'."\n"
+		.'			Comments.windowOriginalTitle = document.title;'."\n"
+		.'		document.title = "[" + response["name"] + "] " + Comments.windowOriginalTitle;'."\n"
+		.'		Comments.timestamp = response["timestamp"];'."\n"
+		.'	}'."\n"
+		."\n"
+		.'}'."\n"
+		."\n"
+		.'// wait for new comments and for other updates'."\n"
+		.'Comments.subscribeTimer = setInterval("Comments.subscribe()", 5000);'."\n"
+		.'Comments.subscribeTimer = setInterval("Comments.subscribeToExtraUpdates()", 59999);'."\n"
+		."\n"
+		.'// load past contributions asynchronously'."\n"
+		.'$(function() {'
+		.	'Comments.subscribe();'
+		.	'location.hash="#thread_text_panel";'
+		.	'$("#description").tipsy({gravity: "s", fade: true, title: function () {return "'.i18n::s('Contribute here').'";}, trigger: "manual"});'
+		.	'$("#description").tipsy("show");'
+		.	'setTimeout("$(\'#description\').tipsy(\'hide\');", 10000);'
+		.	'$("textarea#description").autogrow();' // let the field grow progressively if needed
+		.'});'."\n"
+		."\n";
+
+	// only authenticated surfers can contribute
+	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
+		$context['page_footer'] .= "\n"
+			.'// load past contributions asynchronously'."\n"
+			.'$(function() {'
+			.	'$("#description").focus();'
+			.'});'."\n"
+			."\n"
+			.'// send contribution on Enter'."\n"
+			.'$(\'#description\').keypress( Comments.keypress );'."\n";
+
+	// end of the AJAX part
+	$context['page_footer'] .= JS_SUFFIX;
+
+	break;
+
+case 'excluded': // surfer is not
+
+	$context['text'] .= Skin::build_block(i18n::s('You have not been enrolled into this interactive chat.'), 'caution');
+	break;
+
 }
 
 //
 // trailer information
 //
 
-// add trailer information from the overlay, if any
+// add trailer information from the overlay, if any --opentok videos come from here
 if(is_object($overlay))
 	$context['text'] .= $overlay->get_text('trailer', $item);
 
 // add trailer information from this item, if any
 if(isset($item['trailer']) && trim($item['trailer']))
 	$context['text'] .= Codes::beautify($item['trailer']);
+
+// buttons to display previous and next pages, if any
+if($neighbours)
+	$context['text'] .= Skin::neighbours($neighbours, 'manual');
 
 // insert anchor suffix
 if(is_object($anchor))
@@ -311,7 +419,7 @@ if(Images::allow_creation($anchor, $item)) {
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 }
@@ -367,7 +475,7 @@ $text = '';
 $invite = '';
 if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 	Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
-	$invite = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'), TRUE);
+	$invite = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 }
 
 // thread participants
@@ -382,11 +490,11 @@ $invite = '';
 if(Files::allow_creation($anchor, $item, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic').BR;
+	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic').BR;
 }
 
 // list files by date (default) or by title (option files_by_title)
-if(Articles::has_option('files_by_title', $anchor, $item))
+if(Articles::has_option('files_by', $anchor, $item) == 'title')
 	$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 20, 'compact');
 else
 	$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 20, 'compact');
@@ -402,7 +510,7 @@ if(is_array($items)) {
 }
 
 // display this aside the thread
-if($items.$invite)
+if($items || $invite)
 	$text .= Skin::build_box(i18n::s('Files'), '<div id="thread_files_panel">'.$items.'</div>'.$invite, 'boxes', 'files');
 
 // links
@@ -440,104 +548,6 @@ if(is_object($overlay))
 
 // update the extra panel
 $context['components']['boxes'] = $text;
-
-//
-// the AJAX part
-//
-
-if(!isset($item['locked']) || ($item['locked'] != 'Y')) {
-
-	$context['page_footer'] .= JS_PREFIX
-		."\n"
-		.'var Comments = {'."\n"
-		."\n"
-		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'thread').'",'."\n"
-		.'	timestamp: 0,'."\n"
-		."\n"
-		.'	initialize: function() { },'."\n"
-		."\n"
-		.'	contribute: function(request) {'."\n"
-		.'		// contribute to the thread'."\n"
-		.'		new Ajax.Request(Comments.url, {'."\n"
-		.'			method: "post",'."\n"
-		.'			parameters: { "message" : request },'."\n"
-		.'			onSuccess: function(transport) {'."\n"
-		.'				$("contribution").value="";'."\n"
-		.'				$("contribution").focus();'."\n"
-		.'				setTimeout("Comments.subscribe()", 1000);'."\n"
-		.'			},'."\n"
-		.'			onFailure: function(transport) {'."\n"
-		.'				var response = transport.responseText;'."\n"
-		.'				if(!response) {'."\n"
-		.'					response = "'.i18n::s('Your contribution has not been posted.').'";'."\n"
-		.'				}'."\n"
-		.'				response += "\n\n'.i18n::s('Do you agree to reload this page?').'";'."\n"
-		.'				if(confirm(response)) {'."\n"
-		.'					window.location.reload();'."\n"
-		.'				}'."\n"
-		.'			}'."\n"
-		.'		});'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	keypress: function(event) {'."\n"
-		.'		if(($("submitOnEnter").checked) && (event.keyCode == Event.KEY_RETURN)) {'."\n"
-		.'			Comments.contribute($(\'contribution\').value);'."\n"
-		.'		}'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	showMore: function() {'."\n"
-		.'		var options = {};'."\n"
-		.'		var newHeight = $("thread_text_panel").clientHeight + 200;'."\n"
-		.'		options.height =  newHeight + "px";'."\n"
-		.'		options.maxHeight =  newHeight + "px";'."\n"
-		.'		$("thread_text_panel").setStyle(options);'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	subscribe: function() {'."\n"
-		.'		Comments.subscribeAjax = new Ajax.Request(Comments.url, {'."\n"
-		.'			method: "get",'."\n"
-		.'			parameters: { "timestamp" : this.timestamp },'."\n"
-		.'			requestHeaders: {Accept: "application/json"},'."\n"
-		.'			onSuccess: Comments.updateOnSuccess'."\n"
-		.'		});'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	updateOnSuccess: function(transport) {'."\n"
-		.'		var response = transport.responseText.evalJSON(true);'."\n"
-		.'		$("thread_text_panel").update("<div>" + response["items"] + "</div>");'."\n"
-		.'		$("thread_text_panel").scrollTop = $("thread_text_panel").scrollHeight;'."\n"
-		.'		if(typeof this.windowOriginalTitle != "string")'."\n"
-		.'			this.windowOriginalTitle = document.title;'."\n"
-		.'		document.title = "[" + response["name"] + "] " + this.windowOriginalTitle;'."\n"
-		.'		Comments.timestamp = response["timestamp"];'."\n"
-		.'	}'."\n"
-		."\n"
-		.'}'."\n"
-		."\n"
-		.'// wait for new comments'."\n"
-		.'Comments.subscribeTimer = setInterval("Comments.subscribe()", 15000);'."\n"
-		."\n"
-		.'// update the roster, in the background'."\n"
-		.'new Ajax.PeriodicalUpdater("thread_roster_panel", "'.$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'visit').'",'."\n"
-		.'	{ method: "get", frequency: 59, decay: 1 });'."\n"
-		."\n"
-		.'// update attached files, in the background'."\n"
-		.'new Ajax.PeriodicalUpdater("thread_files_panel", "'.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'thread').'",'."\n"
-		.'	{ method: "get", frequency: 181, decay: 1 });'."\n";
-
-	// only authenticated surfers can contribute
-	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
-		$context['page_footer'] .= "\n"
-			.'// ready to type something'."\n"
-			.'Event.observe(window, \'load\', function() { $(\'contribution\').focus(); Comments.subscribe(); });'."\n"
-			."\n"
-			.'// send contribution on Enter'."\n"
-			.'Event.observe(\'contribution\', \'keypress\', Comments.keypress);'."\n";
-
-	// end of the AJAX part
-	$context['page_footer'] .= JS_SUFFIX;
-}
-
 
 // render the skin
 render_skin();

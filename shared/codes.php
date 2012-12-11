@@ -107,8 +107,6 @@
  * - &#91;category=&lt;id>] - use category title as link label
  * - &#91;category=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;category.description=&lt;id>] - insert category description
- * - &#91;decision=&lt;id>] - use decision id in link label
- * - &#91;decision=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;user=&lt;id>] - use nick name as link label
  * - &#91;user=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;server=&lt;id>] - use server title as link label
@@ -126,6 +124,7 @@
  * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
+ * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
  *
  * @see codes/links.php
  *
@@ -151,8 +150,8 @@
  * - &#91;table]...[/table] - one simple table
  * - &#91;table=grid]...[/table] - add a grid
  * - &#91;table].[body].[/table] - a table with headers
- * - &#91;csv]...[/csv] - import some data from Excel
- * - &#91;csv=;]...[/csv] - import some data from Excel
+ * - &#91;csv]...[/csv] - import some data from a spreadsheet
+ * - &#91;csv=;]...[/csv] - import some data from a spreadsheet
  * - &#91;table.json] - format a table as json
  *
  * @see codes/tables.php
@@ -209,7 +208,6 @@
  * @see codes/widgets.php
  *
  * Miscellaneous codes, demonstrated in [link]codes/misc.php[/link]:
- * - &#91;chart]...[/chart] - draw a dynamic chart
  * - &#91;hint=&lt;help popup]...[/hint] - &lt;acronym tite="help popup">...&lt;/acronym>
  * - &#91;nl] - new line
  * - ----... - line break
@@ -228,6 +226,14 @@
  * - &#91;it] - country flag
  * - &#91;pt] - country flag
  * - &#91;us] - country flag
+ * - &#91;chart]...[/chart] - draw a dynamic chart
+ * - &#91;execute=script] - include another local script
+ * - &#91;redirect=link] - jump to another local page
+ * - &#91;parameter=name] - value of one attribute of the global context
+ * - &#91;escape]...[/escape]
+ * - &#91;anonymous]...[/anonymous] - for non-logged people only
+ * - &#91;authenticated]...[/authenticated] - for logged members only
+ * - &#91;associate]...[/associate] - for associates only
  *
  * @see codes/misc.php
  *
@@ -253,14 +259,8 @@
  * @link http://www.estvideo.com/dew/index/2005/02/16/370-player-flash-mp3-leger-comme-une-plume the dewplayer page
  *
  * Other codes:
- * - &#91;menu=label]url[/menu] -> one of the main menu command
- * - &#91;submenu=label]url[/submenu]	-> one of the second-level menu commands
- * - &#91;escape]...[/escape]
- * - &#91;anonymous]...[/anonymous] 	-> for non-logged people only
- * - &#91;restricted]...[/restricted]		-> for logged members only
- * - &#91;hidden]...[/hidden]		-> for associates only
- * - &#91;parameter=name]	-> value of one attribute of the global context
- *
+ * - &#91;menu=label]url[/menu] - one of the main menu command
+ * - &#91;submenu=label]url[/submenu] - one of the second-level menu commands
  *
  * This script attempts to fight bbCode code injections by filtering strings to be used
  * as [code]src[/code] or as [code]href[/code] attributes (Thank you Mordread).
@@ -276,6 +276,7 @@
  * @tester Fw_crocodile
  * @tester Christian Piercot
  * @tester Christian Loubechine
+ * @tester Daniel Dupuis
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -294,7 +295,7 @@ Class Codes {
 	 * or if options have the keyword ##formatted##, no implicit formatting is performed.
 	 *
 	 * If the keyword [escape][hardcoded][/escape] appears at the first line of text,
-	 * or if options have the keyword ##hardcoded##, the only transformation is is new lines to breaks.
+	 * or if options have the keyword ##hardcoded##, the only transformation is new lines to breaks.
 	 *
 	 * If options feature the keyword ##compact##, then YACS codes that may
 	 * generate big objects are removed, such as [escape][table]...[/table][/escape]
@@ -306,7 +307,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	function &beautify($text, $options='') {
+	public static function &beautify($text, $options='') {
 		global $context;
 
 		// save CPU cycles
@@ -358,7 +359,7 @@ Class Codes {
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
-			$text =& Smileys::render_smileys($text);
+			$text = Smileys::render_smileys($text);
 
 		// relocate images
 		$text = str_replace('"skins/', '"'.$context['path_to_root'].'skins/', $text);
@@ -386,7 +387,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	function &beautify_extra($text) {
+	public static function &beautify_extra($text) {
 		global $context;
 
 		$search = array();
@@ -453,7 +454,7 @@ Class Codes {
 	 * @param sring either 'text' or 'newlines'
 	 * @return the modified string
 	 */
-	function &beautify_implied($text, $variant='text') {
+	public static function &beautify_implied($text, $variant='text') {
 
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
@@ -481,12 +482,12 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
-				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
+				'/http:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
+				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, �, or � -- no space ahead */
-				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, �, or � -- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
+				"|\n[ \t]*-(\s+)|i",		/* - list item > */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
 				"#([\n\t ])(mailto:|)([a-z0-9_\-\.\~]+?)@([a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)([\n\t ]*)#ie" /* mail address*/
@@ -497,12 +498,12 @@ Class Codes {
 				"</h2>",
 				"</h3>",
 				"</h4>",
-				"Skin::build_link('$1://$2', '$1://$2')",
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link too
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
-				"<ul><li>$2</li></ul>",
-				"<ul><li>$2</li></ul>",
 				BR."$1:$2",
+				BR."-$1",
 				BR.">$1",
 				BR."|$1",
 				"'$1'.Skin::build_link('mailto:$3@$4', '$3@$4', 'email').'$5'"
@@ -514,7 +515,7 @@ Class Codes {
 			array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'), $text);
 
 		// locate pre-formatted areas
-		$areas = preg_split('/<(code|escape|list|php|snippet|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</\1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$index = 0;
@@ -596,14 +597,14 @@ Class Codes {
 	 * @param string raw introduction
 	 * @return string finalized title
 	 */
-	function &beautify_introduction($text) {
+	public static function &beautify_introduction($text) {
 
 		// render codes
 		$output =& Codes::render($text);
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
-			$output =& Smileys::render_smileys($output);
+			$output = Smileys::render_smileys($output);
 
 		// return by reference
 		return $output;
@@ -618,10 +619,10 @@ Class Codes {
 	 * @param string raw title
 	 * @return string finalized title
 	 */
-	function &beautify_title($text) {
+	public static function &beautify_title($text) {
 
 		// suppress pairing codes
-		$output =& Codes::strip($text);
+		$output =& Codes::strip($text, FALSE);
 
 		// the only code transformed in titles
 		$output = str_replace(array('[nl]', '[NL]'), '<br />', $output);
@@ -641,7 +642,7 @@ Class Codes {
 	 * @param int the id of the object
 	 * @return boolean TRUE if the code is present, false otherwise
 	 */
-	function check_embedded($text, $code, $id) {
+	public static function check_embedded($text, $code, $id) {
 
 		// we check the string of digits
 		$id = strval($id);
@@ -691,7 +692,7 @@ Class Codes {
 	 * @param int the id of the object
 	 * @return string the resulting string
 	 */
-	function delete_embedded($text, $code, $id) {
+	public static function delete_embedded($text, $code, $id) {
 
 		// we check the string of digits
 		$id = strval($id);
@@ -717,7 +718,7 @@ Class Codes {
 					$position++;
 
 					// exact match
-					if(($position + 2 + strlen($id) < $count) && !strcmp(substr($text, $position, strlen($id)), $id)) {
+					if(($position + strlen($id) <= $count) && !strcmp(substr($text, $position, strlen($id)), $id)) {
 						$position += strlen($id);
 
 						// look for ']'
@@ -764,7 +765,7 @@ Class Codes {
 	 * @param string input
 	 * @return string original or modified content
 	 */
-	function &fix_tags($text) {
+	public static function &fix_tags($text) {
 
 		// look for opening tag at content end
 		$last_open = strrpos($text, '<p>');
@@ -782,7 +783,7 @@ Class Codes {
 		}
 
 		// also fix broken img tags, if any
-		$text = preg_replace('/\<(img[^\<\/]+)\>/i', '<\\1 />', $text);
+		$text = preg_replace('#<(img[^</]+)>#i', '<$1 />', $text);
 
 		// remove slashes added by preg_replace -- only for double quotes
 		$text = str_replace('\"', '"', $text);
@@ -792,32 +793,13 @@ Class Codes {
 	}
 
 	/**
-	 * get the value of one global parameter
-	 *
-	 * @param string name of the parameter
-	 * @param mixed default value, if any
-	 * @return the actual value of this parameter, else the default value, else ''
-	 */
-	function &get_parameter($name, $default='') {
-		global $context;
-
-		if(isset($context[$name])) {
-			$output =& $context[$name];
-			return $output;
-		}
-
-		$output = $default;
-		return $output;
-	}
-
-	/**
 	 * reset global variables used for rendering
 	 *
 	 * This function should be called between the processing of different articles in a loop
 	 *
 	 * @param string the target URL for this rendering (e.g., 'articles/view.php/123')
 	 */
-	function initialize($main_target=NULL) {
+	public static function initialize($main_target=NULL) {
 		global $context;
 
 		if($main_target)
@@ -832,7 +814,7 @@ Class Codes {
 	 * @param string code to check (e.g., 'embed')
 	 * @return array the list of matching ids
 	 */
-	function list_embedded($text, $code='embed') {
+	public static function list_embedded($text, $code='embed') {
 
 		// all ids we have found
 		$ids = array();
@@ -898,10 +880,12 @@ Class Codes {
 	 * render_skin();
 	 * [/php]
 	 *
+	 * @link http://pureform.wordpress.com/2008/01/04/matching-a-word-characters-outside-of-html-tags/
+	 *
 	 * @param string the input string
 	 * @return string the transformed string
 	 */
-	function &render($text) {
+	public static function &render($text) {
 		global $context;
 
                 // the formatting code interface
@@ -911,44 +895,50 @@ Class Codes {
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
 		// prevent wysiwyg editors to bracket our own tags
-		$text = preg_replace('/^<p>(\[.+\])<\/p>$/m', '\\1', $text);
+		$text = preg_replace('#^<p>(\[.+\])</p>$#m', '$1', $text);
 
  		// initialize only once
 		static $pattern;
-                static $replace;
-                if(!isset($pattern) || !isset($replace)) {
+		static $replace;
 
-                    // remove HTML comments
-                    $pattern = array("|<!-- .* -->|i");
-                    $replace = array('');
+		if(!isset($pattern) || !isset($replace)) {
 
-                    // load formatting codes from files
-                    $dir = $context['path_to_root'].'codes/';
-                    if ($handle = Safe::opendir($dir)) {
+			// remove HTML comments
+			$pattern = array("|<!-- .* -->|i");
+			$replace = array('');
 
-                        while (false !== ($file = Safe::readdir($handle))) {
-                          if ($file == '..')
-                            continue;
+			// load formatting codes from files
+			$dir = $context['path_to_root'].'codes/';
+			if ($handle = Safe::opendir($dir)) {
 
-                          if ($file == '.')
-                            continue;
+				while (false !== ($file = Safe::readdir($handle))) {
+				  if ($file == '..')
+					continue;
 
-                          //convention :
-                          //get file only begining with code_
-                          if (!(substr($file,0,5)=='code_'))
-                            continue;
+				  if ($file == '.')
+					continue;
 
-                          include_once($dir.$file);
+				  //convention :
+				  //get file only begining with code_
+				  if (!(substr($file,0,5)=='code_'))
+					continue;
 
-                          //get formatting code patterns from this class
-                          $classname = stristr($file,'.',TRUE);
-                          $code = new $classname;
-                          $code->get_pattern_replace($pattern,$replace);
-                          unset($code);
-                        }
-                        Safe::closedir($handle);
-                    }
+				  include_once($dir.$file);
+
+				  //get formatting code patterns from this class
+				  $classname = stristr($file,'.',TRUE);
+				  $code = new $classname;
+				  $code->get_pattern_replace($pattern,$replace);
+				  unset($code);
+				}
+				Safe::closedir($handle);
+			}
 		} // end setting $pattern & $replace
+
+
+		// include code extensions
+//		include_once $context['path_to_root'].'scripts/scripts.php';
+//		Scripts::load_scripts_at('codes/extensions');
 
 		// ensure we have enough time to execute
 		Safe::set_time_limit(30);
@@ -964,36 +954,6 @@ Class Codes {
 
 	}
 
-
-        /**
-         * render an animated block of text
-         * keep this only for backward compatibility
-         * @see codes/code_animated.php
-         *
-         * @param string the text
-         * @param string the variant
-         * @return string the rendered text
-        **/
-        function &render_animated($text, $variant) {
-                include_once $context['path_to_root'].'codes/code_animated.php';
-
-                return Code_Animated::render($text, $variant);
-        }
-
-         /**
-          * render a calendar
-          * keep this only for backward compatibility
-          * @see codes/code_calendar.php
-          *
-          * @param string the anchor (e.g. 'section:123')
-          * @return string the rendered text
-         **/
-        function &render($anchor='') {
-                include_once $context['path_to_root'].'codes/code_calendar.php';
-
-                return Code_Calendar::render($anchor);
-        }
-
 	/**
 	 * render a list of categories
 	 *
@@ -1007,7 +967,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_categories($anchor='', $layout='compact') {
+	public static function &render_categories($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -1059,7 +1019,7 @@ Class Codes {
 	 * @param string chart parameters
 	 * @return string the rendered text
 	**/
-	function &render_chart($data, $variant) {
+	public static function &render_chart($data, $variant) {
 		global $context;
 
 		// split parameters
@@ -1095,12 +1055,12 @@ Class Codes {
 			.'params.allowscriptaccess = "always";'."\n"
 			.'params.menu = "false";'."\n"
 			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"open_flash_chart_'.$chart_index.'"}, params);'."\n"
+			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"get_open_flash_chart_'.$chart_index.'"}, params);'."\n"
 			."\n"
 			.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
 			."\n"
-			.'function open_flash_chart_'.$chart_index.'() {'."\n"
-			.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+			.'function get_open_flash_chart_'.$chart_index.'() {'."\n"
+			.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 			.'}'."\n"
 			.JS_SUFFIX;
 
@@ -1114,26 +1074,27 @@ Class Codes {
 	 * @param string web address that is monitored
 	 * @return string the rendered text
 	**/
-	function &render_clicks($url) {
+	public static function &render_clicks($url) {
 		global $context;
 
 		$text = '';
 
-		// the list of people who have clicked this link
-		include_once $context['path_to_root'].'users/activities.php';
-		if($users = Activities::list_at($url, 'click', 30, 'comma')) {
+		// sanity check
+		if(!$url)
+			return $text;
 
-			$count = Activities::count_at($url, 'click');
-			if($count > 30)
-				$more = ' ...';
-			else
-				$more = '';
+		// if we received only an id, assume file access
+		if(preg_match('/^[0-9]+$/', $url))
+			$url = 'file:'.$url;
 
-			$text .= sprintf(i18n::ns('%d person has followed the link: %s', '%d persons have followed the link: %s', $count), $count, $users);
+		// the list of people who have followed this link
+		if($users = Activities::list_at($url, array('click', 'fetch'), 50, 'comma')) {
 
+			$count = Activities::count_at($url, array('click', 'fetch'));
+			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $url);
 
 		} else
-			$text .= i18n::s('This link has not been used yet');
+			$text .= i18n::s('No authenticated person has used this link yet');
 
 		return $text;
 
@@ -1145,7 +1106,7 @@ Class Codes {
 	 * @param string the number of items to list
 	 * @return string the rendered text
 	**/
-	function &render_cloud($count=40) {
+	public static function &render_cloud($count=40) {
 		global $context;
 
 		// sanity check
@@ -1170,7 +1131,7 @@ Class Codes {
 	 *
 	 * @return string the rendered text
 	**/
-	function &render_collections() {
+	public static function &render_collections() {
 		global $context;
 
 		// has one collection been defined?
@@ -1236,7 +1197,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function &render_dynamic_table($id, $variant='inline') {
+	public static function &render_dynamic_table($id, $variant='inline') {
 		global $context;
 
 		// refresh on every page load
@@ -1319,7 +1280,7 @@ Class Codes {
 				.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
 				."\n"
 				.'function table_chart_'.$chart_index.'() {'."\n"
-				.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+				.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 				.'}'."\n"
 				.JS_SUFFIX;
 
@@ -1342,7 +1303,7 @@ Class Codes {
 	 * @param string the label
 	 * @return string the rendered text
 	**/
-	function &render_email($address, $text) {
+	public static function &render_email($address, $text) {
 
 		// be sure to display something
 		if(!$text)
@@ -1366,7 +1327,7 @@ Class Codes {
 	 * @param string id of the target file
 	 * @return string the rendered string
 	**/
-	function &render_embed($id) {
+	public static function &render_embed($id) {
 		global $context;
 
 		// split parameters
@@ -1374,7 +1335,7 @@ Class Codes {
 		$id = $attributes[0];
 
 		// get the file
-		if(!$item =& Files::get($id)) {
+		if(!$item = Files::get($id)) {
 			$output = '[embed='.$id.']';
 			return $output;
 		}
@@ -1383,7 +1344,7 @@ Class Codes {
 		if(isset($attributes[1]) && preg_match('/window/i', $attributes[1])) {
 			if(!isset($attributes[2]))
 				$attributes[2] = i18n::s('Play in a separate window');
-			$output = '<a href="'.Files::get_url($item['id'], 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
+			$output = '<a href="'.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
 			return $output;
 		}
 
@@ -1441,13 +1402,26 @@ Class Codes {
 				$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
 			$flashvars .= 'width='.$width.'&height='.$height;
 
+			// if there is a static image for this video, use it
+			if(isset($item['icon_url']) && $item['icon_url'])
+				$flashvars .= '&startimage='.urlencode($item['icon_url']);
+
+			// if there is a subtitle file for this video, use it
+			if(isset($item['file_name']) && ($srt = 'files/'.str_replace(':', '/', $item['anchor']).'/'.str_replace('.'.$extension, '.srt', $item['file_name'])) && file_exists($context['path_to_root'].$srt))
+				$flashvars .= '&srt=1&srturl='.urlencode($context['url_to_home'].$context['url_to_root'].$srt);
+
+			// if there is a logo file in the skin, use it
+			Skin::define_img_href('FLV_IMG_HREF', 'codes/flvplayer_logo.png', '');
+			if(FLV_IMG_HREF)
+				$flashvars .= '&top1='.urlencode(FLV_IMG_HREF.'|10|10');
+
 			// rely on Flash
 			if(Surfer::has_flash()) {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
@@ -1457,8 +1431,7 @@ Class Codes {
  			} else {
 
 				// <video> is HTML5, <object> is legacy
- 				$output = '<video width="'.$width.'" height="'.$height.'" autoplay="" controls="">'."\n"
-					.'	<source src="'.$url.'" />'."\n"
+ 				$output = '<video width="'.$width.'" height="'.$height.'" autoplay="" controls="" src="'.$url.'" >'."\n"
 					.'	<object width="'.$width.'" height="'.$height.'" data="'.$url.'" type="'.Files::get_mime_type($item['file_name']).'">'."\n"
 					.'		<param value="'.$url.'" name="movie" />'."\n"
 					.'		<param value="true" name="allowFullScreen" />'."\n"
@@ -1476,7 +1449,7 @@ Class Codes {
 		case 'gan':
 
 			// where the file is
-			$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+			$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			// we actually use a transformed version of the file
 			$cache_id = Cache::hash($path).'.xml';
@@ -1551,8 +1524,8 @@ Class Codes {
 				.'}'."\n"
 				."\n"
 				.'// observe page major events'."\n"
-				.'Event.observe(window, "load", onLoad);'."\n"
-				.'Event.observe(window, "resize", onResize);'."\n"
+				.'$(document).ready( onLoad);'."\n"
+				.'$(window).resize(onResize);'."\n"
 				.JS_SUFFIX;
 
 			// job done
@@ -1572,7 +1545,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];
@@ -1661,7 +1634,7 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	function &render_escaped($text) {
+	public static function &render_escaped($text) {
 
 		// replace strings --initialize only once
 		static $from, $to;
@@ -1699,6 +1672,54 @@ Class Codes {
 	}
 
 	/**
+	 * include some external PHP script
+	 *
+	 * @param string name of the script to include
+	 * @param mixed default value, if any
+	 * @return text generated during the inclusion
+	 */
+	public static function &render_execute($name) {
+		global $context;
+
+		// check path to the file
+		while(TRUE) {
+
+			// remove leading /
+			if($name[0] == '/') {
+				$name = substr($name, 1);
+				continue;
+			}
+
+			// avoid reference to current directory
+			if(!strncmp($name, './', 2)) {
+				$name = substr($name, 2);
+				continue;
+			}
+
+			// can't go outside this instance of yacs
+			if(!strncmp($name, '../', 3)) {
+				$name = substr($name, 3);
+				continue;
+			}
+
+			break;
+		}
+
+		// capture the output of the next script in memory
+		ob_start();
+
+		// load this file, somewhere below the installation directory
+		include $context['path_to_root'].$name;
+
+		// retrieve all text generated by the script
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		// display the text where the script was included
+		return $output;
+	}
+
+	/**
 	 * render an interactive Freemind map
 	 *
 	 * The id can be:
@@ -1719,7 +1740,7 @@ Class Codes {
 	 * @param string id of the target map
 	 * @return string the rendered string
 	**/
-	function &render_freemind($id) {
+	public static function &render_freemind($id) {
 		global $context;
 
 		// process parameters
@@ -1753,7 +1774,7 @@ Class Codes {
 		// content of one section
 		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
 
-			if(!$item =& Sections::get(substr($id, $position + strlen('section:')))) {
+			if(!$item = Sections::get(substr($id, $position + strlen('section:')))) {
 				$text = '[freemind='.$id.']';
 				return $text;
 			}
@@ -1767,7 +1788,7 @@ Class Codes {
 			$target_href = $id;
 
 		// one file, as a freemind map
-		} elseif(($item =& Files::get($id)) && isset($item['id'])) {
+		} elseif(($item = Files::get($id)) && isset($item['id'])) {
 
 			// if we have an external reference, use it
 			if(isset($item['file_href']) && $item['file_href']) {
@@ -1780,7 +1801,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];
@@ -1838,7 +1859,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_graphviz($text, $variant='digraph') {
+	public static function &render_graphviz($text, $variant='digraph') {
 		global $context;
 
 		// sanity check
@@ -1905,14 +1926,14 @@ Class Codes {
 	 *
 	 * If variant = 'anonymous' and surfer is not logged, then display the block.
 	 * If the surfer is an associate, then display the text.
-	 * Else if the surfer is an authenticated member and variant = 'restricted', then display the text
+	 * Else if the surfer is an authenticated member and variant = 'authenticated', then display the text
 	 * Else return an empty string
 	 *
 	 * @param string the text
 	 * @param either 'anonymous', or 'restricted' or 'hidden'
 	 * @return string the rendered text
 	**/
-	function &render_hidden($text, $variant) {
+	public static function &render_hidden($text, $variant) {
 
 		// this block should only be visible from non-logged surfers
 		if($variant == 'anonymous') {
@@ -1926,7 +1947,7 @@ Class Codes {
 			return $text;
 
 		// this block is restricted to members
-		if(Surfer::is_member() && ($variant == 'restricted'))
+		if(Surfer::is_member() && ($variant == 'authenticated'))
 			return $text;
 
 		// tough luck
@@ -1941,7 +1962,7 @@ Class Codes {
 	 * @param string iframe parameters
 	 * @return string the rendered text
 	**/
-	function &render_iframe($url, $variant) {
+	public static function &render_iframe($url, $variant) {
 		global $context;
 
 		// split parameters
@@ -1968,7 +1989,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function &render_list($content, $variant='') {
+	public static function &render_list($content, $variant='') {
 		global $context;
 
 		if(!$content = trim($content)) {
@@ -2033,7 +2054,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_location($id) {
+	public static function &render_location($id) {
 		global $context;
 
 		// the required library
@@ -2054,7 +2075,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// a record is mandatory
-			if(!$item =& Locations::get($id)) {
+			if(!$item = Locations::get($id)) {
 				if(Surfer::is_member()) {
 					$output = '&#91;location='.$id.']';
 					return $output;
@@ -2077,7 +2098,7 @@ Class Codes {
 		}
 
 		// map on Google
-		$output =& Locations::map_on_google(array($item));
+		$output = Locations::map_on_google(array($item));
 		return $output;
 
 	}
@@ -2088,7 +2109,7 @@ Class Codes {
 	 * @param string 'all' or 'users'
 	 * @return string the rendered text
 	**/
-	function &render_locations($id='all') {
+	public static function &render_locations($id='all') {
 		global $context;
 
 		// the required library
@@ -2116,7 +2137,7 @@ Class Codes {
 		}
 
 		// integrate with google maps
-		$output =& Locations::map_on_google($items);
+		$output = Locations::map_on_google($items);
 		return $output;
 
 	}
@@ -2131,7 +2152,7 @@ Class Codes {
 	 * @param string the variant - default is 'flash'
 	 * @return string the rendered text
 	**/
-	function &render_news($variant) {
+	public static function &render_news($variant) {
 		global $context;
 
 		switch($variant) {
@@ -2174,7 +2195,7 @@ Class Codes {
 	 * @param string address of the newsfeed to get
 	 * @return string the rendered text
 	**/
-	function &render_newsfeed($url, $variant='ajax') {
+	public static function &render_newsfeed($url, $variant='ajax') {
 		global $context;
 
 		// we allow multiple calls
@@ -2191,7 +2212,7 @@ Class Codes {
 
 			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
 			.JS_PREFIX
-			.'Event.observe(window, "load", function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' } }, function(s) { if(s.text) { $("newsfeed_'.$count.'").update(s.text.toString()); } else { $("newsfeed_'.$count.'").update(""); } } ) } );'."\n"
+			.'$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
 			.JS_SUFFIX;
 
 			return $text;
@@ -2216,7 +2237,6 @@ Class Codes {
 	 * - article - link to an article page
 	 * - category - link to a category page
 	 * - comment - link to a comment page
-	 * - decision - link to a decision page
 	 * - download - link to a download page
 	 * - file - link to a file page
 	 * - flash - display a file as a native flash object, or play a flash video
@@ -2233,7 +2253,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_object($type, $id) {
+	public static function &render_object($type, $id) {
 		global $context;
 
 		// depending on type
@@ -2248,7 +2268,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Actions::get($id))
+			if(!$item = Actions::get($id))
 				$output = '[action='.$id.']';
 
 			else {
@@ -2260,7 +2280,7 @@ Class Codes {
 					$text =& Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url = Actions::get_url($item['id']);
+				$url = $context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
@@ -2276,7 +2296,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[article='.$id.']';
 
 			else {
@@ -2289,7 +2309,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2305,7 +2325,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[article.description='.$id.']';
 
 			else {
@@ -2318,7 +2338,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'article');
@@ -2328,8 +2348,7 @@ Class Codes {
 
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
+					$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 					// get text related to the overlay, if any
 					if(is_object($overlay))
@@ -2352,7 +2371,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Categories::get($id))
+			if(!$item = Categories::get($id))
 				$output = '[category='.$id.']';
 
 			else {
@@ -2365,7 +2384,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2381,7 +2400,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Categories::get($id))
+			if(!$item = Categories::get($id))
 				$output = '[category.description='.$id.']';
 
 			else {
@@ -2394,7 +2413,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'category');
@@ -2404,8 +2423,7 @@ Class Codes {
 
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
+					$overlay = Overlay::load($item, 'category:'.$item['id']);
 
 					// get text related to the overlay, if any
 					if(is_object($overlay))
@@ -2429,7 +2447,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Comments::get($id))
+			if(!$item = Comments::get($id))
 				$output = '[comment='.$id.']';
 
 			else {
@@ -2441,41 +2459,12 @@ Class Codes {
 					$text = i18n::s('View this comment');
 
 				// make a link to the target page
-				$url = Comments::get_url($item['id']);
+				$url = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
 			}
 
-			return $output;
-
-		// link to a decision
-		case 'decision':
-			include_once $context['path_to_root'].'decisions/decisions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item =& Decisions::get($id))
-				$output = '[decision='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = i18n::s('View this decision');
-
-				// make a link to the target page
-				$url = Decisions::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
-
-			}
 			return $output;
 
 		// link to a download
@@ -2486,22 +2475,50 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Files::get($id))
-				$output = '[download='.$id.']';
+			if(!$item = Files::get($id))
+
+				// file does not exist anymore
+				if((isset($attributes[1]) && $attributes[1]))
+					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+				else
+					$output = '[download='.$id.']';
 
 			else {
 
+				// label for this file
+				$prefix = $text = $suffix = '';
+
+				// signal restricted and private files
+				if($item['active'] == 'N')
+					$prefix .= PRIVATE_FLAG;
+				elseif($item['active'] == 'R')
+					$prefix .= RESTRICTED_FLAG;
+
 				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
+				if(isset($attributes[1]) && $attributes[1]) {
+					$text .= $attributes[1];
+
+					// this may describe a previous file, which has been replaced
+					if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
+						$text .= ' <p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+						$output = $prefix.$text.$suffix;
+						return $output;
+					}
+
+				} else
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
+				// flag files uploaded recently
+				if($item['create_date'] >= $context['fresh'])
+					$suffix .= NEW_FLAG;
+				elseif($item['edit_date'] >= $context['fresh'])
+					$suffix .= UPDATED_FLAG;
+
 				// always download the file
-				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
+				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'file');
+				$output = $prefix.Skin::build_link($url, $text, 'file').$suffix;
 			}
 
 			return $output;
@@ -2513,38 +2530,69 @@ Class Codes {
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
 			$id = $attributes[0];
 
-			// load the record from the database
-			if(!$item =& Files::get($id))
-				$output = '[file='.$id.']';
+			// load the record from the database --ensure we get a fresh copy of the record, not a cached one
+			if(!$item = Files::get($id, TRUE))
+
+				// file does not exist anymore
+				if((isset($attributes[1]) && $attributes[1]))
+					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+				else
+					$output = '[file='.$id.']';
 
 			else {
 
 				// maybe we want to illustrate this file
-				$output = Files::interact($item);
+				if((($item['edit_action'] != 'file:create') && isset($attributes[1]) && $attributes[1]) || (!$output = Files::interact($item))) {
 
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+					// label for this file
+					$output = $prefix = $text = $suffix = '';
 
-				// make a link to the target page
-				$url = Files::get_permalink($item);
+					// signal restricted and private files
+					if($item['active'] == 'N')
+						$prefix .= PRIVATE_FLAG;
+					elseif($item['active'] == 'R')
+						$prefix .= RESTRICTED_FLAG;
 
-				// return a complete anchor
-				$output .= Skin::build_link($url, $text, 'basic');
+					// ensure we have a label for this link
+					if(isset($attributes[1]) && $attributes[1]) {
+						$text .= $attributes[1];
+
+						// this may describe a previous file, which has been replaced
+						if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
+							$text .= '<p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+							$output = $prefix.$text.$suffix;
+							return $output;
+						}
+
+					} else
+						$text .= Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+					// flag files uploaded recently
+					if($item['create_date'] >= $context['fresh'])
+						$suffix .= NEW_FLAG;
+					elseif($item['edit_date'] >= $context['fresh'])
+						$suffix .= UPDATED_FLAG;
+
+					// make a link to the target page
+					$url = Files::get_download_url($item);
+
+					// return a complete anchor
+					$output .= $prefix.Skin::build_link($url, $text, 'basic').$suffix;
+
+				}
 			}
 			return $output;
 
 		// link to a form
 		case 'form':
+			include_once $context['path_to_root'].'forms/forms.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Forms::get($id))
+			if(!$item = Forms::get($id))
 				$output = '[form='.$id.']';
 
 			else {
@@ -2557,7 +2605,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Forms::get_url($item['']);
+				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2579,7 +2627,7 @@ Class Codes {
 				$text = $name;
 
 			// return a complete anchor
-			$output =& Skin::build_link(normalize_shortcut($name), $text, 'basic');
+			$output = Skin::build_link($context['url_to_home'].$context['url_to_root'].normalize_shortcut($name), $text, 'basic');
 			return $output;
 
 		// embed an image
@@ -2595,7 +2643,7 @@ Class Codes {
 				$variant = 'inline';
 
 			// get the image record
-			if(!$image =& Images::get($id)) {
+			if(!$image = Images::get($id)) {
 				$output = '[image='.$id.']';
 				return $output;
 			}
@@ -2661,7 +2709,12 @@ Class Codes {
 			}
 
 			// use the skin
-			$output =& Skin::build_image($variant, $href, $title, $link);
+			if(Images::allow_modification($image['anchor'],$id))
+			   // build editable image
+			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
+			else
+			   $output =& Skin::build_image($variant, $href, $title, $link);
+
 			return $output;
 
 		// embed a stack of images
@@ -2680,7 +2733,7 @@ Class Codes {
 			foreach($ids as $id) {
 
 				// get the image record
-				if($image =& Images::get($id)) {
+				if($image = Images::get($id)) {
 
 					// a title for the image --do not force a title
 					if(isset($image['title']))
@@ -2770,7 +2823,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[next='.$id.']';
 
 			else {
@@ -2798,7 +2851,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[previous='.$id.']';
 
 			else {
@@ -2826,7 +2879,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Sections::get($id))
+			if(!$item = Sections::get($id))
 				$output = '[section='.$id.']';
 
 			else {
@@ -2839,7 +2892,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Sections::get_permalink($item);
+				$url = Sections::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2856,7 +2909,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Servers::get($id))
+			if(!$item = Servers::get($id))
 				$output = '[server='.$id.']';
 
 			else {
@@ -2869,7 +2922,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url = Servers::get_url($id);
+				$url = $context['url_to_home'].$context['url_to_root'].Servers::get_url($id);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2888,7 +2941,7 @@ Class Codes {
 				$flashvars = $attributes[1];
 
 			// get the file
-			if(!$item =& Files::get($id)) {
+			if(!$item = Files::get($id)) {
 				$output = '[sound='.$id.']';
 				return $output;
 			}
@@ -2897,7 +2950,7 @@ Class Codes {
 			if(isset($item['file_href']) && $item['file_href'])
 				$url = $item['file_href'];
 			else
-				$url = $context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			// several ways to play flash
 			switch(strtolower(substr(strrchr($url, '.'), 1))) {
@@ -2931,7 +2984,7 @@ Class Codes {
 				$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_permalink($item);
+				$url = Files::get_download_url($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
@@ -2947,7 +3000,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Users::get($id))
+			if(!$item = Users::get($id))
 				$output = '[user='.$id.']';
 
 			else {
@@ -2980,12 +3033,39 @@ Class Codes {
 	}
 
 	/**
+	 * get the value of one global parameter
+	 *
+	 * Parameter is taken from the global $context array, and its name has to start with
+	 * prefix 'page_', or 'site_', for obvious security reasons.
+	 *
+	 * @param string name of the parameter
+	 * @param mixed default value, if any
+	 * @return the actual value of this parameter, else the default value, else ''
+	 */
+	public static function &render_parameter($name, $default='') {
+		global $context;
+
+		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
+			$output =& $context[$name];
+			return $output;
+		}
+
+		if(!strncmp($name, 'site_', 5) && isset($context[$name])) {
+			$output =& $context[$name];
+			return $output;
+		}
+
+		$output = $default;
+		return $output;
+	}
+
+	/**
 	 * render a block of code
 	 *
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	function &render_pre($text, $variant='snippet') {
+	public static function &render_pre($text, $variant='snippet') {
 
 		// change new lines
 		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
@@ -3051,7 +3131,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_published($anchor='', $layout='compact') {
+	public static function &render_published($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -3188,7 +3268,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_random($anchor='', $layout='') {
+	public static function &render_random($anchor='', $layout='') {
 		global $context;
 
 		// we return some text;
@@ -3260,7 +3340,7 @@ Class Codes {
  			foreach($items as $id => $item) {
 
 				// make a link to the target page
-				$link =& Articles::get_permalink($item);
+				$link = Articles::get_permalink($item);
 				if(!$label)
 					$label = Skin::strip($item['title']);
 				$text =& Skin::build_link($link, $label, 'article');
@@ -3272,8 +3352,7 @@ Class Codes {
 
 					// load overlay, if any
 					if(isset($item['overlay']) && $item['overlay']) {
-						include_once '../overlays/overlay.php';
-						$overlay = Overlay::load($item);
+						$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 						// get text related to the overlay, if any
 						if(is_object($overlay))
@@ -3302,7 +3381,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_read($anchor='', $layout='hits') {
+	public static function &render_read($anchor='', $layout='hits') {
 		global $context;
 
 		// we return some text;
@@ -3381,11 +3460,63 @@ Class Codes {
 	}
 
 	/**
+	 * redirect dynamically from this page to any local web address
+	 *
+	 * This is typically useful to have a regular yacs page redirected to a specific PHP script.
+	 *
+	 * @param string target link
+	 * @return text generated during the inclusion
+	 */
+	public static function &render_redirect($link) {
+		global $context;
+
+		// turn external links to clickable things
+		if(preg_match('/^(ftp:|http:|https:|www\.)/i', $link)) {
+			$output = '<p>'.Skin::build_link($link).'</p>';
+			return $output;
+		}
+
+		// only while viewing real pages
+		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'GET')) {
+			$output = '<p>'.Skin::build_link($link).'</p>';
+			return $output;
+		}
+
+		// check path to the file
+		while(TRUE) {
+
+			// remove leading /
+			if($link[0] == '/') {
+				$link = substr($link, 1);
+				continue;
+			}
+
+			// avoid reference to current directory
+			if(!strncmp($link, './', 2)) {
+				$link = substr($link, 2);
+				continue;
+			}
+
+			// can't go outside this instance of yacs
+			if(!strncmp($link, '../', 3)) {
+				$link = substr($link, 3);
+				continue;
+			}
+
+			break;
+		}
+
+		// forward to the target page
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$link);
+
+	}
+
+	/**
 	 * render tweetmeme button
 	 *
 	 * @return string the rendered text
 	**/
-	function &render_retweet() {
+	public static function &render_retweet() {
 		global $context;
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
@@ -3411,7 +3542,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_sections($anchor='', $layout='simple') {
+	public static function &render_sections($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;
@@ -3463,7 +3594,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function render_static_table($content, $variant='') {
+	public static function render_static_table($content, $variant='') {
 		global $context;
 
 		// we are providing inline tables
@@ -3518,7 +3649,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_table_of($variant) {
+	public static function &render_table_of($variant) {
 		global $context;
 
 		// nothing to return yet
@@ -3621,7 +3752,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_title($text, $variant) {
+	public static function &render_title($text, $variant) {
 		global $codes_toc, $codes_toq, $context;
 
 		// remember questions
@@ -3679,7 +3810,7 @@ Class Codes {
 	 * @param string twitter id to display, plus optional parameters, if any
 	 * @return string the rendered text
 	**/
-	function &render_twitter($id) {
+	public static function &render_twitter($id) {
 		global $context;
 
 		// up to 4 parameters: id, width, height, styles
@@ -3721,17 +3852,8 @@ Class Codes {
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="twitter_'.$count.'"></div>'."\n"
-			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
-			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'new TWTR.Widget({'."\n"
-			.'  profile: true,'."\n"
-			.'  id: "twitter_'.$count.'",'."\n"
-			.'  loop: true,'."\n"
-			.'  width: '.$width.','."\n"
-			.'  height: '.$height.','."\n"
-			.'  '.$theme."\n"
-			.'}).render().setProfile("'.$id.'").start();'."\n"
+			.'$(function() { $("#twitter_'.$count.'").liveTwitter("'.$id.'", {mode: "user_timeline"}); });'."\n"
 			.'</script>';
 
 		// job done
@@ -3744,7 +3866,7 @@ Class Codes {
 	 * @param string twitter searched keywords, plus optional parameters, if any
 	 * @return string the rendered text
 	**/
-	function &render_twitter_search($id) {
+	public static function &render_twitter_search($id) {
 		global $context;
 
 		// up to 4 parameters: id, width, height, styles
@@ -3763,20 +3885,6 @@ Class Codes {
 		else
 			$height = 300;
 
-		// theme
-		if(isset($attributes[3]))
-			$theme = $attributes[3];
-		else
-			$theme = 'theme: { shell: {'."\n"
-				.'      background: "#3082af",'."\n"
-				.'      color: "#ffffff"'."\n"
-				.'    },'."\n"
-				.'    tweets: {'."\n"
-				.'      background: "#ffffff",'."\n"
-				.'      color: "#444444",'."\n"
-				.'      links: "#1985b5"'."\n"
-				.'    }}';
-
 		// allow multiple widgets
 		static $count;
 		if(!isset($count))
@@ -3786,17 +3894,8 @@ Class Codes {
 
 		// $context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="tsearch_'.$count.'"></div>'."\n"
-			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
-			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'new TWTR.Widget({'."\n"
-			.'  search: "'.str_replace('"', '', $id).'",'."\n"
-			.'  id: "tsearch_'.$count.'",'."\n"
-			.'  loop: true,'."\n"
-			.'  width: '.$width.','."\n"
-			.'  height: '.$height.','."\n"
-			.'  '.$theme."\n"
-			.'}).render().start();'."\n"
+			.'$(function() { $("#tsearch_'.$count.'").liveTwitter("'.str_replace('"', '', $id).'"); });'."\n"
 			.'</script>';
 
 		// job done
@@ -3817,7 +3916,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_updated($anchor='', $layout='compact') {
+	public static function &render_updated($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -3946,7 +4045,7 @@ Class Codes {
 	 * @param string the anchor (e.g. 'present')
 	 * @return string the rendered text
 	**/
-	function &render_users($anchor='') {
+	public static function &render_users($anchor='') {
 		global $context;
 
 		// we return some text;
@@ -3985,7 +4084,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_voted($anchor='', $layout='simple') {
+	public static function &render_voted($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;
@@ -4069,7 +4168,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_wikipedia($id) {
+	public static function &render_wikipedia($id) {
 		global $context;
 
 		// maybe an alternate title has been provided
@@ -4103,13 +4202,14 @@ Class Codes {
 	 * remove YACS codes from a string
 	 *
 	 * @param string embedding YACS codes
+	 * @param boolean FALSE to remove only only pairing codes, TRUE otherwise
 	 * @return a purged string
 	 */
-	function &strip($text, $suppress_all_brackets=FALSE) {
+	public static function &strip($text, $suppress_all_brackets=TRUE) {
 		global $context;
 
 		// suppress pairing codes
-		$output = preg_replace('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', '${2}', $text);
+		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/\1\]#s', '${2}', $text);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)

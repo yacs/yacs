@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'forms.php';
 
 // look for the id
@@ -37,14 +36,14 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Forms::get($id);
+$item = Forms::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -73,7 +72,7 @@ if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -90,7 +89,7 @@ if(Surfer::is_crawler()) {
 
 // only associates can add or change a form
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -173,7 +172,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// update an existing form
 	if(isset($item['id'])) {
@@ -230,10 +229,11 @@ if(Surfer::is_crawler()) {
 		// title and link
 		if($title = $form['title'])
 			$description .= $title."\n";
-		$description = $context['url_to_home'].$context['url_to_root'].Forms::get_url($form['id'], 'view', $form['title'])."\n\n";
+               $link = $context['url_to_home'].$context['url_to_root'].Forms::get_url($form['id'], 'view', $form['title']);
+               $description .= '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops
-		Logger::notify('forms/edit.php', $label, $description);
+		Logger::notify('forms/edit.php: '.$label, $description);
 
 	}
 
@@ -245,7 +245,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form to edit an form
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="$(\'content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'#content\').val(Forms.toJSON(\'#form_panel\')); return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// this form has several panels
 	$panels = array();
@@ -271,7 +271,7 @@ if($with_form) {
 	$value = '';
 	if(isset($item['introduction']) && $item['introduction'])
 		$value = $item['introduction'];
-	$input = '<textarea name="introduction" rows="3" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
+	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
 	$hint = i18n::s('Also complements the title in lists featuring this page');
 	$fields[] = array($label, $input, $hint);
 
@@ -328,7 +328,7 @@ if($with_form) {
 	if(isset($item['nick_name']) && $item['nick_name'])
 		$value = $item['nick_name'];
 	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
-	$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+	$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'open'));
 	$fields[] = array($label, $input, $hint);
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
@@ -338,13 +338,13 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 	// maybe a restricted page
 	$input .= '<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated persons').BR;
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active" value="N"';
@@ -417,40 +417,19 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// detect changes in form'."\n"
-		.'func'.'tion detectChanges() {'."\n"
+		.'// disable editor selection on change in form'."\n"
+                .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
+                .'      $("#preferred_editor").attr("disabled",true);'."\n"
+                .'});'."\n"
 		."\n"
-		.'	var nodes = $$("form#main_form input");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form textarea");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	nodes = $$("form#main_form select");'."\n"
-		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
-		.'		var node = nodes[index];'."\n"
-		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
-		.'	}'."\n"
-		.'}'."\n"
-		."\n"
-		.'// observe changes in form'."\n"
-		.'Event.observe(window, "load", detectChanges);'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
+		.'$(function() { $("#title").focus() });'."\n" // set the focus on first form field
 		."\n"
 		.JS_SUFFIX."\n";
 
 	// content of the help box
 	$help = '<p>';
 	$help .= i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
-	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
  	// change to another editor
 	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
@@ -478,8 +457,8 @@ if($with_form) {
 	// the script used to restore previous state
 	if(isset($item['content']) && $item['content']) {
 		$context['page_footer'] .= JS_PREFIX
-			.'// restore fields of the form'."\n"
-			.'Event.observe(window, "load", function() { Forms.fromJSON("form_panel", '.utf8::encode($item['content']).') });'."\n"
+			.'// restore form fields'."\n"
+			.'$(function() { Forms.fromJSON("#form_panel", '.utf8::encode($item['content']).') });'."\n"
 			.JS_SUFFIX."\n";
 	}
 

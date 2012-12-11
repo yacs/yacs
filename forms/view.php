@@ -36,12 +36,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Forms::get($id);
+$item = Forms::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -62,6 +62,10 @@ else
 // load the skin
 load_skin('forms');
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'form:'.$item['id'];
+
 // the path to this page
 $context['path_bar'] = array( 'forms/' => i18n::s('Forms') );
 
@@ -74,7 +78,7 @@ $with_form = FALSE;
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
@@ -94,7 +98,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Forms::get_url($item['id'], 'view', $item['title'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -107,7 +111,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// let define a new id
 	unset($_REQUEST['id']);
@@ -236,7 +240,6 @@ if(Surfer::is_crawler()) {
 	Surfer::track($_REQUEST);
 
 	// store structured data in an overlay
-	include_once '../overlays/overlay.php';
 	$overlay = Overlay::bind('form');
 	$overlay->parse_once($attributes);
 
@@ -269,7 +272,7 @@ if(Surfer::is_crawler()) {
 					$file_name = utf8::to_ascii($_FILES[$field['name']]['name']);
 
 					// create folders
-					$file_path = 'files/'.$context['virtual_path'].'article/'.$_REQUEST['id'];
+					$file_path = Files::get_path('article:'.$_REQUEST['id']);
 					Safe::make_path($file_path);
 
 					// make an absolute path
@@ -328,19 +331,14 @@ if(Surfer::is_crawler()) {
 
 		}
 
-		// if poster is a registered user
-		if(Surfer::get_id()) {
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
 
-			// increment the post counter of the surfer
-			Users::increment_posts(Surfer::get_id());
-
-			// add this page to watch list
-			Members::assign('article:'.$_REQUEST['id'], 'user:'.Surfer::get_id());
-
-		}
+		// do whatever is necessary on page publication
+		Articles::finalize_publication($anchor, $_REQUEST, $overlay);
 
 		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -357,18 +355,6 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		// log the creation of a new page
-		$label = sprintf(i18n::c('New page: %s'), strip_tags($article->get_title()));
-
-		// poster and target section
-		$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title());
-
-		// title and link
-		$description .= "\n\n".$context['url_to_home'].$context['url_to_root'].$article->get_url()."\n\n";
-
-		// notify sysops
-		Logger::notify('forms/view.php', $label, $description);
 
 	}
 
@@ -396,11 +382,11 @@ if($with_form) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons').BR."\n";
+			$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
-			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
+			$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 		// all details
 		if(@count($details))
@@ -413,7 +399,7 @@ if($with_form) {
 	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// the form
-	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
 
 	// form fields
 	$fields = array();
@@ -431,7 +417,7 @@ if($with_form) {
 			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php?anchor='.$anchor->get_reference());
 		else
 			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php');
-		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, i18n::s('authenticate')))."</p>\n";
 
 		// the name, if any
 		$label = i18n::s('Your name');
@@ -452,10 +438,8 @@ if($with_form) {
 	} else {
 
 		// the name, if any
-		if($value = Surfer::get_name()) {
-			$label = i18n::s('Your name');
-			$fields[] = array($label, $value);
-		}
+		$label = i18n::s('Your name');
+		$fields[] = array($label, Surfer::get_name());
 
 		// the address, if any
 		if($value = Surfer::get_email_address()) {

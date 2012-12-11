@@ -20,7 +20,7 @@ Class Layout_links_as_simple extends Layout_interface {
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -31,10 +31,10 @@ Class Layout_links_as_simple extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// url is the link itself -- hack for xhtml compliance
 			$url = str_replace('&', '&amp;', $item['link_url']);

@@ -34,7 +34,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -54,17 +54,16 @@ Class Layout_articles_as_rights extends Layout_interface {
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
-			$overlay = Overlay::load($item);
+			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$summary = $update = $owner = $editor = $watcher = '';
@@ -75,9 +74,9 @@ Class Layout_articles_as_rights extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$summary .= PRIVATE_FLAG.' ';
+				$summary .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$summary .= RESTRICTED_FLAG.' ';
+				$summary .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the page');

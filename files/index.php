@@ -2,8 +2,6 @@
 /**
  * the index page for files
  *
- * @todo add a bulk.php to upload files as a table (Justin)
- *
  * For a comprehensive description of files, you should check the database abstraction script
  * at [script]files/files.php[/script].
  *
@@ -66,7 +64,7 @@ if($stats['count'])
 
 // stop hackers
 if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
@@ -85,12 +83,12 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'files/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// the list of files
 		$offset = ($page - 1) * $items_per_page;
 		if(!$text = Files::list_by_date($offset, $items_per_page, 'full'))
-			$text = '<p>'.i18n::s('No file has been uploaded yet.').'</p>';
+			$text = '<p>'.i18n::s('No file has been added yet.').'</p>';
 
 		// we have an array to format
 		if(is_array($text))
@@ -118,7 +116,7 @@ $context['components']['channels'] = Skin::build_box($title, $label, 'channels')
 
 // page extra content
 $cache_id = 'files/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most popular files
 	if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact')) {

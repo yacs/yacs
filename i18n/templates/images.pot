@@ -1,0 +1,471 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 21:24+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: images/check.php:23 images/check.php:34 images/check.php:107
+#: images/check.php:163 images/delete.php:80 images/edit.php:138
+#: images/index.php:62 images/view.php:98
+msgid "Images"
+msgstr ""
+
+#: images/check.php:26 images/index.php:111
+msgid "Maintenance"
+msgstr ""
+
+#: images/check.php:31 images/delete.php:92 images/edit.php:157
+#: images/edit.php:182 images/index.php:67 images/set_as_icon.php:65
+#: images/set_as_icon.php:80 images/set_as_thumbnail.php:63
+#: images/set_as_thumbnail.php:78 images/view.php:119
+msgid "You are not allowed to perform this operation."
+msgstr ""
+
+#: images/check.php:41 images/images.php:770 images/index.php:96
+msgid "No image has been added."
+msgstr ""
+
+#: images/check.php:51 images/check.php:114
+#, php-format
+msgid "Analyzing table %s..."
+msgstr ""
+
+#: images/check.php:71 images/check.php:100 images/check.php:134
+#: images/check.php:156
+#, php-format
+msgid "%d records have been processed"
+msgstr ""
+
+#: images/check.php:87
+#, php-format
+msgid "Unused: %s"
+msgstr ""
+
+#: images/check.php:89 images/check.php:145
+msgid "Too many successive errors. Aborted"
+msgstr ""
+
+#: images/check.php:104 images/check.php:160
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr ""
+
+#: images/check.php:143
+#, php-format
+msgid "Orphan: %s"
+msgstr ""
+
+#: images/check.php:170
+msgid "Please select the action to perform."
+msgstr ""
+
+#: images/check.php:176
+msgid "List biggest images"
+msgstr ""
+
+#: images/check.php:179
+msgid "Look for unused images"
+msgstr ""
+
+#: images/check.php:182
+msgid "Look for orphan records"
+msgstr ""
+
+#: images/check.php:185
+msgid "Start"
+msgstr ""
+
+#: images/delete.php:83
+msgid "Delete an image"
+msgstr ""
+
+#: images/delete.php:112
+msgid "The action has not been confirmed."
+msgstr ""
+
+#: images/delete.php:119
+msgid "Yes, I want to delete this image"
+msgstr ""
+
+#: images/delete.php:121 images/edit.php:600
+msgid "Cancel"
+msgstr ""
+
+#: images/delete.php:159 images/edit.php:467 images/edit.php:479
+#: images/layout_images.php:99
+msgid "bytes"
+msgstr ""
+
+#: images/delete.php:163 images/layout_images.php:103 images/view.php:223
+#, php-format
+msgid "edited by %s %s"
+msgstr ""
+
+#: images/delete.php:180 images/view.php:210
+#, php-format
+msgid "Source: %s"
+msgstr ""
+
+#: images/edit.php:142
+msgid "Update an image"
+msgstr ""
+
+#: images/edit.php:144
+msgid "Add an image"
+msgstr ""
+
+#: images/edit.php:162 images/images.php:696 images/images.php:702
+#: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
+msgid "No anchor has been found."
+msgstr ""
+
+#: images/edit.php:255
+msgid "No file has been transmitted."
+msgstr ""
+
+#: images/edit.php:274
+msgid "Thank you for your contribution"
+msgstr ""
+
+#: images/edit.php:295
+msgid "The image has become the profile picture."
+msgstr ""
+
+#: images/edit.php:298
+msgid "This has become the thumbnail image of the page."
+msgstr ""
+
+#: images/edit.php:301
+msgid ""
+"The image has been added, and it also has been set as the page thumbnail."
+msgstr ""
+
+#: images/edit.php:304
+msgid "The image has been inserted."
+msgstr ""
+
+#: images/edit.php:374
+#, php-format
+msgid "%d image has been processed."
+msgid_plural "%d images have been processed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: images/edit.php:376
+msgid "No image has been processed."
+msgstr ""
+
+#: images/edit.php:384
+msgid "What do you want to do now?"
+msgstr ""
+
+#: images/edit.php:386
+msgid "View the page"
+msgstr ""
+
+#: images/edit.php:387
+msgid "Edit the page"
+msgstr ""
+
+#: images/edit.php:388
+msgid "Submit another image"
+msgstr ""
+
+#: images/edit.php:397
+#, php-format
+msgid "New image in %s"
+msgstr ""
+
+#: images/edit.php:399
+#, php-format
+msgid "%s at %s"
+msgstr ""
+
+#: images/edit.php:445
+msgid "Image"
+msgstr ""
+
+#: images/edit.php:463
+#, php-format
+msgid "posted by %s %s"
+msgstr ""
+
+#: images/edit.php:477
+msgid "Select another image to replace the current one"
+msgstr ""
+
+#: images/edit.php:478
+msgid "Press to select a local file"
+msgstr ""
+
+#: images/edit.php:483 images/edit.php:487
+msgid "Select a picture to illustrate this user profile."
+msgstr ""
+
+#: images/edit.php:491
+msgid "Select a thumbnail picture for this page."
+msgstr ""
+
+#: images/edit.php:495
+msgid ""
+"Select a .png, .gif or .jpeg image, or a .zip file containing several images."
+msgstr ""
+
+#: images/edit.php:505
+msgid "Title"
+msgstr ""
+
+#: images/edit.php:511
+msgid "Description"
+msgstr ""
+
+#: images/edit.php:515
+msgid "Source"
+msgstr ""
+
+#: images/edit.php:517
+msgid ""
+"If you have got this file from outside sources, please reference these "
+"sources here"
+msgstr ""
+
+#: images/edit.php:554
+msgid "Link"
+msgstr ""
+
+#: images/edit.php:556
+msgid "You can make this image point to any web page if you wish"
+msgstr ""
+
+#: images/edit.php:562
+msgid "Image processing"
+msgstr ""
+
+#: images/edit.php:563
+msgid "Automatically resize the image if necessary"
+msgstr ""
+
+#: images/edit.php:570
+msgid "Insert a thumbnail"
+msgstr ""
+
+#: images/edit.php:574
+msgid ""
+"Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
+msgstr ""
+
+#: images/edit.php:578
+msgid "Always use the thumbnail. Users will click on it to see the full image."
+msgstr ""
+
+#: images/edit.php:582
+msgid ""
+"Never. Response times for surfers using modem links may be degraded on big "
+"images."
+msgstr ""
+
+#: images/edit.php:589
+msgid "Options"
+msgstr ""
+
+#: images/edit.php:598
+msgid "Submit"
+msgstr ""
+
+#: images/edit.php:598
+msgid "Press [s] to submit data"
+msgstr ""
+
+#: images/edit.php:605
+msgid "Do not change modification date of the main page."
+msgstr ""
+
+#: images/edit.php:608
+msgid "Ensure this post is valid XHTML."
+msgstr ""
+
+#: images/edit.php:627
+msgid ""
+"Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
+"clicking on thumbnails people can access full-sized pictures. The title is "
+"visible while the mouse is over the thumbnail. The description and the "
+"source information are displayed along the full-sized picture."
+msgstr ""
+
+#: images/edit.php:628
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr ""
+
+#: images/edit.php:628
+msgid "YACS codes"
+msgstr ""
+
+#: images/edit.php:628
+msgid "smileys"
+msgstr ""
+
+#: images/edit.php:629
+msgid ""
+"Smaller files are embedded as-is. The description and the source fields are "
+"more or less useless in this case."
+msgstr ""
+
+#: images/edit.php:630 images/view.php:249
+msgid "Help"
+msgstr ""
+
+#: images/image.php:35
+#, php-format
+msgid "No image information in %s."
+msgstr ""
+
+#: images/image.php:54
+#, php-format
+msgid "No GD support, or unknown image type in %s."
+msgstr ""
+
+#: images/image.php:118
+#, php-format
+msgid "Impossible to adjust image %s."
+msgstr ""
+
+#: images/image.php:132
+#, php-format
+msgid "Cannot write adjusted image to %s."
+msgstr ""
+
+#: images/image.php:196 images/image.php:340
+#, php-format
+msgid "No image information in %s"
+msgstr ""
+
+#: images/image.php:215
+#, php-format
+msgid "Unknown image type in %s."
+msgstr ""
+
+#: images/image.php:275
+#, php-format
+msgid "Cannot copy image to %s"
+msgstr ""
+
+#: images/image.php:299
+#, php-format
+msgid "Impossible to skrink image %s"
+msgstr ""
+
+#: images/image.php:313
+#, php-format
+msgid "Impossible to write to %s."
+msgstr ""
+
+#: images/image.php:346
+#, php-format
+msgid "Rejected file type %s"
+msgstr ""
+
+#: images/images.php:242 images/set_as_icon.php:70
+#: images/set_as_thumbnail.php:68
+msgid "No item has been found."
+msgstr ""
+
+#: images/images.php:310
+#, php-format
+msgid "Impossible to create path %s."
+msgstr ""
+
+#: images/images.php:327
+#, php-format
+msgid "Impossible to copy file %s."
+msgstr ""
+
+#: images/images.php:718
+msgid "No item has the provided id."
+msgstr ""
+
+#: images/index.php:75
+#, php-format
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] ""
+msgstr[1] ""
+
+#: images/index.php:119
+msgid "Recent pages"
+msgstr ""
+
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr ""
+
+#: images/layout_images.php:86
+#, php-format
+msgid "In %s"
+msgstr ""
+
+#: images/layout_images.php:114 images/view.php:237
+msgid "Update this image"
+msgstr ""
+
+#: images/layout_images.php:119
+msgid "Set as profile picture"
+msgstr ""
+
+#: images/layout_images.php:121
+msgid "Set as page image"
+msgstr ""
+
+#: images/layout_images.php:122
+msgid "Set as page thumbnail"
+msgstr ""
+
+#: images/layout_images.php:128 images/view.php:243
+msgid "Delete this image"
+msgstr ""
+
+#: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
+msgid "Use an image"
+msgstr ""
+
+#: images/set_as_icon.php:93 images/set_as_thumbnail.php:91
+msgid "Operation has failed."
+msgstr ""
+
+#: images/view.php:219
+#, php-format
+msgid "%d bytes"
+msgstr ""
+
+#: images/view.php:231
+msgid "Back to main page"
+msgstr ""
+
+#: images/view.php:237
+msgid "Press [e] to edit"
+msgstr ""
+
+#: images/view.php:248
+msgid ""
+"To save this image on your hard drive, drag the mouse above the image and "
+"use the right button. A contextual pop-up menu should appear. Select the "
+"adequate command depending on the browser used."
+msgstr ""
+
+#: images/view.php:255
+msgid "Thumbnail"
+msgstr ""

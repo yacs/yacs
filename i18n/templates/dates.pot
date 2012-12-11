@@ -1,0 +1,335 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 21:24+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: dates/check.php:21 dates/check.php:32 dates/check.php:90
+#: dates/check.php:146 dates/delete.php:70 dates/edit.php:64
+#: dates/fetch_ics.php:27 dates/fetch_ics.php:30 dates/index.php:43
+#: dates/view.php:55
+msgid "Dates"
+msgstr ""
+
+#: dates/check.php:24 dates/index.php:67
+msgid "Maintenance"
+msgstr ""
+
+#: dates/check.php:29 dates/day.php:50 dates/day.php:61 dates/delete.php:82
+#: dates/edit.php:75 dates/edit.php:86 dates/month.php:52 dates/month.php:63
+#: dates/year.php:39
+msgid "You are not allowed to perform this operation."
+msgstr ""
+
+#: dates/check.php:39 dates/check.php:97
+#, php-format
+msgid "Analyzing table %s..."
+msgstr ""
+
+#: dates/check.php:58 dates/check.php:83 dates/check.php:117
+#: dates/check.php:139
+#, php-format
+msgid "%d records have been processed"
+msgstr ""
+
+#: dates/check.php:70
+#, php-format
+msgid "Unused: %s"
+msgstr ""
+
+#: dates/check.php:72 dates/check.php:128
+msgid "Too many successive errors. Aborted"
+msgstr ""
+
+#: dates/check.php:87 dates/check.php:143
+#, php-format
+msgid "Script terminated in %.2f seconds."
+msgstr ""
+
+#: dates/check.php:126
+#, php-format
+msgid "Orphan: %s"
+msgstr ""
+
+#: dates/check.php:153
+msgid "Please select the action to perform."
+msgstr ""
+
+#: dates/check.php:159
+msgid "Look for unused dates"
+msgstr ""
+
+#: dates/check.php:162
+msgid "Look for orphan records"
+msgstr ""
+
+#: dates/check.php:165
+msgid "Start"
+msgstr ""
+
+#: dates/dates.php:26
+msgid "sunday"
+msgstr ""
+
+#: dates/dates.php:27
+msgid "monday"
+msgstr ""
+
+#: dates/dates.php:28
+msgid "tuesday"
+msgstr ""
+
+#: dates/dates.php:29
+msgid "wednesday"
+msgstr ""
+
+#: dates/dates.php:30
+msgid "thursday"
+msgstr ""
+
+#: dates/dates.php:31
+msgid "friday"
+msgstr ""
+
+#: dates/dates.php:32
+msgid "saturday"
+msgstr ""
+
+#: dates/dates.php:493
+msgid "January"
+msgstr ""
+
+#: dates/dates.php:494
+msgid "February"
+msgstr ""
+
+#: dates/dates.php:495
+msgid "March"
+msgstr ""
+
+#: dates/dates.php:496
+msgid "April"
+msgstr ""
+
+#: dates/dates.php:497
+msgid "May"
+msgstr ""
+
+#: dates/dates.php:498
+msgid "June"
+msgstr ""
+
+#: dates/dates.php:499
+msgid "July"
+msgstr ""
+
+#: dates/dates.php:500
+msgid "August"
+msgstr ""
+
+#: dates/dates.php:501
+msgid "September"
+msgstr ""
+
+#: dates/dates.php:502
+msgid "October"
+msgstr ""
+
+#: dates/dates.php:503
+msgid "November"
+msgstr ""
+
+#: dates/dates.php:504
+msgid "December"
+msgstr ""
+
+#: dates/dates.php:1013 dates/edit.php:226
+msgid "Please provide a date."
+msgstr ""
+
+#: dates/dates.php:1019 dates/edit.php:91
+msgid "No anchor has been found."
+msgstr ""
+
+#: dates/dates.php:1031
+msgid "No item has the provided id."
+msgstr ""
+
+#: dates/day.php:73
+msgid "Nothing has been recorded for this date."
+msgstr ""
+
+#: dates/day.php:108 dates/index.php:91 dates/month.php:110 dates/year.php:90
+msgid "Recent pages"
+msgstr ""
+
+#: dates/delete.php:73
+msgid "Delete a date"
+msgstr ""
+
+#: dates/delete.php:102
+msgid "The action has not been confirmed."
+msgstr ""
+
+#: dates/delete.php:109
+msgid "Yes, I want to delete this date"
+msgstr ""
+
+#: dates/delete.php:111
+msgid "Cancel"
+msgstr ""
+
+#: dates/delete.php:127 dates/edit.php:124 dates/view.php:76
+#, php-format
+msgid "%s: %s"
+msgstr ""
+
+#: dates/delete.php:127 dates/edit.php:124 dates/edit.php:193
+#: dates/view.php:76
+msgid "Target date"
+msgstr ""
+
+#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
+#, php-format
+msgid "edited by %s %s"
+msgstr ""
+
+#: dates/edit.php:68
+msgid "Edit a date"
+msgstr ""
+
+#: dates/edit.php:70
+msgid "Add a date"
+msgstr ""
+
+#: dates/edit.php:96
+msgid "This page has been locked."
+msgstr ""
+
+#: dates/edit.php:121
+msgid "Thank you for your contribution"
+msgstr ""
+
+#: dates/edit.php:127
+msgid "The date has been saved."
+msgstr ""
+
+#: dates/edit.php:139
+msgid "What do you want to do now?"
+msgstr ""
+
+#: dates/edit.php:141 dates/layout_dates_as_family.php:83
+#: dates/layout_dates.php:61
+msgid "View the page"
+msgstr ""
+
+#: dates/edit.php:142
+msgid "Edit the page"
+msgstr ""
+
+#: dates/edit.php:187
+msgid "Posted by"
+msgstr ""
+
+#: dates/edit.php:195
+msgid "YYYY-MM-DD"
+msgstr ""
+
+#: dates/edit.php:204
+msgid "Do not change modification date of the main page."
+msgstr ""
+
+#: dates/edit.php:207
+msgid "Submit"
+msgstr ""
+
+#: dates/edit.php:207
+msgid "Press [s] to submit data"
+msgstr ""
+
+#: dates/edit.php:240
+#, php-format
+msgid "%s and %s are available to enhance text rendering."
+msgstr ""
+
+#: dates/edit.php:240
+msgid "YACS codes"
+msgstr ""
+
+#: dates/edit.php:240
+msgid "smileys"
+msgstr ""
+
+#: dates/edit.php:241
+msgid "Help"
+msgstr ""
+
+#: dates/index.php:48
+#, php-format
+msgid "%d date"
+msgid_plural "%d dates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dates/index.php:58
+msgid "No event has been planned so far"
+msgstr ""
+
+#: dates/index.php:74
+msgid "Get calendar"
+msgstr ""
+
+#: dates/index.php:80
+msgid "Monitor"
+msgstr ""
+
+#: dates/layout_dates.php:74
+#, php-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dates/layout_dates.php:78
+#, php-format
+msgid "%d link"
+msgid_plural "%d links"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dates/layout_dates.php:82
+#, php-format
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dates/view.php:95
+msgid "Back to main page"
+msgstr ""
+
+#: dates/view.php:105 dates/view.php:110
+msgid "Edit"
+msgstr ""
+
+#: dates/view.php:106
+msgid "Delete"
+msgstr ""
+
+#: dates/view.php:123
+msgid "Navigation"
+msgstr ""

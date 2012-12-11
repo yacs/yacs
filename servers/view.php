@@ -35,12 +35,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Servers::get($id);
+$item = Servers::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -65,6 +65,10 @@ else
 // load the skin
 load_skin('servers');
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'server:'.$item['id'];
+
 // the path to this page
 $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 
@@ -84,7 +88,7 @@ if(!$item['id']) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Servers::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
@@ -110,11 +114,11 @@ if(!$item['id']) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated persons').BR."\n";
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 	// all details
 	if(@count($details))

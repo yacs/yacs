@@ -44,7 +44,7 @@ if(isset($_REQUEST['anchor']))
 	$anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
-$anchor =& Anchors::get(strip_tags($anchor));
+$anchor = Anchors::get(strip_tags($anchor));
 
 // no anchor, look for an article id
 if(!$anchor) {
@@ -54,7 +54,7 @@ if(!$anchor) {
 	elseif(isset($context['arguments'][0]))
 		$id = $context['arguments'][0];
 	$id = strip_tags($id);
-	$anchor =& Anchors::get('article:'.$id);
+	$anchor = Anchors::get('article:'.$id);
 }
 
 // the anchor has to be viewable by this surfer
@@ -85,7 +85,7 @@ if(!$permitted) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display feed content

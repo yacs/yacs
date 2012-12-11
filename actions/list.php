@@ -46,7 +46,7 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
@@ -110,12 +110,12 @@ if(!is_object($anchor)) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('actions/list.php?anchor='.$target_anchor));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop hackers
 } elseif($page > 10) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
@@ -128,7 +128,7 @@ if(!is_object($anchor)) {
 
 		// cache the section
 		$cache_id = 'actions/list.php?anchor='.$target_anchor.'#on-going';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// query the database and layout that stuff
 			$box['bar'] = array();
@@ -159,7 +159,7 @@ if(!is_object($anchor)) {
 
 	// cache the section
 	$cache_id = 'actions/list.php?anchor='.$target_anchor.'#completed#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// section title
 		$box['bar'] = array();
@@ -212,7 +212,7 @@ if(!is_object($anchor)) {
 
 		// cache the section
 		$cache_id = 'actions/list.php?anchor='.$target_anchor.'#rejected';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// query the database and layout that stuff
 			$box['bar'] = array();

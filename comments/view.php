@@ -6,12 +6,6 @@
  * directly to previous and next neighbours.
  * This is displayed as a sidebar box in the extra panel.
  *
- * Post of new comments may have been explicitly prevented in anchor (option '[code]no_comments[/code]').
- * Otherwise commands to post new comments are added if the surfer has been authenticated,
- * or if anonymous comments are allowed (parameter '[code]users_with_anonymous_comments[/code]' set to 'Y'),
- * of if teasers have been enabled (parameter '[code]users_without_teasers[/code]' not set to 'Y').
- * Both global parameters are set in [script]users/configure.php[/script]).
- *
  * Where applicable, a link is added on page bottom to incitate people to reply to the displayed comment.
  *
  * The extra panel also features top popular referrals in a sidebar box, if applicable.
@@ -44,12 +38,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -64,6 +58,10 @@ load_skin('comments', $anchor);
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'comment:'.$item['id'];
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
@@ -72,8 +70,8 @@ else
 
 // page title
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('comments', 'view_title', $anchor->get_title());
-else
+	$context['page_title'] = $anchor->get_title();
+if(!$context['page_title'])
 	$context['page_title'] = i18n::s('View a comment');
 
 // not found -- help web crawlers
@@ -88,7 +86,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Comments::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
@@ -132,7 +130,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::neighbours($neighbours, 'slideshow');
 
 	// link to the previous comment in thread, if any
-	if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))
+	if($item['previous_id'] && ($previous = Comments::get($item['previous_id'])))
 		$context['text'] .= ' <p>'.sprintf(i18n::s('Comment inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).'</p>';
 
 	// display the full comment
@@ -177,16 +175,16 @@ if(!isset($item['id'])) {
 			// allow posters to change their own comments
 			if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id())) {
 				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'span');
 			}
 
 			// allow surfers to react to contributions from other people
 			else {
 				Skin::define_img('COMMENTS_REPLY_IMG', 'comments/reply.gif');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'), 'span');
 
 				Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'));
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'), 'span');
 
 			}
 		}

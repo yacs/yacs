@@ -40,7 +40,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -74,12 +74,12 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no deletion in demo mode
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // deletion is confirmed
@@ -91,6 +91,11 @@ if(!isset($item['id'])) {
 
 	// attempt to delete
 	if(Users::delete($item['id'])) {
+
+		// log item deletion
+		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['nick_name']));
+		$description = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
+		Logger::remember('users/delete.php: '.$label, $description);
 
 		// this can appear anywhere
 		Cache::clear();
@@ -120,7 +125,7 @@ else {
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
+		.'$("#confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 	// user nick name

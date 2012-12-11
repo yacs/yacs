@@ -2,7 +2,7 @@
 /**
  * the database abstraction layer for membership
  *
- * In YACS, membership is a link between one anchor and some related element.
+ * In yacs, membership is a link between one anchor and some related element.
  * Both the anchor and the element are designated by a reference made of a type, a colon character ':',
  * and an id, like for example 'section:123'.
  *
@@ -26,6 +26,20 @@
  * Editorial responsibilities are given to editors by assigning sections (members) to users (anchors).
  * Assignment is implemented in sections/select.php, and used in scripts related to sections.
  *
+ * [subtitle]Summary of assignments[/subtitle]
+ *
+ * The list below is a summary of the various options for membership.
+ * The first column is an example of reference used for the anchor.
+ * The second column is an example of reference used for the member attributes.
+ * The third columns describes the semantic of such an assignment.
+ *
+ * - anchor='article:123' and member='user:456' - user 456 is watching the article 123
+ * - anchor='user:456' and member='article:123' - user 456 is an editor of the article 123
+ * - anchor='section:123' and member='user:456' - user 456 is watching the section 123
+ * - anchor='user:456' and member='section:123' - user 456 is an editor of the section 123
+ * - anchor='category:123' and member='user:456' - user 456 is a member of category 123
+ * - anchor='user:123' and member='user:456' - user 456 is following user 123
+ *
  * [title]Sample calls[/title]
  *
  * [php]
@@ -42,10 +56,10 @@
  * // to get the list of anchors for one member, ordered by id
  * Members::list_anchors_for_member($member);
  *
- * // to get ordered categories linked with some member
+ * // to get ordered categories linked to some member
  * Members::list_categories_by_title_for_member($member, $offset, $count, $variant);
  *
- * // to get ordered sections linked with some member
+ * // to get ordered sections linked to some member
  * Members::list_sections_by_title_for_anchor($anchor, $offset, $count, $variant);
  * [/php]
  *
@@ -70,7 +84,7 @@ Class Members {
 	 * @see sections/select.php
 	 * @see services/blog.php
 	**/
-	function assign($anchor, $member, $father=NULL) {
+	public static function assign($anchor, $member, $father=NULL) {
 		global $context;
 
 		// anchor cannot be empty
@@ -129,12 +143,20 @@ Class Members {
 	 * @see articles/layout_articles_as_jive.php
 	 * @see users/track.php
 	**/
-	function check($anchor, $member) {
+	public static function check($anchor, $member) {
 		global $context;
 
 		// sanity check
 		if(!$anchor || !$member)
 			return FALSE;
+
+		// several anchors
+		if(is_array($anchor))
+			$where = "(anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(anchor LIKE '".SQL::escape($anchor)."')";
 
 		// cache previous answers
 		static $cache;
@@ -142,18 +164,18 @@ Class Members {
 			$cache = array();
 
 		// cache hit
-		if(isset($cache[$anchor.':'.$member]))
-			return $cache[$anchor.':'.$member];
+		if(isset($cache[$where.':'.$member]))
+			return $cache[$where.':'.$member];
 
 		// check at least one record
 		$query = "SELECT id  FROM ".SQL::table_name('members')
-			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 1";
+			." WHERE ".$where." AND (member LIKE '".SQL::escape($member)."') LIMIT 1";
 
 		if(SQL::query_count($query))
-			return $cache[$anchor.':'.$member] = TRUE;
+			return $cache[$where.':'.$member] = TRUE;
 
 		// end of job
-		return $cache[$anchor.':'.$member] = FALSE;
+		return $cache[$where.':'.$member] = FALSE;
 	}
 
 	/**
@@ -166,7 +188,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	function count_articles_for_anchor($anchor) {
+	public static function count_articles_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -211,7 +233,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	function count_sections_for_anchor($anchor) {
+	public static function count_sections_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -241,57 +263,83 @@ Class Members {
 	 * count users linked to one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'category:12')
+	 * @param boolean TRUE to include current surfer, or FALSE to exclude him
 	 * @return int the resulting count
 	 *
 	 * @see categories/view.php
 	 */
-	function count_users_for_anchor($anchor) {
+	public static function count_users_for_anchor($anchor, $with_me=TRUE) {
 		global $context;
 
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
 		// limit the scope of the request
-		$where = "users.active='Y'";
+		$where .= " AND (users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where .= ")";
+
+		// exclude current surfer
+		if(!$with_me && ($id = Surfer::get_id()))
+			$where .= " AND (members.member NOT LIKE 'user:".$id."')";
 
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
 			." FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
-			."	AND (users.id = members.member_id)"
-			."	AND (".$where.")";
+			."	AND (users.id = members.member_id)";
 		return SQL::query_count($query);
 	}
 
 	/**
-	 * count users linked to one member
+	 * count editors of the provided reference
 	 *
 	 * @param string the selected member (e.g., 'category:12')
+	 * @param boolean TRUE to include current surfer, or FALSE to exclude him
 	 * @return int the resulting count
 	 *
 	 * @see sections/view_as_tabs.php
 	 */
-	function count_users_for_member($member) {
+	public static function count_users_for_member($member, $with_me=TRUE) {
 		global $context;
 
+		// several anchors
+		if(is_array($member))
+			$where = "(members.member IN ('".join("', '", $member)."'))";
+
+		// or only one
+		elseif($member)
+			$where = "(members.member LIKE '".SQL::escape($member)."')";
+
 		// limit the scope of the request
-		$where = "users.active='Y'";
+		$where .= " AND (users.active='Y'";
 		if(Surfer::is_logged())
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where .= ')';
+
+		// exclude current surfer
+		if(!$with_me && ($id = Surfer::get_id()))
+			$where .= " AND (members.anchor NOT LIKE 'user:".$id."')";
 
 		// count matching records
 		$query = "SELECT DISTINCT users.id"
 			." FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			." WHERE ".$where
 			."	AND (members.anchor LIKE 'user:%')"
-			."	AND (users.id = SUBSTRING(members.anchor, 6))"
-			."	AND (".$where.")";
+			."	AND (users.id = SUBSTRING(members.anchor, 6))";
 		return SQL::query_count($query);
 	}
 
@@ -305,7 +353,7 @@ Class Members {
 	 * @param string the target reference
 	 * @return int the number of duplicated records
 	 */
-	function duplicate_for($reference_from, $reference_to) {
+	public static function duplicate_for($reference_from, $reference_to) {
 		global $context;
 
 		// nothing done yet
@@ -313,10 +361,10 @@ Class Members {
 
 		// look for records attached to this anchor
 		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE anchor LIKE '".SQL::escape($reference_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
@@ -334,12 +382,12 @@ Class Members {
 
 		// look for records attached to this member
 		$query = "SELECT * FROM ".SQL::table_name('members')." WHERE member LIKE '".SQL::escape($reference_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			list($reference_type, $reference_id) = explode(':', $reference_to);
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
@@ -369,7 +417,7 @@ Class Members {
 	 * @param string the member id (e.g., 'file:23')
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function free($anchor, $member) {
+	public static function free($anchor, $member) {
 		global $context;
 
 		// anchor cannot be empty
@@ -400,28 +448,25 @@ Class Members {
 	 * @param the maximum size of the returned list
 	 * @return an array of members anchors
 	 */
-	function &list_anchors_for_member($member, $offset=0, $count=500) {
+	public static function &list_anchors_for_member($member, $offset=0, $count=500) {
 		global $context;
 
 		// we return an array
 		$anchors = array();
 
 		// several members
-		if(is_array($member)) {
-			$items = array();
-			foreach($member as $token)
-				$items[] = "member LIKE '".SQL::escape($token)."'";
-			$where = '('.join(' OR ', $items).')';
+		if(is_array($member))
+			$where = "(member IN ('".join("', '", $member)."'))";
 
 		// or only one
-		} elseif($member)
+		elseif($member)
 			$where = "(member LIKE '".SQL::escape($member)."')";
 
 		// the list of members
-		$query = "SELECT anchor FROM ".SQL::table_name('members')
+		$query = "SELECT DISTINCT anchor FROM ".SQL::table_name('members')
 			." WHERE ".$where
 			." ORDER BY anchor LIMIT ".$offset.','.$count;
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $anchors;
 
 		// empty list
@@ -429,11 +474,8 @@ Class Members {
 			return $anchors;
 
 		// build an array of ids
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			$anchors[] = $row['anchor'];
-
-		// ensure each anchor is represented only once
-		$anchors = array_unique($anchors);
 
 		// return the list of ids linked to this member
 		return $anchors;
@@ -469,7 +511,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -572,7 +614,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -620,6 +662,74 @@ Class Members {
 	}
 
 	/**
+	 * list the articles by rating sum related to a given category or to any other anchor
+	 *
+	 * Actually list articles by rating sum, then by date. Note that articles are never ranked into a category list.
+	 *
+	 * Only articles matching following criteria are returned:
+	 * - article is visible (active='Y')
+	 * - article is restricted (active='R'), but surfer is a logged user
+	 * - article is restricted (active='N'), but surfer is an associate
+	 * - article has been officially published
+	 * - an expiry date has not been defined, or is not yet passed
+	 *
+	 * @param the target anchor
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see categories/print.php
+	 * @see categories/view.php
+	 */
+	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+		global $context;
+
+		// locate where we are
+		if(!$variant)
+			$variant = $anchor;
+
+		// limit the scope of the request
+		$where = "(articles.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR articles.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR articles.active='N'";
+
+		// include managed sections
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		$where .= ")";
+
+		// see only published articles in categories
+		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			." AND (articles.publish_date < '".$context['now']."')";
+
+		// only consider live articles
+		$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
+
+		// the list of articles
+		$query = "SELECT articles.*"
+			." FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('articles')." AS articles)"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'article')"
+			."	AND (articles.id = members.member_id)"
+			."	AND ".$where
+			." ORDER BY rating_sum, edit_date DESC LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Articles::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * build the site cloud
 	 *
 	 * This function lists tags based on their popularity.
@@ -636,7 +746,7 @@ Class Members {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -701,7 +811,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see services/blog.php
 	 */
-	function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -721,29 +831,14 @@ Class Members {
 			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
 				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// the list of categories
-			$query = "SELECT categories.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
-				.", ".SQL::table_name('categories')." AS categories"
-				." WHERE (categories.id = ids.target)"
-				."	AND ".$where
-				." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// the list of categories
-			$query = "SELECT categories.*	FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('categories')." AS categories"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
-				."	AND (members.anchor LIKE 'category:%')"
-				."	AND (categories.id = SUBSTRING(members.anchor, 10))"
-				."	AND (".$where.")"
-				." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
-
-		}
+		// the list of categories
+		$query = "SELECT categories.* FROM"
+			." (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 10) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members"
+				." WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'category:%')) AS ids"
+			.", ".SQL::table_name('categories')." AS categories"
+			." WHERE (categories.id = ids.target)"
+			."	AND ".$where
+			." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Categories::list_selected(SQL::query($query), $variant);
@@ -766,7 +861,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
+	public static function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// return by reference
@@ -817,18 +912,15 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function &list_editors_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	public static function list_editors_for_member($member, $offset=0, $count=7, $variant='comma5') {
 		global $context;
 
 		// several references
-		if(is_array($member)) {
-			$items = array();
-			foreach($member as $token)
-				$items[] = "members.member LIKE '".SQL::escape($token)."'";
-			$where_m = '('.join(' OR ', $items).')';
+		if(is_array($member))
+			$where_m = "(members.member IN ('".join("', '", $member)."'))";
 
 		// or only one
-		} elseif($member)
+		elseif($member)
 			$where_m = "(members.member LIKE '".SQL::escape($member)."')";
 
 		// display active and restricted items
@@ -838,31 +930,13 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// the list of users
-			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE (users.id = ids.target)"
-				."	AND (users.capability IN ('S', 'M', 'A'))"
-				."	AND (".$where.")"
-				." GROUP BY users.id LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// the list of users
-			$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE ".$where_m
-				."	AND (members.anchor LIKE 'user:%')"
-				."	AND (users.id = SUBSTRING(members.anchor, 6))"
-				."	AND (users.capability IN ('S', 'M', 'A'))"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY members.edit_date LIMIT ".$offset.','.$count;
-
-		}
+		// the list of users
+		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE (users.id = ids.target)"
+			."	AND (users.capability IN ('S', 'M', 'A'))"
+			."	AND (".$where.")"
+			." GROUP BY users.id ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -891,7 +965,7 @@ Class Members {
 	 *
 	 * @see sections/select.php
 	 */
-	function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
+	public static function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// display active and restricted items
@@ -940,7 +1014,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -950,31 +1024,13 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 
-		// use sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-
-			// the list of users
-			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE (users.id = ids.target)"
-				."	AND (users.capability = 'S')"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
-
-		// use joined queries
-		} else {
-
-			// the list of users
-			$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('users')." AS users"
-				." WHERE (members.member LIKE '".SQL::escape($member)."')"
-				."	AND (members.anchor LIKE 'user:%')"
-				."	AND (users.id = SUBSTRING(members.anchor, 6))"
-				."	AND (users.capability = 'S')"
-				."	AND (".$where.")"
-				." GROUP BY users.id ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
-
-		}
+		// the list of users
+		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE (users.id = ids.target)"
+			."	AND (users.capability = 'S')"
+			."	AND (".$where.")"
+			." GROUP BY users.id ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -982,23 +1038,60 @@ Class Members {
 	}
 
 	/**
-	 * list alphabetically users assigned to an anchor
+	 * list all users that are either watcher or editor of a given reference
 	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
+	 * @param string the target reference (e.g., 'section:123')
+	 * @return NULL on error, else a set of (user_id, is_watcher, is_editor) rows
+	 */
+	public static function &list_users_by_name_for_reference($reference, $variant="raw") {
+		global $context;
+
+		// the list of watchers
+		$w_query = "(SELECT member_id AS w_id, 1 AS watcher FROM ".SQL::table_name('members')
+				." WHERE (anchor LIKE '".SQL::escape($reference)."') AND (member LIKE 'user:%'))";
+
+		// the list of editors
+		$e_query = "(SELECT SUBSTRING(anchor, 6) AS e_id, 1 AS editor FROM ".SQL::table_name('members')
+				." WHERE (member LIKE '".SQL::escape($reference)."') and (anchor like 'user:%'))";
+
+		// full outer join is done by union of left outer join and of right outer join
+		$query = "((SELECT IFNULL(w_id, e_id) AS user_id, watcher, editor FROM ".$w_query." AS w LEFT OUTER JOIN ".$e_query." AS e ON w.w_id = e.e_id)"
+			." UNION "
+			."(SELECT IFNULL(w_id, e_id) AS user_id, watcher, editor FROM ".$w_query." AS w RIGHT OUTER JOIN ".$e_query." AS e ON w.w_id = e.e_id))";
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
+		// now list matching users
+		$query = "SELECT users.*, x.watcher, x.editor FROM ".$query." AS x"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." ON (users.id = user_id) WHERE ".$where
+			." ORDER BY users.full_name, users.nick_name";
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list users assigned to an anchor ordered by name
 	 *
-	 * @param the target anchor
+	 * @param string the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
 	 * @param string an id to avoid, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see categories/view.php
 	 */
-	function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1013,17 +1106,75 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
+		// avoid this one
+		if($to_avoid)
+			$where .= " AND (users.id != ".SQL::escape($to_avoid).")";
+
+		// the list of users
+		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND ".$where
+			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list users who are watching some reference
+	 *
+	 * @param the target anchor
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @param string an id to avoid, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see categories/view.php
+	 */
+	public static function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+		global $context;
+
+		// locate where we are
+		if(!$variant)
+			$variant = $anchor;
+
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
+		// limit the scope of the request
+		$where .= " AND (users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where .= ')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
 		// avoid this one
 		if($to_avoid)
 			$where .= " AND (users.id != '".SQL::escape($to_avoid)."')";
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
-			."	AND ".$where
 			." GROUP BY users.id ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
@@ -1032,12 +1183,7 @@ Class Members {
 	}
 
 	/**
-	 * list users with some member
-	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
+	 * list users who are editors of some reference
 	 *
 	 * @param string reference to the associated item
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1048,7 +1194,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
+	public static function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
 		global $context;
 
 		// return by reference
@@ -1059,7 +1205,7 @@ Class Members {
 			." WHERE (member LIKE '".SQL::escape($member)."')"
 			."	AND (anchor like 'user:%')"
 			." GROUP BY anchor ORDER BY anchor LIMIT ".$offset.','.$count;
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $output;
 
 		// empty list
@@ -1068,7 +1214,7 @@ Class Members {
 
 		// build an array of ids
 		$ids = array();
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// avoid this one
 			if($to_avoid && ($row['anchor'] == $to_avoid))
@@ -1094,6 +1240,9 @@ Class Members {
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
 
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
 		// only include users who want to receive mail messages
 		if($variant == 'mail')
 			$where .= " AND (without_messages != 'Y')";
@@ -1110,9 +1259,46 @@ Class Members {
 	}
 
 	/**
-	 * list watchers of given anchor
+	 * list watchers in alphabetical order
 	 *
-	 * Actually list users by decreasing level of contribution.
+	 * @param mixed, either a string the target anchor, or an array of anchors
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @param array the list of users allowed to access
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	public static function list_watchers_by_name_for_anchor($anchor, $offset=0, $count=7, $variant='comma5', $restricted=NULL) {
+		global $context;
+
+		// several anchors
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
+
+		// or only one
+		elseif($anchor)
+			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
+
+		// security constraint
+		if($restricted && is_array($restricted))
+			$where .= " AND (users.id IN (".join(", ", $restricted)."))";
+
+		// the list of users -- never list banned users
+		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE ".$where
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND (users.capability IN ('S', 'M', 'A'))"
+			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list watchers of by decreasing level of contribution
 	 *
 	 * @param mixed, either a string the target anchor, or an array of anchors
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1121,30 +1307,28 @@ Class Members {
 	 * @param array users assigned to the reference, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_watchers_by_posts_for_anchor($anchor, $offset=0, $count=200, $variant='raw', $restricted=NULL) {
+	public static function list_watchers_by_posts_for_anchor($anchor, $offset=0, $count=7, $variant='comma5', $restricted=NULL) {
 		global $context;
 
 		// several anchors
-		if(is_array($anchor)) {
-			$items = array();
-			foreach($anchor as $token)
-				$items[] = "members.anchor LIKE '".SQL::escape($token)."'";
-			$where = '('.join(' OR ', $items).')';
+		if(is_array($anchor))
+			$where = "(members.anchor IN ('".join("', '", $anchor)."'))";
 
 		// or only one
-		} elseif($anchor)
+		elseif($anchor)
 			$where = "(members.anchor LIKE '".SQL::escape($anchor)."')";
 
 		// security constraint
 		if($restricted && is_array($restricted))
 			$where .= " AND (users.id IN (".join(", ", $restricted)."))";
 
-		// the list of users
+		// the list of users -- never list banned users
 		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
+			."	AND (users.capability IN ('S', 'M', 'A'))"
 			." GROUP BY users.id ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
@@ -1155,7 +1339,7 @@ Class Members {
 	/**
 	 * create tables for members
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1190,7 +1374,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see users/track.php
 	**/
-	function toggle($anchor, $member, $father=NULL) {
+	public static function toggle($anchor, $member, $father=NULL) {
 		global $context;
 
 		// anchor cannot be empty
@@ -1248,7 +1432,7 @@ Class Members {
 	 *
 	 * @param string the suppressed reference
 	 */
-	function unlink_for_reference($reference=NULL) {
+	public static function unlink_for_reference($reference) {
 		global $context;
 
 		// delete all uses of this reference

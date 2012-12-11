@@ -36,12 +36,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Versions::get($id);
+$item = Versions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // you have to own the object to handle versions
 if(is_object($anchor) && $anchor->is_owned())
@@ -61,6 +61,10 @@ load_skin('versions', $anchor);
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
+
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'version:'.$item['id'];
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
@@ -87,7 +91,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Versions::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
@@ -140,11 +144,11 @@ if(!isset($item['id'])) {
 
 	// back to the anchor page
 	$links = array();
-	if((is_object($anchor) && $anchor->is_assigned()))
+	if((is_object($anchor) && (Surfer::is_associate() || $anchor->is_assigned())))
 		$links[] = Skin::build_link(Versions::get_url($anchor->get_reference(), 'list'), i18n::s('Versions'), 'button');
 	if($item['id'] && (Surfer::is_associate()
 		|| (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())))
-		$links[] = Skin::build_link(Versions::get_url($item['id'], 'restore'), i18n::s('Restore this version'), 'basic', i18n::s('Caution: restoration can not be reversed!'));
+		$links[] = Skin::build_link(Versions::get_url($item['id'], 'restore'), i18n::s('Restore this version'), 'span', i18n::s('Caution: restoration can not be reversed!'));
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
 	// page help

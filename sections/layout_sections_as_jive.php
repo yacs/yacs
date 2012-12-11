@@ -32,7 +32,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -52,23 +52,33 @@ Class Layout_sections_as_jive extends Layout_interface {
 		$family = '';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
 				$family = $item['family'];
 
-				$text .= '<tr class="'.$class_title.'"><td class="family" colspan="4">'.$family.'&nbsp;</td></tr>'."\n";
+				// show the family
+				$text .= Skin::table_suffix()
+					.'<h2><span>'.$family.'&nbsp;</span></h2>'."\n"
+					.Skin::table_prefix('wide');
+
 			}
+
+			// get the related overlay, if any
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
+
+			// get the main anchor
+			$anchor = Anchors::get($item['anchor']);
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the section');
@@ -76,10 +86,16 @@ Class Layout_sections_as_jive extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
+
+			// use the title to label the link
+			if(is_object($overlay))
+				$title = Codes::beautify_title($overlay->get_text('title', $item));
+			else
+				$title = Codes::beautify_title($item['title']);
 
 			// use the title as a link to the page
-			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
+			$title =& Skin::build_link($url, $title, 'basic', $hover);
 
 			// flag sections updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
@@ -102,6 +118,9 @@ Class Layout_sections_as_jive extends Layout_interface {
 
 				foreach($articles as $id => $article) {
 
+					// get the related overlay, if any
+					$article_overlay = Overlay::load($article, 'article:'.$id);
+
 					// flag articles updated recently
 					if(($article['expiry_date'] > NULL_DATE) && ($article['expiry_date'] <= $context['now']))
 						$flag = EXPIRED_FLAG.' ';
@@ -112,8 +131,14 @@ Class Layout_sections_as_jive extends Layout_interface {
 					else
 						$flag = '';
 
+					// use the title to label the link
+					if(is_object($article_overlay))
+						$title = Codes::beautify_title($article_overlay->get_text('title', $article));
+					else
+						$title = Codes::beautify_title($article['title']);
+
 					// title
-					$title = Skin::build_link(Articles::get_permalink($article), Codes::beautify_title($article['title']), 'article');
+					$title = Skin::build_link(Articles::get_permalink($article), $title, 'article');
 
 					// poster
 					$poster = Users::get_link($article['create_name'], $article['create_address'], $article['create_id']);
@@ -171,8 +196,8 @@ Class Layout_sections_as_jive extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators =& Members::list_editors_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
-				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
+			if($moderators = Sections::list_editors_by_name($item, 0, 7, 'comma5'))
+				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), $moderators);
 
 			// children boards
 			if($children =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact'))

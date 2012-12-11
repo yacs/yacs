@@ -19,7 +19,7 @@ Class Layout_dates_as_family extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -35,7 +35,7 @@ Class Layout_dates_as_family extends Layout_interface {
 		// build a list of sections
 		$family = '';
 		$rows = array();
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change date
 			$this_family = Skin::build_date(substr($item['date_stamp'], 0, 10), 'calendar');
@@ -52,7 +52,7 @@ Class Layout_dates_as_family extends Layout_interface {
 			}
 
 			// url to view the anchor page
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';

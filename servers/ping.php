@@ -27,7 +27,7 @@ $context['page_title'] = i18n::s('Ping the cloud');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
@@ -36,7 +36,7 @@ if(Surfer::is_crawler()) {
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do the ping
@@ -45,7 +45,7 @@ elseif(!Surfer::is_associate()) {
 	// list servers to be advertised
 	if($servers = Servers::list_for_ping(0, 20, 'ping')) {
 
-		$context['text'] .= '<p>'.i18n::s('Servers that have been notified of your post').'</p><ul>';
+		$context['text'] .= '<p>'.i18n::s('Servers that have been notified').'</p><ul>';
 
 		// ping each server
 		foreach($servers as $server_url => $attributes) {
@@ -72,7 +72,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember this in log as well
-	Logger::remember('servers/ping.php', 'The cloud has been pinged');
+	Logger::remember('servers/ping.php: The cloud has been pinged');
 
 // operation has to be confirmed
 } else {
@@ -88,7 +88,7 @@ elseif(!Surfer::is_associate()) {
 
 	// set the focus on the backup button
 	$context['text'] .= JS_PREFIX
-		.'$("go").focus();'."\n"
+		.'$("#go").focus();'."\n"
 		.JS_SUFFIX."\n";
 
 }

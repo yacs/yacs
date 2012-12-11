@@ -23,11 +23,11 @@ class Logger {
 	 * @param string an optional label string
 	 * @return void
 	 */
-	function debug($value='', $label=NULL) {
+	public static function debug($value='', $label=NULL) {
 		global $context;
 
-		// ensure we have a string
-		$value = Logger::to_string($value);
+		// ensure we have a string --preserve native string
+		$value = Logger::to_string($value, FALSE);
 
 		// stamp the line
 		$line = gmdate('Y-m-d H:i:s')."\t";
@@ -54,7 +54,7 @@ class Logger {
 	 * @param boolean if FALSE, do not add message if there is already one
 	 *
 	 */
-	function error($line, $multiple=TRUE) {
+	public static function error($line, $multiple=TRUE) {
 		global $context;
 
 		// there is already one message
@@ -78,7 +78,7 @@ class Logger {
 	 *
 	 * @return string most recent error message, or NULL
 	 */
-	function error_pop() {
+	public static function error_pop() {
 		global $context;
 
 		// no stack
@@ -101,7 +101,7 @@ class Logger {
 	 * @param string variant - default is 'all'
 	 * @return an array of ($stamp, $surfer, $script, $label, $description)
 	 */
-	function get_tail($count=20, $variant='all') {
+	public static function get_tail($count=20, $variant='all') {
 		global $context;
 
 		// open the log file for reading
@@ -180,16 +180,15 @@ class Logger {
 	 * This script calls [code]Logger::remember()[/code] to save the event locally, then attempts to send an e-mail
 	 * message if possible.
 	 *
-	 * @param string the source script (e.g., 'articles/edit.php')
 	 * @param string a one-line label that can be used as a mail title (e.g. 'creation of a new article')
 	 * @param string a more comprehensive description, if any
 	 * @return void
 	 */
-	function notify($script, $label, $description='') {
+	public static function notify($label, $description='') {
 		global $context;
 
 		// local storage
-		Logger::remember($script, $label, $description);
+		Logger::remember($label, $description);
 
 		// send also a message
 		if(isset($context['mail_logger_recipient']) && $context['mail_logger_recipient']) {
@@ -203,8 +202,8 @@ class Logger {
 				return;
 
 			// message footer
-			$description .= "\n\n".sprintf(i18n::c('This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.'), $context['site_name'])
-				."\n\n".$context['url_to_home'].$context['url_to_root'].'control/configure.php';
+			$description .= '<div>'.sprintf(i18n::c('This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.'), $context['site_name']).'</div>'
+				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].'control/configure.php'.'">'.i18n::s('System parameters').'</a></p>';
 
 			// actual mail message
 			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description);
@@ -222,32 +221,29 @@ class Logger {
 	 * Each line of the log store is made of fields separated by tabulations:
 	 * - time stamp (year-month-day hour:minutes:seconds)
 	 * - surfer name, if any, or '-'
-	 * - script calling this function (e.g., control/configure.php)
 	 * - the label
 	 * - the description, if any
 	 *
 	 * Each line of the debug store is made of fields separated by tabulations:
 	 * - time stamp (year-month-day hour:minutes:seconds)
-	 * - script calling this function (e.g., control/configure.php)
 	 * - the label
 	 * - the description, if any
 	 *
 	 * The description is truncated after 4 kbytes.
 	 *
-	 * @param string the source script (e.g., 'articles/edit.php')
 	 * @param string a one-line label that can be used as a mail title (e.g. 'creation of a new article')
 	 * @param mixed a more comprehensive description, if any
 	 * @param string either 'log' or 'debug'
 	 * @return void
 	 */
-	function remember($script, $label, $description='', $store='log') {
+	public static function remember($label, $description='', $store='log') {
 		global $context;
 
 		// ensure we have a string
-		$description = Logger::to_string($description);
+		$description = Logger::to_string($description, ($store != 'debug'));
 
 		// cap the description, just in case...
-		$description = substr($description, 0, 4096);
+		$description = substr($description, 0, 8192);
 
 		// event saved for debugging purpose
 		if($store == 'debug') {
@@ -255,7 +251,6 @@ class Logger {
 
 			// stamp the line
 			$line = gmdate('Y-m-d H:i:s')."\t"
-				.$script."\t"
 				.$label.' '.$description;
 
 		// event saved for later review
@@ -278,7 +273,6 @@ class Logger {
 			// make a line
 			$line = gmdate('Y-m-d H:i:s')."\t"
 				.$name."\t"
-				.$script."\t"
 				.preg_replace($from, $to, strip_tags($label))."\t"
 				.preg_replace($from, $to, $description);
 
@@ -299,9 +293,10 @@ class Logger {
 	 * make a string out of something
 	 *
 	 * @param mixed something to be printed
+	 * @param boolean TRUE if HTML tags should be suppressed, FALSE otherwise
 	 * @return string
 	 */
-	function &to_string($value='') {
+	public static function &to_string($value='', $strip_tags=TRUE) {
 		global $context;
 
 		// a boolean
@@ -314,6 +309,16 @@ class Logger {
 		elseif(isset($value) && !is_string($value))
 			$value = print_r($value, TRUE);
 
+		// stick to simple line returns
+		$value = str_replace("\r", '', $value);
+
+		// log simple messages
+		if($strip_tags)
+			$value = trim(xml::strip_visible_tags(xml::strip_invisible_tags($value)));
+		else
+			$value = trim($value);
+
+		// return a clean string
 		return $value;
 	}
 

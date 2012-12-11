@@ -16,7 +16,6 @@
  * - [script]categories/categories.php[/script]
  * - [script]comments/comments.php[/script]
  * - [script]dates/dates.php[/script]
- * - [script]decisions/decisions.php[/script]
  * - [script]files/files.php[/script]
  * - [script]forms/forms.php[/script]
  * - [script]images/images.php[/script]
@@ -26,6 +25,7 @@
  * - [script]sections/sections.php[/script]
  * - [script]servers/servers.php[/script]
  * - [script]shared/cache.php[/script]
+ * - [script]shared/enrolments.php[/script]
  * - [script]shared/mailer.php[/script]
  * - [script]shared/members.php[/script]
  * - [script]shared/values.php[/script]
@@ -43,7 +43,6 @@
  *
  * The integrated search engine is based on full-text indexing capabilities of MySQL.
  * Currently this is only available for the [code]MyISAM[/code] table type.
- * Therefore we enforce this type into every MySQL [code]CREATE[/code] statement.
  *
  * @link http://dev.mysql.com/doc/mysql/en/Fulltext_Search.html MySQL Manual | 12.6 Full-Text Search Functions
  *
@@ -80,9 +79,6 @@
 // include the global declarations
 include_once '../shared/global.php';
 
-// include explicitly some libraries
-include_once '../overlays/overlay.php';
-
 // what to do
 $action = '';
 if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
@@ -116,7 +112,7 @@ function send_body() {
 	// check that the user is an admin, but only if there is at least one user record
 	$query = "SELECT count(*) FROM ".SQL::table_name('users');
 	if(!Surfer::is_associate() && (SQL::query($query) !== FALSE)) {
-		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		echo '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 		return;
 	}
@@ -154,16 +150,13 @@ function send_body() {
 			echo '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</a></p>\n";
 
 		// ensure utf8 character set for this database
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "ALTER DATABASE `".$context['database']."`  DEFAULT CHARACTER SET utf8";
-			SQL::query($query);
-		}
+		$query = "ALTER DATABASE `".$context['database']."`  DEFAULT CHARACTER SET utf8";
+		SQL::query($query);
 
 		// create tables for users
 		echo Users::setup();
 
 		// create tables for activities
-		include_once '../users/activities.php';
 		echo Activities::setup();
 
 		// create tables for notifications
@@ -206,10 +199,6 @@ function send_body() {
 		include_once '../comments/comments.php';
 		echo Comments::setup();
 
-		// create tables for decisions
-		include_once '../decisions/decisions.php';
-		echo Decisions::setup();
-
 		// create tables for categories
 		echo Categories::setup();
 
@@ -236,6 +225,10 @@ function send_body() {
 		// create tables for versions
 		include_once '../versions/versions.php';
 		echo Versions::setup();
+
+		// create tables for enrolments
+		include_once '../shared/enrolments.php';
+		echo Enrolments::setup();
 
 		// create tables for values
 		include_once '../shared/values.php';
@@ -282,7 +275,7 @@ function send_body() {
 
 		// remember the change
 		$label = i18n::c('The database has been optimised');
-		Logger::remember('control/setup.php', $label);
+		Logger::remember('control/setup.php: '.$label);
 
 	// ask for confirmation
 	} else {
@@ -305,7 +298,7 @@ function send_body() {
 		// the script used for form handling at the browser
 		echo JS_PREFIX
 			.'// set the focus on first form field'."\n"
-			.'$("confirmed").focus();'."\n"
+			.'$("#confirmed").focus();'."\n"
 			.JS_SUFFIX;
 
 		// this may take several minutes
