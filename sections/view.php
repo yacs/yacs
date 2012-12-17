@@ -151,6 +151,7 @@ include_once '../behaviors/behaviors.php';
 include_once '../comments/comments.php';		// attached comments and notes
 include_once '../images/images.php';			// attached images
 include_once '../links/links.php';				// related pages
+include_once '../files/files.php';				// attached files
 include_once '../servers/servers.php';
 include_once '../versions/versions.php';		// back in history
 include_once '../sections/section.php';
