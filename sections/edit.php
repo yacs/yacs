@@ -284,8 +284,9 @@ if(Surfer::is_crawler()) {
 			$overlay->remember('insert', $_REQUEST, 'section:'.$_REQUEST['id']);
 
 		// notification to send by e-mail
-		$mail = array();
-		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($_REQUEST['title']));
+		$mail = array();		
+		$anchor_title = (isset($anchor))?strip_tags($anchor->get_title()):i18n::s('Root');
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), $anchor_title, strip_tags($_REQUEST['title']));
 		$mail['notification'] = Sections::build_notification('create', $_REQUEST);
 		$mail['headers'] = Mailer::set_thread('section:'.$_REQUEST['id']);
 
