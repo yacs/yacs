@@ -8,6 +8,9 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+define('AUTH_CLASS_SUFFIX','_Authenticator');
+
 class Authenticator {
 
 	/**
@@ -24,7 +27,7 @@ class Authenticator {
 	 *
 	 * @see users/users.php
 	 */
-	function login($name, $password) {
+	public function login($name, $password) {
 		return FALSE;
 	}
 
@@ -47,7 +50,7 @@ class Authenticator {
 	 * @return a brand new instance
 	 *
 	 */
-	function bind($type='') {
+	public static function bind($type='') {
 		global $context;
 
 		// stop hackers, if any
@@ -78,10 +81,11 @@ class Authenticator {
 			include_once $file;
 
 		// create the instance
-		if(class_exists($type)) {
-			$authenticator = new $type;
+		$class_auth = $type.AUTH_CLASS_SUFFIX;
+		if(class_exists(class_auth)) {
+			$authenticator = new $class_auth;
 			$authenticator->attributes = array();
-			$authenticator->attributes['authenticator_type'] = $type;
+			$authenticator->attributes['authenticator_type'] = $class_auth;
 			$authenticator->attributes['authenticator_parameters'] = $parameters;
 			return $authenticator;
 		}
