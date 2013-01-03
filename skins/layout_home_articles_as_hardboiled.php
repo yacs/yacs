@@ -215,7 +215,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 
 				// list categories by title, if any
 				$anchors = array();
-				if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
+				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 					foreach($members as $id => $attributes) {
 
 						// add background color to distinguish this category against others
@@ -360,7 +360,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More pages'));
 
 		// list up to three categories by title, if any
-		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
+		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 			$text .= BR;
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {

@@ -238,7 +238,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -331,7 +331,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
