@@ -58,7 +58,7 @@ Class Skin_Skeleton {
 			$style = '';
 
 			if(ACCORDION_CLOSE_IMG_HREF)
-				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
+				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" '.EOT;
 
 			// close following boxes
 			$fused[ $id ] = TRUE;
@@ -69,7 +69,7 @@ Class Skin_Skeleton {
 			$style = ' style="display: none"';
 
 			if(ACCORDION_OPEN_IMG_HREF)
-				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
+				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" '.EOT;
 
 		}
 
@@ -97,19 +97,19 @@ Class Skin_Skeleton {
 		$text = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$text .= EOT.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 		// maybe a restricted item
 		$text .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+		$text .= EOT.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 		// or a hidden item
 		$text .= '<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+		$text .= EOT.i18n::s('Private - Access is restricted to selected persons')."\n";
 
 		return $text;
 	}
@@ -362,7 +362,7 @@ Class Skin_Skeleton {
 
 				$text = '<form action="'.$context['url_to_root'].'search.php" method="get" id="search_box">'
 					.'<p style="margin: 0; padding: 0;">'
-					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
+					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" '.EOT
 					.Skin::build_submit_button(i18n::s('Go'))
 					.'</p>'
 					.'</form>';
@@ -374,7 +374,7 @@ Class Skin_Skeleton {
 
 				$text = '<form action="'.$context['url_to_root'].'search.php" method="get" id="search_box">'
 					.'<p style="margin: 0; padding: 0;">'
-					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
+					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" '.EOT
 					.Skin::build_submit_button(i18n::s('Go'))
 					.'</p>'
 					.'</form>';
@@ -1346,9 +1346,10 @@ Class Skin_Skeleton {
 			$variant = substr($variant, $position+1);
 		} else
 			$complement = '';
-
+		
 		// wrapper begins --don't use div, because of surrounding link
-		$text = "\n".'<span class="'.encode_field($variant).'_image">';
+		$tag_wrapper = (SKIN_HTML5)?'figure':'span';
+		$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
 
 		// styling freedom --outside anchor, which is inline
 		if($complement)
@@ -1364,7 +1365,7 @@ Class Skin_Skeleton {
 			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
 
 		// the image itself
-		$image = '<span><img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
+		$image = '<img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' '.EOT;
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))
@@ -1385,8 +1386,9 @@ Class Skin_Skeleton {
 			$text .= $image;
 
 		// make the title visible as a caption
+		$tag_caption = (SKIN_HTML5)?'figcaption':'span';
 		if($title && $with_caption)
-			$text .= '<span class="image_caption">'.ucfirst($title).'</span>';
+			$text .= '<'.$tag_caption.' class="image_caption">'.ucfirst($title).'</'.$tag_caption.'>';
 
 		// end of freedom
 		if($complement)
@@ -1399,7 +1401,7 @@ Class Skin_Skeleton {
 		}
 
 		// end of wrapper
-		$text .= '</span>';
+		$text .= '</'.$tag_wrapper.'>';
 
 		// job done
 		return $text;
@@ -1440,7 +1442,7 @@ Class Skin_Skeleton {
 
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" '.EOT;
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
@@ -1469,7 +1471,7 @@ Class Skin_Skeleton {
 
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" '.EOT;
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
@@ -1499,7 +1501,7 @@ Class Skin_Skeleton {
 
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%d/%m/%Y \',showsTime:false,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%d/%m/%Y \',showsTime:false,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" '.EOT;
 
 			// load the jscalendar library
 			$context['javascript']['calendar'] = TRUE;
@@ -1514,7 +1516,7 @@ Class Skin_Skeleton {
 
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />'
-			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
+			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" '.EOT;
 			;
 
 			// these are enhanced with jsCalendar, if present
@@ -2105,7 +2107,7 @@ Class Skin_Skeleton {
 			}
 
 			// align columns
-			$text = '<p class="columns_prefix" />';
+			$text = '<p class="columns_prefix"></p>';
 
 			// build the left column
 			$text .= Skin::build_list($column_1, 'column_1', MAP_IMG, $new_window);
@@ -2115,7 +2117,7 @@ Class Skin_Skeleton {
 				$text .= Skin::build_list($column_2, 'column_2', MAP_IMG, $new_window);
 
 			// clear text after columns
-			$text .= '<p class="columns_suffix" />';
+			$text .= '<p class="columns_suffix"></p>';
 
 			// done
 			return $text;
@@ -2123,7 +2125,7 @@ Class Skin_Skeleton {
 
 		// a bare reference to an image
 		if($default_icon && (strpos($default_icon, '<img ') === FALSE))
-			$default_icon = '<img src="'.$default_icon.'" alt="" class="reflect" />';
+			$default_icon = '<img src="'.$default_icon.'" alt="" class="reflect" '.EOT;
 		elseif($default_icon)
 			;
 
@@ -2206,7 +2208,7 @@ Class Skin_Skeleton {
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field(strip_tags($label)).'" '.$class.'/>';
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field(strip_tags($label)).'" '.$class.EOT;
 
 			// use default icon if nothing to display
 			} else
@@ -2603,9 +2605,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" '.EOT, 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" '.EOT, 'basic');
 			}
 
 			// several items
@@ -2631,7 +2633,7 @@ Class Skin_Skeleton {
 			if($text)
 				$text = ' -- '.$text;
 
-			$text = '<div class="top">'.$avatar.Skin::build_link($url, $label, 'user').$text.'</div><br style="clear: left;" />';
+			$text = '<div class="top">'.$avatar.Skin::build_link($url, $label, 'user').$text.'</div><br style="clear: left;" '.EOT;
 			break;
 
 		// at the end of the page
@@ -2669,7 +2671,7 @@ Class Skin_Skeleton {
 			if($text)
 				$text = ' -- '.$text;
 
-			$text = '<address>'.$avatar.Skin::build_link($url, $label, 'user').$text.'</address><br style="clear: left;" />';
+			$text = '<address>'.$avatar.Skin::build_link($url, $label, 'user').$text.'</address><br style="clear: left;" '.EOT;
 			break;
 
 		// in a sidebox
@@ -2680,7 +2682,7 @@ Class Skin_Skeleton {
 
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
+				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar'.$more_styles.'" '.EOT, 'basic');
 			else if(Surfer::is_empowered()) {
 				Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 				$details[] =& Skin::build_link(Users::get_url($user['id'], 'select_avatar'), IMAGES_ADD_IMG.i18n::s('Add picture'), 'basic');
@@ -2865,7 +2867,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" '.EOT;
 
 		if($onLeft === FALSE)
 			$onLeft = ', false';
@@ -2912,13 +2914,13 @@ Class Skin_Skeleton {
 		// an easy link to addthis bookmarks
 		if(file_exists($context['path_to_root'].'skins/_reference/feeds/addthis0-bm.gif'))
 			$items[] = '<a href="http://www.addthis.com/bookmark.php?pub='.urlencode($context['site_name']).'&amp;url='.urlencode($url).'&amp;title='.urlencode($title).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" />'
+				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" '.EOT
 				.'</a>';
 
 		// an easy link to addthis feeds
 		if(file_exists($context['path_to_root'].'skins/_reference/feeds/addthis0-fd.gif'))
 			$items[] = '<a href="http://www.addthis.com/feed.php?&amp;h1='.urlencode($url).'&amp;t1='.urlencode($title).'pub='.urlencode($context['site_name']).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-fd.gif" width="83" height="16" alt="AddThis Feed Button" />'
+				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-fd.gif" width="83" height="16" alt="AddThis Feed Button" '.EOT
 				.'</a>';
 
 		// job done
@@ -3203,7 +3205,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" '.EOT;
 
 		// title is optional
 		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
@@ -3383,7 +3385,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_PACK_IMG_HREF)
-			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" '.EOT;
 
 		// Yacs.toggle_folder() is in shared/yacs.js
 		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
@@ -3525,9 +3527,9 @@ Class Skin_Skeleton {
 
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.EOT);
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/_reference/'.$file))
-			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.EOT);
 		else
 			define($name, $default);
 	}
@@ -4017,7 +4019,8 @@ Class Skin_Skeleton {
 					$text .= '<li'.$id.'>'.TABS_ITEM_PREFIX.$label.TABS_ITEM_SUFFIX.'</li>'."\n";
 				}
 
-				$text = '<div class="tabs"'.$id.'>'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
+				$tag_tabs = (SKIN_HTML5)?'nav':'div';
+				$text = '<'.$tag_tabs.' class="tabs"'.$id.'>'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX.'</'.$tag_tabs.">\n";
 				break;
 
 			// similar to compact
@@ -4095,10 +4098,17 @@ Class Skin_Skeleton {
 			else
 				define('BR', "\n");
 		}
+		
+		// HTML5 flag, set to TRUE in skin.php if required
+		if(!defined('SKIN_HTML5'))
+			define('SKIN_HTML5', FALSE);
 
-		// end of tags -- we are XHTML
+		// end of tags 
 		if(!defined('EOT'))
-			define('EOT', ' />');
+			if(!SKIN_HTML5)
+			    define('EOT', ' />'); //  XHTML
+			else
+			    define('EOT', ' >'); 
 
 		// the HTML to signal an answer
 		if(is_callable(array('i18n', 's')))
@@ -4198,7 +4208,10 @@ Class Skin_Skeleton {
 
 		// the horizontal ruler
 		if(!defined('HORIZONTAL_RULER'))
-			define('HORIZONTAL_RULER', '<hr />');
+			if(!SKIN_HTML5)
+			    define('HORIZONTAL_RULER', '<hr />');
+			else
+			    define('HORIZONTAL_RULER', '<hr >');
 
 		// the prefix icon used for hot threads
 		Skin::define_img('HOT_THREAD_IMG', 'articles/hot_thread.gif');
@@ -4286,7 +4299,7 @@ Class Skin_Skeleton {
 
 		// the HTML string inserted between news items
 		if(!defined('NEWS_SEPARATOR'))
-			define('NEWS_SEPARATOR', '<hr />');
+			define('NEWS_SEPARATOR', HORIZONTAL_RULER);
 
 		// the HTML string appended to news
 		if(!defined('NEWS_SUFFIX'))

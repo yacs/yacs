@@ -316,7 +316,7 @@
 			if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
 				$more_styles = ' '.encode_field($context['classes_for_icon_images']);
 
-			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
+			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" '.EOT.ICON_SUFFIX;
 
 		}
 	}
@@ -469,9 +469,12 @@
 
 		// in a separate division
 		if($in_division)
-			echo '<div id="extra_panel">';
+			if(!SKIN_HTML5)
+			    echo '<div id="extra_panel">';
+			else
+			    echo '<aside id="extra_panel">';	
 
-		// a list of components
+		// a list of component
 		if(is_string($names))
 			$names = explode(' ', $names);
 
@@ -485,7 +488,10 @@
 
 		// close the extra panel
 		if($in_division)
+		    if(!SKIN_HTML5)
 			echo "</div>\n";
+		    else
+			echo "</aside>\n";
 
 	}
 
@@ -594,6 +600,9 @@
 	 */
 	public static function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
 		global $context;
+		
+		// change rendering according to skin
+		$tag = (SKIN_HTML5)?'header':'div';
 
 		// put an image in panel background
 		if($images) {
@@ -610,11 +619,11 @@
 			$index = array_rand($images);
 
 			// the header panel comes before everything
-			echo '<div id="header_panel" style="background: transparent url('.$context['url_to_root'].$context['skin'].'/images/'.$images[$index].') '.$attributes.';">'."\n";
+			echo '<'.$tag.' id="header_panel" style="background: transparent url('.$context['url_to_root'].$context['skin'].'/images/'.$images[$index].') '.$attributes.';">'."\n";
 
 		// no image in the background
 		} else
-			echo '<div id="header_panel">'."\n";
+			echo '<'.$tag.' id="header_panel">'."\n";
 
 		// the site name -- can be replaced, through CSS, by an image -- access key 1
 		if($context['site_name'] && $with_name)
@@ -629,7 +638,7 @@
 			Page::tabs();
 
 		// end of the header panel
-		echo '</div>'."\n";
+		echo '</'.$tag.'>'."\n";
 
 	}
 
