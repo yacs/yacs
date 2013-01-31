@@ -28,7 +28,7 @@
 	 * The class is set to 'extra' if [code]$context['extra'][/code] is not empty.
 	 *
 	 */
-	public static function body() {
+	public static function body($classes='') {
 		global $context;
 
 		// body id is derived from skin variant
@@ -37,9 +37,11 @@
 			$id = ' id="'.$context['skin_variant'].'"';
 
 		// we do have some extra content to render
-		$classes = '';
 		if($context['extra'])
-			$classes = ' class="extra"';
+			$classes .= ' extra';
+		
+		// build classes declaration
+		$classes = ' class="'.$classes.'"';
 
 		// start the body
 		echo '<body'.$id.$classes.'>'."\n";
