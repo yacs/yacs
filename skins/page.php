@@ -468,11 +468,10 @@
 		$names = str_replace('extra', '', $names);
 
 		// in a separate division
-		if($in_division)
-			if(!SKIN_HTML5)
-			    echo '<div id="extra_panel">';
-			else
-			    echo '<aside id="extra_panel">';	
+		if($in_division) {
+		    $tag = (SKIN_HTML5)?'aside':'div';
+		    echo '<'.$tag.' id="extra_panel">';
+		}		  
 
 		// a list of component
 		if(is_string($names))
@@ -487,11 +486,8 @@
 			echo $context['extra'];
 
 		// close the extra panel
-		if($in_division)
-		    if(!SKIN_HTML5)
-			echo "</div>\n";
-		    else
-			echo "</aside>\n";
+		if($in_division)		
+			echo '</'.$tag.">\n";		  
 
 	}
 
