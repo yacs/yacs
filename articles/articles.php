@@ -146,6 +146,15 @@ Class Articles {
 				$order = 'overlay_id, rank, rating_sum DESC, publish_date DESC';
 			break;
 
+		case 'reverse_overlay' : // Same but DESC for overlay_id, then by number of points
+		    
+		        // avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'overlay_id DESC, rating_sum DESC, publish_date DESC';
+			else
+				$order = 'overlay_id DESC, rank, rating_sum DESC, publish_date DESC';
+			break;
+			
 		case 'publication': // order by rank, then by reverse date of publication
 		case 'future': // obsoleted?
 
