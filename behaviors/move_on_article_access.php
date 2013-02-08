@@ -37,7 +37,7 @@ class Move_on_article_access extends Behavior {
 		// sanity checks
 		if(!$anchor)
 			Logger::error(i18n::s('No anchor has been found.'));
-		elseif(!$target =&  Anchors::get($anchor))
+		elseif(!$target = Anchors::get($anchor))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// which agreement?
@@ -48,7 +48,7 @@ class Move_on_article_access extends Behavior {
 		else {
 
 			// look at parent container if possible
-			if(!$origin =&  Anchors::get($target->get_parent()))
+			if(!$origin = Anchors::get($target->get_parent()))
 				$origin = $target;
 
 			// only container editors can proceed
