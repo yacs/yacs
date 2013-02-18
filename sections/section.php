@@ -9,10 +9,24 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Alexis Raimbault
+ * @author Christophe Battarel
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Section extends Anchor {
+
+	/**
+	 * get the canvas for articles of this anchor
+	 *
+	 * @return articles canvas
+	 */
+	function get_articles_canvas() {
+		if(isset($this->item['articles_canvas']))
+			return $this->item['articles_canvas'];
+
+		// do not transmit anything instead
+		return NULL;
+	}
 
 	/**
 	 * get the focus for this anchor
