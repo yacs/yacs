@@ -1154,7 +1154,7 @@ if(!isset($item['id'])) {
 
 	// special layout for digg
 	if(defined('DIGG'))
-		$canvas['trailer'] = '<div class="digg_content">'.$text.'</div>';
+		$text = '<div class="digg_content">'.$text.'</div>';
 
 	// update the main content panel
 	$context['text'] .= $text;
