@@ -848,89 +848,63 @@ if(!isset($item['id'])) {
 	}
 
 	//
-	// compute main panel -- $context['text']
+	// load main page components - display will be done by canvas features
 	//
-	$text = '';
-
-	// insert anchor prefix
+	$canvas = array();
+	
+	// anchor prefix
 	if(is_object($anchor))
-		$text .= $anchor->get_prefix();
+		$canvas['anchor_prefix'] = $anchor->get_prefix();
 
-	// display very few things if we are on a follow-up page (comments, files, etc.)
-	if($zoom_type)
-		$text .= Codes::beautify($item['introduction'], $item['options']);
+	// neighbours
+	if($neighbours)
+		$canvas['neighbours'] = $neighbours;
 
-	// else expose full details
-	else {
+	// the owner profile, if any
+	if(isset($owner['id']) && is_object($anchor)) {
+		$canvas['owner_profile_prefix'] = $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
+		$canvas['owner_profile_suffix'] = $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
+	}
+	
+	// article rating, if the anchor allows for it, and if no rating has already been registered
+	if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_option('rate_as_digg', $anchor, $item)) {
 
-		// buttons to display previous and next pages, if any
-		if($neighbours)
-			$text .= Skin::neighbours($neighbours, 'manual');
-
-		// the owner profile, if any, at the beginning of the first page
-		if(($page == 1) && isset($owner['id']) && is_object($anchor))
-			$text .= $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
-
-		// only at the first page
-		if($page == 1) {
-
-			// article rating, if the anchor allows for it, and if no rating has already been registered
-			if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_option('rate_as_digg', $anchor, $item)) {
-
-				// rating
-				if($item['rating_count'])
-					$rating_label = sprintf(i18n::ns('%s vote', '%s votes', $item['rating_count']), '<span class="big">'.$item['rating_count'].'</span>'.BR);
-				else
-					$rating_label = i18n::s('No vote');
-
-				// a rating has already been registered
-				$digg = '';
-				if(isset($_COOKIE['rating_'.$item['id']]))
-					Cache::poison();
-
-				// where the surfer can rate this item
-				else
-					$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
-
-				// rendering
-				$text .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
-					.$digg
-					.'</div>';
-
-				// signal DIGG
-				define('DIGG', TRUE);
-			}
-		}
-
-		// the introduction text, if any
-		if(is_object($overlay))
-			$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+		// rating
+		if($item['rating_count'])
+			$rating_label = sprintf(i18n::ns('%s vote', '%s votes', $item['rating_count']), '<span class="big">'.$item['rating_count'].'</span>'.BR);
 		else
-			$text .= Skin::build_block($item['introduction'], 'introduction');
+			$rating_label = i18n::s('No vote');
 
-		// get text related to the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('view', $item);
+		// a rating has already been registered
+		$digg = '';
+		if(isset($_COOKIE['rating_'.$item['id']]))
+			Cache::poison();
 
-		// the main part of the page
-		$text .= $context['page_description'];
+		// where the surfer can rate this item
+		else
+			$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
-		// the owner profile, if any, at the end of the page
-		if(isset($owner['id']) && is_object($anchor))
-			$text .= $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
+		// rendering
+		$context['rating'] = '<div class="digg"><div class="votes">'.$rating_label.'</div>'
+			.$digg
+			.'</div>';
 
+		// signal DIGG
+		define('DIGG', TRUE);
 	}
 
-	//
-	// put additional content in different panels
-	//
-	$panels = array();
+	// the introduction text, if any
+	if(is_object($overlay))
+		$canvas['introduction'] = Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+	else
+		$canvas['introduction'] = Skin::build_block($item['introduction'], 'introduction');
 
-	//
-	// append tabs from the overlay, if any, before discussion panel
-	//
-	if(isset($context['tabs']) && is_array($context['tabs']))
-		$panels = array_merge($panels, $context['tabs']);
+	// get text related to the overlay, if any
+	if(is_object($overlay))
+		$canvas['overlay_text'] = $overlay->get_text('view', $item);
+
+	// the main part of the page
+	$canvas['description'] = $context['page_description'];
 
 	//
 	// comments attached to this article
@@ -1009,15 +983,12 @@ if(!isset($item['id'])) {
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		}
-
+		
 		// put the discussion in a separate panel
 		if(trim($box['text'])) {
-			$discussion .= $box['text'];
-
-			$label = i18n::s('Discussion');
+			$canvas['comments'] = $box['text'];
 			if($count)
-				$label .= ' ('.$count.')';
-			$panels[] = array('discussion', $label, 'discussion_panel', $discussion);
+				$canvas['comments_count'] = $count;
 		}
 
 	}
@@ -1093,8 +1064,8 @@ if(!isset($item['id'])) {
 
 		// there is some box content
 		if($box['text'])
-			$attachments .= Skin::build_content('files', i18n::s('Files'), $box['text'], $box['bar']);
-
+			$canvas['files'] = Skin::build_content('files', i18n::s('Files'), $box['text'], $box['bar']);
+		$canvas['files_count'] = $count;
 	}
 
 	//
@@ -1140,46 +1111,50 @@ if(!isset($item['id'])) {
 
 		// there is some box content
 		if($box['text'])
-			$attachments .= Skin::build_content('links', i18n::s('Links'), $box['text'], $box['bar']);
+			$canvas['links'] = Skin::build_content('links', i18n::s('Links'), $box['text'], $box['bar']);
+		$canvas['links_count'] = $count;
 
 	}
-
-	// build the full panel
-	if($attachments) {
-		$label = i18n::s('Attachments');
-		if($attachments_count)
-			$label .= ' ('.$attachments_count.')';
-		$panels[] = array('attachments', $label, 'attachments_panel', $attachments);
-	}
-
-	//
-	// assemble all tabs
-	//
-	$text .= Skin::build_tabs($panels);
 
 	//
 	// trailer information
 	//
-
+	$canvas['trailer'] = '';
+	
 	// add trailer information from the overlay, if any
 	if(is_object($overlay))
-		$text .= $overlay->get_text('trailer', $item);
+		$canvas['trailer'] .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))
-		$text .= Codes::beautify($item['trailer']);
+		$canvas['trailer'] .= Codes::beautify($item['trailer']);
 
 	// buttons to display previous and next pages, if any
 	if($neighbours)
-		$text .= Skin::neighbours($neighbours, 'manual');
+		$canvas['trailer'] .= Skin::neighbours($neighbours, 'manual');
 
 	// insert anchor suffix
 	if(is_object($anchor))
-		$text .= $anchor->get_suffix();
+		$canvas['trailer'] .= $anchor->get_suffix();
+
+	// reflect content canvas from anchor
+	if(!isset($item['canvas']) && is_object($anchor)) {
+		$item['canvas'] = $anchor->get_articles_canvas();
+	}
+
+	// reflect content canvas from anchor
+	if(empty($item['canvas']))
+		$item['canvas'] = 'standard';
+	elseif (!Safe::file('../canvas/'.$item['canvas'].'.php'))
+		$item['canvas'] = 'standard';
+
+	// get canvas result
+	$text = '';
+	require_once '../canvas/'.$item['canvas'].'.php';
 
 	// special layout for digg
 	if(defined('DIGG'))
-		$text = '<div class="digg_content">'.$text.'</div>';
+		$canvas['trailer'] = '<div class="digg_content">'.$text.'</div>';
 
 	// update the main content panel
 	$context['text'] .= $text;
