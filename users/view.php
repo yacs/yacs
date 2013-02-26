@@ -382,8 +382,11 @@ if(!isset($item['id'])) {
 	}
 
 	// in a separate panel
-	if(trim($stream))
-		$panels[] = array('stream', i18n::s('My pages'), 'stream', $stream);
+	if(trim($stream)) {
+		$idsurf = Surfer::get_id();
+		$label = ($item['id']==$idsurf)?i18n::s('My pages'):i18n::s('Pages');
+		$panels[] = array('stream', $label, 'stream', $stream);
+		}
 
 	//
 	// my sections
@@ -458,8 +461,11 @@ if(!isset($item['id'])) {
 	}
 
 	// in a separate panel
-	if(trim($sections))
-		$panels[] = array('sections', i18n::s('My sections'), 'sections_panel', $sections);
+	if(trim($sections)) {
+		$idsurf = Surfer::get_id();
+		$label = ($item['id']==$idsurf)?i18n::s('My sections'):i18n::s('Sections');
+		$panels[] = array('sections', $label, 'sections_panel', $sections);
+		}
 
 	//
 	// the information tab
