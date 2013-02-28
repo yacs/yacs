@@ -2919,6 +2919,10 @@ Class Articles {
 		if(!isset($fields['nick_name']))
 			$fields['nick_name'] = '';
 
+		// set canvas default value
+		if(!isset($fields['canvas']) || !$fields['canvas'])
+			$fields['canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -2937,6 +2941,7 @@ Class Articles {
 		if(Surfer::is_associate()) {
 			$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+			$query[] = "canvas='".SQL::escape(isset($fields['canvas']) ? $fields['canvas'] : '')."'";
 		}
 
 		$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
@@ -3139,6 +3144,10 @@ Class Articles {
 		if(!isset($fields['rank']))
 			$fields['rank'] = 10000;
 
+		// set canvas default value
+		if(!isset($fields['canvas']) || !$fields['canvas'])
+			$fields['canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -3153,6 +3162,7 @@ Class Articles {
 		if(Surfer::is_associate()) {
 			$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+			$query[] = "canvas='".SQL::escape(isset($fields['canvas']) ? $fields['canvas'] : '')."'";
 		}
 
 		// fields that are visible only to associates and to editors -- see articles/edit.php
@@ -3519,6 +3529,7 @@ Class Articles {
 		$fields['assign_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['assign_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
+		$fields['canvas']		= "VARCHAR(255) DEFAULT 'standard' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
 		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
@@ -3842,6 +3853,7 @@ Class Articles {
 			'active',
 			'active_set',
 			'behaviors',
+			'canvas',
 			'create_address',
 			'create_date',
 			'create_id',

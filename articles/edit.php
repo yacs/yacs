@@ -1192,6 +1192,51 @@ if($with_form) {
 	} elseif(is_object($overlay))
 		$text .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
+	// reflect content canvas from anchor
+	if(!isset($item['canvas']) && is_object($anchor))
+		$item['canvas'] = $anchor->get_articles_canvas();
+
+	// associates can change the canvas --complex interface
+	if(Surfer::is_associate() && Surfer::has_all()) {
+
+		// list canvas available on this system
+		$label = i18n::s('Change the canvas');
+		$input = '<select name="canvas">';
+		$hint = sprintf(i18n::s('%s used for this article'), Skin::build_link('canvas/', i18n::s('Canvas'), 'open'));
+		$canvas = array();
+		if ($dir = Safe::opendir($context['path_to_root'].'canvas')) {
+
+			// every php script is an overlay, except index.php, canvas.php, and hooks
+			while(($file = Safe::readdir($dir)) !== FALSE) {
+				if(($file[0] == '.') || is_dir($context['path_to_root'].'canvas/'.$file))
+					continue;
+				if($file == 'index.php')
+					continue;
+				if($file == 'canvas.php')
+					continue;
+				if(preg_match('/hook\.php$/i', $file))
+					continue;
+				if(!preg_match('/(.*)\.php$/i', $file, $matches))
+					continue;
+				$canvas[] = $matches[1];
+			}
+			Safe::closedir($dir);
+			if(@count($canvas)) {
+				natsort($canvas);
+				foreach($canvas as $canvas_name) {
+					$selected = '';
+					if($canvas_name == $item['canvas'])
+						$selected = ' selected="selected"';
+					$input .= '<option value="'.$canvas_name.'"'.$selected.'>'.$canvas_name."</option>\n";
+				}
+			}
+		}
+		$input .= '</select>';
+		$fields[] = array($label, $input, $hint);
+
+	// remember canvas
+	} else
+		$text .= '<input type="hidden" name="canvas" value="'.encode_field($item['canvas']).'" />';
 
 	// add a folded box
 	$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
