@@ -2812,6 +2812,11 @@ Class Sections {
 				$fields['articles_layout'] = 'decorated';
 		}
 
+
+		// set canvas for articles
+		if(!isset($fields['articles_canvas']) || !$fields['articles_canvas'])
+			$fields['articles_canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -2843,6 +2848,7 @@ Class Sections {
 			."activation_date='".SQL::escape($fields['activation_date'])."',"
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
+			."articles_canvas='".SQL::escape(isset($fields['articles_canvas']) ? $fields['articles_canvas'] : 'null')."',"
 			."articles_layout='".SQL::escape(isset($fields['articles_layout']) ? $fields['articles_layout'] : 'decorated')."',"
 			."articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."',"
 			."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
@@ -3018,6 +3024,10 @@ Class Sections {
 				$fields['articles_layout'] = 'decorated';
 		}
 
+		// set canvas for articles
+		if(!isset($fields['articles_canvas']) || !$fields['articles_canvas'])
+			$fields['articles_canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -3067,6 +3077,7 @@ Class Sections {
 
 		// fields visible only to associates
 		if(Surfer::is_associate()) {
+			$query[] = "articles_canvas='".SQL::escape(isset($fields['articles_canvas']) ? $fields['articles_canvas'] : '')."'";
 			$query[] = "articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."'";
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."'";
@@ -3141,6 +3152,8 @@ Class Sections {
 		// other fields
 		if(isset($fields['anchor']))
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		if(isset($fields['articles_canvas']))
+			$query[] = "articles_canvas='".SQL::escape($fields['articles_canvas'])."'";
 		if(isset($fields['articles_layout']))
 			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
 		if(isset($fields['articles_templates']))
@@ -3421,6 +3434,7 @@ Class Sections {
 		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64)";
+		$fields['articles_canvas']	= "VARCHAR(255) DEFAULT 'standard' NOT NULL";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT 'decorated' NOT NULL";
 		$fields['articles_templates']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
@@ -3586,6 +3600,7 @@ Class Sections {
 			'activation_date',
 			'active',
 			'active_set',
+			'articles_canvas',
 			'articles_layout',
 			'articles_template',
 			'behaviors',

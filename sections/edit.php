@@ -570,6 +570,47 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 	}
 
+	// reflect content canvas from anchor
+	if(!isset($item['articles_canvas']) && is_object($anchor))
+		$item['articles_canvas'] = $anchor->get_articles_canvas();
+
+	// content canvas
+	if(Surfer::is_associate()) {
+		$label = i18n::s('Canvas');
+		$input = '<select name="articles_canvas">';
+		$hint = sprintf(i18n::s('%s used by articles in this section'), Skin::build_link('canvas/', i18n::s('Canvas'), 'open'));
+		$canvas = array();
+		if ($dir = Safe::opendir($context['path_to_root'].'canvas')) {
+
+			// every php script is an overlay, except index.php, canvas.php, and hooks
+			while(($file = Safe::readdir($dir)) !== FALSE) {
+				if(($file[0] == '.') || is_dir($context['path_to_root'].'canvas/'.$file))
+					continue;
+				if($file == 'index.php')
+					continue;
+				if($file == 'canvas.php')
+					continue;
+				if(preg_match('/hook\.php$/i', $file))
+					continue;
+				if(!preg_match('/(.*)\.php$/i', $file, $matches))
+					continue;
+				$canvas[] = $matches[1];
+			}
+			Safe::closedir($dir);
+			if(@count($canvas)) {
+				natsort($canvas);
+				foreach($canvas as $canvas_name) {
+					$selected = '';
+					if($canvas_name == $item['articles_canvas'])
+						$selected = ' selected="selected"';
+					$input .= '<option value="'.$canvas_name.'"'.$selected.'>'.$canvas_name."</option>\n";
+				}
+			}
+		}
+		$input .= '</select>';
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// the prefix
 	$label = i18n::s('Header');
 	$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
