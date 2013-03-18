@@ -14,7 +14,7 @@
  */
 
 	$text = '';
-	
+
 	// insert anchor prefix
 	if($canvas['anchor_prefix'])
 		$text .= $canvas['anchor_prefix'];
@@ -54,7 +54,7 @@
 			$text .= $canvas['owner_profile_suffix'];
 
 	}
-	
+
 	//
 	// put all content in one panel + overlay tabs in other panels
 	//
@@ -81,7 +81,7 @@
 		if ($canvas['files'])
 	    	$canvas_text .= $canvas['files'];
 	}
-	
+
 	//
 	// links attached to this article
 	//
@@ -90,8 +90,9 @@
 	    	$canvas_text .= $canvas['links'];
 	}
 
+	$label = i18n::s('Information');
 	$panels[] = array('content', $label, 'content_panel', $canvas_text);
-	
+
 	//
 	// append tabs from the overlay, if any
 	//
