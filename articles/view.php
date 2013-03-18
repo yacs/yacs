@@ -850,8 +850,24 @@ if(!isset($item['id'])) {
 	//
 	// load main page components - display will be done by canvas features
 	//
-	$canvas = array();
-	
+	$canvas = array(
+		'anchor_prefix' 		=> '',
+		'neighbours' 			=> '',
+		'owner_profile_prefix' 	=> '',
+		'owner_profile_suffix'	=> '',
+		'introduction'			=> '',
+		'overlay_text'			=> '',
+		'description'			=> '',
+		'comments'				=> '',
+		'comments_count'		=> '',
+		'files'					=> '',
+		'files_count'			=> '',
+		'links'					=> '',
+		'links_count'			=> '',
+		'trailer'				=> '',
+		'rating'				=> ''
+	);
+
 	// anchor prefix
 	if(is_object($anchor))
 		$canvas['anchor_prefix'] = $anchor->get_prefix();
@@ -865,7 +881,7 @@ if(!isset($item['id'])) {
 		$canvas['owner_profile_prefix'] = $anchor->get_user_profile($owner, 'prefix', Skin::build_date($item['create_date']));
 		$canvas['owner_profile_suffix'] = $anchor->get_user_profile($owner, 'suffix', Skin::build_date($item['create_date']));
 	}
-	
+
 	// article rating, if the anchor allows for it, and if no rating has already been registered
 	if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_option('rate_as_digg', $anchor, $item)) {
 
@@ -983,7 +999,7 @@ if(!isset($item['id'])) {
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		}
-		
+
 		// put the discussion in a separate panel
 		if(trim($box['text'])) {
 			$canvas['comments'] = $box['text'];
@@ -1119,8 +1135,7 @@ if(!isset($item['id'])) {
 	//
 	// trailer information
 	//
-	$canvas['trailer'] = '';
-	
+
 	// add trailer information from the overlay, if any
 	if(is_object($overlay))
 		$canvas['trailer'] .= $overlay->get_text('trailer', $item);
