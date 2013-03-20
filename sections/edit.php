@@ -284,8 +284,8 @@ if(Surfer::is_crawler()) {
 			$overlay->remember('insert', $_REQUEST, 'section:'.$_REQUEST['id']);
 
 		// notification to send by e-mail
-		$mail = array();		
-		$anchor_title = (isset($anchor))?strip_tags($anchor->get_title()):i18n::s('Root');
+		$mail = array();
+		$anchor_title = (is_object($anchor))?strip_tags($anchor->get_title()):i18n::s('Root');
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), $anchor_title, strip_tags($_REQUEST['title']));
 		$mail['notification'] = Sections::build_notification('create', $_REQUEST);
 		$mail['headers'] = Mailer::set_thread('section:'.$_REQUEST['id']);
@@ -599,6 +599,10 @@ if($with_form) {
 			Safe::closedir($dir);
 			if(@count($canvas)) {
 				natsort($canvas);
+
+				// initialize canvas while creating a new section
+				if(!isset($item['articles_canvas'])) $item['articles_canvas'] = 'standard';
+
 				foreach($canvas as $canvas_name) {
 					$selected = '';
 					if($canvas_name == $item['articles_canvas'])
