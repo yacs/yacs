@@ -1346,7 +1346,7 @@ Class Skin_Skeleton {
 			$variant = substr($variant, $position+1);
 		} else
 			$complement = '';
-		
+
 		// wrapper begins --don't use div, because of surrounding link
 		$tag_wrapper = (SKIN_HTML5)?'figure':'span';
 		$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
@@ -2080,7 +2080,7 @@ Class Skin_Skeleton {
 	 * @param boolean open links in a separate page if TRUE
 	 * $return the HTML code
 	 */
-	public static function &build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE) {
+	public static function &build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
 		global $context;
 
 		// sanity check
@@ -2225,7 +2225,11 @@ Class Skin_Skeleton {
 			$list[] = array($prefix.$link.$suffix, $icon, $id);
 		}
 
-		$text =& Skin::finalize_list($list, $variant);
+		// delegate rendering to callback function or use standard list finalization
+		if(is_callable($callback))
+			$text = call_user_func($callback,$list, $variant);
+		else
+			$text = Skin::finalize_list($list, $variant);
 
 		return $text;
 	}
@@ -4098,17 +4102,17 @@ Class Skin_Skeleton {
 			else
 				define('BR', "\n");
 		}
-		
+
 		// HTML5 flag, set to TRUE in skin.php if required
 		if(!defined('SKIN_HTML5'))
 			define('SKIN_HTML5', FALSE);
 
-		// end of tags 
+		// end of tags
 		if(!defined('EOT'))
 			if(!SKIN_HTML5)
 			    define('EOT', ' />'); //  XHTML
 			else
-			    define('EOT', ' >'); 
+			    define('EOT', ' >');
 
 		// the HTML to signal an answer
 		if(is_callable(array('i18n', 's')))
