@@ -113,6 +113,88 @@ div.tabs li a.current span { /* change tab background on hovering */
 }
 
 
+/**
+* styles for drop down menu within tabs
+* <ul>
+*	<li>level 1 entry
+*		<div class="dropmenu">
+			<p class ="details" id="dropcount">(xx sections)</p>
+*			<ul>
+*				<li>level 2 entry</li>
+*			</ul>
+*		</div>
+*	</li>
+* </ul>
+*
+* !Important : if within header_panel, set overflow to visible
+* for this tag in your style sheet.
+* you can't see second-level <ul> either !
+*/
+
+/* li elements of first level <ul> have to be block and set
+ * as reference for absolute positionning of second level <ul> */
+div.tabs ul li {
+	position:relative;
+	display: block;
+	float: left; 		/*to appear as a horizontal menu*/
+}
+
+/* rule for second level list
+ * list should be right under first level <li>
+ * with side and bottom padding so not disapearing to fast*/
+div.tabs ul li .dropmenu {
+	position:absolute; 			/*from first level <li>*/
+	top:100%; 					/*start the top of second-level <ul> at the bottom of first-level <li>*/
+	left : 0; 					/*align left, but set as you need*/
+	display : none; 			/*showed only when first level <ul> is hovered*/
+	z-index: 10; 				/*ensure it's over other following "relative" tags*/
+	padding:0 8px 8px 8px; 		/* ensure displaying doesn't dispear to fast while moving the mouse away */
+	border : 1px solid #888; 	/* basic to delimitate the dropmenu */
+	border-top : none;
+	/*margin-top: 2px; 			/* equals ul li border bottom; */
+}
+
+/* display second level <ul> when first-level <li> is hovered*/
+div.tabs ul li:hover .dropmenu {
+	display : block;
+}
+
+div.tabs .dropmenu li {
+	float:none;		/* prevent inheritage from tabs' rules*/
+	display : block;	/* prevent inheritage from tabs' rules*/
+	background-color : #FFF;/* distinguish from background*/
+	background-image : none;/* prevent inheritage from tabs' rules*/
+	width : 130px; 		/* 152px - padding 2x8px + 2x2px - border 2x1px */
+	height : auto;		/* prevent inheritage from tabs' rules*/
+	min-height : 1.5em;	/* ensure good appearence*/
+	border : none;		/* prevent inheritage from tabs' rules*/
+	padding : 2px;		/* ensure good appearence*/
+	margin-right: 0px;
+}
+
+/*not all second-level <li> content may be a link*/
+div.tabs ul li ul li:hover {
+	cursor: default;	/* prevent inheritage from tabs' rules*/
+	background : #DEE; /* basic to make pleasant hovering */
+}
+
+/* prevent inheritage from tabs' rules*/
+div.tabs ul li ul li a, div.tabs ul li ul li a span {
+	display : inline;
+	float : none;
+	background : none;
+	padding: 0px;
+}
+
+/*minimize icon size */
+.dropmenu .icon img {
+	max-height: 40px;
+	max-width: 40px;
+}
+
+/* format hint that display count of total subsections */
+#dropcount {text-align:center;margin: 0 5px 5px;padding:0;}
+
 /* navigation boxes (in the side panel) */
 
 dl.navigation_box { /* one entire box */
@@ -2345,6 +2427,8 @@ div.date .year { /* year of the post */
 	top: 43px;
 }
 
+
+
 /**
  * hardboiled layout: two boxes aligned at the top, then decorated items
  *
@@ -2660,6 +2744,37 @@ div.recent div.east { /* the second newest item */
  *
  * @see articles/layout_articles_as_slashdot.php
  */
+
+
+/**
+ * smartlist layout
+ *
+ * <ul class=smartlist>
+ * 		<li><div class=icon>image</div><div class=label>title<span=detail>intro</span></div></li>
+ * 		...
+ * </ul>
+*/
+
+
+/* <li> contain already icons */
+.smartlist {list-style:none;}
+
+/*ensure floating element are overlapped*/
+.smartlist li {
+	overflow: hidden;
+	background : none; /* avoid icons putted by some reference theme */
+	}
+
+/*contain title and intro*/
+.smartlist .label {
+	overflow: hidden;	/*content don't go under icon*/
+	}
+
+/*contain icon, float left*/
+.smartlist .icon {
+	float: left;
+	margin-right: 0.6em;
+	}
 
 /**
  * spray layout: a nice layout to report on status

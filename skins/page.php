@@ -39,7 +39,7 @@
 		// we do have some extra content to render
 		if($context['extra'])
 			$classes .= ' extra';
-		
+
 		// build classes declaration
 		$classes = ' class="'.$classes.'"';
 
@@ -473,7 +473,7 @@
 		if($in_division) {
 		    $tag = (SKIN_HTML5)?'aside':'div';
 		    echo '<'.$tag.' id="extra_panel">';
-		}		  
+		}
 
 		// a list of component
 		if(is_string($names))
@@ -488,8 +488,8 @@
 			echo $context['extra'];
 
 		// close the extra panel
-		if($in_division)		
-			echo '</'.$tag.">\n";		  
+		if($in_division)
+			echo '</'.$tag.">\n";
 
 	}
 
@@ -598,7 +598,7 @@
 	 */
 	public static function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
 		global $context;
-		
+
 		// change rendering according to skin
 		$tag = (SKIN_HTML5)?'header':'div';
 
@@ -683,8 +683,9 @@
 	 * @param boolean TRUE to reverse order of tabs, FALSE otherwise
 	 * @param array of links to be used as tabs before the regular set
 	 * @param array of links to be used as tabs after the regular set
+	 * @param string layout name to use for listing sub-sections (horizontal drop down menu)
 	 */
-	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL) {
+	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL, $layout_subsections=NULL) {
 		global $context;
 
 		// only for live servers
@@ -694,6 +695,10 @@
 		// we have no database back-end
 		if(!is_callable(array('sql', 'query')))
 			return;
+
+		// limit listing for drop-down menu
+		if (!defined('TABS_DROP_LIST_SIZE'))
+			define('TABS_DROP_LIST_SIZE',5);
 
 		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
@@ -715,8 +720,41 @@
 				$context['root_sections_count_at_home'] = 5;
 
 			// query the database to get dynamic tabs
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
-				$site_bar = array_merge($site_bar, $items);
+			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items = Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
+				if(count($items)) {
+					//query subsections if layout is provided
+					if($layout_subsections) {
+						//Parse mother-sections previously selected to get sub-sections
+						foreach($items as $url => $item) {
+							//get id of mother section
+							$mother_id = str_replace('_',':',$item[3]);
+
+							//get subsections list
+							$subsections = '';
+							$subsections =  Sections::list_by_title_for_anchor($mother_id, 0, TABS_DROP_LIST_SIZE, $layout_subsections);
+
+							//transform list into string if necessary (depend layout output)
+							if(is_array($subsections))
+								$subsections = Skin::build_list($subsections, $layout_subsections);
+
+							//get real number of subsections
+							$nb_subsections = Sections::count_for_anchor($mother_id);
+							//hint unlisted subsections if any
+							if($nb_subsections > TABS_DROP_LIST_SIZE) {
+								$hint = BR.'<p class="details" id="dropcount">( ';
+								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
+								$hint .= ' )</p>';
+								$subsections = $hint.$subsections;
+							}
+
+							//store sub-sections list into "suffix" of this tab's label
+							if($subsections)
+								$items[$url][2] = "\n<div class=dropmenu>".$subsections.'</div>';
+
+						}
+					}
+					$site_bar = array_merge($site_bar, $items);
+				}
 
 			// suffix tabs, if any
 			if(is_array($suffix) && count($suffix))
@@ -727,7 +765,9 @@
 				$site_bar = array_reverse($site_bar);
 
 			// shape tabs
-			$text =& Skin::build_list($site_bar, 'tabs')."\n";
+			$text = Skin::build_list($site_bar, 'tabs')."\n";
+
+			// cache result
 			Cache::put($cache_id, $text, 'sections');
 		}
 		echo $text;
