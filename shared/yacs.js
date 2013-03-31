@@ -786,8 +786,12 @@ var Yacs = {
 		});
 
 		// do the tiling
-		$('.tiler').masonry({
-			itemSelector: '.tile'
+		var $tiled = $('.tiler');
+
+		$tiled.imagesLoaded( function(){
+			$tiled.masonry({
+				itemSelector: '.tile'
+			});
 		});
 
 		// prepare for a nice slideshow
