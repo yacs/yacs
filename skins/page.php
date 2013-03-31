@@ -741,7 +741,7 @@
 							$nb_subsections = Sections::count_for_anchor($mother_id);
 							//hint unlisted subsections if any
 							if($nb_subsections > TABS_DROP_LIST_SIZE) {
-								$hint = BR.'<p class="details" id="dropcount">( ';
+								$hint = '<p class="details" id="dropcount">( ';
 								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
 								$hint .= ' )</p>';
 								$subsections = $hint.$subsections;
