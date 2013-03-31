@@ -64,50 +64,50 @@ textarea {
 
 /* some tabs */
 
-div.tabs {
+.tabs {
       float:left;
       width:100%;
       line-height: 1em;
 }
 
-div.tabs,
-div.tabs a { /* text appearance in tabs */
+.tabs,
+.tabs a { /* text appearance in tabs */
 }
 
-div.tabs ul { /* position tabs */
+.tabs ul { /* position tabs */
 	margin: 0;
 	padding: 10px 10px 0 15px;
 	list-style: none;
 }
 
-div.tabs ul li {
+.tabs ul li {
       display: inline;
       margin: 0;
       padding: 0;
 }
 
-div.tabs li a { /* tab top left corner */
+.tabs li a { /* tab top left corner */
       float: left;
       margin: 0;
       padding: 0 0 0 4px;
       text-decoration: none;
 }
 
-div.tabs li a span { /* tab top right corner */
+.tabs li a span { /* tab top right corner */
       float: left;
       display: block;
       padding: 5px 12px 4px 6px;
       color: #666;
 }
 
-div.tabs li a:hover,
-div.tabs li a.current { /* change tab background on hovering */
+.tabs li a:hover,
+.tabs li a.current { /* change tab background on hovering */
 	background-position: 0% -42px;
 	cursor: pointer; /* else ie 6 is lost */
 }
 
-div.tabs li a:hover span,
-div.tabs li a.current span { /* change tab background on hovering */
+.tabs li a:hover span,
+.tabs li a.current span { /* change tab background on hovering */
 	background-position: 100% -42px;
 	color:#FF9834;
 }
@@ -133,7 +133,7 @@ div.tabs li a.current span { /* change tab background on hovering */
 
 /* li elements of first level <ul> have to be block and set
  * as reference for absolute positionning of second level <ul> */
-div.tabs ul li {
+.tabs ul li {
 	position:relative;
 	display: block;
 	float: left; 		/*to appear as a horizontal menu*/
@@ -142,7 +142,7 @@ div.tabs ul li {
 /* rule for second level list
  * list should be right under first level <li>
  * with side and bottom padding so not disapearing to fast*/
-div.tabs ul li .dropmenu {
+.tabs ul li .dropmenu {
 	position:absolute; 			/*from first level <li>*/
 	top:100%; 					/*start the top of second-level <ul> at the bottom of first-level <li>*/
 	left : 0; 					/*align left, but set as you need*/
@@ -155,11 +155,11 @@ div.tabs ul li .dropmenu {
 }
 
 /* display second level <ul> when first-level <li> is hovered*/
-div.tabs ul li:hover .dropmenu {
+.tabs ul li:hover .dropmenu {
 	display : block;
 }
 
-div.tabs .dropmenu li {
+.tabs .dropmenu li {
 	float:none;		/* prevent inheritage from tabs' rules*/
 	display : block;	/* prevent inheritage from tabs' rules*/
 	background-color : #FFF;/* distinguish from background*/
@@ -173,13 +173,13 @@ div.tabs .dropmenu li {
 }
 
 /*not all second-level <li> content may be a link*/
-div.tabs ul li ul li:hover {
+.tabs ul li ul li:hover {
 	cursor: default;	/* prevent inheritage from tabs' rules*/
 	background : #DEE; /* basic to make pleasant hovering */
 }
 
 /* prevent inheritage from tabs' rules*/
-div.tabs ul li ul li a, div.tabs ul li ul li a span {
+.tabs ul li ul li a, div.tabs ul li ul li a span {
 	display : inline;
 	float : none;
 	background : none;
