@@ -3529,6 +3529,12 @@ Class Skin_Skeleton {
 		if(defined($name))
 			return;
 
+		if(!defined('EOT'))
+			if(SKIN_HTML5)
+				define('EOT','>');
+			else
+				define('EOT','/>');
+
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
 			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.EOT);
