@@ -12,6 +12,7 @@ $context['l10n']['fr']['%d files have been extracted.']='%d fichiers ont été e
 $context['l10n']['fr']['%d files have been found.']='%d fichiers ont été trouvés.';
 $context['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $context['l10n']['fr']['%d rating'.chr(0).'%d ratings']='%d note'.chr(0).'%d notes';
+$context['l10n']['fr']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%d sections';
 $context['l10n']['fr']['%d words to read']='encore %d mots';
 $context['l10n']['fr']['%s has been copied']='%s a été copié';
 $context['l10n']['fr']['%s has been transcoded']='%s a été transcodé';

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 21:24+0100\n"
+"POT-Creation-Date: 2013-04-02 11:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Location %d of %d"
 msgstr ""
 
-#: articles/article.php:405 articles/articles.php:823
+#: articles/article.php:405 articles/articles.php:832
 #: articles/duplicate.php:146 articles/edit_as_simple.php:67
 #: articles/edit_as_simple.php:170 articles/edit_as_thread.php:62
 #: articles/edit_as_thread.php:162 articles/edit.php:431 articles/edit.php:499
@@ -76,56 +76,56 @@ msgstr ""
 msgid "Several files have been added"
 msgstr ""
 
-#: articles/articles.php:555 articles/layout_articles_as_timeline.php:112
+#: articles/articles.php:564 articles/layout_articles_as_timeline.php:112
 msgid "edited"
 msgstr ""
 
-#: articles/articles.php:558 articles/layout_articles_as_timeline.php:115
+#: articles/articles.php:567 articles/layout_articles_as_timeline.php:115
 #, php-format
 msgid "%s by %s %s"
 msgstr ""
 
-#: articles/articles.php:564
+#: articles/articles.php:573
 #, php-format
 msgid "reviewed %s"
 msgstr ""
 
-#: articles/articles.php:570
+#: articles/articles.php:579
 #, php-format
 msgid "published by %s %s"
 msgstr ""
 
-#: articles/articles.php:585 articles/layout_articles_as_jive.php:98
+#: articles/articles.php:594 articles/layout_articles_as_jive.php:98
 #, php-format
 msgid "posted by %s %s"
 msgstr ""
 
-#: articles/articles.php:638
+#: articles/articles.php:647
 #, php-format
 msgid "%s is requesting access to %s"
 msgstr ""
 
-#: articles/articles.php:642
+#: articles/articles.php:651
 #, php-format
 msgid "%s has posted a page in %s"
 msgstr ""
 
-#: articles/articles.php:645
+#: articles/articles.php:654
 #, php-format
 msgid "%s has submitted a page in %s"
 msgstr ""
 
-#: articles/articles.php:648
+#: articles/articles.php:657
 #, php-format
 msgid "%s has updated a page in %s"
 msgstr ""
 
-#: articles/articles.php:740 articles/layout_articles_as_last.php:165
+#: articles/articles.php:749 articles/layout_articles_as_last.php:165
 #, php-format
 msgid "By %s"
 msgstr ""
 
-#: articles/articles.php:760 articles/layout_articles_as_accordion.php:105
+#: articles/articles.php:769 articles/layout_articles_as_accordion.php:105
 #: articles/layout_articles_as_alistapart.php:307
 #: articles/layout_articles_as_daily.php:176
 #: articles/layout_articles_as_digg.php:172
@@ -149,30 +149,30 @@ msgstr ""
 #: articles/layout_articles_as_timeline.php:94
 #: articles/layout_articles_as_yahoo.php:101 articles/layout_articles.php:169
 #: articles/view_as_tabs.php:298 articles/view_as_wiki.php:261
-#: articles/view.php:985
+#: articles/view.php:975
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: articles/articles.php:772 articles/layout_articles_as_last.php:196
+#: articles/articles.php:781 articles/layout_articles_as_last.php:196
 #, php-format
 msgid "%d files, including:"
 msgstr ""
 
-#: articles/articles.php:782 articles/edit_as_simple.php:340
+#: articles/articles.php:791 articles/edit_as_simple.php:340
 #: articles/edit_as_thread.php:335 articles/edit.php:915
 #: articles/fetch_as_msword.php:134 articles/fetch_as_pdf.php:136
 #: articles/layout_articles_as_alistapart.php:295
 #: articles/layout_articles_as_daily.php:161
 #: articles/layout_articles_as_tabs.php:133 articles/print.php:129
 #: articles/view_as_chat.php:514 articles/view_as_tabs.php:372
-#: articles/view_as_wiki.php:153 articles/view.php:1096
+#: articles/view_as_wiki.php:153 articles/view.php:1083
 msgid "Files"
 msgstr ""
 
-#: articles/articles.php:785 articles/layout_articles_as_accordion.php:88
+#: articles/articles.php:794 articles/layout_articles_as_accordion.php:88
 #: articles/layout_articles_as_alistapart.php:281
 #: articles/layout_articles_as_daily.php:172
 #: articles/layout_articles_as_digg.php:167
@@ -200,14 +200,14 @@ msgstr ""
 #: articles/layout_articles_as_timeline.php:90
 #: articles/layout_articles_as_yahoo.php:89 articles/layout_articles.php:161
 #: articles/view_as_tabs.php:348 articles/view_as_wiki.php:129
-#: articles/view.php:1047
+#: articles/view.php:1034
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: articles/articles.php:791 articles/layout_articles_as_accordion.php:127
+#: articles/articles.php:800 articles/layout_articles_as_accordion.php:127
 #: articles/layout_articles_as_alistapart.php:315
 #: articles/layout_articles_as_daily.php:183
 #: articles/layout_articles_as_digg.php:181
@@ -234,151 +234,151 @@ msgstr[1] ""
 #: articles/layout_articles_as_timeline.php:98
 #: articles/layout_articles_as_yahoo.php:95 articles/layout_articles.php:165
 #: articles/view_as_tabs.php:381 articles/view_as_wiki.php:161
-#: articles/view.php:1114
+#: articles/view.php:1101
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] ""
 msgstr[1] ""
 
-#: articles/articles.php:796
+#: articles/articles.php:805
 #, php-format
 msgid "This page has %s"
 msgstr ""
 
-#: articles/articles.php:809
+#: articles/articles.php:818
 #, php-format
 msgid "Invite %s to participate"
 msgstr ""
 
-#: articles/articles.php:814
+#: articles/articles.php:823
 #, php-format
 msgid "View the profile of %s"
 msgstr ""
 
-#: articles/articles.php:866
+#: articles/articles.php:875
 msgid "Allow anonymous surfers to edit content"
 msgstr ""
 
-#: articles/articles.php:867
+#: articles/articles.php:876
 msgid "Allow members to edit content"
 msgstr ""
 
-#: articles/articles.php:868
+#: articles/articles.php:877
 msgid "Prevent the addition of comments"
 msgstr ""
 
-#: articles/articles.php:869
+#: articles/articles.php:878
 msgid "Sort files by date (default)"
 msgstr ""
 
-#: articles/articles.php:870
+#: articles/articles.php:879
 msgid "Sort files by title (and not by date)"
 msgstr ""
 
-#: articles/articles.php:871
+#: articles/articles.php:880
 msgid "Prevent the upload of new files"
 msgstr ""
 
-#: articles/articles.php:872
+#: articles/articles.php:881
 msgid "Sort links by title (and not by date)"
 msgstr ""
 
-#: articles/articles.php:873
+#: articles/articles.php:882
 msgid "Prevent the addition of related links"
 msgstr ""
 
-#: articles/articles.php:874
+#: articles/articles.php:883
 msgid "Real-time collaboration"
 msgstr ""
 
-#: articles/articles.php:875
+#: articles/articles.php:884
 msgid "Tabbed panels"
 msgstr ""
 
-#: articles/articles.php:876
+#: articles/articles.php:885
 msgid "Discussion is separate from content"
 msgstr ""
 
-#: articles/articles.php:877 articles/articles.php:878
+#: articles/articles.php:886 articles/articles.php:887
 #, php-format
 msgid "Branch out to %s"
 msgstr ""
 
-#: articles/articles.php:879
+#: articles/articles.php:888
 msgid "Apply a specific theme (in skins/foo_bar)"
 msgstr ""
 
-#: articles/articles.php:880
+#: articles/articles.php:889
 msgid "To load template_foo_bar.php instead of the regular template"
 msgstr ""
 
-#: articles/articles.php:881
+#: articles/articles.php:890
 msgid "You may combine several keywords:"
 msgstr ""
 
-#: articles/articles.php:1070 articles/articles.php:3095
-#: articles/articles.php:3232 articles/articles.php:3368
-#: articles/articles.php:3614 articles/articles.php:3927
+#: articles/articles.php:1079 articles/articles.php:3109
+#: articles/articles.php:3251 articles/articles.php:3387
+#: articles/articles.php:3634 articles/articles.php:3948
 #: articles/element.php:96
 msgid "No item has the provided id."
 msgstr ""
 
-#: articles/articles.php:1216 articles/articles.php:1304
-#: articles/articles.php:1385 articles/delete.php:68 articles/duplicate.php:70
+#: articles/articles.php:1225 articles/articles.php:1313
+#: articles/articles.php:1394 articles/delete.php:68 articles/duplicate.php:70
 #: articles/view.php:287 articles/view.php:500 articles/view.php:504
 #: articles/view.php:508
 #, php-format
 msgid "%s: %s"
 msgstr ""
 
-#: articles/articles.php:1267
+#: articles/articles.php:1276
 #, php-format
 msgid "Publication: %s"
 msgstr ""
 
-#: articles/articles.php:1270 articles/articles.php:1343
+#: articles/articles.php:1279 articles/articles.php:1352
 #: articles/duplicate.php:161
 #, php-format
 msgid "Sent by %s in %s"
 msgstr ""
 
-#: articles/articles.php:1272 articles/articles.php:1345
+#: articles/articles.php:1281 articles/articles.php:1354
 #: articles/duplicate.php:163
 #, php-format
 msgid "Sent by %s"
 msgstr ""
 
-#: articles/articles.php:1340
+#: articles/articles.php:1349
 #, php-format
 msgid "Submission: %s"
 msgstr ""
 
-#: articles/articles.php:1385
+#: articles/articles.php:1394
 msgid "Update"
 msgstr ""
 
-#: articles/articles.php:1444
+#: articles/articles.php:1453
 #, php-format
 msgid "Update: %s"
 msgstr ""
 
-#: articles/articles.php:1446
+#: articles/articles.php:1455
 #, php-format
 msgid "Updated by %s in %s"
 msgstr ""
 
-#: articles/articles.php:2875 articles/articles.php:3101
+#: articles/articles.php:2884 articles/articles.php:3115
 msgid "No title has been provided."
 msgstr ""
 
-#: articles/articles.php:2884 articles/articles.php:3110
-#: articles/articles.php:3247 articles/edit.php:259 articles/move.php:96
+#: articles/articles.php:2893 articles/articles.php:3124
+#: articles/articles.php:3266 articles/edit.php:259 articles/move.php:96
 #: articles/publish.php:106
 msgid "No anchor has been found."
 msgstr ""
 
-#: articles/articles.php:3647 articles/articles.php:3672
+#: articles/articles.php:3667 articles/articles.php:3692
 #, php-format
 msgid "\"%s\" is not a valid date"
 msgstr ""
@@ -528,7 +528,7 @@ msgstr ""
 #: articles/edit_as_thread.php:410 articles/edit.php:506 articles/edit.php:851
 #: articles/edit.php:898 articles/edit.php:1010 articles/view_as_chat.php:416
 #: articles/view_as_tabs.php:581 articles/view_as_wiki.php:326
-#: articles/view.php:1215
+#: articles/view.php:1205
 msgid "Add an image"
 msgstr ""
 
@@ -542,14 +542,14 @@ msgstr ""
 #: articles/layout_articles_as_tabs.php:113 articles/view_as_chat.php:245
 #: articles/view_as_chat.php:493 articles/view_as_tabs.php:365
 #: articles/view_as_tabs.php:569 articles/view_as_wiki.php:146
-#: articles/view_as_wiki.php:314 articles/view.php:1076 articles/view.php:1203
+#: articles/view_as_wiki.php:314 articles/view.php:1063 articles/view.php:1193
 msgid "Add a file"
 msgstr ""
 
 #: articles/duplicate.php:152 articles/view_as_chat.php:524
 #: articles/view_as_tabs.php:398 articles/view_as_tabs.php:575
 #: articles/view_as_wiki.php:178 articles/view_as_wiki.php:320
-#: articles/view.php:1137 articles/view.php:1209
+#: articles/view.php:1124 articles/view.php:1199
 msgid "Add a link"
 msgstr ""
 
@@ -780,7 +780,7 @@ msgstr ""
 #: articles/edit_as_simple.php:456 articles/edit_as_thread.php:440
 #: articles/edit.php:1040 articles/view_as_chat.php:438
 #: articles/view_as_tabs.php:601 articles/view_as_wiki.php:346
-#: articles/view.php:1235
+#: articles/view.php:1225
 msgid "Publish"
 msgstr ""
 
@@ -891,12 +891,12 @@ msgid "No overlay has been selected yet."
 msgstr ""
 
 #: articles/edit_as_simple.php:589 articles/edit_as_thread.php:573
-#: articles/edit.php:1197
+#: articles/edit.php:1242
 msgid "More options"
 msgstr ""
 
 #: articles/edit_as_simple.php:594 articles/edit_as_thread.php:578
-#: articles/edit.php:1202
+#: articles/edit.php:1247
 msgid "Options"
 msgstr ""
 
@@ -1055,9 +1055,22 @@ msgstr ""
 msgid "Locations"
 msgstr ""
 
+#: articles/edit.php:1203
+msgid "Change the canvas"
+msgstr ""
+
+#: articles/edit.php:1205
+#, php-format
+msgid "%s used for this article"
+msgstr ""
+
+#: articles/edit.php:1205
+msgid "Canvas"
+msgstr ""
+
 #: articles/fetch_as_msword.php:145 articles/fetch_as_pdf.php:147
 #: articles/layout_articles_as_tabs.php:140 articles/print.php:140
-#: articles/view.php:948
+#: articles/view.php:938
 msgid "Comments"
 msgstr ""
 
@@ -1259,7 +1272,7 @@ msgstr ""
 #: articles/layout_articles_as_alistapart.php:303
 #: articles/layout_articles_as_jive.php:157
 #: articles/layout_articles_as_tabs.php:150 articles/view_as_tabs.php:563
-#: articles/view_as_wiki.php:308 articles/view.php:955 articles/view.php:1197
+#: articles/view_as_wiki.php:308 articles/view.php:945 articles/view.php:1187
 msgid "Post a comment"
 msgstr ""
 
@@ -1288,7 +1301,7 @@ msgstr ""
 
 #: articles/layout_articles_as_digg.php:94 articles/view_as_chat.php:82
 #: articles/view_as_tabs.php:180 articles/view_as_wiki.php:60
-#: articles/view.php:882
+#: articles/view.php:890
 #, php-format
 msgid "%s vote"
 msgid_plural "%s votes"
@@ -1297,13 +1310,13 @@ msgstr[1] ""
 
 #: articles/layout_articles_as_digg.php:96 articles/view_as_chat.php:84
 #: articles/view_as_tabs.php:182 articles/view_as_wiki.php:62
-#: articles/view.php:884
+#: articles/view.php:892
 msgid "No vote"
 msgstr ""
 
 #: articles/layout_articles_as_digg.php:107 articles/view_as_chat.php:93
 #: articles/view_as_tabs.php:191 articles/view_as_wiki.php:71
-#: articles/view.php:893
+#: articles/view.php:901
 msgid "Rate it"
 msgstr ""
 
@@ -1461,17 +1474,17 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: articles/layout_articles_as_tabs.php:124 articles/view.php:1087
+#: articles/layout_articles_as_tabs.php:124 articles/view.php:1074
 msgid "Zip 20 first files"
 msgstr ""
 
-#: articles/layout_articles_as_tabs.php:126 articles/view.php:1089
+#: articles/layout_articles_as_tabs.php:126 articles/view.php:1076
 msgid "Zip all files"
 msgstr ""
 
 #: articles/layout_articles_as_tabs.php:204 articles/view_as_chat.php:423
 #: articles/view_as_tabs.php:588 articles/view_as_wiki.php:45
-#: articles/view_as_wiki.php:333 articles/view.php:1222
+#: articles/view_as_wiki.php:333 articles/view.php:1212
 msgid "Edit this page"
 msgstr ""
 
@@ -1514,7 +1527,7 @@ msgstr ""
 
 #: articles/lock.php:82 articles/view_as_chat.php:454
 #: articles/view_as_tabs.php:615 articles/view_as_wiki.php:360
-#: articles/view.php:1249
+#: articles/view.php:1239
 msgid "Lock"
 msgstr ""
 
@@ -1596,7 +1609,7 @@ msgstr ""
 
 #: articles/print.php:155 articles/view_as_chat.php:539
 #: articles/view_as_tabs.php:405 articles/view_as_wiki.php:185
-#: articles/view.php:1143
+#: articles/view.php:1130
 msgid "Links"
 msgstr ""
 
@@ -1811,37 +1824,37 @@ msgid "You have not been enrolled into this interactive chat."
 msgstr ""
 
 #: articles/view_as_chat.php:416 articles/view_as_tabs.php:581
-#: articles/view_as_wiki.php:326 articles/view.php:1215
+#: articles/view_as_wiki.php:326 articles/view.php:1205
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr ""
 
 #: articles/view_as_chat.php:424 articles/view_as_tabs.php:589
-#: articles/view_as_wiki.php:334 articles/view.php:1223
+#: articles/view_as_wiki.php:334 articles/view.php:1213
 msgid "Press [e] to edit"
 msgstr ""
 
 #: articles/view_as_chat.php:430 articles/view_as_tabs.php:595
-#: articles/view_as_wiki.php:340 articles/view.php:1229
+#: articles/view_as_wiki.php:340 articles/view.php:1219
 msgid "Versions"
 msgstr ""
 
 #: articles/view_as_chat.php:430 articles/view_as_tabs.php:595
-#: articles/view_as_wiki.php:340 articles/view.php:1229
+#: articles/view_as_wiki.php:340 articles/view.php:1219
 msgid "Restore a previous version if necessary"
 msgstr ""
 
 #: articles/view_as_chat.php:446 articles/view_as_tabs.php:607
-#: articles/view_as_wiki.php:352 articles/view.php:1241
+#: articles/view_as_wiki.php:352 articles/view.php:1231
 msgid "Stamp"
 msgstr ""
 
 #: articles/view_as_chat.php:457 articles/view_as_tabs.php:618
-#: articles/view_as_wiki.php:363 articles/view.php:1252
+#: articles/view_as_wiki.php:363 articles/view.php:1242
 msgid "Unlock"
 msgstr ""
 
 #: articles/view_as_chat.php:464 articles/view_as_tabs.php:625
-#: articles/view_as_wiki.php:370 articles/view.php:1259
+#: articles/view_as_wiki.php:370 articles/view.php:1249
 msgid "Delete this page"
 msgstr ""
 
@@ -1898,11 +1911,10 @@ msgid "Shortcut: %s"
 msgstr ""
 
 #: articles/view_as_tabs.php:323 articles/view_as_wiki.php:285
-#: articles/view.php:1017
 msgid "Discussion"
 msgstr ""
 
-#: articles/view_as_tabs.php:409 articles/view.php:1149
+#: articles/view_as_tabs.php:409
 msgid "Attachments"
 msgstr ""
 
@@ -1930,22 +1942,22 @@ msgid "Persons"
 msgstr ""
 
 #: articles/view_as_tabs.php:563 articles/view_as_wiki.php:308
-#: articles/view.php:1197
+#: articles/view.php:1187
 msgid "Express yourself, and say what you think."
 msgstr ""
 
 #: articles/view_as_tabs.php:569 articles/view_as_wiki.php:314
-#: articles/view.php:1203
+#: articles/view.php:1193
 msgid "Attach related files."
 msgstr ""
 
 #: articles/view_as_tabs.php:575 articles/view_as_wiki.php:320
-#: articles/view.php:1209
+#: articles/view.php:1199
 msgid "Contribute to the web and link to relevant pages."
 msgstr ""
 
 #: articles/view_as_tabs.php:631 articles/view_as_wiki.php:376
-#: articles/view.php:1265
+#: articles/view.php:1255
 msgid "Duplicate this page"
 msgstr ""
 

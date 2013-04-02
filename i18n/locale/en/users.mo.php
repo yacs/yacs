@@ -336,6 +336,7 @@ $context['l10n']['en']['Review profiles']='Review profiles';
 $context['l10n']['en']['Screening']='Screening';
 $context['l10n']['en']['706d4aa7c88cd69343d72b2f59b6780a']='Script used to %s at this server';
 $context['l10n']['en']['Search']='Search';
+$context['l10n']['en']['Sections']='Sections';
 $context['l10n']['en']['See also']='See also';
 $context['l10n']['en']['9d1fc249d04226cb2db7398a29581bef']='Select a .png, .gif or .jpeg image.';
 $context['l10n']['en']['Select a picture for %s']='Select a picture for %s';
