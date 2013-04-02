@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="Nouveau document 1">
+   sodipodi:docname="starterfive.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,7 +26,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
      inkscape:cx="-165"
-     inkscape:cy="520"
+     inkscape:cy="405.71429"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -59,64 +59,78 @@
        inkscape:export-xdpi="7.4588666"
        inkscape:export-ydpi="7.4588666" />
     <g
-       id="g3786"
-       transform="matrix(0.48013854,0,0,0.48013854,246.97786,401.93876)">
+       id="g3014"
+       inkscape:export-filename="/home/hopla/Documents/alexis/yacs/xampp/yacs_github_maint/skins/starterfive/preview.jpg.png"
+       inkscape:export-xdpi="43.710106"
+       inkscape:export-ydpi="43.710106">
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path3002"
+         d="M 55.423177,915.79075 143.42857,704.36218 714.85714,801.50504 z"
+         style="fill:#e5ff80;stroke:none" />
       <polygon
          id="polygon6"
-         points="437.367,100.62 404.321,470.819 255.778,512 107.644,470.877 74.633,100.62 "
+         points="107.644,470.877 74.633,100.62 437.367,100.62 404.321,470.819 255.778,512 "
          style="fill:#e44d26"
-         transform="translate(-1127.4286,382.07647)" />
+         transform="matrix(0.48013854,0,0,0.48013854,457.08451,662.53126)" />
       <polygon
          id="polygon8"
-         points="256,130.894 256,480.523 376.03,447.246 404.27,130.894 "
+         points="404.27,130.894 256,130.894 256,480.523 376.03,447.246 "
          style="fill:#f16529"
-         transform="translate(-1127.4286,382.07647)" />
+         transform="matrix(0.48013854,0,0,0.48013854,457.08451,662.53126)" />
       <polygon
          id="polygon10"
-         points="143.219,188.488 154.38,313.627 256,313.627 256,268.217 195.91,268.217 191.76,221.716 256,221.716 256,176.305 255.843,176.305 142.132,176.305 "
+         points="256,268.217 195.91,268.217 191.76,221.716 256,221.716 256,176.305 255.843,176.305 142.132,176.305 143.219,188.488 154.38,313.627 256,313.627 "
          style="fill:#ebebeb"
-         transform="translate(-1127.4286,382.07647)" />
+         transform="matrix(0.48013854,0,0,0.48013854,457.08451,662.53126)" />
       <polygon
          id="polygon12"
-         points="255.791,433.457 256,433.399 256,386.153 255.801,386.206 205.227,372.55 201.994,336.333 177.419,336.333 156.409,336.333 162.771,407.634 "
+         points="255.801,386.206 205.227,372.55 201.994,336.333 177.419,336.333 156.409,336.333 162.771,407.634 255.791,433.457 256,433.399 256,386.153 "
          style="fill:#ebebeb"
-         transform="translate(-1127.4286,382.07647)" />
+         transform="matrix(0.48013854,0,0,0.48013854,457.08451,662.53126)" />
       <path
+         style="fill:#917c6f;stroke:none"
          id="path14"
-         d="m -1019.0466,382.07647 h 23.07703 v 22.8 h 21.11 v -22.8 h 23.078 v 69.044 h -23.077 v -23.12 h -21.11 v 23.12 h -23.07703 v -69.044 z"
+         d="m 509.12288,662.53126 h 11.08017 v 10.94716 h 10.13573 v -10.94716 h 11.08064 v 33.15068 h -11.08016 v -11.1008 h -10.13573 v 11.1008 h -11.08017 v -33.15068 z"
          inkscape:connector-curvature="0" />
       <path
+         style="fill:#917c6f;stroke:none"
          id="path16"
-         d="m -921.43457,404.97247 h -20.316 v -22.896 h 63.72 v 22.896 h -20.325 v 46.148 h -23.078 v -46.148 z"
+         d="m 555.99018,673.52451 h -9.75449 v -10.99325 h 30.59442 v 10.99325 h -9.75881 v 22.15743 h -11.08064 v -22.15743 z"
          inkscape:connector-curvature="0" />
       <path
+         style="fill:#917c6f;stroke:none"
          id="path18"
-         d="m -867.91757,382.07647 h 24.063 l 14.802,24.26 14.787,-24.26 h 24.072 v 69.044 h -22.982 v -34.222 l -15.877,24.549 h -0.397 l -15.888,-24.549 v 34.222 h -22.58 v -69.044 z"
+         d="m 581.68576,662.53126 h 11.55357 l 7.10701,11.64816 7.09981,-11.64816 h 11.55789 v 33.15068 H 607.9695 v -16.4313 l -7.62316,11.78692 h -0.19062 l -7.62844,-11.78692 v 16.4313 h -10.84152 v -33.15068 z"
          inkscape:connector-curvature="0" />
       <path
+         style="fill:#917c6f;stroke:none"
          id="path20"
-         d="m -778.70857,382.07647 h 23.084 v 46.222 h 32.453 v 22.822 h -55.537 v -69.044 z"
+         d="m 624.51843,662.53126 h 11.08352 v 22.19296 h 15.58194 v 10.95772 h -26.66546 v -33.15068 z"
          inkscape:connector-curvature="0" />
       <polygon
          id="polygon22"
-         points="349.62,399.962 360.291,280.411 361.399,268.217 349.162,268.217 255.843,268.217 255.843,313.627 311.761,313.627 306.49,372.521 255.843,386.191 255.843,433.435 348.937,407.634 "
+         points="349.162,268.217 255.843,268.217 255.843,313.627 311.761,313.627 306.49,372.521 255.843,386.191 255.843,433.435 348.937,407.634 349.62,399.962 360.291,280.411 361.399,268.217 "
          style="fill:#ffffff"
-         transform="translate(-1127.4286,382.07647)" />
+         transform="matrix(0.48013854,0,0,0.48013854,457.08451,662.53126)" />
       <polygon
          id="polygon24"
-         points="366.442,211.509 368.511,188.488 369.597,176.305 255.843,176.305 255.843,204.509 255.843,221.605 255.843,221.716 365.385,221.716 365.385,221.716 365.531,221.716 "
+         points="255.843,176.305 255.843,204.509 255.843,221.605 255.843,221.716 365.385,221.716 365.385,221.716 365.531,221.716 366.442,211.509 368.511,188.488 369.597,176.305 "
          style="fill:#ffffff"
-         transform="translate(-1127.4286,382.07647)" />
-    </g>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot3798"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeSans;-inkscape-font-specification:FreeSans"><flowRegion
-         id="flowRegion3800"><rect
-           id="rect3802"
-           width="802.85712"
-           height="348.57144"
-           x="-1151.4286"
-           y="606.64789" /></flowRegion><flowPara
-         id="flowPara3804">STARTER</flowPara></flowRoot>  </g>
+         transform="matrix(0.48013854,0,0,0.48013854,457.08451,662.53126)" />
+      <flowRoot
+         transform="matrix(2.8436848,0,0,2.7205591,3354.1547,-909.53566)"
+         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Kenyan Coffee;-inkscape-font-specification:Kenyan Coffee"
+         id="flowRoot3798"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3800"><rect
+             style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;font-family:Kenyan Coffee;-inkscape-font-specification:Kenyan Coffee"
+             y="606.64789"
+             x="-1151.4286"
+             height="348.57144"
+             width="802.85712"
+             id="rect3802" /></flowRegion><flowPara
+           id="flowPara3000">STARTER</flowPara></flowRoot>    </g>
+  </g>
 </svg>
