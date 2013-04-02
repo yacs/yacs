@@ -336,6 +336,7 @@ $context['l10n']['fr']['Review profiles']='Réviser les profils';
 $context['l10n']['fr']['Screening']='Vérification';
 $context['l10n']['fr']['706d4aa7c88cd69343d72b2f59b6780a']='Pour ajouter de l\'information aux profils des utilisateurs, indiquer l\'un des %s disponibles.';
 $context['l10n']['fr']['Search']='Recherche';
+$context['l10n']['fr']['Sections']='Sections';
 $context['l10n']['fr']['See also']='Voir aussi';
 $context['l10n']['fr']['9d1fc249d04226cb2db7398a29581bef']='Choisir une image .png, .gif ou .jpeg';
 $context['l10n']['fr']['Select a picture for %s']='Choisir une image pour %s';
