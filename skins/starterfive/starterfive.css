@@ -54,8 +54,8 @@ h1 {margin-top : 0; padding-top:0;}
 /* add a embed font for tabs */
 @font-face {
 	font-family: kenyancoffee;
-	/*src : url("fonts/franchise-bold.eot");*/
-	src : local("☺"), url("fonts/kenyancoffee.ttf") format("truetype") ;
+	src : url("fonts/kenyancoffee.eot");  /* IE */
+	src : local("☺"), url("fonts/kenyancoffee.ttf") format("truetype") ; /* others */
 	}
 
 body {
