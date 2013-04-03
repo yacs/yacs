@@ -744,8 +744,9 @@
 								$hint = '<p class="details" id="dropcount">( ';
 								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
 								$hint .= ' )</p>';
-								$subsections = $hint.$subsections;
-							}
+							} else
+								$hint = '<p class="details">&nbsp;</p>';
+							$subsections = $hint.$subsections;
 
 							//store sub-sections list into "suffix" of this tab's label
 							if($subsections)
