@@ -38,7 +38,8 @@ $files[] = 'skins/starterfive/fonts/typodermic_license_agreement.pdf';
 $files[] = 'skins/starterfive/js/modernizr-2.6.2.min.js';
 $files[] = 'skins/starterfive/js/PIE.js';
 $files[] = 'skins/starterfive/js/pie_enhance_ie.js';
-$files[] = 'skins/starterfive/layout/decorated.png';
+$files[] = 'skins/starterfive/layouts/decorated.png';
+$files[] = 'sections/layout_sections_as_smartlist.php';
 
 
 // process every file
