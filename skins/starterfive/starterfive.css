@@ -167,6 +167,10 @@ box-shadow : 0 0 4px black;
 	padding-left : 1em;
 	}
 
+p#crumbs {
+	text-align : left;
+	padding : 0 1em;
+	}
 
 /**
 * customize tabs
