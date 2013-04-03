@@ -740,12 +740,14 @@
 							//get real number of subsections
 							$nb_subsections = Sections::count_for_anchor($mother_id);
 							//hint unlisted subsections if any
+							$hint = '<p class="details" id="dropcount">';
 							if($nb_subsections > TABS_DROP_LIST_SIZE) {
-								$hint = '<p class="details" id="dropcount">( ';
+								$hint .= '( ';
 								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
 								$hint .= ' )</p>';
 							} else
-								$hint = '<p class="details">&nbsp;</p>';
+								// provide empty <p> to preserve alignment
+								$hint .= '&nbsp;</p>';
 							$subsections = $hint.$subsections;
 
 							//store sub-sections list into "suffix" of this tab's label
