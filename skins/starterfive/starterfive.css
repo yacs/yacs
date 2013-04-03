@@ -233,6 +233,18 @@ nav.tabs {
 	width: 100%;
 }
 
+/**
+* adapt standard layouts to elastic width
+*/
+
+/* layout as map (yahoo) */
+dl.column_1, dl.column_2 { width : 46%;}
+dl.column_1 {margin-right : 2em;}
+dl.column_2 {margin-right : 0;}
+
+/* gadget boxes */
+dl.gadget_box {width : 45%;}
+
 
 /* ==|== media queries ======================================================
    EXAMPLE Media Query for Responsive Design.
