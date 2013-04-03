@@ -201,7 +201,8 @@ nav.tabs {
 	font-family : kenyancoffee;
 }
 
-.tabs .dropmenu a, .tabs .dropmenu span {font-size : 1.2em;text-transform:none;}
+.tabs .dropmenu a {font-size : 1.2em;text-transform:none;}
+.tabs .dropmenu span {color:floralwhite;text-transform:none;}
 
 /* last dropmenu is align to the right not to overflow main container*/
 .tabs li:last-child .dropmenu {right:0;left:auto;}
