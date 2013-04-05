@@ -166,7 +166,7 @@ echo  '</div>'."\n";
 echo  '</div>'."\n";
 
 // page footer
-echo  '<footer id="footer_panel" class="line mod">'."\n";
+echo  '<footer id="footer_panel" class="mw960p line mod center">'."\n";
 
 // last <p>
 Page::footer();
