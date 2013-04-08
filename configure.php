@@ -187,7 +187,7 @@ elseif(!Surfer::is_associate()) {
 	} else {
 		$value = 0;
 	}
-	$input .= '/> '.i18n::s('List only section with the following id').' <input type="text" name="section_id_at_home" value="'.encode_field($value).'" size="2" />'
+	$input .= '/> '.i18n::s('List only section with the following id or nick name').' <input type="text" name="section_id_at_home" value="'.encode_field($value).'" size="20" />'
 		.BR.'<input type="radio" name="root_sections_at_home" value="none"';
 	if($context['root_sections_at_home'] == 'none')
 		$input .= ' checked="checked"';
@@ -599,7 +599,7 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'root_news_count\']=\''.addcslashes($_REQUEST['root_news_count'], "\\'")."';\n";
 	if(isset($_REQUEST['root_sections_at_home'])) {
 		if($_REQUEST['root_sections_at_home'] == 'id') {
-			if(isset($_REQUEST['section_id_at_home']) && ((int)$_REQUEST['section_id_at_home'] > 0))
+			if(isset($_REQUEST['section_id_at_home']))
 				$_REQUEST['root_sections_at_home'] = $_REQUEST['section_id_at_home'];
 			else
 				$_REQUEST['root_sections_at_home'] = 'none';
