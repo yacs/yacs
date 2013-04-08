@@ -313,7 +313,7 @@ if(!$text = Cache::get($cache_id)) {
 	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
 		$text .= Codes::beautify('[news=flash]');
 
-	// gadget boxes, but not on mobiles
+	// gadget boxes
 	if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {
 
 		// build an array of boxes
@@ -604,7 +604,7 @@ if(!$text = Cache::get($cache_id)) {
 	}
 	$text .= $items;
 
-	// list recent files, except on mobiles
+	// list recent files
 	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y')){
 
 		// box title
@@ -619,7 +619,7 @@ if(!$text = Cache::get($cache_id)) {
 
 	}
 
-	// list recent links, except on mobiles
+	// list recent links
 	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y')){
 
 		// box title
@@ -645,7 +645,7 @@ if(!$text = Cache::get($cache_id)) {
 // page content
 $context['text'] .= $text;
 
-// the cover article is not displayed on a mobile device
+// the cover article
 if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 	// may be changed in skin.php if necessary
