@@ -37,7 +37,6 @@ such as polls or cooking recipes
 - Integrated support of TinyMCE and of FCKEditor
 - Fully customizable skins
 - Easy integration of Google Maps
-- Add a comprehensive web interface to existing collections of files
 - Support audio-on demand and video-on demand
 - Automatic web slideshow for shared photos
 - RSS syndication
@@ -60,7 +59,7 @@ Web server:
 	- mod_deflate for page compression over the wire
 	- mod_rewrite for nice URLs, along rules set in .htaccess files
 	- mod_expire for optimized caching of dynamic objects
-	
+
 Run-time:
    - PHP (version 4.3 or higher) with XML parser
    - The imap extension is necessary for mail integration (SMTP and POP3)
